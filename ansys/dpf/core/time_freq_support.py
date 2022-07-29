@@ -1,13 +1,19 @@
 """
+.. _ref_timefreqsupport:
+
 TimeFreqSupport
 ===============
 """
+import traceback
+import warnings
+
+from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi, \
+    support_grpcapi, support_capi
+
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import server as server_module
-from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi, \
-    support_grpcapi, support_capi, data_processing_capi, data_processing_grpcapi
 
 
 class TimeFreqSupport:
@@ -89,7 +95,8 @@ class TimeFreqSupport:
         >>> time_freq_support = model.metadata.time_freq_support
         >>> freq = time_freq_support.time_frequencies
         >>> freq.data
-        array([0.        , 0.019975  , 0.039975  , 0.059975  , 0.079975  ,
+        <BLANKLINE>
+        ...rray([0.        , 0.019975  , 0.039975  , 0.059975  , 0.079975  ,
                0.099975  , 0.119975  , 0.139975  , 0.159975  , 0.179975  ,
                0.199975  , 0.218975  , 0.238975  , 0.258975  , 0.278975  ,
                0.298975  , 0.318975  , 0.338975  , 0.358975  , 0.378975  ,
@@ -535,12 +542,6 @@ class TimeFreqSupport:
 
     def __del__(self):
         try:
-            # get core api
-            core_api = self._server.get_api_for_type(
-                capi=data_processing_capi.DataProcessingCAPI,
-                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
-            core_api.init_data_processing_environment(self)
-            # delete
-            core_api.data_processing_delete_shared_object(self)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())

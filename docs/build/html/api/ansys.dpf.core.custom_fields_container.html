@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Custom Fields Containers &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Custom Fields Containers &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -25,10 +25,12 @@
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,10 +38,11 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Cyclic Support" href="ansys.dpf.core.cyclic_support.html" />
+    <link rel="next" title="Custom Operator Base" href="ansys.dpf.core.custom_operator.html" />
     <link rel="prev" title="Core" href="ansys.dpf.core.core.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -181,7 +184,17 @@
      <i class="fas fa-chevron-down">
      </i>
     </label>
-    <ul class="simple">
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.downloads.html">
+       Downloads
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.examples.html">
+       Result Files Examples
+      </a>
+     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -454,6 +467,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.prepare_mapping_workflow.html">
+         prepare_mapping_workflow
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html">
          rotate
         </a>
@@ -563,6 +581,16 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort.html">
+         ascending_sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort_fc.html">
+         ascending_sort_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector.html">
          component_selector
         </a>
@@ -570,6 +598,26 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector_fc.html">
          component_selector_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_double.html">
+         custom_set_out_np_double
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_int.html">
+         custom_set_out_np_int
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
+         descending_sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort_fc.html">
+         descending_sort_fc
         </a>
        </li>
        <li class="toctree-l4">
@@ -777,6 +825,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.custom_add_to_field.html">
+         custom_add_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot.html">
          dot
         </a>
@@ -869,6 +922,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.matrix_inverse.html">
          matrix_inverse
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.min_max_over_time.html">
+         min_max_over_time
         </a>
        </li>
        <li class="toctree-l4">
@@ -1029,8 +1087,23 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.acmo_mesh_provider.html">
+         acmo_mesh_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.beam_properties.html">
          beam_properties
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.combine_levelset.html">
+         combine_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.exclude_levelset.html">
+         exclude_levelset
         </a>
        </li>
        <li class="toctree-l4">
@@ -1049,8 +1122,28 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.make_plane_levelset.html">
+         make_plane_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.make_sphere_levelset.html">
+         make_sphere_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_clip.html">
+         mesh_clip
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_cut.html">
          mesh_cut
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_plan_clip.html">
+         mesh_plan_clip
         </a>
        </li>
        <li class="toctree-l4">
@@ -1076,6 +1169,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.node_coordinates.html">
          node_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.point_cloud_search.html">
+         point_cloud_search
         </a>
        </li>
        <li class="toctree-l4">
@@ -1535,8 +1633,18 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_heat_flux.html">
+         cyclic_expanded_heat_flux
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_stress.html">
          cyclic_expanded_stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_temperature.html">
+         cyclic_expanded_temperature
         </a>
        </li>
        <li class="toctree-l4">
@@ -1715,6 +1823,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_to_nodal.html">
+         global_to_nodal
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.heat_flux.html">
          heat_flux
         </a>
@@ -1787,6 +1900,16 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.kinetic_energy.html">
          kinetic_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_material_properties.html">
+         mapdl_material_properties
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_section.html">
+         mapdl_section
         </a>
        </li>
        <li class="toctree-l4">
@@ -1887,6 +2010,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_rotation_by_euler_nodes.html">
          nodal_rotation_by_euler_nodes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_to_global.html">
+         nodal_to_global
         </a>
        </li>
        <li class="toctree-l4">
@@ -2354,6 +2482,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.gltf_export.html">
+         gltf_export
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html">
          json_to_data_tree
         </a>
@@ -2642,6 +2775,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.custom_operator.html">
+     Custom Operator Base
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.cyclic_support.html">
      Cyclic Support
     </a>
@@ -2677,6 +2815,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.errors.html">
+     Errors
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.field.html">
      Field
     </a>
@@ -2699,6 +2842,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.fields_factory.html">
      fields_factory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.inputs.html">
+     Inputs
     </a>
    </li>
    <li class="toctree-l2">
@@ -2727,6 +2875,16 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.operator_specification.html">
+     Operator Specification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.outputs.html">
+     Outputs
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.path_utilities.html">
      path_utilities
     </a>
@@ -2752,6 +2910,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.runtime_config.html">
+     RuntimeConfig
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.scoping.html">
      Scoping
     </a>
@@ -2764,6 +2927,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.server.html">
      Server
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server_factory.html">
+     Server factory, server configuration and communication protocols
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server_types.html">
+     Server types
     </a>
    </li>
    <li class="toctree-l2">
@@ -2865,8 +3038,8 @@ fields container. The default is <code class="docutils literal notranslate"><spa
 <dt class="sig sig-object py" id="ansys.dpf.core.custom_fields_container.ElShapeFieldsContainer.solid_fields">
 <span class="sig-name descname"><span class="pre">solid_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complexid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.custom_fields_container.ElShapeFieldsContainer.solid_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve a list of all fields with solid element shapes.</p>
-<p>You can filter the list of fields with solid element shapes
-based on a given time, complex type, or both.</p>
+<p>You can filter the list of fields with solid element shapes based on a given time,
+complex type, or both.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -2981,7 +3154,7 @@ matching the request is higher than one, an exception is raised.</p>
 <dd class="field-even"><p>Field corresponding to the request.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>class:<a href="#id1"><span class="problematic" id="id2">`</span></a>Field &lt;ansys.dpf.core.field&gt;’</p>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.field.html#module-ansys.dpf.core.field" title="ansys.dpf.core.field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -3012,7 +3185,7 @@ matching the request is higher than one, an exception is raised.</p>
 <dd class="field-even"><p>Field corresponding to the request.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>class:<a href="#id3"><span class="problematic" id="id4">`</span></a>Field &lt;ansys.dpf.core.field&gt;’</p>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.field.html#module-ansys.dpf.core.field" title="ansys.dpf.core.field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -3043,7 +3216,7 @@ matching the request is higher than one, an exception is raised.</p>
 <dd class="field-even"><p>Field corresponding to the request.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>class:<a href="#id5"><span class="problematic" id="id6">`</span></a>Field &lt;ansys.dpf.core.field&gt;’</p>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.field.html#module-ansys.dpf.core.field" title="ansys.dpf.core.field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -3087,14 +3260,12 @@ matching the request is higher than one, an exception is raised.</p>
 <dt class="sig sig-object py" id="ansys.dpf.core.custom_fields_container.ElShapeFieldsContainer.add_field_by_time_id">
 <span class="sig-name descname"><span class="pre">add_field_by_time_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.custom_fields_container.ElShapeFieldsContainer.add_field_by_time_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add or update a field at a requested time ID.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>field<span class="classifier">Field</span></dt><dd><p>DPF field to add or update.</p>
-</dd>
-</dl>
-</div></blockquote>
-<dl class="simple">
-<dt>timeid: int, optional</dt><dd><p>Time ID for the requested time set. The default is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field</strong> (<a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a>) – DPF field to add or update.</p></li>
+<li><p><strong>timeid</strong> (<em>int</em><em>, </em><em>optional</em>) – Time ID for the requested time set. The default is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -3120,7 +3291,7 @@ matching the request is higher than one, an exception is raised.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> (<em>str</em>) – Labels to scope the etnries to. For example, <code class="docutils literal notranslate"><span class="pre">&quot;time&quot;</span></code>.</p></li>
+<li><p><strong>label</strong> (<em>str</em>) – Labels to scope the entries to. For example, <code class="docutils literal notranslate"><span class="pre">&quot;time&quot;</span></code>.</p></li>
 <li><p><strong>default_value</strong> (<em>int</em><em>, </em><em>optional</em>) – Default value for existing fields in the collection. The default
 is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 </ul>
@@ -3128,7 +3299,7 @@ is <code class="docutils literal notranslate"><span class="pre">None</span></cod
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Collection</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">FieldsContainer</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -3385,7 +3556,7 @@ You can then use these IDs to request a given entity inside the collection.</p>
 <dd class="field-odd"><p><strong>label</strong> (<em>str</em>) – Name of the input label.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>scoping</strong> – IDs scopped to the input label.</p>
+<dd class="field-even"><p><strong>scoping</strong> – IDs scoped to the input label.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping">Scoping</a></p>
@@ -3442,7 +3613,7 @@ You can then use these IDs to request a given entity inside the collection.</p>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Collection</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">FieldsContainer</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span><span class="o">.</span><span class="n">has_label</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
 <span class="go">True</span>
@@ -3456,25 +3627,25 @@ You can then use these IDs to request a given entity inside the collection.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ansys.dpf.core.custom_fields_container.ElShapeFieldsContainer.integral_collection">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">integral_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ansys.dpf.core.server.html#ansys.dpf.core.server.DpfServer" title="ansys.dpf.core.server.DpfServer"><span class="pre">ansys.dpf.core.server.DpfServer</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.custom_fields_container.ElShapeFieldsContainer.integral_collection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a collection of integral type with a list.
-The collection of integral is the equivalent of an array of
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">integral_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.BaseServer" title="ansys.dpf.core.server_types.BaseServer"><span class="pre">ansys.dpf.core.server_types.BaseServer</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.custom_fields_container.ElShapeFieldsContainer.integral_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a collection of integral type with a list.</p>
+<p>The collection of integral is the equivalent of an array of
 data sent server side. It can be used to efficiently stream
 large data to the server.</p>
-<p class="rubric">Notes</p>
-<p>Used by default by the <code class="docutils literal notranslate"><span class="pre">'Operator'</span></code> and the``’Workflow’`` when a
-list is connected or returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>inpt</strong> (<em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>numpy.array</em>) – list to transfert server side</p>
+<dd class="field-odd"><p><strong>inpt</strong> (<em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>numpy.array</em>) – list to transfer server side</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.collection.html#ansys.dpf.core.collection.Collection" title="ansys.dpf.core.collection.Collection">Collection</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.collection.html#ansys.dpf.core.collection.IntegralCollection" title="ansys.dpf.core.collection.IntegralCollection">IntegralCollection</a></p>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>Used by default by the <code class="docutils literal notranslate"><span class="pre">'Operator'</span></code> and the``’Workflow’`` when a
+list is connected or returned.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -3574,8 +3745,8 @@ global server.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="ansys.dpf.core.custom_fields_container.BodyFieldsContainer.get_fields_by_mat_id">
 <span class="sig-name descname"><span class="pre">get_fields_by_mat_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complexid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.custom_fields_container.BodyFieldsContainer.get_fields_by_mat_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve a list of all fields for a material ID.</p>
-<p>You can filter the list of fields for a material ID based on
+<dd><p>Retrieve a list of all fields for a material ID.
+You can filter the list of fields for a material ID based on
 a given time, complex type, or both.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3610,10 +3781,8 @@ ID. 0 is for real numbers, and 1 is for imaginary numbers.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="ansys.dpf.core.custom_fields_container.BodyFieldsContainer.get_field_by_mat_id">
 <span class="sig-name descname"><span class="pre">get_field_by_mat_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complexid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.custom_fields_container.BodyFieldsContainer.get_field_by_mat_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve a field with a given material ID.</p>
-<blockquote>
-<div><p>You can filter the field based on a given time, complex type, or both.</p>
-</div></blockquote>
+<dd><p>Retrieve a field with a given material ID.
+You can filter the field based on a given time, complex type, or both.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -3628,7 +3797,7 @@ ID. 0 is for real numbers, and 1 is for imaginary numbers.</p></li>
 <dd class="field-even"><p>Field corresponding to the request.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>class:<a href="#id7"><span class="problematic" id="id8">`</span></a>Field &lt;ansys.dpf.core.field&gt;’</p>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.field.html#module-ansys.dpf.core.field" title="ansys.dpf.core.field"><code class="xref py py-class docutils literal notranslate"><span class="pre">Field</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -3651,7 +3820,7 @@ ID. 0 is for real numbers, and 1 is for imaginary numbers.</p></li>
 Scoping containing the material IDs available in the fields container.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>class:<a href="#id9"><span class="problematic" id="id10">`</span></a>Scoping &lt;ansys.dpf.core.scoping&gt;’</p>
+<dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.scoping.html#module-ansys.dpf.core.scoping" title="ansys.dpf.core.scoping"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scoping</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -3687,14 +3856,12 @@ Scoping containing the material IDs available in the fields container.</p>
 <dt class="sig sig-object py" id="ansys.dpf.core.custom_fields_container.BodyFieldsContainer.add_field_by_time_id">
 <span class="sig-name descname"><span class="pre">add_field_by_time_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.custom_fields_container.BodyFieldsContainer.add_field_by_time_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add or update a field at a requested time ID.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>field<span class="classifier">Field</span></dt><dd><p>DPF field to add or update.</p>
-</dd>
-</dl>
-</div></blockquote>
-<dl class="simple">
-<dt>timeid: int, optional</dt><dd><p>Time ID for the requested time set. The default is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field</strong> (<a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a>) – DPF field to add or update.</p></li>
+<li><p><strong>timeid</strong> (<em>int</em><em>, </em><em>optional</em>) – Time ID for the requested time set. The default is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -3720,7 +3887,7 @@ Scoping containing the material IDs available in the fields container.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> (<em>str</em>) – Labels to scope the etnries to. For example, <code class="docutils literal notranslate"><span class="pre">&quot;time&quot;</span></code>.</p></li>
+<li><p><strong>label</strong> (<em>str</em>) – Labels to scope the entries to. For example, <code class="docutils literal notranslate"><span class="pre">&quot;time&quot;</span></code>.</p></li>
 <li><p><strong>default_value</strong> (<em>int</em><em>, </em><em>optional</em>) – Default value for existing fields in the collection. The default
 is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 </ul>
@@ -3728,7 +3895,7 @@ is <code class="docutils literal notranslate"><span class="pre">None</span></cod
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Collection</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">FieldsContainer</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -3985,7 +4152,7 @@ You can then use these IDs to request a given entity inside the collection.</p>
 <dd class="field-odd"><p><strong>label</strong> (<em>str</em>) – Name of the input label.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>scoping</strong> – IDs scopped to the input label.</p>
+<dd class="field-even"><p><strong>scoping</strong> – IDs scoped to the input label.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping">Scoping</a></p>
@@ -4042,7 +4209,7 @@ You can then use these IDs to request a given entity inside the collection.</p>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Collection</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">FieldsContainer</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span><span class="o">.</span><span class="n">has_label</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
 <span class="go">True</span>
@@ -4056,25 +4223,25 @@ You can then use these IDs to request a given entity inside the collection.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ansys.dpf.core.custom_fields_container.BodyFieldsContainer.integral_collection">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">integral_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ansys.dpf.core.server.html#ansys.dpf.core.server.DpfServer" title="ansys.dpf.core.server.DpfServer"><span class="pre">ansys.dpf.core.server.DpfServer</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.custom_fields_container.BodyFieldsContainer.integral_collection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a collection of integral type with a list.
-The collection of integral is the equivalent of an array of
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">integral_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.BaseServer" title="ansys.dpf.core.server_types.BaseServer"><span class="pre">ansys.dpf.core.server_types.BaseServer</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.custom_fields_container.BodyFieldsContainer.integral_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a collection of integral type with a list.</p>
+<p>The collection of integral is the equivalent of an array of
 data sent server side. It can be used to efficiently stream
 large data to the server.</p>
-<p class="rubric">Notes</p>
-<p>Used by default by the <code class="docutils literal notranslate"><span class="pre">'Operator'</span></code> and the``’Workflow’`` when a
-list is connected or returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>inpt</strong> (<em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>numpy.array</em>) – list to transfert server side</p>
+<dd class="field-odd"><p><strong>inpt</strong> (<em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>numpy.array</em>) – list to transfer server side</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.collection.html#ansys.dpf.core.collection.Collection" title="ansys.dpf.core.collection.Collection">Collection</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.collection.html#ansys.dpf.core.collection.IntegralCollection" title="ansys.dpf.core.collection.IntegralCollection">IntegralCollection</a></p>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>Used by default by the <code class="docutils literal notranslate"><span class="pre">'Operator'</span></code> and the``’Workflow’`` when a
+list is connected or returned.</p>
 </dd></dl>
 
 <dl class="py property">

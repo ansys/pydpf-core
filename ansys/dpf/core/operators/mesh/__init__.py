@@ -20,4 +20,5 @@ from .mesh_to_graphics import mesh_to_graphics
 from .acmo_mesh_provider import acmo_mesh_provider 
 from .mesh_to_graphics_edges import mesh_to_graphics_edges 
 from .make_plane_levelset import make_plane_levelset 
-from .exclude_levelset import exclude_levelset 
+from .exclude_levelset import exclude_levelset
+from .point_cloud_search import point_cloud_search

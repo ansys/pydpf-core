@@ -3,11 +3,11 @@
 """
 ScopingsContainer
 =================
-Contains classes associated to the DPF ScopingsContainer"""
+Contains classes associated to the DPF ScopingsContainer
+"""
+
 from ansys.dpf.core import scoping
-from ansys import dpf
 from ansys.dpf.core.collection import Collection
-from ansys.dpf.core.common import types
 
 
 class ScopingsContainer(Collection):
@@ -32,7 +32,9 @@ class ScopingsContainer(Collection):
         )
         if self._internal_obj is None:
             if self._server.has_client():
-                self._internal_obj = self._api.collection_of_scoping_new_on_client(self._server.client)
+                self._internal_obj = self._api.collection_of_scoping_new_on_client(
+                    self._server.client
+                )
             else:
                 self._internal_obj = self._api.collection_of_scoping_new()
 

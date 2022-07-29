@@ -7,7 +7,6 @@ This module contains the Results and Result classes that are created by the mode
 to easily access results in result files."""
 import functools
 
-
 from ansys.dpf.core import Operator
 from ansys.dpf.core import errors
 from ansys.dpf.core.scoping import Scoping
@@ -85,17 +84,21 @@ class Results:
 
     """  # noqa: E501
 
-    def __init__(self, model):
-        self.__class__ = type(Results.__name__ + str(id(self)), (Results,), {})
-
-        self._result_info = model.metadata.result_info
-        self._model = model
-        self._connect_operators()
+    def __init__(
+            self, connector, result_info, mesh_by_default=True, server=None, generate_ops=True
+    ):
+        self._connector = connector
+        self._mesh_by_default = mesh_by_default
+        self._server = server
+        if generate_ops:
+            self.__class__ = type(Results.__name__ + str(id(self)), (Results,), {})
+            self._connect_operators(result_info)
+        self._str = str(result_info)
 
     def __result__(self, result_type, *args):
-        return Result(self._model, result_type)
+        return Result(self._connector, self._mesh_by_default, result_type, self._server)
 
-    def _connect_operators(self):
+    def _connect_operators(self, result_info):
         """Dynamically add operators for results.
 
         The new operator's subresults are connected to the model's
@@ -114,14 +117,14 @@ class Results:
         >>> disp_z = model.results.displacement().Z()
 
         """
-        if self._result_info is None:
+        if result_info is None:
             return
         # dynamically add function based on input type
         self._op_map_rev = {}
-        for result_type in self._result_info:
+        for result_type in result_info:
             try:
                 doc = Operator(
-                    result_type.operator_name, server=self._model._server
+                    result_type.operator_name, server=self._server
                 ).__str__()
                 bound_method = self.__result__
                 method2 = functools.partial(bound_method, result_type)
@@ -135,7 +138,7 @@ class Results:
                 raise e
 
     def __str__(self):
-        return str(self._result_info)
+        return self._str
 
     def __iter__(self):
         for key in self._op_map_rev:
@@ -186,11 +189,13 @@ class Result:
 
     """
 
-    def __init__(self, model, result_info):
-        self._model = model
+    def __init__(self, connector, mesh_by_default, result_info, server):
+        self._server = server
+        self._connector = connector
         self._time_scoping = None
         self._mesh_scoping = None
         self._location = None
+        self._mesh_by_default = mesh_by_default
         if isinstance(result_info, str):
             from ansys.dpf.core.available_result import available_result_from_name
             self._result_info = available_result_from_name(result_info)
@@ -203,21 +208,21 @@ class Result:
             # create the operator to read its documentation
             # if the operator doesn't exist, the method will not be added
             doc = Operator(
-                self._result_info.operator_name, server=self._model._server
+                self._result_info.operator_name, server=self._server
             ).__str__()
             self.__doc__ = doc
             if hasattr(operators, "result") and hasattr(
-                operators.result, self._result_info.name
+                    operators.result, self._result_info.name
             ):
                 self._operator = getattr(operators.result, self._result_info.name)(
-                    server=self._model._server
+                    server=self._server
                 )
             else:
                 self._operator = Operator(
-                    self._result_info.operator_name, server=self._model._server
+                    self._result_info.operator_name, server=self._server
                 )
+            self._connector.__connect_op__(self._operator, self._mesh_by_default)
             self._operator._add_sub_res_operators(self._result_info.sub_results)
-            self._model.__connect_op__(self._operator)
         except errors.DPFServerException:
             pass
         except Exception as e:
@@ -282,11 +287,12 @@ class Result:
         >>> model = dpf.Model(examples.msup_transient)
         >>> disp = model.results.displacement
         >>> disp.on_all_time_freqs.eval().get_label_scoping("time").ids
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+        <BLANKLINE>
+        ...1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]...
 
         """
         self._time_scoping = list(
-            range(1, len(self._model.metadata.time_freq_support.time_frequencies) + 1)
+            range(1, len(self._connector.time_freq_support.time_frequencies) + 1)
         )
         return self
 
@@ -305,7 +311,8 @@ class Result:
         >>> model = dpf.Model(examples.msup_transient)
         >>> disp = model.results.displacement
         >>> disp.on_first_time_freq.eval().get_label_scoping("time").ids
-        [1]
+        <BLANKLINE>
+        ...[1]...
 
         """
         self._time_scoping = 1
@@ -326,11 +333,12 @@ class Result:
         >>> model = dpf.Model(examples.msup_transient)
         >>> disp = model.results.displacement
         >>> disp.on_last_time_freq.eval().get_label_scoping("time").ids
-        [20]
+        <BLANKLINE>
+        ...[20]...
 
         """
         self._time_scoping = len(
-            self._model.metadata.time_freq_support.time_frequencies
+            self._connector.time_freq_support.time_frequencies
         )
         return self
 
@@ -397,7 +405,7 @@ class Result:
 
         """
 
-        self._mesh_scoping = self._model.metadata.named_selection(named_selection)
+        self._mesh_scoping = self._connector.named_selection(named_selection)
         return self
 
     @property
@@ -418,7 +426,8 @@ class Result:
         >>> len(fc_disp)
         11
         >>> fc_disp.get_mat_scoping().ids
-        [1, 5, 6, 10, 2, 7, 8, 13, 4, 12, 15]
+        <BLANKLINE>
+        ...1, 5, 6, 10, 2, 7, 8, 13, 4, 12, 15]...
         >>> disp_mat_10 = fc_disp.get_field_by_mat_id(10)
 
         """
@@ -457,7 +466,7 @@ class Result:
         from ansys.dpf.core import operators
 
         if hasattr(operators, "scoping") and hasattr(
-            operators.scoping, "split_on_property_type"
+                operators.scoping, "split_on_property_type"
         ):
             self._mesh_scoping = operators.scoping.split_on_property_type()
         else:
@@ -466,7 +475,7 @@ class Result:
         self._mesh_scoping.inputs.requested_location(
             self._result_info.native_scoping_location
         )
-        self._mesh_scoping.inputs.mesh(self._model.metadata.mesh_provider)
+        self._mesh_scoping.inputs.mesh(self._connector.mesh_provider)
         self._mesh_scoping.inputs.label1(prop)
         if previous_mesh_scoping:
             try:
@@ -513,7 +522,7 @@ class Result:
             mesh_scoping = Scoping(
                 ids=mesh_scoping,
                 location=self._result_info.native_scoping_location,
-                server=self._model._server,
+                server=self._server,
             )
 
         self._mesh_scoping = mesh_scoping
@@ -563,15 +572,15 @@ class CommonResults(Results):
     Used to allow type hints and auto completion for the method:'results'
     of the class:'Results'.
     """
-    def __init__(self, model):
-        self._model = model
+
+    def __init__(self, connector, mesh_by_default, result_info, server):
+        super().__init__(connector, mesh_by_default, result_info, server, False)
         self._op_map_rev = dict(displacement="displacement",
                                 stress="stress",
                                 elastic_strain="elastic_strain",
                                 structural_temperature="structural_temperature",
                                 temperature="temperature",
                                 electric_potential="electric_potential")
-        self._result_info = model.metadata.result_info
 
     @property
     def displacement(self):

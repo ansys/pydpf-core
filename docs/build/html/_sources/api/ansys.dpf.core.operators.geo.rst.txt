@@ -18,6 +18,7 @@ Submodules
    ansys.dpf.core.operators.geo.moment_of_inertia
    ansys.dpf.core.operators.geo.normals
    ansys.dpf.core.operators.geo.normals_provider_nl
+   ansys.dpf.core.operators.geo.prepare_mapping_workflow
    ansys.dpf.core.operators.geo.rotate
    ansys.dpf.core.operators.geo.rotate_fc
    ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs

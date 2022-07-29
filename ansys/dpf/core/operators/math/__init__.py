@@ -69,4 +69,4 @@ from .qr_solve import qr_solve
 from .fft_eval import fft_eval 
 from .fft_gradient_eval import fft_gradient_eval 
 from .fft_multi_harmonic_minmax import fft_multi_harmonic_minmax 
-from .svd import svd 
+from .svd import svd

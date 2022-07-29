@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Field &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Field &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -25,10 +25,12 @@
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,11 +38,12 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="ansys.dpf.core.field_base.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="ansys.dpf.core.errors.html" />
+    <link rel="next" title="FieldDefinition" href="ansys.dpf.core.field_definition.html" />
+    <link rel="prev" title="Errors" href="ansys.dpf.core.errors.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -181,7 +184,17 @@
      <i class="fas fa-chevron-down">
      </i>
     </label>
-    <ul class="simple">
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.downloads.html">
+       Downloads
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.examples.html">
+       Result Files Examples
+      </a>
+     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -454,6 +467,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.prepare_mapping_workflow.html">
+         prepare_mapping_workflow
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html">
          rotate
         </a>
@@ -563,6 +581,16 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort.html">
+         ascending_sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort_fc.html">
+         ascending_sort_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector.html">
          component_selector
         </a>
@@ -570,6 +598,26 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector_fc.html">
          component_selector_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_double.html">
+         custom_set_out_np_double
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_int.html">
+         custom_set_out_np_int
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
+         descending_sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort_fc.html">
+         descending_sort_fc
         </a>
        </li>
        <li class="toctree-l4">
@@ -777,6 +825,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.custom_add_to_field.html">
+         custom_add_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot.html">
          dot
         </a>
@@ -869,6 +922,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.matrix_inverse.html">
          matrix_inverse
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.min_max_over_time.html">
+         min_max_over_time
         </a>
        </li>
        <li class="toctree-l4">
@@ -1029,8 +1087,23 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.acmo_mesh_provider.html">
+         acmo_mesh_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.beam_properties.html">
          beam_properties
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.combine_levelset.html">
+         combine_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.exclude_levelset.html">
+         exclude_levelset
         </a>
        </li>
        <li class="toctree-l4">
@@ -1049,8 +1122,28 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.make_plane_levelset.html">
+         make_plane_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.make_sphere_levelset.html">
+         make_sphere_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_clip.html">
+         mesh_clip
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_cut.html">
          mesh_cut
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_plan_clip.html">
+         mesh_plan_clip
         </a>
        </li>
        <li class="toctree-l4">
@@ -1076,6 +1169,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.node_coordinates.html">
          node_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.point_cloud_search.html">
+         point_cloud_search
         </a>
        </li>
        <li class="toctree-l4">
@@ -1535,8 +1633,18 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_heat_flux.html">
+         cyclic_expanded_heat_flux
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_stress.html">
          cyclic_expanded_stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_temperature.html">
+         cyclic_expanded_temperature
         </a>
        </li>
        <li class="toctree-l4">
@@ -1715,6 +1823,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_to_nodal.html">
+         global_to_nodal
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.heat_flux.html">
          heat_flux
         </a>
@@ -1787,6 +1900,16 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.kinetic_energy.html">
          kinetic_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_material_properties.html">
+         mapdl_material_properties
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_section.html">
+         mapdl_section
         </a>
        </li>
        <li class="toctree-l4">
@@ -1887,6 +2010,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_rotation_by_euler_nodes.html">
          nodal_rotation_by_euler_nodes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_to_global.html">
+         nodal_to_global
         </a>
        </li>
        <li class="toctree-l4">
@@ -2354,6 +2482,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.gltf_export.html">
+         gltf_export
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html">
          json_to_data_tree
         </a>
@@ -2642,6 +2775,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.custom_operator.html">
+     Custom Operator Base
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.cyclic_support.html">
      Cyclic Support
     </a>
@@ -2676,6 +2814,11 @@
      Elements
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.errors.html">
+     Errors
+    </a>
+   </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      Field
@@ -2699,6 +2842,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.fields_factory.html">
      fields_factory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.inputs.html">
+     Inputs
     </a>
    </li>
    <li class="toctree-l2">
@@ -2727,6 +2875,16 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.operator_specification.html">
+     Operator Specification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.outputs.html">
+     Outputs
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.path_utilities.html">
      path_utilities
     </a>
@@ -2752,6 +2910,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.runtime_config.html">
+     RuntimeConfig
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.scoping.html">
      Scoping
     </a>
@@ -2764,6 +2927,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.server.html">
      Server
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server_factory.html">
+     Server factory, server configuration and communication protocols
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server_types.html">
+     Server types
     </a>
    </li>
    <li class="toctree-l2">
@@ -2852,7 +3025,7 @@ data is), making the field a self-describing piece of data.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;ElementalNodal&quot;</span></code></p></li>
 </ul>
 </p></li>
-<li><p><strong>field</strong> (<em>ansys.grpc.dpf.field_pb2.Field</em><em>, </em><em>optional</em>) – Field message generated from a gRPC stub.</p></li>
+<li><p><strong>field</strong> (<a class="reference internal" href="#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>, </em><em>ansys.grpc.dpf.field_pb2.Field</em><em>, </em><em>ctypes.c_void_p</em><em>, </em><em>optional</em>) – Field message generated from a gRPC stub.</p></li>
 <li><p><strong>server</strong> (<a class="reference internal" href="ansys.dpf.core.server.html#module-ansys.dpf.core.server" title="ansys.dpf.core.server"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server</span></code></a>, optional) – Server with the channel connected to the remote or local instance. The
 default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the global
 server.</p></li>
@@ -2974,6 +3147,49 @@ or <code class="docutils literal notranslate"><span class="pre">&quot;ElementalN
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.field.Field.component_count">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">component_count</span></span><a class="headerlink" href="#ansys.dpf.core.field.Field.component_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of components in each elementary data of the field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Number of components in each elementary data of the field.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.field.Field.elementary_data_count">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">elementary_data_count</span></span><a class="headerlink" href="#ansys.dpf.core.field.Field.elementary_data_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of elementary data in the field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Number of elementary data in the field.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.field.Field.size">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#ansys.dpf.core.field.Field.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Length of the data vector.</p>
+<p>The length is equal to the number of elementary data times the number of components.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Length of the data vector.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="ansys.dpf.core.field.Field.shell_layers">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">shell_layers</span></span><a class="headerlink" href="#ansys.dpf.core.field.Field.shell_layers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Order of the shell layers.</p>
@@ -2985,6 +3201,112 @@ or <code class="docutils literal notranslate"><span class="pre">&quot;ElementalN
 <dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.common.html#ansys.dpf.core.common.shell_layers" title="ansys.dpf.core.common.shell_layers"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.common.shell_layers</span></code></a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.field.Field.get_entity_data">
+<span class="sig-name descname"><span class="pre">get_entity_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.field.Field.get_entity_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the elementary data of the scoping’s index in an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stress_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">stress_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fields_container</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">array([[-3.27795062e+05,  1.36012200e+06,  1.49090608e+08,</span>
+<span class="go">        -4.88688900e+06,  1.43038560e+07,  1.65455040e+07],</span>
+<span class="go">       [-4.63817550e+06,  1.29312225e+06,  1.20411832e+08,</span>
+<span class="go">        -6.06617800e+06,  2.34829700e+07,  1.77231120e+07],</span>
+<span class="go">       [-2.35684860e+07, -3.53474400e+07,  2.01501168e+08,</span>
+<span class="go">        -5.23361700e+06, -2.88789280e+07, -6.16478200e+06],</span>
+<span class="go">       [-3.92756960e+07, -2.72369280e+07,  1.81454016e+08,</span>
+<span class="go">        -3.75441450e+06, -3.62480300e+06, -3.26075620e+07],</span>
+<span class="go">       [ 1.63554530e+07,  2.83190520e+07,  1.05084256e+08,</span>
+<span class="go">        -1.30219020e+07,  5.19906719e+05,  8.82430200e+06],</span>
+<span class="go">       [ 1.80755620e+07,  5.25578750e+06,  7.76211600e+07,</span>
+<span class="go">        -7.53063750e+06,  2.44717000e+06,  2.92675125e+06],</span>
+<span class="go">       [ 9.25567760e+07,  8.15244320e+07,  2.77157632e+08,</span>
+<span class="go">        -1.48489875e+06,  5.89250600e+07,  2.05608920e+07],</span>
+<span class="go">       [ 6.70443680e+07,  8.70343440e+07,  2.73050464e+08,</span>
+<span class="go">        -2.48670150e+06,  1.52268930e+07,  6.09583280e+07]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.field.Field.get_entity_data_by_id">
+<span class="sig-name descname"><span class="pre">get_entity_data_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.field.Field.get_entity_data_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the data of the scoping’s ID in the parameter of the field in an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Data based on the scoping ID.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stress_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">stress_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fields_container</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="mi">391</span><span class="p">)</span>
+<span class="go">array([[-3.27795062e+05,  1.36012200e+06,  1.49090608e+08,</span>
+<span class="go">        -4.88688900e+06,  1.43038560e+07,  1.65455040e+07],</span>
+<span class="go">       [-4.63817550e+06,  1.29312225e+06,  1.20411832e+08,</span>
+<span class="go">        -6.06617800e+06,  2.34829700e+07,  1.77231120e+07],</span>
+<span class="go">       [-2.35684860e+07, -3.53474400e+07,  2.01501168e+08,</span>
+<span class="go">        -5.23361700e+06, -2.88789280e+07, -6.16478200e+06],</span>
+<span class="go">       [-3.92756960e+07, -2.72369280e+07,  1.81454016e+08,</span>
+<span class="go">        -3.75441450e+06, -3.62480300e+06, -3.26075620e+07],</span>
+<span class="go">       [ 1.63554530e+07,  2.83190520e+07,  1.05084256e+08,</span>
+<span class="go">        -1.30219020e+07,  5.19906719e+05,  8.82430200e+06],</span>
+<span class="go">       [ 1.80755620e+07,  5.25578750e+06,  7.76211600e+07,</span>
+<span class="go">        -7.53063750e+06,  2.44717000e+06,  2.92675125e+06],</span>
+<span class="go">       [ 9.25567760e+07,  8.15244320e+07,  2.77157632e+08,</span>
+<span class="go">        -1.48489875e+06,  5.89250600e+07,  2.05608920e+07],</span>
+<span class="go">       [ 6.70443680e+07,  8.70343440e+07,  2.73050464e+08,</span>
+<span class="go">        -2.48670150e+06,  1.52268930e+07,  6.09583280e+07]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.field.Field.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scopingid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.field.Field.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an entity data to the existing data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>list of int</em><em>, </em><em>double</em><em>, or </em><em>array</em>) – Data in the entity.</p></li>
+<li><p><strong>scopingid</strong> (<em>int</em>) – ID of the scoping.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">fields_factory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields_factory</span><span class="o">.</span><span class="n">create_3d_vector_field</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span><span class="mf">2.</span><span class="p">,</span><span class="mf">3.</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span><span class="mf">2.</span><span class="p">,</span><span class="mf">3.</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">data</span>
+<span class="go">array([[1., 2., 3.],</span>
+<span class="go">       [1., 2., 3.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>
+<span class="go">[1, 2]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -3137,52 +3459,10 @@ contains shell elements. The default is <code class="docutils literal notranslat
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.field.Field.append">
-<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scopingid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.field.Field.append" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add an entity data to the existing data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>list of int</em><em>, </em><em>double</em><em>, or </em><em>array</em>) – Data in the entity.</p></li>
-<li><p><strong>scopingid</strong> (<em>int</em>) – ID of the scoping.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">fields_factory</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">fields_factory</span><span class="o">.</span><span class="n">create_3d_vector_field</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span><span class="mf">2.</span><span class="p">,</span><span class="mf">3.</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span><span class="mf">2.</span><span class="p">,</span><span class="mf">3.</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">data</span>
-<span class="go">array([[1., 2., 3.],</span>
-<span class="go">       [1., 2., 3.]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>
-<span class="go">[1, 2]</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.field.Field.component_count">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">component_count</span></span><a class="headerlink" href="#ansys.dpf.core.field.Field.component_count" title="Permalink to this definition">¶</a></dt>
-<dd><p>Number of components in each elementary data of the field.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Number of components in each elementary data of the field.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py property">
 <dt class="sig sig-object py" id="ansys.dpf.core.field.Field.data">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#ansys.dpf.core.field.Field.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Data in the field as an array.</p>
-<p class="rubric">Notes</p>
-<p>Print a progress bar.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Data in the field.</p>
@@ -3191,6 +3471,8 @@ contains shell elements. The default is <code class="docutils literal notranslat
 <dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>Print a progress bar.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -3221,103 +3503,9 @@ contains shell elements. The default is <code class="docutils literal notranslat
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.field.Field.elementary_data_count">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">elementary_data_count</span></span><a class="headerlink" href="#ansys.dpf.core.field.Field.elementary_data_count" title="Permalink to this definition">¶</a></dt>
-<dd><p>Number of elementary data in the field.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Number of elementary data in the field.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
 <dt class="sig sig-object py" id="ansys.dpf.core.field.Field.elementary_data_shape">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">elementary_data_shape</span></span><a class="headerlink" href="#ansys.dpf.core.field.Field.elementary_data_shape" title="Permalink to this definition">¶</a></dt>
 <dd><p>Numpy-like shape of the field.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.field.Field.get_entity_data">
-<span class="sig-name descname"><span class="pre">get_entity_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.field.Field.get_entity_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieves the elementary data of the scoping’s index in an array.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>numpy.ndarray</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">stress_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">stress_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fields_container</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="go">array([[-3.27795062e+05,  1.36012200e+06,  1.49090608e+08,</span>
-<span class="go">        -4.88688900e+06,  1.43038560e+07,  1.65455040e+07],</span>
-<span class="go">       [-4.63817550e+06,  1.29312225e+06,  1.20411832e+08,</span>
-<span class="go">        -6.06617800e+06,  2.34829700e+07,  1.77231120e+07],</span>
-<span class="go">       [-2.35684860e+07, -3.53474400e+07,  2.01501168e+08,</span>
-<span class="go">        -5.23361700e+06, -2.88789280e+07, -6.16478200e+06],</span>
-<span class="go">       [-3.92756960e+07, -2.72369280e+07,  1.81454016e+08,</span>
-<span class="go">        -3.75441450e+06, -3.62480300e+06, -3.26075620e+07],</span>
-<span class="go">       [ 1.63554530e+07,  2.83190520e+07,  1.05084256e+08,</span>
-<span class="go">        -1.30219020e+07,  5.19906719e+05,  8.82430200e+06],</span>
-<span class="go">       [ 1.80755620e+07,  5.25578750e+06,  7.76211600e+07,</span>
-<span class="go">        -7.53063750e+06,  2.44717000e+06,  2.92675125e+06],</span>
-<span class="go">       [ 9.25567760e+07,  8.15244320e+07,  2.77157632e+08,</span>
-<span class="go">        -1.48489875e+06,  5.89250600e+07,  2.05608920e+07],</span>
-<span class="go">       [ 6.70443680e+07,  8.70343440e+07,  2.73050464e+08,</span>
-<span class="go">        -2.48670150e+06,  1.52268930e+07,  6.09583280e+07]])</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ansys.dpf.core.field.Field.get_entity_data_by_id">
-<span class="sig-name descname"><span class="pre">get_entity_data_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.field.Field.get_entity_data_by_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve the data of the scoping’s ID in the parameter of the field in an array.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Data based on the scoping ID.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>numpy.ndarray</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">stress_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fields_container</span> <span class="o">=</span> <span class="n">stress_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fields_container</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="mi">391</span><span class="p">)</span>
-<span class="go">array([[-3.27795062e+05,  1.36012200e+06,  1.49090608e+08,</span>
-<span class="go">        -4.88688900e+06,  1.43038560e+07,  1.65455040e+07],</span>
-<span class="go">       [-4.63817550e+06,  1.29312225e+06,  1.20411832e+08,</span>
-<span class="go">        -6.06617800e+06,  2.34829700e+07,  1.77231120e+07],</span>
-<span class="go">       [-2.35684860e+07, -3.53474400e+07,  2.01501168e+08,</span>
-<span class="go">        -5.23361700e+06, -2.88789280e+07, -6.16478200e+06],</span>
-<span class="go">       [-3.92756960e+07, -2.72369280e+07,  1.81454016e+08,</span>
-<span class="go">        -3.75441450e+06, -3.62480300e+06, -3.26075620e+07],</span>
-<span class="go">       [ 1.63554530e+07,  2.83190520e+07,  1.05084256e+08,</span>
-<span class="go">        -1.30219020e+07,  5.19906719e+05,  8.82430200e+06],</span>
-<span class="go">       [ 1.80755620e+07,  5.25578750e+06,  7.76211600e+07,</span>
-<span class="go">        -7.53063750e+06,  2.44717000e+06,  2.92675125e+06],</span>
-<span class="go">       [ 9.25567760e+07,  8.15244320e+07,  2.77157632e+08,</span>
-<span class="go">        -1.48489875e+06,  5.89250600e+07,  2.05608920e+07],</span>
-<span class="go">       [ 6.70443680e+07,  8.70343440e+07,  2.73050464e+08,</span>
-<span class="go">        -2.48670150e+06,  1.52268930e+07,  6.09583280e+07]])</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="py property">
@@ -3375,21 +3563,6 @@ contains shell elements. The default is <code class="docutils literal notranslat
 <span class="go">(5720, 6)</span>
 </pre></div>
 </div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.field.Field.size">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#ansys.dpf.core.field.Field.size" title="Permalink to this definition">¶</a></dt>
-<dd><p>Length of the data vector.</p>
-<p>The length is equal to the number of elementary data times the number of components.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Length of the data vector.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>int</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">

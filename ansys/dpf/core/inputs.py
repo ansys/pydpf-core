@@ -1,3 +1,11 @@
+"""
+.. _ref_inputs:
+
+Inputs
+======
+"""
+
+import weakref
 from textwrap import wrap
 from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.outputs import _Outputs, Output
@@ -6,21 +14,25 @@ from ansys.dpf import core
 
 class Input:
     """
-    Parameters
-    ----------
-    spec :
+    Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+    Used to connect inputs to the Operator.
 
-    pin :
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> data_src = dpf.DataSources(examples.msup_transient)
+    >>> disp_op = dpf.operators.result.displacement()
+    >>> isinstance(disp_op.inputs.data_sources, dpf.inputs.Input)
+    True
+    >>> disp_op.inputs.data_sources(data_src)
+    >>> disp_op.inputs.time_scoping([2])
 
-    operator :
-
-    count_ellipsis : optional
-        The default is ``-1``.
     """
 
     def __init__(self, spec, pin, operator, count_ellipsis=-1):
         self._spec = spec
-        self._operator = operator
+        self._operator = weakref.ref(operator)
         self._pin = pin
         self._count_ellipsis = count_ellipsis
         self._python_expected_types = []
@@ -41,10 +53,12 @@ class Input:
 
         Parameters
         ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources,
-        MeshedRegion, Output, Outputs, Operator
+        inpt : str, int, double, Field, FieldsContainer, Scoping, DataSources, MeshedRegion,
+        Output, Outputs, Operator, os.PathLike
             Input of the operator.
+
         """
+        from pathlib import Path
         # always convert ranges to lists
         if isinstance(inpt, range):
             inpt = list(inpt)
@@ -58,6 +72,8 @@ class Input:
                 )
         elif isinstance(inpt, core.Model):
             inpt = inpt.metadata.data_sources
+        elif isinstance(inpt, Path):
+            inpt = str(inpt)
 
         input_type_name = type(inpt).__name__
         if not (
@@ -70,7 +86,7 @@ class Input:
             return
 
         corresponding_pins = []
-        self._operator._find_outputs_corresponding_pins(
+        self._operator()._find_outputs_corresponding_pins(
             self._python_expected_types, inpt, self._pin, corresponding_pins
         )
         if len(corresponding_pins) > 1:
@@ -98,21 +114,22 @@ class Input:
         from ansys.dpf.core.results import Result
 
         if isinstance(inpt, _Outputs):
-            self._operator.connect(self._pin, inpt._operator, corresponding_pins[0][1])
-            self._operator.inputs._connected_inputs[self._pin] = {
-                corresponding_pins[0][1]: inpt._operator
+            self._operator().connect(self._pin, inpt._operator, corresponding_pins[0][1])
+            self._operator().inputs._connected_inputs[self._pin] = {
+                corresponding_pins[0][1]: weakref.ref(inpt._operator)
             }
         elif isinstance(inpt, Output):
-            self._operator.connect(self._pin, inpt._operator, inpt._pin)
-            self._operator.inputs._connected_inputs[self._pin] = {inpt._pin: inpt}
+            self._operator().connect(self._pin, inpt._operator, inpt._pin)
+            self._operator().inputs._connected_inputs[self._pin] = {inpt._pin: weakref.ref(inpt)}
         elif isinstance(inpt, Result):
-            self._operator.connect(self._pin, inpt(), corresponding_pins[0][1])
-            self._operator.inputs._connected_inputs[self._pin] = {
-                corresponding_pins[0][1]: inpt()
+            self._operator().connect(self._pin, inpt(), corresponding_pins[0][1])
+            self._operator().inputs._connected_inputs[self._pin] = {
+                corresponding_pins[0][1]: weakref.ref(inpt)
                 }
         else:
-            self._operator.connect(self._pin, inpt)
-            self._operator.inputs._connected_inputs[self._pin] = inpt
+            self._operator().connect(self._pin, inpt)
+            self._operator().inputs._connected_inputs[self._pin] = weakref.ref(inpt) \
+                if hasattr(inpt, "__weakref__") else inpt
 
         self.__inc_if_ellipsis()
 
@@ -146,8 +163,8 @@ class Input:
     def __inc_if_ellipsis(self):
         if self._count_ellipsis >= 0:
             self._count_ellipsis += 1
-            if isinstance(self._operator.inputs, _Inputs):
-                self._operator.inputs._add_input(
+            if isinstance(self._operator().inputs, _Inputs):
+                self._operator().inputs._add_input(
                     self._pin + self._count_ellipsis, self._spec, self._count_ellipsis
                 )
 
@@ -155,7 +172,7 @@ class Input:
 class _Inputs:
     def __init__(self, dict_inputs, operator):
         self._dict_inputs = dict_inputs
-        self._operator = operator
+        self._operator = weakref.ref(operator)
         self._inputs = []
         self._connected_inputs = {}
 
@@ -175,16 +192,16 @@ class _Inputs:
 
     def connect(self, inpt):
         """Connect any input (an entity or an operator output) to any input pin of this operator.
-
         Searches for the input type corresponding to the output.
 
         Parameters
         ----------
-        inpt : str, int, double, Field, FieldsContainer, Scoping,
-               DataSources, MeshedRegion, ScopingsContainer, CyclicSupport,
-               ..., Output, Outputs, Operator
+        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
+        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs, os.PathLike  # noqa: E501
             Input of the operator.
+
         """
+        from pathlib import Path
         corresponding_pins = []
         if isinstance(inpt, core.Operator):
             if hasattr(inpt, "outputs"):
@@ -196,10 +213,12 @@ class _Inputs:
                 )
         elif isinstance(inpt, core.Model):
             inpt = inpt.metadata.data_sources
+        elif isinstance(inpt, Path):
+            inpt = str(inpt)
 
         input_type_name = type(inpt).__name__
         for input_pin in self._inputs:
-            self._operator._find_outputs_corresponding_pins(
+            self._operator()._find_outputs_corresponding_pins(
                 input_pin._python_expected_types,
                 inpt,
                 input_pin._pin,
@@ -224,29 +243,30 @@ class _Inputs:
 
         from ansys.dpf.core.results import Result
         if isinstance(inpt, Output):
-            self._operator.connect(corresponding_pins[0], inpt._operator, inpt._pin)
-            self._connected_inputs[corresponding_pins[0]] = {inpt._pin: inpt._operator}
+            self._operator().connect(corresponding_pins[0], inpt._operator, inpt._pin)
+            self._connected_inputs[corresponding_pins[0]] = {inpt._pin: weakref.ref(inpt._operator)}
         elif isinstance(inpt, _Outputs):
-            self._operator.connect(
+            self._operator().connect(
                 corresponding_pins[0][0], inpt._operator, corresponding_pins[0][1]
             )
             self._connected_inputs[corresponding_pins[0][0]] = {
-                corresponding_pins[0][1]: inpt._operator
+                corresponding_pins[0][1]: weakref.ref(inpt._operator)
             }
         elif isinstance(inpt, Result):
-            self._operator.connect(
+            self._operator().connect(
                 corresponding_pins[0][0], inpt(), corresponding_pins[0][1]
             )
             self._connected_inputs[corresponding_pins[0][0]] = {
-                corresponding_pins[0][1]: inpt()
+                corresponding_pins[0][1]: weakref.ref(inpt)
             }
         else:
-            self._operator.connect(corresponding_pins[0], inpt)
-            self._connected_inputs[corresponding_pins[0]] = inpt
+            self._operator().connect(corresponding_pins[0], inpt)
+            self._connected_inputs[corresponding_pins[0]] = weakref.ref(inpt) \
+                if hasattr(inpt, "__weakref__") else inpt
 
     def _add_input(self, pin, spec, count_ellipsis=-1):
         if spec is not None:
-            class_input = Input(spec, pin, self._operator, count_ellipsis)
+            class_input = Input(spec, pin, self._operator(), count_ellipsis)
             class_input.__doc__ = spec.name
             if not hasattr(self, class_input.name):
                 setattr(self, class_input.name, class_input)
@@ -260,6 +280,22 @@ class _Inputs:
 
 # Dynamic class Inputs
 class Inputs(_Inputs):
+    """
+    Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
+    Used to connect inputs to the Operator by automatically
+    checking types to connect correct inputs.
+
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> data_src = dpf.DataSources(examples.msup_transient)
+    >>> disp_op = dpf.operators.result.displacement()
+    >>> isinstance(disp_op.inputs, dpf.inputs._Inputs)
+    True
+    >>> disp_op.inputs.connect(data_src)
+    >>> disp_op.inputs.connect([2])
+    """
     def __init__(self, dict_inputs, operator):
         super().__init__(dict_inputs, operator)
 

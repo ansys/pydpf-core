@@ -324,6 +324,9 @@ def _create_field(
         server = server_module.get_or_create_server(server)
     api = server.get_api_for_type(capi=field_capi.FieldCAPI, grpcapi=field_grpcapi.FieldGRPCAPI)
     api.init_field_environment(server)
-    internal_obj = Field._field_create_internal_obj(api=api, client=server.client,  nature=nature, nentities=nentities, location=location, ncomp_n=ncomp_n, ncomp_m=ncomp_m)
+    internal_obj = Field._field_create_internal_obj(
+        api=api, client=server.client,  nature=nature, nentities=nentities, location=location,
+        ncomp_n=ncomp_n, ncomp_m=ncomp_m
+    )
     field = Field(field=internal_obj, server=server)
     return field

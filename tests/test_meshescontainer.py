@@ -4,7 +4,7 @@ import weakref
 
 import pytest
 
-from conftest import SERVER_VERSION_HIGHER_THAN_3_0
+import conftest
 from ansys import dpf
 from ansys.dpf.core import MeshesContainer
 
@@ -49,8 +49,9 @@ def test_createby_message_copy_meshes_container(server_type_legacy_grpc):
     assert mc._internal_obj == meshes_container2._internal_obj
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Connecting data from different servers is '
+                           'supported starting server version 3.0')
 def test_createbycopy_meshes_container(server_type):
     mc = MeshesContainer(server=server_type)
     meshes_container2 = MeshesContainer(meshes_container=mc)

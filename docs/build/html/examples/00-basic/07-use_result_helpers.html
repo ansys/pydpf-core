@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Use Result Helpers to Load Custom Data &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Use Result Helpers to Load Custom Data &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -25,10 +25,12 @@
     
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,6 +38,7 @@
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -394,6 +397,27 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/00-wrapping_numpy_capabilities.html">
+   Write user defined Operator
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/01-package_python_operators.html">
+   Write user defined Operators as a package
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/02-python_operators_with_dependencies.html">
+   Write user defined Operators having third party dependencies
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -420,12 +444,12 @@
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#visualize-specific-mode-shapes">
-   Visualize specific mode shapes
+   Visualize Specific Mode Shapes
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#choose-a-spatial-subset">
-   Choose a spatial subset
+   Choose a Spatial Subset
   </a>
  </li>
 </ul>
@@ -460,15 +484,12 @@ to download the full example code</p>
 access to helpers for requesting results on specific mesh and time scopings.
 With these helpers, working on a custom spatial and temporal subset of the
 model is straightforward.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<p>Import necessary modules:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
-<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
 </pre></div>
 </div>
-<p>First, create a model object to establish a connection with an
-example result file</p>
+<p>Create a model object to establish a connection with an example result file:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">download_multi_stage_cyclic_result</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
@@ -504,19 +525,18 @@ Cumulative     Frequency (Hz) LoadStep       Substep        Harmonic index
 </div>
 </section>
 <section id="visualize-specific-mode-shapes">
-<h1>Visualize specific mode shapes<a class="headerlink" href="#visualize-specific-mode-shapes" title="Permalink to this headline">¶</a></h1>
-<p>Choose the modes to visualize</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
-
+<h1>Visualize Specific Mode Shapes<a class="headerlink" href="#visualize-specific-mode-shapes" title="Permalink to this headline">¶</a></h1>
+<p>Choose the modes to visualize:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
 
 <span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">on_time_scoping</span><span class="p">(</span><span class="n">modes</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="choose-a-spatial-subset">
-<h1>Choose a spatial subset<a class="headerlink" href="#choose-a-spatial-subset" title="Permalink to this headline">¶</a></h1>
-<p>Work only a named selection (or component)</p>
-<p>Print the available named selection</p>
+<h1>Choose a Spatial Subset<a class="headerlink" href="#choose-a-spatial-subset" title="Permalink to this headline">¶</a></h1>
+<p>Work on only a named selection (or component).</p>
+<p>Print the available named selection:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">available_named_selections</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -524,13 +544,13 @@ Cumulative     Frequency (Hz) LoadStep       Substep        Harmonic index
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;BC&#39;, &#39;ELM&#39;, &#39;STAG1&#39;, &#39;STAG1HIGH&#39;, &#39;STAG1LOW&#39;, &#39;STAG2&#39;, &#39;STAG2HIGH&#39;, &#39;STAG2LOW&#39;, &#39;_BC_NOD&#39;, &#39;_FIXEDSU&#39;, &#39;_INTF_ELM&#39;, &#39;_INTF_NOD&#39;, &#39;_NOD&#39;, &#39;_STAG1_BASE_ELM&#39;, &#39;_STAG1_BASE_NOD&#39;, &#39;_STAG1_CYCHIGH_NOD&#39;, &#39;_STAG1_CYCLOW_NOD&#39;, &#39;_STAG2_BASE_ELM&#39;, &#39;_STAG2_BASE_NOD&#39;, &#39;_STAG2_CYCHIGH_NOD&#39;, &#39;_STAG2_CYCLOW_NOD&#39;]
 </pre></div>
 </div>
-<p>Specify to the result that we work on a specific named selection</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span><span class="o">.</span><span class="n">on_named_selection</span><span class="p">(</span><span class="s1">&#39;_STAG1_BASE_NOD&#39;</span><span class="p">)</span>
+<p>Specify to the result that you want to work on a specific named selection:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span><span class="o">.</span><span class="n">on_named_selection</span><span class="p">(</span><span class="s2">&quot;_STAG1_BASE_NOD&quot;</span><span class="p">)</span>
 <span class="n">op</span> <span class="o">=</span> <span class="n">disp</span><span class="p">()</span>
-<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="c1">#expand cyclic</span>
+<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># expand cyclic</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 
-<span class="c1">#plot</span>
+<span class="c1"># plot</span>
 <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="n">modes</span><span class="p">:</span>
     <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">get_fields_by_time_complex_ids</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
@@ -540,14 +560,14 @@ Cumulative     Frequency (Hz) LoadStep       Substep        Harmonic index
 <li><img src="../../_images/sphx_glr_07-use_result_helpers_002.png" srcset="../../_images/sphx_glr_07-use_result_helpers_002.png" alt="07 use result helpers" class = "sphx-glr-multi-img"/></li>
 <li><img src="../../_images/sphx_glr_07-use_result_helpers_003.png" srcset="../../_images/sphx_glr_07-use_result_helpers_003.png" alt="07 use result helpers" class = "sphx-glr-multi-img"/></li>
 </ul>
-<p>Specify to the result that we work on specific nodes</p>
+<p>Specify to the result that you want to work on specific nodes:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">on_time_scoping</span><span class="p">(</span><span class="n">modes</span><span class="p">)</span>
 <span class="n">disp</span><span class="o">.</span><span class="n">on_mesh_scoping</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)))</span>
 <span class="n">op</span> <span class="o">=</span> <span class="n">disp</span><span class="p">()</span>
-<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="c1">#expand cyclic</span>
+<span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># expand cyclic</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 
-<span class="c1">#plot</span>
+<span class="c1"># plot</span>
 <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="n">modes</span><span class="p">:</span>
     <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">get_fields_by_time_complex_ids</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
@@ -557,7 +577,7 @@ Cumulative     Frequency (Hz) LoadStep       Substep        Harmonic index
 <li><img src="../../_images/sphx_glr_07-use_result_helpers_005.png" srcset="../../_images/sphx_glr_07-use_result_helpers_005.png" alt="07 use result helpers" class = "sphx-glr-multi-img"/></li>
 <li><img src="../../_images/sphx_glr_07-use_result_helpers_006.png" srcset="../../_images/sphx_glr_07-use_result_helpers_006.png" alt="07 use result helpers" class = "sphx-glr-multi-img"/></li>
 </ul>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.825 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.655 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-07-use-result-helpers-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/9488ecf6edc8727f37bfc2855da786ef/07-use_result_helpers.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">07-use_result_helpers.py</span></code></a></p>

@@ -5,9 +5,7 @@ MeshesContainer
 Contains classes associated with the DPF MeshesContainer.
 """
 from ansys.dpf.core import meshed_region
-from ansys import dpf
 from ansys.dpf.core.collection import Collection
-from ansys.dpf.core.common import types
 from ansys.dpf.core.plotter import DpfPlotter
 from ansys.dpf.core import errors as dpf_errors
 
@@ -40,7 +38,7 @@ class MeshesContainer(Collection):
     def create_subtype(self, obj_by_copy):
         return meshed_region.MeshedRegion(mesh=obj_by_copy, server=self._server)
 
-    def plot(self, fields_container=None, **kwargs):
+    def plot(self, fields_container=None, deform_by=None, scale_factor=1.0, **kwargs):
         """Plot the meshes container with a specific result if
         fields_container is specified.
 
@@ -48,6 +46,14 @@ class MeshesContainer(Collection):
         ----------
         fields_container : FieldsContainer, optional
             Data to plot. The default is ``None``.
+        deform_by : Field, Result, Operator, optional
+            Used to deform the plotted mesh. Must output a 3D vector field.
+            Defaults to None.
+        scale_factor : float, optional
+            Scaling factor to apply when warping the mesh. Defaults to 1.0.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For additional keyword
+            arguments, see ``help(pyvista.plot)``.
 
         Examples
         --------
@@ -65,9 +71,11 @@ class MeshesContainer(Collection):
         >>> meshes_cont.plot(disp_fc)
 
         """
+        # DPF defaults
         kwargs.setdefault("show_edges", True)
-        notebook = kwargs.pop("notebook", None)
-        pl = DpfPlotter(notebook=notebook)
+        # Initiate plotter
+        pl = DpfPlotter(**kwargs)
+        # If a fields' container is given
         if fields_container is not None:
             for i in range(len(fields_container)):
                 label_space = fields_container.get_label_space(i)
@@ -79,15 +87,26 @@ class MeshesContainer(Collection):
                         "Plotting can not proceed. "
                     )
                 field = fields_container[i]
-                pl.add_field(field, mesh_to_send, **kwargs)
+                if deform_by:
+                    from ansys.dpf.core.operators import scoping
+                    mesh_scoping = scoping.from_mesh(mesh=mesh_to_send)
+                    deform_by = deform_by.on_mesh_scoping(mesh_scoping)
+                pl.add_field(field, mesh_to_send,
+                             deform_by=deform_by,
+                             show_axes=kwargs.pop("show_axes", True),
+                             scale_factor=scale_factor,
+                             **kwargs)
         else:
+            # If no field given, associate a random color to each mesh in the container
             from random import random
             random_color = "color" not in kwargs
             for mesh in self:
                 if random_color:
                     kwargs["color"] = [random(), random(), random()]
-                pl.add_mesh(mesh, **kwargs)
-        pl.show_figure(**kwargs)
+                pl.add_mesh(mesh, deform_by=deform_by, scale_factor=scale_factor,
+                            show_axes=kwargs.pop("show_axes", True), **kwargs)
+        # Plot the figure
+        return pl.show_figure(**kwargs)
 
     def get_meshes(self, label_space):
         """Retrieve the meshes at a label space.

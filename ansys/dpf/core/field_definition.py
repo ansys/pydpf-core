@@ -3,7 +3,11 @@ FieldDefinition
 ================
 """
 
+import traceback
+import warnings
+
 from ansys.dpf.core.common import natures, shell_layers
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
@@ -31,8 +35,10 @@ class FieldDefinition:
         self._server = server_module.get_or_create_server(server)
 
         # step 2: get api
-        self._api = self._server.get_api_for_type(capi=field_definition_capi.FieldDefinitionCAPI,
-                                                  grpcapi=field_definition_grpcapi.FieldDefinitionGRPCAPI)
+        self._api = self._server.get_api_for_type(
+            capi=field_definition_capi.FieldDefinitionCAPI,
+            grpcapi=field_definition_grpcapi.FieldDefinitionGRPCAPI
+        )
 
         # step3: init environment
         self._api.init_field_definition_environment(self)  # creates stub when gRPC
@@ -62,6 +68,7 @@ class FieldDefinition:
         return str(location)
 
     @property
+    @version_requires("4.0")
     def name(self):
         """Field name.
 
@@ -84,7 +91,9 @@ class FieldDefinition:
             Units of the field.
         """
         unit = integral_types.MutableString(256)
-        unused = [integral_types.MutableInt32(), integral_types.MutableInt32(), integral_types.MutableDouble(),
+        unused = [integral_types.MutableInt32(),
+                  integral_types.MutableInt32(),
+                  integral_types.MutableDouble(),
                   integral_types.MutableDouble()]
         self._api.csfield_definition_fill_unit(self, unit, *unused)
         return str(unit)
@@ -126,6 +135,7 @@ class FieldDefinition:
         self._api.csfield_definition_set_location(self, value)
 
     @name.setter
+    @version_requires("4.0")
     def name(self, value):
         self._api.csfield_definition_set_name(self, value)
 
@@ -139,7 +149,9 @@ class FieldDefinition:
     def dimensionality(self, value):
         if not isinstance(value, Dimensionality):
             raise TypeError("the dimensionality needs to be of type Dimensionality")
-        self._api.csfield_definition_set_dimensionality(self, int(value.nature.value), value.dim, len(value.dim))
+        self._api.csfield_definition_set_dimensionality(
+            self, int(value.nature.value), value.dim, len(value.dim)
+        )
 
     def deep_copy(self, server=None):
         """Creates a deep copy of the field_definition's data on a given server.
@@ -162,6 +174,6 @@ class FieldDefinition:
 
     def __del__(self):
         try:
-            self._stub.Delete(self._messageDefinition)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())

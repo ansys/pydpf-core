@@ -1,8 +1,8 @@
 .. _user_guide_plotting:
 
-========
-Plotting
-========
+====
+Plot
+====
 DPF-Core has a variety of plotting methods for generating 3D plots of
 Ansys models directly from Python. These methods use VTK and leverage
 the `PyVista <https://github.com/pyvista/pyvista>`_ library to

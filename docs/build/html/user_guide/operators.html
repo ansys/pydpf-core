@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Operators &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Operators &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -25,10 +25,12 @@
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,6 +38,7 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -91,7 +94,7 @@
  </a>
 </li>
 
-<li class="toctree-l1 current active nav-item">
+<li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="index.html">
   User Guide
  </a>
@@ -156,34 +159,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
-    <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="model.html">
-   DPF Model
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Operators
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="fields_container.html">
-   Fields Container and Fields
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="plotting.html">
-   Plotting
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="troubleshooting.html">
-   Troubleshooting
-  </a>
- </li>
-</ul>
-
+    
   </div>
 </nav>
             </div>
@@ -312,7 +288,7 @@ geometrical, and logical transformations. This library, found in
 <h2>Creating Operators<a class="headerlink" href="#creating-operators" title="Permalink to this headline">¶</a></h2>
 <p>Each operator is of type <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ref-operator"><span class="std std-ref">Operator</span></a>. You can create an instance
 in Python with any of the derived classes available in the
-package <span class="xref std std-ref">ref_operators_package</span> or directly with the class <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ref-operator"><span class="std std-ref">Operator</span></a>
+package <a class="reference internal" href="../api/ansys.dpf.core.operators.html#ref-operators-package"><span class="std std-ref">Operators</span></a> or directly with the class <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ref-operator"><span class="std std-ref">Operator</span></a>
 using the internal name string that indicates the operator type.
 For more information, see <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>).</p>
 <p>For example, to create the displacement operator, use:</p>
@@ -392,7 +368,7 @@ can also be connected to work on a temporal subset:</p>
 </section>
 <section id="evaluating-operators">
 <h2>Evaluating Operators<a class="headerlink" href="#evaluating-operators" title="Permalink to this headline">¶</a></h2>
-<p>With all the required inputs assigned, the :class:<a href="#id1"><span class="problematic" id="id2">`</span></a>ansys.dpf.core.fields_container`can be
+<p>With all the required inputs assigned, the <a class="reference internal" href="../api/ansys.dpf.core.fields_container.html#module-ansys.dpf.core.fields_container" title="ansys.dpf.core.fields_container"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.fields_container</span></code></a> can be
 outputted from the operator:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">fc</span><span class="p">)</span>
@@ -608,7 +584,7 @@ Downloading...: 759 KB|
 <section id="api-reference">
 <h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
 <p>For a list of all operators in DPF, see <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>
-or <span class="xref std std-ref">ref_operators_package</span>.  For more information about the
+or <a class="reference internal" href="../api/ansys.dpf.core.operators.html#ref-operators-package"><span class="std std-ref">Operators</span></a>.  For more information about the
 class itself, see <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ref-operator"><span class="std std-ref">Operator</span></a>.</p>
 </section>
 </section>

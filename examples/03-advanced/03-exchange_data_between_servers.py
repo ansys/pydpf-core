@@ -27,7 +27,8 @@ server1 = dpf.start_local_server(as_global=True)
 server2 = dpf.start_local_server(as_global=False)
 
 # Check that the 2 servers are on different ports
-print(server1.port, server2.port)
+print(server1.port if hasattr(server1, "port") else "",
+      server2.port if hasattr(server2, "port") else "")
 
 ###############################################################################
 # Send the result file
@@ -64,7 +65,7 @@ coordinates.inputs.coordinate_system(cs)
 comp = dpf.operators.logic.component_selector_fc(coordinates, 0, server=server2)
 
 ###############################################################################
-# Pass data from on server to another
+# Pass data from one server to another
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 fc_disp = disp.outputs.fields_container()
 fc_copy = fc_disp.deep_copy(server=server2)

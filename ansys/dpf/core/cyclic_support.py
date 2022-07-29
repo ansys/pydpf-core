@@ -3,10 +3,13 @@ Cyclic Support
 ==============
 """
 
-from ansys.dpf.core.scoping import Scoping
+import traceback
+import warnings
+
+from ansys.dpf.gate import cyclic_support_capi, cyclic_support_grpcapi
+
 from ansys.dpf.core import server as server_module
-from ansys.dpf.gate import cyclic_support_capi, cyclic_support_grpcapi, integral_types, \
-    data_processing_capi, data_processing_grpcapi
+from ansys.dpf.core.scoping import Scoping
 
 
 class CyclicSupport:
@@ -189,7 +192,7 @@ class CyclicSupport:
         >>> multi_stage = examples.download_multi_stage_cyclic_result()
         >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
         >>> print(cyc_support.sectors_set_for_expansion(stage_num=1).ids)
-        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        [...0... 1... 2... 3... 4... 5... 6... 7... 8... 9... 10... 11]
 
         """
         sectors_for_expansion = self._api.cyclic_support_get_sectors_scoping(self, stage_num)
@@ -221,7 +224,7 @@ class CyclicSupport:
         >>> multi_stage = examples.download_multi_stage_cyclic_result()
         >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
         >>> print(cyc_support.expand_node_id(1,stage_num=0).ids)
-        [1, 3596, 5816, 8036, 10256, 12476]
+        [...1... 3596... 5816... 8036... 10256... 12476]
 
         """
         if sectors is None:
@@ -259,7 +262,7 @@ class CyclicSupport:
         >>> multi_stage = examples.download_multi_stage_cyclic_result()
         >>> cyc_support = Model(multi_stage).metadata.result_info.cyclic_support
         >>> print(cyc_support.expand_element_id(1,stage_num=0).ids)
-        [1, 1558, 2533, 3508, 4483, 5458]
+        [...1... 1558... 2533... 3508... 4483... 5458]
 
         """
         if sectors is None:
@@ -273,12 +276,6 @@ class CyclicSupport:
 
     def __del__(self):
         try:
-            # get core api
-            core_api = self._server.get_api_for_type(
-                capi=data_processing_capi.DataProcessingCAPI,
-                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
-            core_api.init_data_processing_environment(self)
-            # delete
-            core_api.data_processing_delete_shared_object(self)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())

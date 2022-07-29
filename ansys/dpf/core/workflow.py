@@ -1,15 +1,27 @@
 """
+.. _ref_workflow_apis:
+
 Workflow
 ========
-Interface to underlying gRPC workflow.
 """
 import logging
+import traceback
+import warnings
 
+from enum import Enum
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
-from ansys.dpf.core.errors import protect_grpc, ServerTypeError
 from ansys.dpf.core.check_version import server_meet_version, version_requires
-from ansys.dpf.core.common import types
+from ansys.dpf.core import server as server_module
+from ansys.dpf.gate import (
+    workflow_abstract_api,
+    workflow_grpcapi,
+    workflow_capi,
+    data_processing_capi,
+    data_processing_grpcapi,
+    dpf_vector,
+    object_handler,
+)
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -23,11 +35,12 @@ class Workflow:
 
     Parameters
     ----------
-    server : LegacyGrpcServer, optional
-        Server with the channel connected to the remote or local instance.
+    server : DPFServer, optional
+        Server with channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
-    workflow :  workflow_message_pb2.Workflow
+
+    workflow : ctypes.c_void_p, workflow_message_pb2.Workflow, optional
 
     Examples
     --------
@@ -47,34 +60,39 @@ class Workflow:
     >>> from ansys.dpf.core import examples
     >>> data_src = dpf.DataSources(examples.multishells_rst)
     >>> workflow.connect("data_sources", data_src)
-    >>> min = workflow.get_output("min", dpf.types.field)
-    >>> max = workflow.get_output("max", dpf.types.field)
+    >>> min = workflow.get_output("min", dpf.types.field) # doctest: +SKIP
+    >>> max = workflow.get_output("max", dpf.types.field) # doctest: +SKIP
 
     """
 
     def __init__(self, workflow=None, server=None):
-        """Initialize the workflow by connecting to a stub."""
-        if server is None:
-            server = dpf.core._global_server()
-        from ansys.dpf.core.server_types import LegacyGrpcServer
-        # if hasattr(SERVER_CONFIGURATION, "legacy") and SERVER_CONFIGURATION.legacy is False:
-        if not isinstance(server, LegacyGrpcServer):
-            raise ServerTypeError("Workflows have not yet been implemented for other server "
-                                  "types than legacyGrpc")
-        self._server = server
-        self._stub = self._connect()
+        # step 1: get server
+        self._server = server_module.get_or_create_server(server)
 
-        self._message = workflow
+        # step 2: get api
+        self._api_instance = None  # see property self._api
 
-        from ansys.grpc.dpf import workflow_pb2
-        remote_copy_needed = server_meet_version("3.0", self._server) \
-                             and isinstance(workflow, workflow_pb2.RemoteCopyRequest)
-        if isinstance(workflow, str):
-            self.__create_from_stream(workflow)
-        elif workflow is None or remote_copy_needed:
-            self.__send_init_request(workflow)
+        # step3: init environment
+        self._api.init_workflow_environment(self)  # creates stub when gRPC
 
-    @protect_grpc
+        # step4: if object exists, take the instance, else create it
+        if workflow is not None:
+            self._internal_obj = workflow
+        else:
+            if self._server.has_client():
+                self._internal_obj = self._api.work_flow_new_on_client(self._server.client)
+            else:
+                self._internal_obj = self._api.work_flow_new()
+
+    @property
+    def _api(self) -> workflow_abstract_api.WorkflowAbstractAPI:
+        if not self._api_instance:
+            self._api_instance = self._server.get_api_for_type(
+                capi=workflow_capi.WorkflowCAPI,
+                grpcapi=workflow_grpcapi.WorkflowGRPCAPI
+            )
+        return self._api_instance
+
     def connect(self, pin_name, inpt, pin_out=0):
         """Connect an input on the workflow using a pin name.
 
@@ -109,18 +127,121 @@ class Workflow:
         >>> from ansys.dpf.core import examples
         >>> data_src = dpf.DataSources(examples.multishells_rst)
         >>> workflow.connect("data_sources", data_src)
-        >>> min = workflow.get_output("min", dpf.types.field)
-        >>> max = workflow.get_output("max", dpf.types.field)
+        >>> min = workflow.get_output("min", dpf.types.field) # doctest: +SKIP
+        >>> max = workflow.get_output("max", dpf.types.field) # doctest: +SKIP
 
         """
-        from ansys.grpc.dpf import workflow_pb2
-        request = workflow_pb2.UpdateConnectionRequest()
-        request.wf.CopyFrom(self._message)
-        request.pin_name = pin_name
-        tmp = _fillConnectionRequestMessage(request, inpt, self._server, pin_out)
-        self._stub.UpdateConnection(request)
+        if inpt is self:
+            raise ValueError("Cannot connect to itself.")
+        elif isinstance(inpt, dpf_operator.Operator):
+            self._api.work_flow_connect_operator_output(self, pin_name, inpt, pin_out)
+        elif isinstance(inpt, dpf_operator.Output):
+            self._api.work_flow_connect_operator_output(self, pin_name, inpt._operator, inpt._pin)
+        elif isinstance(inpt, list):
+            from ansys.dpf.core import collection
+            if server_meet_version("3.0", self._server):
+                inpt = collection.Collection.integral_collection(inpt, self._server)
+                self._api.work_flow_connect_collection_as_vector(self, pin_name, inpt)
+            else:
+                if all(isinstance(x, int) for x in inpt):
+                    self._api.work_flow_connect_vector_int(self, pin_name, inpt, len(inpt))
+                else:
+                    self._api.work_flow_connect_vector_double(self, pin_name, inpt, len(inpt))
+        else:
+            for type_tuple in self._type_to_input_method:
+                if isinstance(inpt, type_tuple[0]):
+                    if len(type_tuple) == 3:
+                        inpt = type_tuple[2](inpt)
+                    return type_tuple[1](self, pin_name, inpt)
+            errormsg = f"input type {inpt.__class__} cannot be connected"
+            raise TypeError(errormsg)
 
-    @protect_grpc
+    @property
+    def _type_to_input_method(self):
+        from ansys.dpf.core import (
+            cyclic_support,
+            data_sources,
+            field,
+            collection,
+            meshed_region,
+            property_field,
+            scoping,
+            time_freq_support,
+            data_tree,
+            workflow,
+            model,
+        )
+        return [
+            (bool, self._api.work_flow_connect_bool),
+            ((int, Enum), self._api.work_flow_connect_int),
+            (str, self._api.work_flow_connect_string),
+            (float, self._api.work_flow_connect_double),
+            (field.Field, self._api.work_flow_connect_field),
+            (property_field.PropertyField, self._api.work_flow_connect_property_field),
+            (scoping.Scoping, self._api.work_flow_connect_scoping),
+            (collection.Collection, self._api.work_flow_connect_collection),
+            (data_sources.DataSources, self._api.work_flow_connect_data_sources),
+            (model.Model, self._api.work_flow_connect_data_sources,
+             lambda obj: obj.metadata.data_sources),
+            (cyclic_support.CyclicSupport, self._api.work_flow_connect_cyclic_support),
+            (meshed_region.MeshedRegion, self._api.work_flow_connect_meshed_region),
+            # TO DO: (result_info.ResultInfo, self._api.work_flow_connect_result_info),
+            (time_freq_support.TimeFreqSupport, self._api.work_flow_connect_time_freq_support),
+            (workflow.Workflow, self._api.work_flow_connect_workflow),
+            (data_tree.DataTree, self._api.work_flow_connect_data_tree),
+        ]
+
+    @property
+    def _type_to_output_method(self):
+        from ansys.dpf.core import (
+            cyclic_support,
+            data_sources,
+            field,
+            fields_container,
+            meshed_region,
+            meshes_container,
+            property_field,
+            result_info,
+            scoping,
+            scopings_container,
+            time_freq_support,
+            data_tree,
+            workflow,
+            collection,
+        )
+        return [
+            (bool, self._api.work_flow_getoutput_bool),
+            (int, self._api.work_flow_getoutput_int),
+            (str, self._api.work_flow_getoutput_string),
+            (float, self._api.work_flow_getoutput_double),
+            (field.Field, self._api.work_flow_getoutput_field, "field"),
+            (property_field.PropertyField, self._api.work_flow_getoutput_property_field,
+             "property_field"),
+            (scoping.Scoping, self._api.work_flow_getoutput_scoping, "scoping"),
+            (fields_container.FieldsContainer, self._api.work_flow_getoutput_fields_container,
+             "fields_container"),
+            (scopings_container.ScopingsContainer, self._api.work_flow_getoutput_scopings_container,
+             "scopings_container"),
+            (meshes_container.MeshesContainer, self._api.work_flow_getoutput_meshes_container,
+             "meshes_container"),
+            (data_sources.DataSources, self._api.work_flow_getoutput_data_sources, "data_sources"),
+            (cyclic_support.CyclicSupport, self._api.work_flow_getoutput_cyclic_support,
+             "cyclic_support"),
+            (meshed_region.MeshedRegion, self._api.work_flow_getoutput_meshed_region, "mesh"),
+            (result_info.ResultInfo, self._api.work_flow_getoutput_result_info, "result_info"),
+            (time_freq_support.TimeFreqSupport, self._api.work_flow_getoutput_time_freq_support,
+             "time_freq_support"),
+            (workflow.Workflow, self._api.work_flow_getoutput_workflow, "workflow"),
+            (data_tree.DataTree, self._api.work_flow_getoutput_data_tree, "data_tree"),
+            (dpf_operator.Operator, self._api.work_flow_getoutput_operator, "operator"),
+            (dpf_vector.DPFVectorInt, self._api.work_flow_getoutput_int_collection,
+             lambda obj: collection.IntCollection(server=self._server,
+                                                  collection=obj).get_integral_entries()),
+            (dpf_vector.DPFVectorDouble, self._api.work_flow_getoutput_double_collection,
+             lambda obj: collection.FloatCollection(server=self._server,
+                                                    collection=obj).get_integral_entries()),
+        ]
+
     def get_output(self, pin_name, output_type):
         """Retrieve the output of the operator on the pin number.
         A progress bar following the workflow state is printed.
@@ -133,32 +254,30 @@ class Workflow:
         output_type : core.type enum
             Type of the requested output.
         """
-        from ansys.grpc.dpf import workflow_pb2
-
-        request = workflow_pb2.WorkflowEvaluationRequest()
-        request.wf.CopyFrom(self._message)
-        request.pin_name = pin_name
-
-        if output_type is not None:
-            _write_output_type_to_proto_style(output_type, request)
-            if server_meet_version("3.0", self._server):
-                # handle progress bar
-                self._server._session.add_workflow(self, "workflow")
-                out_future = self._stub.Get.future(request)
-                while out_future.is_active():
-                    self._server._session.listen_to_progress()
-                out = out_future.result()
-            else:
-                out = self._stub.Get(request)
-            return _convertOutputMessageToPythonInstance(
-                out,
-                output_type,
-                self._server
-            )
-        else:
-            raise ValueError(
-                "please specify an output type to get the workflow's output"
-            )
+        if server_meet_version("3.0", self._server):
+            # handle progress bar
+            self._server._session.add_workflow(self, "workflow")
+            self._progress_thread = self._server._session.listen_to_progress()
+        output_type = dpf_operator._write_output_type_to_type(output_type)
+        out = None
+        for type_tuple in self._type_to_output_method:
+            if output_type is type_tuple[0]:
+                if len(type_tuple) >= 3:
+                    if isinstance(type_tuple[2], str):
+                        parameters = {type_tuple[2]: type_tuple[1](self, pin_name)}
+                        out = output_type(**parameters, server=self._server)
+                    else:
+                        out = type_tuple[2](type_tuple[1](self, pin_name))
+                if out is None:
+                    try:
+                        out = output_type(type_tuple[1](self, pin_name), server=self._server)
+                    except TypeError:
+                        self._progress_thread = None
+                        out = output_type(type_tuple[1](self, pin_name))
+        if out is not None:
+            self._progress_thread = None
+            return out
+        raise TypeError(f"{output_type} is not an implemented Operator's output")
 
     def set_input_name(self, name, *args):
         """Set the name of the input pin of the workflow to expose it for future connection.
@@ -185,23 +304,17 @@ class Workflow:
         >>> workflow.connect("data_sources", data_src)
 
         """
-        from ansys.grpc.dpf import workflow_pb2
-
-        request = workflow_pb2.UpdatePinNamesRequest()
-        request.wf.CopyFrom(self._message)
-        input_request = workflow_pb2.OperatorNaming()
-        input_request.name = name
-        input_request.pin = 0
+        pin = 0
+        operator = None
         for arg in args:
             if isinstance(arg, inputs.Input):
-                input_request.pin = arg._pin
-                input_request.operator.CopyFrom(arg._operator._internal_obj)
+                pin = arg._pin
+                operator = arg._operator()
             elif isinstance(arg, dpf_operator.Operator):
-                input_request.operator.CopyFrom(arg._internal_obj)
+                operator = arg
             elif isinstance(arg, int):
-                input_request.pin = arg
-        request.inputs_naming.extend([input_request])
-        self._stub.UpdatePinNames(request)
+                pin = arg
+        return self._api.work_flow_set_name_input_pin(self, operator, pin, name)
 
     def set_output_name(self, name, *args):
         """Set the name of the output pin of the workflow to expose it for future connection.
@@ -223,26 +336,20 @@ class Workflow:
         >>> disp_op = model.results.displacement()
         >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
         >>> workflow.set_output_name("contour", disp_op.outputs.fields_container)
-        >>> fc = workflow.get_output("contour", dpf.types.fields_container)
+        >>> fc = workflow.get_output("contour", dpf.types.fields_container) # doctest: +SKIP
 
         """
-        from ansys.grpc.dpf import workflow_pb2
-
-        request = workflow_pb2.UpdatePinNamesRequest()
-        request.wf.CopyFrom(self._message)
-        output_request = workflow_pb2.OperatorNaming()
-        output_request.name = name
-        output_request.pin = 0
+        pin = 0
+        operator = None
         for arg in args:
             if isinstance(arg, outputs.Output):
-                output_request.pin = arg._pin
-                output_request.operator.CopyFrom(arg._operator._internal_obj)
+                pin = arg._pin
+                operator = arg._operator
             elif isinstance(arg, dpf_operator.Operator):
-                output_request.operator.CopyFrom(arg._internal_obj)
+                operator = arg
             elif isinstance(arg, int):
-                output_request.pin = arg
-        request.outputs_naming.extend([output_request])
-        self._stub.UpdatePinNames(request)
+                pin = arg
+        return self._api.work_flow_set_name_output_pin(self, operator, pin, name)
 
     def add_operators(self, operators):
         """Add operators to the list of operators of the workflow.
@@ -259,23 +366,19 @@ class Workflow:
         >>> workflow = dpf.Workflow()
         >>> disp_op = dpf.Operator("U")
         >>> max_op = dpf.Operator("min_max")
-        >>> workflow.add_operator([disp_op,max_op])
+        >>> workflow.add_operators([disp_op, max_op])
 
         """
-        from ansys.grpc.dpf import workflow_pb2
-
-        request = workflow_pb2.AddOperatorsRequest()
-        request.wf.CopyFrom(self._message)
         if isinstance(operators, list):
-            request.operators.extend([op._internal_obj for op in operators])
+            for op in operators:
+                self.add_operator(op)
         elif isinstance(operators, dpf_operator.Operator):
-            request.operators.extend([operators._internal_obj])
+            self.add_operator(operators)
         else:
             raise TypeError(
                 "Operators to add to the workflow are expected to be of "
                 f"type {type(list).__name__} or {type(dpf_operator.Operator).__name__}"
             )
-        self._stub.AddOperators(request)
 
     def add_operator(self, operator):
         """Add an operator to the list of operators of the workflow.
@@ -294,9 +397,9 @@ class Workflow:
         >>> workflow.add_operator(disp_op)
 
         """
-        self.add_operators(operator)
+        self._api.work_flow_add_operator(self, operator)
 
-    def record(self, identifier=None, transfer_ownership=True):
+    def record(self, identifier="", transfer_ownership=True):
         """Add the workflow to DPF's internal registry with an ID returned by this method.
 
         The workflow can be recovered by ``dpf.core.Workflow.get_recorded_workflow(id)``.
@@ -322,14 +425,7 @@ class Workflow:
         >>> workflow_copy = dpf.Workflow.get_recorded_workflow(id)
 
         """
-        from ansys.grpc.dpf import workflow_pb2
-
-        request = workflow_pb2.RecordInInternalRegistryRequest()
-        request.wf.CopyFrom(self._message)
-        if identifier:
-            request.identifier = identifier
-        request.transferOwnership = transfer_ownership
-        return self._stub.RecordInInternalRegistry(request).id
+        return self._api.work_flow_record_instance(self, identifier, transfer_ownership)
 
     @staticmethod
     def get_recorded_workflow(id, server=None):
@@ -357,12 +453,13 @@ class Workflow:
         >>> workflow_copy = dpf.Workflow.get_recorded_workflow(id)
 
         """
-        from ansys.grpc.dpf import workflow_pb2
-
-        request = workflow_pb2.WorkflowFromInternalRegistryRequest()
-        request.registry_id = id
-        wf = Workflow(server=server)
-        wf._message.CopyFrom(wf._stub.GetFromInternalRegistry(request))
+        wf = Workflow(workflow="None", server=server)
+        if wf._server.has_client():
+            wf._internal_obj = wf._api.work_flow_get_by_identifier_on_client(id, wf._server.client)
+        else:
+            wf._internal_obj = wf._api.work_flow_get_by_identifier(id)
+        if wf._internal_obj is None:
+            raise Exception("Unable to get this workflow from the registry")
         return wf
 
     @property
@@ -374,15 +471,11 @@ class Workflow:
         info : dictionarry str->list str
             Dictionary with ``"operator_names"``, ``"input_names"``, and ``"output_names"`` key.
         """
-        tmp = self._stub.List(self._message)
-        out = {"operator_names": [], "input_names": [], "output_names": []}
-        for name in tmp.operator_names:
-            out["operator_names"].append(name)
-        for name in tmp.input_pin_names.pin_names:
-            out["input_names"].append(name)
-        for name in tmp.output_pin_names.pin_names:
-            out["output_names"].append(name)
-        return out
+        return {
+            "operator_names": self.operator_names,
+            "input_names": self.input_names,
+            "output_names": self.output_names,
+        }
 
     @property
     def operator_names(self):
@@ -392,7 +485,11 @@ class Workflow:
         ----------
         names : list str
         """
-        return self.info["operator_names"]
+        num = self._api.work_flow_number_of_operators(self)
+        out = []
+        for i in range(num):
+            out.append(self._api.work_flow_operator_name_by_index(self, i))
+        return out
 
     @property
     def input_names(self):
@@ -402,7 +499,11 @@ class Workflow:
         ----------
         names : list str
         """
-        return self.info["input_names"]
+        num = self._api.work_flow_number_of_input(self)
+        out = []
+        for i in range(num):
+            out.append(self._api.work_flow_input_by_index(self, i))
+        return out
 
     @property
     def output_names(self):
@@ -412,7 +513,11 @@ class Workflow:
         ----------
         names : list str
         """
-        return self.info["output_names"]
+        num = self._api.work_flow_number_of_output(self)
+        out = []
+        for i in range(num):
+            out.append(self._api.work_flow_output_by_index(self, i))
+        return out
 
     @version_requires("3.0")
     def connect_with(self, left_workflow, output_input_names=None):
@@ -449,30 +554,34 @@ class Workflow:
             |"mesh_scoping" ->  |____| -> "output"                                                            |
             +-------------------------------------------------------------------------------------------------+ # noqa: E501
 
+        Notes
+        -----
+        Function available with server's version starting at 3.0.
 
         """
-        from ansys.grpc.dpf import workflow_pb2
-
-        request = workflow_pb2.ConnectRequest()
-        request.right_wf.CopyFrom(self._message)
-        request.left_wf.CopyFrom(left_workflow._message)
         if output_input_names:
+            core_api = self._server.get_api_for_type(
+                capi=data_processing_capi.DataProcessingCAPI,
+                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+            map = object_handler.ObjHandler(
+                    data_processing_api=core_api,
+                    internal_obj=self._api.workflow_create_connection_map_for_object(self)
+            )
             if isinstance(output_input_names, tuple):
-                request.input_to_output.append(
-                    workflow_pb2.InputToOutputChainRequest(
-                        output_name=output_input_names[0],
-                        input_name=output_input_names[1]))
+                self._api.workflow_add_entry_connection_map(
+                    map, output_input_names[0], output_input_names[1]
+                )
             elif isinstance(output_input_names, dict):
                 for key in output_input_names:
-                    request.input_to_output.append(
-                        workflow_pb2.InputToOutputChainRequest(
-                            output_name=key,
-                            input_name=output_input_names[key]))
+                    self._api.workflow_add_entry_connection_map(
+                        map, key, output_input_names[key]
+                    )
             else:
                 raise TypeError("output_input_names argument is expect"
                                 "to be either a str tuple or a str dict")
-
-        self._stub.Connect(request)
+            self._api.work_flow_connect_with_specified_names(self, left_workflow, map)
+        else:
+            self._api.work_flow_connect_with(self, left_workflow)
 
     @version_requires("3.0")
     def create_on_other_server(self, *args, **kwargs):
@@ -518,12 +627,10 @@ class Workflow:
         >>> #assert 'data_sources' in new_workflow.input_names
 
         """
-        from ansys.grpc.dpf import workflow_pb2
-
         server = None
         address = None
         for arg in args:
-            if isinstance(arg, dpf.core.server_types.LegacyGrpcServer):
+            if isinstance(arg, dpf.core.server_types.BaseServer):
                 server = arg
             elif isinstance(arg, str):
                 address = arg
@@ -535,27 +642,28 @@ class Workflow:
         if "server" in kwargs:
             server = kwargs["server"]
         if server:
-            text_stream = self._stub.WriteToStream(self._message)
-            return Workflow(workflow=text_stream.stream, server=server)
+            text_stream = self._api.work_flow_write_to_text(self)
+            wf = Workflow(workflow="None", server=server)
+            if wf._server.has_client():
+                wf._internal_obj = wf._api.work_flow_create_from_text_on_client(
+                    text_stream,
+                    wf._server.client)
+            else:
+                wf._internal_obj = wf._api.work_flow_create_from_text(text_stream)
+            return wf
         elif address:
-            request = workflow_pb2.RemoteCopyRequest()
-            request.wf.CopyFrom(self._message)
-            request.address = address
-            return Workflow(workflow=request, server=self._server)
+            internal_obj = self._api.work_flow_get_copy_on_other_client(self, address, "grpc")
+            return Workflow(workflow=internal_obj, server=self._server)
         else:
             raise ValueError("a connection address (either with address input"
                              "or both ip and port inputs) or a server is required")
 
-    def _connect(self):
-        """Connect to the gRPC service."""
-        from ansys.grpc.dpf import workflow_pb2_grpc
-        return workflow_pb2_grpc.WorkflowServiceStub(self._server.channel)
-
     def __del__(self):
         try:
-            self._stub.Delete(self._message)
+            if self._internal_obj is not None and self._internal_obj != "None":
+                self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
     def __str__(self):
         """Describe the entity.
@@ -565,218 +673,4 @@ class Workflow:
         description : str
         """
         from ansys.dpf.core.core import _description
-
-        return _description(self._message, self._server)
-
-    @protect_grpc
-    def __send_init_request(self, workflow):
-        from ansys.grpc.dpf import workflow_pb2, base_pb2
-
-        if server_meet_version("3.0", self._server) \
-                and isinstance(workflow, workflow_pb2.RemoteCopyRequest):
-            request = workflow_pb2.CreateRequest()
-            request.remote_copy.CopyFrom(workflow)
-        else:
-            request = base_pb2.Empty()
-            if hasattr(workflow_pb2, "CreateRequest"):
-                request = workflow_pb2.CreateRequest(empty=request)
-        self._message = self._stub.Create(request)
-
-    @protect_grpc
-    def __create_from_stream(self, string):
-        from ansys.grpc.dpf import workflow_pb2
-
-        request = workflow_pb2.TextStream(stream=string)
-        self._message = self._stub.LoadFromStream(request)
-
-
-def _write_output_type_to_proto_style(output_type, request):
-    from ansys.grpc.dpf import base_pb2
-
-    subtype = ""
-    stype = ""
-    if hasattr(output_type, "name"):
-        if output_type == types.fields_container:
-            stype = "collection"
-            subtype = "field"
-        elif output_type == types.scopings_container:
-            stype = "collection"
-            subtype = "scoping"
-        elif output_type == types.meshes_container:
-            stype = "collection"
-            subtype = "meshed_region"
-        elif hasattr(types, "vec_int") and output_type == types.vec_int:
-            stype = 'collection'
-            subtype = 'int'
-        elif hasattr(types, "vec_double") and output_type == types.vec_double:
-            stype = 'collection'
-            subtype = 'double'
-        else:
-            stype = output_type.name
-    elif isinstance(output_type, list):
-        stype = output_type[0]
-        subtype = output_type[1]
-    else:
-        stype = output_type
-    request.type = base_pb2.Type.Value(stype.upper())
-    if subtype != "":
-        request.subtype = base_pb2.Type.Value(subtype.upper())
-
-
-def _convertOutputMessageToPythonInstance(out, output_type, server):
-    from ansys.dpf.core import (
-        cyclic_support,
-        data_sources,
-        field,
-        fields_container,
-        collection,
-        meshed_region,
-        meshes_container,
-        property_field,
-        result_info,
-        scoping,
-        scopings_container,
-        time_freq_support,
-        data_tree,
-        workflow,
-    )
-
-    if out.HasField("str"):
-        return out.str
-    elif out.HasField("int"):
-        return out.int
-    elif out.HasField("double"):
-        return out.double
-    elif out.HasField("bool"):
-        return out.bool
-    elif out.HasField("field"):
-        toconvert = out.field
-        if toconvert.datatype == "int":
-            return property_field.PropertyField(server=server, property_field=toconvert)
-        else:
-            return field.Field(server=server, field=toconvert)
-    elif out.HasField("collection"):
-        toconvert = out.collection
-        if output_type == types.fields_container:
-            return fields_container.FieldsContainer(
-                server=server, fields_container=toconvert
-            )
-        elif output_type == types.scopings_container:
-            return scopings_container.ScopingsContainer(
-                server=server, scopings_container=toconvert
-            )
-        elif output_type == types.meshes_container:
-            return meshes_container.MeshesContainer(
-                server=server, meshes_container=toconvert
-            )
-        elif output_type == types.vec_int:
-            return collection.IntCollection(server=server,
-                                         collection=toconvert
-                                         ).get_integral_entries()
-        elif output_type == types.vec_double:
-            return collection.FloatCollection(server=server,
-                                         collection=toconvert
-                                         ).get_integral_entries()
-    elif out.HasField("scoping"):
-        toconvert = out.scoping
-        return scoping.Scoping(scoping=toconvert, server=server)
-    elif out.HasField("mesh"):
-        toconvert = out.mesh
-        return meshed_region.MeshedRegion(mesh=toconvert, server=server)
-    elif out.HasField("result_info"):
-        toconvert = out.result_info
-        return result_info.ResultInfo(result_info=toconvert, server=server)
-    elif out.HasField("time_freq_support"):
-        toconvert = out.time_freq_support
-        return time_freq_support.TimeFreqSupport(
-            server=server, time_freq_support=toconvert
-        )
-    elif out.HasField("data_sources"):
-        toconvert = out.data_sources
-        return data_sources.DataSources(server=server, data_sources=toconvert)
-    elif out.HasField("cyc_support"):
-        toconvert = out.cyc_support
-        return cyclic_support.CyclicSupport(server=server, cyclic_support=toconvert)
-    elif out.HasField("workflow"):
-        toconvert = out.workflow
-        return workflow.Workflow(server=server, workflow=toconvert)
-    elif out.HasField("data_tree"):
-        toconvert = out.data_tree
-        return data_tree.DataTree(server=server, data_tree=toconvert)
-
-
-def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
-    from ansys.dpf.core import (
-        collection,
-        cyclic_support,
-        data_sources,
-        field_base,
-        meshed_region,
-        model,
-        scoping,
-        workflow,
-        time_freq_support,
-        data_tree,
-    )
-
-    if isinstance(inpt, str):
-        request.str = inpt
-    elif isinstance(inpt, bool):
-        request.bool = inpt
-    elif isinstance(inpt, int):
-        request.int = inpt
-    elif isinstance(inpt, float):
-        request.double = inpt
-    elif isinstance(inpt, list):
-        if all(isinstance(x, int) for x in inpt):
-            if server_meet_version("3.0", server):
-                inpt = collection.Collection.integral_collection(inpt, server)
-                request.collection.CopyFrom(inpt._internal_obj)
-                return inpt
-            else:
-                request.vint.rep_int.extend(inpt)
-        elif all(isinstance(x, float) for x in inpt):
-            if server_meet_version("3.0", server):
-                inpt = collection.Collection.integral_collection(inpt, server)
-                request.collection.CopyFrom(inpt._internal_obj)
-                return inpt
-            else:
-                request.vdouble.rep_double.extend(inpt)
-        else:
-            errormsg = f"input type {inpt.__class__} cannot be connected"
-            raise TypeError(errormsg)
-    elif isinstance(inpt, field_base._FieldBase):
-        if isinstance(inpt._internal_obj, int):
-            raise NotImplementedError("Operator must be switched to pygate")
-        # TODO: inpt._internal_obj is a pointer in the case of CLayer
-        request.field.CopyFrom(inpt._internal_obj)
-    elif isinstance(inpt, collection.Collection):
-        request.collection.CopyFrom(inpt._internal_obj)
-    elif isinstance(inpt, scoping.Scoping):
-        request.scoping.CopyFrom(inpt._internal_obj)
-    elif isinstance(inpt, data_sources.DataSources):
-        if isinstance(inpt._internal_obj, int):
-            raise NotImplementedError("Operator must be switched to pygate")
-            # TODO: inpt._internal_obj is a pointer in the case of CLayer
-        request.data_sources.CopyFrom(inpt._internal_obj)
-    elif isinstance(inpt, model.Model):
-        request.data_sources.CopyFrom(inpt.metadata.data_sources._internal_obj)
-    elif isinstance(inpt, meshed_region.MeshedRegion):
-        request.mesh.CopyFrom(inpt._internal_obj)
-    elif isinstance(inpt, cyclic_support.CyclicSupport):
-        request.cyc_support.CopyFrom(inpt._internal_obj)
-    elif isinstance(inpt, workflow.Workflow):
-        request.workflow.CopyFrom(inpt._message)
-    elif isinstance(inpt, data_tree.DataTree):
-        request.data_tree.CopyFrom(inpt._message)
-    elif isinstance(inpt, time_freq_support.TimeFreqSupport):
-        request.time_freq_support.CopyFrom(inpt._internal_obj)
-    elif isinstance(inpt, dpf_operator.Operator):
-        request.inputop.inputop.CopyFrom(inpt._internal_obj)
-        request.inputop.pinOut = pin_out
-    elif isinstance(inpt, outputs.Output):
-        request.inputop.inputop.CopyFrom(inpt._operator._internal_obj)
-        request.inputop.pinOut = inpt._pin
-    else:
-        errormsg = f"input type {inpt.__class__} cannot be connected"
-        raise TypeError(errormsg)
+        return _description(self._internal_obj, self._server)

@@ -5,8 +5,8 @@ from ansys.dpf.core._version import __version__
 
 # environment variables for pyansys.com
 if "jupyter" in socket.gethostname():
-    if "ANSYS_PATH" not in os.environ:
-        os.environ["ANSYS_PATH"] = "/mnt/ansys_inc/v212/"
+    if "ANSYS_DPF_PATH" not in os.environ:
+        os.environ["ANSYS_DPF_PATH"] = "/mnt/ansys_inc/v212/"
     if "DPF_PATH" not in os.environ:
         os.environ["DPF_PATH"] = (
             "/mnt/ansys_inc/dpf/bin_v%s/Ans.dpf.core.Grpc.exe" % __version__
@@ -14,7 +14,7 @@ if "jupyter" in socket.gethostname():
     if "AWP_UNIT_TEST_FILES" not in os.environ:
         os.environ["AWP_UNIT_TEST_FILES"] = "/mnt/ansys_inc/dpf/test_files/"
 
-from ansys.dpf.core.misc import Report
+
 from ansys.dpf.core.dpf_operator import Operator, Config
 from ansys.dpf.core.model import Model
 from ansys.dpf.core.field import Field, FieldDefinition
@@ -48,7 +48,6 @@ from ansys.dpf.core.core import (
     upload_files_in_folder,
     download_files_in_folder,
     make_tmp_dir_server,
-    get_runtime_client_config,
 )
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.meshed_region import MeshedRegion
@@ -71,6 +70,7 @@ from ansys.dpf.core import server
 from ansys.dpf.core import check_version
 from ansys.dpf.core import path_utilities
 from ansys.dpf.core import settings
+from ansys.dpf.core.server_factory import ServerConfig, AvailableServerConfigs
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."

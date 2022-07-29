@@ -58,7 +58,9 @@ Submodules
    ansys.dpf.core.operators.result.cyclic_expanded_displacement
    ansys.dpf.core.operators.result.cyclic_expanded_el_strain
    ansys.dpf.core.operators.result.cyclic_expanded_enf
+   ansys.dpf.core.operators.result.cyclic_expanded_heat_flux
    ansys.dpf.core.operators.result.cyclic_expanded_stress
+   ansys.dpf.core.operators.result.cyclic_expanded_temperature
    ansys.dpf.core.operators.result.cyclic_expanded_velocity
    ansys.dpf.core.operators.result.cyclic_expansion
    ansys.dpf.core.operators.result.cyclic_strain_energy
@@ -94,6 +96,7 @@ Submodules
    ansys.dpf.core.operators.result.eqv_stress_parameter
    ansys.dpf.core.operators.result.euler_load_buckling
    ansys.dpf.core.operators.result.euler_nodes
+   ansys.dpf.core.operators.result.global_to_nodal
    ansys.dpf.core.operators.result.heat_flux
    ansys.dpf.core.operators.result.heat_flux_X
    ansys.dpf.core.operators.result.heat_flux_Y
@@ -109,6 +112,8 @@ Submodules
    ansys.dpf.core.operators.result.joint_relative_rotation
    ansys.dpf.core.operators.result.joint_relative_velocity
    ansys.dpf.core.operators.result.kinetic_energy
+   ansys.dpf.core.operators.result.mapdl_material_properties
+   ansys.dpf.core.operators.result.mapdl_section
    ansys.dpf.core.operators.result.material_property_of_element
    ansys.dpf.core.operators.result.members_in_bending_not_certified
    ansys.dpf.core.operators.result.members_in_compression_not_certified
@@ -129,6 +134,7 @@ Submodules
    ansys.dpf.core.operators.result.nodal_force
    ansys.dpf.core.operators.result.nodal_moment
    ansys.dpf.core.operators.result.nodal_rotation_by_euler_nodes
+   ansys.dpf.core.operators.result.nodal_to_global
    ansys.dpf.core.operators.result.normal_contact_force
    ansys.dpf.core.operators.result.normal_contact_moment
    ansys.dpf.core.operators.result.num_surface_status_changes

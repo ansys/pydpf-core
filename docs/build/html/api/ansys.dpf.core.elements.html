@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Elements &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Elements &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -25,10 +25,12 @@
     
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,10 +38,11 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="ansys.dpf.core.errors.html" />
+    <link rel="next" title="Errors" href="ansys.dpf.core.errors.html" />
     <link rel="prev" title="Element Descriptor" href="ansys.dpf.core.element_descriptor.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -181,7 +184,17 @@
      <i class="fas fa-chevron-down">
      </i>
     </label>
-    <ul class="simple">
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.downloads.html">
+       Downloads
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.examples.html">
+       Result Files Examples
+      </a>
+     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -454,6 +467,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.prepare_mapping_workflow.html">
+         prepare_mapping_workflow
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html">
          rotate
         </a>
@@ -563,6 +581,16 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort.html">
+         ascending_sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort_fc.html">
+         ascending_sort_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector.html">
          component_selector
         </a>
@@ -570,6 +598,26 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector_fc.html">
          component_selector_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_double.html">
+         custom_set_out_np_double
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.custom_set_out_np_int.html">
+         custom_set_out_np_int
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
+         descending_sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort_fc.html">
+         descending_sort_fc
         </a>
        </li>
        <li class="toctree-l4">
@@ -777,6 +825,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.custom_add_to_field.html">
+         custom_add_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.dot.html">
          dot
         </a>
@@ -869,6 +922,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.math.matrix_inverse.html">
          matrix_inverse
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.min_max_over_time.html">
+         min_max_over_time
         </a>
        </li>
        <li class="toctree-l4">
@@ -1029,8 +1087,23 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.acmo_mesh_provider.html">
+         acmo_mesh_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.beam_properties.html">
          beam_properties
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.combine_levelset.html">
+         combine_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.exclude_levelset.html">
+         exclude_levelset
         </a>
        </li>
        <li class="toctree-l4">
@@ -1049,8 +1122,28 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.make_plane_levelset.html">
+         make_plane_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.make_sphere_levelset.html">
+         make_sphere_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_clip.html">
+         mesh_clip
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_cut.html">
          mesh_cut
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_plan_clip.html">
+         mesh_plan_clip
         </a>
        </li>
        <li class="toctree-l4">
@@ -1076,6 +1169,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.mesh.node_coordinates.html">
          node_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.point_cloud_search.html">
+         point_cloud_search
         </a>
        </li>
        <li class="toctree-l4">
@@ -1535,8 +1633,18 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_heat_flux.html">
+         cyclic_expanded_heat_flux
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_stress.html">
          cyclic_expanded_stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_temperature.html">
+         cyclic_expanded_temperature
         </a>
        </li>
        <li class="toctree-l4">
@@ -1715,6 +1823,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_to_nodal.html">
+         global_to_nodal
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.heat_flux.html">
          heat_flux
         </a>
@@ -1787,6 +1900,16 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.kinetic_energy.html">
          kinetic_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_material_properties.html">
+         mapdl_material_properties
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_section.html">
+         mapdl_section
         </a>
        </li>
        <li class="toctree-l4">
@@ -1887,6 +2010,11 @@
        <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_rotation_by_euler_nodes.html">
          nodal_rotation_by_euler_nodes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_to_global.html">
+         nodal_to_global
         </a>
        </li>
        <li class="toctree-l4">
@@ -2354,6 +2482,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.gltf_export.html">
+         gltf_export
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html">
          json_to_data_tree
         </a>
@@ -2642,6 +2775,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.custom_operator.html">
+     Custom Operator Base
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.cyclic_support.html">
      Cyclic Support
     </a>
@@ -2677,6 +2815,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.errors.html">
+     Errors
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.field.html">
      Field
     </a>
@@ -2699,6 +2842,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.fields_factory.html">
      fields_factory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.inputs.html">
+     Inputs
     </a>
    </li>
    <li class="toctree-l2">
@@ -2727,6 +2875,16 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.operator_specification.html">
+     Operator Specification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.outputs.html">
+     Outputs
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.path_utilities.html">
      path_utilities
     </a>
@@ -2752,6 +2910,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.runtime_config.html">
+     RuntimeConfig
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.scoping.html">
      Scoping
     </a>
@@ -2764,6 +2927,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ansys.dpf.core.server.html">
      Server
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server_factory.html">
+     Server factory, server configuration and communication protocols
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server_types.html">
+     Server types
     </a>
    </li>
    <li class="toctree-l2">
@@ -3212,8 +3385,8 @@ and <code class="docutils literal notranslate"><span class="pre">&quot;unknown_s
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">static_rst</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">elements</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">elements</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">elements</span><span class="o">.</span><span class="n">element_types_field</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">data</span>
-<span class="go">array([1, 1, 1, 1, 1, 1, 1, 1])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="go">[1 1 1 1 1 1 1 1]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -3236,8 +3409,8 @@ and <code class="docutils literal notranslate"><span class="pre">&quot;unknown_s
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">static_rst</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">elements</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">elements</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">elements</span><span class="o">.</span><span class="n">materials_field</span><span class="o">.</span><span class="n">data</span>
-<span class="go">array([1, 1, 1, 1, 1, 1, 1, 1])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">elements</span><span class="o">.</span><span class="n">materials_field</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="go">[1 1 1 1 1 1 1 1]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -3481,195 +3654,197 @@ and <code class="docutils literal notranslate"><span class="pre">&quot;unknown_s
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="py class enum">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.elements.</span></span><span class="sig-name descname"><span class="pre">element_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.elements.element_types" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">enum</span> </em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.elements.</span></span><span class="sig-name descname"><span class="pre">element_types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.elements.element_types" title="Permalink to this definition">¶</a></dt>
 <dd><p>Types of elements available in a dpf’s mesh.</p>
+<p>Valid values are as follows:</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.General">
-<span class="sig-name descname"><span class="pre">General</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.General" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">General</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.General:</span> <span class="pre">-2&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.General" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.All">
-<span class="sig-name descname"><span class="pre">All</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.All" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">All</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.All:</span> <span class="pre">-1&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.All" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Tet10">
-<span class="sig-name descname"><span class="pre">Tet10</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Tet10" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Tet10</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Tet10:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Tet10" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Hex20">
-<span class="sig-name descname"><span class="pre">Hex20</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Hex20" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Hex20</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Hex20:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Hex20" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Wedge15">
-<span class="sig-name descname"><span class="pre">Wedge15</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Wedge15" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Wedge15</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Wedge15:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Wedge15" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Pyramid13">
-<span class="sig-name descname"><span class="pre">Pyramid13</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Pyramid13" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Pyramid13</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Pyramid13:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Pyramid13" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Tri6">
-<span class="sig-name descname"><span class="pre">Tri6</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Tri6" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Tri6</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Tri6:</span> <span class="pre">4&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Tri6" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.TriShell6">
-<span class="sig-name descname"><span class="pre">TriShell6</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.TriShell6" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">TriShell6</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.TriShell6:</span> <span class="pre">5&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.TriShell6" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Quad8">
-<span class="sig-name descname"><span class="pre">Quad8</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Quad8" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Quad8</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Quad8:</span> <span class="pre">6&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Quad8" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.QuadShell8">
-<span class="sig-name descname"><span class="pre">QuadShell8</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.QuadShell8" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">QuadShell8</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.QuadShell8:</span> <span class="pre">7&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.QuadShell8" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Line3">
-<span class="sig-name descname"><span class="pre">Line3</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Line3" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Line3</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Line3:</span> <span class="pre">8&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Line3" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Point1">
-<span class="sig-name descname"><span class="pre">Point1</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Point1" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Point1</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Point1:</span> <span class="pre">9&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Point1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Tet4">
-<span class="sig-name descname"><span class="pre">Tet4</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Tet4" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Tet4</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Tet4:</span> <span class="pre">10&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Tet4" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Hex8">
-<span class="sig-name descname"><span class="pre">Hex8</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Hex8" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Hex8</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Hex8:</span> <span class="pre">11&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Hex8" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Wedge6">
-<span class="sig-name descname"><span class="pre">Wedge6</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Wedge6" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Wedge6</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Wedge6:</span> <span class="pre">12&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Wedge6" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Pyramid5">
-<span class="sig-name descname"><span class="pre">Pyramid5</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Pyramid5" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Pyramid5</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Pyramid5:</span> <span class="pre">13&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Pyramid5" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Tri3">
-<span class="sig-name descname"><span class="pre">Tri3</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Tri3" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Tri3</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Tri3:</span> <span class="pre">14&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Tri3" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.TriShell3">
-<span class="sig-name descname"><span class="pre">TriShell3</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.TriShell3" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">TriShell3</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.TriShell3:</span> <span class="pre">15&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.TriShell3" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Quad4">
-<span class="sig-name descname"><span class="pre">Quad4</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Quad4" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Quad4</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Quad4:</span> <span class="pre">16&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Quad4" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.QuadShell4">
-<span class="sig-name descname"><span class="pre">QuadShell4</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.QuadShell4" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">QuadShell4</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.QuadShell4:</span> <span class="pre">17&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.QuadShell4" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Line2">
-<span class="sig-name descname"><span class="pre">Line2</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Line2" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Line2</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Line2:</span> <span class="pre">18&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Line2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.NumElementTypes">
-<span class="sig-name descname"><span class="pre">NumElementTypes</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.NumElementTypes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">NumElementTypes</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.NumElementTypes:</span> <span class="pre">19&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.NumElementTypes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Unknown">
-<span class="sig-name descname"><span class="pre">Unknown</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Unknown" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Unknown</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Unknown:</span> <span class="pre">20&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Unknown" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.EMagLine">
-<span class="sig-name descname"><span class="pre">EMagLine</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.EMagLine" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">EMagLine</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.EMagLine:</span> <span class="pre">21&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.EMagLine" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.EMagArc">
-<span class="sig-name descname"><span class="pre">EMagArc</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.EMagArc" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">EMagArc</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.EMagArc:</span> <span class="pre">22&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.EMagArc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.EMagCircle">
-<span class="sig-name descname"><span class="pre">EMagCircle</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.EMagCircle" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">EMagCircle</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.EMagCircle:</span> <span class="pre">23&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.EMagCircle" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Surface3">
-<span class="sig-name descname"><span class="pre">Surface3</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Surface3" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Surface3</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Surface3:</span> <span class="pre">24&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Surface3" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Surface4">
-<span class="sig-name descname"><span class="pre">Surface4</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Surface4" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Surface4</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Surface4:</span> <span class="pre">25&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Surface4" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Surface6">
-<span class="sig-name descname"><span class="pre">Surface6</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Surface6" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Surface6</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Surface6:</span> <span class="pre">26&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Surface6" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Surface8">
-<span class="sig-name descname"><span class="pre">Surface8</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Surface8" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Surface8</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Surface8:</span> <span class="pre">27&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Surface8" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Edge2">
-<span class="sig-name descname"><span class="pre">Edge2</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Edge2" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Edge2</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Edge2:</span> <span class="pre">28&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Edge2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Edge3">
-<span class="sig-name descname"><span class="pre">Edge3</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Edge3" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Edge3</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Edge3:</span> <span class="pre">29&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Edge3" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Beam3">
-<span class="sig-name descname"><span class="pre">Beam3</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Beam3" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Beam3</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Beam3:</span> <span class="pre">30&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Beam3" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Beam4">
-<span class="sig-name descname"><span class="pre">Beam4</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Beam4" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Beam4</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Beam4:</span> <span class="pre">31&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Beam4" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.GeneralPlaceholder">
-<span class="sig-name descname"><span class="pre">GeneralPlaceholder</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.GeneralPlaceholder" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">GeneralPlaceholder</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.GeneralPlaceholder:</span> <span class="pre">32&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.GeneralPlaceholder" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Polygon">
-<span class="sig-name descname"><span class="pre">Polygon</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Polygon" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Polygon</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Polygon:</span> <span class="pre">33&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Polygon" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.Polyhedron">
-<span class="sig-name descname"><span class="pre">Polyhedron</span></span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Polyhedron" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Polyhedron</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;element_types.Polyhedron:</span> <span class="pre">34&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.elements.element_types.Polyhedron" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code> and its members also have the following methods:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ansys.dpf.core.elements.element_types.shape">
 <em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.elements.element_types.shape" title="Permalink to this definition">¶</a></dt>

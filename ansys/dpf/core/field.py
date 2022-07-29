@@ -46,7 +46,7 @@ class Field(_FieldBase):
         - ``"ElementalNodal"``
 
     field : Field, ansys.grpc.dpf.field_pb2.Field, ctypes.c_void_p, optional
-        Field message generated from a gRPC stub.
+        Field message generated from a gRPC stub, or return by DPF's C clients.
     server : :class:`ansys.dpf.core.server`, optional
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
@@ -111,7 +111,7 @@ class Field(_FieldBase):
         """Initialize the field either with an optional field message or
         by connecting to a stub.
         """
-        super().__init__(nentities, nature, location, False, field, server)
+        super().__init__(nentities, nature, location, field, server)
         self._field_definition = self._load_field_definition()
 
     @property
@@ -122,22 +122,34 @@ class Field(_FieldBase):
         return self._api_instance
 
     @staticmethod
-    def _field_create_internal_obj(api: field_abstract_api.FieldAbstractAPI, client, nature, nentities,
-                                   location=locations.nodal, ncomp_n=0, ncomp_m=0):
+    def _field_create_internal_obj(
+            api: field_abstract_api.FieldAbstractAPI,
+            client,
+            nature,
+            nentities,
+            location=locations.nodal,
+            ncomp_n=0,
+            ncomp_m=0
+    ):
         dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
 
         if dim.is_1d_dim():
             if client is not None:
-                return api.field_new_with1_ddimensionnality_on_client(client, dim.nature.value, dim.dim[0], nentities,
-                                                                      location)
+                return api.field_new_with1_ddimensionnality_on_client(
+                    client, dim.nature.value, dim.dim[0], nentities, location)
             else:
-                return api.field_new_with1_ddimensionnality(dim.nature.value, dim.dim[0], nentities, location)
+                return api.field_new_with1_ddimensionnality(
+                    dim.nature.value, dim.dim[0], nentities, location
+                )
         elif dim.is_2d_dim():
             if client is not None:
-                return api.field_new_with2_ddimensionnality_on_client(client, dim.nature.value, dim.dim[0], dim.dim[1],
-                                                                      nentities, location)
+                return api.field_new_with2_ddimensionnality_on_client(
+                    client, dim.nature.value, dim.dim[0], dim.dim[1], nentities, location
+                )
             else:
-                return api.field_new_with2_ddimensionnality(dim.nature.value, dim.dim[0], dim.dim[1], nentities, location)
+                return api.field_new_with2_ddimensionnality(
+                    dim.nature.value, dim.dim[0], dim.dim[1], nentities, location
+                )
         else:
             raise AttributeError("Unable to parse field's attributes to create an instance.")
 
@@ -275,7 +287,9 @@ class Field(_FieldBase):
     def get_entity_data(self, index):
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
-            self._api.csfield_get_entity_data_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size, index)
+            self._api.csfield_get_entity_data_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size, index
+            )
             data = dpf_array.DPFArray(vec)
 
         except NotImplementedError:
@@ -288,8 +302,8 @@ class Field(_FieldBase):
     def get_entity_data_by_id(self, id):
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
-            self._api.csfield_get_entity_data_by_id_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size,
-                                                                   id)
+            self._api.csfield_get_entity_data_by_id_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size, id)
             data = dpf_array.DPFArray(vec)
 
         except NotImplementedError:
@@ -311,7 +325,9 @@ class Field(_FieldBase):
     def _get_data_pointer(self):
         try:
             vec = dpf_vector.DPFVectorInt(client=self._server.client)
-            self._api.csfield_get_data_pointer_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
+            self._api.csfield_get_data_pointer_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size
+            )
             return dpf_array.DPFArray(vec)
 
         except NotImplementedError:
@@ -323,7 +339,9 @@ class Field(_FieldBase):
     def _get_data(self, np_array=True):
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
-            self._api.csfield_get_data_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
+            self._api.csfield_get_data_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size
+            )
             data = dpf_array.DPFArray(vec) if np_array else dpf_array.DPFArray(vec).tolist()
         except NotImplementedError:
             data = self._api.csfield_get_data(self, np_array)
@@ -373,7 +391,9 @@ class Field(_FieldBase):
         op.inputs.connect(self)
         return op.outputs.field()
 
-    def plot(self, notebook=None, shell_layers=None):
+    def plot(self, shell_layers=None,
+             deform_by=None, scale_factor=1.0,
+             **kwargs):
         """Plot the field or fields container on the mesh support if it exists.
 
         Warning
@@ -395,16 +415,23 @@ class Field(_FieldBase):
 
         Parameters
         ----------
-        notebook : bool, optional
-            Whether the plotting is in the notebook as
-            a static image or is a dynamic plot outside of the
-            notebook. The default is ``None``.
         shell_layers : shell_layers, optional
             Enum used to set the shell layers if the model to plot
             contains shell elements. The default is ``None``.
+        deform_by : Field, Result, Operator, optional
+            Used to deform the plotted mesh. Must output a 3D vector field.
+            Defaults to None.
+        scale_factor : float, optional
+            Scaling factor to apply when warping the mesh. Defaults to 1.0.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For additional keyword
+            arguments, see ``help(pyvista.plot)``.
         """
-        pl = Plotter(self.meshed_region)
-        pl.plot_contour(self, notebook, shell_layers)
+        pl = Plotter(self.meshed_region, **kwargs)
+        return pl.plot_contour(self, shell_layers, deform_by=deform_by,
+                               scale_factor=scale_factor,
+                               show_axes=kwargs.pop("show_axes", True),
+                               **kwargs)
 
     def resize(self, nentities, datasize):
         """Allocate memory.
@@ -770,4 +797,5 @@ class _LocalField(_LocalFieldBase, Field):
 
     def __init__(self, field):
         self._is_property_field = False
-        super().__init__(field)
+        Field.__init__(self, field=field)
+        _LocalFieldBase.__init__(self, field)

@@ -2,7 +2,8 @@ import numpy as np
 import pytest
 
 from ansys import dpf
-from conftest import SERVER_VERSION_HIGHER_THAN_3_0
+import conftest
+import copy
 from ansys.dpf.core import Scoping
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.check_version import meets_version, get_server_version
@@ -19,8 +20,9 @@ def test_create_scoping():
     assert scop._internal_obj
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Copying data is '
+                           'supported starting server version 3.0')
 def test_createbycopy_scoping(server_type):
     scop = Scoping(server=server_type)
     scop2 = Scoping(scoping=scop, server=server_type)
@@ -28,7 +30,8 @@ def test_createbycopy_scoping(server_type):
 
 
 def test_create_scoping_with_ids_location(server_type):
-    scop = Scoping(ids=[1, 2, 3, 5, 8, 9, 10], location=dpf.core.locations.elemental, server=server_type)
+    scop = Scoping(ids=[1, 2, 3, 5, 8, 9, 10], location=dpf.core.locations.elemental,
+                   server=server_type)
     assert scop._internal_obj
     assert np.allclose(scop.ids, [1, 2, 3, 5, 8, 9, 10])
     assert scop.location == dpf.core.locations.elemental
@@ -50,6 +53,26 @@ def test_set_get_ids_long_scoping():
     scop.ids = ids
     assert np.allclose(scop.ids, ids)
     assert len(scop) == len(ids)
+
+
+def test_get_ids_return_type_scoping(server_type):
+    scop = Scoping(server=server_type)
+    ids = [1, 2, 3, 5, 8, 9, 10]
+    scop.ids = ids
+    assert np.allclose(scop.ids, ids)
+    assert isinstance(scop.ids, np.ndarray)
+    client_config = dpf.core.settings.get_runtime_client_config(server=server_type)
+    return_arrays_init = client_config.return_arrays
+    client_config.return_arrays = False
+    assert np.allclose(scop.ids, ids)
+    assert isinstance(scop.ids, list)
+    client_config.return_arrays = return_arrays_init
+    assert np.allclose(scop.ids, ids)
+    assert isinstance(scop.ids, np.ndarray)
+    assert np.allclose(scop._get_ids(True), ids)
+    assert isinstance(scop._get_ids(True), np.ndarray)
+    assert np.allclose(scop._get_ids(False), ids)
+    assert isinstance(scop._get_ids(False), list)
 
 
 def test_get_location_scoping():
@@ -120,8 +143,8 @@ def test_delete_scoping(server_type):
         scop.ids
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Copying data is supported starting server version 3.0')
 def test_delete_auto_scoping(server_type):
     scop = Scoping(server=server_type)
     scop2 = Scoping(scoping=scop)
@@ -150,9 +173,9 @@ def test_throw_if_unsufficient_version():
 @pytest.mark.skipif(
     not SERVER_VERSION_HIGHER_THAN_2_0, reason="Requires server version higher than 2.0"
 )
-def test_field_with_scoping_many_ids(allkindofcomplexity):
+def test_field_with_scoping_many_ids(allkindofcomplexity, server_type):
     # set scoping ids with a scoping created from a model
-    model = dpf.core.Model(allkindofcomplexity)
+    model = dpf.core.Model(allkindofcomplexity, server=server_type)
     mesh = model.metadata.meshed_region
     nnodes = mesh.nodes.n_nodes
     assert nnodes == 15129
@@ -172,7 +195,7 @@ def test_field_with_scoping_many_ids(allkindofcomplexity):
     assert np.allclose(new_modif_nod_ids, modif_nod_ids)
 
     # set scoping ids with a scoping created from scratch
-    scop = dpf.core.Scoping()
+    scop = dpf.core.Scoping(server=server_type)
     ids = range(1, 1000000)
     scop.ids = ids
     ids_check = scop.ids
@@ -254,3 +277,21 @@ def test_auto_delete_scoping_local():
     del s
     with scop.as_local_scoping() as s:
         assert s[0] == 1
+
+
+@conftest.raises_for_servers_version_under("4.0")
+def test_mutable_ids_data(server_clayer):
+    scop = Scoping(server=server_clayer)
+    scop.ids = range(1, int(2e6))
+    data = scop.ids
+    data_copy = copy.deepcopy(data)
+    data[0] += 1
+    data.commit()
+    changed_data = scop.ids
+    assert np.allclose(changed_data, data)
+    assert not np.allclose(changed_data, data_copy)
+    assert np.allclose(changed_data[0], data_copy[0] + 1)
+    data[0] += 1
+    data = None
+    changed_data = scop.ids
+    assert np.allclose(changed_data[0], data_copy[0] + 2)

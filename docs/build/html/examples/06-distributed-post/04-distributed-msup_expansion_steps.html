@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Distributed msup distributed modal response &#8212; PyDPF-Core 0.5.dev0 documentation</title>
+    <title>Distributed msup distributed modal response &#8212; PyDPF-Core 0.5.1 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -25,10 +25,12 @@
     
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
@@ -36,6 +38,7 @@
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -394,6 +397,27 @@
   </a>
  </li>
 </ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/00-wrapping_numpy_capabilities.html">
+   Write user defined Operator
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/01-package_python_operators.html">
+   Write user defined Operators as a package
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-python-operators/02-python_operators_with_dependencies.html">
+   Write user defined Operators having third party dependencies
+  </a>
+ </li>
+</ul>
 
   </div>
 </nav>
@@ -476,7 +500,9 @@ on distributed processes. The modal basis (2 distributed files) is read
 on 2 remote servers and the modal response (2 distributed files) reading and the expansion is
 done on a third server.</p>
 <p>Import dpf module and its examples files</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os.path</span>
+
+<span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
 </pre></div>
@@ -521,13 +547,13 @@ but we could get connected to any existing servers on the network.</p>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ips: [&#39;127.0.0.1&#39;, &#39;127.0.0.1&#39;]
-ports: [50054, 50056]
+ports: [50070, 50071]
 </pre></div>
 </div>
 <p>Choose the file path</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">base_path</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">distributed_msup_folder</span>
-<span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">base_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;/file0.mode&#39;</span><span class="p">,</span> <span class="n">base_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;/file1.mode&#39;</span><span class="p">]</span>
-<span class="n">files_aux</span> <span class="o">=</span> <span class="p">[</span><span class="n">base_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;/file0.rst&#39;</span><span class="p">,</span> <span class="n">base_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;/file1.rst&#39;</span><span class="p">]</span>
+<span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;file0.mode&quot;</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;file1.mode&quot;</span><span class="p">)]</span>
+<span class="n">files_aux</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;file0.rst&quot;</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;file1.rst&quot;</span><span class="p">)]</span>
 </pre></div>
 </div>
 </section>
@@ -552,11 +578,15 @@ and expand the modal response with the modal basis</p>
 <span class="n">merge</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">merge_fields_containers</span><span class="p">()</span>
 <span class="n">merge_mesh</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">merge_meshes</span><span class="p">()</span>
 
-<span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">base_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;/file_load_1.rfrq&#39;</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;file_load_1.rfrq&quot;</span><span class="p">))</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds</span><span class="p">)</span>
 <span class="n">response</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">(</span><span class="n">merge_mesh</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">merges_mesh</span><span class="p">)</span>
 
-<span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">base_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;/file_load_2.rfrq&#39;</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;file_load_2.rfrq&quot;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">walk</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span><span class="p">)</span> <span class="ow">in</span> <span class="n">walk</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
 <span class="n">response2</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds</span><span class="p">)</span>
 <span class="n">response2fc</span> <span class="o">=</span> <span class="n">response2</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 <span class="n">response2fc</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">set_id</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -578,17 +608,23 @@ and expand the modal response with the modal basis</p>
 <span class="n">local_workflow</span><span class="o">.</span><span class="n">set_output_name</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="n">merge_mesh</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">merges_mesh</span><span class="p">)</span>
 </pre></div>
 </div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;file0.mode&#39;, &#39;file0.rst&#39;, &#39;file1.mode&#39;, &#39;file1.rst&#39;, &#39;file_load_1.rfrq&#39;, &#39;file_load_2.rfrq&#39;]
+</pre></div>
+</div>
 </section>
 <section id="connect-the-workflows-together-and-get-the-output">
 <h1>Connect the workflows together and get the output<a class="headerlink" href="#connect-the-workflows-together-and-get-the-output" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">server</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">remote_servers</span><span class="p">):</span>
-    <span class="n">local_workflow</span><span class="o">.</span><span class="n">connect_with</span><span class="p">(</span><span class="n">remote_workflows</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">{</span><span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s2">&quot;outmesh&quot;</span><span class="p">:</span> <span class="s2">&quot;inmesh&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)})</span>
+    <span class="n">local_workflow</span><span class="o">.</span><span class="n">connect_with</span><span class="p">(</span><span class="n">remote_workflows</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                <span class="p">{</span><span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s2">&quot;outmesh&quot;</span><span class="p">:</span> <span class="s2">&quot;inmesh&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)})</span>
 
 <span class="n">fc</span> <span class="o">=</span> <span class="n">local_workflow</span><span class="o">.</span><span class="n">get_output</span><span class="p">(</span><span class="s2">&quot;expanded&quot;</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">fields_container</span><span class="p">)</span>
 <span class="n">merged_mesh</span> <span class="o">=</span> <span class="n">local_workflow</span><span class="o">.</span><span class="n">get_output</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">meshed_region</span><span class="p">)</span>
 <span class="n">merged_mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 <span class="n">merged_mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">fc</span><span class="p">)</span>
+<span class="n">dpf</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">shutdown_all_session_servers</span><span class="p">()</span>
 </pre></div>
 </div>
 <ul class="sphx-glr-horizontal">
@@ -643,7 +679,7 @@ and expand the modal response with the modal basis</p>
   - field 39 {complex:  1, time:  20} with Nodal location, 1 components and 1065 entities.
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.650 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.918 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-06-distributed-post-04-distributed-msup-expansion-steps-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/5ee5fe709a2f3066af4d96e32a9a2c4a/04-distributed-msup_expansion_steps.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">04-distributed-msup_expansion_steps.py</span></code></a></p>
