@@ -363,7 +363,9 @@ class LocalServers:
         except:
             for iter in range(0, self._max_iter):
                 try:
-                    self._local_servers[item] = core.start_local_server(as_global=False, config=conf)
+                    self._local_servers[item] = core.start_local_server(
+                        as_global=False, config=conf
+                    )
                     self._local_servers[item].info
                     break
                 except:
