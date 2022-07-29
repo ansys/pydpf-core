@@ -413,7 +413,7 @@ jobs:
           files: |
             ./**/*.whl
             ./**/*.tar.gz
-            ./**/*.pdf
+            ./**/*Documentation*.pdf
             ./**/*.zip
           draft: true
           generate_release_notes: true
