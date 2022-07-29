@@ -594,6 +594,7 @@ def test_throws_error(allkindofcomplexity):
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
 def test_flush_workflows_session(allkindofcomplexity):
+    dpf.core.start_local_server()
     model = dpf.core.Model(allkindofcomplexity)
     wf = dpf.core.Workflow()
     op = model.results.stress()
@@ -625,6 +626,7 @@ def test_flush_workflows_session(allkindofcomplexity):
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_workflow(local_server):
+    dpf.core.start_local_server()
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -640,6 +642,7 @@ def test_create_on_other_server_workflow(local_server):
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server2_workflow(local_server):
+    dpf.core.start_local_server()
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
