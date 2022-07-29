@@ -23,7 +23,8 @@ depth = 0.1
 num_nodes_in_length = 10
 num_nodes_in_width = 5
 num_nodes_in_depth = 10
-mesh = dpf.MeshedRegion()
+mesh_iterative = dpf.MeshedRegion()
+mesh_from_fields = dpf.MeshedRegion()
 
 
 def search_sequence_numpy(arr, seq):
@@ -38,8 +39,9 @@ def search_sequence_numpy(arr, seq):
 
 
 ###############################################################################
-# Add nodes:
-id = 1
+# Add nodes iteratively to the mesh, or create an array of coordinates
+node_id = 1
+coordinates_array = np.ndarray(shape=(0, 3))
 for i, x in enumerate(
         [
             float(i) * length / float(num_nodes_in_length)
@@ -58,24 +60,36 @@ for i, x in enumerate(
                     for i in range(0, num_nodes_in_depth)
                 ]
         ):
-            mesh.nodes.add_node(id, [x, y, z])
-            id += 1
+            mesh_iterative.nodes.add_node(node_id, [x, y, z])
+            np.append(coordinates_array, [x, y, z])
+
+            node_id += 1
 
 ###############################################################################
-# Get the nodes' coordinates field:
-coordinates = mesh.nodes.coordinates_field
+# Get the nodes' coordinates field from the mesh created iteratively:
+coordinates = mesh_iterative.nodes.coordinates_field
+
+###############################################################################
+# Alternatively, one can set the coordinates field of a mesh,
+# triggering creation of the nodes:
+coordinates_custom_field = dpf.fields_factory.field_from_array(coordinates_array)
+mesh_from_fields.set_coordinates_field(coordinates_custom_field)
 
 ###############################################################################
 # Set the mesh unit:
-mesh.unit = "mm"
+mesh_iterative.unit = "mm"
 
+# Get the data from a field
 coordinates_data = coordinates.data
 flat_coordinates_data = coordinates_data.reshape(coordinates_data.size)
+# Get the scoping of a field
 coordinates_scoping = coordinates.scoping
 
 ###############################################################################
-# Add solid elements (linear hexa with eight nodes):
-id = 1
+# Add solid elements (linear hexa with eight nodes) iteratively to a mesh,
+# or create a connectivity array:
+element_id = 1
+connectivity_array = []
 for i, x in enumerate(
         [
             float(i) * length / float(num_nodes_in_length)
@@ -111,8 +125,38 @@ for i, x in enumerate(
             tmp = connectivity[6]
             connectivity[6] = connectivity[7]
             connectivity[7] = tmp
-            mesh.elements.add_solid_element(id, connectivity)
-mesh.plot()
+            mesh_iterative.elements.add_solid_element(element_id, connectivity)
+            connectivity_array.extend(connectivity)
+
+            element_id += 1
+
+###############################################################################
+# Get the elements' connectivity field from the mesh created iteratively:
+connectivity = mesh_iterative.elements.connectivities_field
+
+###############################################################################
+# Alternatively, one can set the connectivity, element type, and material
+# fields of a mesh, triggering creation of the elements:
+connectivity_field = dpf.PropertyField(nentities=len(connectivity_array))
+connectivity_field.data = connectivity_array
+mesh_from_fields.set_property_field(dpf.common.elemental_properties.connectivity,
+                                    connectivity_field)
+# Set the element type field of a mesh:
+element_type_field = dpf.PropertyField(nentities=element_id)
+element_type_field.data = [11]*element_id  # 11 for Hex8 (see dpf.elements.element_types)
+mesh_from_fields.set_property_field(dpf.common.elemental_properties.element_type,
+                                    element_type_field)
+
+# Set the material field of a mesh:
+material_field = dpf.PropertyField(nentities=element_id)
+material_field.data = [1]*element_id
+mesh_from_fields.set_property_field(dpf.common.elemental_properties.material,
+                                    material_field)
+
+###############################################################################
+# Plot the resulting meshes, they are identical:
+mesh_iterative.plot()
+mesh_from_fields.plot()
 
 ###############################################################################
 # Create displacement fields over time with three time sets.
@@ -122,7 +166,7 @@ mesh.plot()
 # and z coordinates for time 2.
 # The displacement on each node will be three times the value of its x,
 # y, and z coordinates for time 3.
-num_nodes = mesh.nodes.n_nodes
+num_nodes = mesh_iterative.nodes.n_nodes
 time1_array = coordinates_data
 time2_array = 2.0 * coordinates_data
 time3_array = 3.0 * coordinates_data
@@ -139,9 +183,9 @@ time1_field.data = time1_array
 time2_field.data = time2_array
 time3_field.data = time3_array
 
-time1_field.unit = mesh.unit
-time2_field.unit = mesh.unit
-time3_field.unit = mesh.unit
+time1_field.unit = mesh_iterative.unit
+time2_field.unit = mesh_iterative.unit
+time3_field.unit = mesh_iterative.unit
 
 ###############################################################################
 # Create results over times in a fields container with its time frequency support:
@@ -157,6 +201,6 @@ print(fc.time_freq_support)
 # Plot the norm over time of the fields container:
 norm = ops.math.norm_fc(fc)
 fc_norm = norm.outputs.fields_container()
-mesh.plot(fc_norm.get_field_by_time_complex_ids(1))
-mesh.plot(fc_norm.get_field_by_time_complex_ids(2))
-mesh.plot(fc_norm.get_field_by_time_complex_ids(3))
+mesh_iterative.plot(fc_norm.get_field_by_time_complex_ids(1))
+mesh_iterative.plot(fc_norm.get_field_by_time_complex_ids(2))
+mesh_iterative.plot(fc_norm.get_field_by_time_complex_ids(3))
