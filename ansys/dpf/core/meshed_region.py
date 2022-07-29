@@ -270,6 +270,7 @@ class MeshedRegion:
         coordinates_field : PropertyField or Field
         """
         self._api.meshed_region_set_coordinates_field(self, coordinates_field)
+        self.nodes.up_to_date = False
 
     @property
     def available_named_selections(self):

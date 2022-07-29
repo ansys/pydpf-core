@@ -155,7 +155,7 @@ mesh_from_fields.set_property_field(dpf.common.elemental_properties.material,
 
 ###############################################################################
 # Plot the resulting meshes, they are identical:
-mesh_iterative.plot()
+# mesh_iterative.plot()
 mesh_from_fields.plot()
 
 ###############################################################################

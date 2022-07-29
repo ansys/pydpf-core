@@ -121,6 +121,7 @@ class Nodes:
         self._mesh = mesh
         self._server = mesh._server
         self._mapping_id_to_index = None
+        self.up_to_date = False
 
     def __str__(self):
         return f"DPF Node collection with {len(self)} nodes\n"
@@ -281,8 +282,9 @@ class Nodes:
 
     @property
     def mapping_id_to_index(self):
-        if self._mapping_id_to_index is None:
+        if self._mapping_id_to_index is None or not self.up_to_date:
             self._mapping_id_to_index = self._build_mapping_id_to_index()
+            self.up_to_date = True
         return self._mapping_id_to_index
 
     def map_scoping(self, external_scope):
