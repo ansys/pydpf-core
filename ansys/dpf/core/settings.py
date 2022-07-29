@@ -12,7 +12,6 @@ from ansys.dpf.core.server_factory import ServerConfig  # noqa: F401
 from ansys.dpf.core import core
 
 
-
 def disable_off_screen_rendering() -> None:
     """No pop up windows appears to plot data with ``matplotlib`` or ``pyvista``"""
     # enable matplotlib off_screen plotting to avoid test interruption

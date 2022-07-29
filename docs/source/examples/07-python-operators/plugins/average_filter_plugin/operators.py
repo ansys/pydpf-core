@@ -1,5 +1,6 @@
 from ansys.dpf.core.custom_operator import CustomOperatorBase
-from ansys.dpf.core.operator_specification import CustomSpecification, PinSpecification, SpecificationProperties
+from ansys.dpf.core.operator_specification import CustomSpecification, PinSpecification,\
+    SpecificationProperties
 from ansys.dpf import core as dpf
 from average_filter_plugin import common
 
@@ -28,7 +29,10 @@ class IdsWithDataHigherThanAverage(CustomOperatorBase):
         spec.outputs = {
             0: PinSpecification("scoping", type_names=dpf.Scoping),
         }
-        spec.properties = SpecificationProperties(user_name="ids with data higher than average", category="logic")
+        spec.properties = SpecificationProperties(
+            user_name="ids with data higher than average",
+            category="logic"
+        )
         return spec
 
     @property
@@ -60,7 +64,10 @@ class IdsWithDataLowerThanAverage(CustomOperatorBase):
         spec.outputs = {
             0: PinSpecification("scoping", type_names=dpf.Scoping),
         }
-        spec.properties = SpecificationProperties(user_name="ids with data lower than average", category="logic")
+        spec.properties = SpecificationProperties(
+            user_name="ids with data lower than average",
+            category="logic"
+        )
         return spec
 
     @property

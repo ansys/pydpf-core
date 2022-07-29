@@ -1,5 +1,6 @@
 from ansys.dpf.core.custom_operator import CustomOperatorBase
-from ansys.dpf.core.operator_specification import CustomSpecification, PinSpecification, SpecificationProperties
+from ansys.dpf.core.operator_specification import CustomSpecification, PinSpecification, \
+    SpecificationProperties
 from ansys.dpf.core import types
 
 
@@ -100,7 +101,7 @@ class SetOutVecDoubleOperator(CustomOperatorBase):
 class SetOutNpArrayIntOperator(CustomOperatorBase):
     def run(self):
         import numpy
-        out = numpy.ones((100,2), dtype=numpy.int32)
+        out = numpy.ones((100, 2), dtype=numpy.int32)
         self.set_output(0, out)
         self.set_succeeded()
 
@@ -110,8 +111,10 @@ class SetOutNpArrayIntOperator(CustomOperatorBase):
         spec.outputs = {
             0: PinSpecification("flat_int_vec", type_names=types.vec_int)
         }
-        spec.description = "Sets a numpy array of shape (100,2) as output. The array is flatten by DPF."
-        spec.properties = SpecificationProperties(user_name="set out numpy array of int", category="logic")
+        spec.description = "Sets a numpy array of shape (100,2) as output. " \
+                           "The array is flatten by DPF."
+        spec.properties = SpecificationProperties(user_name="set out numpy array of int",
+                                                  category="logic")
         return spec
 
     @property
@@ -122,17 +125,19 @@ class SetOutNpArrayIntOperator(CustomOperatorBase):
 class SetOutNpArrayDoubleOperator(CustomOperatorBase):
     def run(self):
         import numpy
-        out = numpy.ones((100,2))
+        out = numpy.ones((100, 2))
         self.set_output(0, out)
         self.set_succeeded()
 
     @property
     def specification(self):
-        spec = CustomSpecification("Sets a numpy array of shape (100,2) as output. The array is flatten by DPF.")
+        spec = CustomSpecification("Sets a numpy array of shape (100,2) as output."
+                                   " The array is flatten by DPF.")
         spec.outputs = {
             0: PinSpecification("flat_double_vec", type_names=types.vec_double)
         }
-        spec.properties = SpecificationProperties(user_name="set out numpy array of double", category="logic")
+        spec.properties = SpecificationProperties(user_name="set out numpy array of double",
+                                                  category="logic")
         return spec
 
     @property

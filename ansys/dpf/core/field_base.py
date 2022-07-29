@@ -30,7 +30,9 @@ class _FieldBase:
     ):
         """Initialize the field either with an optional field message or by connecting to a stub."""
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            field._server if isinstance(field, _FieldBase) else server
+        )
 
         # step 2: get api
         self._api_instance = None  # see property self._api
@@ -364,7 +366,8 @@ class _FieldBase:
         array([[1., 2., 3.],
                [1., 2., 3.]])
         >>> field.scoping.ids
-        [1, 2]
+        <BLANKLINE>
+        ...[1, 2]...
 
         """
         pass

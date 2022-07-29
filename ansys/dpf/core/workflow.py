@@ -60,8 +60,8 @@ class Workflow:
     >>> from ansys.dpf.core import examples
     >>> data_src = dpf.DataSources(examples.multishells_rst)
     >>> workflow.connect("data_sources", data_src)
-    >>> min = workflow.get_output("min", dpf.types.field)
-    >>> max = workflow.get_output("max", dpf.types.field)
+    >>> min = workflow.get_output("min", dpf.types.field) # doctest: +SKIP
+    >>> max = workflow.get_output("max", dpf.types.field) # doctest: +SKIP
 
     """
 
@@ -127,8 +127,8 @@ class Workflow:
         >>> from ansys.dpf.core import examples
         >>> data_src = dpf.DataSources(examples.multishells_rst)
         >>> workflow.connect("data_sources", data_src)
-        >>> min = workflow.get_output("min", dpf.types.field)
-        >>> max = workflow.get_output("max", dpf.types.field)
+        >>> min = workflow.get_output("min", dpf.types.field) # doctest: +SKIP
+        >>> max = workflow.get_output("max", dpf.types.field) # doctest: +SKIP
 
         """
         if inpt is self:
@@ -136,7 +136,7 @@ class Workflow:
         elif isinstance(inpt, dpf_operator.Operator):
             self._api.work_flow_connect_operator_output(self, pin_name, inpt, pin_out)
         elif isinstance(inpt, dpf_operator.Output):
-            self._api.work_flow_connect_operator_output(self, pin_name, inpt._operator(), inpt._pin)
+            self._api.work_flow_connect_operator_output(self, pin_name, inpt._operator, inpt._pin)
         elif isinstance(inpt, list):
             from ansys.dpf.core import collection
             if server_meet_version("3.0", self._server):
@@ -336,7 +336,7 @@ class Workflow:
         >>> disp_op = model.results.displacement()
         >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
         >>> workflow.set_output_name("contour", disp_op.outputs.fields_container)
-        >>> fc = workflow.get_output("contour", dpf.types.fields_container)
+        >>> fc = workflow.get_output("contour", dpf.types.fields_container) # doctest: +SKIP
 
         """
         pin = 0
@@ -344,7 +344,7 @@ class Workflow:
         for arg in args:
             if isinstance(arg, outputs.Output):
                 pin = arg._pin
-                operator = arg._operator()
+                operator = arg._operator
             elif isinstance(arg, dpf_operator.Operator):
                 operator = arg
             elif isinstance(arg, int):
@@ -366,7 +366,7 @@ class Workflow:
         >>> workflow = dpf.Workflow()
         >>> disp_op = dpf.Operator("U")
         >>> max_op = dpf.Operator("min_max")
-        >>> workflow.add_operator([disp_op,max_op])
+        >>> workflow.add_operators([disp_op, max_op])
 
         """
         if isinstance(operators, list):
@@ -459,7 +459,7 @@ class Workflow:
         else:
             wf._internal_obj = wf._api.work_flow_get_by_identifier(id)
         if wf._internal_obj is None:
-            raise Exception("Unable to get this worklfow from the registry")
+            raise Exception("Unable to get this workflow from the registry")
         return wf
 
     @property
@@ -471,7 +471,11 @@ class Workflow:
         info : dictionarry str->list str
             Dictionary with ``"operator_names"``, ``"input_names"``, and ``"output_names"`` key.
         """
-        return {"operator_names": self.operator_names, "input_names": self.input_names, "output_names": self.output_names}
+        return {
+            "operator_names": self.operator_names,
+            "input_names": self.input_names,
+            "output_names": self.output_names,
+        }
 
     @property
     def operator_names(self):
@@ -656,7 +660,8 @@ class Workflow:
 
     def __del__(self):
         try:
-            self._deleter_func[0](self._deleter_func[1](self))
+            if self._internal_obj is not None and self._internal_obj != "None":
+                self._deleter_func[0](self._deleter_func[1](self))
         except:
             warnings.warn(traceback.format_exc())
 

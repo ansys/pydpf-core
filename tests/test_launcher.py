@@ -6,7 +6,10 @@ import subprocess
 import sys
 import io
 from ansys.dpf import core
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    DPF_SERVER_TYPE,
+)
 
 
 def test_start_local():
@@ -92,18 +95,17 @@ class TestServerConfigs:
         assert isinstance(server.os, str)
         if server_config != core.AvailableServerConfigs.InProcessServer:
             p = psutil.Process(server.info["server_process_id"])
-            ver_to_check = core._version.server_to_ansys_version[str(server.version)]
+            ver_to_check = core._version.server_to_ansys_version[
+                str(server.version)
+            ]
             ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
-            assert (
-                os.environ["AWP_ROOT" + ver_to_check]
-                in p.cwd()
-            )
+            assert os.environ["AWP_ROOT" + ver_to_check] in p.cwd()
 
     @pytest.mark.skipif(
         not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
         reason="Ans.Dpf.Grpc.bat and .sh need AWP_ROOT221 for 221 install",
     )
-    def test_start_local_ansys_path_environement_variable(self, server_config):
+    def test_start_local_ansys_path_environment_variable(self, server_config):
         awp_root = os.environ[
             "AWP_ROOT" + str(core._version.__ansys_version__)
         ]
@@ -159,8 +161,8 @@ class TestServerConfigs:
                     "from ansys.dpf import core\n"
                     "try:\n"
                     "    core.start_local_server(ansys_path='test/', use_docker_by_default=False,"
-                    "config=core.server_factory.AvailableServerConfigs.InProcessServer,\n"
-                    "            as_global=False)\n"
+                    "config=core.server_factory.AvailableServerConfigs.InProcessServer,"
+                    " as_global=False)\n"
                     "except NotADirectoryError:\n"
                     "    exit()\n"
                     "raise Exception('should have raised NotADirectoryError')\n",
@@ -171,27 +173,77 @@ class TestServerConfigs:
             errors = ""
             for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
                 errors += line
-            if process.returncode != None:
+            if process.returncode is not None:
                 raise Exception(errors)
 
 
 def test_start_local_failed_executable():
-    from ansys.dpf.core._version import __ansys_version__
-    from ansys.dpf.core.server import find_ansys
+    from ansys.dpf.core.misc import get_ansys_path
     from pathlib import Path
 
     with pytest.raises(FileNotFoundError):
-        path = Path(
-            os.environ.get("AWP_ROOT" + __ansys_version__, find_ansys())
-        ).parent.absolute()
+        path = Path(get_ansys_path()).parent.absolute()
         core.start_local_server(ansys_path=path)
 
 
 def test_server_ip(server_type_remote_process):
-    assert server_type_remote_process.ip != None
-    assert server_type_remote_process.port != None
-    assert server_type_remote_process.version != None
-    assert server_type_remote_process.info["server_process_id"] != None
-    assert server_type_remote_process.info["server_ip"] != None
-    assert server_type_remote_process.info["server_port"] != None
-    assert server_type_remote_process.info["server_version"] != None
+    assert server_type_remote_process.ip is not None
+    assert server_type_remote_process.port is not None
+    assert server_type_remote_process.version is not None
+    assert server_type_remote_process.info["server_process_id"] is not None
+    assert server_type_remote_process.info["server_ip"] is not None
+    assert server_type_remote_process.info["server_port"] is not None
+    assert server_type_remote_process.info["server_version"] is not None
+
+
+@pytest.mark.skipif(
+    DPF_SERVER_TYPE is not None,
+    reason="This test is for a run with default server type",
+)
+def test_start_with_dpf_server_type_env():
+    dpf_server_type_str = "DPF_SERVER_TYPE"
+    try_serv_type = os.environ.get(dpf_server_type_str, None)
+    if try_serv_type:
+        raise Exception(
+            "Fixture is not correctly working"
+        )  # a specific case is already set to run the unit tests
+    else:
+        if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+            # test for v222 and higher
+            os.environ[dpf_server_type_str] = "GRPC"
+            my_serv = core.start_local_server(as_global=False)
+            assert isinstance(my_serv, core.server_types.GrpcServer)
+            my_serv.shutdown()
+
+            os.environ[dpf_server_type_str] = "LEGACYGRPC"
+            my_serv_2 = core.start_local_server(as_global=False)
+            assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
+            my_serv_2.shutdown()
+
+            os.environ[dpf_server_type_str] = "INPROCESS"
+            my_serv_2 = core.start_local_server(as_global=False)
+            assert isinstance(my_serv_2, core.server_types.InProcessServer)
+
+            os.environ[dpf_server_type_str] = "bla"
+            with pytest.raises(NotImplementedError):
+                my_serv_3 = core.start_local_server(as_global=False)
+
+            del os.environ[dpf_server_type_str]
+        else:
+            # test for v221 and lower
+            os.environ[dpf_server_type_str] = "GRPC"
+            my_serv = core.start_local_server(as_global=False)
+            assert isinstance(my_serv, core.server_types.LegacyGrpcServer)
+            my_serv.shutdown()
+
+            os.environ[dpf_server_type_str] = "LEGACYGRPC"
+            my_serv_2 = core.start_local_server(as_global=False)
+            assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
+            my_serv_2.shutdown()
+
+            os.environ[dpf_server_type_str] = "bla"
+            my_serv_3 = core.start_local_server(as_global=False)
+            assert isinstance(my_serv_3, core.server_types.LegacyGrpcServer)
+            my_serv_3.shutdown()
+
+            del os.environ[dpf_server_type_str]

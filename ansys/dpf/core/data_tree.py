@@ -83,13 +83,15 @@ class DataTree:
         # step 2: get api
         self._api_instance = None  # see property self._api
 
-        # step3: init environment
-        self._api.init_dpf_data_tree_environment(self)  # creates stub when gRPC
-
         # step4: if object exists, take the instance, else create it
         if data_tree is not None:
+            if not isinstance(data_tree, dict):
+                # step3: init environment
+                self._api.init_dpf_data_tree_environment(self)  # creates stub when gRPC
             self._internal_obj = data_tree
         else:
+            # step3: init environment
+            self._api.init_dpf_data_tree_environment(self)  # creates stub when gRPC
             if self._server.has_client():
                 self._internal_obj = self._api.dpf_data_tree_new_on_client(self._server.client)
             else:
@@ -140,7 +142,10 @@ class DataTree:
                     if self._server.has_client():
                         coll_obj = object_handler.ObjHandler(
                             data_processing_api=self._core_api,
-                            internal_obj=self._coll_api.collection_of_string_new_local(self._server.client))
+                            internal_obj=self._coll_api.collection_of_string_new_local(
+                                self._server.client
+                            )
+                        )
                     else:
                         coll_obj = object_handler.ObjHandler(
                             data_processing_api=self._core_api,
@@ -240,6 +245,8 @@ class DataTree:
         >>> import tempfile
         >>> import os
         >>> data_tree.write_to_txt(os.path.join(tempfile.mkdtemp(), "data_tree.txt"))
+        <BLANKLINE>
+        Downloading...
 
         """
         from ansys.dpf.core.operators.serialization import data_tree_to_txt
@@ -277,6 +284,8 @@ class DataTree:
         >>> import tempfile
         >>> import os
         >>> data_tree.write_to_json(os.path.join(tempfile.mkdtemp(), "data_tree.json"))
+        <BLANKLINE>
+        Downloading...
 
         """
         from ansys.dpf.core.operators.serialization import data_tree_to_json
@@ -397,7 +406,7 @@ class DataTree:
         """
         return self._api.dpf_data_tree_has_attribute(self, entry)
 
-    def get_as(self, name, type=types.string):
+    def get_as(self, name, type_to_return=types.string):
         """
         Returns an attribute value by its name in the required type.
 
@@ -405,7 +414,7 @@ class DataTree:
         ----------
         name : str
             Name of the attribute to return
-        type : types
+        type_to_return : types
             Type of the attribute to return. String is supported for all attributes.
 
         Returns
@@ -426,28 +435,28 @@ class DataTree:
 
         """
         out = None
-        if type == types.int:
+        if type_to_return == types.int:
             out = integral_types.MutableInt32()
             self._api.dpf_data_tree_get_int_attribute(self, name, out)
             out = int(out)
-        elif type == types.double:
+        elif type_to_return == types.double:
             out = integral_types.MutableDouble()
             self._api.dpf_data_tree_get_double_attribute(self, name, out)
             out = float(out)
-        elif type == types.string:
+        elif type_to_return == types.string:
             out = integral_types.MutableString(1)
             size = integral_types.MutableInt32(0)
             self._api.dpf_data_tree_get_string_attribute(self, name, out, size)
             out = str(out)
-        elif type == types.vec_double:
+        elif type_to_return == types.vec_double:
             out = integral_types.MutableListDouble()
             self._api.dpf_data_tree_get_vec_double_attribute(self, name, out, out.internal_size)
             out = out.tolist()
-        elif type == types.vec_int:
+        elif type_to_return == types.vec_int:
             out = integral_types.MutableListInt32()
             self._api.dpf_data_tree_get_vec_int_attribute(self, name, out, out.internal_size)
             out = out.tolist()
-        elif type == types.vec_string:
+        elif type_to_return == types.vec_string:
             coll_obj = object_handler.ObjHandler(
                 data_processing_api=self._core_api,
                 internal_obj=self._api.dpf_data_tree_get_string_collection_attribute(self, name)
@@ -456,7 +465,7 @@ class DataTree:
             out = []
             for i in range(num):
                 out.append(self._coll_api.collection_get_string_entry(coll_obj, i))
-        elif type == types.data_tree:
+        elif type_to_return == types.data_tree:
             obj = self._api.dpf_data_tree_get_sub_tree(self, name)
             out = DataTree(data_tree=obj, server=self._server)
         return out
@@ -468,9 +477,11 @@ class DataTree:
 
     def __del__(self):
         try:
-            obj = self._deleter_func[1](self)
-            if obj is not None:
-                self._deleter_func[0](obj)
+            # needs a proper deleter only when real datatree and not dict
+            if hasattr(self, "_deleter_func"):
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    self._deleter_func[0](obj)
         except:
             warnings.warn(traceback.format_exc())
 
@@ -515,7 +526,7 @@ class _LocalDataTree(DataTree):
     def __enter__(self):
         return self
 
-    def __exit__(self, type, value, tb):
+    def __exit__(self, type_to_use, value, tb):
         if tb is None:
             self._is_exited = True
             self.release_data()
@@ -526,4 +537,3 @@ class _LocalDataTree(DataTree):
         if not hasattr(self, "_is_exited") or not self._is_exited:
             self._is_exited = True
             self.release_data()
-        pass

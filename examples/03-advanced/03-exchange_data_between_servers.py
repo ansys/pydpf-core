@@ -27,7 +27,8 @@ server1 = dpf.start_local_server(as_global=True)
 server2 = dpf.start_local_server(as_global=False)
 
 # Check that the 2 servers are on different ports
-print(server1.port, server2.port)
+print(server1.port if hasattr(server1, "port") else "",
+      server2.port if hasattr(server2, "port") else "")
 
 ###############################################################################
 # Send the result file

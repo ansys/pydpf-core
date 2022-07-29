@@ -1,6 +1,7 @@
 from gltf_plugin import gltf_export
-from ansys.dpf.core.custom_operator import CustomOperatorBase, record_operator
-from ansys.dpf.core.operator_specification import CustomSpecification, PinSpecification, SpecificationProperties
+from ansys.dpf.core.custom_operator import CustomOperatorBase
+from ansys.dpf.core.operator_specification import CustomSpecification, PinSpecification, \
+    SpecificationProperties
 from ansys.dpf import core as dpf
 
 
@@ -11,7 +12,8 @@ class WriteGLTF(CustomOperatorBase):
         field = self.get_input(2, dpf.Field)
 
         mesh_element_types = mesh.elements.element_types_field.data_as_list
-        if mesh_element_types.count(dpf.element_types.Tri3.value) != len(mesh_element_types) or not mesh_element_types:
+        if mesh_element_types.count(dpf.element_types.Tri3.value) != len(mesh_element_types) \
+                or not mesh_element_types:
             raise Exception("Elements of mesh are not triangles.")
 
         norm_op = dpf.operators.math.norm()
@@ -27,18 +29,25 @@ class WriteGLTF(CustomOperatorBase):
         for value in norm_op.outputs.field().data:
             uv.append([value / field_range, 0])
 
-        path = gltf_export.export(path, mesh.nodes.coordinates_field.data, mesh.elements.connectivities_field.data_as_list, uv)
+        path = gltf_export.export(
+            path,
+            mesh.nodes.coordinates_field.data,
+            mesh.elements.connectivities_field.data_as_list,
+            uv
+        )
 
         self.set_output(0, path)
         self.set_succeeded()
 
     @property
     def specification(self):
-        spec = CustomSpecification("Writes a GLTF file for a surface MeshedRegion with triangles elements and a Field using pygltflib python module.")
+        spec = CustomSpecification("Writes a GLTF file for a surface MeshedRegion with triangles "
+                                   "elements and a Field using pygltflib python module.")
         spec.inputs = {
             0: PinSpecification("path", type_names=str, document="path to write GLTF file"),
             1: PinSpecification("mesh", type_names=dpf.MeshedRegion),
-            2: PinSpecification("field", type_names=dpf.Field, document="3D vector Field to export (ie displacement Field)."),
+            2: PinSpecification("field", type_names=dpf.Field,
+                                document="3D vector Field to export (ie displacement Field)."),
         }
         spec.outputs = {
             0: PinSpecification("path", type_names=str),

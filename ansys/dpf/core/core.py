@@ -156,6 +156,8 @@ def download_file(server_file_path, to_client_file_path, server=None):
     >>> import os
     >>> file_path = dpf.upload_file_in_tmp_folder(examples.static_rst)
     >>> dpf.download_file(file_path, examples.static_rst)
+    <BLANKLINE>
+    Downloading...
 
     """
     base = BaseService(server, load_operators=False)
@@ -310,7 +312,7 @@ class BaseService:
             grpcapi=tmp_dir_grpcapi.TmpDirGRPCAPI
         )
 
-        # step3: init environement
+        # step3: init environment
         self._api.init_data_processing_environment(self)  # creates stub when gRPC
 
     def make_tmp_dir_server(self):
@@ -399,7 +401,9 @@ class BaseService:
                             f"Unable to download the python generated code with error: {e.args}"
                         )
             else:
-                __generate_code(TARGET_PATH=LOCAL_PATH, filename=file_path, name=name, symbol=symbol)
+                __generate_code(
+                    TARGET_PATH=LOCAL_PATH, filename=file_path, name=name, symbol=symbol
+                )
 
     def get_runtime_client_config(self):
         if self._server().has_client():

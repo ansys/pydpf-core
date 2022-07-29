@@ -41,9 +41,18 @@ class RuntimeClientConfig(_RuntimeConfig):
     Get runtime configuration for Client.
 
     >>> from ansys.dpf import core as dpf
-    >>> server = dpf.start_local_server(config=dpf.server_factory.AvailableServerConfigs.GrpcServer)
+    >>> server = dpf.start_local_server(config=dpf.server_factory.AvailableServerConfigs.GrpcServer
+    ...    , as_global=False)
     >>> client_config = dpf.settings.get_runtime_client_config(server=server)
     >>> cache_enabled = client_config.cache_enabled
+    >>> stream_floats_instead_of_doubles = client_config.stream_floats_instead_of_doubles
+    >>> streaming_buffer_size = client_config.streaming_buffer_size
+    >>> return_arrays = client_config.return_arrays
+    >>> client_config.return_arrays = return_arrays # or True/False
+    >>> client_config.cache_enabled = cache_enabled # or True/False
+    >>> client_config.stream_floats_instead_of_doubles = stream_floats_instead_of_doubles
+    ... # or True/False
+    >>> client_config.streaming_buffer_size = streaming_buffer_size # or 10000, 2000 ...
     """
     def __init__(self, data_tree, server=None):
         super().__init__(data_tree=data_tree, server=server)
@@ -149,9 +158,11 @@ class RuntimeCoreConfig(_RuntimeConfig):
     Get runtime configuration for DataProcessingCore.
 
     >>> from ansys.dpf import core as dpf
-    >>> server = dpf.start_local_server(config=dpf.server_factory.AvailableServerConfigs.GrpcServer)
-    >>> core_config = dpf.settings.get_runtime_core_config(server=server)
-    >>> num_threads = core_config.num_threads
+    >>> server = dpf.start_local_server(config=dpf.server_factory.AvailableServerConfigs.GrpcServer
+    ...    , as_global=False) # doctest: +SKIP
+    >>> core_config = dpf.settings.get_runtime_core_config(server=server) # doctest: +SKIP
+    >>> num_threads = core_config.num_threads # doctest: +SKIP
+    >>> core_config.num_threads = num_threads # or 3, 6, ... # doctest: +SKIP
     """
     def __init__(self, data_tree, server=None):
         super().__init__(data_tree=data_tree, server=server)
@@ -170,6 +181,3 @@ class RuntimeCoreConfig(_RuntimeConfig):
     @num_threads.setter
     def num_threads(self, value):
         self._data_tree.add(num_threads=int(value))
-
-
-

@@ -3,8 +3,9 @@ import subprocess
 import psutil
 import sys
 import os
+
 from ansys import dpf
-from ansys.dpf.core import path_utilities, errors, server_types
+from ansys.dpf.core import errors, server_types
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
@@ -121,32 +122,32 @@ class TestServer:
         client = server.client
 
 
-@pytest.mark.skipif(os.name == 'posix', reason="issue on Linux, it seems two processes can be called on the same port")
-def test_busy_port():
-    if not dpf.core.SERVER:
-        start_local_server()
-    busy_port = dpf.core.SERVER.port
+@pytest.mark.skipif(os.name == 'posix', reason="lin issue: 2 processes can be run with same port")
+def test_busy_port(remote_config_server_type):
+    my_serv = start_local_server(config=remote_config_server_type)
+    busy_port = my_serv.port
     with pytest.raises(errors.InvalidPortError):
-        server_types.launch_dpf(ansys_path=dpf.core.misc.find_ansys(), port=busy_port)
-    server = start_local_server(as_global=False, port=busy_port)
+        server_types.launch_dpf(ansys_path=dpf.core.misc.get_ansys_path(), port=busy_port)
+    server = start_local_server(as_global=False, port=busy_port,
+                                config=remote_config_server_type)
     assert server.port != busy_port
 
 
 def test_shutting_down_when_deleted_legacy():
     num_dpf_exe = 0
     for proc in psutil.process_iter():
-        if proc.name() == "Ans.Dpf.Grpc.exe":
+        if "Ans.Dpf.Grpc" in proc.name():
             num_dpf_exe += 1
-    subprocess.check_call([sys.executable, "-c",
-                           "from ansys.dpf import core as dpf;"
-                           "from ansys.dpf.core import examples;"
-                           "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.LegacyGrpcServer;"
-                           "model = dpf.Model(examples.static_rst);"
-                           ])
-
+    subprocess.check_call([
+        sys.executable, "-c",
+        "from ansys.dpf import core as dpf;"
+        "from ansys.dpf.core import examples;"
+        "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.LegacyGrpcServer;"
+        "model = dpf.Model(examples.static_rst);"
+    ])
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():
-        if proc.name() == "Ans.Dpf.Grpc.exe":
+        if "Ans.Dpf.Grpc" in proc.name():
             new_num_dpf_exe += 1
     assert num_dpf_exe == new_num_dpf_exe
 
@@ -156,16 +157,43 @@ def test_shutting_down_when_deleted_legacy():
 def test_shutting_down_when_deleted():
     num_dpf_exe = 0
     for proc in psutil.process_iter():
-        if proc.name() == "Ans.Dpf.Grpc.exe":
+        if "Ans.Dpf.Grpc" in proc.name():
             num_dpf_exe += 1
-    subprocess.check_call([sys.executable, "-c",
-                           "from ansys.dpf import core as dpf;"
-                           "from ansys.dpf.core import examples;"
-                           "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.GrpcServer;"
-                           "model = dpf.Model(examples.static_rst);"
-                           ])
+    subprocess.check_call([
+        sys.executable, "-c",
+        "from ansys.dpf import core as dpf;"
+        "from ansys.dpf.core import examples;"
+        "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.GrpcServer;"
+        "model = dpf.Model(examples.static_rst);"
+    ])
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():
-        if proc.name() == "Ans.Dpf.Grpc.exe":
+        if "Ans.Dpf.Grpc" in proc.name():
             new_num_dpf_exe += 1
     assert num_dpf_exe == new_num_dpf_exe
+
+
+def test_eq_server_config():
+    assert dpf.core.AvailableServerConfigs.InProcessServer == \
+           dpf.core.AvailableServerConfigs.InProcessServer
+    assert dpf.core.AvailableServerConfigs.GrpcServer == \
+           dpf.core.AvailableServerConfigs.GrpcServer
+    assert dpf.core.AvailableServerConfigs.LegacyGrpcServer == \
+           dpf.core.AvailableServerConfigs.LegacyGrpcServer
+    assert not dpf.core.AvailableServerConfigs.LegacyGrpcServer == \
+               dpf.core.AvailableServerConfigs.InProcessServer
+    assert dpf.core.AvailableServerConfigs.LegacyGrpcServer == \
+           dpf.core.ServerConfig(
+               protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=True
+           )
+    assert dpf.core.AvailableServerConfigs.GrpcServer == \
+           dpf.core.ServerConfig(
+               protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=False
+           )
+    assert dpf.core.AvailableServerConfigs.InProcessServer == \
+           dpf.core.ServerConfig(protocol=None, legacy=False)
+    assert not dpf.core.AvailableServerConfigs.InProcessServer ==\
+               dpf.core.ServerConfig(
+                   protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=False
+               )
+    assert not dpf.core.AvailableServerConfigs.InProcessServer is None

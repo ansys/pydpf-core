@@ -2,7 +2,6 @@
 Downloads
 =========
 Download example datasets from https://github.com/pyansys/example-data"""
-import shutil
 import os
 import urllib.request
 import warnings
@@ -26,7 +25,9 @@ def delete_downloads():
                         os.remove(os.path.join(root, name))
                         print(f"deleting {os.path.join(root, name)}")
                     except Exception as e:
-                        warnings.warn(f"couldn't delete {os.path.join(root, name)} with error:\n {e.args}")
+                        warnings.warn(
+                            f"couldn't delete {os.path.join(root, name)} with error:\n {e.args}"
+                        )
     for root, dirs, files in os.walk(LOCAL_DOWNLOADED_EXAMPLES_PATH, topdown=False):
         if len(dirs) == 0 and len(files) == 0:
             try:
@@ -448,3 +449,27 @@ def download_example_asme_result() -> str:
     'C:/Users/user/AppData/local/temp/asme_example.rst'
     """
     return _download_file("postprocessing", "asme_example.rst")
+
+def download_crankshaft() -> str:
+    """Download the result file of an example of a crankshaft
+    under load simulation and return the download path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.crankshaft
+    >>> path
+    'C:/Users/user/AppData/local/temp/crankshaft.rst'
+
+    """
+    return _download_file("crankshaft", "crankshaft.rst")

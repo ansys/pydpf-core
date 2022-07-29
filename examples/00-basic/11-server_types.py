@@ -14,11 +14,11 @@ Until Ansys 2022R1, only gRPC communication using python module ansys.grpc.dpf i
 
 - :class:`ansys.dpf.core.server_types.InProcessServer` loading DPF in Process.
 
-- :class:`ansys.dpf.core.server_types.GrpcServer` using gRPC communication through DPF gRPC
-CLayer Ans.Dpf.GrpcClient.
+- :class:`ansys.dpf.core.server_types.GrpcServer` using gRPC communication through DPF
+  gRPC CLayer Ans.Dpf.GrpcClient.
 
 - :class:`ansys.dpf.core.server_types.LegacyGrpcServer` using gRPC communication through the python
- module ansys.grpc.dpf.
+  module ansys.grpc.dpf.
 
 """
 
@@ -77,6 +77,8 @@ print(legacy_grpc_field, type(legacy_grpc_field._server), legacy_grpc_field._ser
 # Once a default configuration is chosen, a server of the chosen type is automatically started
 # when a DPF object is created:
 
+initial_config = dpf.SERVER_CONFIGURATION
+
 dpf.SERVER_CONFIGURATION = dpf.AvailableServerConfigs.GrpcServer
 grpc_field = dpf.fields_factory.create_scalar_field(2)
 grpc_field.append([1.], 1)
@@ -84,4 +86,4 @@ grpc_field.append([2.], 2)
 print(grpc_field, type(grpc_field._server), grpc_field._server)
 
 # Go back to default config:
-dpf.SERVER_CONFIGURATION = None
+dpf.SERVER_CONFIGURATION = initial_config

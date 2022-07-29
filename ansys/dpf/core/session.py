@@ -5,17 +5,17 @@ Session
 import abc
 import ctypes
 import logging
-import weakref
 import threading
 import traceback
 import warnings
+import weakref
+
+from ansys.dpf.gate import session_capi, session_grpcapi, capi
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import server_types, errors
 from ansys.dpf.core.check_version import version_requires, server_meet_version
 from ansys.dpf.core.common import _common_percentage_progress_bar, _progress_bar_is_available
-from ansys.dpf.gate import session_capi, session_grpcapi, capi, \
-    data_processing_capi, data_processing_grpcapi
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel('DEBUG')
@@ -59,10 +59,10 @@ class EventHandler(EventHandlerBase):
         self.bar = None
         self.started_operators = 0
         self.finished_operators = 0
-        self.py_obj =ctypes.py_object(self)
+        self.py_obj = ctypes.py_object(self)
         self._session()._api.add_external_event_handler(
             self._session(), ctypes.cast(ctypes.pointer(self.py_obj),
-                              ctypes.c_void_p), progress_call_back)
+                                         ctypes.c_void_p), progress_call_back)
 
     def start_listening(self):
         if not _progress_bar_is_available():

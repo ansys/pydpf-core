@@ -318,7 +318,8 @@ def test_connect_get_output_double_list_workflow(server_type):
     assert np.allclose(d, dout)
 
 
-def test_inputs_outputs_inputs_outputs_scopings_container_workflow(allkindofcomplexity, server_type):
+def test_inputs_outputs_inputs_outputs_scopings_container_workflow(allkindofcomplexity,
+                                                                   server_type):
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)
     model = dpf.core.Model(data_sources, server=server_type)
     op = dpf.core.Operator("scoping::by_property", server=server_type)
@@ -372,7 +373,7 @@ def test_inputs_outputs_inputs_outputs_meshes_container_workflow(allkindofcomple
 
 @conftest.raises_for_servers_version_under('4.0')
 def test_connect_get_output_data_tree_operator(server_type):
-    d = dpf.core.DataTree({"name":"Paul"}, server=server_type)
+    d = dpf.core.DataTree({"name": "Paul"}, server=server_type)
     wf = dpf.core.Workflow(server=server_type)
     op = dpf.core.operators.utility.forward(server=server_type)
     wf.set_input_name("in", op.inputs.any)
@@ -654,6 +655,7 @@ def test_create_on_other_server2_workflow(local_server):
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_with_ip_workflow(local_server):
+    dpf.core.start_local_server()
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -671,6 +673,7 @@ def test_create_on_other_server_with_ip_workflow(local_server):
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_with_address_workflow(local_server):
+    dpf.core.start_local_server()
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -687,6 +690,7 @@ def test_create_on_other_server_with_address_workflow(local_server):
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_with_address2_workflow(local_server):
+    dpf.core.start_local_server()
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -703,6 +707,7 @@ def test_create_on_other_server_with_address2_workflow(local_server):
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_server):
+    dpf.core.start_local_server()
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
