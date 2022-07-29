@@ -189,6 +189,16 @@ def engineering_data_sources():
     return ds
 
 
+@pytest.fixture()
+def cyclic_multistage():
+    """Resolve the path of the "msup/plate1.rst" result file.
+
+    Originally:
+    UnitTestDataFiles/DataProcessing/expansion/msup/Transient/plate1/file.rst
+    """
+    return core.examples.download_multi_stage_cyclic_result()
+
+
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 = meets_version(
     get_server_version(core._global_server()), "4.0"
 )
