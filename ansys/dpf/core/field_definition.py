@@ -121,7 +121,7 @@ class FieldDefinition:
         dimensionality : Dimensionality
             Nature and size of the elementary data.
         """
-        dim = integral_types.MutableListInt32()
+        dim = integral_types.MutableListInt32(size=3)
         nature = integral_types.MutableInt32()
         self._api.csfield_definition_fill_dimensionality(self, dim, nature, dim.internal_size)
         return Dimensionality(dim.tolist(), natures(int(nature)))

@@ -94,8 +94,14 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
     --------
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
-    >>> file_path = dpf.upload_file_in_tmp_folder(examples.static_rst)
+    >>> server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer,
+    ... as_global=False)
+    >>> file_path = dpf.upload_file_in_tmp_folder(examples.static_rst, server=server)
 
+    Notes
+    -----
+    Is not implemented for usage with type(server)=
+    :class:`ansys.dpf.core.server_types.InProcessServer`.
     """
     base = BaseService(server, load_operators=False)
     return base.upload_file_in_tmp_folder(file_path, new_file_name)
@@ -154,11 +160,17 @@ def download_file(server_file_path, to_client_file_path, server=None):
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
     >>> import os
-    >>> file_path = dpf.upload_file_in_tmp_folder(examples.static_rst)
-    >>> dpf.download_file(file_path, examples.static_rst)
+    >>> server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer,
+    ... as_global=False)
+    >>> file_path = dpf.upload_file_in_tmp_folder(examples.static_rst, server=server)
+    >>> dpf.download_file(file_path, examples.static_rst,  server=server)
     <BLANKLINE>
     Downloading...
 
+    Notes
+    -----
+    Is not implemented for usage with type(server)=
+    :class:`ansys.dpf.core.server_types.InProcessServer`.
     """
     base = BaseService(server, load_operators=False)
     return base.download_file(server_file_path, to_client_file_path)
@@ -385,7 +397,7 @@ class BaseService:
 
             local_dir = os.path.dirname(os.path.abspath(__file__))
             LOCAL_PATH = os.path.join(local_dir, "operators")
-            if self._server().has_client():
+            if not self._server().local_server:
                 if self._server().os != 'posix' or (not self._server().os and os.name != 'posix'):
                     # send local generated code
                     TARGET_PATH = self.make_tmp_dir_server()

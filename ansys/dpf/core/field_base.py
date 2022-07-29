@@ -287,7 +287,7 @@ class _FieldBase:
         >>> stress_op = model.results.stress()
         >>> fields_container = stress_op.outputs.fields_container()
         >>> fields_container[0].get_entity_data(0)
-        array([[-3.27795062e+05,  1.36012200e+06,  1.49090608e+08,
+        DPFArray([[-3.27795062e+05,  1.36012200e+06,  1.49090608e+08,
                 -4.88688900e+06,  1.43038560e+07,  1.65455040e+07],
                [-4.63817550e+06,  1.29312225e+06,  1.20411832e+08,
                 -6.06617800e+06,  2.34829700e+07,  1.77231120e+07],
@@ -325,7 +325,7 @@ class _FieldBase:
         >>> stress_op = model.results.stress()
         >>> fields_container = stress_op.outputs.fields_container()
         >>> fields_container[0].get_entity_data_by_id(391)
-        array([[-3.27795062e+05,  1.36012200e+06,  1.49090608e+08,
+        DPFArray([[-3.27795062e+05,  1.36012200e+06,  1.49090608e+08,
                 -4.88688900e+06,  1.43038560e+07,  1.65455040e+07],
                [-4.63817550e+06,  1.29312225e+06,  1.20411832e+08,
                 -6.06617800e+06,  2.34829700e+07,  1.77231120e+07],
@@ -363,7 +363,7 @@ class _FieldBase:
         >>> field.append([1.,2.,3.],1)
         >>> field.append([1.,2.,3.],2)
         >>> field.data
-        array([[1., 2., 3.],
+        DPFArray([[1., 2., 3.],
                [1., 2., 3.]])
         >>> field.scoping.ids
         <BLANKLINE>

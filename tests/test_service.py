@@ -1,7 +1,10 @@
 import os
+from datetime import datetime
 
 import pytest
 import conftest
+import pkgutil
+import datetime
 
 from ansys import dpf
 from ansys.dpf.core import path_utilities
@@ -231,20 +234,40 @@ def test_uploadinfolder_emptyfolder(tmpdir, server_type_remote_process):
 
 def test_load_plugin_correctly(server_type):
     from ansys.dpf import core as dpf
-    import pkgutil
+    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
 
     base = dpf.BaseService(server=server_type)
-    try:
+    if os.name == "nt":
         base.load_library("Ans.Dpf.Math.dll", "math_operators", generate_operators=True)
-    except:
+        t = os.path.getmtime(os.path.join(actual_path, r"operators/math/fft_eval.py"))
+        assert datetime.datetime.fromtimestamp(t).date() == datetime.datetime.today().date()
+    else:
         base.load_library("libAns.Dpf.Math.so", "math_operators")
-    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
     exists = os.path.exists(os.path.join(actual_path, r"operators/fft_eval.py"))
     assert not exists
     num_lines = sum(
         1 for line in open(os.path.join(actual_path, r"operators/math/__init__.py"))
     )
     assert num_lines >= 11
+
+
+def test_load_plugin_correctly_remote():
+    from ansys.dpf import core as dpf
+    server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer, as_global=False)
+    server_connected = dpf.connect_to_server(server.ip, server.port, as_global=False)
+
+    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
+
+    if os.name == "posix":
+        dpf.load_library("libAns.Dpf.Math.so", "math_operators", server=server_connected)
+    else:
+        dpf.load_library("Ans.Dpf.Math.dll", "math_operators", server=server_connected)
+        t = os.path.getmtime(os.path.join(actual_path, r"operators/math/fft_eval.py"))
+        assert datetime.datetime.fromtimestamp(t).date() == datetime.datetime.today().date()
+
+    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
+
+    assert os.path.exists(os.path.join(actual_path, r"operators/math/fft_eval.py"))
 
 
 def test_dpf_join(server_type):

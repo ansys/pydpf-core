@@ -96,7 +96,7 @@ class Field(_FieldBase):
     >>> fields_container = disp.outputs.fields_container()
     >>> field = fields_container[0]
     >>> field.data[2]
-    array([-0.00672665, -0.03213735,  0.00016716])
+    DPFArray([-0.00672665, -0.03213735,  0.00016716])
 
     """
 
