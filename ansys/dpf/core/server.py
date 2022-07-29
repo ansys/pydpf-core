@@ -213,7 +213,7 @@ def start_local_server(
     timed_out = False
     for _ in range(n_attempts):
         try:
-            server_type = ServerFactory().get_server_type_from_config(config, ansys_path)
+            server_type = ServerFactory.get_server_type_from_config(config, ansys_path)
             server_init_signature = inspect.signature(server_type.__init__)
             if "ip" in server_init_signature.parameters.keys() and \
                     "port" in server_init_signature.parameters.keys():
@@ -292,7 +292,7 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     >>> #unspecified_server = dpf.connect_to_server(as_global=False)
 
     """
-    server_type = ServerFactory().get_server_type_from_config(config)
+    server_type = ServerFactory.get_remote_server_type_from_config(config)
     server_init_signature = inspect.signature(server_type.__init__)
     if "ip" in server_init_signature.parameters.keys() \
             and "port" in server_init_signature.parameters.keys():

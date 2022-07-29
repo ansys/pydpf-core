@@ -105,7 +105,7 @@ def get_default_server_config(server_lower_than_or_equal_to_0_3=False):
       then this variable is taken
     else DEFAULT_COMMUNICATION_PROTOCOL and DEFAULT_LEGACY is taken.
 
-    Throws
+    Raises
     ------
     If DPF_SERVER_TYPE environment variable is set to unknown value.
 
@@ -136,6 +136,20 @@ def get_default_server_config(server_lower_than_or_equal_to_0_3=False):
     elif config is None:
         config = ServerConfig(protocol=DEFAULT_COMMUNICATION_PROTOCOL, legacy=DEFAULT_LEGACY)
     return config
+
+
+def get_default_remote_server_config():
+    """Returns the default configuration for gRPC communication.
+    Follows get_default_server_config
+
+    Raises
+    ------
+    If DPF_SERVER_TYPE environment variable is set to unknown value.
+
+    """
+    config = get_default_server_config()
+    if config == AvailableServerConfigs.InProcessServer:
+        return AvailableServerConfigs.GrpcServer
 
 
 class AvailableServerConfigs:
@@ -212,3 +226,9 @@ class ServerFactory:
             return InProcessServer
         else:
             raise NotImplementedError("Server config not available.")
+
+    @staticmethod
+    def get_remote_server_type_from_config(config=None):
+        if config is None:
+            config = get_default_remote_server_config()
+        return ServerFactory.get_server_type_from_config(config)

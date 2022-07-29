@@ -22,7 +22,6 @@ server_configs = [None,
                   ] \
     if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 else \
     [None,
-     ServerConfig(),
      ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
      ]
 
@@ -35,7 +34,6 @@ server_configs_names = ["none",
                         ] \
     if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 else \
     ["none",
-     "default",
      "legacy grpc",
      ]
 
@@ -197,3 +195,15 @@ def test_eq_server_config():
                    protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=False
                )
     assert not dpf.core.AvailableServerConfigs.InProcessServer is None
+
+
+def test_connect_to_remote_server(server_type_remote_process):
+    server = connect_to_server(
+        ip=server_type_remote_process.ip,
+        port=server_type_remote_process.port,
+        timeout=10.,
+        as_global=False
+    )
+    assert server.ip == server_type_remote_process.ip
+    assert server.port == server_type_remote_process.port
+
