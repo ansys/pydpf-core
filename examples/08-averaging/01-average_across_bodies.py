@@ -118,7 +118,7 @@ mesh_scop_cont = mesh_scop_op.outputs.mesh_scoping()
 
 ###############################################################################
 # Then, as we have 3 different time steps, we need to create a ScopingsContainer
-# that contains the meshes for each one of these steps. We do so as follows:
+# that contains the meshes of each one of these steps. We do so as follows:
 
 scop_cont = dpf.ScopingsContainer()
 scop_cont.add_label("body")
@@ -135,13 +135,13 @@ print(scop_cont)
 ###############################################################################
 # As we can see, we've got 6 different Scopings inside our ScopingsContainer, one for
 # each body over each one of the three time steps. Let's now focus our analysis on the
-# las time step:
+# last time step:
 time_step = 3
 
 ###############################################################################
 # Then, to retrieve the Z stresses without averaging across the two bodies, we can pass
 # a ScopingsContainer that contains their respective meshes as a parameter to the
-# stress operator. To be able to do that, we need a new ScopingsContainer that contains
+# stress_Z operator. To be able to do that, we need a new ScopingsContainer that contains
 # the meshes of the two bodies in the desired time step.
 
 scop_list = scop_cont.get_scopings(label_space={"time": time_step})
