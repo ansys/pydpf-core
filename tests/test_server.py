@@ -149,7 +149,7 @@ def test_shutting_down_when_deleted_legacy():
     for proc in psutil.process_iter():
         if "Ans.Dpf.Grpc" in proc.name():
             new_num_dpf_exe += 1
-    assert num_dpf_exe == new_num_dpf_exe
+    assert num_dpf_exe >= new_num_dpf_exe
 
 
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
