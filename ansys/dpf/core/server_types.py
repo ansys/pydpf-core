@@ -277,7 +277,7 @@ def check_ansys_grpc_dpf_version(server, timeout):
                             f"from Ansys {ansys_version_to_use})"
                             f" and the ansys-grpc-dpf version installed ({grpc_module_version})."
                             f" Please consider using the latest DPF server available in the "
-                            f"2022R1 Ansys unified install.\n"
+                            f"2022R2 Ansys unified install.\n"
                             f"To follow the compatibility guidelines given in "
                             f"{compatibility_link} while still using DPF server {server_version}, "
                             f"please install version {right_grpc_module_version} of ansys-grpc-dpf"
