@@ -41,7 +41,6 @@ from .img_part import img_part
 from .amplitude import amplitude 
 from .cplx_dot import cplx_dot 
 from .cplx_divide import cplx_divide 
-from .dot import dot 
 from .cplx_derive import cplx_derive 
 from .polar_to_cplx import polar_to_cplx 
 from .amplitude_fc import amplitude_fc 
@@ -51,7 +50,9 @@ from .phase_fc import phase_fc
 from .modulus import modulus 
 from .accumulate_fc import accumulate_fc 
 from .generalized_inner_product import generalized_inner_product 
+from .outer_product import outer_product 
 from .overall_dot import overall_dot 
+from .dot import dot 
 from .dot_tensor import dot_tensor 
 from .scale_by_field import scale_by_field 
 from .scale_by_field_fc import scale_by_field_fc 
@@ -69,4 +70,4 @@ from .qr_solve import qr_solve
 from .fft_eval import fft_eval 
 from .fft_gradient_eval import fft_gradient_eval 
 from .fft_multi_harmonic_minmax import fft_multi_harmonic_minmax 
-from .svd import svd
+from .svd import svd 
