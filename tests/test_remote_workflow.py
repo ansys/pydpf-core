@@ -8,6 +8,7 @@ from ansys.dpf.core import operators as ops
 from ansys.dpf.core.check_version import meets_version, get_server_version
 from conftest import local_servers
 import conftest
+import os
 
 
 @pytest.fixture(scope="class", autouse=True)
@@ -100,6 +101,7 @@ def test_multi_process_remote_workflow():
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
                     reason='Connecting data from different servers is '
                            'supported starting server version 3.0')
+@pytest.mark.skipif(os.name == 'posix', reason="lin issue: this test hangs")
 def test_multi_process_connect_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
