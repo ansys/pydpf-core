@@ -374,8 +374,8 @@ def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
 
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
-    with pytest.warns(UserWarning, match="Could not connect to remote server, "
-                                         "trying again using legacy Grpc."):
+    with pytest.warns(UserWarning, match="Could not connect to remote server as ansys-dpf--gatebin "
+                                         "is missing. Trying again using legacy Grpc.\n"):
         serv = dpf.core.connect_to_server(
             config=conf, as_global=False, ip=loc_serv.ip, port=loc_serv.port
         )
