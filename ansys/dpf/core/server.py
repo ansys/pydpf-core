@@ -312,10 +312,11 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
         return connect()
     except ModuleNotFoundError as e:
         if "gatebin" in e.msg:
-            warnings.warn(UserWarning("Could not connect to remote server, "
-                                      "trying again using legacy Grpc."))
             server_type = ServerFactory.get_remote_server_type_from_config(
                 ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True))
+            warnings.warn(UserWarning("Could not connect to remote server as ansys-dpf--gatebin "
+                                      "is missing. Trying again using legacy Grpc.\n"
+                                      f"The error stated:\n{e.msg}"))
             return connect()
 
 
