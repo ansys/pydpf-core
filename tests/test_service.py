@@ -377,7 +377,6 @@ def test_load_api_without_awp_root_no_gatebin(remove_awp_root):
         )
 
 
-
 @pytest.mark.skipif(
     conftest.IS_USING_GATEBIN, reason="This test must no have gatebin installed"
 )
