@@ -10,7 +10,7 @@ from conftest import local_servers
 import conftest
 
 
-@pytest.fixture(scope="class", autouse=True)
+@pytest.fixture(scope="module", autouse=True)
 def cleanup(request):
     local_servers.clear()
     core.server.shutdown_all_session_servers()
