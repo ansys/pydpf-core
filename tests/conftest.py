@@ -354,6 +354,17 @@ def server_clayer(request):
     return server
 
 
+@pytest.fixture()
+def remove_awp_root(request):
+    awp_root_name = "AWP_ROOT" + core._version.__ansys_version__
+    awp_root_save = os.environ.get(awp_root_name, None)
+    # delete awp_root
+    del os.environ[awp_root_name]
+    yield
+    # restore awp_root
+    os.environ[awp_root_name] = awp_root_save
+
+
 class LocalServers:
     def __init__(self):
         self._local_servers = []
