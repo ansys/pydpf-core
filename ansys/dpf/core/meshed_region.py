@@ -5,6 +5,8 @@ MeshedRegion
 import traceback
 import warnings
 
+import ansys.dpf.core.errors
+
 from ansys.dpf.core import scoping, field, property_field
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import locations, types, nodal_properties
@@ -115,8 +117,10 @@ class MeshedRegion:
             check = scop_to_return._api.scoping_fast_access_ptr(scop_to_return)
             if check is None:
                 return None
-        except:
+        except NotImplementedError:
             # will throw NotImplementedError for ansys-grpc-dpf
+            pass
+        except ansys.dpf.core.errors.DPFServerException as e:
             # and DPFServerException for gRPC CLayer
             pass
         return scop_to_return

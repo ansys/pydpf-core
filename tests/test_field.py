@@ -979,12 +979,12 @@ def test_deep_copy_field_inprocess_to_inprocess():
     _deep_copy_test_identical_server(config)
 
 
-def test_deep_copy_field_inprocess_to_inprocess(plate_msup):
+def test_deep_copy_field_2(plate_msup):
     model = dpf.core.Model(plate_msup)
     disp = model.results.displacement()
     fields_container = disp.outputs.fields_container()
     field = fields_container[0]
-    deep_copy = field.deep_copy()
+    field.deep_copy()
 
 
 def test_deep_copy_field():

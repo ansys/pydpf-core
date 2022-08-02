@@ -179,7 +179,8 @@ class TestServerConfigs:
             if process.returncode is not None:
                 raise Exception(errors)
 
-    def test_launch_server_full_path(self, server_config):
+    @staticmethod
+    def test_launch_server_full_path(server_config):
         ansys_path = os.environ.get(
             "AWP_ROOT" + core._version.__ansys_version__, core.misc.find_ansys()
         )
