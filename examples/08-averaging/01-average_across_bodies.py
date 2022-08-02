@@ -34,7 +34,15 @@ print(model)
 mesh = model.metadata.meshed_region
 split_mesh_op = ops.mesh.split_mesh(mesh=mesh, property="mat")
 meshes = split_mesh_op.outputs.meshes()
-meshes.plot()
+
+# Uncomment this block to obtain the plot
+# meshes.plot(
+#     text='Body meshes')
+
+# %%
+# .. image:: images/01-meshes_plot.png
+#     :align: center
+#     :width: 600
 
 ###############################################################################
 # As we can see in the image above, even though the piston rod is one single part,
@@ -89,7 +97,10 @@ def average_across_bodies(analysis):
     min_max.inputs.fields_container.connect(stresses)
     max_val = min_max.outputs.field_max()
 
-    mesh.plot(stresses)
+    # Uncomment this block to obtain the plot
+    # mesh.plot(
+    #     stresses,
+    #     text='Averaged across bodies')
 
     return max(max_val.data)
 
@@ -183,12 +194,9 @@ split_mesh_op = ops.mesh.split_mesh(mesh=mesh, property="mat")
 meshes = split_mesh_op.outputs.meshes()
 
 # Uncomment this block to obtain the plot.
-# plot = DpfPlotter()
-# for stress, mesh in zip(stresses, meshes):
-#     plot.add_field(
-#         field=stress,
-#         meshed_region=mesh)
-# plot.show_figure(show_axes=True)
+# meshes.plot(
+#         stresses,
+#         text='Not averaged across bodies')
 ###############################################################################
 # We can also define the workflow presented above as a function:
 
@@ -241,10 +249,10 @@ def not_average_across_bodies(analysis):
     split_mesh_op = ops.mesh.split_mesh(mesh=mesh, property="mat")
     meshes = split_mesh_op.outputs.meshes()
 
-    plot = DpfPlotter()
-    for stress, mesh in zip(stresses, meshes):
-        plot.add_field(field=stress, meshed_region=mesh)
-    plot.show_figure(show_axes=True)
+    # Uncomment this block to obtain the plot
+    # meshes.plot(
+    #     stresses,
+    #     text='Not averaged across bodies')
 
     return max(max_val.data)
 
@@ -259,6 +267,14 @@ def not_average_across_bodies(analysis):
 max_avg_on = average_across_bodies(analysis)
 max_avg_off = not_average_across_bodies(analysis)
 
+# %%
+# |pic1| |pic2|
+#
+# .. |pic1| image:: images/01-averaged_across_bodies.png    
+#     :width: 45%
+#
+# .. |pic2| image:: images/01-not_averaged_across_bodies.png
+#     :width: 45%
 ###############################################################################
 diff = abs(max_avg_on - max_avg_off) / max_avg_off * 100
 print(
