@@ -52,12 +52,14 @@ jobs:
         shell: pwsh
         run: |
           New-Item -Path ".\" -Name "local_server_test" -ItemType "directory"
+          New-Item -Path ".\" -Name "test_workflow" -ItemType "directory"
           Copy-Item -Path "tests\conftest.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_workflow\"
           Copy-Item -Path "tests\test_launcher.py" -Destination ".\local_server_test\"
           Copy-Item -Path "tests\test_server.py" -Destination ".\local_server_test\"
           Copy-Item -Path "tests\test_local_server.py" -Destination ".\local_server_test\"
           Copy-Item -Path "tests\test_multi_server.py" -Destination ".\local_server_test\"
-          Copy-Item -Path "tests\test_workflow.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_workflow.py" -Destination ".\test_workflow\"
           Copy-Item -Path "tests\test_remote_workflow.py" -Destination ".\local_server_test\"
           Copy-Item -Path "tests\test_remote_operator.py" -Destination ".\local_server_test\"
           Remove-Item -Path "tests\test_server.py"
@@ -82,6 +84,15 @@ jobs:
         working-directory: local_server_test
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Test API 3"
+        shell: bash
+        working-directory: test_workflow
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
