@@ -120,7 +120,7 @@ class MeshedRegion:
         except NotImplementedError:
             # will throw NotImplementedError for ansys-grpc-dpf
             pass
-        except ansys.dpf.core.errors.DPFServerException as e:
+        except ansys.dpf.core.errors.DPFServerException:
             # and DPFServerException for gRPC CLayer
             pass
         return scop_to_return
