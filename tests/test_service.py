@@ -375,7 +375,8 @@ def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
 
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
-    with pytest.raises(ModuleNotFoundError):
+    with pytest.warns(UserWarning, match="Could not connect to remote server, "
+                                         "trying again using legacy Grpc."):
         serv = dpf.core.connect_to_server(
             config=conf, as_global=False, ip=loc_serv.ip, port=loc_serv.port
         )
