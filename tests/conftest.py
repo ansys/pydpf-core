@@ -303,7 +303,11 @@ else:
         ],
     )
     def server_type_remote_process(request):
-        return core._global_server()
+        global_server = core._global_server()
+        if type(global_server) == ansys.dpf.core.server_types.LegacyGrpcServer:
+            return global_server
+        else:
+            return core.start_local_server(config=request.param, as_global=False)
 
     @pytest.fixture(
         scope="session",
@@ -317,7 +321,12 @@ else:
 
     @pytest.fixture(scope="session")
     def server_type_legacy_grpc(request):
-        return core._global_server()
+        global_server = core._global_server()
+        if type(global_server) == ansys.dpf.core.server_types.LegacyGrpcServer:
+            return global_server
+        else:
+            return core.start_local_server(config=ServerConfig(protocol=CommunicationProtocols.gRPC,
+                                                               legacy=True), as_global=False)
 
 
 @pytest.fixture(
