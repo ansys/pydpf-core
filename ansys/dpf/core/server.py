@@ -12,12 +12,13 @@ import copy
 import inspect
 import warnings
 import traceback
+
 from ansys import dpf
 
 from ansys.dpf.core.misc import is_ubuntu, get_ansys_path
 from ansys.dpf.core import errors
 
-from ansys.dpf.core.server_factory import ServerConfig, ServerFactory
+from ansys.dpf.core.server_factory import ServerConfig, ServerFactory, CommunicationProtocols
 from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER
 
 
@@ -292,19 +293,31 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     >>> #unspecified_server = dpf.connect_to_server(as_global=False)
 
     """
+    def connect():
+        server_init_signature = inspect.signature(server_type.__init__)
+        if "ip" in server_init_signature.parameters.keys() \
+                and "port" in server_init_signature.parameters.keys():
+            server = server_type(
+                ip=ip, port=port, as_global=as_global, launch_server=False
+            )
+        else:
+            server = server_type(
+                as_global=as_global
+            )
+        dpf.core._server_instances.append(weakref.ref(server))
+        return server
+
     server_type = ServerFactory.get_remote_server_type_from_config(config)
-    server_init_signature = inspect.signature(server_type.__init__)
-    if "ip" in server_init_signature.parameters.keys() \
-            and "port" in server_init_signature.parameters.keys():
-        server = server_type(
-            ip=ip, port=port, as_global=as_global, launch_server=False
-        )
-    else:
-        server = server_type(
-            as_global=as_global
-        )
-    dpf.core._server_instances.append(weakref.ref(server))
-    return server
+    try:
+        return connect()
+    except ModuleNotFoundError as e:
+        if "gatebin" in e.msg:
+            warnings.warn(UserWarning("Could not connect to remote server, "
+                                      "trying again using legacy Grpc."))
+            server_type = ServerFactory.get_remote_server_type_from_config(
+                ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True))
+            return connect()
+
 
 
 def get_or_create_server(server):
