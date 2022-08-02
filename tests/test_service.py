@@ -290,7 +290,7 @@ def test_dpf_join(server_type):
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="GrpcServer class is " "supported starting server version 4.0",
 )
-def test_load_api_without_awp_root(remove_awp_root):
+def test_load_api_without_awp_root(restore_awp_root):
     from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
