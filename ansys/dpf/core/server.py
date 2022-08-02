@@ -319,7 +319,6 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
             return connect()
 
 
-
 def get_or_create_server(server):
     """Returns the given server or if None, creates a new one.
 
