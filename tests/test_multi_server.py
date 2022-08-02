@@ -11,7 +11,7 @@ from conftest import local_servers
 @pytest.fixture(scope="module", autouse=True)
 def cleanup(request):
     local_servers.clear()
-    dpf.core.server.shutdown_all_session_servers()
+    dpf.server.shutdown_all_session_servers()
 
 
 @pytest.fixture(scope="module", params=[
