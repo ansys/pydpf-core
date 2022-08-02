@@ -16,7 +16,6 @@ displayed after the post processing of the simulation, as we will see below.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
-from ansys.dpf.core.plotter import DpfPlotter
 from ansys.dpf.core import examples
 
 ###############################################################################
@@ -270,7 +269,7 @@ max_avg_off = not_average_across_bodies(analysis)
 # %%
 # |pic1| |pic2|
 #
-# .. |pic1| image:: images/01-averaged_across_bodies.png    
+# .. |pic1| image:: images/01-averaged_across_bodies.png
 #     :width: 45%
 #
 # .. |pic2| image:: images/01-not_averaged_across_bodies.png
