@@ -315,7 +315,7 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
             server_type = ServerFactory.get_remote_server_type_from_config(
                 ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True))
             warnings.warn(UserWarning("Could not connect to remote server as ansys-dpf--gatebin "
-                                      "is missing. Trying again using legacy Grpc.\n"
+                                      "is missing. Trying again using LegacyGrpcServer.\n"
                                       f"The error stated:\n{e.msg}"))
             return connect()
 
