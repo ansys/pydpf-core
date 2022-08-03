@@ -505,13 +505,13 @@ class GrpcServer(CServer):
                  ):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
+        address = f"{ip}:{port}"
+        self._address = address
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load Ans.Dpf.GrpcClient
         self._grpc_client_path = load_api.load_grpc_client(ansys_path=ansys_path)
         self._own_process = launch_server
         self._local_server = False
-
-        address = f"{ip}:{port}"
 
         self._remote_instance = None
         if launch_server:
