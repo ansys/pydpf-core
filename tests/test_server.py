@@ -63,7 +63,7 @@ class TestServerConfigs:
     def test_start_local_server(self, server_config):
         set_server_configuration(server_config)
         print(dpf.core.SERVER_CONFIGURATION)
-        server = start_local_server(timeout=1)
+        server = start_local_server(timeout=20)
         assert has_local_server()
         server = None
         shutdown_all_session_servers()
