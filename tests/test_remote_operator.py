@@ -6,7 +6,7 @@ from ansys.dpf.core import operators as ops
 import pytest
 
 
-@pytest.fixture(scope="module", autouse=True)
+@pytest.fixture(scope="module", autouse=False)
 def cleanup(request):
     local_servers.clear()
     core.server.shutdown_all_session_servers()

@@ -6,7 +6,7 @@ from ansys import dpf
 from conftest import local_servers
 
 
-@pytest.fixture(scope="module", autouse=True)
+@pytest.fixture(scope="module", autouse=False)
 def cleanup(request):
     local_servers.clear()
     dpf.core.server.shutdown_all_session_servers()

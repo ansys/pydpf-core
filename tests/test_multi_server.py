@@ -8,7 +8,7 @@ from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 from conftest import local_servers
 
 
-@pytest.fixture(scope="module", autouse=True)
+@pytest.fixture(scope="module", autouse=False)
 def cleanup(request):
     local_servers.clear()
     dpf.server.shutdown_all_session_servers()
