@@ -507,8 +507,8 @@ class GrpcServer(CServer):
         from ansys.dpf.core.misc import is_pypim_configured
         address = f"{ip}:{port}"
         self._address = address
-        self._preparing_shutdown_func = (lambda *args, **kwargs: None, None)
-        self._shutdown_func = (lambda *args, **kwargs: None, None)
+        self._preparing_shutdown_func = None
+        self._shutdown_func = None
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load Ans.Dpf.GrpcClient
         self._grpc_client_path = load_api.load_grpc_client(ansys_path=ansys_path)
