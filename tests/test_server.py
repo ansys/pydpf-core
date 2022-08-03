@@ -38,7 +38,7 @@ server_configs_names = ["none",
      ]
 
 
-@pytest.fixture(scope="module", autouse=True)
+@pytest.fixture(scope="class", autouse=True)
 def shutdown(request):
     local_servers.clear()
     dpf.core.server.shutdown_all_session_servers()
