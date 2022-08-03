@@ -1,15 +1,7 @@
 import numpy as np
-import pytest
 
 from ansys.dpf.core import operators as ops
 from ansys import dpf
-from conftest import local_servers
-
-
-@pytest.fixture(scope="module", autouse=False)
-def cleanup(request):
-    local_servers.clear()
-    dpf.core.server.shutdown_all_session_servers()
 
 
 def test_add_operator_server_field(local_server):

@@ -5,13 +5,6 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples, server_types, server
 from ansys.dpf.core.errors import ServerTypeError
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
-from conftest import local_servers
-
-
-@pytest.fixture(scope="module", autouse=False)
-def cleanup(request):
-    local_servers.clear()
-    dpf.server.shutdown_all_session_servers()
 
 
 @pytest.fixture(scope="module", params=[

@@ -11,7 +11,7 @@ from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
 from ansys.dpf.core.server import get_or_create_server
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0, local_servers
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 
 server_configs = [None,
                   ServerConfig(),
@@ -36,12 +36,6 @@ server_configs_names = ["none",
     ["none",
      "legacy grpc",
      ]
-
-
-@pytest.fixture(autouse=False)
-def shutdown(request):
-    local_servers.clear()
-    dpf.core.server.shutdown_all_session_servers()
 
 
 @pytest.mark.parametrize("server_config", server_configs, ids=server_configs_names, scope="class")

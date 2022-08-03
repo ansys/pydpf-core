@@ -9,14 +9,7 @@ from ansys.dpf import core
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     DPF_SERVER_TYPE,
-    local_servers,
 )
-
-
-@pytest.fixture(scope="class", autouse=False)
-def cleanup(request):
-    local_servers.clear()
-    core.server.shutdown_all_session_servers()
 
 
 def test_start_local():
