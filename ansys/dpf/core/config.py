@@ -2,13 +2,17 @@
 Operator Configuration
 ======================
 """
-from typing import NamedTuple
-import functools
 
-from ansys.dpf.core import operator_specification
-from ansys import dpf
+import functools
+import warnings
+import traceback
+
 from ansys.dpf.core import server as server_module
-from ansys.dpf.gate import operator_config_capi, operator_config_grpcapi, operator_config_abstract_api
+from ansys.dpf.gate import (
+    operator_config_capi,
+    operator_config_grpcapi,
+    operator_config_abstract_api,
+)
 from ansys.dpf.core.operator_specification import Specification
 
 
@@ -37,7 +41,7 @@ class Config:
         self._server = server_module.get_or_create_server(server)
 
         # step 2: get api
-        self._api_instance = None # see _api property
+        self._api_instance = None  # see _api property
 
         # step3: init environment
         self._api.init_operator_config_environment(self)  # creates stub when gRPC
@@ -104,7 +108,10 @@ class Config:
         options = {}
         num_options = self._api.operator_config_get_num_config(self)
         for i in range(num_options):
-            options[self._api.operator_config_get_config_option_name(self, i)]=self._api.operator_config_get_config_option_printable_value(self, i)
+            options[
+                self._api.operator_config_get_config_option_name(self, i)
+            ] = self._api.operator_config_get_config_option_printable_value(
+                self, i)
         return options
 
     def __set_config_option__(self, config_value, config_name):
@@ -114,7 +121,7 @@ class Config:
         ----------
         config_value : bool, int, float
             Value to give to a configuration option.
-         config_name : str
+        config_name : str
             Name of the configuration option.
         """
         if isinstance(config_value, bool):
@@ -135,7 +142,7 @@ class Config:
         ----------
         config_value : bool, int, float
             Value to give to a configuration option.
-         config_name : str
+        config_name : str
             Name of the configuration option.
         """
         return self.__set_config_option__(config_value, config_name)
@@ -244,14 +251,7 @@ class Config:
         return _description(self._internal_obj, self._server)
 
     def __del__(self):
-        from ansys.dpf.gate import data_processing_capi, data_processing_grpcapi
         try:
-            # get core api
-            core_api = self._server.get_api_for_type(
-                capi=data_processing_capi.DataProcessingCAPI,
-                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
-            core_api.init_data_processing_environment(self)
-            # delete
-            core_api.data_processing_delete_shared_object(self)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())

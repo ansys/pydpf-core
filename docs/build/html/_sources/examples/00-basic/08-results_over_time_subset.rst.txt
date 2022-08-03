@@ -30,7 +30,7 @@ evaluate a result are exposed. This example can be extended to frequency subsets
 
 Import necessary modules:
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-19
+.. GENERATED FROM PYTHON SOURCE LINES 14-18
 
 .. code-block:: default
 
@@ -45,18 +45,16 @@ Import necessary modules:
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 20-21
+.. GENERATED FROM PYTHON SOURCE LINES 19-20
 
 Create a model object to establish a connection with an example result file:
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-25
+.. GENERATED FROM PYTHON SOURCE LINES 20-23
 
 .. code-block:: default
 
     model = dpf.Model(examples.download_transient_result())
     print(model)
-
 
 
 
@@ -140,14 +138,14 @@ Create a model object to establish a connection with an example result file:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-30
+.. GENERATED FROM PYTHON SOURCE LINES 24-28
 
 Request specific time sets
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 If specific time sets are of interest, looking into the ``TimeFreqSupport``
 and connect a given ``time_scoping`` accordingly to the cumulative indexes can be useful.
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-44
+.. GENERATED FROM PYTHON SOURCE LINES 28-42
 
 .. code-block:: default
 
@@ -236,11 +234,11 @@ and connect a given ``time_scoping`` accordingly to the cumulative indexes can b
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-46
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 Equivalent to:
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-51
+.. GENERATED FROM PYTHON SOURCE LINES 44-48
 
 .. code-block:: default
 
@@ -255,12 +253,11 @@ Equivalent to:
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 52-53
+.. GENERATED FROM PYTHON SOURCE LINES 49-50
 
 Equivalent to:
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-55
+.. GENERATED FROM PYTHON SOURCE LINES 50-52
 
 .. code-block:: default
 
@@ -273,14 +270,14 @@ Equivalent to:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-60
+.. GENERATED FROM PYTHON SOURCE LINES 53-57
 
 Request specific time steps
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 If specific time steps or load steps are of interest, looking into the
 ``TimeFreqSupport`` and connect a given ``time_scoping`` located on steps can be done.
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-65
+.. GENERATED FROM PYTHON SOURCE LINES 57-62
 
 .. code-block:: default
 
@@ -344,11 +341,11 @@ If specific time steps or load steps are of interest, looking into the
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-67
+.. GENERATED FROM PYTHON SOURCE LINES 63-64
 
 Equivalent to:
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-71
+.. GENERATED FROM PYTHON SOURCE LINES 64-68
 
 .. code-block:: default
 
@@ -363,13 +360,13 @@ Equivalent to:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-75
+.. GENERATED FROM PYTHON SOURCE LINES 69-72
 
 Using helpers
 ~~~~~~~~~~~~~
 Evaluate at all times.
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-78
+.. GENERATED FROM PYTHON SOURCE LINES 72-75
 
 .. code-block:: default
 
@@ -383,11 +380,11 @@ Evaluate at all times.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-80
+.. GENERATED FROM PYTHON SOURCE LINES 76-77
 
 Evaluate at first and last times
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-84
+.. GENERATED FROM PYTHON SOURCE LINES 77-81
 
 .. code-block:: default
 
@@ -426,7 +423,7 @@ Evaluate at first and last times
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.979 seconds)
+   **Total running time of the script:** ( 0 minutes  34.912 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_08-results_over_time_subset.py:

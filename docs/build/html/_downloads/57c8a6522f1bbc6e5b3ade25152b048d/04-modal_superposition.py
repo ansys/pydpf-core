@@ -29,7 +29,6 @@ up_stream_data_sources.add_file_path(msup_files["rst"])
 
 data_sources.add_upstream(up_stream_data_sources)
 
-
 ###############################################################################
 # Compute displacements
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

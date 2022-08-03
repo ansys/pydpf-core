@@ -43,14 +43,13 @@ multi-stage cyclic analysis.
 
 Create the model and display the state of the result.
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-20
+.. GENERATED FROM PYTHON SOURCE LINES 15-19
 
 .. code-block:: default
 
     cyc = examples.download_multi_stage_cyclic_result()
     model = dpf.Model(cyc)
     print(model)
-
 
 
 
@@ -93,14 +92,14 @@ Create the model and display the state of the result.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-25
+.. GENERATED FROM PYTHON SOURCE LINES 20-24
 
 Expand displacement results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this example we expand displacement results, by default on all
 nodes and the first time step.
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-43
+.. GENERATED FROM PYTHON SOURCE LINES 24-42
 
 .. code-block:: default
 
@@ -134,12 +133,12 @@ nodes and the first time step.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-46
+.. GENERATED FROM PYTHON SOURCE LINES 43-45
 
 Expand stresses at a given time step
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-66
+.. GENERATED FROM PYTHON SOURCE LINES 45-64
 
 .. code-block:: default
 
@@ -151,7 +150,6 @@ Expand stresses at a given time step
 
     # request the results averaged on the nodes
     SCyc.inputs.requested_location.connect("Nodal")
-
 
     # request equivalent von mises operator and connect it to stress
     # operator
@@ -178,7 +176,7 @@ Expand stresses at a given time step
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.490 seconds)
+   **Total running time of the script:** ( 0 minutes  1.888 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_02-cyclic_multi_stage.py:

@@ -1,3 +1,6 @@
+import traceback
+import warnings
+
 from abc import abstractmethod
 from ansys.dpf.gate.generated import field_abstract_api
 
@@ -22,13 +25,14 @@ class _FieldBase:
             nentities=0,
             nature=natures.vector,
             location=locations.nodal,
-            is_property_field=False,
             field=None,
             server=None,
     ):
         """Initialize the field either with an optional field message or by connecting to a stub."""
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server = server_module.get_or_create_server(
+            field._server if isinstance(field, _FieldBase) else server
+        )
 
         # step 2: get api
         self._api_instance = None  # see property self._api
@@ -39,14 +43,15 @@ class _FieldBase:
         else:
             self._api.init_field_environment(self)  # creates stub when gRPC
 
-
         # step4: if object exists, take the instance, else create it
         if field is not None:
             if isinstance(field, _FieldBase):
                 self._server = field._server
                 self._api_instance = None
-                core_api = self._server.get_api_for_type(capi=data_processing_capi.DataProcessingCAPI,
-                                                     grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+                core_api = self._server.get_api_for_type(
+                    capi=data_processing_capi.DataProcessingCAPI,
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+                )
                 core_api.init_data_processing_environment(self)
                 self._internal_obj = core_api.data_processing_duplicate_object_reference(field)
             else:
@@ -67,8 +72,8 @@ class _FieldBase:
 
     @staticmethod
     @abstractmethod
-    def _field_create_internal_obj(api: field_abstract_api.FieldAbstractAPI, client, nature, nentities,
-                                   location=locations.nodal, ncomp_n=0, ncomp_m=0):
+    def _field_create_internal_obj(api: field_abstract_api.FieldAbstractAPI, client, nature,
+                                   nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0):
         """Returns a gRPC field message or C object instance of a new field.
         This new field is created with this functions parameter attributes
 
@@ -204,20 +209,11 @@ class _FieldBase:
     def __len__(self):
         return self.size
 
-    def _del_scoping(self, scope):
-        scope.__del__()
-
     def __del__(self):
         try:
-            # get core api
-            core_api = self._server.get_api_for_type(capi=data_processing_capi.DataProcessingCAPI,
-                                                     grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
-            core_api.init_data_processing_environment(self)
-
-            # delete
-            core_api.data_processing_delete_shared_object(self)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
     @abstractmethod
     def _set_scoping(self, scoping):
@@ -370,7 +366,8 @@ class _FieldBase:
         array([[1., 2., 3.],
                [1., 2., 3.]])
         >>> field.scoping.ids
-        [1, 2]
+        <BLANKLINE>
+        ...[1, 2]...
 
         """
         pass
@@ -499,13 +496,9 @@ class _LocalFieldBase(_FieldBase):
     """
 
     def __init__(self, field):
-        self._internal_obj = field._internal_obj
-        self._api_instance = field._api_instance
-        self._server = field._server
-        self._owner_field = field
-        self.__cache_data__()
+        self.__cache_data__(field)
 
-    def __cache_data__(self):
+    def __cache_data__(self, field):
         self._ncomp = super().component_count
         self._data_copy = super().data_as_list
         self._num_entities_reserved = len(self._data_copy)
@@ -863,8 +856,8 @@ class _LocalFieldBase(_FieldBase):
         if hasattr(self, "_is_set") and self._is_set:
             super()._set_data(self._data_copy)
             super()._set_data_pointer(self._data_pointer_copy)
-            super()._set_scoping(self._scoping_copy._owner_scoping)
-            self._scoping_copy.release_data()
+            super()._set_scoping(self._scoping_copy)
+            self._scoping_copy = None
 
     def __enter__(self):
         return self
@@ -880,4 +873,5 @@ class _LocalFieldBase(_FieldBase):
         if not hasattr(self, "_is_exited") or not self._is_exited:
             self._is_exited = True
             self.release_data()
+        super(_LocalFieldBase, self).__del__()
         pass

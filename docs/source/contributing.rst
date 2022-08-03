@@ -20,11 +20,7 @@ You can clone the source repository from `DPF-Core
 GitHub <https://https://github.com/pyansys/DPF-Core>`_
 and install the latest version in development mode by running:
 
-.. code::
-
-    git clone https://github.com/pyansys/DPF-Core DPF-Core
-    cd DPF-Core
-    pip install -e .
+.. include:: pydpf-core_clone_install.rst
 
 
 Questions
@@ -33,8 +29,8 @@ For general or technical questions about the project, its
 applications, or about software usage, please create an issue at
 `DPF-Core Issues <https://github.com/pyansys/DPF-Core/issues>`_ where the
 community or DPF-Core developers can collectively address your
-questions.  The project support team can be reached at
-[alexander.kaszynski@ansys.com](mailto:alexander.kaszynski@ansys.com)
+questions. To reach the project support team, 
+email `pyansys.support@ansys.com <pyansys.support@ansys.com>`_.
 
 By posting on the issues page, your question can be addressed by
 community members with the needed expertise and the knowledge gained
@@ -188,7 +184,7 @@ installed.  Next, install the testing requirements with:
 
 .. code::
 
-    pip install -r requirements_test.txt
+    pip install -r requirements/requirements_test.txt
 
 Run the primary test suite and generate a coverage report with:
 
@@ -264,7 +260,7 @@ following from the DPF-Core source directory:
 
 .. code::
 
-   pip install -r requirements_docs.txt
+   pip install -r requirements/requirements_docs.txt
 
 
 Next, if running Linux/Mac OS, build the documentation with 

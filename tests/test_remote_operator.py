@@ -1,12 +1,14 @@
 import numpy as np
-import pytest
-from conftest import local_servers, SERVER_VERSION_HIGHER_THAN_4_0
+from conftest import local_servers
+import conftest
 from ansys.dpf import core
 from ansys.dpf.core import operators as ops
+import pytest
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Connecting data from different servers is '
+                           'supported starting server version 3.0')
 def test_connect_remote_operators(simple_bar):
     data_sources1 = core.DataSources(simple_bar)
     op1 = ops.result.displacement(data_sources=data_sources1)
@@ -17,8 +19,9 @@ def test_connect_remote_operators(simple_bar):
     assert np.allclose(fc[0].data, 2*op1.outputs.fields_container()[0].data)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Connecting data from different servers is '
+                           'supported starting server version 3.0')
 def test_connect_3remote_operators(simple_bar):
     data_sources1 = core.DataSources(simple_bar)
     op1 = ops.result.displacement(data_sources=data_sources1)
@@ -29,8 +32,9 @@ def test_connect_3remote_operators(simple_bar):
     assert np.allclose(fc[0].data, 2*op1.outputs.fields_container()[0].data)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Connecting data from different servers is '
+                           'supported starting server version 4.0')
 def test_connect_remote_data_to_operator(simple_bar):
     data_sources1 = core.DataSources(simple_bar)
     op2 = ops.result.displacement(data_sources=data_sources1, server=local_servers[0])

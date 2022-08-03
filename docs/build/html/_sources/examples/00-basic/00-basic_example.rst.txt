@@ -66,14 +66,13 @@ automatically attempts to start the server in the background.  If you
 want to connect to an existing server (either local or remote), use
 :func:`dpf.connect_to_server`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-44
+.. GENERATED FROM PYTHON SOURCE LINES 39-43
 
 .. code-block:: default
 
 
     model = dpf.Model(examples.simple_bar)
     print(model)
-
 
 
 
@@ -117,7 +116,7 @@ want to connect to an existing server (either local or remote), use
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-50
+.. GENERATED FROM PYTHON SOURCE LINES 44-49
 
 Model Metadata
 ~~~~~~~~~~~~~~
@@ -125,14 +124,13 @@ Specific metadata can be extracted from the model by referencing the
 model's ``metadata`` property.  For example, to print only the
 ``result_info``:
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-55
+.. GENERATED FROM PYTHON SOURCE LINES 49-53
 
 .. code-block:: default
 
 
     metadata = model.metadata
     print(metadata.result_info)
-
 
 
 
@@ -163,17 +161,16 @@ model's ``metadata`` property.  For example, to print only the
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-57
+.. GENERATED FROM PYTHON SOURCE LINES 54-55
 
 To print the mesh region:
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-61
+.. GENERATED FROM PYTHON SOURCE LINES 55-58
 
 .. code-block:: default
 
 
     print(metadata.meshed_region)
-
 
 
 
@@ -194,17 +191,16 @@ To print the mesh region:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-63
+.. GENERATED FROM PYTHON SOURCE LINES 59-60
 
 To print the time or frequency of the results:
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-67
+.. GENERATED FROM PYTHON SOURCE LINES 60-63
 
 .. code-block:: default
 
 
     print(metadata.time_freq_support)
-
 
 
 
@@ -225,7 +221,7 @@ To print the time or frequency of the results:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-80
+.. GENERATED FROM PYTHON SOURCE LINES 64-76
 
 Extracting Displacement Results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -240,7 +236,7 @@ takes place automatically when running ``results.displacement()``.
 By default, the ``'U'`` operator is connected to the first result set,
 which for this static result is the only result.
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-88
+.. GENERATED FROM PYTHON SOURCE LINES 76-84
 
 .. code-block:: default
 
@@ -273,7 +269,7 @@ which for this static result is the only result.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-90
+.. GENERATED FROM PYTHON SOURCE LINES 85-86
 
 .. code-block:: default
 
@@ -293,7 +289,7 @@ which for this static result is the only result.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.586 seconds)
+   **Total running time of the script:** ( 0 minutes  3.445 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_00-basic_example.py:

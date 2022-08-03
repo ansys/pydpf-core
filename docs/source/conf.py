@@ -4,6 +4,7 @@ from datetime import datetime
 import numpy as np
 import pyvista
 from ansys.dpf.core import __version__
+from ansys_sphinx_theme import pyansys_logo_black
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -48,8 +49,17 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.napoleon",
     "pydata_sphinx_theme",
+    "sphinx_design",
     "nbsphinx",
+    "sphinx.ext.graphviz",
+    "enum_tools.autoenum",
+    "sphinx.ext.intersphinx"
 ]
+
+# Intersphinx mapping
+intersphinx_mapping = {
+    "pyvista": ("https://docs.pyvista.org/", None),
+}
 
 autosummary_generate = True
 
@@ -89,7 +99,7 @@ sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
     # path to your examples scripts
-    "examples_dirs": ["../../examples/"],
+    "examples_dirs": ["../../examples"],
     # path where to save gallery generated examples
     "gallery_dirs": ["examples"],
     # Patter to search for example files
@@ -110,8 +120,8 @@ autodoc_member_order = "bysource"
 
 
 # -- Options for HTML output -------------------------------------------------
-html_theme = "pyansys_sphinx_theme"
-html_logo = os.path.join("_static", "pyansys-logo-black-cropped.png")
+html_theme = "ansys_sphinx_theme"
+html_logo = pyansys_logo_black
 html_theme_options = {
     "github_url": "https://github.com/pyansys/DPF-Core",
     "show_prev_next": False,
@@ -123,6 +133,12 @@ html_theme_options = {
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
+# These paths are either relative to html_static_path
+# or fully qualified paths (eg. https://...)
+html_css_files = [
+    'custom.css',
+]
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.

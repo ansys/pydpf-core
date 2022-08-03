@@ -7,8 +7,14 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   ansys.dpf.core.operators.logic.ascending_sort
+   ansys.dpf.core.operators.logic.ascending_sort_fc
    ansys.dpf.core.operators.logic.component_selector
    ansys.dpf.core.operators.logic.component_selector_fc
+   ansys.dpf.core.operators.logic.custom_set_out_np_double
+   ansys.dpf.core.operators.logic.custom_set_out_np_int
+   ansys.dpf.core.operators.logic.descending_sort
+   ansys.dpf.core.operators.logic.descending_sort_fc
    ansys.dpf.core.operators.logic.enrich_materials
    ansys.dpf.core.operators.logic.identical_fc
    ansys.dpf.core.operators.logic.identical_fields

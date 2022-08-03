@@ -21,10 +21,8 @@ from ansys.dpf.core import operators as ops
 model = dpf.Model(examples.complex_rst)
 mesh = model.metadata.meshed_region
 
-
 # Volume size to check
 volume_check = 4.0e-11
-
 
 # get the all the node ids in the model to find the minimum amount of
 # surrounding elements to get a minimum volume
@@ -114,8 +112,8 @@ with values_to_sum_field.as_local_field() as values_to_sum:
             ssum = 0.0
             for id in node_index_to_el_ids[key]:
                 ssum += (
-                    values_to_sum.get_entity_data_by_id(id)[0]
-                    * vol.get_entity_data_by_id(id)[0]
+                        values_to_sum.get_entity_data_by_id(id)[0]
+                        * vol.get_entity_data_by_id(id)[0]
                 )
             dataseqvsum.append(ssum)
             datavolsum.append(node_index_to_found_volume[key])
@@ -135,7 +133,6 @@ divide.run()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 mesh.plot(values_to_sum_field)
 mesh.plot(divide.outputs.field())
-
 
 ###############################################################################
 # Use the Operator instead

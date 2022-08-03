@@ -2,18 +2,21 @@
 ResultInfo
 ==========
 """
+import traceback
+import warnings
+
 from enum import Enum, unique
-from ansys.dpf.gate import result_info_capi, result_info_grpcapi, integral_types, \
-    data_processing_capi, data_processing_grpcapi
+from ansys.dpf.gate import result_info_capi, result_info_grpcapi, integral_types
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import available_result
-from ansys.dpf.core.mapping_types import map_unit_system
 from ansys.dpf.core.cyclic_support import CyclicSupport
-from ansys.dpf.core.common import __write_enum_doc__
 
 
 @unique
 class physics_types(Enum):
+    """
+    ``'Physics_types'`` enumerates the different types of physics that an analysis can have.
+    """
     mecanic = 0  # TODO change for "mechanical"?
     thermal = 1
     magnetic = 2
@@ -21,14 +24,9 @@ class physics_types(Enum):
     unknown_physics = 4
 
 
-physics_types.__doc__ = __write_enum_doc__(
-    physics_types,
-    "``'Physics_types'`` enumerates the different types of physics that an analysis can have.",
-)
-
-
 @unique
 class analysis_types(Enum):
+    """``'Analysis_types'`` enumerates the different types of analysis."""
     static = 0
     buckling = 1
     modal = 2
@@ -39,11 +37,6 @@ class analysis_types(Enum):
     substruct = 7
     spectrum = 8
     unknown_analysis = 9
-
-
-analysis_types.__doc__ = __write_enum_doc__(
-    physics_types, "``'Analysis_types'`` enumerates the different types of analysis."
-)
 
 
 class ResultInfo:
@@ -375,12 +368,6 @@ class ResultInfo:
 
     def __del__(self):
         try:
-            # get core api
-            core_api = self._server.get_api_for_type(
-                capi=data_processing_capi.DataProcessingCAPI,
-                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
-            core_api.init_data_processing_environment(self)
-            # delete
-            core_api.data_processing_delete_shared_object(self)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())

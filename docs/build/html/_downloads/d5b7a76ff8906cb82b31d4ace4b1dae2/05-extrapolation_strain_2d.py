@@ -33,7 +33,6 @@ source and nodal strain computed by extrapolation method.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-
 ###############################################################################
 # Get the data source's analyse of integration points and data source's analyse reference
 datafile = examples.download_extrapolation_2d_result()
@@ -77,7 +76,6 @@ strain = strainop.outputs.fields_container()
 strain_nodal_op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
 strain_nodal_op.inputs.fields_container.connect(strain)
 mesh.plot(strain_nodal_op.outputs.fields_container())
-
 
 ###############################################################################
 # Create the ``gauss_to_node_fc`` operator and compute nodal component

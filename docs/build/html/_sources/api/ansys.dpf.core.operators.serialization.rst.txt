@@ -12,6 +12,7 @@ Submodules
    ansys.dpf.core.operators.serialization.data_tree_to_txt
    ansys.dpf.core.operators.serialization.deserializer
    ansys.dpf.core.operators.serialization.field_to_csv
+   ansys.dpf.core.operators.serialization.gltf_export
    ansys.dpf.core.operators.serialization.json_to_data_tree
    ansys.dpf.core.operators.serialization.mechanical_csv_to_field
    ansys.dpf.core.operators.serialization.migrate_file_to_vtk

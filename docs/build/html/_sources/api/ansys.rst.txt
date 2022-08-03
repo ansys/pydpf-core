@@ -2,11 +2,3 @@ ansys namespace
 ===============
 
 .. py:module:: ansys
-
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   ansys.dpf

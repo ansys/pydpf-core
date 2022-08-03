@@ -43,13 +43,12 @@ This example shows how to expand a cyclic mesh and its results.
 
 Create the model and display the state of the result.
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-19
+.. GENERATED FROM PYTHON SOURCE LINES 15-18
 
 .. code-block:: default
 
     model = dpf.Model(examples.simple_cyclic)
     print(model)
-
 
 
 
@@ -122,14 +121,14 @@ Create the model and display the state of the result.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-24
+.. GENERATED FROM PYTHON SOURCE LINES 19-23
 
 Expand displacement results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this example we expand displacement results, by default on all
 nodes and the first time step.
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-39
+.. GENERATED FROM PYTHON SOURCE LINES 23-38
 
 .. code-block:: default
 
@@ -160,12 +159,12 @@ nodes and the first time step.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-42
+.. GENERATED FROM PYTHON SOURCE LINES 39-41
 
 Expand stresses at a given time step
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-66
+.. GENERATED FROM PYTHON SOURCE LINES 41-65
 
 .. code-block:: default
 
@@ -200,12 +199,12 @@ Expand stresses at a given time step
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-69
+.. GENERATED FROM PYTHON SOURCE LINES 66-68
 
 Expand stresses at given sectors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-97
+.. GENERATED FROM PYTHON SOURCE LINES 68-96
 
 .. code-block:: default
 
@@ -244,12 +243,12 @@ Expand stresses at given sectors
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 98-100
+.. GENERATED FROM PYTHON SOURCE LINES 97-99
 
 Expand stresses and average to elemental location
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-127
+.. GENERATED FROM PYTHON SOURCE LINES 99-126
 
 .. code-block:: default
 
@@ -295,7 +294,7 @@ Expand stresses and average to elemental location
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.295 seconds)
+   **Total running time of the script:** ( 0 minutes  1.654 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_01-modal_cyclic.py:

@@ -11,12 +11,12 @@ export them to hdf5 and csv format.
 ###############################################################################
 # Import dpf module and its examples files, and create a temporary directory
 
+import os
+import tempfile
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
-
-import os
-import tempfile
 
 tmpdir = tempfile.mkdtemp()
 

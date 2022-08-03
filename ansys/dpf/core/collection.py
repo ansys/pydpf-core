@@ -5,6 +5,8 @@ Contains classes associated with the DPF collection.
 
 """
 import abc
+import warnings
+import traceback
 
 import numpy as np
 
@@ -12,7 +14,6 @@ from ansys.dpf.core.server_types import BaseServer
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core.field import Field
 from ansys.dpf.gate import (
     collection_capi,
     collection_grpcapi,
@@ -40,11 +41,6 @@ class Collection:
         default is ``None``, in which case an attempt is made to use the global
         server.
 
-    Examples
-    --------
-    >>> from ansys.dpf import core as dpf
-    >>> coll = dpf.Collection(dpf.types.field)
-
     """
 
     def __init__(self, collection=None,
@@ -57,8 +53,10 @@ class Collection:
         if collection is not None:
             if isinstance(collection, Collection):
                 self._server = collection._server
-                core_api = self._server.get_api_for_type(capi=data_processing_capi.DataProcessingCAPI,
-                                                         grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+                core_api = self._server.get_api_for_type(
+                    capi=data_processing_capi.DataProcessingCAPI,
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+                )
                 core_api.init_data_processing_environment(self)
                 self._internal_obj = core_api.data_processing_duplicate_object_reference(collection)
             else:
@@ -112,7 +110,9 @@ class Collection:
         if all(isinstance(x, (float, np.float)) for x in inpt):
             return FloatCollection(inpt, server=server)
         else:
-            raise NotImplementedError(f"{IntegralCollection.__name__} is only implemented for int and float values and not {type(inpt[0]).__name__}")
+            raise NotImplementedError(f"{IntegralCollection.__name__} is only "
+                                      "implemented for int and float values "
+                                      f"and not {type(inpt[0]).__name__}")
 
     def set_labels(self, labels):
         """Set labels for scoping the collection.
@@ -221,10 +221,13 @@ class Collection:
             out = []
             for i in range(0, num):
                 out.append(self.create_subtype(
-                    self._api.collection_get_obj_by_index_for_label_space(self, client_label_space, i)))
+                    self._api.collection_get_obj_by_index_for_label_space(
+                        self, client_label_space, i)))
             return out
         else:
-            return self.create_subtype(self._api.collection_get_obj_by_index(self, label_space_or_index))
+            return self.create_subtype(
+                self._api.collection_get_obj_by_index(self, label_space_or_index)
+            )
 
     def _get_entry(self, label_space_or_index):
         """Retrieve the entry at a requested label space or index.
@@ -265,7 +268,9 @@ class Collection:
             Scoping of the requested entry. For example,
             ``{"time": 1, "complex": 0}``.
         """
-        return self._create_dict_from_client_label_space(self._api.collection_get_obj_label_space_by_index(self, index))
+        return self._create_dict_from_client_label_space(
+            self._api.collection_get_obj_label_space_by_index(self, index)
+        )
 
     def get_available_ids_for_label(self, label="time"):
         """Retrieve the IDs assigned to an input label.
@@ -335,13 +340,17 @@ class Collection:
 
     @property
     def _data_processing_core_api(self):
-        core_api = self._server.get_api_for_type(capi=data_processing_capi.DataProcessingCAPI,
-                                             grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+        core_api = self._server.get_api_for_type(
+            capi=data_processing_capi.DataProcessingCAPI,
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
         core_api.init_data_processing_environment(self)
         return core_api
 
     def _create_client_label_space(self, label_space):
-        client_label_space = object_handler.ObjHandler(self._data_processing_core_api, self._label_space_api.label_space_new_for_object(self))
+        client_label_space = object_handler.ObjHandler(
+            self._data_processing_core_api,
+            self._label_space_api.label_space_new_for_object(self)
+        )
         for key, id in label_space.items():
             self._label_space_api.label_space_add_data(client_label_space, key, id)
         return client_label_space
@@ -350,9 +359,12 @@ class Collection:
         if isinstance(client_label_space, dict):
             return client_label_space
         out = {}
-        client_label_space = object_handler.ObjHandler(self._data_processing_core_api, client_label_space)
+        client_label_space = object_handler.ObjHandler(
+            self._data_processing_core_api, client_label_space
+        )
         for i in range(0, self._label_space_api.label_space_get_size(client_label_space)):
-            out[self._label_space_api.label_space_get_labels_name(client_label_space, i)] = self._label_space_api.label_space_get_labels_value(client_label_space, i)
+            out[self._label_space_api.label_space_get_labels_name(client_label_space, i)] = \
+                self._label_space_api.label_space_get_labels_value(client_label_space, i)
         return out
 
     def _add_entry(self, label_space, entry):
@@ -384,8 +396,10 @@ class Collection:
             data_processing_api=data_api,
             internal_obj=self._api.collection_get_support(self, "time"),
             server=self._server)
-        support_api = self._server.get_api_for_type(capi=support_capi.SupportCAPI,
-                                                    grpcapi=support_grpcapi.SupportGRPCAPI)
+        support_api = self._server.get_api_for_type(
+            capi=support_capi.SupportCAPI,
+            grpcapi=support_grpcapi.SupportGRPCAPI
+        )
         time_freq = support_api.support_get_as_time_freq_support(support)
         res = TimeFreqSupport(time_freq_support=time_freq, server=self._server)
         return res
@@ -393,7 +407,6 @@ class Collection:
     def _set_time_freq_support(self, time_freq_support):
         """Set the time frequency support of the collection."""
         self._api.collection_set_support(self, "time", time_freq_support)
-
 
     def __str__(self):
         """Describe the entity.
@@ -415,9 +428,9 @@ class Collection:
         try:
             # delete
             if not self.owned:
-                self._data_processing_core_api.data_processing_delete_shared_object(self)
+                self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
     def _get_ownership(self):
         self.owned = True
@@ -489,7 +502,6 @@ class IntCollection(Collection):
         if list is not None:
             self._set_integral_entries(list)
 
-
     def create_subtype(self, obj_by_copy):
         return int(obj_by_copy)
 
@@ -507,7 +519,9 @@ class IntCollection(Collection):
     def get_integral_entries(self):
         try:
             vec = dpf_vector.DPFVectorInt(client=self._server.client)
-            self._api.collection_get_data_as_int_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
+            self._api.collection_get_data_as_int_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size
+            )
             return dpf_array.DPFArray(vec)
         except NotImplementedError:
             return self._api.collection_get_data_as_int(self, 0)
@@ -536,7 +550,9 @@ class FloatCollection(Collection):
         self._sub_type = float
         if self._internal_obj is None:
             if self._server.has_client():
-                self._internal_obj = self._api.collection_of_double_new_on_client(self._server.client)
+                self._internal_obj = self._api.collection_of_double_new_on_client(
+                    self._server.client
+                )
             else:
                 self._internal_obj = self._api.collection_of_double_new()
         if list is not None:
@@ -559,7 +575,9 @@ class FloatCollection(Collection):
     def get_integral_entries(self):
         try:
             vec = dpf_vector.DPFVectorDouble(client=self._server.client)
-            self._api.collection_get_data_as_double_for_dpf_vector(self, vec, vec.internal_data, vec.internal_size)
+            self._api.collection_get_data_as_double_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size
+            )
             return dpf_array.DPFArray(vec)
         except NotImplementedError:
             return self._api.collection_get_data_as_double(self, 0)

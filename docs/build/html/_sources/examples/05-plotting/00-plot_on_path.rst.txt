@@ -75,7 +75,7 @@ Then, we create a coordinates field to map on
 
 .. code-block:: default
 
-    coordinates = [ [0.024, 0.03, 0.003]]
+    coordinates = [[0.024, 0.03, 0.003]]
     for i in range(1, 51):
         coord_copy = coordinates[0].copy()
         coord_copy[1] = coord_copy[0] + i * 0.001
@@ -135,7 +135,7 @@ Here, we request the mapped field data and its mesh
 
 Now we create the plotter and add fields and meshes
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-62
+.. GENERATED FROM PYTHON SOURCE LINES 55-63
 
 .. code-block:: default
 
@@ -143,10 +143,11 @@ Now we create the plotter and add fields and meshes
 
     pl.add_field(field_m, mesh_m)
     pl.add_mesh(mesh, style="surface", show_edges=True,
-                 color="w", opacity=0.3)
+                color="w", opacity=0.3)
 
     # Finally we plot the result
     pl.show_figure(show_axes=True)
+
 
 
 .. image-sg:: /examples/05-plotting/images/sphx_glr_00-plot_on_path_001.png
@@ -161,7 +162,7 @@ Now we create the plotter and add fields and meshes
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.740 seconds)
+   **Total running time of the script:** ( 0 minutes  0.878 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_00-plot_on_path.py:

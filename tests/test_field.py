@@ -1,7 +1,8 @@
 import numpy as np
 import pytest
+import copy
 from ansys import dpf
-from conftest import SERVER_VERSION_HIGHER_THAN_3_0, SERVER_VERSION_HIGHER_THAN_4_0
+import conftest
 from ansys.dpf import core
 from ansys.dpf.core import FieldDefinition
 from ansys.dpf.core import operators as ops
@@ -53,8 +54,9 @@ def test_append_scalar_data(server_type):
     assert np.allclose(field.data, list(range(0, 10)))
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Connecting data from different servers is '
+                           'supported starting server version 3.0')
 def test_createbycopy_field(server_type):
     field = dpf.core.Field(server=server_type)
     field2 = dpf.core.Field(field=field)
@@ -482,8 +484,7 @@ def test_create_and_update_field_definition(server_type):
     assert fieldDef.location == locations.nodal
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under('4.0')
 def test_create_and_set_get_name_field_definition(server_type):
     fieldDef = FieldDefinition(server=server_type)
     assert fieldDef is not None
@@ -899,6 +900,44 @@ def test_field_huge_amount_of_data(allkindofcomplexity):
     field.data = modif_data
     new_modif_data = field.data
     assert np.allclose(new_modif_data, modif_data)
+
+
+@conftest.raises_for_servers_version_under("4.0")
+def test_field_mutable_data(server_clayer, allkindofcomplexity):
+    # set data with a field created from a model
+    model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
+    field = model.results.displacement().outputs.fields_container()[0]
+    data = field.data
+    data_copy = copy.deepcopy(data)
+    data[0] += 1.
+    data.commit()
+    changed_data = field.data
+    assert np.allclose(changed_data, data)
+    assert not np.allclose(changed_data, data_copy)
+    assert np.allclose(changed_data[0], data_copy[0] + 1.)
+    data[0] += 1
+    data = None
+    changed_data = field.data
+    assert np.allclose(changed_data[0], data_copy[0] + 2.)
+
+
+@conftest.raises_for_servers_version_under("4.0")
+def test_field_mutable_data_pointer(server_clayer, allkindofcomplexity):
+    # set data with a field created from a model
+    model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
+    field = model.results.stress().outputs.fields_container()[0]
+    data = field._data_pointer
+    data_copy = copy.deepcopy(data)
+    data[0] += 1
+    data.commit()
+    changed_data = field._data_pointer
+    assert np.allclose(changed_data, data)
+    assert not np.allclose(changed_data, data_copy)
+    assert np.allclose(changed_data[0], data_copy[0] + 1)
+    data[0] += 1
+    data = None
+    changed_data = field._data_pointer
+    assert np.allclose(changed_data[0], data_copy[0] + 2)
 
 
 def test_deep_copy_field():

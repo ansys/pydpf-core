@@ -2,21 +2,24 @@
 MeshedRegion
 ============
 """
-from ansys.dpf.core import scoping, field, property_field, fields_container, field_base
-from ansys.dpf.core.check_version import server_meet_version
-from ansys.dpf.core.common import locations, types
+import traceback
+import warnings
+
+from ansys.dpf.core import scoping, field, property_field
+from ansys.dpf.core.check_version import server_meet_version, version_requires
+from ansys.dpf.core.common import locations, types, nodal_properties
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
-from ansys.dpf.core.plotter import Plotter as _DpfPlotter
+from ansys.dpf.core.plotter import DpfPlotter, Plotter
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core import server as server_module
-from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi, \
-    data_processing_capi, data_processing_grpcapi
+from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi
 
 
 @class_handling_cache
 class MeshedRegion:
-    """Represents a mesh from DPF.
+    """
+    Represents a mesh from DPF.
 
     Parameters
     ----------
@@ -30,14 +33,6 @@ class MeshedRegion:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
-
-    Attributes
-    ----------
-    nodes : Nodes
-        Entity containing all nodal properties.
-
-    elements : Elements
-        Entity containing all elemental properties.
 
     Examples
     --------
@@ -68,13 +63,14 @@ class MeshedRegion:
     """
 
     def __init__(self, num_nodes=None, num_elements=None, mesh=None, server=None):
-        from ansys.dpf.gate import object_handler
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
         # step 2: get api
-        self._api = self._server.get_api_for_type(capi=meshed_region_capi.MeshedRegionCAPI,
-                                                  grpcapi=meshed_region_grpcapi.MeshedRegionGRPCAPI)
+        self._api = self._server.get_api_for_type(
+            capi=meshed_region_capi.MeshedRegionCAPI,
+            grpcapi=meshed_region_grpcapi.MeshedRegionGRPCAPI,
+        )
 
         # step3: init environment
         self._api.init_meshed_region_environment(self)  # creates stub when gRPC
@@ -86,7 +82,9 @@ class MeshedRegion:
         else:
             # if no mesh object, create one
             if self._server.has_client():
-                self._internal_obj = self._api.meshed_region_new_on_client(self._server.client)
+                self._internal_obj = self._api.meshed_region_new_on_client(
+                    self._server.client
+                )
             else:
                 self._internal_obj = self._api.meshed_region_new()
 
@@ -116,7 +114,8 @@ class MeshedRegion:
 
     @property
     def elements(self):
-        """All elemental properties of the mesh, such as connectivity and element types.
+        """
+        All elemental properties of the mesh, such as connectivity and element types.
 
         Returns
         -------
@@ -134,13 +133,12 @@ class MeshedRegion:
         DPF Elements object with 8 elements
 
         """
-        if self._elements is None:
-            self._elements = Elements(self)
-        return self._elements
+        return Elements(self)
 
     @property
     def nodes(self):
-        """All nodal properties of the mesh, such as node coordinates and nodal connectivity.
+        """
+        All nodal properties of the mesh, such as node coordinates and nodal connectivity.
 
         Returns
         -------
@@ -158,13 +156,12 @@ class MeshedRegion:
         81
 
         """
-        if self._nodes is None:
-            self._nodes = Nodes(self)
-        return self._nodes
+        return Nodes(self)
 
     @property
     def unit(self):
-        """Unit of the meshed region.
+        """
+        Unit of the meshed region.
 
         This unit is the same as the unit of the coordinates of the meshed region.
 
@@ -176,7 +173,8 @@ class MeshedRegion:
 
     @unit.setter
     def unit(self, value):
-        """Unit type.
+        """
+        Unit type.
 
         Parameters
         ----------
@@ -185,7 +183,8 @@ class MeshedRegion:
         return self._set_unit(value)
 
     def _get_unit(self):
-        """Retrieve the unit type.
+        """
+        Retrieve the unit type.
 
         Returns
         -------
@@ -194,7 +193,8 @@ class MeshedRegion:
         return self._api.meshed_region_get_unit(self)
 
     def _set_unit(self, unit):
-        """Set the unit of the meshed region.
+        """
+        Set the unit of the meshed region.
 
         Parameters
         ----------
@@ -204,15 +204,9 @@ class MeshedRegion:
 
     def __del__(self):
         try:
-            # get core api
-            core_api = self._server.get_api_for_type(
-                capi=data_processing_capi.DataProcessingCAPI,
-                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
-            core_api.init_data_processing_environment(self)
-            # delete
-            core_api.data_processing_delete_shared_object(self)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
     def __str__(self):
         from ansys.dpf.core.core import _description
@@ -220,8 +214,67 @@ class MeshedRegion:
         return _description(self._internal_obj, self._server)
 
     @property
+    def available_property_fields(self):
+        """
+        Returns a list of available property fields
+
+        Returns
+        -------
+        available_property_fields : list str
+        """
+        available_property_fields = []
+        n_property_field = self._api.meshed_region_get_num_available_property_field(
+            self
+        )
+        for index in range(n_property_field):
+            available_property_fields.append(
+                self._api.meshed_region_get_property_field_name(self, index)
+            )
+        return available_property_fields
+
+    def property_field(self, property_name):
+        """
+        Property field getter. It can be coordinates (field),
+        element types (property field)...
+
+        Returns
+        -------
+        field_or_property_field : core.Field or core.PropertyField
+        """
+        return self.field_of_properties(property_name)
+
+    @version_requires("3.0")
+    def set_property_field(self, property_name, value):
+        """
+        Property field setter. It can be coordinates (field),
+        element types (property field)...
+
+        Parameters
+        ----------
+        property_name : str
+            property name of the field to set
+        value : PropertyField or Field
+        """
+        if property_name is nodal_properties.coordinates:
+            self.set_coordinates_field(value)
+        else:
+            self._api.meshed_region_set_property_field(self, property_name, value)
+
+    @version_requires("3.0")
+    def set_coordinates_field(self, coordinates_field):
+        """
+        Coordinates field setter.
+
+        Parameters
+        ----------
+        coordinates_field : PropertyField or Field
+        """
+        self._api.meshed_region_set_coordinates_field(self, coordinates_field)
+
+    @property
     def available_named_selections(self):
-        """List of available named selections.
+        """
+        List of available named selections.
 
         Returns
         -------
@@ -230,7 +283,8 @@ class MeshedRegion:
         return self._get_available_named_selections()
 
     def _get_available_named_selections(self):
-        """List of available named selections.
+        """
+        List of available named selections.
 
         Returns
         -------
@@ -239,11 +293,14 @@ class MeshedRegion:
         named_selections = []
         n_selections = self._api.meshed_region_get_num_available_named_selection(self)
         for index in range(n_selections):
-            named_selections.append(self._api.meshed_region_get_named_selection_name(self, index))
+            named_selections.append(
+                self._api.meshed_region_get_named_selection_name(self, index)
+            )
         return named_selections
 
     def named_selection(self, named_selection):
-        """Scoping containing the list of nodes or elements in the named selection.
+        """
+        Scoping containing the list of nodes or elements in the named selection.
 
         Parameters
         ----------
@@ -255,7 +312,9 @@ class MeshedRegion:
         named_selection : Scoping
         """
         if server_meet_version("2.1", self._server):
-            out = self._api.meshed_region_get_named_selection_scoping(self, named_selection)
+            out = self._api.meshed_region_get_named_selection_scoping(
+                self, named_selection
+            )
             return scoping.Scoping(scoping=out, server=self._server)
         else:
             if hasattr(self, "_stream_provider"):
@@ -271,6 +330,21 @@ class MeshedRegion:
                     "only implemented for meshed region created from a "
                     "model for server version 2.0. Please update your server."
                 )
+
+    @version_requires("3.0")
+    def set_named_selection_scoping(self, named_selection_name, scoping):
+        """
+        Named selection scoping setter.
+
+        Parameters
+        ----------
+        named_selection_name : str
+            named selection name
+        scoping : Scoping
+        """
+        return self._api.meshed_region_set_named_selection_scoping(
+            self, named_selection_name, scoping
+        )
 
     def _set_stream_provider(self, stream_provider):
         self._stream_provider = stream_provider
@@ -316,11 +390,37 @@ class MeshedRegion:
     #     self._internal_obj = skin.get_output(0, types.meshed_region)
     #     return MeshedRegion(self._server.channel, skin, self._model, name)
 
-    def _as_vtk(self, as_linear=True, include_ids=False):
+    def deform_by(self, deform_by, scale_factor=1.0):
+        """
+        Deforms the mesh according to a 3D vector field and an additional scale factor.
+
+        Parameters
+        ----------
+        deform_by : Field, FieldsContainer, Result, Operator
+            Used to deform the plotted mesh. Must output a unique 3D vector field.
+            Defaults to None.
+        scale_factor : float, Field, FieldsContainer, optional
+            Used to scale the mesh deformation. Defaults to 1.0. Can be a scalar Field
+            (or a FieldsContainer with only one Field) to get a spatially non-homogeneous scaling.
+        Returns
+        -------
+
+        """
+        from ansys.dpf.core.operators.math import add, scale
+
+        scale_op = scale(field=deform_by, ponderation=scale_factor)
+        return add(
+            fieldA=self.nodes.coordinates_field, fieldB=scale_op.outputs.field
+        ).eval()
+
+    def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
         # Quick fix required to hold onto the data as PyVista does not make a copy.
-        # All of those now return DPFArrays (
-        self._tmpnodes = self.nodes.coordinates_field.data
+        # All of those now return DPFArrays
+        if not coordinates:
+            self._tmpnodes = self.nodes.coordinates_field.data
+        else:
+            self._tmpnodes = coordinates.data
         etypes = self.elements.element_types_field.data
         conn = self.elements.connectivities_field.data
         try:
@@ -344,7 +444,8 @@ class MeshedRegion:
 
     @property
     def grid(self):
-        """Unstructured grid in VTK format from PyVista.
+        """
+        Unstructured grid in VTK format from PyVista.
 
         Returns
         -------
@@ -369,34 +470,31 @@ class MeshedRegion:
 
         """
         if self._full_grid is None:
-            self._full_grid = self._as_vtk()
+            self._full_grid = self._as_vtk(self.nodes.coordinates_field)
         return self._full_grid
 
     def plot(
-            self,
-            field_or_fields_container=None,
-            notebook=None,
-            shell_layers=None,
-            off_screen=None,
-            show_axes=True,
-            **kwargs
+        self,
+        field_or_fields_container=None,
+        shell_layers=None,
+        deform_by=None,
+        scale_factor=1.0,
+        **kwargs,
     ):
-        """Plot the field or fields container on the mesh.
+        """
+        Plot the field or fields container on the mesh.
 
         Parameters
         ----------
         field_or_fields_container : dpf.core.Field or dpf.core.FieldsContainer
             Field or fields container to plot. The default is ``None``.
-        notebook : bool, optional
-            Whether the plotting in the notebook is 2D or 3D. The default is
-            ``None``, in which case the plotting is 2D.
         shell_layers : core.shell_layers, optional
             Enum used to set the shell layers if the model to plot contains shell elements.
-        off_screen : bool, optional
-            Whether to render the plot off screen, which is useful for automated screenshots.
-            The default is "None", in which case the plot renders off screen.
-        show_axes : bool, optional
-            Whether to show a VTK axes widget. The default is ``True``.
+        deform_by : Field, Result, Operator, optional
+            Used to deform the plotted mesh. Must output a 3D vector field.
+            Defaults to None.
+        scale_factor : float, optional
+            Scaling factor to apply when warping the mesh. Defaults to 1.0.
         **kwargs : optional
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
@@ -413,23 +511,31 @@ class MeshedRegion:
         >>> model.metadata.meshed_region.plot(field)
 
         """
-        pl = _DpfPlotter(self)
         if field_or_fields_container is not None:
+            pl = Plotter(self, **kwargs)
             return pl.plot_contour(
                 field_or_fields_container,
-                notebook,
                 shell_layers,
-                off_screen,
-                show_axes,
-                **kwargs
+                show_axes=kwargs.pop("show_axes", True),
+                deform_by=deform_by,
+                scale_factor=scale_factor,
+                **kwargs,
             )
 
-        # otherwise, simply plot self
-        kwargs["notebook"] = notebook
-        return pl.plot_mesh(**kwargs)
+        # otherwise, simply plot the mesh
+        pl = DpfPlotter(**kwargs)
+        pl.add_mesh(
+            self,
+            deform_by=deform_by,
+            scale_factor=scale_factor,
+            show_axes=kwargs.pop("show_axes", True),
+            **kwargs,
+        )
+        return pl.show_figure(**kwargs)
 
     def deep_copy(self, server=None):
-        """Create a deep copy of the meshed region's data on a given server.
+        """
+        Create a deep copy of the meshed region's data on a given server.
 
         This method is useful for passing data from one server instance to another.
 
@@ -478,7 +584,8 @@ class MeshedRegion:
         return mesh
 
     def field_of_properties(self, property_name):
-        """Returns the ``Field`` or ``PropertyField`` associated
+        """
+        Returns the ``Field`` or ``PropertyField`` associated
         to a given property of the mesh
 
         Parameters
@@ -500,19 +607,21 @@ class MeshedRegion:
         ...     dpf.common.elemental_properties.connectivity)
         >>> coordinates = meshed_region.field_of_properties(dpf.common.nodal_properties.coordinates)
         """
-        from ansys.dpf.core.common import nodal_properties
         if property_name is nodal_properties.coordinates:
             field_out = self._api.meshed_region_get_coordinates_field(self)
             return field.Field(server=self._server, field=field_out)
         else:
             field_out = self._api.meshed_region_get_property_field(self, property_name)
             if isinstance(field_out, int):
-                res = property_field.PropertyField(server=self._server, property_field=field_out)
+                res = property_field.PropertyField(
+                    server=self._server, property_field=field_out
+                )
                 return res
             else:
                 if field_out.datatype == "int":
-                    return property_field.PropertyField(server=self._server,
-                                                        property_field=field_out)
+                    return property_field.PropertyField(
+                        server=self._server, property_field=field_out
+                    )
                 else:
                     # Not sure we go through here since the only datatype not int is coordinates,
                     # which is already dealt with previously.

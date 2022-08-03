@@ -3,7 +3,6 @@ Server
 ======
 Contains the directives necessary to start the DPF server.
 """
-import abc
 import io
 import os
 import socket
@@ -11,14 +10,13 @@ import subprocess
 import weakref
 import copy
 import inspect
+import warnings
+import traceback
 from ansys import dpf
 
-from ansys.dpf.core.misc import find_ansys, is_ubuntu
+from ansys.dpf.core.misc import is_ubuntu, get_ansys_path
 from ansys.dpf.core import errors
 
-from ansys.dpf.core._version import (
-    __ansys_version__
-)
 from ansys.dpf.core.server_factory import ServerConfig, ServerFactory
 from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER
 
@@ -28,6 +26,7 @@ def shutdown_global_server():
         if dpf.core.SERVER is not None:
             dpf.core.SERVER.__del__()
     except:
+        warnings.warn(traceback.format_exc())
         pass
 
 
@@ -130,7 +129,8 @@ def start_local_server(
     use_docker_by_default=True,
     docker_name=None,
     timeout=10.,
-    config=None
+    config=None,
+    use_pypim_by_default=True
 ):
     """Start a new local DPF server at a given port and IP address.
 
@@ -143,10 +143,10 @@ def start_local_server(
     ip : str, optional
         IP address of the remote or local instance to connect to. The
         default is ``"LOCALHOST"``.
-    port : int
+    port : int, optional
         Port to connect to the remote instance on. The default is
         ``"DPF_DEFAULT_PORT"``, which is 50054.
-    ansys_path : str, optional
+    ansys_path : str or os.PathLike, optional
         Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
         The default is the latest Ansys installation.
     as_global : bool, optional
@@ -166,30 +166,22 @@ def start_local_server(
         passes, the connection fails.
     config: ServerConfig, optional
         Manages the type of server connection to use.
+    use_pypim_by_default: bool, optional
+        Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
+        Defaults to True.
 
     Returns
     -------
     server : server.ServerBase
     """
+    from ansys.dpf.core.misc import is_pypim_configured
     use_docker = use_docker_by_default and (docker_name or RUNNING_DOCKER["use_docker"])
-    if not use_docker:
-        if ansys_path is None:
-            ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__, find_ansys())
-        if ansys_path is None:
-            raise ValueError(
-                "Unable to automatically locate the Ansys path  "
-                f"for version {__ansys_version__}."
-                "Manually enter one when starting the server or set it "
-                'as the environment variable "ANSYS_PATH"'
-            )
-
-        # verify path exists
-        if not os.path.isdir(ansys_path):
-            raise NotADirectoryError(f'Invalid Ansys path "{ansys_path}"')
-
+    use_pypim = use_pypim_by_default and is_pypim_configured()
+    if not use_docker and not use_pypim:
+        ansys_path = get_ansys_path(ansys_path)
         # parse the version to an int and check for supported
         try:
-            ver = int(ansys_path[-3:])
+            ver = int(str(ansys_path)[-3:])
             if ver < 211:
                 raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
             if ver == 211 and is_ubuntu():
@@ -221,18 +213,18 @@ def start_local_server(
     timed_out = False
     for _ in range(n_attempts):
         try:
-            server_type = ServerFactory().get_server_type_from_config(config)
+            server_type = ServerFactory().get_server_type_from_config(config, ansys_path)
             server_init_signature = inspect.signature(server_type.__init__)
-            if "ip" in server_init_signature.parameters.keys() and "port" in server_init_signature.parameters.keys():
+            if "ip" in server_init_signature.parameters.keys() and \
+                    "port" in server_init_signature.parameters.keys():
                 server = server_type(
-                    ansys_path, ip, port, as_global=as_global,
-                    load_operators=load_operators, docker_name=docker_name, launch_server=True,
-                    timeout=timeout)
+                    ansys_path, ip, port, as_global=as_global, launch_server=True,
+                    load_operators=load_operators, docker_name=docker_name, timeout=timeout,
+                    use_pypim=use_pypim)
             else:
                 server = server_type(
                     ansys_path, as_global=as_global,
-                    load_operators=load_operators, docker_name=docker_name, timeout=timeout
-                )
+                    load_operators=load_operators, docker_name=docker_name, timeout=timeout)
             break
         except errors.InvalidPortError:  # allow socket in use errors
             port += 1
@@ -248,7 +240,7 @@ def start_local_server(
     if server is None:
         raise OSError(
             f"Unable to launch the server after {n_attempts} attempts.  "
-            "Check the following path:\n{ansys_path}\n\n"
+            "Check the following path:\n{str(ansys_path)}\n\n"
             "or attempt to use a different port"
         )
 
@@ -302,7 +294,8 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     """
     server_type = ServerFactory().get_server_type_from_config(config)
     server_init_signature = inspect.signature(server_type.__init__)
-    if "ip" in server_init_signature.parameters.keys() and "port" in server_init_signature.parameters.keys():
+    if "ip" in server_init_signature.parameters.keys() \
+            and "port" in server_init_signature.parameters.keys():
         server = server_type(
             ip=ip, port=port, as_global=as_global, launch_server=False
         )

@@ -17,8 +17,8 @@ class beam_properties(Operator):
     Parameters
     ----------
     streams : StreamsContainer, optional
-         result file container allowed to be kept
-        open to cache data.
+        result file container allowed to be kept open
+        to cache data.
     data_sources : DataSources
         Result file path container, used if no
         streams are set.
@@ -77,8 +77,8 @@ class beam_properties(Operator):
                     name="streams",
                     type_names=["streams_container"],
                     optional=True,
-                    document=""" result file container allowed to be kept
-        open to cache data.""",
+                    document="""result file container allowed to be kept open
+        to cache data.""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
@@ -234,8 +234,8 @@ class InputsBeamProperties(_Inputs):
     def streams(self):
         """Allows to connect streams input to the operator.
 
-         result file container allowed to be kept
-        open to cache data.
+        result file container allowed to be kept open
+        to cache data.
 
         Parameters
         ----------

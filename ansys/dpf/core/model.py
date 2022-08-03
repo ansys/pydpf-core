@@ -16,6 +16,7 @@ from ansys.dpf.core.results import Results, CommonResults
 from ansys.dpf.core.server_types import LOG
 from ansys.dpf.core import misc
 from ansys.dpf.core.errors import protect_source_op_not_found
+from ansys.dpf.core._model_helpers import DataSourcesOrStreamsConnector
 from grpc._channel import _InactiveRpcError
 from ansys.dpf.core.check_version import version_requires
 
@@ -25,9 +26,9 @@ class Model:
 
     Parameters
     ----------
-    data_sources : str, dpf.core.DataSources
-        Accepts either a :class:`dpf.core.DataSources` instance or the name of the
-        result file to open. The default is ``None``.
+    data_sources : str, dpf.core.DataSources, os.PathLike
+        Accepts either a :class:`dpf.core.DataSources` instance or the path of the
+        result file to open as an os.PathLike object or a str. The default is ``None``.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
@@ -151,29 +152,19 @@ class Model:
 
         """
         if not self._results:
+            args = [self.metadata._build_connector(), self.metadata.result_info,
+                    self.mesh_by_default, self._server]
             if misc.DYNAMIC_RESULTS:
                 try:
-                    self._results = Results(self)
+                    self._results = Results(*args)
                     if len(self._results) == 0:
-                        self._results = CommonResults(self)
+                        self._results = CommonResults(*args)
                 except Exception as e:
-                    self._results = CommonResults(self)
+                    self._results = CommonResults(*args)
                     LOG.debug(str(e))
             else:
-                self._results = CommonResults(self)
+                self._results = CommonResults(*args)
         return self._results
-
-    def __connect_op__(self, op):
-        """Connect the data sources or the streams to the operator."""
-        if self.metadata._stream_provider is not None and hasattr(op.inputs, "streams"):
-            op.inputs.streams.connect(self.metadata._stream_provider.outputs)
-        elif self.metadata._data_sources is not None and hasattr(
-                op.inputs, "data_sources"
-        ):
-            op.inputs.data_sources.connect(self.metadata._data_sources)
-
-        if self.mesh_by_default and self.metadata.mesh_provider and hasattr(op.inputs, "mesh"):
-            op.inputs.mesh.connect(self.metadata.mesh_provider)
 
     def operator(self, name):
         """Operator associated with the data sources of this model.
@@ -199,7 +190,7 @@ class Model:
 
         """
         op = Operator(name=name, server=self._server)
-        self.__connect_op__(op)
+        self.metadata._build_connector().__connect_op__(op, self.mesh_by_default)
         return op
 
     def __str__(self):
@@ -215,6 +206,16 @@ class Model:
     def plot(self, color="w", show_edges=True, **kwargs):
         """Plot the mesh of the model.
 
+        Parameters
+        ----------
+        color : str
+            color of the mesh faces in PyVista format. The default is white with ``"w"``.
+        show_edges : bool
+            Whether to show the mesh edges. The default is ``True``.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. For additional keyword
+            arguments, see ``help(pyvista.plot)``.
+
         Examples
         --------
         Plot the model using the default options.
@@ -226,9 +227,12 @@ class Model:
         >>> model.plot()
 
         """
-        self.metadata.meshed_region.grid.plot(
-            color=color, show_edges=show_edges, **kwargs
-        )
+        from ansys.dpf.core.plotter import DpfPlotter
+        kwargs["color"] = color
+        kwargs["show_edges"] = show_edges
+        pl = DpfPlotter(**kwargs)
+        pl.add_mesh(self.metadata.meshed_region, show_axes=kwargs.pop("show_axes", True), **kwargs)
+        return pl.show_figure(**kwargs)
 
     @property
     def mesh_by_default(self):
@@ -262,6 +266,8 @@ class Metadata:
         self._result_info = None
         self._stream_provider = None
         self._time_freq_support = None
+        self._mesh_selection_manager = None
+        self._mesh_provider_cached_instance = None
         self._cache_streams_provider()
 
     def _cache_result_info(self):
@@ -386,9 +392,10 @@ class Metadata:
         return self._stream_provider
 
     def _set_data_sources(self, var_inp):
+        from pathlib import Path
         if isinstance(var_inp, dpf.core.DataSources):
             self._data_sources = var_inp
-        elif isinstance(var_inp, str):
+        elif isinstance(var_inp, (str, Path)):
             self._data_sources = DataSources(var_inp, server=self._server)
         else:
             self._data_sources = DataSources(server=self._server)
@@ -443,9 +450,13 @@ class Metadata:
 
         """
         try:
-            tmp = Operator("MeshSelectionManagerProvider", server=self._server)
-            tmp.inputs.connect(self._stream_provider.outputs)
-            tmp.run()
+            if self._mesh_selection_manager is None:
+                self._mesh_selection_manager = Operator(
+                    "MeshSelectionManagerProvider",
+                    server=self._server
+                )
+                self._mesh_selection_manager.inputs.connect(self._stream_provider.outputs)
+                self._mesh_selection_manager.run()
         except:
             pass
         mesh_provider = Operator("MeshProvider", server=self._server)
@@ -454,6 +465,12 @@ class Metadata:
         else:
             mesh_provider.inputs.connect(self.data_sources)
         return mesh_provider
+
+    @property
+    def _mesh_provider_cached(self):
+        if self._mesh_provider_cached_instance is None:
+            self._mesh_provider_cached_instance = self.mesh_provider
+        return self._mesh_provider_cached_instance
 
     @property
     @protect_source_op_not_found
@@ -531,3 +548,6 @@ class Metadata:
         named_selection : :class:`ansys.dpf.core.scoping.Scoping`
         """
         return self.meshed_region.named_selection(named_selection)
+
+    def _build_connector(self):
+        return DataSourcesOrStreamsConnector(self)

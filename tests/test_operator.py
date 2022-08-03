@@ -10,8 +10,11 @@ import copy
 from ansys import dpf
 from ansys.dpf.core import errors
 from ansys.dpf.core import operators as ops
+from ansys.dpf.core.misc import get_ansys_path
 from ansys.dpf.core.operator_specification import Specification
-from conftest import SERVER_VERSION_HIGHER_THAN_3_0, SERVER_VERSION_HIGHER_THAN_4_0
+import conftest
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0, \
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
@@ -98,16 +101,28 @@ def test_connect_get_out_all_types_operator(server_type):
                   # dpf.core.CyclicSupport(server=server_type),
                   # dpf.core.MeshedRegion(server=server_type),
                   dpf.core.TimeFreqSupport(server=server_type),
-                  # dpf.core.Workflow(server=server_type),
-                  # dpf.core.DataTree(server=server_type),
-                  ] if SERVER_VERSION_HIGHER_THAN_3_0 else [1, 1.5, "hello", True,
-                                                            dpf.core.Field(server=server_type),
-                                                            # dpf.core.PropertyField(server=server_type),
-                                                            dpf.core.FieldsContainer(server=server_type),
-                                                            dpf.core.MeshesContainer(server=server_type),
-                                                            dpf.core.ScopingsContainer(server=server_type),
-                                                            dpf.core.DataSources("file.rst", server=server_type)
-                                                            ]
+                  dpf.core.Workflow(server=server_type),
+                  dpf.core.DataTree(server=server_type),
+                  ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 \
+        else [1, 1.5, "hello", True,
+              dpf.core.Field(server=server_type),
+              # dpf.core.PropertyField(server=server_type),
+              dpf.core.FieldsContainer(server=server_type),
+              dpf.core.MeshesContainer(server=server_type),
+              dpf.core.ScopingsContainer(server=server_type),
+              dpf.core.DataSources("file.rst", server=server_type),
+              # dpf.core.CyclicSupport(server=server_type),
+              # dpf.core.MeshedRegion(server=server_type),
+              dpf.core.TimeFreqSupport(server=server_type),
+              dpf.core.Workflow(server=server_type),
+              ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 else [1, 1.5, "hello", True,
+              dpf.core.Field(server=server_type),
+              # dpf.core.PropertyField(server=server_type),
+              dpf.core.FieldsContainer(server=server_type),
+              dpf.core.MeshesContainer(server=server_type),
+              dpf.core.ScopingsContainer(server=server_type),
+              dpf.core.DataSources("file.rst", server=server_type)
+              ]
 
     for i, data in enumerate(to_connect):
         forward.connect(i, data)
@@ -327,7 +342,7 @@ def test_outputs_bool_operator(server_type):
 
 def find_mapdl():
     try:
-        path = dpf.core.misc.find_ansys()
+        path = get_ansys_path()
         if dpf.core.SERVER.os == "nt":
             exe = os.path.join(path, "ansys", "bin", "winx64", "ANSYS.exe")
             return os.path.isfile(exe)
@@ -517,7 +532,6 @@ def test_connect_time_scoping(plate_msup, server_type):
 
 
 def test_connect_model(plate_msup, server_type):
-    print(plate_msup)
     model = dpf.core.Model(plate_msup, server=server_type)
     u = dpf.core.Operator("U", server=server_type)
     u.inputs.connect(model)
@@ -653,7 +667,7 @@ def test_operator_set_config(server_type):
     inpt2.unit = "m"
 
     conf = dpf.core.Config("add", server=server_type)
-    print(conf)
+    # print(conf)
     conf.set_work_by_index_option(True)
     op = dpf.core.Operator("add", conf, server=server_type)
     op.inputs.fieldA.connect(inpt)
@@ -703,8 +717,7 @@ def test_operator_set_config(server_type):
     )
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_connect_get_output_int_list_operator(server_type):
     d = list(range(0, 100000))
     op = dpf.core.operators.utility.forward(d, server=server_type)
@@ -712,8 +725,7 @@ def test_connect_get_output_int_list_operator(server_type):
     assert np.allclose(d, dout)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_connect_get_output_double_list_operator(server_type):
     d = list(np.ones(100000))
     op = dpf.core.operators.utility.forward(d, server=server_type)
@@ -751,8 +763,8 @@ def test_connect_result2(plate_msup, server_type):
     assert len(out) == len(out2)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Bug in server version lower than 3.0')
 def test_connect_get_output_int_list_operator(server_type):
     d = list(range(0, 1000000))
     op = dpf.core.operators.utility.forward(d, server=server_type)
@@ -760,8 +772,8 @@ def test_connect_get_output_int_list_operator(server_type):
     assert np.allclose(d, dout)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+                    reason='Bug in server version lower than 3.0')
 def test_connect_get_output_double_list_operator(server_type):
     d = list(np.ones(1000000))
     op = dpf.core.operators.utility.forward(d, server=server_type)
@@ -769,9 +781,7 @@ def test_connect_get_output_double_list_operator(server_type):
     assert np.allclose(d, dout)
 
 
-@pytest.mark.xfail(raises=errors.ServerTypeError)
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_4_0,
-                    reason='Requires server version higher than 4.0')
+@conftest.raises_for_servers_version_under('4.0')
 def test_connect_get_output_data_tree_operator():
     d = dpf.core.DataTree({"name": "Paul"})
     op = dpf.core.operators.utility.forward(d)
@@ -1046,8 +1056,7 @@ def test_dot_operator_operator(server_type):
     assert np.allclose(out[0].data, -field.data)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_list_operators(server_type):
     l = dpf.core.dpf_operator.available_operator_names(server=server_type)
     assert len(l) > 400
@@ -1056,45 +1065,7 @@ def test_list_operators(server_type):
     assert 'stream_provider' in l
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_get_static_spec_operator(server_type):
-    l = dpf.core.dpf_operator.available_operator_names(server=server_type)
-    for i, name in enumerate(l):
-        spec = dpf.core.Operator.operator_specification(name, server=server_type)
-        assert len(spec.operator_name) > 0
-        assert len(spec.inputs) > 0
-        assert len(spec.description) > 0
-
-
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_with_progress_operator(allkindofcomplexity, server_type):
-    model = dpf.core.Model(allkindofcomplexity, server=server_type)
-    op = model.results.stress()
-    op.inputs.read_cyclic(3)
-    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_type)
-    add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_type)
-    add2 = dpf.core.operators.math.add_fc(add, add, server=server_type)
-    add3 = dpf.core.operators.math.add_fc(add2, server=server_type)
-    add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_type)
-    add4.progress_bar = True
-    fc = add4.outputs.fields_container()
-    assert len(fc) == 2
-
-
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_list_operators(server_type_legacy_grpc):
-    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
-    assert len(l) > 400
-    assert 'merge::result_info' in l
-    assert 'unit_convert' in l
-    assert 'stream_provider' in l
-
-
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_get_static_spec_operator(server_type_legacy_grpc):
     l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
     for i, name in enumerate(l):
@@ -1104,17 +1075,79 @@ def test_get_static_spec_operator(server_type_legacy_grpc):
         assert len(spec.description) > 0
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
-def test_with_progress_operator(allkindofcomplexity):
-    model = dpf.core.Model(allkindofcomplexity)
+@conftest.raises_for_servers_version_under('4.0')
+def test_get_static_spec_operator_in_proc(server_clayer):
+    if isinstance(server_clayer, dpf.core.server_types.GrpcServer):
+        return
+    l = dpf.core.dpf_operator.available_operator_names(server=server_clayer)
+    for i, name in enumerate(l):
+        spec = dpf.core.Operator.operator_specification(name, server=server_clayer)
+        assert len(spec.operator_name) > 0
+        l = len(spec.inputs)
+        d = spec.description
+
+
+@conftest.raises_for_servers_version_under('3.0')
+def test_with_progress_operator(allkindofcomplexity, server_type_legacy_grpc):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type_legacy_grpc)
     op = model.results.stress()
     op.inputs.read_cyclic(3)
-    opnorm = dpf.core.operators.averaging.to_nodal_fc(op)
-    add = dpf.core.operators.math.add_fc(opnorm, opnorm)
-    add2 = dpf.core.operators.math.add_fc(add, add)
-    add3 = dpf.core.operators.math.add_fc(add2)
-    add4 = dpf.core.operators.math.add_fc(add3, add3)
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_type_legacy_grpc)
+    add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_type_legacy_grpc)
+    add2 = dpf.core.operators.math.add_fc(add, add, server=server_type_legacy_grpc)
+    add3 = dpf.core.operators.math.add_fc(add2, server=server_type_legacy_grpc)
+    add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_type_legacy_grpc)
+    add4.progress_bar = True
+    fc = add4.outputs.fields_container()
+    assert len(fc) == 2
+
+
+@conftest.raises_for_servers_version_under('4.0')
+def test_with_progress_operator_in_proc(allkindofcomplexity, server_clayer):
+    if isinstance(server_clayer, dpf.core.server_types.GrpcServer):
+        return
+    model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
+    op = model.results.stress()
+    op.inputs.read_cyclic(3)
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_clayer)
+    add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_clayer)
+    add2 = dpf.core.operators.math.add_fc(add, add, server=server_clayer)
+    add3 = dpf.core.operators.math.add_fc(add2, server=server_clayer)
+    add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_clayer)
+    add4.progress_bar = True
+    fc = add4.outputs.fields_container()
+    assert len(fc) == 2
+
+
+@conftest.raises_for_servers_version_under('3.0')
+def test_list_operators(server_type_legacy_grpc):
+    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
+    assert len(l) > 400
+    assert 'merge::result_info' in l
+    assert 'unit_convert' in l
+    assert 'stream_provider' in l
+
+
+@conftest.raises_for_servers_version_under('3.0')
+def test_get_static_spec_operator(server_type_legacy_grpc):
+    l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
+    for i, name in enumerate(l):
+        spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
+        assert len(spec.operator_name) > 0
+        assert len(spec.inputs) > 0
+        assert len(spec.description) > 0
+
+
+@conftest.raises_for_servers_version_under('3.0')
+def test_with_progress_operator(allkindofcomplexity, server_type):
+    model = dpf.core.Model(allkindofcomplexity, server=server_type)
+    op = model.results.stress()
+    op.inputs.read_cyclic(3)
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_type)
+    add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_type)
+    add2 = dpf.core.operators.math.add_fc(add, add, server=server_type)
+    add3 = dpf.core.operators.math.add_fc(add2, server=server_type)
+    add4 = dpf.core.operators.math.add_fc(add3, add3, server=server_type)
     add4.progress_bar = True
     fc = add4.outputs.fields_container()
     assert len(fc) == 2
@@ -1143,8 +1176,7 @@ def test_operator_specification_none(server_type):
             assert False
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_generated_operator_specification(server_type):
     op = ops.result.displacement(server=server_type)
     spec = op.specification
@@ -1190,6 +1222,13 @@ def test_delete_operator(server_type):
     op = None
     with pytest.raises(Exception):
         op.connect(0, 1)
+
+
+def test_memory_outputs_operator(allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity)
+    mesh = model.metadata.meshed_region
+    stress_fc = model.results.stress().eqv().eval()
+    assert len(stress_fc) == 2
 
 
 def test_delete_auto_operator(server_type):

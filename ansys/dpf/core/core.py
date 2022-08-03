@@ -7,17 +7,19 @@ import logging
 import warnings
 import weakref
 
-from ansys.dpf.core import errors
+from ansys.dpf.core import errors, misc
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.runtime_config import (
-    RuntimeClientConfig
+    RuntimeClientConfig,
+    RuntimeCoreConfig,
     )
 from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
     tmp_dir_capi,
     tmp_dir_grpcapi,
-    collection_capi, 
+    collection_capi,
     collection_grpcapi,
     integral_types,
     object_handler
@@ -31,40 +33,15 @@ if "DPF_CONFIGURATION" in os.environ:
 else:
     CONFIGURATION = "release"
 
-def get_runtime_client_config(server=None):
-    """Get the runtime configuration information of Ans.Dpf.GrpcClient
-    binary.
 
-    Parameters
-    ----------
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the global server.
-
-    Notes
-    -----
-    Available from 4.0 server version. Can only be used for
-    a gRPC communication protocol using DPF CLayer.
-
-    Returns
-    -------
-    runtime_config : RuntimeClientConfig
-        RuntimeClientConfig object that can be used to interact
-        with Ans.Dpf.GrpcClient configuration.
-
-    """
-    base = BaseService(server, load_operators=False)
-    return base.get_runtime_client_config()
-
-
-def load_library(filename, name="", symbol="LoadOperators", server=None):
+def load_library(filename, name="", symbol="LoadOperators", server=None, generate_operators=False):
     """Dynamically load an operators library for dpf.core.
     Code containing this library's operators is generated in
     ansys.dpf.core.operators
 
     Parameters
     ----------
-    filename : str
+    filename : str or os.PathLike
         Filename of the operator library.
 
     name : str, optional
@@ -73,6 +50,9 @@ def load_library(filename, name="", symbol="LoadOperators", server=None):
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+
+    generate_operators : bool, optional
+        Whether operators code generation should be done or not (default is False).
 
     Examples
     --------
@@ -84,7 +64,7 @@ def load_library(filename, name="", symbol="LoadOperators", server=None):
 
     """
     base = BaseService(server, load_operators=False)
-    base.load_library(filename, name, symbol)
+    base.load_library(filename, name, symbol, generate_operators)
     return name + " successfully loaded"
 
 
@@ -94,7 +74,7 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
 
     Parameters
     ----------
-    file_path : str
+    file_path : str or os.PathLike
         file path on the client side to upload
 
     new_file_name : str, optional
@@ -129,10 +109,10 @@ def upload_files_in_folder(
 
     Parameters
     ----------
-    to_server_folder_path : str
+    to_server_folder_path : str or os.PathLike
         folder path target where will be uploaded files on the server side
 
-    client_folder_path: str
+    client_folder_path: str or os.PathLike
         folder path where the files that must be uploaded are located
         on client side
 
@@ -159,10 +139,10 @@ def download_file(server_file_path, to_client_file_path, server=None):
 
     Parameters
     ----------
-    server_file_path : str
+    server_file_path : str or os.PathLike
         file path to download on the server side
 
-    to_client_file_path: str
+    to_client_file_path: str or os.PathLike
         file path target where the file will be located client side
 
     server : server.DPFServer, optional
@@ -176,6 +156,8 @@ def download_file(server_file_path, to_client_file_path, server=None):
     >>> import os
     >>> file_path = dpf.upload_file_in_tmp_folder(examples.static_rst)
     >>> dpf.download_file(file_path, examples.static_rst)
+    <BLANKLINE>
+    Downloading...
 
     """
     base = BaseService(server, load_operators=False)
@@ -190,10 +172,10 @@ def download_files_in_folder(
 
     Parameters
     ----------
-    server_folder_path : str
+    server_folder_path : str or os.PathLike
         folder path to download on the server side
 
-    to_client_folder_path: str
+    to_client_folder_path: str or os.PathLike
         folder path target where the files will be located client side
 
     specific_extension (optional) : str
@@ -220,10 +202,10 @@ def upload_file(file_path, to_server_file_path, server=None):
 
     Parameters
     ----------
-    file_path : str
+    file_path : str or os.PathLike
         file path on the client side to upload
 
-    to_server_file_path: str
+    to_server_file_path: str or os.PathLike
         file path target where the file will be located server side
 
     server : server.DPFServer, optional
@@ -319,14 +301,18 @@ class BaseService:
             server = server_module.get_or_create_server(server)
         self._server = weakref.ref(server)
         self._collection_api = None
-        
+
         # step 2: get api
-        self._api = self._server().get_api_for_type(capi=data_processing_capi.DataProcessingCAPI,
-                                                  grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
-        self._api_tmp_dir = self._server().get_api_for_type(capi=tmp_dir_capi.TmpDirCAPI,
-                                                  grpcapi=tmp_dir_grpcapi.TmpDirGRPCAPI)
-        
-        # step3: init environement
+        self._api = self._server().get_api_for_type(
+            capi=data_processing_capi.DataProcessingCAPI,
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+        )
+        self._api_tmp_dir = self._server().get_api_for_type(
+            capi=tmp_dir_capi.TmpDirCAPI,
+            grpcapi=tmp_dir_grpcapi.TmpDirGRPCAPI
+        )
+
+        # step3: init environment
         self._api.init_data_processing_environment(self)  # creates stub when gRPC
 
     def make_tmp_dir_server(self):
@@ -344,18 +330,21 @@ class BaseService:
         else:
             return self._api_tmp_dir.tmp_dir_get_dir()
 
-    def load_library(self, filename, name="", symbol="LoadOperators"):
+    def load_library(self, file_path, name="", symbol="LoadOperators", generate_operators=False):
         """Dynamically load an operators library for dpf.core.
         Code containing this library's operators is generated in
         ansys.dpf.core.operators
 
         Parameters
         ----------
-        filename : str
-            Filename of the operator library.
+        file_path : str or os.PathLike
+            file_path of the operator library.
 
         name : str, optional
             Library name.  Probably optional
+
+        generate_operators : bool, optional
+            Whether operators code generation should be done or not (default is False).
 
         Examples
         --------
@@ -367,59 +356,82 @@ class BaseService:
         >>> # base.load_library('meshOperatorsCore.dll', 'mesh_operators')
 
         """
+        file_path = str(file_path)
         if self._server().has_client():
-            self._internal_obj = self._api.data_processing_load_library_on_client(sLibraryKey=name,
-                                                                                  sDllPath=filename,
-                                                                                  sloader_symbol=symbol,
-                                                                                  client=self._server().client)
+            self._internal_obj = self._api.data_processing_load_library_on_client(
+                sLibraryKey=name,
+                sDllPath=file_path,
+                sloader_symbol=symbol,
+                client=self._server().client
+            )
         else:
             self._internal_obj = self._api.data_processing_load_library(name=name,
-                                                                        dllPath=filename,
+                                                                        dllPath=file_path,
                                                                         symbol=symbol)
-
-        # TODO: fix code generation upload posix
-        import os
-        def __generate_code(TARGET_PATH, filename, name, symbol):
-            from ansys.dpf.core.dpf_operator import Operator
-            try:
-                code_gen = Operator("python_generator")
-                code_gen.connect(1, TARGET_PATH)
-                code_gen.connect(0, filename)
-                code_gen.connect(2, symbol)
-                code_gen.connect(3, name)
-                code_gen.run()
-            except Exception as e:
-                warnings.warn("Unable to generate the python code with error: " + str(e.args))
-        
-        local_dir = os.path.dirname(os.path.abspath(__file__))
-        LOCAL_PATH = os.path.join(local_dir, "operators")
-        if self._server().has_client():
-            if self._server().os != 'posix' or (not self._server().os and os.name != 'posix'):    
-                # send local generated code
-                TARGET_PATH = self.make_tmp_dir_server()
-                self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
-    
-                # generate code
-                __generate_code(TARGET_PATH, filename, name, symbol)
-    
+        if generate_operators:
+            # TODO: fix code generation upload posix
+            import os
+            def __generate_code(TARGET_PATH, filename, name, symbol):
+                from ansys.dpf.core.dpf_operator import Operator
                 try:
-                    self.download_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
+                    code_gen = Operator("python_generator")
+                    code_gen.connect(1, TARGET_PATH)
+                    code_gen.connect(0, filename)
+                    code_gen.connect(2, symbol)
+                    code_gen.connect(3, name)
+                    code_gen.run()
                 except Exception as e:
-                    warnings.warn("Unable to download the python generated code with error: " + str(e.args))
-        else:
-            __generate_code(TARGET_PATH=LOCAL_PATH, filename=filename, name=name, symbol=symbol)
+                    warnings.warn("Unable to generate the python code with error: " + str(e.args))
+
+            local_dir = os.path.dirname(os.path.abspath(__file__))
+            LOCAL_PATH = os.path.join(local_dir, "operators")
+            if self._server().has_client():
+                if self._server().os != 'posix' or (not self._server().os and os.name != 'posix'):
+                    # send local generated code
+                    TARGET_PATH = self.make_tmp_dir_server()
+                    self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
+
+                    # generate code
+                    __generate_code(TARGET_PATH, file_path, name, symbol)
+
+                    try:
+                        self.download_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
+                    except Exception as e:
+                        warnings.warn(
+                            f"Unable to download the python generated code with error: {e.args}"
+                        )
+            else:
+                __generate_code(
+                    TARGET_PATH=LOCAL_PATH, filename=file_path, name=name, symbol=symbol
+                )
 
     def get_runtime_client_config(self):
-        config_to_return = None
         if self._server().has_client():
             data_tree_tmp = (
                 self._api.data_processing_get_client_config_as_data_tree()
                 )
-            config_to_return = RuntimeClientConfig(data_tree=data_tree_tmp)
+            config_to_return = RuntimeClientConfig(data_tree=data_tree_tmp, server=self._server())
         else:
-            raise Exception("in process protocol doesn't have any client configuration set")
+            if misc.RUNTIME_CLIENT_CONFIG is None:
+                from ansys.dpf.core import data_tree
+                misc.RUNTIME_CLIENT_CONFIG = RuntimeClientConfig(
+                    data_tree=data_tree.DataTree(server=self._server())
+                )
+            config_to_return = misc.RUNTIME_CLIENT_CONFIG
         return config_to_return
-      
+
+    @version_requires("4.0")
+    def get_runtime_core_config(self):
+        if self._server().has_client():
+            data_tree_tmp =\
+                self._api.data_processing_get_global_config_as_data_tree_on_client(
+                    self._server().client)
+
+        else:
+            data_tree_tmp = \
+                self._api.data_processing_get_global_config_as_data_tree()
+        return RuntimeCoreConfig(data_tree=data_tree_tmp, server=self._server())
+
     @property
     def server_info(self):
         """Send the request for server information and keep
@@ -437,12 +449,14 @@ class BaseService:
         serv_ip = ""
         serv_port = integral_types.MutableInt32(-1)
         proc_id = ""
-        serv_ver_maj = integral_types.MutableInt32(-1);
-        serv_ver_min = integral_types.MutableInt32(-1);
+        serv_ver_maj = integral_types.MutableInt32(-1)
+        serv_ver_min = integral_types.MutableInt32(-1)
         serv_os = ""
         # ip/port
         if self._server().has_client():
-            serv_ip = self._api.data_processing_get_server_ip_and_port(client=self._server().client, port=serv_port)
+            serv_ip = self._api.data_processing_get_server_ip_and_port(
+                client=self._server().client, port=serv_port
+            )
             serv_port = int(serv_port)
         else:
             serv_ip = ""
@@ -462,10 +476,12 @@ class BaseService:
             self._api.data_processing_get_server_version(major=serv_ver_maj, minor=serv_ver_min)
         # server os
         if self._server().has_client():
-            serv_os = self._api.data_processing_get_os_on_client(client=self._server().client)
+            serv_os = self._api.data_processing_get_os_on_client(
+                client=self._server().client
+            )
         else:
             serv_os = self._api.data_processing_get_os()
-        
+
         out = {
             "server_ip": serv_ip,
             "server_port": serv_port,
@@ -515,10 +531,10 @@ class BaseService:
 
         Parameters
         ----------
-        server_file_path : str
+        server_file_path : str or os.PathLike
             file path to download on the server side
 
-        to_client_file_path: str
+        to_client_file_path: str or os.PathLike
             file path target where the file will be located client side
         """
         if not self._server().has_client():
@@ -526,14 +542,18 @@ class BaseService:
             download service only available for server with gRPC communication protocol
             """
             raise ValueError(txt)
-        client_path = self._api.data_processing_download_file(client=self._server().client,
-                                                 server_file_path=server_file_path,
-                                                 to_client_file_path=to_client_file_path)
+        client_path = self._api.data_processing_download_file(
+            client=self._server().client,
+            server_file_path=str(server_file_path),
+            to_client_file_path=str(to_client_file_path)
+        )
 
     def _set_collection_api(self):
         if self._collection_api is None:
-            self._collection_api = self._server().get_api_for_type(capi=collection_capi.CollectionCAPI,
-                                                      grpcapi=collection_grpcapi.CollectionGRPCAPI)
+            self._collection_api = self._server().get_api_for_type(
+                capi=collection_capi.CollectionCAPI,
+                grpcapi=collection_grpcapi.CollectionGRPCAPI
+            )
             self._collection_api.init_collection_environment(self)
         return self._collection_api
 
@@ -545,10 +565,10 @@ class BaseService:
 
         Parameters
         ----------
-        server_folder_path : str
+        server_folder_path : str or os.PathLike
             folder path to download on the server side
 
-        to_client_folder_path: str
+        to_client_folder_path: str or os.PathLike
             folder path target where the files will be located client side
 
         specific_extension (optional) : str
@@ -568,8 +588,8 @@ class BaseService:
         if specific_extension is None:
             specific_extension = ""
         client_paths_ptr = self._api.data_processing_download_files(client=self._server().client,
-                                                 server_file_path=server_folder_path,
-                                                 to_client_file_path=to_client_folder_path,
+                                                 server_file_path=str(server_folder_path),
+                                                 to_client_file_path=str(to_client_folder_path),
                                                  specific_extension=specific_extension)
         if not isinstance(client_paths_ptr, list):
             from ansys.dpf.gate import object_handler
@@ -585,7 +605,6 @@ class BaseService:
                 out[i] = entry
             return out
         return client_paths_ptr
-        
 
     def upload_files_in_folder(
             self, to_server_folder_path, client_folder_path, specific_extension=None
@@ -595,10 +614,10 @@ class BaseService:
 
         Parameters
         ----------
-        to_server_folder_path : str
+        to_server_folder_path : str or os.PathLike
             folder path target where will be uploaded files on the server side
 
-        client_folder_path: str
+        client_folder_path: str or os.PathLike
             folder path where the files that must be uploaded are located
             on client side
 
@@ -621,13 +640,13 @@ class BaseService:
                         f,
                         filename,
                         server_paths,
-                        to_server_folder_path,
+                        str(to_server_folder_path),
                         subdirectory,
                     )
             for file in files:
                 f = os.path.join(root, file)
                 server_paths = self._upload_and_get_server_path(
-                    specific_extension, f, file, server_paths, to_server_folder_path
+                    specific_extension, f, file, server_paths, str(to_server_folder_path)
                 )
             break
         return server_paths
@@ -669,10 +688,10 @@ class BaseService:
 
         Parameters
         ----------
-        file_path : str
+        file_path : str or os.PathLike
             file path on the client side to upload
 
-        to_server_file_path: str
+        to_server_file_path: str or os.PathLike
             file path target where the file will be located server side
 
         Returns
@@ -688,8 +707,8 @@ class BaseService:
             """
             raise errors.ServerTypeError(txt)
         return self._api.data_processing_upload_file(client=self._server().client,
-                                                     file_path=file_path,
-                                                     to_server_file_path=to_server_file_path,
+                                                     file_path=str(file_path),
+                                                     to_server_file_path=str(to_server_file_path),
                                                      use_tmp_dir=False)
 
     def upload_file_in_tmp_folder(self, file_path, new_file_name=None):
@@ -698,7 +717,7 @@ class BaseService:
 
         Parameters
         ----------
-        file_path : str
+        file_path : str or os.PathLike
             file path on the client side to upload
 
         new_file_name : str, optional
@@ -722,8 +741,8 @@ class BaseService:
             """
             raise errors.ServerTypeError(txt)
         return self._api.data_processing_upload_file(client=self._server().client,
-                                                     file_path=file_path,
-                                                     to_server_file_path=file_name,
+                                                     file_path=str(file_path),
+                                                     to_server_file_path=str(file_name),
                                                      use_tmp_dir=True)
 
     def _prepare_shutdown(self):
@@ -741,6 +760,6 @@ class BaseService:
         To use only with server version > 4.0
         """
         if self._server().has_client():
-            self._api.data_processing_release_server(client=self._server().client)
-        
-
+            self._api.data_processing_release_server(
+                client=self._server().client
+            )

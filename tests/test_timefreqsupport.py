@@ -6,8 +6,7 @@ from ansys.dpf.core import TimeFreqSupport, Model
 from ansys.dpf.core import examples
 from ansys.dpf.core import fields_factory
 from ansys.dpf.core.common import locations
-from ansys.dpf.core.check_version import meets_version, get_server_version
-from conftest import SERVER_VERSION_HIGHER_THAN_3_0
+import conftest
 
 
 @pytest.fixture()
@@ -284,8 +283,7 @@ def test_deep_copy_time_freq_support_multi_stage():
     assert len(tf.get_harmonic_indices(1).data) == 6
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_operator_connect_get_output_time_freq_support(velocity_acceleration):
     model = Model(velocity_acceleration)
     tf = model.metadata.time_freq_support
@@ -294,8 +292,7 @@ def test_operator_connect_get_output_time_freq_support(velocity_acceleration):
     assert np.allclose(tf.time_frequencies.data, tfout.time_frequencies.data)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@conftest.raises_for_servers_version_under('3.0')
 def test_workflow_connect_get_output_time_freq_support(velocity_acceleration):
     model = Model(velocity_acceleration)
     tf = model.metadata.time_freq_support

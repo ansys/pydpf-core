@@ -1,4 +1,4 @@
-.. _plotting_examples
+.. _plotting_examples:
 
 Plotting Examples
 =================
