@@ -17,7 +17,7 @@ from ansys.dpf.core import server as server_module
 
 
 class TimeFreqSupport:
-    """Represents a time frequency support, which is a description of a temporal or frequency analysis.
+    """Represents a time frequency support, a description of a temporal or frequency analysis.
 
     This class stores values such as the frequencies (time/complex), RPMs, and harmonic indices.
     The RPM value is a step (or load step)-based value.

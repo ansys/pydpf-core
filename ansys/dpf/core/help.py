@@ -225,12 +225,12 @@ def _eqv(field):
 
 
 def _eqv_fc(fields):
-    """Compute the element-wise von Mises criteria for each tensor in the fields of the field container.
+    """Compute element-wise von Mises criterion for each tensor in each field.
 
     Returns
     -------
     fields : ansys.dpf.core.FieldsContainer
-        Element-wise von Mises criteria for this field container.
+        Element-wise von Mises criterion for this field container.
     """
     _check_type(fields, dpf.core.FieldsContainer)
     oper = fields._model.operator("eqv_fc")
