@@ -12,13 +12,13 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
 # Get and show the initial model
-model = dpf.Model(examples.multishells_rst)
+model = dpf.Model(examples.download_piston_rod())
 print(model)
 model.plot(title='Model', text='Model.plot()')
 
 # Define a scaling factor and a step for the field to be used for warping.
-scale_factor = 0.001
-step = 1
+scale_factor = 1.0
+step = 3
 
 # Define a result to deform by
 disp_result = model.results.displacement.on_time_scoping([step])
