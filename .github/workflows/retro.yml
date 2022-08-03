@@ -51,17 +51,27 @@ jobs:
       - name: "Separate long Core tests"
         shell: pwsh
         run: |
-          New-Item -Path ".\" -Name "local_server_test" -ItemType "directory"
+          New-Item -Path ".\" -Name "test_launcher" -ItemType "directory"
+          New-Item -Path ".\" -Name "test_server" -ItemType "directory"
+          New-Item -Path ".\" -Name "test_local_server" -ItemType "directory"
+          New-Item -Path ".\" -Name "test_multi_server" -ItemType "directory"
           New-Item -Path ".\" -Name "test_workflow" -ItemType "directory"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\local_server_test\"
+          New-Item -Path ".\" -Name "test_remote_workflow" -ItemType "directory"
+          New-Item -Path ".\" -Name "test_remote_operator" -ItemType "directory"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_launcher\"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_server\"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_local_server\"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_multi_server\"
           Copy-Item -Path "tests\conftest.py" -Destination ".\test_workflow\"
-          Copy-Item -Path "tests\test_launcher.py" -Destination ".\local_server_test\"
-          Copy-Item -Path "tests\test_server.py" -Destination ".\local_server_test\"
-          Copy-Item -Path "tests\test_local_server.py" -Destination ".\local_server_test\"
-          Copy-Item -Path "tests\test_multi_server.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_remote_workflow\"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_remote_operator\"
+          Copy-Item -Path "tests\test_launcher.py" -Destination ".\test_launcher\"
+          Copy-Item -Path "tests\test_server.py" -Destination ".\test_server\"
+          Copy-Item -Path "tests\test_local_server.py" -Destination ".\test_local_server\"
+          Copy-Item -Path "tests\test_multi_server.py" -Destination ".\test_multi_server\"
           Copy-Item -Path "tests\test_workflow.py" -Destination ".\test_workflow\"
-          Copy-Item -Path "tests\test_remote_workflow.py" -Destination ".\local_server_test\"
-          Copy-Item -Path "tests\test_remote_operator.py" -Destination ".\local_server_test\"
+          Copy-Item -Path "tests\test_remote_workflow.py" -Destination ".\test_remote_workflow\"
+          Copy-Item -Path "tests\test_remote_operator.py" -Destination ".\test_remote_operator\"
           Remove-Item -Path "tests\test_server.py"
           Remove-Item -Path "tests\test_launcher.py"
           Remove-Item -Path "tests\test_local_server.py"
@@ -79,11 +89,56 @@ jobs:
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
 
-      - name: "Test API 2"
+      - name: "Test API test_launcher"
         shell: bash
-        working-directory: local_server_test
+        working-directory: test_launcher
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Test API test_server"
+        shell: bash
+        working-directory: test_server
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Test API test_local_server"
+        shell: bash
+        working-directory: test_local_server
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Test API test_multi_server"
+        shell: bash
+        working-directory: test_multi_server
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Test API test_remote_workflow"
+        shell: bash
+        working-directory: test_remote_workflow
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+
+      - name: "Test API test_remote_operator"
+        shell: bash
+        working-directory: test_remote_operator
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
