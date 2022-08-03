@@ -450,9 +450,10 @@ def download_example_asme_result() -> str:
     """
     return _download_file("postprocessing", "asme_example.rst")
 
+
 def download_crankshaft() -> str:
     """Download the result file of an example of a crankshaft
-    under load simulation and return the download path.
+    under load and return the download path.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
@@ -473,3 +474,23 @@ def download_crankshaft() -> str:
 
     """
     return _download_file("crankshaft", "crankshaft.rst")
+
+
+def download_piston_rod() -> str:
+    """Download the result file of an example of a piston rod
+    under load and return the download path.
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+    Returns
+    -------
+    str
+        Path to the example file.
+    Examples
+    --------
+    Download an example result file and return the path of the file
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.piston_rod
+    >>> path
+    'C:/Users/user/AppData/local/temp/piston_rod.rst'
+    """
+    return _download_file("piston_rod", "piston_rod.rst")
