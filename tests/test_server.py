@@ -131,7 +131,7 @@ def test_busy_port(remote_config_server_type):
 
 
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 and os.name == 'posix',
-                    reason='Not working for server version lower than 4.0')
+                    reason='Not working on Linux for server version lower than 4.0')
 def test_shutting_down_when_deleted_legacy():
     num_dpf_exe = 0
     for proc in psutil.process_iter():
