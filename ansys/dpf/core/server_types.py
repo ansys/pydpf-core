@@ -423,6 +423,11 @@ class BaseServer(abc.ABC):
         """
         return server_meet_version(required_version, self)
 
+    @property
+    @abc.abstractmethod
+    def local_server(self) -> bool:
+        pass
+
     def __str__(self):
         return f"DPF Server: {self.info}"
 
@@ -504,6 +509,7 @@ class GrpcServer(CServer):
         # Load Ans.Dpf.GrpcClient
         self._grpc_client_path = load_api.load_grpc_client(ansys_path=ansys_path)
         self._own_process = launch_server
+        self._local_server = False
 
         address = f"{ip}:{port}"
 
@@ -517,6 +523,7 @@ class GrpcServer(CServer):
             else:
                 self._server_id = launch_dpf(ansys_path, ip, port,
                                              docker_name=docker_name, timeout=timeout)
+                self._local_server = True
 
         self._client = GrpcClient(address)
 
@@ -603,6 +610,10 @@ class GrpcServer(CServer):
         """
         return self._input_port
 
+    @property
+    def local_server(self):
+        return self._local_server
+
 
 class InProcessServer(CServer):
     """Server using the InProcess communication protocol"""
@@ -656,6 +667,10 @@ class InProcessServer(CServer):
     @property
     def client(self):
         return None
+
+    @property
+    def local_server(self):
+        return True
 
 
 class LegacyGrpcServer(BaseServer):
@@ -713,6 +728,8 @@ class LegacyGrpcServer(BaseServer):
         self._own_process = launch_server
         self.live = False
         self.modules = types.SimpleNamespace()
+        self._local_server = False
+
         # Load Ans.Dpf.Grpc?
         import grpc
 
@@ -733,6 +750,7 @@ class LegacyGrpcServer(BaseServer):
             else:
                 self._server_id = launch_dpf(ansys_path, ip, port,
                                              docker_name=docker_name, timeout=timeout)
+                self._local_server = True
 
         self.channel = grpc.insecure_channel(address)
 
@@ -829,6 +847,10 @@ class LegacyGrpcServer(BaseServer):
         if not self._info_instance:
             self._info_instance = self._base_service.server_info
         return self._info_instance
+
+    @property
+    def local_server(self):
+        return self._local_server
 
     def shutdown(self):
         if self._own_process and self.live:

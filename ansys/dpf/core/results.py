@@ -274,7 +274,7 @@ class Result:
 
     @property
     def on_all_time_freqs(self):
-        """Sets the time scoping to all the time frequencies available in the time frequency support.
+        """Sets the time scoping to all the time frequencies of the time frequency support.
 
         Returns
         -------
@@ -298,7 +298,7 @@ class Result:
 
     @property
     def on_first_time_freq(self):
-        """Sets the time scoping to the first time frequency available in the time frequency support.
+        """Sets the time scoping to the first time frequency of the time frequency support.
 
         Returns
         -------
@@ -373,7 +373,7 @@ class Result:
         >>> len(fc)
         2
         >>> fc.time_freq_support.time_frequencies.data
-        array([0.115, 0.125])
+        DPFArray([0.115, 0.125]...
 
         """
         self._time_scoping = time_scoping
