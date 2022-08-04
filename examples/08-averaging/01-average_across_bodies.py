@@ -55,7 +55,7 @@ for mesh in meshes:
 # which will be obtained using the "stress_Z" operator.
 
 # %%
-# .. image:: 01-avg_across_bodies.svg
+# .. image:: 01-average_across_bodies.svg
 #     :align: center
 #     :width: 800
 
