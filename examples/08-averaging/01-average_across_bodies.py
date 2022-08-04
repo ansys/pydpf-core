@@ -2,7 +2,7 @@
 .. _ref_average_across_bodies:
 
 Average across bodies
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 This example is aimed towards explaining how to activate or deactivate the averaging
 across bodies option in DPF. When we have a multibody simulation that involves the
 calculation of ElementalNodal fields, like stresses or strains, we can either
@@ -17,6 +17,7 @@ displayed after the post processing of the simulation, as we will see below.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core import examples
+from ansys.dpf.core.plotter import Plotter
 
 ###############################################################################
 # Then we can load the simulation results from a .rst file and create a model of it.
@@ -34,14 +35,8 @@ mesh = model.metadata.meshed_region
 split_mesh_op = ops.mesh.split_mesh(mesh=mesh, property="mat")
 meshes = split_mesh_op.outputs.meshes()
 
-# Uncomment this block to obtain the plot
-# meshes.plot(
-#     text='Body meshes')
-
-# %%
-# .. image:: images/01-meshes_plot.png
-#     :align: center
-#     :width: 600
+for mesh in meshes:
+    mesh.plot()
 
 ###############################################################################
 # As we can see in the image above, even though the piston rod is one single part,
@@ -60,7 +55,7 @@ meshes = split_mesh_op.outputs.meshes()
 # which will be obtained using the "stress_Z" operator.
 
 # %%
-# .. image:: 01-average_across_bodies.svg
+# .. image:: 01-avg_across_bodies.svg
 #     :align: center
 #     :width: 800
 
@@ -96,10 +91,8 @@ def average_across_bodies(analysis):
     min_max.inputs.fields_container.connect(stresses)
     max_val = min_max.outputs.field_max()
 
-    # Uncomment this block to obtain the plot
-    # mesh.plot(
-    #     stresses,
-    #     text='Averaged across bodies')
+    pl = Plotter(mesh=mesh)
+    pl.plot_contour(stresses, text="Averaged across bodies", show_axes=True)
 
     return max(max_val.data)
 
@@ -184,18 +177,6 @@ print(stresses)
 min_max = dpf.operators.min_max.min_max_fc()
 min_max.inputs.fields_container.connect(stresses)
 max_val = min_max.outputs.field_max()
-
-###############################################################################
-# Finally, we can plot the results. To do that, we can extract the meshes of each
-# body as a meshed_region object and use them to build our plot.
-
-split_mesh_op = ops.mesh.split_mesh(mesh=mesh, property="mat")
-meshes = split_mesh_op.outputs.meshes()
-
-# Uncomment this block to obtain the plot.
-# meshes.plot(
-#         stresses,
-#         text='Not averaged across bodies')
 ###############################################################################
 # We can also define the workflow presented above as a function:
 
@@ -227,17 +208,17 @@ def not_average_across_bodies(analysis):
     time_step = 3
 
     scop_list = scop_cont.get_scopings(label_space={"time": time_step})
-    scops = dpf.ScopingsContainer()
-    scops.add_label("body")
+    scopings = dpf.ScopingsContainer()
+    scopings.add_label("body")
     body = 1
     for scop in scop_list:
-        scops.add_scoping(label_space={"body": body}, scoping=scop)
+        scopings.add_scoping(label_space={"body": body}, scoping=scop)
         body += 1
 
     stress_op = ops.result.stress_Z()
     stress_op.inputs.connect(model)
     stress_op.inputs.time_scoping.connect(time_step)
-    stress_op.inputs.mesh_scoping.connect(scops)
+    stress_op.inputs.mesh_scoping.connect(scopings)
     stress_op.inputs.requested_location.connect("Nodal")
     stresses = stress_op.outputs.fields_container()
 
@@ -245,13 +226,8 @@ def not_average_across_bodies(analysis):
     min_max.inputs.fields_container.connect(stresses)
     max_val = min_max.outputs.field_max()
 
-    split_mesh_op = ops.mesh.split_mesh(mesh=mesh, property="mat")
-    meshes = split_mesh_op.outputs.meshes()
-
-    # Uncomment this block to obtain the plot
-    # meshes.plot(
-    #     stresses,
-    #     text='Not averaged across bodies')
+    pl = Plotter(mesh=mesh)
+    pl.plot_contour(stresses, text="Not averaged across bodies", show_axes=True)
 
     return max(max_val.data)
 
@@ -266,14 +242,6 @@ def not_average_across_bodies(analysis):
 max_avg_on = average_across_bodies(analysis)
 max_avg_off = not_average_across_bodies(analysis)
 
-# %%
-# |pic1| |pic2|
-#
-# .. |pic1| image:: images/01-averaged_across_bodies.png
-#     :width: 45%
-#
-# .. |pic2| image:: images/01-not_averaged_across_bodies.png
-#     :width: 45%
 ###############################################################################
 diff = abs(max_avg_on - max_avg_off) / max_avg_off * 100
 print(
