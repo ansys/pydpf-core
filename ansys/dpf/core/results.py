@@ -373,7 +373,7 @@ class Result:
         >>> len(fc)
         2
         >>> fc.time_freq_support.time_frequencies.data
-        array([0.115, 0.125])
+        DPFArray([0.115, 0.125]...
 
         """
         self._time_scoping = time_scoping
