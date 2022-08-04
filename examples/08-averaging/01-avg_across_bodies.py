@@ -2,7 +2,7 @@
 .. _ref_average_across_bodies:
 
 Average across bodies
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 This example is aimed towards explaining how to activate or deactivate the averaging
 across bodies option in DPF. When we have a multibody simulation that involves the
 calculation of ElementalNodal fields, like stresses or strains, we can either
@@ -32,16 +32,9 @@ print(model)
 
 mesh = model.metadata.meshed_region
 split_mesh_op = ops.mesh.split_mesh(mesh=mesh, property="mat")
-meshes = split_mesh_op.outputs.meshes()
+meshes = split_mesh_op.get_output(0, dpf.types.meshes_container)
 
-# Uncomment this block to obtain the plot
-# meshes.plot(
-#     text='Body meshes')
-
-# %%
-# .. image:: images/01-meshes_plot.png
-#     :align: center
-#     :width: 600
+meshes.plot(text="Body meshes")
 
 ###############################################################################
 # As we can see in the image above, even though the piston rod is one single part,
@@ -96,10 +89,7 @@ def average_across_bodies(analysis):
     min_max.inputs.fields_container.connect(stresses)
     max_val = min_max.outputs.field_max()
 
-    # Uncomment this block to obtain the plot
-    # mesh.plot(
-    #     stresses,
-    #     text='Averaged across bodies')
+    mesh.plot(stresses, text="Averaged across bodies")
 
     return max(max_val.data)
 
@@ -192,7 +182,7 @@ max_val = min_max.outputs.field_max()
 split_mesh_op = ops.mesh.split_mesh(mesh=mesh, property="mat")
 meshes = split_mesh_op.outputs.meshes()
 
-# Uncomment this block to obtain the plot.
+# Uncomment this block to obtain the plot (the graph will be shown in the next section).
 # meshes.plot(
 #         stresses,
 #         text='Not averaged across bodies')
@@ -227,17 +217,17 @@ def not_average_across_bodies(analysis):
     time_step = 3
 
     scop_list = scop_cont.get_scopings(label_space={"time": time_step})
-    scops = dpf.ScopingsContainer()
-    scops.add_label("body")
+    scopings = dpf.ScopingsContainer()
+    scopings.add_label("body")
     body = 1
     for scop in scop_list:
-        scops.add_scoping(label_space={"body": body}, scoping=scop)
+        scopings.add_scoping(label_space={"body": body}, scoping=scop)
         body += 1
 
     stress_op = ops.result.stress_Z()
     stress_op.inputs.connect(model)
     stress_op.inputs.time_scoping.connect(time_step)
-    stress_op.inputs.mesh_scoping.connect(scops)
+    stress_op.inputs.mesh_scoping.connect(scopings)
     stress_op.inputs.requested_location.connect("Nodal")
     stresses = stress_op.outputs.fields_container()
 
@@ -246,12 +236,9 @@ def not_average_across_bodies(analysis):
     max_val = min_max.outputs.field_max()
 
     split_mesh_op = ops.mesh.split_mesh(mesh=mesh, property="mat")
-    meshes = split_mesh_op.outputs.meshes()
+    meshes = split_mesh_op.get_output(0, dpf.types.meshes_container)
 
-    # Uncomment this block to obtain the plot
-    # meshes.plot(
-    #     stresses,
-    #     text='Not averaged across bodies')
+    meshes.plot(stresses, text="Not averaged across bodies", title="not_avg")
 
     return max(max_val.data)
 
@@ -266,14 +253,6 @@ def not_average_across_bodies(analysis):
 max_avg_on = average_across_bodies(analysis)
 max_avg_off = not_average_across_bodies(analysis)
 
-# %%
-# |pic1| |pic2|
-#
-# .. |pic1| image:: images/01-averaged_across_bodies.png
-#     :width: 45%
-#
-# .. |pic2| image:: images/01-not_averaged_across_bodies.png
-#     :width: 45%
 ###############################################################################
 diff = abs(max_avg_on - max_avg_off) / max_avg_off * 100
 print(
