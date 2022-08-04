@@ -21,6 +21,7 @@ def test_download_example_asme_result():
     path = examples.download_example_asme_result()
     assert isinstance(Model(path), Model)
 
+
 def test_download_crankshaft():
     path = examples.download_crankshaft()
     assert isinstance(Model(path), Model)

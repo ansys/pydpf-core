@@ -134,6 +134,23 @@ def test_cyc_support_from_to_workflow(cyclic_lin_rst):
     assert len(exp.base_nodes_scoping().ids) == 32
 
 
+def test_cyc_support_multistage(cyclic_multistage):
+    model = dpf.Model(cyclic_multistage)
+    cyc_support = model.metadata.result_info.cyclic_support
+    assert np.allclose(
+        cyc_support.expand_element_id(1, stage_num=0).ids,
+        [1, 1558, 2533, 3508, 4483, 5458]
+    )
+    assert np.allclose(
+        cyc_support.expand_node_id(1, stage_num=0).ids,
+        [1, 3596, 5816, 8036, 10256, 12476]
+    )
+    assert np.allclose(
+        cyc_support.sectors_set_for_expansion(stage_num=1).ids,
+        list(range(0, 12))
+    )
+
+
 def test_delete_cyc_support(cyclic_lin_rst, server_type_legacy_grpc):
     data_sources = dpf.DataSources(cyclic_lin_rst, server=server_type_legacy_grpc)
     model = dpf.Model(data_sources, server=server_type_legacy_grpc)

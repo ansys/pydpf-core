@@ -49,7 +49,7 @@ class Input:
         self._update_doc_str(docstr, self.name)
 
     def connect(self, inpt):
-        """Connect any input (an entity or an operator output) to a specified input pin of this operator.
+        """Connect any input (entity or operator output) to a specified input pin of this operator.
 
         Parameters
         ----------
