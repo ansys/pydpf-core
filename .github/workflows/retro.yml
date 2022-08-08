@@ -44,7 +44,7 @@ jobs:
           pip install ansys-grpc-dpf==0.4.0
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.2
+        uses: pyansys/pydpf-actions/prepare_tests@v2.2.dev1
         with:
           DEBUG: true
 
@@ -87,7 +87,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Test API test_launcher"
         shell: bash
@@ -96,7 +96,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Test API test_server"
         shell: bash
@@ -105,7 +105,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Test API test_local_server"
         shell: bash
@@ -114,7 +114,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Test API test_multi_server"
         shell: bash
@@ -123,7 +123,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Test API test_remote_workflow"
         shell: bash
@@ -132,7 +132,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Test API test_remote_operator"
         shell: bash
@@ -141,7 +141,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Test API 3"
         shell: bash
@@ -150,7 +150,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v2
