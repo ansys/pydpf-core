@@ -12,9 +12,44 @@ stresses that come from the results file to a Nodal position and only then calcu
 the Von Mises stresses.
 These workflows can be better visualized in the images below:
 
-.. image:: 00-compute_and_average.svg
-   :align: center
-   :width: 800
+.. graphviz::
+
+    digraph foo {
+        graph [pad="0", nodesep="0.3", ranksep="0.3"]
+        node [shape=box, style=filled, fillcolor="#ffcc0", margin="0"];
+        rankdir=LR;
+        splines=line;
+        node [fixedsize=true,width=2.5]
+
+        stress01 [label="stress"];
+        stress02 [label="stress"];
+        vm01 [label="von_mises_eqv"];
+        vm02 [label="von_mises_eqv"];
+        avg01 [label="elemental_nodal_to_nodal", width=2.5];
+        avg02 [label="elemental_nodal_to_nodal", width=2.5];
+        subgraph cluster_1 {
+            ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+
+            ds01 -> stress01 [style=dashed];
+            stress01 -> vm01;
+            vm01 -> avg01
+
+            label="Compute Von Mises then average stresses";
+            style=filled;
+            fillcolor=lightgrey;
+        }
+        subgraph cluster_2 {
+            ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+
+            ds02 -> stress02 [style=dashed];
+            stress02 -> avg02;
+            avg02 -> vm02
+
+            label="Average stresses then compute Von Mises";
+            style=filled;
+            fillcolor=lightgrey;
+        }
+    }
 """
 ###############################################################################
 # Let's start by importing the necessary modules.
