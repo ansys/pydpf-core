@@ -17,7 +17,6 @@ displayed after the post processing of the simulation, as we will see below.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core import examples
-from ansys.dpf.core.plotter import Plotter
 
 ###############################################################################
 # Then we can load the simulation results from a .rst file and create a model of it.
@@ -35,8 +34,7 @@ mesh = model.metadata.meshed_region
 split_mesh_op = ops.mesh.split_mesh(mesh=mesh, property="mat")
 meshes = split_mesh_op.outputs.meshes()
 
-for mesh in meshes:
-    mesh.plot()
+meshes.plot(text="Body meshes")
 
 ###############################################################################
 # As we can see in the image above, even though the piston rod is one single part,
@@ -55,9 +53,36 @@ for mesh in meshes:
 # which will be obtained using the "stress_Z" operator.
 
 # %%
-# .. image:: 01-average_across_bodies.svg
-#     :align: center
-#     :width: 800
+# .. graphviz::
+#
+#   digraph foo {
+#       graph [pad="0", nodesep="0.3", ranksep="0.3"]
+#       node [shape=box, style=filled, fillcolor="#ffcc0", margin="0"];
+#       rankdir=LR;
+#       splines=line;
+#       node [fixedsize=true,width=2.5]
+#       stress01 [label="stress_Z"];
+#       stress02 [label="stress_Z"];
+#       scp01 [label="split_on_property_type"];
+#       subgraph cluster_1 {
+#           ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+#           ds01 -> scp01 [style=dashed];
+#           scp01 -> stress01;
+#           label="Averaging across bodies = Off";
+#           style=filled;
+#           fillcolor=lightgrey;
+#       }
+#       subgraph cluster_2 {
+#           ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+#           inv02 [style=invisible]
+#           ds02 -> stress02 [style=dashed];
+#           stress02 -> inv02 [style=invis]
+#           label="Averaging across bodies = On";
+#           style=filled;
+#           fillcolor=lightgrey;
+#       }
+#   }
+
 
 ###############################################################################
 # Averaging across bodies activated
@@ -91,8 +116,7 @@ def average_across_bodies(analysis):
     min_max.inputs.fields_container.connect(stresses)
     max_val = min_max.outputs.field_max()
 
-    pl = Plotter(mesh=mesh)
-    pl.plot_contour(stresses, text="Averaged across bodies", show_axes=True)
+    mesh.plot(stresses, text="Averaged across bodies")
 
     return max(max_val.data)
 
@@ -226,8 +250,7 @@ def not_average_across_bodies(analysis):
     min_max.inputs.fields_container.connect(stresses)
     max_val = min_max.outputs.field_max()
 
-    pl = Plotter(mesh=mesh)
-    pl.plot_contour(stresses, text="Not averaged across bodies", show_axes=True)
+    meshes.plot(stresses, text="Not averaged across bodies")
 
     return max(max_val.data)
 
