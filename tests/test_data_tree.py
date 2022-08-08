@@ -126,8 +126,8 @@ def test_write_data_tree():
 
 
 @conftest.raises_for_servers_version_under("4.0")
-def test_write_to_file_data_tree(tmpdir):
-    data_tree = dpf.DataTree()
+def test_write_to_file_data_tree(tmpdir, server_type):
+    data_tree = dpf.DataTree(server=server_type)
     with data_tree.to_fill() as to_fill:
         to_fill.int = 1
         to_fill.double = 1.
@@ -136,7 +136,8 @@ def test_write_to_file_data_tree(tmpdir):
         to_fill.list_double = [1.5, 2.5]
         to_fill.list_string = ["hello", "bye"]
     data_tree.write_to_txt(os.path.join(tmpdir, "file.txt"))
-    data_tree = dpf.DataTree.read_from_txt(os.path.join(tmpdir, "file.txt"))
+    data_tree = dpf.DataTree.read_from_txt(os.path.join(tmpdir, "file.txt"),
+                                           server=server_type)
     assert data_tree.has("int")
     assert data_tree.has("double")
     assert data_tree.has("string")
@@ -144,7 +145,40 @@ def test_write_to_file_data_tree(tmpdir):
     assert data_tree.has("list_double")
     assert data_tree.has("list_string")
     data_tree.write_to_json(os.path.join(tmpdir, "file.json"))
-    data_tree = dpf.DataTree.read_from_json(os.path.join(tmpdir, "file.json"))
+    data_tree = dpf.DataTree.read_from_json(os.path.join(tmpdir, "file.json"),
+                                            server=server_type)
+    assert data_tree.has("int")
+    assert data_tree.has("double")
+    assert data_tree.has("string")
+    assert data_tree.has("list_int")
+    assert data_tree.has("list_double")
+    assert data_tree.has("list_string")
+
+
+@conftest.raises_for_servers_version_under("4.0")
+def test_write_to_file_remote_data_tree(tmpdir):
+    server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer, as_global=False)
+    server_connected = dpf.connect_to_server(server.ip, server.port, as_global=False)
+    data_tree = dpf.DataTree(server=server_connected)
+    with data_tree.to_fill() as to_fill:
+        to_fill.int = 1
+        to_fill.double = 1.
+        to_fill.string = "hello"
+        to_fill.list_int = [1, 2]
+        to_fill.list_double = [1.5, 2.5]
+        to_fill.list_string = ["hello", "bye"]
+    data_tree.write_to_txt(os.path.join(tmpdir, "file.txt"))
+    data_tree = dpf.DataTree.read_from_txt(os.path.join(tmpdir, "file.txt"),
+                                           server=server_connected)
+    assert data_tree.has("int")
+    assert data_tree.has("double")
+    assert data_tree.has("string")
+    assert data_tree.has("list_int")
+    assert data_tree.has("list_double")
+    assert data_tree.has("list_string")
+    data_tree.write_to_json(os.path.join(tmpdir, "file.json"))
+    data_tree = dpf.DataTree.read_from_json(os.path.join(tmpdir, "file.json"),
+                                            server=server_connected)
     assert data_tree.has("int")
     assert data_tree.has("double")
     assert data_tree.has("string")
