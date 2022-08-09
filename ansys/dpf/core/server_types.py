@@ -272,12 +272,14 @@ def check_ansys_grpc_dpf_version(server, timeout):
         ansys_version_to_use = server_to_ansys_version.get(server_version, 'Unknown')
         compatibility_link = (f"https://dpfdocs.pyansys.com/getting_started/"
                               f"index.html#client-server-compatibility")
+        ansys_versions = core._version.server_to_ansys_version
+        latest_ansys = ansys_versions[max(ansys_versions.keys())]
         raise ImportWarning(f"An incompatibility has been detected between the DPF server version "
                             f"({server_version} "
                             f"from Ansys {ansys_version_to_use})"
                             f" and the ansys-grpc-dpf version installed ({grpc_module_version})."
                             f" Please consider using the latest DPF server available in the "
-                            f"2022R1 Ansys unified install.\n"
+                            f"{latest_ansys} Ansys unified install.\n"
                             f"To follow the compatibility guidelines given in "
                             f"{compatibility_link} while still using DPF server {server_version}, "
                             f"please install version {right_grpc_module_version} of ansys-grpc-dpf"
