@@ -39,7 +39,7 @@ setup(
         "ansys.dpf.core.operators.utility",
     ],
     version=__version__,
-    description="DPF Python gRPC client",
+    description="DPF Python client",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     classifiers=[
