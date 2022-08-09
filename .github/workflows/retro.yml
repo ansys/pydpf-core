@@ -1,8 +1,7 @@
 name: Retro-Compatibility check
 
 on:
-  schedule:  # UTC at 0400
-    - cron: '0 4 * * *'
+  workflow_dispatch:
   pull_request:
 
 concurrency:
