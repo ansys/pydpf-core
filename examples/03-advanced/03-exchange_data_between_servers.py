@@ -23,8 +23,8 @@ from ansys.dpf.core import operators as ops
 # the as_global attributes allows to choose whether a server will be stored
 # by the module and used by default
 # Here, we choose the 1st server to be the default
-server1 = dpf.start_local_server(as_global=True)
-server2 = dpf.start_local_server(as_global=False)
+server1 = dpf.start_local_server(as_global=True, config=dpf.AvailableServerConfigs.GrpcServer)
+server2 = dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer)
 
 # Check that the 2 servers are on different ports
 print(server1.port if hasattr(server1, "port") else "",
