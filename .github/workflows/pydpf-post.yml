@@ -1,0 +1,78 @@
+name: PyDPF-Post testing
+
+on:
+  workflow_dispatch:
+    inputs:
+      PyDPF-Post_branch:
+        description: 'PyDPF-Post branch to test'
+        required: true
+        default: 'master'
+        type: string
+
+env:
+  PACKAGE_NAME: ansys-dpf-core
+  MODULE: core
+  ANSYS_VERSION: 222
+
+jobs:
+  Clone_and_Test:
+    name: Clone and Test
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Setup Python"
+        uses: actions/setup-python@v2.1.4
+        with:
+          python-version: "3.8"
+
+      - name: "Build Core Package"
+        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
+        with:
+          python-version: ${{ matrix.python-version }}
+          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+          wheelhouse: false
+          extra-pip-args: ${{ env.extra }}
+
+      - name: "Clone PyDPF-Post"
+        run: |
+          $BranchName = ${{ inputs.PyDPF-Post_branch }}
+          git clone --branch $BranchName --single-branch https://${{secrets.pydpf-post-TOKEN}}@github.com/pyansys/pydpf-post
+        shell: pwsh
+
+      - name: "Install PyDPF-Post"
+        run: |
+          cd pydpf-post/
+          pip install .
+        shell: pwsh
+
+      - name: "Prepare Testing Environment"
+        uses: pyansys/pydpf-actions/prepare_tests@v2.2.dev1
+        with:
+          DEBUG: true
+
+      - name: "Test Docstrings"
+        uses: pyansys/pydpf-actions/test_docstrings@v2.2.dev1
+        with:
+          MODULE: post
+          PACKAGE_NAME: ansys-dpf-post
+
+      - name: "Test API"
+        shell: bash
+        working-directory: tests
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.post --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results-post.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+
+      - name: "Upload Test Results"
+        uses: actions/upload-artifact@v2
+        with:
+          name: ansys-dpf-post_pytest
+          path: tests/junit/test-results-post.xml
