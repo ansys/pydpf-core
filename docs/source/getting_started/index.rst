@@ -109,7 +109,7 @@ For a quick tryout installation, use:
     ------------------------------
     Static analysis
     Unit system: Metric (m, kg, N, s, V, A)
-    Physics Type: Mecanic
+    Physics Type: Mechanical
     Available results:
          -  displacement: Nodal Displacement
          -  element_nodal_forces: ElementalNodal Element nodal Forces

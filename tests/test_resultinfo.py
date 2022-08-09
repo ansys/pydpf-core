@@ -18,7 +18,7 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
     assert res.analysis_type == "static"
     assert res.n_results == 14
     assert "m, kg, N, s, V, A" in res.unit_system
-    assert res.physics_type == "mecanic"
+    assert res.physics_type == "mechanical"
 
 
 def test_get_resultinfo(model):
@@ -27,7 +27,7 @@ def test_get_resultinfo(model):
     assert res.analysis_type == "static"
     assert res.n_results == 14
     assert "m, kg, N, s, V, A" in res.unit_system
-    assert res.physics_type == "mecanic"
+    assert res.physics_type == "mechanical"
 
 
 def test_get_resultinfo_2(simple_bar, server_type):
