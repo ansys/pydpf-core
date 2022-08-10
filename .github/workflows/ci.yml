@@ -282,13 +282,13 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.8"]
-        os: ["windows-latest"]
+        os: ["windows-latest", "ubuntu-18.04"]
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.1.0
+        uses: actions/setup-python@v4.2.0
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -302,8 +302,9 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
+          wheel: false
 
-      - name: Install OpenGL
+      - name: "Install OpenGL"
         run: |
           Set-StrictMode -Version Latest
           $ErrorActionPreference = "Stop"
@@ -311,7 +312,7 @@ jobs:
           git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
           powershell gl-ci-helpers/appveyor/install_opengl.ps1
 
-      - name: Install test offscreen rendering
+      - name: "Install test off-screen rendering"
         run: |
           .ci/setup_headless_display.sh
           pip install -r .ci/requirements_test_xvfb.txt
@@ -327,6 +328,7 @@ jobs:
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Uninstall gatebin"
         shell: bash
@@ -343,7 +345,7 @@ jobs:
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-
+        if: always()
 
       - name: "Check sanity without gatebin GRPC"
         shell: cmd
@@ -355,6 +357,7 @@ jobs:
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Check sanity without gatebin LEGACYGRPC"
         shell: cmd
@@ -366,6 +369,7 @@ jobs:
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
   Retro-compatibility:
     name: Retro-compatibility
