@@ -545,11 +545,11 @@ jobs:
           draft: true
           generate_release_notes: true
 
-      - name: "Upload to Test PyPi"
-        run: |
-          pip install twine
-          twine upload --repository testpypi --skip-existing ./**/*.whl
-          twine upload --repository testpypi --skip-existing ./**/*.tar.gz
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+#      - name: "Upload to Test PyPi"
+#        run: |
+#          pip install twine
+#          twine upload --repository testpypi --skip-existing ./**/*.whl
+#          twine upload --repository testpypi --skip-existing ./**/*.tar.gz
+#        env:
+#          TWINE_USERNAME: __token__
+#          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
