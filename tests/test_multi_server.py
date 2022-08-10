@@ -16,7 +16,12 @@ from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
 ])
 def other_remote_server(request):
-    return dpf.start_local_server(config=request.param, as_global=False)
+    server = dpf.start_local_server(config=request.param, as_global=False)
+    if request.param == ServerConfig(
+            protocol=CommunicationProtocols.gRPC, legacy=False
+    ):
+        dpf.settings.get_runtime_client_config(server).cache_enabled = False
+    return server
 
 
 @pytest.fixture()
@@ -143,24 +148,24 @@ def test_model_cyc_support_multi_server(cyc_models):
     assert cyc_support.num_sectors() == cyc_support2.num_sectors()
     assert np.allclose(cyc_support.base_nodes_scoping().ids, cyc_support2.base_nodes_scoping().ids)
     assert np.allclose(
-            cyc_support.base_elements_scoping().ids
-            , cyc_support2.base_elements_scoping().ids
+        cyc_support.base_elements_scoping().ids
+        , cyc_support2.base_elements_scoping().ids
     )
     assert np.allclose(
-            cyc_support.sectors_set_for_expansion().ids
-            , cyc_support2.sectors_set_for_expansion().ids
+        cyc_support.sectors_set_for_expansion().ids
+        , cyc_support2.sectors_set_for_expansion().ids
     )
     assert np.allclose(cyc_support.expand_node_id(1).ids, cyc_support2.expand_node_id(1).ids)
     assert np.allclose(cyc_support.expand_element_id(1).ids, cyc_support2.expand_element_id(1).ids)
     assert np.allclose(
-            cyc_support.expand_node_id(1, cyc_support.sectors_set_for_expansion()).ids
-            , cyc_support2.expand_node_id(1, cyc_support2.sectors_set_for_expansion()).ids
+        cyc_support.expand_node_id(1, cyc_support.sectors_set_for_expansion()).ids
+        , cyc_support2.expand_node_id(1, cyc_support2.sectors_set_for_expansion()).ids
     )
     assert np.allclose(
-            cyc_support.expand_element_id(1, cyc_support.sectors_set_for_expansion())
-            .ids , cyc_support2.expand_element_id(1,
-                                                   cyc_support2.sectors_set_for_expansion()
-                                                  ).ids
+        cyc_support.expand_element_id(1, cyc_support.sectors_set_for_expansion())
+        .ids, cyc_support2.expand_element_id(1,
+                                             cyc_support2.sectors_set_for_expansion()
+                                             ).ids
     )
 
 

@@ -39,13 +39,14 @@ setup(
         "ansys.dpf.core.operators.utility",
     ],
     version=__version__,
-    description="DPF Python gRPC client",
+    description="DPF Python client",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Science/Research",
         "Topic :: Scientific/Engineering :: Information Analysis",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows",
         "Operating System :: POSIX",
         "Programming Language :: Python :: 3.7",
@@ -86,5 +87,5 @@ setup(
         "plotting": ["pyvista>=0.32.0", "matplotlib>=3.2"],
     },
     url="https://github.com/pyansys/pydpf-core",
-    license='MIT',
+    license='MIT License',
 )

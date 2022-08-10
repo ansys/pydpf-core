@@ -6,6 +6,13 @@ import conftest
 from ansys import dpf
 
 
+@pytest.fixture(autouse=True)
+def clear_local_server(request):
+    def clear_local():
+        conftest.local_servers.clear()
+    request.addfinalizer(clear_local)
+
+
 def test_create_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
     assert wf._internal_obj

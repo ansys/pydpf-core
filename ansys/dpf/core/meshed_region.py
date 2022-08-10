@@ -5,6 +5,8 @@ MeshedRegion
 import traceback
 import warnings
 
+import ansys.dpf.core.errors
+
 from ansys.dpf.core import scoping, field, property_field
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import locations, types, nodal_properties
@@ -110,7 +112,18 @@ class MeshedRegion:
             out = self._api.meshed_region_get_shared_elements_scoping(self)
         else:
             raise TypeError(f"Location {loc} is not recognized.")
-        return scoping.Scoping(scoping=out, server=self._server)
+        scop_to_return = scoping.Scoping(scoping=out, server=self._server)
+        try:
+            check = scop_to_return._api.scoping_fast_access_ptr(scop_to_return)
+            if check is None:
+                return None
+        except NotImplementedError:
+            # will throw NotImplementedError for ansys-grpc-dpf
+            pass
+        except ansys.dpf.core.errors.DPFServerException:
+            # and DPFServerException for gRPC CLayer
+            pass
+        return scop_to_return
 
     @property
     def elements(self):
@@ -415,12 +428,12 @@ class MeshedRegion:
 
     def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
-        # Quick fix required to hold onto the data as PyVista does not make a copy.
-        # All of those now return DPFArrays
-        if not coordinates:
-            self._tmpnodes = self.nodes.coordinates_field.data
+        if coordinates is None:
+            coordinates_field = self.nodes.coordinates_field
+            coordinates = self.nodes.coordinates_field.data
         else:
-            self._tmpnodes = coordinates.data
+            coordinates_field = coordinates
+            coordinates = coordinates.data
         etypes = self.elements.element_types_field.data
         conn = self.elements.connectivities_field.data
         try:
@@ -431,7 +444,7 @@ class MeshedRegion:
                 "with :\n pip install pyvista>=0.24.0"
             )
 
-        grid = dpf_mesh_to_vtk(self._tmpnodes, etypes, conn, as_linear)
+        grid = dpf_mesh_to_vtk(coordinates, etypes, conn, as_linear)
 
         # consider adding this when scoping request is faster
         if include_ids:
@@ -439,6 +452,10 @@ class MeshedRegion:
             self._elementids = self.nodes.scoping.ids
             grid["node_ids"] = self._elementids
             grid["element_ids"] = self._nodeids
+
+        # Quick fix required to hold onto the data as PyVista does not make a copy.
+        # All of those now return DPFArrays
+        setattr(grid, "_dpf_cache", [coordinates, coordinates_field])
 
         return grid
 
@@ -565,6 +582,8 @@ class MeshedRegion:
         >>> deep_copy = meshed_region.deep_copy(server=other_server)
 
         """
+        if self.nodes.scoping is None: # empty Mesh
+            return MeshedRegion()
         node_ids = self.nodes.scoping.ids
         element_ids = self.elements.scoping.ids
         mesh = MeshedRegion(
