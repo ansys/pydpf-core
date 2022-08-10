@@ -188,7 +188,7 @@ jobs:
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ matrix.ANSYS_VERSION }}
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ env.ANSYS_VERSION }}
           path: tests/junit/test-results.xml
 
       - name: "Upload coverage to Codecov"
