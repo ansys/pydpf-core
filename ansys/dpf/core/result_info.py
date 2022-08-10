@@ -17,7 +17,7 @@ class physics_types(Enum):
     """
     ``'Physics_types'`` enumerates the different types of physics that an analysis can have.
     """
-    mecanic = 0  # TODO change for "mechanical"?
+    mechanical = 0
     thermal = 1
     magnetic = 2
     electric = 3
@@ -152,7 +152,7 @@ class ResultInfo:
         >>> model = dpf.Model(transient)
         >>> result_info = model.metadata.result_info
         >>> result_info.physics_type
-        'mecanic'
+        'mechanical'
 
         """
         return self._get_physics_type()
