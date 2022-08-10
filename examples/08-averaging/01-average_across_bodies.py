@@ -100,15 +100,15 @@ def average_across_bodies(analysis):
     model = dpf.Model(analysis)
     mesh = model.metadata.meshed_region
 
-    # We're interested in the last time step, so:
-    time_step = 3
+    # We're interested in the last time set, so:
+    time_set = 3
 
     # Extracting the stresses in the Z direction. By default, DPF already applies
     # averaging across bodies when extracting the stresses.
     stress_op = ops.result.stress_Z()
     stress_op.inputs.connect(model)
-    stress_op.inputs.time_scoping.connect(time_step)
-    stress_op.inputs.requested_location.connect("Nodal")
+    stress_op.inputs.time_scoping.connect(time_set)
+    stress_op.inputs.requested_location.connect(dpf.locations.nodal)
     stresses = stress_op.outputs.fields_container()
 
     # Finding the maximum stress value
@@ -135,7 +135,7 @@ def average_across_bodies(analysis):
 model = dpf.Model(analysis)
 mesh = model.metadata.meshed_region
 time_freq = model.metadata.time_freq_support
-steps = time_freq.time_frequencies.data.tolist()
+time_sets = time_freq.time_frequencies.data.tolist()
 
 ###############################################################################
 # We need to split the meshes of the two bodies so we can then create separate
@@ -150,11 +150,11 @@ mesh_scop_cont = mesh_scop_op.outputs.mesh_scoping()
 scop_cont = dpf.ScopingsContainer()
 scop_cont.add_label("body")
 scop_cont.add_label("time")
-for step in steps:
+for tset in time_sets:
     body = 1
     for mesh_scop in mesh_scop_cont:
         scop_cont.add_scoping(
-            scoping=mesh_scop, label_space={"body": body, "time": int(step)}
+            scoping=mesh_scop, label_space={"body": body, "time": int(tset)}
         )
         body += 1
 print(scop_cont)
@@ -162,8 +162,8 @@ print(scop_cont)
 ###############################################################################
 # As we can see, we've got 6 different Scopings inside our ScopingsContainer, one for
 # each body over each one of the three time steps. Let's now focus our analysis on the
-# last time step:
-time_step = 3
+# last time set:
+time_set = 3
 
 ###############################################################################
 # Then, to retrieve the Z stresses without averaging across the two bodies, we can pass
@@ -171,7 +171,7 @@ time_step = 3
 # stress_Z operator. To be able to do that, we need a new ScopingsContainer that contains
 # the meshes of the two bodies in the desired time step.
 
-scop_list = scop_cont.get_scopings(label_space={"time": time_step})
+scop_list = scop_cont.get_scopings(label_space={"time": time_set})
 scopings = dpf.ScopingsContainer()
 scopings.add_label("body")
 body = 1
@@ -188,11 +188,11 @@ print(scopings)
 
 stress_op = ops.result.stress_Z()
 stress_op.inputs.connect(model)
-stress_op.inputs.time_scoping.connect(time_step)
+stress_op.inputs.time_scoping.connect(time_set)
 stress_op.inputs.mesh_scoping.connect(
     scopings
 )  # This option deactivates averaging across bodies.
-stress_op.inputs.requested_location.connect("Nodal")
+stress_op.inputs.requested_location.connect(dpf.locations.nodal)
 stresses = stress_op.outputs.fields_container()
 print(stresses)
 ###############################################################################
@@ -213,7 +213,7 @@ def not_average_across_bodies(analysis):
     mesh = model.metadata.meshed_region
 
     time_freq = model.metadata.time_freq_support
-    steps = time_freq.time_frequencies.data.tolist()
+    time_sets = time_freq.time_frequencies.data.tolist()
 
     mesh_scop_op = ops.scoping.split_on_property_type(mesh=mesh, label1="mat")
     mesh_scop_cont = mesh_scop_op.outputs.mesh_scoping()
@@ -221,17 +221,17 @@ def not_average_across_bodies(analysis):
     scop_cont = dpf.ScopingsContainer()
     scop_cont.add_label("body")
     scop_cont.add_label("time")
-    for step in steps:
+    for tset in time_sets:
         body = 1
         for mesh_scop in mesh_scop_cont:
             scop_cont.add_scoping(
-                scoping=mesh_scop, label_space={"body": body, "time": int(step)}
+                scoping=mesh_scop, label_space={"body": body, "time": int(tset)}
             )
             body += 1
 
-    time_step = 3
+    time_set = 3
 
-    scop_list = scop_cont.get_scopings(label_space={"time": time_step})
+    scop_list = scop_cont.get_scopings(label_space={"time": time_set})
     scopings = dpf.ScopingsContainer()
     scopings.add_label("body")
     body = 1
@@ -241,9 +241,9 @@ def not_average_across_bodies(analysis):
 
     stress_op = ops.result.stress_Z()
     stress_op.inputs.connect(model)
-    stress_op.inputs.time_scoping.connect(time_step)
+    stress_op.inputs.time_scoping.connect(time_set)
     stress_op.inputs.mesh_scoping.connect(scopings)
-    stress_op.inputs.requested_location.connect("Nodal")
+    stress_op.inputs.requested_location.connect(dpf.locations.nodal)
     stresses = stress_op.outputs.fields_container()
 
     min_max = dpf.operators.min_max.min_max_fc()
