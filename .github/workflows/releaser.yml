@@ -5,31 +5,22 @@ on:
     types: [published]
 
 jobs:
-  Update_Documentation:
-    name: Update live documentation
+  Deploy_Documentation:
+    name: "Deploy live documentation"
     runs-on: ubuntu-latest
     steps:
-      - name: Init doc git and add docs
-        run: |
-          cd docs/build/html
-          git init
-          git checkout -b $env:GH_DOC_BRANCH
-          git config --global user.name "pyansys-ci-bot"
-          git config --global user.email "$env:GH_EMAIL"
-          New-Item -ItemType file .nojekyll
-          git add .
-          git commit -m "Documentation generated"
-        env:
-          GH_DOC_BRANCH: gh-pages
-          GH_EMAIL: pyansys.github.bot@ansys.com
-
-      - name: Publish GitHub Pages merge commit
-        run: |
-          cd docs/build/html
-          git remote add origin https://${{secrets.PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
-          git push -u origin $env:GH_DOC_BRANCH --force
-        env:
-          GH_DOC_BRANCH: gh-pages
+      - name: "Deploy to gh-pages"
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs/build/html
+          token: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
+          branch: gh-pages
+          git-config-name: pyansys-ci-bot
+          git-config-email: pyansys.github.bot@ansys.com
+          repository-name: pyansys/DPF-Core-docs
+          commit-message: Documentation generated for ${{ env.RELEASE }}
+          clean-exclude: "CNAME"
+          tag: ${{ env.RELEASE }}
 
   Publish_to_PyPi:
     name: Publish to PyPi
@@ -49,11 +40,11 @@ jobs:
           file: '*.tar.gz'
           token: ${{ secrets.GITHUB_TOKEN }}
 
-#      - name: Upload to Public PyPi
-#        run: |
-#          pip install twine
-#          twine upload --skip-existing ./**/*.whl
-#          twine upload --skip-existing ./**/*.tar.gz
-#        env:
-#          TWINE_USERNAME: __token__
-#          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      - name: Upload to Public PyPi
+        run: |
+          pip install twine
+          twine upload --skip-existing ./**/*.whl
+          twine upload --skip-existing ./**/*.tar.gz
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
