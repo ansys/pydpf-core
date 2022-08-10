@@ -8,6 +8,7 @@ jobs:
   Deploy_Documentation:
     name: "Deploy live documentation"
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - name: "Deploy to gh-pages"
         uses: JamesIves/github-pages-deploy-action@v4
@@ -25,6 +26,7 @@ jobs:
   Publish_to_PyPi:
     name: Publish to PyPi
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - name: Download Release Asset - whl
         uses: dsaltares/fetch-gh-release-asset@master
