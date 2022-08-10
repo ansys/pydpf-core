@@ -202,7 +202,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.1.0
+        uses: actions/setup-python@v4.2.0
         with:
           python-version: 3.8
 
@@ -218,7 +218,7 @@ jobs:
           install_extras: plotting
           wheelhouse: false
 
-      - name: Install OpenGL
+      - name: "Install OpenGL"
         run: |
           Set-StrictMode -Version Latest
           $ErrorActionPreference = "Stop"
@@ -226,23 +226,23 @@ jobs:
           git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
           powershell gl-ci-helpers/appveyor/install_opengl.ps1
 
-      - name: Install test off-screen rendering
+      - name: "Install test off-screen rendering"
         run: |
           .ci/setup_headless_display.sh
           pip install -r .ci/requirements_test_xvfb.txt
           python .ci/display_test.py
 
-      - name: Setup Graphviz
+      - name: "Setup Graphviz"
         uses: ts-graphviz/setup-graphviz@v1
 
-      - name: Install documentation packages for Python
+      - name: "Install documentation packages for Python"
         run: |
           pip install -r requirements/requirements_docs.txt
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
-      - name: Build Documentation
+      - name: "Build Documentation"
         shell: cmd
         run: |
           cd .ci
@@ -251,6 +251,7 @@ jobs:
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Retrieve package version"
         shell: bash
@@ -258,18 +259,21 @@ jobs:
           echo "::set-output name=VERSION::$(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
           echo "${{env.PACKAGE_NAME}} version is: $(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
         id: version
+        if: always()
 
-      - name: Publish Documentation artifact
+      - name: "Publish Documentation artifact"
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-HTML_Documentation
           path: ./docs/build/html/*
+        if: always()
 
-      - name: Publish Documentation log
+      - name: "Publish Documentation log"
         uses: actions/upload-artifact@v3
         with:
-          name: doc-ansys-dpf-core-log
+          name: ${{ env.PACKAGE_NAME }}-log
           path: ./docs/*.txt
+        if: always()
 
   Run_Examples:
     name: Run Examples with/without bin
