@@ -206,31 +206,20 @@ jobs:
           install_extras: plotting
           wheelhouse: false
 
-      - name: Install OpenGL
-        run: |
-          Set-StrictMode -Version Latest
-          $ErrorActionPreference = "Stop"
-          $PSDefaultParameterValues['*:ErrorAction']='Stop'
-          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-          powershell gl-ci-helpers/appveyor/install_opengl.ps1
+      - name: "Setup headless display"
+        uses: pyvista/setup-headless-display-action@v1
 
-      - name: Install test offscreen rendering
-        run: |
-          .ci/setup_headless_display.sh
-          pip install -r .ci/requirements_test_xvfb.txt
-          python .ci/display_test.py
-
-      - name: Setup Graphviz
+      - name: "Setup Graphviz"
         uses: ts-graphviz/setup-graphviz@v1
 
-      - name: Install documentation packages for Python
+      - name: "Install documentation requirements"
         run: |
           pip install -r requirements/requirements_docs.txt
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
 
-      - name: Build Documentation
+      - name: "Build Documentation"
         shell: cmd
         run: |
           cd .ci
@@ -240,14 +229,14 @@ jobs:
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
 
-      - name: Publish Documentation artifact
+      - name: "Publish Documentation artifact"
         uses: actions/upload-artifact@v3
         with:
           name: doc-ansys-dpf-core
           path: ./docs/build/html/*
         if: always()
 
-      - name: Publish Documentation log
+      - name: "Publish Documentation log"
         uses: actions/upload-artifact@v3
         with:
           name: doc-ansys-dpf-core-log
@@ -306,26 +295,15 @@ jobs:
           install_extras: plotting
           wheelhouse: false
 
-      - name: Install OpenGL
-        run: |
-          Set-StrictMode -Version Latest
-          $ErrorActionPreference = "Stop"
-          $PSDefaultParameterValues['*:ErrorAction']='Stop'
-          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-          powershell gl-ci-helpers/appveyor/install_opengl.ps1
-
-      - name: Install test offscreen rendering
-        run: |
-          .ci/setup_headless_display.sh
-          pip install -r .ci/requirements_test_xvfb.txt
-          python .ci/display_test.py
+      - name: "Setup headless display"
+        uses: pyvista/setup-headless-display-action@v1
 
       - name: "Check examples with gatebin"
-        shell: cmd
+        shell: bash
         run: |
           echo on
           cd .ci
-          dir .
+          ls .
           python run_examples.py
 
       - name: "Kill all servers"
@@ -337,7 +315,7 @@ jobs:
           pip uninstall -y ansys-dpf-gatebin
 
       - name: "Check sanity without gatebin INPROCESS"
-        shell: cmd
+        shell: bash
         run: |
           cd .ci
           python run_non_regression_examples.py
@@ -349,7 +327,7 @@ jobs:
 
 
       - name: "Check sanity without gatebin GRPC"
-        shell: cmd
+        shell: bash
         run: |
           cd .ci
           python run_non_regression_examples.py
@@ -360,7 +338,7 @@ jobs:
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
 
       - name: "Check sanity without gatebin LEGACYGRPC"
-        shell: cmd
+        shell: bash
         run: |
           cd .ci
           python run_non_regression_examples.py
