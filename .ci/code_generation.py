@@ -16,6 +16,7 @@ if os.name == "posix":
         "libAns.Dpf.LSDYNAHGP.so",
         "libAns.Dpf.LivePost.so",
         "libans.dpf.pointcloudsearch.so",
+        "libAns.Dpf.Vtk.so",
     ]
 else:
     LIB_TO_GENERATE = [
@@ -28,6 +29,7 @@ else:
         "Ans.Dpf.LSDYNAHGP.dll",
         "Ans.Dpf.LivePost.dll",
         "Ans.Dpf.PointCloudSearch.dll",
+        "Ans.Dpf.Vtk.dll",
     ]
 
 local_dir = os.path.dirname(os.path.abspath(__file__))

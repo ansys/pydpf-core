@@ -1,10 +1,3 @@
-"""
-.. _ref_operators_package:
-
-Operators
----------
-"""
-
 from . import result
 from . import math
 from . import utility
