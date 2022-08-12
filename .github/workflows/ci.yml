@@ -284,8 +284,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8"]
-        os: ["windows-latest"]
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        os: ["windows-latest", "ubuntu-18.04"]
 
     steps:
       - uses: actions/checkout@v3
