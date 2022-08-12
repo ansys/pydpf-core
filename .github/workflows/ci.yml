@@ -206,21 +206,10 @@ jobs:
           install_extras: plotting
           wheelhouse: false
 
-      - name: Install OpenGL
-        run: |
-          Set-StrictMode -Version Latest
-          $ErrorActionPreference = "Stop"
-          $PSDefaultParameterValues['*:ErrorAction']='Stop'
-          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-          powershell gl-ci-helpers/appveyor/install_opengl.ps1
+      - name: "Setup headless display"
+        uses: pyvista/setup-headless-display-action@v1
 
-      - name: Install test offscreen rendering
-        run: |
-          .ci/setup_headless_display.sh
-          pip install -r .ci/requirements_test_xvfb.txt
-          python .ci/display_test.py
-
-      - name: Setup Graphviz
+      - name: "Setup Graphviz"
         uses: ts-graphviz/setup-graphviz@v1
 
       - name: Install documentation packages for Python
@@ -230,7 +219,7 @@ jobs:
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
-      - name: Build Documentation
+      - name: "Build Documentation"
         shell: cmd
         run: |
           cd .ci
@@ -306,19 +295,8 @@ jobs:
           install_extras: plotting
           wheelhouse: false
 
-      - name: Install OpenGL
-        run: |
-          Set-StrictMode -Version Latest
-          $ErrorActionPreference = "Stop"
-          $PSDefaultParameterValues['*:ErrorAction']='Stop'
-          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-          powershell gl-ci-helpers/appveyor/install_opengl.ps1
-
-      - name: Install test offscreen rendering
-        run: |
-          .ci/setup_headless_display.sh
-          pip install -r .ci/requirements_test_xvfb.txt
-          python .ci/display_test.py
+      - name: "Setup headless display"
+        uses: pyvista/setup-headless-display-action@v1
 
       - name: "Check examples with gatebin"
         shell: cmd
