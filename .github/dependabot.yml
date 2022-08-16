@@ -5,6 +5,7 @@ updates:
     insecure-external-code-execution: allow
     schedule:
       interval: "weekly"
+      day: "sunday"
     labels:
       - "maintenance"
       - "dependencies"
@@ -15,6 +16,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "sunday"
     labels:
       - "maintenance"
       - "CI/CD"
