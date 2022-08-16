@@ -13,7 +13,7 @@ updates:
       - dependency-name: "vtk"
       
   - package-ecosystem: "github-actions"
-    directory: "/"
+    directory: ".github/"
     schedule:
       interval: "weekly"
       day: "sunday"
