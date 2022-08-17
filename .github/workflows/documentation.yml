@@ -1,0 +1,116 @@
+name: Documentation
+
+on:
+# Can be called by the CI
+  workflow_call:
+    inputs:
+      python_version:
+        required: true
+        type: string
+        default: "3.8"
+      ANSYS_VERSION:
+        required: true
+        type: string
+        default: "222"
+    secrets:
+      DPF_PIPELINE:
+        required: true
+# Can be called manually
+  workflow_dispatch:
+    inputs:
+      python_version:
+        description: "Python interpreter"
+        required: true
+        type: string
+        default: "3.8"
+      ANSYS_VERSION:
+        description: "ANSYS version"
+        required: true
+        type: string
+        default: "222"
+
+env:
+  PACKAGE_NAME: ansys-dpf-core
+  MODULE: core
+
+jobs:
+  Documentation:
+    name: Documentation
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.2.0
+        with:
+          python-version: ${{ inputs.python_version }}
+
+      - name: "Build Package"
+        id: build-package
+        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
+        with:
+          python-version: ${{ inputs.python_version }}
+          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+          wheelhouse: false
+
+      - name: "Install OpenGL"
+        run: |
+          Set-StrictMode -Version Latest
+          $ErrorActionPreference = "Stop"
+          $PSDefaultParameterValues['*:ErrorAction']='Stop'
+          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
+          powershell gl-ci-helpers/appveyor/install_opengl.ps1
+
+      - name: "Install test off-screen rendering"
+        run: |
+          .ci/setup_headless_display.sh
+          pip install -r .ci/requirements_test_xvfb.txt
+          python .ci/display_test.py
+
+      - name: "Setup Graphviz"
+        uses: ts-graphviz/setup-graphviz@v1
+
+      - name: "Install documentation packages for Python"
+        run: |
+          pip install -r requirements/requirements_docs.txt
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+
+      - name: "Build Documentation"
+        shell: cmd
+        run: |
+          cd .ci
+          build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
+        timeout-minutes: 20
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
+
+      - name: "Retrieve package version"
+        shell: bash
+        run: |
+          echo "::set-output name=VERSION::$(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
+          echo "${{env.PACKAGE_NAME}} version is: $(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
+        id: version
+        if: always()
+
+      - name: "Publish Documentation artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-HTML_Documentation
+          path: ./docs/build/html/*
+        if: always()
+
+      - name: "Publish Documentation log"
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.PACKAGE_NAME }}-log
+          path: ./docs/*.txt
+        if: always()
