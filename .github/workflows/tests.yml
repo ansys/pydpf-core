@@ -58,7 +58,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ${{ inputs.python_versions }}
+        python-version: ${{ fromJSON(inputs.python_versions) }}
         os: ["windows-latest", "ubuntu-18.04"]
 
     steps:
