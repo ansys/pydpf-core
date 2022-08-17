@@ -5,11 +5,11 @@ on:
   workflow_call:
     inputs:
       python_version:
-        required: true
+        required: false
         type: string
         default: "3.8"
       ANSYS_VERSION:
-        required: true
+        required: false
         type: string
         default: "222"
     secrets:
