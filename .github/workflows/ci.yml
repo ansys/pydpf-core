@@ -52,6 +52,8 @@ jobs:
       python_versions: '["3.7"]'
       wheel: true
       wheelhouse: true
+    secrets:
+      DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
   Tests_release:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -60,6 +62,8 @@ jobs:
       ANSYS_VERSION: env.ANSYS_VERSION
       python_versions: '["3.8", "3.9"]'
       wheelhouse: true
+    secrets:
+      DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
   Examples_master:
     if: startsWith(github.head_ref, 'master')
@@ -67,6 +71,8 @@ jobs:
     with:
       ANSYS_VERSION: env.ANSYS_VERSION
       python_versions: '["3.7"]'
+    secrets:
+      DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
   Examples_release:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -74,12 +80,16 @@ jobs:
     with:
       ANSYS_VERSION: env.ANSYS_VERSION
       python_versions: '["3.7", "3.8", "3.9"]'
+    secrets:
+      DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
   Documentation:
     if: startsWith(github.head_ref, 'master') || startsWith(github.ref, 'refs/tags/v')
     uses: ./.github/workflows/documentation.yml
     with:
       ANSYS_VERSION: env.ANSYS_VERSION
+    secrets:
+      DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
   Retro:
     name: Retro
@@ -88,11 +98,15 @@ jobs:
     with:
       ANSYS_VERSION: 221
       python_versions: '["3.7"]'
+    secrets:
+      DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
   Gate:
     name: Gate
     if: startsWith(github.ref, 'refs/tags/v')
     uses: ./.github/workflows/gate.yml
+    secrets:
+      DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
   Draft_Release:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
