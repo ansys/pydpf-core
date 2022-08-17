@@ -20,6 +20,10 @@ on:
         required: false
         type: string
         default: false
+      DOCSTRING:
+        required: false
+        type: string
+        default: true
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -43,6 +47,11 @@ on:
         required: false
         type: string
         default: 'false'
+      DOCSTRING:
+        description: "Whether to test docstrings"
+        required: false
+        type: string
+        default: 'true'
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -97,6 +106,7 @@ jobs:
           DEBUG: true
 
       - name: "Test Docstrings"
+        if: inputs.DOCSTRING == 'true'
         uses: pyansys/pydpf-actions/test_docstrings@v2.2.dev1
         with:
           MODULE: ${{env.MODULE}}

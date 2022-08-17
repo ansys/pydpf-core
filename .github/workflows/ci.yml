@@ -97,6 +97,7 @@ jobs:
     with:
       ANSYS_VERSION: "221"
       python_versions: '["3.8"]'
+      DOCSTRING: false
     secrets: inherit
 
   Gate:
