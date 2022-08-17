@@ -12,6 +12,14 @@ on:
         required: true
         type: string
         default: "222"
+      wheel:
+        required: true
+        type: string
+        default: false
+      wheelhouse:
+        required: true
+        type: string
+        default: false
     secrets:
       DPF_PIPELINE:
         required: true
@@ -28,6 +36,16 @@ on:
         required: true
         type: string
         default: "222"
+      wheel:
+        description: "Generate a wheel"
+        required: true
+        type: string
+        default: 'false'
+      wheelhouse:
+        description: "Generate a wheelhouse"
+        required: true
+        type: string
+        default: 'false'
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -55,7 +73,8 @@ jobs:
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
-          wheelhouse: true
+          wheel: ${{ inputs.wheel }}
+          wheelhouse: ${{ inputs.wheelhouse }}
           extra-pip-args: ${{ env.extra }}
 
       - name: "Prepare Testing Environment"
