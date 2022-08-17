@@ -13,11 +13,11 @@ on:
         type: string
         default: "222"
       wheel:
-        required: true
+        required: false
         type: string
         default: false
       wheelhouse:
-        required: true
+        required: false
         type: string
         default: false
     secrets:
@@ -38,12 +38,12 @@ on:
         default: "222"
       wheel:
         description: "Generate a wheel"
-        required: true
+        required: false
         type: string
         default: 'false'
       wheelhouse:
         description: "Generate a wheelhouse"
-        required: true
+        required: false
         type: string
         default: 'false'
 
