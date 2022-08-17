@@ -2,8 +2,9 @@ name: CI
 
 on:
   pull_request:
-     branches-ignore:
-       - '*no-ci*'
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches-ignore:
+      - '*no-ci*'
   push:
     tags:
       - "v*"
@@ -65,8 +66,8 @@ jobs:
     secrets:
       DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
-  Examples_master:
-    if: startsWith(github.head_ref, 'master')
+  Examples:
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || github.event.pull_request.draft == 'false'
     uses: ./.github/workflows/examples.yml
     with:
       ANSYS_VERSION: env.ANSYS_VERSION
@@ -84,7 +85,7 @@ jobs:
       DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
   Documentation:
-    if: startsWith(github.head_ref, 'master') || startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || github.event.pull_request.draft == 'false'
     uses: ./.github/workflows/documentation.yml
     with:
       ANSYS_VERSION: env.ANSYS_VERSION
@@ -93,7 +94,7 @@ jobs:
 
   Retro:
     name: Retro
-    if: startsWith(github.head_ref, 'master') || startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || github.event.pull_request.draft == 'false'
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: 221
