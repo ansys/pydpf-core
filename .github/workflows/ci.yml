@@ -48,7 +48,7 @@ jobs:
   Tests:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: ${{ env.ANSYS_VERSION }}
+      ANSYS_VERSION: "222"
       python_versions: '["3.7"]'
       wheel: true
       wheelhouse: true
