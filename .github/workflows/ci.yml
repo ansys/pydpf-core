@@ -49,7 +49,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "222"
-      python_versions: '["3.7"]'
+      python_versions: '["3.8"]'
       wheel: true
       wheelhouse: true
     secrets:
@@ -60,7 +60,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: env.ANSYS_VERSION
-      python_versions: '["3.8", "3.9"]'
+      python_versions: '["3.7", "3.9"]'
       wheelhouse: true
     secrets:
       DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
@@ -97,7 +97,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: 221
-      python_versions: '["3.7"]'
+      python_versions: '["3.8"]'
     secrets:
       DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
