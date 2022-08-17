@@ -48,9 +48,9 @@ jobs:
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
         with:
           python-version: ${{ inputs.python_version }}
-          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
+          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
+          PACKAGE_NAME: ansys-dpf-core
+          MODULE: core
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
