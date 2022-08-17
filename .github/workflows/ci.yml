@@ -49,7 +49,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "222"
-      python_versions: ["3.7"]
+      python_versions: '["3.7"]'
       wheel: true
       wheelhouse: true
     secrets:
