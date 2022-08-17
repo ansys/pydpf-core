@@ -61,7 +61,7 @@ jobs:
         run: |
           echo "::set-output name=python_versions::$input"
         env:
-          input: ${{ inputs.languageJson.python_versions }}
+          input: ${{ inputs.python_versions }}
   Tests:
     name: Tests
     needs: setup
