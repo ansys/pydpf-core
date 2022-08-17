@@ -1,0 +1,76 @@
+name: Examples
+
+on:
+# Can be called by the CI
+  workflow_call:
+    inputs:
+      python_versions:
+        required: true
+        type: string
+        default: '["3.7"]'
+      ANSYS_VERSION:
+        required: true
+        type: string
+        default: "222"
+    secrets:
+      DPF_PIPELINE:
+        required: true
+# Can be called manually
+  workflow_dispatch:
+    inputs:
+      python_versions:
+        description: "Python interpreters to test."
+        required: true
+        type: string
+        default: '["3.7"]'
+      ANSYS_VERSION:
+        description: "ANSYS version to run."
+        required: true
+        type: string
+        default: "222"
+
+jobs:
+  Run_Examples:
+    name: Run Examples
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ${{ inputs.python_versions }}
+        os: ["windows-latest", "ubuntu-18.04"]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.2.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: "Build Package"
+        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
+        with:
+          python-version: ${{ matrix.python-version }}
+          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
+          PACKAGE_NAME: ansys-dpf-core
+          MODULE: core
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+          wheelhouse: false
+          wheel: false
+
+      - name: "Prepare Testing Environment"
+        uses: pyansys/pydpf-actions/prepare_tests@v2.2.dev1
+        with:
+          DEBUG: true
+
+      - name: "Run examples"
+        shell: bash
+        working-directory: .ci
+        run: |
+          echo on
+          python run_examples.py
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
