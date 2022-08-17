@@ -49,7 +49,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: ${{ fromJSON(env.ANSYS_VERSION) }}
-      python_versions: '["3.7"]'
+      python_versions: ${{ toJSON(["3.7"]) }}
       wheel: true
       wheelhouse: true
     secrets:
