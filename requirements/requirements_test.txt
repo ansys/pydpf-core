@@ -4,4 +4,4 @@ pytest-rerunfailures==10.2
 vtk==9.0.3
 pyvista==0.36.1
 ansys-platform-instancemanagement==1.0.2
-coverage==6.4.3
+coverage==6.4.4
