@@ -84,31 +84,10 @@ jobs:
   Retro:
     name: Retro
     if: startsWith(github.head_ref, 'master') || startsWith(github.ref, 'refs/tags/v')
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.8"]
-        os: ["windows-latest", "ubuntu-18.04"]
-        ANSYS_VERSION: ["221"]
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
-        with:
-          python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{matrix.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheel: false
-
-      - name: "Install ansys-grpc-dpf==0.4.0"
-        shell: pwsh
-        run: |
-          pip install ansys-grpc-dpf==0.4.0
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: 221
+      python_versions: '["3.7"]'
 
   Gate:
     name: Gate
