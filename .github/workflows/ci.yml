@@ -16,11 +16,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-env:
-  PACKAGE_NAME: ansys-dpf-core
-  MODULE: core
-  ANSYS_VERSION: 222
-
 jobs:
   Debug:
     runs-on: ubuntu-latest
@@ -57,7 +52,7 @@ jobs:
   Tests:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: ${{ env.ANSYS_VERSION }}
+      ANSYS_VERSION: "222"
       python_versions: '["3.8"]'
       wheel: true
       wheelhouse: true
@@ -68,7 +63,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: env.ANSYS_VERSION
+      ANSYS_VERSION: "222"
       python_versions: '["3.7", "3.9"]'
       wheelhouse: true
     secrets:
@@ -78,8 +73,8 @@ jobs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/examples.yml
     with:
-      ANSYS_VERSION: ${{ env.ANSYS_VERSION }}
-      python_versions: '["3.7"]'
+      ANSYS_VERSION: "222"
+      python_versions: '["3.8"]'
     secrets:
       DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
@@ -87,8 +82,8 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     uses: ./.github/workflows/examples.yml
     with:
-      ANSYS_VERSION: ${{ env.ANSYS_VERSION }}
-      python_versions: '["3.7", "3.8", "3.9"]'
+      ANSYS_VERSION: "222"
+      python_versions: '["3.7", "3.9"]'
     secrets:
       DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
@@ -96,7 +91,7 @@ jobs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/documentation.yml
     with:
-      ANSYS_VERSION: ${{ env.ANSYS_VERSION }}
+      ANSYS_VERSION: "222"
     secrets:
       DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
@@ -105,7 +100,7 @@ jobs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: 221
+      ANSYS_VERSION: "221"
       python_versions: '["3.8"]'
     secrets:
       DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
