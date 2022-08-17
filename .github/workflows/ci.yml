@@ -23,9 +23,12 @@ env:
 
 jobs:
   Debug:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-      - run: echo "$GITHUB_CONTEXT"
+    - name: Show the Github context for the triggered event
+      run: echo "$GITHUB_CONTEXT"
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
 
   Style:
     name: Style
