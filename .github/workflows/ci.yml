@@ -96,7 +96,7 @@ jobs:
 
   Draft_Release:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [Style, Tests, Examples, Documentation, Retro, Gate]
+    needs: [Style, Tests, Tests_release, Examples_master, Examples_release, Documentation, Retro, Gate]
     runs-on: ubuntu-latest
     steps:
       - name: "Set up Python"
