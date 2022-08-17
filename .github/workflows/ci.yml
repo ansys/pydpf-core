@@ -75,7 +75,7 @@ jobs:
       DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
   Examples:
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || github.event.pull_request.draft == 'false'
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/examples.yml
     with:
       ANSYS_VERSION: env.ANSYS_VERSION
@@ -93,7 +93,7 @@ jobs:
       DPF_PIPELINE: ${{ secrets.DPF_PIPELINE }}
 
   Documentation:
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || github.event.pull_request.draft == 'false'
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/documentation.yml
     with:
       ANSYS_VERSION: env.ANSYS_VERSION
@@ -102,7 +102,7 @@ jobs:
 
   Retro:
     name: Retro
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || github.event.pull_request.draft == 'false'
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: 221
