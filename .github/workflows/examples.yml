@@ -27,25 +27,13 @@ on:
         default: "222"
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    outputs:
-      python_versions: ${{ steps.set_array.outputs.python_versions }}
-    steps:
-      - id: set_array
-        run: |
-          echo "::set-output name=python_versions::$input"
-        env:
-          input: ${{ inputs.python_versions }}
-
   Run_Examples:
     name: Run Examples
-    needs: setup
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
+        python-version: ${{ inputs.python_versions }}
         os: ["windows-latest", "ubuntu-18.04"]
 
     steps:
