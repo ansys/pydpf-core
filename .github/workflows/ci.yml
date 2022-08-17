@@ -22,6 +22,11 @@ env:
   ANSYS_VERSION: 222
 
 jobs:
+  Debug:
+    runs-on: ubuntu-18.04
+    steps:
+      - run: echo "$GITHUB_CONTEXT"
+
   Style:
     name: Style
     runs-on: ubuntu-20.04
