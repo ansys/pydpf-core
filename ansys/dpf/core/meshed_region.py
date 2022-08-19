@@ -479,7 +479,7 @@ class MeshedRegion:
 
         Plot this grid directly.
 
-        >>> grid.plot()
+        >>> grid.plot()  # doctest: +SKIP
 
         Extract the surface mesh of this grid
 
@@ -525,7 +525,7 @@ class MeshedRegion:
         >>> model = dpf.Model(examples.static_rst)
         >>> disp = model.results.displacement()
         >>> field = disp.outputs.fields_container()[0]
-        >>> model.metadata.meshed_region.plot(field)
+        >>> model.metadata.meshed_region.plot(field)  # doctest: +SKIP
 
         """
         if field_or_fields_container is not None:

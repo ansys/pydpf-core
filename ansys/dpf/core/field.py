@@ -411,7 +411,7 @@ class Field(_FieldBase):
         >>> disp = model.results.displacement()
         >>> fields_container = disp.outputs.fields_container()
         >>> field = fields_container[0]
-        >>> mesh.plot(field)
+        >>> mesh.plot(field)  # doctest: +SKIP
 
         Parameters
         ----------
