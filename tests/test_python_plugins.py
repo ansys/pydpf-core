@@ -18,7 +18,7 @@ if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     pytest.skip(
         "Requires server version higher than 4.0", allow_module_level=True
     )
-if platform.system() is "Linux" and platform.python_version().startswith("3.7"):
+if platform.system() == "posix" and platform.python_version().startswith("3.7"):
     pytest.skip(
         "Known failures in the GitHub pipelines for 3.7 on Ubuntu-18.04",
         allow_module_level=True
