@@ -68,7 +68,7 @@ class MeshesContainer(Collection):
         ...     mesh = meshes_cont
         ... )
         >>> disp_fc = disp_op.outputs.fields_container()
-        >>> meshes_cont.plot(disp_fc)  # doctest: +SKIP
+        >>> meshes_cont.plot(disp_fc)
 
         """
         # DPF defaults

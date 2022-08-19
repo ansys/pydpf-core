@@ -224,7 +224,7 @@ class Model:
         >>> from ansys.dpf.core import examples
         >>> transient = examples.download_transient_result()
         >>> model = Model(transient)
-        >>> model.plot()  # doctest: +SKIP
+        >>> model.plot()
 
         """
         from ansys.dpf.core.plotter import DpfPlotter
