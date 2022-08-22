@@ -22,6 +22,7 @@ ACCEPTABLE_FAILURE_RATE = 0
 
 core.settings.disable_off_screen_rendering()
 os.environ["PYVISTA_OFF_SCREEN"] = "true"
+core.settings.bypass_pv_opengl_osmesa_crash()
 os.environ["MPLBACKEND"] = "Agg"
 # currently running dpf on docker.  Used for testing on CI
 running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER["use_docker"]
