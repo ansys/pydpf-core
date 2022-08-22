@@ -23,9 +23,9 @@ from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core import errors, session
 from ansys.dpf.core._version import (
     server_to_ansys_grpc_dpf_version,
-    server_to_ansys_version,
-    __ansys_version__
+    server_to_ansys_version
 )
+from ansys.dpf.core.misc import __ansys_version__
 from ansys.dpf.gate import load_api, data_processing_grpcapi
 
 import logging
@@ -48,7 +48,7 @@ def _get_dll_path(name, ansys_path=None):
     if ansys_path is None:
         ansys_path = os.environ.get("ANSYS_DPF_PATH")
     if ansys_path is None:
-        ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(_version.__ansys_version__), None)
+        ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
     else:
         ANSYS_INSTALL = ansys_path
     SUB_FOLDERS = os.path.join(ANSYS_INSTALL, load_api._get_path_in_install())

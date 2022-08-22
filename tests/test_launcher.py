@@ -63,11 +63,11 @@ class TestServerConfigs:
         reason="Ans.Dpf.Grpc.bat and .sh need AWP_ROOT221 for 221 install",
     )
     def test_start_local_custom_ansys_path(self, server_config):
-        path = os.environ["AWP_ROOT" + str(core._version.__ansys_version__)]
+        path = os.environ["AWP_ROOT" + str(core.misc.__ansys_version__)]
         try:
-            os.unsetenv("AWP_ROOT" + str(core._version.__ansys_version__))
+            os.unsetenv("AWP_ROOT" + str(core.misc.__ansys_version__))
         except:
-            del os.environ["AWP_ROOT" + str(core._version.__ansys_version__)]
+            del os.environ["AWP_ROOT" + str(core.misc.__ansys_version__)]
         try:
             server = core.start_local_server(
                 ansys_path=path,
@@ -80,11 +80,11 @@ class TestServerConfigs:
                 p = psutil.Process(server.info["server_process_id"])
                 assert path in p.cwd()
             os.environ[
-                "AWP_ROOT" + str(core._version.__ansys_version__)
+                "AWP_ROOT" + str(core.misc.__ansys_version__)
                 ] = path
         except Exception as e:
             os.environ[
-                "AWP_ROOT" + str(core._version.__ansys_version__)
+                "AWP_ROOT" + str(core.misc.__ansys_version__)
                 ] = path
             raise e
 
@@ -107,22 +107,22 @@ class TestServerConfigs:
     )
     def test_start_local_ansys_path_environment_variable(self, server_config):
         awp_root = os.environ[
-            "AWP_ROOT" + str(core._version.__ansys_version__)
+            "AWP_ROOT" + str(core.misc.__ansys_version__)
             ]
         try:
             os.environ["ANSYS_DPF_PATH"] = awp_root
             try:
-                os.unsetenv("AWP_ROOT" + str(core._version.__ansys_version__))
+                os.unsetenv("AWP_ROOT" + str(core.misc.__ansys_version__))
             except:
                 del os.environ[
-                    "AWP_ROOT" + str(core._version.__ansys_version__)
+                    "AWP_ROOT" + str(core.misc.__ansys_version__)
                     ]
             server = core.start_local_server(
                 use_docker_by_default=False, config=server_config
             )
             assert isinstance(server.os, str)
             os.environ[
-                "AWP_ROOT" + str(core._version.__ansys_version__)
+                "AWP_ROOT" + str(core.misc.__ansys_version__)
                 ] = awp_root
             try:
                 os.unsetenv("ANSYS_DPF_PATH")
@@ -131,7 +131,7 @@ class TestServerConfigs:
 
         except Exception as e:
             os.environ[
-                "AWP_ROOT" + str(core._version.__ansys_version__)
+                "AWP_ROOT" + str(core.misc.__ansys_version__)
                 ] = awp_root
             try:
                 os.unsetenv("ANSYS_DPF_PATH")
@@ -182,7 +182,7 @@ class TestServerConfigs:
     @staticmethod
     def test_launch_server_full_path(server_config):
         ansys_path = os.environ.get(
-            "AWP_ROOT" + core._version.__ansys_version__, core.misc.find_ansys()
+            "AWP_ROOT" + core.misc.__ansys_version__, core.misc.find_ansys()
         )
         if os.name == "nt":
             path = os.path.join(ansys_path, "aisol", "bin", "winx64")
