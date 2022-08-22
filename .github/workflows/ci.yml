@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8"]
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
         os: ["windows-latest", "ubuntu-18.04"]
 
     steps:
@@ -53,6 +53,7 @@ jobs:
 
       - name: "Test Docstrings"
         uses: pyansys/pydpf-actions/test_docstrings@v2.2
+        if: matrix.python-version != '3.10' && matrix.python-version != '3.7' && matrix.os != 'Linux'
         with:
           MODULE: ${{env.MODULE}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
@@ -96,7 +97,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Test API test_launcher"
         shell: bash
@@ -105,7 +106,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Test API test_server"
         shell: bash
@@ -114,7 +115,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Test API test_local_server"
         shell: bash
@@ -123,7 +124,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Test API test_multi_server"
         shell: bash
@@ -132,7 +133,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Test API test_remote_workflow"
         shell: bash
@@ -141,7 +142,7 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Test API test_remote_operator"
         shell: bash
@@ -150,21 +151,21 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
-      - name: "Test API 3"
+      - name: "Test API test_workflow"
         shell: bash
         working-directory: test_workflow
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.PACKAGE_NAME }}_pytest
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ env.ANSYS_VERSION }}
           path: tests/junit/test-results.xml
 
       - name: "Upload coverage to Codecov"
@@ -206,21 +207,10 @@ jobs:
           install_extras: plotting
           wheelhouse: false
 
-      - name: Install OpenGL
-        run: |
-          Set-StrictMode -Version Latest
-          $ErrorActionPreference = "Stop"
-          $PSDefaultParameterValues['*:ErrorAction']='Stop'
-          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-          powershell gl-ci-helpers/appveyor/install_opengl.ps1
+      - name: "Setup headless display"
+        uses: pyvista/setup-headless-display-action@v1
 
-      - name: Install test offscreen rendering
-        run: |
-          .ci/setup_headless_display.sh
-          pip install -r .ci/requirements_test_xvfb.txt
-          python .ci/display_test.py
-
-      - name: Setup Graphviz
+      - name: "Setup Graphviz"
         uses: ts-graphviz/setup-graphviz@v1
 
       - name: Install documentation packages for Python
@@ -228,9 +218,9 @@ jobs:
           pip install -r requirements/requirements_docs.txt
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
-      - name: Build Documentation
+      - name: "Build Documentation"
         shell: cmd
         run: |
           cd .ci
@@ -238,7 +228,7 @@ jobs:
         timeout-minutes: 20
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: Publish Documentation artifact
         uses: actions/upload-artifact@v3
@@ -306,30 +296,19 @@ jobs:
           install_extras: plotting
           wheelhouse: false
 
-      - name: Install OpenGL
-        run: |
-          Set-StrictMode -Version Latest
-          $ErrorActionPreference = "Stop"
-          $PSDefaultParameterValues['*:ErrorAction']='Stop'
-          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-          powershell gl-ci-helpers/appveyor/install_opengl.ps1
-
-      - name: Install test offscreen rendering
-        run: |
-          .ci/setup_headless_display.sh
-          pip install -r .ci/requirements_test_xvfb.txt
-          python .ci/display_test.py
+      - name: "Setup headless display"
+        uses: pyvista/setup-headless-display-action@v1
 
       - name: "Check examples with gatebin"
-        shell: cmd
+        shell: bash
         run: |
           echo on
           cd .ci
-          dir .
+          ls .
           python run_examples.py
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Uninstall gatebin"
         shell: bash
@@ -337,7 +316,7 @@ jobs:
           pip uninstall -y ansys-dpf-gatebin
 
       - name: "Check sanity without gatebin INPROCESS"
-        shell: cmd
+        shell: bash
         run: |
           cd .ci
           python run_non_regression_examples.py
@@ -345,11 +324,11 @@ jobs:
           DPF_SERVER_TYPE: INPROCESS
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
 
       - name: "Check sanity without gatebin GRPC"
-        shell: cmd
+        shell: bash
         run: |
           cd .ci
           python run_non_regression_examples.py
@@ -357,10 +336,10 @@ jobs:
           DPF_SERVER_TYPE: GRPC
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
       - name: "Check sanity without gatebin LEGACYGRPC"
-        shell: cmd
+        shell: bash
         run: |
           cd .ci
           python run_non_regression_examples.py
@@ -368,6 +347,4 @@ jobs:
           DPF_SERVER_TYPE: LEGACYGRPC
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
-
-
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
