@@ -43,7 +43,6 @@ MAX_PORT = 65535
 
 def _get_dll_path(name, ansys_path=None):
     """Helper function to get the right dll path for Linux or Windows"""
-    from ansys.dpf.core import _version
     ISPOSIX = os.name == "posix"
     if ansys_path is None:
         ansys_path = os.environ.get("ANSYS_DPF_PATH")
