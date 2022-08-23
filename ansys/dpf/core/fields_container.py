@@ -510,7 +510,7 @@ class FieldsContainer(Collection):
         anim = Animator(**kwargs)
         # Take the norm of the fields if vector
         if self[0].component_count > 1:
-            fc = dpf.core.operators.math.norm_fc(self)
+            fc = dpf.core.operators.math.norm_fc(self).outputs.fields_container()
         else:
             fc = self
         # Create a workflow defining the result to render at each step of the animation
@@ -523,30 +523,45 @@ class FieldsContainer(Collection):
 
         # TODO /!\ We should be using a mechanical::time_selector, however it is not wrapped.
 
-        wf.set_input_name("indices", extract_field_op.inputs.indeces)  # Have to do it this way
+        wf.set_input_name("indices", extract_field_op.inputs.indices)  # Have to do it this way
         wf.connect("indices", forward_index)  # Otherwise not accepted
         # Add the operators to the workflow
         wf.add_operators([extract_field_op, forward_index])
 
         # If warping is activated or None
         if deform_by is not False:
+            scale_factor = dpf.core.animator.scale_factor_to_fc(scale_factor, fc)
             if deform_by is None:
                 # By default, set deform_by as self if nodal 3D vector field
                 if self[0].location == dpf.core.common.locations.nodal and \
                         self[0].component_count == 3:
                     deform_by = self
-
-        # wf.set_output_name("to_render", extract_field_op.outputs.field)
-        # wf_id = wf.record()
+            # Extraction of the field of interest based on index
+            extract_field_op_2 = dpf.core.operators.utility.extract_field(deform_by)
+            wf.set_input_name("indices", extract_field_op_2.inputs.indices)  # Have to do it this way
+            wf.connect("indices", forward_index)  # Otherwise not accepted
+            # Scaling of the field based on scale_factor and index
+            extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor)
+            wf.set_input_name("indices", extract_scale_factor_op.inputs.indices)  # Have to do it this way
+            wf.connect("indices", forward_index)  # Otherwise not accepted
+            scale_op = dpf.core.operators.math.scale(extract_field_op_2.outputs.field,
+                                                     extract_scale_factor_op.outputs.field)
+            # Get the mesh from the field to render
+            get_mesh_op = dpf.core.operators.mesh.from_field(extract_field_op.outputs.field)
+            # Get the coordinates field from the mesh
+            get_coordinates_op = dpf.core.operators.mesh.node_coordinates(get_mesh_op.outputs.mesh)
+            # Addition to the scaled deformation field
+            add_op = dpf.core.operators.math.add(scale_op.outputs.field,
+                                                 get_coordinates_op.outputs.coordinates_as_field)
+            wf.set_output_name("deform_by", add_op.outputs.field)
+        wf.set_output_name("to_render", extract_field_op.outputs.field)
+        wf_id = wf.record()
         if not self.has_label("time"):
             frequencies = self.time_freq_support.complex_frequencies
         else:
             frequencies = self.time_freq_support.time_frequencies
 
-        anim.add_workflow(input={"scale_factor": scale_op.input.ponderation,
-                                 "frequencies": extract_field_op.inputs.indeces},
-                          output={"deform_by": scale_op.output.field,
-                                  "to_render": extract_field_op.outputs.field})
+        anim.add_workflow(workflow=wf)
 
         anim.animate(input={"frequencies": frequencies}, output="to_render",
                      save_as=save_as, **kwargs)

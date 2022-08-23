@@ -28,13 +28,9 @@ model = dpf.Model(examples.msup_transient)
 # displacement_fields.animate(save_as='animate_deformed_fields_container.mp4', framerate=3,
 #                             warping_field=model.results.displacement, scale_factor=5.0)
 
+# # Use case 1
 
-
-
-
-## Use case 1
-
-# déplacements
+# displacements
 
 # scoping sur la zone spatiale d'intérêt
 mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(model.metadata.meshed_region.nodes.scoping)
@@ -51,6 +47,7 @@ displacement_fields = displacement_op().outputs.fields_container()
 # ! Si un champ est vectoriel, on affiche la norme du champ.
 displacement_fields.animate(deform_by=displacement_fields, scale_factor=1.,
                             show_axes=True)
+exit()
 # ! On affiche le temps de chaque frame, avec son unité, et un formatage optionnel
 displacement_fields.select_component(0).animate(deform_by=displacement_fields, scale_factor=1.,
                                                 show_axes=True,

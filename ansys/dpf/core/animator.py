@@ -5,6 +5,8 @@ This module contains the DPF animator class.
 
 Contains classes used to animate results based on workflows using PyVista.
 """
+import numpy as np
+
 import ansys.dpf.core as core
 from ansys.dpf.core.plotter import _sort_supported_kwargs, _PyVistaPlotter
 
@@ -33,12 +35,10 @@ class _PyVistaAnimator(_PyVistaPlotter):
         # Initiate pyvista Plotter
         self._plotter = pv.Plotter(**kwargs_in)
 
-    def animate_workflow(self, wf_id, frequencies, save_as, deform_by, scale_factor, **kwargs):
-        # Retrieve the workflow to animate
-        wf = core.Workflow.get_recorded_workflow(wf_id)
+    def animate_workflow(self, frequencies, workflow, save_as, **kwargs):
         # Extract useful information from the given frequencies Field
-        unit = frequencies.unit
-        frequencies = frequencies.data
+        unit = 's'  # TODO get the unit
+        frequencies = frequencies["frequencies"]
         # Initiate movie or gif file if necessary
         if save_as:
             if save_as.endswith(".gif"):
@@ -53,10 +53,10 @@ class _PyVistaAnimator(_PyVistaPlotter):
         def render_field(index):
             # print("Render step", index)
             self._plotter.clear()
-            wf.connect("index", [index])
-            field = wf.get_output("to_render", core.types.field)
-            deform = deform_by[index] if deform_by else None
-            self.add_field(field, deform_by=deform, scale_factor=scale_factor, **kwargs)
+            workflow.connect("index", [index])
+            field = workflow.get_output("to_render", core.types.field)
+            deform = workflow.get_output("deform_by", core.types.field)
+            self.add_field(field, deform_by=deform, **kwargs)
             kwargs_in = _sort_supported_kwargs(
                 bound_method=self._plotter.add_text, **freq_kwargs)
             str_template = "t={0:{2}} {1}"
@@ -99,15 +99,48 @@ class Animator:
             if (input is None) or (output is None):
                 raise ValueError("input and output must both be given.")
             workflow = core.Workflow()
-            if
+            # if
             for i in input.keys():
                 workflow.set_input_name(i, input[i])
             for o in output.keys():
                 workflow.set_output_name(o, output[o])
 
-    def animate(self, input, save_as, deform_by, scale_factor, **kwargs):
+    def animate(self,  input, save_as, **kwargs):
+        if self.workflow is None:
+            raise ValueError("Cannot animate without first adding a workflow.")
         self._internal_animator.animate_workflow(input,
+                                                 workflow=self.workflow,
                                                  save_as=save_as,
-                                                 deform_by=deform_by,
-                                                 scale_factor=scale_factor,
                                                  **kwargs)
+
+
+def scale_factor_to_fc(scale_factor, fc):
+
+    def int_to_field(value, shape, scoping):
+        field = core.fields_factory.field_from_array(
+            np.full(shape=shape, fill_value=value))
+        field.scoping = scoping
+        return field
+
+    scale_type = type(scale_factor)
+    if scale_type == core.field.Field:
+        pass
+    elif scale_type == core.fields_container.FieldsContainer:
+        if scale_factor.time_freq_support.n_sets != fc.n_sets:
+            raise ValueError(f"The scale_factor FieldsContainer does not contain the same number of"
+                             f" fields as the fields_container being animated "
+                             f" ({scale_factor.time_freq_support.n_sets} != {fc.n_sets}).")
+    elif scale_type == list:
+        if len(scale_factor) != fc.n_sets:
+            raise ValueError(f"The scale_factor list is not the same length as the fields_container"
+                             f"being animated ({len(scale_factor)} != {fc.n_sets}).")
+        # Turn the scalar list into a FieldsContainer
+        fields = []
+        for i, f in enumerate(fc):
+            fields.append(int_to_field(scale_factor[i], f.elementary_data_shape, f.scoping))
+        scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
+    elif scale_type == int or scale_type == float:
+        # Turn the int into a field
+        scale_factor = int_to_field(scale_factor, fc.get_field(0).elementary_data_shape,
+                                    fc.get_field(0).scoping)
+    return scale_factor
