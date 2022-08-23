@@ -2,7 +2,7 @@
 .. _ref_distributed_msup_steps:
 
 Distributed msup distributed modal response
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how distributed files can be read and expanded
 on distributed processes. The modal basis (2 distributed files) is read
 on 2 remote servers and the modal response (2 distributed files) reading and the expansion is
@@ -26,7 +26,7 @@ from ansys.dpf.core import operators as ops
 
 ###############################################################################
 # Configure the servers
-# ~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~
 # Make a list of ip addresses and port numbers on which dpf servers are
 # started. Operator instances will be created on each of those servers to
 # address each a different result file.
@@ -34,7 +34,18 @@ from ansys.dpf.core import operators as ops
 # we will consequently require 2 remote processes
 # To make this example easier, we will start local servers here,
 # but we could get connected to any existing servers on the network.
-remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
+
+global_server = dpf.start_local_server(
+    as_global=True, config=dpf.AvailableServerConfigs.InProcessServer
+)
+
+remote_servers = [
+    dpf.start_local_server(
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+    dpf.start_local_server(
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+]
+
 ips = [remote_server.ip for remote_server in remote_servers]
 ports = [remote_server.port for remote_server in remote_servers]
 
@@ -52,7 +63,7 @@ files_aux = [os.path.join(base_path, "file0.rst"), os.path.join(base_path, "file
 
 ###############################################################################
 # Create the operators on the servers
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # On each server we create two new operators, one for 'displacement' computations
 # and a 'mesh_provider' operator, and then define their data sources. The displacement
 # and mesh_provider operators receive data from their respective data files on each server.
@@ -70,7 +81,7 @@ for i, server in enumerate(remote_servers):
 
 ###############################################################################
 # Create a local operators chain for expansion
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # In the following series of operators we merge the modal basis, the meshes, read
 # the modal response and expand the modal response with the modal basis.
 
@@ -97,12 +108,12 @@ merge_use_pass.inputs.fields_containers2(response2fc)
 expansion = ops.math.modal_superposition(
     solution_in_modal_space=merge_use_pass,
     modal_basis=merge_fields
-    )
+)
 component = ops.logic.component_selector_fc(expansion, 1)
 
 ###############################################################################
 # Connect the operator chains together and get the output
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 for i, server in enumerate(remote_servers):
     merge_fields.connect(i, remote_displacement_operators[i], 0)
     merge_mesh.connect(i, remote_mesh_operators[i], 0)

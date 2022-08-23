@@ -27,13 +27,13 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup Python
-        uses: actions/setup-python@v2.1.4
+        uses: actions/setup-python@v4.2.0
         with:
           python-version: 3.8
 
       - name: Install style requirements
         run: |
-          pip install -r requirements_style.txt --disable-pip-version-check
+          pip install -r requirements/requirements_style.txt --disable-pip-version-check
 
       - name: Codespell
         run: |

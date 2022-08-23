@@ -4,16 +4,29 @@ Launch or connect to a persistent local DPF service to be shared in
 pytest as a session fixture
 """
 import os
+import functools
 
+import psutil
 import pytest
 
+import ansys.dpf.core.server_types
 from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core import path_utilities
+from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+from ansys.dpf.core.check_version import meets_version, get_server_version
+from ansys.dpf.gate.load_api import _try_use_gatebin
+import warnings
+
+ACCEPTABLE_FAILURE_RATE = 0
 
 core.settings.disable_off_screen_rendering()
+os.environ["PYVISTA_OFF_SCREEN"] = "true"
+core.settings.bypass_pv_opengl_osmesa_crash()
+os.environ["MPLBACKEND"] = "Agg"
 # currently running dpf on docker.  Used for testing on CI
-running_docker = core.server.RUNNING_DOCKER["use_docker"]
+running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER["use_docker"]
+DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
 
 local_test_repo = False
 
@@ -24,9 +37,24 @@ if os.name == "posix":
 
 if running_docker:
     if local_test_repo:
-        core.server.RUNNING_DOCKER["args"] += ' -v "' \
-                                              f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}' \
-                                              ':/tmp/test_files"'
+        core.server_types.RUNNING_DOCKER["args"] += (
+            ' -v "'
+            f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}'
+            ':/tmp/test_files"'
+        )
+
+
+@pytest.hookimpl()
+def pytest_sessionfinish(session, exitstatus):
+    if os.name == "posix":
+        # accept ACCEPTABLE_FAILURE_RATE percent of failure on Linux
+        if exitstatus != pytest.ExitCode.TESTS_FAILED:
+            return
+        failure_rate = (100.0 * session.testsfailed) / session.testscollected
+        if failure_rate <= ACCEPTABLE_FAILURE_RATE:
+            session.exitstatus = 0
+    else:
+        return exitstatus
 
 
 def resolve_test_file(basename, additional_path="", is_in_examples=None):
@@ -53,7 +81,9 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
             return filename
     elif os.environ.get("AWP_UNIT_TEST_FILES", False):
         if running_docker:
-            return path_utilities.join("/tmp/test_files", "python", additional_path, basename)
+            return path_utilities.join(
+                "/tmp/test_files", "python", additional_path, basename
+            )
         test_files_path = os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
         filename = os.path.join(
             test_files_path, os.path.join(additional_path, basename)
@@ -160,22 +190,207 @@ def engineering_data_sources():
     return ds
 
 
+@pytest.fixture()
+def cyclic_multistage():
+    """Resolve the path of the "msup/plate1.rst" result file.
+
+    Originally:
+    UnitTestDataFiles/DataProcessing/expansion/msup/Transient/plate1/file.rst
+    """
+    return core.examples.download_multi_stage_cyclic_result()
+
+
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 = meets_version(
+    get_server_version(core._global_server()), "4.0"
+)
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 = meets_version(
+    get_server_version(core._global_server()), "3.0"
+)
+
+IS_USING_GATEBIN = _try_use_gatebin()
+
+
+def raises_for_servers_version_under(version):
+    """Launch the test normally if the server version is equal or higher than the "version"
+    parameter. Else it makes sure that the test fails by raising a "DpfVersionNotSupported"
+    error.
+    """
+
+    def decorator(func):
+        @pytest.mark.xfail(
+            not meets_version(get_server_version(core._global_server()), version),
+            reason=f"Requires server version greater than or equal to {version}",
+            raises=core.errors.DpfVersionNotSupported,
+        )
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
+
+
+if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+
+    @pytest.fixture(
+        scope="session",
+        params=[
+            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+            ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
+        ],
+        ids=["ansys-grpc-dpf", "gRPC CLayer", "in Process CLayer"],
+    )
+    def server_type(request):
+        server = core.start_local_server(config=request.param, as_global=False)
+        if request.param == ServerConfig(
+            protocol=CommunicationProtocols.gRPC, legacy=False
+        ):
+            core.settings.get_runtime_client_config(server).cache_enabled = False
+        return server
+
+    @pytest.fixture(
+        scope="session",
+        params=[
+            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+        ],
+        ids=[
+            "ansys-grpc-dpf",
+            "gRPC CLayer",
+        ],
+    )
+    def server_type_remote_process(request):
+        server = core.start_local_server(config=request.param, as_global=False)
+        if request.param == ServerConfig(
+            protocol=CommunicationProtocols.gRPC, legacy=False
+        ):
+            core.settings.get_runtime_client_config(server).cache_enabled = True
+        return server
+
+    @pytest.fixture(
+        scope="session",
+        params=[
+            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+        ],
+        ids=["ansys-grpc-dpf config", "gRPC CLayer config"],
+    )
+    def remote_config_server_type(request):
+        return request.param
+
+    @pytest.fixture(
+        scope="session",
+        params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
+        ids=[
+            "ansys-grpc-dpf",
+        ],
+    )
+    def server_type_legacy_grpc(request):
+        return core.start_local_server(config=request.param, as_global=False)
+
+else:
+
+    @pytest.fixture(scope="session")
+    def server_type():
+        return core._global_server()
+
+    @pytest.fixture(
+        scope="session",
+        params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
+        ids=[
+            "ansys-grpc-dpf",
+        ],
+    )
+    def server_type_remote_process(request):
+        return core._global_server()
+
+    @pytest.fixture(
+        scope="session",
+        params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
+        ids=[
+            "ansys-grpc-dpf",
+        ],
+    )
+    def remote_config_server_type(request):
+        return request.param
+
+    @pytest.fixture(scope="session")
+    def server_type_legacy_grpc(request):
+        return core._global_server()
+
+
+@pytest.fixture(
+    scope="session",
+    params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)],
+    ids=[
+        "gRPC CLayer",
+    ],
+)
+def server_clayer_remote_process(request):
+    server = core.start_local_server(config=request.param, as_global=False)
+    if request.param == ServerConfig(
+        protocol=CommunicationProtocols.gRPC, legacy=False
+    ):
+        client = core.settings.get_runtime_client_config(server)
+        client.cache_enabled = True
+    return server
+
+
+@pytest.fixture(
+    scope="session",
+    params=[
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+        ServerConfig(protocol=None, legacy=False),
+    ],
+    ids=["gRPC CLayer", "in Process CLayer"],
+)
+def server_clayer(request):
+    server = core.start_local_server(config=request.param, as_global=False)
+    if request.param == ServerConfig(
+        protocol=CommunicationProtocols.gRPC, legacy=False
+    ):
+        core.settings.get_runtime_client_config(server).cache_enabled = False
+    return server
+
+
+@pytest.fixture()
+def restore_awp_root(request):
+    awp_root_name = "AWP_ROOT" + core.misc.__ansys_version__
+    awp_root_save = os.environ.get(awp_root_name, None)
+    yield
+    # restore awp_root
+    os.environ[awp_root_name] = awp_root_save
+
+
 class LocalServers:
     def __init__(self):
         self._local_servers = []
         self._max_iter = 3
 
     def __getitem__(self, item):
+        if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+            conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+        else:
+            conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
         if len(self._local_servers) <= item:
             while len(self._local_servers) <= item:
-                self._local_servers.append(core.start_local_server(as_global=False))
+                self._local_servers.append(core.start_local_server(as_global=False, config=conf))
+                if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+                    runtime_config = core.settings.get_runtime_client_config(
+                        self._local_servers[-1]
+                    )
+                    runtime_config.cache_enabled = False
         try:
             self._local_servers[item].info
             return self._local_servers[item]
         except:
             for iter in range(0, self._max_iter):
                 try:
-                    self._local_servers[item] = core.start_local_server(as_global=False)
+                    self._local_servers[item] = core.start_local_server(
+                        as_global=False, config=conf
+                    )
                     self._local_servers[item].info
                     break
                 except:
@@ -192,3 +407,18 @@ local_servers = LocalServers()
 @pytest.fixture()
 def local_server():
     return local_servers[0]
+
+
+@pytest.fixture(autouse=False)
+def count_servers(request):
+    """Count servers once we are finished."""
+
+    def count_servers():
+        num_dpf_exe = 0
+        for proc in psutil.process_iter():
+            if proc.name() == "Ans.Dpf.Grpc.exe":
+                num_dpf_exe += 1
+        warnings.warn(UserWarning(f"Number of servers running: {num_dpf_exe}"))
+        # assert num_dpf_exe == 1
+
+    request.addfinalizer(count_servers)

@@ -2,7 +2,7 @@
 .. _ref_distributed_workflows_on_remote:
 
 Create custom workflow on distributed processes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how distributed files can be read and post processed
 on distributed processes. After remote post processing,
 results are merged on the local process. In this example, different operator
@@ -22,11 +22,20 @@ from ansys.dpf.core import operators as ops
 
 ###############################################################################
 # Configure the servers
-# ~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~
 # To make this example easier, we will start local servers here,
 # but we could get connected to any existing servers on the network.
 
-remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
+global_server = dpf.start_local_server(
+    as_global=True, config=dpf.AvailableServerConfigs.InProcessServer
+)
+
+remote_servers = [
+    dpf.start_local_server(
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+    dpf.start_local_server(
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+]
 
 ###############################################################################
 # Here we show how we could send files in temporary directory if we were not
@@ -62,7 +71,7 @@ merge = ops.utility.merge_fields_containers()
 
 ###############################################################################
 # Connect the operator chains together and get the output
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 nodal = ops.averaging.to_nodal_fc(merge)
 

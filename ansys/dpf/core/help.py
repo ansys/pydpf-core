@@ -225,12 +225,12 @@ def _eqv(field):
 
 
 def _eqv_fc(fields):
-    """Compute the element-wise von Mises criteria for each tensor in the fields of the field container.
+    """Compute element-wise von Mises criterion for each tensor in each field.
 
     Returns
     -------
     fields : ansys.dpf.core.FieldsContainer
-        Element-wise von Mises criteria for this field container.
+        Element-wise von Mises criterion for this field container.
     """
     _check_type(fields, dpf.core.FieldsContainer)
     oper = fields._model.operator("eqv_fc")
@@ -390,7 +390,7 @@ def sqr(field):
     >>> field = dpf.field_from_array([1, 8])
     >>> field_sqr = field**2
     >>> field_sqr.outputs.field().data
-    array([ 1., 64.])
+    DPFArray([ 1., 64.]...
 
     Use the operator method.
 
@@ -435,11 +435,11 @@ def dot_tensor(a, b):
     >>> field_b = dpf.field_from_array(arr_b)
     >>> field_out = dpf.help.dot_tensor(field_a, field_b)
     >>> field_out.data
-    array([[1., 1., 0., 0., 0., 0., 1., 1., 0.],
+    DPFArray([[1., 1., 0., 0., 0., 0., 1., 1., 0.],
            [1., 1., 0., 0., 0., 0., 1., 1., 0.],
            [1., 1., 0., 0., 0., 0., 1., 1., 0.],
            [1., 1., 0., 0., 0., 0., 1., 1., 0.],
-           [1., 1., 0., 0., 0., 0., 1., 1., 0.]])
+           [1., 1., 0., 0., 0., 0., 1., 1., 0.]]...
 
     """
     _check_type(a, (dpf.core.Field, dpf.core.FieldsContainer))

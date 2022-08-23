@@ -179,12 +179,12 @@ creating a pull request. The following tests will be executed after
 any commit or pull request, so we ask that you perform the following
 sequence locally to track down any new issues from your changes.
 
-To test the the core API, be sure to have ANSYS 2021R1 or newer
+To test the core API, be sure to have ANSYS 2021R1 or newer
 installed.  Next, install the testing requirements with:
 
 .. code::
 
-    pip install -r requirements_test.txt
+    pip install -r requirements/requirements_test.txt
 
 Run the primary test suite and generate a coverage report with:
 
@@ -260,7 +260,7 @@ following from the DPF-Core source directory:
 
 .. code::
 
-   pip install -r requirements_docs.txt
+   pip install -r requirements/requirements_docs.txt
 
 
 Next, if running Linux/Mac OS, build the documentation with 

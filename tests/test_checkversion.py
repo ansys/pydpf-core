@@ -4,6 +4,8 @@ from ansys.dpf.core import Model
 from ansys.dpf.core import check_version
 from ansys.dpf.core import errors as dpf_errors
 
+from ansys.dpf.gate.load_api import _find_outdated_ansys_version
+
 
 def test_get_server_version(multishells):
     model = Model(multishells)
@@ -89,3 +91,20 @@ def test_meets_version():
     assert not check_version.meets_version("1.31.1", "1.32.1")
     assert not check_version.meets_version("1.31", "1.32")
     assert not check_version.meets_version("1.31.0", "1.31.1")
+
+
+def test_find_outdated_ansys_version():
+    arg1 = 'v3RG bla v21a ghldv3EF'
+    arg2 = 'v3RG bla v212 ghldv3EF'
+    arg3 = 'v3RG bla v222 ghldv3EF'
+    arg4 = 'v3RGldv3'
+    arg5 = 'v'
+    arg6 = 'a'
+    arg7 = 'blav221hlof'
+    assert _find_outdated_ansys_version(arg1) == False
+    assert _find_outdated_ansys_version(arg2) == True
+    assert _find_outdated_ansys_version(arg3) == False
+    assert _find_outdated_ansys_version(arg4) == False
+    assert _find_outdated_ansys_version(arg5) == False
+    assert _find_outdated_ansys_version(arg6) == False
+    assert _find_outdated_ansys_version(arg7) == True

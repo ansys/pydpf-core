@@ -5,10 +5,12 @@ Data Sources
 ============
 """
 import os
+import warnings
+import traceback
 
-from ansys import dpf
-from ansys.grpc.dpf import data_sources_pb2, data_sources_pb2_grpc, base_pb2
-from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core import server as server_module
+from ansys.dpf.gate import data_sources_capi, data_sources_grpcapi, integral_types, \
+    data_processing_capi, data_processing_grpcapi
 
 
 class DataSources:
@@ -43,25 +45,38 @@ class DataSources:
 
     def __init__(self, result_path=None, data_sources=None, server=None):
         """Initialize a connection with the server."""
-        if server is None:
-            server = dpf.core._global_server()
+        # step 1: get server
+        self._server = server_module.get_or_create_server(server)
 
-        self._server = server
-        self._stub = self._connect()
+        # step 2: get api
+        self._api = self._server.get_api_for_type(capi=data_sources_capi.DataSourcesCAPI,
+                                                  grpcapi=data_sources_grpcapi.DataSourcesGRPCAPI)
 
-        if data_sources is None:
-            request = base_pb2.Empty()
-            self._message = self._stub.Create(request)
+        # step3: init environment
+        self._api.init_data_sources_environment(self)  # creates stub when gRPC
+
+        # step4: if object exists: take instance, else create it:
+        # object_name -> protobuf.message, DPFObject*
+        if data_sources is not None:
+            if isinstance(data_sources, DataSources):
+                # Make a Copy
+                core_api = self._server.get_api_for_type(
+                    capi=data_processing_capi.DataProcessingCAPI,
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+                core_api.init_data_processing_environment(self)
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(
+                    data_sources)
+            else:
+                # It should be a message (usually from a call to operator_getoutput_data_sources)
+                self._internal_obj = data_sources
         else:
-            self._message = data_sources
+            if self._server.has_client():
+                self._internal_obj = self._api.data_sources_new_on_client(self._server.client)
+            else:
+                self._internal_obj = self._api.data_sources_new("data_sources")
 
         if result_path is not None:
             self.set_result_file_path(result_path)
-
-    @protect_grpc
-    def _connect(self):
-        """Connect to the gRPC service."""
-        return data_sources_pb2_grpc.DataSourcesServiceStub(self._server.channel)
 
     def set_result_file_path(self, filepath, key=""):
         """Add a result file path to the data sources.
@@ -86,12 +101,10 @@ class DataSources:
         ['/tmp/file.rst']
 
         """
-        request = data_sources_pb2.UpdateRequest()
-        request.result_path = True
-        request.key = key
-        request.path = str(filepath)
-        request.data_sources.CopyFrom(self._message)
-        self._stub.Update(request)
+        if key == "":
+            self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
+        else:
+            self._api.data_sources_set_result_file_path_with_key_utf8(self, str(filepath), key)
 
     def set_domain_result_file_path(self, path, domain_id):
         """Add a result file path by domain.
@@ -103,7 +116,7 @@ class DataSources:
         ----------
         path: str or os.PathLike object
             Path to the file.
-        domain_id: int, optional
+        domain_id: int
             Domain ID for the distributed files.
 
         Examples
@@ -114,13 +127,7 @@ class DataSources:
         >>> data_sources.set_domain_result_file_path('/tmp/file1.sub', 1)
 
         """
-        request = data_sources_pb2.UpdateRequest()
-        request.result_path = True
-        request.domain.domain_path = True
-        request.domain.domain_id = domain_id
-        request.path = str(path)
-        request.data_sources.CopyFrom(self._message)
-        self._stub.Update(request)
+        self._api.data_sources_set_domain_result_file_path_utf8(self, str(path), domain_id)
 
     def add_file_path(self, filepath, key="", is_domain: bool = False, domain_id=0):
         """Add a file path to the data sources.
@@ -152,15 +159,17 @@ class DataSources:
         if not os.path.dirname(filepath):
             # append local path
             filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
-
-        request = data_sources_pb2.UpdateRequest()
-        request.key = key
-        request.path = str(filepath)
         if is_domain:
-            request.domain.domain_path = True
-            request.domain.domain_id = domain_id
-        request.data_sources.CopyFrom(self._message)
-        self._stub.Update(request)
+            if key == "":
+                raise NotImplementedError("A key must be given when using is_domain=True.")
+            else:
+                self._api.data_sources_add_domain_file_path_with_key_utf8(self, str(filepath),
+                                                                          key, domain_id)
+        else:
+            if key == "":
+                self._api.data_sources_add_file_path_utf8(self, str(filepath))
+            else:
+                self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
 
     def add_file_path_for_specified_result(self, filepath, key="", result_key=""):
         """Add a file path for a specified result file key to the data sources.
@@ -186,12 +195,8 @@ class DataSources:
             # append local path
             filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
 
-        request = data_sources_pb2.UpdateRequest()
-        request.key = key
-        request.result_key = result_key
-        request.path = str(filepath)
-        request.data_sources.CopyFrom(self._message)
-        self._stub.Update(request)
+        self._api.data_sources_add_file_path_for_specified_result_utf8(self, str(filepath),
+                                                                       key, result_key)
 
     def add_upstream(self, upstream_data_sources, result_key=""):
         """Add upstream data sources.
@@ -208,12 +213,12 @@ class DataSources:
             Extension of the result file group with which this upstream belongs
 
         """
-        request = data_sources_pb2.UpdateUpstreamRequest()
-        request.upstream_data_sources.CopyFrom(upstream_data_sources._message)
-        request.data_sources.CopyFrom(self._message)
-        if hasattr(request, "result_key"):
-            request.result_key = result_key
-        self._stub.UpdateUpstream(request)
+        if result_key == "":
+            self._api.data_sources_add_upstream_data_sources(self, upstream_data_sources)
+        else:
+            self._api.data_sources_add_upstream_data_sources_for_specified_result(self,
+                                                                            upstream_data_sources,
+                                                                                  result_key)
 
     def add_upstream_for_domain(self, upstream_data_sources, domain_id):
         """Add an upstream data sources for a given domain.
@@ -230,12 +235,8 @@ class DataSources:
             Domain id for distributed files.
 
         """
-        request = data_sources_pb2.UpdateUpstreamRequest()
-        request.upstream_data_sources.CopyFrom(upstream_data_sources._message)
-        request.data_sources.CopyFrom(self._message)
-        request.domain.domain_path = True
-        request.domain.domain_id = domain_id
-        self._stub.UpdateUpstream(request)
+        self._api.data_sources_add_upstream_domain_data_sources(self,
+                                                                upstream_data_sources, domain_id)
 
     @property
     def result_key(self):
@@ -247,7 +248,7 @@ class DataSources:
            Result key.
 
         """
-        return self._info["result_key"]
+        return self._api.data_sources_get_result_key(self)
 
     @property
     def result_files(self):
@@ -258,23 +259,20 @@ class DataSources:
         list
             List of result files.
         """
-        key = self.result_key
-        if key == "":
+        result_key = self.result_key
+        if result_key == "":
             return None
         else:
-            return self._info["paths"][key]
-
-    @property
-    def _info(self):
-        list = self._stub.List(self._message)
-        paths = {}
-        for key in list.paths:
-            key_paths = []
-            for path in list.paths[key].paths:
-                key_paths.append(path)
-            paths[key] = key_paths
-        out = {"result_key": list.result_key, "paths": paths}
-        return out
+            response = []
+            num_keys = self._api.data_sources_get_num_keys(self)
+            for i_key in range(num_keys):
+                num_paths = integral_types.MutableInt32()
+                key = self._api.data_sources_get_key(self, i_key, num_paths)
+                if key == result_key:
+                    for i_path in range(int(num_paths)):
+                        path = self._api.data_sources_get_path(self, key, i_path)
+                        response.append(path)
+            return response
 
     def __str__(self):
         """Describe the entity.
@@ -286,10 +284,11 @@ class DataSources:
         """
         from ansys.dpf.core.core import _description
 
-        return _description(self._message, self._server)
+        return _description(self._internal_obj, self._server)
 
     def __del__(self):
-        try:  # should silently fail
-            self._stub.Delete(self._message)
+        try:
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
+            warnings.warn(traceback.format_exc())
             pass

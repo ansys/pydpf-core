@@ -3,25 +3,47 @@
 
 Operator
 ========
-Provides an interface to the underlying gRPC operator.
 """
 
-import functools
 import logging
-import re
-from typing import NamedTuple
+import os
+import traceback
+import warnings
 
-from ansys.dpf.core import server as serverlib
+from enum import Enum
 from ansys.dpf.core.check_version import version_requires, server_meet_version
 from ansys.dpf.core.config import Config
-from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.mapping_types import types
+from ansys.dpf.core.common import types_enum_to_types
 from ansys.dpf.core.outputs import Output, Outputs, _Outputs
-from ansys.grpc.dpf import base_pb2, operator_pb2, operator_pb2_grpc
+from ansys.dpf.core import server as server_module
+from ansys.dpf.core.operator_specification import Specification
+from ansys.dpf.gate import operator_capi, operator_abstract_api, operator_grpcapi, \
+    data_processing_capi, data_processing_grpcapi, collection_capi, collection_grpcapi, \
+    dpf_vector, object_handler
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
+
+
+class _SubOperator:
+    def __init__(self, op_name, op_to_connect):
+        self.op_name = op_name
+        self.op = Operator(self.op_name, server=op_to_connect._server)
+        if op_to_connect.inputs is not None:
+            for key in op_to_connect.inputs._connected_inputs:
+                inpt = op_to_connect.inputs._connected_inputs[key]
+                if type(inpt).__name__ == "dict":
+                    for keyout in inpt:
+                        if inpt[keyout]() is not None:
+                            self.op.connect(key, inpt[keyout](), keyout)
+                else:
+                    self.op.connect(key, inpt())
+
+    def __call__(self):
+        return self.op
 
 
 class Operator:
@@ -65,31 +87,49 @@ class Operator:
 
     def __init__(self, name, config=None, server=None):
         """Initialize the operator with its name by connecting to a stub."""
-        if server is None:
-            server = serverlib._global_server()
-
-        self._server = server
-
         self.name = name
-        self._stub = self._connect()
-
-        self._message = None
+        self._internal_obj = None
         self._description = None
         self._inputs = None
-        self._outputs = None
 
-        self.__send_init_request(config)
+        # step 1: get server
+        self._server = server_module.get_or_create_server(server)
 
-        self.__fill_spec()
+        # step 2: get api
+        self._api_instance = None  # see _api property
 
+        # step3: init environment
+        self._api.init_operator_environment(self)  # creates stub when gRPC
+
+        # step4: if object exists: take instance, else create it (server)
+        if self._server.has_client():
+            self._internal_obj = self._api.operator_new_on_client(self.name, self._server.client)
+        else:
+            self._internal_obj = self._api.operator_new(self.name)
+
+        if self._internal_obj is None:
+            raise KeyError(f"The operator {self.name} doesn't exist in the registry")
+
+        self._spec = Specification(operator_name=self.name, server=self._server)
         # add dynamic inputs
-        if len(self._spec.inputs) > 0 and self._inputs == None:
+        if len(self._spec.inputs) > 0 and self._inputs is None:
             self._inputs = Inputs(self._spec.inputs, self)
-        if len(self._spec.outputs) != 0 and self._outputs == None:
-            self._outputs = Outputs(self._spec.outputs, self)
+
+        # step4: if object exists: take instance (config)
+        if config:
+            self.config = config
 
         self._description = self._spec.description
         self._progress_bar = False
+
+    @property
+    def _api(self) -> operator_abstract_api.OperatorAbstractAPI:
+        if self._api_instance is None:
+            self._api_instance = self._server.get_api_for_type(
+                capi=operator_capi.OperatorCAPI,
+                grpcapi=operator_grpcapi.OperatorGRPCAPI
+            )
+        return self._api_instance
 
     def _add_sub_res_operators(self, sub_results):
         """Dynamically add operators for instantiating subresults.
@@ -112,9 +152,21 @@ class Operator:
         """
 
         for result_type in sub_results:
-            bound_method = self._sub_result_op.__get__(self, self.__class__)
-            method2 = functools.partial(bound_method, name=result_type["operator name"])
-            setattr(self, result_type["name"], method2)
+            try:
+                setattr(self, result_type["name"], _SubOperator(result_type["operator name"], self))
+            except KeyError:
+                pass
+
+    @property
+    def _outputs(self):
+        if self._spec and len(self._spec.outputs) != 0:
+            return Outputs(self._spec.outputs, self)
+
+    @_outputs.setter
+    def _outputs(self, value):
+        # the Operator should not hold a reference on its outputs because outputs hold a reference
+        # on the Operator
+        pass
 
     @property
     @version_requires("3.0")
@@ -127,7 +179,6 @@ class Operator:
     def progress_bar(self, value: bool) -> None:
         self._progress_bar = value
 
-    @protect_grpc
     def connect(self, pin, inpt, pin_out=0):
         """Connect an input on the operator using a pin number.
 
@@ -135,18 +186,17 @@ class Operator:
         ----------
         pin : int
             Number of the input pin.
-        inpt : str, int, double, bool, list of int, list of doubles,
-               Field, FieldsContainer, Scoping, ScopingsContainer, MeshedRegion,
-               MeshesContainer, DataSources, Operator, os.PathLike
-            Object to connect to.
+
+        inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
+        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs
+            Operator, os.PathLike Object to connect to.
+
         pin_out : int, optional
-            If the input is an operator, the output pin of the input operator. The
-            default is ``0``.
+            If the input is an operator, the output pin of the input operator. The default is ``0``.
 
         Examples
         --------
-        Compute the minimum of displacement by chaining the ``"U"``
-        and ``"min_max_fc"`` operators.
+        Compute the minimum of displacement by chaining the ``"U"`` and ``"min_max_fc"`` operators.
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
@@ -157,19 +207,126 @@ class Operator:
         >>> max_fc_op.inputs.connect(disp_op.outputs)
         >>> max_field = max_fc_op.outputs.field_max()
         >>> max_field.data
-        array([[0.59428386, 0.00201751, 0.0006032 ]])
+        DPFArray([[0.59428386, 0.00201751, 0.0006032 ]]...
 
         """
-
-        request = operator_pb2.UpdateRequest()
-        request.op.CopyFrom(self._message)
-        request.pin = pin
-        tmp = _fillConnectionRequestMessage(request, inpt, self._server, pin_out)
         if inpt is self:
             raise ValueError("Cannot connect to itself.")
-        self._stub.Update(request)
+        elif isinstance(inpt, Operator):
+            self._api.operator_connect_operator_output(self, pin, inpt, pin_out)
+        elif isinstance(inpt, Output):
+            self._api.operator_connect_operator_output(self, pin, inpt._operator, inpt._pin)
+        elif isinstance(inpt, list):
+            from ansys.dpf.core import collection
+            if server_meet_version("3.0", self._server):
+                inpt = collection.Collection.integral_collection(inpt, self._server)
+                self._api.operator_connect_collection_as_vector(self, pin, inpt)
+            else:
+                if all(isinstance(x, int) for x in inpt):
+                    self._api.operator_connect_vector_int(self, pin, inpt, len(inpt))
+                else:
+                    self._api.operator_connect_vector_double(self, pin, inpt, len(inpt))
+        else:
+            if isinstance(inpt, os.PathLike):
+                inpt = str(inpt)
+            for type_tuple in self._type_to_input_method:
+                if isinstance(inpt, type_tuple[0]):
+                    if len(type_tuple) == 3:
+                        inpt = type_tuple[2](inpt)
+                    return type_tuple[1](self, pin, inpt)
+            errormsg = f"input type {inpt.__class__} cannot be connected"
+            raise TypeError(errormsg)
 
-    @protect_grpc
+    @property
+    def _type_to_output_method(self):
+        from ansys.dpf.core import (
+            cyclic_support,
+            data_sources,
+            field,
+            fields_container,
+            meshed_region,
+            meshes_container,
+            property_field,
+            result_info,
+            scoping,
+            scopings_container,
+            time_freq_support,
+            data_tree,
+            workflow,
+            collection,
+        )
+        return [
+            (bool, self._api.operator_getoutput_bool),
+            (int, self._api.operator_getoutput_int),
+            (str, self._api.operator_getoutput_string),
+            (float, self._api.operator_getoutput_double),
+            (field.Field, self._api.operator_getoutput_field, "field"),
+            (property_field.PropertyField, self._api.operator_getoutput_property_field,
+             "property_field"),
+            (scoping.Scoping, self._api.operator_getoutput_scoping, "scoping"),
+            (fields_container.FieldsContainer, self._api.operator_getoutput_fields_container,
+             "fields_container"),
+            (scopings_container.ScopingsContainer, self._api.operator_getoutput_scopings_container,
+             "scopings_container"),
+            (meshes_container.MeshesContainer, self._api.operator_getoutput_meshes_container,
+             "meshes_container"),
+            (data_sources.DataSources, self._api.operator_getoutput_data_sources,
+             "data_sources"),
+            (cyclic_support.CyclicSupport, self._api.operator_getoutput_cyclic_support,
+             "cyclic_support"),
+            (meshed_region.MeshedRegion, self._api.operator_getoutput_meshed_region, "mesh"),
+            (result_info.ResultInfo, self._api.operator_getoutput_result_info, "result_info"),
+            (time_freq_support.TimeFreqSupport, self._api.operator_getoutput_time_freq_support,
+             "time_freq_support"),
+            (workflow.Workflow, self._api.operator_getoutput_workflow, "workflow"),
+            (data_tree.DataTree, self._api.operator_getoutput_data_tree, "data_tree"),
+            (Operator, self._api.operator_getoutput_operator, "operator"),
+            (dpf_vector.DPFVectorInt, self._api.operator_getoutput_int_collection,
+             lambda obj: collection.IntCollection(
+                 server=self._server, collection=obj
+             ).get_integral_entries()),
+            (dpf_vector.DPFVectorDouble, self._api.operator_getoutput_double_collection,
+             lambda obj: collection.FloatCollection(
+                 server=self._server, collection=obj
+             ).get_integral_entries()),
+        ]
+
+    @property
+    def _type_to_input_method(self):
+        from ansys.dpf.core import (
+            cyclic_support,
+            data_sources,
+            field,
+            collection,
+            meshed_region,
+            property_field,
+            scoping,
+            time_freq_support,
+            data_tree,
+            workflow,
+            model,
+        )
+        return [
+            (bool, self._api.operator_connect_bool),
+            ((int, Enum), self._api.operator_connect_int),
+            (str, self._api.operator_connect_string),
+            (float, self._api.operator_connect_double),
+            (field.Field, self._api.operator_connect_field),
+            (property_field.PropertyField, self._api.operator_connect_property_field),
+            (scoping.Scoping, self._api.operator_connect_scoping),
+            (collection.Collection, self._api.operator_connect_collection),
+            (data_sources.DataSources, self._api.operator_connect_data_sources),
+            (model.Model, self._api.operator_connect_data_sources,
+             lambda obj: obj.metadata.data_sources),
+            (cyclic_support.CyclicSupport, self._api.operator_connect_cyclic_support),
+            (meshed_region.MeshedRegion, self._api.operator_connect_meshed_region),
+            # TO DO: (result_info.ResultInfo, self._api.operator_connect_result_info),
+            (time_freq_support.TimeFreqSupport, self._api.operator_connect_time_freq_support),
+            (workflow.Workflow, self._api.operator_connect_workflow),
+            (data_tree.DataTree, self._api.operator_connect_data_tree),
+            (Operator, self._api.operator_connect_operator_as_input),
+        ]
+
     def get_output(self, pin=0, output_type=None):
         """Retrieve the output of the operator on the pin number.
 
@@ -180,7 +337,7 @@ class Operator:
         ----------
         pin : int, optional
             Number of the output pin. The default is ``0``.
-        output_type : :class:`ansys.dpf.core.common.types`, optional
+        output_type : :class:`ansys.dpf.core.common.types`, type,  optional
             Requested type of the output. The default is ``None``.
 
         Returns
@@ -188,27 +345,31 @@ class Operator:
         type
             Output of the operator.
         """
-
-        request = operator_pb2.OperatorEvaluationRequest()
-        request.op.CopyFrom(self._message)
-        request.pin = pin
-
-        if output_type:
-            _write_output_type_to_proto_style(output_type, request)
-            if server_meet_version("3.0", self._server) and self._progress_bar:
-                self._server._session.add_operator(self, pin, "workflow")
-                out_future = self._stub.Get.future(request)
-                while out_future.is_active():
-                    if self._progress_bar:
-                        self._server._session.listen_to_progress()
-                out = out_future.result()
-            else:
-                out = self._stub.Get(request)
-            return _convertOutputMessageToPythonInstance(out, output_type, self._server)
-        else:
-            request.type = base_pb2.Type.Value("RUN")
-            out_future = self._stub.Get.future(request)
-            out_future.result()
+        output_type = _write_output_type_to_type(output_type)
+        if self._server.meet_version("3.0") and self.progress_bar:
+            self._server._session.add_operator(self, pin, "operator")
+            self._progress_thread = self._server._session.listen_to_progress()
+        if output_type is None:
+            return self._api.operator_run(self)
+        out = None
+        for type_tuple in self._type_to_output_method:
+            if output_type is type_tuple[0]:
+                if len(type_tuple) >= 3:
+                    if isinstance(type_tuple[2], str):
+                        parameters = {type_tuple[2]: type_tuple[1](self, pin)}
+                        out = output_type(**parameters, server=self._server)
+                    else:
+                        out = type_tuple[2](type_tuple[1](self, pin))
+                if out is None:
+                    try:
+                        return output_type(type_tuple[1](self, pin), server=self._server)
+                    except TypeError:
+                        self._progress_thread = None
+                        return output_type(type_tuple[1](self, pin))
+        if out is not None:
+            self._progress_thread = None
+            return out
+        raise TypeError(f"{output_type} is not an implemented Operator's output")
 
     @property
     def config(self):
@@ -222,10 +383,8 @@ class Operator:
         :class:`ansys.dpf.core.config.Config`
             Copy of the operator's current configuration.
         """
-
-        out = self._stub.List(self._message)
-        config = out.config
-        return Config(config=config, server=self._server)
+        config = self._api.operator_get_config(self)
+        return Config(config=config, server=self._server, spec=self._spec)
 
     @config.setter
     def config(self, value):
@@ -238,10 +397,7 @@ class Operator:
         ----------
         value : Config
         """
-        request = operator_pb2.UpdateConfigRequest()
-        request.op.CopyFrom(self._message)
-        request.config.CopyFrom(value._message)
-        self._stub.UpdateConfig(request)
+        self._api.operator_set_config(self, value)
 
     @property
     def inputs(self):
@@ -316,15 +472,12 @@ class Operator:
         """
         return Config(operator_name=name, server=server)
 
-    def _connect(self):
-        """Connect to the gRPC service."""
-        return operator_pb2_grpc.OperatorServiceStub(self._server.channel)
-
     def __del__(self):
         try:
-            self._stub.Delete(self._message)
+            if self._internal_obj is not None:
+                self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
     def __str__(self):
         """Describe the entity.
@@ -336,7 +489,7 @@ class Operator:
         """
         from ansys.dpf.core.core import _description
 
-        return _description(self._message, self._server)
+        return _description(self._internal_obj, self._server)
 
     def run(self):
         """Evaluate this operator."""
@@ -411,27 +564,6 @@ class Operator:
             elif python_name == "Any":
                 corresponding_pins.append(pin)
 
-    @protect_grpc
-    def _sub_result_op(self, name):
-        op = Operator(name)
-        if self.inputs is not None:
-            for key in self.inputs._connected_inputs:
-                inpt = self.inputs._connected_inputs[key]
-                if type(inpt).__name__ == "dict":
-                    for keyout in inpt:
-                        op.connect(key, inpt[keyout], keyout)
-                else:
-                    op.connect(key, inpt)
-        return op
-
-    @protect_grpc
-    def __send_init_request(self, config=None):
-        request = operator_pb2.CreateOperatorRequest()
-        request.name = self.name
-        if config:
-            request.config.CopyFrom(config._message)
-        self._message = self._stub.Create(request)
-
     def __add__(self, fields_b):
         """Add two fields or two fields containers.
 
@@ -500,23 +632,24 @@ class Operator:
         op.connect(1, value)
         return op
 
-    def __fill_spec(self):
-        """Put the grpc spec message in self._spec"""
-        if hasattr(self._message, "spec"):
-            self._spec = OperatorSpecification._fill_from_message(self.name, self._message.spec)
-        else:
-            out = self._stub.List(self._message)
-            self._spec = OperatorSpecification._fill_from_message(self.name, out.spec)
-
     @staticmethod
     def operator_specification(op_name, server=None):
-        """Put the grpc spec message in self._spec"""
-        if server is None:
-            server = serverlib._global_server()
-        request = operator_pb2.Operator()
-        request.name = op_name
-        out = operator_pb2_grpc.OperatorServiceStub(server.channel).List(request)
-        return OperatorSpecification._fill_from_message(op_name, out.spec)
+        """Documents an Operator with its description (what the Operator does),
+        its inputs and outputs and some properties"""
+        return Specification(operator_name=op_name, server=server)
+
+    @property
+    def specification(self):
+        """Returns the Specification (or documentation) of this Operator
+
+        Returns
+        -------
+        Specification
+        """
+        if isinstance(self._spec, Specification):
+            return self._spec
+        else:
+            return Specification(operator_name=self.name, server=self._server)
 
     def __truediv__(self, inpt):
         if isinstance(inpt, Operator):
@@ -530,64 +663,6 @@ class Operator:
         return op
 
 
-class PinSpecification(NamedTuple):
-    name: str
-    type_names: list
-    optional: bool
-    document: str
-    ellipsis: bool
-
-    @staticmethod
-    def _get_copy(other, changed_types):
-        return PinSpecification(other.name,
-                                changed_types,
-                                other.optional,
-                                other.document,
-                                other.ellipsis)
-
-
-class OperatorSpecification(NamedTuple):
-    operator_name: str
-    description: str
-    properties: dict
-    inputs: dict
-    outputs: dict
-
-    @staticmethod
-    def _fill_from_message(op_name, message: operator_pb2.Specification):
-        tmpinputs = {}
-        for key, inp in message.map_input_pin_spec.items():
-            tmpinputs[key] = PinSpecification(inp.name,
-                                              inp.type_names,
-                                              inp.optional,
-                                              inp.document,
-                                              inp.ellipsis)
-
-        tmpoutputs = {}
-        for key, inp in message.map_output_pin_spec.items():
-            tmpoutputs[key] = PinSpecification(inp.name,
-                                               inp.type_names,
-                                               inp.optional,
-                                               inp.document,
-                                               inp.ellipsis)
-
-        if hasattr(message, "properties"):
-            properties = dict(message.properties)
-        else:
-            properties = dict()
-        return OperatorSpecification(op_name,
-                                     message.description,
-                                     properties,
-                                     tmpinputs,
-                                     tmpoutputs)
-
-    def __str__(self):
-        out = ""
-        for key, i in self._asdict().items():
-            out += key + ": " + str(i) + "\n\n"
-        return out
-
-
 def available_operator_names(server=None):
     """Returns the list of operator names available in the server.
 
@@ -595,193 +670,59 @@ def available_operator_names(server=None):
     ----------
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the the global server.
+        ``None``, attempts to use the global server.
 
     Returns
     -------
     list
 
+    Notes
+    -----
+    Function available with server's version starting at 3.0. Not available for server
+    of type GrpcServer.
+
     """
     if server is None:
-        server = serverlib._global_server()
-    service = operator_pb2_grpc.OperatorServiceStub(server.channel).ListAllOperators(
-        operator_pb2.ListAllOperatorsRequest())
-    arr = []
-    for chunk in service:
-        arr.extend(re.split(r'[\x00-\x08]', chunk.array.decode('utf-8')))
-    return arr
+        server = server_module._global_server()
 
+    if not server.meet_version("3.0"):
+        raise DpfVersionNotSupported("3.0")
 
-def _write_output_type_to_proto_style(output_type, request):
-    subtype = ""
-    stype = ""
-    if hasattr(output_type, "name"):
-        if output_type == types.fields_container:
-            stype = "collection"
-            subtype = "field"
-        elif output_type == types.scopings_container:
-            stype = "collection"
-            subtype = "scoping"
-        elif output_type == types.meshes_container:
-            stype = "collection"
-            subtype = "meshed_region"
-        elif hasattr(types, "vec_int") and output_type == types.vec_int:
-            stype = 'collection'
-            subtype = 'int'
-        elif hasattr(types, "vec_double") and output_type == types.vec_double:
-            stype = 'collection'
-            subtype = 'double'
-        else:
-            stype = output_type.name
-    elif isinstance(output_type, list):
-        stype = output_type[0]
-        subtype = output_type[1]
-    else:
-        stype = output_type
-    request.type = base_pb2.Type.Value(stype.upper())
-    if subtype != "":
-        request.subtype = base_pb2.Type.Value(subtype.upper())
-
-
-def _convertOutputMessageToPythonInstance(out, output_type, server):
-    from ansys.dpf.core import (
-        cyclic_support,
-        data_sources,
-        field,
-        fields_container,
-        collection,
-        meshed_region,
-        meshes_container,
-        property_field,
-        result_info,
-        scoping,
-        scopings_container,
-        time_freq_support,
-        workflow,
+    api = server.get_api_for_type(
+        capi=data_processing_capi.DataProcessingCAPI,
+        grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
     )
+    api.init_data_processing_environment(server)  # creates stub when gRPC
+    coll_api = server.get_api_for_type(
+        capi=collection_capi.CollectionCAPI,
+        grpcapi=collection_grpcapi.CollectionGRPCAPI)
+    coll_api.init_collection_environment(server)
 
-    if out.HasField("str"):
-        return out.str
-    elif out.HasField("int"):
-        return out.int
-    elif out.HasField("double"):
-        return out.double
-    elif out.HasField("bool"):
-        return out.bool
-    elif out.HasField("field"):
-        toconvert = out.field
-        if toconvert.datatype == "int":
-            return property_field.PropertyField(server=server, property_field=toconvert)
-        else:
-            return field.Field(server=server, field=toconvert)
-    elif out.HasField("collection"):
-        toconvert = out.collection
-        if output_type == types.fields_container:
-            return fields_container.FieldsContainer(
-                server=server, fields_container=toconvert
-            )
-        elif output_type == types.scopings_container:
-            return scopings_container.ScopingsContainer(
-                server=server, scopings_container=toconvert
-            )
-        elif output_type == types.meshes_container:
-            return meshes_container.MeshesContainer(
-                server=server, meshes_container=toconvert
-            )
-        elif output_type == types.vec_int or output_type == types.vec_double:
-            return collection.Collection(server=server,
-                                         collection=toconvert
-                                         )._get_integral_entries()
-    elif out.HasField("scoping"):
-        toconvert = out.scoping
-        return scoping.Scoping(scoping=toconvert, server=server)
-    elif out.HasField("mesh"):
-        toconvert = out.mesh
-        return meshed_region.MeshedRegion(mesh=toconvert, server=server)
-    elif out.HasField("result_info"):
-        toconvert = out.result_info
-        return result_info.ResultInfo(result_info=toconvert, server=server)
-    elif out.HasField("time_freq_support"):
-        toconvert = out.time_freq_support
-        return time_freq_support.TimeFreqSupport(
-            server=server, time_freq_support=toconvert
+    if server.has_client():
+        coll_obj = object_handler.ObjHandler(
+            data_processing_api=api,
+            internal_obj=api.data_processing_list_operators_as_collection_on_client(
+                server.client
+            ))
+    else:
+        coll_obj = object_handler.ObjHandler(
+            data_processing_api=api,
+            internal_obj=api.data_processing_list_operators_as_collection()
         )
-    elif out.HasField("data_sources"):
-        toconvert = out.data_sources
-        return data_sources.DataSources(server=server, data_sources=toconvert)
-    elif out.HasField("cyc_support"):
-        toconvert = out.cyc_support
-        return cyclic_support.CyclicSupport(server=server, cyclic_support=toconvert)
-    elif out.HasField("workflow"):
-        toconvert = out.workflow
-        return workflow.Workflow(server=server, workflow=toconvert)
+    num = coll_api.collection_get_size(coll_obj)
+    out = []
+    for i in range(num):
+        out.append(coll_api.collection_get_string_entry(coll_obj, i))
+    return out
 
 
-def _fillConnectionRequestMessage(request, inpt, server, pin_out=0):
-    from ansys.dpf.core import (
-        collection,
-        cyclic_support,
-        data_sources,
-        field_base,
-        meshed_region,
-        model,
-        scoping,
-        workflow,
-        time_freq_support,
-    )
-    from pathlib import Path
-    if isinstance(inpt, str):
-        request.str = inpt
-    elif isinstance(inpt, Path):
-        request.str = str(inpt)
-    elif isinstance(inpt, bool):
-        request.bool = inpt
-    elif isinstance(inpt, int):
-        request.int = inpt
-    elif isinstance(inpt, float):
-        request.double = inpt
-    elif isinstance(inpt, list):
-        if all(isinstance(x, int) for x in inpt):
-            if server_meet_version("3.0", server):
-                inpt = collection.Collection.integral_collection(inpt, server)
-                request.collection.CopyFrom(inpt._message)
-                return inpt
-            else:
-                request.vint.rep_int.extend(inpt)
-        elif all(isinstance(x, float) for x in inpt):
-            if server_meet_version("3.0", server):
-                inpt = collection.Collection.integral_collection(inpt, server)
-                request.collection.CopyFrom(inpt._message)
-                return inpt
-            else:
-                request.vdouble.rep_double.extend(inpt)
-        else:
-            errormsg = f"input type {inpt.__class__} cannot be connected"
-            raise TypeError(errormsg)
-    elif isinstance(inpt, field_base._FieldBase):
-        request.field.CopyFrom(inpt._message)
-    elif isinstance(inpt, collection.Collection):
-        request.collection.CopyFrom(inpt._message)
-    elif isinstance(inpt, scoping.Scoping):
-        request.scoping.CopyFrom(inpt._message)
-    elif isinstance(inpt, data_sources.DataSources):
-        request.data_sources.CopyFrom(inpt._message)
-    elif isinstance(inpt, model.Model):
-        request.data_sources.CopyFrom(inpt.metadata.data_sources._message)
-    elif isinstance(inpt, meshed_region.MeshedRegion):
-        request.mesh.CopyFrom(inpt._message)
-    elif isinstance(inpt, cyclic_support.CyclicSupport):
-        request.cyc_support.CopyFrom(inpt._message)
-    elif isinstance(inpt, workflow.Workflow):
-        request.workflow.CopyFrom(inpt._message)
-    elif isinstance(inpt, time_freq_support.TimeFreqSupport):
-        request.time_freq_support.CopyFrom(inpt._message)
-    elif isinstance(inpt, Operator):
-        request.inputop.inputop.CopyFrom(inpt._message)
-        request.inputop.pinOut = pin_out
-    elif isinstance(inpt, Output):
-        request.inputop.inputop.CopyFrom(inpt._operator._message)
-        request.inputop.pinOut = inpt._pin
-    else:
-        errormsg = f"input type {inpt.__class__} cannot be connected"
-        raise TypeError(errormsg)
+def _write_output_type_to_type(output_type):
+    if isinstance(output_type, str):
+        output_type = types[output_type]
+
+    if isinstance(output_type, types):
+        try:
+            return types_enum_to_types()[output_type]
+        except KeyError as e:
+            raise TypeError(f"{output_type} is not an implemented Operator's output")
+    return output_type

@@ -1,18 +1,18 @@
 """
+.. _ref_nodes_apis:
+
 Nodes
 =====
 """
-
 import numpy as np
-from ansys.grpc.dpf import meshed_region_pb2
-
-from ansys import dpf
-from ansys.dpf.core.common import nodal_properties
-from ansys.dpf.core.errors import protect_grpc
+from ansys.dpf.core.common import nodal_properties, locations
+from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.check_version import version_requires
 
 
 class Node:
-    """Encapsulates all properties of a node in the mesh.
+    """
+    Encapsulates all properties of a node in the mesh.
 
     A node is created from the :class:`ansys.dpf.core.elements` or
     :class:`ansys.dpf.core.meshed_region` class.
@@ -23,7 +23,7 @@ class Node:
         Mesh region that the node is contained in.
     nodeid : int
         ID of the node.
-    nodeindex : int
+    index : int
         Index of the node.
     coordinates : list
         List of ``[x, y, z]`` coordinates for the node.
@@ -63,7 +63,8 @@ class Node:
 
     @property
     def coordinates(self):
-        """Cartesian coordinates of the node.
+        """
+        Cartesian coordinates of the node.
 
         Examples
         --------
@@ -79,7 +80,8 @@ class Node:
 
     @property
     def nodal_connectivity(self):
-        """Elements indices connected to the node.
+        """
+        Elements indices connected to the node.
 
         Returns
         -------
@@ -95,7 +97,8 @@ class Node:
 
 
 class Nodes:
-    """Provides a collection of DPF nodes.
+    """
+    Provides a collection of DPF nodes.
 
     Parameters
     ----------
@@ -116,6 +119,7 @@ class Nodes:
 
     def __init__(self, mesh):
         self._mesh = mesh
+        self._server = mesh._server
         self._mapping_id_to_index = None
 
     def __str__(self):
@@ -140,9 +144,9 @@ class Nodes:
         """Array of node coordinates ordered by index"""
         return self.__get_node(nodeindex=index)
 
-    @protect_grpc
     def __get_node(self, nodeindex=None, nodeid=None):
-        """Retrieves the node by its ID or index.
+        """
+        Retrieves the node by its ID or index.
 
         Parameters
         ----------
@@ -156,18 +160,25 @@ class Nodes:
         node : ansys.dpf.core.meshed_region.Node
             Requested node
         """
-        request = meshed_region_pb2.GetRequest()
-        request.mesh.CopyFrom(self._mesh._message)
         if nodeindex is None:
-            request.id = nodeid
-        else:
-            request.index = nodeindex
-        nodeOut = self._mesh._stub.GetNode(request)
-        return Node(self._mesh, nodeOut.id, nodeOut.index, nodeOut.coordinates)
+            nodeindex = self._mesh._api.meshed_region_get_node_index(self._mesh, nodeid)
+        elif nodeid is None:
+            nodeid = self._mesh._api.meshed_region_get_node_id(self._mesh, nodeindex)
+        node_coordinates = [self._mesh._api.meshed_region_get_node_coord(self._mesh,
+                                                                         index=nodeindex,
+                                                                         coordinate=0),
+                            self._mesh._api.meshed_region_get_node_coord(self._mesh,
+                                                                         index=nodeindex,
+                                                                         coordinate=1),
+                            self._mesh._api.meshed_region_get_node_coord(self._mesh,
+                                                                         index=nodeindex,
+                                                                         coordinate=2)]
+        return Node(self._mesh, nodeid, nodeindex, node_coordinates)
 
     @property
     def scoping(self):
-        """Scoping of the nodes.
+        """
+        Scoping of the nodes.
 
         Returns
         -------
@@ -187,16 +198,17 @@ class Nodes:
         3
 
         """
-        return self._mesh._get_scoping(loc=dpf.core.locations.nodal)
+        return self._mesh._get_scoping(loc=locations.nodal)
 
     @property
     def n_nodes(self):
         """Number of nodes."""
-        return self._mesh._stub.List(self._mesh._message).num_nodes
+        return self._mesh._api.meshed_region_get_num_nodes(self._mesh)
 
     @property
     def coordinates_field(self):
-        """Coordinates field.
+        """
+        Coordinates field.
 
         Returns
         -------
@@ -214,14 +226,28 @@ class Nodes:
 
         >>> # Extract the array of coordinates the coordinates field
         >>> nodes.coordinates_field.data[2]
-        array([0.015, 0.045, 0.03 ])
+        DPFArray([0.015, 0.045, 0.03 ]...
 
         """
         return self._get_coordinates_field()
 
+    @coordinates_field.setter
+    @version_requires("3.0")
+    def coordinates_field(self, property_field):
+        """
+        Coordinates field setter.
+
+        Parameters
+        ----------
+        property_field : Field
+            Field that contains coordinates
+        """
+        self._mesh.set_coordinates_field(property_field)
+
     @property
     def nodal_connectivity_field(self):
-        """Nodal connectivity field
+        """
+        Nodal connectivity field
 
         Field containing each node ID for the elements indices
         connected to the given node.
@@ -240,12 +266,11 @@ class Nodes:
         >>> nodes = model.metadata.meshed_region.nodes
         >>> field = nodes.nodal_connectivity_field
         >>> field.get_entity_data(1)
-        array([0, 2, 4, 6])
+        DPFArray([0, 2, 4, 6]...
 
         """
         return self._mesh.field_of_properties(nodal_properties.nodal_connectivity)
 
-    @protect_grpc
     def _get_coordinates_field(self):
         """Retrieve the coordinates field."""
         return self._mesh.field_of_properties(nodal_properties.coordinates)
@@ -261,7 +286,8 @@ class Nodes:
         return self._mapping_id_to_index
 
     def map_scoping(self, external_scope):
-        """Retrieve the indices to map the scoping of these elements to the scoping of a field.
+        """
+        Retrieve the indices to map the scoping of these elements to the scoping of a field.
 
         Parameters
         ----------
@@ -304,7 +330,8 @@ class Nodes:
         return ind, mask
 
     def add_node(self, id, coordinates):
-        """Add a node in the mesh.
+        """
+        Add a node in the mesh.
 
         Parameters
         ----------
@@ -314,14 +341,11 @@ class Nodes:
         coordinates : list[float]
             List of ``[x, y, z]`` coordinates for the node.
         """
-        request = meshed_region_pb2.AddRequest(mesh=self._mesh._message)
-        node_request = meshed_region_pb2.NodeRequest(id=id)
-        node_request.coordinates.extend(coordinates)
-        request.nodes.append(node_request)
-        self._mesh._stub.Add(request)
+        self._mesh._api.meshed_region_add_node(self._mesh, coordinates, id)
 
     def add_nodes(self, num):
-        """Add a number of nodes in the mesh.
+        """
+        Add a number of nodes in the mesh.
 
         This method yields a number of nodes that you can define.
 
@@ -344,25 +368,15 @@ class Nodes:
         ...     node.coordinates = [float(i), float(i), 0.0]
 
         """
-        request = meshed_region_pb2.AddRequest(mesh=self._mesh._message)
         for i in range(0, num):
             add = NodeAdder()
             yield add
-            node_request = meshed_region_pb2.NodeRequest(id=add.id)
-            node_request.coordinates.extend(add.coordinates)
-            request.nodes.append(node_request)
-        self._mesh._stub.Add(request)
+            self._mesh._api.meshed_region_add_node(self._mesh, add.coordinates, add.id)
 
 
 class NodeAdder:
-    """Adds a new node to a meshed region.
-
-    Attributes
-    ----------
-    id : int
-
-    coordinates : list of doubles
-        List of ``[x, y, z]'' coordinates.
+    """
+    Adds a new node to a meshed region.
 
     Examples
     --------

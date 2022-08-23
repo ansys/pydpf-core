@@ -5,13 +5,21 @@ Field
 =====
 """
 
+import numpy as np
 from ansys import dpf
-from ansys.dpf.core import errors, meshed_region, time_freq_support
-from ansys.dpf.core.common import locations, natures, types
+from ansys.dpf.core import errors, meshed_region, time_freq_support, scoping
+from ansys.dpf.core import dimensionality
+from ansys.dpf.core.common import locations, natures, types, _get_size_of_list
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.core.plotter import Plotter
-from ansys.grpc.dpf import base_pb2, field_pb2
+from ansys.dpf.gate import (
+    field_abstract_api,
+    field_capi,
+    field_grpcapi,
+    dpf_array,
+    dpf_vector,
+)
 
 
 class Field(_FieldBase):
@@ -37,8 +45,8 @@ class Field(_FieldBase):
         - ``"Elemental"``
         - ``"ElementalNodal"``
 
-    field : ansys.grpc.dpf.field_pb2.Field, optional
-        Field message generated from a gRPC stub.
+    field : Field, ansys.grpc.dpf.field_pb2.Field, ctypes.c_void_p, optional
+        Field message generated from a gRPC stub, or return by DPF's C clients.
     server : :class:`ansys.dpf.core.server`, optional
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
@@ -88,7 +96,7 @@ class Field(_FieldBase):
     >>> fields_container = disp.outputs.fields_container()
     >>> field = fields_container[0]
     >>> field.data[2]
-    array([-0.00672665, -0.03213735,  0.00016716])
+    DPFArray([-0.00672665, -0.03213735,  0.00016716]...
 
     """
 
@@ -103,8 +111,47 @@ class Field(_FieldBase):
         """Initialize the field either with an optional field message or
         by connecting to a stub.
         """
-        super().__init__(nentities, nature, location, False, field, server)
+        super().__init__(nentities, nature, location, field, server)
         self._field_definition = self._load_field_definition()
+
+    @property
+    def _api(self) -> field_abstract_api.FieldAbstractAPI:
+        if not self._api_instance:
+            self._api_instance = self._server.get_api_for_type(capi=field_capi.FieldCAPI,
+                                                               grpcapi=field_grpcapi.FieldGRPCAPI)
+        return self._api_instance
+
+    @staticmethod
+    def _field_create_internal_obj(
+            api: field_abstract_api.FieldAbstractAPI,
+            client,
+            nature,
+            nentities,
+            location=locations.nodal,
+            ncomp_n=0,
+            ncomp_m=0
+    ):
+        dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
+
+        if dim.is_1d_dim():
+            if client is not None:
+                return api.field_new_with1_ddimensionnality_on_client(
+                    client, dim.nature.value, dim.dim[0], nentities, location)
+            else:
+                return api.field_new_with1_ddimensionnality(
+                    dim.nature.value, dim.dim[0], nentities, location
+                )
+        elif dim.is_2d_dim():
+            if client is not None:
+                return api.field_new_with2_ddimensionnality_on_client(
+                    client, dim.nature.value, dim.dim[0], dim.dim[1], nentities, location
+                )
+            else:
+                return api.field_new_with2_ddimensionnality(
+                    dim.nature.value, dim.dim[0], dim.dim[1], nentities, location
+                )
+        else:
+            raise AttributeError("Unable to parse field's attributes to create an instance.")
 
     def as_local_field(self):
         """Create a deep copy of the field that can be accessed and modified locally.
@@ -202,6 +249,24 @@ class Field(_FieldBase):
         self.field_definition = fielddef
 
     @property
+    def component_count(self):
+        return self._api.csfield_get_number_of_components(self)
+
+    @property
+    def elementary_data_count(self):
+        return self._api.csfield_get_number_elementary_data(self)
+
+    @property
+    def size(self):
+        return self._api.csfield_get_data_size(self)
+
+    def _set_scoping(self, scoping):
+        self._api.csfield_set_cscoping(self, scoping)
+
+    def _get_scoping(self):
+        return scoping.Scoping(scoping=self._api.csfield_get_cscoping(self), server=self._server)
+
+    @property
     def shell_layers(self):
         """Order of the shell layers.
 
@@ -219,6 +284,95 @@ class Field(_FieldBase):
         fielddef.shell_layers = value
         self.field_definition = fielddef
 
+    def get_entity_data(self, index):
+        try:
+            vec = dpf_vector.DPFVectorDouble(client=self._server.client)
+            self._api.csfield_get_entity_data_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size, index
+            )
+            data = dpf_array.DPFArray(vec)
+
+        except NotImplementedError:
+            data = self._api.csfield_get_entity_data(self, index)
+        n_comp = self.component_count
+        if n_comp != 1 and data.size != 0:
+            data.shape = (data.size // n_comp, n_comp)
+        return data
+
+    def get_entity_data_by_id(self, id):
+        try:
+            vec = dpf_vector.DPFVectorDouble(client=self._server.client)
+            self._api.csfield_get_entity_data_by_id_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size, id)
+            data = dpf_array.DPFArray(vec)
+
+        except NotImplementedError:
+            index = self.scoping.index(id)
+            if index < 0:
+                raise ValueError(f"The ID {id} must be greater than 0.")
+            data = self.get_entity_data(index)
+        n_comp = self.component_count
+        if n_comp != 1 and data.size != 0:
+            data.shape = (data.size // n_comp, n_comp)
+        return data
+
+    def append(self, data, scopingid):
+        if isinstance(data, list):
+            if isinstance(data[0], list):
+                data = np.array(data)
+        self._api.csfield_push_back(self, scopingid, _get_size_of_list(data), data)
+
+    def _get_data_pointer(self):
+        try:
+            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            self._api.csfield_get_data_pointer_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size
+            )
+            return dpf_array.DPFArray(vec)
+
+        except NotImplementedError:
+            return self._api.csfield_get_data_pointer(self, True)
+
+    def _set_data_pointer(self, data):
+        return self._api.csfield_set_data_pointer(self, _get_size_of_list(data), data)
+
+    def _get_data(self, np_array=True):
+        try:
+            vec = dpf_vector.DPFVectorDouble(client=self._server.client)
+            self._api.csfield_get_data_for_dpf_vector(
+                self, vec, vec.internal_data, vec.internal_size
+            )
+            data = dpf_array.DPFArray(vec) if np_array else dpf_array.DPFArray(vec).tolist()
+        except NotImplementedError:
+            data = self._api.csfield_get_data(self, np_array)
+        n_comp = self.component_count
+        if np_array and n_comp != 1 and data.size != 0:
+            data.shape = (data.size // n_comp, n_comp)
+        return data
+
+    def _set_data(self, data):
+        if isinstance(data, list):
+            if all(isinstance(d, list) for d in data):
+                # Transform list of list to numpy_array
+                data = np.array(data)
+        if isinstance(data, (np.ndarray, np.generic)):
+            if (
+                    0 != self.size
+                    and self.component_count > 1
+                    and data.size // self.component_count
+                    != data.size / self.component_count
+            ):
+                raise ValueError(
+                    f"An array of shape {self.shape} is expected and "
+                    f"shape {data.shape} was input"
+                )
+            if data.dtype != np.float64:
+                copy = np.empty_like(data, shape=data.shape, dtype=np.float64)
+                copy[:] = data
+                data = copy
+        size = _get_size_of_list(data)
+        return self._api.csfield_set_data(self, size, data)
+
     def to_nodal(self):
         """Convert the field to one with a ``Nodal`` location.
 
@@ -233,7 +387,7 @@ class Field(_FieldBase):
         if self.location == "Nodal":
             raise errors.LocationError('Location is already "Nodal"')
 
-        op = dpf.core.Operator("to_nodal")
+        op = dpf.core.Operator("to_nodal", server=self._server)
         op.inputs.connect(self)
         return op.outputs.field()
 
@@ -290,19 +444,13 @@ class Field(_FieldBase):
             Size of the data vector.
 
         """
-        request = field_pb2.UpdateSizeRequest()
-        request.field.CopyFrom(self._message)
-        request.size.scoping_size = nentities
-        request.size.data_size = datasize
-        self._stub.UpdateSize(request)
+        return self._api.csfield_resize(self, datasize, nentities)
 
     def _load_field_definition(self):
         """Attempt to load the field definition for this field."""
         try:
-            request = field_pb2.GetRequest()
-            request.field.CopyFrom(self._message)
-            out = self._stub.GetFieldDefinition(request)
-            return FieldDefinition(out.field_definition, self._server)
+            out = self._api.csfield_get_shared_field_definition(self)
+            return FieldDefinition(out, self._server)
         except:
             return
 
@@ -374,10 +522,13 @@ class Field(_FieldBase):
     @property
     def name(self):
         """Name of the field."""
-        request = field_pb2.GetRequest()
-        request.field.CopyFrom(self._message)
-        out = self._stub.GetFieldDefinition(request)
-        return out.name
+        # return self._api.csfield_get_name(self)
+        from ansys.dpf.gate import integral_types
+        size = integral_types.MutableInt32()
+        name = integral_types.MutableString(256)
+        self._field_definition._api.csfield_definition_fill_name(self._field_definition,
+                                                                 name=name, size=size)
+        return str(name)
 
     def _set_field_definition(self, field_definition):
         """Set the field definition.
@@ -387,10 +538,7 @@ class Field(_FieldBase):
         field_definition : :class"`ansys.dpf.core.field_definition.FieldDefinition`
 
         """
-        request = field_pb2.UpdateFieldDefinitionRequest()
-        request.field_def.CopyFrom(field_definition._messageDefinition)
-        request.field.CopyFrom(self._message)
-        self._stub.UpdateFieldDefinition(request)
+        self._api.csfield_set_field_definition(self, field_definition)
 
     @property
     def field_definition(self):
@@ -415,17 +563,10 @@ class Field(_FieldBase):
         :class:`ansys.dpf.core.meshed_region.MeshedRegion`
 
         """
-        request = field_pb2.SupportRequest()
-        request.field.CopyFrom(self._message)
-        request.type = base_pb2.Type.Value("MESHED_REGION")
-        try:
-            message = self._stub.GetSupport(request)
-            return meshed_region.MeshedRegion(mesh=message, server=self._server)
-        except:
-            raise RuntimeError(
-                "The field's support is not a mesh. "
-                "Try to retrieve the time frequency support."
-            )
+        return meshed_region.MeshedRegion(
+            mesh=self._api.csfield_get_support_as_meshed_region(self),
+            server=self._server
+        )
 
     def _get_time_freq_support(self):
         """Retrieve the time frequency support.
@@ -435,28 +576,13 @@ class Field(_FieldBase):
         :class:`ansys.dpf.core.time_freq_support.TimeFreqSupport`
 
         """
-        request = field_pb2.SupportRequest()
-        request.field.CopyFrom(self._message)
-        request.type = base_pb2.Type.Value("TIME_FREQ_SUPPORT")
-        try:
-            message = self._stub.GetSupport(request)
-            return time_freq_support.TimeFreqSupport(
-                time_freq_support=message, server=self._server
-            )
-        except:
-            raise RuntimeError(
-                "The field's support is not a timefreqsupport.  Try a mesh."
-            )
+        return time_freq_support.TimeFreqSupport(
+            time_freq_support=self._api.csfield_get_support_as_time_freq_support(self),
+            server=self._server
+        )
 
     def _set_support(self, support, support_type: str):
-        request = field_pb2.SetSupportRequest()
-        request.field.CopyFrom(self._message)
-        request.support.type = base_pb2.Type.Value(support_type)
-        if isinstance(request.support.id, int):
-            request.support.id = support._message.id
-        else:
-            request.support.id.id = support._message.id.id
-        self._stub.SetSupport(request)
+        self._api.csfield_set_meshed_region_as_support(self, support)
 
     @property
     def time_freq_support(self):
@@ -471,7 +597,7 @@ class Field(_FieldBase):
 
     @time_freq_support.setter
     def time_freq_support(self, value):
-        self._set_support(value, "TIME_FREQ_SUPPORT")
+        self._api.csfield_set_support(self, value)
 
     @property
     def meshed_region(self):
@@ -670,4 +796,6 @@ class _LocalField(_LocalFieldBase, Field):
     """  # noqa: E501
 
     def __init__(self, field):
-        super().__init__(field)
+        self._is_property_field = False
+        Field.__init__(self, field=field)
+        _LocalFieldBase.__init__(self, field)

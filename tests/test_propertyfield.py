@@ -1,5 +1,7 @@
 import numpy as np
 import pytest
+import copy
+import conftest
 
 from ansys import dpf
 from ansys.dpf import core
@@ -17,10 +19,10 @@ def property_field(simple_bar):
     return property_field
 
 
-def test_scopingdata_property_field():
-    pfield = dpf.core.PropertyField()
+def test_scopingdata_property_field(server_type):
+    pfield = dpf.core.PropertyField(server=server_type)
     list_ids = [1, 2, 4, 6, 7]
-    scop = core.Scoping(ids=list_ids, location=locations.nodal)
+    scop = core.Scoping(ids=list_ids, location=locations.nodal, server=server_type)
     pfield.scoping = scop
     list_data = [20, 30, 50, 70, 80]
     pfield.data = list_data
@@ -29,8 +31,8 @@ def test_scopingdata_property_field():
     assert np.allclose(pfield.scoping.ids, list_ids)
 
 
-def test_set_get_data_property_field():
-    field = dpf.core.PropertyField(nentities=20, nature=natures.scalar)
+def test_set_get_data_property_field(server_type):
+    field = dpf.core.PropertyField(nentities=20, nature=natures.scalar, server=server_type)
     data = []
     for i in range(0, 20):
         data.append(i)
@@ -38,8 +40,8 @@ def test_set_get_data_property_field():
     assert np.allclose(field.data, data)
 
 
-def test_create_property_field_push_back():
-    f_vec = core.PropertyField(1, core.natures.vector, core.locations.nodal)
+def test_create_property_field_push_back(server_type):
+    f_vec = core.PropertyField(1, core.natures.vector, core.locations.nodal, server=server_type)
     f_vec.append([1, 2, 4], 1)
     assert len(f_vec.data) == 3
     assert f_vec.data[0] == 1
@@ -48,7 +50,7 @@ def test_create_property_field_push_back():
     assert f_vec.scoping.ids == [1]
     assert len(f_vec.scoping.ids) == 1
 
-    f_scal = core.PropertyField(1, core.natures.scalar, core.locations.nodal)
+    f_scal = core.PropertyField(1, core.natures.scalar, core.locations.nodal, server=server_type)
     f_scal.append([2], 1)
     f_scal.append([5], 2)
     assert len(f_scal.data) == 2
@@ -91,9 +93,15 @@ def test_set_location(property_field):
     assert property_field.location == locations.nodal
 
 
-def test_set_prop_field_from_message(property_field):
-    prop_field_message = property_field._message
-    new_prop_field = dpf.core.PropertyField(property_field=prop_field_message)
+def test_set_prop_field_from_message(simple_bar, server_type_legacy_grpc):
+    model = dpf.core.Model(simple_bar, server=server_type_legacy_grpc)
+    mesh = model.metadata.meshed_region
+    op = dpf.core.Operator("meshed_skin_sector", server=server_type_legacy_grpc)
+    op.inputs.mesh.connect(mesh)
+    property_field = op.outputs.property_field_new_elements_to_old()
+    prop_field_message = property_field._internal_obj
+    new_prop_field = dpf.core.PropertyField(property_field=prop_field_message,
+                                            server=server_type_legacy_grpc)
     assert isinstance(new_prop_field, dpf.core.PropertyField)
     check_on_property_field_from_simplebar(new_prop_field)
 
@@ -104,10 +112,10 @@ def test_set_prop_field_from_prop_field(property_field):
     check_on_property_field_from_simplebar(new_prop_field)
 
 
-def test_connect_property_field_operator():
-    f_vec = dpf.core.PropertyField(1, natures.vector, locations.nodal)
+def test_connect_property_field_operator(server_type):
+    f_vec = dpf.core.PropertyField(1, natures.vector, locations.nodal, server=server_type)
     f_vec.append([1, 2, 4], 1)
-    op = dpf.core.operators.utility.forward()
+    op = dpf.core.operators.utility.forward(server = server_type)
     op.inputs.connect(f_vec)
     out = op.get_output(0, core.types.property_field)
     assert out is not None
@@ -179,6 +187,32 @@ def test_local_property_field():
     with field_to_local.as_local_field() as f:
         assert np.allclose(f.data, data)
         assert np.allclose(f._data_pointer, data_pointer[0: len(data_pointer)])
+
+
+@conftest.raises_for_servers_version_under("4.0")
+def test_mutable_data_property_field(server_clayer, simple_bar):
+    model = dpf.core.Model(simple_bar, server=server_clayer)
+    mesh = model.metadata.meshed_region
+    op = dpf.core.Operator("meshed_skin_sector", server=server_clayer)
+    op.inputs.mesh.connect(mesh)
+
+    wf = dpf.core.Workflow(server=server_clayer)
+    wf.add_operator(op)
+    wf.set_output_name("field_out", op, 3)
+
+    property_field = wf.get_output("field_out", dpf.core.types.property_field)
+    data = property_field.data
+    data_copy = copy.deepcopy(data)
+    data[0] += 1
+    data.commit()
+    changed_data = property_field.data
+    assert np.allclose(changed_data, data)
+    assert not np.allclose(changed_data, data_copy)
+    assert np.allclose(changed_data[0], data_copy[0] + 1)
+    data[0] += 1
+    data = None
+    changed_data = property_field.data
+    assert np.allclose(changed_data[0], data_copy[0] + 2)
 
 
 if __name__ == "__main__":

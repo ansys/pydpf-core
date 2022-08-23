@@ -13,6 +13,9 @@ if os.name == "posix":
         "libmeshOperatorsCore.so",
         "libAns.Dpf.Math.so",
         "libAns.Dpf.Hdf5.so",
+        "libAns.Dpf.LSDYNAHGP.so",
+        "libAns.Dpf.LivePost.so",
+        "libans.dpf.pointcloudsearch.so",
     ]
 else:
     LIB_TO_GENERATE = [
@@ -22,6 +25,9 @@ else:
         "mapdlOperatorsCore.dll",
         "Ans.Dpf.Math.dll",
         "Ans.Dpf.Hdf5.dll",
+        "Ans.Dpf.LSDYNAHGP.dll",
+        "Ans.Dpf.LivePost.dll",
+        "Ans.Dpf.PointCloudSearch.dll",
     ]
 
 local_dir = os.path.dirname(os.path.abspath(__file__))

@@ -44,13 +44,17 @@ release = __version__
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "sphinx.ext.autodoc",
-    "sphinx_gallery.gen_gallery",
-    "sphinx.ext.todo",
-    "sphinx.ext.napoleon",
-    "pydata_sphinx_theme",
+    "enum_tools.autoenum",
     "nbsphinx",
-    "sphinx.ext.intersphinx"
+    "pydata_sphinx_theme",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.graphviz",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.todo",
+    "sphinx_copybutton",
+    "sphinx_design",
+    "sphinx_gallery.gen_gallery",
 ]
 
 # Intersphinx mapping
@@ -130,6 +134,12 @@ html_theme_options = {
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
+# These paths are either relative to html_static_path
+# or fully qualified paths (eg. https://...)
+html_css_files = [
+    'custom.css',
+]
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.

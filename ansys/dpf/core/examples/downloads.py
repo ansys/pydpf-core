@@ -1,16 +1,40 @@
-"""Download example datasets from https://github.com/pyansys/example-data"""
-import shutil
+"""
+Downloads
+=========
+Download example datasets from https://github.com/pyansys/example-data"""
 import os
 import urllib.request
-
+import warnings
 EXAMPLE_REPO = "https://github.com/pyansys/example-data/raw/master/result_files/"
 
 
 def delete_downloads():
     """Delete all downloaded examples to free space or update the files"""
-    from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
-    shutil.rmtree(LOCAL_DOWNLOADED_EXAMPLES_PATH)
-    os.makedirs(LOCAL_DOWNLOADED_EXAMPLES_PATH)
+    from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH, examples
+    not_to_remove = [getattr(examples.examples, item) for item in dir(examples.examples) if
+                     not item.startswith("_") and not item.endswith("_") and isinstance(
+                         getattr(examples.examples, item), str)]
+    not_to_remove.extend([os.path.join(os.path.dirname(examples.__file__), "__init__.py"),
+                          os.path.join(os.path.dirname(examples.__file__), "downloads.py"),
+                          os.path.join(os.path.dirname(examples.__file__), "examples.py")])
+    for root, dirs, files in os.walk(LOCAL_DOWNLOADED_EXAMPLES_PATH, topdown=False):
+        if root not in not_to_remove:
+            for name in files:
+                if not os.path.join(root, name) in not_to_remove:
+                    try:
+                        os.remove(os.path.join(root, name))
+                        print(f"deleting {os.path.join(root, name)}")
+                    except Exception as e:
+                        warnings.warn(
+                            f"couldn't delete {os.path.join(root, name)} with error:\n {e.args}"
+                        )
+    for root, dirs, files in os.walk(LOCAL_DOWNLOADED_EXAMPLES_PATH, topdown=False):
+        if len(dirs) == 0 and len(files) == 0:
+            try:
+                os.rmdir(root)
+                print(f"deleting {root}")
+            except Exception as e:
+                warnings.warn(f"couldn't delete {root} with error:\n {e.args}")
 
 
 def _get_file_url(directory, filename):
@@ -34,7 +58,7 @@ def _retrieve_file(url, filename, directory):
 
     dirpath = os.path.dirname(local_path)
     if not os.path.isdir(dirpath):
-        os.mkdir(dirpath)
+        os.makedirs(dirpath, exist_ok=True)
 
     # Perform download
     _, resp = urlretrieve(url, local_path)
@@ -425,3 +449,51 @@ def download_example_asme_result() -> str:
     'C:/Users/user/AppData/local/temp/asme_example.rst'
     """
     return _download_file("postprocessing", "asme_example.rst")
+
+def download_crankshaft() -> str:
+    """Download the result file of an example of a crankshaft
+    under load and return the download path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.crankshaft
+    >>> path
+    'C:/Users/user/AppData/local/temp/crankshaft.rst'
+
+    """
+    return _download_file("crankshaft", "crankshaft.rst")
+
+def download_piston_rod() -> str:
+    """Download the result file of an example of a piston rod
+    under load and return the download path.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.piston_rod
+    >>> path
+    'C:/Users/user/AppData/local/temp/piston_rod.rst'
+
+    """
+    return _download_file("piston_rod", "piston_rod.rst")

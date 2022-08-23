@@ -26,12 +26,12 @@ The content and format of the DataProcessingCore.xml file is as follows:
 				<ANSYS_ROOT_FOLDER>E:\ANSYSDev\ANSYS Inc\v222</ANSYS_ROOT_FOLDER> 
 			</Windows> 
 		</Environment> 
-		<LoadOperators> 
+		<DefaultPlugins> 
 			<Linux> 
 				<native> 
 					<Path>libAns.Dpf.Native.so</Path> 
 					<Loader>LoadOperators</Loader>	 
-		<UsePluginXml>false</UsePluginXml> 
+					<UsePluginXml>false</UsePluginXml> 
 				</native> 
 			</Linux> 
 			<Windows> 
@@ -49,11 +49,11 @@ The content and format of the DataProcessingCore.xml file is as follows:
 					<fem_utils> 
 						<Path>$(THIS_XML_FOLDER)\Ans.Dpf.FEMUtils.dll</Path> 
 						<Loader>LoadOperators</Loader> 
-			<UsePluginXml>true</UsePluginXml> 
+						<UsePluginXml>true</UsePluginXml> 
 					</fem_utils> 
 				</Release> 
 			</Windows> 
-		</LoadOperators> 
+		</DefaultPlugins> 
 	</DPF> 	
 
 The DataProcessingCore.xml file is provided with the DPF software. 

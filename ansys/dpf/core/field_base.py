@@ -1,9 +1,18 @@
-from ansys.grpc.dpf import field_pb2, base_pb2, field_pb2_grpc
+import traceback
+import warnings
+
+from abc import abstractmethod
+from ansys.dpf.gate.generated import field_abstract_api
+
 from ansys.dpf.core import scoping
 from ansys.dpf.core.common import natures, locations
 from ansys.dpf.core import errors
-from ansys.dpf.core import server as serverlib
+from ansys.dpf.core import server as server_module
 from ansys.dpf.core.cache import _setter
+from ansys.dpf.gate import (
+    data_processing_capi,
+    data_processing_grpcapi,
+)
 
 import numpy as np
 
@@ -16,48 +25,90 @@ class _FieldBase:
             nentities=0,
             nature=natures.vector,
             location=locations.nodal,
-            is_property_field=False,
             field=None,
             server=None,
     ):
         """Initialize the field either with an optional field message or by connecting to a stub."""
-        if server is None:
-            server = serverlib._global_server()
+        # step 1: get server
+        self._server = server_module.get_or_create_server(
+            field._server if isinstance(field, _FieldBase) else server
+        )
 
-        self._server = server
-        self._stub = self._connect()
+        # step 2: get api
+        self._api_instance = None  # see property self._api
 
-        if field is None:
-            request = field_pb2.FieldRequest()
-            if hasattr(nature, "name"):
-                snature = nature.name
-            else:
-                snature = nature
-            request.nature = base_pb2.Nature.Value(snature.upper())
-            request.location.location = location
-            request.size.scoping_size = nentities
-            if snature == natures.vector.name:
-                elem_data_size = 3
-            elif snature == natures.symmatrix.name:
-                elem_data_size = 6
-            else:
-                elem_data_size = 1
-            request.size.data_size = nentities * elem_data_size
-            if is_property_field:
-                request.datatype = "int"
-            self._message = self._stub.Create(request)
+        # step3: init environment
+        if hasattr(self._api, "init_property_field_environment"):
+            self._api.init_property_field_environment(self)  # creates stub when gRPC
         else:
-            from ansys.dpf.core import field as field_module
-            from ansys.dpf.core import property_field
+            self._api.init_field_environment(self)  # creates stub when gRPC
 
-            if isinstance(field, field_module.Field):
-                self._message = field._message
-            elif isinstance(field, property_field.PropertyField):
-                self._message = field._message
-            elif isinstance(field, field_pb2.Field):
-                self._message = field
+        # step4: if object exists, take the instance, else create it
+        if field is not None:
+            if isinstance(field, _FieldBase):
+                self._server = field._server
+                self._api_instance = None
+                core_api = self._server.get_api_for_type(
+                    capi=data_processing_capi.DataProcessingCAPI,
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+                )
+                core_api.init_data_processing_environment(self)
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(field)
             else:
-                raise TypeError(f'Cannot create a field from a "{type(field)}" object')
+                self._internal_obj = field
+
+        else:
+            self._internal_obj = self.__class__._field_create_internal_obj(
+                self._api,
+                client=self._server.client,
+                nature=nature,
+                nentities=nentities,
+                location=location)
+
+    @property
+    @abstractmethod
+    def _api(self):
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def _field_create_internal_obj(api: field_abstract_api.FieldAbstractAPI, client, nature,
+                                   nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0):
+        """Returns a gRPC field message or C object instance of a new field.
+        This new field is created with this functions parameter attributes
+
+        Parameters
+        ----------
+        client : None, GrpcClient, GrpcServer
+
+        snature : str
+            Nature of the field entity data. For example:
+
+            - :class:`ansys.dpf.core.natures.matrix`
+            - :class:`ansys.dpf.core.natures.scalar`
+
+        num_entities : int
+            Number of entities to reserve.
+
+        location : str, optional
+            Location of the field. For example:
+
+            - :class:`ansys.dpf.core.natures.nodal` (``"Nodal"``)
+            - :class:`ansys.dpf.core.natures.elemental` (``"Elemental"``)
+            - :class:`ansys.dpf.core.natures.elemental_nodal` (``"ElementalNodal"``)
+            - ...
+
+        ncomp_n : int
+            Number of lines.
+        ncomp_m : int
+            Number of columns.
+
+        Returns
+        -------
+        field : field_pb2.Field or ctypes.void_p
+            DPF field in the requested format.
+        """
+        pass
 
     @property
     def shape(self):
@@ -86,6 +137,12 @@ class _FieldBase:
         return self.elementary_data_count
 
     @property
+    @abstractmethod
+    def location(self):
+        pass
+
+    @property
+    @abstractmethod
     def component_count(self):
         """Number of components in each elementary data of the field.
 
@@ -94,12 +151,10 @@ class _FieldBase:
         int
             Number of components in each elementary data of the field.
         """
-        request = field_pb2.CountRequest()
-        request.entity = base_pb2.NUM_COMPONENT
-        request.field.CopyFrom(self._message)
-        return self._stub.Count(request).count
+        pass
 
     @property
+    @abstractmethod
     def elementary_data_count(self):
         """Number of elementary data in the field.
 
@@ -109,12 +164,10 @@ class _FieldBase:
             Number of elementary data in the field.
 
         """
-        request = field_pb2.CountRequest()
-        request.entity = base_pb2.NUM_ELEMENTARY_DATA
-        request.field.CopyFrom(self._message)
-        return self._stub.Count(request).count
+        pass
 
     @property
+    @abstractmethod
     def size(self):
         """Length of the data vector.
 
@@ -126,7 +179,7 @@ class _FieldBase:
             Length of the data vector.
 
         """
-        return self.elementary_data_count * self.component_count
+        pass
 
     @property
     def elementary_data_shape(self):
@@ -151,24 +204,18 @@ class _FieldBase:
         """
         from ansys.dpf.core.core import _description
 
-        return _description(self._message, self._server)
+        return _description(self._internal_obj, self._server)
 
     def __len__(self):
         return self.size
 
-    def _del_scoping(self, scope):
-        scope.__del__()
-
     def __del__(self):
         try:
-            self._stub.Delete(self._message)
+            self._deleter_func[0](self._deleter_func[1](self))
         except:
-            pass
+            warnings.warn(traceback.format_exc())
 
-    def _connect(self):
-        """Connect to the gRPC service."""
-        return field_pb2_grpc.FieldServiceStub(self._server.channel)
-
+    @abstractmethod
     def _set_scoping(self, scoping):
         """Set the scoping.
 
@@ -177,11 +224,9 @@ class _FieldBase:
         scoping : :class:`ansys.dpf.core.scoping.Scoping`
 
         """
-        request = field_pb2.UpdateScopingRequest()
-        request.scoping.CopyFrom(scoping._message)
-        request.field.CopyFrom(self._message)
-        self._stub.UpdateScoping(request)
+        self._api.csfield_set_cscoping(self, scoping)
 
+    @abstractmethod
     def _get_scoping(self):
         """Retrieve the scoping.
 
@@ -190,10 +235,7 @@ class _FieldBase:
         scoping : :class:`ansys.dpf.core.scoping.Scoping`
 
         """
-        request = field_pb2.GetRequest()
-        request.field.CopyFrom(self._message)
-        message = self._stub.GetScoping(request)
-        return scoping.Scoping(scoping=message.scoping, server=self._server)
+        return scoping.Scoping(scoping=self._api.csfield_get_cscoping(self), server=self._server)
 
     @property
     def scoping(self):
@@ -228,6 +270,7 @@ class _FieldBase:
     def scoping(self, scoping):
         return self._set_scoping(scoping)
 
+    @abstractmethod
     def get_entity_data(self, index):
         """Retrieves the elementary data of the scoping's index in an array.
 
@@ -244,7 +287,7 @@ class _FieldBase:
         >>> stress_op = model.results.stress()
         >>> fields_container = stress_op.outputs.fields_container()
         >>> fields_container[0].get_entity_data(0)
-        array([[-3.27795062e+05,  1.36012200e+06,  1.49090608e+08,
+        DPFArray([[-3.27795062e+05,  1.36012200e+06,  1.49090608e+08,
                 -4.88688900e+06,  1.43038560e+07,  1.65455040e+07],
                [-4.63817550e+06,  1.29312225e+06,  1.20411832e+08,
                 -6.06617800e+06,  2.34829700e+07,  1.77231120e+07],
@@ -259,28 +302,12 @@ class _FieldBase:
                [ 9.25567760e+07,  8.15244320e+07,  2.77157632e+08,
                 -1.48489875e+06,  5.89250600e+07,  2.05608920e+07],
                [ 6.70443680e+07,  8.70343440e+07,  2.73050464e+08,
-                -2.48670150e+06,  1.52268930e+07,  6.09583280e+07]])
+                -2.48670150e+06,  1.52268930e+07,  6.09583280e+07]]...
 
         """
-        request = field_pb2.GetElementaryDataRequest()
-        request.field.CopyFrom(self._message)
-        request.index = index
-        list_message = self._stub.GetElementaryData(
-            request, metadata=[(b"float_or_double", b"double")]
-        )
-        data = []
-        if list_message.elemdata_containers.data.HasField("datadouble"):
-            data = list_message.elemdata_containers.data.datadouble.rep_double
-        elif list_message.elemdata_containers.data.HasField("dataint"):
-            data = list_message.elemdata_containers.data.dataint.rep_int
+        pass
 
-        array = np.array(data)
-        if self.component_count != 1:
-            n_comp = self.component_count
-            array = array.reshape((len(data) // n_comp, n_comp))
-
-        return array
-
+    @abstractmethod
     def get_entity_data_by_id(self, id):
         """Retrieve the data of the scoping's ID in the parameter of the field in an array.
 
@@ -298,7 +325,7 @@ class _FieldBase:
         >>> stress_op = model.results.stress()
         >>> fields_container = stress_op.outputs.fields_container()
         >>> fields_container[0].get_entity_data_by_id(391)
-        array([[-3.27795062e+05,  1.36012200e+06,  1.49090608e+08,
+        DPFArray([[-3.27795062e+05,  1.36012200e+06,  1.49090608e+08,
                 -4.88688900e+06,  1.43038560e+07,  1.65455040e+07],
                [-4.63817550e+06,  1.29312225e+06,  1.20411832e+08,
                 -6.06617800e+06,  2.34829700e+07,  1.77231120e+07],
@@ -313,14 +340,12 @@ class _FieldBase:
                [ 9.25567760e+07,  8.15244320e+07,  2.77157632e+08,
                 -1.48489875e+06,  5.89250600e+07,  2.05608920e+07],
                [ 6.70443680e+07,  8.70343440e+07,  2.73050464e+08,
-                -2.48670150e+06,  1.52268930e+07,  6.09583280e+07]])
+                -2.48670150e+06,  1.52268930e+07,  6.09583280e+07]]...
 
         """
-        index = self.scoping.index(id)
-        if index < 0:
-            raise ValueError(f"The ID {id} must be greater than 0.")
-        return self.get_entity_data(index)
+        pass
 
+    @abstractmethod
     def append(self, data, scopingid):
         """Add an entity data to the existing data.
 
@@ -338,26 +363,14 @@ class _FieldBase:
         >>> field.append([1.,2.,3.],1)
         >>> field.append([1.,2.,3.],2)
         >>> field.data
-        array([[1., 2., 3.],
-               [1., 2., 3.]])
+        DPFArray([[1., 2., 3.],
+               [1., 2., 3.]]...
         >>> field.scoping.ids
-        [1, 2]
+        <BLANKLINE>
+        ...[1, 2]...
 
         """
-        if isinstance(data, (np.ndarray, np.generic)):
-            data = data.reshape(data.size).tolist()
-        elif len(data) > 0 and isinstance(data[0], list):
-            data = np.array(data)
-            data = data.reshape(data.size).tolist()
-        request = field_pb2.AddDataRequest()
-        if self._message.datatype == "int":
-            request.elemdata_containers.data.dataint.rep_int.extend(data)
-        else:
-            request.elemdata_containers.data.datadouble.rep_double.extend(data)
-        request.elemdata_containers.scoping_id = scopingid
-
-        request.field.CopyFrom(self._message)
-        self._stub.AddData(request)
+        pass
 
     @property
     def _data_pointer(self):
@@ -373,11 +386,23 @@ class _FieldBase:
         Print a progress bar.
 
         """
-        request = field_pb2.ListRequest()
-        request.field.CopyFrom(self._message)
-        service = self._stub.ListDataPointer(request)
-        dtype = np.int32
-        return scoping._data_get_chunk_(dtype, service)
+        return self._get_data_pointer()
+
+    @abstractmethod
+    def _get_data_pointer(self):
+        """First index of each entity data.
+
+        Returns
+        -------
+        numpy.ndarray
+            Data in the field.
+
+        Notes
+        -----
+        Print a progress bar.
+
+        """
+        pass
 
     @property
     def _data_pointer_as_list(self):
@@ -393,29 +418,15 @@ class _FieldBase:
         Print a progress bar.
 
         """
-        request = field_pb2.ListRequest()
-        request.field.CopyFrom(self._message)
-        service = self._stub.ListDataPointer(request)
-        dtype = np.int32
-        return scoping._data_get_chunk_(dtype, service, False)
+        return self._data_pointer.tolist()
 
     @_data_pointer.setter
     def _data_pointer(self, data):
         self._set_data_pointer(data)
 
+    @abstractmethod
     def _set_data_pointer(self, data):
-        if isinstance(data, (np.ndarray, np.generic)):
-            data = np.array(data.reshape(data.size), dtype=np.int32)
-        else:
-            data = np.array(data, dtype=np.int32)
-        if data.size == 0:
-            return
-        metadata = [("size_int", f"{len(data)}")]
-        request = field_pb2.UpdateDataRequest()
-        request.field.CopyFrom(self._message)
-        self._stub.UpdateDataPointer(
-            scoping._data_chunk_yielder(request, data), metadata=metadata
-        )
+        pass
 
     @property
     def data(self):
@@ -459,56 +470,17 @@ class _FieldBase:
         """
         return self._get_data(np_array=False)
 
-    def _get_data(self, np_array=True):
-        request = field_pb2.ListRequest()
-        request.field.CopyFrom(self._message)
-        if self._message.datatype == "int":
-            data_type = "int"
-            dtype = np.int32
-        else:
-            data_type = "double"
-            dtype = np.float
-        service = self._stub.List(request, metadata=[("float_or_double", data_type)])
-        array = scoping._data_get_chunk_(dtype, service, np_array)
-
-        ncomp = self.component_count
-        if ncomp != 1 and np_array:
-            array = array.reshape(self.shape)
-
-        return array
-
     @data.setter
     def data(self, data):
         self._set_data(data)
 
+    @abstractmethod
+    def _get_data(self, np_array=True):
+        pass
+
+    @abstractmethod
     def _set_data(self, data):
-        if self._message.datatype == "int":
-            if not isinstance(data[0], int) and not isinstance(data[0], np.int32):
-                raise errors.InvalidTypeError("data", "list of int")
-            data = np.array(data, dtype=np.int32)
-            metadata = [("size_int", f"{len(data)}")]
-        else:
-            if isinstance(data, (np.ndarray, np.generic)):
-                if (
-                        0 != self.size
-                        and self.component_count > 1
-                        and data.size // self.component_count
-                        != data.size / self.component_count
-                ):
-                    raise ValueError(
-                        f"An array of shape {self.shape} is expected and "
-                        f"shape {data.shape} was input"
-                    )
-                else:
-                    data = np.array(data.reshape(data.size), dtype=float)
-            else:
-                data = np.array(data, dtype=float)
-            metadata = [("float_or_double", "double"), ("size_double", f"{len(data)}")]
-        request = field_pb2.UpdateDataRequest()
-        request.field.CopyFrom(self._message)
-        self._stub.UpdateData(
-            scoping._data_chunk_yielder(request, data), metadata=metadata
-        )
+        pass
 
 
 class _LocalFieldBase(_FieldBase):
@@ -524,18 +496,13 @@ class _LocalFieldBase(_FieldBase):
     """
 
     def __init__(self, field):
-        self._message = field._message
-        self._server = field._server
-        self._stub = field._stub
-        self._is_property_field = field._message.datatype == "int"
-        self._owner_field = field
-        self.__cache_data__()
+        self.__cache_data__(field)
 
-    def __cache_data__(self):
+    def __cache_data__(self, field):
         self._ncomp = super().component_count
         self._data_copy = super().data_as_list
         self._num_entities_reserved = len(self._data_copy)
-        self._data_pointer_copy = super()._data_pointer_as_list
+        self._data_pointer_copy = super()._get_data_pointer().tolist()
         self._scoping_copy = super().scoping.as_local_scoping()
         self._has_data_pointer = len(self._data_pointer_copy) > 0
 
@@ -889,8 +856,8 @@ class _LocalFieldBase(_FieldBase):
         if hasattr(self, "_is_set") and self._is_set:
             super()._set_data(self._data_copy)
             super()._set_data_pointer(self._data_pointer_copy)
-            super()._set_scoping(self._scoping_copy._owner_scoping)
-            self._scoping_copy.release_data()
+            super()._set_scoping(self._scoping_copy)
+            self._scoping_copy = None
 
     def __enter__(self):
         return self
@@ -906,4 +873,5 @@ class _LocalFieldBase(_FieldBase):
         if not hasattr(self, "_is_exited") or not self._is_exited:
             self._is_exited = True
             self.release_data()
+        super(_LocalFieldBase, self).__del__()
         pass

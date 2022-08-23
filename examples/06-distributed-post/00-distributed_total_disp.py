@@ -2,7 +2,7 @@
 .. _ref_distributed_total_disp:
 
 Post processing of displacement on distributed processes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To help understand this example the following diagram is provided. It shows
 the operator chain used to compute the final result.
@@ -30,7 +30,16 @@ from ansys.dpf.core import operators as ops
 # To make this example easier, we will start local servers here,
 # but we could get connected to any existing servers on the network.
 
-remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
+global_server = dpf.start_local_server(
+    as_global=True, config=dpf.AvailableServerConfigs.InProcessServer
+)
+
+remote_servers = [
+    dpf.start_local_server(
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+    dpf.start_local_server(
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+]
 ips = [remote_server.ip for remote_server in remote_servers]
 ports = [remote_server.port for remote_server in remote_servers]
 
@@ -48,7 +57,7 @@ server_file_paths = [dpf.upload_file_in_tmp_folder(files[0], server=remote_serve
 
 ###############################################################################
 # Create the operators on the servers
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # On each server we create two new operators for 'displacement' and 'norm'
 # computations and define their data sources. The displacement operator
 # receives data from the data file in its respective server. And the norm
@@ -64,13 +73,13 @@ for i, server in enumerate(remote_servers):
 
 ###############################################################################
 # Create a merge_fields_containers operator able to merge the results
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 merge = ops.utility.merge_fields_containers()
 
 ###############################################################################
 # Connect the operators together and get the output
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 for i, server in enumerate(remote_servers):
     merge.connect(i, remote_operators[i], 0)
