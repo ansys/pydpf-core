@@ -1,7 +1,7 @@
 .. _ref_how_to:
 
-How to
-~~~~~~
+How-tos
+~~~~~~~
 
 .. toctree::
     :hidden:
