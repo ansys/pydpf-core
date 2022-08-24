@@ -4,7 +4,6 @@ version_info = 0, 6, 'dev0'
 
 # Nice string for the version
 __version__ = ".".join(map(str, version_info))
-__ansys_version__ = "231"
 min_server_version = "2.0"
 
 server_to_ansys_grpc_dpf_version = {

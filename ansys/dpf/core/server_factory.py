@@ -192,7 +192,7 @@ class ServerFactory:
             config.protocol == CommunicationProtocols.gRPC
             and not config.legacy
         ):
-            from ansys.dpf.core._version import __ansys_version__
+            from ansys.dpf.core.misc import __ansys_version__
 
             if ansys_path is None:
                 ansys_path = os.environ.get(
