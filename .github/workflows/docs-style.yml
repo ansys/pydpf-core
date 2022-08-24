@@ -20,7 +20,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
-          files: doc
+          files: docs
           reporter: github-pr-check
           level: error
           filter_mode: nofilter
