@@ -516,7 +516,7 @@ class FieldsContainer(Collection):
         # Create a workflow defining the result to render at each step of the animation
         wf = dpf.core.Workflow()
         # First define the workflow index input
-        forward_index = dpf.core.operators.utility.forward()
+        forward_index = dpf.core.operators.utility.forward([0])
         wf.set_input_name("index", forward_index.inputs.any)
         # Define the field extraction using the fields_container and indices
         extract_field_op = dpf.core.operators.utility.extract_field(fc)
@@ -530,30 +530,103 @@ class FieldsContainer(Collection):
 
         # If warping is activated or None
         if deform_by is not False:
-            scale_factor = dpf.core.animator.scale_factor_to_fc(scale_factor, fc)
-            if deform_by is None:
+            if deform_by is None or True:
                 # By default, set deform_by as self if nodal 3D vector field
                 if self[0].location == dpf.core.common.locations.nodal and \
                         self[0].component_count == 3:
                     deform_by = self
+            scale_factor = dpf.core.animator.scale_factor_to_fc(scale_factor, deform_by)
             # Extraction of the field of interest based on index
             extract_field_op_2 = dpf.core.operators.utility.extract_field(deform_by)
+            temp = extract_field_op_2.outputs.field()
             wf.set_input_name("indices", extract_field_op_2.inputs.indices)  # Have to do it this way
             wf.connect("indices", forward_index)  # Otherwise not accepted
             # Scaling of the field based on scale_factor and index
             extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor)
+            temp2 = extract_scale_factor_op.outputs.field()
             wf.set_input_name("indices", extract_scale_factor_op.inputs.indices)  # Have to do it this way
             wf.connect("indices", forward_index)  # Otherwise not accepted
-            scale_op = dpf.core.operators.math.scale(extract_field_op_2.outputs.field,
-                                                     extract_scale_factor_op.outputs.field)
+
+            # field_to_fc_op_1 = dpf.core.operators.utility.field_to_fc(extract_field_op_2.outputs.field)
+            # field_to_fc_op_2 = dpf.core.operators.utility.field_to_fc(extract_scale_factor_op.outputs.field)
+            # multiply_op = dpf.core.Operator("multiply")
+            # fc1 = field_to_fc_op_1.outputs.fields_container()
+            # fc1.add_label("complex", 1)
+            # print("Input 1:", fc1)
+            # fc2 = field_to_fc_op_2.outputs.fields_container()
+            # fc2.add_label("complex", 1)
+            # print("Input 2:", fc2)
+            # multiply_op.connect(0, fc1)
+            # multiply_op.connect(1, fc2)
+            # output = multiply_op.get_output(output_type=dpf.core.common.types.fields_container)
+            # print("Output:", output)
+            # fc_to_field_op = dpf.core.operators.utility.extract_field(multiply_op)
+            # temp3 = fc_to_field_op.outputs.field()
+
+            # # Component 1
+            deform_1_fc = deform_by.select_component(0)
+            scale_1_fc = scale_factor.select_component(0)
+            extract_deform_1_field = dpf.core.operators.utility.extract_field(deform_1_fc)
+            wf.set_input_name("i_1_A", extract_deform_1_field.inputs.indices)  # Have to do it this way
+            wf.connect("i_1_A", forward_index)  # Otherwise not accepted
+            extract_scale_1_field = dpf.core.operators.utility.extract_field(scale_1_fc)
+            wf.set_input_name("i_1_B", extract_scale_1_field.inputs.indices)  # Have to do it this way
+            wf.connect("i_1_B", forward_index)  # Otherwise not accepted
+            deform_1_field = extract_deform_1_field.outputs.field
+            scale_1_field = extract_scale_1_field.outputs.field
+            product_op_1 = dpf.core.operators.math.generalized_inner_product(deform_1_field, scale_1_field)
+
+            # # Component 2
+            deform_2_fc = deform_by.select_component(1)
+            scale_2_fc = scale_factor.select_component(1)
+            extract_deform_2_field = dpf.core.operators.utility.extract_field(deform_2_fc)
+            wf.set_input_name("i_2_A", extract_deform_2_field.inputs.indices)  # Have to do it this way
+            wf.connect("i_2_A", forward_index)  # Otherwise not accepted
+            extract_scale_2_field = dpf.core.operators.utility.extract_field(scale_2_fc)
+            wf.set_input_name("i_2_B", extract_scale_2_field.inputs.indices)  # Have to do it this way
+            wf.connect("i_2_B", forward_index)  # Otherwise not accepted
+            deform_2_field = extract_deform_2_field.outputs.field
+            scale_2_field = extract_scale_2_field.outputs.field
+            product_op_2 = dpf.core.operators.math.generalized_inner_product(deform_2_field, scale_2_field)
+
+            # # Component 3
+            deform_3_fc = deform_by.select_component(2)
+            scale_3_fc = scale_factor.select_component(2)
+            extract_deform_3_field = dpf.core.operators.utility.extract_field(deform_3_fc)
+            wf.set_input_name("i_3_A", extract_deform_3_field.inputs.indices)  # Have to do it this way
+            wf.connect("i_3_A", forward_index)  # Otherwise not accepted
+            extract_scale_3_field = dpf.core.operators.utility.extract_field(scale_3_fc)
+            wf.set_input_name("i_3_B", extract_scale_3_field.inputs.indices)  # Have to do it this way
+            wf.connect("i_3_B", forward_index)  # Otherwise not accepted
+            deform_3_field = extract_deform_3_field.outputs.field
+            scale_3_field = extract_scale_3_field.outputs.field
+            product_op_3 = dpf.core.operators.math.generalized_inner_product(deform_3_field, scale_3_field)
+
+            print(product_op_1.outputs.field())
+            print(product_op_2.outputs.field())
+            print(product_op_3.outputs.field())
+
+            # Put the components back together
+            merge_op = dpf.core.operators.utility.merge_fields(False,
+                                                               temp.time_freq_support,
+                                                               product_op_1.outputs.field(),
+                                                               product_op_2.outputs.field(),
+                                                               product_op_3.outputs.field(),
+                                                               )
+            print(merge_op.outputs.merged_field)
             # Get the mesh from the field to render
             get_mesh_op = dpf.core.operators.mesh.from_field(extract_field_op.outputs.field)
             # Get the coordinates field from the mesh
             get_coordinates_op = dpf.core.operators.mesh.node_coordinates(get_mesh_op.outputs.mesh)
             # Addition to the scaled deformation field
-            add_op = dpf.core.operators.math.add(scale_op.outputs.field,
+            add_op = dpf.core.operators.math.add(merge_op.outputs.merged_field,
                                                  get_coordinates_op.outputs.coordinates_as_field)
-            wf.set_output_name("deform_by", add_op.outputs.field)
+            temp4 = add_op.outputs.field()
+        else:
+            scale_factor = dpf.core.animator.scale_factor_to_fc(1.0, fc)
+            extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor)
+            add_op = dpf.core.operators.utility.forward_field(extract_scale_factor_op)
+        wf.set_output_name("deform_by", add_op.outputs.field)
         wf.set_output_name("to_render", extract_field_op.outputs.field)
         wf_id = wf.record()
         if not self.has_label("time"):

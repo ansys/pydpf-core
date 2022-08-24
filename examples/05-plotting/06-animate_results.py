@@ -45,7 +45,7 @@ displacement_fields = displacement_op().outputs.fields_container()
 
 # >>>
 # ! Si un champ est vectoriel, on affiche la norme du champ.
-displacement_fields.animate(deform_by=displacement_fields, scale_factor=1.,
+displacement_fields.animate(deform_by=True, scale_factor=1.,
                             show_axes=True)
 exit()
 # ! On affiche le temps de chaque frame, avec son unité, et un formatage optionnel

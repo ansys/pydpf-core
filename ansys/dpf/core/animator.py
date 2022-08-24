@@ -38,7 +38,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
     def animate_workflow(self, frequencies, workflow, save_as, **kwargs):
         # Extract useful information from the given frequencies Field
         unit = 's'  # TODO get the unit
-        frequencies = frequencies["frequencies"]
+        frequencies = frequencies["frequencies"].data
         # Initiate movie or gif file if necessary
         if save_as:
             if save_as.endswith(".gif"):
@@ -141,6 +141,7 @@ def scale_factor_to_fc(scale_factor, fc):
         scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
     elif scale_type == int or scale_type == float:
         # Turn the int into a field
-        scale_factor = int_to_field(scale_factor, fc.get_field(0).elementary_data_shape,
-                                    fc.get_field(0).scoping)
+        field = int_to_field(scale_factor, fc.get_field(0).shape,
+                             fc.get_field(0).scoping)
+        scale_factor = core.fields_container_factory.over_time_freq_fields_container([field])
     return scale_factor
