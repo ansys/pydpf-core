@@ -44,17 +44,16 @@ release = __version__
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "enum_tools.autoenum",
-    "nbsphinx",
-    "pydata_sphinx_theme",
     "sphinx.ext.autodoc",
-    "sphinx.ext.graphviz",
-    "sphinx.ext.intersphinx",
-    "sphinx.ext.napoleon",
-    "sphinx.ext.todo",
-    "sphinx_copybutton",
-    "sphinx_design",
     "sphinx_gallery.gen_gallery",
+    "sphinx.ext.todo",
+    "sphinx.ext.napoleon",
+    "pydata_sphinx_theme",
+    "sphinx_design",
+    "nbsphinx",
+    "sphinx.ext.graphviz",
+    "enum_tools.autoenum",
+    "sphinx.ext.intersphinx"
 ]
 
 # Intersphinx mapping
