@@ -42,12 +42,14 @@ displacement_op = model.results.displacement
 displacement_op = displacement_op.on_time_scoping(time_scoping)
 displacement_op = displacement_op.on_mesh_scoping(mesh_scoping)
 displacement_fields = displacement_op().outputs.fields_container()
-
+print(displacement_fields)
 # >>>
+# scale_factor = 10.
+scale_factor = [10.]*len(displacement_fields)
 # ! Si un champ est vectoriel, on affiche la norme du champ.
-displacement_fields.animate(deform_by=True, scale_factor=1.,
+displacement_fields.animate(deform_by=True, scale_factor=scale_factor,
                             show_axes=True)
-exit()
+
 # ! On affiche le temps de chaque frame, avec son unité, et un formatage optionnel
 displacement_fields.select_component(0).animate(deform_by=displacement_fields, scale_factor=1.,
                                                 show_axes=True,

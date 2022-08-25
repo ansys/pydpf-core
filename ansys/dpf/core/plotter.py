@@ -160,6 +160,7 @@ class _PyVistaPlotter:
 
     def add_field(self, field, meshed_region=None, show_max=False, show_min=False,
                   label_text_size=30, label_point_size=20, deform_by=None, scale_factor=1.0,
+                  scale_factor_legend=None,
                   **kwargs):
         # Get the field name
         name = field.name.split("_")[0]
@@ -219,7 +220,9 @@ class _PyVistaPlotter:
 
         # If deformed geometry, print the scale_factor
         if deform_by:
-            self.add_scale_factor_legend(scale_factor, **kwargs)
+            if scale_factor_legend is None:
+                scale_factor_legend = scale_factor
+            self.add_scale_factor_legend(scale_factor_legend, **kwargs)
 
         if show_max or show_min:
             # Get Min-Max for the field
