@@ -4,13 +4,8 @@
 Get material properties from the result file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Material properties are assigned to each element in APDL and by default they
-are written out in the APDL result file. We can extract material properties
-of each element using PyDPF by getting the properties from the
-:class:`meshed_region <ansys.dpf.core.meshed_region.MeshedRegion>`.
-
-The material properties are then passed onto the operator
-:class:`mapdl_material_properties
-<ansys.dpf.core.operators.result.mapdl_material_properties.mapdl_material_properties>`
+are written out in the APDL result file. This example shows how we can extract
+material properties of each element using PyDPF.
 
 Import necessary modules:
 """
