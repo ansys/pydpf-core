@@ -1,6 +1,5 @@
 pypandoc==1.8.1
 matplotlib==3.5.2
-vtk<9.1.0
 pyvista==0.36.0
 ansys_sphinx_theme==0.4.2
 nbsphinx==0.8.9
