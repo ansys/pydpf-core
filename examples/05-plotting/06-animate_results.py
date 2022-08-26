@@ -45,21 +45,21 @@ displacement_fields = displacement_op().outputs.fields_container()
 print(displacement_fields)
 # >>>
 # scale_factor = 10.
-scale_factor = [10.]*len(displacement_fields)
-# ! Si un champ est vectoriel, on affiche la norme du champ.
-displacement_fields.animate(deform_by=True, scale_factor=scale_factor,
-                            show_axes=True)
-
-# ! On affiche le temps de chaque frame, avec son unité, et un formatage optionnel
-displacement_fields.select_component(0).animate(deform_by=displacement_fields, scale_factor=1.,
-                                                show_axes=True,
-                                                freq_kwargs={"font_size": 12,
-                                                             "fmt": ".3"})
-
-# ! Par défaut on affiche la géométrie déformée par le champ donné, si vectoriel 3D.
-displacement_fields.animate(scale_factor=10.,
-                            freq_kwargs={"font_size": 12,
-                                         "fmt": ".3e"})
+# scale_factor = [10.]*len(displacement_fields)
+# # ! Si un champ est vectoriel, on affiche la norme du champ.
+# displacement_fields.animate(deform_by=True, scale_factor=scale_factor,
+#                             show_axes=True)
+#
+# # ! On affiche le temps de chaque frame, avec son unité, et un formatage optionnel
+# displacement_fields.select_component(0).animate(deform_by=displacement_fields, scale_factor=1.,
+#                                                 show_axes=True,
+#                                                 freq_kwargs={"font_size": 12,
+#                                                              "fmt": ".3"})
+#
+# # ! Par défaut on affiche la géométrie déformée par le champ donné, si vectoriel 3D.
+# displacement_fields.animate(scale_factor=10.,
+#                             freq_kwargs={"font_size": 12,
+#                                          "fmt": ".3e"})
 
 # # Use case 2
 
@@ -129,10 +129,10 @@ displacement_fields.animate(scale_factor=10.,
 # # Use case 8
 
 # Sauvegarder l'animation en gif ou mp4, avec gestion du framerate... etc.
-displacement_fields.animate(scale_factor=10.,
-                            freq_kwargs={"font_size": 12,
-                                         "fmt": ".3e"},
-                            save_as="toto.gif")
+# displacement_fields.animate(scale_factor=10.,
+#                             freq_kwargs={"font_size": 12,
+#                                          "fmt": ".3e"},
+#                             save_as="toto.gif")
 # Can save a movie, accepts as kwargs any argument or kwargs taken by pyvista.Plotter.open_movie
 displacement_fields.animate(scale_factor=10.,
                             freq_kwargs={"font_size": 12,
