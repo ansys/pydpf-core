@@ -9,6 +9,7 @@ Common
 import re
 import sys
 from enum import Enum
+
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.gate.common import locations, ProgressBarBase  # noqa: F401
 from ansys.dpf.gate.dpf_vector import get_size_of_list as _get_size_of_list  # noqa: F401
@@ -82,9 +83,10 @@ class types(Enum):
     operator = 19
     data_tree = 20
     vec_string = 21
-    fields_container = 22
-    scopings_container = 23
-    meshes_container = 24
+    string_field = 22
+    fields_container = 23
+    scopings_container = 24
+    meshes_container = 25
 
 
 def types_enum_to_types():
@@ -97,6 +99,7 @@ def types_enum_to_types():
         meshed_region,
         meshes_container,
         property_field,
+        string_field,
         result_info,
         scoping,
         scopings_container,
@@ -128,6 +131,7 @@ def types_enum_to_types():
         types.scoping: scoping.Scoping,
         types.vec_int: dpf_vector.DPFVectorInt,
         types.vec_double: dpf_vector.DPFVectorDouble,
+        types.string_field: string_field.StringField,
     }
 
 

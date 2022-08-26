@@ -44,7 +44,7 @@ def test_loadplugin(server_type):
 
 def test_launch_server_full_path():
     ansys_path = os.environ.get(
-        "AWP_ROOT" + dpf.core._version.__ansys_version__, dpf.core.misc.find_ansys()
+        "AWP_ROOT" + dpf.core.misc.__ansys_version__, dpf.core.misc.find_ansys()
     )
     if os.name == "nt":
         path = os.path.join(ansys_path, "aisol", "bin", "winx64")

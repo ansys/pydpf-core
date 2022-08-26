@@ -4,19 +4,15 @@
 TimeFreqSupport
 ===============
 """
-import traceback
-import warnings
-
-from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi, \
-    support_grpcapi, support_capi
+from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi
 
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import server as server_module
+from ansys.dpf.core.support import Support
 
 
-class TimeFreqSupport:
+class TimeFreqSupport(Support):
     """Represents a time frequency support, which is a description of a temporal or frequency analysis.
 
     This class stores values such as the frequencies (time/complex), RPMs, and harmonic indices.
@@ -46,15 +42,13 @@ class TimeFreqSupport:
 
     def __init__(self, time_freq_support=None, server=None):
         """Initialize the TimeFreqSupport with its TimeFreqSupport message (if possible)."""
-        # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        super(TimeFreqSupport, self).__init__(support=time_freq_support, server=server)
 
         # step 2: get api
         self._api = self._server.get_api_for_type(
             capi=time_freq_support_capi.TimeFreqSupportCAPI,
             grpcapi=time_freq_support_grpcapi.TimeFreqSupportGRPCAPI)
-        support_api = self._server.get_api_for_type(capi=support_capi.SupportCAPI,
-                                                    grpcapi=support_grpcapi.SupportGRPCAPI)
+
         # step3: init environment
         self._api.init_time_freq_support_environment(self)  # creates stub when gRPC
 
@@ -539,9 +533,3 @@ class TimeFreqSupport:
             harmonic_indices.scoping.location = core.locations.time_freq_step
         harmonic_indices.append(step_harmonic_indices, step_id)
         self.set_harmonic_indices(harmonic_indices, stage_num)
-
-    def __del__(self):
-        try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except:
-            warnings.warn(traceback.format_exc())
