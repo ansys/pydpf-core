@@ -31,8 +31,8 @@ class PropertyField(_FieldBase):
     location : str, optional
         Location of the property field. Options are ``"Nodal"`` or ``"Elemental"``.
         The default is ``"Nodal"``.
-    property field : str, optional
-        Name of the property field. The default is ``None``.
+    property field : Field, ansys.grpc.dpf.field_pb2.Field, ctypes.c_void_p, optional
+        Field message generated from a gRPC stub, or return by DPF's C clients.
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
@@ -95,7 +95,8 @@ class PropertyField(_FieldBase):
         Returns
         -------
         location : str
-            Location string, which is either ``"Nodal"`` or ``"Elemental"``.
+            Location string, can be found in ``dpf.locations``: ie.
+            ``dpf.locations.nodal`` or ``dpf.locations.elemental``.
 
         Examples
         --------

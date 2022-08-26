@@ -9,9 +9,9 @@ Common
 import re
 import sys
 from enum import Enum
-import numpy as np
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.gate.common import locations, ProgressBarBase  # noqa: F401
+from ansys.dpf.gate.dpf_vector import get_size_of_list as _get_size_of_list  # noqa: F401
 
 def _camel_to_snake_case(name):
     return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
@@ -255,11 +255,3 @@ def _common_progress_bar(text, unit, tot_size=None):
 
 def _common_percentage_progress_bar(text):
     return TqdmProgressBar(text, "%", 100)
-
-
-def _get_size_of_list(list):
-    if isinstance(list, (np.generic, np.ndarray)):
-        return list.size
-    elif not hasattr(list, '__iter__'):
-        return 1
-    return len(list)
