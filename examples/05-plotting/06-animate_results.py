@@ -13,7 +13,8 @@ from ansys.dpf.core import examples
 
 
 # Load the model
-model = dpf.Model(examples.msup_transient)
+# model = dpf.Model(examples.msup_transient)
+model = dpf.Model(examples.download_piston_rod())
 print(model)
 
 # Use scopings to adjust the region and the time steps involved.
@@ -33,7 +34,7 @@ displacement_fields = displacement_op().outputs.fields_container()
 # of the norm. Default behavior consists in:
 # - Showing the deformed geometry based on the field itself if 3D.
 # - Using a constant and global scale factor of 1.0
-displacement_fields.animate()
+displacement_fields.animate(save_as="piston_rod.mp4", framerate=1)
 
 exit()
 # scale_factor = 10.
