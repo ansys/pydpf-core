@@ -561,6 +561,8 @@ class FieldsContainer(Collection):
             add_op = dpf.core.operators.utility.forward_field(extract_scale_factor_op)
         wf.set_output_name("deform_by", add_op.outputs.field)
         wf.set_output_name("to_render", extract_field_op.outputs.field)
+        wf.progress_bar = False
+        add_op.progress_bar = False
         wf_id = wf.record()
         if not self.has_label("time"):
             frequencies = self.time_freq_support.complex_frequencies
