@@ -61,9 +61,7 @@ displacement_fields.animate(scale_factor=10.,
                             freq_kwargs={"font_size": 12,
                                          "fmt": ".3e"})
 
-exit()
-
-## Use case 2
+# # Use case 2
 
 # stress
 
@@ -78,18 +76,18 @@ exit()
 # stress_fields.animate(warp_by=model.results.velocity())
 # stress_fields.animate(warp_by=model.results.displacement.outputs.fields_container())
 
-## Use case 3
+# # Use case 3
 
 # Champ scalaire créé variant au cours du temps
 
 # Champ vectoriel variant au cours du temps
 
-## Use case 4
+# # Use case 4
 
 # Champ vectoriel complexe à animer selon la phase
 # Champ vectoriel à animer selon le rpm
 
-## Use case 12
+# # Use case 12
 
 # Animer un mode vibratoire avec scaling de la déformée de 0 à 1, de 1 à 0
 # Animer ce mode vibratoire en aller-retour
@@ -109,15 +107,15 @@ exit()
 # pl.add_workflow(workflow=workflow)
 # pl.animate(input={"scale_factor": scale_factor}, output="scaled")
 
-## Use case 5
+# # Use case 5
 
 # Animer un maillage qui change (NLAD) avec des contours et du warp
 
-## Use case 6
+# # Use case 6
 
 # Animer une collection de maillages avec des contours et du warp définis par body.
 
-## Use case 7
+# # Use case 7
 
 # Gestion de la position de la caméra   - position fixe
 #                                       - relatif à un noeud
@@ -128,42 +126,34 @@ exit()
 #                                       - qui suit un body  ***** P1
 #                                       - selon un path
 
-## Use case 8
+# # Use case 8
 
 # Sauvegarder l'animation en gif ou mp4, avec gestion du framerate... etc.
+displacement_fields.animate(scale_factor=10.,
+                            freq_kwargs={"font_size": 12,
+                                         "fmt": ".3e"},
+                            save_as="toto.gif")
+# Can save a movie, accepts as kwargs any argument or kwargs taken by pyvista.Plotter.open_movie
+displacement_fields.animate(scale_factor=10.,
+                            freq_kwargs={"font_size": 12,
+                                         "fmt": ".3e"},
+                            save_as="toto.avi",
+                            framerate=4,
+                            quality=8)
 
-## Use case 9
+# # Use case 9
 
 # Appliquer une texture (couleur, PRB...) à un body
 
-## Use case 10
+# # Use case 10
 
 # Appliquer une texture d'environnement
 
-## Use case 11
+# # Use case 11
 
 # Ajouter des lumières, gérer les lumières
 # Activer les ombres
 
-## Use case X
+# # Use case X
 
 # Animer une courbe
-
-
-
-
-
-
-
-
-
-# from ansys.dpf.core.plotter import DpfPlotter
-# pl = DpfPlotter()
-# pl.add_fields_container(fc) #or add_fields
-# pl.animate(*kwargs)
-# pl.show_figure(way_to_specify_a_time) #when we want to plot and a fields container with more that one time is added
-#
-#
-# ####################################################
-#
-# fc.animate()
