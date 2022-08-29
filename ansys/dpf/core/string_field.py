@@ -13,7 +13,6 @@ from ansys.dpf.gate import (
     string_field_abstract_api,
     string_field_capi,
     string_field_grpcapi,
-    dpf_array,
     dpf_vector,
     integral_types
 )
@@ -175,7 +174,7 @@ class StringField(_FieldBase):
 
     def get_entity_data_by_id(self, id):
         try:
-            vec = dpf_vector.DPFVectorInt(client=self._server.client)
+            vec = dpf_vector.DPFVectorString(client=self._server.client)
             self._api.csstring_field_get_entity_data_by_id_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size, id)
             return vec

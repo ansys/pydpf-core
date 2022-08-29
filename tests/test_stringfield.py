@@ -57,3 +57,21 @@ def test_create_string_field_push_back(server_type):
     assert f_scal.scoping.ids[1] == 2
     f_scal.append(np.asarray(["blu"]), 3)
     assert f_scal.data[2] == "blu"
+
+
+@conftest.raises_for_servers_version_under("5.0")
+def test_entity_data_string_field(server_type):
+    f_vec = core.StringField(1, server=server_type)
+    vec = ["water", "oil", "gaz"]
+    f_vec.append(vec, 1)
+    vec = ["wat"]
+    f_vec.append(vec, 2)
+    vec = ["gaz"]
+    f_vec.append(vec, 3)
+    assert f_vec.get_entity_data(0) == ["water", "oil", "gaz"]
+    assert f_vec.get_entity_data(1) == ["wat"]
+    assert f_vec.get_entity_data(2) == ["gaz"]
+    assert f_vec.get_entity_data_by_id(1) == ["water", "oil", "gaz"]
+    assert f_vec.get_entity_data_by_id(2) == ["wat"]
+    assert f_vec.get_entity_data_by_id(3) == ["gaz"]
+
