@@ -205,6 +205,23 @@ class DataTree:
         """
         return _LocalDataTree(self)
 
+    def _serialize(self, path, operator):
+        from ansys.dpf import core
+        operator.inputs.data_tree.connect(self)
+        if path:
+            if self._server.local_server:
+                operator.inputs.path.connect(path)
+                operator.run()
+                return path
+            else:
+                directory = core.core.make_tmp_dir_server(self._server)
+                server_path = core.path_utilities.join(directory, "tmp.txt", server=self._server)
+                operator.inputs.path.connect(server_path)
+                operator.run()
+                return core.download_file(server_path, path, server=self._server)
+        else:
+            return operator.get_output(0, core.types.string)
+
     def write_to_txt(self, path=None):
         """
         Writes the data tree either as a file or as returned string in a text format.
@@ -228,21 +245,12 @@ class DataTree:
         >>> import os
         >>> data_tree.write_to_txt(os.path.join(tempfile.mkdtemp(), "data_tree.txt"))
         <BLANKLINE>
-        Downloading...
+        ...
 
         """
         from ansys.dpf.core.operators.serialization import data_tree_to_txt
-        from ansys.dpf import core
         op = data_tree_to_txt(server=self._server)
-        op.inputs.data_tree.connect(self)
-        if path:
-            directory = core.core.make_tmp_dir_server(self._server)
-            server_path = core.path_utilities.join(directory, "tmp.txt", server=self._server)
-            op.inputs.path.connect(server_path)
-            op.run()
-            return core.download_file(server_path, path)
-        else:
-            return op.get_output(0, core.types.string)
+        return self._serialize(path, op)
 
     def write_to_json(self, path=None):
         """
@@ -267,21 +275,26 @@ class DataTree:
         >>> import os
         >>> data_tree.write_to_json(os.path.join(tempfile.mkdtemp(), "data_tree.json"))
         <BLANKLINE>
-        Downloading...
+        ...
 
         """
         from ansys.dpf.core.operators.serialization import data_tree_to_json
-        from ansys.dpf import core
         op = data_tree_to_json(server=self._server)
-        op.inputs.data_tree.connect(self)
+        return self._serialize(path, op)
+
+    @staticmethod
+    def _deserialize(path, txt, server, operator):
+        from ansys.dpf import core
         if path:
-            directory = core.core.make_tmp_dir_server(self._server)
-            server_path = core.path_utilities.join(directory, "tmp.txt", server=self._server)
-            op.inputs.path.connect(server_path)
-            op.run()
-            return core.download_file(server_path, path)
-        else:
-            return op.get_output(0, core.types.string)
+            server = server_module.get_or_create_server(server)
+            if server.local_server:
+                operator.inputs.string_or_path.connect(core.DataSources(path, server=server))
+            else:
+                server_path = core.upload_file_in_tmp_folder(path, server=server)
+                operator.inputs.string_or_path.connect(core.DataSources(server_path, server=server))
+        elif txt:
+            operator.inputs.string_or_path.connect(str(txt))
+        return operator.outputs.data_tree()
 
     @staticmethod
     def read_from_json(path=None, txt=None, server=None):
@@ -314,14 +327,8 @@ class DataTree:
 
         """
         from ansys.dpf.core.operators.serialization import json_to_data_tree
-        from ansys.dpf import core
         op = json_to_data_tree(server=server)
-        if path:
-            server_path = core.upload_file_in_tmp_folder(path, server=server)
-            op.inputs.string_or_path.connect(core.DataSources(server_path, server=server))
-        elif txt:
-            op.inputs.string_or_path.connect(str(txt))
-        return op.outputs.data_tree()
+        return DataTree._deserialize(path, txt, server, op)
 
     @staticmethod
     def read_from_txt(path=None, txt=None, server=None):
@@ -354,14 +361,8 @@ class DataTree:
 
         """
         from ansys.dpf.core.operators.serialization import txt_to_data_tree
-        from ansys.dpf import core
         op = txt_to_data_tree(server=server)
-        if path:
-            server_path = core.upload_file_in_tmp_folder(path, server=server)
-            op.inputs.string_or_path.connect(core.DataSources(server_path, server=server))
-        elif txt:
-            op.inputs.string_or_path.connect(str(txt))
-        return op.outputs.data_tree()
+        return DataTree._deserialize(path, txt, server, op)
 
     def has(self, entry):
         """

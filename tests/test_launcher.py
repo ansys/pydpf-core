@@ -141,15 +141,18 @@ class TestServerConfigs:
 
     def test_start_local_wrong_ansys_path(self, server_config):
         if server_config != core.AvailableServerConfigs.InProcessServer:
-
-            def test_start_local_wrong_ansys_path(self, server_config):
-                with pytest.raises(NotADirectoryError):
-                    core.start_local_server(
-                        ansys_path="test/",
-                        use_docker_by_default=False,
-                        config=server_config,
-                        as_global=False,
-                    )
+            try:
+                core.start_local_server(
+                    ansys_path="test/",
+                    use_docker_by_default=False,
+                    config=server_config,
+                    as_global=False,
+                )
+                raise AssertionError("didn't raise NotADirectoryError nor ModuleNotFoundError")
+            except NotADirectoryError:
+                pass
+            except ModuleNotFoundError:
+                pass
 
         # the test for in process should be done in another process because if dataProcessingCore
         # is already loaded, no error will be raised
@@ -176,14 +179,38 @@ class TestServerConfigs:
             if process.returncode is not None:
                 raise Exception(errors)
 
+    @staticmethod
+    def test_launch_server_full_path(server_config):
+        ansys_path = os.environ.get(
+            "AWP_ROOT" + core._version.__ansys_version__, core.misc.find_ansys()
+        )
+        if os.name == "nt":
+            path = os.path.join(ansys_path, "aisol", "bin", "winx64")
+        else:
+            if server_config.protocol == core.server_factory.CommunicationProtocols.InProcess:
+                path = os.path.join(ansys_path, "aisol", "dll", "linx64")
+            elif server_config.protocol == core.server_factory.CommunicationProtocols.gRPC \
+                    and server_config.legacy is False:
+                # full path is not working because DPFClientAPI and
+                # Ans.Dpf.Grpc.sh reside in two different folders
+                return
+            else:
+                path = os.path.join(ansys_path, "aisol", "bin", "linx64")
 
-def test_start_local_failed_executable():
+        print("trying to launch on ", path)
+        print(os.listdir(path))
+        server = core.start_local_server(as_global=False, ansys_path=path,
+                                         config=server_config)
+        assert "server_port" in server.info
+
+
+def test_start_local_failed_executable(remote_config_server_type):
     from ansys.dpf.core.misc import get_ansys_path
     from pathlib import Path
 
     with pytest.raises(FileNotFoundError):
         path = Path(get_ansys_path()).parent.absolute()
-        core.start_local_server(ansys_path=path)
+        core.start_local_server(ansys_path=path, config=remote_config_server_type)
 
 
 def test_server_ip(server_type_remote_process):

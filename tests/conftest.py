@@ -189,7 +189,17 @@ def engineering_data_sources():
     return ds
 
 
-SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0= meets_version(
+@pytest.fixture()
+def cyclic_multistage():
+    """Resolve the path of the "msup/plate1.rst" result file.
+
+    Originally:
+    UnitTestDataFiles/DataProcessing/expansion/msup/Transient/plate1/file.rst
+    """
+    return core.examples.download_multi_stage_cyclic_result()
+
+
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0 = meets_version(
     get_server_version(core._global_server()), "5.0"
 )
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 = meets_version(
@@ -347,22 +357,42 @@ def server_clayer(request):
     return server
 
 
+@pytest.fixture()
+def restore_awp_root(request):
+    awp_root_name = "AWP_ROOT" + core._version.__ansys_version__
+    awp_root_save = os.environ.get(awp_root_name, None)
+    yield
+    # restore awp_root
+    os.environ[awp_root_name] = awp_root_save
+
+
 class LocalServers:
     def __init__(self):
         self._local_servers = []
         self._max_iter = 3
 
     def __getitem__(self, item):
+        if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+            conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+        else:
+            conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
         if len(self._local_servers) <= item:
             while len(self._local_servers) <= item:
-                self._local_servers.append(core.start_local_server(as_global=False))
+                self._local_servers.append(core.start_local_server(as_global=False, config=conf))
+                if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+                    runtime_config = core.settings.get_runtime_client_config(
+                        self._local_servers[-1]
+                    )
+                    runtime_config.cache_enabled = False
         try:
             self._local_servers[item].info
             return self._local_servers[item]
         except:
             for iter in range(0, self._max_iter):
                 try:
-                    self._local_servers[item] = core.start_local_server(as_global=False)
+                    self._local_servers[item] = core.start_local_server(
+                        as_global=False, config=conf
+                    )
                     self._local_servers[item].info
                     break
                 except:

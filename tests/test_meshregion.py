@@ -625,3 +625,17 @@ def test_semi_parabolic_meshed_region(server_type, allkindofcomplexity):
     has_semi_par = False
     el = mesh.elements[0]
     assert dpf.core.element_types.descriptor(el.type).n_nodes != len(el.connectivity)
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    reason="Bug in server version lower than 4.0",
+)
+def test_empty_mesh_get_scoping(server_type):
+    mesh = dpf.core.MeshedRegion()
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
+        assert len(mesh.nodes.scoping.ids) == 0
+        assert len(mesh.elements.scoping.ids) == 0
+    else:
+        assert mesh.nodes.scoping is None
+        assert mesh.elements.scoping is None

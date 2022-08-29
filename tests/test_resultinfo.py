@@ -2,6 +2,13 @@ import pytest
 
 from ansys import dpf
 from ansys.dpf.core import Model
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
+
+
+if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
+    mechanical = "mechanical"
+else:
+    mechanical = "mecanic"
 
 
 @pytest.fixture()
@@ -18,7 +25,7 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
     assert res.analysis_type == "static"
     assert res.n_results == 14
     assert "m, kg, N, s, V, A" in res.unit_system
-    assert res.physics_type == "mechanical"
+    assert res.physics_type == mechanical
 
 
 def test_get_resultinfo(model):
@@ -26,7 +33,7 @@ def test_get_resultinfo(model):
     assert res.analysis_type == "static"
     assert res.n_results == 14
     assert "m, kg, N, s, V, A" in res.unit_system
-    assert res.physics_type == "mechanical"
+    assert res.physics_type == mechanical
     assert "Static analysis" in str(res)
 
 

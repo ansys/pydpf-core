@@ -13,7 +13,7 @@ from ansys.dpf.core.support import Support
 
 
 class TimeFreqSupport(Support):
-    """Represents a time frequency support, which is a description of a temporal or frequency analysis.
+    """Represents a time frequency support, a description of a temporal or frequency analysis.
 
     This class stores values such as the frequencies (time/complex), RPMs, and harmonic indices.
     The RPM value is a step (or load step)-based value.
@@ -319,8 +319,18 @@ class TimeFreqSupport(Support):
                                                                                            substep)
             else:
                 raise NotImplementedError("get_cumulative_index is not implemented for cplx=False")
-        return self._api.time_freq_support_get_time_freq_cummulative_index_by_value_and_load_step(
-            self, step, substep, freq, cplx)
+        else:
+            from ansys.dpf.gate import integral_types
+            i1 = integral_types.MutableInt32()
+            i2 = integral_types.MutableInt32()
+            if cplx:
+                return self._api.time_freq_support_get_imaginary_freqs_cummulative_index(
+                    self, freq, i1, i2
+                )
+            else:
+                return self._api.time_freq_support_get_time_freq_cummulative_index_by_value(
+                    self, freq, i1, i2
+                )
 
     def _sets_count(self):
         """
