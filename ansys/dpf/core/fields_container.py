@@ -9,7 +9,6 @@ from ansys import dpf
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import field
-from ansys.dpf.core.plotter import DpfPlotter as Plotter
 
 
 class FieldsContainer(Collection):
@@ -490,7 +489,7 @@ class FieldsContainer(Collection):
         """
         return self.get_label_scoping("time")
 
-    def animate(self, save_as=None, deform_by=None, scale_factor=1.0, **kwargs):
+    def animate(self, save_as=None, deform_by=None, scale_factor=1.0, through="time", **kwargs):
         """Creates an animation based on the fields contained in the fields container.
 
         This method creates a movie or a gif based on the time ids of a fields container.
@@ -528,13 +527,26 @@ class FieldsContainer(Collection):
         # Add the operators to the workflow
         wf.add_operators([extract_field_op, forward_index])
 
-        # If warping is activated or None
+        deform = True
+        # Define whether to deform and what with
         if deform_by is not False:
-            if deform_by is None or True:
+            if hasattr(deform_by, "on_all_time_freqs"):
+                deform_by = deform_by.on_all_time_freqs()
+            if deform_by is None or type(deform_by) == bool:
                 # By default, set deform_by as self if nodal 3D vector field
                 if self[0].location == dpf.core.common.locations.nodal and \
                         self[0].component_count == 3:
                     deform_by = self
+                else:
+                    deform = False
+            if deform_by and not hasattr(deform_by, "time_freq_support"):
+                deform_by = deform_by.outputs.fields_container()
+            if deform_by and len(deform_by) != len(fc):
+                raise ValueError("'deform_by' argument must be scoped on the same number of "
+                                 "frequencies as the FieldsContainer.")
+        else:
+            deform = False
+        if deform:
             scale_factor_fc = dpf.core.animator.scale_factor_to_fc(scale_factor, deform_by)
             scale_factor_inverted = dpf.core.operators.math.invert_fc(scale_factor_fc)
             # Extraction of the field of interest based on index
@@ -556,6 +568,7 @@ class FieldsContainer(Collection):
             add_op = dpf.core.operators.math.add(divide_op.outputs.field,
                                                  get_coordinates_op.outputs.coordinates_as_field)
         else:
+            scale_factor = None
             scale_factor_fc = dpf.core.animator.scale_factor_to_fc(1.0, fc)
             extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor_fc)
             add_op = dpf.core.operators.utility.forward_field(extract_scale_factor_op)
@@ -563,11 +576,14 @@ class FieldsContainer(Collection):
         wf.set_output_name("to_render", extract_field_op.outputs.field)
         wf.progress_bar = False
         add_op.progress_bar = False
-        wf_id = wf.record()
-        if not self.has_label("time"):
-            frequencies = self.time_freq_support.complex_frequencies
-        else:
+        if through == "time":
             frequencies = self.time_freq_support.time_frequencies
+        elif through == "complex":
+            frequencies = self.time_freq_support.complex_frequencies
+        elif through == "rpm":
+            frequencies = self.time_freq_support.rpms
+        else:
+            raise ValueError(f"Unrecognized value {through} for argument 'through'.")
 
         anim.add_workflow(workflow=wf)
 

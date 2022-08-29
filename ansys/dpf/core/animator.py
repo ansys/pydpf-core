@@ -37,10 +37,12 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
     def animate_workflow(self, frequencies, workflow, save_as, scale_factor, **kwargs):
         # Extract useful information from the given frequencies Field
-        unit = 's'  # TODO get the unit
+        time_unit = frequencies["frequencies"].unit
         frequencies = frequencies["frequencies"].data
         type_scale = type(scale_factor)
-        if type_scale in [int, float]:
+        if scale_factor is None:
+            scale_factor = [False]*len(frequencies)
+        elif type_scale in [int, float]:
             scale_factor = [scale_factor]*len(frequencies)
         elif type_scale == list:
             pass
@@ -80,7 +82,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             kwargs_in = _sort_supported_kwargs(
                 bound_method=self._plotter.add_text, **freq_kwargs)
             str_template = "t={0:{2}} {1}"
-            self._plotter.add_text("t={0:{2}} {1}".format(frequencies[index], unit, freq_fmt),
+            self._plotter.add_text("t={0:{2}} {1}".format(frequencies[index], time_unit, freq_fmt),
                                    **kwargs_in)
 
         try:
@@ -88,7 +90,8 @@ class _PyVistaAnimator(_PyVistaPlotter):
             render_field(0)
             # If not off_screen, enable the user to choose the camera position
             if not kwargs.pop("off_screen", None):
-                print('Orient the view, then press "q" to close window and produce movie')
+                print('Orient the view, then press "q" to close the window '
+                      'and produce an animation')
             # Show is necessary even when off_screen to initiate the renderer
             self.show_figure(auto_close=False)
             if save_as:
@@ -146,7 +149,11 @@ def scale_factor_to_fc(scale_factor, fc):
     scale_type = type(scale_factor)
     n_sets = fc.time_freq_support.n_sets
     if scale_type == core.field.Field:
-        pass
+        # Turn the Field into a fields_container
+        fields = []
+        for i in range(n_sets):
+            fields.append(scale_factor)
+        scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
     elif scale_type == core.fields_container.FieldsContainer:
         if scale_factor.time_freq_support.n_sets != n_sets:
             raise ValueError(f"The scale_factor FieldsContainer does not contain the same number of"

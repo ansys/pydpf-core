@@ -13,61 +13,67 @@ from ansys.dpf.core import examples
 
 
 # Load the model
-# model = dpf.Model(examples.msup_transient)
-model = dpf.Model(examples.download_piston_rod())
+model = dpf.Model(examples.msup_transient)
+# model = dpf.Model(examples.download_piston_rod())
 print(model)
 
-# Use scopings to adjust the region and the time steps involved.
+# Use Scoping instances to adjust the region and the steps involved.
 # Create a scoping on all nodes
 mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(model.metadata.meshed_region.nodes.scoping)
 # Create a scoping on all time steps
 time_scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(model)
 
-# Instantiate the operator of interest and scope it
+# Instantiate operators of interest and scope them
 displacement_op = model.results.displacement
 displacement_op = displacement_op.on_time_scoping(time_scoping)
 displacement_op = displacement_op.on_mesh_scoping(mesh_scoping)
+stress_op = model.results.stress
+stress_op = stress_op.on_time_scoping(time_scoping)
+stress_op = stress_op.on_mesh_scoping(mesh_scoping)
+
 # Get the resulting fields container
-displacement_fields = displacement_op().outputs.fields_container()
+displacement_fields = displacement_op.eval()
+stress_fields = stress_op.eval()
 
-# Animate the fields container by going through the fields and plotting contours
-# of the norm. Default behavior consists in:
-# - Showing the deformed geometry based on the field itself if 3D.
-# - Using a constant and global scale factor of 1.0
-displacement_fields.animate(save_as="piston_rod.mp4", framerate=1)
+# Animate a fields container by going through the fields and plotting contours
+# of the norm or of the selected component.
+# Default behavior consists in:
+# - Using a constant and uniform scale factor of 1.0
+# - Showing the deformed geometry based on the fields themselves if they are nodal 3D vector fields.
+displacement_fields.animate()
+# - Showing the static geometry if the fields are not nodal 3D vector fields.
+stress_fields.animate()
 
-exit()
-# scale_factor = 10.
-scale_factor = [10.]*len(displacement_fields)
-# If the fields contained have several components, then the norm is shown by default.
-displacement_fields.animate(deform_by=True, scale_factor=scale_factor,
+# Change the scale factor by giving a number/a list of numbers for a uniform constant/varying
+# scaling, or a unit-less Field/FieldsContainer for a non-homogeneous constant/varying scaling.
+displacement_fields.animate(deform_by=True, scale_factor=10.,
+                            show_axes=True)
+varying_scale_factor = [i for i in range(len(displacement_fields))]
+displacement_fields.animate(deform_by=True, scale_factor=varying_scale_factor,
+                            show_axes=True)
+scale_factor_field = displacement_fields[-1]
+scale_factor_field.unit = ""
+displacement_fields.animate(deform_by=True, scale_factor=scale_factor_field,
+                            show_axes=True)
+scale_factor_fc = displacement_fields
+for f in scale_factor_fc:
+    f.unit = ""
+displacement_fields.animate(deform_by=True, scale_factor=scale_factor_fc,
                             show_axes=True)
 
-# One can format the frequency legend.
+# One can also format the frequency legend.
 displacement_fields.select_component(0).animate(deform_by=displacement_fields, scale_factor=1.,
                                                 show_axes=True,
                                                 freq_kwargs={"font_size": 12,
                                                              "fmt": ".3"})
 
-# ! Par défaut on affiche la géométrie déformée par le champ donné, si vectoriel 3D.
-displacement_fields.animate(scale_factor=10.,
-                            freq_kwargs={"font_size": 12,
-                                         "fmt": ".3e"})
-
-# # Use case 2
-
-# stress
-
-# géométrie déformée au cours du temps (warp)
-
-# stress_op = model.results.stress
-# stress_op = stress_op.on_time_scoping(time_scoping)
-# stress_op = stress_op.on_mesh_scoping(mesh_scoping)
-# stress_fields = stress_op.eqv().outputs.fields_container()
-# stress_fields.animate(deformation_by=model.results.displacement)
-# stress_fields.animate(warp_by=model.results.displacement())
-# stress_fields.animate(warp_by=model.results.velocity())
-# stress_fields.animate(warp_by=model.results.displacement.outputs.fields_container())
+# The deform_by argument can be:
+# - a FieldsContainer of nodal 3D vectorial length fields
+stress_fields.animate(deform_by=model.results.displacement.on_all_time_freqs.eval())
+# - a Result giving nodal 3D vectorial length fields
+stress_fields.animate(deform_by=model.results.displacement.on_all_time_freqs())
+# - an Operator which outputs nodal 3D vectorial length fields
+stress_fields.animate(deform_by=model.results.displacement)
 
 
 # Save the animation using "save_as" with a target path with the desired format as extension.

@@ -219,7 +219,7 @@ class _PyVistaPlotter:
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
         # If deformed geometry, print the scale_factor
-        if deform_by:
+        if deform_by and scale_factor_legend is not False:
             if scale_factor_legend is None:
                 scale_factor_legend = scale_factor
             self.add_scale_factor_legend(scale_factor_legend, **kwargs)

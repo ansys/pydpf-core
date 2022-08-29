@@ -419,8 +419,9 @@ class MeshedRegion:
         -------
 
         """
-        from ansys.dpf.core.operators.math import add, scale
-
+        from ansys.dpf.core.operators.math import add, scale, unit_convert
+        if deform_by.unit != self.unit:
+            unit_convert(deform_by, self.unit)
         scale_op = scale(field=deform_by, ponderation=scale_factor)
         return add(
             fieldA=self.nodes.coordinates_field, fieldB=scale_op.outputs.field
