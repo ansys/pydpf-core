@@ -52,19 +52,23 @@ export_csv_operator.run()
 # However, when the server file path is known, :func:`upload_file`
 # can be used.
 
-server_file_path = dpf.upload_file_in_tmp_folder(file_path)
-print(server_file_path)
+if not dpf.SERVER.local_server:
+    server_file_path = dpf.upload_file_in_tmp_folder(file_path)
+    print(server_file_path)
 
-# Remove file to avoid polluting.
-os.remove(file_path)
+    # Remove file to avoid polluting.
+    os.remove(file_path)
 
 ###############################################################################
 # Download CSV Result File
 # ~~~~~~~~~~~~~~~~~~~~~~~~~
 # Download the file ``simple_bar_fc.csv``:
 
-downloaded_client_file_path = os.getcwd() + "\\simple_bar_fc_downloaded.csv"
-dpf.download_file(server_file_path, downloaded_client_file_path)
+if not dpf.SERVER.local_server:
+    downloaded_client_file_path = os.getcwd() + "\\simple_bar_fc_downloaded.csv"
+    dpf.download_file(server_file_path, downloaded_client_file_path)
+else:
+    downloaded_client_file_path = file_path
 
 ###############################################################################
 # Load CSV Result File as Operator Input

@@ -2,6 +2,8 @@ import os
 
 import pytest
 import conftest
+import pkgutil
+import datetime
 
 from ansys import dpf
 from ansys.dpf.core import path_utilities
@@ -42,21 +44,6 @@ def test_loadplugin(server_type):
     assert loaded
 
 
-def test_launch_server_full_path():
-    ansys_path = os.environ.get(
-        "AWP_ROOT" + dpf.core._version.__ansys_version__, dpf.core.misc.find_ansys()
-    )
-    if os.name == "nt":
-        path = os.path.join(ansys_path, "aisol", "bin", "winx64")
-    else:
-        path = os.path.join(ansys_path, "aisol", "bin", "linx64")
-
-    print("trying to launch on ", path)
-    print(os.listdir(path))
-    server = dpf.core.start_local_server(as_global=False, ansys_path=path)
-    assert "server_port" in server.info
-
-
 def transfer_to_local_path(path):
     return os.path.normpath(
         path.replace(
@@ -66,13 +53,14 @@ def transfer_to_local_path(path):
     )
 
 
-def test_upload_download(allkindofcomplexity, tmpdir):
+def test_upload_download(allkindofcomplexity, tmpdir, server_type_remote_process):
     tmpdir = str(tmpdir)
     file = dpf.core.upload_file_in_tmp_folder(
-        transfer_to_local_path(allkindofcomplexity)
+        transfer_to_local_path(allkindofcomplexity),
+        server = server_type_remote_process
     )
-    dataSource = dpf.core.DataSources(file)
-    op = dpf.core.Operator("S")
+    dataSource = dpf.core.DataSources(file, server=server_type_remote_process)
+    op = dpf.core.Operator("S", server=server_type_remote_process)
     op.connect(4, dataSource)
 
     fcOut = op.get_output(0, dpf.core.types.fields_container)
@@ -82,10 +70,12 @@ def test_upload_download(allkindofcomplexity, tmpdir):
 
     dir = os.path.dirname(file)
     vtk_path = os.path.join(dir, "file.vtk")
-    vtk = dpf.core.operators.serialization.vtk_export(file_path=vtk_path, fields1=fcOut)
+    vtk = dpf.core.operators.serialization.vtk_export(file_path=vtk_path, fields1=fcOut,
+                                                      server=server_type_remote_process)
     vtk.run()
 
-    dpf.core.download_file(vtk_path, os.path.join(tmpdir, "file.vtk"))
+    dpf.core.download_file(vtk_path, os.path.join(tmpdir, "file.vtk"),
+                           server=server_type_remote_process)
     assert os.path.exists(os.path.join(tmpdir, "file.vtk"))
 
 
@@ -243,20 +233,41 @@ def test_uploadinfolder_emptyfolder(tmpdir, server_type_remote_process):
 
 def test_load_plugin_correctly(server_type):
     from ansys.dpf import core as dpf
-    import pkgutil
+    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
 
     base = dpf.BaseService(server=server_type)
-    try:
+    if os.name == "nt":
         base.load_library("Ans.Dpf.Math.dll", "math_operators", generate_operators=True)
-    except:
+        t = os.path.getmtime(os.path.join(actual_path, r"operators/math/fft_eval.py"))
+        assert datetime.datetime.fromtimestamp(t).date() == datetime.datetime.today().date()
+    else:
         base.load_library("libAns.Dpf.Math.so", "math_operators")
-    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
     exists = os.path.exists(os.path.join(actual_path, r"operators/fft_eval.py"))
     assert not exists
     num_lines = sum(
         1 for line in open(os.path.join(actual_path, r"operators/math/__init__.py"))
     )
     assert num_lines >= 11
+
+
+@conftest.raises_for_servers_version_under("4.0")
+def test_load_plugin_correctly_remote():
+    from ansys.dpf import core as dpf
+    server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer, as_global=False)
+    server_connected = dpf.connect_to_server(server.ip, server.port, as_global=False)
+
+    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
+
+    if os.name == "posix":
+        dpf.load_library("libAns.Dpf.Math.so", "math_operators", server=server_connected)
+    else:
+        dpf.load_library("Ans.Dpf.Math.dll", "math_operators", server=server_connected)
+        t = os.path.getmtime(os.path.join(actual_path, r"operators/math/fft_eval.py"))
+        assert datetime.datetime.fromtimestamp(t).date() == datetime.datetime.today().date()
+
+    actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
+
+    assert os.path.exists(os.path.join(actual_path, r"operators/math/fft_eval.py"))
 
 
 def test_dpf_join(server_type):
@@ -278,17 +289,16 @@ def test_dpf_join(server_type):
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="GrpcServer class is " "supported starting server version 4.0",
 )
-def test_load_api_without_awp_root():
+def test_load_api_without_awp_root(restore_awp_root):
     from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
 
     awp_root_name = "AWP_ROOT" + dpf.core.misc.__ansys_version__
-    awp_root_save = os.environ.get(awp_root_name, None)
-
-    # without awp_root
+    # delete awp_root
     del os.environ[awp_root_name]
+
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     serv = dpf.core.connect_to_server(
@@ -300,9 +310,6 @@ def test_load_api_without_awp_root():
     dpf_inner_path = os.path.join("ansys", "dpf", "gatebin")
     assert dpf_inner_path in serv._client_api_path
     assert dpf_inner_path in serv._grpc_client_path
-
-    # reset awp_root
-    os.environ[awp_root_name] = awp_root_save
 
 
 @pytest.mark.skipif(
@@ -359,26 +366,23 @@ def test_load_api_with_awp_root_2():
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="GrpcServer class is " "supported starting server version 4.0",
 )
-def test_load_api_without_awp_root_no_gatebin():
+def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
     from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
 
     awp_root_name = "AWP_ROOT" + dpf.core.misc.__ansys_version__
-    awp_root_save = os.environ.get(awp_root_name, None)
-
-    # without awp_root
+    # delete awp_root
     del os.environ[awp_root_name]
+
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
-    with pytest.raises(ModuleNotFoundError):
+    with pytest.warns(UserWarning, match="Could not connect to remote server as ansys-dpf--gatebin "
+                                         "is missing. Trying again using LegacyGrpcServer.\n"):
         serv = dpf.core.connect_to_server(
             config=conf, as_global=False, ip=loc_serv.ip, port=loc_serv.port
         )
-
-    # reset awp_root
-    os.environ[awp_root_name] = awp_root_save
 
 
 @pytest.mark.skipif(

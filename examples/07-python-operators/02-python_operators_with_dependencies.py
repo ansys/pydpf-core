@@ -145,6 +145,9 @@ elif os.name == "posix" and \
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
+# python plugins are not supported in process
+dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
+
 tmp = dpf.make_tmp_dir_server()
 dpf.upload_files_in_folder(
     dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"),
