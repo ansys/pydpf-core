@@ -490,19 +490,22 @@ class FieldsContainer(Collection):
         return self.get_label_scoping("time")
 
     def animate(self, save_as=None, deform_by=None, scale_factor=1.0, through="time", **kwargs):
-        """Creates an animation based on the fields contained in the fields container.
+        """Creates an animation based on the Fields contained in the FieldsContainer.
 
-        This method creates a movie or a gif based on the time ids of a fields container.
+        This method creates a movie or a gif based on the time ids of a FieldsContainer.
         For kwargs see pyvista.Plotter.open_movie/add_text/show.
 
         Parameters
         ----------
         save_as : name of the file to save the animation to, with its extension, can be gif or mp4.
-        deform_by : Field, Result, Operator, optional
-            Used to deform the plotted mesh. Must output a 3D vector field.
-            Defaults to None.
-        scale_factor : float, optional
+        deform_by : FieldsContainer, Result, Operator, optional
+            Used to deform the plotted mesh. Must return a FieldsContainer of the same length as
+            self, containing 3D vector Fields of distances.
+            Defaults to None, which takes self if possible. Set as False to force static animation.
+        scale_factor : float, list, Field, FieldsContainer, optional
             Scale factor to apply when warping the mesh. Defaults to 1.0.
+        through: string, optional
+            Label to iterate through to create the animation. Defaults to "time".
         """
         from ansys.dpf.core.animator import Animator
         # Initiate an Animator
