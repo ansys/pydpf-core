@@ -60,9 +60,9 @@ class _PyVistaAnimator(_PyVistaPlotter):
                     self._plotter.open_movie(save_as, **kwargs_in)
                 except ImportError as e:
                     if "imageio ffmpeg plugin you need" in e.msg:
-                        raise ImportError("The imagio-ffmpeg library is required to save "
+                        raise ImportError("The imageio-ffmpeg library is required to save "
                                           "animations. Please install it first with the command "
-                                          "'pip install imagio-ffmpeg'")
+                                          "'pip install imageio-ffmpeg'")
                     else:
                         raise e
         freq_kwargs = kwargs.pop("freq_kwargs", {})
