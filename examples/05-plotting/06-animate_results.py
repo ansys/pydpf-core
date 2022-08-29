@@ -8,6 +8,7 @@ shown with the arguments available.
 
 """
 
+import copy
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
@@ -78,17 +79,31 @@ stress_fields.animate(deform_by=model.results.displacement)
 
 # Save the animation using "save_as" with a target path with the desired format as extension.
 # (accepts .gif, .avi or .mp4, see pyvista.Plotter.open_movie)
+camera_pos = displacement_fields.animate(scale_factor=10.,
+                                         freq_kwargs={"font_size": 12,
+                                                      "fmt": ".3e"},
+                                         save_as="displacements.gif",
+                                         return_cpos=True,
+                                         show_axes=True)
+
 # Can be made off_screen for batch animation creation.
+# This accepts as kwargs arguments taken by pyvista.Plotter.open_movie such as the frame-rate and
+# the quality.
+# One can also define a camera position to use, which can take a list of CameraPosition.
+camera_pos_list = []
+for i in range(len(displacement_fields)):
+    new_pos = copy.copy(camera_pos)
+    new_pos.position = (camera_pos.position[0]+i*0.3,
+                        camera_pos.position[1]+i*0.4,
+                        camera_pos.position[2]+i*.4)
+    camera_pos_list.append(new_pos)
+
 displacement_fields.animate(scale_factor=10.,
                             freq_kwargs={"font_size": 12,
                                          "fmt": ".3e"},
-                            save_as="toto.gif")
-# This accepts as kwargs arguments taken by pyvista.Plotter.open_movie such as "framerate" and
-# "quality".
-displacement_fields.animate(scale_factor=10.,
-                            freq_kwargs={"font_size": 12,
-                                         "fmt": ".3e"},
-                            save_as="toto.avi",
+                            save_as="displacements.avi",
                             framerate=4,
                             quality=8,
-                            off_screen=True)
+                            cpos=camera_pos_list,
+                            off_screen=True,
+                            show_axes=True)

@@ -70,6 +70,12 @@ class _PyVistaAnimator(_PyVistaPlotter):
         freq_kwargs = kwargs.pop("freq_kwargs", {})
         freq_fmt = freq_kwargs.pop("fmt", "")
 
+        cpos = kwargs.pop("cpos", None)
+        if cpos:
+            if type(cpos[0][0]) is float:
+                cpos = [cpos]*len(frequencies)
+
+        self._plotter.camera_position = "yz"
         def render_field(index):
             # print("Render step", index)
             self._plotter.clear()
@@ -84,6 +90,8 @@ class _PyVistaAnimator(_PyVistaPlotter):
             str_template = "t={0:{2}} {1}"
             self._plotter.add_text("t={0:{2}} {1}".format(frequencies[index], time_unit, freq_fmt),
                                    **kwargs_in)
+            if cpos:
+                self._plotter.camera_position = cpos[index]
 
         try:
             # Write initial frame
@@ -93,7 +101,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
                 print('Orient the view, then press "q" to close the window '
                       'and produce an animation')
             # Show is necessary even when off_screen to initiate the renderer
-            self.show_figure(auto_close=False)
+            result = self.show_figure(auto_close=False, **kwargs)
             if save_as:
                 self._plotter.write_frame()
             # For each time id
@@ -105,6 +113,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             print(e)
             raise
         self._plotter.close()
+        return result
 
 
 class Animator:
@@ -131,11 +140,11 @@ class Animator:
     def animate(self,  input, save_as, scale_factor, **kwargs):
         if self.workflow is None:
             raise ValueError("Cannot animate without first adding a workflow.")
-        self._internal_animator.animate_workflow(input,
-                                                 workflow=self.workflow,
-                                                 save_as=save_as,
-                                                 scale_factor=scale_factor,
-                                                 **kwargs)
+        return self._internal_animator.animate_workflow(input,
+                                                        workflow=self.workflow,
+                                                        save_as=save_as,
+                                                        scale_factor=scale_factor,
+                                                        **kwargs)
 
 
 def scale_factor_to_fc(scale_factor, fc):

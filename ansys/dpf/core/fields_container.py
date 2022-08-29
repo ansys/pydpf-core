@@ -587,8 +587,8 @@ class FieldsContainer(Collection):
 
         anim.add_workflow(workflow=wf)
 
-        anim.animate(input={"frequencies": frequencies}, output="to_render",
-                     save_as=save_as, scale_factor=scale_factor, **kwargs)
+        return anim.animate(input={"frequencies": frequencies}, output="to_render",
+                            save_as=save_as, scale_factor=scale_factor, **kwargs)
 
     def __add__(self, fields_b):
         """Add two fields or two fields containers.
