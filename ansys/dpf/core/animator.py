@@ -75,7 +75,6 @@ class _PyVistaAnimator(_PyVistaPlotter):
             if type(cpos[0][0]) is float:
                 cpos = [cpos]*len(frequencies)
 
-        self._plotter.camera_position = "yz"
         def render_field(index):
             # print("Render step", index)
             self._plotter.clear()
@@ -117,31 +116,90 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
 
 class Animator:
-    def __init__(self, **kwargs):
+    def __init__(self, workflow=None, **kwargs):
+        """
+        Create an Animator object.
+
+        The current Animator is a PyVista based object.
+
+        That means that PyVista must be installed, and that
+        it supports **kwargs as parameter (the argument
+        must be supported by the installed PyVista version).
+        More information about the available arguments are
+        available at :class:`pyvista.Plotter`.
+
+        Parameters
+        ----------
+        workflow : Workflow, optional
+            Workflow used to generate a Field at each frame of the animation.
+            Must have a "to_render" Field output and a "frequencies" input for
+            TimeFreqSupport.time_frequencies/complex_frequencies/rpms.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :class:`pyvista.Plotter`.
+
+        Examples
+        --------
+        >>> from ansys.dpf.core.animator import Animator
+        >>> anim = Animator(notebook=False)
+
+        """
         _InternalAnimatorClass = _InternalAnimatorFactory.get_animator_class()
         self._internal_animator = _InternalAnimatorClass(**kwargs)
-        self.workflow = None
+        self._workflow = workflow
 
-    def add_workflow(self, input=None, output=None, workflow=None):
-        if not workflow and not (input and output):
-            raise ValueError("Either a workflow or an input and output are required.")
-        if workflow:
-            self.workflow = workflow
-        else:
-            if (input is None) or (output is None):
-                raise ValueError("input and output must both be given.")
-            workflow = core.Workflow()
-            # if
-            for i in input.keys():
-                workflow.set_input_name(i, input[i])
-            for o in output.keys():
-                workflow.set_output_name(o, output[o])
+    @property
+    def workflow(self):
+        """
+        Workflow used by the Animator to generate a Field for each frame.
 
-    def animate(self,  input, save_as, scale_factor, **kwargs):
+        Returns
+        -------
+        workflow : Workflow
+        """
+        return self._workflow
+
+    @workflow.setter
+    def workflow(self, workflow):
+        """
+        Set the workflow used to generate a Field at each frame of the animation.
+
+        Parameters
+        ----------
+        workflow : Workflow
+            Workflow to generate the animation frames. Must have a "to_render" Field output and
+            a "frequencies" input for TimeFreqSupport.time_frequencies/complex_frequencies/rpms.
+
+        """
+        self._workflow = workflow
+
+    def animate(self, inputs: dict, output: str = 'to_render', save_as: str = None,
+                scale_factor=1.0, **kwargs):
+        """
+        Animate the workflow of the Animator, using inputs
+
+        Parameters
+        ----------
+        inputs : dict
+            Dictionary associating a value to each input of the workflow. Must contain a
+            "frequencies" input.
+        output : str, optional
+            Name of the workflow output to use as Field for each frame's contour.
+            Default to "to_render".
+        save_as : str, optional
+            Path of file to save the animation to. Defaults to None. Can be of any format supported
+            by pyvista.Plotter.write_frame (.gif, .mp4, ...).
+        scale_factor : float, list, Field, FieldsContainer, optional
+            Scale factor to apply when warping the mesh. Defaults to 1.0.
+        **kwargs : optional
+            Additional keyword arguments for the animator.
+
+        """
         if self.workflow is None:
-            raise ValueError("Cannot animate without first adding a workflow.")
-        return self._internal_animator.animate_workflow(input,
-                                                        workflow=self.workflow,
+            raise ValueError("Cannot animate without self.workflow.")
+        return self._internal_animator.animate_workflow(workflow=self.workflow,
+                                                        inputs=inputs,
+                                                        output=output,
                                                         save_as=save_as,
                                                         scale_factor=scale_factor,
                                                         **kwargs)

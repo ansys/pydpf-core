@@ -497,7 +497,8 @@ class FieldsContainer(Collection):
 
         Parameters
         ----------
-        save_as : name of the file to save the animation to, with its extension, can be gif or mp4.
+        save_as : Path of file to save the animation to. Defaults to None. Can be of any format
+            supported by pyvista.Plotter.write_frame (.gif, .mp4, ...).
         deform_by : FieldsContainer, Result, Operator, optional
             Used to deform the plotted mesh. Must return a FieldsContainer of the same length as
             self, containing 3D vector Fields of distances.
@@ -508,8 +509,6 @@ class FieldsContainer(Collection):
             Label to iterate through to create the animation. Defaults to "time".
         """
         from ansys.dpf.core.animator import Animator
-        # Initiate an Animator
-        anim = Animator(**kwargs)
         # Take the norm of the fields if vector
         if self[0].component_count > 1:
             fc = dpf.core.operators.math.norm_fc(self).outputs.fields_container()
@@ -588,9 +587,10 @@ class FieldsContainer(Collection):
         else:
             raise ValueError(f"Unrecognized value {through} for argument 'through'.")
 
-        anim.add_workflow(workflow=wf)
+        # Initiate the Animator
+        anim = Animator(workflow=wf, **kwargs)
 
-        return anim.animate(input={"frequencies": frequencies}, output="to_render",
+        return anim.animate(inputs={"frequencies": frequencies}, output="to_render",
                             save_as=save_as, scale_factor=scale_factor, **kwargs)
 
     def __add__(self, fields_b):
