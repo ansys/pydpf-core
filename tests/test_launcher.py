@@ -182,7 +182,7 @@ class TestServerConfigs:
     @staticmethod
     def test_launch_server_full_path(server_config):
         ansys_path = os.environ.get(
-            "AWP_ROOT" + core._version.__ansys_version__, core.misc.find_ansys()
+            "AWP_ROOT" + core.misc.__ansys_version__, core.misc.find_ansys()
         )
         if os.name == "nt":
             path = os.path.join(ansys_path, "aisol", "bin", "winx64")
