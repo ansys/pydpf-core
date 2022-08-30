@@ -40,8 +40,10 @@ class _FieldBase:
         # step3: init environment
         if hasattr(self._api, "init_property_field_environment"):
             self._api.init_property_field_environment(self)  # creates stub when gRPC
-        else:
+        elif hasattr(self._api, "init_field_environment"):
             self._api.init_field_environment(self)  # creates stub when gRPC
+        else:
+            self._api.init_string_field_environment(self)
 
         # step4: if object exists, take the instance, else create it
         if field is not None:

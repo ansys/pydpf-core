@@ -332,3 +332,30 @@ def test_timefreqsupport_memory_leaks():
         rpm_check = tfq.rpms  # Call to get
         tfq.set_harmonic_indices(frequencies)
         harm_check = tfq.get_harmonic_indices()  # Call to get
+
+
+@conftest.raises_for_servers_version_under("5.0")
+def test_getters_support_base(server_type):
+    tfq = TimeFreqSupport(server=server_type)
+    frequencies = fields_factory.create_scalar_field(3, server=server_type)
+    frequencies.data = [0.1, 0.32, 0.4]
+    tfq.time_frequencies = frequencies
+    tfq.complex_frequencies = frequencies
+    rpm = fields_factory.create_scalar_field(3, server=server_type)
+    rpm.data = [0.1, 0.32, 0.4]
+    tfq.rpms = rpm
+    harm = fields_factory.create_scalar_field(3, server=server_type)
+    harm.data = [0.1, 0.32, 0.4]
+    tfq.set_harmonic_indices(harm)
+    expected_props = [
+        "time_freqs", "imaginary_freqs", "rpms", "harmonic_indices"
+    ]
+    assert tfq.available_string_field_supported_properties() == []
+    assert tfq.available_prop_field_supported_properties() == []
+    for prop in expected_props:
+        assert prop in tfq.available_field_supported_properties()
+        field = tfq.field_support_by_property(prop)
+        assert isinstance(field, dpf.core.Field)
+
+    field = tfq.field_support_by_property("time_freqs")
+    assert np.allclose(field.data, [0.1, 0.32, 0.4])

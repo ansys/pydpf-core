@@ -325,6 +325,32 @@ def test_connect_get_output_double_list_workflow(server_type):
     assert np.allclose(d, dout)
 
 
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='Copying data is '
+                           'supported starting server version 5.0')
+def test_connect_label_space_workflow(server_type):
+    wf = dpf.core.Workflow(server=server_type)
+    op = dpf.core.operators.utility.forward(server=server_type)
+    wf.add_operators([op])
+    wf.set_input_name("in", op, 0)
+    dict = {"time": 1, "complex": 0}
+    wf.connect("in", dict)
+
+
+@conftest.raises_for_servers_version_under('5.0')
+def test_connect_get_output_string_field_workflow(server_type):
+    wf = dpf.core.Workflow(server=server_type)
+    op = dpf.core.operators.utility.forward(server=server_type)
+    wf.add_operators([op])
+    wf.set_input_name("in", op, 0)
+    str_field = dpf.core.StringField(server=server_type)
+    str_field.data = ["hello"]
+    wf.connect("in", str_field)
+    wf.set_output_name("out", op, 0)
+    dout = wf.get_output("out", dpf.core.types.string_field)
+    assert dout.data == ["hello"]
+
+
 def test_inputs_outputs_inputs_outputs_scopings_container_workflow(allkindofcomplexity,
                                                                    server_type):
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)

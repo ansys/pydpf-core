@@ -358,7 +358,7 @@ def server_clayer(request):
 
 
 @pytest.fixture()
-def restore_awp_root(request):
+def restore_awp_root():
     awp_root_name = "AWP_ROOT" + core.misc.__ansys_version__
     awp_root_save = os.environ.get(awp_root_name, None)
     yield
