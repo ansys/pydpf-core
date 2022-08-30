@@ -36,7 +36,9 @@ class Support:
     >>> transient = examples.download_transient_result()
     >>> model = Model(transient)
     >>> time_freq_support = model.metadata.time_freq_support # printable
-    >>> time_freq_support.
+    >>> time_freq_support.available_field_supported_properties()
+    ['time_freqs']
+    >>> field = time_freq_support.field_support_by_property("time_freqs")
 
     """
 

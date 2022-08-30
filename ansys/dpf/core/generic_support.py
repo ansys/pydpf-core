@@ -34,8 +34,11 @@ class GenericSupport(Support):
     >>> field = dpf.PropertyField(location="phase", nature=dpf.natures.scalar)
     >>> support.set_support_of_property("type", field)
     >>> support.available_field_supported_properties()
+    ['viscosity']
     >>> support.available_string_field_supported_properties()
+    ['names']
     >>> support.available_prop_field_supported_properties()
+    ['type']
     >>> field = support.field_support_by_property("viscosity")
 
     Notes
@@ -44,7 +47,6 @@ class GenericSupport(Support):
     """
 
     def __init__(self, name: str = "", generic_support=None, server=None):
-        """Initialize the TimeFreqSupport with its TimeFreqSupport message (if possible)."""
         super(GenericSupport, self).__init__(support=generic_support, server=server)
 
         if not self._server.meet_version("5.0"):
