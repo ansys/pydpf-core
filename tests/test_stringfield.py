@@ -85,3 +85,43 @@ def test_stream_large_data_string_field(server_type):
         data.append("bla")
     field.data = data
     assert field.data == data
+
+
+@conftest.raises_for_servers_version_under("5.0")
+def test_print_string_vector(server_type):
+    field = dpf.core.StringField(nentities=20, server=server_type)
+    data = []
+    for i in range(0, 20):
+        data.append("bla")
+    field.data = data
+    d = field.data
+    print(d)
+    assert "['bla', 'bla', 'bla'" in d.__str__()
+    data = []
+    for i in range(0, 2):
+        data.append("bla")
+    field.data = data
+    d = field.data
+    print(d)
+    assert "['bla', 'bla']" in d.__str__()
+    data = []
+    field.data = data
+    d = field.data
+    print(d)
+    d.__str__()
+
+
+@conftest.raises_for_servers_version_under("5.0")
+def test_print_string_field(server_type):
+    field = dpf.core.StringField(nentities=20, server=server_type)
+    assert "String Field" in str(field)
+    data = []
+    for i in range(0, 20):
+        data.append("bla")
+    field.data = data
+    field.scoping.ids = range(1, 21)
+    field.scoping.location = dpf.core.locations.nodal
+    assert "20 Nodal entities" in str(field)
+    assert "20 elementary data" in str(field)
+
+

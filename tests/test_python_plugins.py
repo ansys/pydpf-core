@@ -113,17 +113,19 @@ def test_property_field(server_type_remote_process):
     )
 
 
-def test_string_field(load_all_types_plugin):
-    f = dpf.StringField()
+def test_string_field(server_type_remote_process):
+    load_all_types_plugin_with_serv(server_type_remote_process)
+    f = dpf.StringField(server=server_type_remote_process)
     f.data = ["hello", "good"]
-    op = dpf.Operator("custom_forward_string_field")
+    op = dpf.Operator("custom_forward_string_field", server=server_type_remote_process)
     op.connect(0, f)
     assert op.get_output(0, dpf.types.string_field).data == ["hello", "good"]
 
 
-def test_scoping(load_all_types_plugin):
-    f = dpf.Scoping(location="Elemental")
-    op = dpf.Operator("custom_forward_scoping")
+def test_scoping(server_type_remote_process):
+    load_all_types_plugin_with_serv(server_type_remote_process)
+    f = dpf.Scoping(location="Elemental", server=server_type_remote_process)
+    op = dpf.Operator("custom_forward_scoping", server=server_type_remote_process)
     op.connect(0, f)
     assert op.get_output(0, dpf.types.scoping).location == "Elemental"
 
