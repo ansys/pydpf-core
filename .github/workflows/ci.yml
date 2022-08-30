@@ -191,7 +191,7 @@ jobs:
           path: tests/junit/test-results.xml
 
       - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
 
   docs:
     name: "Documentation"
@@ -521,7 +521,7 @@ jobs:
           path: tests/junit/test-results.xml
 
       - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
 
   draft_release:
     name: "Draft Release"
