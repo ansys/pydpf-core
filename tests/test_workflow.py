@@ -1,6 +1,8 @@
 import numpy as np
 import pytest
 import platform
+import psutil
+import warnings
 
 import ansys.dpf.core.operators as op
 import conftest
@@ -11,6 +13,11 @@ from ansys import dpf
 def clear_local_server(request):
     def clear_local():
         conftest.local_servers.clear()
+        num_dpf_exe = 0
+        for proc in psutil.process_iter():
+            if proc.name() == "Ans.Dpf.Grpc.exe":
+                num_dpf_exe += 1
+        warnings.warn(UserWarning(f"Number of servers running: {num_dpf_exe}"))
     request.addfinalizer(clear_local)
 
 
