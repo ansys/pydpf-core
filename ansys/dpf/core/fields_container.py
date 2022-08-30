@@ -550,18 +550,18 @@ class FieldsContainer(Collection):
             deform = False
         if deform:
             scale_factor_fc = dpf.core.animator.scale_factor_to_fc(scale_factor, deform_by)
-            scale_factor_inverted = dpf.core.operators.math.invert_fc(scale_factor_fc)
+            scale_factor_invert = dpf.core.operators.math.invert_fc(scale_factor_fc)
             # Extraction of the field of interest based on index
             extract_field_op_2 = dpf.core.operators.utility.extract_field(deform_by)
-            wf.set_input_name("indices", extract_field_op_2.inputs.indices)  # Have to do it this way
+            wf.set_input_name("indices", extract_field_op_2.inputs.indices)
             wf.connect("indices", forward_index)  # Otherwise not accepted
             # Scaling of the field based on scale_factor and index
-            extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor_inverted)
-            wf.set_input_name("indices", extract_scale_factor_op.inputs.indices)  # Have to do it this way
+            extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor_invert)
+            wf.set_input_name("indices", extract_scale_factor_op.inputs.indices)
             wf.connect("indices", forward_index)  # Otherwise not accepted
 
-            divide_op = dpf.core.operators.math.component_wise_divide(extract_field_op_2.outputs.field,
-                                                                      extract_scale_factor_op.outputs.field)
+            divide_op = dpf.core.operators.math.component_wise_divide(
+                extract_field_op_2.outputs.field, extract_scale_factor_op.outputs.field)
             # Get the mesh from the field to render
             get_mesh_op = dpf.core.operators.mesh.from_field(extract_field_op.outputs.field)
             # Get the coordinates field from the mesh
