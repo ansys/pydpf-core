@@ -372,13 +372,13 @@ jobs:
 
   Retro-compatibility:
     name: Retro-compatibility
-    if: startsWith(github.head_ref, 'master') || contains(github.head_ref, 'retro') || startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.head_ref, 'master') || startsWith(github.head_ref, 'release') ||contains(github.head_ref, 'retro') || startsWith(github.ref, 'refs/tags/v')
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8"]
-        os: ["windows-latest", "ubuntu-18.04"]
+        python-version: ["3.7"]
+        os: ["windows-latest", "ubuntu-latest"]
         ANSYS_VERSION: ["221"]
     steps:
       - uses: actions/checkout@v3
@@ -398,6 +398,7 @@ jobs:
         shell: pwsh
         run: |
           pip install ansys-grpc-dpf==0.4.0
+        if: matrix.ANSYS_VERSION == '221'
 
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.2
@@ -499,7 +500,7 @@ jobs:
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
-      - name: "Test API 3"
+      - name: "Test API test_workflow"
         shell: bash
         working-directory: test_workflow
         run: |
