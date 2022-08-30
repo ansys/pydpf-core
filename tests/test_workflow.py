@@ -14,10 +14,12 @@ def clear_local_server(request):
     def clear_local():
         conftest.local_servers.clear()
         num_dpf_exe = 0
+        proc_name = "Ans.Dpf.Grpc"
         for proc in psutil.process_iter():
-            if proc.name() == "Ans.Dpf.Grpc.exe":
+            if proc_name in proc.name():
                 num_dpf_exe += 1
-        warnings.warn(UserWarning(f"Number of servers running: {num_dpf_exe}"))
+                proc.kill()
+        warnings.warn(UserWarning(f"Killed {num_dpf_exe} {proc_name} processes."))
     request.addfinalizer(clear_local)
 
 
