@@ -325,6 +325,9 @@ def test_connect_get_output_double_list_workflow(server_type):
     assert np.allclose(d, dout)
 
 
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='Copying data is '
+                           'supported starting server version 5.0')
 def test_connect_label_space_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
     op = dpf.core.operators.utility.forward(server=server_type)
@@ -334,6 +337,7 @@ def test_connect_label_space_workflow(server_type):
     wf.connect("in", dict)
 
 
+@conftest.raises_for_servers_version_under('5.0')
 def test_connect_get_output_string_field_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
     op = dpf.core.operators.utility.forward(server=server_type)

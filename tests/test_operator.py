@@ -170,6 +170,9 @@ def test_connect_scoping_operator(server_type):
     assert np.allclose(scopOut.ids, list(range(1, 5)))
 
 
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='Copying data is '
+                           'supported starting server version 5.0')
 def test_connect_label_space_operator(server_type):
     op = dpf.core.Operator("Rescope", server=server_type)
     dict = {"time": 1, "complex": 0}

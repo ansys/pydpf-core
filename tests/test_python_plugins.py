@@ -113,6 +113,7 @@ def test_property_field(server_type_remote_process):
     )
 
 
+@conftest.raises_for_servers_version_under("5.0")
 def test_string_field(server_type_remote_process):
     load_all_types_plugin_with_serv(server_type_remote_process)
     f = dpf.StringField(server=server_type_remote_process)

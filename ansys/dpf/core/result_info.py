@@ -360,20 +360,21 @@ class ResultInfo:
             sub_res[sub_res_name] = [ssub_res_rec_name, descr]
 
         qualifiers = []
-        qual_obj = object_handler.ObjHandler(
-            data_processing_api=self._data_processing_core_api,
-            internal_obj=self._api.result_info_get_qualifiers_for_result(self, numres)
-        )
-        label_space_api = self._server.get_api_for_type(capi=label_space_capi.LabelSpaceCAPI,
-                                                        grpcapi=label_space_grpcapi.LabelSpaceGRPCAPI)
-        num_qual_obj = label_space_api.list_label_spaces_size(qual_obj)
-        for ires in range(num_qual_obj):
-            qualifiers.append(
-                LabelSpace(
-                    label_space=label_space_api.list_label_spaces_at(qual_obj, ires),
-                    obj=self,
-                    server=self._server
-                ))
+        if self._server.meet_version("5.0"):
+            qual_obj = object_handler.ObjHandler(
+                data_processing_api=self._data_processing_core_api,
+                internal_obj=self._api.result_info_get_qualifiers_for_result(self, numres)
+            )
+            label_space_api = self._server.get_api_for_type(capi=label_space_capi.LabelSpaceCAPI,
+                                                            grpcapi=label_space_grpcapi.LabelSpaceGRPCAPI)
+            num_qual_obj = label_space_api.list_label_spaces_size(qual_obj)
+            for ires in range(num_qual_obj):
+                qualifiers.append(
+                    LabelSpace(
+                        label_space=label_space_api.list_label_spaces_at(qual_obj, ires),
+                        obj=self,
+                        server=self._server
+                    ))
 
         availableresult = SimpleNamespace(
             name=name, physicsname=physic_name, ncomp=n_comp,
