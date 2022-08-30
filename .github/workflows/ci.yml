@@ -241,7 +241,7 @@ jobs:
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
-      - name: "Build Documentation"
+      - name: "Build HTML Documentation"
         shell: cmd
         run: |
           cd .ci
@@ -260,19 +260,24 @@ jobs:
         id: version
         if: always()
 
-      - name: "Publish Documentation artifact"
+      - name: "Upload Documentation Build log"
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-HTML_Documentation
-          path: ./docs/build/html/*
+          name: doc-${{inputs.PACKAGE_NAME}}-log
+          path: docs/*.txt
         if: always()
 
-      - name: "Publish Documentation log"
+      - name: "Zip HTML Documentation"
+        uses: vimtor/action-zip@v1
+        with:
+          files: docs/build/html
+          dest: HTML-doc-${{env.PACKAGE_NAME}}.zip
+
+      - name: "Upload HTML Documentation"
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.PACKAGE_NAME }}-log
-          path: ./docs/*.txt
-        if: always()
+          name: HTML-doc-${{env.PACKAGE_NAME}}
+          path: HTML-doc-${{env.PACKAGE_NAME}}.zip
 
   run_examples:
     name: "Run Examples with/without bin"
