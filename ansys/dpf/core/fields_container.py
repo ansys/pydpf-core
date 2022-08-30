@@ -534,7 +534,7 @@ class FieldsContainer(Collection):
         if deform_by is not False:
             if hasattr(deform_by, "on_all_time_freqs"):
                 deform_by = deform_by.on_all_time_freqs()
-            if deform_by is None or type(deform_by) == bool:
+            if deform_by is None or isinstance(deform_by, bool):
                 # By default, set deform_by as self if nodal 3D vector field
                 if self[0].location == dpf.core.common.locations.nodal and \
                         self[0].component_count == 3:

@@ -35,7 +35,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
         # Initiate pyvista Plotter
         self._plotter = pv.Plotter(**kwargs_in)
 
-    def animate_workflow(self, frequencies, workflow, save_as, scale_factor, **kwargs):
+    def animate_workflow(self, frequencies, workflow, save_as="", scale_factor=1.0, **kwargs):
         # Extract useful information from the given frequencies Field
         time_unit = frequencies["frequencies"].unit
         frequencies = frequencies["frequencies"].data
@@ -72,7 +72,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
         cpos = kwargs.pop("cpos", None)
         if cpos:
-            if type(cpos[0][0]) is float:
+            if isinstance(cpos[0][0], float):
                 cpos = [cpos]*len(frequencies)
 
         def render_field(index):
@@ -87,7 +87,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             kwargs_in = _sort_supported_kwargs(
                 bound_method=self._plotter.add_text, **freq_kwargs)
             str_template = "t={0:{2}} {1}"
-            self._plotter.add_text("t={0:{2}} {1}".format(frequencies[index], time_unit, freq_fmt),
+            self._plotter.add_text(str_template.format(frequencies[index], time_unit, freq_fmt),
                                    **kwargs_in)
             if cpos:
                 self._plotter.camera_position = cpos[index]
@@ -232,7 +232,7 @@ def scale_factor_to_fc(scale_factor, fc):
                              f"being animated ({len(scale_factor)} != {n_sets}).")
         # Turn the scalar list into a FieldsContainer
         fields = []
-        for i, f in enumerate(fc):
+        for i in range(len(fc)):
             fields.append(int_to_field(scale_factor[i], fc.get_field(0).shape,
                           fc.get_field(0).scoping))
         scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)

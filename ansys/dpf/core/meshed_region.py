@@ -423,7 +423,7 @@ class MeshedRegion:
         if hasattr(deform_by, "eval"):
             # If a Result or an Operator, eval and get the field.
             deform_by = deform_by.eval()[0]
-        if type(deform_by) == ansys.dpf.core.fields_container.FieldsContainer:
+        if isinstance(deform_by, ansys.dpf.core.fields_container.FieldsContainer):
             # If a FieldsContainer, take the field.
             deform_by = deform_by[0]
         if deform_by.unit != self.unit:
