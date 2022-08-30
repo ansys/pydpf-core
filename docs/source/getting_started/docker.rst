@@ -1,70 +1,71 @@
 .. _ref_docker:
 
-************************
-Using DPF Through Docker
-************************
+=============
+DPF in Docker
+=============
 
-You can run DPF within a container on any OS using `Docker <https://www.docker.com/>`_.
+On any operating system, you can run DPF in a containerized environment
+such as `Docker <https://www.docker.com/>`_ or `Singularity <https://singularity.hpcng.org/>`_.
 
-Advantages of running DPF in a containerized environment, such 
-as Docker or `Singularity <https://singularity.hpcng.org/>`_, include:
+Advantages of using a containerized environment include:
 
 - Running in a consistent environment regardless of the host operating system
 - Offering portability and ease of install
 - Supporting large-scale cluster deployment using `Kubernetes <https://kubernetes.io/>`_
 - Providing genuine application isolation through containerization
 
-Installing the DPF Image
-------------------------
-Using your GitHub credentials, you can download the Docker image in the 
-`DPF-Core GitHub <https://https://github.com/pyansys/DPF-Core>`_ repository.
+The following sections assume that you are going to run DPF in Docker.
 
-If you have Docker installed, you can get started by authorizing Docker to 
-access this repository using a GitHub personal access token with 
-``packages read`` permissions. For more information, see 
-<https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_.
+Install the DPF image
+---------------------
 
-Save the token to a file:
+#. Using your GitHub credentials, download the Docker image in the 
+   `DPF-Core GitHub <https://https://github.com/pyansys/DPF-Core>`_ repository.
+#. If you have Docker installed, use a GitHub personal access token (PAT) with 
+   ``packages read`` permission to authorize Docker to access this repository.
+   For more information, see `Creating a personal access token
+   <https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_.
+#. Save the token to a file:
 
-.. code::
+       .. code::
 
-   echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX > GH_TOKEN.txt
-
-
-This lets you send the token to Docker without leaving the token value
-in your history.
-
-Next, authorize Docker to access the repository:
-
-.. code::
-
-    GH_USERNAME=<my-github-username>
-    cat GH_TOKEN.txt | docker login docker.pkg.github.com -u $GH_USERNAME --password-stdin
+           echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX > GH_TOKEN.txt
 
 
-You can now launch DPF directly from Docker with a short script or
-directly from the command line.
+   This lets you send the token to Docker without leaving the token value
+   in your history.
 
-.. code::
-
-   docker run -it --rm -v `pwd`:/dpf -p 50054:50054 docker.pkg.github.com/pyansys/dpf-core/dpf:v2021.1
+#. Authorize Docker to access the repository:
 
 
-Note that this command shares the current directory to the ``/dpf``
+   .. code::
+
+       GH_USERNAME=<my-github-username>
+       cat GH_TOKEN.txt | docker login docker.pkg.github.com -u $GH_USERNAME --password-stdin
+
+
+#. Launch DPF directly from Docker with a short script or directly from the command line:
+
+   .. code::
+
+       docker run -it --rm -v `pwd`:/dpf -p 50054:50054 docker.pkg.github.com/pyansys/dpf-core/dpf:v2021.1
+
+
+Note that the preceding command shares the current directory to the ``/dpf``
 directory contained within the image.  This is necessary as the DPF
 binary within the image must access the files within the image
-itself.  Any files that you want to have DPF read must be placed in
-the ``pwd``.  You can map other directories as needed, but these
+itself. Any files that you want to have DPF read must be placed in
+``pwd``. You can map other directories as needed, but these
 directories must be mapped to the ``/dpf`` directory for the server to
-see the files you want it to read.
+see the files that you want it to read.
 
+Use the DPF container from Python
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Using the DPF Container from Python
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Normally ``ansys.dpf.core`` attempts to start the DPF server at the first 
-usage of a DPF class.  If you do not have Ansys installed and simply want 
+Normally PyDPF-Core attempts to start the DPF server on the first 
+use of the ``dpf`` class. If you do not have Ansys installed and simply want 
 to use the Docker image, you can override this behavior by connecting to the 
-DPF server on the port you mapped:
+DPF server on a specified port:
 
 .. code:: python
 
@@ -74,9 +75,10 @@ DPF server on the port you mapped:
    dpf_core.connect_to_server()
    
 
-If you want to avoid having to run ``connect_to_server`` at the start of
-every script, you can tell ``ansys.dpf.core`` to always attempt to
-connect to DPF running within the Docker image by setting environment variables:
+If you want to avoid having to run the ``connect_to_server()`` method
+at the start of every script, you can set environment variables to tell
+PyDPF-Core to always attempt to connect to DPF running within the Docker
+image:
 
 On Linux:
 
@@ -93,11 +95,11 @@ On Windows:
    set DPF_PORT=50054
 
 
-The environment variable ``DPF_PORT`` is the port exposed from the
-DPF container. It should match the first value within the ``-p 50054:50054`` pair.
-
-The environment variable ``DPF_START_SERVER`` tells ``ansys.dpf.core`` not to start an
-instance but rather look for the service running at ``DPF_IP`` and
-``DPF_PORT``.  If these environment variables are undefined, they
-default to 127.0.0.1 and 50054 for ``DPF_IP`` and ``DPF_PORT``
-respectively.
+- The ``DPF_PORT`` environment variable is the port exposed from the
+  DPF container. It should match the first value within the ``-p 50054:50054``
+  pair.
+- The ``DPF_START_SERVER`` environment variable tells PyDPF-core not to start
+  an instance but rather use ``DPF_IP`` and ``DPF_PORT`` environment variables
+  to look for a running instance of the service. If the ``DPF_IP`` and ``DPF_PORT``
+  environment variables are undefined, they default to ``127.0.0.1`` and ``50054``
+  respectively.

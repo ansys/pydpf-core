@@ -295,7 +295,7 @@ def test_load_api_without_awp_root(restore_awp_root):
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
 
-    awp_root_name = "AWP_ROOT" + dpf.core._version.__ansys_version__
+    awp_root_name = "AWP_ROOT" + dpf.core.misc.__ansys_version__
     # delete awp_root
     del os.environ[awp_root_name]
 
@@ -372,7 +372,7 @@ def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
 
-    awp_root_name = "AWP_ROOT" + dpf.core._version.__ansys_version__
+    awp_root_name = "AWP_ROOT" + dpf.core.misc.__ansys_version__
     # delete awp_root
     del os.environ[awp_root_name]
 

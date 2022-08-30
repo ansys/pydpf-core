@@ -3,7 +3,7 @@ import platform
 import glob
 import os
 from pkgutil import iter_modules
-from ansys.dpf.core._version import (
+from ansys.dpf.gate._version import (
     __ansys_version__
 )
 
