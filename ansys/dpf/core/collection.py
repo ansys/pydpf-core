@@ -12,16 +12,13 @@ import numpy as np
 
 from ansys.dpf.core.server_types import BaseServer
 from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core.time_freq_support import TimeFreqSupport
+from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
     collection_capi,
     collection_grpcapi,
-    label_space_capi,
-    label_space_grpcapi,
     data_processing_capi,
     data_processing_grpcapi,
-    object_handler,
     dpf_vector,
     dpf_array
 )
@@ -216,7 +213,9 @@ class Collection:
             Entries corresponding to the request.
         """
         if isinstance(label_space_or_index, dict):
-            client_label_space = self._create_client_label_space(label_space_or_index)
+            client_label_space = LabelSpace(
+                label_space=label_space_or_index, obj=self, server=self._server
+            )
             num = self._api.collection_get_num_obj_for_label_space(self, client_label_space)
             out = []
             for i in range(0, num):
@@ -268,9 +267,10 @@ class Collection:
             Scoping of the requested entry. For example,
             ``{"time": 1, "complex": 0}``.
         """
-        return self._create_dict_from_client_label_space(
-            self._api.collection_get_obj_label_space_by_index(self, index)
-        )
+        return LabelSpace(
+                label_space=self._api.collection_get_obj_label_space_by_index(self, index),
+                server=self._server
+            ).__dict__()
 
     def get_available_ids_for_label(self, label="time"):
         """Retrieve the IDs assigned to an input label.
@@ -334,38 +334,12 @@ class Collection:
         return self._get_entries(index)
 
     @property
-    def _label_space_api(self):
-        return self._server.get_api_for_type(capi=label_space_capi.LabelSpaceCAPI,
-                                             grpcapi=label_space_grpcapi.LabelSpaceGRPCAPI)
-
-    @property
     def _data_processing_core_api(self):
         core_api = self._server.get_api_for_type(
             capi=data_processing_capi.DataProcessingCAPI,
             grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
         core_api.init_data_processing_environment(self)
         return core_api
-
-    def _create_client_label_space(self, label_space):
-        client_label_space = object_handler.ObjHandler(
-            self._data_processing_core_api,
-            self._label_space_api.label_space_new_for_object(self)
-        )
-        for key, id in label_space.items():
-            self._label_space_api.label_space_add_data(client_label_space, key, id)
-        return client_label_space
-
-    def _create_dict_from_client_label_space(self, client_label_space):
-        if isinstance(client_label_space, dict):
-            return client_label_space
-        out = {}
-        client_label_space = object_handler.ObjHandler(
-            self._data_processing_core_api, client_label_space
-        )
-        for i in range(0, self._label_space_api.label_space_get_size(client_label_space)):
-            out[self._label_space_api.label_space_get_labels_name(client_label_space, i)] = \
-                self._label_space_api.label_space_get_labels_value(client_label_space, i)
-        return out
 
     def _add_entry(self, label_space, entry):
         """Update or add an entry at a requested label space.
@@ -377,7 +351,7 @@ class Collection:
         entry : Field or Scoping
             DPF entry to add.
         """
-        client_label_space = self._create_client_label_space(label_space)
+        client_label_space = LabelSpace(label_space=label_space, obj=self, server=self._server)
         self._api.collection_add_entry(self, client_label_space, entry)
 
     def _get_time_freq_support(self):
@@ -387,6 +361,7 @@ class Collection:
         -------
         time_freq_support : TimeFreqSupport
         """
+        from ansys.dpf.core.time_freq_support import TimeFreqSupport
         from ansys.dpf.gate import support_capi, support_grpcapi, object_handler, \
             data_processing_capi, data_processing_grpcapi
         data_api = self._server.get_api_for_type(
@@ -581,3 +556,54 @@ class FloatCollection(Collection):
             return dpf_array.DPFArray(vec)
         except NotImplementedError:
             return self._api.collection_get_data_as_double(self, 0)
+
+
+class StringCollection(Collection):
+    """Creates a collection of strings with a list.
+
+    The collection of integral is the equivalent of an array of
+    data sent server side. It can be used to efficiently stream
+    large data to the server.
+
+    Parameters
+    ----------
+    list : list[float], numpy.array
+        list to transfer server side
+
+    Notes
+    -----
+    Used by default by the ``'Operator'`` and the``'Workflow'`` when a
+    list is connected or returned.
+    """
+
+    def __init__(self, list=None, server=None, collection=None, local: bool = False):
+        super().__init__(server=server, collection=collection)
+        self._sub_type = str
+        if self._internal_obj is None:
+            if self._server.has_client():
+                if local:
+                    self._internal_obj = self._api.collection_of_string_new_local(
+                        self._server.client
+                    )
+                else:
+                    self._internal_obj = self._api.collection_of_string_new_on_client(
+                        self._server.client
+                    )
+            else:
+                self._internal_obj = self._api.collection_of_string_new()
+        if list is not None:
+            self._set_integral_entries(list)
+
+    def create_subtype(self, obj_by_copy):
+        return str(obj_by_copy)
+
+    def _set_integral_entries(self, input):
+        for s in input:
+            self._api.collection_add_string_entry(self, s)
+
+    def get_integral_entries(self):
+        num = self._api.collection_get_size(self)
+        out = []
+        for i in range(num):
+            out.append(self._api.collection_get_string_entry(self, i))
+        return out

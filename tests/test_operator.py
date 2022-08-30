@@ -14,7 +14,7 @@ from ansys.dpf.core.misc import get_ansys_path
 from ansys.dpf.core.operator_specification import Specification
 import conftest
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0, \
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False
@@ -91,7 +91,36 @@ def test_print_operator():
 
 def test_connect_get_out_all_types_operator(server_type):
     forward = ops.utility.forward(server=server_type)
-    to_connect = [1, 1.5, "hello", True,
+    to_connect = [
+        1, 1.5, "hello", True,
+        dpf.core.Field(server=server_type),
+        # dpf.core.PropertyField(server=server_type),
+        dpf.core.FieldsContainer(server=server_type),
+        dpf.core.MeshesContainer(server=server_type),
+        dpf.core.ScopingsContainer(server=server_type),
+        dpf.core.DataSources("file.rst", server=server_type),
+        # dpf.core.CyclicSupport(server=server_type),
+        # dpf.core.MeshedRegion(server=server_type),
+        dpf.core.TimeFreqSupport(server=server_type),
+        dpf.core.Workflow(server=server_type),
+        dpf.core.DataTree(server=server_type),
+        dpf.core.StringField(server=server_type),
+    ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0 \
+        else \
+        [1, 1.5, "hello", True,
+         dpf.core.Field(server=server_type),
+         # dpf.core.PropertyField(server=server_type),
+         dpf.core.FieldsContainer(server=server_type),
+         dpf.core.MeshesContainer(server=server_type),
+         dpf.core.ScopingsContainer(server=server_type),
+         dpf.core.DataSources("file.rst", server=server_type),
+         # dpf.core.CyclicSupport(server=server_type),
+         # dpf.core.MeshedRegion(server=server_type),
+         dpf.core.TimeFreqSupport(server=server_type),
+         dpf.core.Workflow(server=server_type),
+         dpf.core.DataTree(server=server_type),
+         ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 \
+            else [1, 1.5, "hello", True,
                   dpf.core.Field(server=server_type),
                   # dpf.core.PropertyField(server=server_type),
                   dpf.core.FieldsContainer(server=server_type),
@@ -102,27 +131,20 @@ def test_connect_get_out_all_types_operator(server_type):
                   # dpf.core.MeshedRegion(server=server_type),
                   dpf.core.TimeFreqSupport(server=server_type),
                   dpf.core.Workflow(server=server_type),
-                  dpf.core.DataTree(server=server_type),
-                  ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 \
-        else [1, 1.5, "hello", True,
-              dpf.core.Field(server=server_type),
-              # dpf.core.PropertyField(server=server_type),
-              dpf.core.FieldsContainer(server=server_type),
-              dpf.core.MeshesContainer(server=server_type),
-              dpf.core.ScopingsContainer(server=server_type),
-              dpf.core.DataSources("file.rst", server=server_type),
-              # dpf.core.CyclicSupport(server=server_type),
-              # dpf.core.MeshedRegion(server=server_type),
-              dpf.core.TimeFreqSupport(server=server_type),
-              dpf.core.Workflow(server=server_type),
-              ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 else [1, 1.5, "hello", True,
-              dpf.core.Field(server=server_type),
-              # dpf.core.PropertyField(server=server_type),
-              dpf.core.FieldsContainer(server=server_type),
-              dpf.core.MeshesContainer(server=server_type),
-              dpf.core.ScopingsContainer(server=server_type),
-              dpf.core.DataSources("file.rst", server=server_type)
-              ]
+                  ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 else [1, 1.5, "hello", True,
+                                                                          dpf.core.Field(
+                                                                              server=server_type),
+                                                                          # dpf.core.PropertyField(server=server_type),
+                                                                          dpf.core.FieldsContainer(
+                                                                              server=server_type),
+                                                                          dpf.core.MeshesContainer(
+                                                                              server=server_type),
+                                                                          dpf.core.ScopingsContainer(
+                                                                              server=server_type),
+                                                                          dpf.core.DataSources(
+                                                                              "file.rst",
+                                                                              server=server_type)
+                                                                          ]
 
     for i, data in enumerate(to_connect):
         forward.connect(i, data)
@@ -146,6 +168,15 @@ def test_connect_scoping_operator(server_type):
     fOut = op.get_output(0, dpf.core.types.field)
     scopOut = fOut.scoping
     assert np.allclose(scopOut.ids, list(range(1, 5)))
+
+
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='Copying data is '
+                           'supported starting server version 5.0')
+def test_connect_label_space_operator(server_type):
+    op = dpf.core.Operator("Rescope", server=server_type)
+    dict = {"time": 1, "complex": 0}
+    op.connect(0, dict)
 
 
 def test_connect_datasources_operator(fields_container_csv, server_type):
@@ -1133,6 +1164,7 @@ def test_get_static_spec_operator(server_type_legacy_grpc):
     l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
     for i, name in enumerate(l):
         spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
+        print(name)
         assert len(spec.operator_name) > 0
         assert len(spec.inputs) > 0
         assert len(spec.description) > 0
