@@ -21,8 +21,8 @@ env:
   ANSYS_VERSION: 222
 
 jobs:
-  Style_Check:
-    name: Style Check
+  style:
+    name: "Style Check"
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
@@ -45,8 +45,8 @@ jobs:
         run: |
           make flake8
 
-  Build_and_Test:
-    name: Build and Test
+  build_test:
+    name: "Build and Test"
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -193,8 +193,8 @@ jobs:
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v2
 
-  Documentation:
-    name: Documentation
+  docs:
+    name: "Documentation"
     runs-on: windows-latest
 
     steps:
@@ -274,8 +274,8 @@ jobs:
           path: ./docs/*.txt
         if: always()
 
-  Run_Examples:
-    name: Run Examples with/without bin
+  run_examples:
+    name: "Run Examples with/without bin"
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -370,8 +370,8 @@ jobs:
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
         if: always()
 
-  Retro-compatibility:
-    name: Retro-compatibility
+  retro:
+    name: "Retro-compatibility"
     if: startsWith(github.head_ref, 'master') || startsWith(github.head_ref, 'release') ||contains(github.head_ref, 'retro') || startsWith(github.ref, 'refs/tags/v')
     runs-on: ${{ matrix.os }}
     strategy:
@@ -521,7 +521,7 @@ jobs:
   draft_release:
     name: "Draft Release"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [Style_Check, Build_and_Test, Documentation, Run_Examples, Retro-compatibility]
+    needs: [style, build_test, docs, run_examples, retro]
     runs-on: ubuntu-latest
     steps:
       - name: "Set up Python"
