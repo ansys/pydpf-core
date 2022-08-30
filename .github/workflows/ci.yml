@@ -518,7 +518,8 @@ jobs:
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v2
 
-  Draft_Release:
+  draft_release:
+    name: "Draft Release"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     needs: [Style_Check, Build_and_Test, Documentation, Run_Examples, Retro-compatibility]
     runs-on: ubuntu-latest
