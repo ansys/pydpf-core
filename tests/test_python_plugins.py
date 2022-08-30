@@ -195,6 +195,8 @@ def test_data_sources(server_type_remote_process):
     ]
 
 
+@pytest.mark.skipif(platform.system() == "Windows" and platform.python_version().startswith("3.8"),
+                    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Windows")
 def test_workflow(server_type_remote_process):
     load_all_types_plugin_with_serv(server_type_remote_process)
     f = dpf.Workflow(server=server_type_remote_process)
