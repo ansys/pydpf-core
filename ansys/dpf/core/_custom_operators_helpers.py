@@ -1,9 +1,10 @@
 from ansys.dpf.gate import capi, external_operator_capi
 from enum import Enum
+
 from ansys.dpf.core import (
     field, property_field, scoping, collection, data_sources, meshed_region, time_freq_support, \
     workflow, data_tree, dpf_operator, fields_container, scopings_container, \
-    meshes_container, result_info
+    meshes_container, result_info, string_field
 )
 
 external_operator_api = external_operator_capi.ExternalOperatorCAPI
@@ -21,6 +22,7 @@ _type_to_output_method = [
     (float, external_operator_api.external_operator_put_out_double),
     (field.Field, external_operator_api.external_operator_put_out_field),
     (property_field.PropertyField, external_operator_api.external_operator_put_out_property_field),
+    (string_field.StringField, external_operator_api.external_operator_put_out_string_field),
     (scoping.Scoping, external_operator_api.external_operator_put_out_scoping),
     (collection.Collection, external_operator_api.external_operator_put_out_collection),
     (data_sources.DataSources, external_operator_api.external_operator_put_out_data_sources),
@@ -41,6 +43,8 @@ _type_to_input_method = [
     (field.Field, external_operator_api.external_operator_get_in_field, "field"),
     (property_field.PropertyField, external_operator_api.external_operator_get_in_property_field,
      "property_field"),
+    (string_field.StringField, external_operator_api.external_operator_get_in_string_field,
+     "string_field"),
     (scoping.Scoping, external_operator_api.external_operator_get_in_scoping,
      "scoping"),
     (fields_container.FieldsContainer,

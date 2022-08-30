@@ -1,6 +1,6 @@
 from ansys.dpf.core.custom_operator import CustomOperatorBase
 from ansys.dpf.core import field, scoping, fields_container, meshes_container, scopings_container,\
-    property_field, data_sources, types, workflow, data_tree
+    property_field, data_sources, types, workflow, data_tree, string_field
 
 
 class ForwardFieldOperator(CustomOperatorBase):
@@ -97,6 +97,22 @@ class ForwardPropertyFieldOperator(CustomOperatorBase):
     @property
     def name(self):
         return "custom_forward_property_field"
+
+
+class ForwardStringFieldOperator(CustomOperatorBase):
+    def run(self):
+        f = self.get_input(0, string_field.StringField)
+        f = self.get_input(0, types.string_field)
+        self.set_output(0, f)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_forward_string_field"
 
 
 class ForwardDataSourcesOperator(CustomOperatorBase):

@@ -14,6 +14,7 @@ def load_operators(*args):
     record_operator(dpf_types_op.ForwardFieldOperator, *args)
     record_operator(dpf_types_op.ForwardDataSourcesOperator, *args)
     record_operator(dpf_types_op.ForwardPropertyFieldOperator, *args)
+    record_operator(dpf_types_op.ForwardStringFieldOperator, *args)
     record_operator(dpf_types_op.ForwardScopingOperator, *args)
     record_operator(dpf_types_op.ForwardScopingsContainerOperator, *args)
     record_operator(dpf_types_op.ForwardFieldsContainerOperator, *args)

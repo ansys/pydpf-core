@@ -10,6 +10,7 @@ import warnings
 
 from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core import collection
 from ansys.dpf.core import errors
 from ansys.dpf.gate import (
     dpf_data_tree_abstract_api,
@@ -17,9 +18,6 @@ from ansys.dpf.gate import (
     dpf_data_tree_grpcapi,
     data_processing_capi,
     data_processing_grpcapi,
-    collection_capi,
-    collection_grpcapi,
-    object_handler,
     integral_types,
 )
 
@@ -139,19 +137,11 @@ class DataTree:
                         self, key, value, len(value)
                     )
                 elif len(value) > 0 and isinstance(value[0], str):
-                    if self._server.has_client():
-                        coll_obj = object_handler.ObjHandler(
-                            data_processing_api=self._core_api,
-                            internal_obj=self._coll_api.collection_of_string_new_local(
-                                self._server.client
-                            )
-                        )
-                    else:
-                        coll_obj = object_handler.ObjHandler(
-                            data_processing_api=self._core_api,
-                            internal_obj=self._coll_api.collection_of_string_new())
-                    for s in value:
-                        self._coll_api.collection_add_string_entry(coll_obj, s)
+                    coll_obj = collection.StringCollection(
+                        list=value,
+                        local=True,
+                        server=self._server
+                    )
                     self._api.dpf_data_tree_set_string_collection_attribute(
                         self, key, coll_obj
                     )
@@ -183,14 +173,6 @@ class DataTree:
             grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
         core_api.init_data_processing_environment(self)
         return core_api
-
-    @property
-    def _coll_api(self):
-        coll_api = self._server.get_api_for_type(
-            capi=collection_capi.CollectionCAPI,
-            grpcapi=collection_grpcapi.CollectionGRPCAPI)
-        coll_api.init_collection_environment(self)
-        return coll_api
 
     def to_fill(self):
         """
@@ -458,14 +440,11 @@ class DataTree:
             self._api.dpf_data_tree_get_vec_int_attribute(self, name, out, out.internal_size)
             out = out.tolist()
         elif type_to_return == types.vec_string:
-            coll_obj = object_handler.ObjHandler(
-                data_processing_api=self._core_api,
-                internal_obj=self._api.dpf_data_tree_get_string_collection_attribute(self, name)
+            coll_obj = collection.StringCollection(
+                collection=self._api.dpf_data_tree_get_string_collection_attribute(self, name),
+                server=self._server
             )
-            num = self._coll_api.collection_get_size(coll_obj)
-            out = []
-            for i in range(num):
-                out.append(self._coll_api.collection_get_string_entry(coll_obj, i))
+            out = coll_obj.get_integral_entries()
         elif type_to_return == types.data_tree:
             obj = self._api.dpf_data_tree_get_sub_tree(self, name)
             out = DataTree(data_tree=obj, server=self._server)
