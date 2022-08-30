@@ -361,7 +361,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7"]
+        python-version: ["3.8"]
         os: ["windows-latest", "ubuntu-latest"]
         ANSYS_VERSION: ["221"]
     steps:
