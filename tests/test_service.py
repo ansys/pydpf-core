@@ -4,6 +4,7 @@ import pytest
 import conftest
 import pkgutil
 import datetime
+import platform
 
 from ansys import dpf
 from ansys.dpf.core import path_utilities
@@ -53,6 +54,8 @@ def transfer_to_local_path(path):
     )
 
 
+@pytest.mark.skipif(platform.system() == "Windows" and platform.python_version().startswith("3.8"),
+                    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Windows")
 def test_upload_download(allkindofcomplexity, tmpdir, server_type_remote_process):
     tmpdir = str(tmpdir)
     file = dpf.core.upload_file_in_tmp_folder(
