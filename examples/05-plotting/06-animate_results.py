@@ -101,7 +101,7 @@ for i in range(len(displacement_fields)):
 displacement_fields.animate(scale_factor=10.,
                             freq_kwargs={"font_size": 12,
                                          "fmt": ".3e"},
-                            save_as="displacements.avi",
+                            save_as="displacements_2.gif",
                             framerate=4,
                             quality=8,
                             cpos=camera_pos_list,
