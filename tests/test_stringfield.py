@@ -75,3 +75,13 @@ def test_entity_data_string_field(server_type):
     assert f_vec.get_entity_data_by_id(2) == ["wat"]
     assert f_vec.get_entity_data_by_id(3) == ["gaz"]
 
+
+@conftest.raises_for_servers_version_under("5.0")
+def test_stream_large_data_string_field(server_type):
+    nstring = 1000000
+    field = dpf.core.StringField(nentities=nstring, server=server_type)
+    data = []
+    for i in range(0, nstring):
+        data.append("bla")
+    field.data = data
+    assert field.data == data
