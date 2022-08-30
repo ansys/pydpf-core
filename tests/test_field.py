@@ -973,7 +973,6 @@ def test_deep_copy_field_grpclegacy_to_grpclegacy():
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
                     reason='this server type does not exist before client'
                     'dedicated to 4.0 server version')
-@pytest.mark.skipif(os.name == 'posix', reason="linux issue: SEGFAULT to investigate")
 def test_deep_copy_field_inprocess_to_inprocess():
     config = dpf.core.ServerConfig(
         protocol=dpf.core.server_factory.CommunicationProtocols.InProcess,
@@ -989,7 +988,6 @@ def test_deep_copy_field_2(plate_msup):
     field.deep_copy()
 
 
-@pytest.mark.skipif(os.name == 'posix', reason="linux issue: SEGFAULT to investigate")
 def test_deep_copy_field():
     field = dpf.core.fields_factory.create_3d_vector_field(100)
     arr = np.arange(300).reshape(100, 3)
@@ -1042,7 +1040,6 @@ def test_deep_copy_elemental_nodal_field(allkindofcomplexity):
     )
 
 
-@pytest.mark.skipif(os.name == 'posix', reason="linux issue: SEGFAULT to investigate")
 def test_deep_copy_over_time_field(velocity_acceleration):
     model = dpf.core.Model(velocity_acceleration)
     stress = model.results.stress(time_scoping=[1, 2, 3])
@@ -1058,7 +1055,6 @@ def test_deep_copy_over_time_field(velocity_acceleration):
     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
 
 
-@pytest.mark.skipif(os.name == 'posix', reason="linux issue: SEGFAULT to investigate")
 def test_deep_copy_spec_ncomp_field():
     field = dpf.core.fields_factory.create_vector_field(100, 6, dpf.core.locations.elemental)
     arr = np.arange(600).reshape(100, 6)
