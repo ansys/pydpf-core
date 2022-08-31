@@ -633,9 +633,5 @@ def test_semi_parabolic_meshed_region(server_type, allkindofcomplexity):
 )
 def test_empty_mesh_get_scoping(server_type):
     mesh = dpf.core.MeshedRegion()
-    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
-        assert len(mesh.nodes.scoping.ids) == 0
-        assert len(mesh.elements.scoping.ids) == 0
-    else:
-        assert mesh.nodes.scoping is None
-        assert mesh.elements.scoping is None
+    assert mesh.nodes.scoping is None
+    assert mesh.elements.scoping is None
