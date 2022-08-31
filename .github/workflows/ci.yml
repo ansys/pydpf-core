@@ -19,6 +19,7 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   ANSYS_VERSION: 231
+  extra: "--pre --find-links .github/"
 
 jobs:
   style:
@@ -217,6 +218,7 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
+          extra-pip-args: ${{ env.extra }}
 
       - name: "Setup headless display"
         uses: pyvista/setup-headless-display-action@v1
@@ -297,6 +299,7 @@ jobs:
           install_extras: plotting
           wheelhouse: false
           wheel: false
+          extra-pip-args: ${{ env.extra }}
 
       - name: "Setup headless display"
         uses: pyvista/setup-headless-display-action@v1
@@ -377,6 +380,7 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheel: false
+          extra-pip-args: ${{ env.extra }}
 
       - name: "Install ansys-grpc-dpf==0.4.0"
         shell: pwsh
