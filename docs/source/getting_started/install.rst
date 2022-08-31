@@ -15,7 +15,7 @@ of PyDPF-Core with:
    pip install ansys-dpf-core
 
 
-To use PyDPF-Core with Ansys 2021 R1, install PyDPF-Core version 0.30 with:
+To use PyDPF-Core with Ansys 2021 R1, install a 0.2.* PyDPF-Core version with:
 
 .. code::
 
@@ -54,7 +54,7 @@ For a quick tryout installation, use:
     ------------------------------
     Static analysis
     Unit system: Metric (m, kg, N, s, V, A)
-    Physics Type: Mecanic
+    Physics Type: Mechanical
     Available results:
          -  displacement: Nodal Displacement
          -  element_nodal_forces: ElementalNodal Element nodal Forces
@@ -83,7 +83,7 @@ For a quick tryout installation, use:
 Development mode installation
 -----------------------------
 
-If you want to edit and potentially contribute to DPF-Core, 
+If you want to edit and potentially contribute to PyDPF-Core,
 clone the repository and install it using pip with the ``-e``
 development flag:
 

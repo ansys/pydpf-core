@@ -47,10 +47,16 @@ def _get_dll_path(name, ansys_path=None):
     if ansys_path is None:
         ansys_path = os.environ.get("ANSYS_DPF_PATH")
     if ansys_path is None:
-        ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
+        awp_root = "AWP_ROOT" + str(__ansys_version__)
+        ANSYS_INSTALL = os.environ.get(awp_root, None)
     else:
         ANSYS_INSTALL = ansys_path
-    SUB_FOLDERS = os.path.join(ANSYS_INSTALL, load_api._get_path_in_install())
+    if ANSYS_INSTALL is None:
+        raise ImportError(f"Could not find ansys installation path using {awp_root}.")
+    api_path = load_api._get_path_in_install()
+    if api_path is None:
+        raise ImportError(f"Could not find API path in install.")
+    SUB_FOLDERS = os.path.join(ANSYS_INSTALL, api_path)
     if ISPOSIX:
         name = "lib" + name
     return os.path.join(SUB_FOLDERS, name)
@@ -89,26 +95,19 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install = None):
 
 
 def _run_launch_server_process(ansys_path, ip, port, docker_name):
+    bShell = False
     if docker_name:
         docker_server_port = int(os.environ.get("DOCKER_SERVER_PORT", port))
         dpf_run_dir = os.getcwd()
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
-        if os.name == "nt":
-            run_cmd = f"docker run -d -p {port}:{docker_server_port} " \
-                      f"{RUNNING_DOCKER['args']} " \
-                      f'-v "{LOCAL_DOWNLOADED_EXAMPLES_PATH}:/tmp/downloaded_examples" ' \
-                      f"-e DOCKER_SERVER_PORT={docker_server_port} " \
-                      f"--expose={docker_server_port} " \
-                      f"{docker_name}"
-        else:
-            run_cmd = ["docker run",
-                       "-d",
-                       f"-p" + f"{port}:{docker_server_port}",
-                       RUNNING_DOCKER['args'],
-                       f'-v "{LOCAL_DOWNLOADED_EXAMPLES_PATH}:/tmp/downloaded_examples"'
-                       f"-e DOCKER_SERVER_PORT={docker_server_port}",
-                       f"--expose={docker_server_port}",
-                       docker_name]
+        if os.name == "posix":
+            bShell = True
+        run_cmd = f"docker run -d -p {port}:{docker_server_port} " \
+                  f"{RUNNING_DOCKER['args']} " \
+                  f'-v "{LOCAL_DOWNLOADED_EXAMPLES_PATH}:/tmp/downloaded_examples" ' \
+                  f"-e DOCKER_SERVER_PORT={docker_server_port} " \
+                  f"--expose={docker_server_port} " \
+                  f"{docker_name}"
     else:
         if os.name == "nt":
             executable = "Ans.Dpf.Grpc.bat"
@@ -121,7 +120,10 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
 
     old_dir = os.getcwd()
     os.chdir(dpf_run_dir)
-    process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if not bShell:
+        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    else:
+        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     os.chdir(old_dir)
     return process
 
@@ -152,7 +154,22 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
     process : subprocess.Popen
         DPF Process.
     """
+    from ansys.dpf.core.server import port_in_use
+
     process = _run_launch_server_process(ansys_path, ip, port, docker_name)
+
+    if docker_name is not None and os.name == 'posix':
+        run_cmd = "docker ps --all"
+        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        used_ports = []
+        for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
+            if not ("CONTAINER ID" in line):
+                split = line.split("0.0.0.0:")
+                if len(split) > 1:
+                    used_port = int(split[1].split("-")[0])
+                    if used_port == port:
+                        docker_id = split[0].split(" ")[0]
+                        return docker_id
 
     # check to see if the service started
     lines = []
@@ -855,17 +872,26 @@ class LegacyGrpcServer(BaseServer):
 
     def shutdown(self):
         if self._own_process and self.live:
+            bShell = False
+            if os.name == 'posix':
+                bShell = True
             try:
                 self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
             except Exception as e:
                 warnings.warn("couldn't prepare shutdown: " + str(e.args))
             if self.on_docker:
                 run_cmd = f"docker stop {self._server_id}"
-                process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                if bShell:
+                    process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+                else:
+                    process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 run_cmd = f"docker rm {self._server_id}"
                 for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
                     pass
-                process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                if bShell:
+                    process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+                else:
+                    process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             elif self._remote_instance:
                 self._remote_instance.delete()
             else:
