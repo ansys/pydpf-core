@@ -755,16 +755,16 @@ def test_operator_set_config(server_type):
 def test_connect_get_output_int_list_operator(server_type):
     d = list(range(0, 100000))
     op = dpf.core.operators.utility.forward(d, server=server_type)
-    dout = op.get_output(0, dpf.core.types.vec_int)
-    assert np.allclose(d, dout)
+    d_out = op.get_output(0, dpf.core.types.vec_int)
+    assert np.allclose(d, d_out)
 
 
 @conftest.raises_for_servers_version_under('3.0')
 def test_connect_get_output_double_list_operator(server_type):
     d = list(np.ones(100000))
     op = dpf.core.operators.utility.forward(d, server=server_type)
-    dout = op.get_output(0, dpf.core.types.vec_double)
-    assert np.allclose(d, dout)
+    d_out = op.get_output(0, dpf.core.types.vec_double)
+    assert np.allclose(d, d_out)
 
 
 def test_connect_result(plate_msup, server_type):
@@ -802,8 +802,8 @@ def test_connect_result2(plate_msup, server_type):
 def test_connect_get_output_int_list_operator(server_type):
     d = list(range(0, 1000000))
     op = dpf.core.operators.utility.forward(d, server=server_type)
-    dout = op.get_output(0, dpf.core.types.vec_int)
-    assert np.allclose(d, dout)
+    d_out = op.get_output(0, dpf.core.types.vec_int)
+    assert np.allclose(d, d_out)
 
 
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
@@ -811,16 +811,16 @@ def test_connect_get_output_int_list_operator(server_type):
 def test_connect_get_output_double_list_operator(server_type):
     d = list(np.ones(1000000))
     op = dpf.core.operators.utility.forward(d, server=server_type)
-    dout = op.get_output(0, dpf.core.types.vec_double)
-    assert np.allclose(d, dout)
+    d_out = op.get_output(0, dpf.core.types.vec_double)
+    assert np.allclose(d, d_out)
 
 
 @conftest.raises_for_servers_version_under('4.0')
 def test_connect_get_output_data_tree_operator():
     d = dpf.core.DataTree({"name": "Paul"})
     op = dpf.core.operators.utility.forward(d)
-    dout = op.get_output(0, dpf.core.types.data_tree)
-    assert dout.get_as("name") == "Paul"
+    d_out = op.get_output(0, dpf.core.types.data_tree)
+    assert d_out.get_as("name") == "Paul"
 
 
 def test_operator_several_output_types(plate_msup):

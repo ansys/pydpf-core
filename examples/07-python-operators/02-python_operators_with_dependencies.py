@@ -168,7 +168,7 @@ dpf.load_library(
 
 new_operator = dpf.Operator("gltf_export")
 
-###############################################################################ser
+###############################################################################
 # This new Operator ``gltf_export`` requires a triangle surface mesh,
 # a displacement Field on this surface mesh
 # as well as an export path as inputs.

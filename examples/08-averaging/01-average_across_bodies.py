@@ -4,11 +4,11 @@
 Average across bodies
 ~~~~~~~~~~~~~~~~~~~~~
 This example is aimed towards explaining how to activate or deactivate the averaging
-across bodies option in DPF. When we have a multibody simulation that involves the
+across bodies option in DPF. When we have a multi-body simulation that involves the
 calculation of ElementalNodal fields, like stresses or strains, we can either
-activate or deactivate the option of averaging theses fields across the different
+activate or deactivate the option of averaging these fields across the different
 bodies when they share common nodes. This will likely change the end results that are
-displayed after the post processing of the simulation, as we will see below.
+displayed after the post-processing of the simulation, as we will see below.
 
 """
 ###############################################################################
@@ -131,7 +131,7 @@ def average_across_bodies(analysis):
 
 ###############################################################################
 # First, we create a model from the simulation results and extract its mesh and
-# step informations.
+# step information.
 model = dpf.Model(analysis)
 mesh = model.metadata.meshed_region
 time_freq = model.metadata.time_freq_support

@@ -90,7 +90,7 @@ def compute_von_mises_then_average(analysis):
     avg_op.inputs.connect(von_mises)
     avg_von_mises = avg_op.outputs.field()
 
-    # Aditionally we find the maximum value of the Von Mises stress field
+    # Additionally we find the maximum value of the Von Mises stress field
     min_max = dpf.operators.min_max.min_max()
     min_max.inputs.field.connect(avg_von_mises)
     max_val = min_max.outputs.field_max()
