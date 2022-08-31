@@ -14,10 +14,13 @@ from .forward_meshes_container import forward_meshes_container
 from .forward import forward 
 from .txt_file_to_dpf import txt_file_to_dpf 
 from .bind_support_fc import bind_support_fc 
+from .assemble_scalars_to_vectors import assemble_scalars_to_vectors 
+from .assemble_scalars_to_matrices import assemble_scalars_to_matrices 
 from .default_value import default_value 
 from .extract_time_freq import extract_time_freq 
 from .python_generator import python_generator 
 from .make_overall import make_overall 
+from .merge_weighted_fields_containers import merge_weighted_fields_containers 
 from .merge_fields_containers import merge_fields_containers 
 from .merge_scopings import merge_scopings 
 from .merge_materials import merge_materials 
@@ -27,7 +30,9 @@ from .remote_workflow_instantiate import remote_workflow_instantiate
 from .remote_operator_instantiate import remote_operator_instantiate 
 from .merge_time_freq_supports import merge_time_freq_supports 
 from .merge_fields_by_label import merge_fields_by_label 
+from .overlap_fields import overlap_fields 
 from .merge_meshes import merge_meshes 
+from .merge_weighted_fields import merge_weighted_fields 
 from .merge_fields import merge_fields 
 from .merge_supports import merge_supports 
 from .merge_meshes_containers import merge_meshes_containers 

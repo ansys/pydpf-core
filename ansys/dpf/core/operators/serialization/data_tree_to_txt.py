@@ -12,7 +12,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class data_tree_to_txt(Operator):
-    """Write a txt file or string from a DataTree
+    """Writes a txt file or string from a DataTree
 
     Parameters
     ----------
@@ -54,7 +54,7 @@ class data_tree_to_txt(Operator):
 
     @staticmethod
     def _spec():
-        description = """Write a txt file or string from a DataTree"""
+        description = """Writes a txt file or string from a DataTree"""
         spec = Specification(
             description=description,
             map_input_pin_spec={

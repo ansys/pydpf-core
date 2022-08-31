@@ -13,6 +13,7 @@ from .elemental_nodal_to_nodal_elemental_fc import elemental_nodal_to_nodal_elem
 from .elemental_fraction_fc import elemental_fraction_fc 
 from .to_nodal import to_nodal 
 from .to_nodal_fc import to_nodal_fc 
+from .nodal_extend_to_mid_nodes import nodal_extend_to_mid_nodes 
 from .elemental_nodal_to_nodal_elemental import elemental_nodal_to_nodal_elemental 
 from .extend_to_mid_nodes import extend_to_mid_nodes 
 from .extend_to_mid_nodes_fc import extend_to_mid_nodes_fc 

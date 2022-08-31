@@ -4,8 +4,8 @@ from .mesh_provider import mesh_provider
 from .meshes_provider import meshes_provider 
 from .beam_properties import beam_properties 
 from .split_mesh import split_mesh 
-from .from_scoping import from_scoping 
 from .split_fields import split_fields 
+from .from_scoping import from_scoping 
 from .points_from_coordinates import points_from_coordinates 
 from .mesh_clip import mesh_clip 
 from .make_sphere_levelset import make_sphere_levelset 
