@@ -264,7 +264,9 @@ class Field(_FieldBase):
         self._api.csfield_set_cscoping(self, scoping)
 
     def _get_scoping(self):
-        return scoping.Scoping(scoping=self._api.csfield_get_cscoping(self), server=self._server)
+        obj = self._api.csfield_get_cscoping(self)
+        if obj is not None:
+            return scoping.Scoping(scoping=obj, server=self._server)
 
     @property
     def shell_layers(self):
