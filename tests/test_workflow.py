@@ -724,7 +724,8 @@ def test_create_on_other_server_with_ip_workflow(local_server, clear_local_serve
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
-@pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.8"),
+@pytest.mark.skipif(platform.system() == "Linux" and (platform.python_version().startswith("3.8") or
+                                                      platform.python_version().startswith("3.10")),
                     reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu")
 def test_create_on_other_server_with_address_workflow(local_server, clear_local_server):
     dpf.core.start_local_server()
