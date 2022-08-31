@@ -17,12 +17,12 @@ class LabelSpace:
         # ############################
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
-        
+
         # step 2: get api
         self._api = self._server.get_api_for_type(
             capi=label_space_capi.LabelSpaceCAPI,
             grpcapi=label_space_grpcapi.LabelSpaceGRPCAPI
-        )        
+        )
         # step3: init environment
         self._api.init_label_space_environment(self)  # creates stub when gRPC
 
@@ -55,7 +55,7 @@ class LabelSpace:
             out[self._api.label_space_get_labels_name(self, i)] = \
                 self._api.label_space_get_labels_value(self, i)
         return out
-    
+
     def __del__(self):
         try:
             self._deleter_func[0](self._deleter_func[1](self))

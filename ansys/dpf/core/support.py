@@ -112,7 +112,7 @@ class Support:
     @version_requires("5.0")
     def available_field_supported_properties(self):
         """Returns the list of property names supported by a Field.
-        
+
         Returns
         -------
         list

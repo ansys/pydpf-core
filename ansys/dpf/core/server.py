@@ -340,9 +340,13 @@ def get_or_create_server(server):
 def _find_port_available_for_docker_bind(port):
     run_cmd = "docker ps --all"
     if os.name == 'posix':
-        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        process = subprocess.Popen(
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+        )
     else:
-        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
     used_ports = []
     for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
         if not ("CONTAINER ID" in line):

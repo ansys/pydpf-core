@@ -58,7 +58,8 @@ print("ports:", ports)
 #
 #        subgraph cluster_1 {
 #            ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-#            no_extend_to_mid_nodes01 [label="no_extend_to_mid_nodes", shape=box, style=filled, fillcolor=cadetblue2];
+#            no_extend_to_mid_nodes01 [label="no_extend_to_mid_nodes",
+#                                      shape=box, style=filled, fillcolor=cadetblue2];
 #
 #            ds01 -> stress01 [style=dashed];
 #            no_extend_to_mid_nodes01 -> stress01 [style=dashed];
@@ -71,7 +72,8 @@ print("ports:", ports)
 #
 #        subgraph cluster_2 {
 #            ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-#            no_extend_to_mid_nodes02 [label="no_extend_to_mid_nodes", shape=box, style=filled, fillcolor=cadetblue2];
+#            no_extend_to_mid_nodes02 [label="no_extend_to_mid_nodes",
+#                                      shape=box, style=filled, fillcolor=cadetblue2];
 #
 #            ds02 -> stress02 [style=dashed];
 #            no_extend_to_mid_nodes02 -> stress02 [style=dashed];

@@ -106,45 +106,48 @@ def test_connect_get_out_all_types_operator(server_type):
         dpf.core.DataTree(server=server_type),
         dpf.core.StringField(server=server_type),
     ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0 \
-        else \
-        [1, 1.5, "hello", True,
-         dpf.core.Field(server=server_type),
-         # dpf.core.PropertyField(server=server_type),
-         dpf.core.FieldsContainer(server=server_type),
-         dpf.core.MeshesContainer(server=server_type),
-         dpf.core.ScopingsContainer(server=server_type),
-         dpf.core.DataSources("file.rst", server=server_type),
-         # dpf.core.CyclicSupport(server=server_type),
-         # dpf.core.MeshedRegion(server=server_type),
-         dpf.core.TimeFreqSupport(server=server_type),
-         dpf.core.Workflow(server=server_type),
-         dpf.core.DataTree(server=server_type),
-         ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 \
-            else [1, 1.5, "hello", True,
-                  dpf.core.Field(server=server_type),
-                  # dpf.core.PropertyField(server=server_type),
-                  dpf.core.FieldsContainer(server=server_type),
-                  dpf.core.MeshesContainer(server=server_type),
-                  dpf.core.ScopingsContainer(server=server_type),
-                  dpf.core.DataSources("file.rst", server=server_type),
-                  # dpf.core.CyclicSupport(server=server_type),
-                  # dpf.core.MeshedRegion(server=server_type),
-                  dpf.core.TimeFreqSupport(server=server_type),
-                  dpf.core.Workflow(server=server_type),
-                  ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 else [1, 1.5, "hello", True,
-                                                                          dpf.core.Field(
-                                                                              server=server_type),
-                                                                          # dpf.core.PropertyField(server=server_type),
-                                                                          dpf.core.FieldsContainer(
-                                                                              server=server_type),
-                                                                          dpf.core.MeshesContainer(
-                                                                              server=server_type),
-                                                                          dpf.core.ScopingsContainer(
-                                                                              server=server_type),
-                                                                          dpf.core.DataSources(
-                                                                              "file.rst",
-                                                                              server=server_type)
-                                                                          ]
+        else [
+        1, 1.5, "hello", True,
+        dpf.core.Field(server=server_type),
+        # dpf.core.PropertyField(server=server_type),
+        dpf.core.FieldsContainer(server=server_type),
+        dpf.core.MeshesContainer(server=server_type),
+        dpf.core.ScopingsContainer(server=server_type),
+        dpf.core.DataSources("file.rst", server=server_type),
+        # dpf.core.CyclicSupport(server=server_type),
+        # dpf.core.MeshedRegion(server=server_type),
+        dpf.core.TimeFreqSupport(server=server_type),
+        dpf.core.Workflow(server=server_type),
+        dpf.core.DataTree(server=server_type),
+    ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 \
+        else [
+        1, 1.5, "hello", True,
+        dpf.core.Field(server=server_type),
+        # dpf.core.PropertyField(server=server_type),
+        dpf.core.FieldsContainer(server=server_type),
+        dpf.core.MeshesContainer(server=server_type),
+        dpf.core.ScopingsContainer(server=server_type),
+        dpf.core.DataSources("file.rst", server=server_type),
+        # dpf.core.CyclicSupport(server=server_type),
+        # dpf.core.MeshedRegion(server=server_type),
+        dpf.core.TimeFreqSupport(server=server_type),
+        dpf.core.Workflow(server=server_type),
+    ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 \
+        else [
+        1, 1.5, "hello", True,
+        dpf.core.Field(
+            server=server_type),
+        # dpf.core.PropertyField(server=server_type),
+        dpf.core.FieldsContainer(
+            server=server_type),
+        dpf.core.MeshesContainer(
+            server=server_type),
+        dpf.core.ScopingsContainer(
+            server=server_type),
+        dpf.core.DataSources(
+            "file.rst",
+            server=server_type)
+    ]
 
     for i, data in enumerate(to_connect):
         forward.connect(i, data)

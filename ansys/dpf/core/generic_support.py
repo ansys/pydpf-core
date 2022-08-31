@@ -80,7 +80,7 @@ class GenericSupport(Support):
         ----------
         property_name: str
             Name of the Property.
-        
+
         field_support: Field, PropertyField, StringField
             Data supporting this property.
         """

@@ -306,7 +306,6 @@ def test_collection_update_support():
     assert np.allclose(tfq.time_frequencies.data, tfq_check.time_frequencies.data)
 
 
-
 @pytest.mark.skipif(os.name == 'posix', reason="linux issue: SEGFAULT to investigate")
 def test_deep_copy_over_time_fields_container(velocity_acceleration):
     model = dpf.Model(velocity_acceleration)

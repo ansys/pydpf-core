@@ -123,5 +123,3 @@ def test_print_string_field(server_type):
     field.scoping.location = dpf.core.locations.nodal
     assert "20 Nodal entities" in str(field)
     assert "20 elementary data" in str(field)
-
-

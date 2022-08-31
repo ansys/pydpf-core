@@ -123,7 +123,9 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
     if not bShell:
         process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     else:
-        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        process = subprocess.Popen(
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+        )
     os.chdir(old_dir)
     return process
 
@@ -154,13 +156,13 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
     process : subprocess.Popen
         DPF Process.
     """
-    from ansys.dpf.core.server import port_in_use
-
     process = _run_launch_server_process(ansys_path, ip, port, docker_name)
 
     if docker_name is not None and os.name == 'posix':
         run_cmd = "docker ps --all"
-        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        process = subprocess.Popen(
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+        )
         used_ports = []
         for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
             if not ("CONTAINER ID" in line):
@@ -653,7 +655,7 @@ class InProcessServer(CServer):
             data_processing_core_load_api(path, "common")
         except Exception as e:
             if not os.path.isdir(os.path.dirname(path)):
-             raise NotADirectoryError(
+                raise NotADirectoryError(
                     f"DPF directory not found at {os.path.dirname(path)}"
                     f"Unable to locate the following file: {path}")
             raise e
@@ -872,26 +874,34 @@ class LegacyGrpcServer(BaseServer):
 
     def shutdown(self):
         if self._own_process and self.live:
-            bShell = False
+            b_shell = False
             if os.name == 'posix':
-                bShell = True
+                b_shell = True
             try:
                 self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
             except Exception as e:
                 warnings.warn("couldn't prepare shutdown: " + str(e.args))
             if self.on_docker:
                 run_cmd = f"docker stop {self._server_id}"
-                if bShell:
-                    process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+                if b_shell:
+                    process = subprocess.Popen(
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+                    )
                 else:
-                    process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    process = subprocess.Popen(
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                    )
                 run_cmd = f"docker rm {self._server_id}"
-                for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
+                for _ in io.TextIOWrapper(process.stdout, encoding="utf-8"):
                     pass
-                if bShell:
-                    process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+                if b_shell:
+                    _ = subprocess.Popen(
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+                    )
                 else:
-                    process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    _ = subprocess.Popen(
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                    )
             elif self._remote_instance:
                 self._remote_instance.delete()
             else:

@@ -214,4 +214,3 @@ class StringField(_FieldBase):
                 )
         string_list = integral_types.MutableListString(data)
         return self._api.csstring_field_set_data(self, _get_size_of_list(data), string_list)
-
