@@ -122,75 +122,91 @@ jobs:
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_launcher"
         shell: bash
         working-directory: test_launcher
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_server"
         shell: bash
         working-directory: test_server
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_local_server"
         shell: bash
         working-directory: test_local_server
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_multi_server"
         shell: bash
         working-directory: test_multi_server
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_remote_workflow"
         shell: bash
         working-directory: test_remote_workflow
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_remote_operator"
         shell: bash
         working-directory: test_remote_operator
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_workflow"
         shell: bash
         working-directory: test_workflow
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ env.ANSYS_VERSION }}
           path: tests/junit/test-results.xml
+        if: always()
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v3
@@ -320,6 +336,7 @@ jobs:
         shell: bash
         run: |
           pip uninstall -y ansys-dpf-gatebin
+        if: always()
 
       - name: "Check sanity without gatebin INPROCESS"
         shell: bash
@@ -328,6 +345,7 @@ jobs:
           python run_non_regression_examples.py
         env:
           DPF_SERVER_TYPE: INPROCESS
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
@@ -340,6 +358,7 @@ jobs:
           python run_non_regression_examples.py
         env:
           DPF_SERVER_TYPE: GRPC
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
@@ -352,6 +371,7 @@ jobs:
           python run_non_regression_examples.py
         env:
           DPF_SERVER_TYPE: LEGACYGRPC
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
@@ -433,75 +453,91 @@ jobs:
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_launcher"
         shell: bash
         working-directory: test_launcher
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_server"
         shell: bash
         working-directory: test_server
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_local_server"
         shell: bash
         working-directory: test_local_server
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_multi_server"
         shell: bash
         working-directory: test_multi_server
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_remote_workflow"
         shell: bash
         working-directory: test_remote_workflow
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_remote_operator"
         shell: bash
         working-directory: test_remote_operator
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_workflow"
         shell: bash
         working-directory: test_workflow
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ matrix.ANSYS_VERSION }}
           path: tests/junit/test-results.xml
+        if: always()
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v3
