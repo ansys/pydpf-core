@@ -1,6 +1,6 @@
 """Version for ansys-dpf-core"""
 # major, minor, patch
-version_info = 0, 5, "dev2"
+version_info = 0, 6, 0
 # Nice string for the version
 __version__ = ".".join(map(str, version_info))
 min_server_version = "2.0"
