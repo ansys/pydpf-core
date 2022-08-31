@@ -18,7 +18,7 @@ concurrency:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  ANSYS_VERSION: 222
+  ANSYS_VERSION: 231
 
 jobs:
   style:
