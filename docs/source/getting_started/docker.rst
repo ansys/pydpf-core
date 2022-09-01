@@ -52,7 +52,7 @@ Install the DPF image
 
 
 Note that the preceding command shares the current directory to the ``/dpf``
-directory contained within the image.  This is necessary as the DPF
+directory contained within the image. This is necessary as the DPF
 binary within the image must access the files within the image
 itself. Any files that you want to have DPF read must be placed in
 ``pwd``. You can map other directories as needed, but these

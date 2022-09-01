@@ -1,7 +1,7 @@
 """
 .. _ref_basic_example:
 
-Basic DPF-Core Usage
+Basic DPF-Core usage
 ~~~~~~~~~~~~~~~~~~~~
 This example shows how to open a result file and do some
 basic postprocessing.
@@ -20,7 +20,7 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
 ###############################################################################
-# Next, open an example and print out the ``model`` object.  The
+# Next, open an example and print out the ``model`` object. The
 # ``Model`` class helps to organize access methods for the result by
 # keeping track of the operators and data sources used by the result
 # file.
@@ -33,7 +33,7 @@ from ansys.dpf.core import examples
 # - Number of results
 #
 # Also, note that the first time you create a DPF object, Python
-# automatically attempts to start the server in the background.  If you
+# automatically attempts to start the server in the background. If you
 # want to connect to an existing server (either local or remote), use
 # :func:`dpf.connect_to_server`.
 
@@ -41,28 +41,28 @@ model = dpf.Model(examples.simple_bar)
 print(model)
 
 ###############################################################################
-# Model Metadata
+# Model metadata
 # ~~~~~~~~~~~~~~
 # Specific metadata can be extracted from the model by referencing the
-# model's ``metadata`` property.  For example, to print only the
+# model's ``metadata`` property. For example, to print only the
 # ``result_info``:
 
 metadata = model.metadata
 print(metadata.result_info)
 
 ###############################################################################
-# To print the mesh region:
+# Print the mesh region:
 
 print(metadata.meshed_region)
 
 ###############################################################################
-# To print the time or frequency of the results:
+# Print the time or frequency of the results:
 
 print(metadata.time_freq_support)
 
 ###############################################################################
-# Extracting Displacement Results
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Extract displacement results
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # All results of the model can be accessed through the ``results``
 # property, which returns the :class:`ansys.dpf.core.results.Results`
 # class. This class contains the DPF result operators available to a

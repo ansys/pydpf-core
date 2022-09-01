@@ -20,15 +20,15 @@
 
 .. _ref_distributed_msup:
 
-Distributed modal superposition
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how distributed files can be read and expanded
-on distributed processes. The modal basis (2 distributed files) is read
-on 2 remote servers and the modal response reading and the expansion is
-done on a third server.
+Distributed mode superposition (MSUP)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example shows how to read and expand distributed files
+on distributed processes. The modal basis (two distributed files) is read
+on two remote servers. The modal response is then read and expanded on a
+third server.
 
-To help understand this example the following diagram is provided. It shows
-the operator chain used to compute the final result.
+The following diagram helps you to understand this example. It shows the operator
+chain that is used to compute the final result.
 
 .. image:: 02-operator-dep.svg
    :align: center
@@ -36,7 +36,7 @@ the operator chain used to compute the final result.
 
 .. GENERATED FROM PYTHON SOURCE LINES 20-21
 
-Import dpf module and its examples files.
+Import the ``dpf-core`` module and its examples files.
 
 .. GENERATED FROM PYTHON SOURCE LINES 21-26
 
@@ -54,24 +54,35 @@ Import dpf module and its examples files.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-36
+.. GENERATED FROM PYTHON SOURCE LINES 27-38
 
 Configure the servers
 ~~~~~~~~~~~~~~~~~~~~~
-Make a list of ip addresses and port numbers on which dpf servers are
-started. Operator instances will be created on each of those servers to
-address each a different result file.
-In this example, we will post process an analysis distributed in 2 files,
-we will consequently require 2 remote processes.
-To make this example easier, we will start local servers here,
-but we could get connected to any existing servers on the network.
+Make a list of IP addresses and port numbers that DPF servers start and
+listen on. Operator instances are created on each of these servers so that
+each server can address a different result file.
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-41
+This example postprocesses an analysis distributed in two files.
+Consequently, it requires two remote processes.
+
+To make it easier, this example starts local servers. However, you can
+connect to any existing servers on your network.
+
+.. GENERATED FROM PYTHON SOURCE LINES 38-52
 
 .. code-block:: default
 
 
-    remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
+    global_server = dpf.start_local_server(
+        as_global=True, config=dpf.AvailableServerConfigs.InProcessServer
+    )
+
+    remote_servers = [
+        dpf.start_local_server(
+            as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+        dpf.start_local_server(
+            as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+    ]
     ips = [remote_server.ip for remote_server in remote_servers]
     ports = [remote_server.port for remote_server in remote_servers]
 
@@ -82,11 +93,11 @@ but we could get connected to any existing servers on the network.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 53-54
 
-Print the ips and ports.
+Print the IP addresses and ports.
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-46
+.. GENERATED FROM PYTHON SOURCE LINES 54-57
 
 .. code-block:: default
 
@@ -99,21 +110,19 @@ Print the ips and ports.
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50057, 50058]
+    ports: [50055, 50056]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-48
+.. GENERATED FROM PYTHON SOURCE LINES 58-59
 
-Choose the file path.
+Specify the file path.
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-53
+.. GENERATED FROM PYTHON SOURCE LINES 59-64
 
 .. code-block:: default
 
@@ -129,17 +138,19 @@ Choose the file path.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-59
+.. GENERATED FROM PYTHON SOURCE LINES 65-71
 
-Create the operators on the servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-On each server we create two new operators, one for 'displacement' computations
-and a 'mesh_provider' operator and then define their data sources. The displacement
-and mesh_provider operators receive data from their respective data files on each server.
+Create operators on each server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+On each server, create two operators, one for displacement computations
+and one for providing the mesh. Then, define their data sources. Both the
+displacement operator and mesh provider operator receive data from their
+respective data files on each server.
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-71
+.. GENERATED FROM PYTHON SOURCE LINES 71-84
 
 .. code-block:: default
+
 
     remote_displacement_operators = []
     remote_mesh_operators = []
@@ -160,14 +171,14 @@ and mesh_provider operators receive data from their respective data files on eac
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-76
+.. GENERATED FROM PYTHON SOURCE LINES 85-89
 
-Create a local operators chain for expansion
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In the following series of operators we merge the modal basis, the meshes, read
-the modal response and expand the modal response with the modal basis.
+Create a local operator chain for expansion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The following series of operators merge the modal basis and the meshes, read
+the modal response, and expand the modal response with the modal basis.
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-90
+.. GENERATED FROM PYTHON SOURCE LINES 89-103
 
 .. code-block:: default
 
@@ -192,12 +203,12 @@ the modal response and expand the modal response with the modal basis.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 91-93
+.. GENERATED FROM PYTHON SOURCE LINES 104-106
 
 Connect the operator chains together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 93-103
+.. GENERATED FROM PYTHON SOURCE LINES 106-116
 
 .. code-block:: default
 
@@ -234,8 +245,6 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     DPF  Fields Container
@@ -271,28 +280,23 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.095 seconds)
+   **Total running time of the script:** ( 0 minutes  1.778 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_02-distributed-msup_expansion.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: 02-distributed-msup_expansion.py <02-distributed-msup_expansion.py>`
 
-     :download:`Download Python source code: 02-distributed-msup_expansion.py <02-distributed-msup_expansion.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: 02-distributed-msup_expansion.ipynb <02-distributed-msup_expansion.ipynb>`
+      :download:`Download Jupyter notebook: 02-distributed-msup_expansion.ipynb <02-distributed-msup_expansion.ipynb>`
 
 
 .. only:: html

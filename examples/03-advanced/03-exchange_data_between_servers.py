@@ -1,12 +1,12 @@
 """
 .. _ref_exchange_data_between_servers.:
 
-Exchange Data Between Servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In this example, 2 dpf's servers will be started and a workflow will be
-created with a part on both servers. This example opens the possibility for a
-user to read data from a given machine and transform this data on another
-without any more difficulties than working on a local computer
+Exchange data between servers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In this example, two DPF servers are started, and a workflow is created
+with a part on both servers. This example shows how you can read data
+from a given machine and transform this data on another machine
+without any more difficulties than working on a local computer.
 """
 
 from ansys.dpf import core as dpf
@@ -14,33 +14,33 @@ from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
 ###############################################################################
-# Create 2 servers
-# ~~~~~~~~~~~~~~~~~
-# Here the 2 servers are started on the local machine with start_local_server
-# but, if the user has another server, he can connect on any dpf's server on
-# the network via: connect_to_server
+# Create two servers
+# ~~~~~~~~~~~~~~~~~~
+# Use the ``start_local_server()`` method to start two servers on your local
+# machine. If you have another server, you can use the ``connect_to_server()``
+# method to connect to any DPF server on your network. 
 
-# the as_global attributes allows to choose whether a server will be stored
-# by the module and used by default
-# Here, we choose the 1st server to be the default
+# The ``as_global`` attributes allows you to choose whether a server is stored
+# by the module and used by default. This example sets the first server as the default.
 server1 = dpf.start_local_server(as_global=True, config=dpf.AvailableServerConfigs.GrpcServer)
 server2 = dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer)
 
-# Check that the 2 servers are on different ports
+# Check that the two servers are listening on different ports.
 print(server1.port if hasattr(server1, "port") else "",
       server2.port if hasattr(server2, "port") else "")
 
 ###############################################################################
 # Send the result file
-# ~~~~~~~~~~~~~~~~~~~~~
-# Here, the result file is sent in a temporary dir of the first server
-# This file upload is useless in our case, since the 2 servers are locals
+# ~~~~~~~~~~~~~~~~~~~~
+# The result file is sent to the temporary directory of the first server.
+# This file upload is useless in this case because the two servers are local
+# machines.
 file = examples.complex_rst
 file_path_in_tmp = dpf.upload_file_in_tmp_folder(file)
 
 ###############################################################################
 # Create a workflow on the first server
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create the model
 model = dpf.Model(file_path_in_tmp)
 
@@ -50,18 +50,18 @@ disp.inputs.time_scoping(len(model.metadata.time_freq_support.time_frequencies))
 
 ###############################################################################
 # Create a workflow on the second server
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Change the cartesian coordinates to cylindrical coordinates cs
+# Change the Cartesian coordinates to cylindrical coordinates cs
 coordinates = ops.geo.rotate_in_cylindrical_cs_fc(server=server2)
 
-# Create the cartesian coordinate cs
+# Create the Cartesian coordinate cs
 cs = dpf.fields_factory.create_scalar_field(12, server=server2)
 cs.data = [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]
 
 coordinates.inputs.coordinate_system(cs)
 
-# choose the radial component to plot
+# Choose the radial component to plot
 comp = dpf.operators.logic.component_selector_fc(coordinates, 0, server=server2)
 
 ###############################################################################
@@ -79,7 +79,7 @@ coordinates.inputs.field(fc_copy)
 
 ###############################################################################
 # Plot the output
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~
 out = comp.outputs.fields_container()
 
 # real part

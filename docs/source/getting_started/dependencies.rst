@@ -12,10 +12,12 @@ installed. Package dependencies follow:
 
 - `ansys.dpf.gate <https://pypi.org/project/ansys-dpf-gate/>`_, which is the gate
   to the DPF C API or Python gRPC API. The gate depends on the server configuration:
+
     - `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ is the gRPC code
       generated from protobuf files.
     - `ansys.dpf.gatebin <https://pypi.org/project/ansys-dpf-gatebin/>`_ is the
       operating system-specific binaries with DPF C APIs.
+
 - `psutil <https://pypi.org/project/psutil/>`_
 - `tqdm <https://pypi.org/project/tqdm/>`_
 - `packaging <https://pypi.org/project/packaging/>`_

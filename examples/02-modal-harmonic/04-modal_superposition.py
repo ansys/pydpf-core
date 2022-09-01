@@ -1,8 +1,8 @@
 """
 .. _ref_msup:
 
-Expand Harmonic Modal Superposition with DPF
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Expand harmonic modal superposition with DPF
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Different types of linear dynamics expansions are implemented in DPF.
 With modal superposition used in harmonic analysis, modal coefficients
 are multiplied by mode shapes (of a previous modal analysis) to analyse
@@ -15,11 +15,11 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
 ###############################################################################
-# Create the data sources
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# First create a data sources with the mode shapes and the modal response
-# The expansion is recursive in dpf: first the modal response is read,
-# then, "upstreams" mode shapes are found in the data sources, so they
+# Create data sources
+# ~~~~~~~~~~~~~~~~~~~
+# Create data sources with the mode shapes and the modal response.
+# The expansion is recursive in DPF: first the modal response is read.
+# Then, "upstream" mode shapes are found in the data sources, where they
 # are read and expanded (mode shapes x modal response)
 
 msup_files = examples.download_msup_files_to_dict()
@@ -31,10 +31,10 @@ data_sources.add_upstream(up_stream_data_sources)
 
 ###############################################################################
 # Compute displacements
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Once the recursivity is put in the data sources (with add_upstream)
-# computing displacements with or without expansion, in harmonic, transient
-# or modal analysis has the exact same syntax
+# ~~~~~~~~~~~~~~~~~~~~~
+# Once the ``add_upstream()`` method puts the recursivity in the data sources, 
+# in a harmonic, transient, or modal analysis, computing displacements with
+# or without expansion has the exact same syntax.
 
 model = dpf.Model(data_sources)
 disp = model.results.displacement.on_all_time_freqs.eval()

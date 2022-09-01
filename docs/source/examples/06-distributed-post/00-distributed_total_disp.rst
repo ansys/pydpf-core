@@ -20,11 +20,11 @@
 
 .. _ref_distributed_total_disp:
 
-Post processing of displacement on distributed processes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Postprocessing of displacement on distributed processes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To help understand this example the following diagram is provided. It shows
-the operator chain used to compute the final result.
+This diagram helps you to understand this example. It shows
+the operator chain that is used to compute the final result.
 
 .. image:: 00-operator-dep.svg
    :align: center
@@ -32,7 +32,7 @@ the operator chain used to compute the final result.
 
 .. GENERATED FROM PYTHON SOURCE LINES 16-17
 
-Import dpf module and its examples files
+Import the ``dpf-core`` module and its examples files.
 
 .. GENERATED FROM PYTHON SOURCE LINES 17-22
 
@@ -50,24 +50,34 @@ Import dpf module and its examples files
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-32
+.. GENERATED FROM PYTHON SOURCE LINES 23-33
 
-Configure the servers
-~~~~~~~~~~~~~~~~~~~~~~
-Make a list of ip addresses and port numbers on which dpf servers are
-started. Operator instances will be created on each of those servers to
-address each a different result file.
-In this example, we will post process an analysis distributed in 2 files,
-we will consequently require 2 remote processes.
-To make this example easier, we will start local servers here,
-but we could get connected to any existing servers on the network.
+Configure the servers.
+Make a list of IP addresses and port numbers that DPF servers start and
+listen on. Operator instances are created on each of these servers so that
+each can address a different result file.
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-37
+This example postprocesses an analysis distributed in two files.
+Consequently, it require two remote processes.
+
+To make it easier, this example starts local servers. However, you can
+connect to any existing servers on your network.
+
+.. GENERATED FROM PYTHON SOURCE LINES 33-47
 
 .. code-block:: default
 
 
-    remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
+    global_server = dpf.start_local_server(
+        as_global=True, config=dpf.AvailableServerConfigs.InProcessServer
+    )
+
+    remote_servers = [
+        dpf.start_local_server(
+            as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+        dpf.start_local_server(
+            as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+    ]
     ips = [remote_server.ip for remote_server in remote_servers]
     ports = [remote_server.port for remote_server in remote_servers]
 
@@ -78,11 +88,11 @@ but we could get connected to any existing servers on the network.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-39
+.. GENERATED FROM PYTHON SOURCE LINES 48-49
 
-Print the ips and ports
+Print the IP addresses and ports.
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-42
+.. GENERATED FROM PYTHON SOURCE LINES 49-52
 
 .. code-block:: default
 
@@ -95,22 +105,19 @@ Print the ips and ports
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     ips: ['127.0.0.1', '127.0.0.1']
-    ports: [50057, 50058]
+    ports: [50055, 50056]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-45
+.. GENERATED FROM PYTHON SOURCE LINES 53-54
 
-Here we show how we could send files in temporary directory if we were not
-in shared memory
+Send files to the temporary directory if they are not in shared memory.
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-49
+.. GENERATED FROM PYTHON SOURCE LINES 54-58
 
 .. code-block:: default
 
@@ -125,20 +132,23 @@ in shared memory
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-57
+.. GENERATED FROM PYTHON SOURCE LINES 59-63
 
-Create the operators on the servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-On each server we create two new operators for 'displacement' and 'norm'
-computations and define their data sources. The displacement operator
-receives data from the data file in its respective server. And the norm
-operator, being chained to the displacement operator, receives input from the
-output of this one.
+Create operators on each server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+On each server, create two operators, one for displacement computations
+and one for norm computations. Define their data sources:
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-65
+.. GENERATED FROM PYTHON SOURCE LINES 63-77
 
 .. code-block:: default
 
+
+    # - The displacement operator receives data from the data file in its respective
+    #   server.
+    # - The norm operator, which is chained to the displacement operator, receives
+    #   input from the output of the displacement operator.
+    #
     remote_operators = []
     for i, server in enumerate(remote_servers):
         displacement = ops.result.displacement(server=server)
@@ -154,12 +164,13 @@ output of this one.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-68
+.. GENERATED FROM PYTHON SOURCE LINES 78-81
 
-Create a merge_fields_containers operator able to merge the results
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create an operator to merge results
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create the ``merge_fields_containers`` operator to merge the results.
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-71
+.. GENERATED FROM PYTHON SOURCE LINES 81-84
 
 .. code-block:: default
 
@@ -173,12 +184,12 @@ Create a merge_fields_containers operator able to merge the results
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-74
+.. GENERATED FROM PYTHON SOURCE LINES 85-87
 
 Connect the operators together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-82
+.. GENERATED FROM PYTHON SOURCE LINES 87-95
 
 .. code-block:: default
 
@@ -195,8 +206,6 @@ Connect the operators together and get the output
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -216,28 +225,23 @@ Connect the operators together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.711 seconds)
+   **Total running time of the script:** ( 0 minutes  0.440 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_00-distributed_total_disp.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: 00-distributed_total_disp.py <00-distributed_total_disp.py>`
 
-     :download:`Download Python source code: 00-distributed_total_disp.py <00-distributed_total_disp.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: 00-distributed_total_disp.ipynb <00-distributed_total_disp.ipynb>`
+      :download:`Download Jupyter notebook: 00-distributed_total_disp.ipynb <00-distributed_total_disp.ipynb>`
 
 
 .. only:: html

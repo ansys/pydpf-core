@@ -16,7 +16,8 @@ This section has the following goals:
 
  - Provide simple how-tos for tackling most common use cases.
 
-Other sections include :ref:`ref_api_section` and :ref:`sphx_glr_examples`.
+Other sections of this guide include :ref:`ref_api_section`, :ref:`ref_dpf_operators_reference`,
+and :ref:`sphx_glr_examples`.
 
 .. include::
    dpf_concepts.rst

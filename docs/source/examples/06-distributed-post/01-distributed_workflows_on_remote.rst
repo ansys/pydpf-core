@@ -20,23 +20,24 @@
 
 .. _ref_distributed_workflows_on_remote:
 
-Create custom workflow on distributed processes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how distributed files can be read and post processed
-on distributed processes. After remote post processing,
-results are merged on the local process. In this example, different operator
-sequences are directly created on different servers. These operators are then
-connected together without having to care that they are on remote processes.
+Create a custom workflow on distributed processes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example shows how to read and postprocess distributed files on
+distributed processes. After remote postprocessing, results are merged
+on the local process. This example creates different operator
+sequences directly on different servers. These operators are then
+connected together so that you don't have to care that they are on
+remote processes.
 
 .. image:: 01-operator-dep.svg
    :align: center
    :width: 400
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-18
+.. GENERATED FROM PYTHON SOURCE LINES 18-19
 
-Import dpf module and its examples files
+Import the ``dpf-core`` module and its examples files.
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-23
+.. GENERATED FROM PYTHON SOURCE LINES 19-24
 
 .. code-block:: default
 
@@ -52,19 +53,27 @@ Import dpf module and its examples files
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-28
+.. GENERATED FROM PYTHON SOURCE LINES 25-28
 
-Configure the servers
-~~~~~~~~~~~~~~~~~~~~~
-To make this example easier, we will start local servers here,
-but we could get connected to any existing servers on the network.
+Configure the servers.
+To make it easier, this example starts local servers. However, you can
+connect to any existing servers on your network.
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-31
+.. GENERATED FROM PYTHON SOURCE LINES 28-40
 
 .. code-block:: default
 
 
-    remote_servers = [dpf.start_local_server(as_global=False), dpf.start_local_server(as_global=False)]
+    global_server = dpf.start_local_server(
+        as_global=True, config=dpf.AvailableServerConfigs.InProcessServer
+    )
+
+    remote_servers = [
+        dpf.start_local_server(
+            as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+        dpf.start_local_server(
+            as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+    ]
 
 
 
@@ -73,12 +82,11 @@ but we could get connected to any existing servers on the network.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-34
+.. GENERATED FROM PYTHON SOURCE LINES 41-42
 
-Here we show how we could send files in temporary directory if we were not
-in shared memory
+Send files to the temporary directory if they are not in shared memory.
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-39
+.. GENERATED FROM PYTHON SOURCE LINES 42-47
 
 .. code-block:: default
 
@@ -94,11 +102,11 @@ in shared memory
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-41
+.. GENERATED FROM PYTHON SOURCE LINES 48-49
 
-First operator chain.
+Create the first operator chain.
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-49
+.. GENERATED FROM PYTHON SOURCE LINES 49-57
 
 .. code-block:: default
 
@@ -117,11 +125,11 @@ First operator chain.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-51
+.. GENERATED FROM PYTHON SOURCE LINES 58-59
 
-Second operator chain.
+Create the second operator chain.
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-58
+.. GENERATED FROM PYTHON SOURCE LINES 59-66
 
 .. code-block:: default
 
@@ -139,11 +147,11 @@ Second operator chain.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-60
+.. GENERATED FROM PYTHON SOURCE LINES 67-68
 
-Local merge operator.
+Create the local merge operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-63
+.. GENERATED FROM PYTHON SOURCE LINES 68-71
 
 .. code-block:: default
 
@@ -157,12 +165,11 @@ Local merge operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-66
+.. GENERATED FROM PYTHON SOURCE LINES 72-73
 
-Connect the operator chains together and get the output
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Connect the operator chains together and get the output.
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-75
+.. GENERATED FROM PYTHON SOURCE LINES 73-82
 
 .. code-block:: default
 
@@ -186,8 +193,6 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     DPF stress_7491.964387Hz Field
@@ -203,28 +208,23 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.630 seconds)
+   **Total running time of the script:** ( 0 minutes  0.990 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_01-distributed_workflows_on_remote.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: 01-distributed_workflows_on_remote.py <01-distributed_workflows_on_remote.py>`
 
-     :download:`Download Python source code: 01-distributed_workflows_on_remote.py <01-distributed_workflows_on_remote.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: 01-distributed_workflows_on_remote.ipynb <01-distributed_workflows_on_remote.ipynb>`
+      :download:`Download Jupyter notebook: 01-distributed_workflows_on_remote.ipynb <01-distributed_workflows_on_remote.ipynb>`
 
 
 .. only:: html

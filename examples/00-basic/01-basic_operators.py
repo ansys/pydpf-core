@@ -1,11 +1,11 @@
 """
 .. _ref_basic_operators_example:
 
-Operators Overview
+Operators overview
 ~~~~~~~~~~~~~~~~~~
 
 In DPF, operators provide the primary method for interacting with and extracting
-results.  Within DPF-Core, operators are directly exposed with
+results. Within DPF-Core, operators are directly exposed with
 the ``Operators`` class as well as wrapped within several other
 convenience classes.
 
@@ -29,7 +29,7 @@ print(model)
 ###############################################################################
 # Next, create a raw displacement operator ``"U"``.  Each operator
 # contains ``input`` and ``output`` pins that can be connected to
-# various sources to include other operators.  This allows operators
+# various sources to include other operators. This allows operators
 # to be "chained" to allow for highly efficient operations.
 #
 # To print out the available inputs and outputs of the
@@ -39,7 +39,7 @@ print(disp_op.inputs)
 print(disp_op.outputs)
 
 ###############################################################################
-# Compute the Maximum Normalized Displacement
+# Compute the maximum normalized displacement
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # This example demonstrate how to chain various operators. It connects the input
 # of the operator to the data sources contained within the ``model`` object and
@@ -64,10 +64,10 @@ print(field_max)
 print(field_max.data)
 
 ###############################################################################
-# Wrapped Operators
+# Wrapped operators
 # ~~~~~~~~~~~~~~~~~
 # The ``model.results`` property contains all the wrapped operators
-# available for a given result.  This is provided out of convenience
+# available for a given result. This is provided out of convenience
 # because all operators may not be available for a given result. Consequently,
 # it is much easier to reference available operators by first running:
 print(model.results)
@@ -92,7 +92,7 @@ print(field_max.data)
 print(model.metadata.meshed_region.plot(disp_op.outputs.fields_container()))
 
 ###############################################################################
-# Scripting Operator Syntax
+# Scripting operator syntax
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Because DPF provides a scripting syntax, knowing
 # an operator's "string name" is not mandatory.

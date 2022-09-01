@@ -1,32 +1,53 @@
-To add third party modules as dependencies to a custom DPF python plugin, a folder or zip file
-with the sites of the dependencies needs to be created and referenced in an xml located next to the plugin's folder
-and having the same name as the plugin plus the ``.xml`` extension. The ``site`` python module is used by DPF when
-calling :py:func:`ansys.dpf.core.core.load_library` function to add these custom sites to the python interpreter path.
-To create these custom sites, the requirements of the custom plugin should be installed in a python virtual
-environment, the site-packages (with unnecessary folders removed) should be zipped and put with the plugin. The
-path to this zip should be referenced in the xml as done above.
+To add third-party modules as dependencies to a plug-in package, you should create
+and reference a folder or ZIP file with the sites of the dependencies in an XML file
+located next to the folder for the plug-in package. The XML file must have the same
+name as the plug-in package plus an ``.xml`` extension.
 
-To simplify this step, a requirements file can be added in the plugin, like:
+When the :py:func:`ansys.dpf.core.core.load_library` method is called, PDF-Core uses the
+``site`` Python module to add custom sites to the path for the Python interpreter.
 
-.. dropdown:: requirements.txt
 
-   .. literalinclude:: /examples/07-python-operators/plugins/gltf_plugin/requirements.txt
+To create these custom sites, do the following:
 
-And this :download:`powershell script </user_guide/create_sites_for_python_operators.ps1>` for windows or
-this :download:`shell script </user_guide/create_sites_for_python_operators.sh>` can be ran with the mandatory arguments:
+#. Install the requirements of the plug-in package in a Python virtual environment.
+#. Remove unnecessary folders from the site packages and compress them to a ZIP file.
+#. Place the ZIP file in the plug-in package.
+#. Reference the path to the ZIP file in the XML file as indicated above.
 
-- -pluginpath : path to the folder of the plugin.
-- -zippath : output zip file name.
+To simplify this step, you can add a requirements file in the plug-in package:
 
-optional arguments are:
+.. literalinclude:: /examples/07-python-operators/plugins/gltf_plugin/requirements.txt
 
-- -pythonexe : path to a python executable of your choice.
-- -tempfolder : path to a temporary folder to work on, default is the environment variable ``TEMP`` on Windows and /tmp/ on Linux.
 
-For windows powershell, call::
+For this approach, do the following:
 
-    create_sites_for_python_operators.ps1 -pluginpath /path/to/plugin -zippath /path/to/plugin/assets/winx64.zip
+#. Download the script for your operating system:
 
-For linux shell, call::
+   - For Windows, download this :download:`PowerShell script </user_guide/create_sites_for_python_operators.ps1>`.
+   - For Linux, download this :download:`Shell script </user_guide/create_sites_for_python_operators.sh>`.
+  
+3. Run the downloaded script with the mandatory arguments:
 
-   create_sites_for_python_operators.sh -pluginpath /path/to/plugin -zippath /path/to/plugin/assets/linx64.zip
+   - ``-pluginpath``: Path to the folder with the plug-in package.
+   - ``-zippath``: Path and name for ZIP file.
+   
+   Optional arguments are:
+
+   - ``-pythonexe``: Path to a Python executable of your choice.
+   - ``-tempfolder``: Path to a temporary folder to work in. The default is the environment variable
+     ``TEMP`` on Windows and ``/tmp/`` on Linux.
+
+#. Run the command for your operating system.
+
+  - From Windows PowerShell, run:
+
+    .. code-block::
+   
+       create_sites_for_python_operators.ps1 -pluginpath /path/to/plugin -zippath /path/to/plugin/assets/winx64.zip
+
+  - From Linux Shell, run:
+
+    .. code-block::
+
+       create_sites_for_python_operators.sh -pluginpath /path/to/plugin -zippath /path/to/plugin/assets/linx64.zip
+

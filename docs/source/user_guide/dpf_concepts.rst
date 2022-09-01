@@ -13,7 +13,7 @@ DPF concepts
 	
 .. card-carousel:: 2
 
-    .. card:: Concepts and Terminology
+    .. card:: Concepts and terminology
        :link: user_guide_concepts
        :link-type: ref
        :width: 25%
@@ -21,7 +21,7 @@ DPF concepts
 
        .. image:: ../images/drawings/book-logo.png
 
-    .. card:: Ways of Using DPF
+    .. card:: Ways of using DPF
        :link: user_guide_waysofusing
        :link-type: ref
        :width: 25%
@@ -29,7 +29,7 @@ DPF concepts
 
        .. image:: ../images/drawings/using-dpf.png
 
-    .. card:: Using DPF: Step by Step
+    .. card:: Using DPF: Step by step
        :link: user_guide_stepbystep
        :link-type: ref
        :width: 25%

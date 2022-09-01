@@ -1,7 +1,7 @@
 """
 .. _ref_use_local_data_example:
 
-Bring a Field's Data Locally to Improve Performance
+Bring a field's data locally to improve performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Reducing the number of calls to the server is key to improving
 performance. Using the ``as_local_field`` option brings the data
@@ -23,7 +23,7 @@ model = dpf.Model(examples.download_multi_stage_cyclic_result())
 print(model)
 
 ###############################################################################
-# Create the Workflow
+# Create the workflow
 # ~~~~~~~~~~~~~~~~~~~~
 # Maximum principal stress usually occurs on the skin of the
 # model. Computing results only on this skin reduces the data size.
@@ -39,7 +39,7 @@ skin_mesh = skin_op.outputs.mesh()
 skin_mesh.plot()
 
 ###############################################################################
-# Compute the stress principal inveriants on the skin nodes only:
+# Compute the stress principal invariants on the skin nodes only:
 stress_op = ops.result.stress(data_sources=model.metadata.data_sources)
 stress_op.inputs.requested_location.connect(dpf.locations.nodal)
 stress_op.inputs.mesh_scoping.connect(skin_op.outputs.nodes_mesh_scoping)
@@ -50,7 +50,7 @@ principal_stress_2 = principal_op.outputs.fields_eig_2()[0]
 principal_stress_3 = principal_op.outputs.fields_eig_3()[0]
 
 ###############################################################################
-# Manipulate Data Locally
+# Manipulate data locally
 # ~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -79,7 +79,7 @@ with field_to_keep.as_local_field() as f:
                         f.append(d, id)
 
 ###############################################################################
-# Plot Result Field
+# Plot result field
 # ~~~~~~~~~~~~~~~~~
 
 
@@ -88,7 +88,7 @@ with field_to_keep.as_local_field() as f:
 skin_mesh.plot(field_to_keep)
 
 ###############################################################################
-# Plot Initial Invariants
+# Plot initial invariants
 # ~~~~~~~~~~~~~~~~~~~~~~~
 
 

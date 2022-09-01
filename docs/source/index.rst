@@ -2,14 +2,14 @@
 PyDPF-Core
 ==========
 
-The Data Processing Framework (**DPF**) provides numerical simulation 
+The Data Processing Framework (DPF) provides numerical simulation 
 users and engineers with a toolbox for accessing and transforming simulation 
 data. With DPF, you can perform complex preprocessing or postprocessing of
 large amounts of simulation data within a simulation workflow.
 
 DPF is an independent, physics-agnostic tool that you can plug into many 
 apps for both data input and data output, including visualization and 
-result plots.It can access data from solver result files and other neutral
+result plots. It can access data from solver result files and other neutral
 formats, such as CSV, HDF5, and VTK files.
 
 Using the many DPF operators that are available, you can manipulate and
@@ -23,7 +23,7 @@ a modular and easy-to-use tool with a large range of capabilities.
 
 .. image:: images/drawings/dpf-flow.png
   :width: 670
-  :alt: DPF FLow
+  :alt: DPF fLow
   
 The ``ansys.dpf.core`` package provides a Python interface to DPF, enabling
 rapid postprocessing of a variety of Ansys file formats and physics solutions
@@ -34,7 +34,7 @@ Brief demo
 
 .. include:: _static/simple_example.rst
 
-For comprehesive demos, see :ref:`gallery`.
+For comprehensive demos, see :ref:`gallery`.
 
 
 Key features

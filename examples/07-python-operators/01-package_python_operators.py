@@ -1,31 +1,32 @@
 """
 .. _ref_python_plugin_package:
 
-Write user defined Operators as a package
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how more complex DPF python plugins of Operators can be
-created as standard python packages.
-The benefits of writing packages instead of simple scripts are:
-componentization (split the code in several
-python modules or files), distribution (with packages,
-standard python tools can be used to upload and
-download packages) and documentation (READMEs, docs, tests and
-examples can be added to the package).
+Create a plug-in package with multiple operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example shows how to create a plug-in package with multiple operators.
+The benefits of writing packages rather than simple scripts are:
 
-This plugin will hold 2 different Operators:
-  - One returning all the scoping ids having data higher than the average
-  - One returning all the scoping ids having data lower than the average
+- **Componentization:** You can split the code into several Python modules or files.
+- **Distribution:** You can use standard Python tools to upload and download packages.
+- **Documentation:** You can add README files, documentation, tests, and examples to the package.
+
+For this example, the plug-in package contains two different operators:
+
+- One that returns all scoping ID having data higher than the average
+- One that returns all scoping IDs having data lower than the average
+
 """
 
 ###############################################################################
-# Write Operator
-# --------------
-# For this more advanced use case, a python package is created.
-# Each Operator implementation derives from
-# :class:`ansys.dpf.core.custom_operator.CustomOperatorBase`
-# and a call to :py:func:`ansys.dpf.core.custom_operator.record_operator`
-# records the Operators of the plugin.
-# The python package `average_filter_plugin` is downloaded and displayed here:
+# Create the plug-in package
+# --------------------------
+# Each operator implementation derives from the
+# :class:`ansys.dpf.core.custom_operator.CustomOperatorBase` class
+# and a call to the :py:func:`ansys.dpf.core.custom_operator.record_operator`
+# method, which records the operators of the plug-in package.
+#
+# Download the ``average_filter_plugin`` plug-in package that has already been
+# created for you.
 
 import os
 from ansys.dpf.core import examples
@@ -50,20 +51,23 @@ for file in file_list:
 
 
 ###############################################################################
-# Load Plugin
-# -----------
-# Once a python plugin is written as a package, it can be loaded with the function
-# :py:func:`ansys.dpf.core.core.load_library` taking as first argument the
-# path to the directory of the plugin,
-# as second argument ``py_`` + any name identifying the plugin,
-# and as last argument the function's name exposed in the __init__ file
-# and used to record operators.
+# Load the plug-in package
+# ------------------------
+# You use the function :py:func:`ansys.dpf.core.core.load_library` to load the
+# plug-in package.
+# 
+# - The first argument is the path to the directory where the plug-in package
+#   is located.
+# - The second argument is ``py_`` plus any name identifying the plug-in package.
+# - The third argument is the name of the function exposed in the ``__init__ file``
+#   for the plug-in package that is used to record operators.
+#
 
 import os
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-# python plugins are not supported in process
+# Python plugins are not supported in process.
 dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
 tmp = dpf.make_tmp_dir_server()
@@ -77,15 +81,18 @@ dpf.load_library(
     "load_operators")
 
 ###############################################################################
-# Once the Plugin loaded, Operators recorded in the plugin can be used with:
+# Instantiate the operator.
 
 new_operator = dpf.Operator("ids_with_data_lower_than_average")
 
 ###############################################################################
-# To use this new Operator, a workflow computing the norm of the displacement
-# is connected to the "ids_with_data_lower_than_average" Operator.
-# Methods of the class ``ids_with_data_lower_than_average`` are dynamically
-# added thanks to the Operator's specification.
+# Connect a workflow
+# ------------------
+# Connect a workflow that computes the norm of the displacement
+# to the ``ids_with_data_lower_than_average`` operator.
+# Methods of the ``ids_with_data_lower_than_average`` class are dynamically
+# added because specifications for the operator are defined in the plug-in
+# package.
 
 # %%
 # .. graphviz::
@@ -102,8 +109,8 @@ new_operator = dpf.Operator("ids_with_data_lower_than_average")
 #    }
 
 ###############################################################################
-# Use the Custom Operator
-# -----------------------
+# Use the operator
+# ----------------
 
 ds = dpf.DataSources(dpf.upload_file_in_tmp_folder(examples.static_rst))
 displacement = dpf.operators.result.displacement(data_sources=ds)

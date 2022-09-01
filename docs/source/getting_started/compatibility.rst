@@ -14,7 +14,7 @@ Client-server
 -------------
 
 The DPF server version depends on your installed Ansys version.
-The following table shows client-server compatibibilty for supported
+The following table shows client-server compatibility for supported
 Ansys versions. With Ansys 2021 R2 and later, you can use PyDPF-Core
 version 3.0 or later. With Ansys 2021 R1, you must use a PyDPF-Core 0.2
 version.
@@ -29,11 +29,11 @@ should also be synchronized with the server version.
    :widths: 20 20 20 20 20
    :header-rows: 1
 
-   * - Ans.Dpf.Grpc.exe server version
-     - ansys.dpf.gatebin binaries Python module version
-     - ansys.dpf.gate Python module version
-     - ansys.grpc.dpf Python module version
-     - ansys.dpf.core Python module version
+   * - ``Ans.Dpf.Grpc.exe`` server version
+     - ``ansys.dpf.gatebin`` binaries Python module version
+     - ``ansys.dpf.gate`` Python module version
+     - ``ansys.grpc.dpf`` Python module version
+     - ``ansys.dpf.core`` Python module version
    * - 4.0 (Ansys 2022R2)
      - 0.1.1
      - 0.1.1
@@ -62,6 +62,6 @@ Environment variable
 The ``start_local_server``  method uses the ``Ans.Dpf.Grpc.bat`` file or
 ``Ans.Dpf.Grpc.sh`` file to start the server. Ensure that the ``AWP_ROOT{VER}``
 environment variable is set to your installed Ansys version. For example, if Ansys
-2022 installation is installed, ensure that the ``AWP_ROOT222`` environment
+2022 R2 is installed, ensure that the ``AWP_ROOT222`` environment
 variable is set to the path for this Ansys installation.
    

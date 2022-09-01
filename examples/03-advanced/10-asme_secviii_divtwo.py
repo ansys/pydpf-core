@@ -1,13 +1,11 @@
 """
 .. _ref_ASME_SecVIII_Div2:
 
-ASME Section VIII Division 2: pressure vessels
-----------------------------------------------
-This example demonstrates how PyDPF might be used to postprocess a Mechanical
-model according to an international standard.
-
-The standard chosen for this example is the well-known ASME Section VIII Division
-2 used for pressure vessels design.
+Pressure vessel analysis according to an ASME standard
+------------------------------------------------------
+This example demonstrates how you can use PyDPF to postprocess a Mechanical
+model according to the ASME Section VIII Division 2 standard for pressure
+vessel designs.
 
 This example is taken from Workshop 02.1 from Ansys Mechanical Advanced Topics.
 Instead of using several user defined results as it is done in the workshop,
@@ -18,9 +16,9 @@ Please be aware that this is just an example, so it is the user's duty to verify
 that calculation is made according to latest ASME standard.
 """
 
-# Here we import rst file from Workshop 02.1
-# Since it is a elastic-plastic analysis, there are several substeps. We focus
-# on the latest substep (number 4)
+# Import the result file from Workshop 02.1.
+# Because it is a elastic-plastic analysis, there are several substeps. The focus
+# here is on the latest substep (number 4)
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
@@ -37,25 +35,29 @@ timeScoping.ids = [4]
 ###############################################################################
 # Parameters input
 # ~~~~~~~~~~~~~~~~
-# User must go to ASME Section III Division 2 and get parameters alfasl & m2
-# Below the code if user is going to introduce these parameters manually
-# alfasl = input("Please introduce alfasl parameter from ASME\n")
-# alfasl = float(alfasl)
-# m2 = input("Please introduce m2 parameter from ASME\n")
-# m2 = float(m2)
-# Values for this exercise: alfasl = 2.2 & m2 = .288, same as original
+# You must go to ASME Section III Division 2 to get values for the parameters
+# ``alfasl`` and ``m2``. This is the code for introducing these parameters
+# manually:
+#
+# - ``alfasl`` = input("Introduce ``alfasl`` parameter from ASME\n")
+# - ``alfasl`` = float(alfasl)
+# -``m2`` = input("Introduce ``m2`` parameter from ASME\n")
+# - ``m2`` = float(m2)
+#
+# For this exercise, ``alfasl`` = 2.2 and ``m2`` = .288, which is the same
+# as the original.
 #
 
 alfasl = 2.2
 m2 = .288
 
 ###############################################################################
-# Stresses & strains
-# ~~~~~~~~~~~~~~~~~~
-# Stresses and strains are read. For getting same results as Mechanical, we read
-# Elemental Nodal strains and apply Von Mises invariant. Currently this operator
-# does not have the option to define effective Poisson's ratio. Due to this,
-# a correction factor is applied.
+# Stresses and strains
+# ~~~~~~~~~~~~~~~~~~~~
+# Stresses and strains are read. To get the same results as Mechanical, read
+# elemental nodal strains and apply von Mises invariant. This operator
+# does not have an option for defining the effective Poisson's ratio.
+# Consequently, a correction factor is applied.
 
 seqv_op = dpf.operators.result.stress_von_mises(time_scoping = timeScoping,
                                                 data_sources = dataSource,

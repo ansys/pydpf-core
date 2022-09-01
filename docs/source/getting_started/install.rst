@@ -4,18 +4,19 @@
 Installation
 ************
 
-PIP installation
+``pip`` installation
 ----------------
 
-To use PyDPF-Core with Ansys 2021 R2 or later, install the latest version
-of PyDPF-Core with:
+`pip <https://pypi.org/project/pip/>` is the package installer for Python.
+
+To use PyDPF-Core with Ansys 2021 R2 or later, install the latest version with:
 
 .. code::
 
    pip install ansys-dpf-core
 
 
-To use PyDPF-Core with Ansys 2021 R1, install PyDPF-Core version 0.30 with:
+To use PyDPF-Core with Ansys 2021 R1, install version 0.30 with:
 
 .. code::
 
@@ -24,6 +25,7 @@ To use PyDPF-Core with Ansys 2021 R1, install PyDPF-Core version 0.30 with:
 
 Wheel file installation
 -----------------------
+
 If you are unable to install PyDPF-Core on the host machine due to
 network isolation, download the latest wheel file or the wheel file
 for a specific release from `PyDPF-Core
@@ -84,7 +86,7 @@ Development mode installation
 -----------------------------
 
 If you want to edit and potentially contribute to DPF-Core, 
-clone the repository and install it using pip with the ``-e``
+clone the repository and install it using ``pip`` with the ``-e``
 development flag:
 
 .. code::

@@ -1,5 +1,5 @@
 .. _averaging_examples
 
-Averaging Examples
+Averaging examples
 ==================
-These demos showcase the use of some of the averaging operators of DPF.
+These examples show how to use some of DPF's averaging operators.
