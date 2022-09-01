@@ -49,8 +49,8 @@ def _get_dll_path(name, ansys_path=None):
     if ansys_path is None:
         awp_root = "AWP_ROOT" + str(__ansys_version__)
         ANSYS_INSTALL = os.environ.get(awp_root, None)
-    if ANSYS_INSTALL is None:
-        ANSYS_INSTALL = core.misc.find_ansys()
+        if ANSYS_INSTALL is None:
+            ANSYS_INSTALL = core.misc.find_ansys()
     else:
         ANSYS_INSTALL = ansys_path
     if ANSYS_INSTALL is None:
