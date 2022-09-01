@@ -1,5 +1,4 @@
 from .min_max_by_time import min_max_by_time 
-from .phase_of_max import phase_of_max 
 from .time_of_max_by_entity import time_of_max_by_entity 
 from .max_over_phase import max_over_phase 
 from .min_max_by_entity import min_max_by_entity 
@@ -7,6 +6,7 @@ from .min_max_over_time_by_entity import min_max_over_time_by_entity
 from .max_over_time_by_entity import max_over_time_by_entity 
 from .min_over_time_by_entity import min_over_time_by_entity 
 from .time_of_min_by_entity import time_of_min_by_entity 
+from .phase_of_max import phase_of_max 
 from .min_max import min_max 
 from .min_max_fc import min_max_fc 
 from .min_max_over_label_fc import min_max_over_label_fc 

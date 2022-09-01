@@ -1,12 +1,5 @@
-"""
-.. _ref_operators_package:
-
-Operators
----------
-"""
-
-from . import result
 from . import math
+from . import result
 from . import utility
 from . import min_max
 from . import scoping

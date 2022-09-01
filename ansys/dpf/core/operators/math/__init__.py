@@ -1,3 +1,4 @@
+from .cross_product_fc import cross_product_fc 
 from .minus import minus 
 from .cplx_multiply import cplx_multiply 
 from .unit_convert import unit_convert 
@@ -33,6 +34,7 @@ from .exponential import exponential
 from .exponential_fc import exponential_fc 
 from .ln import ln 
 from .ln_fc import ln_fc 
+from .cross_product import cross_product 
 from .component_wise_divide_fc import component_wise_divide_fc 
 from .kronecker_prod import kronecker_prod 
 from .real_part import real_part 
@@ -61,6 +63,7 @@ from .invert_fc import invert_fc
 from .accumulate_level_over_label_fc import accumulate_level_over_label_fc 
 from .accumulate_over_label_fc import accumulate_over_label_fc 
 from .average_over_label_fc import average_over_label_fc 
+from .min_max_over_time import min_max_over_time 
 from .correlation import correlation 
 from .make_one_on_comp import make_one_on_comp 
 from .entity_extractor import entity_extractor 
