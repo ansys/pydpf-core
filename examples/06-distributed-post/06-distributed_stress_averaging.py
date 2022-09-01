@@ -28,7 +28,8 @@ from ansys.dpf.core import operators as ops
 
 files = examples.download_distributed_files()
 
-remote_servers = [dpf.start_local_server(as_global=False) for file in files]
+config = dpf.ServerConfig(protocol=dpf.server.CommunicationProtocols.gRPC)
+remote_servers = [dpf.start_local_server(as_global=False, config=config) for file in files]
 ips = [remote_server.ip for remote_server in remote_servers]
 ports = [remote_server.port for remote_server in remote_servers]
 
@@ -129,8 +130,9 @@ ds = dpf.DataSources()
 ds.set_domain_result_file_path(files[0], 0)
 ds.set_domain_result_file_path(files[1], 1)
 
-stress = dpf.Model(ds).results.stress()
-fc_single_process = ops.averaging.to_nodal_fc(stress).outputs.fields_container()
+model = dpf.Model(ds)
+stress = model.results.stress()
+fc_single_process = ops.averaging.to_nodal_fc(stress).eval()
 
 fc_single_process[0].plot()
 print(fc_single_process[0].min().data)
