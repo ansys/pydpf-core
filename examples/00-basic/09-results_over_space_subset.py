@@ -141,9 +141,10 @@ stress = model.results.stress.split_by_body.on_location(dpf.locations.nodal).eva
 print(stress)
 
 for body_id in stress.get_mat_scoping().ids:
-    field = stress.get_field_by_mat_id(body_id)
-    if field.elementary_data_count > 0:
-        model.metadata.meshed_region.plot(field)
+    fields = stress.get_fields_by_mat_id(body_id)
+    for field in fields:
+        if field.elementary_data_count > 0:
+            model.metadata.meshed_region.plot(field)
 
 ###############################################################################
 # Create a custom spatial split
