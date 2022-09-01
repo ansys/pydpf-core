@@ -28,7 +28,7 @@ class prepare_mapping_workflow(Operator):
     >>> from ansys.dpf import core as dpf
 
     >>> # Instantiate operator
-    >>> op = dpf.operators.geo.prepare_mapping_workflow()
+    >>> op = dpf.operators.mapping.prepare_mapping_workflow()
 
     >>> # Make input connections
     >>> my_input_support = dpf.Field()
@@ -41,7 +41,7 @@ class prepare_mapping_workflow(Operator):
     >>> op.inputs.influence_box.connect(my_influence_box)
 
     >>> # Instantiate operator and connect inputs in one line
-    >>> op = dpf.operators.geo.prepare_mapping_workflow(
+    >>> op = dpf.operators.mapping.prepare_mapping_workflow(
     ...     input_support=my_input_support,
     ...     output_support=my_output_support,
     ...     filter_radius=my_filter_radius,
@@ -160,7 +160,7 @@ class InputsPrepareMappingWorkflow(_Inputs):
     Examples
     --------
     >>> from ansys.dpf import core as dpf
-    >>> op = dpf.operators.geo.prepare_mapping_workflow()
+    >>> op = dpf.operators.mapping.prepare_mapping_workflow()
     >>> my_input_support = dpf.Field()
     >>> op.inputs.input_support.connect(my_input_support)
     >>> my_output_support = dpf.Field()
@@ -201,7 +201,7 @@ class InputsPrepareMappingWorkflow(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.geo.prepare_mapping_workflow()
+        >>> op = dpf.operators.mapping.prepare_mapping_workflow()
         >>> op.inputs.input_support.connect(my_input_support)
         >>> # or
         >>> op.inputs.input_support(my_input_support)
@@ -219,7 +219,7 @@ class InputsPrepareMappingWorkflow(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.geo.prepare_mapping_workflow()
+        >>> op = dpf.operators.mapping.prepare_mapping_workflow()
         >>> op.inputs.output_support.connect(my_output_support)
         >>> # or
         >>> op.inputs.output_support(my_output_support)
@@ -239,7 +239,7 @@ class InputsPrepareMappingWorkflow(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.geo.prepare_mapping_workflow()
+        >>> op = dpf.operators.mapping.prepare_mapping_workflow()
         >>> op.inputs.filter_radius.connect(my_filter_radius)
         >>> # or
         >>> op.inputs.filter_radius(my_filter_radius)
@@ -257,7 +257,7 @@ class InputsPrepareMappingWorkflow(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.geo.prepare_mapping_workflow()
+        >>> op = dpf.operators.mapping.prepare_mapping_workflow()
         >>> op.inputs.influence_box.connect(my_influence_box)
         >>> # or
         >>> op.inputs.influence_box(my_influence_box)
@@ -272,7 +272,7 @@ class OutputsPrepareMappingWorkflow(_Outputs):
     Examples
     --------
     >>> from ansys.dpf import core as dpf
-    >>> op = dpf.operators.geo.prepare_mapping_workflow()
+    >>> op = dpf.operators.mapping.prepare_mapping_workflow()
     >>> # Connect inputs : op.inputs. ...
     >>> result_mapping_workflow = op.outputs.mapping_workflow()
     """
@@ -295,7 +295,7 @@ class OutputsPrepareMappingWorkflow(_Outputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.geo.prepare_mapping_workflow()
+        >>> op = dpf.operators.mapping.prepare_mapping_workflow()
         >>> # Connect inputs : op.inputs. ...
         >>> result_mapping_workflow = op.outputs.mapping_workflow()
         """  # noqa: E501

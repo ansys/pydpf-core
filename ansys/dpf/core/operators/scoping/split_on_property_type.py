@@ -23,6 +23,11 @@ class split_on_property_type(Operator):
         Mesh region
     requested_location : str
         Location (default is elemental)
+    skin_case : bool, optional
+        Set to 0: to have skin elements in their own
+        group, 1: merge skin and solid
+        elements, 2: merge skin and shell
+        elements (default)
     label1 : str, optional
         Properties to apply the filtering 'mat'
         and/or 'elshape' (default is
@@ -47,6 +52,8 @@ class split_on_property_type(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_requested_location = str()
     >>> op.inputs.requested_location.connect(my_requested_location)
+    >>> my_skin_case = bool()
+    >>> op.inputs.skin_case.connect(my_skin_case)
     >>> my_label1 = str()
     >>> op.inputs.label1.connect(my_label1)
     >>> my_label2 = str()
@@ -57,6 +64,7 @@ class split_on_property_type(Operator):
     ...     mesh_scoping=my_mesh_scoping,
     ...     mesh=my_mesh,
     ...     requested_location=my_requested_location,
+    ...     skin_case=my_skin_case,
     ...     label1=my_label1,
     ...     label2=my_label2,
     ... )
@@ -70,6 +78,7 @@ class split_on_property_type(Operator):
         mesh_scoping=None,
         mesh=None,
         requested_location=None,
+        skin_case=None,
         label1=None,
         label2=None,
         config=None,
@@ -84,6 +93,8 @@ class split_on_property_type(Operator):
             self.inputs.mesh.connect(mesh)
         if requested_location is not None:
             self.inputs.requested_location.connect(requested_location)
+        if skin_case is not None:
+            self.inputs.skin_case.connect(skin_case)
         if label1 is not None:
             self.inputs.label1.connect(label1)
         if label2 is not None:
@@ -114,6 +125,15 @@ class split_on_property_type(Operator):
                     type_names=["string"],
                     optional=False,
                     document="""Location (default is elemental)""",
+                ),
+                12: PinSpecification(
+                    name="skin_case",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Set to 0: to have skin elements in their own
+        group, 1: merge skin and solid
+        elements, 2: merge skin and shell
+        elements (default)""",
                 ),
                 13: PinSpecification(
                     name="label",
@@ -194,6 +214,8 @@ class InputsSplitOnPropertyType(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_requested_location = str()
     >>> op.inputs.requested_location.connect(my_requested_location)
+    >>> my_skin_case = bool()
+    >>> op.inputs.skin_case.connect(my_skin_case)
     >>> my_label1 = str()
     >>> op.inputs.label1.connect(my_label1)
     >>> my_label2 = str()
@@ -212,6 +234,10 @@ class InputsSplitOnPropertyType(_Inputs):
             split_on_property_type._spec().input_pin(9), 9, op, -1
         )
         self._inputs.append(self._requested_location)
+        self._skin_case = Input(
+            split_on_property_type._spec().input_pin(12), 12, op, -1
+        )
+        self._inputs.append(self._skin_case)
         self._label1 = Input(split_on_property_type._spec().input_pin(13), 13, op, 0)
         self._inputs.append(self._label1)
         self._label2 = Input(split_on_property_type._spec().input_pin(14), 14, op, 1)
@@ -276,6 +302,29 @@ class InputsSplitOnPropertyType(_Inputs):
         >>> op.inputs.requested_location(my_requested_location)
         """
         return self._requested_location
+
+    @property
+    def skin_case(self):
+        """Allows to connect skin_case input to the operator.
+
+        Set to 0: to have skin elements in their own
+        group, 1: merge skin and solid
+        elements, 2: merge skin and shell
+        elements (default)
+
+        Parameters
+        ----------
+        my_skin_case : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.scoping.split_on_property_type()
+        >>> op.inputs.skin_case.connect(my_skin_case)
+        >>> # or
+        >>> op.inputs.skin_case(my_skin_case)
+        """
+        return self._skin_case
 
     @property
     def label1(self):

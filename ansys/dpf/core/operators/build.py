@@ -13,6 +13,8 @@ from ansys.dpf.core.outputs import _make_printable_type
 from ansys.dpf.core.mapping_types import map_types_to_python
 
 
+dpf.start_local_server(config=dpf.AvailableServerConfigs.LegacyGrpcServer)
+
 def build_docstring(specification):
     """Used to generate class docstrings."""
     docstring = ""

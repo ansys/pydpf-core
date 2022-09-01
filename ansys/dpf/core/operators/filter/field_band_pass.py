@@ -23,7 +23,7 @@ class field_band_pass(Operator):
     min_threshold : float or Field
         A min threshold scalar or a field containing
         one value is expected
-    max_threshold : float or Field
+    max_threshold : float or Field, optional
         A max threshold scalar or a field containing
         one value is expected
 
@@ -97,7 +97,7 @@ class field_band_pass(Operator):
                 2: PinSpecification(
                     name="max_threshold",
                     type_names=["double", "field"],
-                    optional=False,
+                    optional=True,
                     document="""A max threshold scalar or a field containing
         one value is expected""",
                 ),
