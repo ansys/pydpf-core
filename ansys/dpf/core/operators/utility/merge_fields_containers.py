@@ -15,6 +15,10 @@ class merge_fields_containers(Operator):
 
     Parameters
     ----------
+    sum_merge : bool, optional
+        Default is false. if true redundant
+        quantities are summed instead of
+        being ignored.
     merged_fields_support : AbstractFieldSupport, optional
         Already merged field support.
     merged_fields_containers_support : AbstractFieldSupport, optional
@@ -35,6 +39,8 @@ class merge_fields_containers(Operator):
     >>> op = dpf.operators.utility.merge_fields_containers()
 
     >>> # Make input connections
+    >>> my_sum_merge = bool()
+    >>> op.inputs.sum_merge.connect(my_sum_merge)
     >>> my_merged_fields_support = dpf.AbstractFieldSupport()
     >>> op.inputs.merged_fields_support.connect(my_merged_fields_support)
     >>> my_merged_fields_containers_support = dpf.AbstractFieldSupport()
@@ -46,6 +52,7 @@ class merge_fields_containers(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.merge_fields_containers(
+    ...     sum_merge=my_sum_merge,
     ...     merged_fields_support=my_merged_fields_support,
     ...     merged_fields_containers_support=my_merged_fields_containers_support,
     ...     fields_containers1=my_fields_containers1,
@@ -58,6 +65,7 @@ class merge_fields_containers(Operator):
 
     def __init__(
         self,
+        sum_merge=None,
         merged_fields_support=None,
         merged_fields_containers_support=None,
         fields_containers1=None,
@@ -68,6 +76,8 @@ class merge_fields_containers(Operator):
         super().__init__(name="merge::fields_container", config=config, server=server)
         self._inputs = InputsMergeFieldsContainers(self)
         self._outputs = OutputsMergeFieldsContainers(self)
+        if sum_merge is not None:
+            self.inputs.sum_merge.connect(sum_merge)
         if merged_fields_support is not None:
             self.inputs.merged_fields_support.connect(merged_fields_support)
         if merged_fields_containers_support is not None:
@@ -87,6 +97,14 @@ class merge_fields_containers(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -3: PinSpecification(
+                    name="sum_merge",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Default is false. if true redundant
+        quantities are summed instead of
+        being ignored.""",
+                ),
                 -2: PinSpecification(
                     name="merged_fields_support",
                     type_names=["abstract_field_support"],
@@ -173,6 +191,8 @@ class InputsMergeFieldsContainers(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.merge_fields_containers()
+    >>> my_sum_merge = bool()
+    >>> op.inputs.sum_merge.connect(my_sum_merge)
     >>> my_merged_fields_support = dpf.AbstractFieldSupport()
     >>> op.inputs.merged_fields_support.connect(my_merged_fields_support)
     >>> my_merged_fields_containers_support = dpf.AbstractFieldSupport()
@@ -185,6 +205,10 @@ class InputsMergeFieldsContainers(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(merge_fields_containers._spec().inputs, op)
+        self._sum_merge = Input(
+            merge_fields_containers._spec().input_pin(-3), -3, op, -1
+        )
+        self._inputs.append(self._sum_merge)
         self._merged_fields_support = Input(
             merge_fields_containers._spec().input_pin(-2), -2, op, -1
         )
@@ -201,6 +225,28 @@ class InputsMergeFieldsContainers(_Inputs):
             merge_fields_containers._spec().input_pin(1), 1, op, 1
         )
         self._inputs.append(self._fields_containers2)
+
+    @property
+    def sum_merge(self):
+        """Allows to connect sum_merge input to the operator.
+
+        Default is false. if true redundant
+        quantities are summed instead of
+        being ignored.
+
+        Parameters
+        ----------
+        my_sum_merge : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.merge_fields_containers()
+        >>> op.inputs.sum_merge.connect(my_sum_merge)
+        >>> # or
+        >>> op.inputs.sum_merge(my_sum_merge)
+        """
+        return self._sum_merge
 
     @property
     def merged_fields_support(self):

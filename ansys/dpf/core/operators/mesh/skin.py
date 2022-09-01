@@ -44,6 +44,7 @@ class skin(Operator):
     >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
     >>> result_map_new_elements_to_old = op.outputs.map_new_elements_to_old()
     >>> result_property_field_new_elements_to_old = op.outputs.property_field_new_elements_to_old()
+    >>> result_facet_indices = op.outputs.facet_indices()
     """
 
     def __init__(self, mesh=None, mesh_scoping=None, config=None, server=None):
@@ -100,7 +101,24 @@ class skin(Operator):
                     name="property_field_new_elements_to_old",
                     type_names=["property_field"],
                     optional=False,
-                    document="""""",
+                    document="""This property field gives, for each new face
+        element id (in the scoping) the
+        corresponding 3d volume element index
+        (in the data) it has been extracted
+        from. the 3d volume element id can be
+        found with the element scoping of the
+        input mesh.""",
+                ),
+                4: PinSpecification(
+                    name="facet_indices",
+                    type_names=["property_field"],
+                    optional=False,
+                    document="""This property field fives, for each new face
+        element id (in the scoping) the
+        corresponding face index on the
+        source 3d volume element. the 3d
+        volume element can be extracted from
+        the previous output.""",
                 ),
             },
         )
@@ -214,6 +232,7 @@ class OutputsSkin(_Outputs):
     >>> result_nodes_mesh_scoping = op.outputs.nodes_mesh_scoping()
     >>> result_map_new_elements_to_old = op.outputs.map_new_elements_to_old()
     >>> result_property_field_new_elements_to_old = op.outputs.property_field_new_elements_to_old()
+    >>> result_facet_indices = op.outputs.facet_indices()
     """
 
     def __init__(self, op: Operator):
@@ -228,6 +247,8 @@ class OutputsSkin(_Outputs):
             skin._spec().output_pin(3), 3, op
         )
         self._outputs.append(self._property_field_new_elements_to_old)
+        self._facet_indices = Output(skin._spec().output_pin(4), 4, op)
+        self._outputs.append(self._facet_indices)
 
     @property
     def mesh(self):
@@ -296,3 +317,20 @@ class OutputsSkin(_Outputs):
         >>> result_property_field_new_elements_to_old = op.outputs.property_field_new_elements_to_old()
         """  # noqa: E501
         return self._property_field_new_elements_to_old
+
+    @property
+    def facet_indices(self):
+        """Allows to get facet_indices output of the operator
+
+        Returns
+        ----------
+        my_facet_indices : PropertyField
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.skin()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_facet_indices = op.outputs.facet_indices()
+        """  # noqa: E501
+        return self._facet_indices
