@@ -61,11 +61,11 @@ for file in file_list:
 # create and reference a folder or ZIP file with the sites of the dependencies
 # in an XML file located next to the folder for the plug-in package. The XML
 # file must have the same name as the plug-in package plus an ``.xml`` extension.
-# 
+#
 # When the :py:func:`ansys.dpf.core.core.load_library` method is called,
 # DPF-Core uses the ``site`` Python module to add custom to the path
 # for the Python interpreter.
-
+#
 # To create these custom sites, requirements of the plug-in package should be
 # installed in a Python virtual environment, the site-packages
 # (with unnecessary folders removed) should be compressed to a ZIP file and
@@ -82,9 +82,11 @@ with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
 
 # %%
 # Download the script for your operating system.
-# 
-# - For Windows, download this :download:`PowerShell script </user_guide/create_sites_for_python_operators.ps1>`.
-# - For Linux, download this :download:`Shell script </user_guide/create_sites_for_python_operators.sh>`.
+#
+# - For Windows, download this
+#   :download:`PowerShell script </user_guide/create_sites_for_python_operators.ps1>`.
+# - For Linux, download this
+#   :download:`Shell script </user_guide/create_sites_for_python_operators.sh>`.
 #
 # Run the downloaded script with the mandatory arguments:
 #
@@ -98,7 +100,7 @@ with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
 #   ``TEMP`` on Windows and ``/tmp/`` on Linux.
 #
 # Run the command for your operating system.
-# 
+#
 # - From Windows PowerShell, run::
 #
 #     create_sites_for_python_operators.ps1 -pluginpath /path/to/plugin -zippath /path/to/plugin/assets/winx64.zip # noqa: E501
@@ -144,7 +146,7 @@ elif os.name == "posix" and \
 # ------------------------
 # You use the function :py:func:`ansys.dpf.core.core.load_library` to load the
 # plug-in package.
-# 
+#
 # - The first argument is the path to the directory where the plug-in package
 #   is located.
 # - The second argument is ``py_`` plus any name identifying the plug-in package.

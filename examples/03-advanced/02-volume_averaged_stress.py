@@ -90,7 +90,7 @@ with connectivity_field.as_local_field() as connectivity:
 # Create workflow
 # ~~~~~~~~~~~~~~~~
 # For each list of elements surrounding nodes:
-# 
+#
 # - Compute equivalent stress averaged on elements.
 # - Apply dot product seqv.volume.
 # - Sum up those on the list of elements.

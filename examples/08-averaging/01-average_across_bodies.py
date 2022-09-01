@@ -5,7 +5,7 @@ Average across bodies
 ~~~~~~~~~~~~~~~~~~~~~
 This example shows how to activate and deactivate the DPF option for averaging
 across bodies. When a multi-body simulation calculates ``ElementalNodal`` fields,
-like stresses or strains, you can either activate or deactivate the averaging 
+like stresses or strains, you can either activate or deactivate the averaging
 of theses fields across the different bodies when they share common nodes. This
 likely changes the end results that are shown after postprocessing of the simulation.
 
@@ -158,7 +158,7 @@ print(scop_cont)
 ###############################################################################
 # The scopings container has six different scopings, one for each body over
 # each of the three time steps.
-# 
+#
 # Set the time set of interest to the last time set.
 time_set = 3
 

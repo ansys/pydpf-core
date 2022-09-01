@@ -66,9 +66,9 @@ strain = strainop.outputs.fields_container()
 ###############################################################################
 # The command ``ERESX,NO`` in MAPDL is used to copy directly the
 # Gaussian (integration) points results to the nodes, instead of the results
-# at nodes or elements (which are an interpolation of results at a few 
+# at nodes or elements (which are an interpolation of results at a few
 # Gaussian points).
-# 
+#
 # The following plot shows the nodal values that are the averaged values
 # of elastic strain at each node. The value shown at the node is the
 # average of the elastic strains from the Gaussian points of each element

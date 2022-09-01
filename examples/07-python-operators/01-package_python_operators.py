@@ -55,7 +55,7 @@ for file in file_list:
 # ------------------------
 # You use the function :py:func:`ansys.dpf.core.core.load_library` to load the
 # plug-in package.
-# 
+#
 # - The first argument is the path to the directory where the plug-in package
 #   is located.
 # - The second argument is ``py_`` plus any name identifying the plug-in package.

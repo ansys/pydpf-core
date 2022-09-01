@@ -5,7 +5,7 @@ Create a basic operator plugin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to create a basic operator plugin, which is for
 a single custom operator. This custom operator, ``easy_statistics``,
-computes simple statistics quantities on a scalar field with the help of 
+computes simple statistics quantities on a scalar field with the help of
 the ``numpy`` package.
 
 The objective of this simple example is to show how routines for DPF can
@@ -20,12 +20,12 @@ be wrapped in Python plugins.
 # :class:`ansys.dpf.core.custom_operator.CustomOperatorBase` class
 # and a call to the :py:func:`ansys.dpf.core.custom_operator.record_operator`
 # method.
-# 
+#
 # The ``easy_statistics`` operator takes a field as an input and returns
 # the first quartile, the median, the third quartile, and the variance.
 # The Python operator and its recording are available in the
 # ``easy_statistics.py`` file.
-# 
+#
 # Download and display the Python script.
 
 from ansys.dpf.core import examples

@@ -32,7 +32,7 @@ data_sources.add_upstream(up_stream_data_sources)
 ###############################################################################
 # Compute displacements
 # ~~~~~~~~~~~~~~~~~~~~~
-# Once the ``add_upstream()`` method puts the recursivity in the data sources, 
+# Once the ``add_upstream()`` method puts the recursivity in the data sources,
 # in a harmonic, transient, or modal analysis, computing displacements with
 # or without expansion has the exact same syntax.
 

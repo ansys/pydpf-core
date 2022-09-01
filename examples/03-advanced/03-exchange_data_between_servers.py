@@ -18,7 +18,7 @@ from ansys.dpf.core import operators as ops
 # ~~~~~~~~~~~~~~~~~~
 # Use the ``start_local_server()`` method to start two servers on your local
 # machine. If you have another server, you can use the ``connect_to_server()``
-# method to connect to any DPF server on your network. 
+# method to connect to any DPF server on your network.
 
 # The ``as_global`` attributes allows you to choose whether a server is stored
 # by the module and used by default. This example sets the first server as the default.
