@@ -1,16 +1,25 @@
 import numpy as np
 import pytest
 import platform
+import psutil
+import warnings
 
 import ansys.dpf.core.operators as op
 import conftest
 from ansys import dpf
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(autouse=False)
 def clear_local_server(request):
     def clear_local():
         conftest.local_servers.clear()
+        num_dpf_exe = 0
+        proc_name = "Ans.Dpf.Grpc"
+        for proc in psutil.process_iter():
+            if proc_name in proc.name():
+                num_dpf_exe += 1
+                proc.kill()
+        warnings.warn(UserWarning(f"Killed {num_dpf_exe} {proc_name} processes."))
     request.addfinalizer(clear_local)
 
 
@@ -580,7 +589,7 @@ def test_print_workflow(server_type):
 
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
                     reason="Bug with server's version older than 3.0")
-def test_throws_error(allkindofcomplexity):
+def test_throws_error(allkindofcomplexity, clear_local_server):
     model = dpf.core.Model(allkindofcomplexity)
     wf = dpf.core.Workflow()
     op = model.results.stress()
@@ -601,7 +610,8 @@ def test_throws_error(allkindofcomplexity):
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
-def test_flush_workflows_session(allkindofcomplexity):
+def test_flush_workflows_session(allkindofcomplexity, clear_local_server):
+    dpf.core.start_local_server()
     model = dpf.core.Model(allkindofcomplexity)
     wf = dpf.core.Workflow()
     op = model.results.stress()
@@ -632,7 +642,10 @@ def test_flush_workflows_session(allkindofcomplexity):
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
-def test_create_on_other_server_workflow(local_server):
+@pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.8"),
+                    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu")
+def test_create_on_other_server_workflow(local_server, clear_local_server):
+    dpf.core.start_local_server()
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -647,7 +660,10 @@ def test_create_on_other_server_workflow(local_server):
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
-def test_create_on_other_server2_workflow(local_server):
+@pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.8"),
+                    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu")
+def test_create_on_other_server2_workflow(local_server, clear_local_server):
+    dpf.core.start_local_server()
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -662,7 +678,9 @@ def test_create_on_other_server2_workflow(local_server):
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
-def test_create_on_other_server_with_ip_workflow(local_server):
+@pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.8"),
+                    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu")
+def test_create_on_other_server_with_ip_workflow(local_server, clear_local_server):
     dpf.core.start_local_server()
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
@@ -680,7 +698,9 @@ def test_create_on_other_server_with_ip_workflow(local_server):
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
-def test_create_on_other_server_with_address_workflow(local_server):
+@pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.8"),
+                    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu")
+def test_create_on_other_server_with_address_workflow(local_server, clear_local_server):
     dpf.core.start_local_server()
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
@@ -697,7 +717,7 @@ def test_create_on_other_server_with_address_workflow(local_server):
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
-def test_create_on_other_server_with_address2_workflow(local_server):
+def test_create_on_other_server_with_address2_workflow(local_server, clear_local_server):
     dpf.core.start_local_server()
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
@@ -716,7 +736,8 @@ def test_create_on_other_server_with_address2_workflow(local_server):
                     reason="Known failure in the GitHub pipeline for 3.10 on Ubuntu")
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
-def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_server):
+def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_server,
+                                                     clear_local_server):
     dpf.core.start_local_server()
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
