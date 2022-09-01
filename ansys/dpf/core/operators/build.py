@@ -166,6 +166,8 @@ def build_operator(
 if __name__ == "__main__":
     this_path = os.path.dirname(os.path.abspath(__file__))
 
+    dpf.SERVER_CONFIGURATION = dpf.AvailableServerConfigs.LegacyGrpcServer
+
     available_operators = available_operator_names()
 
     succeeded = 0
@@ -174,7 +176,7 @@ if __name__ == "__main__":
 
         category = specification.properties.get("category", "")
         if not category:
-            raise (f"Category not defined for operator {operator_name}.")
+            raise ValueError(f"Category not defined for operator {operator_name}.")
         scripting_name = specification.properties.get("scripting_name", "")
 
         # Make directory for new category
