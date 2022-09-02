@@ -28,19 +28,19 @@ jobs:
         uses: montudor/action-zip@v1
         with:
           args: unzip -qq HTML-doc-ansys-dpf-core.zip -d HTML-doc-ansys-dpf-core
-#
-#      - name: "Deploy to gh-pages"
-#        uses: JamesIves/github-pages-deploy-action@v4
-#        with:
-#          folder: HTML-doc-ansys-dpf-core/
-#          token: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
-#          branch: gh-pages
-#          git-config-name: pyansys-ci-bot
-#          git-config-email: pyansys.github.bot@ansys.com
-#          repository-name: pyansys/DPF-Core-docs
-#          commit-message: Documentation generated for ${{ steps.get_version.outputs.VERSION }}
-#          clean-exclude: "CNAME"
-#          tag: doc-${{ steps.get_version.outputs.VERSION }}
+
+      - name: "Deploy to gh-pages"
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: HTML-doc-ansys-dpf-core/
+          token: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
+          branch: gh-pages
+          git-config-name: pyansys-ci-bot
+          git-config-email: pyansys.github.bot@ansys.com
+          repository-name: pyansys/DPF-Core-docs
+          commit-message: Documentation generated for ${{ steps.get_version.outputs.VERSION }}
+          clean-exclude: "CNAME"
+          tag: doc-${{ steps.get_version.outputs.VERSION }}
 
   Publish_to_PyPi:
     name: Publish to PyPi
