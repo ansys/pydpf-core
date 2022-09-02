@@ -43,8 +43,8 @@ class LabelSpace:
         return core_api
 
     def fill(self, label_space):
-        for key, id in label_space.items():
-            self._api.label_space_add_data(self, key, id)
+        for key, index in label_space.items():
+            self._api.label_space_add_data(self, key, index)
 
     def __dict__(self):
         if isinstance(self._internal_obj, dict):
