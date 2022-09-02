@@ -16,7 +16,7 @@ class euler_load_buckling(Operator):
     Parameters
     ----------
     field_beam_end_condition : DataSources or Field
-        this pin contains file csv or field of beam's
+        This pin contains file csv or field of beam's
         end condition added by the user. if
         there's no file added, it would take
         value of all beam's end condition as
@@ -93,7 +93,7 @@ class euler_load_buckling(Operator):
                     name="field_beam_end_condition",
                     type_names=["data_sources", "field"],
                     optional=False,
-                    document="""this pin contains file csv or field of beam's
+                    document="""This pin contains file csv or field of beam's
         end condition added by the user. if
         there's no file added, it would take
         value of all beam's end condition as
@@ -224,7 +224,7 @@ class InputsEulerLoadBuckling(_Inputs):
     def field_beam_end_condition(self):
         """Allows to connect field_beam_end_condition input to the operator.
 
-        this pin contains file csv or field of beam's
+        This pin contains file csv or field of beam's
         end condition added by the user. if
         there's no file added, it would take
         value of all beam's end condition as
