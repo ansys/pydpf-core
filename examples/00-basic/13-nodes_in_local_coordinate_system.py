@@ -61,11 +61,11 @@ ncoord_rot_f = dpf.operators.geo.rotate(field=ncoord_f,
 pos_vec_rot_neg_f = dpf.operators.math.scale(field=pos_vec_rot,
                                              ponderation=-1.0)
 pos_vec_rot_neg = pos_vec_rot_neg_f.outputs.field.get_data().data_as_list
-nccord_translated = dpf.operators.math.add_constant(field=ncoord_rot_f,
+ncoord_translated = dpf.operators.math.add_constant(field=ncoord_rot_f,
                                                     ponderation=pos_vec_rot_neg)
 ################################################################################
 # Get the nodal coordinates field `ncoord_lcs_f` in LCS
-ncoord_lcs_f = nccord_translated.outputs.field.get_data()
+ncoord_lcs_f = ncoord_translated.outputs.field.get_data()
 
 ################################################################################
 # Coordinates of NID 1 in GCS
