@@ -163,7 +163,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
     if docker_name is not None and os.name == 'posix':
         run_cmd = "docker ps --all"
         process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True  # nosec
         )
         for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
             if not ("CONTAINER ID" in line):
@@ -897,7 +897,7 @@ class LegacyGrpcServer(BaseServer):
                     pass
                 if b_shell:
                     _ = subprocess.Popen(
-                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True  # nosec
                     )
                 else:
                     _ = subprocess.Popen(  # nosec
