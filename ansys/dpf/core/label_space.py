@@ -46,6 +46,7 @@ class LabelSpace:
         for key, index in label_space.items():
             self._api.label_space_add_data(self, key, index)
 
+    @property
     def __dict__(self):
         if isinstance(self._internal_obj, dict):
             return self._internal_obj

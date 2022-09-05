@@ -343,8 +343,8 @@ def test_connect_label_space_workflow(server_type):
     op = dpf.core.operators.utility.forward(server=server_type)
     wf.add_operators([op])
     wf.set_input_name("in", op, 0)
-    dict = {"time": 1, "complex": 0}
-    wf.connect("in", dict)
+    dic = {"time": 1, "complex": 0}
+    wf.connect("in", dic)
 
 
 @conftest.raises_for_servers_version_under('5.0')

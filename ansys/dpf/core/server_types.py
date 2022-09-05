@@ -57,7 +57,7 @@ def _get_dll_path(name, ansys_path=None):
         raise ImportError(f"Could not find ansys installation path using {awp_root}.")
     api_path = load_api._get_path_in_install()
     if api_path is None:
-        raise ImportError(f"Could not find API path in install.")
+        raise ImportError("Could not find API path in install.")
     SUB_FOLDERS = os.path.join(ANSYS_INSTALL, api_path)
     if ISPOSIX:
         name = "lib" + name
@@ -165,7 +165,6 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
         process = subprocess.Popen(
             run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
         )
-        used_ports = []
         for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
             if not ("CONTAINER ID" in line):
                 split = line.split("0.0.0.0:")

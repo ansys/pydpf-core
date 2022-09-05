@@ -270,7 +270,7 @@ class Collection:
         return LabelSpace(
                 label_space=self._api.collection_get_obj_label_space_by_index(self, index),
                 server=self._server
-            ).__dict__()
+            ).__dict__
 
     def get_available_ids_for_label(self, label="time"):
         """Retrieve the IDs assigned to an input label.
@@ -576,7 +576,7 @@ class StringCollection(Collection):
     list is connected or returned.
     """
 
-    def __init__(self, list=None, server=None, collection=None, local: bool = False):
+    def __init__(self, list=None, server=None, collection=None, local: bool = False):  # noqa
         super().__init__(server=server, collection=collection)
         self._sub_type = str
         if self._internal_obj is None:
