@@ -23,8 +23,6 @@ from ansys.dpf.core import examples
 
 ###############################################################################
 # Create a model object to establish a connection with an example result file:
-path = examples.download_hemisphere()
-print(path)
 model = dpf.Model(examples.download_hemisphere())
 
 ###############################################################################
