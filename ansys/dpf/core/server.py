@@ -341,11 +341,11 @@ def _find_port_available_for_docker_bind(port):
     run_cmd = "docker ps --all"
     if os.name == 'posix':
         process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True  # nosec
         )
     else:
         process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE  # nosec
         )
     used_ports = []
     for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
