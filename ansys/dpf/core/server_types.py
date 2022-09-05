@@ -126,7 +126,7 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
         process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     else:
         process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True  # nosec
         )
     os.chdir(old_dir)
     return process
@@ -886,10 +886,10 @@ class LegacyGrpcServer(BaseServer):
                 run_cmd = f"docker stop {self._server_id}"
                 if b_shell:
                     process = subprocess.Popen(
-                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True  # nosec
                     )
                 else:
-                    process = subprocess.Popen(
+                    process = subprocess.Popen(  # nosec
                         run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
                     )
                 run_cmd = f"docker rm {self._server_id}"
@@ -900,7 +900,7 @@ class LegacyGrpcServer(BaseServer):
                         run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
                     )
                 else:
-                    _ = subprocess.Popen(
+                    _ = subprocess.Popen(  # nosec
                         run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
                     )
             elif self._remote_instance:
