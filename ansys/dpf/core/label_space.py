@@ -59,5 +59,5 @@ class LabelSpace:
     def __del__(self):
         try:
             self._deleter_func[0](self._deleter_func[1](self))
-        except:  # pylint: disable=W0702
+        except:
             warnings.warn(traceback.format_exc())

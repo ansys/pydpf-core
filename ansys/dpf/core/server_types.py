@@ -57,7 +57,7 @@ def _get_dll_path(name, ansys_path=None):
         raise ImportError(f"Could not find ansys installation path using {awp_root}.")
     api_path = load_api._get_path_in_install()
     if api_path is None:
-        raise ImportError("Could not find API path in install.")
+        raise ImportError(f"Could not find API path in install.")
     SUB_FOLDERS = os.path.join(ANSYS_INSTALL, api_path)
     if ISPOSIX:
         name = "lib" + name
@@ -126,7 +126,7 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
         process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     else:
         process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True  # nosec
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
         )
     os.chdir(old_dir)
     return process
@@ -163,8 +163,9 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
     if docker_name is not None and os.name == 'posix':
         run_cmd = "docker ps --all"
         process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True  # nosec
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
         )
+        used_ports = []
         for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
             if not ("CONTAINER ID" in line):
                 split = line.split("0.0.0.0:")
@@ -886,22 +887,22 @@ class LegacyGrpcServer(BaseServer):
                 run_cmd = f"docker stop {self._server_id}"
                 if b_shell:
                     process = subprocess.Popen(
-                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True  # nosec
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
                     )
                 else:
                     process = subprocess.Popen(
-                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE  # nosec
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
                     )
                 run_cmd = f"docker rm {self._server_id}"
                 for _ in io.TextIOWrapper(process.stdout, encoding="utf-8"):
                     pass
                 if b_shell:
                     _ = subprocess.Popen(
-                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True  # nosec
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
                     )
                 else:
                     _ = subprocess.Popen(
-                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE  # nosec
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
                     )
             elif self._remote_instance:
                 self._remote_instance.delete()

@@ -15,6 +15,7 @@ def test_scopingdata_string_field(server_type):
     pfield.scoping = scop
     list_data = ["water", "oil", "gaz", "paint", "air"]
     pfield.data = list_data
+    pfield.data
     assert pfield.data == list_data
     assert np.allclose(pfield.scoping.ids, list_ids)
     pfield.data = np.asarray(list_data)
@@ -25,7 +26,7 @@ def test_scopingdata_string_field(server_type):
 def test_set_get_data_string_field(server_type):
     field = dpf.core.StringField(nentities=20, server=server_type)
     data = []
-    for _ in range(0, 20):
+    for i in range(0, 20):
         data.append("bla")
     field.data = data
     assert field.data == data
@@ -80,7 +81,7 @@ def test_stream_large_data_string_field(server_type):
     nstring = 1000000
     field = dpf.core.StringField(nentities=nstring, server=server_type)
     data = []
-    for _ in range(0, nstring):
+    for i in range(0, nstring):
         data.append("bla")
     field.data = data
     assert field.data == data
@@ -90,14 +91,14 @@ def test_stream_large_data_string_field(server_type):
 def test_print_string_vector(server_type):
     field = dpf.core.StringField(nentities=20, server=server_type)
     data = []
-    for _ in range(0, 20):
+    for i in range(0, 20):
         data.append("bla")
     field.data = data
     d = field.data
     print(d)
     assert "['bla', 'bla', 'bla'" in d.__str__()
     data = []
-    for _ in range(0, 2):
+    for i in range(0, 2):
         data.append("bla")
     field.data = data
     d = field.data
@@ -115,7 +116,7 @@ def test_print_string_field(server_type):
     field = dpf.core.StringField(nentities=20, server=server_type)
     assert "String Field" in str(field)
     data = []
-    for _ in range(0, 20):
+    for i in range(0, 20):
         data.append("bla")
     field.data = data
     field.scoping.ids = range(1, 21)
