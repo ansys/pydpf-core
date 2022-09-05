@@ -112,6 +112,8 @@ class MeshedRegion:
             out = self._api.meshed_region_get_shared_elements_scoping(self)
         else:
             raise TypeError(f"Location {loc} is not recognized.")
+        if out is None:
+            return
         scop_to_return = scoping.Scoping(scoping=out, server=self._server)
         try:
             check = scop_to_return._api.scoping_fast_access_ptr(scop_to_return)

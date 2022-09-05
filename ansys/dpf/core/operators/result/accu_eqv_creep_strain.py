@@ -235,7 +235,7 @@ class accu_eqv_creep_strain(Operator):
         done and stages are merged (default
         is 1)""",
                 ),
-                21: PinSpecification(
+                22: PinSpecification(
                     name="read_beams",
                     type_names=["bool"],
                     optional=True,
@@ -358,7 +358,7 @@ class InputsAccuEqvCreepStrain(_Inputs):
         )
         self._inputs.append(self._read_cyclic)
         self._read_beams = Input(
-            accu_eqv_creep_strain._spec().input_pin(21), 21, op, -1
+            accu_eqv_creep_strain._spec().input_pin(22), 22, op, -1
         )
         self._inputs.append(self._read_beams)
 

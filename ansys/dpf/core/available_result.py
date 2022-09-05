@@ -112,6 +112,7 @@ class AvailableResult:
         self._properties = {"scripting_name": availableresult.properties["scripting_name"],
                             "location": availableresult.properties["loc_name"]}
         self._sub_res = availableresult.sub_res
+        self._qualifiers = availableresult.qualifiers
 
     def __str__(self):
         txt = (
@@ -214,6 +215,13 @@ class AvailableResult:
         """Name of the result with spaces"""
         return self._physics_name
 
+    @property
+    def qualifiers(self) -> list:
+        """Returns the list of qualifiers (equivalent to label spaces)
+        available for a given Result. These qualifiers can then be used to request the result
+        on specified locations/properties.
+        """
+        return self._qualifiers
 
 _result_properties = {
     "S": {"location": "ElementalNodal", "scripting_name": "stress"},
@@ -253,10 +261,13 @@ def available_result_from_name(name) -> AvailableResult:
     for key, item in _result_properties.items():
         if item["scripting_name"] == name:
             from types import SimpleNamespace
-            availableresult = SimpleNamespace(name=key, physicsname=name, ncomp=None,
-                                               dimensionality=None,
-                                               homogeneity=None,
-                                               unit=None, sub_res={},
-                                               properties={"loc_name": item["location"],
-                                                           "scripting_name": name})
+            availableresult = SimpleNamespace(
+                name=key, physicsname=name, ncomp=None,
+                dimensionality=None,
+                homogeneity=None,
+                unit=None, sub_res={},
+                properties={"loc_name": item["location"],
+                            "scripting_name": name},
+                qualifiers=[])
+
             return AvailableResult(availableresult)

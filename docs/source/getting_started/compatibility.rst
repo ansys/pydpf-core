@@ -14,9 +14,9 @@ Client-server
 -------------
 
 The DPF server version depends on your installed Ansys version.
-The following table shows client-server compatibibilty for supported
+The following table shows client-server compatibility for supported
 Ansys versions. With Ansys 2021 R2 and later, you can use PyDPF-Core
-version 3.0 or later. With Ansys 2021 R1, you must use a PyDPF-Core 0.2
+version 0.3.0 or later. With Ansys 2021 R1, you must use a PyDPF-Core 0.2
 version.
 
 As new features are developed, every attempt is made to ensure backward
@@ -30,11 +30,16 @@ should also be synchronized with the server version.
    :header-rows: 1
 
    * - Ans.Dpf.Grpc.exe server version
-     - ansys.dpf.gatebin binaries Python module version
-     - ansys.dpf.gate Python module version
-     - ansys.grpc.dpf Python module version
-     - ansys.dpf.core Python module version
-   * - 4.0 (Ansys 2022R2)
+     - ansys.dpf.gatebin binaries Python package version
+     - ansys.dpf.gate Python package version
+     - ansys.grpc.dpf Python package version
+     - ansys.dpf.core Python package version
+   * - 5.0 (Ansys 2023 R1)
+     - 0.2.0 and later
+     - 0.2.0 and later
+     - 0.6.0 and later
+     - 0.6.0 and later
+   * - 4.0 (Ansys 2022 R2)
      - 0.1.1
      - 0.1.1
      - 0.5.1

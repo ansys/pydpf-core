@@ -6,10 +6,24 @@ import traceback
 import warnings
 
 from enum import Enum, unique
-from ansys.dpf.gate import result_info_capi, result_info_grpcapi, integral_types
+from types import SimpleNamespace
+from ansys.dpf.gate import (
+    result_info_capi,
+    result_info_grpcapi,
+    integral_types,
+    label_space_capi,
+    label_space_grpcapi,
+    object_handler,
+    data_processing_grpcapi,
+    data_processing_capi,
+)
+
+from ansys.dpf.core import collection
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core import available_result
+from ansys.dpf.core import available_result, support
 from ansys.dpf.core.cyclic_support import CyclicSupport
+from ansys.dpf.core.label_space import LabelSpace
+from ansys.dpf.core.check_version import version_requires
 
 
 @unique
@@ -17,7 +31,7 @@ class physics_types(Enum):
     """
     ``'Physics_types'`` enumerates the different types of physics that an analysis can have.
     """
-    mecanic = 0  # TODO change for "mechanical"?
+    mechanical = 0
     thermal = 1
     magnetic = 2
     electric = 3
@@ -152,7 +166,7 @@ class ResultInfo:
         >>> model = dpf.Model(transient)
         >>> result_info = model.metadata.result_info
         >>> result_info.physics_type
-        'mecanic'
+        'mechanical'
 
         """
         return self._get_physics_type()
@@ -287,6 +301,14 @@ class ResultInfo:
             out.append(self._get_result(i))
         return out
 
+    @property
+    def _data_processing_core_api(self):
+        core_api = self._server.get_api_for_type(
+            capi=data_processing_capi.DataProcessingCAPI,
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+        core_api.init_data_processing_environment(self)
+        return core_api
+
     def _get_result(self, numres):
         """
         Parameters
@@ -336,13 +358,77 @@ class ResultInfo:
             ssub_res_rec_name = str(ssub_res_rec_name)
             descr = self._api.result_info_get_sub_result_description(self, numres, ires)
             sub_res[sub_res_name] = [ssub_res_rec_name, descr]
-        from types import SimpleNamespace
-        availableresult = SimpleNamespace(name=name, physicsname=physic_name, ncomp=n_comp,
-                                          dimensionality=dimensionality, homogeneity=homogeneity,
-                                          unit=unit_symbol, sub_res=sub_res,
-                                          properties={"loc_name": loc_name,
-                                                      "scripting_name": scripting_name})
+
+        qualifiers = []
+        if self._server.meet_version("5.0"):
+            qual_obj = object_handler.ObjHandler(
+                data_processing_api=self._data_processing_core_api,
+                internal_obj=self._api.result_info_get_qualifiers_for_result(self, numres)
+            )
+            label_space_api = self._server.get_api_for_type(
+                capi=label_space_capi.LabelSpaceCAPI, grpcapi=label_space_grpcapi.LabelSpaceGRPCAPI
+            )
+            num_qual_obj = label_space_api.list_label_spaces_size(qual_obj)
+            for ires in range(num_qual_obj):
+                qualifiers.append(
+                    LabelSpace(
+                        label_space=label_space_api.list_label_spaces_at(qual_obj, ires),
+                        obj=self,
+                        server=self._server
+                    ))
+
+        availableresult = SimpleNamespace(
+            name=name, physicsname=physic_name, ncomp=n_comp,
+            dimensionality=dimensionality, homogeneity=homogeneity,
+            unit=unit_symbol, sub_res=sub_res,
+            properties={
+                "loc_name": loc_name,
+                "scripting_name": scripting_name
+            },
+            qualifiers=qualifiers
+        )
         return available_result.AvailableResult(availableresult)
+
+    @property
+    @version_requires("5.0")
+    def available_qualifier_labels(self):
+        """Returns a list of labels defining result qualifiers
+
+        Returns
+        -------
+        list[str]
+
+        Notes
+        -----
+        Available with server's version starting at 5.0.
+        """
+        coll_obj = collection.StringCollection(
+            collection=
+            self._support_api.result_info_get_available_qualifier_labels_as_string_coll(self),
+            server=self._server
+        )
+        return coll_obj.get_integral_entries()
+
+    @version_requires("5.0")
+    def qualifier_label_support(self, label):
+        """Returns what supports an available qualifier label.
+
+        Parameters
+        ----------
+        label: str
+
+        Returns
+        -------
+        Support
+
+        Notes
+        -----
+        Available with server's version starting at 5.0.
+        """
+        return support.Support(
+            support=self._api.result_info_get_qualifier_label_support(self, label),
+            server=self._server
+        )
 
     def __len__(self):
         try:
