@@ -4,6 +4,9 @@ StreamsContainer
 ===============
 Contains classes associated with the DPF StreamsContainer.
 """
+import warnings
+import traceback
+
 from ansys.dpf.core.server_types import BaseServer
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
@@ -57,3 +60,15 @@ class StreamsContainer:
             raise NotImplementedError("StreamsContainer unavailable for LegacyGrpc servers")
         # step3: init environment
         self._api.init_streams_environment(self)  # creates stub when gRPC
+
+    def release_handles(self):
+        self._api.streams_release_handles(self)
+
+    def __del__(self):
+        """Delete the entry."""
+        try:
+            # delete
+            if not self.owned:
+                self._deleter_func[0](self._deleter_func[1](self))
+        except:
+            warnings.warn(traceback.format_exc())
