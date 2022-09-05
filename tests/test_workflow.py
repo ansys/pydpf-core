@@ -43,20 +43,20 @@ def test_connect_field_workflow(server_type):
     wf.set_output_name("min", op, 0)
     wf.set_output_name("max", op, 1)
     wf.connect("field", inpt)
-    fOut = wf.get_output("min", dpf.core.types.field)
-    assert np.allclose(fOut.data, [1.0, 2.0, 3.0])
-    fOut = wf.get_output("max", dpf.core.types.field)
-    assert np.allclose(fOut.data, [7.0, 8.0, 9.0])
+    f_out = wf.get_output("min", dpf.core.types.field)
+    assert np.allclose(f_out.data, [1.0, 2.0, 3.0])
+    f_out = wf.get_output("max", dpf.core.types.field)
+    assert np.allclose(f_out.data, [7.0, 8.0, 9.0])
 
     wf = dpf.core.Workflow(server=server_type)
     wf.set_input_name("field", op.inputs.field)
     wf.set_output_name("min", op.outputs.field_min)
     wf.set_output_name("max", op.outputs.field_max)
     wf.connect("field", inpt)
-    fOut = wf.get_output("min", dpf.core.types.field)
-    assert np.allclose(fOut.data, [1.0, 2.0, 3.0])
-    fOut = wf.get_output("max", dpf.core.types.field)
-    assert np.allclose(fOut.data, [7.0, 8.0, 9.0])
+    f_out = wf.get_output("min", dpf.core.types.field)
+    assert np.allclose(f_out.data, [1.0, 2.0, 3.0])
+    f_out = wf.get_output("max", dpf.core.types.field)
+    assert np.allclose(f_out.data, [7.0, 8.0, 9.0])
 
 
 def test_connect_list_workflow(velocity_acceleration, server_type):
@@ -67,14 +67,14 @@ def test_connect_list_workflow(velocity_acceleration, server_type):
     wf.set_input_name("time_scoping", op, 0)
     wf.set_output_name("field", op, 0)
     wf.connect("time_scoping", [1, 2])
-    fcOut = wf.get_output("field", dpf.core.types.fields_container)
-    assert fcOut.get_available_ids_for_label() == [1, 2]
+    f_out = wf.get_output("field", dpf.core.types.fields_container)
+    assert f_out.get_available_ids_for_label() == [1, 2]
 
     wf.set_input_name("time_scoping", op.inputs.time_scoping)
     wf.set_output_name("field", op.outputs.fields_container)
     wf.connect("time_scoping", [1, 2])
-    fcOut = wf.get_output("field", dpf.core.types.fields_container)
-    assert fcOut.get_available_ids_for_label() == [1, 2]
+    f_out = wf.get_output("field", dpf.core.types.fields_container)
+    assert f_out.get_available_ids_for_label() == [1, 2]
 
 
 def test_connect_fieldscontainer_workflow(server_type):
@@ -96,8 +96,8 @@ def test_connect_fieldscontainer_workflow(server_type):
     wf.set_input_name("fields_container", op, 0)
     wf.set_output_name("field", op, 0)
     wf.connect("fields_container", fc)
-    fOut = wf.get_output("field", dpf.core.types.field)
-    assert fOut.data.size == 60
+    f_out = wf.get_output("field", dpf.core.types.field)
+    assert f_out.data.size == 60
 
 
 def test_connect_fieldscontainer_2_workflow(server_type):
@@ -119,8 +119,8 @@ def test_connect_fieldscontainer_2_workflow(server_type):
     wf.set_input_name("fields_container", op.inputs.fields_container)
     wf.set_output_name("field", op.outputs.field_min)
     wf.connect("fields_container", fc)
-    fOut = wf.get_output("field", dpf.core.types.field)
-    assert fOut.data.size == 60
+    f_out = wf.get_output("field", dpf.core.types.field)
+    assert f_out.data.size == 60
 
 
 def test_connect_bool_workflow(server_type):
@@ -155,9 +155,9 @@ def test_connect_scoping_workflow(server_type):
     wf.set_input_name("mesh_scoping", op, 1)
     wf.connect("mesh_scoping", scop2)
     wf.set_output_name("field", op, 0)
-    fOut = wf.get_output("field", dpf.core.types.field)
-    scopOut = fOut.scoping
-    assert np.allclose(scopOut.ids, list(range(1, 5)))
+    f_out = wf.get_output("field", dpf.core.types.field)
+    scop_out = f_out.scoping
+    assert np.allclose(scop_out.ids, list(range(1, 5)))
 
 
 def test_connect_scoping_2_workflow(server_type):
@@ -179,9 +179,9 @@ def test_connect_scoping_2_workflow(server_type):
     wf.set_input_name("mesh_scoping", op.inputs.mesh_scoping)
     wf.connect("mesh_scoping", scop2)
     wf.set_output_name("field", op, 0)
-    fOut = wf.get_output("field", dpf.core.types.field)
-    scopOut = fOut.scoping
-    assert np.allclose(scopOut.ids, list(range(1, 5)))
+    f_out = wf.get_output("field", dpf.core.types.field)
+    scop_out = f_out.scoping
+    assert np.allclose(scop_out.ids, list(range(1, 5)))
 
 
 def test_connect_datasources_workflow(fields_container_csv, server_type):
@@ -195,8 +195,8 @@ def test_connect_datasources_workflow(fields_container_csv, server_type):
     wf.connect("data_sources", data_sources)
     wf.set_output_name("fields_container", op, 0)
 
-    fcOut = wf.get_output("fields_container", dpf.core.types.fields_container)
-    assert len(fcOut.get_available_ids_for_label()) == 4
+    f_out = wf.get_output("fields_container", dpf.core.types.fields_container)
+    assert len(f_out.get_available_ids_for_label()) == 4
 
     wf = dpf.core.Workflow(server=server_type)
     wf.add_operator(op)
@@ -204,8 +204,8 @@ def test_connect_datasources_workflow(fields_container_csv, server_type):
     wf.connect("data_sources", data_sources)
     wf.set_output_name("fields_container", op, 0)
 
-    fcOut = wf.get_output("fields_container", dpf.core.types.fields_container)
-    assert len(fcOut.get_available_ids_for_label()) == 4
+    f_out = wf.get_output("fields_container", dpf.core.types.fields_container)
+    assert len(f_out.get_available_ids_for_label()) == 4
 
 
 def test_connect_operator_workflow(server_type):
@@ -227,8 +227,8 @@ def test_connect_operator_workflow(server_type):
     wf.set_output_name("field", op, 0)
 
     wf.connect("comp", 0)
-    fOut = wf.get_output("field", dpf.core.types.field)
-    assert len(fOut.data) == 3
+    f_out = wf.get_output("field", dpf.core.types.field)
+    assert len(f_out.data) == 3
 
 
 def test_connect_operator_2_workflow(server_type):
@@ -250,8 +250,8 @@ def test_connect_operator_2_workflow(server_type):
     wf.set_output_name("field", op, 0)
 
     wf.connect("comp", 0)
-    fOut = wf.get_output("field", dpf.core.types.field)
-    assert len(fOut.data) == 3
+    f_out = wf.get_output("field", dpf.core.types.field)
+    assert len(f_out.data) == 3
 
 
 def test_output_mesh_workflow(cyclic_lin_rst, cyclic_ds, server_type):
@@ -343,8 +343,8 @@ def test_connect_label_space_workflow(server_type):
     op = dpf.core.operators.utility.forward(server=server_type)
     wf.add_operators([op])
     wf.set_input_name("in", op, 0)
-    dict = {"time": 1, "complex": 0}
-    wf.connect("in", dict)
+    dic = {"time": 1, "complex": 0}
+    wf.connect("in", dic)
 
 
 @conftest.raises_for_servers_version_under('5.0')
