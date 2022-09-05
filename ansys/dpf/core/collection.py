@@ -577,10 +577,10 @@ class StringCollection(Collection):
     """
 
     def __init__(self,
-                 list=None,
+                 list=None,  # pylint: disable=W0622
                  server=None,
                  collection=None,
-                 local: bool = False):  # pylint: disable=W0622
+                 local: bool = False):
         super().__init__(server=server, collection=collection)
         self._sub_type = str
         if self._internal_obj is None:

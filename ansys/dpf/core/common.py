@@ -12,8 +12,8 @@ from enum import Enum
 
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.gate.common import locations, ProgressBarBase  # noqa: F401
-# pylint: disable-next=W0611
-from ansys.dpf.gate.dpf_vector import get_size_of_list as _get_size_of_list  # noqa: F401
+from ansys.dpf.gate.dpf_vector import get_size_of_list as _get_size_of_list  # pylint: disable=W0611
+
 
 def _camel_to_snake_case(name):
     return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()

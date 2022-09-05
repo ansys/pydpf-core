@@ -90,14 +90,14 @@ def test_stream_large_data_string_field(server_type):
 def test_print_string_vector(server_type):
     field = dpf.core.StringField(nentities=20, server=server_type)
     data = []
-    for i in range(0, 20):
+    for _ in range(0, 20):
         data.append("bla")
     field.data = data
     d = field.data
     print(d)
     assert "['bla', 'bla', 'bla'" in d.__str__()
     data = []
-    for i in range(0, 2):
+    for _ in range(0, 2):
         data.append("bla")
     field.data = data
     d = field.data
@@ -115,7 +115,7 @@ def test_print_string_field(server_type):
     field = dpf.core.StringField(nentities=20, server=server_type)
     assert "String Field" in str(field)
     data = []
-    for i in range(0, 20):
+    for _ in range(0, 20):
         data.append("bla")
     field.data = data
     field.scoping.ids = range(1, 21)
