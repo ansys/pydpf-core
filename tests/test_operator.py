@@ -168,9 +168,9 @@ def test_connect_scoping_operator(server_type):
     scop2.ids = list(range(1, 5))
     op.connect(0, field)
     op.connect(1, scop2)
-    fOut = op.get_output(0, dpf.core.types.field)
-    scopOut = fOut.scoping
-    assert np.allclose(scopOut.ids, list(range(1, 5)))
+    f_out = op.get_output(0, dpf.core.types.field)
+    scop_out = f_out.scoping
+    assert np.allclose(scop_out.ids, list(range(1, 5)))
 
 
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
@@ -178,8 +178,8 @@ def test_connect_scoping_operator(server_type):
                            'supported starting server version 5.0')
 def test_connect_label_space_operator(server_type):
     op = dpf.core.Operator("Rescope", server=server_type)
-    dict = {"time": 1, "complex": 0}
-    op.connect(0, dict)
+    dic = {"time": 1, "complex": 0}
+    op.connect(0, dic)
 
 
 def test_connect_datasources_operator(fields_container_csv, server_type):

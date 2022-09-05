@@ -344,8 +344,8 @@ def _find_port_available_for_docker_bind(port):
             run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True  # nosec
         )
     else:
-        process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE  # nosec
+        process = subprocess.Popen(  # nosec
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
     used_ports = []
     for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):

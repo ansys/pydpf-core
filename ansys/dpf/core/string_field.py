@@ -172,7 +172,7 @@ class StringField(_FieldBase):
             data = self._api.csstring_field_get_entity_data(self, index)
             return data
 
-    def get_entity_data_by_id(self, id):
+    def get_entity_data_by_id(self, id):  # pylint: disable=W0622
         try:
             vec = dpf_vector.DPFVectorString(client=self._server.client)
             self._api.csstring_field_get_entity_data_by_id_for_dpf_vector(

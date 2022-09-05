@@ -15,7 +15,6 @@ def test_scopingdata_string_field(server_type):
     pfield.scoping = scop
     list_data = ["water", "oil", "gaz", "paint", "air"]
     pfield.data = list_data
-    pfield.data
     assert pfield.data == list_data
     assert np.allclose(pfield.scoping.ids, list_ids)
     pfield.data = np.asarray(list_data)
@@ -26,7 +25,7 @@ def test_scopingdata_string_field(server_type):
 def test_set_get_data_string_field(server_type):
     field = dpf.core.StringField(nentities=20, server=server_type)
     data = []
-    for i in range(0, 20):
+    for _ in range(0, 20):
         data.append("bla")
     field.data = data
     assert field.data == data
@@ -81,7 +80,7 @@ def test_stream_large_data_string_field(server_type):
     nstring = 1000000
     field = dpf.core.StringField(nentities=nstring, server=server_type)
     data = []
-    for i in range(0, nstring):
+    for _ in range(0, nstring):
         data.append("bla")
     field.data = data
     assert field.data == data
