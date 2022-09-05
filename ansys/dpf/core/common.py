@@ -82,9 +82,11 @@ class types(Enum):
     operator = 19
     data_tree = 20
     vec_string = 21
-    fields_container = 22
-    scopings_container = 23
-    meshes_container = 24
+
+    fields_container = -4
+    scopings_container = -6
+    meshes_container = -8
+    streams_container = -23
 
 
 def types_enum_to_types():
@@ -104,6 +106,7 @@ def types_enum_to_types():
         dpf_operator,
         data_tree,
         workflow,
+        streams_container,
     )
     from ansys.dpf.gate import dpf_vector
     return {
@@ -128,6 +131,7 @@ def types_enum_to_types():
         types.scoping: scoping.Scoping,
         types.vec_int: dpf_vector.DPFVectorInt,
         types.vec_double: dpf_vector.DPFVectorDouble,
+        types.streams_container: streams_container.StreamsContainer,
     }
 
 
