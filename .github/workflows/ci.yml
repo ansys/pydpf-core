@@ -1,9 +1,10 @@
-name: GitHub Actions
+name: CI
 
 on:
   pull_request:
-     branches-ignore:
-       - '*no-ci*'
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches-ignore:
+      - '*no-ci*'
   push:
     tags:
       - "v*"
@@ -23,8 +24,8 @@ env:
 
 jobs:
   style:
-    name: "Style Check"
-    runs-on: ubuntu-20.04
+    name: "Style"
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -212,80 +213,11 @@ jobs:
         uses: codecov/codecov-action@v3
 
   docs:
-    name: "Documentation"
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4.2.0
-        with:
-          python-version: 3.8
-
-      - name: "Build Package"
-        id: build-package
-        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
-        with:
-          python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheelhouse: false
-          extra-pip-args: ${{ env.extra }}
-
-      - name: "Setup headless display"
-        uses: pyvista/setup-headless-display-action@v1
-
-      - name: "Setup Graphviz"
-        uses: ts-graphviz/setup-graphviz@v1
-
-      - name: "Install documentation packages for Python"
-        run: |
-          pip install -r requirements/requirements_docs.txt
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-
-      - name: "Build HTML Documentation"
-        shell: cmd
-        run: |
-          cd .ci
-          build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
-        timeout-minutes: 20
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Retrieve package version"
-        shell: bash
-        run: |
-          echo "::set-output name=VERSION::$(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
-          echo "${{env.PACKAGE_NAME}} version is: $(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
-        id: version
-        if: always()
-
-      - name: "Upload Documentation Build log"
-        uses: actions/upload-artifact@v3
-        with:
-          name: doc-${{inputs.PACKAGE_NAME}}-log
-          path: docs/*.txt
-        if: always()
-
-      - name: "Zip HTML Documentation"
-        uses: vimtor/action-zip@v1
-        with:
-          files: docs/build/html
-          dest: HTML-doc-${{env.PACKAGE_NAME}}.zip
-
-      - name: "Upload HTML Documentation"
-        uses: actions/upload-artifact@v3
-        with:
-          name: HTML-doc-${{env.PACKAGE_NAME}}
-          path: HTML-doc-${{env.PACKAGE_NAME}}.zip
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/documentation.yml
+    with:
+      ANSYS_VERSION: "231"
+    secrets: inherit
 
   run_examples:
     name: "Run Examples with/without bin"
