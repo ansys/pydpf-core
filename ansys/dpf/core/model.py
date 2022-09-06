@@ -293,6 +293,12 @@ class Metadata:
         except:
             self._stream_provider = None
 
+    def release_streams(self):
+        """Release the streams if any."""
+        if self.streams_provider is not None:
+            sc = self.streams_provider.outputs.streams_container()
+            sc.release_handles()
+
     @property
     @protect_source_op_not_found
     def time_freq_support(self):

@@ -23,3 +23,19 @@ def test_release_handles(simple_bar):
     sc = streams_provider.outputs.streams_container()
     sc.release_handles()
     os.remove(copy_path)
+
+
+def test_release_streams_model(simple_bar):
+    split = os.path.splitext(simple_bar)
+    copy_path = split[0]+"copy2"+split[1]
+    shutil.copyfile(simple_bar, copy_path)
+    model = dpf.core.Model(copy_path)
+    # Evaluate something from the rst
+    _ = model.metadata.meshed_region
+    model.metadata.release_streams()
+    os.remove(copy_path)
+
+
+def test_release_streams_model_empty():
+    model = dpf.core.Model()
+    model.metadata.release_streams()

@@ -17,6 +17,18 @@ from ansys.dpf.gate import (
 
 
 class StreamsContainer:
+    """Python wrapper for operator input or output of streams.
+
+    Enables control other the release of evaluated result files.
+
+    Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.multishells_rst)
+        >>> streams_provider = model.metadata.streams_provider
+        >>> sc = streams_provider.outputs.streams_container()
+    """
     def __init__(self, streams_container=None,
                  server: BaseServer = None):
         # step 1: get server
@@ -62,6 +74,7 @@ class StreamsContainer:
         self._api.init_streams_environment(self)  # creates stub when gRPC
 
     def release_handles(self):
+        """Release the streams."""
         self._api.streams_release_handles(self)
 
     def __del__(self):
