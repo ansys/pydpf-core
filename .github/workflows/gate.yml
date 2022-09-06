@@ -11,10 +11,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "222"
-    secrets:
-      DPF_PIPELINE:
-        required: true
+        default: "231"
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -27,21 +24,22 @@ on:
         description: "ANSYS version"
         required: true
         type: string
-        default: "222"
+        default: "231"
 
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
+  extra: "--find-links .github/"
 
 jobs:
   Gate:
-    name: Gate
+    name: "Gate"
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         python-version: ${{ inputs.python_versions }}
-        os: ["windows-latest", "ubuntu-18.04"]
+        os: ["windows-latest", "ubuntu-latest"]
 
     steps:
       - uses: actions/checkout@v3
@@ -60,6 +58,9 @@ jobs:
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
+          wheelhouse: false
+          wheel: false
+          extra-pip-args: ${{ env.extra }}
 
       - name: "Setup headless display"
         uses: pyvista/setup-headless-display-action@v1
