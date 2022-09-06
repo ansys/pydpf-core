@@ -1,4 +1,4 @@
-name: Gate
+name: gate
 
 on:
 # Can be called by the CI
