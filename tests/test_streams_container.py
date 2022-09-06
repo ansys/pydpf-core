@@ -2,7 +2,6 @@ import os
 import shutil
 
 from ansys import dpf
-from ansys.dpf.core import examples
 
 
 def test_create_streams_container(simple_bar):
