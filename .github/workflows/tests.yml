@@ -11,7 +11,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "222"
+        default: "231"
       wheel:
         required: false
         type: string
@@ -30,12 +30,12 @@ on:
         description: "Python interpreters to test."
         required: true
         type: string
-        default: '["3.8", "3.9"]'
+        default: '["3.8", "3.9", "3.10"]'
       ANSYS_VERSION:
         description: "ANSYS version"
         required: true
         type: string
-        default: "222"
+        default: "231"
       wheel:
         description: "Generate a wheel"
         required: false
@@ -46,20 +46,37 @@ on:
         required: false
         type: string
         default: 'false'
+      DOCSTRING:
+        description: "Whether to test docstrings"
+        required: false
+        type: string
+        default: 'true'
 
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
 
 jobs:
-  Tests:
-    name: Tests
+  setup:
+    name: "Setup"
+    runs-on: ubuntu-latest
+    outputs:
+      python_versions: ${{ steps.set_array.outputs.python_versions }}
+    steps:
+      - id: set_array
+        run: |
+          echo "::set-output name=python_versions::$input"
+        env:
+          input: ${{ inputs.python_versions }}
+  tests:
+    name: "Tests"
+    needs: setup
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ${{ inputs.python_versions }}
-        os: ["windows-latest", "ubuntu-18.04"]
+        python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
+        os: ["windows-latest", "ubuntu-latest"]
 
     steps:
       - uses: actions/checkout@v3
@@ -89,6 +106,7 @@ jobs:
           DEBUG: true
 
       - name: "Test Docstrings"
+        if: inputs.DOCSTRING == 'true'
         uses: pyansys/pydpf-actions/test_docstrings@v2.2.dev1
         with:
           MODULE: ${{env.MODULE}}
