@@ -11,7 +11,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "222"
+        default: "231"
     secrets:
       DPF_PIPELINE:
         required: true
@@ -27,15 +27,16 @@ on:
         description: "ANSYS version"
         required: true
         type: string
-        default: "222"
+        default: "231"
 
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
+  extra: "--find-links .github/"
 
 jobs:
-  Documentation:
-    name: Documentation
+  docs:
+    name: "Documentation"
     runs-on: windows-latest
 
     steps:
@@ -57,6 +58,7 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
+          extra-pip-args: ${{ env.extra }}
 
       - name: "Install OpenGL"
         run: |
@@ -101,16 +103,21 @@ jobs:
         id: version
         if: always()
 
-      - name: "Publish Documentation artifact"
+      - name: "Upload Documentation Build log"
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}-HTML_Documentation
-          path: ./docs/build/html/*
+          name: doc-${{env.PACKAGE_NAME}}-log
+          path: docs/*.txt
         if: always()
 
-      - name: "Publish Documentation log"
+      - name: "Zip HTML Documentation"
+        uses: vimtor/action-zip@v1
+        with:
+          files: docs/build/html
+          dest: HTML-doc-${{env.PACKAGE_NAME}}.zip
+
+      - name: "Upload HTML Documentation"
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.PACKAGE_NAME }}-log
-          path: ./docs/*.txt
-        if: always()
+          name: HTML-doc-${{env.PACKAGE_NAME}}
+          path: HTML-doc-${{env.PACKAGE_NAME}}.zip
