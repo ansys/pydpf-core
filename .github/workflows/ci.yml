@@ -23,6 +23,14 @@ env:
   extra: "--find-links .github/"
 
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Show the Github context for the triggered event
+      run: echo "$GITHUB_CONTEXT"
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+
   style:
     name: "Style"
     runs-on: ubuntu-latest
@@ -87,96 +95,6 @@ jobs:
       ANSYS_VERSION: "231"
       python_versions: '["3.7", "3.9", "3.10"]'
     secrets: inherit
-
-  run_examples:
-    name: "Run Examples with/without bin"
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.8"]
-        os: ["windows-latest"]
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4.2.0
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
-        with:
-          python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheelhouse: false
-          wheel: false
-          extra-pip-args: ${{ env.extra }}
-
-      - name: "Setup headless display"
-        uses: pyvista/setup-headless-display-action@v1
-
-      - name: "Check examples with gatebin"
-        shell: bash
-        run: |
-          echo on
-          cd .ci
-          ls .
-          python run_examples.py
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Uninstall gatebin"
-        shell: bash
-        run: |
-          pip uninstall -y ansys-dpf-gatebin
-        if: always()
-
-      - name: "Check sanity without gatebin INPROCESS"
-        shell: bash
-        run: |
-          cd .ci
-          python run_non_regression_examples.py
-        env:
-          DPF_SERVER_TYPE: INPROCESS
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Check sanity without gatebin GRPC"
-        shell: bash
-        run: |
-          cd .ci
-          python run_non_regression_examples.py
-        env:
-          DPF_SERVER_TYPE: GRPC
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Check sanity without gatebin LEGACYGRPC"
-        shell: bash
-        run: |
-          cd .ci
-          python run_non_regression_examples.py
-        env:
-          DPF_SERVER_TYPE: LEGACYGRPC
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
 
   retro_222:
     name: "Retro 222"
