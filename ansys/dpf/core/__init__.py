@@ -20,6 +20,7 @@ from ansys.dpf.core.model import Model
 from ansys.dpf.core.field import Field, FieldDefinition
 from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.core.property_field import PropertyField
+from ansys.dpf.core.string_field import StringField
 from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.dpf.core.meshes_container import MeshesContainer
 from ansys.dpf.core.scopings_container import ScopingsContainer
@@ -51,6 +52,7 @@ from ansys.dpf.core.core import (
     make_tmp_dir_server,
 )
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
+from ansys.dpf.core.generic_support import GenericSupport
 from ansys.dpf.core.meshed_region import MeshedRegion
 from ansys.dpf.core.elements import element_types
 from ansys.dpf.core.result_info import ResultInfo

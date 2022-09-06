@@ -235,7 +235,7 @@ class hydrostatic_pressure(Operator):
         done and stages are merged (default
         is 1)""",
                 ),
-                21: PinSpecification(
+                22: PinSpecification(
                     name="read_beams",
                     type_names=["bool"],
                     optional=True,
@@ -351,7 +351,7 @@ class InputsHydrostaticPressure(_Inputs):
             hydrostatic_pressure._spec().input_pin(14), 14, op, -1
         )
         self._inputs.append(self._read_cyclic)
-        self._read_beams = Input(hydrostatic_pressure._spec().input_pin(21), 21, op, -1)
+        self._read_beams = Input(hydrostatic_pressure._spec().input_pin(22), 22, op, -1)
         self._inputs.append(self._read_beams)
 
     @property

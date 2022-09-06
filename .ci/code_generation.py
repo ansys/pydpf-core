@@ -16,18 +16,23 @@ if os.name == "posix":
         "libAns.Dpf.LSDYNAHGP.so",
         "libAns.Dpf.LivePost.so",
         "libans.dpf.pointcloudsearch.so",
+        "libAns.Dpf.Vtk.so",
     ]
 else:
     LIB_TO_GENERATE = [
         "Ans.Dpf.Native.dll",
+        "Ans.Dpf.Mechanical.dll",
         "Ans.Dpf.FEMutils.dll",
         "meshOperatorsCore.dll",
         "mapdlOperatorsCore.dll",
         "Ans.Dpf.Math.dll",
+        "Ans.Dpf.PythonPluginWrapper.dll"
         "Ans.Dpf.Hdf5.dll",
+        "Ans.Dpf.FlowDiagram.dll",
         "Ans.Dpf.LSDYNAHGP.dll",
         "Ans.Dpf.LivePost.dll",
         "Ans.Dpf.PointCloudSearch.dll",
+        "Ans.Dpf.Vtk.dll",
     ]
 
 local_dir = os.path.dirname(os.path.abspath(__file__))
@@ -36,6 +41,10 @@ files = glob.glob(os.path.join(TARGET_PATH, "*"))
 for f in files:
     if Path(f).stem == "specification":
         continue
+    if Path(f).name == "build.py":
+        continue
+    if Path(f).name == "operator.mustache":
+        continue
     try:
         if os.path.isdir(f):
             shutil.rmtree(f)
@@ -43,7 +52,7 @@ for f in files:
             os.remove(f)
     except:
         pass
-core.start_local_server()
+core.start_local_server(config=core.AvailableServerConfigs.LegacyGrpcServer)
 code_gen = core.Operator("python_generator")
 code_gen.connect(1, TARGET_PATH)
 for lib in LIB_TO_GENERATE:
@@ -54,5 +63,3 @@ for lib in LIB_TO_GENERATE:
         code_gen.connect(2, True)
     code_gen.run()
     time.sleep(0.1)
-
-core.SERVER.shutdown()
