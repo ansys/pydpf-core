@@ -7,5 +7,6 @@ from .mesh_selection_manager_provider import mesh_selection_manager_provider
 from .boundary_condition_provider import boundary_condition_provider 
 from .is_cyclic import is_cyclic 
 from .material_support_provider import material_support_provider 
+from .property_field_provider_by_name import property_field_provider_by_name 
 from .cyclic_mesh_expansion import cyclic_mesh_expansion 
 from .cyclic_support_provider import cyclic_support_provider 

@@ -147,6 +147,14 @@ class Workflow:
                     self._api.work_flow_connect_vector_int(self, pin_name, inpt, len(inpt))
                 else:
                     self._api.work_flow_connect_vector_double(self, pin_name, inpt, len(inpt))
+        elif isinstance(inpt, dict):
+            from ansys.dpf.core import label_space
+            label_space_to_con = label_space.LabelSpace(
+                label_space=inpt,
+                obj=self,
+                server=self._server
+            )
+            self._api.work_flow_connect_label_space(self, pin_name, label_space_to_con)
         else:
             for type_tuple in self._type_to_input_method:
                 if isinstance(inpt, type_tuple[0]):
@@ -165,6 +173,7 @@ class Workflow:
             collection,
             meshed_region,
             property_field,
+            string_field,
             scoping,
             time_freq_support,
             data_tree,
@@ -178,6 +187,7 @@ class Workflow:
             (float, self._api.work_flow_connect_double),
             (field.Field, self._api.work_flow_connect_field),
             (property_field.PropertyField, self._api.work_flow_connect_property_field),
+            (string_field.StringField, self._api.work_flow_connect_string_field),
             (scoping.Scoping, self._api.work_flow_connect_scoping),
             (collection.Collection, self._api.work_flow_connect_collection),
             (data_sources.DataSources, self._api.work_flow_connect_data_sources),
@@ -201,6 +211,7 @@ class Workflow:
             meshed_region,
             meshes_container,
             property_field,
+            string_field,
             result_info,
             scoping,
             scopings_container,
@@ -217,6 +228,8 @@ class Workflow:
             (field.Field, self._api.work_flow_getoutput_field, "field"),
             (property_field.PropertyField, self._api.work_flow_getoutput_property_field,
              "property_field"),
+            (string_field.StringField, self._api.work_flow_getoutput_string_field,
+             "string_field"),
             (scoping.Scoping, self._api.work_flow_getoutput_scoping, "scoping"),
             (fields_container.FieldsContainer, self._api.work_flow_getoutput_fields_container,
              "fields_container"),
@@ -564,8 +577,8 @@ class Workflow:
                 capi=data_processing_capi.DataProcessingCAPI,
                 grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
             map = object_handler.ObjHandler(
-                    data_processing_api=core_api,
-                    internal_obj=self._api.workflow_create_connection_map_for_object(self)
+                data_processing_api=core_api,
+                internal_obj=self._api.workflow_create_connection_map_for_object(self)
             )
             if isinstance(output_input_names, tuple):
                 self._api.workflow_add_entry_connection_map(
