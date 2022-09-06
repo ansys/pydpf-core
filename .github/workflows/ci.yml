@@ -125,7 +125,7 @@ jobs:
   draft_release:
     name: "Draft Release"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [style, build_test, docs, run_examples, retro]
+    needs: [style, tests, tests_on_release, docs, examples, examples_on_release, retro_221, retro_222, gate]
     runs-on: ubuntu-latest
     steps:
       - name: "Set up Python"
