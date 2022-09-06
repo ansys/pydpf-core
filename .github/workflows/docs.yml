@@ -52,7 +52,7 @@ jobs:
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
         with:
           python-version: ${{ inputs.python_version }}
-          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
