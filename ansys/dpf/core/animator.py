@@ -6,6 +6,7 @@ This module contains the DPF animator class.
 Contains classes used to animate results based on workflows using PyVista.
 """
 import numpy as np
+from typing import Union
 
 import ansys.dpf.core as core
 from ansys.dpf.core.plotter import _sort_supported_kwargs, _PyVistaPlotter
@@ -149,7 +150,7 @@ class Animator:
         self._workflow = workflow
 
     @property
-    def workflow(self):
+    def workflow(self) -> core.Workflow:
         """
         Workflow used by the Animator to generate a Field for each frame.
 
@@ -160,7 +161,7 @@ class Animator:
         return self._workflow
 
     @workflow.setter
-    def workflow(self, workflow):
+    def workflow(self, workflow: core.Workflow):
         """
         Set the workflow used to generate a Field at each frame of the animation.
 
@@ -174,7 +175,8 @@ class Animator:
         self._workflow = workflow
 
     def animate(self, inputs: dict, output: str = 'to_render', save_as: str = None,
-                scale_factor=1.0, **kwargs):
+                scale_factor: Union[float, list, core.Field, core.FieldsContainer] = 1.0,
+                **kwargs):
         """
         Animate the workflow of the Animator, using inputs
 
