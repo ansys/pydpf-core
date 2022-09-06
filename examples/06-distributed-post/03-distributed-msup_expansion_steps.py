@@ -11,9 +11,63 @@ on a third server.
 The following diagram helps you to understand this example. It shows the operator
 chain that is used to compute the final result.
 
-.. image:: 03-operator-dep.svg
-   :align: center
-   :width: 800
+.. graphviz::
+
+    digraph foo {
+        graph [pad="0", nodesep="0.3", ranksep="0.3"]
+        node [shape=box, style=filled, fillcolor="#ffcc00", margin="0"];
+        rankdir=LR;
+        splines=line;
+
+        disp01 [label="displacement"];
+        disp02 [label="displacement"];
+        mesh01 [label="mesh"];
+        mesh02 [label="mesh"];
+
+        subgraph cluster_1 {
+            ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+
+            disp01; mesh01;
+
+            ds01 -> disp01 [style=dashed];
+            ds01 -> mesh01 [style=dashed];
+
+            label="Server 1";
+            style=filled;
+            fillcolor=lightgrey;
+        }
+
+        subgraph cluster_2 {
+            ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+
+            disp02; mesh02;
+
+            ds02 -> disp02 [style=dashed];
+            ds02 -> mesh02 [style=dashed];
+
+            label="Server 2";
+            style=filled;
+            fillcolor=lightgrey;
+        }
+
+        disp01 -> "merge_fields";
+        mesh01 -> "merge_mesh";
+        disp02 -> "merge_fields";
+        mesh02 -> "merge_mesh";
+
+        ds03 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+        ds03 -> "response2" [style=dashed];
+        ds04 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+        ds04 -> "response" [style=dashed];
+
+        "merge_mesh" -> "response";
+        "response" -> "merge_use_pass";
+        "response2" -> "merge_use_pass";
+        "merge_use_pass" -> "expansion";
+        "merge_fields" -> "expansion";
+        "expansion" -> "component";
+    }
+
 """
 
 ###############################################################################

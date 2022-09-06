@@ -10,9 +10,39 @@ sequences directly on different servers. These operators are then
 connected together so that you don't have to care that they are on
 remote processes.
 
-.. image:: 01-operator-dep.svg
-   :align: center
-   :width: 400
+.. graphviz::
+
+    digraph foo {
+        graph [pad="0", nodesep="0.3", ranksep="0.3"]
+        node [shape=box, style=filled, fillcolor="#ffcc00", margin="0"];
+        rankdir=LR;
+        splines=line;
+
+        subgraph cluster_1 {
+            ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+
+            ds01 -> stress1 [style=dashed];
+
+            label="Server 1";
+            style=filled;
+            fillcolor=lightgrey;
+        }
+
+        subgraph cluster_2 {
+            ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+
+            ds02 -> stress2 [style=dashed];
+            stress2 -> mul;
+
+            label="Server 2";
+            style=filled;
+            fillcolor=lightgrey;
+        }
+
+        stress1 -> "merge";
+        mul -> "merge";
+    }
+
 """
 ###############################################################################
 # Import the ``dpf-core`` module and its examples files.

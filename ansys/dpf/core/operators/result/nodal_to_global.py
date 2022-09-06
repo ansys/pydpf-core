@@ -11,8 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class nodal_to_global(Operator):
-    """Rotate results from nodal coordinate system to global coordinate
-    system.
+    """Rotates nodal elemental results to global coordinate system
 
     Parameters
     ----------
@@ -49,7 +48,9 @@ class nodal_to_global(Operator):
     """
 
     def __init__(self, fieldA=None, fieldB=None, config=None, server=None):
-        super().__init__(name="NodalToGlobal", config=config, server=server)
+        super().__init__(
+            name="NodalElementalResultsRotation", config=config, server=server
+        )
         self._inputs = InputsNodalToGlobal(self)
         self._outputs = OutputsNodalToGlobal(self)
         if fieldA is not None:
@@ -59,8 +60,7 @@ class nodal_to_global(Operator):
 
     @staticmethod
     def _spec():
-        description = """Rotate results from nodal coordinate system to global coordinate
-            system."""
+        description = """Rotates nodal elemental results to global coordinate system"""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -105,7 +105,9 @@ class nodal_to_global(Operator):
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the global server.
         """
-        return Operator.default_config(name="NodalToGlobal", server=server)
+        return Operator.default_config(
+            name="NodalElementalResultsRotation", server=server
+        )
 
     @property
     def inputs(self):

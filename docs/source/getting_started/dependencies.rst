@@ -7,7 +7,7 @@ Dependencies
 Package dependencies
 --------------------
 
-DPF-Core dependencies are automatically checked when packages are 
+PyDPF-Core dependencies are automatically checked when packages are
 installed. Package dependencies follow:
 
 - `ansys.dpf.gate <https://pypi.org/project/ansys-dpf-gate/>`_, which is the gate
