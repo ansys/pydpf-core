@@ -116,6 +116,12 @@ jobs:
       DOCSTRING: false
     secrets: inherit
 
+  gate:
+    name: "Gate"
+    if: startsWith(github.ref, 'refs/tags/v')
+    uses: ./.github/workflows/gate.yml
+    secrets: inherit
+
   draft_release:
     name: "Draft Release"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
