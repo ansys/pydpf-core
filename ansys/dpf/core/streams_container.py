@@ -83,5 +83,5 @@ class StreamsContainer:
             # delete
             if not self.owned:
                 self._deleter_func[0](self._deleter_func[1](self))
-        except:
+        except:  # pylint: disable=bare-except
             warnings.warn(traceback.format_exc())

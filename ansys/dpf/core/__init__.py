@@ -24,7 +24,7 @@ from ansys.dpf.core.string_field import StringField
 from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.dpf.core.meshes_container import MeshesContainer
 from ansys.dpf.core.scopings_container import ScopingsContainer
-from ansys.dpf.core.streams_container import StreamsContainer
+from ansys.dpf.core.streams_container import StreamsContainer  # noqa: F401
 from ansys.dpf.core.server import (
     start_local_server,
     _global_server,
