@@ -271,7 +271,7 @@ jobs:
       - name: "Upload Documentation Build log"
         uses: actions/upload-artifact@v3
         with:
-          name: doc-${{inputs.PACKAGE_NAME}}-log
+          name: doc-${{env.PACKAGE_NAME}}-log
           path: docs/*.txt
         if: always()
 
