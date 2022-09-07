@@ -66,5 +66,19 @@ def test_animator_animate(remove_gifs):
     assert os.path.getsize(gif_name) > 600000
 
 
+def test_animator_animate_fields_container(remove_gifs):
+    model = dpf.Model(examples.msup_transient)
+    mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(
+        model.metadata.meshed_region.nodes.scoping)
+    time_scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(model)
+    displacement_op = model.results.displacement
+    displacement_op = displacement_op.on_time_scoping(time_scoping)
+    displacement_op = displacement_op.on_mesh_scoping(mesh_scoping)
+    displacement_fields = displacement_op.eval()
+    displacement_fields.animate(save_as=gif_name, scale_factor=2.0)
+    assert os.path.isfile(gif_name)
+    assert os.path.getsize(gif_name) > 600000
+
+
 def test_scale_factor_to_fc():
     pass
