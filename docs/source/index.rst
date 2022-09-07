@@ -1,5 +1,5 @@
 ==========
-PyDPF-Post
+PyDPF-Core
 ==========
 
 The Data Processing Framework (DPF) provides numerical simulation 

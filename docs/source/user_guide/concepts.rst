@@ -15,7 +15,7 @@ Here are descriptions for key DPF terms:
 - **Field:** Main simulation data container.
 - **Field container:** For a transient, harmonic, modal, or multi-step
   static analysis, a set of fields, with one field for each time step
-  and one field for each frequency.
+  or frequency.
 - **Location:** Type of topology associated with the data container. DPF
   uses three different spatial locations for finite element data: ``Nodal``,
   ``Elemental``, and ``ElementalNodal``.
@@ -27,7 +27,7 @@ Here are descriptions for key DPF terms:
 - **Support:** Physical entity that the field is associated with. For example,
   the support can be a mesh, geometrical entity, or time or frequency values.
 - **Workflow:** Global entity that is used to evaluate the data produced
-  by operators.
+  by chained operators.
 
 Scoping
 -------

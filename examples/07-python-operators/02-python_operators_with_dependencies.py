@@ -96,7 +96,7 @@ with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
 # Optional arguments are:
 #
 # - ``-pythonexe``: Path to a Python executable of your choice.
-# - ``-tempfolder``: Path to a temporary folder to work win. The default is the environment variable
+# - ``-tempfolder``: Path to a temporary folder to work in. The default is the environment variable
 #   ``TEMP`` on Windows and ``/tmp/`` on Linux.
 #
 # Run the command for your operating system.
@@ -156,7 +156,7 @@ elif os.name == "posix" and \
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-# Python plugins are not supported in process
+# Python plugins are not supported in process.
 dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
 tmp = dpf.make_tmp_dir_server()

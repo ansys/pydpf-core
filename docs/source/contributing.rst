@@ -35,4 +35,4 @@ To reach the PyAnsys support team, email `pyansys.support@ansys.com <pyansys.sup
 View documentation
 ------------------
 Documentation for the latest stable release of PyDPF-Post is hosted at
-`PyDPF-Post Documentation <https://postdocs.pyansys.com/>`_.  
+`PyDPF-Core Documentation <https://dpf.docs.pyansys.com/>`_.  

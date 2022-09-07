@@ -10,7 +10,7 @@ creating any scripts.
 
 CPython
 -------
-Standalone DPF uses CPython and can be accessed via any Python console. 
+Standalone DPF uses CPython and can be accessed with any Python console. 
 Data can be exported to universal file formats, such as VTK, HDF5, and TXT
 files. You can use it to generate TH-plots, screenshots, and animations or
 to create custom result plots using `numpy <https://numpy.org/>`_
@@ -20,7 +20,7 @@ and `matplotlib <https://matplotlib.org/>`_ packages.
 
 IronPython
 ----------
-DPF in Mechanical uses IronPython and is accessible via the **ACT Console**. 
+DPF in Mechanical uses IronPython and is accessible with the **ACT Console**. 
 Use it to perform custom postprocessing and visualization of results directly 
 within the Mechanical application.
 
