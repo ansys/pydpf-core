@@ -590,10 +590,10 @@ class FieldsContainer(Collection):
         # Initiate the Animator
         anim = Animator(workflow=wf, **kwargs)
 
-        return anim.animate(inputs={"frequencies": frequencies}, output="to_render",
+        kwargs.setdefault("freq_kwargs", {"font_size": 12, "fmt": ".3e"})
+
+        return anim.animate(frequencies=frequencies,
                             save_as=save_as, scale_factor=scale_factor,
-                            freq_kwargs={"font_size": 12,
-                                         "fmt": ".3e"},
                             **kwargs)
 
     def __add__(self, fields_b):

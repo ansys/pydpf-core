@@ -36,19 +36,20 @@ class _PyVistaAnimator(_PyVistaPlotter):
         # Initiate pyvista Plotter
         self._plotter = pv.Plotter(**kwargs_in)
 
-    def animate_workflow(self, frequencies, workflow, save_as="", scale_factor=1.0, **kwargs):
+    def animate_workflow(self, frequencies, workflow, output,
+                         save_as="", scale_factor=1.0, **kwargs):
         # Extract useful information from the given frequencies Field
-        time_unit = frequencies["frequencies"].unit
-        frequencies = frequencies["frequencies"].data
+        time_unit = frequencies.unit
+        inputs = frequencies.data
         type_scale = type(scale_factor)
         if scale_factor is None:
-            scale_factor = [False]*len(frequencies)
+            scale_factor = [False]*len(inputs)
         elif type_scale in [int, float]:
-            scale_factor = [scale_factor]*len(frequencies)
+            scale_factor = [scale_factor]*len(inputs)
         elif type_scale == list:
             pass
         elif type_scale in [core.field.Field, core.fields_container.FieldsContainer]:
-            scale_factor = ["Non-homogenous"]*len(frequencies)
+            scale_factor = ["Non-homogenous"]*len(inputs)
         else:
             raise ValueError("Argument scale_factor must be an int, a float, a list of either, "
                              f"a Field or a FieldsContainer (not {type_scale})")
@@ -74,13 +75,13 @@ class _PyVistaAnimator(_PyVistaPlotter):
         cpos = kwargs.pop("cpos", None)
         if cpos:
             if isinstance(cpos[0][0], float):
-                cpos = [cpos]*len(frequencies)
+                cpos = [cpos]*len(inputs)
 
         def render_field(index):
             # print("Render step", index)
             self._plotter.clear()
             workflow.connect("index", [index])
-            field = workflow.get_output("to_render", core.types.field)
+            field = workflow.get_output(output, core.types.field)
             deform = workflow.get_output("deform_by", core.types.field)
             self.add_field(field, deform_by=deform,
                            scale_factor_legend=scale_factor[index],
@@ -88,7 +89,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             kwargs_in = _sort_supported_kwargs(
                 bound_method=self._plotter.add_text, **freq_kwargs)
             str_template = "t={0:{2}} {1}"
-            self._plotter.add_text(str_template.format(frequencies[index], time_unit, freq_fmt),
+            self._plotter.add_text(str_template.format(inputs[index], time_unit, freq_fmt),
                                    **kwargs_in)
             if cpos:
                 self._plotter.camera_position = cpos[index]
@@ -103,10 +104,20 @@ class _PyVistaAnimator(_PyVistaPlotter):
             # Show is necessary even when off_screen to initiate the renderer
             result = self.show_figure(auto_close=False, **kwargs)
             if save_as:
-                self._plotter.write_frame()
+                try:
+                    self._plotter.write_frame()
+                except AttributeError as e:
+                    if "To retrieve an image after the render window has been closed" in e.args[0]:
+                        print("Animation canceled.")
+                        return result
             # For each time id
-            for t in range(1, len(frequencies)):
-                render_field(t)
+            for t in range(1, len(inputs)):
+                try:
+                    render_field(t)
+                except AttributeError as e:
+                    if "'NoneType' object has no attribute 'interactor'" in e.args[0]:
+                        print("Animation canceled.")
+                        return result
                 if save_as:
                     self._plotter.write_frame()
         except Exception as e:
@@ -174,7 +185,9 @@ class Animator:
         """
         self._workflow = workflow
 
-    def animate(self, inputs: dict, output: str = 'to_render', save_as: str = None,
+    def animate(self, frequencies: core.Field,
+                output: str = "to_render",
+                save_as: str = None,
                 scale_factor: Union[float, list, core.Field, core.FieldsContainer] = 1.0,
                 **kwargs):
         """
@@ -182,9 +195,9 @@ class Animator:
 
         Parameters
         ----------
-        inputs : dict
-            Dictionary associating a value to each input of the workflow. Must contain a
-            "frequencies" input.
+        frequencies : Field
+            Field of frequencies to render. Obtained from TimeFreqSupport.time_frequencies,
+            TimeFreqSupport.complex_frequencies or TimeFreqSupport.rpms.
         output : str, optional
             Name of the workflow output to use as Field for each frame's contour.
             Default to "to_render".
@@ -199,8 +212,8 @@ class Animator:
         """
         if self.workflow is None:
             raise ValueError("Cannot animate without self.workflow.")
-        return self._internal_animator.animate_workflow(workflow=self.workflow,
-                                                        inputs=inputs,
+        return self._internal_animator.animate_workflow(frequencies=frequencies,
+                                                        workflow=self.workflow,
                                                         output=output,
                                                         save_as=save_as,
                                                         scale_factor=scale_factor,

@@ -17,13 +17,6 @@ def remove_file(file):
         os.remove(os.path.join(os.getcwd(), file))
 
 
-def test_animator_animate_no_workflow():
-    an = Animator()
-    with pytest.raises(ValueError) as e:
-        an.animate({})
-        assert "self.workflow" in e
-
-
 def test_animator_set_get_workflow():
     an = Animator()
     wf = Workflow()
@@ -31,7 +24,24 @@ def test_animator_set_get_workflow():
     assert an.workflow == wf
 
 
-def test_animator_with_workflow():
+def test_animator_create_with_workflow():
     wf = Workflow()
     an = Animator(wf)
     assert an.workflow == wf
+
+
+def test_animator_animate_raise_no_workflow():
+    an = Animator()
+    with pytest.raises(ValueError) as e:
+        an.animate({})
+        assert "self.workflow" in e
+
+
+def test_animator_animate():
+    wf = Workflow()
+    an = Animator(wf)
+    an.animate(frequencies=None)
+
+
+def test_scale_factor_to_fc():
+    pass
