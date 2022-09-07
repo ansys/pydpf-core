@@ -82,7 +82,9 @@ class _PyVistaAnimator(_PyVistaPlotter):
             self._plotter.clear()
             workflow.connect("index", [index])
             field = workflow.get_output(output, core.types.field)
-            deform = workflow.get_output("deform_by", core.types.field)
+            deform = None
+            if "deform_by" in workflow.output_names:
+                deform = workflow.get_output("deform_by", core.types.field)
             self.add_field(field, deform_by=deform,
                            scale_factor_legend=scale_factor[index],
                            **kwargs)
