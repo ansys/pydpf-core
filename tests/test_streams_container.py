@@ -6,7 +6,8 @@ from ansys import dpf
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0)
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Unavailable in 221')
 def test_create_streams_container(simple_bar):
     model = dpf.core.Model(simple_bar)
     streams_provider = model.metadata.streams_provider
@@ -14,7 +15,8 @@ def test_create_streams_container(simple_bar):
     assert hasattr(sc, "release_handles")
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0)
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Unavailable in 221')
 def test_release_handles(simple_bar):
     split = os.path.splitext(simple_bar)
     copy_path = split[0]+"copy"+split[1]
@@ -28,7 +30,8 @@ def test_release_handles(simple_bar):
     os.remove(copy_path)
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0)
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Unavailable in 221')
 def test_release_streams_model(simple_bar):
     split = os.path.splitext(simple_bar)
     copy_path = split[0]+"copy2"+split[1]
@@ -40,7 +43,8 @@ def test_release_streams_model(simple_bar):
     os.remove(copy_path)
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0)
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Unavailable in 221')
 def test_release_streams_model_empty():
     model = dpf.core.Model()
     model.metadata.release_streams()
