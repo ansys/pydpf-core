@@ -17,11 +17,23 @@ gif_name = "test.gif"
 
 @pytest.fixture(autouse=False)
 def remove_gifs(request):
-    """Count servers once we are finished."""
+    """Remove GIF once finished."""
     def remove_gif():
         if os.path.exists(os.path.join(os.getcwd(), gif_name)):
             os.remove(os.path.join(os.getcwd(), gif_name))
     request.addfinalizer(remove_gif)
+
+
+@pytest.fixture()
+def displacement_fields(request):
+    model = dpf.Model(examples.msup_transient)
+    mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(
+        model.metadata.meshed_region.nodes.scoping)
+    time_scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(model)
+    displacement_op = model.results.displacement
+    displacement_op = displacement_op.on_time_scoping(time_scoping)
+    displacement_op = displacement_op.on_mesh_scoping(mesh_scoping)
+    return displacement_op.eval()
 
 
 def test_animator_set_get_workflow():
@@ -44,15 +56,7 @@ def test_animator_animate_raise_no_workflow():
         assert "self.workflow" in e
 
 
-def test_animator_animate(remove_gifs):
-    model = dpf.Model(examples.msup_transient)
-    mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(
-        model.metadata.meshed_region.nodes.scoping)
-    time_scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(model)
-    displacement_op = model.results.displacement
-    displacement_op = displacement_op.on_time_scoping(time_scoping)
-    displacement_op = displacement_op.on_mesh_scoping(mesh_scoping)
-    displacement_fields = displacement_op.eval()
+def test_animator_animate(remove_gifs, displacement_fields):
     frequencies = displacement_fields.time_freq_support.time_frequencies
 
     wf = Workflow()
@@ -66,19 +70,27 @@ def test_animator_animate(remove_gifs):
     assert os.path.getsize(gif_name) > 600000
 
 
-def test_animator_animate_fields_container(remove_gifs):
-    model = dpf.Model(examples.msup_transient)
-    mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(
-        model.metadata.meshed_region.nodes.scoping)
-    time_scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(model)
-    displacement_op = model.results.displacement
-    displacement_op = displacement_op.on_time_scoping(time_scoping)
-    displacement_op = displacement_op.on_mesh_scoping(mesh_scoping)
-    displacement_fields = displacement_op.eval()
+def test_animator_animate_fields_container(remove_gifs, displacement_fields):
+    displacement_fields.animate(save_as=gif_name)
+    assert os.path.isfile(gif_name)
+    assert os.path.getsize(gif_name) > 600000
+
+
+def test_animator_animate_fields_container_scale_factor_float(remove_gifs, displacement_fields):
     displacement_fields.animate(save_as=gif_name, scale_factor=2.0)
     assert os.path.isfile(gif_name)
     assert os.path.getsize(gif_name) > 600000
 
 
-def test_scale_factor_to_fc():
-    pass
+def test_animator_animate_fields_container_scale_factor_list(remove_gifs, displacement_fields):
+    scale_factor_list = [2.0]*len(displacement_fields)
+    displacement_fields.animate(save_as=gif_name, scale_factor=scale_factor_list)
+    assert os.path.isfile(gif_name)
+    assert os.path.getsize(gif_name) > 600000
+
+
+def test_animator_animate_fields_container_scale_factor_field(remove_gifs, displacement_fields):
+    scale_factor_field = dpf.Field(field=displacement_fields[0])
+    displacement_fields.animate(save_as=gif_name, scale_factor=scale_factor_field)
+    assert os.path.isfile(gif_name)
+    assert os.path.getsize(gif_name) > 600000
