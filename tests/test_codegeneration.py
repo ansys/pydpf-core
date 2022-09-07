@@ -78,8 +78,7 @@ def test_get_result(allkindofcomplexity):
     avg.inputs.fields_container.connect(stress.outputs.fields_container)
     out = avg.outputs.fields_container()
     assert len(out) == 2
-    assert len(out[0]) == 1281
-    assert np.isclose(out[0].data[3], 9328792.294959497)
+    assert out[0].location == core.locations.elemental
 
 
 def test_operator_inheritance(allkindofcomplexity):
@@ -92,8 +91,7 @@ def test_operator_inheritance(allkindofcomplexity):
     avg.run()
     out = avg.outputs.fields_container()
     assert len(out) == 2
-    assert len(out[0]) == 1281
-    assert np.isclose(out[0].data[3], 9328792.294959497)
+    assert out[0].location == core.locations.elemental
 
 
 def test_operator_inheritance_2(allkindofcomplexity):
@@ -106,8 +104,7 @@ def test_operator_inheritance_2(allkindofcomplexity):
     avg.run()
     out = avg.outputs.fields_container()
     assert len(out) == 2
-    assert len(out[0]) == 1281
-    assert np.isclose(out[0].data[3], 9328792.294959497)
+    assert out[0].location == core.locations.elemental
 
 
 def test_inputs_inheritance(allkindofcomplexity):
@@ -120,8 +117,7 @@ def test_inputs_inheritance(allkindofcomplexity):
     avg.run()
     out = avg.outputs.fields_container()
     assert len(out) == 2
-    assert len(out[0]) == 1281
-    assert np.isclose(out[0].data[3], 9328792.294959497)
+    assert out[0].location == core.locations.elemental
 
 
 def test_operator_any_input(allkindofcomplexity):

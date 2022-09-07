@@ -4,6 +4,7 @@ import pytest
 import conftest
 import pkgutil
 import datetime
+import platform
 
 from ansys import dpf
 from ansys.dpf.core import path_utilities
@@ -53,6 +54,10 @@ def transfer_to_local_path(path):
     )
 
 
+@pytest.mark.skipif(platform.system() == "Windows"
+                    and (platform.python_version().startswith("3.8")
+                         or platform.python_version().startswith("3.7")),
+                    reason="Random SEGFAULT in the GitHub pipeline for 3.7-8 on Windows")
 def test_upload_download(allkindofcomplexity, tmpdir, server_type_remote_process):
     tmpdir = str(tmpdir)
     file = dpf.core.upload_file_in_tmp_folder(
@@ -294,8 +299,9 @@ def test_load_api_without_awp_root(restore_awp_root):
 
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
-
-    awp_root_name = "AWP_ROOT" + dpf.core.misc.__ansys_version__
+    ver_to_check = dpf.core._version.server_to_ansys_version[str(loc_serv.version)]
+    ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
+    awp_root_name = "AWP_ROOT" + ver_to_check
     # delete awp_root
     del os.environ[awp_root_name]
 

@@ -22,6 +22,11 @@ class field_high_pass(Operator):
     threshold : float or Field
         A threshold scalar or a field containing one
         value is expected
+    both : bool, optional
+        Bool(optional, default false) if set to true,
+        the complement of the filtered fields
+        container is returned on output pin
+        #1
 
 
     Examples
@@ -36,18 +41,21 @@ class field_high_pass(Operator):
     >>> op.inputs.field.connect(my_field)
     >>> my_threshold = float()
     >>> op.inputs.threshold.connect(my_threshold)
+    >>> my_both = bool()
+    >>> op.inputs.both.connect(my_both)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.filter.field_high_pass(
     ...     field=my_field,
     ...     threshold=my_threshold,
+    ...     both=my_both,
     ... )
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, field=None, threshold=None, config=None, server=None):
+    def __init__(self, field=None, threshold=None, both=None, config=None, server=None):
         super().__init__(name="core::field::high_pass", config=config, server=server)
         self._inputs = InputsFieldHighPass(self)
         self._outputs = OutputsFieldHighPass(self)
@@ -55,6 +63,8 @@ class field_high_pass(Operator):
             self.inputs.field.connect(field)
         if threshold is not None:
             self.inputs.threshold.connect(threshold)
+        if both is not None:
+            self.inputs.both.connect(both)
 
     @staticmethod
     def _spec():
@@ -76,6 +86,15 @@ class field_high_pass(Operator):
                     optional=False,
                     document="""A threshold scalar or a field containing one
         value is expected""",
+                ),
+                2: PinSpecification(
+                    name="both",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Bool(optional, default false) if set to true,
+        the complement of the filtered fields
+        container is returned on output pin
+        #1""",
                 ),
             },
             map_output_pin_spec={
@@ -138,6 +157,8 @@ class InputsFieldHighPass(_Inputs):
     >>> op.inputs.field.connect(my_field)
     >>> my_threshold = float()
     >>> op.inputs.threshold.connect(my_threshold)
+    >>> my_both = bool()
+    >>> op.inputs.both.connect(my_both)
     """
 
     def __init__(self, op: Operator):
@@ -146,6 +167,8 @@ class InputsFieldHighPass(_Inputs):
         self._inputs.append(self._field)
         self._threshold = Input(field_high_pass._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._threshold)
+        self._both = Input(field_high_pass._spec().input_pin(2), 2, op, -1)
+        self._inputs.append(self._both)
 
     @property
     def field(self):
@@ -188,6 +211,29 @@ class InputsFieldHighPass(_Inputs):
         >>> op.inputs.threshold(my_threshold)
         """
         return self._threshold
+
+    @property
+    def both(self):
+        """Allows to connect both input to the operator.
+
+        Bool(optional, default false) if set to true,
+        the complement of the filtered fields
+        container is returned on output pin
+        #1
+
+        Parameters
+        ----------
+        my_both : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.filter.field_high_pass()
+        >>> op.inputs.both.connect(my_both)
+        >>> # or
+        >>> op.inputs.both(my_both)
+        """
+        return self._both
 
 
 class OutputsFieldHighPass(_Outputs):

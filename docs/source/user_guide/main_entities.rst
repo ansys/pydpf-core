@@ -1,6 +1,6 @@
 .. _ref_main_entities:
 
-DPF Most used entities
+DPF most-used entities
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. toctree::
