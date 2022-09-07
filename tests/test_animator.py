@@ -51,8 +51,9 @@ def test_animator_create_with_workflow():
 
 def test_animator_animate_raise_no_workflow():
     an = Animator()
+    field = dpf.Field()
     with pytest.raises(ValueError) as e:
-        an.animate({})
+        an.animate(frequencies=field)
         assert "self.workflow" in e
 
 
