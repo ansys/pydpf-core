@@ -80,8 +80,6 @@ stress_fields.animate(deform_by=model.results.displacement)
 # Save the animation using "save_as" with a target path with the desired format as extension.
 # (accepts .gif, .avi or .mp4, see pyvista.Plotter.open_movie)
 camera_pos = displacement_fields.animate(scale_factor=10.,
-                                         freq_kwargs={"font_size": 12,
-                                                      "fmt": ".3e"},
                                          save_as="displacements.gif",
                                          return_cpos=True,
                                          show_axes=True)
@@ -99,8 +97,6 @@ for i in range(len(displacement_fields)):
     camera_pos_list.append(new_pos)
 
 displacement_fields.animate(scale_factor=10.,
-                            freq_kwargs={"font_size": 12,
-                                         "fmt": ".3e"},
                             save_as="displacements_2.gif",
                             framerate=4,
                             quality=8,
