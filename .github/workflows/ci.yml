@@ -232,7 +232,7 @@ jobs:
       - name: "Install DPF"
         uses: pyansys/pydpf-actions/install-dpf-server@v2.2.dev1
         with:
-          dpf-standalone-TOKEN: ${{secrets.dpf-standalone-TOKEN}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           ANSYS_VERSION : ${{env.ANSYS_VERSION}}
 
       - name: "Install local package"
