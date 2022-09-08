@@ -1,11 +1,11 @@
 """
 .. _ref_multi_stage_cyclic_advanced:
 
-Multi-stage Cyclic Symmetry Use Advanced Customization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to expand on selected sectors the mesh and results from a
-multi-stage cyclic analysis.
-It also shows how to use the cyclic support for advanced post processing
+Multi-stage cyclic symmetry using advanced customization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example shows how to expand on selected sectors the mesh and results
+from a multi-stage cyclic analysis. It also shows how to use the cyclic support
+for advanced postprocessing
 """
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
@@ -18,7 +18,7 @@ model = dpf.Model(cyc)
 print(model)
 
 ###############################################################################
-# Check the result info to verify that it's a multistage model
+# Check the result info to verify that it's a multi-stage model
 result_info = model.metadata.result_info
 print(result_info.has_cyclic)
 print(result_info.cyclic_symmetry_type)
@@ -37,7 +37,7 @@ print(
 ###############################################################################
 # Expand displacement results
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# In this example we expand displacement results, on chosen sectors
+# This example expands displacement results on chosen sectors.
 
 
 # Create displacement cyclic operator
@@ -63,7 +63,7 @@ mesh_provider.inputs.read_cyclic(2)
 mesh = mesh_provider.outputs.mesh()
 
 ###############################################################################
-# plot the expanded result on the expanded mesh
+# Plot the expanded result on the expanded mesh
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 mesh.plot(fields)
 
@@ -82,21 +82,21 @@ selected_sectors_mesh.plot(fields)
 
 ###############################################################################
 # Check results precisely
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~
 
-# print the time_freq_support to see the harmonic index
+# Print the time_freq_support to see the harmonic index
 print(model.metadata.time_freq_support)
 print(model.metadata.time_freq_support.get_harmonic_indices(stage_num=1).data)
 
-# harmonic index 0 means that the results are symmetric sectors by sector
+# Harmonic index 0 means that the results are symmetric sectors by sector
 # taking a node in the base sector of the first stage
 node_id = cyc_support.base_nodes_scoping(0)[18]
 print(node_id)
 
-# check what are the expanded ids of this node
+# Check what are the expanded ids of this node
 expanded_ids = cyc_support.expand_node_id(node_id, [0, 1, 2], 0)
 print(expanded_ids.ids)
 
-# verify that the displacement values are the same on all those nodes
+# Verify that the displacement values are the same on all those nodes
 for node in expanded_ids.ids:
     print(fields[0].get_entity_data_by_id(node))

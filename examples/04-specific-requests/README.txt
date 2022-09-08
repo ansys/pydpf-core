@@ -1,5 +1,5 @@
 .. _specific_requests:
 
-Examples that targets specific requests
-=======================================
-These demos show how to solve specific requests. 
+Target-specific request examples
+================================
+These examples show how to solve requests for specific targets. 

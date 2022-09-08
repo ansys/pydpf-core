@@ -10,9 +10,8 @@ Ansys 2021 R1 or later. For more information on getting a licensed copy of Ansys
 visit the `Ansys website <https://www.ansys.com/>`_.
 
 .. toctree::
-   :hidden:
-   :maxdepth: 2
-
+   :maxdepth: 3
+   
    compatibility
    install
    dependencies

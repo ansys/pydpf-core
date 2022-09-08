@@ -4,7 +4,7 @@
 Operators
 =========
 
-Loading operators...
+Loading operators.
 
 .. raw:: html
 

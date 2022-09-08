@@ -119,8 +119,8 @@ volume = model.results.elemental_volume(mesh_scoping=ns_provider).eval()
 # and can be connected to any result provider to get results split with the
 # same partition as the input ``ScopingsContainer``.
 # For example, some application require to get results split by body, by material,
-# by element types. It might also be necessary to get results by element shape types
-# (shell, solid, beam) to average data properly...
+# by element types. It might also be necessary to get results by element shape
+# types, such as shell, solid, or beam, to average data properly.
 # Customers might also require split by entirely custom spatial domains.
 
 

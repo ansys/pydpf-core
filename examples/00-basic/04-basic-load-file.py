@@ -1,13 +1,13 @@
 """
 .. _ref_basic_load_file_example:
 
-Write/Load and Upload/Download a Result File
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Working with a result file
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 DPF-Core can upload files to and download files from the server machine.
 
 This example shows how to write and upload files on the server machine and then
-download them back on the client side. The resulting fields container is exported
-in CSV format.
+download them back on the client side. The resulting fields container is then
+exported to a CSV file.
 """
 
 ###############################################################################
@@ -21,7 +21,7 @@ model = dpf.Model(examples.simple_bar)
 mesh = model.metadata.meshed_region
 
 ###############################################################################
-# Get and Plot the Fields Container for the Result
+# Get and plot the fields container for the result
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Get the fields container for the result and plot it so you can compare it later:
 
@@ -30,7 +30,7 @@ fc_out = displacement_operator.outputs.fields_container()
 mesh.plot(fc_out)
 
 ###############################################################################
-# Export Result
+# Export result
 # ~~~~~~~~~~~~~
 # Get the fields container for the result and export it in the CSV format:
 
@@ -44,7 +44,7 @@ export_csv_operator.inputs.file_path.connect(file_path)
 export_csv_operator.run()
 
 ###############################################################################
-# Upload CSV Result File
+# Upload CSV result file
 # ~~~~~~~~~~~~~~~~~~~~~~~
 # Upload the file ``simple_bar_fc.csv`` on the server side.
 # Here, :func:`upload_file_in_tmp_folder` is used because
@@ -60,7 +60,7 @@ if not dpf.SERVER.local_server:
     os.remove(file_path)
 
 ###############################################################################
-# Download CSV Result File
+# Download CSV result file
 # ~~~~~~~~~~~~~~~~~~~~~~~~~
 # Download the file ``simple_bar_fc.csv``:
 
@@ -71,7 +71,7 @@ else:
     downloaded_client_file_path = file_path
 
 ###############################################################################
-# Load CSV Result File as Operator Input
+# Load CSV result file as operator input
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Load the fields container contained in the CSV file as an operator input:
 
@@ -85,7 +85,7 @@ mesh.plot(downloaded_fc_out)
 os.remove(downloaded_client_file_path)
 
 ###############################################################################
-# Make Operations Over the Imported Fields Container
+# Make operations over the imported fields container
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Use this fields container:
 

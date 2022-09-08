@@ -1,7 +1,7 @@
 """
 .. _ref_use_result_helpers:
 
-Use Result Helpers to Load Custom Data
+Use result helpers to load custom data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The ``Result`` class, which is an instance created by the ``Model``, gives
 access to helpers for requesting results on specific mesh and time scopings.
@@ -20,7 +20,7 @@ model = dpf.Model(examples.download_multi_stage_cyclic_result())
 print(model)
 
 ###############################################################################
-# Visualize Specific Mode Shapes
+# Visualize specific mode shapes
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Choose the modes to visualize:
 modes = [1, 5, 6]
@@ -28,7 +28,7 @@ modes = [1, 5, 6]
 disp = model.results.displacement.on_time_scoping(modes)
 
 ###############################################################################
-# Choose a Spatial Subset
+# Choose a spatial subset
 # ~~~~~~~~~~~~~~~~~~~~~~~
 # Work on only a named selection (or component).
 
