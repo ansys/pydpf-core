@@ -50,14 +50,6 @@ class StreamsContainer:
                 self._internal_obj = streams_container
         self.owned = False
 
-        if self._internal_obj is None:
-            if self._server.has_client():
-                self._internal_obj = self._api.collection_of_field_new_on_client(
-                    self._server.client
-                )
-            else:
-                self._internal_obj = self._api.collection_of_field_new()
-
     @property
     def _server(self):
         return self._server_instance
