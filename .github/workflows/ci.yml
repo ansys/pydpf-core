@@ -22,194 +22,194 @@ env:
   extra: "--find-links .github/"
 
 jobs:
-  style:
-    name: "Style Check"
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v3
+#  style:
+#    name: "Style Check"
+#    runs-on: ubuntu-20.04
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: "Setup Python"
+#        uses: actions/setup-python@v4.2.0
+#        with:
+#          python-version: 3.8
+#
+#      - name: "Install style requirements"
+#        run: |
+#          pip install -r requirements/requirements_style.txt --disable-pip-version-check
+#
+#      - name: "Codespell"
+#        run: |
+#          make codespell
+#        continue-on-error: true
+#
+#      - name: "flake8"
+#        run: |
+#          make flake8
 
-      - name: "Setup Python"
-        uses: actions/setup-python@v4.2.0
-        with:
-          python-version: 3.8
-
-      - name: "Install style requirements"
-        run: |
-          pip install -r requirements/requirements_style.txt --disable-pip-version-check
-
-      - name: "Codespell"
-        run: |
-          make codespell
-        continue-on-error: true
-
-      - name: "flake8"
-        run: |
-          make flake8
-
-  build_test:
-    name: "Build and Test"
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
-        os: ["windows-latest", "ubuntu-latest"]
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
-        with:
-          python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheelhouse: true
-          extra-pip-args: ${{ env.extra }}
-
-      - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.2.dev1
-        with:
-          DEBUG: true
-
-      - name: "Test Docstrings"
-        uses: pyansys/pydpf-actions/test_docstrings@v2.2.dev1
-        if: matrix.python-version != '3.10' && matrix.python-version != '3.7' && matrix.os != 'Linux'
-        with:
-          MODULE: ${{env.MODULE}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-
-      - name: "Separate long Core tests"
-        shell: pwsh
-        run: |
-          New-Item -Path ".\" -Name "test_launcher" -ItemType "directory"
-          New-Item -Path ".\" -Name "test_server" -ItemType "directory"
-          New-Item -Path ".\" -Name "test_local_server" -ItemType "directory"
-          New-Item -Path ".\" -Name "test_multi_server" -ItemType "directory"
-          New-Item -Path ".\" -Name "test_workflow" -ItemType "directory"
-          New-Item -Path ".\" -Name "test_remote_workflow" -ItemType "directory"
-          New-Item -Path ".\" -Name "test_remote_operator" -ItemType "directory"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_launcher\"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_server\"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_local_server\"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_multi_server\"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_workflow\"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_remote_workflow\"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_remote_operator\"
-          Copy-Item -Path "tests\test_launcher.py" -Destination ".\test_launcher\"
-          Copy-Item -Path "tests\test_server.py" -Destination ".\test_server\"
-          Copy-Item -Path "tests\test_local_server.py" -Destination ".\test_local_server\"
-          Copy-Item -Path "tests\test_multi_server.py" -Destination ".\test_multi_server\"
-          Copy-Item -Path "tests\test_workflow.py" -Destination ".\test_workflow\"
-          Copy-Item -Path "tests\test_remote_workflow.py" -Destination ".\test_remote_workflow\"
-          Copy-Item -Path "tests\test_remote_operator.py" -Destination ".\test_remote_operator\"
-          Remove-Item -Path "tests\test_server.py"
-          Remove-Item -Path "tests\test_launcher.py"
-          Remove-Item -Path "tests\test_local_server.py"
-          Remove-Item -Path "tests\test_multi_server.py"
-          Remove-Item -Path "tests\test_workflow.py"
-          Remove-Item -Path "tests\test_remote_workflow.py"
-          Remove-Item -Path "tests\test_remote_operator.py"
-
-      - name: "Test API"
-        shell: bash
-        working-directory: tests
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_launcher"
-        shell: bash
-        working-directory: test_launcher
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_server"
-        shell: bash
-        working-directory: test_server
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_local_server"
-        shell: bash
-        working-directory: test_local_server
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_multi_server"
-        shell: bash
-        working-directory: test_multi_server
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_remote_workflow"
-        shell: bash
-        working-directory: test_remote_workflow
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_remote_operator"
-        shell: bash
-        working-directory: test_remote_operator
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_workflow"
-        shell: bash
-        working-directory: test_workflow
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Upload Test Results"
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ env.ANSYS_VERSION }}
-          path: tests/junit/test-results.xml
-        if: always()
-
-      - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v3
+#  build_test:
+#    name: "Build and Test"
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        python-version: ["3.7", "3.8", "3.9", "3.10"]
+#        os: ["windows-latest", "ubuntu-latest"]
+#
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: "Build Package"
+#        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+#          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+#          MODULE: ${{env.MODULE}}
+#          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+#          install_extras: plotting
+#          wheelhouse: true
+#          extra-pip-args: ${{ env.extra }}
+#
+#      - name: "Prepare Testing Environment"
+#        uses: pyansys/pydpf-actions/prepare_tests@v2.2.dev1
+#        with:
+#          DEBUG: true
+#
+#      - name: "Test Docstrings"
+#        uses: pyansys/pydpf-actions/test_docstrings@v2.2.dev1
+#        if: matrix.python-version != '3.10' && matrix.python-version != '3.7' && matrix.os != 'Linux'
+#        with:
+#          MODULE: ${{env.MODULE}}
+#          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+#
+#      - name: "Separate long Core tests"
+#        shell: pwsh
+#        run: |
+#          New-Item -Path ".\" -Name "test_launcher" -ItemType "directory"
+#          New-Item -Path ".\" -Name "test_server" -ItemType "directory"
+#          New-Item -Path ".\" -Name "test_local_server" -ItemType "directory"
+#          New-Item -Path ".\" -Name "test_multi_server" -ItemType "directory"
+#          New-Item -Path ".\" -Name "test_workflow" -ItemType "directory"
+#          New-Item -Path ".\" -Name "test_remote_workflow" -ItemType "directory"
+#          New-Item -Path ".\" -Name "test_remote_operator" -ItemType "directory"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_launcher\"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_server\"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_local_server\"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_multi_server\"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_workflow\"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_remote_workflow\"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_remote_operator\"
+#          Copy-Item -Path "tests\test_launcher.py" -Destination ".\test_launcher\"
+#          Copy-Item -Path "tests\test_server.py" -Destination ".\test_server\"
+#          Copy-Item -Path "tests\test_local_server.py" -Destination ".\test_local_server\"
+#          Copy-Item -Path "tests\test_multi_server.py" -Destination ".\test_multi_server\"
+#          Copy-Item -Path "tests\test_workflow.py" -Destination ".\test_workflow\"
+#          Copy-Item -Path "tests\test_remote_workflow.py" -Destination ".\test_remote_workflow\"
+#          Copy-Item -Path "tests\test_remote_operator.py" -Destination ".\test_remote_operator\"
+#          Remove-Item -Path "tests\test_server.py"
+#          Remove-Item -Path "tests\test_launcher.py"
+#          Remove-Item -Path "tests\test_local_server.py"
+#          Remove-Item -Path "tests\test_multi_server.py"
+#          Remove-Item -Path "tests\test_workflow.py"
+#          Remove-Item -Path "tests\test_remote_workflow.py"
+#          Remove-Item -Path "tests\test_remote_operator.py"
+#
+#      - name: "Test API"
+#        shell: bash
+#        working-directory: tests
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_launcher"
+#        shell: bash
+#        working-directory: test_launcher
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_server"
+#        shell: bash
+#        working-directory: test_server
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_local_server"
+#        shell: bash
+#        working-directory: test_local_server
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_multi_server"
+#        shell: bash
+#        working-directory: test_multi_server
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_remote_workflow"
+#        shell: bash
+#        working-directory: test_remote_workflow
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_remote_operator"
+#        shell: bash
+#        working-directory: test_remote_operator
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_workflow"
+#        shell: bash
+#        working-directory: test_workflow
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Upload Test Results"
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ env.ANSYS_VERSION }}
+#          path: tests/junit/test-results.xml
+#        if: always()
+#
+#      - name: "Upload coverage to Codecov"
+#        uses: codecov/codecov-action@v3
 
   docs:
     name: "Documentation"
@@ -390,196 +390,196 @@ jobs:
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
         if: always()
 
-  retro:
-    name: "Retro-compatibility"
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.8"]
-        os: ["windows-latest", "ubuntu-latest"]
-        ANSYS_VERSION: ["222", "221"]
-    steps:
-      - uses: actions/checkout@v3
+#  retro:
+#    name: "Retro-compatibility"
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        python-version: ["3.8"]
+#        os: ["windows-latest", "ubuntu-latest"]
+#        ANSYS_VERSION: ["222", "221"]
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: "Build Package"
+#        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#          ANSYS_VERSION: ${{matrix.ANSYS_VERSION}}
+#          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+#          MODULE: ${{env.MODULE}}
+#          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+#          install_extras: plotting
+#          wheel: false
+#          extra-pip-args: ${{ env.extra }}
+#
+#      - name: "Install ansys-grpc-dpf==0.4.0"
+#        shell: pwsh
+#        run: |
+#          pip install ansys-grpc-dpf==0.4.0
+#        if: matrix.ANSYS_VERSION == '221'
+#
+#      - name: "Prepare Testing Environment"
+#        uses: pyansys/pydpf-actions/prepare_tests@v2.2
+#        with:
+#          DEBUG: true
+#
+#      - name: "Separate long Core tests"
+#        shell: pwsh
+#        run: |
+#          New-Item -Path ".\" -Name "test_launcher" -ItemType "directory"
+#          New-Item -Path ".\" -Name "test_server" -ItemType "directory"
+#          New-Item -Path ".\" -Name "test_local_server" -ItemType "directory"
+#          New-Item -Path ".\" -Name "test_multi_server" -ItemType "directory"
+#          New-Item -Path ".\" -Name "test_workflow" -ItemType "directory"
+#          New-Item -Path ".\" -Name "test_remote_workflow" -ItemType "directory"
+#          New-Item -Path ".\" -Name "test_remote_operator" -ItemType "directory"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_launcher\"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_server\"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_local_server\"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_multi_server\"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_workflow\"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_remote_workflow\"
+#          Copy-Item -Path "tests\conftest.py" -Destination ".\test_remote_operator\"
+#          Copy-Item -Path "tests\test_launcher.py" -Destination ".\test_launcher\"
+#          Copy-Item -Path "tests\test_server.py" -Destination ".\test_server\"
+#          Copy-Item -Path "tests\test_local_server.py" -Destination ".\test_local_server\"
+#          Copy-Item -Path "tests\test_multi_server.py" -Destination ".\test_multi_server\"
+#          Copy-Item -Path "tests\test_workflow.py" -Destination ".\test_workflow\"
+#          Copy-Item -Path "tests\test_remote_workflow.py" -Destination ".\test_remote_workflow\"
+#          Copy-Item -Path "tests\test_remote_operator.py" -Destination ".\test_remote_operator\"
+#          Remove-Item -Path "tests\test_server.py"
+#          Remove-Item -Path "tests\test_launcher.py"
+#          Remove-Item -Path "tests\test_local_server.py"
+#          Remove-Item -Path "tests\test_multi_server.py"
+#          Remove-Item -Path "tests\test_workflow.py"
+#          Remove-Item -Path "tests\test_remote_workflow.py"
+#          Remove-Item -Path "tests\test_remote_operator.py"
+#
+#      - name: "Test API"
+#        shell: bash
+#        working-directory: tests
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_launcher"
+#        shell: bash
+#        working-directory: test_launcher
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_server"
+#        shell: bash
+#        working-directory: test_server
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_local_server"
+#        shell: bash
+#        working-directory: test_local_server
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_multi_server"
+#        shell: bash
+#        working-directory: test_multi_server
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_remote_workflow"
+#        shell: bash
+#        working-directory: test_remote_workflow
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_remote_operator"
+#        shell: bash
+#        working-directory: test_remote_operator
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Test API test_workflow"
+#        shell: bash
+#        working-directory: test_workflow
+#        run: |
+#          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
+#        if: always()
+#
+#      - name: "Kill all servers"
+#        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+#        if: always()
+#
+#      - name: "Upload Test Results"
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ matrix.ANSYS_VERSION }}
+#          path: tests/junit/test-results.xml
+#        if: always()
+#
+#      - name: "Upload coverage to Codecov"
+#        uses: codecov/codecov-action@v3
 
-      - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
-        with:
-          python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{matrix.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheel: false
-          extra-pip-args: ${{ env.extra }}
-
-      - name: "Install ansys-grpc-dpf==0.4.0"
-        shell: pwsh
-        run: |
-          pip install ansys-grpc-dpf==0.4.0
-        if: matrix.ANSYS_VERSION == '221'
-
-      - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.2
-        with:
-          DEBUG: true
-
-      - name: "Separate long Core tests"
-        shell: pwsh
-        run: |
-          New-Item -Path ".\" -Name "test_launcher" -ItemType "directory"
-          New-Item -Path ".\" -Name "test_server" -ItemType "directory"
-          New-Item -Path ".\" -Name "test_local_server" -ItemType "directory"
-          New-Item -Path ".\" -Name "test_multi_server" -ItemType "directory"
-          New-Item -Path ".\" -Name "test_workflow" -ItemType "directory"
-          New-Item -Path ".\" -Name "test_remote_workflow" -ItemType "directory"
-          New-Item -Path ".\" -Name "test_remote_operator" -ItemType "directory"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_launcher\"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_server\"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_local_server\"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_multi_server\"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_workflow\"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_remote_workflow\"
-          Copy-Item -Path "tests\conftest.py" -Destination ".\test_remote_operator\"
-          Copy-Item -Path "tests\test_launcher.py" -Destination ".\test_launcher\"
-          Copy-Item -Path "tests\test_server.py" -Destination ".\test_server\"
-          Copy-Item -Path "tests\test_local_server.py" -Destination ".\test_local_server\"
-          Copy-Item -Path "tests\test_multi_server.py" -Destination ".\test_multi_server\"
-          Copy-Item -Path "tests\test_workflow.py" -Destination ".\test_workflow\"
-          Copy-Item -Path "tests\test_remote_workflow.py" -Destination ".\test_remote_workflow\"
-          Copy-Item -Path "tests\test_remote_operator.py" -Destination ".\test_remote_operator\"
-          Remove-Item -Path "tests\test_server.py"
-          Remove-Item -Path "tests\test_launcher.py"
-          Remove-Item -Path "tests\test_local_server.py"
-          Remove-Item -Path "tests\test_multi_server.py"
-          Remove-Item -Path "tests\test_workflow.py"
-          Remove-Item -Path "tests\test_remote_workflow.py"
-          Remove-Item -Path "tests\test_remote_operator.py"
-
-      - name: "Test API"
-        shell: bash
-        working-directory: tests
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_launcher"
-        shell: bash
-        working-directory: test_launcher
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_server"
-        shell: bash
-        working-directory: test_server
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_local_server"
-        shell: bash
-        working-directory: test_local_server
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_multi_server"
-        shell: bash
-        working-directory: test_multi_server
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_remote_workflow"
-        shell: bash
-        working-directory: test_remote_workflow
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_remote_operator"
-        shell: bash
-        working-directory: test_remote_operator
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Test API test_workflow"
-        shell: bash
-        working-directory: test_workflow
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
-        if: always()
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
-        if: always()
-
-      - name: "Upload Test Results"
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ matrix.ANSYS_VERSION }}
-          path: tests/junit/test-results.xml
-        if: always()
-
-      - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v3
-
-  draft_release:
-    name: "Draft Release"
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [style, build_test, docs, run_examples, retro]
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Set up Python"
-        uses: actions/setup-python@v4.1.0
-        with:
-          python-version: 3.9
-
-      - name: "Download artifacts"
-        uses: actions/download-artifact@v3
-
-      - name: "Display downloaded files"
-        run: ls -R
-
-      - name: "Create draft release"
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            ./**/*.whl
-            ./**/*.tar.gz
-            ./**/*.zip
-          draft: true
-          generate_release_notes: true
+#  draft_release:
+#    name: "Draft Release"
+#    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+#    needs: [style, build_test, docs, run_examples, retro]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: "Set up Python"
+#        uses: actions/setup-python@v4.1.0
+#        with:
+#          python-version: 3.9
+#
+#      - name: "Download artifacts"
+#        uses: actions/download-artifact@v3
+#
+#      - name: "Display downloaded files"
+#        run: ls -R
+#
+#      - name: "Create draft release"
+#        uses: softprops/action-gh-release@v1
+#        with:
+#          files: |
+#            ./**/*.whl
+#            ./**/*.tar.gz
+#            ./**/*.zip
+#          draft: true
+#          generate_release_notes: true
 
 #      - name: "Upload to Test PyPi"  # Change TOKEN
 #        run: |
