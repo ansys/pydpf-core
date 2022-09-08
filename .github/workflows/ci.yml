@@ -259,18 +259,11 @@ jobs:
         run: |
           pip install -r requirements/requirements_docs.txt
 
-      - name: "Debug mode"
-        shell: bash
-        run: |
-          echo "DEBUG_BUILD=&>log_sphinx.txt" >> $GITHUB_ENV
-          echo "DEBUG_HTML=&>log_html.txt" >> $GITHUB_ENV
-          echo "DEBUG_PDF=&>log_pdf.txt" >> $GITHUB_ENV
-
       - name: "Build sphinx doc"
         shell: bash
         run: |
           export SPHINX_APIDOC_OPTIONS=inherited-members
-          sphinx-apidoc -o docs/source/api ansys -f -v -v --implicit-namespaces --separate --no-headings $DEBUG_BUILD
+          sphinx-apidoc -o docs/source/api ansys -f --implicit-namespaces --separate --no-headings
 
       - name: "Build HTML Documentation"
         shell: bash
@@ -279,7 +272,7 @@ jobs:
           export TEMP=${{ runner.temp }}
           make clean
           echo "Making html doc..."
-          make html $DEBUG_HTML
+          make html -v -v
 
 #      - name: "Upload Documentation Build log"
 #        uses: actions/upload-artifact@v3
