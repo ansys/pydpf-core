@@ -223,11 +223,11 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: "Install OS packages"
-        shell: bash
-        run: |
-          sudo apt update
-          sudo apt install pandoc texlive-latex-extra latexmk
+#      - name: "Install OS packages"
+#        shell: bash
+#        run: |
+#          sudo apt update
+#          sudo apt install pandoc texlive-latex-extra latexmk
 
       - name: "Install DPF"
         uses: pyansys/pydpf-actions/install-dpf-server@v2.2.dev1
