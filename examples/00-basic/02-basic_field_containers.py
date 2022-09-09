@@ -26,61 +26,61 @@ containers are outputs from operators.
 First, import necessary modules:
 
 """
-# import numpy as np
+import numpy as np
+
+from ansys.dpf import core as dpf
+from ansys.dpf.core import examples
+
+###############################################################################
+# Create a model object to establish a connection with an
+# example result file and then extract:
+model = dpf.Model(examples.static_rst)
+print(model)
+
+###############################################################################
+# Create the displacement operator directly from the ``results``
+# property and extract the displacement fields container:
+disp_op = model.results.displacement()
+fields = disp_op.outputs.fields_container()
+print(fields)
+
+###############################################################################
+# A field can be extracted from a fields container by simply indexing
+# the requested field:
+field = fields[0]
+print(field)
+
+###############################################################################
+# Extracting Data from a Field
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# You can extract all the data from a given field using the ``data``
+# property.  This returns a ``numpy`` array.
+
+print(field.data)
+
+###############################################################################
+# While it might seem preferable to work entirely within ``numpy``,
+# DPF runs outside of Python and potentially even on a
+# remote machine.  Therefore, the transfer of unnecessary data between
+# the DPF instance and the Python client leads to inefficient
+# operations on large models. Instead, you should use DPF operators to
+# assemble the necessary data before recalling the data from DPF.
 #
-# from ansys.dpf import core as dpf
-# from ansys.dpf.core import examples
+# For example, if you want the maximum displacement for a given
+# result, use the min/max operator:
 #
-# ###############################################################################
-# # Create a model object to establish a connection with an
-# # example result file and then extract:
-# model = dpf.Model(examples.static_rst)
-# print(model)
-#
-# ###############################################################################
-# # Create the displacement operator directly from the ``results``
-# # property and extract the displacement fields container:
-# disp_op = model.results.displacement()
-# fields = disp_op.outputs.fields_container()
-# print(fields)
-#
-# ###############################################################################
-# # A field can be extracted from a fields container by simply indexing
-# # the requested field:
-# field = fields[0]
-# print(field)
-#
-# ###############################################################################
-# # Extracting Data from a Field
-# # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# # You can extract all the data from a given field using the ``data``
-# # property.  This returns a ``numpy`` array.
-#
-# print(field.data)
-#
-# ###############################################################################
-# # While it might seem preferable to work entirely within ``numpy``,
-# # DPF runs outside of Python and potentially even on a
-# # remote machine.  Therefore, the transfer of unnecessary data between
-# # the DPF instance and the Python client leads to inefficient
-# # operations on large models. Instead, you should use DPF operators to
-# # assemble the necessary data before recalling the data from DPF.
-# #
-# # For example, if you want the maximum displacement for a given
-# # result, use the min/max operator:
-# #
-# min_max_op = dpf.operators.min_max.min_max(field)
-# print(min_max_op.outputs.field_max().data)
-#
-# # Out of conveience, you can simply take the max of the field with:
-# print(field.max().data)
-#
-# # The above yields a result identical to:
-# print(np.max(field.data, axis=0))
-#
-# ###############################################################################
-# # Note that the numpy array does not retain any information about the
-# # field it describes.  Using the DPF ``max`` operator of the field does
-# # retain this information.
-# max_field = field.max()
-# print(max_field)
+min_max_op = dpf.operators.min_max.min_max(field)
+print(min_max_op.outputs.field_max().data)
+
+# Out of conveience, you can simply take the max of the field with:
+print(field.max().data)
+
+# The above yields a result identical to:
+print(np.max(field.data, axis=0))
+
+###############################################################################
+# Note that the numpy array does not retain any information about the
+# field it describes.  Using the DPF ``max`` operator of the field does
+# retain this information.
+max_field = field.max()
+print(max_field)
