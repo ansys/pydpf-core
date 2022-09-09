@@ -1,10 +1,9 @@
 """
 .. _ref_transient_easy_time_scoping:
 
-Choose a Time Scoping for a Transient Analysis
+Choose a time scoping for a transient analysis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to use a model's results to easily
-choose a time scoping.
+This example shows how to use a model's results to choose a time scoping.
 
 """
 import matplotlib.pyplot as plt
@@ -22,8 +21,8 @@ model = dpf.Model(transient)
 print(model)
 
 ###############################################################################
-# Obtain Minimum and Maximum Displacements at All Times
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Obtain minimum and maximum displacements at all times
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create a displacement operator and set its time scoping request to
 # the entire time frequency support:
 disp = model.results.displacement
@@ -48,10 +47,10 @@ plt.legend()
 plt.show()
 
 ###############################################################################
-# Use Time Extrapolation
+# Use time extrapolation
 # ~~~~~~~~~~~~~~~~~~~~~~~
 # A local maximum can be seen on the plot between 0.05 and 0.075 seconds.
-# Displacement will be evaluated every 0.0005s in this range
+# Displacement is evaluated every 0.0005 seconds in this range
 # to draw a nicer plot on this range.
 
 offset = 0.0005

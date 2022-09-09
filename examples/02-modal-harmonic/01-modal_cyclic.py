@@ -1,7 +1,7 @@
 """
 .. _ref_basic_cyclic:
 
-Modal Cyclic symmetry Example
+Modal cyclic symmetry example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to expand a cyclic mesh and its results.
 
@@ -18,7 +18,7 @@ print(model)
 ###############################################################################
 # Expand displacement results
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# In this example we expand displacement results, by default on all
+# This example expands displacement results, by default on all
 # nodes and the first time step.
 
 # Create displacement cyclic operator

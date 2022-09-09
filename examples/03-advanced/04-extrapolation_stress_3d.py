@@ -1,13 +1,13 @@
 """
 .. _extrapolation_test_stress_3Delement:
 
-Extrapolation Method for stress result of 3D-element
+Extrapolation method for stress result of a 3D element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to compute the nodal components stress from
-Gaussian points (integration points) for 3D-element by using the method
+Gaussian points (integration points) for a 3D element by using
 of extrapolation.
 
-Extrapolating results available at Gauss or quadrature points to nodal
+Extrapolate results available at Gaussian or quadrature points to nodal
 points for a field or fields container. The available elements are:
 
 * Linear quadrangle
@@ -17,16 +17,16 @@ points for a field or fields container. The available elements are:
 * Linear tetrahedral
 * Quadratic tetrahedral
 
-1st step : Get the data source's solution from the integration points (this
-result file was generated with the MAPDL option ``EREXS, NO``).
+Here are the steps for extrapolation:
 
-2nd step: Use operator of extrapolation to compute the nodal stress.
-
-3rd step: Get nodal stress result from data source's analysis reference.
-The analysis was computed by Ansys Mechanical APDL.
-
-4th step: Compare the results between nodal stress from data source
-reference and nodal stress computed by the extrapolation method.
+#. Get the data source's solution from the integration points. (This
+   result file was generated with the Ansys Mechanical APDL (MAPDL)
+   option ``EREXS, NO``).
+#. Use the extrapolation operator to compute the nodal stress.
+#. Get the result for nodal stress from the data source.
+   The analysis was computed by MAPDL.
+#. Compare the result for nodal stress from the data source
+   and the nodal stress computed by the extrapolation method.
 
 """
 
@@ -34,32 +34,32 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
 ###############################################################################
-# Get the data source's analyse of integration points and data source's analyse reference
+# Get the data source's analysis of integration points and analysis reference
 datafile = examples.download_extrapolation_3d_result()
 
-# integration points (Gaussian points)
+# Get integration points (Gaussian points)
 data_integration_points = datafile["file_integrated"]
 data_sources_integration_points = dpf.DataSources(data_integration_points)
 
-# reference
+# Get the reference
 dataSourceref = datafile["file_ref"]
 data_sources_ref = dpf.DataSources(dataSourceref)
 
-# get the mesh
+# Get the mesh
 model = dpf.Model(data_integration_points)
 mesh = model.metadata.meshed_region
 
-# operator instantiation scoping
+# Operator instantiation scoping
 op_scoping = dpf.operators.scoping.split_on_property_type()  # operator instantiation
 op_scoping.inputs.mesh.connect(mesh)
 op_scoping.inputs.requested_location.connect("Elemental")
 mesh_scoping = op_scoping.outputs.mesh_scoping()
 
 ###############################################################################
-# Extrapolation from integration points for stress result
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# In this example we compute nodal component stress result from
-# integration points stress by using the ``gauss_to_node_fc`` operator.
+# Extrapolate from integration points for stress result
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# This example uses the ``gauss_to_node_fc`` operator to compute the nodal
+# component stress result from the stress result of integration points.
 
 # Create stress operator to get stress result of integration points
 stressop = dpf.operators.result.stress()
@@ -67,17 +67,17 @@ stressop.inputs.data_sources.connect(data_sources_integration_points)
 stress = stressop.outputs.fields_container()
 
 ###############################################################################
-# Nodal stress result of integration points:
+# Nodal stress result of integration points
 ###############################################################################
-# The command ``ERESX,NO`` in Mechanical APDL is used to copy directly the
-# gaussian (integration) points results to the nodes, instead of the
+# The MAPLD command ``ERESX,NO``is used to copy directly the
+# Gaussian (integration) points results to the nodes, instead of the
 # results at nodes or elements (which are interpolation of results at a
 # few gauss points).
-# The following plot shows the nodal values which are the averaged values
+# The following plot shows the nodal values, which are the averaged values
 # of stresses at each node. The value shown at the node is the average of
-# the stresses from the gaussian points of each element that it belongs to.
+# the stresses from the Gaussian points of each element that it belongs to.
 
-# plot
+# Plot
 stress_nodal_op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
 stress_nodal_op.inputs.fields_container.connect(stress)
 mesh.plot(stress_nodal_op.outputs.fields_container())
@@ -95,7 +95,7 @@ ex_stress.inputs.fields_container.connect(stress)
 fex = ex_stress.outputs.fields_container()
 
 ###############################################################################
-# Stress result of reference ANSYS Workbench
+# Stress result of reference Ansys Workbench
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Stress from file dataSourceref
@@ -107,7 +107,7 @@ stress_ref = stressop_ref.outputs.fields_container()
 ###############################################################################
 # Plot
 # ~~~~~~~~~~
-# Showing plots of Extrapolation's stress result and reference's stress result
+# Show plots of the extrapolation's stress result and the reference's stress result
 
 # extrapolation
 fex_nodal_op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
@@ -119,13 +119,13 @@ stress_ref_nodal_op.inputs.fields_container.connect(stress_ref)
 mesh.plot(stress_ref_nodal_op.outputs.fields_container())
 
 ###############################################################################
-# Comparison
-# ~~~~~~~~~~~~
-# Compare the stress result computed by extrapolation and reference's result.
-# Check if two fields container are identical.
-# Maximum tolerance gap between to compared values: 1e-2.
-# Smallest value which will be considered during the comparison
-# step : all the ``abs(values)`` in field less than 1e-8 is considered as null
+# Compare stress results
+# ~~~~~~~~~~~~~~~~~~~~~~
+# Compare the stress result computed by extrapolation and the reference's result.
+# Check if the two fields container are identical.
+# The maximum tolerance gap between two compared values is 1e-2.
+# The smallest value that is considered during the comparison step: all the
+# ``abs(values)`` in field less than 1e-8 is considered as null.
 
 # operator AreFieldsIdentical_fc
 op = dpf.operators.logic.identical_fc()

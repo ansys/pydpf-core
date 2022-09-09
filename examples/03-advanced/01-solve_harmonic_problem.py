@@ -1,11 +1,11 @@
 """
 .. _ref_solve_modal_problem_advanced:
 
-Solve Harmonic Problem (with damping) Using Matrix Inverse
+Solve harmonic problem (with damping) using matrix inverse
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to create an harmonic (over frequencies) fields
 container for an analysis with damping. This fields container is then used to
-solve the problem Ma+Dv+Ku =F by inversing the matrix
+solve the problem Ma+Dv+Ku=F by inverting the matrix
 """
 
 import math
@@ -14,7 +14,7 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 
 ###############################################################################
-# Create 2D (x,y) matrix fields for inertia, damping and stiffness
+# Create 2D (x,y) matrix fields for inertia, damping, and stiffness.
 
 freq = [25, 50, 100, 200, 400]
 dim = 2  # dimension of matrix
@@ -28,7 +28,7 @@ fC0.append([7.0, 5.0, 9.0, 1.0], 1)
 
 ###############################################################################
 # Create a fields container for real and imaginary parts
-# for each frequency
+# for each frequency.
 
 reals = {}
 ims = {}
@@ -45,8 +45,8 @@ cplx_fc = dpf.fields_container_factory.over_time_freq_complex_fields_container(
 )
 
 ###############################################################################
-# Use dpf's operators to inverse the matrix, compute the amplitude
-# and the phase
+# Use DPF operators to inverse the matrix and then compute the amplitude
+# and the phase.
 
 inverse = ops.math.matrix_inverse(cplx_fc)
 component = ops.logic.component_selector_fc(inverse, 0)
@@ -54,7 +54,7 @@ amp = ops.math.amplitude_fc(component)
 phase = ops.math.phase_fc(component)
 
 ###############################################################################
-# Get the phase and amplitude and plot it over frequencies
+# Get the phase and amplitude and then plot it over frequencies.
 amp_over_frequency = amp.outputs.fields_container()
 phase_over_frequency = phase.outputs.fields_container()
 time_freq_support = amp_over_frequency.time_freq_support

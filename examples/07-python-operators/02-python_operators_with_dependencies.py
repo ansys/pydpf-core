@@ -1,33 +1,32 @@
 """
 .. _ref_python_operators_with_deps:
 
-Write user defined Operators having third party dependencies
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how advanced DPF python plugins of Operators
-can be created as standard python packages
-and how third party python modules dependencies can be added to the package.
-For a first introduction on user defined python Operators see example
-:ref:`ref_wrapping_numpy_capabilities`
-and for a simpler example on user defined python Operators as a package
-see :ref:`ref_python_plugin_package`.
+Create a plug-in package that has third-party dependencies
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example shows how to create a Python plug-in package with
+third-party dependencies. You should be familiar with these
+examples before proceeding with this more advanced one:
 
-This plugin will hold an Operator which implementation depends on a
-third party python module named
-`gltf <https://pypi.org/project/gltf/>`_. This Operator takes a path,
-a mesh and 3D vector field in input and exports the mesh and the norm of the input
-field in a gltf file located at the given path.
+- :ref:`ref_wrapping_numpy_capabilities`
+- :ref:`ref_python_plugin_package`
 
+This plug-in contains an operator whose implementation depends on a
+third-party Python module named `gltf <https://pypi.org/project/gltf/>`_.
+This operator takes a path, a mesh, and a 3D vector field as inputs
+and then exports the mesh and the norm of the 3D vector field to a GLTF
+file at the given path.
 """
 
 ###############################################################################
-# Write Operator
-# --------------
-# For this more advanced use case, a python package is created.
-# Each Operator implementation derives from
-# :class:`ansys.dpf.core.custom_operator.CustomOperatorBase`
-# and a call to :py:func:`ansys.dpf.core.custom_operator.record_operator`
-# records the Operators of the plugin.
-# The python package `gltf_plugin` is downloaded and displayed here:
+# Create the plug-in package
+# --------------------------
+# Each operator implementation derives from the
+# :class:`ansys.dpf.core.custom_operator.CustomOperatorBase` class
+# and a call to the :py:func:`ansys.dpf.core.custom_operator.record_operator`
+# method, which records the operators of the plug-in package.
+#
+# Download the ```gltf_plugin`` plug-in package that has already been
+# created for you.
 
 import os
 from ansys.dpf.core import examples
@@ -58,19 +57,22 @@ for file in file_list:
             plugin_path = os.path.dirname(operator_file_path)
 
 # %%
-# To add third party modules as dependencies to a custom DPF python plugin,
-# a folder or zip file with the sites of the dependencies needs to be created
-# and referenced in an xml located next to the plugin's folder
-# and having the same name as the plugin plus the ``.xml`` extension. The ``site``
-# python module is used by DPF when
-# calling :py:func:`ansys.dpf.core.core.load_library` function to add these custom
-# sites to the python interpreter path.
-# To create these custom sites, the requirements of the custom plugin should be
-# installed in a python virtual environment, the site-packages
-# (with unnecessary folders removed) should be zipped and put with the plugin. The
-# path to this zip should be referenced in the xml as done above.
+# To add third-party modules as dependencies to a plug-in package, you must
+# create and reference a folder or ZIP file with the sites of the dependencies
+# in an XML file located next to the folder for the plug-in package. The XML
+# file must have the same name as the plug-in package plus an ``.xml`` extension.
 #
-# To simplify this step, a requirements file can be added in the plugin, like:
+# When the :py:func:`ansys.dpf.core.core.load_library` method is called,
+# DPF-Core uses the ``site`` Python module to add custom to the path
+# for the Python interpreter.
+#
+# To create these custom sites, requirements of the plug-in package should be
+# installed in a Python virtual environment, the site-packages
+# (with unnecessary folders removed) should be compressed to a ZIP file and
+# placed with the plugin. The path to this ZIP file should be referenced in
+# the XML as shown in the preceding code.
+#
+# To simplify this step, you can add a requirements file in the plug-in package:
 #
 print(f'\033[1m gltf_plugin/requirements.txt: \n \033[0m')
 with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
@@ -79,24 +81,31 @@ with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
 
 
 # %%
-# And this :download:`powershell script </user_guide/create_sites_for_python_operators.ps1>`
-# for windows or this :download:`shell script </user_guide/create_sites_for_python_operators.sh>`
-# can be ran with the mandatory arguments:
+# Download the script for your operating system.
 #
-# - -pluginpath : path to the folder of the plugin.
-# - -zippath : output zip file name.
+# - For Windows, download this
+#   :download:`PowerShell script </user_guide/create_sites_for_python_operators.ps1>`.
+# - For Linux, download this
+#   :download:`Shell script </user_guide/create_sites_for_python_operators.sh>`.
 #
-# optional arguments are:
+# Run the downloaded script with the mandatory arguments:
 #
-# - -pythonexe : path to a python executable of your choice.
-# - -tempfolder : path to a temporary folder to work on, default is the environment variable
-#   ``TEMP`` on Windows and /tmp/ on Linux.
+# - ``-pluginpath``: Path to the folder with the plug-in package.
+# - ``-zippath``: Path and name for the ZIP file.
 #
-# For windows powershell, call::
+# Optional arguments are:
+#
+# - ``-pythonexe``: Path to a Python executable of your choice.
+# - ``-tempfolder``: Path to a temporary folder to work in. The default is the environment variable
+#   ``TEMP`` on Windows and ``/tmp/`` on Linux.
+#
+# Run the command for your operating system.
+#
+# - From Windows PowerShell, run::
 #
 #     create_sites_for_python_operators.ps1 -pluginpath /path/to/plugin -zippath /path/to/plugin/assets/winx64.zip # noqa: E501
 #
-# For linux shell, call::
+# - From Linux Shell, run::
 #
 #    create_sites_for_python_operators.sh -pluginpath /path/to/plugin -zippath /path/to/plugin/assets/linx64.zip # noqa: E501
 
@@ -133,19 +142,21 @@ elif os.name == "posix" and \
     print("\nInstalling pygltf in a virtual environment succeeded")
 
 ###############################################################################
-# Load Plugin
-# -----------
-# Once a python plugin is written as a package, it can be loaded with the function
-# :py:func:`ansys.dpf.core.core.load_library` taking as first argument
-# the path to the directory of the plugin,
-# as second argument ``py_`` + any name identifying the plugin,
-# and as last argument the function's name exposed in the ``__init__.py``
-# file and used to record operators.
+# Load the plug-in package
+# ------------------------
+# You use the function :py:func:`ansys.dpf.core.core.load_library` to load the
+# plug-in package.
+#
+# - The first argument is the path to the directory where the plug-in package
+#   is located.
+# - The second argument is ``py_`` plus any name identifying the plug-in package.
+# - The third argument is the name of the function exposed in the ``__init__ file``
+#   for the plug-in package that is used to record operators.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-# python plugins are not supported in process
+# Python plugins are not supported in process.
 dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
 tmp = dpf.make_tmp_dir_server()
@@ -164,17 +175,19 @@ dpf.load_library(
     "load_operators")
 
 ###############################################################################
-# Once the Plugin loaded, Operators recorded in the plugin can be used with:
+# Instantiate the operator.
 
 new_operator = dpf.Operator("gltf_export")
 
-###############################################################################ser
-# This new Operator ``gltf_export`` requires a triangle surface mesh,
-# a displacement Field on this surface mesh
-# as well as an export path as inputs.
-# To demo this new Operator, a :class:`ansys.dpf.core.model.Model` on a simple file is created,
-# :class:`ansys.dpf.core.operators.mesh.tri_mesh_skin` Operator is used
-# to extract the surface of the mesh in triangles elements.
+###############################################################################
+# This new ``gltf_export`` operator requires the following as inputs: a triangle
+# surface mesh, a displacement field on this surface mesh, and a path to export
+# the GLTF file to.
+#
+# To demonstrate this new operator, a :class:`ansys.dpf.core.model.Model` class
+# is created on a simple file and the
+# :class:`ansys.dpf.core.operators.mesh.tri_mesh_skin` operator is used
+# to extract the surface of the mesh in triangle elements.
 
 # %%
 # .. graphviz::
@@ -194,7 +207,7 @@ new_operator = dpf.Operator("gltf_export")
 #    }
 
 ###############################################################################
-# Use the Custom Operator
+# Use the custom operator
 # -----------------------
 
 import os
@@ -217,4 +230,4 @@ print("operator ran successfully")
 dpf.download_file(os.path.join(tmp, "out.glb"), os.path.join(os.getcwd(), "out.glb"))
 
 # %%
-# The gltf Operator output can be downloaded :download:`here <images/thumb/out02.glb>`.
+# You can download :download:`output <images/thumb/out02.glb>` from the ``gltf`` operator.
