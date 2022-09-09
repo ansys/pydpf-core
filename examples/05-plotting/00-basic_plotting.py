@@ -22,18 +22,18 @@ model.plot(off_screen=True, notebook=False, screenshot='model_plot.png',
 # Notes:
 # - To make screenshots, use "screenshot" as well as "notebook=False" if on a Jupyter notebook.
 # - The "off_screen" keyword only works when "notebook=False" to prevent the GUI from appearing.
-#
-#
-# # Plot a field on its supporting mesh (field location must be Elemental or Nodal)
-# stress = model.results.stress()
-# stress.inputs.requested_location.connect("Nodal")
-# fc = stress.outputs.fields_container()
-# field = fc[0]
-# field.plot(notebook=False, shell_layers=None, show_axes=True, title='Field', text='Field plot')
-# # # Additional PyVista kwargs are supported, such as:
-# field.plot(off_screen=True, notebook=False, screenshot='field_plot.png',
-#            title='Field', text='Field plot off')
-# #
+
+
+# Plot a field on its supporting mesh (field location must be Elemental or Nodal)
+stress = model.results.stress()
+stress.inputs.requested_location.connect("Nodal")
+fc = stress.outputs.fields_container()
+field = fc[0]
+field.plot(notebook=False, shell_layers=None, show_axes=True, title='Field', text='Field plot')
+# # Additional PyVista kwargs are supported, such as:
+field.plot(off_screen=True, notebook=False, screenshot='field_plot.png',
+           title='Field', text='Field plot off')
+
 # # # Alternatively one can plot the MeshedRegion associated to the model
 # mesh = model.metadata.meshed_region
 # mesh.plot(field_or_fields_container=None, shell_layers=None, show_axes=True,
