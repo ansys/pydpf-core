@@ -14,12 +14,17 @@ from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
 )
+from ansys.dpf.core import errors
 
 
 class StreamsContainer:
     """Python wrapper for operator input or output of streams.
 
     Enables control other the release of evaluated result files.
+
+    Note
+    ----
+    Only available for an InProcess server configuration.
 
     Examples
         --------
@@ -33,6 +38,11 @@ class StreamsContainer:
                  server: BaseServer = None):
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
+        if self._server().has_client():
+            txt = """
+            StreamsContainer only available for server with InProcess communication protocol
+            """
+            raise errors.ServerTypeError(txt)
 
         # step2: if object exists, take the instance, else create it
         self._internal_obj = None

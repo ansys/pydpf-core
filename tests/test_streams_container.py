@@ -3,11 +3,12 @@ import pytest
 import shutil
 
 from ansys import dpf
+from ansys.dpf.core import errors
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 
 
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                    reason='Unavailable in 221')
+                    reason='Available only with InProcess')
 def test_create_streams_container(simple_bar):
     model = dpf.core.Model(simple_bar)
     streams_provider = model.metadata.streams_provider
@@ -16,7 +17,17 @@ def test_create_streams_container(simple_bar):
 
 
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                    reason='Unavailable in 221')
+                    reason='Available only with InProcess')
+def test_create_streams_container_raise_grpc(server_type_remote_process,
+                                             simple_bar):
+    model = dpf.core.Model(simple_bar, server=server_type_remote_process)
+    streams_provider = model.metadata.streams_provider
+    with pytest.raises(errors.ServerTypeError):
+        _ = streams_provider.outputs.streams_container()
+
+
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Available only with InProcess')
 def test_release_handles(simple_bar):
     split = os.path.splitext(simple_bar)
     copy_path = split[0]+"copy"+split[1]
@@ -31,7 +42,7 @@ def test_release_handles(simple_bar):
 
 
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                    reason='Unavailable in 221')
+                    reason='Available only with InProcess')
 def test_release_streams_model(simple_bar):
     split = os.path.splitext(simple_bar)
     copy_path = split[0]+"copy2"+split[1]
@@ -44,24 +55,16 @@ def test_release_streams_model(simple_bar):
 
 
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                    reason='Unavailable in 221')
+                    reason='Available only with InProcess')
 def test_release_streams_model_empty():
     model = dpf.core.Model()
     model.metadata.release_streams()
 
 
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                    reason='Unavailable in 221')
-def test_create_from_streams_container(server_clayer, simple_bar):
+                    reason='Available only with InProcess')
+def test_create_from_streams_container(simple_bar):
     model = dpf.core.Model(simple_bar)
     streams_provider = model.metadata.streams_provider
     sc = streams_provider.outputs.streams_container()
     dpf.core.streams_container.StreamsContainer(streams_container=sc)
-
-
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                    reason='Unavailable in 221')
-def test_create_streams_container_raise_legacy(server_type_legacy_grpc):
-    with pytest.raises(NotImplementedError):
-        dpf.core.streams_container.StreamsContainer(
-            server=server_type_legacy_grpc)
