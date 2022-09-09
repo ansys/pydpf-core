@@ -38,7 +38,7 @@ class StreamsContainer:
                  server: BaseServer = None):
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
-        if self._server().has_client():
+        if self._server.has_client():
             txt = """
             StreamsContainer only available for server with InProcess communication protocol
             """
