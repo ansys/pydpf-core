@@ -15,13 +15,13 @@ from ansys.dpf.core import examples
 # Plot the bare mesh of a model
 model = dpf.Model(examples.multishells_rst)
 model.plot(color="w", show_edges=True, title='Model', text='Model plot')
-# # # Additional PyVista kwargs are supported, such as:
-# model.plot(off_screen=True, notebook=False, screenshot='model_plot.png',
-#            title='Model', text='Model plot off')
-#
-# # Notes:
-# # - To make screenshots, use "screenshot" as well as "notebook=False" if on a Jupyter notebook.
-# # - The "off_screen" keyword only works when "notebook=False" to prevent the GUI from appearing.
+# Additional PyVista kwargs are supported, such as:
+model.plot(off_screen=True, notebook=False, screenshot='model_plot.png',
+           title='Model', text='Model plot off')
+
+# Notes:
+# - To make screenshots, use "screenshot" as well as "notebook=False" if on a Jupyter notebook.
+# - The "off_screen" keyword only works when "notebook=False" to prevent the GUI from appearing.
 #
 #
 # # Plot a field on its supporting mesh (field location must be Elemental or Nodal)
