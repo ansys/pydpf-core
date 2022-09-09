@@ -286,7 +286,7 @@ jobs:
         run: |
           export TEMP=${{ runner.temp }}
           echo $SPHINXOPTS
-          export SPHINXOPTS="-v -v"
+          export SPHINXOPTS="-v -v -v"
           make clean
           echo "Making html doc..."
           make html
