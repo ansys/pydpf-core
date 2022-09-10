@@ -29,8 +29,8 @@ stress = model.results.stress()
 stress.inputs.requested_location.connect("Nodal")
 fc = stress.outputs.fields_container()
 field = fc[0]
-model.plot(off_screen=True, notebook=False, screenshot='model_plot.png',
-           title='Model', text='Model plot off')
+field.plot(off_screen=True, notebook=False, screenshot='field_plot.png',
+           title='Field', text='Field plot off')
 # field.plot(off_screen=True, notebook=False, shell_layers=None, show_axes=True, title='Field',
 #            text='Field plot')
 # # Additional PyVista kwargs are supported, such as:
