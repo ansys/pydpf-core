@@ -31,8 +31,8 @@ fc = stress.outputs.fields_container()
 field = fc[0]
 field.plot(notebook=False, shell_layers=None, show_axes=True, title='Field', text='Field plot')
 # # Additional PyVista kwargs are supported, such as:
-field.plot(off_screen=True, notebook=False, screenshot='field_plot.png',
-           title='Field', text='Field plot off')
+# field.plot(off_screen=True, notebook=False, screenshot='field_plot.png',
+#            title='Field', text='Field plot off')
 
 # # # Alternatively one can plot the MeshedRegion associated to the model
 # mesh = model.metadata.meshed_region
