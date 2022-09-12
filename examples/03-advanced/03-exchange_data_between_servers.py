@@ -46,7 +46,8 @@ model = dpf.Model(file_path_in_tmp)
 
 # Read displacement
 disp = model.results.displacement()
-disp.inputs.time_scoping(len(model.metadata.time_freq_support.time_frequencies))
+time_freq_support = model.metadata.time_freq_support
+disp.inputs.time_scoping(len(time_freq_support.time_frequencies))
 
 ###############################################################################
 # Create a workflow on the second server
