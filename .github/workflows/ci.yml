@@ -284,6 +284,7 @@ jobs:
         shell: bash
         working-directory: docs
         run: |
+          export TMP=${{ runner.temp }}
           export TEMP=${{ runner.temp }}
           echo $SPHINXOPTS
           export SPHINXOPTS="-v"
