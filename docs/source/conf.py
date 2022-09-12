@@ -20,6 +20,8 @@ if not os.path.exists(pyvista.FIGURE_PATH):
 
 pyvista.BUILDING_GALLERY = True
 
+pyvista.global_theme.lighting = False
+
 
 # -- Project information -----------------------------------------------------
 
