@@ -27,12 +27,12 @@ class StreamsContainer:
     Only available for an InProcess server configuration.
 
     Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.multishells_rst)
-        >>> streams_provider = model.metadata.streams_provider
-        >>> sc = streams_provider.outputs.streams_container()
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> model = dpf.Model(examples.multishells_rst)
+    >>> streams_provider = model.metadata.streams_provider
+    >>> sc = streams_provider.outputs.streams_container()
     """
     def __init__(self, streams_container=None,
                  server: BaseServer = None):
