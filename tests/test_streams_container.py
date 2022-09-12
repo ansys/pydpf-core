@@ -22,7 +22,7 @@ def test_create_streams_container_raise_grpc(server_type_remote_process,
                                              simple_bar):
     model = dpf.core.Model(simple_bar, server=server_type_remote_process)
     streams_provider = model.metadata.streams_provider
-    with pytest.raises((ValueError, dpf.gate.errors.DPFServerException)):
+    with pytest.raises((ValueError, errors.DPFServerException)):
         _ = streams_provider.outputs.streams_container()
 
 
