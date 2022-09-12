@@ -20,10 +20,9 @@ from ansys.dpf.core import errors
 class StreamsContainer:
     """Python wrapper for operator input or output of streams.
 
-    Defines open, ready-to-use, data sources.
-    A StreamsContainer contains Streams, which provide access to the data sources.
-    Once the files in the streams are opened, they stay opened and they keep some data in cache
-    to make the next evaluations faster.
+    Streams define open, ready-to-use, data sources.
+    Once the files in the streams are opened, they stay opened and
+    they keep some data in cache to make the next evaluations faster.
     To close the opened files, release the handles.
 
     Note
