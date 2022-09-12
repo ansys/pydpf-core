@@ -43,7 +43,7 @@ mesh.plot(field_or_fields_container=None, shell_layers=None, show_axes=True,
 # mesh.plot(off_screen=True, notebook=False, screenshot='mesh_plot.png',
 #           title='Mesh', text='Mesh plot off')
 # # A fields_container or a specific field can be given to plot on the mesh.
-# mesh.plot(field_or_fields_container=fc, title='Mesh with fields container', text='Mesh fc plot')
+mesh.plot(field_or_fields_container=fc, title='Mesh with fields container', text='Mesh fc plot')
 # mesh.plot(field_or_fields_container=field, title='Mesh with field', text='Mesh field plot')
 # #
 # # One can also plot a MeshesContainer. Here our mesh is split by material.
