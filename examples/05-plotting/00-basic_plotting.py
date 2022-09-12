@@ -13,7 +13,7 @@ from ansys.dpf.core import examples
 
 
 # Plot the bare mesh of a model
-model = dpf.Model(examples.download_all_kinds_of_complexity())
+model = dpf.Model(examples.multishells_rst)
 model.plot(color="w", show_edges=True, title='Model', text='Model plot')
 # Additional PyVista kwargs are supported, such as:
 model.plot(off_screen=True, notebook=False, screenshot='model_plot.png',
