@@ -1,7 +1,7 @@
 """
 .. _ref_multi_stage_cyclic:
 
-Multi-stage Cyclic Symmetry Example
+Multi-stage cyclic symmetry example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to expand the mesh and results from a
 multi-stage cyclic analysis.
@@ -19,7 +19,7 @@ print(model)
 ###############################################################################
 # Expand displacement results
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# In this example we expand displacement results, by default on all
+# This example expands displacement results, by default on all
 # nodes and the first time step.
 
 # Create displacement cyclic operator

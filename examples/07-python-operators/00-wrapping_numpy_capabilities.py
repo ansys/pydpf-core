@@ -1,27 +1,32 @@
 """
 .. _ref_wrapping_numpy_capabilities:
 
-Write user defined Operator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to create a simple DPF python plugin holding a single Operator.
-This Operator called "easy_statistics" computes simple statistics quantities on a scalar Field with
-the help of numpy.
-It's a simple example displaying how routines can be wrapped in DPF python plugins.
+Create a basic operator plugin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example shows how to create a basic operator plugin, which is for
+a single custom operator. This custom operator, ``easy_statistics``,
+computes simple statistics quantities on a scalar field with the help of
+the ``numpy`` package.
+
+The objective of this simple example is to show how routines for DPF can
+be wrapped in Python plugins.
 """
 
 ###############################################################################
-# Write Operator
-# --------------
-# To write the simplest DPF python plugins, a single python script is necessary.
-# An Operator implementation deriving from
-# :class:`ansys.dpf.core.custom_operator.CustomOperatorBase`
-# and a call to :py:func:`ansys.dpf.core.custom_operator.record_operator`
-# are the 2 necessary steps to create a plugin.
-# The "easy_statistics" Operator will take a Field in input and return
-# the first quartile, the median,
-# the third quartile and the variance. The python Operator and its recording seat in the
-# file plugins/easy_statistics.py. This file `easy_statistics.py` is downloaded
-# and displayed here:
+# Create the operator
+# -------------------
+# Creating a basic operator plugin consists of writing a single Python script.
+# An operator implementation derives from the
+# :class:`ansys.dpf.core.custom_operator.CustomOperatorBase` class
+# and a call to the :py:func:`ansys.dpf.core.custom_operator.record_operator`
+# method.
+#
+# The ``easy_statistics`` operator takes a field as an input and returns
+# the first quartile, the median, the third quartile, and the variance.
+# The Python operator and its recording are available in the
+# ``easy_statistics.py`` file.
+#
+# Download and display the Python script.
 
 from ansys.dpf.core import examples
 
@@ -37,34 +42,39 @@ with open(operator_file_path, "r") as f:
         print('\t\t\t' + line)
 
 ###############################################################################
-# Load Plugin
-# -----------
-# Once a python plugin is written, it can be loaded with the function
-# :py:func:`ansys.dpf.core.core.load_library`
-# taking as first argument the path to the directory of the plugin, as second argument
-# ``py_`` + the name of
-# the python script, and as last argument the function's name used to record operators.
+# Load the plugin
+# ---------------
+# You use the :py:func:`ansys.dpf.core.core.load_library` method to load the
+# plugin.
+
+# - The first argument is the path to the directory where the plugin
+#   is located.
+# - The second argument is ``py_`` plus the name of the Python script.
+# - The third argument is the name of the function used to record operators.
+#
 
 import os
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-# python plugins are not supported in process
+# Python plugins are not supported in process.
 dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
 operator_server_file_path = dpf.upload_file_in_tmp_folder(operator_file_path)
 dpf.load_library(os.path.dirname(operator_server_file_path), "py_easy_statistics", "load_operators")
 
 ###############################################################################
-# Once the Operator loaded, it can be instantiated with:
+# Instantiate the operator.
 
 new_operator = dpf.Operator("easy_statistics")
 
 ###############################################################################
-# To use this new Operator, a workflow computing the norm of the displacement
-# is connected to the "easy_statistics" Operator.
-# Methods of the class ``easy_statistics`` are dynamically added thanks to the Operator's
-# specification defined in the plugin.
+# Connect a workflow
+# ------------------
+# Connect a workflow that computes the norm of the displacement to the
+# ``easy_statistics`` operator. Methods of the ``easy_statistics`` class
+# are dynamically added because specifications for the operator are
+# defined in the plugin.
 
 # %%
 # .. graphviz::
@@ -81,8 +91,8 @@ new_operator = dpf.Operator("easy_statistics")
 #    }
 
 ###############################################################################
-# Use the Custom Operator
-# -----------------------
+# Use the operator
+# ----------------
 
 ds = dpf.DataSources(dpf.upload_file_in_tmp_folder(examples.static_rst))
 displacement = dpf.operators.result.displacement(data_sources=ds)

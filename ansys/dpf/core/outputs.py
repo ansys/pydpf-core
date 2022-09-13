@@ -48,6 +48,8 @@ class Output:
             type_output = types.scopings_container
         elif type_output == "meshes_container":
             type_output = types.meshes_container
+        elif type_output == "streams_container":
+            type_output = types.streams_container
 
         return self._operator.get_output(self._pin, type_output)
 

@@ -29,11 +29,11 @@ should also be synchronized with the server version.
    :widths: 20 20 20 20 20
    :header-rows: 1
 
-   * - Ans.Dpf.Grpc.exe server version
-     - ansys.dpf.gatebin binaries Python package version
-     - ansys.dpf.gate Python package version
-     - ansys.grpc.dpf Python package version
-     - ansys.dpf.core Python package version
+   * - ``Ans.Dpf.Grpc.exe`` server version
+     - ``ansys.dpf.gatebin`` binaries Python module version
+     - ``ansys.dpf.gate`` Python module version
+     - ``ansys.grpc.dpf`` Python module version
+     - ``ansys.dpf.core`` Python module version
    * - 5.0 (Ansys 2023 R1)
      - 0.2.0 and later
      - 0.2.0 and later
@@ -67,6 +67,6 @@ Environment variable
 The ``start_local_server``  method uses the ``Ans.Dpf.Grpc.bat`` file or
 ``Ans.Dpf.Grpc.sh`` file to start the server. Ensure that the ``AWP_ROOT{VER}``
 environment variable is set to your installed Ansys version. For example, if Ansys
-2022 installation is installed, ensure that the ``AWP_ROOT222`` environment
+2022 R2 is installed, ensure that the ``AWP_ROOT222`` environment
 variable is set to the path for this Ansys installation.
    
