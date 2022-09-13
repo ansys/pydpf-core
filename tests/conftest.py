@@ -358,6 +358,15 @@ def server_clayer(request):
     return server
 
 
+@pytest.fixture
+def server_in_process():
+    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+        return 'skip'
+    else:
+        return core.start_local_server(config=core.AvailableServerConfigs.InProcessServer,
+                                       as_global=False)
+
+
 @pytest.fixture()
 def restore_awp_root():
     ver_to_check = core._version.server_to_ansys_version[str(core.SERVER.version)]
