@@ -25,7 +25,7 @@ def remove_gifs(request):
 
 
 @pytest.fixture()
-def displacement_fields(request):
+def displacement_fields():
     model = dpf.Model(examples.msup_transient)
     mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(
         model.metadata.meshed_region.nodes.scoping)
