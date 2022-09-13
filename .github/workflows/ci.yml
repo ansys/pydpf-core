@@ -253,7 +253,7 @@ jobs:
         shell: cmd
         run: |
           cd .ci
-          build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
+          build_doc.bat
         timeout-minutes: 20
 
       - name: "Kill all servers"
