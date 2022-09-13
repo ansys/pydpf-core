@@ -361,7 +361,7 @@ def server_clayer(request):
 @pytest.fixture
 def server_in_process():
     if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
-        return 'skip'
+        pytest.skip("InProcess unavailable for Ansys <222")
     else:
         return core.start_local_server(config=core.AvailableServerConfigs.InProcessServer,
                                        as_global=False)
