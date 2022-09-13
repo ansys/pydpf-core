@@ -13,14 +13,6 @@ def test_create_streams_container(server_in_process, simple_bar):
     assert hasattr(sc, "release_handles")
 
 
-def test_create_streams_container_raise_grpc(server_in_process,
-                                             simple_bar):
-    model = dpf.core.Model(simple_bar, server=server_in_process)
-    streams_provider = model.metadata.streams_provider
-    with pytest.raises((ValueError, errors.DPFServerException)):
-        _ = streams_provider.outputs.streams_container()
-
-
 def test_release_handles(server_in_process, simple_bar):
     split = os.path.splitext(simple_bar)
     copy_path = split[0]+"copy"+split[1]
