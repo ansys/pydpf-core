@@ -2,7 +2,6 @@ import os
 import shutil
 
 from ansys import dpf
-from ansys.dpf.core import errors
 
 
 def test_create_streams_container(server_in_process, simple_bar):
