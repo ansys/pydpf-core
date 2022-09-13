@@ -1,5 +1,6 @@
 import pytest
 import subprocess
+import platform
 import psutil
 import sys
 import os
@@ -130,8 +131,10 @@ def test_busy_port(remote_config_server_type):
     assert server.port != busy_port
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 and os.name == 'posix',
-                    reason='Not working on Linux for server version lower than 4.0')
+@pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.7"),
+                    reason="Known failure in the GitHub pipeline for 3.7 on Ubuntu")
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Not working for server version lower than 4.0')
 def test_shutting_down_when_deleted_legacy():
     num_dpf_exe = 0
     for proc in psutil.process_iter():

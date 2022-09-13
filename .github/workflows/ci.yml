@@ -6,11 +6,10 @@ on:
        - '*no-ci*'
   push:
     tags:
-      - "*"
+      - "v*"
     branches:
       - master
       - "release*"
-      - "merge*"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -19,26 +18,45 @@ concurrency:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  ANSYS_VERSION: 222
+  ANSYS_VERSION: 231
+  extra: "--find-links .github/"
 
 jobs:
-  Build_and_Test:
-    name: Build and Test
+  style:
+    name: "Style Check"
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Setup Python"
+        uses: actions/setup-python@v4.2.0
+        with:
+          python-version: 3.8
+
+      - name: "Install style requirements"
+        run: |
+          pip install -r requirements/requirements_style.txt --disable-pip-version-check
+
+      - name: "Codespell"
+        run: |
+          make codespell
+        continue-on-error: true
+
+      - name: "flake8"
+        run: |
+          make flake8
+
+  build_test:
+    name: "Build and Test"
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8"]
-        os: ["windows-latest", "ubuntu-18.04"]
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        os: ["windows-latest", "ubuntu-latest"]
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: "Add gatebin to install for Linux"
-        if: runner.os == 'Linux'
-        shell: bash
-        run: |
-          echo "extra=dpf-standalone/v${{env.ANSYS_VERSION}}/ansys_dpf_gatebin-0.1.dev1-py3-none-manylinux_2_17_x86_64.whl" >> $GITHUB_ENV
 
       - name: "Build Package"
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
@@ -53,12 +71,13 @@ jobs:
           extra-pip-args: ${{ env.extra }}
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.2
+        uses: pyansys/pydpf-actions/prepare_tests@v2.2.dev1
         with:
           DEBUG: true
 
       - name: "Test Docstrings"
-        uses: pyansys/pydpf-actions/test_docstrings@v2.2
+        uses: pyansys/pydpf-actions/test_docstrings@v2.2.dev1
+        if: matrix.python-version != '3.10' && matrix.python-version != '3.7' && matrix.os != 'Linux'
         with:
           MODULE: ${{env.MODULE}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
@@ -102,94 +121,98 @@ jobs:
           pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_launcher"
         shell: bash
         working-directory: test_launcher
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_server"
         shell: bash
         working-directory: test_server
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_local_server"
         shell: bash
         working-directory: test_local_server
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_multi_server"
         shell: bash
         working-directory: test_multi_server
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_remote_workflow"
         shell: bash
         working-directory: test_remote_workflow
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Test API test_remote_operator"
         shell: bash
         working-directory: test_remote_operator
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
-      - name: "Test API 3"
+      - name: "Test API test_workflow"
         shell: bash
         working-directory: test_workflow
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
+        if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.PACKAGE_NAME }}_pytest
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ env.ANSYS_VERSION }}
           path: tests/junit/test-results.xml
+        if: always()
 
       - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
 
-      - name: 'Upload to PyPi'
-        if: contains(github.ref, 'refs/tags')
-        shell: cmd
-        run: |
-          pip install twine
-          python setup.py sdist
-          twine upload --skip-existing dist/*
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
-          TWINE_REPOSITORY_URL: "https://upload.pypi.org/legacy/"
-
-  build_doc:
-    name: Documentation
+  docs:
+    name: "Documentation"
     runs-on: windows-latest
 
     steps:
@@ -211,32 +234,22 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
+          extra-pip-args: ${{ env.extra }}
 
-      - name: Install OpenGL
-        run: |
-          Set-StrictMode -Version Latest
-          $ErrorActionPreference = "Stop"
-          $PSDefaultParameterValues['*:ErrorAction']='Stop'
-          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-          powershell gl-ci-helpers/appveyor/install_opengl.ps1
+      - name: "Setup headless display"
+        uses: pyvista/setup-headless-display-action@v1
 
-      - name: Install test offscreen rendering
-        run: |
-          .ci/setup_headless_display.sh
-          pip install -r .ci/requirements_test_xvfb.txt
-          python .ci/display_test.py
-
-      - name: Setup Graphviz
+      - name: "Setup Graphviz"
         uses: ts-graphviz/setup-graphviz@v1
 
-      - name: Install documentation packages for Python
+      - name: "Install documentation packages for Python"
         run: |
           pip install -r requirements/requirements_docs.txt
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
-      - name: Build Documentation
+      - name: "Build HTML Documentation"
         shell: cmd
         run: |
           cd .ci
@@ -244,48 +257,38 @@ jobs:
         timeout-minutes: 20
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
-
-      - name: Publish Documentation artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: doc-ansys-dpf-core
-          path: ./docs/build/html/*
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
         if: always()
 
-      - name: Publish Documentation log
-        uses: actions/upload-artifact@v3
-        with:
-          name: doc-ansys-dpf-core-log
-          path: ./docs/*.txt
+      - name: "Retrieve package version"
+        shell: bash
+        run: |
+          echo "::set-output name=VERSION::$(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
+          echo "${{env.PACKAGE_NAME}} version is: $(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
+        id: version
         if: always()
 
-      - name: Init git and add docs
-        if: contains(github.ref, 'refs/tags')
-        run: |
-          cd docs/build/html
-          git init
-          git checkout -b $env:GH_DOC_BRANCH
-          git config --global user.name "pyansys-ci-bot"
-          git config --global user.email "$env:GH_EMAIL"
-          New-Item -ItemType file .nojekyll
-          git add .
-          git commit -m "Documentation generated"
-        env:
-          GH_DOC_BRANCH: gh-pages
-          GH_EMAIL: pyansys.github.bot@ansys.com
+      - name: "Upload Documentation Build log"
+        uses: actions/upload-artifact@v3
+        with:
+          name: doc-${{env.PACKAGE_NAME}}-log
+          path: docs/*.txt
+        if: always()
 
-      - name: Publish GitHub Pages merge commit
-        if: contains(github.ref, 'refs/tags')
-        run: |
-          cd docs/build/html
-          git remote add origin https://${{secrets.PYANSYS_CI_BOT_TOKEN}}@github.com/pyansys/DPF-Core-docs
-          git push -u origin $env:GH_DOC_BRANCH --force
-        env:
-          GH_DOC_BRANCH: gh-pages
+      - name: "Zip HTML Documentation"
+        uses: vimtor/action-zip@v1
+        with:
+          files: docs/build/html
+          dest: HTML-doc-${{env.PACKAGE_NAME}}.zip
+
+      - name: "Upload HTML Documentation"
+        uses: actions/upload-artifact@v3
+        with:
+          name: HTML-doc-${{env.PACKAGE_NAME}}
+          path: HTML-doc-${{env.PACKAGE_NAME}}.zip
 
   run_examples:
-    name: Run Examples with/without bin
+    name: "Run Examples with/without bin"
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -311,69 +314,265 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
           wheelhouse: false
+          wheel: false
+          extra-pip-args: ${{ env.extra }}
 
-      - name: Install OpenGL
-        run: |
-          Set-StrictMode -Version Latest
-          $ErrorActionPreference = "Stop"
-          $PSDefaultParameterValues['*:ErrorAction']='Stop'
-          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-          powershell gl-ci-helpers/appveyor/install_opengl.ps1
-
-      - name: Install test offscreen rendering
-        run: |
-          .ci/setup_headless_display.sh
-          pip install -r .ci/requirements_test_xvfb.txt
-          python .ci/display_test.py
+      - name: "Setup headless display"
+        uses: pyvista/setup-headless-display-action@v1
 
       - name: "Check examples with gatebin"
-        shell: cmd
+        shell: bash
         run: |
           echo on
           cd .ci
-          dir .
+          ls .
           python run_examples.py
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Uninstall gatebin"
         shell: bash
         run: |
           pip uninstall -y ansys-dpf-gatebin
+        if: always()
 
       - name: "Check sanity without gatebin INPROCESS"
-        shell: cmd
+        shell: bash
         run: |
           cd .ci
           python run_non_regression_examples.py
         env:
           DPF_SERVER_TYPE: INPROCESS
+        if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
-
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Check sanity without gatebin GRPC"
-        shell: cmd
+        shell: bash
         run: |
           cd .ci
           python run_non_regression_examples.py
         env:
           DPF_SERVER_TYPE: GRPC
+        if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
       - name: "Check sanity without gatebin LEGACYGRPC"
-        shell: cmd
+        shell: bash
         run: |
           cd .ci
           python run_non_regression_examples.py
         env:
           DPF_SERVER_TYPE: LEGACYGRPC
+        if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
 
+  retro:
+    name: "Retro-compatibility"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8"]
+        os: ["windows-latest", "ubuntu-latest"]
+        ANSYS_VERSION: ["222", "221"]
+    steps:
+      - uses: actions/checkout@v3
 
+      - name: "Build Package"
+        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
+        with:
+          python-version: ${{ matrix.python-version }}
+          ANSYS_VERSION: ${{matrix.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+          wheel: false
+          extra-pip-args: ${{ env.extra }}
+
+      - name: "Install ansys-grpc-dpf==0.4.0"
+        shell: pwsh
+        run: |
+          pip install ansys-grpc-dpf==0.4.0
+        if: matrix.ANSYS_VERSION == '221'
+
+      - name: "Prepare Testing Environment"
+        uses: pyansys/pydpf-actions/prepare_tests@v2.2
+        with:
+          DEBUG: true
+
+      - name: "Separate long Core tests"
+        shell: pwsh
+        run: |
+          New-Item -Path ".\" -Name "test_launcher" -ItemType "directory"
+          New-Item -Path ".\" -Name "test_server" -ItemType "directory"
+          New-Item -Path ".\" -Name "test_local_server" -ItemType "directory"
+          New-Item -Path ".\" -Name "test_multi_server" -ItemType "directory"
+          New-Item -Path ".\" -Name "test_workflow" -ItemType "directory"
+          New-Item -Path ".\" -Name "test_remote_workflow" -ItemType "directory"
+          New-Item -Path ".\" -Name "test_remote_operator" -ItemType "directory"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_launcher\"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_server\"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_local_server\"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_multi_server\"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_workflow\"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_remote_workflow\"
+          Copy-Item -Path "tests\conftest.py" -Destination ".\test_remote_operator\"
+          Copy-Item -Path "tests\test_launcher.py" -Destination ".\test_launcher\"
+          Copy-Item -Path "tests\test_server.py" -Destination ".\test_server\"
+          Copy-Item -Path "tests\test_local_server.py" -Destination ".\test_local_server\"
+          Copy-Item -Path "tests\test_multi_server.py" -Destination ".\test_multi_server\"
+          Copy-Item -Path "tests\test_workflow.py" -Destination ".\test_workflow\"
+          Copy-Item -Path "tests\test_remote_workflow.py" -Destination ".\test_remote_workflow\"
+          Copy-Item -Path "tests\test_remote_operator.py" -Destination ".\test_remote_operator\"
+          Remove-Item -Path "tests\test_server.py"
+          Remove-Item -Path "tests\test_launcher.py"
+          Remove-Item -Path "tests\test_local_server.py"
+          Remove-Item -Path "tests\test_multi_server.py"
+          Remove-Item -Path "tests\test_workflow.py"
+          Remove-Item -Path "tests\test_remote_workflow.py"
+          Remove-Item -Path "tests\test_remote_operator.py"
+
+      - name: "Test API"
+        shell: bash
+        working-directory: tests
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
+
+      - name: "Test API test_launcher"
+        shell: bash
+        working-directory: test_launcher
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
+
+      - name: "Test API test_server"
+        shell: bash
+        working-directory: test_server
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
+
+      - name: "Test API test_local_server"
+        shell: bash
+        working-directory: test_local_server
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
+
+      - name: "Test API test_multi_server"
+        shell: bash
+        working-directory: test_multi_server
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
+
+      - name: "Test API test_remote_workflow"
+        shell: bash
+        working-directory: test_remote_workflow
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
+
+      - name: "Test API test_remote_operator"
+        shell: bash
+        working-directory: test_remote_operator
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
+
+      - name: "Test API test_workflow"
+        shell: bash
+        working-directory: test_workflow
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        if: always()
+
+      - name: "Upload Test Results"
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ matrix.ANSYS_VERSION }}
+          path: tests/junit/test-results.xml
+        if: always()
+
+      - name: "Upload coverage to Codecov"
+        uses: codecov/codecov-action@v3
+
+  draft_release:
+    name: "Draft Release"
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: [style, build_test, docs, run_examples, retro]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Set up Python"
+        uses: actions/setup-python@v4.1.0
+        with:
+          python-version: 3.9
+
+      - name: "Download artifacts"
+        uses: actions/download-artifact@v3
+
+      - name: "Display downloaded files"
+        run: ls -R
+
+      - name: "Create draft release"
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./**/*.whl
+            ./**/*.tar.gz
+            ./**/*.zip
+          draft: true
+          generate_release_notes: true
+
+#      - name: "Upload to Test PyPi"  # Change TOKEN
+#        run: |
+#          pip install twine
+#          twine upload --repository testpypi --skip-existing ./**/*.whl
+#          twine upload --repository testpypi --skip-existing ./**/*.tar.gz
+#        env:
+#          TWINE_USERNAME: __token__
+#          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}

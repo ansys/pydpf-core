@@ -1,8 +1,8 @@
 """
 .. _ref_create_entities_example:
 
-Create Your Own Entities Use DPF Operators
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create your own entities using DPF operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You can create your field, fields container, or meshed region to use DPF operators
 with your own data. The ability to use scripting to create any DPF entity means
 that you are not dependent on result files and can connect the DPF environment
@@ -116,11 +116,11 @@ mesh.plot()
 
 ###############################################################################
 # Create displacement fields over time with three time sets.
-# Here the displacement on each node will be the value of its x, y, and
+# Here the displacement on each node is the value of its x, y, and
 # z coordinates for time 1.
-# The displacement on each node will be two times the value of its x, y,
+# The displacement on each node is two times the value of its x, y,
 # and z coordinates for time 2.
-# The displacement on each node will be three times the value of its x,
+# The displacement on each node is three times the value of its x,
 # y, and z coordinates for time 3.
 num_nodes = mesh.nodes.n_nodes
 time1_array = coordinates_data

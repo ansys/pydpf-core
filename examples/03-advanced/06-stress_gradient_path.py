@@ -1,18 +1,18 @@
 """
 .. _stress_gradient_path:
 
-Stress gradient normal to a defined node.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Stress gradient normal to a defined node
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to plot a stress gradient normal to a selected node.
-As the example is based on creating a path along the normal, the selected node
+Because the example is based on creating a path along the normal, the selected node
 must be on the surface of the geometry.
 A path is created of a defined length.
 
 """
 
 ###############################################################################
-# First, import the DPF-Core module as ``dpf`` and import the
-# included examples file and ``DpfPlotter``
+# Import the DPF-Core module as ``dpf`` and import the
+# included examples file and ``DpfPlotter``.
 #
 import matplotlib.pyplot as plt
 from ansys.dpf import core as dpf
@@ -21,7 +21,7 @@ from ansys.dpf.core.plotter import DpfPlotter
 from ansys.dpf.core import examples
 
 ###############################################################################
-# Next, open an example and print out the ``model`` object.  The
+# Open an example and print out the ``Model`` object. The
 # :class:`Model <ansys.dpf.core.model.Model>` class helps to organize access
 # methods for the result by keeping track of the operators and data sources
 # used by the result file.
@@ -38,16 +38,16 @@ path = examples.download_hemisphere()
 model = dpf.Model(path)
 print(model)
 ###############################################################################
-# Define the `node_id` normal to which a stress gradient should be plotted.
+# Define the node ID normal to plot the a stress gradient to.
 #
 node_id = 1928
 ###############################################################################
-# The following command prints the mesh unit
+# Print the mesh unit
 #
 unit = model.metadata.meshed_region.unit
 print("Unit: %s" % unit)
 ###############################################################################
-# `depth` defines the path length / depth to which the path will penetrate.
+# `depth` defines the length/depth that the path penetrates to.
 # While defining `depth` make sure you use the correct mesh unit.
 # `delta` defines distance between consecutive points on the path.
 depth = 10  # in mm
@@ -80,7 +80,7 @@ normal.inputs.mesh.connect(skin_meshed_region)
 normal.inputs.mesh_scoping.connect(nodal_scoping)
 normal_vec_out_field = normal.outputs.field.get_data()
 ###############################################################################
-# Normal vector is along the surface normal. We need to invert the vector
+# The normal vector is along the surface normal. You need to invert the vector
 # using `math.scale` operator inwards in the geometry, to get the path
 # direction.
 #
@@ -88,7 +88,7 @@ normal_vec_in_field = ops.math.scale(field=normal_vec_out_field,
                                      ponderation=-1.0)
 normal_vec_in = normal_vec_in_field.outputs.field.get_data().data[0]
 ###############################################################################
-# Get Nodal coordinates, they serve as the first point on the line.
+# Get nodal coordinates, they serve as the first point on the line.
 #
 node = mesh.nodes.node_by_id(node_id)
 line_fp = node.coordinates
@@ -105,13 +105,13 @@ coordinates = [[fx(t * delta), fy(t * delta), fz(t * delta)] for t in
                range(int(depth / delta))]
 flat_coordinates = [entry for data in coordinates for entry in data]
 ###############################################################################
-# Create Field for coordinates of the path.
+# Create field for coordinates of the path.
 #
 field_coord = dpf.fields_factory.create_3d_vector_field(len(coordinates))
 field_coord.data = flat_coordinates
 field_coord.scoping.ids = list(range(1, len(coordinates) + 1))
 ###############################################################################
-# Let's now map results on the path.
+# Map results on the path.
 mapping_operator = ops.mapping.on_coordinates(
     fields_container=stress_fc,
     coordinates=field_coord,
@@ -119,7 +119,7 @@ mapping_operator = ops.mapping.on_coordinates(
     mesh=mesh)
 fields_mapped = mapping_operator.outputs.fields_container()
 ###############################################################################
-# Here, we request the mapped field data and its mesh
+# Request the mapped field data and its mesh.
 field_m = fields_mapped[0]
 mesh_m = field_m.meshed_region
 ###############################################################################
@@ -132,9 +132,9 @@ plt.xlabel("Length (%s)" % mesh.unit)
 plt.ylabel("Stress (%s)" % field_m.unit)
 plt.show()
 ###############################################################################
-# To create a plot we need to add both the meshes
-# `mesh_m` - mapped mesh
-# `mesh` - original mesh
+# Create a plot to add both meshes to.
+# ``mesh_m`` - mapped mesh
+# ``mesh`` - original mesh
 pl = DpfPlotter()
 pl.add_field(field_m, mesh_m)
 pl.add_mesh(mesh, style="surface", show_edges=True,

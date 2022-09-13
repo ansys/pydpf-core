@@ -235,7 +235,7 @@ class elastic_strain_energy_density(Operator):
         done and stages are merged (default
         is 1)""",
                 ),
-                21: PinSpecification(
+                22: PinSpecification(
                     name="read_beams",
                     type_names=["bool"],
                     optional=True,
@@ -360,7 +360,7 @@ class InputsElasticStrainEnergyDensity(_Inputs):
         )
         self._inputs.append(self._read_cyclic)
         self._read_beams = Input(
-            elastic_strain_energy_density._spec().input_pin(21), 21, op, -1
+            elastic_strain_energy_density._spec().input_pin(22), 22, op, -1
         )
         self._inputs.append(self._read_beams)
 

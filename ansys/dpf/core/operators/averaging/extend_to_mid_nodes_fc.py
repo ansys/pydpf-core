@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class extend_to_mid_nodes_fc(Operator):
-    """Extends ElementalNodal fields defined on corner nodes to
+    """Extends ElementalNodal or Nodal fields defined on corner nodes to
     ElementalNodal fields defined also on the mid nodes.
 
     Parameters
@@ -57,7 +57,7 @@ class extend_to_mid_nodes_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Extends ElementalNodal fields defined on corner nodes to
+        description = """Extends ElementalNodal or Nodal fields defined on corner nodes to
             ElementalNodal fields defined also on the mid nodes."""
         spec = Specification(
             description=description,

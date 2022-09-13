@@ -1,16 +1,16 @@
 .. _user_guide_model:
 
 =========
-DPF Model
+DPF model
 =========
 
 The DPF model provides the starting point for opening a result file.
-From here you can connect various operators and display results
+From the ``Model`` object, you can connect various operators and display results
 and data.
 
-To create a ``Model`` instance, import ``dpf`` and load a file.  The
-path provided must be an absolute path or a path relative to the DPF
-server.
+To create an instance of the ``Model`` object, import the ``pydpf-core`` package and
+load a result file. The path that you provide must be an absolute path
+or a path relative to the DPF server.
 
 .. code-block:: default
 
@@ -21,7 +21,7 @@ server.
     model = dpf.Model(path)
 
 To understand what is available in the result file, you can print the model
-(or any other instance).
+(or any other instance):
 
 .. code-block:: default
 
@@ -39,7 +39,7 @@ To understand what is available in the result file, you can print the model
     ------------------------------
     Static analysis
     Unit system: Metric (m, kg, N, s, V, A)
-    Physics Type: Mecanic
+    Physics Type: Mechanical
     Available results:
          -  displacement: Nodal Displacement
          -  element_nodal_forces: ElementalNodal Element nodal Forces
@@ -65,21 +65,21 @@ To understand what is available in the result file, you can print the model
 
 
 
-For an example using the model, see :ref:`ref_basic_example`.
+For a comprehensive model example, see :ref:`ref_basic_example`.
 
-For a description of the `Model` object, see the APIs section :ref:`ref_model`.
+For a description of the ``Model`` object, see :ref:`ref_model`.
 
 
-Model Metadata
+Model metadata
 --------------
-You can use model metadata to access all information about an analysis:
+To access all information about an analysis, you can use model metadata:
 
 - Type of analysis
 - Time or frequency descriptions
 - Mesh
 - Available results
 
-For example, you can get the analysis type:
+This example shows you get the analysis type:
 
 
 .. code-block:: default
@@ -94,7 +94,7 @@ For example, you can get the analysis type:
 
     'static'
 
-You can get information about the mesh:
+This example shows how you get mesh information:
 
 
 .. code:: default
@@ -118,7 +118,7 @@ You can get information about the mesh:
     	Shape:        Solid
 
 
-You can get time sets:
+This example shows how you get time sets:
 
 
 .. code-block:: default
@@ -135,15 +135,14 @@ You can get time sets:
     [1.]
 
 
-For a description of the `Metadata` object, see the APIs section :ref:`ref_model`.
+For a description of the ```Metadata``` object, see :ref:`ref_model`.
 
-
-Model Results
+Model results
 -------------
 The model contains the ``results`` attribute, which you can use to
 create operators to access certain results.
 
-To view available results, print them:
+This example shows how you view available results:
 
 
 .. code-block:: default
@@ -158,7 +157,7 @@ To view available results, print them:
 
     Static analysis
     Unit system: Metric (m, kg, N, s, V, A)
-    Physics Type: Mecanic
+    Physics Type: Mechanical
     Available results:
          -  displacement: Nodal Displacement
          -  element_nodal_forces: ElementalNodal Element nodal Forces
@@ -175,9 +174,11 @@ To view available results, print them:
 .. autoattribute:: ansys.dpf.core.model.Model.results
   :noindex:
 
-Choosing the time, frequencies, or spatial subset on which to get a given result
-is straightforward with the ``results`` attribute:
+With the ``results`` attribute, choosing the time, frequencies, or spatial subset
+on which to get a given result is straightforward.
 
+This example shows how you get displacement results on all time frequencies on
+the mesh scoping:
 
 .. code-block:: default
 
@@ -185,13 +186,13 @@ is straightforward with the ``results`` attribute:
     disp_at_all_times_on_node_1 =  disp_result.on_all_time_freqs.on_mesh_scoping([1])
 
 
-For an example using the `Result` API, see :ref:`ref_transient_easy_time_scoping`.
+For an example using the ``Result`` object, see :ref:`ref_transient_easy_time_scoping`.
 
-For a `description of the `Model` object, see the APIs section :ref:`ref_results`.
+For a description of the ``Model`` object, see :ref:`ref_results`.
 
 
 
-API Reference
+API reference
 ~~~~~~~~~~~~~
 
 For more information, see :ref:`ref_model` or :ref:`ref_results`.

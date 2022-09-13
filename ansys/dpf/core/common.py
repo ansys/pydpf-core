@@ -9,9 +9,11 @@ Common
 import re
 import sys
 from enum import Enum
-import numpy as np
+
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.gate.common import locations, ProgressBarBase  # noqa: F401
+from ansys.dpf.gate.dpf_vector import get_size_of_list as _get_size_of_list  # noqa: F401
+
 
 def _camel_to_snake_case(name):
     return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
@@ -60,6 +62,7 @@ class types(Enum):
 
 
     """
+    # Types from grpc proto, do not modify
     string = 0
     int = 1
     double = 2
@@ -82,9 +85,12 @@ class types(Enum):
     operator = 19
     data_tree = 20
     vec_string = 21
-    fields_container = 22
-    scopings_container = 23
-    meshes_container = 24
+    string_field = 22
+    # Types not from grpc proto, added in Python
+    fields_container = -1
+    scopings_container = -2
+    meshes_container = -3
+    streams_container = -4
 
 
 def types_enum_to_types():
@@ -97,6 +103,7 @@ def types_enum_to_types():
         meshed_region,
         meshes_container,
         property_field,
+        string_field,
         result_info,
         scoping,
         scopings_container,
@@ -104,6 +111,7 @@ def types_enum_to_types():
         dpf_operator,
         data_tree,
         workflow,
+        streams_container,
     )
     from ansys.dpf.gate import dpf_vector
     return {
@@ -128,6 +136,8 @@ def types_enum_to_types():
         types.scoping: scoping.Scoping,
         types.vec_int: dpf_vector.DPFVectorInt,
         types.vec_double: dpf_vector.DPFVectorDouble,
+        types.string_field: string_field.StringField,
+        types.streams_container: streams_container.StreamsContainer,
     }
 
 
@@ -255,11 +265,3 @@ def _common_progress_bar(text, unit, tot_size=None):
 
 def _common_percentage_progress_bar(text):
     return TqdmProgressBar(text, "%", 100)
-
-
-def _get_size_of_list(list):
-    if isinstance(list, (np.generic, np.ndarray)):
-        return list.size
-    elif not hasattr(list, '__iter__'):
-        return 1
-    return len(list)

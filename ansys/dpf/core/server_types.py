@@ -23,9 +23,9 @@ from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core import errors, session
 from ansys.dpf.core._version import (
     server_to_ansys_grpc_dpf_version,
-    server_to_ansys_version,
-    __ansys_version__
+    server_to_ansys_version
 )
+from ansys.dpf.core.misc import __ansys_version__
 from ansys.dpf.gate import load_api, data_processing_grpcapi
 
 import logging
@@ -43,15 +43,22 @@ MAX_PORT = 65535
 
 def _get_dll_path(name, ansys_path=None):
     """Helper function to get the right dll path for Linux or Windows"""
-    from ansys.dpf.core import _version
     ISPOSIX = os.name == "posix"
     if ansys_path is None:
         ansys_path = os.environ.get("ANSYS_DPF_PATH")
     if ansys_path is None:
-        ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(_version.__ansys_version__), None)
+        awp_root = "AWP_ROOT" + str(__ansys_version__)
+        ANSYS_INSTALL = os.environ.get(awp_root, None)
+        if ANSYS_INSTALL is None:
+            ANSYS_INSTALL = core.misc.find_ansys()
     else:
         ANSYS_INSTALL = ansys_path
-    SUB_FOLDERS = os.path.join(ANSYS_INSTALL, load_api._get_path_in_install())
+    if ANSYS_INSTALL is None:
+        raise ImportError(f"Could not find ansys installation path using {awp_root}.")
+    api_path = load_api._get_path_in_install()
+    if api_path is None:
+        raise ImportError(f"Could not find API path in install.")
+    SUB_FOLDERS = os.path.join(ANSYS_INSTALL, api_path)
     if ISPOSIX:
         name = "lib" + name
     return os.path.join(SUB_FOLDERS, name)
@@ -90,26 +97,19 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install = None):
 
 
 def _run_launch_server_process(ansys_path, ip, port, docker_name):
+    bShell = False
     if docker_name:
         docker_server_port = int(os.environ.get("DOCKER_SERVER_PORT", port))
         dpf_run_dir = os.getcwd()
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
-        if os.name == "nt":
-            run_cmd = f"docker run -d -p {port}:{docker_server_port} " \
-                      f"{RUNNING_DOCKER['args']} " \
-                      f'-v "{LOCAL_DOWNLOADED_EXAMPLES_PATH}:/tmp/downloaded_examples" ' \
-                      f"-e DOCKER_SERVER_PORT={docker_server_port} " \
-                      f"--expose={docker_server_port} " \
-                      f"{docker_name}"
-        else:
-            run_cmd = ["docker run",
-                       "-d",
-                       f"-p" + f"{port}:{docker_server_port}",
-                       RUNNING_DOCKER['args'],
-                       f'-v "{LOCAL_DOWNLOADED_EXAMPLES_PATH}:/tmp/downloaded_examples"'
-                       f"-e DOCKER_SERVER_PORT={docker_server_port}",
-                       f"--expose={docker_server_port}",
-                       docker_name]
+        if os.name == "posix":
+            bShell = True
+        run_cmd = f"docker run -d -p {port}:{docker_server_port} " \
+                  f"{RUNNING_DOCKER['args']} " \
+                  f'-v "{LOCAL_DOWNLOADED_EXAMPLES_PATH}:/tmp/downloaded_examples" ' \
+                  f"-e DOCKER_SERVER_PORT={docker_server_port} " \
+                  f"--expose={docker_server_port} " \
+                  f"{docker_name}"
     else:
         if os.name == "nt":
             executable = "Ans.Dpf.Grpc.bat"
@@ -122,7 +122,12 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
 
     old_dir = os.getcwd()
     os.chdir(dpf_run_dir)
-    process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if not bShell:
+        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    else:
+        process = subprocess.Popen(
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+        )
     os.chdir(old_dir)
     return process
 
@@ -154,6 +159,21 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
         DPF Process.
     """
     process = _run_launch_server_process(ansys_path, ip, port, docker_name)
+
+    if docker_name is not None and os.name == 'posix':
+        run_cmd = "docker ps --all"
+        process = subprocess.Popen(
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+        )
+        used_ports = []
+        for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
+            if not ("CONTAINER ID" in line):
+                split = line.split("0.0.0.0:")
+                if len(split) > 1:
+                    used_port = int(split[1].split("-")[0])
+                    if used_port == port:
+                        docker_id = split[0].split(" ")[0]
+                        return docker_id
 
     # check to see if the service started
     lines = []
@@ -272,12 +292,14 @@ def check_ansys_grpc_dpf_version(server, timeout):
         ansys_version_to_use = server_to_ansys_version.get(server_version, 'Unknown')
         compatibility_link = (f"https://dpfdocs.pyansys.com/getting_started/"
                               f"index.html#client-server-compatibility")
+        ansys_versions = core._version.server_to_ansys_version
+        latest_ansys = ansys_versions[max(ansys_versions.keys())]
         raise ImportWarning(f"An incompatibility has been detected between the DPF server version "
                             f"({server_version} "
                             f"from Ansys {ansys_version_to_use})"
                             f" and the ansys-grpc-dpf version installed ({grpc_module_version})."
                             f" Please consider using the latest DPF server available in the "
-                            f"2022R1 Ansys unified install.\n"
+                            f"{latest_ansys} Ansys unified install.\n"
                             f"To follow the compatibility guidelines given in "
                             f"{compatibility_link} while still using DPF server {server_version}, "
                             f"please install version {right_grpc_module_version} of ansys-grpc-dpf"
@@ -635,7 +657,7 @@ class InProcessServer(CServer):
             data_processing_core_load_api(path, "common")
         except Exception as e:
             if not os.path.isdir(os.path.dirname(path)):
-             raise NotADirectoryError(
+                raise NotADirectoryError(
                     f"DPF directory not found at {os.path.dirname(path)}"
                     f"Unable to locate the following file: {path}")
             raise e
@@ -854,17 +876,34 @@ class LegacyGrpcServer(BaseServer):
 
     def shutdown(self):
         if self._own_process and self.live:
+            b_shell = False
+            if os.name == 'posix':
+                b_shell = True
             try:
                 self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
             except Exception as e:
                 warnings.warn("couldn't prepare shutdown: " + str(e.args))
             if self.on_docker:
                 run_cmd = f"docker stop {self._server_id}"
-                process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                if b_shell:
+                    process = subprocess.Popen(
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+                    )
+                else:
+                    process = subprocess.Popen(
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                    )
                 run_cmd = f"docker rm {self._server_id}"
-                for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
+                for _ in io.TextIOWrapper(process.stdout, encoding="utf-8"):
                     pass
-                process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                if b_shell:
+                    _ = subprocess.Popen(
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+                    )
+                else:
+                    _ = subprocess.Popen(
+                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                    )
             elif self._remote_instance:
                 self._remote_instance.delete()
             else:

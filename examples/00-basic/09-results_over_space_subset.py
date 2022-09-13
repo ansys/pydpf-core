@@ -119,8 +119,8 @@ volume = model.results.elemental_volume(mesh_scoping=ns_provider).eval()
 # and can be connected to any result provider to get results split with the
 # same partition as the input ``ScopingsContainer``.
 # For example, some application require to get results split by body, by material,
-# by element types. It might also be necessary to get results by element shape types
-# (shell, solid, beam) to average data properly...
+# by element types. It might also be necessary to get results by element shape
+# types, such as shell, solid, or beam, to average data properly.
 # Customers might also require split by entirely custom spatial domains.
 
 
@@ -141,9 +141,10 @@ stress = model.results.stress.split_by_body.on_location(dpf.locations.nodal).eva
 print(stress)
 
 for body_id in stress.get_mat_scoping().ids:
-    field = stress.get_field_by_mat_id(body_id)
-    if field.elementary_data_count > 0:
-        model.metadata.meshed_region.plot(field)
+    fields = stress.get_fields_by_mat_id(body_id)
+    for field in fields:
+        if field.elementary_data_count > 0:
+            model.metadata.meshed_region.plot(field)
 
 ###############################################################################
 # Create a custom spatial split

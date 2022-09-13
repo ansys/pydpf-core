@@ -5,7 +5,7 @@ from io import open as io_open
 
 from setuptools import setup
 
-install_requires = ["packaging", "psutil", "tqdm", "numpy", "ansys-dpf-gate", "protobuf<=3.20.1"]
+install_requires = ["packaging", "psutil", "tqdm", "numpy", "ansys-dpf-gate>=0.2.*"]
 
 # Get version from version info
 filepath = os.path.dirname(__file__)
@@ -39,18 +39,20 @@ setup(
         "ansys.dpf.core.operators.utility",
     ],
     version=__version__,
-    description="DPF Python gRPC client",
+    description="DPF Python client",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Science/Research",
         "Topic :: Scientific/Engineering :: Information Analysis",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows",
         "Operating System :: POSIX",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
     ],
     package_data={
         "ansys.dpf.core.examples": [
@@ -80,11 +82,11 @@ setup(
     author='ANSYS',
     author_email='ramdane.lagha@ansys.com',
     maintainer_email="pyansys.maintainers@ansys.com",
-    python_requires=">=3.7.*",
+    python_requires=">=3.7.*,<4.0",
     install_requires=install_requires,
     extras_require={
         "plotting": ["pyvista>=0.32.0", "matplotlib>=3.2"],
     },
     url="https://github.com/pyansys/pydpf-core",
-    license='MIT',
+    license='MIT License',
 )

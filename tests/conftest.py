@@ -22,6 +22,7 @@ ACCEPTABLE_FAILURE_RATE = 0
 
 core.settings.disable_off_screen_rendering()
 os.environ["PYVISTA_OFF_SCREEN"] = "true"
+core.settings.bypass_pv_opengl_osmesa_crash()
 os.environ["MPLBACKEND"] = "Agg"
 # currently running dpf on docker.  Used for testing on CI
 running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER["use_docker"]
@@ -199,6 +200,9 @@ def cyclic_multistage():
     return core.examples.download_multi_stage_cyclic_result()
 
 
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0 = meets_version(
+    get_server_version(core._global_server()), "5.0"
+)
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 = meets_version(
     get_server_version(core._global_server()), "4.0"
 )
@@ -354,9 +358,20 @@ def server_clayer(request):
     return server
 
 
+@pytest.fixture
+def server_in_process():
+    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+        pytest.skip("InProcess unavailable for Ansys <222")
+    else:
+        return core.start_local_server(config=core.AvailableServerConfigs.InProcessServer,
+                                       as_global=False)
+
+
 @pytest.fixture()
-def restore_awp_root(request):
-    awp_root_name = "AWP_ROOT" + core._version.__ansys_version__
+def restore_awp_root():
+    ver_to_check = core._version.server_to_ansys_version[str(core.SERVER.version)]
+    ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
+    awp_root_name = "AWP_ROOT" + ver_to_check
     awp_root_save = os.environ.get(awp_root_name, None)
     yield
     # restore awp_root

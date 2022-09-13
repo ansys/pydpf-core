@@ -226,6 +226,14 @@ class Operator:
                     self._api.operator_connect_vector_int(self, pin, inpt, len(inpt))
                 else:
                     self._api.operator_connect_vector_double(self, pin, inpt, len(inpt))
+        elif isinstance(inpt, dict):
+            from ansys.dpf.core import label_space
+            label_space_to_con = label_space.LabelSpace(
+                label_space=inpt,
+                obj=self,
+                server=self._server
+            )
+            self._api.operator_connect_label_space(self, pin, label_space_to_con)
         else:
             if isinstance(inpt, os.PathLike):
                 inpt = str(inpt)
@@ -247,6 +255,7 @@ class Operator:
             meshed_region,
             meshes_container,
             property_field,
+            string_field,
             result_info,
             scoping,
             scopings_container,
@@ -254,6 +263,7 @@ class Operator:
             data_tree,
             workflow,
             collection,
+            streams_container,
         )
         return [
             (bool, self._api.operator_getoutput_bool),
@@ -263,6 +273,8 @@ class Operator:
             (field.Field, self._api.operator_getoutput_field, "field"),
             (property_field.PropertyField, self._api.operator_getoutput_property_field,
              "property_field"),
+            (string_field.StringField, self._api.operator_getoutput_string_field,
+             "string_field"),
             (scoping.Scoping, self._api.operator_getoutput_scoping, "scoping"),
             (fields_container.FieldsContainer, self._api.operator_getoutput_fields_container,
              "fields_container"),
@@ -270,6 +282,8 @@ class Operator:
              "scopings_container"),
             (meshes_container.MeshesContainer, self._api.operator_getoutput_meshes_container,
              "meshes_container"),
+            (streams_container.StreamsContainer, self._api.operator_getoutput_streams,
+             "streams_container"),
             (data_sources.DataSources, self._api.operator_getoutput_data_sources,
              "data_sources"),
             (cyclic_support.CyclicSupport, self._api.operator_getoutput_cyclic_support,
@@ -300,6 +314,7 @@ class Operator:
             collection,
             meshed_region,
             property_field,
+            string_field,
             scoping,
             time_freq_support,
             data_tree,
@@ -313,6 +328,7 @@ class Operator:
             (float, self._api.operator_connect_double),
             (field.Field, self._api.operator_connect_field),
             (property_field.PropertyField, self._api.operator_connect_property_field),
+            (string_field.StringField, self._api.operator_connect_string_field),
             (scoping.Scoping, self._api.operator_connect_scoping),
             (collection.Collection, self._api.operator_connect_collection),
             (data_sources.DataSources, self._api.operator_connect_data_sources),

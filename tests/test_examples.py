@@ -27,6 +27,11 @@ def test_download_crankshaft():
     assert isinstance(Model(path), Model)
 
 
+def test_download_piston_rod():
+    path = examples.download_piston_rod()
+    assert isinstance(Model(path), Model)
+
+
 @pytest.mark.parametrize(
     "example",
     [
