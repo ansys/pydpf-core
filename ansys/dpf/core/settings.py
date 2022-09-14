@@ -4,8 +4,6 @@ settings
 ========
 Customize the behavior of the module.
 """
-import os
-import re
 
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.core import misc
