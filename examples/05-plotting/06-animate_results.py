@@ -15,7 +15,6 @@ from ansys.dpf.core import examples
 
 # Load the model
 model = dpf.Model(examples.msup_transient)
-# model = dpf.Model(examples.download_piston_rod())
 print(model)
 
 # Use Scoping instances to adjust the region and the steps involved.
