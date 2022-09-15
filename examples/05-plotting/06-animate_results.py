@@ -7,7 +7,7 @@ This example lists the different commands available for creating animations of r
 shown with the arguments available.
 
 """
-
+# sphinx_gallery_thumbnail_number = 9
 import copy
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
@@ -77,13 +77,28 @@ camera_pos = displacement_fields.animate(scale_factor=10.,
 # Can be made off_screen for batch animation creation.
 # This accepts as kwargs arguments taken by pyvista.Plotter.open_movie such as the frame-rate and
 # the quality.
-# One can also define a camera position to use, which can take a list of CameraPosition.
+
+# One can also define a camera position to use, which can take a list of Camera descriptions:
+# Camera description must be one of the following:
+#
+# Iterable containing position, focal_point, and view up.  For example:
+# [(2.0, 5.0, 13.0), (0.0, 0.0, 0.0), (-0.7, -0.5, 0.3)]
+#
+# Iterable containing a view vector.  For example:
+# [-1.0, 2.0, -5.0]
+#
+# A string containing the plane orthogonal to the view direction.  For example:
+# 'xy'
 camera_pos_list = []
-for i in range(len(displacement_fields)):
-    new_pos = copy.copy(camera_pos)
-    new_pos.position = (camera_pos.position[0]+i*0.3,
-                        camera_pos.position[1]+i*0.4,
-                        camera_pos.position[2]+i*.4)
+init_pos = [(2.341999327925363, 2.2535751881950388, 3.241992870018055),
+            (0.10000000000000725, 0.01157586026968312, 0.9999935420927001),
+            (0.0, 0.0, 1.0)]
+camera_pos_list.append(init_pos)
+for i in range(1, len(displacement_fields)):
+    new_pos = copy.copy(camera_pos_list[i-1])
+    new_pos[0] = (camera_pos_list[i-1][0][0],
+                  camera_pos_list[i-1][0][1]-0.2,
+                  camera_pos_list[i-1][0][2])
     camera_pos_list.append(new_pos)
 
 displacement_fields.animate(scale_factor=10.,
