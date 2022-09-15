@@ -45,21 +45,11 @@ displacement_fields.animate()
 # - Showing the static geometry if the fields are not nodal 3D vector fields.
 stress_fields.animate()
 
-# Change the scale factor by giving a number/a list of numbers for a uniform constant/varying
-# scaling, or a unit-less Field/FieldsContainer for a non-homogeneous constant/varying scaling.
+# Change the scale factor using a number/a list of numbers for a uniform constant/varying scaling.
 displacement_fields.animate(deform_by=True, scale_factor=10.,
                             show_axes=True)
 varying_scale_factor = [i for i in range(len(displacement_fields))]
 displacement_fields.animate(deform_by=True, scale_factor=varying_scale_factor,
-                            show_axes=True)
-scale_factor_field = displacement_fields[-1]
-scale_factor_field.unit = ""
-displacement_fields.animate(deform_by=True, scale_factor=scale_factor_field,
-                            show_axes=True)
-scale_factor_fc = displacement_fields
-for f in scale_factor_fc:
-    f.unit = ""
-displacement_fields.animate(deform_by=True, scale_factor=scale_factor_fc,
                             show_axes=True)
 
 # One can also format the frequency legend.
