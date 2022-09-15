@@ -6,7 +6,7 @@ This module contains the DPF animator class.
 Contains classes used to animate results based on workflows using PyVista.
 """
 import numpy as np
-from typing import Union
+from typing import Union, Sequence
 
 import ansys.dpf.core as core
 from ansys.dpf.core.plotter import _sort_supported_kwargs, _PyVistaPlotter
@@ -190,7 +190,7 @@ class Animator:
     def animate(self, frequencies: core.Field,
                 output: str = "to_render",
                 save_as: str = None,
-                scale_factor: Union[float, list, core.Field, core.FieldsContainer] = 1.0,
+                scale_factor: Union[float, Sequence[float]] = 1.0,
                 **kwargs):
         """
         Animate the workflow of the Animator, using inputs
@@ -206,8 +206,9 @@ class Animator:
         save_as : str, optional
             Path of file to save the animation to. Defaults to None. Can be of any format supported
             by pyvista.Plotter.write_frame (.gif, .mp4, ...).
-        scale_factor : float, list, Field, FieldsContainer, optional
-            Scale factor to apply when warping the mesh. Defaults to 1.0.
+        scale_factor : float, list, optional
+            Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
+            scaling frequency-dependent.
         **kwargs : optional
             Additional keyword arguments for the animator.
 
@@ -233,16 +234,18 @@ def scale_factor_to_fc(scale_factor, fc):
     scale_type = type(scale_factor)
     n_sets = fc.time_freq_support.n_sets
     if scale_type == core.field.Field:
-        # Turn the Field into a fields_container
-        fields = []
-        for i in range(n_sets):
-            fields.append(scale_factor)
-        scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
+        raise NotImplementedError("Scaling by a Field is not yet implemented.")
+        # # Turn the Field into a fields_container
+        # fields = []
+        # for i in range(n_sets):
+        #     fields.append(scale_factor)
+        # scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
     elif scale_type == core.fields_container.FieldsContainer:
-        if scale_factor.time_freq_support.n_sets != n_sets:
-            raise ValueError(f"The scale_factor FieldsContainer does not contain the same number of"
-                             f" fields as the fields_container being animated "
-                             f" ({scale_factor.time_freq_support.n_sets} != {n_sets}).")
+        raise NotImplementedError("Scaling by a FieldsContainer is not yet implemented.")
+        # if scale_factor.time_freq_support.n_sets != n_sets:
+        #     raise ValueError(f"The scale_factor FieldsContainer does not contain the same "
+        #                      f"number of fields as the fields_container being animated "
+        #                      f" ({scale_factor.time_freq_support.n_sets} != {n_sets}).")
     elif scale_type == list:
         if len(scale_factor) != n_sets:
             raise ValueError(f"The scale_factor list is not the same length as the fields_container"

@@ -503,8 +503,9 @@ class FieldsContainer(Collection):
             Used to deform the plotted mesh. Must return a FieldsContainer of the same length as
             self, containing 3D vector Fields of distances.
             Defaults to None, which takes self if possible. Set as False to force static animation.
-        scale_factor : float, list, Field, FieldsContainer, optional
-            Scale factor to apply when warping the mesh. Defaults to 1.0.
+        scale_factor : float, list, optional
+            Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
+            scaling frequency-dependent.
         through: string, optional
             Label to iterate through to create the animation. Defaults to "time".
         """
