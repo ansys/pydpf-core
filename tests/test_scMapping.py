@@ -7,6 +7,8 @@ from ansys.dpf import core as dpf
 from pytest import approx
 import copy
 
+from ansys.dpf.core.scopings_container import ScopingsContainer
+
 
 class test_utils:
     ABSTOL = 1e-14
@@ -650,3 +652,208 @@ def test_sc_WebPyr():
                 rel=test_utils.RELTOL, abs=test_utils.ABSTOL)
             
     
+@pytest.mark.skipif(
+    not try_load_sc_mapping_operators(), reason="Couldn't load sc_mapping operators"
+)
+def test_sc_Mc1():
+    deserializer = dpf.operators.serialization.deserializer()
+    map_builder = dpf.operators.mapping.create_sc_mapping_workflow()
+
+    dimensionality = 3
+    is_conservative=False
+
+    mesh_path_trg = test_utils.getPathToTestFile("shell.mesh")
+    deserializer.inputs.file_path.connect(mesh_path_trg)
+    mesh = deserializer.get_output(1, dpf.types.meshes_container)
+    mesh1=deserializer.get_output(1, dpf.types.meshes_container)
+ 
+    fc_path_src = test_utils.getPathToTestFile("shell.disp")
+    deserializer.inputs.file_path.connect(fc_path_src)
+    fc_src = deserializer.get_output(1, dpf.types.fields_container)
+
+    map_builder.inputs.is_conservative.connect(is_conservative)
+    map_builder.inputs.location.connect("Nodal")
+    map_builder.inputs.dimensionality.connect(dimensionality)
+    sc_map_wf = map_builder.outputs.mapping_workflow()
+    sc_map_wf.connect("source_mesh", mesh)
+    sc_map_wf.connect("target_mesh",mesh1) 
+    sc_map_wf.connect("source_data", fc_src)
+    fc_trg = sc_map_wf.get_output("target_data", dpf.types.fields_container)
+    unit =fc_trg[0].unit
+    
+    assert unit=="m"
+    assert len(fc_trg)==24
+
+    nids=[58,237,309,438]
+    nfields=[12,5,18,3]
+    for i in range(4):
+        vals_trg=fc_trg[nfields[i]].get_entity_data_by_id(nids[i])
+        vals_src=fc_trg[nfields[i]].get_entity_data_by_id(nids[i])
+        print(vals_src)
+        assert 1.0 == approx(vals_src[0,1]/vals_trg[0,1],
+                             rel=test_utils.RELTOL, abs=test_utils.ABSTOL)
+        assert 1.0 == approx(vals_src[0,1]/vals_trg[0,1],
+                             rel=test_utils.RELTOL, abs=test_utils.ABSTOL)
+        assert 1.0 == approx(vals_src[0,2]/vals_trg[0,2],
+                             rel=test_utils.RELTOL, abs=test_utils.ABSTOL)
+    
+    sco_cont=dpf.ScopingsContainer()
+    sco_cont.add_label("body")
+    
+    
+    for i in range(4):
+        sco=dpf.Scoping()
+        sco.location=dpf.locations.nodal
+        sco.ids=[nids[i]]
+        sco_cont.add_scoping({"body":i+1},sco)
+    
+    sc_map_wf.connect("target_scoping",sco_cont)
+    for i in range(4):
+        vals_trg=fc_trg[nfields[i]].get_entity_data_by_id(nids[i])
+        vals_src=fc_trg[nfields[i]].get_entity_data_by_id(nids[i])
+        print(vals_src)
+        assert 1.0 == approx(vals_src[0,1]/vals_trg[0,1],
+                                rel=test_utils.RELTOL, abs=test_utils.ABSTOL)
+        assert 1.0 == approx(vals_src[0,1]/vals_trg[0,1],
+                                rel=test_utils.RELTOL, abs=test_utils.ABSTOL)
+        assert 1.0 == approx(vals_src[0,2]/vals_trg[0,2],
+                                rel=test_utils.RELTOL, abs=test_utils.ABSTOL)
+    
+    
+@pytest.mark.skipif(
+    not try_load_sc_mapping_operators(), reason="Couldn't load sc_mapping operators"
+)
+def test_sc_Mc2():
+    deserializer = dpf.operators.serialization.deserializer()
+    map_builder = dpf.operators.mapping.create_sc_mapping_workflow()
+
+    dimensionality = 1
+    is_conservative=False
+
+    mesh_path_trg = test_utils.getPathToTestFile("mixed.mesh")
+    deserializer.inputs.file_path.connect(mesh_path_trg)
+    mesh = deserializer.get_output(1, dpf.types.meshes_container)
+    mesh1=deserializer.get_output(1, dpf.types.meshes_container)
+ 
+    fc_path_src = test_utils.getPathToTestFile("mixed.eletemp")
+    deserializer.inputs.file_path.connect(fc_path_src)
+    fc_src = deserializer.get_output(1, dpf.types.fields_container)
+
+    map_builder.inputs.is_conservative.connect(is_conservative)
+    map_builder.inputs.location.connect("Elemental")
+    map_builder.inputs.dimensionality.connect(dimensionality)
+    map_builder.inputs.is_pointcloud.connect(False)
+    
+    sc_map_wf = map_builder.outputs.mapping_workflow()
+    sc_map_wf.connect("source_mesh", mesh)
+    sc_map_wf.connect("target_mesh",mesh1) 
+    sc_map_wf.connect("source_data", fc_src)
+    fc_trg = sc_map_wf.get_output("target_data", dpf.types.fields_container)
+    
+    unit =fc_trg[0].unit
+    
+    assert unit=="degC"
+    assert len(fc_trg)==3
+
+    assert fc_trg.get_label_space(0)["interface"]== 0
+    assert fc_trg.get_label_space(0)["time"]== 0
+    assert len(fc_trg[0].data)==1368
+    
+    assert fc_trg.get_label_space(1)["interface"]== 1
+    assert fc_trg.get_label_space(1)["time"]== 0
+    assert len(fc_trg[1].data)==114
+    
+    assert fc_trg.get_label_space(2)["interface"]== 0
+    assert fc_trg.get_label_space(2)["time"]== 1
+    assert len(fc_trg[2].data)==1368
+
+@pytest.mark.skipif(
+    not try_load_sc_mapping_operators(), reason="Couldn't load sc_mapping operators"
+)
+def test_sc_Fc1():
+    deserializer = dpf.operators.serialization.deserializer()
+    map_builder = dpf.operators.mapping.create_sc_mapping_workflow()
+
+    dimensionality = 1
+    is_conservative=False
+
+    mesh_path_trg = test_utils.getPathToTestFile("mixed.coords")
+    deserializer.inputs.file_path.connect(mesh_path_trg)
+    coords= deserializer.get_output(1, dpf.types.fields_container)
+    coords1= deserializer.get_output(1, dpf.types.fields_container)
+ 
+    fc_path_src = test_utils.getPathToTestFile("mixed.nodtemp")
+    deserializer.inputs.file_path.connect(fc_path_src)
+    fc_src = deserializer.get_output(1, dpf.types.fields_container)
+
+
+    map_builder.inputs.source_mesh.connect(coords)
+    map_builder.inputs.target_mesh.connect(coords1)
+    map_builder.inputs.is_conservative.connect(is_conservative)
+    map_builder.inputs.location.connect("Nodal")
+    map_builder.inputs.dimensionality.connect(dimensionality)
+    map_builder.inputs.is_pointcloud.connect(True)
+    
+    sc_map_wf = map_builder.outputs.mapping_workflow()
+    sc_map_wf.connect("source_data", fc_src)
+    fc_trg = sc_map_wf.get_output("target_data", dpf.types.fields_container)
+    
+    unit =fc_trg[0].unit
+    
+    assert unit=="degC"
+    assert len(fc_trg)==5
+
+    assert fc_trg.get_label_space(0)["interface"]== 0
+    assert fc_trg.get_label_space(0)["mylabel"]== 1
+    assert len(fc_trg[0].data)==171
+    
+    assert fc_trg.get_label_space(1)["interface"]== 1
+    assert fc_trg.get_label_space(1)["mylabel"]== 5
+    assert len(fc_trg[1].data)==2223
+    
+    assert fc_trg.get_label_space(2)["interface"]== 0
+    assert fc_trg.get_label_space(2)["mylabel"]== 2
+    assert len(fc_trg[2].data)==171
+    
+    assert fc_trg.get_label_space(3)["interface"]== 1
+    assert fc_trg.get_label_space(3)["mylabel"]== 69
+    assert len(fc_trg[3].data)==2223
+    
+    assert fc_trg.get_label_space(4)["interface"]== 0
+    assert fc_trg.get_label_space(4)["mylabel"]== 3
+    assert len(fc_trg[4].data)==171
+    
+    sco_cont=dpf.ScopingsContainer()
+    sco_cont.add_label("interface")
+    
+    
+    sco=dpf.Scoping()
+    sco.location=dpf.locations.nodal
+    sco.ids=[717]
+    sco1=dpf.Scoping()
+    sco1.location=dpf.locations.nodal
+    sco1.ids=[1719]
+    sco_cont.add_scoping({"interface":0},sco)
+    sco_cont.add_scoping({"interface":1},sco1)
+
+    sc_map_wf.connect("target_scoping",sco_cont)
+    fc_trg = sc_map_wf.get_output("target_data", dpf.types.fields_container)
+    assert fc_trg.get_label_space(0)["interface"]== 0
+    assert fc_trg.get_label_space(0)["mylabel"]== 1
+    assert len(fc_trg[0].data)==1
+    
+    assert fc_trg.get_label_space(1)["interface"]== 1
+    assert fc_trg.get_label_space(1)["mylabel"]== 5
+    assert len(fc_trg[1].data)==1
+    
+    assert fc_trg.get_label_space(2)["interface"]== 0
+    assert fc_trg.get_label_space(2)["mylabel"]== 2
+    assert len(fc_trg[2].data)==1
+    
+    assert fc_trg.get_label_space(3)["interface"]== 1
+    assert fc_trg.get_label_space(3)["mylabel"]== 69
+    assert len(fc_trg[3].data)==1
+    
+    assert fc_trg.get_label_space(4)["interface"]== 0
+    assert fc_trg.get_label_space(4)["mylabel"]== 3
+    assert len(fc_trg[4].data)==1
