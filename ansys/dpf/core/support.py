@@ -46,7 +46,7 @@ class Support:
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
-        if not self._server.meet_version("3.0"):
+        if not self._server.meet_version("3.0"):  # pragma: no cover
             return
 
         # step 2: get api
