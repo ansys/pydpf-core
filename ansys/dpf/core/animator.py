@@ -1,6 +1,6 @@
 """
 Animator
-=======
+========
 This module contains the DPF animator class.
 
 Contains classes used to animate results based on workflows using PyVista.
