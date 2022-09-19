@@ -448,31 +448,6 @@ class DpfPlotter:
                                          scale_factor=scale_factor,
                                          **kwargs)
 
-    def add_fields_container(self, fields_container, warp_by=None, scaling_factor=1.0, **kwargs):
-        """Add a fields_container containing fields with data to the plotter.
-
-        This is useful for adding multiple fields at once.
-        Each field's support will be used. Ensure that the field
-        support is a ``meshed_region``.
-
-        Parameters
-        ----------
-        fields_container : Fields Container
-            Fields Container with a sequence of fields to potentially plot
-        warp_by : result operator, optional
-            A result operator to use for warping the plotted mesh. Must output a 3D vector field.
-            Defaults to None.
-        scaling_factor : float, optional
-            Scaling factor to apply when warping the mesh. Defaults to 1.0.
-        kwargs : optional
-            Additional keyword arguments for the plotter. More information
-            are available at :func:`pyvista.plot`.
-
-        """
-        for field in fields_container:
-            self._internal_plotter.add_field(field, warp_by=warp_by, scaling_factor=scaling_factor,
-                                             **kwargs)
-
     def show_figure(self, **kwargs):
         """Plot the figure built by the plotter object.
 
