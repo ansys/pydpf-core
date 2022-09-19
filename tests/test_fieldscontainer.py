@@ -504,5 +504,10 @@ def test_dot_operator_fields_container():
     assert np.allclose(out[0].data, -field.data)
 
 
+def test_fields_container_get_time_scoping(server_type, disp_fc):
+    freq_scoping = disp_fc.get_time_scoping()
+    assert freq_scoping.size == 1
+
+
 if __name__ == "__main__":
     test_add_field_by_time_id()
