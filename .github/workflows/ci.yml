@@ -253,8 +253,9 @@ jobs:
         shell: cmd
         run: |
           cd .ci
-          build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
         timeout-minutes: 20
+
+#          build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
 
       - name: "Check for successful generation"
         id: check_files
