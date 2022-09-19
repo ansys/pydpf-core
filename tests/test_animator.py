@@ -140,6 +140,21 @@ def test_animator_animate_fields_container_deform_by_operator(remove_gifs):
     assert os.path.getsize(gif_name) > 600000
 
 
+def test_animator_animate_fields_container_deform_by_raise_scope():
+    model = dpf.Model(examples.msup_transient)
+    mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(
+        model.metadata.meshed_region.nodes.scoping)
+    displacement_op = model.results.displacement.on_mesh_scoping(mesh_scoping)
+    time_scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(model)
+    displacement_fields = displacement_op.on_time_scoping(time_scoping).eval()
+    time_scoping = dpf.time_freq_scoping_factory.scoping_by_step_and_substep_from_model(
+        load_step_id=1, subset_id=1, model=model)
+    displacement_fields_2 = displacement_op.on_time_scoping(time_scoping).eval()
+    with pytest.raises(ValueError) as e:
+        displacement_fields.animate(deform_by=displacement_fields_2)
+        assert "must be scoped on the same number of frequencies" in e
+
+
 def test_animator_animate_fields_container_scale_factor_int(remove_gifs, displacement_fields):
     displacement_fields.animate(save_as=gif_name, scale_factor=2)
     assert os.path.isfile(gif_name)
