@@ -83,6 +83,12 @@ def test_animator_animate_fields_container_scale_factor_float(remove_gifs, displ
     assert os.path.getsize(gif_name) > 600000
 
 
+def test_animator_animate_fields_container_scale_factor_zero(remove_gifs, displacement_fields):
+    displacement_fields.animate(save_as=gif_name, scale_factor=0.0)
+    assert os.path.isfile(gif_name)
+    assert os.path.getsize(gif_name) > 600000
+
+
 def test_animator_animate_fields_container_scale_factor_list(remove_gifs, displacement_fields):
     scale_factor_list = [2.0]*len(displacement_fields)
     displacement_fields.animate(save_as=gif_name, scale_factor=scale_factor_list)
