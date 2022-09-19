@@ -147,3 +147,19 @@ def test_animator_animate_fields_container_scale_factor_list(remove_gifs, displa
 #     displacement_fields.animate(save_as=gif_name, scale_factor=scale_factor_fc)
 #     assert os.path.isfile(gif_name)
 #     assert os.path.getsize(gif_name) > 600000
+
+
+def test_animator_animate_fields_container_cpos(remove_gifs, displacement_fields):
+    camera_pos = [(2.341999327925363, 2.2535751881950388, 3.241992870018055),
+                  (0.10000000000000725, 0.01157586026968312, 0.9999935420927001),
+                  (0.0, 0.0, 1.0)]
+
+    displacement_fields.animate(scale_factor=10.,
+                                save_as=gif_name,
+                                framerate=4,
+                                quality=8,
+                                cpos=camera_pos,
+                                off_screen=True,
+                                show_axes=True)
+    assert os.path.isfile(gif_name)
+    assert os.path.getsize(gif_name) > 600000
