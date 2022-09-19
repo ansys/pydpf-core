@@ -91,6 +91,12 @@ def test_animator_animate_fields_container(remove_gifs, displacement_fields):
     assert os.path.getsize(gif_name) > 600000
 
 
+def test_animator_animate_fields_container_one_component(displacement_fields):
+    displacement_fields.select_component(0).animate(save_as=gif_name)
+    assert os.path.isfile(gif_name)
+    assert os.path.getsize(gif_name) > 600000
+
+
 def test_animator_animate_fields_container_deform_by_convert_unit(displacement_fields):
     new_displacement_fields = displacement_fields.deep_copy()
     dpf.operators.math.unit_convert_fc(

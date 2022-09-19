@@ -30,6 +30,8 @@ class _PyVistaAnimator(_PyVistaPlotter):
         # Extract useful information from the given frequencies Field
         time_unit = frequencies.unit
         inputs = frequencies.data
+        if scale_factor is None:
+            scale_factor = [False]*len(inputs)
         type_scale = type(scale_factor)
         if type_scale in [int, float]:
             scale_factor = [scale_factor]*len(inputs)
