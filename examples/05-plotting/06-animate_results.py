@@ -8,7 +8,6 @@ shown with the arguments available.
 
 """
 # sphinx_gallery_thumbnail_number = 1
-import copy
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
@@ -89,6 +88,7 @@ camera_pos = displacement_fields.animate(scale_factor=10.,
 # A string containing the plane orthogonal to the view direction.  For example:
 # 'xy'
 
+# import copy
 # camera_pos_list = []
 # init_pos = [(2.341999327925363, 2.2535751881950388, 3.241992870018055),
 #             (0.10000000000000725, 0.01157586026968312, 0.9999935420927001),
