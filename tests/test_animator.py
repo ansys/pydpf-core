@@ -71,6 +71,20 @@ def test_animator_animate(remove_gifs, displacement_fields):
     assert os.path.getsize(gif_name) > 600000
 
 
+def test_animator_animate_raise_wrong_scale_factor(remove_gifs, displacement_fields):
+    frequencies = displacement_fields.time_freq_support.time_frequencies
+
+    wf = Workflow()
+    extract_field_op = dpf.operators.utility.extract_field(displacement_fields)
+    wf.set_input_name("index", extract_field_op.inputs.indices)
+    wf.set_output_name("to_render", extract_field_op.outputs.field)
+
+    an = Animator(wf)
+    with pytest.raises(ValueError) as e:
+        an.animate(frequencies=frequencies, scale_factor=False)
+        assert "Argument scale_factor must be" in e
+
+
 def test_animator_animate_fields_container(remove_gifs, displacement_fields):
     displacement_fields.animate(save_as=gif_name)
     assert os.path.isfile(gif_name)
@@ -82,6 +96,18 @@ def test_animator_animate_fields_container_deform_by_convert_unit(displacement_f
     dpf.operators.math.unit_convert_fc(
         fields_container=new_displacement_fields, unit_name="mm")
     displacement_fields.animate(save_as=gif_name, deform_by=new_displacement_fields)
+    assert os.path.isfile(gif_name)
+    assert os.path.getsize(gif_name) > 600000
+
+
+def test_animator_animate_fields_container_scale_factor_raise(remove_gifs, displacement_fields):
+    with pytest.raises(ValueError) as e:
+        displacement_fields.animate(scale_factor=False)
+        assert "Argument scale_factor must be" in e
+
+
+def test_animator_animate_fields_container_scale_factor_int(remove_gifs, displacement_fields):
+    displacement_fields.animate(save_as=gif_name, scale_factor=2)
     assert os.path.isfile(gif_name)
     assert os.path.getsize(gif_name) > 600000
 

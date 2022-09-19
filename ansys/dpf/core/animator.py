@@ -270,4 +270,7 @@ def scale_factor_to_fc(scale_factor, fc):
             fields.append(int_to_field(scale_factor, fc.get_field(0).shape,
                           fc.get_field(0).scoping))
         scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
+    else:
+        raise ValueError("Argument scale_factor must be an int, a float, or a list of either, "
+                         f"(not {scale_type})")
     return scale_factor
