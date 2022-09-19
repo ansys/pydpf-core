@@ -95,7 +95,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             if save_as:
                 try:
                     self._plotter.write_frame()
-                except AttributeError as e:
+                except AttributeError as e:  # pragma: no cover
                     if "To retrieve an image after the render window has been closed" in e.args[0]:
                         print("Animation canceled.")
                         return result
@@ -104,13 +104,13 @@ class _PyVistaAnimator(_PyVistaPlotter):
                 for t in range(1, len(inputs)):
                     try:
                         render_field(t)
-                    except AttributeError as e:
+                    except AttributeError as e:  # pragma: no cover
                         if "'NoneType' object has no attribute 'interactor'" in e.args[0]:
                             print("Animation canceled.")
                             return result
                     if save_as:
                         self._plotter.write_frame()
-        except Exception as e:
+        except Exception as e:  # pragma: no cover
             print(e)
             raise
         self._plotter.close()
