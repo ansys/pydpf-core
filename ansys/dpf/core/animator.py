@@ -31,17 +31,15 @@ class _PyVistaAnimator(_PyVistaPlotter):
         time_unit = frequencies.unit
         inputs = frequencies.data
         type_scale = type(scale_factor)
-        if scale_factor is None:
-            scale_factor = [False]*len(inputs)
-        elif type_scale in [int, float]:
+        if type_scale in [int, float]:
             scale_factor = [scale_factor]*len(inputs)
         elif type_scale == list:
             pass
-        elif type_scale in [core.field.Field, core.fields_container.FieldsContainer]:
-            scale_factor = ["Non-homogenous"]*len(inputs)
+        # elif type_scale in [core.field.Field, core.fields_container.FieldsContainer]:
+        #     scale_factor = ["Non-homogenous"]*len(inputs)
         else:
-            raise ValueError("Argument scale_factor must be an int, a float, a list of either, "
-                             f"a Field or a FieldsContainer (not {type_scale})")
+            raise ValueError("Argument scale_factor must be an int, a float, or a list of either, "
+                             f"(not {type_scale})")
         # Initiate movie or gif file if necessary
         if save_as:
             if save_as.endswith(".gif"):
