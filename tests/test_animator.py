@@ -131,22 +131,22 @@ def test_animator_animate_fields_container_scale_factor_list(remove_gifs, displa
     assert os.path.getsize(gif_name) > 600000
 
 
-# def test_animator_animate_fields_container_scale_factor_field(remove_gifs, displacement_fields):
-#     scale_factor_field = dpf.fields_factory.field_from_array(displacement_fields[0].data)
-#     displacement_fields.animate(save_as=gif_name, scale_factor=scale_factor_field)
-#     assert os.path.isfile(gif_name)
-#     assert os.path.getsize(gif_name) > 600000
-#
-#
-# def test_animator_animate_fields_container_scale_factor_fc(remove_gifs, displacement_fields):
-#     fields = []
-#     for f in displacement_fields:
-#         fields.append(dpf.fields_factory.field_from_array(f.data))
-#     scale_factor_fc = dpf.fields_container_factory.over_time_freq_fields_container(fields)
-#     scale_factor_fc.time_freq_support = displacement_fields.time_freq_support
-#     displacement_fields.animate(save_as=gif_name, scale_factor=scale_factor_fc)
-#     assert os.path.isfile(gif_name)
-#     assert os.path.getsize(gif_name) > 600000
+def test_animator_animate_fields_container_scale_factor_field(remove_gifs, displacement_fields):
+    scale_factor_field = dpf.fields_factory.field_from_array(displacement_fields[0].data)
+    with pytest.raises(NotImplementedError) as e:
+        displacement_fields.animate(save_as=gif_name, scale_factor=scale_factor_field)
+        assert "Scaling by a Field is not yet implemented." in e
+
+
+def test_animator_animate_fields_container_scale_factor_fc(remove_gifs, displacement_fields):
+    fields = []
+    for f in displacement_fields:
+        fields.append(dpf.fields_factory.field_from_array(f.data))
+    scale_factor_fc = dpf.fields_container_factory.over_time_freq_fields_container(fields)
+    scale_factor_fc.time_freq_support = displacement_fields.time_freq_support
+    with pytest.raises(NotImplementedError) as e:
+        displacement_fields.animate(save_as=gif_name, scale_factor=scale_factor_fc)
+        assert "Scaling by a FieldsContainer is not yet implemented." in e
 
 
 def test_animator_animate_fields_container_cpos(remove_gifs, displacement_fields):
