@@ -7,7 +7,7 @@ This example lists the different commands available for creating animations of r
 shown with the arguments available.
 
 """
-# sphinx_gallery_thumbnail_number = 9
+# sphinx_gallery_thumbnail_number = 1
 import copy
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
@@ -40,36 +40,36 @@ stress_fields = stress_op.eval()
 # Default behavior consists in:
 # - Using a constant and uniform scale factor of 1.0
 # - Showing the deformed geometry based on the fields themselves if they are nodal 3D vector fields.
-displacement_fields.animate()
+# displacement_fields.animate()
 # - Showing the static geometry if the fields are not nodal 3D vector fields.
-stress_fields.animate()
+# stress_fields.animate()
 
 # Change the scale factor using a number/a list of numbers for a uniform constant/varying scaling.
-displacement_fields.animate(deform_by=True, scale_factor=10.,
-                            show_axes=True)
-varying_scale_factor = [i for i in range(len(displacement_fields))]
-displacement_fields.animate(deform_by=True, scale_factor=varying_scale_factor,
-                            show_axes=True)
+# displacement_fields.animate(deform_by=True, scale_factor=10.,
+#                             show_axes=True)
+# varying_scale_factor = [i for i in range(len(displacement_fields))]
+# displacement_fields.animate(deform_by=True, scale_factor=varying_scale_factor,
+#                             show_axes=True)
 
 # One can also format the frequency legend.
-displacement_fields.select_component(0).animate(deform_by=displacement_fields, scale_factor=1.,
-                                                show_axes=True,
-                                                freq_kwargs={"font_size": 12,
-                                                             "fmt": ".3"})
+# displacement_fields.select_component(0).animate(deform_by=displacement_fields, scale_factor=1.,
+#                                                 show_axes=True,
+#                                                 freq_kwargs={"font_size": 12,
+#                                                              "fmt": ".3"})
 
 # The deform_by argument can be:
 # - a FieldsContainer of nodal 3D vectorial length fields
-stress_fields.animate(deform_by=model.results.displacement.on_all_time_freqs.eval())
+# stress_fields.animate(deform_by=model.results.displacement.on_all_time_freqs.eval())
 # - a Result giving nodal 3D vectorial length fields
-stress_fields.animate(deform_by=model.results.displacement.on_all_time_freqs())
+# stress_fields.animate(deform_by=model.results.displacement.on_all_time_freqs())
 # - an Operator which outputs nodal 3D vectorial length fields
-stress_fields.animate(deform_by=model.results.displacement)
+# stress_fields.animate(deform_by=model.results.displacement)
 
 
 # Save the animation using "save_as" with a target path with the desired format as extension.
 # (accepts .gif, .avi or .mp4, see pyvista.Plotter.open_movie)
 camera_pos = displacement_fields.animate(scale_factor=10.,
-                                         save_as="displacements.gif",
+                                         save_as="06-animate_results.gif",
                                          return_cpos=True,
                                          show_axes=True)
 
@@ -88,22 +88,22 @@ camera_pos = displacement_fields.animate(scale_factor=10.,
 #
 # A string containing the plane orthogonal to the view direction.  For example:
 # 'xy'
-camera_pos_list = []
-init_pos = [(2.341999327925363, 2.2535751881950388, 3.241992870018055),
-            (0.10000000000000725, 0.01157586026968312, 0.9999935420927001),
-            (0.0, 0.0, 1.0)]
-camera_pos_list.append(init_pos)
-for i in range(1, len(displacement_fields)):
-    new_pos = copy.copy(camera_pos_list[i-1])
-    new_pos[0] = (camera_pos_list[i-1][0][0],
-                  camera_pos_list[i-1][0][1]-0.2,
-                  camera_pos_list[i-1][0][2])
-    camera_pos_list.append(new_pos)
 
-displacement_fields.animate(scale_factor=10.,
-                            save_as="displacements_2.gif",
-                            framerate=4,
-                            quality=8,
-                            cpos=camera_pos_list,
-                            off_screen=True,
-                            show_axes=True)
+# camera_pos_list = []
+# init_pos = [(2.341999327925363, 2.2535751881950388, 3.241992870018055),
+#             (0.10000000000000725, 0.01157586026968312, 0.9999935420927001),
+#             (0.0, 0.0, 1.0)]
+# camera_pos_list.append(init_pos)
+# for i in range(1, len(displacement_fields)):
+#     new_pos = copy.copy(camera_pos_list[i-1])
+#     new_pos[0] = (camera_pos_list[i-1][0][0],
+#                   camera_pos_list[i-1][0][1]-0.2,
+#                   camera_pos_list[i-1][0][2])
+#     camera_pos_list.append(new_pos)
+# displacement_fields.animate(scale_factor=10.,
+#                             save_as="displacements_2.gif",
+#                             framerate=4,
+#                             quality=8,
+#                             cpos=camera_pos_list,
+#                             off_screen=True,
+#                             show_axes=True)
