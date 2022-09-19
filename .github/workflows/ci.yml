@@ -256,6 +256,19 @@ jobs:
           build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
         timeout-minutes: 20
 
+      - name: "Check for successful generation"
+        id: check_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "./docs/build.html/index.html"
+
+      - name: "Fail the job if no index.html was found"
+        uses: actions/github-script@v6
+        if: steps.check_files.outputs.files_exists == 'false'
+        with:
+          script: |
+              core.setFailed('Could not find index.html!')
+
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
         if: always()
