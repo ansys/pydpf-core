@@ -129,7 +129,7 @@ def test_plotter_on_fields_container_elemental(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     pl = Plotter(model.metadata.meshed_region)
-    cpos = pl.plot_contour(fc)
+    _ = pl.plot_contour(fc)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -141,7 +141,7 @@ def test_plotter_on_fields_container_nodal(allkindofcomplexity):
     avg_op.inputs.fields_container.connect(stress.outputs.fields_container)
     fc = avg_op.outputs.fields_container()
     pl = Plotter(model.metadata.meshed_region)
-    cpos = pl.plot_contour(fc)
+    _ = pl.plot_contour(fc)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -197,6 +197,20 @@ def test_field_nodal_plot(allkindofcomplexity):
     f.plot(off_screen=True, screenshot=picture)
     assert Path.cwd().joinpath(picture).exists()
     remove_picture(picture)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_field_elemental_nodal_plot(allkindofcomplexity):
+    model = Model(allkindofcomplexity)
+    stress = model.results.stress()
+    fc = stress.outputs.fields_container()
+    f = fc[0]
+    f.plot()
+    picture = 'field_plot.png'
+    remove_picture(picture)
+    f.plot(off_screen=True, screenshot=picture)
+    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    # remove_picture(picture)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")

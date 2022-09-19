@@ -1028,8 +1028,10 @@ class Plotter:
             mesh_location = mesh.elements
         elif location == locations.faces:
             mesh_location = mesh.faces
+        elif location == locations.elemental_nodal:
+            mesh_location = mesh.elements
         else:
-            raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+            raise ValueError("Only elemental, elemental nodal, nodal or faces location are supported for plotting.")
 
         # pre-loop: check if shell layers for each field, if yes, set the shell layers
         changeOp = core.Operator("change_shellLayers")
