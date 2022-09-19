@@ -190,7 +190,7 @@ class Animator:
                 output: str = "to_render",
                 save_as: str = None,
                 scale_factor: Union[float, Sequence[float]] = 1.0,
-                freq_kwargs: dict = {},
+                freq_kwargs: dict = None,
                 **kwargs):
         """
         Animate the workflow of the Animator, using inputs
@@ -221,6 +221,8 @@ class Animator:
 
 
         """
+        if freq_kwargs is None:
+            freq_kwargs = {"font_size": 12, "fmt": ".3e"}
         if self.workflow is None:
             raise ValueError("Cannot animate without self.workflow.")
         return self._internal_animator.animate_workflow(frequencies=frequencies,
