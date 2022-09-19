@@ -23,18 +23,7 @@ class _InternalAnimatorFactory:
 class _PyVistaAnimator(_PyVistaPlotter):
     """This _InternalAnimator class is based on PyVista"""
     def __init__(self, **kwargs):
-        # Import pyvista
-        from ansys.dpf.core.vtk_helper import PyVistaImportError
-        try:
-            import pyvista as pv
-        except ModuleNotFoundError:
-            raise PyVistaImportError
-        # Filter kwargs
-        kwargs_in = _sort_supported_kwargs(
-            bound_method=pv.Plotter,
-            **kwargs)
-        # Initiate pyvista Plotter
-        self._plotter = pv.Plotter(**kwargs_in)
+        super().__init__(**kwargs)
 
     def animate_workflow(self, frequencies, workflow, output,
                          save_as="", scale_factor=1.0, **kwargs):
@@ -147,8 +136,10 @@ class Animator:
         ----------
         workflow : Workflow, optional
             Workflow used to generate a Field at each frame of the animation.
-            Must have a "to_render" Field output and a "frequencies" input for
-            TimeFreqSupport.time_frequencies/complex_frequencies/rpms.
+            Must have a "to_render" Field output which will be plotted,
+            and an "index" int input to define the frame number.
+            Optionally, the workflow can also have a "deform_by" Field output,
+            which will be used to deform the mesh support.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :class:`pyvista.Plotter`.
@@ -166,7 +157,11 @@ class Animator:
     @property
     def workflow(self) -> core.Workflow:
         """
-        Workflow used by the Animator to generate a Field for each frame.
+        Workflow used to generate a Field at each frame of the animation.
+        Must have a "to_render" Field output which will be plotted,
+        and an "index" int input to define the frame number.
+        Optionally, the workflow can also have a "deform_by" Field output,
+        which will be used to deform the mesh support.
 
         Returns
         -------
@@ -182,8 +177,11 @@ class Animator:
         Parameters
         ----------
         workflow : Workflow
-            Workflow to generate the animation frames. Must have a "to_render" Field output and
-            a "frequencies" input for TimeFreqSupport.time_frequencies/complex_frequencies/rpms.
+            Workflow used to generate a Field at each frame of the animation.
+            Must have a "to_render" Field output which will be plotted,
+            and an "index" int input to define the frame number.
+            Optionally, the workflow can also have a "deform_by" Field output,
+            which will be used to deform the mesh support.
 
         """
         self._workflow = workflow
@@ -192,6 +190,7 @@ class Animator:
                 output: str = "to_render",
                 save_as: str = None,
                 scale_factor: Union[float, Sequence[float]] = 1.0,
+                freq_kwargs: dict = {},
                 **kwargs):
         """
         Animate the workflow of the Animator, using inputs
@@ -203,15 +202,23 @@ class Animator:
             TimeFreqSupport.complex_frequencies or TimeFreqSupport.rpms.
         output : str, optional
             Name of the workflow output to use as Field for each frame's contour.
-            Default to "to_render".
+            Defaults to "to_render".
         save_as : str, optional
             Path of file to save the animation to. Defaults to None. Can be of any format supported
             by pyvista.Plotter.write_frame (.gif, .mp4, ...).
         scale_factor : float, list, optional
             Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
             scaling frequency-dependent.
+        freq_kwargs : dict, optional
+            Dictionary of kwargs given to the :func:`pyvista.Plotter.add_text` method, used to
+            format the frequency information. Can also contain a "fmt" key,
+            defining the format for the frequency displayed with a string such as ".3e".
         **kwargs : optional
             Additional keyword arguments for the animator.
+            Used by :func:`pyvista.Plotter` (off_screen, cpos, ...),
+            or by :func:`pyvista.Plotter.open_movie`
+            (framerate, quality, ...)
+
 
         """
         if self.workflow is None:
@@ -221,6 +228,7 @@ class Animator:
                                                         output=output,
                                                         save_as=save_as,
                                                         scale_factor=scale_factor,
+                                                        freq_kwargs=freq_kwargs,
                                                         **kwargs)
 
 
