@@ -4,8 +4,6 @@ settings
 ========
 Customize the behavior of the module.
 """
-import os
-import re
 
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.core import misc
@@ -44,24 +42,7 @@ def bypass_pv_opengl_osmesa_crash():
     if module_exists("pyvista"):
         import pyvista as pv
 
-        def get_lighting():
-            """Get lighting configuration.
-
-            Disable lighting when using OSMesa on Windows. See:
-            https://github.com/pyvista/pyvista/issues/3185
-
-            """
-            pl = pv.Plotter(notebook=False, off_screen=True)
-            pl.add_mesh(pv.Sphere())
-            pl.show(auto_close=False)
-            gpu_info = pl.ren_win.ReportCapabilities()
-            pl.close()
-
-            regex = re.compile("OpenGL version string:(.+)\n")
-            version = regex.findall(gpu_info)[0]
-            return not(os.name == 'nt' and 'Mesa' in version)
-
-        pv.global_theme.lighting = get_lighting()
+        pv.global_theme.lighting = False
 
 
 def disable_interpreter_properties_evaluation() -> bool:
