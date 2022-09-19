@@ -489,7 +489,7 @@ class FieldsContainer(Collection):
         """
         return self.get_label_scoping("time")
 
-    def animate(self, save_as=None, deform_by=None, scale_factor=1.0, through="time", **kwargs):
+    def animate(self, save_as=None, deform_by=None, scale_factor=1.0, **kwargs):
         """Creates an animation based on the Fields contained in the FieldsContainer.
 
         This method creates a movie or a gif based on the time ids of a FieldsContainer.
@@ -515,6 +515,7 @@ class FieldsContainer(Collection):
             fc = dpf.core.operators.math.norm_fc(self).outputs.fields_container()
         else:
             fc = self
+        frequencies = self.time_freq_support.time_frequencies
         # Create a workflow defining the result to render at each step of the animation
         wf = dpf.core.Workflow()
         # First define the workflow index input
@@ -579,14 +580,6 @@ class FieldsContainer(Collection):
         wf.set_output_name("to_render", extract_field_op.outputs.field)
         wf.progress_bar = False
         add_op.progress_bar = False
-        if through == "time":
-            frequencies = self.time_freq_support.time_frequencies
-        elif through == "complex":
-            frequencies = self.time_freq_support.complex_frequencies
-        elif through == "rpm":
-            frequencies = self.time_freq_support.rpms
-        else:
-            raise ValueError(f"Unrecognized value {through} for argument 'through'.")
 
         # Initiate the Animator
         anim = Animator(workflow=wf, **kwargs)
