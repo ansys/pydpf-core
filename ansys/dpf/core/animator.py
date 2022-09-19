@@ -44,7 +44,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
         if save_as:
             if save_as.endswith(".gif"):
                 self._plotter.open_gif(save_as)
-            else:
+            else:  # pragma: no cover
                 kwargs_in = _sort_supported_kwargs(
                     bound_method=self._plotter.open_movie, **kwargs)
                 try:
