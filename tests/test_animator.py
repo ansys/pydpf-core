@@ -180,6 +180,14 @@ def test_animator_animate_fields_container_scale_factor_list(remove_gifs, displa
     assert os.path.getsize(gif_name) > 600000
 
 
+def test_animator_animate_fields_container_scale_factor_raise_list_len(remove_gifs,
+                                                                       displacement_fields):
+    scale_factor_list = [2.0]*(len(displacement_fields)-2)
+    with pytest.raises(ValueError) as e:
+        displacement_fields.animate(save_as=gif_name, scale_factor=scale_factor_list)
+        assert "The scale_factor list is not the same length" in e
+
+
 def test_animator_animate_fields_container_scale_factor_field(remove_gifs, displacement_fields):
     scale_factor_field = dpf.fields_factory.field_from_array(displacement_fields[0].data)
     with pytest.raises(NotImplementedError) as e:
