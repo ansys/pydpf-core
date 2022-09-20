@@ -573,7 +573,8 @@ class FieldsContainer(Collection):
 
         loop_over = self.get_time_scoping()
         frequencies = self.time_freq_support.time_frequencies
-        loop_over_field = dpf.core.fields_factory.field_from_array(frequencies.data[loop_over.ids-1])
+        loop_over_field = dpf.core.fields_factory.field_from_array(
+            frequencies.data[loop_over.ids-1])
         loop_over_field.scoping.ids = loop_over.ids
         loop_over_field.unit = frequencies.unit
 
