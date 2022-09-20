@@ -508,12 +508,12 @@ class FieldsContainer(Collection):
             scaling frequency-dependent.
         """
         from ansys.dpf.core.animator import Animator
-        frequencies = self.time_freq_support.time_frequencies
+
         # Create a workflow defining the result to render at each step of the animation
         wf = dpf.core.Workflow()
         # First define the workflow index input
-        forward_index = dpf.core.operators.utility.forward([0])
-        wf.set_input_name("index", forward_index.inputs.any)
+        forward_index = dpf.core.operators.utility.forward()
+        wf.set_input_name("loop_over", forward_index.inputs.any)
         # Define the field extraction using the fields_container and indices
         extract_field_op = dpf.core.operators.utility.extract_field(self)
 
@@ -527,8 +527,6 @@ class FieldsContainer(Collection):
         deform = True
         # Define whether to deform and what with
         if deform_by is not False:
-            if hasattr(deform_by, "on_all_time_freqs"):
-                deform_by = deform_by.on_all_time_freqs()
             if deform_by is None or isinstance(deform_by, bool):
                 # By default, set deform_by as self if nodal 3D vector field
                 if self[0].location == dpf.core.common.locations.nodal and \
@@ -536,17 +534,16 @@ class FieldsContainer(Collection):
                     deform_by = self
                 else:
                     deform = False
-            if deform_by and not hasattr(deform_by, "time_freq_support"):
-                deform_by = deform_by.outputs.fields_container()
-            if deform_by and len(deform_by) != len(self):
-                raise ValueError("'deform_by' argument must be scoped on the same number of "
-                                 "frequencies as the FieldsContainer.")
+            if deform_by and not type(deform_by) == dpf.core.FieldsContainer:
+                deform_by = deform_by.eval()
         else:
             deform = False
         if deform:
+
             scale_factor_fc = dpf.core.animator.scale_factor_to_fc(scale_factor, deform_by)
             scale_factor_invert = dpf.core.operators.math.invert_fc(scale_factor_fc)
             # Extraction of the field of interest based on index
+            # time_selector = dpf.core.Operator("mechanical::time_selector")
             extract_field_op_2 = dpf.core.operators.utility.extract_field(deform_by)
             wf.set_input_name("indices", extract_field_op_2.inputs.indices)
             wf.connect("indices", forward_index)  # Otherwise not accepted
@@ -574,12 +571,18 @@ class FieldsContainer(Collection):
         wf.progress_bar = False
         add_op.progress_bar = False
 
+        loop_over = self.get_time_scoping()
+        frequencies = self.time_freq_support.time_frequencies
+        loop_over_field = dpf.core.fields_factory.field_from_array(frequencies.data[loop_over.ids-1])
+        loop_over_field.scoping.ids = loop_over.ids
+        loop_over_field.unit = frequencies.unit
+
         # Initiate the Animator
         anim = Animator(workflow=wf, **kwargs)
 
         kwargs.setdefault("freq_kwargs", {"font_size": 12, "fmt": ".3e"})
 
-        return anim.animate(frequencies=frequencies,
+        return anim.animate(loop_over=loop_over_field,
                             save_as=save_as, scale_factor=scale_factor,
                             **kwargs)
 

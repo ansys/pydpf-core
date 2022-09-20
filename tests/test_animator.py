@@ -53,35 +53,43 @@ def test_animator_animate_raise_no_workflow():
     an = Animator()
     field = dpf.Field()
     with pytest.raises(ValueError) as e:
-        an.animate(frequencies=field)
+        an.animate(loop_over=field)
         assert "self.workflow" in e
 
 
 def test_animator_animate(remove_gifs, displacement_fields):
     frequencies = displacement_fields.time_freq_support.time_frequencies
+    loop_over = displacement_fields.get_time_scoping()
+    loop_over_field = dpf.fields_factory.field_from_array(frequencies.data[loop_over.ids-1])
+    loop_over_field.scoping.ids = loop_over.ids
+    loop_over_field.unit = frequencies.unit
 
     wf = Workflow()
     extract_field_op = dpf.operators.utility.extract_field(displacement_fields)
-    wf.set_input_name("index", extract_field_op.inputs.indices)
+    wf.set_input_name("loop_over", extract_field_op.inputs.indices)
     wf.set_output_name("to_render", extract_field_op.outputs.field)
 
     an = Animator(wf)
-    an.animate(frequencies=frequencies, save_as=gif_name)
+    an.animate(loop_over=loop_over_field, save_as=gif_name)
     assert os.path.isfile(gif_name)
     assert os.path.getsize(gif_name) > 600000
 
 
 def test_animator_animate_raise_wrong_scale_factor(remove_gifs, displacement_fields):
     frequencies = displacement_fields.time_freq_support.time_frequencies
+    loop_over = displacement_fields.get_time_scoping()
+    loop_over_field = dpf.fields_factory.field_from_array(frequencies.data[loop_over.ids-1])
+    loop_over_field.scoping.ids = loop_over.ids
+    loop_over_field.unit = frequencies.unit
 
     wf = Workflow()
     extract_field_op = dpf.operators.utility.extract_field(displacement_fields)
-    wf.set_input_name("index", extract_field_op.inputs.indices)
+    wf.set_input_name("loop_over", extract_field_op.inputs.indices)
     wf.set_output_name("to_render", extract_field_op.outputs.field)
 
     an = Animator(wf)
     with pytest.raises(ValueError) as e:
-        an.animate(frequencies=frequencies, scale_factor=False)
+        an.animate(loop_over=loop_over_field, scale_factor=False)
         assert "Argument scale_factor must be" in e
 
 
@@ -95,6 +103,25 @@ def test_animator_animate_fields_container_deform_by_false(remove_gifs, displace
     displacement_fields.animate(save_as=gif_name, deform_by=False)
     assert os.path.isfile(gif_name)
     assert os.path.getsize(gif_name) > 600000
+
+
+def test_animator_animate_fields_container_eqv_partial_scoping(remove_gifs):
+    model = dpf.Model(examples.msup_transient)
+    time_scoping = dpf.time_freq_scoping_factory.scoping_by_sets(
+        list(range(5, 20)))
+    stress_result = model.results.stress.on_time_scoping(time_scoping)
+
+    element_ids = model.metadata.meshed_region.elements.scoping.ids[:-10].tolist()
+    mesh_scoping = dpf.mesh_scoping_factory.elemental_scoping(element_ids)
+    stress_result = stress_result.on_mesh_scoping(mesh_scoping)
+
+    displacement_result = model.results.displacement.on_time_scoping(time_scoping)
+
+    stress_fields = stress_result.on_location(dpf.common.locations.nodal).eval()
+    stress_fields.animate(save_as=gif_name, deform_by=displacement_result, scale_factor=20.,
+                          framerate=1.)
+    assert os.path.isfile(gif_name)
+    assert os.path.getsize(gif_name) > 400000
 
 
 def test_animator_animate_fields_container_one_component(remove_gifs, displacement_fields):
@@ -112,7 +139,7 @@ def test_animator_animate_fields_container_deform_by_convert_unit(remove_gifs, d
     assert os.path.getsize(gif_name) > 600000
 
 
-def test_animator_animate_fields_container_scale_factor_raise(remove_gifs, displacement_fields):
+def test_animator_animate_fields_container_scale_factor_raise(displacement_fields):
     with pytest.raises(ValueError) as e:
         displacement_fields.animate(scale_factor=False)
         assert "Argument scale_factor must be" in e
@@ -120,45 +147,20 @@ def test_animator_animate_fields_container_scale_factor_raise(remove_gifs, displ
 
 def test_animator_animate_fields_container_deform_by_result(remove_gifs):
     model = dpf.Model(examples.msup_transient)
-    mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(
-        model.metadata.meshed_region.nodes.scoping)
-    time_scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(model)
-    displacement_op = model.results.displacement
-    displacement_op = displacement_op.on_time_scoping(time_scoping)
-    displacement_op = displacement_op.on_mesh_scoping(mesh_scoping)
-    displacement_fields = displacement_op.eval()
-    displacement_fields.animate(save_as=gif_name, deform_by=model.results.displacement)
+    displacement_result = model.results.displacement.on_all_time_freqs
+    displacement_fields = displacement_result.eval()
+    displacement_fields.animate(save_as=gif_name, deform_by=displacement_result)
     assert os.path.isfile(gif_name)
     assert os.path.getsize(gif_name) > 600000
 
 
 def test_animator_animate_fields_container_deform_by_operator(remove_gifs):
     model = dpf.Model(examples.msup_transient)
-    mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(
-        model.metadata.meshed_region.nodes.scoping)
-    time_scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(model)
-    displacement_op = model.results.displacement
-    displacement_op = displacement_op.on_time_scoping(time_scoping)
-    displacement_op = displacement_op.on_mesh_scoping(mesh_scoping)
+    displacement_op = model.results.displacement.on_all_time_freqs()
     displacement_fields = displacement_op.eval()
     displacement_fields.animate(save_as=gif_name, deform_by=displacement_op)
     assert os.path.isfile(gif_name)
     assert os.path.getsize(gif_name) > 600000
-
-
-def test_animator_animate_fields_container_deform_by_raise_scope():
-    model = dpf.Model(examples.msup_transient)
-    mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(
-        model.metadata.meshed_region.nodes.scoping)
-    displacement_op = model.results.displacement.on_mesh_scoping(mesh_scoping)
-    time_scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(model)
-    displacement_fields = displacement_op.on_time_scoping(time_scoping).eval()
-    time_scoping = dpf.time_freq_scoping_factory.scoping_by_step_and_substep_from_model(
-        load_step_id=1, subset_id=1, model=model)
-    displacement_fields_2 = displacement_op.on_time_scoping(time_scoping).eval()
-    with pytest.raises(ValueError) as e:
-        displacement_fields.animate(deform_by=displacement_fields_2)
-        assert "must be scoped on the same number of frequencies" in e
 
 
 def test_animator_animate_fields_container_scale_factor_int(remove_gifs, displacement_fields):

@@ -25,20 +25,21 @@ class _PyVistaAnimator(_PyVistaPlotter):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def animate_workflow(self, frequencies, workflow, output,
+    def animate_workflow(self, loop_over, workflow, output, input="loop_over",
                          save_as="", scale_factor=1.0, **kwargs):
         # Extract useful information from the given frequencies Field
-        time_unit = frequencies.unit
-        inputs = frequencies.data
+
+        unit = loop_over.unit
+        indices = loop_over.scoping.ids
         if scale_factor is None:
-            scale_factor = [False]*len(inputs)
+            scale_factor = [False]*len(indices)
         type_scale = type(scale_factor)
         if type_scale in [int, float]:
-            scale_factor = [scale_factor]*len(inputs)
+            scale_factor = [scale_factor]*len(indices)
         elif type_scale == list:
             pass
         # elif type_scale in [core.field.Field, core.fields_container.FieldsContainer]:
-        #     scale_factor = ["Non-homogenous"]*len(inputs)
+        #     scale_factor = ["Non-homogenous"]*len(indices)
         else:
             raise ValueError("Argument scale_factor must be an int, a float, or a list of either, "
                              f"(not {type_scale})")
@@ -64,26 +65,26 @@ class _PyVistaAnimator(_PyVistaPlotter):
         cpos = kwargs.pop("cpos", None)
         if cpos:
             if isinstance(cpos[0][0], float):
-                cpos = [cpos]*len(inputs)
+                cpos = [cpos]*len(indices)
 
-        def render_field(index):
-            # print("Render step", index)
+        def render_field(frame):
             self._plotter.clear()
-            workflow.connect("index", [index])
+            # print(f"render frame {frame} for input {indices[frame]}")
+            workflow.connect(input, [frame])
             field = workflow.get_output(output, core.types.field)
             deform = None
             if "deform_by" in workflow.output_names:
                 deform = workflow.get_output("deform_by", core.types.field)
             self.add_field(field, deform_by=deform,
-                           scale_factor_legend=scale_factor[index],
+                           scale_factor_legend=scale_factor[frame],
                            **kwargs)
             kwargs_in = _sort_supported_kwargs(
                 bound_method=self._plotter.add_text, **freq_kwargs)
             str_template = "t={0:{2}} {1}"
-            self._plotter.add_text(str_template.format(inputs[index], time_unit, freq_fmt),
+            self._plotter.add_text(str_template.format(loop_over.data[frame], unit, freq_fmt),
                                    **kwargs_in)
             if cpos:
-                self._plotter.camera_position = cpos[index]
+                self._plotter.camera_position = cpos[frame]
 
         try:
             # Write initial frame
@@ -101,11 +102,11 @@ class _PyVistaAnimator(_PyVistaPlotter):
                     if "To retrieve an image after the render window has been closed" in e.args[0]:
                         print("Animation canceled.")
                         return result
-            # For each time id if more than the first one
-            if len(inputs) > 1:
-                for t in range(1, len(inputs)):
+            # For each additional frame requested
+            if len(indices) > 1:
+                for frame in range(1, len(indices)):
                     try:
-                        render_field(t)
+                        render_field(frame)
                     except AttributeError as e:  # pragma: no cover
                         if "'NoneType' object has no attribute 'interactor'" in e.args[0]:
                             print("Animation canceled.")
@@ -186,8 +187,9 @@ class Animator:
         """
         self._workflow = workflow
 
-    def animate(self, frequencies: core.Field,
+    def animate(self, loop_over: core.Field,
                 output: str = "to_render",
+                input: str = "loop_over",
                 save_as: str = None,
                 scale_factor: Union[float, Sequence[float]] = 1.0,
                 freq_kwargs: dict = None,
@@ -197,12 +199,16 @@ class Animator:
 
         Parameters
         ----------
-        frequencies : Field
-            Field of frequencies to render. Obtained from TimeFreqSupport.time_frequencies,
-            TimeFreqSupport.complex_frequencies or TimeFreqSupport.rpms.
+        loop_over : Field
+            Field of values to loop over and render.
+            Can for example be a subset of sets of TimeFreqSupport.time_frequencies.
+            The unit of the Field will be displayed if present.
         output : str, optional
             Name of the workflow output to use as Field for each frame's contour.
             Defaults to "to_render".
+        input : str, optional
+            Name of the workflow input to feed loop_over values into.
+            Defaults to "loop_over".
         save_as : str, optional
             Path of file to save the animation to. Defaults to None. Can be of any format supported
             by pyvista.Plotter.write_frame (.gif, .mp4, ...).
@@ -225,9 +231,10 @@ class Animator:
             freq_kwargs = {"font_size": 12, "fmt": ".3e"}
         if self.workflow is None:
             raise ValueError("Cannot animate without self.workflow.")
-        return self._internal_animator.animate_workflow(frequencies=frequencies,
+        return self._internal_animator.animate_workflow(loop_over=loop_over,
                                                         workflow=self.workflow,
                                                         output=output,
+                                                        input=input,
                                                         save_as=save_as,
                                                         scale_factor=scale_factor,
                                                         freq_kwargs=freq_kwargs,
