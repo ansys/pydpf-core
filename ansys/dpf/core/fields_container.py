@@ -506,8 +506,6 @@ class FieldsContainer(Collection):
         scale_factor : float, list, optional
             Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
             scaling frequency-dependent.
-        through: string, optional
-            Label to iterate through to create the animation. Defaults to "time".
         """
         from ansys.dpf.core.animator import Animator
         frequencies = self.time_freq_support.time_frequencies
