@@ -510,11 +510,6 @@ class FieldsContainer(Collection):
             Label to iterate through to create the animation. Defaults to "time".
         """
         from ansys.dpf.core.animator import Animator
-        # Take the norm of the fields if vector
-        if self[0].component_count > 1:
-            fc = dpf.core.operators.math.norm_fc(self).outputs.fields_container()
-        else:
-            fc = self
         frequencies = self.time_freq_support.time_frequencies
         # Create a workflow defining the result to render at each step of the animation
         wf = dpf.core.Workflow()
@@ -522,7 +517,7 @@ class FieldsContainer(Collection):
         forward_index = dpf.core.operators.utility.forward([0])
         wf.set_input_name("index", forward_index.inputs.any)
         # Define the field extraction using the fields_container and indices
-        extract_field_op = dpf.core.operators.utility.extract_field(fc)
+        extract_field_op = dpf.core.operators.utility.extract_field(self)
 
         # TODO /!\ We should be using a mechanical::time_selector, however it is not wrapped.
 
@@ -545,7 +540,7 @@ class FieldsContainer(Collection):
                     deform = False
             if deform_by and not hasattr(deform_by, "time_freq_support"):
                 deform_by = deform_by.outputs.fields_container()
-            if deform_by and len(deform_by) != len(fc):
+            if deform_by and len(deform_by) != len(self):
                 raise ValueError("'deform_by' argument must be scoped on the same number of "
                                  "frequencies as the FieldsContainer.")
         else:
@@ -573,7 +568,7 @@ class FieldsContainer(Collection):
                                                  get_coordinates_op.outputs.coordinates_as_field)
         else:
             scale_factor = None
-            scale_factor_fc = dpf.core.animator.scale_factor_to_fc(1.0, fc)
+            scale_factor_fc = dpf.core.animator.scale_factor_to_fc(1.0, self)
             extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor_fc)
             add_op = dpf.core.operators.utility.forward_field(extract_scale_factor_op)
         wf.set_output_name("deform_by", add_op.outputs.field)
