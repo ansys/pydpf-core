@@ -857,3 +857,42 @@ def test_sc_Fc1():
     assert fc_trg.get_label_space(4)["interface"]== 0
     assert fc_trg.get_label_space(4)["mylabel"]== 3
     assert len(fc_trg[4].data)==1
+
+    
+
+@pytest.mark.skipif(
+    not try_load_sc_mapping_operators(), reason="Couldn't load sc_mapping operators"
+)
+def test_sc_poly():
+
+    deserializer = dpf.operators.serialization.deserializer()
+    map_builder = dpf.operators.mapping.create_sc_mapping_workflow()
+
+    dimensionality = 1
+    is_conservative=False
+
+    mesh_path_trg = test_utils.getPathToTestFile("poly.mesh")
+    deserializer.inputs.file_path.connect(mesh_path_trg)
+    mesh= deserializer.get_output(1, dpf.types.meshes_container)
+    mesh1= deserializer.get_output(1, dpf.types.meshes_container)
+ 
+    fc_path_src = test_utils.getPathToTestFile("poly.press")
+    deserializer.inputs.file_path.connect(fc_path_src)
+    fc_src = deserializer.get_output(1, dpf.types.fields_container)
+
+
+    map_builder.inputs.is_conservative.connect(is_conservative)
+    map_builder.inputs.location.connect("Elemental")
+    map_builder.inputs.dimensionality.connect(dimensionality)
+    map_builder.inputs.is_pointcloud.connect(False)
+    
+    sc_map_wf = map_builder.outputs.mapping_workflow()
+    sc_map_wf.connect("source_mesh",mesh)
+    sc_map_wf.connect("target_mesh", mesh1)
+    sc_map_wf.connect("source_data", fc_src)
+    fc_trg = sc_map_wf.get_output("target_data", dpf.types.fields_container)
+
+    assert len(fc_trg) ==2
+    assert fc_trg[0].elementary_data_count == 11093
+    assert fc_trg[1].elementary_data_count == 902
+    
