@@ -32,6 +32,7 @@ if TYPE_CHECKING:  # pragma: nocover
 
 import traceback
 import warnings
+import numpy as np
 
 from ansys.dpf.core import field, property_field, scoping, server as server_module
 from ansys.dpf.core.cache import class_handling_cache
@@ -730,13 +731,11 @@ class MeshedRegion:
         elif location == locations.elemental:
             return len(self.elements)
         elif location == locations.elemental_nodal:
-            return self._get_elemental_nodal_size()
+            return np.sum(self.get_elemental_nodal_size_list())
         else:
             raise TypeError(f"Location {location} is not recognized.")
 
-    def _get_elemental_nodal_size(self):
-        """Compute the data size for ElementalNodal"""
-        import numpy as np
+    def get_elemental_nodal_size_list(self):
         # Get the field of element types
         element_types_field = self.elements.element_types_field
         # get the number of nodes for each possible element type
@@ -745,4 +744,5 @@ class MeshedRegion:
         keys = list(size_map.keys())
         sort_idx = np.argsort(keys)
         idx = np.searchsorted(keys, element_types_field.data, sorter=sort_idx)
-        return np.sum(np.asarray(list(size_map.values()))[sort_idx][idx])
+        return np.asarray(list(size_map.values()))[sort_idx][idx]
+
