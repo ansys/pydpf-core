@@ -18,6 +18,9 @@ if os.name == "posix":
         "libans.dpf.pointcloudsearch.so",
         "libAns.Dpf.Vtk.so",
     ]
+    LIB_OPTIONAL_TO_GENERATE = [
+        "libAns.Dpf.SystemCouplingMapping.so",
+    ]
 else:
     LIB_TO_GENERATE = [
         "Ans.Dpf.Native.dll",
@@ -33,6 +36,9 @@ else:
         "Ans.Dpf.LivePost.dll",
         "Ans.Dpf.PointCloudSearch.dll",
         "Ans.Dpf.Vtk.dll",
+    ]
+    LIB_OPTIONAL_TO_GENERATE = [
+        "Ans.Dpf.SystemCouplingMapping.dll",
     ]
 
 local_dir = os.path.dirname(os.path.abspath(__file__))
@@ -63,3 +69,15 @@ for lib in LIB_TO_GENERATE:
         code_gen.connect(2, True)
     code_gen.run()
     time.sleep(0.1)
+
+for lib in LIB_OPTIONAL_TO_GENERATE:
+    try:
+        code_gen.connect(0, lib)
+        if lib != LIB_OPTIONAL_TO_GENERATE[0]:
+            code_gen.connect(2, False)
+        else:
+            code_gen.connect(2, True)
+        code_gen.run()
+        time.sleep(0.1)
+    except Exception as e:
+        print(f"Could not generate operators for optional library {lib}:\n{str(e)}")
