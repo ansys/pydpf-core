@@ -200,11 +200,12 @@ def test_field_nodal_plot(allkindofcomplexity):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_field_elemental_nodal_plot(allkindofcomplexity):
-    model = Model(allkindofcomplexity)
-    stress = model.results.stress()
+def test_field_elemental_nodal_plot(simple_bar):
+    model = Model(simple_bar)
+    stress = model.results.element_nodal_forces()
     fc = stress.outputs.fields_container()
     f = fc[0]
+    print(f.data.shape)
     f.plot()
     picture = 'field_plot.png'
     remove_picture(picture)

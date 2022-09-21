@@ -713,3 +713,36 @@ class MeshedRegion:
         no_elements = self.elements.n_elements == 0
         no_nodes = self.nodes.n_nodes == 0
         return no_nodes and no_faces and no_elements
+
+    def location_data_len(self, location):
+        """
+
+        Parameters
+        ----------
+        location
+
+        Returns
+        -------
+        data_size : int
+        """
+        if location == locations.nodal:
+            return len(self.nodes)
+        elif location == locations.elemental:
+            return len(self.elements)
+        elif location == locations.elemental_nodal:
+            return self._get_elemental_nodal_size()
+        else:
+            raise TypeError(f"Location {location} is not recognized.")
+
+    def _get_elemental_nodal_size(self):
+        """Compute the data size for ElementalNodal"""
+        import numpy as np
+        # Get the field of element types
+        element_types_field = self.elements.element_types_field
+        # get the number of nodes for each possible element type
+        size_map = dict([(e_type.value, element_types.descriptor(e_type).n_nodes)
+                         for e_type in element_types])
+        keys = list(size_map.keys())
+        sort_idx = np.argsort(keys)
+        idx = np.searchsorted(keys, element_types_field.data, sorter=sort_idx)
+        return np.sum(np.asarray(list(size_map.values()))[sort_idx][idx])

@@ -1022,6 +1022,7 @@ class Plotter:
                 unit = field.unit
                 break
 
+        location_data_len = mesh.location_data_len(location)  # 3751 nodes  # 3000 elements  # 24000 elemental nodal  # field.data 72000
         if location == locations.nodal:
             mesh_location = mesh.nodes
         elif location == locations.elemental:
@@ -1040,7 +1041,7 @@ class Plotter:
             if shell_layer_check in [
                 eshell_layers.topbottom,
                 eshell_layers.topbottommid,
-            ]:
+            ] and not location == locations.elemental_nodal:
                 changeOp.inputs.fields_container.connect(fields_container)
                 sl = eshell_layers.top
                 if shell_layers is not None:
@@ -1055,13 +1056,20 @@ class Plotter:
 
         # Merge field data into a single array
         if component_count > 1:
-            overall_data = np.full((len(mesh_location), component_count), np.nan)
+            overall_data = np.full((location_data_len, component_count), np.nan)
         else:
-            overall_data = np.full(len(mesh_location), np.nan)
+            overall_data = np.full(location_data_len, np.nan)
+
+        # field._data_pointer gives the first index of each entity data
+        # (should be of size nb_elements)
 
         for field in fields_container:
             ind, mask = mesh_location.map_scoping(field.scoping)
-            overall_data[ind] = field.data[mask]
+            if location == locations.elemental_nodal:
+                # Rework ind and mask to take into account n_nodes per element
+                entity_index_map = field._data_pointer
+                element_nodal_index_map = np.cumsum(np.diff(entity_index_map))
+            overall_data[ind] = field.data[mask]  # (24000,3)[:3000] = (24000,3)[:3000]
 
         # create the plotter and add the meshes
 
@@ -1098,6 +1106,8 @@ class Plotter:
                 mesh.as_linear = as_linear
             else:
                 grid = mesh.grid
+        if location == locations.elemental_nodal:
+            grid = grid.shrink(1.0)
         grid.clear_data()
         self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
