@@ -534,7 +534,7 @@ class FieldsContainer(Collection):
                     deform_by = self
                 else:
                     deform = False
-            if deform_by and not type(deform_by) == dpf.core.FieldsContainer:
+            if deform_by and not isinstance(deform_by, dpf.core.FieldsContainer):
                 deform_by = deform_by.eval()
         else:
             deform = False

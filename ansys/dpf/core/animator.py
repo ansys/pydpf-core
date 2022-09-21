@@ -25,7 +25,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def animate_workflow(self, loop_over, workflow, output, input="loop_over",
+    def animate_workflow(self, loop_over, workflow, output_name, input_name="loop_over",
                          save_as="", scale_factor=1.0, **kwargs):
         # Extract useful information from the given frequencies Field
 
@@ -70,8 +70,8 @@ class _PyVistaAnimator(_PyVistaPlotter):
         def render_field(frame):
             self._plotter.clear()
             # print(f"render frame {frame} for input {indices[frame]}")
-            workflow.connect(input, [frame])
-            field = workflow.get_output(output, core.types.field)
+            workflow.connect(input_name, [frame])
+            field = workflow.get_output(output_name, core.types.field)
             deform = None
             if "deform_by" in workflow.output_names:
                 deform = workflow.get_output("deform_by", core.types.field)
@@ -137,10 +137,10 @@ class Animator:
         ----------
         workflow : Workflow, optional
             Workflow used to generate a Field at each frame of the animation.
-            Must have a "to_render" Field output which will be plotted,
-            and an "index" int input to define the frame number.
+            By default, the "to_render" Field output will be plotted,
+            and the "loop_over" input defines what the animation iterates on.
             Optionally, the workflow can also have a "deform_by" Field output,
-            which will be used to deform the mesh support.
+            used to deform the mesh support.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :class:`pyvista.Plotter`.
@@ -159,10 +159,10 @@ class Animator:
     def workflow(self) -> core.Workflow:
         """
         Workflow used to generate a Field at each frame of the animation.
-        Must have a "to_render" Field output which will be plotted,
-        and an "index" int input to define the frame number.
+        By default, the "to_render" Field output will be plotted,
+        and the "loop_over" input defines what the animation iterates on.
         Optionally, the workflow can also have a "deform_by" Field output,
-        which will be used to deform the mesh support.
+        used to deform the mesh support.
 
         Returns
         -------
@@ -179,17 +179,17 @@ class Animator:
         ----------
         workflow : Workflow
             Workflow used to generate a Field at each frame of the animation.
-            Must have a "to_render" Field output which will be plotted,
-            and an "index" int input to define the frame number.
+            By default, the "to_render" Field output will be plotted,
+            and the "loop_over" input defines what the animation iterates on.
             Optionally, the workflow can also have a "deform_by" Field output,
-            which will be used to deform the mesh support.
+            used to deform the mesh support.
 
         """
         self._workflow = workflow
 
     def animate(self, loop_over: core.Field,
-                output: str = "to_render",
-                input: str = "loop_over",
+                output_name: str = "to_render",
+                input_name: str = "loop_over",
                 save_as: str = None,
                 scale_factor: Union[float, Sequence[float]] = 1.0,
                 freq_kwargs: dict = None,
@@ -200,13 +200,13 @@ class Animator:
         Parameters
         ----------
         loop_over : Field
-            Field of values to loop over and render.
+            Field of values to loop over.
             Can for example be a subset of sets of TimeFreqSupport.time_frequencies.
             The unit of the Field will be displayed if present.
-        output : str, optional
+        output_name : str, optional
             Name of the workflow output to use as Field for each frame's contour.
             Defaults to "to_render".
-        input : str, optional
+        input_name : str, optional
             Name of the workflow input to feed loop_over values into.
             Defaults to "loop_over".
         save_as : str, optional
@@ -233,8 +233,8 @@ class Animator:
             raise ValueError("Cannot animate without self.workflow.")
         return self._internal_animator.animate_workflow(loop_over=loop_over,
                                                         workflow=self.workflow,
-                                                        output=output,
-                                                        input=input,
+                                                        output_name=output_name,
+                                                        input_name=input_name,
                                                         save_as=save_as,
                                                         scale_factor=scale_factor,
                                                         freq_kwargs=freq_kwargs,
