@@ -52,12 +52,15 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
+    "sphinx.ext.autodoc.typehints",
     "sphinx.ext.napoleon",
+    "numpydoc",
     "sphinx.ext.todo",
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx_gallery.gen_gallery",
 ]
+autodoc_typehints = "description"
 
 # Intersphinx mapping
 intersphinx_mapping = {
