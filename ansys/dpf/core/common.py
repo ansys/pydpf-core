@@ -113,6 +113,7 @@ def types_enum_to_types():
         data_tree,
         workflow,
         streams_container,
+        materials_container,
     )
     from ansys.dpf.gate import dpf_vector
     return {
@@ -139,6 +140,7 @@ def types_enum_to_types():
         types.vec_double: dpf_vector.DPFVectorDouble,
         types.string_field: string_field.StringField,
         types.streams_container: streams_container.StreamsContainer,
+        types.materials: materials_container.MaterialsContainer,
     }
 
 
