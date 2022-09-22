@@ -91,6 +91,7 @@ class types(Enum):
     scopings_container = -2
     meshes_container = -3
     streams_container = -4
+    materials = -5
 
 
 def types_enum_to_types():
