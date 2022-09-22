@@ -264,6 +264,7 @@ class Operator:
             workflow,
             collection,
             streams_container,
+            materials_container,
         )
         return [
             (bool, self._api.operator_getoutput_bool),
@@ -284,6 +285,9 @@ class Operator:
              "meshes_container"),
             (streams_container.StreamsContainer, self._api.operator_getoutput_streams,
              "streams_container"),
+            (materials_container.MaterialsContainer,
+             self._api.operator_getoutput_materials_container,
+             "materials"),
             (data_sources.DataSources, self._api.operator_getoutput_data_sources,
              "data_sources"),
             (cyclic_support.CyclicSupport, self._api.operator_getoutput_cyclic_support,
