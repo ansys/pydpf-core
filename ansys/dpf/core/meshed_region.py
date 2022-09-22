@@ -421,8 +421,15 @@ class MeshedRegion:
         -------
 
         """
-        from ansys.dpf.core.operators.math import add, scale
-
+        from ansys.dpf.core.operators.math import add, scale, unit_convert
+        if hasattr(deform_by, "eval"):
+            # If a Result or an Operator, eval and get the field.
+            deform_by = deform_by.eval()[0]
+        if isinstance(deform_by, ansys.dpf.core.fields_container.FieldsContainer):
+            # If a FieldsContainer, take the field.
+            deform_by = deform_by[0]
+        if deform_by.unit != self.unit:
+            unit_convert(deform_by, self.unit)
         scale_op = scale(field=deform_by, ponderation=scale_factor)
         return add(
             fieldA=self.nodes.coordinates_field, fieldB=scale_op.outputs.field

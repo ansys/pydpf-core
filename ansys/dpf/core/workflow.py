@@ -84,6 +84,8 @@ class Workflow:
             else:
                 self._internal_obj = self._api.work_flow_new()
 
+        self.progress_bar = True
+
     @property
     def _api(self) -> workflow_abstract_api.WorkflowAbstractAPI:
         if not self._api_instance:
@@ -92,6 +94,17 @@ class Workflow:
                 grpcapi=workflow_grpcapi.WorkflowGRPCAPI
             )
         return self._api_instance
+
+    @property
+    @version_requires("3.0")
+    def progress_bar(self) -> bool:
+        """With this property, the user can choose to print a progress bar when
+        the workflow's output is requested, default is True"""
+        return self._progress_bar
+
+    @progress_bar.setter
+    def progress_bar(self, value: bool) -> None:
+        self._progress_bar = value
 
     def connect(self, pin_name, inpt, pin_out=0):
         """Connect an input on the workflow using a pin name.
@@ -267,7 +280,7 @@ class Workflow:
         output_type : core.type enum
             Type of the requested output.
         """
-        if server_meet_version("3.0", self._server):
+        if server_meet_version("3.0", self._server) and self.progress_bar:
             # handle progress bar
             self._server._session.add_workflow(self, "workflow")
             self._progress_thread = self._server._session.listen_to_progress()
