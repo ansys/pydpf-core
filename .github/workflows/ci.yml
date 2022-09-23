@@ -267,7 +267,7 @@ jobs:
         if: steps.check_files.outputs.files_exists == 'false'
         with:
           script: |
-              core.setFailed('Documentation generation failed, please check previous step.')
+              core.setFailed('Could not find index.html!')
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
