@@ -294,6 +294,16 @@ jobs:
           files: docs/build/html
           dest: HTML-doc-${{env.PACKAGE_NAME}}.zip
 
+      - name: "Test zip size"
+        shell: bash
+        run: |
+          s=$(du -k "HTML-doc-${{env.PACKAGE_NAME}}.zip" | cut -f1)
+          if $s lt 40000000 
+          then
+            echo ERROR: Documentation too small! 1>&2
+            exit 1
+          fi
+
       - name: "Upload HTML Documentation"
         uses: actions/upload-artifact@v3
         with:
