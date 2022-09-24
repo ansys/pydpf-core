@@ -254,7 +254,7 @@ jobs:
         run: |
           cd .ci
           build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
-        timeout-minutes: 20
+        timeout-minutes: 25
 
       - name: "Check for success"
         shell: bash
