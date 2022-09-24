@@ -256,18 +256,26 @@ jobs:
           build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
         timeout-minutes: 20
 
-      - name: "Check for successful generation"
-        id: check_files
-        uses: andstor/file-existence-action@v1
-        with:
-          files: "./docs/build/html/index.html"
+      - name: "Check for success"
+        shell: bash
+        working-directory: ..\docs\
+        run: |
+          s="build succeeded"
+          e=$(grep -q "$s" log.txt | tail -n 5)
+          exit "$e"
 
-      - name: "Fail the job if no index.html was found"
-        uses: actions/github-script@v6
-        if: steps.check_files.outputs.files_exists == 'false'
-        with:
-          script: |
-              core.setFailed('Documentation generation failed, please check previous step.')
+#      - name: "Check for successful generation"
+#        id: check_files
+#        uses: andstor/file-existence-action@v1
+#        with:
+#          files: "./docs/build/html/index.html"
+#
+#      - name: "Fail the job if no index.html was found"
+#        uses: actions/github-script@v6
+#        if: steps.check_files.outputs.files_exists == 'false'
+#        with:
+#          script: |
+#              core.setFailed('Documentation generation failed, please check previous step.')
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
@@ -294,15 +302,15 @@ jobs:
           files: docs/build/html
           dest: HTML-doc-${{env.PACKAGE_NAME}}.zip
 
-      - name: "Test zip size"
-        shell: bash
-        run: |
-          s=$(du -k "HTML-doc-${{env.PACKAGE_NAME}}.zip" | cut -f1)
-          if $s lt 40000000 
-          then
-            echo ERROR: Documentation too small! 1>&2
-            exit 1
-          fi
+#      - name: "Test zip size"
+#        shell: bash
+#        run: |
+#          s=$(du -k "HTML-doc-${{env.PACKAGE_NAME}}.zip" | cut -f1)
+#          if $s lt 40000000
+#          then
+#            echo ERROR: Documentation too small! 1>&2
+#            exit 1
+#          fi
 
       - name: "Upload HTML Documentation"
         uses: actions/upload-artifact@v3
