@@ -53,4 +53,4 @@ If you want to edit and potentially contribute to PyDPF-Core,
 clone the repository and install it using ``pip`` with the ``-e``
 development flag:
 
-.. include:: ../pydpf-post_clone_install.rst
+.. include:: ../pydpf-core_clone_install.rst

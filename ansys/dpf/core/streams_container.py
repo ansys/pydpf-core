@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 StreamsContainer
-===============
+================
 Contains classes associated with the DPF StreamsContainer.
 """
 import warnings
