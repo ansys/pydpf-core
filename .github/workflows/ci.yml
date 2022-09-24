@@ -258,7 +258,7 @@ jobs:
 
       - name: "Check for success"
         shell: bash
-        working-directory: ..\docs\
+        working-directory: docs
         run: |
           s="build succeeded"
           e=$(grep -q "$s" log.txt | tail -n 5)
