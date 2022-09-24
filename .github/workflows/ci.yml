@@ -261,7 +261,8 @@ jobs:
         working-directory: docs
         run: |
           s="build succeeded"
-          e=$(grep -q "$s" log.txt | tail -n 5)
+          e=$(tail -n 5 log.txt | grep -q "$s")
+          echo "$e"
           exit "$e"
 
 #      - name: "Check for successful generation"
