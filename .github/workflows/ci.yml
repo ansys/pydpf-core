@@ -263,7 +263,8 @@ jobs:
           s="build succeeded"
           e=$(tail -n 5 log.txt | grep -q "$s")
           echo "$e"
-          exit "$e"
+
+#          exit "$e"
 
 #      - name: "Check for successful generation"
 #        id: check_files
