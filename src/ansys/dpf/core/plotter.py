@@ -1068,12 +1068,12 @@ class Plotter:
             if location == locations.elemental_nodal:
                 # Rework ind and mask to take into account n_nodes per element
                 # entity_index_map = field._data_pointer
-                n_nodes_list = mesh.get_elemental_nodal_size_list().astype(np.int32)
-                nodes_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
+                n_nodes_list = mesh.get_elemental_nodal_size_list().astype(np.int32)  # OK
+                nodes_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)  # OK
                 mask_2 = np.asarray([mask_i for i, mask_i in enumerate(mask)
-                                   for _ in range(n_nodes_list[i])])  # OK
+                                   for _ in range(n_nodes_list[ind[i]])])
                 ind_2 = np.asarray([nodes_index[i]+j for i, ind_i in enumerate(ind)
-                                  for j in range(n_nodes_list[i])])
+                                  for j in range(n_nodes_list[ind_i])])
             overall_data[ind] = field.data[mask]  # (24000,3)[:3000] = (24000,3)[:3000]
 
         # create the plotter and add the meshes
