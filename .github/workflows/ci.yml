@@ -266,25 +266,12 @@ jobs:
             echo "Build succeeded!"
             exit 0;;
           1)
-            echo "Build failed!"
+            echo "Documentation generation failed, please check previous step!"
             exit 1;;
           *)
-            echo "An error occurred!"
+            echo "An error occurred while checking success of the previous step!"
             exit 1;;
           esac
-
-#      - name: "Check for successful generation"
-#        id: check_files
-#        uses: andstor/file-existence-action@v1
-#        with:
-#          files: "./docs/build/html/index.html"
-#
-#      - name: "Fail the job if no index.html was found"
-#        uses: actions/github-script@v6
-#        if: steps.check_files.outputs.files_exists == 'false'
-#        with:
-#          script: |
-#              core.setFailed('Documentation generation failed, please check previous step.')
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
@@ -310,16 +297,6 @@ jobs:
         with:
           files: docs/build/html
           dest: HTML-doc-${{env.PACKAGE_NAME}}.zip
-
-#      - name: "Test zip size"
-#        shell: bash
-#        run: |
-#          s=$(du -k "HTML-doc-${{env.PACKAGE_NAME}}.zip" | cut -f1)
-#          if $s lt 40000000
-#          then
-#            echo ERROR: Documentation too small! 1>&2
-#            exit 1
-#          fi
 
       - name: "Upload HTML Documentation"
         uses: actions/upload-artifact@v3
