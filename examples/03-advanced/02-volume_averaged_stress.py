@@ -88,7 +88,7 @@ with connectivity_field.as_local_field() as connectivity:
 
 ###############################################################################
 # Create workflow
-# ~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~
 # For each list of elements surrounding nodes:
 #
 # - Compute equivalent stress averaged on elements.
@@ -132,13 +132,13 @@ divide.run()
 
 ###############################################################################
 # Plot equivalent elemental stress and volume averaged elemental equivalent stress
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 mesh.plot(values_to_sum_field)
 mesh.plot(divide.outputs.field())
 
 ###############################################################################
 # Use the operator instead
-# ~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~
 # An operator with the same algorithm has been implemented
 s_fc = s.outputs.fields_container()
 single_field_vol_fc = dpf.fields_container_factory.over_time_freq_fields_container(
