@@ -15,12 +15,12 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
     for subdirectory in subdirectories:
         subdir = os.path.join(root, subdirectory)
         for file in glob.iglob(os.path.join(subdir, "*.py")):
-            print("\n\n--------------------------------------------------\n")
+            print("\n--------------------------------------------------")
             print(file)
-            print("--------------------------------------------------\n")
             try:
                 subprocess.check_call([sys.executable, file])
             except subprocess.CalledProcessError as e:
                 sys.stderr.write(str(e.args))
                 if e.returncode != 3221225477:
                     raise e
+            print("PASS")

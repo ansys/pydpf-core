@@ -10,6 +10,7 @@ from ansys.dpf.core.collection import Collection
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import field
 
+
 class FieldsContainer(Collection):
     """Represents a fields container, which contains fields belonging to a common result.
 
@@ -487,6 +488,104 @@ class FieldsContainer(Collection):
             Scoping containing the time set IDs available in the fields container.
         """
         return self.get_label_scoping("time")
+
+    def animate(self, save_as=None, deform_by=None, scale_factor=1.0, **kwargs):
+        """Creates an animation based on the Fields contained in the FieldsContainer.
+
+        This method creates a movie or a gif based on the time ids of a FieldsContainer.
+        For kwargs see pyvista.Plotter.open_movie/add_text/show.
+
+        Parameters
+        ----------
+        save_as : Path of file to save the animation to. Defaults to None. Can be of any format
+            supported by pyvista.Plotter.write_frame (.gif, .mp4, ...).
+        deform_by : FieldsContainer, Result, Operator, optional
+            Used to deform the plotted mesh. Must return a FieldsContainer of the same length as
+            self, containing 3D vector Fields of distances.
+            Defaults to None, which takes self if possible. Set as False to force static animation.
+        scale_factor : float, list, optional
+            Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
+            scaling frequency-dependent.
+        """
+        from ansys.dpf.core.animator import Animator
+
+        # Create a workflow defining the result to render at each step of the animation
+        wf = dpf.core.Workflow()
+        # First define the workflow index input
+        forward_index = dpf.core.operators.utility.forward()
+        wf.set_input_name("loop_over", forward_index.inputs.any)
+        # Define the field extraction using the fields_container and indices
+        extract_field_op = dpf.core.operators.utility.extract_field(self)
+
+        # TODO /!\ We should be using a mechanical::time_selector, however it is not wrapped.
+
+        wf.set_input_name("indices", extract_field_op.inputs.indices)  # Have to do it this way
+        wf.connect("indices", forward_index)  # Otherwise not accepted
+        # Add the operators to the workflow
+        wf.add_operators([extract_field_op, forward_index])
+
+        deform = True
+        # Define whether to deform and what with
+        if deform_by is not False:
+            if deform_by is None or isinstance(deform_by, bool):
+                # By default, set deform_by as self if nodal 3D vector field
+                if self[0].location == dpf.core.common.locations.nodal and \
+                        self[0].component_count == 3:
+                    deform_by = self
+                else:
+                    deform = False
+            if deform_by and not isinstance(deform_by, dpf.core.FieldsContainer):
+                deform_by = deform_by.eval()
+        else:
+            deform = False
+        if deform:
+
+            scale_factor_fc = dpf.core.animator.scale_factor_to_fc(scale_factor, deform_by)
+            scale_factor_invert = dpf.core.operators.math.invert_fc(scale_factor_fc)
+            # Extraction of the field of interest based on index
+            # time_selector = dpf.core.Operator("mechanical::time_selector")
+            extract_field_op_2 = dpf.core.operators.utility.extract_field(deform_by)
+            wf.set_input_name("indices", extract_field_op_2.inputs.indices)
+            wf.connect("indices", forward_index)  # Otherwise not accepted
+            # Scaling of the field based on scale_factor and index
+            extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor_invert)
+            wf.set_input_name("indices", extract_scale_factor_op.inputs.indices)
+            wf.connect("indices", forward_index)  # Otherwise not accepted
+
+            divide_op = dpf.core.operators.math.component_wise_divide(
+                extract_field_op_2.outputs.field, extract_scale_factor_op.outputs.field)
+            # Get the mesh from the field to render
+            get_mesh_op = dpf.core.operators.mesh.from_field(extract_field_op.outputs.field)
+            # Get the coordinates field from the mesh
+            get_coordinates_op = dpf.core.operators.mesh.node_coordinates(get_mesh_op.outputs.mesh)
+            # Addition to the scaled deformation field
+            add_op = dpf.core.operators.math.add(divide_op.outputs.field,
+                                                 get_coordinates_op.outputs.coordinates_as_field)
+        else:
+            scale_factor = None
+            scale_factor_fc = dpf.core.animator.scale_factor_to_fc(1.0, self)
+            extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor_fc)
+            add_op = dpf.core.operators.utility.forward_field(extract_scale_factor_op)
+        wf.set_output_name("deform_by", add_op.outputs.field)
+        wf.set_output_name("to_render", extract_field_op.outputs.field)
+        wf.progress_bar = False
+        add_op.progress_bar = False
+
+        loop_over = self.get_time_scoping()
+        frequencies = self.time_freq_support.time_frequencies
+        loop_over_field = dpf.core.fields_factory.field_from_array(
+            frequencies.data[loop_over.ids-1])
+        loop_over_field.scoping.ids = loop_over.ids
+        loop_over_field.unit = frequencies.unit
+
+        # Initiate the Animator
+        anim = Animator(workflow=wf, **kwargs)
+
+        kwargs.setdefault("freq_kwargs", {"font_size": 12, "fmt": ".3e"})
+
+        return anim.animate(loop_over=loop_over_field,
+                            save_as=save_as, scale_factor=scale_factor,
+                            **kwargs)
 
     def __add__(self, fields_b):
         """Add two fields or two fields containers.
