@@ -260,15 +260,17 @@ jobs:
         shell: bash
         working-directory: docs
         run: |
-          s="build succeeded"
-          if tail -n 5 log.txt | grep -q "$s"
-          then
-            echo "Found"
-            exit 0
-          else
-            exit 1
-          fi
-#          exit "$e"
+          case `tail -n 5 log.txt | grep -F "build succeeded" >/dev/null; echo $?` in
+            0)
+              echo "Build succeeded!"
+              exit 0
+            1)
+              echo "Build failed!"
+              exit 1
+            *)
+              echo "An error occurred!"
+              exit 1
+          esac
 
 #      - name: "Check for successful generation"
 #        id: check_files
