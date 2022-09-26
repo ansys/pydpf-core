@@ -1041,7 +1041,9 @@ class Plotter:
             if shell_layer_check in [
                 eshell_layers.topbottom,
                 eshell_layers.topbottommid,
-            ] and not location == locations.elemental_nodal:
+            ]:
+                if location == locations.elemental_nodal:
+                    print("trying to plot ElementalNodal values for shells.")
                 changeOp.inputs.fields_container.connect(fields_container)
                 sl = eshell_layers.top
                 if shell_layers is not None:
@@ -1069,11 +1071,13 @@ class Plotter:
                 # Rework ind and mask to take into account n_nodes per element
                 # entity_index_map = field._data_pointer
                 n_nodes_list = mesh.get_elemental_nodal_size_list().astype(np.int32)  # OK
-                nodes_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)  # OK
+                first_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
                 mask_2 = np.asarray([mask_i for i, mask_i in enumerate(mask)
-                                   for _ in range(n_nodes_list[ind[i]])])
-                ind_2 = np.asarray([nodes_index[i]+j for i, ind_i in enumerate(ind)
-                                  for j in range(n_nodes_list[ind_i])])
+                                     for _ in range(n_nodes_list[ind[i]])])
+                ind_2 = np.asarray([first_index[ind_i]+j for ind_i in ind
+                                    for j in range(n_nodes_list[ind_i])])  # OK
+                mask = mask_2
+                ind = ind_2
             overall_data[ind] = field.data[mask]  # (24000,3)[:3000] = (24000,3)[:3000]
 
         # create the plotter and add the meshes

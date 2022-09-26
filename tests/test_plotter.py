@@ -200,18 +200,35 @@ def test_field_nodal_plot(allkindofcomplexity):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
-def test_field_elemental_nodal_plot(simple_bar):
+def test_field_elemental_nodal_plot_simple(simple_bar):
     model = Model(simple_bar)
     stress = model.results.element_nodal_forces()
     fc = stress.outputs.fields_container()
     f = fc[0]
     print(f.data.shape)
     f.plot()
-    picture = 'field_plot.png'
+    picture = 'test_plotter1.png'
     remove_picture(picture)
     f.plot(off_screen=True, screenshot=picture)
     assert os.path.exists(os.path.join(os.getcwd(), picture))
-    # remove_picture(picture)
+    remove_picture(picture)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_field_elemental_nodal_plot_scoped(simple_bar):
+    model = Model(simple_bar)
+    mesh_scoping = dpf.core.mesh_scoping_factory.elemental_scoping(element_ids=list(range(1501,
+                                                                                          3001)))
+    stress = model.results.element_nodal_forces.on_mesh_scoping(mesh_scoping)
+    fc = stress.eval()
+    f = fc[0]
+    print(f.data.shape)
+    f.plot()
+    picture = 'test_plotter2.png'
+    remove_picture(picture)
+    f.plot(off_screen=True, screenshot=picture)
+    assert os.path.exists(os.path.join(os.getcwd(), picture))
+    remove_picture(picture)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
