@@ -1,4 +1,4 @@
-pypandoc==1.8.1
+pypandoc==1.9
 sphinx==5.1.1
 pyvista==0.36.1
 ansys_sphinx_theme==0.5.2
