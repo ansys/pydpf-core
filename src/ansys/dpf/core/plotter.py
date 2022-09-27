@@ -1049,7 +1049,7 @@ class Plotter:
                 eshell_layers.topbottommid,
             ]:
                 if location == locations.elemental_nodal:
-                    print("trying to plot ElementalNodal values for shells.")
+                    raise TypeError("Trying to plot ElementalNodal values for shells.")
                 changeOp.inputs.fields_container.connect(fields_container)
                 sl = eshell_layers.top
                 if shell_layers is not None:
