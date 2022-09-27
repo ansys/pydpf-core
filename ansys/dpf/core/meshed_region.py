@@ -285,6 +285,7 @@ class MeshedRegion:
         coordinates_field : PropertyField or Field
         """
         self._api.meshed_region_set_coordinates_field(self, coordinates_field)
+        self._full_grid = None
 
     @property
     def available_named_selections(self):
