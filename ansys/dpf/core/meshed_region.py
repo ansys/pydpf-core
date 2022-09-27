@@ -495,8 +495,8 @@ class MeshedRegion:
         >>> mesh = grid.extract_surface()
 
         """
-        if self._full_grid is None:
-            self._full_grid = self._as_vtk(self.nodes.coordinates_field)
+        # if self._full_grid is None:
+        self._full_grid = self._as_vtk(self.nodes.coordinates_field)
         return self._full_grid
 
     def plot(
