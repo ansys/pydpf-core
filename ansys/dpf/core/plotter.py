@@ -697,13 +697,22 @@ class Plotter:
                 unit = field.unit
                 break
 
+        # If ElementalNodal, first extend results to mid-nodes
+        if location == locations.elemental_nodal:
+            fields_container = dpf.core.operators.averaging.extend_to_mid_nodes_fc(
+                fields_container=fields_container
+            ).eval()
+
+        location_data_len = mesh.location_data_len(location)  # 3751 nodes  # 3000 elements  # 24000 elemental nodal  # field.data 72000
         if location == locations.nodal:
             mesh_location = mesh.nodes
         elif location == locations.elemental:
             mesh_location = mesh.elements
+        elif location == locations.elemental_nodal:
+            mesh_location = mesh.elements
         else:
             raise ValueError(
-                "Only elemental or nodal location are supported for plotting."
+                "Only elemental, elemental nodal or nodal location are supported for plotting."
             )
 
         # pre-loop: check if shell layers for each field, if yes, set the shell layers
@@ -714,6 +723,8 @@ class Plotter:
                 eshell_layers.topbottom,
                 eshell_layers.topbottommid,
             ]:
+                if location == locations.elemental_nodal:
+                    raise TypeError("Trying to plot ElementalNodal values for shells.")
                 changeOp.inputs.fields_container.connect(fields_container)
                 sl = eshell_layers.top
                 if shell_layers is not None:
@@ -728,13 +739,27 @@ class Plotter:
 
         # Merge field data into a single array
         if component_count > 1:
-            overall_data = np.full((len(mesh_location), component_count), np.nan)
+            overall_data = np.full((location_data_len, component_count), np.nan)
         else:
-            overall_data = np.full(len(mesh_location), np.nan)
+            overall_data = np.full(location_data_len, np.nan)
+
+        # field._data_pointer gives the first index of each entity data
+        # (should be of size nb_elements)
 
         for field in fields_container:
             ind, mask = mesh_location.map_scoping(field.scoping)
-            overall_data[ind] = field.data[mask]
+            if location == locations.elemental_nodal:
+                # Rework ind and mask to take into account n_nodes per element
+                # entity_index_map = field._data_pointer
+                n_nodes_list = mesh.get_elemental_nodal_size_list().astype(np.int32)  # OK
+                first_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
+                mask_2 = np.asarray([mask_i for i, mask_i in enumerate(mask)
+                                     for _ in range(n_nodes_list[ind[i]])])
+                ind_2 = np.asarray([first_index[ind_i]+j for ind_i in ind
+                                    for j in range(n_nodes_list[ind_i])])  # OK
+                mask = mask_2
+                ind = ind_2
+            overall_data[ind] = field.data[mask]  # (24000,3)[:3000] = (24000,3)[:3000]
 
         # create the plotter and add the meshes
 
@@ -767,6 +792,8 @@ class Plotter:
             self._internal_plotter.add_scale_factor_legend(scale_factor, **kwargs)
         else:
             grid = mesh.grid
+        if location == locations.elemental_nodal:
+            grid = grid.shrink(1.0)
         self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
         background = kwargs.pop("background", None)

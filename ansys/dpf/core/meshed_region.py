@@ -4,6 +4,7 @@ MeshedRegion
 """
 import traceback
 import warnings
+import numpy as np
 
 import ansys.dpf.core.errors
 
@@ -654,3 +655,35 @@ class MeshedRegion:
                     # Not sure we go through here since the only datatype not int is coordinates,
                     # which is already dealt with previously.
                     return field.Field(server=self._server, field=field_out)
+
+    def location_data_len(self, location):
+        """
+
+        Parameters
+        ----------
+        location
+
+        Returns
+        -------
+        data_size : int
+        """
+        if location == locations.nodal:
+            return len(self.nodes)
+        elif location == locations.elemental:
+            return len(self.elements)
+        elif location == locations.elemental_nodal:
+            return np.sum(self.get_elemental_nodal_size_list())
+        else:
+            raise TypeError(f"Location {location} is not recognized.")
+
+    def get_elemental_nodal_size_list(self):
+        # Get the field of element types
+        element_types_field = self.elements.element_types_field
+        # get the number of nodes for each possible element type
+        size_map = dict([(e_type.value, element_types.descriptor(e_type).n_nodes)
+                         for e_type in element_types])
+        keys = list(size_map.keys())
+        sort_idx = np.argsort(keys)
+        idx = np.searchsorted(keys, element_types_field.data, sorter=sort_idx)
+        return np.asarray(list(size_map.values()))[sort_idx][idx]
+
