@@ -739,7 +739,7 @@ class MeshedRegion:
         # Get the field of element types
         element_types_field = self.elements.element_types_field
         # get the number of nodes for each possible element type
-        size_map = dict([(e_type.value, element_types.descriptor(e_type).n_corner_nodes)
+        size_map = dict([(e_type.value, element_types.descriptor(e_type).n_nodes)
                          for e_type in element_types])
         keys = list(size_map.keys())
         sort_idx = np.argsort(keys)

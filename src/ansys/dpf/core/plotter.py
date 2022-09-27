@@ -1022,6 +1022,12 @@ class Plotter:
                 unit = field.unit
                 break
 
+        # If ElementalNodal, first extend results to mid-nodes
+        if location == locations.elemental_nodal:
+            fields_container = dpf.core.operators.averaging.extend_to_mid_nodes_fc(
+                fields_container=fields_container
+            ).eval()
+
         location_data_len = mesh.location_data_len(location)  # 3751 nodes  # 3000 elements  # 24000 elemental nodal  # field.data 72000
         if location == locations.nodal:
             mesh_location = mesh.nodes
