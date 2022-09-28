@@ -297,12 +297,14 @@ jobs:
         with:
           files: docs/build/html
           dest: HTML-doc-${{env.PACKAGE_NAME}}.zip
+        if: always()
 
       - name: "Upload HTML Documentation"
         uses: actions/upload-artifact@v3
         with:
           name: HTML-doc-${{env.PACKAGE_NAME}}
           path: HTML-doc-${{env.PACKAGE_NAME}}.zip
+        if: always()
 
   run_examples:
     name: "Run Examples with/without bin"
