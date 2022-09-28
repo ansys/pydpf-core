@@ -14,6 +14,9 @@ from vtk import (
     VTK_QUADRATIC_TETRA,
     VTK_QUADRATIC_HEXAHEDRON,
     VTK_QUADRATIC_PYRAMID,
+    VTK_POLYGON,
+    VTK_QUADRATIC_POLYGON,
+    VTK_POLYHEDRON,
     vtkVersion,
 )
 import pyvista as pv
@@ -54,7 +57,10 @@ SIZE_MAPPING = np.array(
         2,  # kAnsEdge2
         3,  # kAnsEdge3
         3,  # kAnsBeam3
-        4,
+        4,  # kAnsBeam4
+        0,  # kAnsGeneralPlaceholder
+        -1,  # kAnsPolygon
+        -1,  # kAnsPolyhedron
     ]
 )  # kAnsBeam4
 
@@ -95,9 +101,12 @@ VTK_MAPPING = np.array(
         0,  # kAnsEdge2 = 28,
         0,  # kAnsEdge3 = 29,
         0,  # kAnsBeam3 = 30,
-        0,
+        0,  # kAnsBeam4 = 31,
+        0,  # kAnsGeneralPlaceholder = 32,
+        VTK_QUADRATIC_POLYGON,  # kAnsPolygon = 33,
+        VTK_POLYHEDRON,  # kAnsPolyhedron = 34,
     ]
-)  # kAnsBeam4 = 31,
+)
 
 
 # map all cells to linear
@@ -134,9 +143,12 @@ VTK_LINEAR_MAPPING = np.array(
         0,  # kAnsEdge2 = 28,
         0,  # kAnsEdge3 = 29,
         0,  # kAnsBeam3 = 30,
-        0,
+        0,  # kAnsBeam4 = 31,
+        0,  # kAnsGeneralPlaceholder = 32,
+        VTK_POLYGON,  # kAnsPolygon = 33,
+        VTK_POLYHEDRON,  # kAnsPolyhedron = 34,
     ]
-)  # kAnsBeam4 = 31,
+)
 
 
 class PyVistaImportError(ModuleNotFoundError):
@@ -149,7 +161,7 @@ class PyVistaImportError(ModuleNotFoundError):
         ModuleNotFoundError.__init__(self, msg)
 
 
-def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
+def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
     """Return a pyvista unstructured grid given DPF node and element
     definitions.
 
@@ -171,6 +183,11 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
     """
     # could make this more efficient in C...
     elem_size = SIZE_MAPPING[etypes]
+    if -1 in elem_size:
+        # Found elements of indefinite size, query them.
+        indices = np.argwhere(elem_size == -1)
+        for i in indices:
+            elem_size[i] = mesh._api.meshed_region_get_num_nodes_of_element(mesh, int(i))
     insert_ind = np.cumsum(elem_size)
     insert_ind = np.hstack(([0], insert_ind))[:-1]
 

@@ -452,8 +452,7 @@ class MeshedRegion:
                 "To use plotting capabilities, please install pyvista "
                 "with :\n pip install pyvista>=0.24.0"
             )
-
-        grid = dpf_mesh_to_vtk(coordinates, etypes, conn, as_linear)
+        grid = dpf_mesh_to_vtk(coordinates, etypes, conn, as_linear, self)
 
         # consider adding this when scoping request is faster
         if include_ids:
