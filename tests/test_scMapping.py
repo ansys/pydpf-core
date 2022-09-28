@@ -398,7 +398,7 @@ def test_sc_rth1():
 
     Tvals_trg = rescope_fc.outputs.fields_container()[0].data
 
-    Tcomp = [4.1925, 1.9700]
+    Tcomp = [4.1578, 1.9411]
 
     for i in range(len(Tcomp)):
         assert 1.0 == approx(Tvals_trg[i]/Tcomp[i],
@@ -867,6 +867,7 @@ def test_sc_poly():
 
     deserializer = dpf.operators.serialization.deserializer()
     map_builder = dpf.operators.mapping.create_sc_mapping_workflow()
+    rescope=dpf.operators.scoping.rescope()
 
     dimensionality = 1
     is_conservative=False
@@ -896,3 +897,18 @@ def test_sc_poly():
     assert fc_trg[0].elementary_data_count == 11093
     assert fc_trg[1].elementary_data_count == 902
     
+    data_sco_0=dpf.Scoping()
+    data_sco_0.location=dpf.locations.elemental
+    data_sco_0.ids=[4679, 174]
+    
+    rescope.inputs.fields.connect(fc_src[0])
+    rescope.inputs.mesh_scoping.connect(data_sco_0)
+    vals_src=copy.deepcopy(rescope.outputs.fields_as_field().data)
+    
+    rescope.inputs.fields.connect(fc_trg[0])
+    vals_trg=copy.deepcopy(rescope.outputs.fields_as_field().data)
+    
+    for i in range(len(data_sco_0)):
+        assert 1.0 == approx(vals_src[i]/vals_trg[i],
+                                rel=test_utils.RELTOL, abs=test_utils.ABSTOL)
+        

@@ -396,7 +396,7 @@ def test_load_api_with_awp_root_no_gatebin():
     assert serv_2._grpc_client_path is not None
     ISPOSIX = os.name == "posix"
     if not ISPOSIX:
-        dpf_inner_path = os.path.join("aisol", "bin", "winx64")
+        dpf_inner_path = os.path.join("dpf", "bin", "winx64")
     else:
         dpf_inner_path = os.path.join("aisol", "dll", "linx64")
     assert dpf_inner_path in serv_2._client_api_path
@@ -424,7 +424,7 @@ def test_load_api_with_awp_root_2_no_gatebin():
     assert serv._grpc_client_path is not None
     ISPOSIX = os.name == "posix"
     if not ISPOSIX:
-        dpf_inner_path = os.path.join("aisol", "bin", "winx64")
+        dpf_inner_path = os.path.join("dpf", "bin", "winx64")
     else:
         dpf_inner_path = os.path.join("aisol", "dll", "linx64")
     assert dpf_inner_path in serv._client_api_path
