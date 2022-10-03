@@ -122,6 +122,9 @@ def test_set_coordinates_field_meshedregion(simple_bar_model):
     mesh.set_coordinates_field(field_coordinates)
     field_coordinates = mesh.nodes.coordinates_field
     assert np.allclose(field_coordinates.data[0], [1.0, 1.0, 1.0])
+    field_coordinates.data = field_coordinates.data * 2.0
+    mesh.set_coordinates_field(field_coordinates)
+    assert np.allclose(field_coordinates.data[0], [2.0, 2.0, 2.0])
 
 
 def test_get_element_types_field_meshedregion(simple_bar_model):
