@@ -285,7 +285,9 @@ class MeshedRegion:
         coordinates_field : PropertyField or Field
         """
         self._api.meshed_region_set_coordinates_field(self, coordinates_field)
-        self._full_grid.points = coordinates_field.data
+        if self._full_grid is not None:
+            if hasattr(self._full_grid, "points"):
+                self._full_grid.points = coordinates_field.data
 
     @property
     def available_named_selections(self):
