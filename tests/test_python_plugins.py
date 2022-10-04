@@ -141,7 +141,10 @@ def test_custom_type_field(server_type_remote_process):
     f.data = np.array([1000000000000, 200000000000000], dtype=np.uint64)
     op = dpf.Operator("custom_forward_custom_type_field", server=server_type_remote_process)
     op.connect(0, f)
-    assert op.get_output(0, dpf.types.custom_type_field).data == [1000000000000, 200000000000000]
+    assert np.allclose(
+        op.get_output(0, dpf.types.custom_type_field).data,
+        [1000000000000, 200000000000000]
+    )
 
 
 def test_scoping(server_type_remote_process):
