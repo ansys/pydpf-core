@@ -183,11 +183,24 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
     """
     # could make this more efficient in C...
     elem_size = SIZE_MAPPING[etypes]
+    # corner_nodes = [0]*len(elem_size)
+    # shapes = [0]*len(elem_size)
+    # a = mesh._api.meshed_region_get_has_polyhedrons(mesh)
+    # from ansys.dpf.gate import integral_types
+    # import copy
     if -1 in elem_size:
         # Found elements of indefinite size, query them.
-        indices = np.argwhere(elem_size == -1)
+        indices = np.flatnonzero(elem_size == -1)
         for i in indices:
-            elem_size[i] = mesh._api.meshed_region_get_num_nodes_of_element(mesh, int(i))
+            elem_size[i] = mesh._api.meshed_region_get_num_nodes_of_element(mesh, i)
+            # corner_nodes[i] = mesh._api.meshed_region_get_num_corner_nodes_of_element(mesh, int(i))  # Element type does not exist
+            # shape = integral_types.MutableInt32()
+            # id = mesh._api.meshed_region_get_element_id(mesh, i)
+            # index = integral_types.MutableInt32(i)
+            # mesh._api.meshed_region_get_element_shape(mesh, id, shape, index)  # -> Unknown shape
+    #         shapes[i] = int(shape)
+    # print(shapes)
+    print(elem_size)
     insert_ind = np.cumsum(elem_size)
     insert_ind = np.hstack(([0], insert_ind))[:-1]
 

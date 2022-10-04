@@ -12,11 +12,11 @@ print(cff_operators)
 
 # Ok to plot all CFX models
 # Ok to plot all fluent models except for Polys (which is logical)
-# data_path = r"D:\ANSYSDev\Sandbox\cff\Ans.Dpf.CFF\Ans.Dpf.CFFTest\test_models\fluent\3D"
-# file_path = os.path.join(data_path, r"Polys\Polys.cas.h5")
-fluent_files = examples.download_fluent_files()
-cas_path = fluent_files["cas"]
-dat_path = fluent_files["dat"]
+data_path = r"D:\ANSYSDev\Sandbox\cff\Ans.Dpf.CFF\Ans.Dpf.CFFTest\test_models\fluent\3D"
+cas_path = dat_path = os.path.join(data_path, r"Polys\Polys.cas.h5")
+# fluent_files = examples.download_fluent_files()
+# cas_path = fluent_files["cas"]
+# dat_path = fluent_files["dat"]
 # data_path = r"D:\ANSYSDev\Sandbox\cff\Ans.Dpf.CFF\Ans.Dpf.CFFTest\test_models\CFX"
 # file_path = os.path.join(data_path, r"HeatingCoil\HeatingCoil.res")
 ds = dpf.DataSources()
