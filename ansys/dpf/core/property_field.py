@@ -62,7 +62,10 @@ class PropertyField(_FieldBase):
         property_field=None,
         server=None,
     ):
-        super().__init__(nentities, nature, location, property_field, server)
+        super().__init__(
+            nentities=nentities, nature=nature, location=location, field=property_field,
+            server=server
+        )
 
     @property
     def _api(self) -> property_field_abstract_api.PropertyFieldAbstractAPI:
@@ -73,10 +76,13 @@ class PropertyField(_FieldBase):
             )
         return self._api_instance
 
+    def _init_api_env(self):
+        self._api.init_property_field_environment(self)
+
     @staticmethod
     def _field_create_internal_obj(api: property_field_abstract_api.PropertyFieldAbstractAPI,
                                    client, nature, nentities,
-                                   location=locations.nodal, ncomp_n=0, ncomp_m=0):
+                                   location=locations.nodal, ncomp_n=0, ncomp_m=0, type=None):
         dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
         if client is not None:
             return api.csproperty_field_new_on_client(

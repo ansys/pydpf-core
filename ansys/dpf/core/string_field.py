@@ -59,7 +59,7 @@ class StringField(_FieldBase):
         self._server = server_module.get_or_create_server(server)
         if string_field is None and not self._server.meet_version("5.0"):
             raise errors.DpfVersionNotSupported("5.0")
-        super().__init__(nentities, nature=natures.scalar, field=string_field, server=server)
+        super().__init__(nentities=nentities, nature=natures.scalar, field=string_field, server=server)
 
     @property
     def _api(self) -> string_field_abstract_api.StringFieldAbstractAPI:
@@ -70,10 +70,13 @@ class StringField(_FieldBase):
             )
         return self._api_instance
 
+    def _init_api_env(self):
+        self._api.init_string_field_environment(self)
+
     @staticmethod
     def _field_create_internal_obj(api: string_field_abstract_api.StringFieldAbstractAPI,
                                    client, nature, nentities,
-                                   location=locations.nodal, ncomp_n=0, ncomp_m=0):
+                                   location=locations.nodal, ncomp_n=0, ncomp_m=0, type=None):
         if client is not None:
             return api.csstring_field_new_on_client(
                 client, nentities, nentities

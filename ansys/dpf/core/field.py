@@ -111,7 +111,9 @@ class Field(_FieldBase):
         """Initialize the field either with an optional field message or
         by connecting to a stub.
         """
-        super().__init__(nentities, nature, location, field, server)
+        super().__init__(
+            nentities=nentities, nature=nature, location=location, field=field, server=server
+        )
         self._field_definition = self._load_field_definition()
 
     @property
@@ -121,6 +123,9 @@ class Field(_FieldBase):
                                                                grpcapi=field_grpcapi.FieldGRPCAPI)
         return self._api_instance
 
+    def _init_api_env(self):
+        self._api.init_field_environment(self)
+
     @staticmethod
     def _field_create_internal_obj(
             api: field_abstract_api.FieldAbstractAPI,
@@ -129,7 +134,8 @@ class Field(_FieldBase):
             nentities,
             location=locations.nodal,
             ncomp_n=0,
-            ncomp_m=0
+            ncomp_m=0,
+            type=None
     ):
         dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
 

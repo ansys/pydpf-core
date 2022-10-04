@@ -112,3 +112,12 @@ class Dimensionality:
             Dimensionality of the symmetrical ``3 x 3`` tensor field.
         """
         return Dimensionality([3, 3], natures.symmatrix)
+
+    def __eq__(self, other):
+        return self.dim == other.dim and self.nature == other.nature
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __str__(self):
+        return f"Data Dimensionality of nature {self.nature} and data size {self.dim}"
