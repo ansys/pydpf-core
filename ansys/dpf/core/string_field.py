@@ -47,7 +47,7 @@ class StringField(_FieldBase):
 
     Notes
     -----
-    Class available with server's version starting at 5.0.
+    Class available with server's version starting at 5.0 (Ansys 2023R1).
     """
 
     def __init__(

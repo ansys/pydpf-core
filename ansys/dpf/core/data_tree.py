@@ -64,7 +64,7 @@ class DataTree:
 
     Notes
     -----
-    Class available with server's version starting at 4.0.
+    Class available with server's version starting at 4.0 (Ansys 2022R2).
     """
 
     def __init__(self, data=None, data_tree=None, server=None):

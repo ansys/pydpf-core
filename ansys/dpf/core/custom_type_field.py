@@ -8,7 +8,6 @@ import warnings
 
 import numpy as np
 
-from ansys import dpf
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
 from ansys.dpf.core import scoping
@@ -63,20 +62,21 @@ class CustomTypeField(_FieldBase):
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
         server.
+
     Examples
     --------
     Create a custom type field from scratch.
 
-    >>> from ansys.dpf.core import fields_factory
     >>> from ansys.dpf.core import locations
     >>> from ansys.dpf import core as dpf
     >>> import numpy as np
-    >>> field_with_classic_api = dpf.CustomTypeField(type=np.int16)
-    >>> field_with_classic_api.location = locations.nodal
+    >>> field = dpf.CustomTypeField(unitary_type=np.uint64)
+    >>> field.location = locations.nodal
+    >>> field.append([1000000,2000000], 1)
 
     Notes
     -----
-    Class available with server's version starting at 5.0.
+    Class available with server's version starting at 5.0 (Ansys 2023R1).
     """
 
     def __init__(
@@ -160,14 +160,13 @@ class CustomTypeField(_FieldBase):
         --------
         Location for a stress field evaluated at nodes.
 
+        >>> from ansys.dpf.core import locations
         >>> from ansys.dpf import core as dpf
-        >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.download_transient_result())
-        >>> s_op = model.results.stress()
-        >>> s_fc = s_op.outputs.fields_container()
-        >>> field = s_fc[0]
+        >>> import numpy as np
+        >>> field = dpf.CustomTypeField(unitary_type=np.uint64)
+        >>> field.location = locations.nodal
         >>> field.location
-        'ElementalNodal'
+        'Nodal'
 
         """
         if self.field_definition:
@@ -187,16 +186,13 @@ class CustomTypeField(_FieldBase):
         --------
         Location for a field evaluated at nodes.
 
+        >>> from ansys.dpf.core import locations
         >>> from ansys.dpf import core as dpf
         >>> import numpy as np
-        >>> my_field = dpf.CustomTypeField(10, dpf.natures.vector,dpf.locations.nodal)
-        >>> my_field.data = np.zeros(30)
-        >>> my_field.scoping.ids = range(1,11)
-        >>> my_field.location
+        >>> field = dpf.CustomTypeField(unitary_type=np.uint64)
+        >>> field.location = locations.nodal
+        >>> field.location
         'Nodal'
-        >>> my_field.location = dpf.locations.elemental_nodal
-        >>> my_field.location
-        'ElementalNodal'
 
         """
         fielddef = self.field_definition
@@ -213,6 +209,19 @@ class CustomTypeField(_FieldBase):
         Returns
         -------
         bool
+
+        Examples
+        --------
+        Create a custom type field from scratch.
+
+        >>> from ansys.dpf import core as dpf
+        >>> import numpy as np
+        >>> field = dpf.CustomTypeField(unitary_type=np.int16)
+        >>> field.is_of_type(np.int16)
+        True
+        >>> field.is_of_type(np.short)
+        True
+
         """
         return self.type == type
 
@@ -224,6 +233,16 @@ class CustomTypeField(_FieldBase):
         Returns
         -------
         numpy.dtype
+
+        Examples
+        --------
+        >>> from ansys.dpf.core import locations
+        >>> from ansys.dpf import core as dpf
+        >>> import numpy as np
+        >>> field = dpf.CustomTypeField(unitary_type=np.uint64)
+        >>> field.type
+        dtype('uint64')
+
         """
         return self._type
 
@@ -248,6 +267,31 @@ class CustomTypeField(_FieldBase):
             return scoping.Scoping(scoping=obj, server=self._server)
 
     def get_entity_data(self, index):
+        """Returns the array corresponding to the data of a given entity index.
+
+        Parameters
+        ----------
+        index: int
+            Index in the ``Scoping``.
+
+        Returns
+        -------
+        numpy.ndarray
+
+        Examples
+        --------
+        >>> from ansys.dpf.core import locations
+        >>> from ansys.dpf import core as dpf
+        >>> import numpy as np
+        >>> field = dpf.CustomTypeField(unitary_type=np.uint64)
+        >>> field.append([1000000, 2000000], 1)
+        >>> field.append([1000000, 2000000, 3000000], 2)
+        >>> field.get_entity_data(0)
+        DPFArray([1000000, 2000000]...
+        >>> field.get_entity_data(1)
+        DPFArray([1000000, 2000000, 3000000]...
+
+        """
         try:
             vec = dpf_vector.DPFVectorCustomType(self._type, client=self._server.client)
             self._api.cscustom_type_field_get_entity_data_for_dpf_vector(
@@ -263,6 +307,31 @@ class CustomTypeField(_FieldBase):
         return data
 
     def get_entity_data_by_id(self, id):
+        """Returns the array corresponding to the data of a given entity id.
+
+        Parameters
+        ----------
+        id: int
+            Entity ID in the ``Scoping``.
+
+        Returns
+        -------
+        numpy.ndarray
+
+        Examples
+        --------
+        >>> from ansys.dpf.core import locations
+        >>> from ansys.dpf import core as dpf
+        >>> import numpy as np
+        >>> field = dpf.CustomTypeField(unitary_type=np.uint64)
+        >>> field.append([1000000, 2000000], 1)
+        >>> field.append([1000000, 2000000, 3000000], 2)
+        >>> field.get_entity_data_by_id(1)
+        DPFArray([1000000, 2000000]...
+        >>> field.get_entity_data_by_id(2)
+        DPFArray([1000000, 2000000, 3000000]...
+
+        """
         try:
             vec = dpf_vector.DPFVectorCustomType(self._type, client=self._server.client)
             self._api.cscustom_type_field_get_entity_data_by_id_for_dpf_vector(
@@ -339,8 +408,6 @@ class CustomTypeField(_FieldBase):
         # try:
         out = self._api.cscustom_type_field_get_shared_field_definition(self)
         return FieldDefinition(out, self._server)
-        # except:
-        #     return
 
     @property
     def unit(self):
