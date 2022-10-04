@@ -179,39 +179,49 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
     Returns
     -------
     grid : pyvista.UnstructuredGrid
-        Unstructred grid of the DPF mesh.
+        Unstructured grid of the DPF mesh.
     """
-    # could make this more efficient in C...
-    elem_size = SIZE_MAPPING[etypes]
-    # corner_nodes = [0]*len(elem_size)
-    # shapes = [0]*len(elem_size)
-    # a = mesh._api.meshed_region_get_has_polyhedrons(mesh)
-    # from ansys.dpf.gate import integral_types
-    # import copy
-    if -1 in elem_size:
-        # Found elements of indefinite size, query them.
-        indices = np.flatnonzero(elem_size == -1)
-        for i in indices:
-            elem_size[i] = mesh._api.meshed_region_get_num_nodes_of_element(mesh, i)
-            # corner_nodes[i] = mesh._api.meshed_region_get_num_corner_nodes_of_element(mesh, int(i))  # Element type does not exist
-            # shape = integral_types.MutableInt32()
-            # id = mesh._api.meshed_region_get_element_id(mesh, i)
-            # index = integral_types.MutableInt32(i)
-            # mesh._api.meshed_region_get_element_shape(mesh, id, shape, index)  # -> Unknown shape
-    #         shapes[i] = int(shape)
-    # print(shapes)
-    print(elem_size)
+    elem_size = np.ediff1d(np.append(connectivity._data_pointer, connectivity.shape))
+
+    polys_mask = etypes == 34
+
+    faces_nodes_connectivity = mesh.property_field("faces_nodes_connectivity")
+    elements_faces_connectivity = mesh.property_field("elements_faces_connectivity")
+
+    n_faces_per_element = np.ediff1d(elements_faces_connectivity._data_pointer)
+    n_points_per_face = np.ediff1d(faces_nodes_connectivity._data_pointer)
+
+    connectivity_data = connectivity.data
+    result = []
+    for i, is_poly in enumerate(polys_mask):
+        if is_poly:
+            cell = [n_faces_per_element[i]]
+            for f in range(n_faces_per_element[i]):
+                n_points = n_points_per_face[i+f]
+                cell.append(n_points)
+                index = connectivity._data_pointer[i]
+                cell.extend(connectivity_data[index:index+n_points])
+            result.append(cell)
+    result = np.asarray(result)
+    print(result)
+    # print(mesh.available_property_fields)
+    # ['connectivity', 'eltype', 'faces_type', 'faces_nodes_connectivity',
+    # 'elements_faces_connectivity', 'elements_faces_reversed']
+
     insert_ind = np.cumsum(elem_size)
     insert_ind = np.hstack(([0], insert_ind))[:-1]
 
     # TODO: Investigate why connectivity can be -1
-    nullmask = connectivity == -1
-    connectivity[nullmask] = 0
+    nullmask = connectivity.data == -1
+    connectivity.data[nullmask] = 0
     if nullmask.any():
         nodes[0] = np.nan
 
+    # For each polyhedron, cell = [nCellFaces, nFace0pts, i, j, k, ..., nFace1pts, i, j, k, ...]
     # partition cells in vtk format
-    cells = np.insert(connectivity, insert_ind, elem_size)
+    # cells = np.insert(connectivity_data, insert_ind, elem_size)
+
+    cells = result
 
     def compute_offset():
         """Return the starting point of a cell in the cells array"""
@@ -249,6 +259,10 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
     # different treatment depending on the version of vtk
     if VTK9:
         # compute offset array when < VTK v9
+        print("cells")
+        print(cells)
+        print("vtk_cell_type")
+        print(vtk_cell_type)
         return pv.UnstructuredGrid(cells, vtk_cell_type, nodes)
 
     # might be computed when checking for VTK quadratic bug
