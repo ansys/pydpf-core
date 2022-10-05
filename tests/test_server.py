@@ -210,3 +210,15 @@ def test_connect_to_remote_server(server_type_remote_process):
     )
     assert server.ip == server_type_remote_process.ip
     assert server.port == server_type_remote_process.port
+
+
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Not existing in version lower than 4.0')
+def test_go_away_server():
+    for i in range(0, 5):
+        s = start_local_server(
+            config=dpf.core.AvailableServerConfigs.GrpcServer,
+            as_global=False
+        )
+        field = dpf.core.Field(server=s)
+        assert field._internal_obj is not None
