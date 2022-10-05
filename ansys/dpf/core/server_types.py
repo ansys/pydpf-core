@@ -12,7 +12,6 @@ import subprocess
 import time
 import warnings
 import traceback
-import types
 from abc import ABC
 from threading import Thread
 
@@ -516,7 +515,6 @@ class GrpcClient:
             self._deleter_func[0](self._deleter_func[1](self))
         except:
             warnings.warn(traceback.format_exc())
-
 
 
 class GrpcServer(CServer):
