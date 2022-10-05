@@ -19,6 +19,9 @@ from vtk import (
     VTK_POLYHEDRON,
     vtkVersion,
 )
+from vtkmodules.vtkCommonCore import (
+    vtkIdList
+)
 import pyvista as pv
 
 VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
@@ -184,29 +187,18 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
     elem_size = np.ediff1d(np.append(connectivity._data_pointer, connectivity.shape))
 
     polys_mask = etypes == 34
+    polys_indices = np.nonzero(polys_mask)
+    global_etypes = etypes
+    etypes = np.delete(etypes, polys_indices)
+    polys_types = np.delete(global_etypes, np.nonzero(polys_mask == 0))
 
+    # elem_size[polys_mask] = 0
     faces_nodes_connectivity = mesh.property_field("faces_nodes_connectivity")
+    faces_nodes_connectivity_dp = faces_nodes_connectivity._data_pointer
     elements_faces_connectivity = mesh.property_field("elements_faces_connectivity")
-
+    #
     n_faces_per_element = np.ediff1d(elements_faces_connectivity._data_pointer)
     n_points_per_face = np.ediff1d(faces_nodes_connectivity._data_pointer)
-
-    connectivity_data = connectivity.data
-    result = []
-    for i, is_poly in enumerate(polys_mask):
-        if is_poly:
-            cell = [n_faces_per_element[i]]
-            for f in range(n_faces_per_element[i]):
-                n_points = n_points_per_face[i+f]
-                cell.append(n_points)
-                index = connectivity._data_pointer[i]
-                cell.extend(connectivity_data[index:index+n_points])
-            result.append(cell)
-    result = np.asarray(result)
-    print(result)
-    # print(mesh.available_property_fields)
-    # ['connectivity', 'eltype', 'faces_type', 'faces_nodes_connectivity',
-    # 'elements_faces_connectivity', 'elements_faces_reversed']
 
     insert_ind = np.cumsum(elem_size)
     insert_ind = np.hstack(([0], insert_ind))[:-1]
@@ -219,9 +211,9 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
 
     # For each polyhedron, cell = [nCellFaces, nFace0pts, i, j, k, ..., nFace1pts, i, j, k, ...]
     # partition cells in vtk format
-    # cells = np.insert(connectivity_data, insert_ind, elem_size)
-
-    cells = result
+    cells = np.insert(connectivity.data, insert_ind, elem_size)
+    polys_ind = insert_ind[polys_mask]
+    cells = np.take(cells, sorted(set(insert_ind)-set(polys_ind)))
 
     def compute_offset():
         """Return the starting point of a cell in the cells array"""
@@ -259,11 +251,20 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
     # different treatment depending on the version of vtk
     if VTK9:
         # compute offset array when < VTK v9
-        print("cells")
-        print(cells)
-        print("vtk_cell_type")
-        print(vtk_cell_type)
-        return pv.UnstructuredGrid(cells, vtk_cell_type, nodes)
+        grid = pv.UnstructuredGrid(cells, vtk_cell_type, nodes)
+        # Add polyhedrons
+        for i in polys_indices[0]:
+            faceId = vtkIdList()
+            faceId.InsertNextId(n_faces_per_element[i])  # The number of faces for the element.
+            face_connectivity = elements_faces_connectivity.data[elements_faces_connectivity._data_pointer[i]:elements_faces_connectivity._data_pointer[i+1]]
+            for face_i in range(n_faces_per_element[i]):
+                face_id = face_connectivity[face_i]
+                n_points = n_points_per_face[face_id]
+                face_nodes = faces_nodes_connectivity.data[faces_nodes_connectivity_dp[face_id+face_i-1]:faces_nodes_connectivity_dp[face_id+]]
+                faceId.InsertNextId(len(face_nodes))  # The number of points in the face.
+                [faceId.InsertNextId(i) for i in face_nodes]
+            grid.InsertNextCell(polys_types[i], faceId)
+        return grid
 
     # might be computed when checking for VTK quadratic bug
     if offset is None:
