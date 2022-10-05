@@ -18,6 +18,13 @@ from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi
 
 
+def clear_grid(func):
+    def wrapper(*args, **kwargs):
+        args[0]._full_grid = None
+        return func(*args, **kwargs)
+    return wrapper
+
+
 @class_handling_cache
 class MeshedRegion:
     """
@@ -207,6 +214,7 @@ class MeshedRegion:
         """
         return self._api.meshed_region_get_unit(self)
 
+    @clear_grid
     def _set_unit(self, unit):
         """
         Set the unit of the meshed region.
@@ -258,6 +266,7 @@ class MeshedRegion:
         """
         return self.field_of_properties(property_name)
 
+    @clear_grid
     @version_requires("3.0")
     def set_property_field(self, property_name, value):
         """
@@ -275,6 +284,7 @@ class MeshedRegion:
         else:
             self._api.meshed_region_set_property_field(self, property_name, value)
 
+    @clear_grid
     @version_requires("3.0")
     def set_coordinates_field(self, coordinates_field):
         """
@@ -285,10 +295,6 @@ class MeshedRegion:
         coordinates_field : PropertyField or Field
         """
         self._api.meshed_region_set_coordinates_field(self, coordinates_field)
-        if self._full_grid is not None:
-            if hasattr(self._full_grid, "points"):
-                from copy import copy
-                self._full_grid.points = copy(coordinates_field.data)
 
     @property
     def available_named_selections(self):
