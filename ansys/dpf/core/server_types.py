@@ -643,6 +643,9 @@ class GrpcServer(CServer):
     def local_server(self):
         return self._local_server
 
+    def __del__(self):
+        self.client = None
+        super(GrpcServer, self).__del__()
 
 class InProcessServer(CServer):
     """Server using the InProcess communication protocol"""
