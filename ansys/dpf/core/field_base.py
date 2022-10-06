@@ -64,7 +64,6 @@ class _FieldBase:
                 type=self._type if hasattr(self, "_type") else None
             )
 
-
     @abstractmethod
     def _init_api_env(self):
         pass
@@ -76,8 +75,10 @@ class _FieldBase:
 
     @staticmethod
     @abstractmethod
-    def _field_create_internal_obj(api: field_abstract_api.FieldAbstractAPI, client, nature,
-                                   nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0, type=None):
+    def _field_create_internal_obj(
+            api: field_abstract_api.FieldAbstractAPI, client, nature,
+            nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0, type=None
+    ):
         """Returns a gRPC field message or C object instance of a new field.
         This new field is created with this functions parameter attributes
 

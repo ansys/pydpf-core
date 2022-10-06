@@ -242,6 +242,7 @@ def test_data_wrong_type2_custom_type_field(server_type):
     assert np.allclose(pfield.data, list_data)
 
 
+@conftest.raises_for_servers_version_under("5.0")
 def test_support_im_freq_custom_type_field(server_type):
     tfq = core.TimeFreqSupport(server=server_type)
     frequencies = core.fields_factory.create_scalar_field(3, server=server_type)
@@ -251,17 +252,19 @@ def test_support_im_freq_custom_type_field(server_type):
     pfield = core.CustomTypeField(np.int16, server=server_type)
     pfield.support = tfq
 
-    assert np.allclose(pfield.support.field_support_by_property("time_freqs").data, [0.1, 0.32, 0.4])
+    assert np.allclose(
+        pfield.support.field_support_by_property("time_freqs").data, [0.1, 0.32, 0.4]
+    )
 
 
 @conftest.raises_for_servers_version_under("5.0")
 def test_large_data_custom_type_field(server_type):
     size = 1000001
     pfield = core.CustomTypeField(np.uint64, server=server_type)
-    list_ids = range(1,size+1)
+    list_ids = range(1, size + 1)
     scop = core.Scoping(ids=list_ids, location=core.locations.nodal, server=server_type)
     pfield.scoping = scop
-    list_data = np.array(list(range(1,size+1)), dtype=np.uint64)
+    list_data = np.array(list(range(1, size + 1)), dtype=np.uint64)
     pfield.data = list_data
     pfield.data
     assert np.allclose(pfield.data, list_data)
@@ -280,7 +283,7 @@ def test_data_as_list_custom_type_field(server_type):
 
 
 @conftest.raises_for_servers_version_under("5.0")
-def test_chech_types_custom_type_field(server_type):
+def test_check_types_custom_type_field(server_type):
     pfield = core.CustomTypeField(np.uint64, server=server_type)
     pfield2 = core.CustomTypeField(np.int16, server=server_type)
     pfield3 = core.CustomTypeField(np.float32, server=server_type)
@@ -315,4 +318,3 @@ def test_chech_types_custom_type_field(server_type):
     assert pfieldout.type == np.byte
     assert pfieldout.is_of_type(np.int8)
     assert not pfieldout.is_of_type(np.short)
-

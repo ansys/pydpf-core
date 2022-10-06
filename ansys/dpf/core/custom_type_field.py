@@ -492,7 +492,8 @@ class CustomTypeField(_FieldBase):
 
     @property
     def field_definition(self):
-        """CustomTypeField information, including its location, unit, dimensionality, and shell layers.
+        """CustomTypeField information, including its location, unit, dimensionality
+        and shell layers.
 
         Returns
         -------

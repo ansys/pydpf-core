@@ -59,7 +59,9 @@ class StringField(_FieldBase):
         self._server = server_module.get_or_create_server(server)
         if string_field is None and not self._server.meet_version("5.0"):
             raise errors.DpfVersionNotSupported("5.0")
-        super().__init__(nentities=nentities, nature=natures.scalar, field=string_field, server=server)
+        super().__init__(
+            nentities=nentities, nature=natures.scalar, field=string_field, server=server
+        )
 
     @property
     def _api(self) -> string_field_abstract_api.StringFieldAbstractAPI:
