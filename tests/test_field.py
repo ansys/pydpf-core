@@ -986,7 +986,6 @@ def _deep_copy_test_identical_server(config):
     iden = dpf.core.operators.logic.identical_fields(field, copy, server=serv)
     assert iden.outputs.boolean()
     assert field.unit == copy.unit
-    serv.shutdown()
 
 
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,

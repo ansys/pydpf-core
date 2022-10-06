@@ -509,6 +509,13 @@ class GrpcClient:
     def __init__(self, address=None):
         from ansys.dpf.gate import client_capi
         self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
+        client_capi.ClientCAPI.init_client_environment(self)
+
+    def __del__(self):
+        try:
+            self._deleter_func[0](self._deleter_func[1](self))
+        except:
+            warnings.warn(traceback.format_exc())
 
 
 class GrpcServer(CServer):

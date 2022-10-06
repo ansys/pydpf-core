@@ -468,9 +468,10 @@ class DataTree:
 
 class _LocalDataTree(DataTree):
     def __init__(self, data_tree):
-        self._common_keys = ["_owner_data_tree", "_dict", "_common_keys"]
+        self._common_keys = ["_owner_data_tree", "_dict", "_common_keys", "_is_exited"]
         self._owner_data_tree = data_tree
         self.__cache_data__()
+        self._is_exited = False
 
     def add(self, *args, **kwargs):
         """
@@ -514,6 +515,6 @@ class _LocalDataTree(DataTree):
             print(tb)
 
     def __del__(self):
-        if not hasattr(self, "_is_exited") or not self._is_exited:
+        if not self._is_exited:
             self._is_exited = True
             self.release_data()
