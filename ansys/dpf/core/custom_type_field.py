@@ -16,9 +16,6 @@ from ansys.dpf.core.field_base import _FieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.core.support import Support
 from ansys.dpf.gate import (
-    custom_type_field_abstract_api,
-    custom_type_field_capi,
-    custom_type_field_grpcapi,
     dpf_array,
     dpf_vector,
     integral_types,
@@ -117,7 +114,8 @@ class CustomTypeField(_FieldBase):
                 self._type = np.dtype(f"V{int(unitary_size)}")
 
     @property
-    def _api(self) -> custom_type_field_abstract_api.CustomTypeFieldAbstractAPI:
+    def _api(self):
+        from ansys.dpf.gate import custom_type_field_capi, custom_type_field_grpcapi
         if not self._api_instance:
             self._api_instance = self._server.get_api_for_type(
                 capi=custom_type_field_capi.CustomTypeFieldCAPI,
@@ -129,7 +127,7 @@ class CustomTypeField(_FieldBase):
 
     @staticmethod
     def _field_create_internal_obj(
-            api: custom_type_field_abstract_api.CustomTypeFieldAbstractAPI,
+            api,
             client,
             nature,
             nentities,
