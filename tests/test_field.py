@@ -921,6 +921,7 @@ def test_field_mutable_data(server_clayer, allkindofcomplexity):
     assert np.allclose(changed_data[0], data_copy[0] + 2.)
 
 
+@conftest.raises_for_servers_version_under("4.0")
 def test_mutable_entity_data_contiguous_field(server_clayer):
     field = dpf.core.Field(nentities=20, server=server_clayer)
     field_def = dpf.core.FieldDefinition(server=server_clayer)
