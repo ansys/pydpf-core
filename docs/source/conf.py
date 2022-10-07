@@ -67,6 +67,7 @@ intersphinx_mapping = {
 
 autosummary_generate = True
 
+autodoc_mock_imports = ["ansys.dpf.core.examples.python_plugins"]
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
@@ -124,12 +125,16 @@ autodoc_member_order = "bysource"
 
 
 # -- Options for HTML output -------------------------------------------------
+html_short_title = html_title = "PyDPF-Core"
 html_theme = "ansys_sphinx_theme"
 html_logo = pyansys_logo_black
 html_theme_options = {
-    "github_url": "https://github.com/pyansys/DPF-Core",
+    "github_url": "https://github.com/pyansys/pydpf-core",
     "show_prev_next": False,
-    "logo_link": "https://dpfdocs.pyansys.com/"  # navigate to the main page
+    "show_breadcrumbs": True,
+    "additional_breadcrumbs": [
+        ("PyAnsys", "https://docs.pyansys.com/"),
+    ],
 }
 
 
