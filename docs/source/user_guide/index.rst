@@ -10,13 +10,12 @@ computation, customization, and remote postprocessing accessible in Python.
 
 This section has the following goals:
 
- - Describe basic DPF concepts, including terminology
-
- - Describe the most-used DPF entities and how they can help you to access and modify solver data
-
+ - Describe basic DPF concepts, including terminology.
+ - Describe the most-used DPF entities and how they can help you to access and modify solver data.
  - Provide simple how-tos for tackling most common use cases.
 
-Other sections include :ref:`ref_api_section` and :ref:`sphx_glr_examples`.
+Other sections of this guide include :ref:`ref_api_section`, :ref:`ref_dpf_operators_reference`,
+and :ref:`sphx_glr_examples`.
 
 .. include::
    dpf_concepts.rst

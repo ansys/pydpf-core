@@ -1,15 +1,15 @@
 """
 .. _ref_distributed_msup:
 
-Distributed modal superposition
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how distributed files can be read and expanded
-on distributed processes. The modal basis (2 distributed files) is read
-on 2 remote servers and the modal response reading and the expansion is
-done on a third server.
+Distributed mode superposition (MSUP)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example shows how to read and expand distributed files
+on distributed processes. The modal basis (two distributed files) is read
+on two remote servers. The modal response is then read and expanded on a
+third server.
 
-To help understand this example the following diagram is provided. It shows
-the operator chain used to compute the final result.
+The following diagram helps you to understand this example. It shows the operator
+chain that is used to compute the final result.
 
 .. graphviz::
 
@@ -68,7 +68,7 @@ the operator chain used to compute the final result.
 """
 
 ###############################################################################
-# Import dpf module and its examples files.
+# Import the ``dpf-core`` module and its examples files.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
@@ -77,13 +77,15 @@ from ansys.dpf.core import operators as ops
 ###############################################################################
 # Configure the servers
 # ~~~~~~~~~~~~~~~~~~~~~
-# Make a list of ip addresses and port numbers on which dpf servers are
-# started. Operator instances will be created on each of those servers to
-# address each a different result file.
-# In this example, we will post process an analysis distributed in 2 files,
-# we will consequently require 2 remote processes.
-# To make this example easier, we will start local servers here,
-# but we could get connected to any existing servers on the network.
+# Make a list of IP addresses and port numbers that DPF servers start and
+# listen on. Operator instances are created on each of these servers so that
+# each server can address a different result file.
+#
+# This example postprocesses an analysis distributed in two files.
+# Consequently, it requires two remote processes.
+#
+# To make it easier, this example starts local servers. However, you can
+# connect to any existing servers on your network.
 
 global_server = dpf.start_local_server(
     as_global=True, config=dpf.AvailableServerConfigs.InProcessServer
@@ -99,23 +101,25 @@ ips = [remote_server.ip for remote_server in remote_servers]
 ports = [remote_server.port for remote_server in remote_servers]
 
 ###############################################################################
-# Print the ips and ports.
+# Print the IP addresses and ports.
 print("ips:", ips)
 print("ports:", ports)
 
 ###############################################################################
-# Choose the file path.
+# Specify the file path.
 
 base_path = examples.distributed_msup_folder
 files = [base_path + r'/file0.mode', base_path + r'/file1.mode']
 files_aux = [base_path + r'/file0.rst', base_path + r'/file1.rst']
 
 ###############################################################################
-# Create the operators on the servers
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# On each server we create two new operators, one for 'displacement' computations
-# and a 'mesh_provider' operator and then define their data sources. The displacement
-# and mesh_provider operators receive data from their respective data files on each server.
+# Create operators on each server
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# On each server, create two operators, one for displacement computations
+# and one for providing the mesh. Then, define their data sources. Both the
+# displacement operator and mesh provider operator receive data from their
+# respective data files on each server.
+
 remote_displacement_operators = []
 remote_mesh_operators = []
 for i, server in enumerate(remote_servers):
@@ -129,10 +133,10 @@ for i, server in enumerate(remote_servers):
     mesh.inputs.data_sources(ds)
 
 ###############################################################################
-# Create a local operators chain for expansion
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# In the following series of operators we merge the modal basis, the meshes, read
-# the modal response and expand the modal response with the modal basis.
+# Create a local operator chain for expansion
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# The following series of operators merge the modal basis and the meshes, read
+# the modal response, and expand the modal response with the modal basis.
 
 merge_fields = ops.utility.merge_fields_containers()
 merge_mesh = ops.utility.merge_meshes()

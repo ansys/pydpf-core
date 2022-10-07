@@ -30,22 +30,22 @@ if core.SERVER_CONFIGURATION != core.AvailableServerConfigs.InProcessServer:
 for path in list_tests:
     if os.path.isdir(path):
         for file in glob.iglob(os.path.join(path, "*.py")):
-            print("\n\n--------------------------------------------------\n")
+            print("\n--------------------------------------------------")
             print(file)
-            print("--------------------------------------------------\n")
             try:
                 subprocess.check_call([sys.executable, file])
             except subprocess.CalledProcessError as e:
                 sys.stderr.write(str(e.args))
                 if e.returncode != 3221225477:
                     raise e
+            print("PASS")
     else:
-        print("\n\n--------------------------------------------------\n")
+        print("\n--------------------------------------------------")
         print(path)
-        print("--------------------------------------------------\n")
         try:
             subprocess.check_call([sys.executable, file])
         except subprocess.CalledProcessError as e:
             sys.stderr.write(str(e.args))
             if e.returncode != 3221225477:
                 raise e
+        print("PASS")

@@ -20,6 +20,8 @@ if not os.path.exists(pyvista.FIGURE_PATH):
 
 pyvista.BUILDING_GALLERY = True
 
+pyvista.global_theme.lighting = False
+
 
 # -- Project information -----------------------------------------------------
 
@@ -52,6 +54,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
+    "sphinx_autodoc_typehints",
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx_gallery.gen_gallery",

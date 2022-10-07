@@ -1,7 +1,7 @@
 """
 .. _ref_basic_transient:
 
-Transient Analysis Result Example
+Transient analysis result example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to postprocess a transient result and
 visualize the outputs.
@@ -33,7 +33,7 @@ tf = model.metadata.time_freq_support
 print(tf.time_frequencies.data)
 
 ###############################################################################
-# Obtain Minimum and Maximum Displacements for All Results
+# Obtain minimum and maximum displacements for all results
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create a displacement operator and set its time scoping request to
 # the entire time frequency support:
@@ -78,7 +78,7 @@ plt.legend()
 plt.show()
 
 ###############################################################################
-# Postprocessing Stress
+# Postprocessing stress
 # ~~~~~~~~~~~~~~~~~~~~~
 # Create an equivalent (von Mises) stress operator and set its time
 # scoping to the entire time frequency support:
@@ -109,7 +109,7 @@ plt.legend()
 plt.show()
 
 ###############################################################################
-# Scoping and Stress Field Coordinates
+# Scoping and stress field coordinates
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # The scoping of the stress field can be used to extract the
 # coordinates used for each result:

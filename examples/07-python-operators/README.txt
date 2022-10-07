@@ -1,6 +1,7 @@
 .. _python_operators:
 
-Examples of custom python plugins of Operators
-==============================================
-These demos show how to create your own DPF plugin using pyDPF API. These plugins hold custom
-Operators enabling to wrap your custom capabilities and to use them as any native DPF's Operator.
+Examples of creating custom operator plugins
+============================================
+These examples show how to create a basic operator plugin or plug-in
+packages with multiple operators. Plugins wrap your custom operators
+so that you can use them like native DPF operators.

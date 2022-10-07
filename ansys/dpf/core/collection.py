@@ -403,7 +403,9 @@ class Collection:
         try:
             # delete
             if not self.owned:
-                self._deleter_func[0](self._deleter_func[1](self))
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    self._deleter_func[0](obj)
         except:
             warnings.warn(traceback.format_exc())
 

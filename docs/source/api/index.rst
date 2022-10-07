@@ -1,10 +1,10 @@
 .. _ref_api_section:
 
-================
-APIs
-================
+=============
+API reference
+=============
 .. toctree::
-   :maxdepth: 1
-   :caption: APIs
+   :maxdepth: 2
+   :caption: API reference
    
    ansys.dpf.core

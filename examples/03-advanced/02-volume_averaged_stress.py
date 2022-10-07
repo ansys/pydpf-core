@@ -1,22 +1,22 @@
 """
 .. _ref_volume_averaged_stress_advanced:
 
-Average Elemental Stress on a given volume
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Average elemental stress on a given volume
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to find the minimum list of surrounding
 elements for a given node to get a minimum volume.
-For each list of elements, the elemental stress eqv are multiplied by the
+For each list of elements, the elemental stress equivalent is multiplied by the
 volume of each element. This result is then accumulated to divide it by the
-total volume
+total volume.
 """
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
 ###############################################################################
-# Create a model targeting a given result file.
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# The model will give an easy access to the mesh, time_freq_support ...
+# Create a model targeting a given result file
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# The model provides easy access to the mesh and time frequency support.
 
 model = dpf.Model(examples.complex_rst)
 mesh = model.metadata.meshed_region
@@ -24,8 +24,8 @@ mesh = model.metadata.meshed_region
 # Volume size to check
 volume_check = 4.0e-11
 
-# get the all the node ids in the model to find the minimum amount of
-# surrounding elements to get a minimum volume
+# Get all node IDs in the model to find the minimum amount of
+# surrounding elements to get a minimum volume.
 nodes = mesh.nodes.scoping
 nodes_ids = nodes.ids
 nodes_ids_to_compute = []
@@ -36,14 +36,14 @@ elements_ids = elements.ids
 
 ###############################################################################
 # Read the volume by element
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~
 vol_op = ops.result.elemental_volume()
 vol_op.inputs.streams_container(model.metadata.streams_provider)
 vol_field = vol_op.outputs.fields_container()[0]
 
 ###############################################################################
 # Find the minimum list of elements by node to get the volume check
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # get the connectivy and inverse connecitivity fields
 connectivity_field = mesh.elements.connectivities_field
@@ -88,12 +88,14 @@ with connectivity_field.as_local_field() as connectivity:
 
 ###############################################################################
 # Create workflow
-# ~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~
 # For each list of elements surrounding nodes:
-# compute stress eqv averaged on elements
-# apply dot product seqv.volume
-# sum up those on the list of elements
-# divide this sum by the total volume on those elements
+#
+# - Compute equivalent stress averaged on elements.
+# - Apply dot product seqv.volume.
+# - Sum up those on the list of elements.
+# - Divide this sum by the total volume on these elements.
+#
 
 s = model.results.stress()
 to_elemental = ops.averaging.to_elemental_fc(s)
@@ -129,14 +131,14 @@ divide = ops.math.component_wise_divide(seqvsum, volsum)
 divide.run()
 
 ###############################################################################
-# Plot elemental seqv and volume averaged elemental seqv
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Plot equivalent elemental stress and volume averaged elemental equivalent stress
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 mesh.plot(values_to_sum_field)
 mesh.plot(divide.outputs.field())
 
 ###############################################################################
-# Use the Operator instead
-# ~~~~~~~~~~~~~~~~~~~~~~~~~
+# Use the operator instead
+# ~~~~~~~~~~~~~~~~~~~~~~~~
 # An operator with the same algorithm has been implemented
 s_fc = s.outputs.fields_container()
 single_field_vol_fc = dpf.fields_container_factory.over_time_freq_fields_container(

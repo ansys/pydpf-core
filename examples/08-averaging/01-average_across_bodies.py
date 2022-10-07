@@ -3,32 +3,31 @@
 
 Average across bodies
 ~~~~~~~~~~~~~~~~~~~~~
-This example is aimed towards explaining how to activate or deactivate the averaging
-across bodies option in DPF. When we have a multibody simulation that involves the
-calculation of ElementalNodal fields, like stresses or strains, we can either
-activate or deactivate the option of averaging theses fields across the different
-bodies when they share common nodes. This will likely change the end results that are
-displayed after the post processing of the simulation, as we will see below.
+This example shows how to activate and deactivate the DPF option for averaging
+across bodies. When a multi-body simulation calculates ``ElementalNodal`` fields,
+like stresses or strains, you can either activate or deactivate the averaging
+of theses fields across the different bodies when they share common nodes. This
+likely changes the end results that are shown after postprocessing of the simulation.
 
 """
 ###############################################################################
-# Let's start by importing the necessary modules.
+# Perform the required imports.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core import examples
 
 ###############################################################################
-# Then we can load the simulation results from a .rst file and create a model of it.
+# Load the simulation results from an RST file and create a model of it.
 
 analysis = examples.download_piston_rod()
 model = dpf.Model(analysis)
 print(model)
 
 ###############################################################################
-# Now, let's take a look at our system to see how our bodies are connected to
-# each other. First, we extract the mesh of our model and then we divide it into
-# different meshes using the split_mesh operator.
+# To take a look at the system to see how bodies are connected to each other,
+# extract the mesh of the model and then divide it into different meshes
+# using the ``split_mesh`` operator.
 
 mesh = model.metadata.meshed_region
 split_mesh_op = ops.mesh.split_mesh(mesh=mesh, property="mat")
@@ -37,20 +36,17 @@ meshes = split_mesh_op.outputs.meshes()
 meshes.plot(text="Body meshes")
 
 ###############################################################################
-# As we can see in the image above, even though the piston rod is one single part,
-# it's composed of two different bodies. Additionally, we can observe that the region
+# As you can see in the preceding image, even though the piston rod is one single part,
+# it is composed of two different bodies. Additionally, you can see that the region
 # where the two bodies are bonded together contains nodes that are common between them.
-
-###############################################################################
-# Now, let's take a look into how the averaging across bodies option alters the
-# results of a simulation.
 
 ###############################################################################
 # Averaging across bodies with DPF
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Let's define two workflows. The first one does averaging across bodies, while the
-# second one doesn't. The variable of interest here is the stress in the Z direction,
-# which will be obtained using the "stress_Z" operator.
+# To take a look at how the option for averaging across bodies alters the results
+# of the simulation, define two workflows. The first workflow does averaging across
+# bodies, while the second workflow does not. The variable of interest is the stress
+# in the Z direction, which is obtained using the "stress_Z" operator.
 
 # %%
 # .. graphviz::
@@ -87,23 +83,22 @@ meshes.plot(text="Body meshes")
 ###############################################################################
 # Averaging across bodies activated
 # ---------------------------------
-# The extraction of the stresses in the Z direction in DPF applies by default averaging
-# across bodies. Therefore, a simple workflow like the one shown below can be used
-# in this case.
+# The extraction of the stresses in the Z direction applies averaging
+# across bodies by default. Thus, you can use a simple workflow.
 
 
 def average_across_bodies(analysis):
-    # This function will extract the stresses in the Z direction (with the average
+    # Extract the stresses in the Z direction (with the average
     # across bodies property activated) and plot them.
 
     # Create a model from the simulation results.
     model = dpf.Model(analysis)
     mesh = model.metadata.meshed_region
 
-    # We're interested in the last time set, so:
+    # Set the time set of interest to the last time set.
     time_set = 3
 
-    # Extracting the stresses in the Z direction. By default, DPF already applies
+    # Extract the stresses in the Z direction. By default, DPF already applies
     # averaging across bodies when extracting the stresses.
     stress_op = ops.result.stress_Z()
     stress_op.inputs.connect(model)
@@ -111,7 +106,7 @@ def average_across_bodies(analysis):
     stress_op.inputs.requested_location.connect(dpf.locations.nodal)
     stresses = stress_op.outputs.fields_container()
 
-    # Finding the maximum stress value
+    # Find the maximum stress value.
     min_max = dpf.operators.min_max.min_max_fc()
     min_max.inputs.fields_container.connect(stresses)
     max_val = min_max.outputs.field_max()
@@ -124,28 +119,29 @@ def average_across_bodies(analysis):
 ###############################################################################
 # Averaging across bodies deactivated
 # -----------------------------------
-# To extract the stresses without averaging across the bodies of the simulated
-# part, the workflow is a bit more complicated. So, instead of being presented
-# as a function, it will be broken into various parts with explanations of what
-# is being done.
+# The workflow is more complicated for extracting the stresses without
+# averaging across the bodies of the simulated part. Instead of presenting
+# the workflow as a function, it is broken into various parts with explanations
+# of what is being done.
 
 ###############################################################################
-# First, we create a model from the simulation results and extract its mesh and
-# step informations.
+# Create a model from the simulation results and extract its mesh and
+# step information.
 model = dpf.Model(analysis)
 mesh = model.metadata.meshed_region
 time_freq = model.metadata.time_freq_support
 time_sets = time_freq.time_frequencies.data.tolist()
 
 ###############################################################################
-# We need to split the meshes of the two bodies so we can then create separate
-# scopings for each one of them. The 'mat' label is used to split the mesh by bodies.
+# Split the meshes of the two bodies so that separate scopings can be
+# created for each one of them. The `'mat'`` label is used to split the mesh
+# by bodies.
 mesh_scop_op = ops.scoping.split_on_property_type(mesh=mesh, label1="mat")
 mesh_scop_cont = mesh_scop_op.outputs.mesh_scoping()
 
 ###############################################################################
-# Then, as we have 3 different time steps, we need to create a ScopingsContainer
-# that contains the meshes of each one of these steps. We do so as follows:
+# Given that there are three different time steps, create a scopings container
+# that contains the meshes of each of these time steps.
 
 scop_cont = dpf.ScopingsContainer()
 scop_cont.add_label("body")
@@ -160,15 +156,16 @@ for tset in time_sets:
 print(scop_cont)
 
 ###############################################################################
-# As we can see, we've got 6 different Scopings inside our ScopingsContainer, one for
-# each body over each one of the three time steps. Let's now focus our analysis on the
-# last time set:
+# The scopings container has six different scopings, one for each body over
+# each of the three time steps.
+#
+# Set the time set of interest to the last time set.
 time_set = 3
 
 ###############################################################################
-# Then, to retrieve the Z stresses without averaging across the two bodies, we can pass
-# a ScopingsContainer that contains their respective meshes as a parameter to the
-# stress_Z operator. To be able to do that, we need a new ScopingsContainer that contains
+# To retrieve the Z stresses without averaging across the two bodies, you must
+# pass a scopings container that contains their respective meshes as a parameter
+# to the ``stress_Z`` operator. To do this, create a scopings container that contains
 # the meshes of the two bodies in the desired time step.
 
 scop_list = scop_cont.get_scopings(label_space={"time": time_set})
@@ -180,11 +177,10 @@ for scop in scop_list:
     body += 1
 print(scopings)
 ###############################################################################
-# We can see that, in this container, we only have two Scopings, one for each body
-# in the last time step, as desired.
+# This contain has only two scopings, one for each body in the last time step.
 
 ###############################################################################
-# Finally, we can extract the stresses in the Z direction.
+# Extract the stresses in the Z direction.
 
 stress_op = ops.result.stress_Z()
 stress_op.inputs.connect(model)
@@ -196,17 +192,17 @@ stress_op.inputs.requested_location.connect(dpf.locations.nodal)
 stresses = stress_op.outputs.fields_container()
 print(stresses)
 ###############################################################################
-# Additionally, we can find the maximum value of the stress field for comparison purposes.
+# Find the maximum value of the stress field for comparison purposes.
 
 min_max = dpf.operators.min_max.min_max_fc()
 min_max.inputs.fields_container.connect(stresses)
 max_val = min_max.outputs.field_max()
 ###############################################################################
-# We can also define the workflow presented above as a function:
+# Define the preceding workflow as a function:
 
 
 def not_average_across_bodies(analysis):
-    # This function will extract the stresses in the Z direction (with the average
+    # This function extracts the stresses in the Z direction (with the average
     # across bodies option deactivated) and plot them.
 
     model = dpf.Model(analysis)
@@ -256,11 +252,11 @@ def not_average_across_bodies(analysis):
 
 
 ###############################################################################
-# Plotting the results
-# ~~~~~~~~~~~~~~~~~~~~
-# Finally, let's plot the results to see how they compare. In the first image, we have
-# the stress distribution when the averaging across bodies options is activated, while
-# in the second one it's deactivated.
+# Plot and compare the results
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Plot and compare the results. The first plot shows the stress distribution
+# when averaging across bodies is activated. The second plot shows the stress
+# distribution when averaging across bodies is deactivated.
 
 max_avg_on = average_across_bodies(analysis)
 max_avg_off = not_average_across_bodies(analysis)
