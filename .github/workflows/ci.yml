@@ -19,7 +19,7 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   ANSYS_VERSION: 231
-  extra: "--pre --find-links .github/"
+  extra: "--find-links .github/"
 
 jobs:
   style:
