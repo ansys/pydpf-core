@@ -38,13 +38,13 @@ IF EXIST "source\images\auto-generated" (
     rmdir "source\images\auto-generated" /s /q
 )
 IF EXIST "source\examples\07-python-operators\plugins" (
-    robocopy "source\examples\07-python-operators\plugins" "source\_temp\plugins" /E
+    robocopy "source\examples\07-python-operators\plugins" "source\_temp\plugins" /E >nul 2>&1
 )
 IF EXIST "source\examples" (
     rmdir "source\examples" /s /q
 )
 IF EXIST "source\_temp\plugins" (
-    robocopy "source\_temp\plugins" "source\examples\07-python-operators\plugins" /E
+    robocopy "source\_temp\plugins" "source\examples\07-python-operators\plugins" /E >nul 2>&1
 )
 IF EXIST "source\_temp" (
     rmdir "source\_temp" /s /q
