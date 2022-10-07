@@ -61,7 +61,7 @@ class _FieldBase:
                 nature=nature,
                 nentities=nentities,
                 location=location,
-                type=self._type if hasattr(self, "_type") else None
+                with_type=self._type if hasattr(self, "_type") else None
             )
 
     @abstractmethod
