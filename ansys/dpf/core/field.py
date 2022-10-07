@@ -135,7 +135,7 @@ class Field(_FieldBase):
             location=locations.nodal,
             ncomp_n=0,
             ncomp_m=0,
-            type=None
+            with_type=None
     ):
         dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
 

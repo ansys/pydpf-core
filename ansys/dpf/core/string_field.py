@@ -78,7 +78,7 @@ class StringField(_FieldBase):
     @staticmethod
     def _field_create_internal_obj(api: string_field_abstract_api.StringFieldAbstractAPI,
                                    client, nature, nentities,
-                                   location=locations.nodal, ncomp_n=0, ncomp_m=0, type=None):
+                                   location=locations.nodal, ncomp_n=0, ncomp_m=0, with_type=None):
         if client is not None:
             return api.csstring_field_new_on_client(
                 client, nentities, nentities

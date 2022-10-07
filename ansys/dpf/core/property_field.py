@@ -82,7 +82,7 @@ class PropertyField(_FieldBase):
     @staticmethod
     def _field_create_internal_obj(api: property_field_abstract_api.PropertyFieldAbstractAPI,
                                    client, nature, nentities,
-                                   location=locations.nodal, ncomp_n=0, ncomp_m=0, type=None):
+                                   location=locations.nodal, ncomp_n=0, ncomp_m=0, with_type=None):
         dim = dimensionality.Dimensionality([ncomp_n, ncomp_m], nature)
         if client is not None:
             return api.csproperty_field_new_on_client(

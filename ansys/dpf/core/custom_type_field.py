@@ -134,15 +134,15 @@ class CustomTypeField(_FieldBase):
             location=locations.nodal,
             ncomp_n=0,
             ncomp_m=0,
-            type=None,
+            with_type=None,
     ):
-        dpf_type_name = numpy_type_to_dpf[type]
+        dpf_type_name = numpy_type_to_dpf[with_type]
         if client is not None:
             return api.cscustom_type_field_new_on_client(
-                client, dpf_type_name, type.itemsize, nentities, nentities)
+                client, dpf_type_name, with_type.itemsize, nentities, nentities)
         else:
             return api.cscustom_type_field_new(
-                dpf_type_name, type.itemsize, nentities, nentities)
+                dpf_type_name, with_type.itemsize, nentities, nentities)
 
     @property
     def location(self):
