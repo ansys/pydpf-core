@@ -57,22 +57,12 @@ jobs:
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
+          wheel: false
           wheelhouse: false
           extra-pip-args: ${{ env.extra }}
 
-      - name: "Install OpenGL"
-        run: |
-          Set-StrictMode -Version Latest
-          $ErrorActionPreference = "Stop"
-          $PSDefaultParameterValues['*:ErrorAction']='Stop'
-          git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-          powershell gl-ci-helpers/appveyor/install_opengl.ps1
-
-      - name: "Install test off-screen rendering"
-        run: |
-          .ci/setup_headless_display.sh
-          pip install -r .ci/requirements_test_xvfb.txt
-          python .ci/display_test.py
+      - name: "Setup headless display"
+        uses: pyvista/setup-headless-display-action@v1
 
       - name: "Setup Graphviz"
         uses: ts-graphviz/setup-graphviz@v1
@@ -84,12 +74,28 @@ jobs:
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
 
-      - name: "Build Documentation"
+      - name: "Build HTML Documentation"
         shell: cmd
+        working-directory: .ci
         run: |
-          cd .ci
           build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
         timeout-minutes: 20
+
+      - name: "Check for success"
+        shell: bash
+        working-directory: docs
+        run: |
+          case `tail -n 5 log.txt | grep -F "build succeeded" >/dev/null; echo $?` in
+          0)
+            echo "Build succeeded!"
+            exit 0;;
+          1)
+            echo "Documentation generation failed, please check previous step!"
+            exit 1;;
+          *)
+            echo "An error occurred while checking success of the previous step!"
+            exit 1;;
+          esac
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
