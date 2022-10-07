@@ -80,6 +80,7 @@ jobs:
         shell: bash
         run: |
           pip uninstall -y ansys-dpf-gatebin
+        if: always()
 
       - name: "Check sanity without gatebin INPROCESS"
         shell: bash
@@ -88,6 +89,7 @@ jobs:
           python run_non_regression_examples.py
         env:
           DPF_SERVER_TYPE: INPROCESS
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
@@ -100,6 +102,7 @@ jobs:
           python run_non_regression_examples.py
         env:
           DPF_SERVER_TYPE: GRPC
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
@@ -112,6 +115,7 @@ jobs:
           python run_non_regression_examples.py
         env:
           DPF_SERVER_TYPE: LEGACYGRPC
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
