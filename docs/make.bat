@@ -11,6 +11,7 @@ set SOURCEDIR=source
 set BUILDDIR=build
 
 if "%1" == "" goto help
+if "%1" == "clean" goto clean
 
 %SPHINXBUILD% >NUL 2>NUL
 if errorlevel 9009 (
@@ -26,6 +27,30 @@ if errorlevel 9009 (
 )
 
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+goto end
+
+:clean
+echo.Cleaning files form previous build...
+IF EXIST "build" (
+    rmdir "build" /s /q
+)
+IF EXIST "source\images\auto-generated" (
+    rmdir "source\images\auto-generated" /s /q
+)
+IF EXIST "source\examples\07-python-operators\plugins" (
+    robocopy "source\examples\07-python-operators\plugins" "source\_temp\plugins" /E
+)
+IF EXIST "source\examples" (
+    rmdir "source\examples" /s /q
+)
+IF EXIST "source\_temp\plugins" (
+    robocopy "source\_temp\plugins" "source\examples\07-python-operators\plugins" /E
+)
+IF EXIST "source\_temp" (
+    rmdir "source\_temp" /s /q
+)
+
+echo.Done.
 goto end
 
 :help
