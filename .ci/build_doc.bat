@@ -9,5 +9,5 @@ call sphinx-apidoc -o ../docs/source/api ../ansys ../ansys/dpf/core/log.py ^
 pushd .
 cd ../docs/
 call make clean
-call make html -v -v -v
+call make html -v -v -v -P
 popd
