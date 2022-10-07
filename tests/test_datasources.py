@@ -80,6 +80,6 @@ def test_delete_auto_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources2 = dpf.core.DataSources(data_sources=data_sources, server=server_type)
     data_sources = None
-    # import gc
-    # gc.collect()
+    import gc
+    gc.collect()
     data_sources2.set_result_file_path(allkindofcomplexity)

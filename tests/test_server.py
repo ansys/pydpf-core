@@ -215,7 +215,7 @@ def test_connect_to_remote_server(server_type_remote_process):
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
                     reason='Not existing in version lower than 4.0')
 def test_go_away_server():
-    for i in range(0, 5):
+    for _ in range(0, 5):
         s = start_local_server(
             config=dpf.core.AvailableServerConfigs.GrpcServer,
             as_global=False
