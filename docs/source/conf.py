@@ -100,6 +100,22 @@ pygments_style = None
 # -- Sphinx Gallery Options
 from sphinx_gallery.sorting import FileNameSortKey
 
+
+def reset_servers(gallery_conf, fname):
+    import psutil
+    proc_name = "Ans.Dpf.Grpc"
+    nb_procs = 0
+    for proc in psutil.process_iter():
+        try:
+            # check whether the process name matches
+            if proc_name in proc.name():
+                proc.kill()
+                nb_procs += 1
+        except psutil.NoSuchProcess:
+            pass
+    print(f"Killed {nb_procs} {proc_name} processes.")
+
+
 sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
@@ -119,6 +135,8 @@ sphinx_gallery_conf = {
     # 'first_notebook_cell': ("%matplotlib inline\n"
     #                         "from pyvista import set_plot_theme\n"
     #                         "set_plot_theme('document')"),
+    "reset_modules_order": 'after',
+    "reset_modules": (reset_servers,),
 }
 
 autodoc_member_order = "bysource"
