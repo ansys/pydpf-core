@@ -14,10 +14,13 @@ mesh_op = dpf.Operator("lsdyna::d3plot::meshes_provider")
 mesh_op.inputs.data_sources.connect(ds)
 mesh_op.inputs.time_scoping.connect(time_scoping)
 meshes = mesh_op.outputs.meshes()
-mesh = meshes.get_mesh({'time': 1})
 
 disp = dpf.Operator("lsdyna::d3plot::U")
 disp.inputs.data_sources.connect(ds)
 disp.inputs.time_scoping.connect(time_scoping)
 fields = disp.outputs.displacement()
-fields.animate()
+
+for index in range(1, 23):
+    fields[index - 1].meshed_region = meshes.get_mesh({'time': index})
+
+fields.animate(save_as="test.gif")
