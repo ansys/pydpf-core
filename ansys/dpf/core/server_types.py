@@ -564,7 +564,6 @@ class GrpcServer(CServer):
                 self.version
                 break
             except errors.DPFServerException as e:
-                print("_check_first_call " + str(e.args))
                 if "GOAWAY" not in str(e.args) and "failed to connect" not in str(e.args):
                     raise e
 
