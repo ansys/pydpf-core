@@ -214,7 +214,6 @@ class MeshedRegion:
         """
         return self._api.meshed_region_get_unit(self)
 
-    @clear_grid
     def _set_unit(self, unit):
         """
         Set the unit of the meshed region.
