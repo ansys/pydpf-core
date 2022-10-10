@@ -109,11 +109,11 @@ def reset_servers(gallery_conf, fname):
         try:
             # check whether the process name matches
             if proc_name in proc.name():
-                proc.kill()
+                # proc.kill()
                 nb_procs += 1
         except psutil.NoSuchProcess:
             pass
-    print(f"Killed {nb_procs} {proc_name} processes.")
+    print(f"Counted {nb_procs} {proc_name} processes.")
 
 
 sphinx_gallery_conf = {
@@ -135,7 +135,7 @@ sphinx_gallery_conf = {
     # 'first_notebook_cell': ("%matplotlib inline\n"
     #                         "from pyvista import set_plot_theme\n"
     #                         "set_plot_theme('document')"),
-    "reset_modules_order": 'after',
+    "reset_modules_order": 'both',
     "reset_modules": (reset_servers,),
 }
 
