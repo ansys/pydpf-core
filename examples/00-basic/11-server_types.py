@@ -87,3 +87,10 @@ print(grpc_field, type(grpc_field._server), grpc_field._server)
 
 # Go back to default config:
 dpf.SERVER_CONFIGURATION = initial_config
+
+in_process_server.shutdown()
+in_process_server = None
+grpc_server.shutdown()
+grpc_server = None
+legacy_grpc_server.shutdown()
+legacy_grpc_server = None
