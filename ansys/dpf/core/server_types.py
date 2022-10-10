@@ -75,7 +75,7 @@ def check_valid_ip(ip):
         raise ValueError(f'Invalid IP address "{ip}"')
 
 
-def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install = None):
+def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
     if path_in_install is None:
         path_in_install = load_api._get_path_in_install()
     if os.path.isdir(f"{ansys_path}/{path_in_install}"):
@@ -216,7 +216,6 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
             t_timeout += timeout
 
     # verify there were no errors
-    time.sleep(0.01)
     if current_errors:
         try:
             process.kill()
@@ -556,6 +555,18 @@ class GrpcServer(CServer):
         self.live = True
         self._create_shutdown_funcs()
         self.set_as_global(as_global=as_global)
+        self._check_first_call()
+
+    def _check_first_call(self):
+        num_tryout = 3
+        for _ in range(num_tryout):
+            try:
+                self.version
+                break
+            except errors.DPFServerException as e:
+                print("_check_first_call " + str(e.args))
+                if "GOAWAY" not in str(e.args) and "failed to connect" not in str(e.args):
+                    raise e
 
     @property
     def version(self):
