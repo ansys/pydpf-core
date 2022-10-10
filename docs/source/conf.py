@@ -103,6 +103,8 @@ from sphinx_gallery.sorting import FileNameSortKey
 
 def reset_servers(gallery_conf, fname, when):
     import psutil
+    import time
+    time.sleep(5)
     proc_name = "Ans.Dpf.Grpc"
     nb_procs = 0
     for proc in psutil.process_iter():
