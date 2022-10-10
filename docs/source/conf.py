@@ -101,7 +101,7 @@ pygments_style = None
 from sphinx_gallery.sorting import FileNameSortKey
 
 
-def reset_servers(gallery_conf, fname):
+def reset_servers(gallery_conf, fname, when):
     import psutil
     proc_name = "Ans.Dpf.Grpc"
     nb_procs = 0
@@ -113,7 +113,7 @@ def reset_servers(gallery_conf, fname):
                 nb_procs += 1
         except psutil.NoSuchProcess:
             pass
-    print(f"Counted {nb_procs} {proc_name} processes.")
+    print(f"Counted {nb_procs} {proc_name} processes {when} the example.")
 
 
 sphinx_gallery_conf = {
