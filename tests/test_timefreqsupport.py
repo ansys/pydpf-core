@@ -1,7 +1,6 @@
 import numpy as np
 import pytest
 import weakref
-import os
 
 from ansys import dpf
 from ansys.dpf.core import TimeFreqSupport, Model
