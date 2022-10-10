@@ -237,7 +237,6 @@ def test_append_step_3(server_type):
     assert tfq.complex_frequencies is None
 
 
-@pytest.mark.skipif(os.name == 'posix', reason="linux issue: SEGFAULT to investigate")
 def test_deep_copy_time_freq_support(velocity_acceleration):
     model = Model(velocity_acceleration)
     tf = model.metadata.time_freq_support
@@ -246,7 +245,6 @@ def test_deep_copy_time_freq_support(velocity_acceleration):
     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
 
 
-@pytest.mark.skipif(os.name == 'posix', reason="linux issue: SEGFAULT to investigate")
 def test_deep_copy_time_freq_support_harmonic():
     model = Model(examples.download_multi_harmonic_result())
     tf = model.metadata.time_freq_support
@@ -260,7 +258,6 @@ def test_deep_copy_time_freq_support_harmonic():
     assert np.allclose(tf.rpms.scoping.ids, copy.rpms.scoping.ids)
 
 
-@pytest.mark.skipif(os.name == 'posix', reason="linux issue: SEGFAULT to investigate")
 def test_deep_copy_time_freq_support_multi_stage():
     model = Model(examples.download_multi_stage_cyclic_result())
     tf = model.metadata.time_freq_support
