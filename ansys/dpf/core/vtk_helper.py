@@ -232,21 +232,3 @@ def vtk_update_coordinates(vtk_grid, coordinates_array):
     from copy import copy
     vtk_grid.points = copy(coordinates_array)
 
-
-# def vtk_update_connectivity(vtk_grid, connectivity_array, element_types_array):
-#     # TODO: Investigate why connectivity can be -1
-#     elem_size = SIZE_MAPPING[element_types_array]
-#     insert_ind = np.cumsum(elem_size)
-#     insert_ind = np.hstack(([0], insert_ind))[:-1]
-#
-#     nullmask = connectivity_array == -1
-#     connectivity_array[nullmask] = 0
-#     vtk_connectivity_array = vtk_grid.cell_connectivity
-#     print(dir(vtk_connectivity_array))
-#     vtk_cells_array = vtk_grid.cells
-#     print(dir(vtk_cells_array))
-#     vtk_cells_array = np.insert(connectivity_array, insert_ind, elem_size)
-#
-#
-# def vtk_update_nodal_connectivity(vtk_grid, nodal_connectivity_array):
-#     pass

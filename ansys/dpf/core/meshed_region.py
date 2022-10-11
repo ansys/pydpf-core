@@ -9,7 +9,7 @@ import ansys.dpf.core.errors
 
 from ansys.dpf.core import scoping, field, property_field
 from ansys.dpf.core.check_version import server_meet_version, version_requires
-from ansys.dpf.core.common import locations, types, nodal_properties, elemental_properties
+from ansys.dpf.core.common import locations, types, nodal_properties
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.plotter import DpfPlotter, Plotter
@@ -28,24 +28,6 @@ def update_grid(func):
                 # When setting node coordinates
                 from ansys.dpf.core.vtk_helper import vtk_update_coordinates
                 vtk_update_coordinates(vtk_grid=mesh._full_grid, coordinates_array=args[1].data)
-            elif func.__name__ == 'set_property_field':
-                # When setting a property field, only some require a grid update:
-                # - connectivity (be it from element to node or from node to element)
-                # Would there be a case when changing the element type requires updating the grid?
-                prop_name = args[1]
-                prop_field = args[2]
-                if prop_name == nodal_properties.nodal_connectivity:
-                    mesh._full_grid = None
-                    # from ansys.dpf.core.vtk_helper import vtk_update_nodal_connectivity
-                    # vtk_update_nodal_connectivity(vtk_grid=mesh._full_grid,
-                    #                               nodal_connectivity_array=prop_field.data)
-                elif prop_name == elemental_properties.connectivity:
-                    mesh._full_grid = None
-                    # from ansys.dpf.core.vtk_helper import vtk_update_connectivity
-                    # element_types_array = mesh.elements.element_types_field.data
-                    # vtk_update_connectivity(vtk_grid=mesh._full_grid,
-                    #                         connectivity_array=prop_field.data,
-                    #                         element_types_array=element_types_array)
 
         return func(*args, **kwargs)
     return wrapper
@@ -291,7 +273,6 @@ class MeshedRegion:
         """
         return self.field_of_properties(property_name)
 
-    @update_grid
     @version_requires("3.0")
     def set_property_field(self, property_name, value):
         """
