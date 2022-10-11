@@ -39,7 +39,7 @@ def search_sequence_numpy(arr, seq):
 
 ###############################################################################
 # Add nodes:
-id = 1
+n_id = 1
 for i, x in enumerate(
         [
             float(i) * length / float(num_nodes_in_length)
@@ -58,8 +58,8 @@ for i, x in enumerate(
                     for i in range(0, num_nodes_in_depth)
                 ]
         ):
-            mesh.nodes.add_node(id, [x, y, z])
-            id += 1
+            mesh.nodes.add_node(n_id, [x, y, z])
+            n_id += 1
 
 ###############################################################################
 # Get the nodes' coordinates field:
@@ -75,7 +75,7 @@ coordinates_scoping = coordinates.scoping
 
 ###############################################################################
 # Add solid elements (linear hexa with eight nodes):
-id = 1
+e_id = 1
 for i, x in enumerate(
         [
             float(i) * length / float(num_nodes_in_length)
@@ -111,7 +111,8 @@ for i, x in enumerate(
             tmp = connectivity[6]
             connectivity[6] = connectivity[7]
             connectivity[7] = tmp
-            mesh.elements.add_solid_element(id, connectivity)
+            mesh.elements.add_solid_element(e_id, connectivity)
+            e_id += 1
 mesh.plot()
 
 ###############################################################################
