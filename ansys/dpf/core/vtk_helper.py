@@ -231,4 +231,3 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
 def vtk_update_coordinates(vtk_grid, coordinates_array):
     from copy import copy
     vtk_grid.points = copy(coordinates_array)
-
