@@ -212,6 +212,7 @@ def test_set_connectivities_field_meshed_region(simple_bar_model):
     connectivity = mesh.elements.connectivities_field
     new_connectivity_data = connectivity.data
     assert new_connectivity_data[0] == 1053
+    assert mesh.grid.cells[1] == 1053
     new_connectivity_data[0] = 0
     connectivity.data = new_connectivity_data
     mesh.elements.connectivities_field = connectivity
@@ -225,6 +226,8 @@ def test_set_connectivities_field_meshed_region(simple_bar_model):
     )
     connectivity = mesh.elements.connectivities_field
     assert connectivity.data[0] == 1
+    assert mesh.grid.cells[1] == 1
+
 
 
 def test_get_nodes_meshedregion(simple_bar_model):
