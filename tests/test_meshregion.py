@@ -229,7 +229,6 @@ def test_set_connectivities_field_meshed_region(simple_bar_model):
     assert mesh.grid.cells[1] == 1
 
 
-
 def test_get_nodes_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     node = mesh.nodes.node_by_id(1)
