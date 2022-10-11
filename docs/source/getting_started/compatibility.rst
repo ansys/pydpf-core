@@ -40,9 +40,9 @@ should also be synchronized with the server version.
      - 0.6.0 and later
      - 0.6.0 and later
    * - 4.0 (Ansys 2022 R2)
-     - 0.1.1
-     - 0.1.1
-     - 0.5.1
+     - 0.1.*
+     - 0.1.*
+     - 0.5.*
      - 0.5.0 and later
    * - 3.0 (Ansys 2022 R1)
      - None
