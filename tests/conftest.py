@@ -247,10 +247,6 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     )
     def server_type(request):
         server = core.start_local_server(config=request.param, as_global=False)
-        if request.param == ServerConfig(
-            protocol=CommunicationProtocols.gRPC, legacy=False
-        ):
-            core.settings.get_runtime_client_config(server).cache_enabled = False
         return server
 
     @pytest.fixture(
@@ -266,10 +262,6 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     )
     def server_type_remote_process(request):
         server = core.start_local_server(config=request.param, as_global=False)
-        if request.param == ServerConfig(
-            protocol=CommunicationProtocols.gRPC, legacy=False
-        ):
-            core.settings.get_runtime_client_config(server).cache_enabled = True
         return server
 
     @pytest.fixture(
