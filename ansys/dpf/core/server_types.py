@@ -12,7 +12,6 @@ import subprocess
 import time
 import warnings
 import traceback
-import types
 from abc import ABC
 from threading import Thread
 
@@ -509,6 +508,13 @@ class GrpcClient:
     def __init__(self, address=None):
         from ansys.dpf.gate import client_capi
         self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
+        client_capi.ClientCAPI.init_client_environment(self)
+
+    def __del__(self):
+        try:
+            self._deleter_func[0](self._deleter_func[1](self))
+        except:
+            warnings.warn(traceback.format_exc())
 
 
 class GrpcServer(CServer):
@@ -749,7 +755,6 @@ class LegacyGrpcServer(BaseServer):
         self._info_instance = None
         self._own_process = launch_server
         self.live = False
-        self.modules = types.SimpleNamespace()
         self._local_server = False
 
         # Load Ans.Dpf.Grpc?
@@ -775,8 +780,6 @@ class LegacyGrpcServer(BaseServer):
                 self._local_server = True
 
         self.channel = grpc.insecure_channel(address)
-
-        # TODO: add to PIDs ...
 
         # store the address for later reference
         self._address = address
