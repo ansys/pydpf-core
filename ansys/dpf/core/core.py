@@ -104,7 +104,10 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
     :class:`ansys.dpf.core.server_types.InProcessServer`.
     """
     base = BaseService(server, load_operators=False)
-    return base.upload_file_in_tmp_folder(file_path, new_file_name)
+    server_file_path = base.upload_file_in_tmp_folder(file_path, new_file_name)
+    if server_file_path is None or server_file_path == '':
+        raise ValueError(f"Upload failed! Path returned is:{server_file_path}")
+    return server_file_path
 
 
 def upload_files_in_folder(
