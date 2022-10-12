@@ -108,7 +108,7 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
     warnings.warn(f"Uploaded file to {path}")
     if path is None or path == '':
         raise ValueError(f"Upload failed! Path returned is:{path}")
-    return
+    return path
 
 
 def upload_files_in_folder(
