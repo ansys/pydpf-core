@@ -77,7 +77,7 @@ class DataTree:
         # step 1: get server
         self._server_instance = server_module.get_or_create_server(server)
 
-        if data_tree is None and not self._server().meet_version("4.0"):
+        if data_tree is None and not self._server.meet_version("4.0"):
             raise errors.DpfVersionNotSupported("4.0")
 
         # step 2: get api
@@ -92,7 +92,7 @@ class DataTree:
         else:
             # step3: init environment
             self._api.init_dpf_data_tree_environment(self)  # creates stub when gRPC
-            if self._server().has_client():
+            if self._server.has_client():
                 self._internal_obj = self._api.dpf_data_tree_new_on_client(self._server.client)
             else:
                 self._internal_obj = self._api.dpf_data_tree_new()
@@ -106,6 +106,7 @@ class DataTree:
     def _is_owner(self):
         return self._is_owner_instance
 
+    @property
     def _server(self):
         if isinstance(self._server_instance, weakref.ref):
             return self._server_instance()
@@ -121,7 +122,7 @@ class DataTree:
     @property
     def _api(self) -> dpf_data_tree_abstract_api.DpfDataTreeAbstractAPI:
         if not self._api_instance:
-            self._api_instance = self._server().get_api_for_type(
+            self._api_instance = self._server.get_api_for_type(
                 capi=dpf_data_tree_capi.DpfDataTreeCAPI,
                 grpcapi=dpf_data_tree_grpcapi.DpfDataTreeGRPCAPI
             )
@@ -161,7 +162,7 @@ class DataTree:
                     coll_obj = collection.StringCollection(
                         list=value,
                         local=True,
-                        server=self._server()
+                        server=self._server
                     )
                     self._api.dpf_data_tree_set_string_collection_attribute(
                         self, key, coll_obj
@@ -190,7 +191,7 @@ class DataTree:
 
     @property
     def _core_api(self):
-        core_api = self._server().get_api_for_type(
+        core_api = self._server.get_api_for_type(
             capi=data_processing_capi.DataProcessingCAPI,
             grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
         core_api.init_data_processing_environment(self)
@@ -231,16 +232,16 @@ class DataTree:
         from ansys.dpf import core
         operator.inputs.data_tree.connect(self)
         if path:
-            if self._server().local_server:
+            if self._server.local_server:
                 operator.inputs.path.connect(path)
                 operator.run()
                 return path
             else:
-                directory = core.core.make_tmp_dir_server(self._server())
-                server_path = core.path_utilities.join(directory, "tmp.txt", server=self._server())
+                directory = core.core.make_tmp_dir_server(self._server)
+                server_path = core.path_utilities.join(directory, "tmp.txt", server=self._server)
                 operator.inputs.path.connect(server_path)
                 operator.run()
-                return core.download_file(server_path, path, server=self._server())
+                return core.download_file(server_path, path, server=self._server)
         else:
             return operator.get_output(0, core.types.string)
 
@@ -271,7 +272,7 @@ class DataTree:
 
         """
         from ansys.dpf.core.operators.serialization import data_tree_to_txt
-        op = data_tree_to_txt(server=self._server())
+        op = data_tree_to_txt(server=self._server)
         return self._serialize(path, op)
 
     def write_to_json(self, path=None):
@@ -301,7 +302,7 @@ class DataTree:
 
         """
         from ansys.dpf.core.operators.serialization import data_tree_to_json
-        op = data_tree_to_json(server=self._server())
+        op = data_tree_to_json(server=self._server)
         return self._serialize(path, op)
 
     @staticmethod
@@ -464,12 +465,12 @@ class DataTree:
         elif type_to_return == types.vec_string:
             coll_obj = collection.StringCollection(
                 collection=self._api.dpf_data_tree_get_string_collection_attribute(self, name),
-                server=self._server()
+                server=self._server
             )
             out = coll_obj.get_integral_entries()
         elif type_to_return == types.data_tree:
             obj = self._api.dpf_data_tree_get_sub_tree(self, name)
-            out = DataTree(data_tree=obj, server=self._server())
+            out = DataTree(data_tree=obj, server=self._server)
         return out
 
     def __setattr__(self, key, value):
