@@ -292,7 +292,7 @@ def test_outputs_bool_workflow(server_type):
     wf.set_output_name("bool", op, 0)
 
     out = wf.get_output("bool", dpf.core.types.bool)
-    assert out == True
+    assert out is True
 
 
 @conftest.raises_for_servers_version_under('3.0')

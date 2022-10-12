@@ -197,12 +197,12 @@ class CustomTypeField(_FieldBase):
         fielddef.location = value
         self.field_definition = fielddef
 
-    def is_of_type(self, type: np.dtype) -> bool:
+    def is_of_type(self, type_to_compare: np.dtype) -> bool:
         """Checks whether the Field's unitary type is the same as the input type
 
         Parameters
         ----------
-        type: numpy.dtype
+        type_to_compare: numpy.dtype
 
         Returns
         -------
@@ -221,7 +221,7 @@ class CustomTypeField(_FieldBase):
         True
 
         """
-        return self.type == type
+        return self.type == type_to_compare
 
     @property
     def type(self):
