@@ -72,8 +72,8 @@ class DataTree:
         # __set_attr__ method has been overridden, self._common_keys is used to list the "real"
         # names used as its class attributes
         self._common_keys = ["_common_keys", "_server", "_internal_obj", "_owner_data_tree",
-                             "_dict", "_api_instance", "_deleter_func", "_is_owner_instance",
-                             "_server_instance", "_is_owner"]
+                             "_dict", "_api_instance", "_deleter_func", "_holds_server_instance",
+                             "_server_instance", "_holds_server"]
         # step 1: get server
         self._server_instance = server_module.get_or_create_server(server)
 
@@ -100,11 +100,11 @@ class DataTree:
         if data:
             self.add(data)
 
-        self._is_owner_instance = True
+        self._holds_server_instance = True
 
     @property
-    def _is_owner(self):
-        return self._is_owner_instance
+    def _holds_server(self):
+        return self._holds_server_instance
 
     @property
     def _server(self):
@@ -112,10 +112,9 @@ class DataTree:
             return self._server_instance()
         return self._server_instance
 
-    @_is_owner.setter
-    def _is_owner(self, value):
-        # raise Exception(f"entering _is_owner with value {value}")
-        self._is_owner_instance = value
+    @_holds_server.setter
+    def _holds_server(self, value):
+        self._holds_server_instance = value
         if value is False and not isinstance(self._server_instance, weakref.ref):
             self._server_instance = weakref.ref(self._server_instance)
 
@@ -481,7 +480,7 @@ class DataTree:
     def __del__(self):
         try:
             # needs a proper deleter only when real datatree and not dict
-            if self._is_owner and hasattr(self, "_deleter_func"):
+            if hasattr(self, "_deleter_func"):
                 obj = self._deleter_func[1](self)
                 if obj is not None:
                     self._deleter_func[0](obj)
