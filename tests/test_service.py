@@ -4,7 +4,6 @@ import pytest
 import conftest
 import pkgutil
 import datetime
-import platform
 
 from ansys import dpf
 from ansys.dpf.core import path_utilities
