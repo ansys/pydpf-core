@@ -369,6 +369,8 @@ class BaseServer(abc.ABC):
         return self._base_service.server_info
 
     def _del_session(self):
+        if self._session_instance:
+            self._session_instance.delete()
         self._session_instance = None
 
     @property
