@@ -54,10 +54,10 @@ def transfer_to_local_path(path):
     )
 
 
-# @pytest.mark.skipif(platform.system() == "Windows"
-#                     and (platform.python_version().startswith("3.8")
-#                          or platform.python_version().startswith("3.7")),
-#                     reason="Random SEGFAULT in the GitHub pipeline for 3.7-8 on Windows")
+@pytest.mark.skipif(platform.system() == "Windows"
+                    and (platform.python_version().startswith("3.8")
+                         or platform.python_version().startswith("3.7")),
+                    reason="Random SEGFAULT in the GitHub pipeline for 3.7-8 on Windows")
 def test_upload_download(allkindofcomplexity, tmp_path, server_type_remote_process):
     tmp_path = str(tmp_path)
     file = dpf.core.upload_file_in_tmp_folder(
