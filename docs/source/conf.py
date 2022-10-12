@@ -106,9 +106,8 @@ def reset_servers(gallery_conf, fname, when):
     from ansys.dpf.core import server
     import gc
 
-    if when == "after":
-        gc.collect()
-        server.shutdown_all_session_servers()
+    gc.collect()
+    server.shutdown_all_session_servers()
 
     proc_name = "Ans.Dpf.Grpc"
     nb_procs = 0
