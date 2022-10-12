@@ -58,11 +58,11 @@ def transfer_to_local_path(path):
                     and (platform.python_version().startswith("3.8")
                          or platform.python_version().startswith("3.7")),
                     reason="Random SEGFAULT in the GitHub pipeline for 3.7-8 on Windows")
-def test_upload_download(allkindofcomplexity, tmpdir, server_type_remote_process):
-    tmpdir = str(tmpdir)
+def test_upload_download(allkindofcomplexity, tmp_path, server_type_remote_process):
+    tmp_path = str(tmp_path)
     file = dpf.core.upload_file_in_tmp_folder(
         transfer_to_local_path(allkindofcomplexity),
-        server = server_type_remote_process
+        server=server_type_remote_process
     )
     dataSource = dpf.core.DataSources(file, server=server_type_remote_process)
     op = dpf.core.Operator("S", server=server_type_remote_process)
@@ -79,16 +79,16 @@ def test_upload_download(allkindofcomplexity, tmpdir, server_type_remote_process
                                                       server=server_type_remote_process)
     vtk.run()
 
-    dpf.core.download_file(vtk_path, os.path.join(tmpdir, "file.vtk"),
+    dpf.core.download_file(vtk_path, os.path.join(tmp_path, "file.vtk"),
                            server=server_type_remote_process)
-    assert os.path.exists(os.path.join(tmpdir, "file.vtk"))
+    assert os.path.exists(os.path.join(tmp_path, "file.vtk"))
 
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_download_folder(
-    allkindofcomplexity, plate_msup, multishells, tmpdir, server_type_remote_process
+    allkindofcomplexity, plate_msup, multishells, tmp_path, server_type_remote_process
 ):
-    tmpdir = str(tmpdir)
+    tmp_path = str(tmp_path)
     file = dpf.core.upload_file_in_tmp_folder(
         allkindofcomplexity, server=server_type_remote_process
     )
@@ -100,18 +100,18 @@ def test_download_folder(
     )
     parent_path = os.path.dirname(file)
     dpf.core.download_files_in_folder(
-        parent_path, tmpdir, server=server_type_remote_process
+        parent_path, tmp_path, server=server_type_remote_process
     )
     import ntpath
 
-    assert os.path.exists(os.path.join(tmpdir, ntpath.basename(allkindofcomplexity)))
-    assert os.path.exists(os.path.join(tmpdir, ntpath.basename(plate_msup)))
-    assert os.path.exists(os.path.join(tmpdir, ntpath.basename(multishells)))
+    assert os.path.exists(os.path.join(tmp_path, ntpath.basename(allkindofcomplexity)))
+    assert os.path.exists(os.path.join(tmp_path, ntpath.basename(plate_msup)))
+    assert os.path.exists(os.path.join(tmp_path, ntpath.basename(multishells)))
 
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
-def test_download_with_subdir(multishells, tmpdir, server_type_remote_process):
-    tmpdir = str(tmpdir)
+def test_download_with_subdir(multishells, tmp_path, server_type_remote_process):
+    tmp_path = str(tmp_path)
     file = dpf.core.upload_file_in_tmp_folder(
         multishells, server=server_type_remote_process
     )
@@ -130,108 +130,108 @@ def test_download_with_subdir(multishells, tmpdir, server_type_remote_process):
     folder = parent_path
 
     out = dpf.core.download_files_in_folder(
-        folder, tmpdir, server=server_type_remote_process
+        folder, tmp_path, server=server_type_remote_process
     )
-    p1 = os.path.join(tmpdir, filename)
-    p2 = os.path.join(tmpdir, "subdir", filename)
-    # p1 = tmpdir + "/" + filename
-    # p2 = tmpdir + "/subdir/" + filename
+    p1 = os.path.join(tmp_path, filename)
+    p2 = os.path.join(tmp_path, "subdir", filename)
+    # p1 = tmp_path + "/" + filename
+    # p2 = tmp_path + "/subdir/" + filename
     assert os.path.exists(p1)
     assert os.path.exists(p2)
 
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_downloadinfolder_uploadinfolder(
-    multishells, tmpdir, server_type_remote_process
+    multishells, tmp_path, server_type_remote_process
 ):
-    tmpdir = str(tmpdir)
+    tmp_path = str(tmp_path)
     base = dpf.core.BaseService(server=server_type_remote_process)
-    # create in tmpdir some architecture with subfolder in subfolder
-    path1 = os.path.join(tmpdir, os.path.basename(multishells))
-    path2 = os.path.join(tmpdir, "subdirA", os.path.basename(multishells))
-    path4 = os.path.join(tmpdir, "subdirB", os.path.basename(multishells))
+    # create in tmp_path some architecture with subfolder in subfolder
+    path1 = os.path.join(tmp_path, os.path.basename(multishells))
+    path2 = os.path.join(tmp_path, "subdirA", os.path.basename(multishells))
+    path4 = os.path.join(tmp_path, "subdirB", os.path.basename(multishells))
     from shutil import copyfile
 
     copyfile(multishells, path1)
-    os.mkdir(os.path.join(tmpdir, "subdirA"))
+    os.mkdir(os.path.join(tmp_path, "subdirA"))
     copyfile(multishells, path2)
-    os.mkdir(os.path.join(tmpdir, "subdirB"))
+    os.mkdir(os.path.join(tmp_path, "subdirB"))
     copyfile(multishells, path4)
     # upload it
     TARGET_PATH = base.make_tmp_dir_server()
     dpf.core.upload_files_in_folder(
         to_server_folder_path=TARGET_PATH,
-        client_folder_path=tmpdir,
+        client_folder_path=tmp_path,
         specific_extension="rst",
         server=server_type_remote_process,
     )
     # download it
-    new_tmpdir = os.path.join(tmpdir, "my_tmp_dir")
-    os.mkdir(new_tmpdir)
+    new_tmp_path = os.path.join(tmp_path, "my_tmp_dir")
+    os.mkdir(new_tmp_path)
     out = dpf.core.download_files_in_folder(
-        TARGET_PATH, new_tmpdir, server=server_type_remote_process
+        TARGET_PATH, new_tmp_path, server=server_type_remote_process
     )
     # check if the architecture of the download is ok
-    path1_check = os.path.join(new_tmpdir, os.path.basename(multishells))
-    path2_check = os.path.join(new_tmpdir, "subdirA", os.path.basename(multishells))
-    path4_check = os.path.join(new_tmpdir, "subdirB", os.path.basename(multishells))
+    path1_check = os.path.join(new_tmp_path, os.path.basename(multishells))
+    path2_check = os.path.join(new_tmp_path, "subdirA", os.path.basename(multishells))
+    path4_check = os.path.join(new_tmp_path, "subdirB", os.path.basename(multishells))
     assert os.path.exists(path1_check)
     assert os.path.exists(path2_check)
     assert os.path.exists(path4_check)
     # clean
-    # os.remove(os.path.join(tmpdir, "tmpdir"))
-    # os.remove(os.path.join(tmpdir, "subdirA"))
-    # os.remove(os.path.join(tmpdir, "subdirB"))
+    # os.remove(os.path.join(tmp_path, "tmp_path"))
+    # os.remove(os.path.join(tmp_path, "subdirA"))
+    # os.remove(os.path.join(tmp_path, "subdirB"))
 
 
-# def test_downloadinfolder_uploadinfolder_subsubdir(multishells, tmpdir):
+# def test_downloadinfolder_uploadinfolder_subsubdir(multishells, tmp_path):
 #     base = dpf.core.BaseService()
-#     # create in tmpdir some architecture with subfolder in subfolder
-#     path1 = os.path.join(tmpdir, os.path.basename(multishells))
-#     path2 = os.path.join(tmpdir, "subdirA", os.path.basename(multishells))
-#     path3 = os.path.join(tmpdir, "subdirA", "subdir1", os.path.basename(multishells))
-#     path4 = os.path.join(tmpdir, "subdirB", os.path.basename(multishells))
+#     # create in tmp_path some architecture with subfolder in subfolder
+#     path1 = os.path.join(tmp_path, os.path.basename(multishells))
+#     path2 = os.path.join(tmp_path, "subdirA", os.path.basename(multishells))
+#     path3 = os.path.join(tmp_path, "subdirA", "subdir1", os.path.basename(multishells))
+#     path4 = os.path.join(tmp_path, "subdirB", os.path.basename(multishells))
 #     from shutil import copyfile
 #     copyfile(multishells, path1)
-#     os.mkdir(os.path.join(tmpdir, "subdirA"))
+#     os.mkdir(os.path.join(tmp_path, "subdirA"))
 #     copyfile(multishells, path2)
-#     os.mkdir(os.path.join(tmpdir, "subdirA", "subdir1"))
+#     os.mkdir(os.path.join(tmp_path, "subdirA", "subdir1"))
 #     copyfile(multishells, path3)
-#     os.mkdir(os.path.join(tmpdir, "subdirB"))
+#     os.mkdir(os.path.join(tmp_path, "subdirB"))
 #     copyfile(multishells, path4)
 #     # upload it
 #     TARGET_PATH = base.make_tmp_dir_server()
 #     base.upload_files_in_folder(
 #         to_server_folder_path = TARGET_PATH,
-#         client_folder_path = tmpdir,
+#         client_folder_path = tmp_path,
 #         specific_extension = "rst"
 #     )
 #     # download it
-#     new_tmpdir = os.path.join(tmpdir, "tmpdir")
-#     os.mkdir(new_tmpdir)
-#     out = dpf.core.download_files_in_folder(TARGET_PATH, new_tmpdir)
+#     new_tmp_path = os.path.join(tmp_path, "tmp_path")
+#     os.mkdir(new_tmp_path)
+#     out = dpf.core.download_files_in_folder(TARGET_PATH, new_tmp_path)
 #     # check if the architecture of the download is ok
-#     path1_check = os.path.join(new_tmpdir, os.path.basename(multishells))
-#     path2_check = os.path.join(new_tmpdir, "subdirA", os.path.basename(multishells))
-#     path3_check = os.path.join(new_tmpdir, "subdirA", "subdir1", os.path.basename(multishells))
-#     path4_check = os.path.join(new_tmpdir, "subdirB", os.path.basename(multishells))
+#     path1_check = os.path.join(new_tmp_path, os.path.basename(multishells))
+#     path2_check = os.path.join(new_tmp_path, "subdirA", os.path.basename(multishells))
+#     path3_check = os.path.join(new_tmp_path, "subdirA", "subdir1", os.path.basename(multishells))
+#     path4_check = os.path.join(new_tmp_path, "subdirB", os.path.basename(multishells))
 #     assert os.path.exists(path1_check)
 #     assert os.path.exists(path2_check)
 #     assert os.path.exists(path3_check)
 #     assert os.path.exists(path4_check)
 #     # clean
-#     # os.remove(os.path.join(tmpdir, "tmpdir"))
-#     # os.remove(os.path.join(tmpdir, "subdirA"))
-#     # os.remove(os.path.join(tmpdir, "subdirA", "subdir1"))
-#     # os.remove(os.path.join(tmpdir, "subdirB"))
+#     # os.remove(os.path.join(tmp_path, "tmp_path"))
+#     # os.remove(os.path.join(tmp_path, "subdirA"))
+#     # os.remove(os.path.join(tmp_path, "subdirA", "subdir1"))
+#     # os.remove(os.path.join(tmp_path, "subdirB"))
 
 
-def test_uploadinfolder_emptyfolder(tmpdir, server_type_remote_process):
-    tmpdir = str(tmpdir)
+def test_uploadinfolder_emptyfolder(tmp_path, server_type_remote_process):
+    tmp_path = str(tmp_path)
     base = dpf.core.BaseService(server=server_type_remote_process)
     TARGET_PATH = base.make_tmp_dir_server()
     path = base.upload_files_in_folder(
-        to_server_folder_path=TARGET_PATH, client_folder_path=tmpdir
+        to_server_folder_path=TARGET_PATH, client_folder_path=tmp_path
     )
     assert len(path) == 0
 
