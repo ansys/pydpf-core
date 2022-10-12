@@ -133,6 +133,8 @@ class Session:
         if server_meet_version("3.0", server):
             self.add_progress_system()
 
+        self._released = False
+
     @property
     def _server(self):
         return self._server_weak_ref()
@@ -202,8 +204,13 @@ class Session:
         """This removes the handle on the workflow by the ``session`` """
         self._api.flush_workflows(self)
 
-    def __del__(self):
+    def delete(self):
         try:
-            self._deleter_func[0](self._deleter_func[1](self))
+            if not self._released:
+                self._deleter_func[0](self._deleter_func[1](self))
         except:
             warnings.warn(traceback.format_exc())
+        self._released = True
+
+    def __del__(self):
+        self.delete()
