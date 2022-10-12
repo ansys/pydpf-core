@@ -1,8 +1,8 @@
 """
-.. _ref_field:
+.. _ref_custom_type_field:
 
 CustomTypeField
-=====
+===============
 """
 import warnings
 
@@ -39,9 +39,11 @@ numpy_type_to_dpf = dict_with_missing_numpy_type({
 class CustomTypeField(_FieldBase):
     """Represents a simulation data container with each unitary data being of a custom type.
     When initiliazing the CustomTypeField, a unitary data type should be given.
+    The ``CustomTypeField`` gives the ability to choose the most optimized unitary data type
+    for a given usage, and hence, allows to optimize memory usage.
 
     This can be evaluated data from the :class:`Operator <ansys.dpf.core.Operator>` class
-    or created by a factory and directly by an instance of this class.
+    or created directly by an instance of this class.
 
     A field's data is always associated to its scoping (entities
     associated to each value) and support (subset of the model where the
@@ -70,6 +72,9 @@ class CustomTypeField(_FieldBase):
     >>> field = dpf.CustomTypeField(unitary_type=np.uint64)
     >>> field.location = locations.nodal
     >>> field.append([1000000,2000000], 1)
+    >>> float_field = dpf.CustomTypeField(unitary_type=np.float32)
+    >>> float_field.is_of_type(np.float32)
+    True
 
     Notes
     -----
@@ -151,13 +156,11 @@ class CustomTypeField(_FieldBase):
         Returns
         -------
         str
-            Location string, which is ``"Nodal"``, ``"Elemental"``,
-            or ``"ElementalNodal"``.
+            Location string, which can be ``"Nodal"``, ``"Elemental"``,
+            ``"ElementalNodal"``... See :class:`ansys.dpf.core.common.locations`.
 
         Examples
         --------
-        Location for a stress field evaluated at nodes.
-
         >>> from ansys.dpf.core import locations
         >>> from ansys.dpf import core as dpf
         >>> import numpy as np
@@ -171,19 +174,17 @@ class CustomTypeField(_FieldBase):
             return self.field_definition.location
 
     @location.setter
-    def location(self, value):
+    def location(self, location):
         """Change the field location.
 
         Parameters
         -------
         location : str or locations
-            Location string, which is ``"Nodal"``, ``"Elemental"``,
-            or ``"ElementalNodal"``.
+             Location string, which can be ``"Nodal"``, ``"Elemental"``,
+            ``"ElementalNodal"``... See :class:`ansys.dpf.core.common.locations`.
 
         Examples
         --------
-        Location for a field evaluated at nodes.
-
         >>> from ansys.dpf.core import locations
         >>> from ansys.dpf import core as dpf
         >>> import numpy as np
@@ -194,11 +195,11 @@ class CustomTypeField(_FieldBase):
 
         """
         fielddef = self.field_definition
-        fielddef.location = value
+        fielddef.location = location
         self.field_definition = fielddef
 
     def is_of_type(self, type_to_compare: np.dtype) -> bool:
-        """Checks whether the Field's unitary type is the same as the input type
+        """Checks whether the Field's unitary type is the same as the input type.
 
         Parameters
         ----------
@@ -219,6 +220,8 @@ class CustomTypeField(_FieldBase):
         True
         >>> field.is_of_type(np.short)
         True
+        >>> field.is_of_type(np.int32)
+        False
 
         """
         return self.type == type_to_compare

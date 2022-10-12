@@ -204,8 +204,8 @@ class Field(_FieldBase):
         Returns
         -------
         str
-            Location string, which is ``"Nodal"``, ``"Elemental"``,
-            or ``"ElementalNodal"``.
+            Location string, which can be ``"Nodal"``, ``"Elemental"``,
+            ``"ElementalNodal"``... See :class:`ansys.dpf.core.common.locations`.
 
         Examples
         --------
@@ -231,8 +231,8 @@ class Field(_FieldBase):
         Parameters
         -------
         location : str or locations
-            Location string, which is ``"Nodal"``, ``"Elemental"``,
-            or ``"ElementalNodal"``.
+            Location string, which can be ``"Nodal"``, ``"Elemental"``,
+            ``"ElementalNodal"``... See :class:`ansys.dpf.core.common.locations`.
 
         Examples
         --------
