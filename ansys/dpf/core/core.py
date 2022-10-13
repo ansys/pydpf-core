@@ -428,6 +428,7 @@ class BaseService:
                 misc.RUNTIME_CLIENT_CONFIG = RuntimeClientConfig(
                     data_tree=data_tree.DataTree(server=self._server())
                 )
+                misc.RUNTIME_CLIENT_CONFIG._data_tree._holds_server = False
             config_to_return = misc.RUNTIME_CLIENT_CONFIG
         return config_to_return
 

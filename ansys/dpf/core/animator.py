@@ -250,7 +250,7 @@ def scale_factor_to_fc(scale_factor, fc):
         return field
 
     scale_type = type(scale_factor)
-    n_sets = fc.time_freq_support.n_sets
+    n_sets = len(fc)
     if scale_type == core.field.Field:
         raise NotImplementedError("Scaling by a Field is not yet implemented.")
         # # Turn the Field into a fields_container
