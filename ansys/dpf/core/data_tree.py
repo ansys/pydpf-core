@@ -7,6 +7,7 @@ DataTree
 import enum
 import traceback
 import warnings
+import weakref
 
 from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core import server as server_module
@@ -71,9 +72,10 @@ class DataTree:
         # __set_attr__ method has been overridden, self._common_keys is used to list the "real"
         # names used as its class attributes
         self._common_keys = ["_common_keys", "_server", "_internal_obj", "_owner_data_tree",
-                             "_dict", "_api_instance", "_deleter_func"]
+                             "_dict", "_api_instance", "_deleter_func", "_holds_server_instance",
+                             "_server_instance", "_holds_server"]
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
+        self._server_instance = server_module.get_or_create_server(server)
 
         if data_tree is None and not self._server.meet_version("4.0"):
             raise errors.DpfVersionNotSupported("4.0")
@@ -97,6 +99,24 @@ class DataTree:
 
         if data:
             self.add(data)
+
+        self._holds_server_instance = True
+
+    @property
+    def _holds_server(self):
+        return self._holds_server_instance
+
+    @property
+    def _server(self):
+        if isinstance(self._server_instance, weakref.ref):
+            return self._server_instance()
+        return self._server_instance
+
+    @_holds_server.setter
+    def _holds_server(self, value):
+        self._holds_server_instance = value
+        if value is False and not isinstance(self._server_instance, weakref.ref):
+            self._server_instance = weakref.ref(self._server_instance)
 
     @property
     def _api(self) -> dpf_data_tree_abstract_api.DpfDataTreeAbstractAPI:
@@ -124,6 +144,7 @@ class DataTree:
         >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
 
         """
+
         def add_data(self, key, value):
             if isinstance(value, str):
                 self._api.dpf_data_tree_set_string_attribute(self, key, value, len(value))
@@ -159,6 +180,7 @@ class DataTree:
             else:
                 raise TypeError(f"{type(value[0]).__name__} is not a supported type, "
                                 "use lists, int, float, strings or DataTree.")
+
         for entry in args:
             for key, value in entry.items():
                 add_data(self, key, value)
