@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 import copy
 import conftest
+import gc
 
 from ansys import dpf
 from ansys.dpf import core
@@ -213,6 +214,24 @@ def test_mutable_data_property_field(server_clayer, simple_bar):
     data = None
     changed_data = property_field.data
     assert np.allclose(changed_data[0], data_copy[0] + 2)
+
+
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='change in memory ownership in server 5.0')
+def test_mutable_data_delete_property_field(server_clayer, simple_bar):
+    model = dpf.core.Model(simple_bar, server=server_clayer)
+    mesh = model.metadata.meshed_region
+    op = dpf.core.Operator("meshed_skin_sector", server=server_clayer)
+    op.inputs.mesh.connect(mesh)
+    property_field = op.get_output(3, dpf.core.types.property_field)
+    data = property_field.data
+    data_copy = copy.deepcopy(data)
+    changed_data = property_field.data
+    property_field = None
+    gc.collect() #check that the memory is held by the dpfvector
+    assert np.allclose(changed_data, data_copy)
+    changed_data[0] = 1
+    assert np.allclose(changed_data[0], 1)
 
 
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
