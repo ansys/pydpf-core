@@ -573,7 +573,7 @@ class GrpcServer(CServer):
                 self.version
                 break
             except errors.DPFServerException as e:
-                if "GOAWAY" not in str(e.args) or "unavailable" not in str(e.args):
+                if "GOAWAY" not in str(e.args) and "unavailable" not in str(e.args):
                     raise e
 
     @property
