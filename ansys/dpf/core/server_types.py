@@ -288,7 +288,7 @@ def check_ansys_grpc_dpf_version(server, timeout):
     grpc_module_version = ansys.grpc.dpf.__version__
     server_version = server.version
     right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
-    if right_grpc_module_version is None:
+    if right_grpc_module_version is None:  # pragma: no cover
         # warnings.warn(f"No requirement specified on ansys-grpc-dpf for server version "
         #               f"{server_version}. Continuing with the ansys-grpc-dpf version "
         #               f"installed ({grpc_module_version}). In case of unexpected instability, "
