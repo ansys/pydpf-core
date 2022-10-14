@@ -532,6 +532,7 @@ class GrpcServer(CServer):
                  launch_server=True,
                  docker_name=None,
                  use_pypim=True,
+                 num_connection_tryouts=3
                  ):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
@@ -564,16 +565,16 @@ class GrpcServer(CServer):
         self.live = True
         self._create_shutdown_funcs()
         self.set_as_global(as_global=as_global)
-        self._check_first_call()
+        self._check_first_call(num_connection_tryouts)
 
-    def _check_first_call(self):
-        num_tryout = 3
-        for _ in range(num_tryout):
+    def _check_first_call(self, num_connection_tryouts):
+        for i in range(num_connection_tryouts):
             try:
                 self.version
                 break
             except errors.DPFServerException as e:
-                if "GOAWAY" not in str(e.args) and "unavailable" not in str(e.args):
+                if ("GOAWAY" not in str(e.args) and "unavailable" not in str(e.args)) \
+                        or i == num_connection_tryouts:
                     raise e
 
     @property
