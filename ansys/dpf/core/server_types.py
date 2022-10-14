@@ -574,7 +574,7 @@ class GrpcServer(CServer):
                 break
             except errors.DPFServerException as e:
                 if ("GOAWAY" not in str(e.args) and "unavailable" not in str(e.args)) \
-                        or i == num_connection_tryouts:
+                        or i == (num_connection_tryouts-1):
                     raise e
 
     @property
