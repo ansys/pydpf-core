@@ -127,6 +127,8 @@ sphinx_gallery_conf = {
     "pypandoc": True,
     # path to your examples scripts
     "examples_dirs": ["../../examples"],
+    # abort build at first example error
+    'abort_on_example_error': True,
     # path where to save gallery generated examples
     "gallery_dirs": ["examples"],
     # Patter to search for example files
