@@ -32,7 +32,7 @@ class Node:
     --------
     >>> import ansys.dpf.core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.static_rst)
+    >>> model = dpf.Model(examples.find_static_rst())
     >>> nodes = model.metadata.meshed_region.nodes
 
     >>> # Initialize a node from a nodes collection
@@ -70,7 +70,7 @@ class Node:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> node = model.metadata.meshed_region.nodes[0]
         >>> node.coordinates
         [0.015, 0.045, 0.015]
@@ -109,7 +109,7 @@ class Nodes:
     --------
     >>> import ansys.dpf.core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.static_rst)
+    >>> model = dpf.Model(examples.find_static_rst())
     >>> meshed_region = model.metadata.meshed_region
     >>> nodes = model.metadata.meshed_region.nodes
     >>> nodes.n_nodes
@@ -191,7 +191,7 @@ class Nodes:
 
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> meshed_region = model.metadata.meshed_region
         >>> nodes = model.metadata.meshed_region.nodes
         >>> nodes.scoping.ids[2]
@@ -219,7 +219,7 @@ class Nodes:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> meshed_region = model.metadata.meshed_region
         >>> nodes = model.metadata.meshed_region.nodes
         >>> coordinates = nodes.coordinates_field
@@ -261,7 +261,7 @@ class Nodes:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> meshed_region = model.metadata.meshed_region
         >>> nodes = model.metadata.meshed_region.nodes
         >>> field = nodes.nodal_connectivity_field
@@ -309,7 +309,7 @@ class Nodes:
 
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> nodes = model.metadata.meshed_region.nodes
         >>> disp = model.results.displacement()
         >>> field = disp.outputs.fields_container()[0]

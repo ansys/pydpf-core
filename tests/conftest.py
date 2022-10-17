@@ -66,7 +66,7 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
     """
     if local_test_repo is False:
         if is_in_examples:
-            return getattr(examples, is_in_examples)
+            return examples.find_files(getattr(examples, is_in_examples))
         else:
             # otherwise, assume file is local
             test_path = os.path.join(

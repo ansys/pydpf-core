@@ -212,7 +212,7 @@ new_operator = dpf.Operator("gltf_export")
 
 import os
 
-model = dpf.Model(dpf.upload_file_in_tmp_folder(examples.static_rst))
+model = dpf.Model(dpf.upload_file_in_tmp_folder(examples.find_static_rst()))
 
 mesh = model.metadata.meshed_region
 skin_mesh = dpf.operators.mesh.tri_mesh_skin(mesh=mesh)

@@ -5,8 +5,8 @@ Download example datasets from https://github.com/pyansys/example-data"""
 import os
 import urllib.request
 import warnings
-from ansys.dpf.core import server as server_module
 from ansys.dpf.core import core
+from ansys.dpf.core.examples.examples import find_files
 
 EXAMPLE_REPO = "https://github.com/pyansys/example-data/raw/master/result_files/"
 
@@ -73,12 +73,7 @@ def _retrieve_file(url, filename, directory):
 def _download_file(directory, filename, should_upload: bool, server):
     url = _get_file_url(directory, filename)
     local_path = _retrieve_file(url, filename, directory)
-
-    if should_upload:
-        server = server_module.get_or_create_server(server)
-        if not server.local_server:
-            return core.upload_file_in_tmp_folder(local_path, server=server)
-    return local_path
+    return find_files(local_path, should_upload, server)
 
 
 ###############################################################################
@@ -88,20 +83,24 @@ def _download_file(directory, filename, should_upload: bool, server):
 def download_transient_result(should_upload: bool = True, server=None) -> str:
     """Download an example transient result file and return the download path
     available server side.
-    If the server is remote, the file is uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the file is uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
 
-    Returns
-    -------
-    str
-        Path to the example file.
+    Parameters
+    ----------
     should_upload : bool, optional (default True)
         Whether the file should be uploaded server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+
+    Returns
+    -------
+    str
+        Path to the example file.
 
     Examples
     --------
@@ -119,20 +118,24 @@ def download_transient_result(should_upload: bool = True, server=None) -> str:
 def download_all_kinds_of_complexity(should_upload: bool = True, server=None) -> str:
     """Download an example static result and return the download path
     available server side.
-    If the server is remote, the file is uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the file is uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
 
-    Returns
-    -------
-    str
-        Path to the example file.
+    Parameters
+    ----------
     should_upload : bool, optional (default True)
         Whether the file should be uploaded server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+
+    Returns
+    -------
+    str
+        Path to the example file.
 
     Examples
     --------
@@ -150,20 +153,24 @@ def download_all_kinds_of_complexity(should_upload: bool = True, server=None) ->
 def download_all_kinds_of_complexity_modal(should_upload: bool = True, server=None) -> str:
     """Download an example result file from a static modal analysis and
     return the download path available server side.
-    If the server is remote, the file is uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the file is uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
 
-    Returns
-    -------
-    str
-        Path to the example file.
+    Parameters
+    ----------
     should_upload : bool, optional (default True)
         Whether the file should be uploaded server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+
+    Returns
+    -------
+    str
+        Path to the example file.
 
     Examples
     --------
@@ -181,20 +188,24 @@ def download_all_kinds_of_complexity_modal(should_upload: bool = True, server=No
 def download_pontoon(should_upload: bool = True, server=None) -> str:
     """Download an example result file from a static modal analsys and
     return the download path available server side.
-    If the server is remote, the file is uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the file is uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
 
-    Returns
-    -------
-    str
-        Path to the example file.
+    Parameters
+    ----------
     should_upload : bool, optional (default True)
         Whether the file should be uploaded server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+
+    Returns
+    -------
+    str
+        Path to the example file.
 
     Examples
     --------
@@ -212,20 +223,24 @@ def download_pontoon(should_upload: bool = True, server=None) -> str:
 def download_multi_harmonic_result(should_upload: bool = True, server=None) -> str:
     """Download an example multi-harmonic result file and return the
     download path available server side.
-    If the server is remote, the file is uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the file is uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
 
-    Returns
-    -------
-    str
-        Path to the example file.
+    Parameters
+    ----------
     should_upload : bool, optional (default True)
         Whether the file should be uploaded server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+
+    Returns
+    -------
+    str
+        Path to the example file.
 
     Examples
     --------
@@ -242,20 +257,24 @@ def download_multi_harmonic_result(should_upload: bool = True, server=None) -> s
 def download_multi_stage_cyclic_result(should_upload: bool = True, server=None) -> str:
     """Download an example multi stage result file and return the
     download path available server side.
-    If the server is remote, the file is uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the file is uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
 
-    Returns
-    -------
-    str
-        Path to the example file.
+    Parameters
+    ----------
     should_upload : bool, optional (default True)
         Whether the file should be uploaded server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+
+    Returns
+    -------
+    str
+        Path to the example file.
 
     Examples
     --------
@@ -273,20 +292,24 @@ def download_multi_stage_cyclic_result(should_upload: bool = True, server=None) 
 def download_sub_file(should_upload: bool = True, server=None) -> str:
     """Download an example .sub result file containing matrices and return the
     download path available server side.
-    If the server is remote, the file is uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the file is uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
 
-    Returns
-    -------
-    str
-        Path to the example file.
+    Parameters
+    ----------
     should_upload : bool, optional (default True)
         Whether the file should be uploaded server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+
+    Returns
+    -------
+    str
+        Path to the example file.
 
     Examples
     --------
@@ -304,10 +327,19 @@ def download_sub_file(should_upload: bool = True, server=None) -> str:
 def download_msup_files_to_dict(should_upload: bool = True, server=None) -> dict:
     """Download all the files necessary for a msup expansion and return the
     download paths available server side into a dictionary extension->path.
-    If the server is remote, the files are uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the files are uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -336,10 +368,19 @@ def download_msup_files_to_dict(should_upload: bool = True, server=None) -> dict
 def download_distributed_files(should_upload: bool = True, server=None) -> dict:
     """Download distributed rst files and return the
     download paths into a dictionary domain id->path.
-    If the server is remote, the files are uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the files are uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -366,10 +407,19 @@ def download_distributed_files(should_upload: bool = True, server=None) -> dict:
 def download_fluent_files(should_upload: bool = True, server=None) -> dict:
     """Download the cas and dat file of a fluent analysis and return the
     download paths into a dictionary extension->path.
-    If the server is remote, the files are uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the files are uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -396,10 +446,19 @@ def download_fluent_files(should_upload: bool = True, server=None) -> dict:
 def download_extrapolation_3d_result(should_upload: bool = True, server=None) -> dict:
     """Download example static results of reference and integrated points
     for extrapolation of 3d-element and return return the dictionary of 2 download paths.
-    If the server is remote, the files are uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the files are uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -431,10 +490,19 @@ def download_extrapolation_3d_result(should_upload: bool = True, server=None) ->
 def download_extrapolation_2d_result(should_upload: bool = True, server=None) -> dict:
     """Download example static results of reference and integrated points
     for extrapolation of 2d-element and return the dictionary of 2 download paths.
-    If the server is remote, the files are uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the files are uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
 
     Returns
     -------
@@ -467,20 +535,24 @@ def download_extrapolation_2d_result(should_upload: bool = True, server=None) ->
 def download_hemisphere(should_upload: bool = True, server=None) -> str:
     """Download an example result file from a static analysis and
     return the download path available server side.
-    If the server is remote, the file is uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the file is uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
 
-    Returns
-    -------
-    str
-        Path to the example file.
+    Parameters
+    ----------
     should_upload : bool, optional (default True)
         Whether the file should be uploaded server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+
+    Returns
+    -------
+    str
+        Path to the example file.
 
     Examples
     --------
@@ -498,19 +570,24 @@ def download_hemisphere(should_upload: bool = True, server=None) -> str:
 def download_example_asme_result(should_upload: bool = True, server=None) -> str:
     """Download an example result file from a static analysis and
     return the download path available server side.
-    If the server is remote, the file is uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the file is uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
-    Returns
-    -------
-    str
-        Path to the example file.
+
+    Parameters
+    ----------
     should_upload : bool, optional (default True)
         Whether the file should be uploaded server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+
+    Returns
+    -------
+    str
+        Path to the example file.
 
     Examples
     --------
@@ -526,20 +603,24 @@ def download_example_asme_result(should_upload: bool = True, server=None) -> str
 def download_crankshaft(should_upload: bool = True, server=None) -> str:
     """Download the result file of an example of a crankshaft
     under load and return the download path available server side.
-    If the server is remote, the file is uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the file is uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
 
-    Returns
-    -------
-    str
-        Path to the example file.
+    Parameters
+    ----------
     should_upload : bool, optional (default True)
         Whether the file should be uploaded server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+
+    Returns
+    -------
+    str
+        Path to the example file.
 
     Examples
     --------
@@ -557,20 +638,24 @@ def download_crankshaft(should_upload: bool = True, server=None) -> str:
 def download_piston_rod(should_upload: bool = True, server=None) -> str:
     """Download the result file of an example of a piston rod
     under load and return the download path available server side.
-    If the server is remote, the file is uploaded or made available server side.
+    If the server is remote (or doesn't share the memory), the file is uploaded or made available
+    server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
 
-    Returns
-    -------
-    str
-        Path to the example file.
+    Parameters
+    ----------
     should_upload : bool, optional (default True)
         Whether the file should be uploaded server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+
+    Returns
+    -------
+    str
+        Path to the example file.
 
     Examples
     --------

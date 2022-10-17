@@ -38,14 +38,14 @@ def sum(var_inp):
 
     # >>> from ansys.dpf import core as dpf
     # >>> from ansys.dpf.core import examples
-    # >>> model = dpf.Model(examples.static_rst)
+    # >>> model = dpf.Model(examples.find_static_rst())
     # >>> e_vol = model.results.volume()
     # >>> total_volume = e_vol.sum()
 
     # Sum element volume using dpf.core.sum.
 
     # >>> from ansys.dpf.core import examples
-    # >>> model = dpf.Model(examples.static_rst)
+    # >>> model = dpf.Model(examples.find_static_rst())
     # >>> e_vol = model.results.volume()
     # >>> total_volume = dpf.help.sum(e_vol)
 

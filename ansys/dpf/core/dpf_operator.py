@@ -80,7 +80,7 @@ class Operator:
 
     >>> from ansys.dpf.core import Model
     >>> from ansys.dpf.core import examples
-    >>> model = Model(examples.static_rst)
+    >>> model = Model(examples.find_static_rst())
     >>> disp_oper = model.results.displacement()
 
     """
@@ -142,7 +142,7 @@ class Operator:
         --------
         >>> from ansys.dpf.core import Model
         >>> from ansys.dpf.core import examples
-        >>> model = Model(examples.static_rst)
+        >>> model = Model(examples.find_static_rst())
         >>> disp_oper = model.results.displacement()
         >>> disp_oper = model.results.displacement()
         >>> disp_x = model.results.displacement().X()

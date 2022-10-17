@@ -39,7 +39,7 @@ from ansys.dpf.core import examples
 ###############################################################################
 # Create a model object to establish a connection with an
 # example result file and then extract:
-model = dpf.Model(examples.static_rst)
+model = dpf.Model(examples.find_static_rst())
 print(model)
 
 ###############################################################################

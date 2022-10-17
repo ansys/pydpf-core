@@ -71,7 +71,7 @@ class Results:
 
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.simple_bar)
+    >>> model = dpf.Model(examples.find_simple_bar())
     >>> results = model.results # printable object
 
     Access the displacement at all times.
@@ -501,7 +501,7 @@ class Result:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.complex_rst)
+        >>> model = dpf.Model(examples.find_complex_rst())
         >>> disp = model.results.displacement
         >>> fc = disp.on_mesh_scoping([1,2,3]).eval()
         >>> len(fc[0].scoping)
@@ -547,7 +547,7 @@ class Result:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.complex_rst)
+        >>> model = dpf.Model(examples.find_complex_rst())
         >>> stress = model.results.stress
         >>> fc = stress.eval()
         >>> fc[0].location
@@ -676,7 +676,7 @@ class CommonResults(Results):
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.complex_rst)
+        >>> model = dpf.Model(examples.find_complex_rst())
         >>> structural_temperature = model.results.structural_temperature
         >>> structural_temperature = structural_temperature.on_last_time_freq()
         >>> last_time_disp = structural_temperature.eval()

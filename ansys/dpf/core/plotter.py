@@ -564,7 +564,7 @@ class Plotter:
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.simple_bar)
+        >>> model = dpf.Model(examples.find_simple_bar())
         >>> disp = model.results.displacement()
         >>> scoping = dpf.Scoping()
         >>> scoping.ids = range(1, len(model.metadata.time_freq_support.time_frequencies) + 1)

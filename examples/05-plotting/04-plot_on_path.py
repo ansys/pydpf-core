@@ -20,7 +20,7 @@ from ansys.dpf.core.plotter import DpfPlotter
 # result over a defined path of coordinates.
 
 # Create the model and request its mesh and displacement data.
-model = dpf.Model(examples.static_rst)
+model = dpf.Model(examples.find_static_rst())
 mesh = model.metadata.meshed_region
 stress_fc = model.results.stress().eqv().eval()
 

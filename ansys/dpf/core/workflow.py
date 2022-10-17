@@ -358,7 +358,7 @@ class Workflow:
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> workflow = dpf.Workflow()
-        >>> model = dpf.Model(examples.simple_bar)
+        >>> model = dpf.Model(examples.find_simple_bar())
         >>> disp_op = model.results.displacement()
         >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
         >>> workflow.set_output_name("contour", disp_op.outputs.fields_container)
