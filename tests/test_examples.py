@@ -3,7 +3,7 @@ import os.path
 
 import pytest
 
-import dpf.core
+from ansys.dpf import core as dpf
 from ansys.dpf.core import Model
 from ansys.dpf.core import examples
 
@@ -63,7 +63,7 @@ def test_find_examples(example, server_type_remote_process):
     server_type_remote_process.local_server = False
     func = getattr(globals()["examples"], "find_" + example)
     path = func(server=server_type_remote_process)
-    assert isinstance(Model(path).metadata.result_info, dpf.core.ResultInfo)
+    assert isinstance(Model(path).metadata.result_info, dpf.ResultInfo)
     assert path != getattr(globals()["examples"], example)
     server_type_remote_process.local_server = True
     path = func(server=server_type_remote_process)
