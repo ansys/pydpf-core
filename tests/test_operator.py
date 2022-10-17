@@ -179,8 +179,8 @@ def test_connect_scoping_operator(server_type):
                            'supported starting server version 5.0')
 def test_connect_label_space_operator(server_type):
     op = dpf.core.Operator("Rescope", server=server_type)
-    dict = {"time": 1, "complex": 0}
-    op.connect(0, dict)
+    dic = {"time": 1, "complex": 0}
+    op.connect(0, dic)
 
 
 def test_connect_datasources_operator(fields_container_csv, server_type):

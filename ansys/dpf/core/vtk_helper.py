@@ -226,3 +226,8 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
         offset = compute_offset()
 
     return pv.UnstructuredGrid(offset, cells, vtk_cell_type, nodes)
+
+
+def vtk_update_coordinates(vtk_grid, coordinates_array):
+    from copy import copy
+    vtk_grid.points = copy(coordinates_array)
