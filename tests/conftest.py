@@ -178,6 +178,10 @@ def d3plot():
     """Resolve the path of the "d3plot/d3plot" result file."""
     return resolve_test_file("d3plot", "d3plot")
 
+@pytest.fixture()
+def d3plot_beam():
+    """Resolve the path of the "d3plot/d3plot_beam" result file."""
+    return resolve_test_file("d3plot_beam", "d3plot")
 
 @pytest.fixture()
 def engineering_data_sources():
