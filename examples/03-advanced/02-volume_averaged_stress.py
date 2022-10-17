@@ -69,7 +69,8 @@ with connectivity_field.as_local_field() as connectivity, \
             elements_indexes = []
 
             # get elements attached to nodes
-            [elements_indexes.extend(nodal_connectivity.get_entity_data(i).flatten()) for i in current_node_indexes]
+            [elements_indexes.extend(
+                nodal_connectivity.get_entity_data(i).flatten()) for i in current_node_indexes]
 
             current_node_indexes = []
             # sum up the volume on those elements
