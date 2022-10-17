@@ -32,16 +32,18 @@ def test_download_piston_rod():
     path = examples.download_piston_rod()
     assert isinstance(Model(path), Model)
 
-list_examples =  [
-        "simple_bar",
-        "static_rst",
-        "complex_rst",
-        "multishells_rst",
-        "electric_therm",
-        "steady_therm",
-        "transient_therm",
-        "msup_transient",
-    ]
+
+list_examples = [
+    "simple_bar",
+    "static_rst",
+    "complex_rst",
+    "multishells_rst",
+    "electric_therm",
+    "steady_therm",
+    "transient_therm",
+    "msup_transient",
+]
+
 
 @pytest.mark.parametrize(
     "example", list_examples,

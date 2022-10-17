@@ -470,20 +470,20 @@ def download_extrapolation_3d_result(should_upload: bool = True, server=None) ->
     Download 2 example result files and return the dictionary containing 2 files
 
     >>> from ansys.dpf.core import examples
-    >>> dict = examples.download_extrapolation_ref_result()
-    >>> dict
+    >>> path_dict = examples.download_extrapolation_ref_result()
+    >>> path_dict
     {
         'file_ref': 'C:/Users/user/AppData/local/temp/file_ref.rst',
         'file_integrated': 'C:/Users/user/AppData/local/temp/file.rst'
     }
 
     """
-    dict = {
+    path_dict = {
         "file_ref": _download_file("extrapolate", "file_ref.rst", should_upload, server),
         "file_integrated": _download_file("extrapolate", "file.rst", should_upload, server),
     }
 
-    return dict
+    return path_dict
 
 
 def download_extrapolation_2d_result(should_upload: bool = True, server=None) -> dict:
@@ -514,21 +514,21 @@ def download_extrapolation_2d_result(should_upload: bool = True, server=None) ->
     Download 2 example result files and return the dictionary containing 2 files
 
     >>> from ansys.dpf.core import examples
-    >>> dict = examples.download_extrapolation_ref_result()
-    >>> dict
+    >>> path_dict = examples.download_extrapolation_ref_result()
+    >>> path_dict
     {
         'file_ref': 'C:/Users/user/AppData/local/temp/extrapolate_2d_ref.rst',
         'file_integrated': 'C:/Users/user/AppData/local/temp/extrapolate_2d.rst'
     }
 
     """
-    dict = {
+    path_dict = {
         "file_ref": _download_file("extrapolate", "extrapolate_2d_ref.rst", should_upload, server),
         "file_integrated": _download_file("extrapolate", "extrapolate_2d.rst",
                                           should_upload, server),
     }
 
-    return dict
+    return path_dict
 
 
 def download_hemisphere(should_upload: bool = True, server=None) -> str:
