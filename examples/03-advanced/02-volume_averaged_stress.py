@@ -70,7 +70,7 @@ with connectivity_field.as_local_field() as connectivity:
                     # get elements attached to nodes
                     for current_node_index in current_node_indexes:
                         elements_indexes.extend(
-                            nodal_connectivity.get_entity_data(i).flatten()
+                            nodal_connectivity.get_entity_data(current_node_index).flatten()
                         )
 
                     current_node_indexes = []
