@@ -116,7 +116,7 @@ def test_iterate_results_model(allkindofcomplexity):
 
 
 def test_result_not_overrided(plate_msup):
-    model1 = dpf.core.Model(examples.electric_therm)
+    model1 = dpf.core.Model(examples.find_electric_therm())
     size = len(model1.results)
     model2 = dpf.core.Model(plate_msup)
     assert len(model1.results) == size
