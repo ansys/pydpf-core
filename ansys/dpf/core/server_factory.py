@@ -7,6 +7,9 @@ protocols and server configurations available.
 """
 
 import os
+import subprocess
+import time
+import io
 
 from ansys.dpf.gate.load_api import (
     _get_path_in_install,
@@ -77,7 +80,7 @@ class ServerConfig:
     """
 
     def __init__(
-        self, protocol=DEFAULT_COMMUNICATION_PROTOCOL, legacy=DEFAULT_LEGACY
+            self, protocol=DEFAULT_COMMUNICATION_PROTOCOL, legacy=DEFAULT_LEGACY
     ):
         self.legacy = legacy
         if not protocol:
@@ -97,7 +100,7 @@ class ServerConfig:
         return False
 
 
-def get_default_server_config(server_lower_than_or_equal_to_0_3=False):
+def get_default_server_config(server_lower_than_or_equal_to_0_3=False, docker_config=None):
     """Returns the default configuration depending on the server version.
     - if ansys.dpf.core.SERVER_CONFIGURATION is not None, then this variable is taken
     - if server_lower_than_or_equal_to_0_3 is True, then LegacyGrpcServer is taken
@@ -113,6 +116,9 @@ def get_default_server_config(server_lower_than_or_equal_to_0_3=False):
     from ansys.dpf.core import SERVER_CONFIGURATION
     if SERVER_CONFIGURATION is not None:
         return SERVER_CONFIGURATION
+
+    if docker_config is None:
+        docker_config = DockerConfig()
 
     config = None
 
@@ -133,6 +139,8 @@ def get_default_server_config(server_lower_than_or_equal_to_0_3=False):
                 f"be set to one of the following: INPROCESS, "
                 f"GRPC, LEGACYGRPC."
             )
+    elif config is None and docker_config.use_docker:
+        config = get_default_remote_server_config()
     elif config is None:
         config = ServerConfig(protocol=DEFAULT_COMMUNICATION_PROTOCOL, legacy=DEFAULT_LEGACY)
     return config
@@ -189,7 +197,7 @@ class ServerFactory:
     """Factory for server type choice depending on current configuration."""
 
     @staticmethod
-    def get_server_type_from_config(config=None, ansys_path=None):
+    def get_server_type_from_config(config=None, ansys_path=None, docker_config=None):
         from ansys.dpf.core.server_types import (
             LegacyGrpcServer,
             GrpcServer,
@@ -200,12 +208,12 @@ class ServerFactory:
         if config is None:
             # If no SERVER_CONFIGURATION is yet defined, set one with default values
             is_server_old = _find_outdated_ansys_version(ansys_path)
-            config = get_default_server_config(is_server_old)
+            config = get_default_server_config(is_server_old, docker_config)
         if config.protocol == CommunicationProtocols.gRPC and config.legacy:
             return LegacyGrpcServer
         elif (
-            config.protocol == CommunicationProtocols.gRPC
-            and not config.legacy
+                config.protocol == CommunicationProtocols.gRPC
+                and not config.legacy
         ):
             from ansys.dpf.core.misc import __ansys_version__
 
@@ -220,8 +228,8 @@ class ServerFactory:
                 os.environ["PATH"] += sub_folders
             return GrpcServer
         elif (
-            config.protocol == CommunicationProtocols.InProcess
-            and not config.legacy
+                config.protocol == CommunicationProtocols.InProcess
+                and not config.legacy
         ):
             return InProcessServer
         else:
@@ -232,3 +240,203 @@ class ServerFactory:
         if config is None:
             config = get_default_remote_server_config()
         return ServerFactory.get_server_type_from_config(config)
+
+
+class DockerConfig:
+    """Intermediate class encapsulating all the configuration options needed to run a docker
+    image of dpf and holding tools to communicate with Docker.
+
+    Parameters
+    ----------
+    use_docker : bool, optional
+        Whether Docker should be used by default as a server.
+    docker_name : str, optional
+        Name of Docker Container to run.
+    mounted_volumes : dict, optional
+        Dictionary of local path to docker path of volumes mounted in the Docker Image.
+        These paths are checked for when result files are looked for by the server to prevent from
+        uploading them.
+    extra_args : str, optional
+        Extra arguments to add to the docker run command.
+
+    """
+
+    def __init__(
+            self,
+            use_docker: bool = False,
+            docker_name: str = "",
+            mounted_volumes=None,
+            extra_args: str = ""
+    ):
+        from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
+        if mounted_volumes is None:
+            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
+
+        self._use_docker = use_docker
+        self._docker_name = docker_name
+        self._mounted_volumes = mounted_volumes
+        self._extra_args = extra_args
+
+    @property
+    def use_docker(self):
+        return self._use_docker
+
+    @property
+    def docker_name(self):
+        return self._docker_name
+
+    @property
+    def mounted_volumes(self):
+        return self._mounted_volumes
+
+    @mounted_volumes.setter
+    def mounted_volumes(self, mounted_volumes: dict):
+        self._mounted_volumes = mounted_volumes
+
+    @property
+    def extra_args(self):
+        return self._extra_args
+
+    def docker_run_cmd_command(self, docker_server_port, local_port):
+        mounted_volumes_args = "-v " + " -v ".join(
+            key + ":" + val for key, val in self.mounted_volumes.items())
+        return f"docker run -d -p {local_port}:{docker_server_port} " \
+               f"{self.extra_args} " \
+               f"{mounted_volumes_args} " \
+               f"-e DOCKER_SERVER_PORT={docker_server_port} " \
+               f"--expose={docker_server_port} " \
+               f"{self.docker_name}"
+
+    def __str__(self):
+        return "DockerConfig with: \n" \
+               f"\t- use_docker: {self.use_docker}\n" \
+               f"\t- docker_name: {self.docker_name}\n" \
+               f"\t- mounted_volume: {self.mounted_volumes}\n" \
+               f"\t- extra_args: {self.extra_args}\n"
+
+
+class RunningDockerConfig:
+    """Holds all the configuration option and the process information of a running Docker image
+    of a DPF's server.
+
+    Parameters
+    ----------
+    docker_config : DockerConfig, optional
+        ``DockerConfig`` used to start the docker.
+    server_id : int, optional
+        Running docker image id.
+
+    """
+    def __init__(self, docker_config=None, server_id=None):
+        if docker_config is None:
+            docker_config = DockerConfig()
+        self._docker_config = docker_config
+        self._server_id = server_id
+        self._use_docker = self._docker_config.use_docker
+
+    @property
+    def use_docker(self):
+        return self._use_docker
+
+    @property
+    def server_id(self):
+        return self._server_id
+
+    @server_id.setter
+    def server_id(self, val):
+        self._server_id = val
+
+    @property
+    def docker_name(self):
+        return self._docker_config.docker_name
+
+    @property
+    def mounted_volumes(self):
+        """Dictionary of local path to docker path of volumes mounted in the Docker Image.
+        These paths are checked for when result files are looked for by the server to prevent from
+        uploading them.
+
+        Returns
+        -------
+        dict
+        """
+        return self._docker_config.mounted_volumes
+
+    @property
+    def extra_args(self):
+        """Extra arguments used in the ``docker run`` command
+
+        Returns
+        -------
+        str
+        """
+        return self._docker_config.mounted_volumes
+
+    def replace_with_mounted_volumes(self, path: str):
+        """Replace local path found in the list of mounted
+        volumes by their mounted path in the docker.
+
+        Parameters
+        ----------
+        path: str
+            Path to search for mounted volumes occurences.
+
+        Returns
+        -------
+        path: str
+
+        """
+        path = os.path.normpath(path)
+        for key, val in self.mounted_volumes.items():
+            path = path.replace(os.path.normpath(key), val)
+        return path
+
+    def remove_docker_image(self):
+        """Stops and Removes the Docker image with its id==server_id"""
+        if self.use_docker and self.server_id:
+            run_cmd = f"docker stop {self.server_id}"
+            b_shell = False
+            if os.name == 'posix':
+                b_shell = True
+            if b_shell:
+                process = subprocess.Popen(
+                    run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+                )
+            else:
+                process = subprocess.Popen(
+                    run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                )
+            run_cmd = f"docker rm {self.server_id}"
+            for _ in io.TextIOWrapper(process.stdout, encoding="utf-8"):
+                pass
+            if b_shell:
+                _ = subprocess.Popen(
+                    run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+                )
+            else:
+                _ = subprocess.Popen(
+                    run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                )
+
+    def init_with_stdout(self, docker_config, LOG, lines, timeout):
+        self._docker_config = docker_config
+        self.server_id = lines[0].replace("\n", "")
+        t_timeout = time.time() + timeout
+        while time.time() < t_timeout:
+            docker_process = subprocess.Popen(f"docker logs {self.server_id}",
+                                              stdout=subprocess.PIPE,
+                                              stderr=subprocess.PIPE)
+            self._use_docker = True
+            for line in io.TextIOWrapper(docker_process.stdout, encoding="utf-8"):
+                LOG.debug(line)
+                lines.append(line)
+
+    def __str__(self):
+        return str(self._docker_config) + f"\t- server_id: {self.server_id}\n"
+
+
+def create_default_docker_config():
+    return DockerConfig(
+        use_docker="DPF_DOCKER" in os.environ.keys(),
+        docker_name=os.environ.get("DPF_DOCKER", "")
+    )

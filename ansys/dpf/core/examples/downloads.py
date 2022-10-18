@@ -51,9 +51,7 @@ def _retrieve_file(url, filename, directory):
                               os.path.basename(filename))
     local_path_no_zip = local_path.replace(".zip", "")
     if os.path.isfile(local_path_no_zip) or os.path.isdir(local_path_no_zip):
-        return path_utilities.to_server_os(local_path_no_zip.replace(
-            LOCAL_DOWNLOADED_EXAMPLES_PATH,
-            path_utilities.downloaded_example_path()))
+        return local_path_no_zip
 
     # grab the correct url retriever
     urlretrieve = urllib.request.urlretrieve
@@ -64,9 +62,7 @@ def _retrieve_file(url, filename, directory):
 
     # Perform download
     _, resp = urlretrieve(url, local_path)
-    return path_utilities.to_server_os(local_path.replace(
-        LOCAL_DOWNLOADED_EXAMPLES_PATH,
-        path_utilities.downloaded_example_path()))
+    return local_path
 
 
 def _download_file(directory, filename, should_upload: bool, server):

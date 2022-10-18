@@ -12,7 +12,6 @@ import pytest
 import ansys.dpf.core.server_types
 from ansys.dpf import core
 from ansys.dpf.core import examples
-from ansys.dpf.core import path_utilities
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 from ansys.dpf.core.check_version import meets_version, get_server_version
 from ansys.dpf.gate.load_api import _try_use_gatebin
@@ -25,10 +24,20 @@ os.environ["PYVISTA_OFF_SCREEN"] = "true"
 core.settings.bypass_pv_opengl_osmesa_crash()
 os.environ["MPLBACKEND"] = "Agg"
 # currently running dpf on docker.  Used for testing on CI
-running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER["use_docker"]
 DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
-
+running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker
 local_test_repo = False
+
+
+def _get_test_files_directory():
+    if local_test_repo is False:
+        test_path = os.path.join(
+            os.path.dirname(os.path.abspath(__file__))
+        )
+        return os.path.join(test_path, "testfiles")
+    else:
+        return os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
+
 
 if os.name == "posix":
     import ssl
@@ -36,12 +45,9 @@ if os.name == "posix":
     ssl._create_default_https_context = ssl._create_unverified_context
 
 if running_docker:
-    if local_test_repo:
-        core.server_types.RUNNING_DOCKER["args"] += (
-            ' -v "'
-            f'{os.environ.get("AWP_UNIT_TEST_FILES", False)}'
-            ':/tmp/test_files"'
-        )
+    ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes[
+        _get_test_files_directory()
+    ] = '/tmp/test_files'
 
 
 @pytest.hookimpl()
@@ -64,33 +70,16 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
     Normally returns local path unless server is running on docker and
     this repository has been mapped to the docker image at /dpf.
     """
-    if local_test_repo is False:
-        if is_in_examples:
-            return examples.find_files(getattr(examples, is_in_examples))
-        else:
-            # otherwise, assume file is local
-            test_path = os.path.join(
-                os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "tests"
-            )
-            test_files_path = os.path.join(test_path, "testfiles")
-            filename = os.path.join(test_files_path, additional_path, basename)
-            if not os.path.isfile(filename):
-                raise FileNotFoundError(
-                    f"Unable to locate {basename} at {test_files_path}"
-                )
-            return filename
-    elif os.environ.get("AWP_UNIT_TEST_FILES", False):
-        if running_docker:
-            return path_utilities.join(
-                "/tmp/test_files", "python", additional_path, basename
-            )
-        test_files_path = os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
-        filename = os.path.join(
-            test_files_path, os.path.join(additional_path, basename)
-        )
+    if is_in_examples:
+        filename = getattr(examples, is_in_examples)
+    else:
+        test_files_path = _get_test_files_directory()
+        filename = os.path.join(test_files_path, additional_path, basename)
         if not os.path.isfile(filename):
-            raise FileNotFoundError(f"Unable to locate {basename} at {test_files_path}")
-        return filename
+            raise FileNotFoundError(
+                f"Unable to locate {basename} at {test_files_path}"
+            )
+    return examples.find_files(filename)
 
 
 @pytest.fixture()
@@ -234,86 +223,80 @@ def raises_for_servers_version_under(version):
     return decorator
 
 
-if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+def remove_none_available_config(configs, config_names):
+    configs_out = []
+    config_names_out = []
+    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+        for conf, conf_name in zip(configs, config_names):
+            if conf == core.AvailableServerConfigs.LegacyGrpcServer:
+                configs_out.append(conf)
+                config_names_out.append(conf_name)
+    else:
+        configs_out = configs
+        config_names_out = config_names
+    if running_docker:
+        for conf, conf_name in zip(configs_out, config_names_out):
+            if conf == core.AvailableServerConfigs.InProcessServer:
+                configs_out.remove(conf)
+                config_names_out.remove(conf_name)
 
-    @pytest.fixture(
-        scope="session",
-        params=[
-            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-            ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
-        ],
-        ids=["ansys-grpc-dpf", "gRPC CLayer", "in Process CLayer"],
-    )
-    def server_type(request):
-        server = core.start_local_server(config=request.param, as_global=False)
-        return server
+    return configs_out, config_names_out
 
-    @pytest.fixture(
-        scope="session",
-        params=[
-            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-        ],
-        ids=[
-            "ansys-grpc-dpf",
-            "gRPC CLayer",
-        ],
-    )
-    def server_type_remote_process(request):
-        server = core.start_local_server(config=request.param, as_global=False)
-        return server
 
-    @pytest.fixture(
-        scope="session",
-        params=[
-            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-        ],
-        ids=["ansys-grpc-dpf config", "gRPC CLayer config"],
-    )
-    def remote_config_server_type(request):
-        return request.param
+configsserver_type, config_namesserver_type = remove_none_available_config([
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+        ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)
+    ],
+    ["ansys-grpc-dpf", "gRPC CLayer", "in Process CLayer"])
 
-    @pytest.fixture(
-        scope="session",
-        params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
-        ids=[
-            "ansys-grpc-dpf",
-        ],
-    )
-    def server_type_legacy_grpc(request):
-        return core.start_local_server(config=request.param, as_global=False)
+@pytest.fixture(
+    scope="session",
+    params=configsserver_type,
+    ids=config_namesserver_type,
+)
+def server_type(request):
+    server = core.start_local_server(config=request.param, as_global=False)
+    return server
 
-else:
 
-    @pytest.fixture(scope="session")
-    def server_type():
-        return core._global_server()
+configsserver_type_remote_process, config_namessserver_type_remote_process = remove_none_available_config([
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
+    ],
+    ["ansys-grpc-dpf", "gRPC CLayer"])
 
-    @pytest.fixture(
-        scope="session",
-        params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
-        ids=[
-            "ansys-grpc-dpf",
-        ],
-    )
-    def server_type_remote_process(request):
-        return core._global_server()
+@pytest.fixture(
+    scope="session",
+    params=configsserver_type_remote_process,
+    ids=config_namessserver_type_remote_process,
+)
+def server_type_remote_process(request):
+    server = core.start_local_server(config=request.param, as_global=False)
+    return server
 
-    @pytest.fixture(
-        scope="session",
-        params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
-        ids=[
-            "ansys-grpc-dpf",
-        ],
-    )
-    def remote_config_server_type(request):
-        return request.param
 
-    @pytest.fixture(scope="session")
-    def server_type_legacy_grpc(request):
-        return core._global_server()
+@pytest.fixture(
+    scope="session",
+    params=configsserver_type_remote_process,
+    ids=config_namessserver_type_remote_process,
+)
+def remote_config_server_type(request):
+    return request.param
+
+
+configsserver_type_legacy_grpc, config_namesserver_type_legacy_grpc = remove_none_available_config([
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+    ],
+    ["ansys-grpc-dpf"])
+
+@pytest.fixture(
+    scope="session",
+    params=configsserver_type_legacy_grpc,
+    ids=config_namesserver_type_legacy_grpc,
+)
+def server_type_legacy_grpc(request):
+    return core.start_local_server(config=request.param, as_global=False)
 
 
 @pytest.fixture(
@@ -326,7 +309,7 @@ else:
 def server_clayer_remote_process(request):
     server = core.start_local_server(config=request.param, as_global=False)
     if request.param == ServerConfig(
-        protocol=CommunicationProtocols.gRPC, legacy=False
+            protocol=CommunicationProtocols.gRPC, legacy=False
     ):
         client = core.settings.get_runtime_client_config(server)
         client.cache_enabled = True
@@ -344,7 +327,7 @@ def server_clayer_remote_process(request):
 def server_clayer(request):
     server = core.start_local_server(config=request.param, as_global=False)
     if request.param == ServerConfig(
-        protocol=CommunicationProtocols.gRPC, legacy=False
+            protocol=CommunicationProtocols.gRPC, legacy=False
     ):
         core.settings.get_runtime_client_config(server).cache_enabled = False
     return server
@@ -352,7 +335,8 @@ def server_clayer(request):
 
 @pytest.fixture
 def server_in_process():
-    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 \
+            or ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker:
         pytest.skip("InProcess unavailable for Ansys <222")
     else:
         return core.start_local_server(config=core.AvailableServerConfigs.InProcessServer,

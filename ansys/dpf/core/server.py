@@ -128,7 +128,7 @@ def start_local_server(
     as_global=True,
     load_operators=True,
     use_docker_by_default=True,
-    docker_name=None,
+    docker_config=RUNNING_DOCKER,
     timeout=10.,
     config=None,
     use_pypim_by_default=True
@@ -159,8 +159,8 @@ def start_local_server(
     use_docker_by_default : bool, optional
         If the environment variable DPF_DOCKER is set to a docker name and use_docker_by_default
         is True, the server is ran as a docker (default is True).
-    docker_name : str, optional
-        To start DPF server as a docker, specify the docker name here.
+    docker_config : server_factory.DockerConfig, optional
+        To start DPF server as a docker, specify the docker configuration options here.
     timeout : float, optional
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
@@ -176,7 +176,7 @@ def start_local_server(
     server : server.ServerBase
     """
     from ansys.dpf.core.misc import is_pypim_configured
-    use_docker = use_docker_by_default and (docker_name or RUNNING_DOCKER["use_docker"])
+    use_docker = use_docker_by_default and docker_config.use_docker
     use_pypim = use_pypim_by_default and is_pypim_configured()
     if not use_docker and not use_pypim:
         ansys_path = get_ansys_path(ansys_path)
@@ -189,8 +189,6 @@ def start_local_server(
                 raise OSError("DPF on v211 does not support Ubuntu")
         except ValueError:
             pass
-    elif RUNNING_DOCKER["use_docker"]:
-        docker_name = RUNNING_DOCKER["docker_name"]
 
     # avoid using any ports in use from existing servers
     used_ports = []
@@ -208,20 +206,21 @@ def start_local_server(
 
     if use_docker:
         port = _find_port_available_for_docker_bind(port)
-        config = ServerConfig(CommunicationProtocols.gRPC)
 
     server = None
     n_attempts = 10
     timed_out = False
     for _ in range(n_attempts):
         try:
-            server_type = ServerFactory.get_server_type_from_config(config, ansys_path)
+            server_type = ServerFactory.get_server_type_from_config(
+                config, ansys_path, docker_config
+            )
             server_init_signature = inspect.signature(server_type.__init__)
             if "ip" in server_init_signature.parameters.keys() and \
                     "port" in server_init_signature.parameters.keys():
                 server = server_type(
                     ansys_path, ip, port, as_global=as_global, launch_server=True,
-                    load_operators=load_operators, docker_name=docker_name, timeout=timeout,
+                    load_operators=load_operators, docker_config=docker_config, timeout=timeout,
                     use_pypim=use_pypim)
             else:
                 server = server_type(

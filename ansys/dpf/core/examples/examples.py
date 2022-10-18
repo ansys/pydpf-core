@@ -11,6 +11,7 @@ import inspect
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.core import upload_file_in_tmp_folder
+from ansys.dpf.core import path_utilities
 
 if os.environ.get("DPF_DOCKER", "").lower() == "true":
     # must pass a path that can be accessed by a docker image with
@@ -55,7 +56,8 @@ def find_files(local_path, should_upload=True, server=None):
         server = server_module.get_or_create_server(server)
         if not server.local_server:
             return upload_file_in_tmp_folder(local_path, server=server)
-    return local_path
+
+    return path_utilities.to_server_os(local_path, server)
 
 
 def find_simple_bar(should_upload: bool = True, server=None) -> str:
