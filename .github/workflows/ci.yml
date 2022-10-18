@@ -83,6 +83,7 @@ jobs:
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
 
       - name: "Separate long Core tests"
+        if: always()
         shell: pwsh
         run: |
           New-Item -Path ".\" -Name "test_launcher" -ItemType "directory"
@@ -119,6 +120,7 @@ jobs:
         working-directory: tests
         run: |
           pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
