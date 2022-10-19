@@ -1,4 +1,5 @@
 import os
+from typing import re
 
 import pytest
 import conftest
@@ -8,6 +9,7 @@ import platform
 
 from ansys import dpf
 from ansys.dpf.core import path_utilities
+from ansys.dpf.core import examples
 from conftest import running_docker
 
 
@@ -45,24 +47,15 @@ def test_loadplugin(server_type):
     assert loaded
 
 
-def transfer_to_local_path(path):
-    return os.path.normpath(
-        path.replace(
-            path_utilities.downloaded_example_path(),
-            dpf.core.LOCAL_DOWNLOADED_EXAMPLES_PATH,
-        )
-    )
-
-
 @pytest.mark.skipif(platform.system() == "Windows"
                     and (platform.python_version().startswith("3.8")
                          or platform.python_version().startswith("3.7")),
                     reason="Random SEGFAULT in the GitHub pipeline for 3.7-8 on Windows")
-def test_upload_download(allkindofcomplexity, tmpdir, server_type_remote_process):
+def test_upload_download(tmpdir, server_type_remote_process):
     tmpdir = str(tmpdir)
     file = dpf.core.upload_file_in_tmp_folder(
-        transfer_to_local_path(allkindofcomplexity),
-        server = server_type_remote_process
+        examples.download_all_kinds_of_complexity(return_local_path=True),
+        server=server_type_remote_process
     )
     dataSource = dpf.core.DataSources(file, server=server_type_remote_process)
     op = dpf.core.Operator("S", server=server_type_remote_process)
@@ -86,7 +79,7 @@ def test_upload_download(allkindofcomplexity, tmpdir, server_type_remote_process
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_download_folder(
-    allkindofcomplexity, plate_msup, multishells, tmpdir, server_type_remote_process
+        allkindofcomplexity, plate_msup, multishells, tmpdir, server_type_remote_process
 ):
     tmpdir = str(tmpdir)
     file = dpf.core.upload_file_in_tmp_folder(
@@ -142,7 +135,7 @@ def test_download_with_subdir(multishells, tmpdir, server_type_remote_process):
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_downloadinfolder_uploadinfolder(
-    multishells, tmpdir, server_type_remote_process
+        multishells, tmpdir, server_type_remote_process
 ):
     tmpdir = str(tmpdir)
     base = dpf.core.BaseService(server=server_type_remote_process)
@@ -241,7 +234,7 @@ def test_load_plugin_correctly(server_type):
     actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
 
     base = dpf.BaseService(server=server_type)
-    if os.name == "nt":
+    if server_type.os == "nt":
         base.load_library("Ans.Dpf.Math.dll", "math_operators", generate_operators=True)
         t = os.path.getmtime(os.path.join(actual_path, r"operators/math/fft_eval.py"))
         assert datetime.datetime.fromtimestamp(t).date() == datetime.datetime.today().date()
@@ -263,7 +256,7 @@ def test_load_plugin_correctly_remote():
 
     actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
 
-    if os.name == "posix":
+    if server.os == "posix":
         dpf.load_library("libAns.Dpf.Math.so", "math_operators", server=server_connected)
     else:
         dpf.load_library("Ans.Dpf.Math.dll", "math_operators", server=server_connected)

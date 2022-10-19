@@ -93,7 +93,7 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
     return dpf_run_dir
 
 
-def _run_launch_server_process(ansys_path, ip, port, docker_config):
+def _run_launch_server_process(ansys_path, ip, port, docker_config=server_factory.DockerConfig()):
     bShell = False
     if docker_config.use_docker:
         docker_server_port = int(os.environ.get("DOCKER_SERVER_PORT", port))
@@ -124,7 +124,7 @@ def _run_launch_server_process(ansys_path, ip, port, docker_config):
 
 
 def _wait_and_check_server_connection(
-        process, timeout, lines, current_errors, stderr=None, stdout=None):
+        process, port, timeout, lines, current_errors, stderr=None, stdout=None):
     if not stderr:
         def read_stderr():
             for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
@@ -195,7 +195,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
     lines = []
     current_errors = []
     _wait_and_check_server_connection(
-        process, timeout, lines, current_errors, stderr=None, stdout=None)
+        process, port, timeout, lines, current_errors, stderr=None, stdout=None)
 
 
 def launch_dpf_on_docker(docker_config, ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10,
@@ -231,7 +231,7 @@ def launch_dpf_on_docker(docker_config, ansys_path, ip=LOCALHOST, port=DPF_DEFAU
     lines = []
     docker_id = []
     current_errors = []
-    running_docker_config = server_factory.RunningDockerConfig()
+    running_docker_config = server_factory.RunningDockerConfig(port=port)
 
     def read_stdout():
         for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
@@ -241,7 +241,7 @@ def launch_dpf_on_docker(docker_config, ansys_path, ip=LOCALHOST, port=DPF_DEFAU
 
 
     _wait_and_check_server_connection(
-        process, timeout, lines, current_errors, stderr=None, stdout=read_stdout)
+        process, port, timeout, lines, current_errors, stderr=None, stdout=read_stdout)
 
     return running_docker_config
 
@@ -586,7 +586,6 @@ class GrpcServer(CServer):
                 self.docker_config = launch_dpf_on_docker(
                     docker_config=docker_config,
                     ansys_path=ansys_path, ip=ip, port=port, timeout=timeout)
-                self._local_server = True
             else:
                 launch_dpf(ansys_path, ip, port, timeout=timeout)
                 self._local_server = True
@@ -665,7 +664,10 @@ class GrpcServer(CServer):
         -------
         ip : str
         """
-        return self._input_ip
+        try:
+            return self.info["server_ip"]
+        except:
+            return 0
 
     @property
     def port(self):
@@ -675,7 +677,10 @@ class GrpcServer(CServer):
         -------
         port : int
         """
-        return self._input_port
+        try:
+            return self.info["server_port"]
+        except:
+            return 0
 
     @property
     def local_server(self):
@@ -829,7 +834,7 @@ class LegacyGrpcServer(BaseServer):
                         ansys_path=ansys_path, ip=ip, port=port, timeout=timeout)
                 else:
                     launch_dpf(ansys_path, ip, port, timeout=timeout)
-                self._local_server = True
+                    self._local_server = True
 
         self.channel = grpc.insecure_channel(address)
 

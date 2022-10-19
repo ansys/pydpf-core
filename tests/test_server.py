@@ -12,7 +12,7 @@ from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
 from ansys.dpf.core.server import get_or_create_server
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0, running_docker
 
 server_configs = [None,
                   ServerConfig(),
@@ -120,10 +120,23 @@ class TestServer:
         client = server.client
 
 
-@pytest.mark.skipif(os.name == 'posix', reason="lin issue: 2 processes can be run with same port")
+@pytest.mark.skipif(os.name == 'posix' or running_docker,
+                    reason="lin issue: 2 processes can be run with same port")
 def test_busy_port(remote_config_server_type):
     my_serv = start_local_server(config=remote_config_server_type)
     busy_port = my_serv.port
+    with pytest.raises(errors.InvalidPortError):
+        server_types.launch_dpf(ansys_path=dpf.core.misc.get_ansys_path(), port=busy_port)
+    server = start_local_server(as_global=False, port=busy_port,
+                                config=remote_config_server_type)
+    assert server.port != busy_port
+
+
+@pytest.mark.skipif(not running_docker,
+                    reason="Only work on Docker")
+def test_docker_busy_port(remote_config_server_type):
+    my_serv = start_local_server(config=remote_config_server_type)
+    busy_port = my_serv.docker_config.port
     with pytest.raises(errors.InvalidPortError):
         server_types.launch_dpf(ansys_path=dpf.core.misc.get_ansys_path(), port=busy_port)
     server = start_local_server(as_global=False, port=busy_port,

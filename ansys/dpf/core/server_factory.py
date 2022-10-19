@@ -281,6 +281,10 @@ class DockerConfig:
     def use_docker(self):
         return self._use_docker
 
+    @use_docker.setter
+    def use_docker(self, val: bool):
+        self._use_docker = val
+
     @property
     def docker_name(self):
         return self._docker_name
@@ -314,6 +318,28 @@ class DockerConfig:
                f"\t- mounted_volume: {self.mounted_volumes}\n" \
                f"\t- extra_args: {self.extra_args}\n"
 
+    @staticmethod
+    def find_port_available_for_docker_bind(port):
+        run_cmd = "docker ps --all"
+        if os.name == 'posix':
+            process = subprocess.Popen(
+                run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+            )
+        else:
+            process = subprocess.Popen(
+                run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+        used_ports = []
+        for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
+            if not ("CONTAINER ID" in line):
+                split = line.split("0.0.0.0:")
+                if len(split) > 1:
+                    used_ports.append(int(split[1].split("-")[0]))
+
+        while port in used_ports:
+            port += 1
+        return port
+
 
 class RunningDockerConfig:
     """Holds all the configuration option and the process information of a running Docker image
@@ -325,18 +351,26 @@ class RunningDockerConfig:
         ``DockerConfig`` used to start the docker.
     server_id : int, optional
         Running docker image id.
+    port : int, optional
+        Local port exposed to the docker image.
 
     """
-    def __init__(self, docker_config=None, server_id=None):
+
+    def __init__(self, docker_config=None, server_id=None, port=None):
         if docker_config is None:
             docker_config = DockerConfig()
         self._docker_config = docker_config
         self._server_id = server_id
         self._use_docker = self._docker_config.use_docker
+        self._port = port
 
     @property
     def use_docker(self):
         return self._use_docker
+
+    @property
+    def port(self):
+        return self._port
 
     @property
     def server_id(self):
@@ -386,9 +420,10 @@ class RunningDockerConfig:
         path: str
 
         """
-        path = os.path.normpath(path)
-        for key, val in self.mounted_volumes.items():
-            path = path.replace(os.path.normpath(key), val)
+        if self.use_docker:
+            path = os.path.normpath(path)
+            for key, val in self.mounted_volumes.items():
+                path = path.replace(os.path.normpath(key), val)
         return path
 
     def remove_docker_image(self):

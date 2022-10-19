@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+import conftest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples, server_types, server
@@ -9,9 +10,9 @@ from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 
 @pytest.fixture(scope="module", params=[
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
-] if (isinstance(server._global_server(), server_types.InProcessServer)) else [
+] if (isinstance(server._global_server(), server_types.InProcessServer)) else conftest.remove_none_available_config([
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-    ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)] if \
+    ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)], ["gRPC", "inProcess"])[0] if \
         isinstance(server._global_server(), server_types.GrpcServer) else [
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
 ])
