@@ -12,7 +12,7 @@ from ansys.dpf.core import examples
 
 ###############################################################################
 # Create the model and display the state of the result.
-model = dpf.Model(examples.simple_cyclic)
+model = dpf.Model(examples.find_simple_cyclic())
 print(model)
 
 ###############################################################################

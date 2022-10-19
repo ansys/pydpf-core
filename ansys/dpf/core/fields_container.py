@@ -536,6 +536,11 @@ class FieldsContainer(Collection):
                     deform = False
             if deform_by and not isinstance(deform_by, dpf.core.FieldsContainer):
                 deform_by = deform_by.eval()
+                if len(deform_by) != len(self):
+                    raise ValueError("'deform_by' argument must result in a FieldsContainer "
+                                     "of same length as the animated one "
+                                     f"(len(deform_by.eval())={len(deform_by)} "
+                                     f"!= len(self)={len(self)}).")
         else:
             deform = False
         if deform:
@@ -561,15 +566,12 @@ class FieldsContainer(Collection):
             # Addition to the scaled deformation field
             add_op = dpf.core.operators.math.add(divide_op.outputs.field,
                                                  get_coordinates_op.outputs.coordinates_as_field)
+            wf.set_output_name("deform_by", add_op.outputs.field)
+            add_op.progress_bar = False
         else:
             scale_factor = None
-            scale_factor_fc = dpf.core.animator.scale_factor_to_fc(1.0, self)
-            extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor_fc)
-            add_op = dpf.core.operators.utility.forward_field(extract_scale_factor_op)
-        wf.set_output_name("deform_by", add_op.outputs.field)
         wf.set_output_name("to_render", extract_field_op.outputs.field)
         wf.progress_bar = False
-        add_op.progress_bar = False
 
         loop_over = self.get_time_scoping()
         frequencies = self.time_freq_support.time_frequencies
