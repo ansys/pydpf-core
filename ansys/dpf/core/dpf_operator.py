@@ -362,7 +362,7 @@ class Operator:
             Output of the operator.
         """
         output_type = _write_output_type_to_type(output_type)
-        if self._server.meet_version("3.0") and False:
+        if self._server.meet_version("3.0") and self.progress_bar:
             self._server._session.add_operator(self, pin, "operator")
             self._progress_thread = self._server._session.listen_to_progress()
         if output_type is None:
