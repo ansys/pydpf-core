@@ -391,6 +391,8 @@ class DpfPlotter:
         >>> pl.add_mesh(mesh)
 
         """
+        if meshed_region.grid is not None:
+            meshed_region.grid.clear_data()
         self._internal_plotter.add_mesh(meshed_region=meshed_region,
                                         deform_by=deform_by,
                                         scale_factor=scale_factor,
@@ -767,6 +769,7 @@ class Plotter:
             self._internal_plotter.add_scale_factor_legend(scale_factor, **kwargs)
         else:
             grid = mesh.grid
+        grid.clear_data()
         self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
         background = kwargs.pop("background", None)

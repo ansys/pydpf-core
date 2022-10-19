@@ -282,15 +282,21 @@ def check_ansys_grpc_dpf_version(server, timeout):
         raise TimeoutError(
             f"Failed to connect to {server._input_ip}:{server._input_port} in {timeout} seconds"
         )
-
+    compatibility_link = (f"https://dpf.docs.pyansys.com/getting_started/"
+                          f"index.html#client-server-compatibility")
     LOG.debug("Established connection to DPF gRPC")
     grpc_module_version = ansys.grpc.dpf.__version__
     server_version = server.version
     right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
+    if right_grpc_module_version is None:  # pragma: no cover
+        # warnings.warn(f"No requirement specified on ansys-grpc-dpf for server version "
+        #               f"{server_version}. Continuing with the ansys-grpc-dpf version "
+        #               f"installed ({grpc_module_version}). In case of unexpected instability, "
+        #               f"please refer to the compatibility guidelines given in "
+        #               f"{compatibility_link}.")
+        return
     if not _compare_ansys_grpc_dpf_version(right_grpc_module_version, grpc_module_version):
         ansys_version_to_use = server_to_ansys_version.get(server_version, 'Unknown')
-        compatibility_link = (f"https://dpfdocs.pyansys.com/getting_started/"
-                              f"index.html#client-server-compatibility")
         ansys_versions = core._version.server_to_ansys_version
         latest_ansys = ansys_versions[max(ansys_versions.keys())]
         raise ImportWarning(f"An incompatibility has been detected between the DPF server version "
@@ -537,6 +543,7 @@ class GrpcServer(CServer):
                  launch_server=True,
                  docker_name=None,
                  use_pypim=True,
+                 num_connection_tryouts=3,
                  ):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
@@ -568,7 +575,18 @@ class GrpcServer(CServer):
         self._input_port = port
         self.live = True
         self._create_shutdown_funcs()
+        self._check_first_call(num_connection_tryouts)
         self.set_as_global(as_global=as_global)
+
+    def _check_first_call(self, num_connection_tryouts):
+        for i in range(num_connection_tryouts):
+            try:
+                self.version
+                break
+            except errors.DPFServerException as e:
+                if ("GOAWAY" not in str(e.args) and "unavailable" not in str(e.args)) \
+                        or i == (num_connection_tryouts - 1):
+                    raise e
 
     @property
     def version(self):
