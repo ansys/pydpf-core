@@ -111,7 +111,7 @@ def test_animator_animate_fields_container_eqv():
 
 
 def test_animator_animate_fields_container_eqv_partial_scoping():
-    model = dpf.Model(examples.find_msup_transient'))
+    model = dpf.Model(examples.find_msup_transient())
     time_scoping = dpf.time_freq_scoping_factory.scoping_by_sets(
         list(range(5, 20)))
     stress_result = model.results.stress.on_time_scoping(time_scoping)
