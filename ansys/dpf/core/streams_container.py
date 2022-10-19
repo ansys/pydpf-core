@@ -33,7 +33,7 @@ class StreamsContainer:
     --------
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.multishells_rst)
+    >>> model = dpf.Model(examples.find_multishells_rst())
     >>> streams_provider = model.metadata.streams_provider
     >>> sc = streams_provider.outputs.streams_container()
     """

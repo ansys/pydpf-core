@@ -654,7 +654,7 @@ class Elements:
 
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> vol = model.results.elemental_volume()
         >>> field = vol.outputs.fields_container()[0]
@@ -1286,7 +1286,7 @@ class element_types(Enum):
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> element = elements[0]
         >>> type_of_element = element.type

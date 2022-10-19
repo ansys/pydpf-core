@@ -58,7 +58,7 @@ class Workflow:
 
 
     >>> from ansys.dpf.core import examples
-    >>> data_src = dpf.DataSources(examples.multishells_rst)
+    >>> data_src = dpf.DataSources(examples.find_multishells_rst())
     >>> workflow.connect("data_sources", data_src)
     >>> min = workflow.get_output("min", dpf.types.field) # doctest: +SKIP
     >>> max = workflow.get_output("max", dpf.types.field) # doctest: +SKIP
@@ -138,7 +138,7 @@ class Workflow:
 
 
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> workflow.connect("data_sources", data_src)
         >>> min = workflow.get_output("min", dpf.types.field) # doctest: +SKIP
         >>> max = workflow.get_output("max", dpf.types.field) # doctest: +SKIP
@@ -326,7 +326,7 @@ class Workflow:
         >>> workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
 
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> workflow.connect("data_sources", data_src)
 
         """

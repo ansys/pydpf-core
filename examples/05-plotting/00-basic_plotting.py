@@ -13,7 +13,7 @@ from ansys.dpf.core import examples
 
 
 # Plot the bare mesh of a model
-model = dpf.Model(examples.multishells_rst)
+model = dpf.Model(examples.find_multishells_rst())
 model.plot(color="w", show_edges=True, title='Model', text='Model plot')
 # # Additional PyVista kwargs are supported, such as:
 model.plot(off_screen=True, notebook=False, screenshot='model_plot.png',
@@ -54,7 +54,7 @@ meshes_cont.plot(title='Meshes Container', text='Meshes Container plot')
 # A fields_container can be given as input, with results on each part of our split mesh.
 disp_op = dpf.Operator("U")
 disp_op.connect(7, meshes_cont)
-ds = dpf.DataSources(examples.multishells_rst)
+ds = dpf.DataSources(examples.find_multishells_rst())
 disp_op.connect(4, ds)
 disp_fc = disp_op.outputs.fields_container()
 meshes_cont.plot(disp_fc, title='Meshes Container disp_fc', text='Meshes Container disp_fc plot')

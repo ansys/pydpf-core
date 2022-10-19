@@ -17,7 +17,7 @@ or a path relative to the DPF server.
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
 
-    path = examples.simple_bar
+    path = examples.find_simple_bar()
     model = dpf.Model(path)
 
 To understand what is available in the result file, you can print the model

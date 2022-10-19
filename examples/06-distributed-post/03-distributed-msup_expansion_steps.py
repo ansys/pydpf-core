@@ -113,7 +113,7 @@ print("ports:", ports)
 ###############################################################################
 # Specify the file path.
 
-base_path = examples.distributed_msup_folder
+base_path = examples.find_distributed_msup_folder()
 files = [os.path.join(base_path, "file0.mode"), os.path.join(base_path, "file1.mode")]
 files_aux = [os.path.join(base_path, "file0.rst"), os.path.join(base_path, "file1.rst")]
 
