@@ -280,7 +280,7 @@ class Workflow:
         output_type : core.type enum
             Type of the requested output.
         """
-        if server_meet_version("3.0", self._server) and False:
+        if server_meet_version("3.0", self._server) and self.progress_bar:
             # handle progress bar
             self._server._session.add_workflow(self, "workflow")
             self._progress_thread = self._server._session.listen_to_progress()
