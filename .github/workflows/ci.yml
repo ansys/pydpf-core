@@ -284,7 +284,7 @@ jobs:
       - name: "Retrieve package version"
         shell: bash
         run: |
-          echo "::set-output name=VERSION::$(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
+          echo "VERSION=$(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")" >> $GITHUB_OUTPUT
           echo "${{env.PACKAGE_NAME}} version is: $(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
         id: version
         if: always()
