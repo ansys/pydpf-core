@@ -384,7 +384,7 @@ class DpfPlotter:
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.multishells_rst)
+        >>> model = dpf.Model(examples.find_multishells_rst())
         >>> mesh = model.metadata.meshed_region
         >>> from ansys.dpf.core.plotter import DpfPlotter
         >>> pl = DpfPlotter()
@@ -432,7 +432,7 @@ class DpfPlotter:
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.multishells_rst)
+        >>> model = dpf.Model(examples.find_multishells_rst())
         >>> mesh = model.metadata.meshed_region
         >>> field = model.results.displacement().outputs.fields_container()[0]
         >>> from ansys.dpf.core.plotter import DpfPlotter
@@ -463,7 +463,7 @@ class DpfPlotter:
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.multishells_rst)
+        >>> model = dpf.Model(examples.find_multishells_rst())
         >>> mesh = model.metadata.meshed_region
         >>> field = model.results.displacement().outputs.fields_container()[0]
         >>> from ansys.dpf.core.plotter import DpfPlotter
@@ -498,7 +498,7 @@ def plot_chart(fields_container, off_screen=False, screenshot=None):
     --------
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.transient_therm)
+    >>> model = dpf.Model(examples.find_transient_therm())
     >>> t = model.results.temperature.on_all_time_freqs()
     >>> fc = t.outputs.fields_container()
     >>> plotter = dpf.plotter.plot_chart(fc)

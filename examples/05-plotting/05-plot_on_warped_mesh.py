@@ -12,7 +12,7 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
 # Get and show the initial model
-model = dpf.Model(examples.multishells_rst)
+model = dpf.Model(examples.find_multishells_rst())
 print(model)
 model.plot(title='Model', text='Model.plot()')
 

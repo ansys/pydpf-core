@@ -16,7 +16,7 @@ from ansys.dpf.core import operators as ops
 # Create the model and display the state of the result. This transient result
 # file contains several individual results, each at a different times.
 
-transient = examples.msup_transient
+transient = examples.find_msup_transient()
 model = dpf.Model(transient)
 print(model)
 

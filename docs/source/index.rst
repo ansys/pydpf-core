@@ -39,7 +39,7 @@ and extract results:
 
     >>> from ansys.dpf.core import Model
     >>> from ansys.dpf.core import examples
-    >>> model = Model(examples.simple_bar)
+    >>> model = Model(examples.find_simple_bar())
     >>> print(model)
 
 
