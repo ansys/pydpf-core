@@ -906,7 +906,8 @@ def test_field_huge_amount_of_data(allkindofcomplexity):
 def test_field_mutable_data(server_clayer, allkindofcomplexity):
     # set data with a field created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
-    field = model.results.displacement().outputs.fields_container()[0]
+    disp_op = model.results.displacement()
+    field = disp_op.eval()[0]
     data = field.data
     data_copy = copy.deepcopy(data)
     data[0] += 1.
@@ -925,7 +926,8 @@ def test_field_mutable_data(server_clayer, allkindofcomplexity):
 def test_field_mutable_data_pointer(server_clayer, allkindofcomplexity):
     # set data with a field created from a model
     model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
-    field = model.results.stress().outputs.fields_container()[0]
+    stress_op = model.results.stress()
+    field = stress_op.eval()[0]
     data = field._data_pointer
     data_copy = copy.deepcopy(data)
     data[0] += 1
