@@ -14,8 +14,6 @@ on:
     secrets:
       DPF_PIPELINE:
         required: true
-      pydpf-post-TOKEN:
-        required: true
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -67,7 +65,7 @@ jobs:
       - name: "Clone PyDPF-Post"
         shell: bash
         run: |
-          $REPO="@github.com/pyansys/pydpf-post"
+          $REPO="https://github.com/pyansys/pydpf-post.git"
           $in="${{ inputs.PyDPF-Post_branch }}"
           if ["$in" = ""];
           then
@@ -75,7 +73,7 @@ jobs:
           else
             $BranchName = $in
           fi
-          git clone https://${{secrets.pydpf-post-TOKEN}}$REPO --branch --single-branch $BranchName
+          git clone $REPO --branch --single-branch $BranchName
 
       - name: "Install PyDPF-Post"
         shell: bash
