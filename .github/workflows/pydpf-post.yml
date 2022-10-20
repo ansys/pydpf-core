@@ -1,10 +1,21 @@
 name: PyDPF-Post testing
 
 on:
+# Can be called by the CI
+  workflow_call:
+    inputs:
+      PyDPF-Post_branch:
+        required: true
+        default: 'master'
+        type: string
+    secrets:
+      DPF_PIPELINE:
+        required: true
+# Can be called manually
   workflow_dispatch:
     inputs:
       PyDPF-Post_branch:
-        description: 'PyDPF-Post branch to test'
+        description: 'PyDPF-Post branch or tag to test'
         required: true
         default: 'master'
         type: string
