@@ -28,7 +28,11 @@ env:
 jobs:
   Clone_and_Test:
     name: Clone and Test
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["windows-latest", "ubuntu-latest"]
 
     steps:
       - uses: actions/checkout@v3
