@@ -95,3 +95,12 @@ jobs:
       python_versions: '["3.8"]'
       DOCSTRING: false
     secrets: inherit
+
+  pydpf-post:
+    name: "PyDPF-Post"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/pydpf-post.yml
+    with:
+      ANSYS_VERSION: "231"
+    secrets: inherit
+
