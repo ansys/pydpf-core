@@ -41,8 +41,8 @@ jobs:
 
       - name: "Clone PyDPF-Post"
         run: |
-          $BranchName = ${{ inputs.PyDPF-Post_branch }}
-          git clone --branch "$BranchName" --single-branch https://${{secrets.pydpf-post-TOKEN}}@github.com/pyansys/pydpf-post
+          $BranchName = "${{ inputs.PyDPF-Post_branch }}"
+          git clone --branch $BranchName --single-branch https://${{secrets.pydpf-post-TOKEN}}@github.com/pyansys/pydpf-post
         shell: pwsh
 
       - name: "Install PyDPF-Post"
