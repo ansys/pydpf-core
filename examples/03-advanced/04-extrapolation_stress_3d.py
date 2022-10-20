@@ -69,7 +69,7 @@ stress = stressop.outputs.fields_container()
 ###############################################################################
 # Nodal stress result of integration points
 ###############################################################################
-# The MAPLD command ``ERESX,NO``is used to copy directly the
+# The MAPLD command ``ERESX,NO`` is used to copy directly the
 # Gaussian (integration) points results to the nodes, instead of the
 # results at nodes or elements (which are interpolation of results at a
 # few gauss points).
