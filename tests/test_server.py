@@ -75,19 +75,6 @@ class TestServerConfigs:
         assert has_local_server()
         shutdown_all_session_servers()
 
-    def test_connect_to_server(self, server_config):
-        set_server_configuration(server_config)
-        print(dpf.core.SERVER_CONFIGURATION)
-        shutdown_all_session_servers()
-        start_local_server(timeout=10.)
-        print("has_local_server", has_local_server())
-        if hasattr(dpf.core.SERVER, "ip"):
-            connect_to_server(ip=dpf.core.SERVER.ip, port=dpf.core.SERVER.port, timeout=10.,
-                              as_global=False)
-        else:
-            connect_to_server(timeout=10., as_global=False)
-        assert has_local_server()
-
     def test_shutdown_all_session_servers(self, server_config):
         set_server_configuration(server_config)
         print(dpf.core.SERVER_CONFIGURATION)
@@ -210,3 +197,15 @@ def test_connect_to_remote_server(server_type_remote_process):
     )
     assert server.ip == server_type_remote_process.ip
     assert server.port == server_type_remote_process.port
+
+
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason='Not existing in version lower than 4.0')
+def test_go_away_server():
+    for _ in range(0, 5):
+        s = start_local_server(
+            config=dpf.core.AvailableServerConfigs.GrpcServer,
+            as_global=False
+        )
+        field = dpf.core.Field(server=s)
+        assert field._internal_obj is not None

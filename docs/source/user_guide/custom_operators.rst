@@ -230,7 +230,7 @@ For a plugin that is a single script, the second argument should be ``py_`` plus
     "py_custom_plugin", #if the load_operators function is defined in path/to/plugins/custom_plugin.py
     "load_operators")
 
-For a plug-in package, the second argument should be ``_py`` plus any name:
+For a plug-in package, the second argument should be ``py_`` plus any name:
 
 .. code::
 

@@ -7,7 +7,6 @@ This example lists the different commands available for creating animations of r
 shown with the arguments available.
 
 """
-# sphinx_gallery_thumbnail_number = 1
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
@@ -43,6 +42,9 @@ stress_fields = stress_op.eval()
 # - Showing the static geometry if the fields are not nodal 3D vector fields.
 # stress_fields.animate()
 
+# One can deactivate by default animation by self using deform_by=False
+# displacement_fields.animate(deform_by=False)
+
 # Change the scale factor using a number/a list of numbers for a uniform constant/varying scaling.
 # displacement_fields.animate(deform_by=True, scale_factor=10.,
 #                             show_axes=True)
@@ -62,8 +64,8 @@ stress_fields = stress_op.eval()
 # - a Result giving nodal 3D vectorial length fields
 # stress_fields.animate(deform_by=model.results.displacement.on_all_time_freqs())
 # - an Operator which outputs nodal 3D vectorial length fields
-# stress_fields.animate(deform_by=model.results.displacement)
-
+# stress_fields.animate(deform_by=model.results.displacement.on_all_time_freqs)
+# It must evaluate to a FieldsContainer of same length as the one being animated.
 
 # Save the animation using "save_as" with a target path with the desired format as extension.
 # (accepts .gif, .avi or .mp4, see pyvista.Plotter.open_movie)

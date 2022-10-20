@@ -67,6 +67,7 @@ intersphinx_mapping = {
 
 autosummary_generate = True
 
+autodoc_mock_imports = ["ansys.dpf.core.examples.python_plugins"]
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
@@ -85,7 +86,7 @@ master_doc = "index"
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -99,11 +100,35 @@ pygments_style = None
 # -- Sphinx Gallery Options
 from sphinx_gallery.sorting import FileNameSortKey
 
+
+def reset_servers(gallery_conf, fname, when):
+    import psutil
+    from ansys.dpf.core import server
+    import gc
+
+    gc.collect()
+    server.shutdown_all_session_servers()
+
+    proc_name = "Ans.Dpf.Grpc"
+    nb_procs = 0
+    for proc in psutil.process_iter():
+        try:
+            # check whether the process name matches
+            if proc_name in proc.name():
+                # proc.kill()
+                nb_procs += 1
+        except psutil.NoSuchProcess:
+            pass
+    print(f"Counted {nb_procs} {proc_name} processes {when} the example.")
+
+
 sphinx_gallery_conf = {
     # convert rst to md for ipynb
     "pypandoc": True,
     # path to your examples scripts
     "examples_dirs": ["../../examples"],
+    # abort build at first example error
+    'abort_on_example_error': True,
     # path where to save gallery generated examples
     "gallery_dirs": ["examples"],
     # Patter to search for example files
@@ -118,18 +143,24 @@ sphinx_gallery_conf = {
     # 'first_notebook_cell': ("%matplotlib inline\n"
     #                         "from pyvista import set_plot_theme\n"
     #                         "set_plot_theme('document')"),
+    "reset_modules_order": 'both',
+    "reset_modules": (reset_servers,),
 }
 
 autodoc_member_order = "bysource"
 
 
 # -- Options for HTML output -------------------------------------------------
+html_short_title = html_title = "PyDPF-Core"
 html_theme = "ansys_sphinx_theme"
 html_logo = pyansys_logo_black
 html_theme_options = {
-    "github_url": "https://github.com/pyansys/DPF-Core",
+    "github_url": "https://github.com/pyansys/pydpf-core",
     "show_prev_next": False,
-    "logo_link": "https://dpfdocs.pyansys.com/"  # navigate to the main page
+    "show_breadcrumbs": True,
+    "additional_breadcrumbs": [
+        ("PyAnsys", "https://docs.pyansys.com/"),
+    ],
 }
 
 
