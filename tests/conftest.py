@@ -308,11 +308,6 @@ def server_type_legacy_grpc(request):
 )
 def server_clayer_remote_process(request):
     server = core.start_local_server(config=request.param, as_global=False)
-    if request.param == ServerConfig(
-            protocol=CommunicationProtocols.gRPC, legacy=False
-    ):
-        client = core.settings.get_runtime_client_config(server)
-        client.cache_enabled = True
     return server
 
 
@@ -324,16 +319,12 @@ configs_server_clayer, config_names_server_clayer = remove_none_available_config
 
 
 @pytest.fixture(
-    scope="package",
+    scope="function",
     params=configs_server_clayer,
     ids=config_names_server_clayer,
 )
 def server_clayer(request):
     server = core.start_local_server(config=request.param, as_global=False)
-    if request.param == ServerConfig(
-            protocol=CommunicationProtocols.gRPC, legacy=False
-    ):
-        core.settings.get_runtime_client_config(server).cache_enabled = False
     return server
 
 
