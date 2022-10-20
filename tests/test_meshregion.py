@@ -121,7 +121,15 @@ def test_set_coordinates_field_meshedregion(simple_bar_model):
     field_coordinates.data = new_data
     mesh.set_coordinates_field(field_coordinates)
     field_coordinates = mesh.nodes.coordinates_field
+    point_0 = list(mesh.grid.points[0])
     assert np.allclose(field_coordinates.data[0], [1.0, 1.0, 1.0])
+    assert np.allclose(point_0, [1.0, 1.0, 1.0])
+    field_coordinates.data = field_coordinates.data * 2.0
+    mesh.set_coordinates_field(field_coordinates)
+    field_coordinates = mesh.nodes.coordinates_field
+    point_1 = list(mesh.grid.points[0])
+    assert np.allclose(field_coordinates.data[0], [2.0, 2.0, 2.0])
+    assert np.allclose(point_1, [2.0, 2.0, 2.0])
 
 
 def test_get_element_types_field_meshedregion(simple_bar_model):
@@ -632,6 +640,8 @@ def test_semi_parabolic_meshed_region(server_type, allkindofcomplexity):
     reason="Bug in server version lower than 4.0",
 )
 def test_empty_mesh_get_scoping(server_type):
-    mesh = dpf.core.MeshedRegion()
-    assert mesh.nodes.scoping is None
-    assert mesh.elements.scoping is None
+    mesh = dpf.core.MeshedRegion(server=server_type)
+    okay = mesh.nodes.scoping is None or len(mesh.nodes.scoping) == 0
+    assert okay
+    okay = mesh.elements.scoping is None or len(mesh.elements.scoping) == 0
+    assert okay

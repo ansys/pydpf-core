@@ -20,7 +20,7 @@ class Output:
     --------
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
-    >>> data_src = dpf.DataSources(examples.msup_transient)
+    >>> data_src = dpf.DataSources(examples.find_msup_transient())
     >>> disp_op = dpf.operators.result.displacement()
     >>> disp_op.inputs.data_sources(data_src)
     >>> isinstance(disp_op.outputs.fields_container, dpf.inputs.Output)
@@ -141,7 +141,7 @@ class Outputs(_Outputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
-    >>> data_src = dpf.DataSources(examples.msup_transient)
+    >>> data_src = dpf.DataSources(examples.find_msup_transient())
     >>> disp_op = dpf.operators.result.displacement()
     >>> disp_op.inputs.data_sources(data_src)
     >>> isinstance(disp_op.outputs, dpf.inputs._Outputs)

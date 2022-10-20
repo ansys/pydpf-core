@@ -93,7 +93,7 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
     return dpf_run_dir
 
 
-def _run_launch_server_process(ansys_path, ip, port, docker_config):
+def _run_launch_server_process(ansys_path, ip, port, docker_config=server_factory.DockerConfig()):
     bShell = False
     if docker_config.use_docker:
         docker_server_port = int(os.environ.get("DOCKER_SERVER_PORT", port))
@@ -124,7 +124,7 @@ def _run_launch_server_process(ansys_path, ip, port, docker_config):
 
 
 def _wait_and_check_server_connection(
-        process, timeout, lines, current_errors, stderr=None, stdout=None):
+        process, port, timeout, lines, current_errors, stderr=None, stdout=None):
     if not stderr:
         def read_stderr():
             for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
@@ -148,7 +148,7 @@ def _wait_and_check_server_connection(
     t_timeout = time.time() + timeout
     started = False
     timedout = False
-    while not started:
+    while not started and len(current_errors) == 0:
         # print(lines)
         started = any("server started" in line for line in lines)
 
@@ -166,7 +166,8 @@ def _wait_and_check_server_connection(
         except PermissionError:
             pass
         errstr = "\n".join(current_errors)
-        if "Only one usage of each socket address" in errstr:
+        if "Only one usage of each socket address" in errstr or \
+                "port is already allocated" in errstr:
             raise errors.InvalidPortError(f"Port {port} in use")
         raise RuntimeError(errstr)
 
@@ -195,7 +196,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
     lines = []
     current_errors = []
     _wait_and_check_server_connection(
-        process, timeout, lines, current_errors, stderr=None, stdout=None)
+        process, port, timeout, lines, current_errors, stderr=None, stdout=None)
 
 
 def launch_dpf_on_docker(docker_config, ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10,
@@ -231,7 +232,7 @@ def launch_dpf_on_docker(docker_config, ansys_path, ip=LOCALHOST, port=DPF_DEFAU
     lines = []
     docker_id = []
     current_errors = []
-    running_docker_config = server_factory.RunningDockerConfig()
+    running_docker_config = server_factory.RunningDockerConfig(port=port)
 
     def read_stdout():
         for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
@@ -239,9 +240,8 @@ def launch_dpf_on_docker(docker_config, ansys_path, ip=LOCALHOST, port=DPF_DEFAU
             lines.append(line)
             running_docker_config.init_with_stdout(docker_config, LOG, lines, timeout)
 
-
     _wait_and_check_server_connection(
-        process, timeout, lines, current_errors, stderr=None, stdout=read_stdout)
+        process, port, timeout, lines, current_errors, stderr=None, stdout=read_stdout)
 
     return running_docker_config
 
@@ -298,15 +298,21 @@ def check_ansys_grpc_dpf_version(server, timeout):
         raise TimeoutError(
             f"Failed to connect to {server._input_ip}:{server._input_port} in {timeout} seconds"
         )
-
+    compatibility_link = (f"https://dpf.docs.pyansys.com/getting_started/"
+                          f"index.html#client-server-compatibility")
     LOG.debug("Established connection to DPF gRPC")
     grpc_module_version = ansys.grpc.dpf.__version__
     server_version = server.version
     right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
+    if right_grpc_module_version is None:  # pragma: no cover
+        # warnings.warn(f"No requirement specified on ansys-grpc-dpf for server version "
+        #               f"{server_version}. Continuing with the ansys-grpc-dpf version "
+        #               f"installed ({grpc_module_version}). In case of unexpected instability, "
+        #               f"please refer to the compatibility guidelines given in "
+        #               f"{compatibility_link}.")
+        return
     if not _compare_ansys_grpc_dpf_version(right_grpc_module_version, grpc_module_version):
         ansys_version_to_use = server_to_ansys_version.get(server_version, 'Unknown')
-        compatibility_link = (f"https://dpfdocs.pyansys.com/getting_started/"
-                              f"index.html#client-server-compatibility")
         ansys_versions = core._version.server_to_ansys_version
         latest_ansys = ansys_versions[max(ansys_versions.keys())]
         raise ImportWarning(f"An incompatibility has been detected between the DPF server version "
@@ -562,6 +568,7 @@ class GrpcServer(CServer):
                  launch_server=True,
                  docker_config=RUNNING_DOCKER,
                  use_pypim=True,
+                 num_connection_tryouts=3,
                  ):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
@@ -586,7 +593,6 @@ class GrpcServer(CServer):
                 self.docker_config = launch_dpf_on_docker(
                     docker_config=docker_config,
                     ansys_path=ansys_path, ip=ip, port=port, timeout=timeout)
-                self._local_server = True
             else:
                 launch_dpf(ansys_path, ip, port, timeout=timeout)
                 self._local_server = True
@@ -599,7 +605,18 @@ class GrpcServer(CServer):
         self._input_port = port
         self.live = True
         self._create_shutdown_funcs()
+        self._check_first_call(num_connection_tryouts)
         self.set_as_global(as_global=as_global)
+
+    def _check_first_call(self, num_connection_tryouts):
+        for i in range(num_connection_tryouts):
+            try:
+                self.version
+                break
+            except errors.DPFServerException as e:
+                if ("GOAWAY" not in str(e.args) and "unavailable" not in str(e.args)) \
+                        or i == (num_connection_tryouts - 1):
+                    raise e
 
     @property
     def version(self):
@@ -665,11 +682,49 @@ class GrpcServer(CServer):
         -------
         ip : str
         """
-        return self._input_ip
+        try:
+            return self.info["server_ip"]
+        except:
+            return 0
 
     @property
     def port(self):
         """Port of the server.
+
+        Returns
+        -------
+        port : int
+        """
+        try:
+            return self.info["server_port"]
+        except:
+            return 0
+
+    @property
+    def external_ip(self):
+        """Public IP address of the server.
+        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.ip` in all cases except
+        for servers using a gateway:
+        for example, servers running in Docker Images might have an internal
+        :func:`ansys.dpf.core.LegacyGrpcServer.ip` different from the public
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_ip`, the later should be used to get
+        connected to the server from outside the Docker Image.
+
+        Returns
+        -------
+        external_ip : str
+        """
+        return self._input_ip
+
+    @property
+    def external_port(self):
+        """Public Port of the server.
+        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.port` in all cases except
+        for servers using a gateway:
+        for example, servers running in Docker Images might have an internal
+        :func:`ansys.dpf.core.LegacyGrpcServer.port` different from the public
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_port`, the later should be used to get
+        connected to the server from outside the Docker Image.
 
         Returns
         -------
@@ -826,10 +881,11 @@ class LegacyGrpcServer(BaseServer):
 
                 if docker_config.use_docker:
                     self.docker_config = launch_dpf_on_docker(docker_config=docker_config,
-                        ansys_path=ansys_path, ip=ip, port=port, timeout=timeout)
+                                                              ansys_path=ansys_path, ip=ip,
+                                                              port=port, timeout=timeout)
                 else:
                     launch_dpf(ansys_path, ip, port, timeout=timeout)
-                self._local_server = True
+                    self._local_server = True
 
         self.channel = grpc.insecure_channel(address)
 
@@ -897,6 +953,38 @@ class LegacyGrpcServer(BaseServer):
             return self.info["server_port"]
         except:
             return 0
+
+    @property
+    def external_ip(self):
+        """Public IP address of the server.
+        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.ip` in all cases except
+        for servers using a gateway:
+        for example, servers running in Docker Images might have an internal
+        :func:`ansys.dpf.core.LegacyGrpcServer.ip` different from the public
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_ip`, the later should be used to get
+        connected to the server from outside the Docker Image.
+
+        Returns
+        -------
+        external_ip : str
+        """
+        return self._input_ip
+
+    @property
+    def external_port(self):
+        """Public Port of the server.
+        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.port` in all cases except
+        for servers using a gateway:
+        for example, servers running in Docker Images might have an internal
+        :func:`ansys.dpf.core.LegacyGrpcServer.port` different from the public
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_port`, the later should be used to get
+        connected to the server from outside the Docker Image.
+
+        Returns
+        -------
+        port : int
+        """
+        return self._input_port
 
     @property
     def version(self):

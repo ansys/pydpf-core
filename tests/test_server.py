@@ -12,7 +12,7 @@ from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
 from ansys.dpf.core.server import get_or_create_server
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0, running_docker
 
 server_configs = [None,
                   ServerConfig(),
@@ -75,19 +75,6 @@ class TestServerConfigs:
         assert has_local_server()
         shutdown_all_session_servers()
 
-    def test_connect_to_server(self, server_config):
-        set_server_configuration(server_config)
-        print(dpf.core.SERVER_CONFIGURATION)
-        shutdown_all_session_servers()
-        start_local_server(timeout=10.)
-        print("has_local_server", has_local_server())
-        if hasattr(dpf.core.SERVER, "ip"):
-            connect_to_server(ip=dpf.core.SERVER.ip, port=dpf.core.SERVER.port, timeout=10.,
-                              as_global=False)
-        else:
-            connect_to_server(timeout=10., as_global=False)
-        assert has_local_server()
-
     def test_shutdown_all_session_servers(self, server_config):
         set_server_configuration(server_config)
         print(dpf.core.SERVER_CONFIGURATION)
@@ -120,7 +107,8 @@ class TestServer:
         client = server.client
 
 
-@pytest.mark.skipif(os.name == 'posix', reason="lin issue: 2 processes can be run with same port")
+@pytest.mark.skipif(os.name == 'posix' or running_docker,
+                    reason="lin issue: 2 processes can be run with same port")
 def test_busy_port(remote_config_server_type):
     my_serv = start_local_server(config=remote_config_server_type)
     busy_port = my_serv.port
@@ -129,6 +117,20 @@ def test_busy_port(remote_config_server_type):
     server = start_local_server(as_global=False, port=busy_port,
                                 config=remote_config_server_type)
     assert server.port != busy_port
+
+
+@pytest.mark.skipif(not running_docker,
+                    reason="Only work on Docker")
+def test_docker_busy_port(remote_config_server_type):
+    my_serv = start_local_server(config=remote_config_server_type)
+    busy_port = my_serv.external_port
+    with pytest.raises(errors.InvalidPortError):
+        server_types.launch_dpf_on_docker(ansys_path=dpf.core.misc.get_ansys_path(), port=busy_port,
+                                          docker_config=dpf.core.server.RUNNING_DOCKER
+                                          )
+    server = start_local_server(as_global=False, port=busy_port,
+                                config=remote_config_server_type)
+    assert server.external_port != busy_port
 
 
 @pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.7"),
@@ -203,13 +205,13 @@ def test_eq_server_config():
 
 def test_connect_to_remote_server(server_type_remote_process):
     server = connect_to_server(
-        ip=server_type_remote_process.ip,
-        port=server_type_remote_process.port,
+        ip=server_type_remote_process.external_ip,
+        port=server_type_remote_process.external_port,
         timeout=10.,
         as_global=False
     )
-    assert server.ip == server_type_remote_process.ip
-    assert server.port == server_type_remote_process.port
+    assert server.external_ip == server_type_remote_process.external_ip
+    assert server.external_port == server_type_remote_process.external_port
 
 
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,

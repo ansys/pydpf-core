@@ -108,7 +108,7 @@ print("ports:", ports)
 ###############################################################################
 # Specify the file path.
 
-base_path = examples.distributed_msup_folder
+base_path = examples.find_distributed_msup_folder()
 files = [base_path + r'/file0.mode', base_path + r'/file1.mode']
 files_aux = [base_path + r'/file0.rst', base_path + r'/file1.rst']
 

@@ -33,7 +33,7 @@ simple_cyclic = os.path.join(_module_path, "file_cyclic.rst")
 distributed_msup_folder = os.path.join(_module_path, 'msup_distributed')
 
 
-def find_files(local_path, should_upload=True, server=None):
+def find_files(local_path, should_upload=True, server=None, return_local_path=False):
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -46,21 +46,26 @@ def find_files(local_path, should_upload=True, server=None):
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching 
+        for mounted volumes.
 
     Returns
     -------
     str
         Path to the example file.
     """
+    if return_local_path:
+        return local_path
     if should_upload:
         server = server_module.get_or_create_server(server)
-        if not server.local_server:
+        if not server.local_server and not server.docker_config.use_docker:
             return upload_file_in_tmp_folder(local_path, server=server)
 
     return path_utilities.to_server_os(local_path, server)
 
 
-def find_simple_bar(should_upload: bool = True, server=None) -> str:
+def find_simple_bar(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -71,6 +76,9 @@ def find_simple_bar(should_upload: bool = True, server=None) -> str:
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching 
+        for mounted volumes.
 
     Returns
     -------
@@ -86,10 +94,10 @@ def find_simple_bar(should_upload: bool = True, server=None) -> str:
     'C:/Users/user/AppData/local/temp/ASimpleBar.rst'
 
     """
-    return find_files(simple_bar, should_upload, server)
+    return find_files(simple_bar, should_upload, server, return_local_path)
 
 
-def find_static_rst(should_upload: bool = True, server=None) -> str:
+def find_static_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -100,6 +108,9 @@ def find_static_rst(should_upload: bool = True, server=None) -> str:
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching 
+        for mounted volumes.
 
     Returns
     -------
@@ -115,10 +126,10 @@ def find_static_rst(should_upload: bool = True, server=None) -> str:
     'C:/Users/user/AppData/local/temp/static.rst'
 
     """
-    return find_files(static_rst, should_upload, server)
+    return find_files(static_rst, should_upload, server, return_local_path)
 
 
-def find_complex_rst(should_upload: bool = True, server=None) -> str:
+def find_complex_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -129,6 +140,9 @@ def find_complex_rst(should_upload: bool = True, server=None) -> str:
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching 
+        for mounted volumes.
 
     Returns
     -------
@@ -144,10 +158,10 @@ def find_complex_rst(should_upload: bool = True, server=None) -> str:
     'C:/Users/user/AppData/local/temp/complex.rst'
 
     """
-    return find_files(complex_rst, should_upload, server)
+    return find_files(complex_rst, should_upload, server, return_local_path)
 
 
-def find_multishells_rst(should_upload: bool = True, server=None) -> str:
+def find_multishells_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -158,6 +172,9 @@ def find_multishells_rst(should_upload: bool = True, server=None) -> str:
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching 
+        for mounted volumes.
 
     Returns
     -------
@@ -173,10 +190,10 @@ def find_multishells_rst(should_upload: bool = True, server=None) -> str:
     'C:/Users/user/AppData/local/temp/model_with_ns.rst'
 
     """
-    return find_files(multishells_rst, should_upload, server)
+    return find_files(multishells_rst, should_upload, server, return_local_path)
 
 
-def find_electric_therm(should_upload: bool = True, server=None) -> str:
+def find_electric_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -187,6 +204,9 @@ def find_electric_therm(should_upload: bool = True, server=None) -> str:
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching 
+        for mounted volumes.
 
     Returns
     -------
@@ -202,10 +222,10 @@ def find_electric_therm(should_upload: bool = True, server=None) -> str:
     'C:/Users/user/AppData/local/temp/rth_electric.rth'
 
     """
-    return find_files(electric_therm, should_upload, server)
+    return find_files(electric_therm, should_upload, server, return_local_path)
 
 
-def find_steady_therm(should_upload: bool = True, server=None) -> str:
+def find_steady_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -216,6 +236,9 @@ def find_steady_therm(should_upload: bool = True, server=None) -> str:
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching 
+        for mounted volumes.
 
     Returns
     -------
@@ -231,10 +254,10 @@ def find_steady_therm(should_upload: bool = True, server=None) -> str:
     'C:/Users/user/AppData/local/temp/rth_steady.rst'
 
     """
-    return find_files(steady_therm, should_upload, server)
+    return find_files(steady_therm, should_upload, server, return_local_path)
 
 
-def find_transient_therm(should_upload: bool = True, server=None) -> str:
+def find_transient_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -245,6 +268,9 @@ def find_transient_therm(should_upload: bool = True, server=None) -> str:
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching 
+        for mounted volumes.
 
     Returns
     -------
@@ -260,10 +286,10 @@ def find_transient_therm(should_upload: bool = True, server=None) -> str:
     'C:/Users/user/AppData/local/temp/rth_transient.rst'
 
     """
-    return find_files(transient_therm, should_upload, server)
+    return find_files(transient_therm, should_upload, server, return_local_path)
 
 
-def find_msup_transient(should_upload: bool = True, server=None) -> str:
+def find_msup_transient(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -274,6 +300,9 @@ def find_msup_transient(should_upload: bool = True, server=None) -> str:
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching 
+        for mounted volumes.
 
     Returns
     -------
@@ -289,10 +318,10 @@ def find_msup_transient(should_upload: bool = True, server=None) -> str:
     'C:/Users/user/AppData/local/temp/msup_transient_plate1.rst'
 
     """
-    return find_files(msup_transient, should_upload, server)
+    return find_files(msup_transient, should_upload, server, return_local_path)
 
 
-def find_simple_cyclic(should_upload: bool = True, server=None) -> str:
+def find_simple_cyclic(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -303,6 +332,9 @@ def find_simple_cyclic(should_upload: bool = True, server=None) -> str:
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching 
+        for mounted volumes.
 
     Returns
     -------
@@ -318,10 +350,10 @@ def find_simple_cyclic(should_upload: bool = True, server=None) -> str:
     'C:/Users/user/AppData/local/temp/file_cyclic.rst'
 
     """
-    return find_files(simple_cyclic, should_upload, server)
+    return find_files(simple_cyclic, should_upload, server, return_local_path)
 
 
-def find_distributed_msup_folder(should_upload: bool = True, server=None) -> str:
+def find_distributed_msup_folder(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -332,6 +364,9 @@ def find_distributed_msup_folder(should_upload: bool = True, server=None) -> str
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching 
+        for mounted volumes.
 
     Returns
     -------
@@ -347,4 +382,4 @@ def find_distributed_msup_folder(should_upload: bool = True, server=None) -> str
     'C:/Users/user/AppData/local/temp/msup_distributed'
 
     """
-    return find_files(distributed_msup_folder, should_upload, server)
+    return find_files(distributed_msup_folder, should_upload, server, return_local_path)

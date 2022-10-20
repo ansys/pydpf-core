@@ -6,7 +6,7 @@ from ansys.dpf.core import examples
 from ansys.dpf.core.errors import ServerTypeError
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.check_version import meets_version, get_server_version
-from conftest import local_servers
+from conftest import local_servers, running_docker
 import conftest
 
 
@@ -322,33 +322,34 @@ def test_remote_workflow_info(local_server):
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
                     reason='Connecting data from different servers is '
                            'supported starting server version 3.0')
-def test_multi_process_local_remote_local_remote_workflow():
+def test_multi_process_local_remote_local_remote_workflow(server_clayer_remote_process):
     files = examples.download_distributed_files()
 
-    wf = core.Workflow()
-    average = core.operators.math.norm_fc()
+    wf = core.Workflow(server=server_clayer_remote_process)
+    average = core.operators.math.norm_fc(server=server_clayer_remote_process)
 
     wf.add_operators([average])
     wf.set_input_name("u", average.inputs.fields_container)
     wf.set_output_name("distrib", average.outputs.fields_container)
     workflows = []
     for i in files:
-        data_sources1 = core.DataSources(files[i])
+        data_sources1 = core.DataSources(files[i], server=server_clayer_remote_process)
 
-        grpc_stream_provider = ops.metadata.streams_provider()
-        grpc_data_sources = core.DataSources()
+        grpc_stream_provider = ops.metadata.streams_provider(server=server_clayer_remote_process)
+        grpc_data_sources = core.DataSources(server=server_clayer_remote_process)
         grpc_data_sources.set_result_file_path(
             local_servers[i].ip + ":" + str(local_servers[i].port),
             "grpc")
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
-        remote_workflow_prov = core.Operator("remote_workflow_instantiate")
+        remote_workflow_prov = core.Operator("remote_workflow_instantiate",
+                                             server=server_clayer_remote_process)
         remote_workflow_prov.connect(3, grpc_stream_provider, 0)
         remote_workflow_prov.connect(0, wf)
         remote_workflow = remote_workflow_prov.get_output(0, core.types.workflow)
 
-        first_wf = core.Workflow()
-        op = ops.result.displacement()
+        first_wf = core.Workflow(server=server_clayer_remote_process)
+        op = ops.result.displacement(server=server_clayer_remote_process)
         first_wf.add_operator(op)
         first_wf.set_input_name("data_sources", op.inputs.data_sources)
         first_wf.set_output_name("u", op.outputs.fields_container)
@@ -358,9 +359,9 @@ def test_multi_process_local_remote_local_remote_workflow():
 
         workflows.append(remote_workflow)
 
-    local_wf = core.Workflow()
-    merge = ops.utility.merge_fields_containers()
-    min_max = ops.min_max.min_max_fc(merge)
+    local_wf = core.Workflow(server=server_clayer_remote_process)
+    merge = ops.utility.merge_fields_containers(server=server_clayer_remote_process)
+    min_max = ops.min_max.min_max_fc(merge, server=server_clayer_remote_process)
     local_wf.add_operator(merge)
     local_wf.add_operator(min_max)
     local_wf.set_output_name("tot_output", min_max.outputs.field_max)
@@ -470,7 +471,7 @@ def test_multi_process_transparent_api_connect_local_datasources_remote_workflow
 
 
 @pytest.mark.xfail(reason="Unstable test")
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+@pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
                     reason='Connecting data from different servers is '
                            'supported starting server version 3.0')
 def test_multi_process_transparent_api_connect_local_op_remote_workflow():

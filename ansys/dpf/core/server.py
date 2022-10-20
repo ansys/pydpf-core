@@ -122,16 +122,16 @@ def shutdown_all_session_servers():
 
 
 def start_local_server(
-    ip=LOCALHOST,
-    port=DPF_DEFAULT_PORT,
-    ansys_path=None,
-    as_global=True,
-    load_operators=True,
-    use_docker_by_default=True,
-    docker_config=RUNNING_DOCKER,
-    timeout=10.,
-    config=None,
-    use_pypim_by_default=True
+        ip=LOCALHOST,
+        port=DPF_DEFAULT_PORT,
+        ansys_path=None,
+        as_global=True,
+        load_operators=True,
+        use_docker_by_default=True,
+        docker_config=RUNNING_DOCKER,
+        timeout=10.,
+        config=None,
+        use_pypim_by_default=True
 ):
     """Start a new local DPF server at a given port and IP address.
 
@@ -205,7 +205,9 @@ def start_local_server(
         port += 1
 
     if use_docker:
-        port = _find_port_available_for_docker_bind(port)
+        port = docker_config.find_port_available_for_docker_bind(port)
+    else:
+        docker_config.use_docker = False
 
     server = None
     n_attempts = 10
@@ -234,7 +236,7 @@ def start_local_server(
                 break
             import warnings
             warnings.warn(f"Failed to start a server in {timeout}s, " +
-                          f"trying again once in {timeout*2.}s.")
+                          f"trying again once in {timeout * 2.}s.")
             timeout *= 2.
             timed_out = True
 
@@ -293,6 +295,7 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     >>> #unspecified_server = dpf.connect_to_server(as_global=False)
 
     """
+
     def connect():
         server_init_signature = inspect.signature(server_type.__init__)
         if "ip" in server_init_signature.parameters.keys() \
@@ -334,24 +337,3 @@ def get_or_create_server(server):
     if server:
         return server
     return _global_server()
-
-
-def _find_port_available_for_docker_bind(port):
-    run_cmd = "docker ps --all"
-    if os.name == 'posix':
-        process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
-        )
-    else:
-        process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-        )
-    used_ports = []
-    for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
-        if not ("CONTAINER ID" in line):
-            split = line.split("0.0.0.0:")
-            if len(split) > 1:
-                used_ports.append(int(split[1].split("-")[0]))
-    while port in used_ports:
-        port += 1
-    return port

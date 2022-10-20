@@ -13,9 +13,11 @@ import os
 # Import DPF-Core:
 from ansys.dpf import core as dpf
 
+server = dpf.global_server()
+
 ###############################################################################
 # Create a base service for loading a plugin:
-if os.name == "posix":
+if server.os == "posix":
     dpf.core.load_library("libAns.Dpf.Math.so", "math_operators")
 else:
     dpf.core.load_library("Ans.Dpf.Math.dll", "math_operators")
