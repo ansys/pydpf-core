@@ -6,7 +6,7 @@ on:
     inputs:
       PyDPF-Post_branch:
         required: true
-        default: 'master'
+        default: ''
         type: string
     secrets:
       DPF_PIPELINE:
@@ -15,9 +15,9 @@ on:
   workflow_dispatch:
     inputs:
       PyDPF-Post_branch:
-        description: 'PyDPF-Post branch or tag to test'
+        description: 'PyDPF-Post branch or tag to test. Leave empty to get latest tagged version'
         required: true
-        default: 'master'
+        default: ''
         type: string
 
 env:
@@ -55,16 +55,23 @@ jobs:
           extra-pip-args: ${{ env.extra }}
 
       - name: "Clone PyDPF-Post"
+        shell: bash
         run: |
-          $BranchName = "${{ inputs.PyDPF-Post_branch }}"
-          git clone --branch $BranchName --single-branch https://${{secrets.pydpf-post-TOKEN}}@github.com/pyansys/pydpf-post
-        shell: pwsh
+          REPO = "https://${{secrets.pydpf-post-TOKEN}}@github.com/pyansys/pydpf-post"
+          in = "${{ inputs.PyDPF-Post_branch }}"
+          if ["$in" = ''];
+          then
+            $BranchName = $(git ls-remote --tags --refs $REPO | tail -n1 | cut -d/ -f3)
+          else
+            $BranchName = $in
+          fi
+          git clone $REPO --branch --single-branch $BranchName
 
       - name: "Install PyDPF-Post"
+        shell: bash
+        working-directory: pydpf-post
         run: |
-          cd pydpf-post/
           pip install .
-        shell: pwsh
 
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.2.dev1
