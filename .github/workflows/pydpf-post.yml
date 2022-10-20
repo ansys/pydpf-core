@@ -80,6 +80,7 @@ jobs:
         run: |
           cd pydpf-post/
           pip install .
+          ls
 
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.2.dev1
