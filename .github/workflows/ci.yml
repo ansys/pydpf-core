@@ -28,73 +28,73 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
 
-  style:
-    name: "Style Check"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: "Setup Python"
-        uses: actions/setup-python@v4.2.0
-        with:
-          python-version: 3.8
-
-      - name: "Install style requirements"
-        run: |
-          pip install -r requirements/requirements_style.txt --disable-pip-version-check
-
-      - name: "Codespell"
-        run: |
-          make codespell
-        continue-on-error: true
-
-      - name: "flake8"
-        run: |
-          make flake8
-
-  tests:
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "231"
-      python_versions: '["3.8"]'
-      wheel: true
-      wheelhouse: false
-    secrets: inherit
-
-  docs:
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/docs.yml
-    with:
-      ANSYS_VERSION: "231"
-    secrets: inherit
-
-  examples:
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/examples.yml
-    with:
-      ANSYS_VERSION: "231"
-      python_versions: '["3.8"]'
-    secrets: inherit
-
-  retro_222:
-    name: "retro 222"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "222"
-      python_versions: '["3.8"]'
-      DOCSTRING: false
-    secrets: inherit
-
-  retro_221:
-    name: "retro 221"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "221"
-      python_versions: '["3.8"]'
-      DOCSTRING: false
-    secrets: inherit
+#  style:
+#    name: "Style Check"
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: "Setup Python"
+#        uses: actions/setup-python@v4.2.0
+#        with:
+#          python-version: 3.8
+#
+#      - name: "Install style requirements"
+#        run: |
+#          pip install -r requirements/requirements_style.txt --disable-pip-version-check
+#
+#      - name: "Codespell"
+#        run: |
+#          make codespell
+#        continue-on-error: true
+#
+#      - name: "flake8"
+#        run: |
+#          make flake8
+#
+#  tests:
+#    uses: ./.github/workflows/tests.yml
+#    with:
+#      ANSYS_VERSION: "231"
+#      python_versions: '["3.8"]'
+#      wheel: true
+#      wheelhouse: false
+#    secrets: inherit
+#
+#  docs:
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/docs.yml
+#    with:
+#      ANSYS_VERSION: "231"
+#    secrets: inherit
+#
+#  examples:
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/examples.yml
+#    with:
+#      ANSYS_VERSION: "231"
+#      python_versions: '["3.8"]'
+#    secrets: inherit
+#
+#  retro_222:
+#    name: "retro 222"
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/tests.yml
+#    with:
+#      ANSYS_VERSION: "222"
+#      python_versions: '["3.8"]'
+#      DOCSTRING: false
+#    secrets: inherit
+#
+#  retro_221:
+#    name: "retro 221"
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/tests.yml
+#    with:
+#      ANSYS_VERSION: "221"
+#      python_versions: '["3.8"]'
+#      DOCSTRING: false
+#    secrets: inherit
 
   pydpf-post:
     name: "PyDPF-Post"
