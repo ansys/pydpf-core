@@ -252,7 +252,7 @@ def test_load_plugin_correctly(server_type):
 def test_load_plugin_correctly_remote():
     from ansys.dpf import core as dpf
     server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer, as_global=False)
-    server_connected = dpf.connect_to_server(server.ip, server.port, as_global=False)
+    server_connected = dpf.connect_to_server(server.external_ip, server.external_port, as_global=False)
 
     actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
 

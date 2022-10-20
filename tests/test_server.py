@@ -123,12 +123,14 @@ def test_busy_port(remote_config_server_type):
                     reason="Only work on Docker")
 def test_docker_busy_port(remote_config_server_type):
     my_serv = start_local_server(config=remote_config_server_type)
-    busy_port = my_serv.docker_config.port
+    busy_port = my_serv.external_port
     with pytest.raises(errors.InvalidPortError):
-        server_types.launch_dpf(ansys_path=dpf.core.misc.get_ansys_path(), port=busy_port)
+        server_types.launch_dpf_on_docker(ansys_path=dpf.core.misc.get_ansys_path(), port=busy_port,
+                                          docker_config=dpf.core.server.RUNNING_DOCKER
+                                          )
     server = start_local_server(as_global=False, port=busy_port,
                                 config=remote_config_server_type)
-    assert server.port != busy_port
+    assert server.external_port != busy_port
 
 
 @pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.7"),
@@ -203,13 +205,13 @@ def test_eq_server_config():
 
 def test_connect_to_remote_server(server_type_remote_process):
     server = connect_to_server(
-        ip=server_type_remote_process.ip,
-        port=server_type_remote_process.port,
+        ip=server_type_remote_process.external_ip,
+        port=server_type_remote_process.external_port,
         timeout=10.,
         as_global=False
     )
-    assert server.ip == server_type_remote_process.ip
-    assert server.port == server_type_remote_process.port
+    assert server.external_ip == server_type_remote_process.external_ip
+    assert server.external_port == server_type_remote_process.external_port
 
 
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,

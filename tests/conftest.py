@@ -251,7 +251,7 @@ configsserver_type, config_namesserver_type = remove_none_available_config([
     ["ansys-grpc-dpf", "gRPC CLayer", "in Process CLayer"])
 
 @pytest.fixture(
-    scope="session",
+    scope="package",
     params=configsserver_type,
     ids=config_namesserver_type,
 )
@@ -267,7 +267,7 @@ configsserver_type_remote_process, config_namessserver_type_remote_process = rem
     ["ansys-grpc-dpf", "gRPC CLayer"])
 
 @pytest.fixture(
-    scope="session",
+    scope="package",
     params=configsserver_type_remote_process,
     ids=config_namessserver_type_remote_process,
 )
@@ -277,7 +277,7 @@ def server_type_remote_process(request):
 
 
 @pytest.fixture(
-    scope="session",
+    scope="package",
     params=configsserver_type_remote_process,
     ids=config_namessserver_type_remote_process,
 )
@@ -291,7 +291,7 @@ configs_server_type_legacy_grpc, config_names_server_type_legacy_grpc = remove_n
     ["ansys-grpc-dpf"])
 
 @pytest.fixture(
-    scope="session",
+    scope="package",
     params=configs_server_type_legacy_grpc,
     ids=config_names_server_type_legacy_grpc,
 )
@@ -300,7 +300,7 @@ def server_type_legacy_grpc(request):
 
 
 @pytest.fixture(
-    scope="session",
+    scope="package",
     params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)],
     ids=[
         "gRPC CLayer",
@@ -324,7 +324,7 @@ configs_server_clayer, config_names_server_clayer = remove_none_available_config
 
 
 @pytest.fixture(
-    scope="session",
+    scope="package",
     params=configs_server_clayer,
     ids=config_names_server_clayer,
 )

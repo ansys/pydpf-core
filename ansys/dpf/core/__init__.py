@@ -37,6 +37,7 @@ from ansys.dpf.core.server import (
     connect_to_server,
     has_local_server,
 )
+from ansys.dpf.core.server import _global_server as global_server
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.common import (

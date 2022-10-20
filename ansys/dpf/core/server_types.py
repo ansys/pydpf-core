@@ -148,7 +148,7 @@ def _wait_and_check_server_connection(
     t_timeout = time.time() + timeout
     started = False
     timedout = False
-    while not started:
+    while not started and len(current_errors) == 0:
         # print(lines)
         started = any("server started" in line for line in lines)
 
@@ -166,7 +166,8 @@ def _wait_and_check_server_connection(
         except PermissionError:
             pass
         errstr = "\n".join(current_errors)
-        if "Only one usage of each socket address" in errstr:
+        if "Only one usage of each socket address" in errstr or \
+                "port is already allocated" in errstr:
             raise errors.InvalidPortError(f"Port {port} in use")
         raise RuntimeError(errstr)
 
@@ -238,7 +239,6 @@ def launch_dpf_on_docker(docker_config, ansys_path, ip=LOCALHOST, port=DPF_DEFAU
             LOG.debug(line)
             lines.append(line)
             running_docker_config.init_with_stdout(docker_config, LOG, lines, timeout)
-
 
     _wait_and_check_server_connection(
         process, port, timeout, lines, current_errors, stderr=None, stdout=read_stdout)
@@ -701,6 +701,38 @@ class GrpcServer(CServer):
             return 0
 
     @property
+    def external_ip(self):
+        """Public IP address of the server.
+        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.ip` in all cases except
+        for servers using a gateway:
+        for example, servers running in Docker Images might have an internal
+        :func:`ansys.dpf.core.LegacyGrpcServer.ip` different from the public
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_ip`, the later should be used to get
+        connected to the server from outside the Docker Image.
+
+        Returns
+        -------
+        external_ip : str
+        """
+        return self._input_ip
+
+    @property
+    def external_port(self):
+        """Public Port of the server.
+        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.port` in all cases except
+        for servers using a gateway:
+        for example, servers running in Docker Images might have an internal
+        :func:`ansys.dpf.core.LegacyGrpcServer.port` different from the public
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_port`, the later should be used to get
+        connected to the server from outside the Docker Image.
+
+        Returns
+        -------
+        port : int
+        """
+        return self._input_port
+
+    @property
     def local_server(self):
         return self._local_server
 
@@ -849,7 +881,8 @@ class LegacyGrpcServer(BaseServer):
 
                 if docker_config.use_docker:
                     self.docker_config = launch_dpf_on_docker(docker_config=docker_config,
-                        ansys_path=ansys_path, ip=ip, port=port, timeout=timeout)
+                                                              ansys_path=ansys_path, ip=ip,
+                                                              port=port, timeout=timeout)
                 else:
                     launch_dpf(ansys_path, ip, port, timeout=timeout)
                     self._local_server = True
@@ -920,6 +953,38 @@ class LegacyGrpcServer(BaseServer):
             return self.info["server_port"]
         except:
             return 0
+
+    @property
+    def external_ip(self):
+        """Public IP address of the server.
+        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.ip` in all cases except
+        for servers using a gateway:
+        for example, servers running in Docker Images might have an internal
+        :func:`ansys.dpf.core.LegacyGrpcServer.ip` different from the public
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_ip`, the later should be used to get
+        connected to the server from outside the Docker Image.
+
+        Returns
+        -------
+        external_ip : str
+        """
+        return self._input_ip
+
+    @property
+    def external_port(self):
+        """Public Port of the server.
+        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.port` in all cases except
+        for servers using a gateway:
+        for example, servers running in Docker Images might have an internal
+        :func:`ansys.dpf.core.LegacyGrpcServer.port` different from the public
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_port`, the later should be used to get
+        connected to the server from outside the Docker Image.
+
+        Returns
+        -------
+        port : int
+        """
+        return self._input_port
 
     @property
     def version(self):
