@@ -65,13 +65,13 @@ jobs:
       - name: "Clone PyDPF-Post"
         shell: bash
         run: |
-          $REPO="https://github.com/pyansys/pydpf-post.git"
-          $in="${{ inputs.PyDPF-Post_branch }}"
+          REPO="https://github.com/pyansys/pydpf-post.git"
+          in=""
           if ["$in" = ""];
           then
-            $BranchName = $(git ls-remote --tags --refs $REPO | tail -n1 | cut -d/ -f3)
+              BranchName=$(git ls-remote --tags --refs $REPO | tail -n1 | cut -d/ -f3)
           else
-            $BranchName = $in
+              BranchName=$in
           fi
           git clone $REPO --branch --single-branch $BranchName
 
