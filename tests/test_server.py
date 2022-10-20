@@ -75,19 +75,6 @@ class TestServerConfigs:
         assert has_local_server()
         shutdown_all_session_servers()
 
-    def test_connect_to_server(self, server_config):
-        set_server_configuration(server_config)
-        print(dpf.core.SERVER_CONFIGURATION)
-        shutdown_all_session_servers()
-        start_local_server(timeout=10.)
-        print("has_local_server", has_local_server())
-        if hasattr(dpf.core.SERVER, "ip"):
-            connect_to_server(ip=dpf.core.SERVER.ip, port=dpf.core.SERVER.port, timeout=10.,
-                              as_global=False)
-        else:
-            connect_to_server(timeout=10., as_global=False)
-        assert has_local_server()
-
     def test_shutdown_all_session_servers(self, server_config):
         set_server_configuration(server_config)
         print(dpf.core.SERVER_CONFIGURATION)

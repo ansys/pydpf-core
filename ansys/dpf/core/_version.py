@@ -1,6 +1,6 @@
 """Version for ansys-dpf-core"""
 # major, minor, patch
-version_info = 0, 6, '1dev0'
+version_info = 0, 6, 2, 'dev0'
 
 # Nice string for the version
 __version__ = ".".join(map(str, version_info))
@@ -12,6 +12,7 @@ server_to_ansys_grpc_dpf_version = {
     "3.0": ">=0.4.0",
     "4.0": ">=0.5.0",
     "5.0": ">=0.6.0",
+    "6.0": ">=0.7.*",
 }
 
 server_to_ansys_version = {
@@ -20,4 +21,5 @@ server_to_ansys_version = {
     "3.0": "2022R1",
     "4.0": "2022R2",
     "5.0": "2023R1",
+    "6.0": "2023R2",
 }

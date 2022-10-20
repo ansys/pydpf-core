@@ -126,7 +126,7 @@ You can create data sources in two ways:
 
 
 Because several other examples use the ``Model`` class, this example uses the
-``DataSources``class:
+``DataSources`` class:
 
 .. code-block:: python
 
@@ -168,7 +168,7 @@ can also be connected to work on a temporal subset:
     
 Evaluate operators
 ~~~~~~~~~~~~~~~~~~
-With all the required inputs assigned, you can output the :class:`ansys.dpf.core.fields_container`_
+With all the required inputs assigned, you can output the :class:`ansys.dpf.core.fields_container`
 class from the operator:
 
 .. code-block:: python
