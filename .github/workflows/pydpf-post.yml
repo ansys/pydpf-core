@@ -86,12 +86,14 @@ jobs:
         uses: pyansys/pydpf-actions/prepare_tests@feat/use_build
         with:
           DEBUG: true
+          working-directory: pydpf-post
 
       - name: "Test Docstrings"
         uses: pyansys/pydpf-actions/test_docstrings@feat/use_build
         with:
           MODULE: post
           PACKAGE_NAME: ansys-dpf-post
+          working-directory: pydpf-post
 
       - name: "Test API"
         shell: bash
