@@ -1,16 +1,12 @@
-name: CI
+name: CI Release
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    branches-ignore:
-      - '*no-ci*'
   push:
-    branches:
-      - master
+    tags:
+      - "v*"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -56,29 +52,26 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "231"
-      python_versions: '["3.8"]'
+      python_versions: '["3.7", "3.8", "3.9", "3.10"]'
       wheel: true
-      wheelhouse: false
+      wheelhouse: true
     secrets: inherit
 
   docs:
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: "231"
     secrets: inherit
 
   examples:
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/examples.yml
     with:
       ANSYS_VERSION: "231"
-      python_versions: '["3.8"]'
+      python_versions: '["3.7", "3.8", "3.9", "3.10"]'
     secrets: inherit
 
   retro_222:
     name: "retro 222"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "222"
@@ -88,10 +81,49 @@ jobs:
 
   retro_221:
     name: "retro 221"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "221"
       python_versions: '["3.8"]'
       DOCSTRING: false
     secrets: inherit
+
+  gate:
+    name: "gate"
+    uses: ./.github/workflows/gate.yml
+    secrets: inherit
+
+  draft_release:
+    name: "Draft Release"
+    needs: [style, tests, docs, examples, retro_222, retro_221, gate]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Set up Python"
+        uses: actions/setup-python@v4.1.0
+        with:
+          python-version: 3.9
+
+      - name: "Download artifacts"
+        uses: actions/download-artifact@v3
+
+      - name: "Display downloaded files"
+        run: ls -R
+
+      - name: "Create draft release"
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./**/*.whl
+            ./**/*.tar.gz
+            ./**/*.zip
+          draft: true
+          generate_release_notes: true
+
+#      - name: "Upload to Test PyPi"  # Change TOKEN
+#        run: |
+#          pip install twine
+#          twine upload --repository testpypi --skip-existing ./**/*.whl
+#          twine upload --repository testpypi --skip-existing ./**/*.tar.gz
+#        env:
+#          TWINE_USERNAME: __token__
+#          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
