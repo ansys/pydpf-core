@@ -5,7 +5,6 @@ on:
   workflow_call:
     inputs:
       PyDPF-Post_branch:
-        required: true
         default: ''
         type: string
       ANSYS_VERSION:
@@ -20,7 +19,6 @@ on:
     inputs:
       PyDPF-Post_branch:
         description: 'PyDPF-Post branch or tag to test. Leave empty to get latest tagged version'
-        required: true
         default: ''
         type: string
       ANSYS_VERSION:
