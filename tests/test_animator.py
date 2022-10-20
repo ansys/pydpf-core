@@ -58,7 +58,7 @@ def test_animator_animate_raise_no_workflow():
         assert "self.workflow" in e
 
 
-def test_animator_animate(remove_gifs, displacement_fields):
+def test_animator_animate(displacement_fields):
     frequencies = displacement_fields.time_freq_support.time_frequencies
     loop_over = displacement_fields.get_time_scoping()
     loop_over_field = dpf.fields_factory.field_from_array(frequencies.data[loop_over.ids-1])
@@ -72,8 +72,6 @@ def test_animator_animate(remove_gifs, displacement_fields):
 
     an = Animator(wf)
     an.animate(loop_over=loop_over_field)
-    # assert os.path.isfile(gif_name)
-    # assert os.path.getsize(gif_name) > 600000
 
 
 def test_animator_animate_raise_wrong_scale_factor(remove_gifs, displacement_fields):
@@ -94,19 +92,25 @@ def test_animator_animate_raise_wrong_scale_factor(remove_gifs, displacement_fie
         assert "Argument scale_factor must be" in e
 
 
-def test_animator_animate_fields_container(remove_gifs, displacement_fields):
+def test_animator_animate_fields_container(displacement_fields):
     displacement_fields.animate()
-    # assert os.path.isfile(gif_name)
-    # assert os.path.getsize(gif_name) > 600000
 
 
-def test_animator_animate_fields_container_deform_by_false(remove_gifs, displacement_fields):
+def test_animator_animate_fields_container_deform_by_false(displacement_fields):
     displacement_fields.animate(deform_by=False)
-    # assert os.path.isfile(gif_name)
-    # assert os.path.getsize(gif_name) > 600000
 
 
-def test_animator_animate_fields_container_eqv_partial_scoping(remove_gifs):
+def test_animator_animate_fields_container_eqv():
+    model = dpf.Model(examples.msup_transient)
+    time_scoping = dpf.time_freq_scoping_factory.scoping_by_sets(
+        list(range(5, 20)))
+    stress_result = model.results.stress.on_time_scoping(time_scoping)
+
+    stress_fields = stress_result.on_location(dpf.common.locations.nodal).eval()
+    stress_fields.animate()
+
+
+def test_animator_animate_fields_container_eqv_partial_scoping():
     model = dpf.Model(examples.msup_transient)
     time_scoping = dpf.time_freq_scoping_factory.scoping_by_sets(
         list(range(5, 20)))
@@ -121,23 +125,17 @@ def test_animator_animate_fields_container_eqv_partial_scoping(remove_gifs):
     stress_fields = stress_result.on_location(dpf.common.locations.nodal).eval()
     stress_fields.animate(deform_by=displacement_result, scale_factor=20.,
                           framerate=1.)
-    # assert os.path.isfile(gif_name)
-    # assert os.path.getsize(gif_name) > 400000
 
 
-def test_animator_animate_fields_container_one_component(remove_gifs, displacement_fields):
+def test_animator_animate_fields_container_one_component(displacement_fields):
     displacement_fields.select_component(0).animate()
-    # assert os.path.isfile(gif_name)
-    # assert os.path.getsize(gif_name) > 600000
 
 
-def test_animator_animate_fields_container_deform_by_convert_unit(remove_gifs, displacement_fields):
+def test_animator_animate_fields_container_deform_by_convert_unit(displacement_fields):
     new_displacement_fields = displacement_fields.deep_copy()
     dpf.operators.math.unit_convert_fc(
         fields_container=new_displacement_fields, unit_name="mm")
     displacement_fields.animate(deform_by=new_displacement_fields)
-    # assert os.path.isfile(gif_name)
-    # assert os.path.getsize(gif_name) > 600000
 
 
 def test_animator_animate_fields_container_scale_factor_raise(displacement_fields):
@@ -146,72 +144,68 @@ def test_animator_animate_fields_container_scale_factor_raise(displacement_field
         assert "Argument scale_factor must be" in e
 
 
-def test_animator_animate_fields_container_deform_by_result(remove_gifs):
+def test_animator_animate_fields_container_deform_by_result():
     model = dpf.Model(examples.msup_transient)
     displacement_result = model.results.displacement.on_all_time_freqs
     displacement_fields = displacement_result.eval()
     displacement_fields.animate(deform_by=displacement_result)
-    # assert os.path.isfile(gif_name)
-    # assert os.path.getsize(gif_name) > 600000
 
 
-def test_animator_animate_fields_container_deform_by_operator(remove_gifs):
+def test_animator_animate_fields_container_deform_by_result_raise():
+    model = dpf.Model(examples.msup_transient)
+    displacement_result = model.results.displacement
+    displacement_fields = displacement_result.on_all_time_freqs.eval()
+    with pytest.raises(ValueError) as e:
+        displacement_fields.animate(deform_by=displacement_result.on_first_time_freq)
+        assert "'deform_by' argument must result in a FieldsContainer" in e
+
+
+def test_animator_animate_fields_container_deform_by_operator():
     model = dpf.Model(examples.msup_transient)
     displacement_op = model.results.displacement.on_all_time_freqs()
     displacement_fields = displacement_op.eval()
     displacement_fields.animate(deform_by=displacement_op)
-    # assert os.path.isfile(gif_name)
-    # assert os.path.getsize(gif_name) > 600000
 
 
-def test_animator_animate_fields_container_scale_factor_int(remove_gifs, displacement_fields):
+def test_animator_animate_fields_container_scale_factor_int(displacement_fields):
     displacement_fields.animate(scale_factor=2)
-    # assert os.path.isfile(gif_name)
-    # assert os.path.getsize(gif_name) > 600000
 
 
-def test_animator_animate_fields_container_scale_factor_float(remove_gifs, displacement_fields):
+def test_animator_animate_fields_container_scale_factor_float(displacement_fields):
     displacement_fields.animate(scale_factor=2.0)
-    # assert os.path.isfile(gif_name)
-    # assert os.path.getsize(gif_name) > 600000
 
 
-def test_animator_animate_fields_container_scale_factor_zero(remove_gifs, displacement_fields):
+def test_animator_animate_fields_container_scale_factor_zero(displacement_fields):
     displacement_fields.animate(scale_factor=0.0)
-    # assert os.path.isfile(gif_name)
-    # assert os.path.getsize(gif_name) > 600000
 
 
-def test_animator_animate_fields_container_scale_factor_list(remove_gifs, displacement_fields):
+def test_animator_animate_fields_container_scale_factor_list(displacement_fields):
     scale_factor_list = [2.0]*len(displacement_fields)
     displacement_fields.animate(scale_factor=scale_factor_list)
-    # assert os.path.isfile(gif_name)
-    # assert os.path.getsize(gif_name) > 600000
 
 
-def test_animator_animate_fields_container_scale_factor_raise_list_len(remove_gifs,
-                                                                       displacement_fields):
+def test_animator_animate_fields_container_scale_factor_raise_list_len(displacement_fields):
     scale_factor_list = [2.0]*(len(displacement_fields)-2)
     with pytest.raises(ValueError) as e:
-        displacement_fields.animate(save_as=gif_name, scale_factor=scale_factor_list)
+        displacement_fields.animate(scale_factor=scale_factor_list)
         assert "The scale_factor list is not the same length" in e
 
 
-def test_animator_animate_fields_container_scale_factor_field(remove_gifs, displacement_fields):
+def test_animator_animate_fields_container_scale_factor_field(displacement_fields):
     scale_factor_field = dpf.fields_factory.field_from_array(displacement_fields[0].data)
     with pytest.raises(NotImplementedError) as e:
-        displacement_fields.animate(save_as=gif_name, scale_factor=scale_factor_field)
+        displacement_fields.animate(scale_factor=scale_factor_field)
         assert "Scaling by a Field is not yet implemented." in e
 
 
-def test_animator_animate_fields_container_scale_factor_fc(remove_gifs, displacement_fields):
+def test_animator_animate_fields_container_scale_factor_fc(displacement_fields):
     fields = []
     for f in displacement_fields:
         fields.append(dpf.fields_factory.field_from_array(f.data))
     scale_factor_fc = dpf.fields_container_factory.over_time_freq_fields_container(fields)
     scale_factor_fc.time_freq_support = displacement_fields.time_freq_support
     with pytest.raises(NotImplementedError) as e:
-        displacement_fields.animate(save_as=gif_name, scale_factor=scale_factor_fc)
+        displacement_fields.animate(scale_factor=scale_factor_fc)
         assert "Scaling by a FieldsContainer is not yet implemented." in e
 
 
