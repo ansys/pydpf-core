@@ -97,7 +97,7 @@ jobs:
 
       - name: "Test API"
         shell: bash
-        working-directory: tests
+        working-directory: pydpf-post/tests
         run: |
           pytest $DEBUG --cov=ansys.dpf.post --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results-post.xml --reruns 2 .
 
