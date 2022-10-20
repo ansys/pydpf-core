@@ -570,8 +570,8 @@ class GrpcServer(CServer):
         self._input_port = port
         self.live = True
         self._create_shutdown_funcs()
-        self.set_as_global(as_global=as_global)
         self._check_first_call(num_connection_tryouts)
+        self.set_as_global(as_global=as_global)
 
     def _check_first_call(self, num_connection_tryouts):
         for i in range(num_connection_tryouts):
