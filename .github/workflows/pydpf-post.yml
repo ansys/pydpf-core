@@ -14,6 +14,8 @@ on:
     secrets:
       DPF_PIPELINE:
         required: true
+      pydpf-post-TOKEN:
+        required: true
 # Can be called manually
   workflow_dispatch:
     inputs:
