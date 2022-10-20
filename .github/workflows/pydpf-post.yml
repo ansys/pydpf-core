@@ -8,6 +8,10 @@ on:
         required: true
         default: ''
         type: string
+      ANSYS_VERSION:
+        required: false
+        type: string
+        default: "231"
     secrets:
       DPF_PIPELINE:
         required: true
@@ -19,11 +23,16 @@ on:
         required: true
         default: ''
         type: string
+      ANSYS_VERSION:
+        description: "ANSYS version"
+        required: true
+        type: string
+        default: "231"
 
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  ANSYS_VERSION: 231
+  extra: "--find-links .github/"
 
 jobs:
   Clone_and_Test:
@@ -46,11 +55,12 @@ jobs:
         uses: pyansys/pydpf-actions/build_package@v2.2.dev1
         with:
           python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
+          wheel: false
           wheelhouse: false
           extra-pip-args: ${{ env.extra }}
 
