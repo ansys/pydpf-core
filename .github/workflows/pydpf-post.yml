@@ -77,32 +77,35 @@ jobs:
 
       - name: "Install PyDPF-Post"
         shell: bash
+        working-directory: pydpf-post
         run: |
-          cd pydpf-post/
           pip install .
           ls
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.2.dev1
+        working-directory: pydpf-post
+        uses: pyansys/pydpf-actions/prepare_tests@feat/use_build
         with:
           DEBUG: true
 
       - name: "Test Docstrings"
-        uses: pyansys/pydpf-actions/test_docstrings@v2.2.dev1
+        working-directory: pydpf-post
+        uses: pyansys/pydpf-actions/test_docstrings@feat/use_build
         with:
           MODULE: post
           PACKAGE_NAME: ansys-dpf-post
 
       - name: "Test API"
         shell: bash
-        working-directory: tests
+        working-directory: pydpf-core/tests
         run: |
           pytest $DEBUG --cov=ansys.dpf.post --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results-post.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        uses: pyansys/pydpf-actions/kill-dpf-servers@feat/use_build
 
       - name: "Upload Test Results"
+        working-directory: pydpf-post
         uses: actions/upload-artifact@v2
         with:
           name: ansys-dpf-post_pytest
