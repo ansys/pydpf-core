@@ -67,6 +67,10 @@ jobs:
       - name: "Setup Graphviz"
         uses: ts-graphviz/setup-graphviz@v1
 
+      - name: "Install OS packages"
+        run: |
+          choco install pandoc
+
       - name: "Install documentation packages for Python"
         run: |
           pip install -r requirements/requirements_docs.txt
