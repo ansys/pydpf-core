@@ -100,6 +100,27 @@ jobs:
       DOCSTRING: false
     secrets: inherit
 
+  pydpf-post_231:
+    name: "PyDPF-Post with 231"
+    uses: ./.github/workflows/pydpf-post.yml
+    with:
+      ANSYS_VERSION: "231"
+    secrets: inherit
+
+  pydpf-post_222:
+    name: "PyDPF-Post with 222"
+    uses: ./.github/workflows/pydpf-post.yml
+    with:
+      ANSYS_VERSION: "222"
+    secrets: inherit
+
+  pydpf-post_221:
+    name: "PyDPF-Post with 221"
+    uses: ./.github/workflows/pydpf-post.yml
+    with:
+      ANSYS_VERSION: "221"
+    secrets: inherit
+
   gate:
     name: "gate"
     uses: ./.github/workflows/gate.yml
