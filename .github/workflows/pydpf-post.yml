@@ -77,8 +77,8 @@ jobs:
 
       - name: "Install PyDPF-Post"
         shell: bash
-        working-directory: pydpf-post
         run: |
+          cd pydpf-post/
           pip install .
 
       - name: "Prepare Testing Environment"
