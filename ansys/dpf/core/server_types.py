@@ -74,7 +74,7 @@ def check_valid_ip(ip):
         raise ValueError(f'Invalid IP address "{ip}"')
 
 
-def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install = None):
+def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
     if path_in_install is None:
         path_in_install = load_api._get_path_in_install()
     if os.path.isdir(f"{ansys_path}/{path_in_install}"):
@@ -457,6 +457,11 @@ class BaseServer(abc.ABC):
     def local_server(self) -> bool:
         pass
 
+    @local_server.setter
+    @abc.abstractmethod
+    def local_server(self, val):
+        pass
+
     def __str__(self):
         return f"DPF Server: {self.info}"
 
@@ -662,6 +667,10 @@ class GrpcServer(CServer):
     def local_server(self):
         return self._local_server
 
+    @local_server.setter
+    def local_server(self, val):
+        self._local_server = val
+
 
 class InProcessServer(CServer):
     """Server using the InProcess communication protocol"""
@@ -670,7 +679,6 @@ class InProcessServer(CServer):
                  ansys_path=None,
                  as_global=True,
                  load_operators=True,
-                 docker_name=None,
                  timeout=None):
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
@@ -719,6 +727,11 @@ class InProcessServer(CServer):
     @property
     def local_server(self):
         return True
+
+    @local_server.setter
+    def local_server(self, val):
+        if not val:
+            raise NotImplementedError("an in process server can only be local.")
 
 
 class LegacyGrpcServer(BaseServer):
@@ -896,6 +909,10 @@ class LegacyGrpcServer(BaseServer):
     @property
     def local_server(self):
         return self._local_server
+
+    @local_server.setter
+    def local_server(self, val):
+        self._local_server = val
 
     def shutdown(self):
         if self._own_process and self.live:

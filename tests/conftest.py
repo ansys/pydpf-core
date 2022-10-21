@@ -66,7 +66,7 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
     """
     if local_test_repo is False:
         if is_in_examples:
-            return getattr(examples, is_in_examples)
+            return examples.find_files(getattr(examples, is_in_examples))
         else:
             # otherwise, assume file is local
             test_path = os.path.join(
@@ -237,7 +237,7 @@ def raises_for_servers_version_under(version):
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
 
     @pytest.fixture(
-        scope="session",
+        scope="package",
         params=[
             ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
             ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
@@ -250,7 +250,7 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
         return server
 
     @pytest.fixture(
-        scope="session",
+        scope="package",
         params=[
             ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
             ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
@@ -265,7 +265,7 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
         return server
 
     @pytest.fixture(
-        scope="session",
+        scope="package",
         params=[
             ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
             ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
@@ -276,7 +276,7 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
         return request.param
 
     @pytest.fixture(
-        scope="session",
+        scope="package",
         params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
         ids=[
             "ansys-grpc-dpf",
@@ -287,12 +287,12 @@ if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
 
 else:
 
-    @pytest.fixture(scope="session")
+    @pytest.fixture(scope="package")
     def server_type():
         return core._global_server()
 
     @pytest.fixture(
-        scope="session",
+        scope="package",
         params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
         ids=[
             "ansys-grpc-dpf",
@@ -302,7 +302,7 @@ else:
         return core._global_server()
 
     @pytest.fixture(
-        scope="session",
+        scope="package",
         params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
         ids=[
             "ansys-grpc-dpf",
@@ -311,13 +311,13 @@ else:
     def remote_config_server_type(request):
         return request.param
 
-    @pytest.fixture(scope="session")
+    @pytest.fixture(scope="package")
     def server_type_legacy_grpc(request):
         return core._global_server()
 
 
 @pytest.fixture(
-    scope="session",
+    scope="package",
     params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)],
     ids=[
         "gRPC CLayer",
@@ -325,16 +325,11 @@ else:
 )
 def server_clayer_remote_process(request):
     server = core.start_local_server(config=request.param, as_global=False)
-    if request.param == ServerConfig(
-        protocol=CommunicationProtocols.gRPC, legacy=False
-    ):
-        client = core.settings.get_runtime_client_config(server)
-        client.cache_enabled = True
     return server
 
 
 @pytest.fixture(
-    scope="session",
+    scope="function",
     params=[
         ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
         ServerConfig(protocol=None, legacy=False),
@@ -343,10 +338,6 @@ def server_clayer_remote_process(request):
 )
 def server_clayer(request):
     server = core.start_local_server(config=request.param, as_global=False)
-    if request.param == ServerConfig(
-        protocol=CommunicationProtocols.gRPC, legacy=False
-    ):
-        core.settings.get_runtime_client_config(server).cache_enabled = False
     return server
 
 

@@ -58,7 +58,7 @@ class Workflow:
 
 
     >>> from ansys.dpf.core import examples
-    >>> data_src = dpf.DataSources(examples.multishells_rst)
+    >>> data_src = dpf.DataSources(examples.find_multishells_rst())
     >>> workflow.connect("data_sources", data_src)
     >>> min = workflow.get_output("min", dpf.types.field) # doctest: +SKIP
     >>> max = workflow.get_output("max", dpf.types.field) # doctest: +SKIP
@@ -138,7 +138,7 @@ class Workflow:
 
 
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> workflow.connect("data_sources", data_src)
         >>> min = workflow.get_output("min", dpf.types.field) # doctest: +SKIP
         >>> max = workflow.get_output("max", dpf.types.field) # doctest: +SKIP
@@ -326,7 +326,7 @@ class Workflow:
         >>> workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
 
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> workflow.connect("data_sources", data_src)
 
         """
@@ -358,7 +358,7 @@ class Workflow:
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> workflow = dpf.Workflow()
-        >>> model = dpf.Model(examples.simple_bar)
+        >>> model = dpf.Model(examples.find_simple_bar())
         >>> disp_op = model.results.displacement()
         >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
         >>> workflow.set_output_name("contour", disp_op.outputs.fields_container)

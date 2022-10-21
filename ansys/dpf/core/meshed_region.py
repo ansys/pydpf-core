@@ -57,7 +57,7 @@ class MeshedRegion:
 
     >>> import ansys.dpf.core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.static_rst)
+    >>> model = dpf.Model(examples.find_static_rst())
     >>> meshed_region = model.metadata.meshed_region
 
     Create a meshed region from scratch (line with 3 beam elements).
@@ -156,7 +156,7 @@ class MeshedRegion:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> meshed_region = model.metadata.meshed_region
         >>> elements = meshed_region.elements
         >>> print(elements)
@@ -179,7 +179,7 @@ class MeshedRegion:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> meshed_region = model.metadata.meshed_region
         >>> nodes = meshed_region.nodes
         >>> nodes.n_nodes
@@ -498,7 +498,7 @@ class MeshedRegion:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> meshed_region = model.metadata.meshed_region
         >>> grid = meshed_region.grid
 
@@ -547,7 +547,7 @@ class MeshedRegion:
 
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> disp = model.results.displacement()
         >>> field = disp.outputs.fields_container()[0]
         >>> model.metadata.meshed_region.plot(field)
@@ -601,7 +601,7 @@ class MeshedRegion:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> meshed_region = model.metadata.meshed_region
         >>> other_server = dpf.start_local_server(as_global=False)
         >>> deep_copy = meshed_region.deep_copy(server=other_server)
@@ -645,7 +645,7 @@ class MeshedRegion:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> meshed_region = model.metadata.meshed_region
         >>> connectivity = meshed_region.field_of_properties(
         ...     dpf.common.elemental_properties.connectivity)
