@@ -28,7 +28,6 @@ DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
 running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker
 local_test_repo = False
 
-del os.environ["AWP_ROOT231"]
 
 def _get_test_files_directory():
     if local_test_repo is False:
