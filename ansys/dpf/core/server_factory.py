@@ -304,6 +304,12 @@ class DockerConfig:
     def docker_run_cmd_command(self, docker_server_port, local_port):
         mounted_volumes_args = "-v " + " -v ".join(
             key + ":" + val for key, val in self.mounted_volumes.items())
+        print(f"docker run -d -p {local_port}:{docker_server_port} " \
+               f"{self.extra_args} " \
+               f"{mounted_volumes_args} " \
+               f"-e DOCKER_SERVER_PORT={docker_server_port} " \
+               f"--expose={docker_server_port} " \
+               f"{self.docker_name}")
         return f"docker run -d -p {local_port}:{docker_server_port} " \
                f"{self.extra_args} " \
                f"{mounted_volumes_args} " \
@@ -460,7 +466,7 @@ class RunningDockerConfig:
         while time.time() < t_timeout:
             docker_process = subprocess.Popen(f"docker logs {self.server_id}",
                                               stdout=subprocess.PIPE,
-                                              stderr=subprocess.PIPE)
+                                              stderr=subprocess.PIPE, shell=(os.name == 'posix'))
             self._use_docker = True
             for line in io.TextIOWrapper(docker_process.stdout, encoding="utf-8"):
                 LOG.debug(line)
