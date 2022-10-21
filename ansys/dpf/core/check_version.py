@@ -142,9 +142,7 @@ def version_tuple(ver):
         split_ver.append("0")
 
     if len(split_ver) > 3:
-        raise ValueError(
-            "Version strings containing more than three parts " "cannot be parsed"
-        )
+        split_ver = split_ver[:3]
 
     vals = []
     for item in split_ver:
