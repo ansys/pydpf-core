@@ -241,12 +241,6 @@ jobs:
         with:
           DEBUG: true
 
-      - name: "Test Docstrings"
-        uses: pyansys/pydpf-actions/test_docstrings@v2.2.dev1
-        with:
-          MODULE: ${{env.MODULE}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-
       - name: "Separate long Core tests"
         shell: pwsh
         run: |
