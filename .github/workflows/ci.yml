@@ -49,7 +49,6 @@ jobs:
   build_test:
     name: "Build and Test"
     runs-on: ${{ matrix.os }}
-    if: false
     strategy:
       fail-fast: false
       matrix:
@@ -341,7 +340,6 @@ jobs:
   docs:
     name: "Documentation"
     runs-on: windows-latest
-    if: false
 
     steps:
       - uses: actions/checkout@v3
@@ -441,7 +439,6 @@ jobs:
   run_examples:
     name: "Run Examples with/without bin"
     runs-on: ${{ matrix.os }}
-    if: false
     strategy:
       fail-fast: false
       matrix:
@@ -532,7 +529,7 @@ jobs:
   retro:
     name: "Retro-compatibility"
     runs-on: ${{ matrix.os }}
-    if: false
+
     strategy:
       fail-fast: false
       matrix:

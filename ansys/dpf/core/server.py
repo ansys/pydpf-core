@@ -3,10 +3,8 @@ Server
 ======
 Contains the directives necessary to start the DPF server.
 """
-import io
 import os
 import socket
-import subprocess
 import weakref
 import copy
 import inspect

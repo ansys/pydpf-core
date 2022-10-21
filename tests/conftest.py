@@ -262,18 +262,19 @@ def server_type(request):
     return server
 
 
-configsserver_type_remote_process, config_namessserver_type_remote_process = remove_none_available_config(
-    [
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
-    ],
-    ["ansys-grpc-dpf", "gRPC CLayer"])
+configs_server_type_remote_process, config_names_server_type_remote_process = \
+    remove_none_available_config(
+        [
+            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
+        ],
+        ["ansys-grpc-dpf", "gRPC CLayer"])
 
 
 @pytest.fixture(
     scope="package",
-    params=configsserver_type_remote_process,
-    ids=config_namessserver_type_remote_process,
+    params=configs_server_type_remote_process,
+    ids=config_names_server_type_remote_process,
 )
 def server_type_remote_process(request):
     server = core.start_local_server(config=request.param, as_global=False)
@@ -282,18 +283,19 @@ def server_type_remote_process(request):
 
 @pytest.fixture(
     scope="package",
-    params=configsserver_type_remote_process,
-    ids=config_namessserver_type_remote_process,
+    params=configs_server_type_remote_process,
+    ids=config_names_server_type_remote_process,
 )
 def remote_config_server_type(request):
     return request.param
 
 
-configs_server_type_legacy_grpc, config_names_server_type_legacy_grpc = remove_none_available_config(
-    [
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
-    ],
-    ["ansys-grpc-dpf"])
+configs_server_type_legacy_grpc, config_names_server_type_legacy_grpc = \
+    remove_none_available_config(
+        [
+            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+        ],
+        ["ansys-grpc-dpf"])
 
 
 @pytest.fixture(

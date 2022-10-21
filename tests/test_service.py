@@ -1,5 +1,4 @@
 import os
-from typing import re
 
 import pytest
 import conftest
@@ -252,7 +251,8 @@ def test_load_plugin_correctly(server_type):
 def test_load_plugin_correctly_remote():
     from ansys.dpf import core as dpf
     server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer, as_global=False)
-    server_connected = dpf.connect_to_server(server.external_ip, server.external_port, as_global=False)
+    server_connected = dpf.connect_to_server(server.external_ip, server.external_port,
+                                             as_global=False)
 
     actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
 
@@ -272,7 +272,7 @@ def test_dpf_join(server_type):
     dpf.core.DataSources("bla", server=server_type)  # start server
     left = "temp"
     right = "file.rst"
-    conc = dpf.core.path_utilities.join(left, right)
+    conc = path_utilities.join(left, right)
     os_server = dpf.core.SERVER.os
     if os_server == "posix":
         assert conc == "temp/file.rst"

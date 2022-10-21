@@ -47,7 +47,7 @@ def find_files(local_path, should_upload=True, server=None, return_local_path=Fa
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
     return_local_path: bool, optional
-        If ``True``, the local path is returned as is, without uploading, nor searching 
+        If ``True``, the local path is returned as is, without uploading, nor searching
         for mounted volumes.
 
     Returns
@@ -77,7 +77,7 @@ def find_simple_bar(should_upload: bool = True, server=None, return_local_path=F
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
     return_local_path: bool, optional
-        If ``True``, the local path is returned as is, without uploading, nor searching 
+        If ``True``, the local path is returned as is, without uploading, nor searching
         for mounted volumes.
 
     Returns
@@ -109,7 +109,7 @@ def find_static_rst(should_upload: bool = True, server=None, return_local_path=F
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
     return_local_path: bool, optional
-        If ``True``, the local path is returned as is, without uploading, nor searching 
+        If ``True``, the local path is returned as is, without uploading, nor searching
         for mounted volumes.
 
     Returns
@@ -141,7 +141,7 @@ def find_complex_rst(should_upload: bool = True, server=None, return_local_path=
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
     return_local_path: bool, optional
-        If ``True``, the local path is returned as is, without uploading, nor searching 
+        If ``True``, the local path is returned as is, without uploading, nor searching
         for mounted volumes.
 
     Returns
@@ -173,7 +173,7 @@ def find_multishells_rst(should_upload: bool = True, server=None, return_local_p
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
     return_local_path: bool, optional
-        If ``True``, the local path is returned as is, without uploading, nor searching 
+        If ``True``, the local path is returned as is, without uploading, nor searching
         for mounted volumes.
 
     Returns
@@ -205,7 +205,7 @@ def find_electric_therm(should_upload: bool = True, server=None, return_local_pa
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
     return_local_path: bool, optional
-        If ``True``, the local path is returned as is, without uploading, nor searching 
+        If ``True``, the local path is returned as is, without uploading, nor searching
         for mounted volumes.
 
     Returns
@@ -237,7 +237,7 @@ def find_steady_therm(should_upload: bool = True, server=None, return_local_path
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
     return_local_path: bool, optional
-        If ``True``, the local path is returned as is, without uploading, nor searching 
+        If ``True``, the local path is returned as is, without uploading, nor searching
         for mounted volumes.
 
     Returns
@@ -269,7 +269,7 @@ def find_transient_therm(should_upload: bool = True, server=None, return_local_p
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
     return_local_path: bool, optional
-        If ``True``, the local path is returned as is, without uploading, nor searching 
+        If ``True``, the local path is returned as is, without uploading, nor searching
         for mounted volumes.
 
     Returns
@@ -301,7 +301,7 @@ def find_msup_transient(should_upload: bool = True, server=None, return_local_pa
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
     return_local_path: bool, optional
-        If ``True``, the local path is returned as is, without uploading, nor searching 
+        If ``True``, the local path is returned as is, without uploading, nor searching
         for mounted volumes.
 
     Returns
@@ -333,7 +333,7 @@ def find_simple_cyclic(should_upload: bool = True, server=None, return_local_pat
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
     return_local_path: bool, optional
-        If ``True``, the local path is returned as is, without uploading, nor searching 
+        If ``True``, the local path is returned as is, without uploading, nor searching
         for mounted volumes.
 
     Returns
@@ -353,7 +353,9 @@ def find_simple_cyclic(should_upload: bool = True, server=None, return_local_pat
     return find_files(simple_cyclic, should_upload, server, return_local_path)
 
 
-def find_distributed_msup_folder(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def find_distributed_msup_folder(
+        should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -365,7 +367,7 @@ def find_distributed_msup_folder(should_upload: bool = True, server=None, return
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
     return_local_path: bool, optional
-        If ``True``, the local path is returned as is, without uploading, nor searching 
+        If ``True``, the local path is returned as is, without uploading, nor searching
         for mounted volumes.
 
     Returns
