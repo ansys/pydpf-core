@@ -447,6 +447,7 @@ jobs:
   run_examples:
     name: "Run Examples with/without bin"
     runs-on: ${{ matrix.os }}
+    if: false
     strategy:
       fail-fast: false
       matrix:
@@ -537,6 +538,7 @@ jobs:
   retro:
     name: "Retro-compatibility"
     runs-on: ${{ matrix.os }}
+    if: false
     strategy:
       fail-fast: false
       matrix:
