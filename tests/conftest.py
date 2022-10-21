@@ -28,6 +28,7 @@ DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
 running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker
 local_test_repo = False
 
+del os.environ["AWP_ROOT231"]
 
 def _get_test_files_directory():
     if local_test_repo is False:
@@ -340,13 +341,14 @@ def server_in_process():
 
 @pytest.fixture()
 def restore_awp_root():
-    ver_to_check = core._version.server_to_ansys_version[str(core.SERVER.version)]
+    ver_to_check = core._version.server_to_ansys_version[str(core.global_server().version)]
     ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
     awp_root_name = "AWP_ROOT" + ver_to_check
     awp_root_save = os.environ.get(awp_root_name, None)
     yield
     # restore awp_root
-    os.environ[awp_root_name] = awp_root_save
+    if awp_root_save:
+        os.environ[awp_root_name] = awp_root_save
 
 
 class LocalServers:

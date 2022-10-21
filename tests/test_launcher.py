@@ -45,14 +45,15 @@ class TestServerConfigs:
         reason="Ans.Dpf.Grpc.bat and .sh need AWP_ROOT221 for 221 install",
     )
     def test_start_local_custom_ansys_path(self, server_config):
-        ver_to_check = core._version.server_to_ansys_version[str(core.SERVER.version)]
+        ver_to_check = core._version.server_to_ansys_version[str(core.global_server().version)]
         ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
         awp_root_name = "AWP_ROOT" + ver_to_check
-        path = os.environ[awp_root_name]
-        try:
-            os.unsetenv(awp_root_name)
-        except:
-            del os.environ[awp_root_name]
+        path = os.environ.get(awp_root_name, None)
+        if path:
+            try:
+                os.unsetenv(awp_root_name)
+            except:
+                del os.environ[awp_root_name]
         try:
             server = core.start_local_server(
                 ansys_path=path,
@@ -64,15 +65,17 @@ class TestServerConfigs:
             if server_config != core.AvailableServerConfigs.InProcessServer:
                 p = psutil.Process(server.info["server_process_id"])
                 assert path in p.cwd()
-            os.environ[
-                awp_root_name
-            ] = path
+            if path:
+                os.environ[
+                    awp_root_name
+                ] = path
         except Exception as e:
             os.environ[
                 awp_root_name
             ] = path
             raise e
 
+    @pytest.mark.skipif(running_docker, reason="AWP ROOT is not set with Docker")
     def test_start_local_no_ansys_path(self, server_config):
         server = core.start_local_server(
             use_docker_by_default=False, config=server_config, as_global=False
@@ -168,8 +171,8 @@ class TestServerConfigs:
             if process.returncode is not None:
                 raise Exception(errors)
 
-    @staticmethod
-    def test_launch_server_full_path(server_config):
+    @pytest.mark.skipif(running_docker, reason="Not made to work on docker")
+    def test_launch_server_full_path(self, server_config):
         ansys_path = os.environ.get(
             "AWP_ROOT" + core.misc.__ansys_version__, core.misc.find_ansys()
         )

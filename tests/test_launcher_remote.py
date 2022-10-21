@@ -8,8 +8,10 @@ import pytest
 from ansys.dpf.core import server_types
 from ansys.dpf.core.misc import __ansys_version__
 from ansys.dpf.core.server_factory import ServerFactory
+from conftest import running_docker
 
 
+@pytest.mark.skipif(running_docker, reason="not for Docker")
 def test_start_remote(monkeypatch):
     # Test for the Product Instance Management API integration
 
