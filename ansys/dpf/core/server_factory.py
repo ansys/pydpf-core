@@ -99,6 +99,9 @@ class ServerConfig:
             return self.legacy == other.legacy and self.protocol == other.protocol
         return False
 
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
 
 def get_default_server_config(server_lower_than_or_equal_to_0_3=False, docker_config=None):
     """Returns the default configuration depending on the server version.

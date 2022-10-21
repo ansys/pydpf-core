@@ -231,14 +231,15 @@ def remove_none_available_config(configs, config_names):
             if conf == core.AvailableServerConfigs.LegacyGrpcServer:
                 configs_out.append(conf)
                 config_names_out.append(conf_name)
+    elif running_docker:
+        for conf, conf_name in zip(configs, config_names):
+            if conf != core.AvailableServerConfigs.InProcessServer:
+                configs_out.append(conf)
+                config_names_out.append(conf_name)
+
     else:
         configs_out = configs
         config_names_out = config_names
-    if running_docker:
-        for conf, conf_name in zip(configs_out, config_names_out):
-            if conf == core.AvailableServerConfigs.InProcessServer:
-                configs_out.remove(conf)
-                config_names_out.remove(conf_name)
 
     return configs_out, config_names_out
 

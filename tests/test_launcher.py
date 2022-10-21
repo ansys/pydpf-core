@@ -212,7 +212,7 @@ def test_start_docker_without_awp_root(restore_awp_root, server_clayer_remote_pr
     ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
     awp_root_name = "AWP_ROOT" + ver_to_check
     # delete awp_root
-    if ose.environ.get(awp_root_name, None):
+    if os.environ.get(awp_root_name, None):
         del os.environ[awp_root_name]
 
     serv = core.start_local_server(

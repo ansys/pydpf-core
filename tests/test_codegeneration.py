@@ -132,7 +132,7 @@ def test_operator_any_input(allkindofcomplexity):
     # create a temporary file at the default temp directory
     path = os.path.join(tempfile.gettempdir(), "dpf_temp_ser.txt")
     if not core.SERVER.local_server:
-        path = core.upload_file_in_tmp_folder(path)
+        path = core.path_utilities.join(core.make_tmp_dir_server(), "dpf_temp_ser.txt")
     serialization.inputs.file_path(path)
     serialization.run()
 
