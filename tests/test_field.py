@@ -951,7 +951,7 @@ def _deep_copy_test_identical_server(config):
     assert field.unit == copy.unit
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+@pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
                     reason='this server type does not exist before client'
                     'dedicated to 4.0 server version')
 def test_deep_copy_field_grpcclayer_to_grpcclayer():

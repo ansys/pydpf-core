@@ -61,7 +61,7 @@ class TestServerConfigs:
                 as_global=True,
             )
             assert isinstance(server.os, str)
-            if server_config != core.AvailableServerConfigs.InProcessServer:
+            if server_config != core.AvailableServerConfigs.InProcessServer and not running_docker:
                 p = psutil.Process(server.info["server_process_id"])
                 assert path in p.cwd()
             if path:
@@ -69,9 +69,10 @@ class TestServerConfigs:
                     awp_root_name
                 ] = path
         except Exception as e:
-            os.environ[
-                awp_root_name
-            ] = path
+            if path:
+                os.environ[
+                    awp_root_name
+                ] = path
             raise e
 
     @pytest.mark.skipif(running_docker, reason="AWP ROOT is not set with Docker")
