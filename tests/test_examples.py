@@ -74,11 +74,11 @@ def test_find_examples(example, server_type_remote_process):
 
 
 def test_delete_downloaded_files():
-    path = examples.download_multi_stage_cyclic_result()
+    path = examples.download_multi_stage_cyclic_result(return_local_path=True)
     assert os.path.exists(path)
     examples.delete_downloads()
     assert not os.path.exists(path)
-    path = examples.download_multi_stage_cyclic_result()
+    path = examples.download_multi_stage_cyclic_result(return_local_path=True)
     assert os.path.exists(path)
     assert os.path.exists(examples.simple_bar)
     assert os.path.exists(examples.static_rst)
