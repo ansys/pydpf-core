@@ -34,7 +34,7 @@ def _get_test_files_directory():
         test_path = os.path.join(
             os.path.dirname(os.path.abspath(__file__))
         )
-        return os.path.join(test_path, "testfiles")
+        return os.path.join(test_path, os.pardir, "tests", "testfiles")
     else:
         return os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
 
@@ -244,11 +244,12 @@ def remove_none_available_config(configs, config_names):
 
 
 configsserver_type, config_namesserver_type = remove_none_available_config([
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-        ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)
-    ],
+    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+    ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)
+],
     ["ansys-grpc-dpf", "gRPC CLayer", "in Process CLayer"])
+
 
 @pytest.fixture(
     scope="package",
@@ -260,11 +261,13 @@ def server_type(request):
     return server
 
 
-configsserver_type_remote_process, config_namessserver_type_remote_process = remove_none_available_config([
+configsserver_type_remote_process, config_namessserver_type_remote_process = remove_none_available_config(
+    [
         ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
         ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     ],
     ["ansys-grpc-dpf", "gRPC CLayer"])
+
 
 @pytest.fixture(
     scope="package",
@@ -285,10 +288,12 @@ def remote_config_server_type(request):
     return request.param
 
 
-configs_server_type_legacy_grpc, config_names_server_type_legacy_grpc = remove_none_available_config([
+configs_server_type_legacy_grpc, config_names_server_type_legacy_grpc = remove_none_available_config(
+    [
         ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     ],
     ["ansys-grpc-dpf"])
+
 
 @pytest.fixture(
     scope="package",
@@ -312,9 +317,9 @@ def server_clayer_remote_process(request):
 
 
 configs_server_clayer, config_names_server_clayer = remove_none_available_config([
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-        ServerConfig(protocol=None, legacy=False),
-    ],
+    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+    ServerConfig(protocol=None, legacy=False),
+],
     ["gRPC CLayer", "in Process CLayer"])
 
 

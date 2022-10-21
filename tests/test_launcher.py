@@ -57,7 +57,6 @@ class TestServerConfigs:
         try:
             server = core.start_local_server(
                 ansys_path=path,
-                use_docker_by_default=False,
                 config=server_config,
                 as_global=True,
             )
@@ -97,24 +96,24 @@ class TestServerConfigs:
         ver_to_check = core._version.server_to_ansys_version[str(core.SERVER.version)]
         ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
         awp_root_name = "AWP_ROOT" + ver_to_check
-        awp_root = os.environ[
-            awp_root_name
-        ]
+        awp_root = os.environ.get(
+            awp_root_name, None
+        )
         try:
-            os.environ["ANSYS_DPF_PATH"] = awp_root
-            try:
-                os.unsetenv(awp_root_name)
-            except:
-                del os.environ[
-                    awp_root_name
-                ]
-            server = core.start_local_server(
-                use_docker_by_default=False, config=server_config
-            )
+            if awp_root:
+                os.environ["ANSYS_DPF_PATH"] = awp_root
+                try:
+                    os.unsetenv(awp_root_name)
+                except:
+                    del os.environ[
+                        awp_root_name
+                    ]
+            server = core.start_local_server(config=server_config)
             assert isinstance(server.os, str)
-            os.environ[
-                awp_root_name
-            ] = awp_root
+            if awp_root:
+                os.environ[
+                    awp_root_name
+                ] = awp_root
             try:
                 os.unsetenv("ANSYS_DPF_PATH")
             except:
