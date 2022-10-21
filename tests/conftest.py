@@ -329,7 +329,7 @@ def server_clayer_remote_process(request):
 
 
 @pytest.fixture(
-    scope="function",
+    scope="package",
     params=[
         ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
         ServerConfig(protocol=None, legacy=False),
