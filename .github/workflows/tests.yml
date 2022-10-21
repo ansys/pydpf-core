@@ -67,7 +67,7 @@ jobs:
     steps:
       - id: set_array
         run: |
-          echo "::set-output name=python_versions::$input"
+          echo "python_versions=$input" >> GITHUB_OUTPUT
         env:
           input: ${{ inputs.python_versions }}
   tests:
