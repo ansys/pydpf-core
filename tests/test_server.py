@@ -131,12 +131,12 @@ def test_busy_port(remote_config_server_type):
 
 
 @pytest.mark.skipif(not running_docker,
-                    reason="Only work on Docker")
+                    reason="Only works on Docker")
 def test_docker_busy_port(remote_config_server_type):
     my_serv = start_local_server(config=remote_config_server_type)
     busy_port = my_serv.external_port
     with pytest.raises(errors.InvalidPortError):
-        server_types.launch_dpf_on_docker(ansys_path=dpf.core.misc.get_ansys_path(), port=busy_port,
+        server_types.launch_dpf_on_docker(port=busy_port,
                                           docker_config=dpf.core.server.RUNNING_DOCKER
                                           )
     server = start_local_server(as_global=False, port=busy_port,
