@@ -132,7 +132,7 @@ def test_shutting_down_when_deleted_legacy():
         "from ansys.dpf import core as dpf;"
         "from ansys.dpf.core import examples;"
         "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.LegacyGrpcServer;"
-        "model = dpf.Model(examples.static_rst);"
+        "model = dpf.Model(examples.find_static_rst());"
     ])
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():
@@ -153,7 +153,7 @@ def test_shutting_down_when_deleted():
         "from ansys.dpf import core as dpf;"
         "from ansys.dpf.core import examples;"
         "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.GrpcServer;"
-        "model = dpf.Model(examples.static_rst);"
+        "model = dpf.Model(examples.find_static_rst());"
     ])
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():

@@ -15,7 +15,7 @@ from ansys.dpf.core import examples
 
 ###############################################################################
 # Create a model object to establish a connection with an example result file.
-model = dpf.Model(examples.simple_bar)
+model = dpf.Model(examples.find_simple_bar())
 
 ###############################################################################
 # Get the :class:`meshed_region <ansys.dpf.core.meshed_region.MeshedRegion>`

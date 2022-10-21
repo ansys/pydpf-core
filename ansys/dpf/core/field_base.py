@@ -603,7 +603,7 @@ class _LocalFieldBase(_FieldBase):
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> stress_op = model.results.stress()
         >>> fields_container = stress_op.outputs.fields_container()
         >>> with fields_container[0].as_local_field() as f:

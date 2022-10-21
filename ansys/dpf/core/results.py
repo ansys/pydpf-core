@@ -34,7 +34,7 @@ class Results:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.find_msup_transient())
         >>> disp = model.results.displacement.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = disp.eval()
 
@@ -49,7 +49,7 @@ class Results:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.find_msup_transient())
         >>> stress = model.results.stress.on_last_time_freq.on_named_selection('_CONSTRAINEDNODES')
         >>> last_time_stress = stress.eval()
 
@@ -61,7 +61,7 @@ class Results:
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.electric_therm)
+        >>> model = dpf.Model(examples.find_electric_therm())
         >>> v = model.results.electric_potential
         >>> dissip = model.results.thermal_dissipation_energy
 
@@ -71,7 +71,7 @@ class Results:
 
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.simple_bar)
+    >>> model = dpf.Model(examples.find_simple_bar())
     >>> results = model.results # printable object
 
     Access the displacement at all times.
@@ -167,7 +167,7 @@ class Result:
 
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.msup_transient)
+    >>> model = dpf.Model(examples.find_msup_transient())
     >>> disp = model.results.displacement.on_last_time_freq.on_named_selection('_CONSTRAINEDNODES')
     >>> last_time_disp = disp.eval()
 
@@ -182,7 +182,7 @@ class Result:
     Create a strain result from the model on all time sets and recover the
     operator to connect it to other operators.
 
-    >>> model = dpf.Model(examples.msup_transient)
+    >>> model = dpf.Model(examples.find_msup_transient())
     >>> strain = model.results.elastic_strain.on_all_time_freqs()
     >>> eqv = dpf.operators.invariant.von_mises_eqv_fc(strain)
     >>> strain_eqv = eqv.outputs.fields_container()
@@ -260,7 +260,7 @@ class Result:
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.find_msup_transient())
         >>> disp = model.results.displacement
         >>> fc = disp.on_all_time_freqs.eval()
 
@@ -284,7 +284,7 @@ class Result:
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.find_msup_transient())
         >>> disp = model.results.displacement
         >>> disp.on_all_time_freqs.eval().get_label_scoping("time").ids
         <BLANKLINE>
@@ -308,7 +308,7 @@ class Result:
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.find_msup_transient())
         >>> disp = model.results.displacement
         >>> disp.on_first_time_freq.eval().get_label_scoping("time").ids
         <BLANKLINE>
@@ -330,7 +330,7 @@ class Result:
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.find_msup_transient())
         >>> disp = model.results.displacement
         >>> disp.on_last_time_freq.eval().get_label_scoping("time").ids
         <BLANKLINE>
@@ -360,7 +360,7 @@ class Result:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.find_msup_transient())
         >>> stress = model.results.stress
         >>> fc = stress.on_time_scoping([1,2,3,19]).eval()
         >>> len(fc)
@@ -397,7 +397,7 @@ class Result:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.find_msup_transient())
         >>> stress = model.results.stress
         >>> fc = stress.on_first_time_freq.on_named_selection('_CONSTRAINEDNODES').eval()
         >>> len(fc[0].scoping)
@@ -501,7 +501,7 @@ class Result:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.complex_rst)
+        >>> model = dpf.Model(examples.find_complex_rst())
         >>> disp = model.results.displacement
         >>> fc = disp.on_mesh_scoping([1,2,3]).eval()
         >>> len(fc[0].scoping)
@@ -547,7 +547,7 @@ class Result:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.complex_rst)
+        >>> model = dpf.Model(examples.find_complex_rst())
         >>> stress = model.results.stress
         >>> fc = stress.eval()
         >>> fc[0].location
@@ -600,7 +600,7 @@ class CommonResults(Results):
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.find_msup_transient())
         >>> disp = model.results.displacement
         >>> disp = disp.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = disp.eval()
@@ -625,7 +625,7 @@ class CommonResults(Results):
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.find_msup_transient())
         >>> strain = model.results.elastic_strain
         >>> strain = strain.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = strain.eval()
@@ -650,7 +650,7 @@ class CommonResults(Results):
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.msup_transient)
+        >>> model = dpf.Model(examples.find_msup_transient())
         >>> stress = model.results.stress
         >>> stress = stress.on_last_time_freq.on_named_selection("_CONSTRAINEDNODES")
         >>> last_time_disp = stress.eval()
@@ -676,7 +676,7 @@ class CommonResults(Results):
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.complex_rst)
+        >>> model = dpf.Model(examples.find_complex_rst())
         >>> structural_temperature = model.results.structural_temperature
         >>> structural_temperature = structural_temperature.on_last_time_freq()
         >>> last_time_disp = structural_temperature.eval()
@@ -702,7 +702,7 @@ class CommonResults(Results):
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.steady_therm)
+        >>> model = dpf.Model(examples.find_steady_therm())
         >>> temperature = model.results.temperature.on_last_time_freq()
         >>> last_time_disp = temperature.eval()
         """
@@ -727,7 +727,7 @@ class CommonResults(Results):
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.electric_therm)
+        >>> model = dpf.Model(examples.find_electric_therm())
         >>> electric_potential = model.results.electric_potential.on_first_time_freq()
         >>> last_time_disp = electric_potential.eval()
         """
