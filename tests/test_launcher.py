@@ -203,6 +203,21 @@ def test_start_local_failed_executable(remote_config_server_type):
         core.start_local_server(ansys_path=path, config=remote_config_server_type)
 
 
+@pytest.mark.skipif(not running_docker, reason="Checks docker start server")
+def test_start_docker_without_awp_root(restore_awp_root, server_clayer_remote_process):
+    ver_to_check = core._version.server_to_ansys_version[str(server_clayer_remote_process.version)]
+    ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
+    awp_root_name = "AWP_ROOT" + ver_to_check
+    # delete awp_root
+    del os.environ[awp_root_name]
+
+    serv = core.start_local_server(
+        as_global=False
+    )
+
+    assert serv.ip is not None
+
+
 def test_server_ip(server_type_remote_process):
     assert server_type_remote_process.ip is not None
     assert server_type_remote_process.port is not None
