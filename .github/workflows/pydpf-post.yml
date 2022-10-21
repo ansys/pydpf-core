@@ -108,4 +108,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ansys-dpf-post_pytest
-          path: tests/junit/test-results-post.xml
+          path: pydpf-post/tests/junit/test-results-post.xml
