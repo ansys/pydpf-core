@@ -218,7 +218,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.8"]
-        os: ["windows-latest", "ubuntu-latest"]
+        os: ["ubuntu-latest"]
 
     steps:
       - uses: actions/checkout@v3
@@ -346,6 +346,7 @@ jobs:
   docs:
     name: "Documentation"
     runs-on: windows-latest
+    if: false
 
     steps:
       - uses: actions/checkout@v3
