@@ -93,7 +93,7 @@ jobs:
         with:
           MODULE: post
           PACKAGE_NAME: ansys-dpf-post
-          working-directory: pydpf-post
+          working-directory: pydpf-post/src
 
       - name: "Test API"
         shell: bash
