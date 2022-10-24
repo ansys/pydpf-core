@@ -938,10 +938,10 @@ def test_field_mutable_data_delete(server_clayer, allkindofcomplexity):
     gc.collect()  # check that the memory is held by the dpfvector
     assert np.allclose(data, data_copy)
     data[0][0] = 1
-    assert not np.allclose(data[0][0], 1)
+    assert np.allclose(data[0][0], 1)
 
 
-#not using a fixture on purpose: the instance of simple field SHOULD be owned by each test
+# not using a fixture on purpose: the instance of simple field SHOULD be owned by each test
 def get_simple_field(server_clayer):
     field = dpf.core.Field(nentities=20, server=server_clayer)
     field_def = dpf.core.FieldDefinition(server=server_clayer)
