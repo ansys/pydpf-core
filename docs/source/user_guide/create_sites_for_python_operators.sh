@@ -33,7 +33,8 @@ export PYTHONLIBPATH="$(dirname "${pythonexe}")"
 echo "adding python so to LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH=${PYTHONLIBPATH}/../lib:{LD_LIBRARY_PATH}
 
-echo ${pythonexe} -m venv ${tempfolder}/venv
+echo "Python interpreter"
+which ${pythonexe}
 
 ${pythonexe} -m venv ${tempfolder}/venv
 

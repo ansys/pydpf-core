@@ -46,7 +46,7 @@ for file in file_list:
     operator_file_path = examples.downloads._retrieve_file(
         EXAMPLE_FILE, file, os.path.join("python_plugins", os.path.dirname(file)))
 
-    print(f'\033[1m {file}\n \033[0m')
+    # print(f'\033[1m {file}\n \033[0m')
     if (os.path.splitext(file)[1] == ".py" or os.path.splitext(file)[1] == ".xml") \
             and file != "gltf_plugin/gltf_export.py":
         # with open(operator_file_path, "r") as f:
@@ -116,8 +116,8 @@ if os.name == "nt" and \
     cmd_file = examples.downloads._retrieve_file(
         CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins")
     run_cmd = f"powershell {cmd_file}"
-    args = f" -pluginpath \"{plugin_path}\" " \
-           f"-zippath {os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')}"
+    args = f" -pluginpath \"{plugin_path}\"" \
+           f" -zippath {os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')}"
     print(run_cmd + args)
     import subprocess
     process = subprocess.run(run_cmd + args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
