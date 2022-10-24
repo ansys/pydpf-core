@@ -519,6 +519,23 @@ class FieldsContainer(Collection):
         # Define the field extraction using the fields_container and indices
         extract_field_op = dpf.core.operators.utility.extract_field(self)
 
+        loop_over = self.get_time_scoping()
+        frequencies = self.time_freq_support.time_frequencies
+        if frequencies is None:
+            raise ValueError("The fields_container has no time_frequencies.")
+
+        set_mesh = False
+        if len(self.get_field(0).meshed_region.nodes) == 0:
+            if mesh is None:
+                raise ValueError("The first field's mesh is empty. Please set the 'mesh' argument.")
+            else:
+                set_mesh = True
+                bind_support_fc = dpf.core.operators.utility.bind_support_fc(self,
+                                                                             support=mesh)
+                fc = bind_support_fc.eval()
+                # fc = self
+        else:
+            fc = self
         # TODO /!\ We should be using a mechanical::time_selector, however it is not wrapped.
 
         wf.set_input_name("indices", extract_field_op.inputs.indices)  # Have to do it this way
@@ -531,18 +548,18 @@ class FieldsContainer(Collection):
         if deform_by is not False:
             if deform_by is None or isinstance(deform_by, bool):
                 # By default, set deform_by as self if nodal 3D vector field
-                if self[0].location == dpf.core.common.locations.nodal and \
-                        self[0].component_count == 3:
-                    deform_by = self
+                if fc[0].location == dpf.core.common.locations.nodal and \
+                        fc[0].component_count == 3:
+                    deform_by = fc
                 else:
                     deform = False
             if deform_by and not isinstance(deform_by, dpf.core.FieldsContainer):
                 deform_by = deform_by.eval()
-                if len(deform_by) != len(self):
+                if len(deform_by) != len(fc):
                     raise ValueError("'deform_by' argument must result in a FieldsContainer "
                                      "of same length as the animated one "
                                      f"(len(deform_by.eval())={len(deform_by)} "
-                                     f"!= len(self)={len(self)}).")
+                                     f"!= len(self)={len(fc)}).")
         else:
             deform = False
 
@@ -585,8 +602,6 @@ class FieldsContainer(Collection):
         wf.set_output_name("to_render", extract_field_op.outputs.field)
         wf.progress_bar = False
 
-        loop_over = self.get_time_scoping()
-        frequencies = self.time_freq_support.time_frequencies
         loop_over_field = dpf.core.fields_factory.field_from_array(
             frequencies.data[loop_over.ids-1])
         loop_over_field.scoping.ids = loop_over.ids
