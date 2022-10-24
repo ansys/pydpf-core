@@ -49,10 +49,10 @@ for file in file_list:
     print(f'\033[1m {file}\n \033[0m')
     if (os.path.splitext(file)[1] == ".py" or os.path.splitext(file)[1] == ".xml") \
             and file != "gltf_plugin/gltf_export.py":
-        with open(operator_file_path, "r") as f:
-            for line in f.readlines():
-                print('\t\t\t' + line)
-        print("\n\n")
+        # with open(operator_file_path, "r") as f:
+        #     for line in f.readlines():
+        #         print('\t\t\t' + line)
+        # print("\n\n")
         if plugin_path is None:
             plugin_path = os.path.dirname(operator_file_path)
 
@@ -74,10 +74,10 @@ for file in file_list:
 #
 # To simplify this step, you can add a requirements file in the plug-in package:
 #
-print(f'\033[1m gltf_plugin/requirements.txt: \n \033[0m')
-with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
-    for line in f.readlines():
-        print('\t\t\t' + line)
+# print(f'\033[1m gltf_plugin/requirements.txt: \n \033[0m')
+# with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
+#     for line in f.readlines():
+#         print('\t\t\t' + line)
 
 
 # %%
@@ -140,7 +140,8 @@ elif os.name == "posix" and \
     print(run_cmd + args)
     import subprocess
     subprocess.run(f"chmod u=rwx,o=x {cmd_file}", shell=True)
-    subprocess.run(run_cmd + args, shell=True)
+    out = subprocess.run(run_cmd + args, shell=True)
+    print(out)
     print("\nInstalling pygltf in a virtual environment succeeded")
 
 ###############################################################################
