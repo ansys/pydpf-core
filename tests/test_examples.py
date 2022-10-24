@@ -62,6 +62,23 @@ def test_examples(example):
 def test_find_examples(example, server_type_remote_process):
     # get example by string, so we can parameterize it without breaking
     # collection
+    assert server_type_remote_process.local_server is True
+    server_type_remote_process.local_server = False
+    func = getattr(globals()["examples"], "find_" + example)
+    path = func(server=server_type_remote_process)
+    assert isinstance(Model(path).metadata.result_info, dpf.ResultInfo)
+    assert path != getattr(globals()["examples"], example)
+    server_type_remote_process.local_server = True
+    path = func(server=server_type_remote_process)
+    assert path == getattr(globals()["examples"], example)
+
+
+@pytest.mark.parametrize(
+    "example", list_examples,
+)
+def test_find_examples(example, server_type_remote_process):
+    # get example by string, so we can parameterize it without breaking
+    # collection
     server_type_remote_process.local_server = False
     func = getattr(globals()["examples"], "find_" + example)
     path = func(server=server_type_remote_process)

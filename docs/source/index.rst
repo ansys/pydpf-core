@@ -84,5 +84,6 @@ of the framework. Because DPF is plugin-based, new features or formats can be ea
    getting_started/index
    user_guide/index
    api/index
+   operator_reference
    examples/index
    contributing

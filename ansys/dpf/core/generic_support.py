@@ -43,7 +43,7 @@ class GenericSupport(Support):
 
     Notes
     -----
-    Class available with server's version starting at 5.0.
+    Class available with server's version starting at 5.0 (Ansys 2023R1).
     """
 
     def __init__(self, name: str = "", generic_support=None, server=None):

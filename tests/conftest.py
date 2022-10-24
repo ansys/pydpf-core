@@ -71,7 +71,7 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
     this repository has been mapped to the docker image at /dpf.
     """
     if is_in_examples:
-        filename = getattr(examples, is_in_examples)
+            return examples.find_files(getattr(examples, is_in_examples))
     else:
         test_files_path = _get_test_files_directory()
         filename = os.path.join(test_files_path, additional_path, basename)
