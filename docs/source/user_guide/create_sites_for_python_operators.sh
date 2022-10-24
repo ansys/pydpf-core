@@ -9,7 +9,7 @@ tempfolder=${tempfolder:-/tmp}
 
 while [ $# -gt 0 ]; do
 
-   if [[ $1 == *"-"* ]]; then
+   if [[ $1 == "-"* ]]; then
         param="${1/-/}"
         declare $param="$2"
         # echo $1 $2 // Optional to see the parameter:value result
@@ -32,6 +32,8 @@ if [ -d "${tempfolder}/venv" ]; then rm -Rf ${tempfolder}/venv; fi
 export PYTHONLIBPATH="$(dirname "${pythonexe}")"
 echo "adding python so to LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH=${PYTHONLIBPATH}/../lib:{LD_LIBRARY_PATH}
+
+echo ${pythonexe} -m venv ${tempfolder}/venv
 
 ${pythonexe} -m venv ${tempfolder}/venv
 
