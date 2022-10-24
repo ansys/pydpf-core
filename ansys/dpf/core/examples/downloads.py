@@ -572,7 +572,7 @@ def download_extrapolation_2d_result(should_upload: bool = True, server=None,
         "file_ref": _download_file("extrapolate", "extrapolate_2d_ref.rst", should_upload, server,
                                    return_local_path),
         "file_integrated": _download_file("extrapolate", "extrapolate_2d.rst",
-                                          should_upload, server),
+                                          should_upload, server, return_local_path),
     }
 
     return path_dict
