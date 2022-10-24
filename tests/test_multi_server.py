@@ -11,11 +11,11 @@ from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 @pytest.fixture(scope="module", params=[
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
 ] if (isinstance(server._global_server(), server_types.InProcessServer)) else
-conftest.remove_none_available_config([
-    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-    ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)], ["gRPC", "inProcess"])[
-    0] if \
-        isinstance(server._global_server(), server_types.GrpcServer) else [
+    conftest.remove_none_available_config([
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+        ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)],
+        ["gRPC", "inProcess"])[0]
+    if isinstance(server._global_server(), server_types.GrpcServer) else [
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
 ])
 def other_remote_server(request):

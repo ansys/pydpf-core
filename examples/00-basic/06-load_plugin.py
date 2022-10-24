@@ -8,8 +8,6 @@ This example shows how to load a plugin that is not loaded automatically.
 """
 
 ###############################################################################
-import os
-
 # Import DPF-Core:
 from ansys.dpf import core as dpf
 

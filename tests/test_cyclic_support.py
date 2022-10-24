@@ -72,7 +72,8 @@ def test_cyc_support_from_to_operator(cyclic_lin_rst, server_type):
     model = dpf.Model(data_sources, server=server_type)
     result_info = model.metadata.result_info
     cyc_support = result_info.cyclic_support
-    op = dpf.operators.metadata.cyclic_mesh_expansion(cyclic_support=cyc_support, server=server_type)
+    op = dpf.operators.metadata.cyclic_mesh_expansion(cyclic_support=cyc_support,
+                                                      server=server_type)
     exp = op.outputs.cyclic_support()
     mesh = op.outputs.meshed_region()
     assert exp.num_sectors() == 15

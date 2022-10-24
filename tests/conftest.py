@@ -34,7 +34,7 @@ def _get_test_files_directory():
         test_path = os.path.join(
             os.path.dirname(os.path.abspath(__file__))
         )
-        return os.path.join(test_path, "testfiles")
+        return os.path.join(test_path, os.pardir, "tests", "testfiles")
     else:
         return os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
 
@@ -231,24 +231,26 @@ def remove_none_available_config(configs, config_names):
             if conf == core.AvailableServerConfigs.LegacyGrpcServer:
                 configs_out.append(conf)
                 config_names_out.append(conf_name)
+    elif running_docker:
+        for conf, conf_name in zip(configs, config_names):
+            if conf != core.AvailableServerConfigs.InProcessServer:
+                configs_out.append(conf)
+                config_names_out.append(conf_name)
+
     else:
         configs_out = configs
         config_names_out = config_names
-    if running_docker:
-        for conf, conf_name in zip(configs_out, config_names_out):
-            if conf == core.AvailableServerConfigs.InProcessServer:
-                configs_out.remove(conf)
-                config_names_out.remove(conf_name)
 
     return configs_out, config_names_out
 
 
 configsserver_type, config_namesserver_type = remove_none_available_config([
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-        ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)
-    ],
+    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+    ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)
+],
     ["ansys-grpc-dpf", "gRPC CLayer", "in Process CLayer"])
+
 
 @pytest.fixture(
     scope="package",
@@ -260,16 +262,19 @@ def server_type(request):
     return server
 
 
-configsserver_type_remote_process, config_namessserver_type_remote_process = remove_none_available_config([
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
-    ],
-    ["ansys-grpc-dpf", "gRPC CLayer"])
+configs_server_type_remote_process, config_names_server_type_remote_process = \
+    remove_none_available_config(
+        [
+            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
+        ],
+        ["ansys-grpc-dpf", "gRPC CLayer"])
+
 
 @pytest.fixture(
     scope="package",
-    params=configsserver_type_remote_process,
-    ids=config_namessserver_type_remote_process,
+    params=configs_server_type_remote_process,
+    ids=config_names_server_type_remote_process,
 )
 def server_type_remote_process(request):
     server = core.start_local_server(config=request.param, as_global=False)
@@ -278,17 +283,20 @@ def server_type_remote_process(request):
 
 @pytest.fixture(
     scope="package",
-    params=configsserver_type_remote_process,
-    ids=config_namessserver_type_remote_process,
+    params=configs_server_type_remote_process,
+    ids=config_names_server_type_remote_process,
 )
 def remote_config_server_type(request):
     return request.param
 
 
-configs_server_type_legacy_grpc, config_names_server_type_legacy_grpc = remove_none_available_config([
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
-    ],
-    ["ansys-grpc-dpf"])
+configs_server_type_legacy_grpc, config_names_server_type_legacy_grpc = \
+    remove_none_available_config(
+        [
+            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+        ],
+        ["ansys-grpc-dpf"])
+
 
 @pytest.fixture(
     scope="package",
@@ -312,9 +320,9 @@ def server_clayer_remote_process(request):
 
 
 configs_server_clayer, config_names_server_clayer = remove_none_available_config([
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-        ServerConfig(protocol=None, legacy=False),
-    ],
+    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+    ServerConfig(protocol=None, legacy=False),
+],
     ["gRPC CLayer", "in Process CLayer"])
 
 
@@ -340,13 +348,14 @@ def server_in_process():
 
 @pytest.fixture()
 def restore_awp_root():
-    ver_to_check = core._version.server_to_ansys_version[str(core.SERVER.version)]
+    ver_to_check = core._version.server_to_ansys_version[str(core.global_server().version)]
     ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
     awp_root_name = "AWP_ROOT" + ver_to_check
     awp_root_save = os.environ.get(awp_root_name, None)
     yield
     # restore awp_root
-    os.environ[awp_root_name] = awp_root_save
+    if awp_root_save:
+        os.environ[awp_root_name] = awp_root_save
 
 
 class LocalServers:

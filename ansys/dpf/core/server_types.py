@@ -93,7 +93,8 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
     return dpf_run_dir
 
 
-def _run_launch_server_process(ansys_path, ip, port, docker_config=server_factory.DockerConfig()):
+def _run_launch_server_process(ip, port, ansys_path=None,
+                               docker_config=server_factory.DockerConfig()):
     bShell = False
     if docker_config.use_docker:
         docker_server_port = int(os.environ.get("DOCKER_SERVER_PORT", port))
@@ -192,15 +193,15 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
         passes, the connection fails.
 
     """
-    process = _run_launch_server_process(ansys_path, ip, port)
+    process = _run_launch_server_process(ip, port, ansys_path)
     lines = []
     current_errors = []
     _wait_and_check_server_connection(
         process, port, timeout, lines, current_errors, stderr=None, stdout=None)
 
 
-def launch_dpf_on_docker(docker_config, ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10,
-                         ):
+def launch_dpf_on_docker(docker_config, ansys_path=None, ip=LOCALHOST, port=DPF_DEFAULT_PORT,
+                         timeout=10):
     """Launch Ansys DPF.
 
     Parameters
@@ -226,7 +227,7 @@ def launch_dpf_on_docker(docker_config, ansys_path, ip=LOCALHOST, port=DPF_DEFAU
     running_docker_config : server_factory.RunningDockerConfig
 
     """
-    process = _run_launch_server_process(ansys_path, ip, port, docker_config)
+    process = _run_launch_server_process(ip, port, ansys_path, docker_config)
 
     # check to see if the service started
     lines = []

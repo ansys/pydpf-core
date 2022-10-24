@@ -337,7 +337,7 @@ def test_create_properties_specification():
 def test_custom_op_with_spec(server_type_remote_process):
     current_dir = os.getcwd()
     dpf.load_library(dpf.path_utilities.to_server_os(
-        os.path.join(current_dir, "testfiles", "pythonPlugins"),server_type_remote_process),
+        os.path.join(current_dir, "testfiles", "pythonPlugins"), server_type_remote_process),
         "py_operator_with_spec",
         "load_operators",
         server=server_type_remote_process,
