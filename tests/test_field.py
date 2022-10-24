@@ -919,11 +919,6 @@ def test_field_mutable_data(server_clayer, allkindofcomplexity):
     data = None
     changed_data = field.data
     assert np.allclose(changed_data[0], data_copy[0] + 2.)
-    field = None
-    gc.collect()  # check that the memory is held by the dpfvector
-    assert np.allclose(changed_data[0], data_copy[0] + 2.)
-    changed_data[0] = 1
-    assert not np.allclose(changed_data, data_copy[0] + 2.)
 
 
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
