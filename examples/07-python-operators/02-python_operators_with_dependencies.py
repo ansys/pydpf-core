@@ -139,9 +139,8 @@ elif os.name == "posix" and \
            f" -zippath \"{os.path.join(plugin_path, 'assets', 'gltf_sites_linx64.zip')}\""
     print(run_cmd + args)
     import subprocess
-    subprocess.run(f"chmod u=rwx,o=x {cmd_file}", stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                   shell=True)
-    subprocess.run(run_cmd + args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    subprocess.run(f"chmod u=rwx,o=x {cmd_file}", shell=True)
+    subprocess.run(run_cmd + args, shell=True)
     print("\nInstalling pygltf in a virtual environment succeeded")
 
 ###############################################################################
