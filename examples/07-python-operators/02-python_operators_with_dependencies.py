@@ -133,7 +133,7 @@ elif os.name == "posix" and \
     # cmd_file = examples.downloads._retrieve_file(
     #     CMD_FILE_URL, "create_sites_for_python_operators.sh", "python_plugins"
     # )
-    cmd_file = "/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/ansys/dpf/core/docs/source/user_guide/create_sites_for_python_operators.sh"
+    cmd_file = "/home/runner/work/pydpf-core/pydpf-core/docs/source/user_guide/create_sites_for_python_operators.sh"
     run_cmd = f"{cmd_file}"
     args = f" -pluginpath \"{plugin_path}\"" \
            f" -zippath \"{os.path.join(plugin_path, 'assets', 'gltf_sites_linx64.zip')}\""
