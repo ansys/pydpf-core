@@ -23,7 +23,7 @@ from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOC
 def shutdown_global_server():
     try:
         if dpf.core.SERVER is not None:
-            dpf.core.SERVER.__del__()
+            dpf.core.SERVER = None
     except:
         warnings.warn(traceback.format_exc())
         pass
