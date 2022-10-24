@@ -327,7 +327,7 @@ configs_server_clayer, config_names_server_clayer = remove_none_available_config
 
 
 @pytest.fixture(
-    scope="function",
+    scope="package",
     params=configs_server_clayer,
     ids=config_names_server_clayer,
 )
