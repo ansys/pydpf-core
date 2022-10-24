@@ -56,7 +56,6 @@ def test_examples(example):
     assert isinstance(Model(path), Model)
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0, reason="slow in 2021R2")
 @pytest.mark.parametrize(
     "example", list_examples,
 )
@@ -74,6 +73,7 @@ def test_find_examples(example, server_type_remote_process):
     assert path == getattr(globals()["examples"], example)
 
 
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0, reason="slow in 2021R2")
 def test_delete_downloaded_files():
     path = examples.download_multi_stage_cyclic_result(return_local_path=True)
     assert os.path.exists(path)
