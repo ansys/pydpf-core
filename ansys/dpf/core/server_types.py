@@ -233,7 +233,7 @@ def launch_dpf_on_docker(docker_config, ansys_path=None, ip=LOCALHOST, port=DPF_
     lines = []
     docker_id = []
     current_errors = []
-    running_docker_config = server_factory.RunningDockerConfig(port=port)
+    running_docker_config = server_factory.RunningDockerConfig(docker_server_port=port)
 
     def read_stdout():
         for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):

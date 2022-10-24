@@ -247,18 +247,19 @@ class ServerFactory:
 
 class DockerConfig:
     """Intermediate class encapsulating all the configuration options needed to run a docker
-    image of dpf and holding tools to communicate with Docker.
+    image of DPF and holding tools to communicate with Docker.
 
     Parameters
     ----------
     use_docker : bool, optional
-        Whether Docker should be used by default as a server.
+        Whether DPF's server should be started in a Docker Container by default.
     docker_name : str, optional
-        Name of Docker Container to run.
+        Name of Docker Image to run.
     mounted_volumes : dict, optional
-        Dictionary of local path to docker path of volumes mounted in the Docker Image.
-        These paths are checked for when result files are looked for by the server to prevent from
-        uploading them.
+        Dictionary of key = local path and value = path of mounted volumes in the Docker Image.
+        To prevent from uploading result files on the Docker Image
+        :func:`ansys.dpc.core.server_factory.RunningDockerConfig.replace_with_mounted_volumes`
+        iterates through this dictionary to replace local path instances by their mapped value.
     extra_args : str, optional
         Extra arguments to add to the docker run command.
 
@@ -282,6 +283,12 @@ class DockerConfig:
 
     @property
     def use_docker(self):
+        """Whether DPF's server should be started in a Docker Container by default.
+
+        Returns
+        -------
+        bool
+        """
         return self._use_docker
 
     @use_docker.setter
@@ -290,10 +297,25 @@ class DockerConfig:
 
     @property
     def docker_name(self):
+        """Name of Docker Image to run.
+
+        Returns
+        -------
+        str
+        """
         return self._docker_name
 
     @property
     def mounted_volumes(self):
+        """Dictionary of key = local path and value = path of mounted volumes in the Docker Image.
+        To prevent from uploading result files on the Docker Image
+        :func:`ansys.dpc.core.server_factory.RunningDockerConfig.replace_with_mounted_volumes`
+        iterates through this dictionary to replace local path instances by their mapped value.
+
+        Returns
+        -------
+        dict
+        """
         return self._mounted_volumes
 
     @mounted_volumes.setter
@@ -302,17 +324,32 @@ class DockerConfig:
 
     @property
     def extra_args(self):
+        """Extra arguments to add to the docker run command.
+
+        Returns
+        -------
+        str
+        """
         return self._extra_args
 
     def docker_run_cmd_command(self, docker_server_port, local_port):
+        """Creates the docker run command with the ``DockerConfig`` attributes as well
+        as the ``docker_server_port`` and ``local_port`` passed in as parameters.
+
+        Parameters
+        ----------
+        docker_server_port : int
+            Port used inside the Docker Container to run the gRPC server.
+        local_port : int
+            Port exposed outside the Docker container bounded to the internal
+            ``docker_server_port``.
+
+        Returns
+        -------
+        str
+        """
         mounted_volumes_args = "-v " + " -v ".join(
             key + ":" + val for key, val in self.mounted_volumes.items())
-        print(f"docker run -d -p {local_port}:{docker_server_port} " \
-               f"{self.extra_args} " \
-               f"{mounted_volumes_args} " \
-               f"-e DOCKER_SERVER_PORT={docker_server_port} " \
-               f"--expose={docker_server_port} " \
-               f"{self.docker_name}")
         return f"docker run -d -p {local_port}:{docker_server_port} " \
                f"{self.extra_args} " \
                f"{mounted_volumes_args} " \
@@ -329,6 +366,17 @@ class DockerConfig:
 
     @staticmethod
     def find_port_available_for_docker_bind(port):
+        """Checks for available internal ``docker_server_port`` by looking at the stdout of
+        all running Docker Containers.
+
+        Parameters
+        ----------
+        port: int
+
+        Returns
+        -------
+        port: int
+        """
         run_cmd = "docker ps --all"
         if os.name == 'posix':
             process = subprocess.Popen(
@@ -351,7 +399,7 @@ class DockerConfig:
 
 
 class RunningDockerConfig:
-    """Holds all the configuration option and the process information of a running Docker image
+    """Holds all the configuration options and the process information of a running Docker image
     of a DPF's server.
 
     Parameters
@@ -359,30 +407,48 @@ class RunningDockerConfig:
     docker_config : DockerConfig, optional
         ``DockerConfig`` used to start the docker.
     server_id : int, optional
-        Running docker image id.
-    port : int, optional
+        Running Docker Container id.
+    docker_server_port : int, optional
         Local port exposed to the docker image.
 
     """
 
-    def __init__(self, docker_config=None, server_id=None, port=None):
+    def __init__(self, docker_config=None, server_id=None, docker_server_port=None):
         if docker_config is None:
             docker_config = DockerConfig()
         self._docker_config = docker_config
         self._server_id = server_id
         self._use_docker = self._docker_config.use_docker
-        self._port = port
+        self._port = docker_server_port
 
     @property
     def use_docker(self):
+        """Whether DPF's server should be started in a Docker Container by default.
+
+        Returns
+        -------
+        bool
+        """
         return self._use_docker
 
     @property
-    def port(self):
+    def docker_server_port(self):
+        """Port used inside the Docker Container to run the gRPC server.
+
+        Returns
+        -------
+        int
+        """
         return self._port
 
     @property
     def server_id(self):
+        """Running Docker Container id.
+
+        Returns
+        -------
+        int
+        """
         return self._server_id
 
     @server_id.setter
@@ -391,6 +457,12 @@ class RunningDockerConfig:
 
     @property
     def docker_name(self):
+        """Name of Docker running Image.
+
+        Returns
+        -------
+        str
+        """
         return self._docker_config.docker_name
 
     @property
@@ -463,6 +535,18 @@ class RunningDockerConfig:
                 )
 
     def init_with_stdout(self, docker_config, LOG, lines, timeout):
+        """Search inside the Docker Container stdout log to fill in this instance's attributes.
+
+        Parameters
+        ----------
+        docker_config :  DockerConfig
+        LOG
+            Instance of ``logging`` to add debug info to.
+        lines : list
+            Internal Container's stdout are copied into ``lines``.
+        timeout : time
+            When to stop searching for stdout.
+        """
         self._docker_config = docker_config
         self.server_id = lines[0].replace("\n", "")
         t_timeout = time.time() + timeout
