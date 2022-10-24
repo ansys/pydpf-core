@@ -85,7 +85,8 @@ jobs:
       - name: "Separate long Core tests"
         shell: pwsh
         run: |
-          .\scripts\separate_long_core_tests.ps1
+          pwd
+          .\pydpf-core\.github\workflows\scripts\separate_long_core_tests.ps1
 
       - name: "Test API"
         shell: bash
@@ -216,7 +217,7 @@ jobs:
       - name: "Separate long Core tests"
         shell: pwsh
         run: |
-          .\scripts\separate_long_core_tests.ps1
+          .\pydpf-core\.github\workflows\scripts\separate_long_core_tests.ps1
 
       - name: "Test API"
         shell: bash
