@@ -80,7 +80,7 @@ class Operator:
 
     >>> from ansys.dpf.core import Model
     >>> from ansys.dpf.core import examples
-    >>> model = Model(examples.static_rst)
+    >>> model = Model(examples.find_static_rst())
     >>> disp_oper = model.results.displacement()
 
     """
@@ -142,7 +142,7 @@ class Operator:
         --------
         >>> from ansys.dpf.core import Model
         >>> from ansys.dpf.core import examples
-        >>> model = Model(examples.static_rst)
+        >>> model = Model(examples.find_static_rst())
         >>> disp_oper = model.results.displacement()
         >>> disp_oper = model.results.displacement()
         >>> disp_x = model.results.displacement().X()
@@ -200,7 +200,7 @@ class Operator:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> disp_op = dpf.operators.result.displacement()
         >>> disp_op.inputs.data_sources(data_src)
         >>> max_fc_op = dpf.operators.min_max.min_max_fc()
@@ -435,7 +435,7 @@ class Operator:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> disp_op = dpf.operators.result.displacement()
         >>> disp_op.inputs.data_sources(data_src)
 
@@ -458,7 +458,7 @@ class Operator:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> disp_op = dpf.operators.result.displacement()
         >>> disp_op.inputs.data_sources(data_src)
         >>> disp_fc = disp_op.outputs.fields_container()
@@ -537,7 +537,7 @@ class Operator:
         >>> from ansys.dpf import core as dpf
         >>> import ansys.dpf.core.operators.math as math
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> disp_op = dpf.operators.result.displacement()
         >>> disp_op.inputs.data_sources(data_src)
         >>> normfc = math.norm_fc(disp_op).eval()

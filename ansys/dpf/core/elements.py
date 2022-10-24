@@ -38,7 +38,7 @@ class Element:
 
     >>> import ansys.dpf.core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.static_rst)
+    >>> model = dpf.Model(examples.find_static_rst())
     >>> elements = model.metadata.meshed_region.elements
     >>> element = elements[0]
 
@@ -69,7 +69,7 @@ class Element:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> element = elements[0]
         >>> element.node_ids
@@ -117,7 +117,7 @@ class Element:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> element = elements[0]
         >>> first_node = element.nodes[0]
@@ -161,7 +161,7 @@ class Element:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> element = elements[0]
         >>> element.type
@@ -191,7 +191,7 @@ class Element:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> element = elements[0]
         >>> element.shape
@@ -240,7 +240,7 @@ class Elements:
     --------
     >>> import ansys.dpf.core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.static_rst)
+    >>> model = dpf.Model(examples.find_static_rst())
     >>> elements = model.metadata.meshed_region.elements
     >>> elements.n_elements
     8
@@ -480,7 +480,7 @@ class Elements:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> my_scoping = elements.scoping
 
@@ -501,7 +501,7 @@ class Elements:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> field = elements.element_types_field
         >>> print(field.data)
@@ -539,7 +539,7 @@ class Elements:
 
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> print(elements.materials_field.data)
         [1 1 1 1 1 1 1 1]
@@ -574,7 +574,7 @@ class Elements:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> field = elements.connectivities_field
         >>> field.get_entity_data(1)
@@ -621,7 +621,7 @@ class Elements:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.simple_bar)
+        >>> model = dpf.Model(examples.find_simple_bar())
         >>> meshed_region = model.metadata.meshed_region
         >>> map = meshed_region.nodes.mapping_id_to_index
 
@@ -654,7 +654,7 @@ class Elements:
 
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> vol = model.results.elemental_volume()
         >>> field = vol.outputs.fields_container()[0]
@@ -1286,7 +1286,7 @@ class element_types(Enum):
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> elements = model.metadata.meshed_region.elements
         >>> element = elements[0]
         >>> type_of_element = element.type

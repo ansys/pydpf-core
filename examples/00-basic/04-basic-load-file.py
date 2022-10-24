@@ -17,7 +17,7 @@ exported to a CSV file.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-model = dpf.Model(examples.simple_bar)
+model = dpf.Model(examples.find_simple_bar())
 mesh = model.metadata.meshed_region
 
 ###############################################################################

@@ -37,7 +37,7 @@ from ansys.dpf.core import examples
 # want to connect to an existing server (either local or remote), use
 # :func:`dpf.connect_to_server`.
 
-model = dpf.Model(examples.simple_bar)
+model = dpf.Model(examples.find_simple_bar())
 print(model)
 
 ###############################################################################

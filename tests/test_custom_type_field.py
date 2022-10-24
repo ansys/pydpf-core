@@ -189,16 +189,16 @@ def test_mutable_data_contiguous_custom_type_field(server_clayer):
     assert np.allclose(field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]))
 
 
-#not using a fixture on purpose: the instance of simple field SHOULD be owned by each test
-def get_float_field(server_clayer):
-    field = dpf.core.CustomTypeField(np.float32, nentities=20, server=server_clayer)
+@conftest.raises_for_servers_version_under("5.0")
+def test_mutable_data_pointer_custom_type_field(server_clayer):
+    field = dpf.core.CustomTypeField(np.float, nentities=20, server=server_clayer)
     field_def = dpf.core.FieldDefinition(server=server_clayer)
     field_def.dimensionality = dpf.core.Dimensionality({3}, dpf.core.natures.vector)
     field.field_definition = field_def
     scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_clayer)
     field.scoping = scop
 
-    data = np.empty((24,), dtype=np.float32)
+    data = np.empty((24,), dtype=np.float)
     for i in range(0, 24):
         data[i] = i
     field.data = data
@@ -216,52 +216,13 @@ def test_mutable_data_pointer_custom_type_field(server_clayer):
     vec[2] = 15
     vec.commit()
 
-    assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 9)).reshape(3, 3))
-    assert np.allclose(float_field.get_entity_data(1), np.array(range(9, 15)).reshape(2, 3))
+    assert np.allclose(field.get_entity_data(0), np.array(range(0, 9)).reshape(3, 3))
+    assert np.allclose(field.get_entity_data(1), np.array(range(9, 15)).reshape(2, 3))
     vec[1] = 6
     vec[2] = 12
     vec = None
-    assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
-    assert np.allclose(float_field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
-    vec = float_field._data_pointer
-    float_field = None
-    gc.collect()  # check that the memory is held by the dpfvector
-    assert np.allclose(vec, [0, 6, 12, 18])
-    vec[1] = 3
-    assert np.allclose(vec, [0, 3, 12, 18])
-
-
-@conftest.raises_for_servers_version_under("5.0")
-def test_mutable_data_delete_entity_data_custom_type_field(server_clayer):
-    float_field = get_float_field(server_clayer)
-    changed_data = float_field.get_entity_data(1)
-    float_field = None
-    gc.collect()  # check that the memory is held by the dpfvector
-    assert np.allclose(changed_data, np.array(range(6, 12)).reshape(2, 3))
-    changed_data[0] = 1
-    assert not np.allclose(changed_data, np.array(range(6, 12)).reshape(2, 3))
-
-
-@conftest.raises_for_servers_version_under("5.0")
-def test_mutable_data_delete_entity_data_by_id_custom_type_field(server_clayer):
-    float_field = get_float_field(server_clayer)
-    changed_data = float_field.get_entity_data_by_id(2)
-    float_field = None
-    gc.collect()  # check that the memory is held by the dpfvector
-    assert np.allclose(changed_data, np.array(range(6, 12)).reshape(2, 3))
-    changed_data[0] = 1
-    assert not np.allclose(changed_data, np.array(range(6, 12)).reshape(2, 3))
-
-
-@conftest.raises_for_servers_version_under("5.0")
-def test_mutable_data_delete_data_custom_type_field(server_clayer):
-    float_field = get_float_field(server_clayer)
-    changed_data = float_field.data
-    float_field = None
-    gc.collect()  # check that the memory is held by the dpfvector
-    assert np.allclose(changed_data, np.array(range(0, 24)).reshape(8, 3))
-    changed_data[0] = 1
-    assert not np.allclose(changed_data, np.array(range(0, 24)).reshape(8, 3))
+    assert np.allclose(field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
+    assert np.allclose(field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
 
 
 @conftest.raises_for_servers_version_under("5.0")

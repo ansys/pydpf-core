@@ -12,7 +12,7 @@ from ansys.dpf.core import examples
 
 
 # Load the model
-model = dpf.Model(examples.msup_transient)
+model = dpf.Model(examples.find_msup_transient())
 print(model)
 
 # Use Scoping instances to adjust the region and the steps involved.
