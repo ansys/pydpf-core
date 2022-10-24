@@ -18,7 +18,7 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
             print("\n--------------------------------------------------")
             print(file)
             try:
-                subprocess.check_call([sys.executable, file])
+                subprocess.check_call([sys.executable, file], stderr=subprocess.STDOUT)
             except subprocess.CalledProcessError as e:
                 sys.stderr.write(str(e.args))
                 if e.returncode != 3221225477:
