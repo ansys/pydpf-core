@@ -292,7 +292,7 @@ def test_outputs_bool_workflow(server_type):
     wf.set_output_name("bool", op, 0)
 
     out = wf.get_output("bool", dpf.core.types.bool)
-    assert out == True
+    assert out is True
 
 
 @conftest.raises_for_servers_version_under('3.0')
@@ -343,6 +343,21 @@ def test_connect_get_output_string_field_workflow(server_type):
     wf.set_output_name("out", op, 0)
     dout = wf.get_output("out", dpf.core.types.string_field)
     assert dout.data == ["hello"]
+
+
+@conftest.raises_for_servers_version_under('5.0')
+def test_connect_get_output_custom_type_field_workflow(server_type):
+    wf = dpf.core.Workflow(server=server_type)
+    op = dpf.core.operators.utility.forward(server=server_type)
+    wf.add_operators([op])
+    wf.set_input_name("in", op, 0)
+    str_field = dpf.core.CustomTypeField(np.int16, server=server_type)
+    str_field.data = [-1]
+    wf.connect("in", str_field)
+    wf.set_output_name("out", op, 0)
+    dout = wf.get_output("out", dpf.core.types.custom_type_field)
+    assert dout.data == [-1]
+    assert dout._type == np.int16
 
 
 def test_inputs_outputs_inputs_outputs_scopings_container_workflow(allkindofcomplexity,

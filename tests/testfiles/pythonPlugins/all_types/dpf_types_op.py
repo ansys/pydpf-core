@@ -116,6 +116,23 @@ class ForwardStringFieldOperator(CustomOperatorBase):
         return "custom_forward_string_field"
 
 
+class ForwardCustomTypeFieldOperator(CustomOperatorBase):
+    def run(self):
+        from ansys.dpf.core import custom_type_field
+        f = self.get_input(0, custom_type_field.CustomTypeField)
+        f = self.get_input(0, types.custom_type_field)
+        self.set_output(0, f)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_forward_custom_type_field"
+
+
 class ForwardDataSourcesOperator(CustomOperatorBase):
     def run(self):
         f = self.get_input(0, data_sources.DataSources)
