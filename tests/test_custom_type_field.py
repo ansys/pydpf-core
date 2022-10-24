@@ -1,8 +1,6 @@
 import numpy as np
-import pytest
 
 import conftest
-import gc
 
 from ansys import dpf
 from ansys.dpf import core
@@ -189,8 +187,9 @@ def test_mutable_data_contiguous_custom_type_field(server_clayer):
     assert np.allclose(field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]))
 
 
-@conftest.raises_for_servers_version_under("5.0")
-def test_mutable_data_pointer_custom_type_field(server_clayer):
+# not using a fixture on purpose: the instance of simple field SHOULD be owned by each test
+def get_float_field(server_clayer):
+    field = dpf.core.CustomTypeField(np.float32, nentities=20, server=server_clayer)
     field = dpf.core.CustomTypeField(np.float, nentities=20, server=server_clayer)
     field_def = dpf.core.FieldDefinition(server=server_clayer)
     field_def.dimensionality = dpf.core.Dimensionality({3}, dpf.core.natures.vector)
@@ -216,13 +215,13 @@ def test_mutable_data_pointer_custom_type_field(server_clayer):
     vec[2] = 15
     vec.commit()
 
-    assert np.allclose(field.get_entity_data(0), np.array(range(0, 9)).reshape(3, 3))
-    assert np.allclose(field.get_entity_data(1), np.array(range(9, 15)).reshape(2, 3))
+    assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 9)).reshape(3, 3))
+    assert np.allclose(float_field.get_entity_data(1), np.array(range(9, 15)).reshape(2, 3))
     vec[1] = 6
     vec[2] = 12
     vec = None
-    assert np.allclose(field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
-    assert np.allclose(field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
+    assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
+    assert np.allclose(float_field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
 
 
 @conftest.raises_for_servers_version_under("5.0")
