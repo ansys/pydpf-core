@@ -262,3 +262,153 @@ def test_lsdyna_beam(d3plot_beam):
     beppl_mod = model.results.beam_axial_total_strain(time_scoping=time_sco).eval()
 
     assert np.allclose(beppl_op[0].data, beppl_mod[0].data)
+
+@pytest.mark.skipif(
+    not try_load_lsdyna_operators(), reason="Couldn't load lsdyna operators"
+)
+def test_lsdyna_matsum(binout_matsum):
+    try_load_lsdyna_operators()
+
+    ds = dpf.DataSources()
+    ds.set_result_file_path(binout_matsum, "binout")
+    part_sco = dpf.Scoping()
+    part_sco.ids = [50]
+    part_sco.location = "part"
+
+    model = dpf.Model(ds)
+    print(model)
+
+    # ------------------------------------------------- Kinetic Energy
+
+    KE = dpf.operators.result.part_kinetic_energy()
+    KE.inputs.data_sources.connect(ds)
+    KE.inputs.entity_scoping.connect(part_sco)
+    ke_op = KE.outputs.fields_container()
+
+    KE2 = model.results.part_kinetic_energy()
+    KE2.inputs.entity_scoping.connect(part_sco)
+    ke_mod = KE2.eval()
+
+    assert np.allclose(ke_op[0].data[39], ke_mod[0].data[39])
+
+    # ------------------------------------------------- Eroded Kinetic Energy
+
+    ERKE = dpf.operators.result.part_eroded_kinetic_energy()
+    ERKE.inputs.data_sources.connect(ds)
+    ERKE.inputs.entity_scoping.connect(part_sco)
+    erke_op = ERKE.outputs.fields_container()
+
+    ERKE2 = model.results.part_eroded_kinetic_energy()
+    ERKE2.inputs.entity_scoping.connect(part_sco)
+    erke_mod = ERKE2.eval()
+
+    assert np.allclose(erke_op[0].data[39], erke_mod[0].data[39])
+
+    # ------------------------------------------------- Internal Energy
+
+    IE = dpf.operators.result.part_internal_energy()
+    IE.inputs.data_sources.connect(ds)
+    IE.inputs.entity_scoping.connect(part_sco)
+    ie_op = IE.outputs.fields_container()
+
+    IE2 = model.results.part_internal_energy()
+    IE2.inputs.entity_scoping.connect(part_sco)
+    ie_mod = IE2.eval()
+
+    assert np.allclose(ie_op[0].data[39], ie_mod[0].data[39])
+
+    # ------------------------------------------------- Eroded Internal Energy
+
+    ERIE = dpf.operators.result.part_eroded_internal_energy()
+    ERIE.inputs.data_sources.connect(ds)
+    ERIE.inputs.entity_scoping.connect(part_sco)
+    erie_op = ERIE.outputs.fields_container()
+
+    ERIE2 = model.results.part_eroded_internal_energy()
+    ERIE2.inputs.entity_scoping.connect(part_sco)
+    erie_mod = ERIE2.eval()
+
+    assert np.allclose(erie_op[0].data[39], erie_mod[0].data[39])
+
+    # ------------------------------------------------- Added Mass
+
+    AM = dpf.operators.result.part_added_mass()
+    AM.inputs.data_sources.connect(ds)
+    AM.inputs.entity_scoping.connect(part_sco)
+    am_op = AM.outputs.fields_container()
+
+    AM2 = model.results.part_added_mass()
+    AM2.inputs.entity_scoping.connect(part_sco)
+    am_mod = AM2.eval()
+
+    assert np.allclose(am_op[0].data[39], am_mod[0].data[39])
+
+    # ------------------------------------------------- Hourglassing Energy
+
+    AHO = dpf.operators.result.part_hourglass_energy()
+    AHO.inputs.data_sources.connect(ds)
+    AHO.inputs.entity_scoping.connect(part_sco)
+    aho_op = AHO.outputs.fields_container()
+
+    AHO2 = model.results.part_hourglass_energy()
+    AHO2.inputs.entity_scoping.connect(part_sco)
+    aho_mod = AHO2.eval()
+
+    assert np.allclose(aho_op[0].data[39], aho_mod[0].data[39])
+
+    # ------------------------------------------------- Momentum
+
+    MV = dpf.operators.result.part_momentum()
+    MV.inputs.data_sources.connect(ds)
+    MV.inputs.entity_scoping.connect(part_sco)
+    mv_op = MV.outputs.fields_container()
+
+    MV2 = model.results.part_momentum()
+    MV2.inputs.entity_scoping.connect(part_sco)
+    mv_mod = MV2.eval()
+
+    assert np.allclose(mv_op[0].data[39], mv_mod[0].data[39])
+
+    # ------------------------------------------------- RB Velocity
+
+    RBV = dpf.operators.result.part_rigid_body_velocity()
+    RBV.inputs.data_sources.connect(ds)
+    RBV.inputs.entity_scoping.connect(part_sco)
+    rbv_op = RBV.outputs.fields_container()
+
+    RBV2 = model.results.part_rigid_body_velocity()
+    RBV2.inputs.entity_scoping.connect(part_sco)
+    rbv_mod = RBV2.eval()
+
+    assert np.allclose(rbv_op[0].data[39], rbv_mod[0].data[39])
+
+    # RCFORC RESULTS
+    interface_sco = dpf.Scoping()
+    interface_sco.ids = [19]
+    interface_sco.location = "interface"
+
+    # ------------------------------------------------- Contact Force
+
+    CF = dpf.operators.result.interface_contact_force()
+    CF.inputs.data_sources.connect(ds)
+    CF.inputs.entity_scoping.connect(interface_sco)
+    cf_op = CF.outputs.fields_container()
+
+    CF2 = model.results.interface_contact_force()
+    CF2.inputs.entity_scoping.connect(interface_sco)
+    cf_mod = CF2.eval()
+
+    assert np.allclose(cf_op[0].data[0], cf_mod[0].data[0])
+
+    # ------------------------------------------------- Contact Mass
+
+    CM = dpf.operators.result.interface_contact_mass()
+    CM.inputs.data_sources.connect(ds)
+    CM.inputs.entity_scoping.connect(interface_sco)
+    cm_op = CM.outputs.fields_container()
+
+    CM2 = model.results.interface_contact_mass()
+    CM2.inputs.entity_scoping.connect(interface_sco)
+    cm_mod = CM2.eval()
+
+    assert np.allclose(cm_op[0].data[2], cm_mod[0].data[2])

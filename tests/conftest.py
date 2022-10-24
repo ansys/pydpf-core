@@ -184,6 +184,11 @@ def d3plot_beam():
     return resolve_test_file("d3plot_beam", "d3plot")
 
 @pytest.fixture()
+def binout_matsum():
+    """Resolve the path of the "binout/binout" result file."""
+    return resolve_test_file("binout", "binout")
+
+@pytest.fixture()
 def engineering_data_sources():
     """Resolve the path of the "model_with_ns.rst" result file."""
     ds = core.DataSources(resolve_test_file("file.rst", "engineeringData"))
