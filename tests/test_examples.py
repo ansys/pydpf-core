@@ -3,7 +3,7 @@ import os.path
 
 import pytest
 
-from conftest import running_docker
+from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 from ansys.dpf import core as dpf
 from ansys.dpf.core import Model
 from ansys.dpf.core import examples
@@ -23,15 +23,15 @@ def test_download_example_asme_result():
     path = examples.download_example_asme_result()
     assert isinstance(Model(path), Model)
 
-
-def test_download_crankshaft():
-    path = examples.download_crankshaft()
-    assert isinstance(Model(path), Model)
-
-
-def test_download_piston_rod():
-    path = examples.download_piston_rod()
-    assert isinstance(Model(path), Model)
+#
+# def test_download_crankshaft():
+#     path = examples.download_crankshaft()
+#     assert isinstance(Model(path), Model)
+#
+#
+# def test_download_piston_rod():
+#     path = examples.download_piston_rod()
+#     assert isinstance(Model(path), Model)
 
 
 list_examples = [
@@ -56,6 +56,7 @@ def test_examples(example):
     assert isinstance(Model(path), Model)
 
 
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0, reason="slow in 2021R2")
 @pytest.mark.parametrize(
     "example", list_examples,
 )
