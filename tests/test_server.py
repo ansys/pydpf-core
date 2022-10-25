@@ -225,6 +225,12 @@ def test_eq_server_config():
 
 
 def test_connect_to_remote_server(server_type_remote_process):
+    try:
+        server_type_remote_process.version
+    except:
+        server_type_remote_process = start_local_server(
+            config=server_type_remote_process.config, as_global=False
+        )
     server = connect_to_server(
         ip=server_type_remote_process.external_ip,
         port=server_type_remote_process.external_port,
