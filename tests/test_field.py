@@ -8,7 +8,7 @@ from ansys.dpf import core
 from ansys.dpf.core import FieldDefinition
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.common import locations, shell_layers
-
+from conftest import running_docker
 
 @pytest.fixture()
 def stress_field(allkindofcomplexity, server_type):
@@ -1085,7 +1085,7 @@ def _deep_copy_test_identical_server(config):
     assert field.unit == copy.unit
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+@pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
                     reason='this server type does not exist before client'
                            'dedicated to 4.0 server version')
 def test_deep_copy_field_grpcclayer_to_grpcclayer():
@@ -1102,7 +1102,7 @@ def test_deep_copy_field_grpclegacy_to_grpclegacy():
     _deep_copy_test_identical_server(config)
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+@pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
                     reason='this server type does not exist before client'
                            'dedicated to 4.0 server version')
 def test_deep_copy_field_inprocess_to_inprocess():

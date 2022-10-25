@@ -19,7 +19,7 @@ import psutil
 
 import ansys.dpf.core as core
 from ansys.dpf.core.check_version import server_meet_version
-from ansys.dpf.core import errors, session
+from ansys.dpf.core import errors, session, server_factory
 from ansys.dpf.core._version import (
     server_to_ansys_grpc_dpf_version,
     server_to_ansys_version
@@ -33,10 +33,8 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
 DPF_DEFAULT_PORT = int(os.environ.get("DPF_PORT", 50054))
 LOCALHOST = os.environ.get("DPF_IP", "127.0.0.1")
-RUNNING_DOCKER = {"use_docker": "DPF_DOCKER" in os.environ.keys()}
-if RUNNING_DOCKER["use_docker"]:
-    RUNNING_DOCKER["docker_name"] = os.environ.get("DPF_DOCKER")
-RUNNING_DOCKER['args'] = ""
+RUNNING_DOCKER = server_factory.create_default_docker_config()
+
 MAX_PORT = 65535
 
 
@@ -95,20 +93,15 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
     return dpf_run_dir
 
 
-def _run_launch_server_process(ansys_path, ip, port, docker_name):
+def _run_launch_server_process(ip, port, ansys_path=None,
+                               docker_config=server_factory.DockerConfig()):
     bShell = False
-    if docker_name:
+    if docker_config.use_docker:
         docker_server_port = int(os.environ.get("DOCKER_SERVER_PORT", port))
         dpf_run_dir = os.getcwd()
-        from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
         if os.name == "posix":
             bShell = True
-        run_cmd = f"docker run -d -p {port}:{docker_server_port} " \
-                  f"{RUNNING_DOCKER['args']} " \
-                  f'-v "{LOCAL_DOWNLOADED_EXAMPLES_PATH}:/tmp/downloaded_examples" ' \
-                  f"-e DOCKER_SERVER_PORT={docker_server_port} " \
-                  f"--expose={docker_server_port} " \
-                  f"{docker_name}"
+        run_cmd = docker_config.docker_run_cmd_command(docker_server_port, port)
     else:
         if os.name == "nt":
             executable = "Ans.Dpf.Grpc.bat"
@@ -131,7 +124,56 @@ def _run_launch_server_process(ansys_path, ip, port, docker_name):
     return process
 
 
-def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, docker_name=None):
+def _wait_and_check_server_connection(
+        process, port, timeout, lines, current_errors, stderr=None, stdout=None):
+    if not stderr:
+        def read_stderr():
+            for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
+                LOG.error(line)
+                current_errors.append(line)
+
+        stderr = read_stderr
+        # check to see if the service started
+    if not stdout:
+        def read_stdout():
+            for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
+                LOG.debug(line)
+                lines.append(line)
+
+        stdout = read_stdout
+
+    # must be in the background since the process reader is blocking
+    Thread(target=stdout, daemon=True).start()
+    Thread(target=stderr, daemon=True).start()
+
+    t_timeout = time.time() + timeout
+    started = False
+    timedout = False
+    while not started and len(current_errors) == 0:
+        # print(lines)
+        started = any("server started" in line for line in lines)
+
+        if time.time() > t_timeout:
+            if timedout:
+                raise TimeoutError(f"Server did not start in {timeout + timeout} seconds")
+            timedout = True
+            t_timeout += timeout
+
+    # verify there were no errors
+    time.sleep(0.01)
+    if current_errors:
+        try:
+            process.kill()
+        except PermissionError:
+            pass
+        errstr = "\n".join(current_errors)
+        if "Only one usage of each socket address" in errstr or \
+                "port is already allocated" in errstr:
+            raise errors.InvalidPortError(f"Port {port} in use")
+        raise RuntimeError(errstr)
+
+
+def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
     """Launch Ansys DPF.
 
     Parameters
@@ -149,85 +191,60 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10, dock
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
-    docker_name : str, optional
-        To start DPF server as a docker, specify the docker name here.
+
+    """
+    process = _run_launch_server_process(ip, port, ansys_path)
+    lines = []
+    current_errors = []
+    _wait_and_check_server_connection(
+        process, port, timeout, lines, current_errors, stderr=None, stdout=None)
+
+
+def launch_dpf_on_docker(docker_config, ansys_path=None, ip=LOCALHOST, port=DPF_DEFAULT_PORT,
+                         timeout=10):
+    """Launch Ansys DPF.
+
+    Parameters
+    ----------
+    ansys_path : str, optional
+        Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
+        The default is the latest Ansys installation.
+    ip : str, optional
+        IP address of the remote or local instance to connect to. The
+        default is ``"LOCALHOST"``.
+    port : int
+        Port to connect to the remote instance on. The default is
+        ``"DPF_DEFAULT_PORT"``, which is 50054.
+    timeout : float, optional
+        Maximum number of seconds for the initialization attempt.
+        The default is ``10``. Once the specified number of seconds
+        passes, the connection fails.
+    docker_config : server_factory.DockerConfig, optional
+        To start DPF server as a docker, specify the docker configurations here.
 
     Returns
     -------
-    process : subprocess.Popen
-        DPF Process.
-    """
-    process = _run_launch_server_process(ansys_path, ip, port, docker_name)
+    running_docker_config : server_factory.RunningDockerConfig
 
-    if docker_name is not None and os.name == 'posix':
-        run_cmd = "docker ps --all"
-        process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
-        )
-        used_ports = []
-        for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
-            if not ("CONTAINER ID" in line):
-                split = line.split("0.0.0.0:")
-                if len(split) > 1:
-                    used_port = int(split[1].split("-")[0])
-                    if used_port == port:
-                        docker_id = split[0].split(" ")[0]
-                        return docker_id
+    """
+    process = _run_launch_server_process(ip, port, ansys_path, docker_config)
 
     # check to see if the service started
     lines = []
     docker_id = []
+    current_errors = []
+    running_docker_config = server_factory.RunningDockerConfig(docker_server_port=port)
 
     def read_stdout():
         for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
             LOG.debug(line)
             lines.append(line)
-        if docker_name:
-            docker_id.append(lines[0].replace("\n", ""))
-            docker_process = subprocess.Popen(f"docker logs {docker_id[0]}",
-                                              stdout=subprocess.PIPE,
-                                              stderr=subprocess.PIPE)
-            for line in io.TextIOWrapper(docker_process.stdout, encoding="utf-8"):
-                LOG.debug(line)
-                lines.append(line)
+            running_docker_config.init_with_stdout(docker_config, LOG, lines, timeout)
 
-    current_errors = []
+    _wait_and_check_server_connection(
+        process, port, timeout, lines, current_errors, stderr=None, stdout=read_stdout)
 
-    def read_stderr():
-        for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
-            LOG.error(line)
-            current_errors.append(line)
-
-    # must be in the background since the process reader is blocking
-    Thread(target=read_stdout, daemon=True).start()
-    Thread(target=read_stderr, daemon=True).start()
-
-    t_timeout = time.time() + timeout
-    started = False
-    timedout = False
-    while not started:
-        started = any("server started" in line for line in lines)
-
-        if time.time() > t_timeout:
-            if timedout:
-                raise TimeoutError(f"Server did not start in {timeout + timeout} seconds")
-            timedout = True
-            t_timeout += timeout
-
-    # verify there were no errors
-    time.sleep(0.01)
-    if current_errors:
-        try:
-            process.kill()
-        except PermissionError:
-            pass
-        errstr = "\n".join(current_errors)
-        if "Only one usage of each socket address" in errstr:
-            raise errors.InvalidPortError(f"Port {port} in use")
-        raise RuntimeError(errstr)
-
-    if len(docker_id) > 0:
-        return docker_id[0]
+    return running_docker_config
 
 
 def launch_remote_dpf(version=None):
@@ -324,6 +341,7 @@ class BaseServer(abc.ABC):
         self._server_id = None
         self._session_instance = None
         self._base_service_instance = None
+        self._docker_config = server_factory.RunningDockerConfig()
 
     def set_as_global(self, as_global=True):
         """Set the current server as global if necessary.
@@ -407,7 +425,20 @@ class BaseServer(abc.ABC):
 
     @property
     def on_docker(self):
-        return hasattr(self, "_server_id") and self._server_id is not None
+        return self._docker_config.use_docker
+
+    @property
+    def docker_config(self):
+        return self._docker_config
+
+    @docker_config.setter
+    def docker_config(self, val):
+        self._docker_config = val
+
+    @property
+    @abc.abstractmethod
+    def config(self):
+        pass
 
     @abc.abstractmethod
     def shutdown(self):
@@ -541,7 +572,7 @@ class GrpcServer(CServer):
                  as_global=True,
                  load_operators=True,
                  launch_server=True,
-                 docker_name=None,
+                 docker_config=RUNNING_DOCKER,
                  use_pypim=True,
                  num_connection_tryouts=3,
                  ):
@@ -557,14 +588,19 @@ class GrpcServer(CServer):
 
         self._remote_instance = None
         if launch_server:
-            if is_pypim_configured() and not ansys_path and not docker_name and use_pypim:
+            if is_pypim_configured() and not ansys_path and not docker_config.use_docker \
+                    and use_pypim:
                 self._remote_instance = launch_remote_dpf()
                 address = self._remote_instance.services["grpc"].uri
                 ip = address.split(":")[-2]
                 port = int(address.split(":")[-1])
+
+            elif docker_config.use_docker:
+                self.docker_config = launch_dpf_on_docker(
+                    docker_config=docker_config,
+                    ansys_path=ansys_path, ip=ip, port=port, timeout=timeout)
             else:
-                self._server_id = launch_dpf(ansys_path, ip, port,
-                                             docker_name=docker_name, timeout=timeout)
+                launch_dpf(ansys_path, ip, port, timeout=timeout)
                 self._local_server = True
 
         self._client = GrpcClient(address)
@@ -621,6 +657,7 @@ class GrpcServer(CServer):
             self._shutdown_func[0](self._shutdown_func[1])
         except Exception as e:
             warnings.warn("couldn't shutdown server: " + str(e.args))
+        self._docker_config.remove_docker_image()
 
     def __eq__(self, other_server):
         """Return true, if ***** are equals"""
@@ -651,11 +688,49 @@ class GrpcServer(CServer):
         -------
         ip : str
         """
-        return self._input_ip
+        try:
+            return self.info["server_ip"]
+        except:
+            return 0
 
     @property
     def port(self):
         """Port of the server.
+
+        Returns
+        -------
+        port : int
+        """
+        try:
+            return self.info["server_port"]
+        except:
+            return 0
+
+    @property
+    def external_ip(self):
+        """Public IP address of the server.
+        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.ip` in all cases except
+        for servers using a gateway:
+        for example, servers running in Docker Images might have an internal
+        :func:`ansys.dpf.core.LegacyGrpcServer.ip` different from the public
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_ip`, the latter should be used to get
+        connected to the server from outside the Docker Image.
+
+        Returns
+        -------
+        external_ip : str
+        """
+        return self._input_ip
+
+    @property
+    def external_port(self):
+        """Public Port of the server.
+        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.port` in all cases except
+        for servers using a gateway:
+        for example, servers running in Docker Images might have an internal
+        :func:`ansys.dpf.core.LegacyGrpcServer.port` different from the public
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_port`, the latter should be used to get
+        connected to the server from outside the Docker Image.
 
         Returns
         -------
@@ -670,6 +745,10 @@ class GrpcServer(CServer):
     @local_server.setter
     def local_server(self, val):
         self._local_server = val
+
+    @property
+    def config(self):
+        return server_factory.AvailableServerConfigs.GrpcServer
 
 
 class InProcessServer(CServer):
@@ -733,6 +812,10 @@ class InProcessServer(CServer):
         if not val:
             raise NotImplementedError("an in process server can only be local.")
 
+    @property
+    def config(self):
+        return server_factory.AvailableServerConfigs.InProcessServer
+
 
 class LegacyGrpcServer(BaseServer):
     """Provides an instance of the DPF server using InProcess gRPC.
@@ -761,7 +844,7 @@ class LegacyGrpcServer(BaseServer):
         is ``True``.
     launch_server : bool, optional
         Whether to launch the server on Windows.
-    docker_name : str, optional
+    docker_config : server_factory.DockerConfig, optional
         To start DPF server as a docker, specify the docker name here.
     use_pypim: bool, optional
         Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
@@ -777,7 +860,7 @@ class LegacyGrpcServer(BaseServer):
             as_global=True,
             load_operators=True,
             launch_server=True,
-            docker_name=None,
+            docker_config=RUNNING_DOCKER,
             use_pypim=True,
     ):
         """Start the DPF server."""
@@ -802,15 +885,21 @@ class LegacyGrpcServer(BaseServer):
 
         self._remote_instance = None
         if launch_server:
-            if is_pypim_configured() and not ansys_path and not docker_name and use_pypim:
+            if is_pypim_configured() and not ansys_path and not docker_config.use_docker \
+                    and use_pypim:
                 self._remote_instance = launch_remote_dpf()
                 address = self._remote_instance.services["grpc"].uri
                 ip = address.split(":")[-2]
                 port = int(address.split(":")[-1])
             else:
-                self._server_id = launch_dpf(ansys_path, ip, port,
-                                             docker_name=docker_name, timeout=timeout)
-                self._local_server = True
+
+                if docker_config.use_docker:
+                    self.docker_config = launch_dpf_on_docker(docker_config=docker_config,
+                                                              ansys_path=ansys_path, ip=ip,
+                                                              port=port, timeout=timeout)
+                else:
+                    launch_dpf(ansys_path, ip, port, timeout=timeout)
+                    self._local_server = True
 
         self.channel = grpc.insecure_channel(address)
 
@@ -880,6 +969,38 @@ class LegacyGrpcServer(BaseServer):
             return 0
 
     @property
+    def external_ip(self):
+        """Public IP address of the server.
+        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.ip` in all cases except
+        for servers using a gateway:
+        for example, servers running in Docker Images might have an internal
+        :func:`ansys.dpf.core.LegacyGrpcServer.ip` different from the public
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_ip`, the latter should be used to get
+        connected to the server from outside the Docker Image.
+
+        Returns
+        -------
+        external_ip : str
+        """
+        return self._input_ip
+
+    @property
+    def external_port(self):
+        """Public Port of the server.
+        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.port` in all cases except
+        for servers using a gateway:
+        for example, servers running in Docker Images might have an internal
+        :func:`ansys.dpf.core.LegacyGrpcServer.port` different from the public
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_port`, the latter should be used to get
+        connected to the server from outside the Docker Image.
+
+        Returns
+        -------
+        port : int
+        """
+        return self._input_port
+
+    @property
     def version(self):
         """Version of the server.
 
@@ -916,35 +1037,12 @@ class LegacyGrpcServer(BaseServer):
 
     def shutdown(self):
         if self._own_process and self.live:
-            b_shell = False
-            if os.name == 'posix':
-                b_shell = True
             try:
                 self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
             except Exception as e:
                 warnings.warn("couldn't prepare shutdown: " + str(e.args))
-            if self.on_docker:
-                run_cmd = f"docker stop {self._server_id}"
-                if b_shell:
-                    process = subprocess.Popen(
-                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
-                    )
-                else:
-                    process = subprocess.Popen(
-                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-                    )
-                run_cmd = f"docker rm {self._server_id}"
-                for _ in io.TextIOWrapper(process.stdout, encoding="utf-8"):
-                    pass
-                if b_shell:
-                    _ = subprocess.Popen(
-                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
-                    )
-                else:
-                    _ = subprocess.Popen(
-                        run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-                    )
-            elif self._remote_instance:
+
+            if self._remote_instance:
                 self._remote_instance.delete()
             else:
                 try:
@@ -963,6 +1061,11 @@ class LegacyGrpcServer(BaseServer):
                         warnings.warn(traceback.format_exc())
 
             self.live = False
+            self._docker_config.remove_docker_image()
+
+    @property
+    def config(self):
+        return server_factory.AvailableServerConfigs.LegacyGrpcServer
 
     def __eq__(self, other_server):
         """Return true, if the ip and the port are equals"""
