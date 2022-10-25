@@ -244,9 +244,6 @@ def remove_none_available_config(configs, config_names):
     return configs_out, config_names_out
 
 
-fixture_scope = "package" if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 else "module"
-
-
 configsserver_type, config_namesserver_type = remove_none_available_config([
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
@@ -256,11 +253,13 @@ configsserver_type, config_namesserver_type = remove_none_available_config([
 
 
 @pytest.fixture(
-    scope=fixture_scope,
+    scope="package",
     params=configsserver_type,
     ids=config_namesserver_type,
 )
 def server_type(request):
+    if core.global_server().config == request.param:
+        return core.global_server()
     server = core.start_local_server(config=request.param, as_global=False)
     return server
 
@@ -275,17 +274,19 @@ configs_server_type_remote_process, config_names_server_type_remote_process = \
 
 
 @pytest.fixture(
-    scope=fixture_scope,
+    scope="package",
     params=configs_server_type_remote_process,
     ids=config_names_server_type_remote_process,
 )
 def server_type_remote_process(request):
+    if core.global_server().config == request.param:
+        return core.global_server()
     server = core.start_local_server(config=request.param, as_global=False)
     return server
 
 
 @pytest.fixture(
-    scope=fixture_scope,
+    scope="package",
     params=configs_server_type_remote_process,
     ids=config_names_server_type_remote_process,
 )
@@ -302,22 +303,26 @@ configs_server_type_legacy_grpc, config_names_server_type_legacy_grpc = \
 
 
 @pytest.fixture(
-    scope=fixture_scope,
+    scope="package",
     params=configs_server_type_legacy_grpc,
     ids=config_names_server_type_legacy_grpc,
 )
 def server_type_legacy_grpc(request):
+    if core.global_server().config == request.param:
+        return core.global_server()
     return core.start_local_server(config=request.param, as_global=False)
 
 
 @pytest.fixture(
-    scope=fixture_scope,
+    scope="package",
     params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)],
     ids=[
         "gRPC CLayer",
     ],
 )
 def server_clayer_remote_process(request):
+    if core.global_server().config == request.param:
+        return core.global_server()
     server = core.start_local_server(config=request.param, as_global=False)
     return server
 
@@ -330,11 +335,13 @@ configs_server_clayer, config_names_server_clayer = remove_none_available_config
 
 
 @pytest.fixture(
-    scope=fixture_scope,
+    scope="package",
     params=configs_server_clayer,
     ids=config_names_server_clayer,
 )
 def server_clayer(request):
+    if core.global_server().config == request.param:
+        return core.global_server()
     server = core.start_local_server(config=request.param, as_global=False)
     return server
 

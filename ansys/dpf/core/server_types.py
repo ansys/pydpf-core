@@ -435,6 +435,11 @@ class BaseServer(abc.ABC):
     def docker_config(self, val):
         self._docker_config = val
 
+    @property
+    @abc.abstractmethod
+    def config(self):
+        pass
+
     @abc.abstractmethod
     def shutdown(self):
         pass
@@ -741,6 +746,10 @@ class GrpcServer(CServer):
     def local_server(self, val):
         self._local_server = val
 
+    @property
+    def config(self):
+        return server_factory.AvailableServerConfigs.GrpcServer
+
 
 class InProcessServer(CServer):
     """Server using the InProcess communication protocol"""
@@ -802,6 +811,10 @@ class InProcessServer(CServer):
     def local_server(self, val):
         if not val:
             raise NotImplementedError("an in process server can only be local.")
+
+    @property
+    def config(self):
+        return server_factory.AvailableServerConfigs.InProcessServer
 
 
 class LegacyGrpcServer(BaseServer):
@@ -1049,6 +1062,10 @@ class LegacyGrpcServer(BaseServer):
 
             self.live = False
             self._docker_config.remove_docker_image()
+
+    @property
+    def config(self):
+        return server_factory.AvailableServerConfigs.LegacyGrpcServer
 
     def __eq__(self, other_server):
         """Return true, if the ip and the port are equals"""
