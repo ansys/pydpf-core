@@ -68,34 +68,32 @@ class _PyVistaAnimator(_PyVistaPlotter):
                 cpos = [cpos]*len(indices)
         str_template = "t={0:{2}} {1}"
 
-        def render_frame(frame):
-            self._plotter.clear()
-            # print(f"render frame {frame} for input {indices[frame]}")
-            workflow.connect(input_name, [frame])
+        def init_frame():
+            workflow.connect(input_name, [0])
             field = workflow.get_output(output_name, core.types.field)
             deform = None
             if "deform_by" in workflow.output_names:
                 deform = workflow.get_output("deform_by", core.types.field)
             self.add_field(field, deform_by=deform,
-                           scale_factor_legend=scale_factor[frame],
+                           scale_factor_legend=scale_factor[0],
                            **kwargs)
             kwargs_in = _sort_supported_kwargs(
                 bound_method=self._plotter.add_text, **freq_kwargs)
-            self._plotter.add_text(str_template.format(loop_over.data[frame], unit, freq_fmt),
+            self._plotter.add_text(str_template.format(loop_over.data[0], unit, freq_fmt),
                                    **kwargs_in)
             if cpos:
-                self._plotter.camera_position = cpos[frame]
+                self._plotter.camera_position = cpos[0]
 
-        # def update_frame(frame):
-        #     workflow.connect(input_name, [frame])
-        #     field = workflow.get_output(output_name, core.types.field)
-        #     deform = None
-        #     if "deform_by" in workflow.output_names:
-        #         deform = workflow.get_output("deform_by", core.types.field)
-        #     self._plotter.textActor.SetText(2, str_template.format(loop_over.data[frame], unit, freq_fmt))
-        #
-        #     if cpos:
-        #         self._plotter.camera_position = cpos[frame]
+        def render_frame(frame):
+            workflow.connect(input_name, [frame])
+            field = workflow.get_output(output_name, core.types.field)
+            deform = None
+            if "deform_by" in workflow.output_names:
+                deform = workflow.get_output("deform_by", core.types.field)
+            self._plotter.textActor.SetText(2, str_template.format(loop_over.data[frame], unit, freq_fmt))
+
+            if cpos:
+                self._plotter.camera_position = cpos[frame]
 
         try:
             def animation():
@@ -120,11 +118,11 @@ class _PyVistaAnimator(_PyVistaPlotter):
                             self._plotter.write_frame()
 
             # Write initial frame
-            render_frame(0)
+            init_frame()
             # If not off_screen, enable the user to choose the camera position
             if not kwargs.pop("off_screen", None):
                 self._plotter.add_key_event("a", animation)
-                print('Orient the view, then press "a" to produce an animation')
+                print('Orient the view, then press "a" to produce an animation.')
             else:
                 animation()
             # Show is necessary even when off_screen to initiate the renderer
