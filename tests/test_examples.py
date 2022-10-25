@@ -3,7 +3,7 @@ import os.path
 
 import pytest
 
-from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+from conftest import running_docker
 from ansys.dpf import core as dpf
 from ansys.dpf.core import Model
 from ansys.dpf.core import examples
