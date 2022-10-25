@@ -130,7 +130,7 @@ class TestServer:
 
 @pytest.mark.skipif(os.name == 'posix' or running_docker,
                     reason="lin issue: 2 processes can be run with same port")
-def test_busy_port(remote_config_server_type, clean_up):
+def test_busy_port(remote_config_server_type):
     my_serv = start_local_server(config=remote_config_server_type)
     busy_port = my_serv.port
     with pytest.raises(errors.InvalidPortError):
@@ -225,12 +225,6 @@ def test_eq_server_config():
 
 
 def test_connect_to_remote_server(server_type_remote_process):
-    try:
-        server_type_remote_process.version
-    except:
-        server_type_remote_process = start_local_server(
-            config=server_type_remote_process.config, as_global=False
-        )
     server = connect_to_server(
         ip=server_type_remote_process.external_ip,
         port=server_type_remote_process.external_port,
