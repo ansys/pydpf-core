@@ -258,7 +258,7 @@ configsserver_type, config_namesserver_type = remove_none_available_config([
     ids=config_namesserver_type,
 )
 def server_type(request):
-    if core.global_server().config == request.param:
+    if core.global_server().config == request.param and os.name != "posix":
         return core.global_server()
     server = core.start_local_server(config=request.param, as_global=False)
     return server
@@ -279,7 +279,7 @@ configs_server_type_remote_process, config_names_server_type_remote_process = \
     ids=config_names_server_type_remote_process,
 )
 def server_type_remote_process(request):
-    if core.global_server().config == request.param:
+    if core.global_server().config == request.param and os.name != "posix":
         return core.global_server()
     server = core.start_local_server(config=request.param, as_global=False)
     return server
@@ -308,7 +308,7 @@ configs_server_type_legacy_grpc, config_names_server_type_legacy_grpc = \
     ids=config_names_server_type_legacy_grpc,
 )
 def server_type_legacy_grpc(request):
-    if core.global_server().config == request.param:
+    if core.global_server().config == request.param and os.name != "posix":
         return core.global_server()
     return core.start_local_server(config=request.param, as_global=False)
 
@@ -321,7 +321,7 @@ def server_type_legacy_grpc(request):
     ],
 )
 def server_clayer_remote_process(request):
-    if core.global_server().config == request.param:
+    if core.global_server().config == request.param and os.name != "posix":
         return core.global_server()
     server = core.start_local_server(config=request.param, as_global=False)
     return server
@@ -340,7 +340,7 @@ configs_server_clayer, config_names_server_clayer = remove_none_available_config
     ids=config_names_server_clayer,
 )
 def server_clayer(request):
-    if core.global_server().config == request.param:
+    if core.global_server().config == request.param and os.name != "posix":
         return core.global_server()
     server = core.start_local_server(config=request.param, as_global=False)
     return server

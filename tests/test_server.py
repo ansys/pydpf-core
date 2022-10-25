@@ -50,6 +50,16 @@ server_configs, server_configs_names = remove_none_available_config(
 )
 
 
+@pytest.fixture(autouse=False, scope="function")
+def clean_up(request):
+    """Count servers once we are finished."""
+
+    def shutdown():
+        dpf.core.server.shutdown_all_session_servers()
+
+    request.addfinalizer(shutdown)
+
+
 @pytest.mark.parametrize("server_config", server_configs, ids=server_configs_names, scope="class")
 class TestServerConfigs:
     @pytest.fixture(scope="class", autouse=True)
@@ -120,7 +130,7 @@ class TestServer:
 
 @pytest.mark.skipif(os.name == 'posix' or running_docker,
                     reason="lin issue: 2 processes can be run with same port")
-def test_busy_port(remote_config_server_type):
+def test_busy_port(remote_config_server_type, clean_up):
     my_serv = start_local_server(config=remote_config_server_type)
     busy_port = my_serv.port
     with pytest.raises(errors.InvalidPortError):
@@ -132,7 +142,7 @@ def test_busy_port(remote_config_server_type):
 
 @pytest.mark.skipif(not running_docker,
                     reason="Only works on Docker")
-def test_docker_busy_port(remote_config_server_type):
+def test_docker_busy_port(remote_config_server_type, clean_up):
     my_serv = start_local_server(config=remote_config_server_type)
     busy_port = my_serv.external_port
     with pytest.raises(errors.InvalidPortError):
