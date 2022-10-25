@@ -489,7 +489,7 @@ class FieldsContainer(Collection):
         """
         return self.get_label_scoping("time")
 
-    def animate(self, save_as=None, deform_by=None, scale_factor=1.0, mesh=None, **kwargs):
+    def animate(self, save_as=None, deform_by=None, scale_factor=1.0, **kwargs):
         """Creates an animation based on the Fields contained in the FieldsContainer.
 
         This method creates a movie or a gif based on the time ids of a FieldsContainer.
@@ -506,8 +506,6 @@ class FieldsContainer(Collection):
         scale_factor : float, list, optional
             Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
             scaling frequency-dependent.
-        mesh : MeshedRegion, MeshesContainer, optional
-            Mesh support to associate to the fields being animated.
         """
         from ansys.dpf.core.animator import Animator
 
@@ -524,18 +522,6 @@ class FieldsContainer(Collection):
         if frequencies is None:
             raise ValueError("The fields_container has no time_frequencies.")
 
-        set_mesh = False
-        if len(self.get_field(0).meshed_region.nodes) == 0:
-            if mesh is None:
-                raise ValueError("The first field's mesh is empty. Please set the 'mesh' argument.")
-            else:
-                set_mesh = True
-                bind_support_fc = dpf.core.operators.utility.bind_support_fc(self,
-                                                                             support=mesh)
-                fc = bind_support_fc.eval()
-                # fc = self
-        else:
-            fc = self
         # TODO /!\ We should be using a mechanical::time_selector, however it is not wrapped.
 
         wf.set_input_name("indices", extract_field_op.inputs.indices)  # Have to do it this way
@@ -548,18 +534,18 @@ class FieldsContainer(Collection):
         if deform_by is not False:
             if deform_by is None or isinstance(deform_by, bool):
                 # By default, set deform_by as self if nodal 3D vector field
-                if fc[0].location == dpf.core.common.locations.nodal and \
-                        fc[0].component_count == 3:
-                    deform_by = fc
+                if self[0].location == dpf.core.common.locations.nodal and \
+                        self[0].component_count == 3:
+                    deform_by = self
                 else:
                     deform = False
             if deform_by and not isinstance(deform_by, dpf.core.FieldsContainer):
                 deform_by = deform_by.eval()
-                if len(deform_by) != len(fc):
+                if len(deform_by) != len(self):
                     raise ValueError("'deform_by' argument must result in a FieldsContainer "
                                      "of same length as the animated one "
                                      f"(len(deform_by.eval())={len(deform_by)} "
-                                     f"!= len(self)={len(fc)}).")
+                                     f"!= len(self)={len(self)}).")
         else:
             deform = False
 
@@ -578,25 +564,7 @@ class FieldsContainer(Collection):
 
             divide_op = dpf.core.operators.math.component_wise_divide(
                 extract_field_op_2.outputs.field, extract_scale_factor_op.outputs.field)
-            # Get the mesh from the field to render
-            if mesh is None:
-                get_mesh_op = dpf.core.operators.mesh.from_field(extract_field_op.outputs.field)
-                output = get_mesh_op.outputs.mesh
-            else:
-                if isinstance(mesh, dpf.core.MeshedRegion):
-                    get_mesh_op = dpf.core.operators.utility.forward(mesh)
-                    output = get_mesh_op.get_output(0, output_type=dpf.core.MeshedRegion)
-                    # wf.set_output_name("mesh", get_mesh_op.outputs.any)
-                elif isinstance(mesh, dpf.core.MeshesContainer):
-                    raise NotImplementedError("Operator to extract mesh from meshes_container "
-                                              "does not exist")
-            # Get the coordinates field from the mesh
-            get_coordinates_op = dpf.core.operators.mesh.node_coordinates(output)
-            # Addition to the scaled deformation field
-            add_op = dpf.core.operators.math.add(divide_op.outputs.field,
-                                                 get_coordinates_op.outputs.coordinates_as_field)
-            wf.set_output_name("deform_by", add_op.outputs.field)
-            add_op.progress_bar = False
+            wf.set_output_name("deform_by", divide_op.outputs.field)
         else:
             scale_factor = None
         wf.set_output_name("to_render", extract_field_op.outputs.field)
