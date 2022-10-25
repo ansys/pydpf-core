@@ -86,16 +86,21 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
         def render_frame(frame):
             workflow.connect(input_name, [frame])
+            actors = self._plotter.renderer.actors
+            actor_keys = list(actors.keys())
             field = workflow.get_output(output_name, core.types.field)
             deform = None
             if "deform_by" in workflow.output_names:
                 deform = workflow.get_output("deform_by", core.types.field)
-            self.add_field(field, deform_by=deform,
-                           scale_factor_legend=scale_factor[frame],
-                           **kwargs)
+                actors[actor_keys[2]].SetText(3, f"Scale factor: {scale_factor[frame]}")
+            # self.add_field(field, deform_by=deform,
+            #                scale_factor_legend=scale_factor[frame],
+            #                **kwargs)
+
             self._plotter.textActor.SetText(2, str_template.format(loop_over.data[frame], unit, freq_fmt))
             if cpos:
                 self._plotter.camera_position = cpos[frame]
+            self._plotter.update()
 
         try:
             def animation():
