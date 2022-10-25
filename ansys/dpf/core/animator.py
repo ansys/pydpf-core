@@ -75,16 +75,9 @@ class _PyVistaAnimator(_PyVistaPlotter):
             deform = None
             if "deform_by" in workflow.output_names:
                 deform = workflow.get_output("deform_by", core.types.field)
-            if "mesh" in workflow.output_names:
-                # Add_mesh
-                self.add_mesh(workflow.get_output("mesh", core.types.meshed_region),
-                              deform_by=deform,
-                              scale_factor_legend=scale_factor[frame],
-                              **kwargs)
-            else:
-                self.add_field(field, deform_by=deform,
-                               scale_factor_legend=scale_factor[frame],
-                               **kwargs)
+            self.add_field(field, deform_by=deform,
+                           scale_factor_legend=scale_factor[frame],
+                           **kwargs)
             kwargs_in = _sort_supported_kwargs(
                 bound_method=self._plotter.add_text, **freq_kwargs)
             str_template = "t={0:{2}} {1}"
