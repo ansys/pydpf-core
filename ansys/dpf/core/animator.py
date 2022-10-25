@@ -90,8 +90,10 @@ class _PyVistaAnimator(_PyVistaPlotter):
             deform = None
             if "deform_by" in workflow.output_names:
                 deform = workflow.get_output("deform_by", core.types.field)
+            self.add_field(field, deform_by=deform,
+                           scale_factor_legend=scale_factor[frame],
+                           **kwargs)
             self._plotter.textActor.SetText(2, str_template.format(loop_over.data[frame], unit, freq_fmt))
-
             if cpos:
                 self._plotter.camera_position = cpos[frame]
 
