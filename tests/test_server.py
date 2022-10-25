@@ -224,7 +224,9 @@ def test_eq_server_config():
     assert not dpf.core.AvailableServerConfigs.InProcessServer is None
 
 
-def test_connect_to_remote_server(server_type_remote_process):
+def test_connect_to_remote_server(remote_config_server_type):
+    server_type_remote_process = start_local_server(config=remote_config_server_type,
+                                                    as_global=False)
     server = connect_to_server(
         ip=server_type_remote_process.external_ip,
         port=server_type_remote_process.external_port,
