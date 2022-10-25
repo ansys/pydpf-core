@@ -9,6 +9,7 @@ import numpy as np
 from typing import Union, Sequence
 
 import ansys.dpf.core as core
+from ansys.dpf.core.common import locations
 from ansys.dpf.core.plotter import _sort_supported_kwargs, _PyVistaPlotter
 
 
@@ -96,7 +97,20 @@ class _PyVistaAnimator(_PyVistaPlotter):
             # self.add_field(field, deform_by=deform,
             #                scale_factor_legend=scale_factor[frame],
             #                **kwargs)
-
+            meshed_region = field.meshed_region
+            location = field.location
+            if location == locations.nodal:
+                mesh_location = meshed_region.nodes
+            elif location == locations.elemental:
+                mesh_location = meshed_region.elements
+            component_count = field.component_count
+            if component_count > 1:
+                overall_data = np.full((len(mesh_location), component_count), np.nan)
+            else:
+                overall_data = np.full(len(mesh_location), np.nan)
+            ind, mask = mesh_location.map_scoping(field.scoping)
+            overall_data[ind] = field.data[mask]
+            self._plotter.update_scalars(overall_data)
             self._plotter.textActor.SetText(2, str_template.format(loop_over.data[frame], unit, freq_fmt))
             if cpos:
                 self._plotter.camera_position = cpos[frame]
