@@ -80,7 +80,7 @@ class Operator:
 
     >>> from ansys.dpf.core import Model
     >>> from ansys.dpf.core import examples
-    >>> model = Model(examples.static_rst)
+    >>> model = Model(examples.find_static_rst())
     >>> disp_oper = model.results.displacement()
 
     """
@@ -142,7 +142,7 @@ class Operator:
         --------
         >>> from ansys.dpf.core import Model
         >>> from ansys.dpf.core import examples
-        >>> model = Model(examples.static_rst)
+        >>> model = Model(examples.find_static_rst())
         >>> disp_oper = model.results.displacement()
         >>> disp_oper = model.results.displacement()
         >>> disp_x = model.results.displacement().X()
@@ -200,7 +200,7 @@ class Operator:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> disp_op = dpf.operators.result.displacement()
         >>> disp_op.inputs.data_sources(data_src)
         >>> max_fc_op = dpf.operators.min_max.min_max_fc()
@@ -256,6 +256,7 @@ class Operator:
             meshes_container,
             property_field,
             string_field,
+            custom_type_field,
             result_info,
             scoping,
             scopings_container,
@@ -275,6 +276,8 @@ class Operator:
              "property_field"),
             (string_field.StringField, self._api.operator_getoutput_string_field,
              "string_field"),
+            (custom_type_field.CustomTypeField, self._api.operator_getoutput_custom_type_field,
+             "field"),
             (scoping.Scoping, self._api.operator_getoutput_scoping, "scoping"),
             (fields_container.FieldsContainer, self._api.operator_getoutput_fields_container,
              "fields_container"),
@@ -315,6 +318,7 @@ class Operator:
             meshed_region,
             property_field,
             string_field,
+            custom_type_field,
             scoping,
             time_freq_support,
             data_tree,
@@ -329,6 +333,7 @@ class Operator:
             (field.Field, self._api.operator_connect_field),
             (property_field.PropertyField, self._api.operator_connect_property_field),
             (string_field.StringField, self._api.operator_connect_string_field),
+            (custom_type_field.CustomTypeField, self._api.operator_connect_custom_type_field),
             (scoping.Scoping, self._api.operator_connect_scoping),
             (collection.Collection, self._api.operator_connect_collection),
             (data_sources.DataSources, self._api.operator_connect_data_sources),
@@ -430,7 +435,7 @@ class Operator:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> disp_op = dpf.operators.result.displacement()
         >>> disp_op.inputs.data_sources(data_src)
 
@@ -453,7 +458,7 @@ class Operator:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> disp_op = dpf.operators.result.displacement()
         >>> disp_op.inputs.data_sources(data_src)
         >>> disp_fc = disp_op.outputs.fields_container()
@@ -532,7 +537,7 @@ class Operator:
         >>> from ansys.dpf import core as dpf
         >>> import ansys.dpf.core.operators.math as math
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> disp_op = dpf.operators.result.displacement()
         >>> disp_op.inputs.data_sources(data_src)
         >>> normfc = math.norm_fc(disp_op).eval()

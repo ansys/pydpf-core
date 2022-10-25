@@ -138,6 +138,19 @@ def test_string_field(server_type_remote_process):
     assert op.get_output(0, dpf.types.string_field).data == ["hello", "good"]
 
 
+@conftest.raises_for_servers_version_under("5.0")
+def test_custom_type_field(server_type_remote_process):
+    load_all_types_plugin_with_serv(server_type_remote_process)
+    f = dpf.CustomTypeField(np.uint64, server=server_type_remote_process)
+    f.data = np.array([1000000000000, 200000000000000], dtype=np.uint64)
+    op = dpf.Operator("custom_forward_custom_type_field", server=server_type_remote_process)
+    op.connect(0, f)
+    assert np.allclose(
+        op.get_output(0, dpf.types.custom_type_field).data,
+        [1000000000000, 200000000000000]
+    )
+
+
 def test_scoping(server_type_remote_process):
     load_all_types_plugin_with_serv(server_type_remote_process)
     f = dpf.Scoping(location="Elemental", server=server_type_remote_process)

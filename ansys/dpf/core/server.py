@@ -225,7 +225,7 @@ def start_local_server(
             else:
                 server = server_type(
                     ansys_path, as_global=as_global,
-                    load_operators=load_operators, docker_name=docker_name, timeout=timeout)
+                    load_operators=load_operators, timeout=timeout)
             break
         except errors.InvalidPortError:  # allow socket in use errors
             port += 1

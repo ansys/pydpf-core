@@ -129,7 +129,7 @@ class Model:
             --------
             >>> from ansys.dpf import core as dpf
             >>> from ansys.dpf.core import examples
-            >>> model = dpf.Model(examples.electric_therm)
+            >>> model = dpf.Model(examples.find_electric_therm())
             >>> v = model.results.electric_potential
             >>> dissip = model.results.thermal_dissipation_energy
 
@@ -139,7 +139,7 @@ class Model:
 
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.simple_bar)
+        >>> model = dpf.Model(examples.find_simple_bar())
         >>> results = model.results # printable object
 
         Access the displacement at all times.

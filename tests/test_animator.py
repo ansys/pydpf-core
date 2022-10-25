@@ -26,7 +26,7 @@ def remove_gifs(request):
 
 @pytest.fixture()
 def displacement_fields():
-    model = dpf.Model(examples.msup_transient)
+    model = dpf.Model(examples.find_msup_transient())
     mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(
         model.metadata.meshed_region.nodes.scoping)
     # time_scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(model)
@@ -101,7 +101,7 @@ def test_animator_animate_fields_container_deform_by_false(displacement_fields):
 
 
 def test_animator_animate_fields_container_eqv():
-    model = dpf.Model(examples.msup_transient)
+    model = dpf.Model(examples.find_msup_transient())
     time_scoping = dpf.time_freq_scoping_factory.scoping_by_sets(
         list(range(5, 20)))
     stress_result = model.results.stress.on_time_scoping(time_scoping)
@@ -111,7 +111,7 @@ def test_animator_animate_fields_container_eqv():
 
 
 def test_animator_animate_fields_container_eqv_partial_scoping():
-    model = dpf.Model(examples.msup_transient)
+    model = dpf.Model(examples.find_msup_transient())
     time_scoping = dpf.time_freq_scoping_factory.scoping_by_sets(
         list(range(5, 20)))
     stress_result = model.results.stress.on_time_scoping(time_scoping)
@@ -145,14 +145,14 @@ def test_animator_animate_fields_container_scale_factor_raise(displacement_field
 
 
 def test_animator_animate_fields_container_deform_by_result():
-    model = dpf.Model(examples.msup_transient)
+    model = dpf.Model(examples.find_msup_transient())
     displacement_result = model.results.displacement.on_all_time_freqs
     displacement_fields = displacement_result.eval()
     displacement_fields.animate(deform_by=displacement_result)
 
 
 def test_animator_animate_fields_container_deform_by_result_raise():
-    model = dpf.Model(examples.msup_transient)
+    model = dpf.Model(examples.find_msup_transient())
     displacement_result = model.results.displacement
     displacement_fields = displacement_result.on_all_time_freqs.eval()
     with pytest.raises(ValueError) as e:
@@ -161,7 +161,7 @@ def test_animator_animate_fields_container_deform_by_result_raise():
 
 
 def test_animator_animate_fields_container_deform_by_operator():
-    model = dpf.Model(examples.msup_transient)
+    model = dpf.Model(examples.find_msup_transient())
     displacement_op = model.results.displacement.on_all_time_freqs()
     displacement_fields = displacement_op.eval()
     displacement_fields.animate(deform_by=displacement_op)

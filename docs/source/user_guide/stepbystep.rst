@@ -192,7 +192,7 @@ This example shows how to define an operator from a model:
 
    from ansys.dpf.core import Model
    from ansys.dpf.core import examples
-   model = Model(examples.static_rst)
+   model = Model(examples.find_static_rst())
    disp_oper = model.results.displacement()
 
 Define workflows
@@ -228,7 +228,7 @@ of displacement by chaining the ``U`` and ``min_max_fc`` operators:
 .. code-block:: python
 
    from ansys.dpf.core import examples
-   data_src = dpf.DataSources(examples.multishells_rst)
+   data_src = dpf.DataSources(examples.find_multishells_rst())
    workflow.connect("data_sources", data_src)
    min = workflow.get_output("min", dpf.types.field)
    max = workflow.get_output("max", dpf.types.field)
