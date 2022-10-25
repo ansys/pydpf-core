@@ -175,6 +175,8 @@ dpf.upload_file(
     dpf.path_utilities.join(tmp, "plugins", "gltf_plugin.xml")
 )
 
+print("Environment variables")
+print(os.environ)
 dpf.load_library(
     dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"),
     "py_dpf_gltf",

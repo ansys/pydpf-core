@@ -87,6 +87,7 @@ jobs:
         run: |
           echo on
           export LD_PRELOAD=/home/runner/work/pydpf-core/pydpf-core/.ci/libffi.so.6
+          export LD_DEBUG=libs
           python run_examples.py
 
       - name: "Kill all servers"

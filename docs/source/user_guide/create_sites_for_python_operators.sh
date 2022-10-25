@@ -35,6 +35,8 @@ export LD_LIBRARY_PATH=${PYTHONLIBPATH}/../lib:{LD_LIBRARY_PATH}
 
 echo "Python interpreter"
 which ${pythonexe}
+echo "Libraries used by this interpreter"
+ldd ${pythonexe}
 
 ${pythonexe} -m venv ${tempfolder}/venv
 
