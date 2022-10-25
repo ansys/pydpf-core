@@ -61,6 +61,11 @@ jobs:
       wheelhouse: false
     secrets: inherit
 
+  docker_tests:
+    name: "Build and Test on Docker"
+    uses: ./.github/workflows/test_docker.yml
+    secrets: inherit
+
   docs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/docs.yml
