@@ -708,7 +708,7 @@ class GrpcServer(CServer):
         for servers using a gateway:
         for example, servers running in Docker Images might have an internal
         :func:`ansys.dpf.core.LegacyGrpcServer.ip` different from the public
-        :func:`ansys.dpf.core.LegacyGrpcServer.external_ip`, the later should be used to get
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_ip`, the latter should be used to get
         connected to the server from outside the Docker Image.
 
         Returns
@@ -724,7 +724,7 @@ class GrpcServer(CServer):
         for servers using a gateway:
         for example, servers running in Docker Images might have an internal
         :func:`ansys.dpf.core.LegacyGrpcServer.port` different from the public
-        :func:`ansys.dpf.core.LegacyGrpcServer.external_port`, the later should be used to get
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_port`, the latter should be used to get
         connected to the server from outside the Docker Image.
 
         Returns
@@ -962,7 +962,7 @@ class LegacyGrpcServer(BaseServer):
         for servers using a gateway:
         for example, servers running in Docker Images might have an internal
         :func:`ansys.dpf.core.LegacyGrpcServer.ip` different from the public
-        :func:`ansys.dpf.core.LegacyGrpcServer.external_ip`, the later should be used to get
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_ip`, the latter should be used to get
         connected to the server from outside the Docker Image.
 
         Returns
@@ -978,7 +978,7 @@ class LegacyGrpcServer(BaseServer):
         for servers using a gateway:
         for example, servers running in Docker Images might have an internal
         :func:`ansys.dpf.core.LegacyGrpcServer.port` different from the public
-        :func:`ansys.dpf.core.LegacyGrpcServer.external_port`, the later should be used to get
+        :func:`ansys.dpf.core.LegacyGrpcServer.external_port`, the latter should be used to get
         connected to the server from outside the Docker Image.
 
         Returns

@@ -23,15 +23,15 @@ def test_download_example_asme_result():
     path = examples.download_example_asme_result()
     assert isinstance(Model(path), Model)
 
-#
-# def test_download_crankshaft():
-#     path = examples.download_crankshaft()
-#     assert isinstance(Model(path), Model)
-#
-#
-# def test_download_piston_rod():
-#     path = examples.download_piston_rod()
-#     assert isinstance(Model(path), Model)
+
+def test_download_crankshaft():
+    path = examples.download_crankshaft()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_piston_rod():
+    path = examples.download_piston_rod()
+    assert isinstance(Model(path), Model)
 
 
 list_examples = [
@@ -73,7 +73,6 @@ def test_find_examples(example, server_type_remote_process):
     assert path == getattr(globals()["examples"], example)
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0, reason="slow in 2021R2")
 def test_delete_downloaded_files():
     path = examples.download_multi_stage_cyclic_result(return_local_path=True)
     assert os.path.exists(path)

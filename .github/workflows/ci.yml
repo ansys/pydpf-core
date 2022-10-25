@@ -223,6 +223,7 @@ jobs:
         working-directory: tests
         run: |
           pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
+        timeout-minutes: 20
 
       - name: "Test API test_launcher"
         shell: bash
@@ -230,6 +231,7 @@ jobs:
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
         if: always()
+        timeout-minutes: 20
 
       - name: "Test API test_server"
         shell: bash
@@ -237,6 +239,7 @@ jobs:
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
         if: always()
+        timeout-minutes: 20
 
       - name: "Test API test_local_server"
         shell: bash
@@ -244,6 +247,7 @@ jobs:
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
         if: always()
+        timeout-minutes: 20
 
       - name: "Test API test_multi_server"
         shell: bash
@@ -251,6 +255,7 @@ jobs:
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
         if: always()
+        timeout-minutes: 20
 
       - name: "Test API test_remote_workflow"
         shell: bash
@@ -258,6 +263,7 @@ jobs:
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
         if: always()
+        timeout-minutes: 20
 
       - name: "Test API test_remote_operator"
         shell: bash
@@ -265,6 +271,7 @@ jobs:
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
         if: always()
+        timeout-minutes: 5
 
       - name: "Test API test_workflow"
         shell: bash
@@ -272,11 +279,12 @@ jobs:
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
         if: always()
+        timeout-minutes: 20
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ env.ANSYS_VERSION }}
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ env.ANSYS_VERSION }}_docker
           path: tests/junit/test-results.xml
         if: always()
 
@@ -539,13 +547,12 @@ jobs:
           Remove-Item -Path "tests\test_workflow.py"
           Remove-Item -Path "tests\test_remote_workflow.py"
           Remove-Item -Path "tests\test_remote_operator.py"
-          Remove-Item -Path "tests\test_examples.py"
 
       - name: "Test API"
         shell: bash
         working-directory: tests
         run: |
-          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
+          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 --ignore test_examples.py .
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
