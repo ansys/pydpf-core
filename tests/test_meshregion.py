@@ -640,6 +640,8 @@ def test_semi_parabolic_meshed_region(server_type, allkindofcomplexity):
     reason="Bug in server version lower than 4.0",
 )
 def test_empty_mesh_get_scoping(server_type):
-    mesh = dpf.core.MeshedRegion()
-    assert mesh.nodes.scoping is None
-    assert mesh.elements.scoping is None
+    mesh = dpf.core.MeshedRegion(server=server_type)
+    okay = mesh.nodes.scoping is None or len(mesh.nodes.scoping) == 0
+    assert okay
+    okay = mesh.elements.scoping is None or len(mesh.elements.scoping) == 0
+    assert okay

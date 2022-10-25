@@ -12,31 +12,52 @@ from ansys.dpf.core.server import set_server_configuration, _global_server
 from ansys.dpf.core.server import start_local_server, connect_to_server
 from ansys.dpf.core.server import shutdown_all_session_servers, has_local_server
 from ansys.dpf.core.server import get_or_create_server
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0, running_docker, \
+    remove_none_available_config
 
-server_configs = [None,
-                  ServerConfig(),
-                  ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-                  ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-                  ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
-                  ServerConfig(protocol=None, legacy=False),
-                  ] \
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 else \
+server_configs, server_configs_names = remove_none_available_config(
     [None,
-     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-     ]
-
-server_configs_names = ["none",
-                        "default",
-                        "legacy grpc",
-                        "grpc",
-                        "in process",
-                        "None protocol",
-                        ] \
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 else \
+     ServerConfig(),
+     ServerConfig(
+         protocol=CommunicationProtocols.gRPC,
+         legacy=True),
+     ServerConfig(
+         protocol=CommunicationProtocols.gRPC,
+         legacy=False),
+     ServerConfig(
+         protocol=CommunicationProtocols.InProcess,
+         legacy=False),
+     ServerConfig(protocol=None,
+                  legacy=False),
+     ] \
+        if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 else \
+        [None,
+         ServerConfig(
+             protocol=CommunicationProtocols.gRPC,
+             legacy=True),
+         ],
     ["none",
+     "default",
      "legacy grpc",
-     ]
+     "grpc",
+     "in process",
+     "None protocol",
+     ] \
+        if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 else \
+        ["none",
+         "legacy grpc",
+         ]
+)
+
+
+@pytest.fixture(autouse=False, scope="function")
+def clean_up(request):
+    """Count servers once we are finished."""
+
+    def shutdown():
+        dpf.core.server.shutdown_all_session_servers()
+
+    request.addfinalizer(shutdown)
 
 
 @pytest.mark.parametrize("server_config", server_configs, ids=server_configs_names, scope="class")
@@ -107,7 +128,8 @@ class TestServer:
         client = server.client
 
 
-@pytest.mark.skipif(os.name == 'posix', reason="lin issue: 2 processes can be run with same port")
+@pytest.mark.skipif(os.name == 'posix' or running_docker,
+                    reason="lin issue: 2 processes can be run with same port")
 def test_busy_port(remote_config_server_type):
     my_serv = start_local_server(config=remote_config_server_type)
     busy_port = my_serv.port
@@ -116,6 +138,20 @@ def test_busy_port(remote_config_server_type):
     server = start_local_server(as_global=False, port=busy_port,
                                 config=remote_config_server_type)
     assert server.port != busy_port
+
+
+@pytest.mark.skipif(not running_docker,
+                    reason="Only works on Docker")
+def test_docker_busy_port(remote_config_server_type, clean_up):
+    my_serv = start_local_server(config=remote_config_server_type)
+    busy_port = my_serv.external_port
+    with pytest.raises(errors.InvalidPortError):
+        server_types.launch_dpf_on_docker(port=busy_port,
+                                          docker_config=dpf.core.server.RUNNING_DOCKER
+                                          )
+    server = start_local_server(as_global=False, port=busy_port,
+                                config=remote_config_server_type)
+    assert server.external_port != busy_port
 
 
 @pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.7"),
@@ -181,22 +217,24 @@ def test_eq_server_config():
            )
     assert dpf.core.AvailableServerConfigs.InProcessServer == \
            dpf.core.ServerConfig(protocol=None, legacy=False)
-    assert not dpf.core.AvailableServerConfigs.InProcessServer ==\
+    assert not dpf.core.AvailableServerConfigs.InProcessServer == \
                dpf.core.ServerConfig(
                    protocol=dpf.core.server_factory.CommunicationProtocols.gRPC, legacy=False
                )
     assert not dpf.core.AvailableServerConfigs.InProcessServer is None
 
 
-def test_connect_to_remote_server(server_type_remote_process):
+def test_connect_to_remote_server(remote_config_server_type):
+    server_type_remote_process = start_local_server(config=remote_config_server_type,
+                                                    as_global=False)
     server = connect_to_server(
-        ip=server_type_remote_process.ip,
-        port=server_type_remote_process.port,
+        ip=server_type_remote_process.external_ip,
+        port=server_type_remote_process.external_port,
         timeout=10.,
         as_global=False
     )
-    assert server.ip == server_type_remote_process.ip
-    assert server.port == server_type_remote_process.port
+    assert server.external_ip == server_type_remote_process.external_ip
+    assert server.external_port == server_type_remote_process.external_port
 
 
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,

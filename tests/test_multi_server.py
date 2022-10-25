@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+import conftest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples, server_types, server
@@ -9,10 +10,12 @@ from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 
 @pytest.fixture(scope="module", params=[
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
-] if (isinstance(server._global_server(), server_types.InProcessServer)) else [
-    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-    ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)] if \
-        isinstance(server._global_server(), server_types.GrpcServer) else [
+] if (isinstance(server._global_server(), server_types.InProcessServer)) else
+    conftest.remove_none_available_config([
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+        ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)],
+        ["gRPC", "inProcess"])[0]
+    if isinstance(server._global_server(), server_types.GrpcServer) else [
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
 ])
 def other_remote_server(request):
@@ -31,7 +34,7 @@ def static_models(local_server, other_remote_server):
     except ServerTypeError:
         upload = examples.static_rst
     return (dpf.Model(upload, server=other_remote_server),
-            dpf.Model(examples.static_rst, server=local_server))
+            dpf.Model(examples.find_static_rst(server=local_server), server=local_server))
 
 
 @pytest.fixture()
@@ -42,7 +45,7 @@ def transient_models(local_server, other_remote_server):
         upload = examples.msup_transient
     return (
         dpf.Model(upload, server=other_remote_server),
-        dpf.Model(examples.msup_transient, server=local_server),
+        dpf.Model(examples.find_msup_transient(server=local_server), server=local_server),
     )
 
 
@@ -54,7 +57,7 @@ def cyc_models(local_server, other_remote_server):
         upload = examples.simple_cyclic
     return (
         dpf.Model(upload, server=other_remote_server),
-        dpf.Model(examples.simple_cyclic, server=local_server),
+        dpf.Model(examples.find_simple_cyclic(server=local_server), server=local_server),
     )
 
 

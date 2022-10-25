@@ -1167,7 +1167,6 @@ def test_get_static_spec_operator(server_type_legacy_grpc):
     l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
     for i, name in enumerate(l):
         spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
-        print(name)
         assert len(spec.operator_name) > 0
         assert len(spec.inputs) > 0
         assert len(spec.description) > 0
