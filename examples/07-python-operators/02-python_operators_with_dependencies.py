@@ -138,8 +138,8 @@ elif os.name == "posix" and \
     awp_root231 = r"/home/runner/work/pydpf-core/pydpf-core/dpf-standalone/v231"
     python_path = r"commonfiles/CPython/3_7/linx64/Release/python/bin/python"
     args = f" -pluginpath \"{plugin_path}\"" \
-           f" -zippath \"{os.path.join(plugin_path, 'assets', 'gltf_sites_linx64.zip')}\"" \
-           f" -pythonexe \"{os.path.join(awp_root231, python_path)}\""
+           f" -zippath \"{os.path.join(plugin_path, 'assets', 'gltf_sites_linx64.zip')}\""
+           # f" -pythonexe \"{os.path.join(awp_root231, python_path)}\""
     print(run_cmd + args)
     import subprocess
     subprocess.run(f"chmod u=rwx,o=x {cmd_file}", shell=True)
