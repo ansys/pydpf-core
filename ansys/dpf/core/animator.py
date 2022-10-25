@@ -121,10 +121,12 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
             # Write initial frame
             render_frame(0)
-            self._plotter.add_key_event("a", animation)
             # If not off_screen, enable the user to choose the camera position
             if not kwargs.pop("off_screen", None):
+                self._plotter.add_key_event("a", animation)
                 print('Orient the view, then press "a" to produce an animation')
+            else:
+                animation()
             # Show is necessary even when off_screen to initiate the renderer
             result = self._plotter.show(interactive=True)
             # result = self.show_figure(auto_close=False, **kwargs)
