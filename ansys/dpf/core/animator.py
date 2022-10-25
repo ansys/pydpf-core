@@ -86,24 +86,14 @@ class _PyVistaAnimator(_PyVistaPlotter):
             if cpos:
                 self._plotter.camera_position = cpos[frame]
 
-        # def update_frame(frame):
-        #     workflow.connect(input_name, [frame])
-        #     field = workflow.get_output(output_name, core.types.field)
-        #     deform = None
-        #     if "deform_by" in workflow.output_names:
-        #         deform = workflow.get_output("deform_by", core.types.field)
-        #     self._plotter.textActor.SetText(2, str_template.format(loop_over.data[frame], unit, freq_fmt))
-        #
-        #     if cpos:
-        #         self._plotter.camera_position = cpos[frame]
-
         try:
             def animation():
                 if save_as:
                     try:
                         self._plotter.write_frame()
                     except AttributeError as e:  # pragma: no cover
-                        if "To retrieve an image after the render window has been closed" in e.args[0]:
+                        if "To retrieve an image after the render window has been closed" \
+                                in e.args[0]:
                             print("Animation canceled.")
                             print(e)
                             return result
