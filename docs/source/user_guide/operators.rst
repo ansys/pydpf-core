@@ -36,7 +36,7 @@ of a result:
     from ansys.dpf.core import Model
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
-    model = Model(examples.simple_bar)
+    model = Model(examples.find_simple_bar())
     displacement = model.results.displacement()
     norm = ops.math.norm(displacement)
     min_max = ops.min_max.min_max(norm)
@@ -109,7 +109,7 @@ available results for your result files:
     from ansys.dpf.core import Model
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
-    model = Model(examples.simple_bar)
+    model = Model(examples.find_simple_bar())
     displacement = model.results.displacement()
 
 
@@ -126,13 +126,13 @@ You can create data sources in two ways:
 
 
 Because several other examples use the ``Model`` class, this example uses the
-``DataSources``class:
+``DataSources`` class:
 
 .. code-block:: python
 
    from ansys.dpf import core as dpf
    from ansys.dpf.core import examples
-   data_src = dpf.DataSources(examples.multishells_rst)
+   data_src = dpf.DataSources(examples.find_multishells_rst())
    print(data_src)
    
 
@@ -168,7 +168,7 @@ can also be connected to work on a temporal subset:
     
 Evaluate operators
 ~~~~~~~~~~~~~~~~~~
-With all the required inputs assigned, you can output the :class:`ansys.dpf.core.fields_container`_
+With all the required inputs assigned, you can output the :class:`ansys.dpf.core.fields_container`
 class from the operator:
 
 .. code-block:: python
@@ -227,7 +227,7 @@ displacement data on the client side to compute the maximum:
     from ansys.dpf.core import Model
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
-    model = Model(examples.simple_bar)
+    model = Model(examples.find_simple_bar())
     displacement = model.results.displacement()
     fc = displacement.outputs.fields_container()
 
@@ -253,7 +253,7 @@ On an industrial model, however, you should use code like this:
     from ansys.dpf.core import Model
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
-    model = Model(examples.simple_bar)
+    model = Model(examples.find_simple_bar())
     displacement = model.results.displacement()
     min_max = ops.min_max.min_max(displacement)
     max_field = min_max.outputs.field_max()
@@ -333,7 +333,7 @@ This example shows how to read a displacement or a stress for any file:
    from ansys.dpf import core as dpf
    from ansys.dpf.core import examples
    from ansys.dpf.core import operators as ops
-   data_src = dpf.DataSources(examples.multishells_rst)
+   data_src = dpf.DataSources(examples.find_multishells_rst())
    disp = ops.result.displacement(data_sources = data_src)
    stress = ops.result.stress(data_sources = data_src)
 
@@ -420,7 +420,7 @@ displays available import and export operators.
    from ansys.dpf import core as dpf
    from ansys.dpf.core import examples
    from ansys.dpf.core import operators as ops
-   model = dpf.Model(examples.multishells_rst)
+   model = dpf.Model(examples.find_multishells_rst())
    disp = model.results.displacement()
    vtk = ops.serialization.vtk_export(file_path='c:/temp/file.vtk',
        mesh=model.metadata.meshed_region, fields1=disp)
@@ -437,7 +437,7 @@ Python client is not on the same machine as the server:
    from ansys.dpf.core import operators as ops
    server_dir = dpf.make_tmp_dir_server()
    print(server_dir)
-   up_loaded_file = dpf.upload_file_in_tmp_folder(examples.multishells_rst)
+   up_loaded_file = dpf.upload_file_in_tmp_folder(examples.find_multishells_rst())
    model = dpf.Model(up_loaded_file)
    disp = model.results.displacement()
    vtk = ops.serialization.vtk_export(file_path=server_dir+"\\file.vtk",

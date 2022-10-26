@@ -20,6 +20,12 @@ three types of servers are supported:
 - :class:`ansys.dpf.core.server_types.LegacyGrpcServer` using gRPC communication through the
   Python module ``ansys.grpc.dpf``.
 
+To change the default type of server's configuration used by DPF change:
+
+- the global variable ``SERVER_CONFIGURATION`` at the beginning of the python script.
+- the environment variable ``DPF_SERVER_TYPE`` before running the python executable, see
+  :class:`ansys.dpf.core.server_factory.ServerConfig` for more information.
+
 """
 
 from ansys.dpf import core as dpf

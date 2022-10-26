@@ -18,6 +18,21 @@ from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi
 
 
+def update_grid(func):
+    # Decorate mesh setters to centralize the update logic of pyvista objects.
+    def wrapper(*args, **kwargs):
+        mesh = args[0]
+        if mesh._full_grid is not None:
+            # Treat each setter separately to improve performance by updating the minimum required.
+            if func.__name__ == 'set_coordinates_field':
+                # When setting node coordinates
+                from ansys.dpf.core.vtk_helper import vtk_update_coordinates
+                vtk_update_coordinates(vtk_grid=mesh._full_grid, coordinates_array=args[1].data)
+
+        return func(*args, **kwargs)
+    return wrapper
+
+
 @class_handling_cache
 class MeshedRegion:
     """
@@ -42,7 +57,7 @@ class MeshedRegion:
 
     >>> import ansys.dpf.core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.static_rst)
+    >>> model = dpf.Model(examples.find_static_rst())
     >>> meshed_region = model.metadata.meshed_region
 
     Create a meshed region from scratch (line with 3 beam elements).
@@ -141,7 +156,7 @@ class MeshedRegion:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> meshed_region = model.metadata.meshed_region
         >>> elements = meshed_region.elements
         >>> print(elements)
@@ -164,7 +179,7 @@ class MeshedRegion:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> meshed_region = model.metadata.meshed_region
         >>> nodes = meshed_region.nodes
         >>> nodes.n_nodes
@@ -275,6 +290,7 @@ class MeshedRegion:
         else:
             self._api.meshed_region_set_property_field(self, property_name, value)
 
+    @update_grid
     @version_requires("3.0")
     def set_coordinates_field(self, coordinates_field):
         """
@@ -482,7 +498,7 @@ class MeshedRegion:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> meshed_region = model.metadata.meshed_region
         >>> grid = meshed_region.grid
 
@@ -531,7 +547,7 @@ class MeshedRegion:
 
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> disp = model.results.displacement()
         >>> field = disp.outputs.fields_container()[0]
         >>> model.metadata.meshed_region.plot(field)
@@ -585,7 +601,7 @@ class MeshedRegion:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> meshed_region = model.metadata.meshed_region
         >>> other_server = dpf.start_local_server(as_global=False)
         >>> deep_copy = meshed_region.deep_copy(server=other_server)
@@ -629,7 +645,7 @@ class MeshedRegion:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> meshed_region = model.metadata.meshed_region
         >>> connectivity = meshed_region.field_of_properties(
         ...     dpf.common.elemental_properties.connectivity)

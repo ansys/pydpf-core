@@ -53,7 +53,7 @@ mesh = model.metadata.meshed_region
 ###############################################################################
 # Extrapolate from integration points for elastic strain result
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# This example uses the ``gauss_to_node_fc``operator to compute nodal component
+# This example uses the ``gauss_to_node_fc`` operator to compute nodal component
 # elastic strain results from the elastic strain at the integration points.
 
 # Create elastic strain operator to get strain result of integration points

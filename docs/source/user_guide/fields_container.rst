@@ -23,7 +23,7 @@ This example uses the ``elastic_strain`` operator to access a fields container:
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
-    model = dpf.Model(examples.msup_transient)
+    model = dpf.Model(examples.find_msup_transient())
     epel = model.results.elastic_strain.on_all_time_freqs
     fields = epel.eval()
     print(fields)
@@ -152,7 +152,7 @@ time complex IDs are available in the fields container:
 
 .. code-block::
 
-    model = dpf.Model(examples.msup_transient)
+    model = dpf.Model(examples.find_msup_transient())
     epel = model.results.elastic_strain.on_all_time_freqs
     fields = epel.eval()
     print(fields.time_freq_support)

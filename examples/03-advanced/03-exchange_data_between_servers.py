@@ -35,8 +35,7 @@ print(server1.port if hasattr(server1, "port") else "",
 # The result file is sent to the temporary directory of the first server.
 # This file upload is useless in this case because the two servers are local
 # machines.
-file = examples.complex_rst
-file_path_in_tmp = dpf.upload_file_in_tmp_folder(file)
+file_path_in_tmp = examples.find_complex_rst(server=server1)
 
 ###############################################################################
 # Create a workflow on the first server

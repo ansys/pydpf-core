@@ -41,7 +41,7 @@ timeScoping.ids = [4]
 #
 # - ``alfasl`` = input("Introduce ``alfasl`` parameter from ASME\n")
 # - ``alfasl`` = float(alfasl)
-# -``m2`` = input("Introduce ``m2`` parameter from ASME\n")
+# - ``m2`` = input("Introduce ``m2`` parameter from ASME\n")
 # - ``m2`` = float(m2)
 #
 # For this exercise, ``alfasl`` = 2.2 and ``m2`` = .288, which is the same

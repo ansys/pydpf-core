@@ -86,6 +86,7 @@ class types(Enum):
     data_tree = 20
     vec_string = 21
     string_field = 22
+    custom_type_field = 23
     # Types not from grpc proto, added in Python
     fields_container = -1
     scopings_container = -2
@@ -104,6 +105,7 @@ def types_enum_to_types():
         meshes_container,
         property_field,
         string_field,
+        custom_type_field,
         result_info,
         scoping,
         scopings_container,
@@ -137,6 +139,7 @@ def types_enum_to_types():
         types.vec_int: dpf_vector.DPFVectorInt,
         types.vec_double: dpf_vector.DPFVectorDouble,
         types.string_field: string_field.StringField,
+        types.custom_type_field: custom_type_field.CustomTypeField,
         types.streams_container: streams_container.StreamsContainer,
     }
 

@@ -517,6 +517,11 @@ class FieldsContainer(Collection):
         # Define the field extraction using the fields_container and indices
         extract_field_op = dpf.core.operators.utility.extract_field(self)
 
+        loop_over = self.get_time_scoping()
+        frequencies = self.time_freq_support.time_frequencies
+        if frequencies is None:
+            raise ValueError("The fields_container has no time_frequencies.")
+
         # TODO /!\ We should be using a mechanical::time_selector, however it is not wrapped.
 
         wf.set_input_name("indices", extract_field_op.inputs.indices)  # Have to do it this way
@@ -536,10 +541,15 @@ class FieldsContainer(Collection):
                     deform = False
             if deform_by and not isinstance(deform_by, dpf.core.FieldsContainer):
                 deform_by = deform_by.eval()
+                if len(deform_by) != len(self):
+                    raise ValueError("'deform_by' argument must result in a FieldsContainer "
+                                     "of same length as the animated one "
+                                     f"(len(deform_by.eval())={len(deform_by)} "
+                                     f"!= len(self)={len(self)}).")
         else:
             deform = False
-        if deform:
 
+        if deform:
             scale_factor_fc = dpf.core.animator.scale_factor_to_fc(scale_factor, deform_by)
             scale_factor_invert = dpf.core.operators.math.invert_fc(scale_factor_fc)
             # Extraction of the field of interest based on index
@@ -554,25 +564,12 @@ class FieldsContainer(Collection):
 
             divide_op = dpf.core.operators.math.component_wise_divide(
                 extract_field_op_2.outputs.field, extract_scale_factor_op.outputs.field)
-            # Get the mesh from the field to render
-            get_mesh_op = dpf.core.operators.mesh.from_field(extract_field_op.outputs.field)
-            # Get the coordinates field from the mesh
-            get_coordinates_op = dpf.core.operators.mesh.node_coordinates(get_mesh_op.outputs.mesh)
-            # Addition to the scaled deformation field
-            add_op = dpf.core.operators.math.add(divide_op.outputs.field,
-                                                 get_coordinates_op.outputs.coordinates_as_field)
+            wf.set_output_name("deform_by", divide_op.outputs.field)
         else:
             scale_factor = None
-            scale_factor_fc = dpf.core.animator.scale_factor_to_fc(1.0, self)
-            extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor_fc)
-            add_op = dpf.core.operators.utility.forward_field(extract_scale_factor_op)
-        wf.set_output_name("deform_by", add_op.outputs.field)
         wf.set_output_name("to_render", extract_field_op.outputs.field)
         wf.progress_bar = False
-        add_op.progress_bar = False
 
-        loop_over = self.get_time_scoping()
-        frequencies = self.time_freq_support.time_frequencies
         loop_over_field = dpf.core.fields_factory.field_from_array(
             frequencies.data[loop_over.ids-1])
         loop_over_field.scoping.ids = loop_over.ids

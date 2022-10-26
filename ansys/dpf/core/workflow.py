@@ -58,7 +58,7 @@ class Workflow:
 
 
     >>> from ansys.dpf.core import examples
-    >>> data_src = dpf.DataSources(examples.multishells_rst)
+    >>> data_src = dpf.DataSources(examples.find_multishells_rst())
     >>> workflow.connect("data_sources", data_src)
     >>> min = workflow.get_output("min", dpf.types.field) # doctest: +SKIP
     >>> max = workflow.get_output("max", dpf.types.field) # doctest: +SKIP
@@ -138,7 +138,7 @@ class Workflow:
 
 
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> workflow.connect("data_sources", data_src)
         >>> min = workflow.get_output("min", dpf.types.field) # doctest: +SKIP
         >>> max = workflow.get_output("max", dpf.types.field) # doctest: +SKIP
@@ -187,6 +187,7 @@ class Workflow:
             meshed_region,
             property_field,
             string_field,
+            custom_type_field,
             scoping,
             time_freq_support,
             data_tree,
@@ -201,6 +202,7 @@ class Workflow:
             (field.Field, self._api.work_flow_connect_field),
             (property_field.PropertyField, self._api.work_flow_connect_property_field),
             (string_field.StringField, self._api.work_flow_connect_string_field),
+            (custom_type_field.CustomTypeField, self._api.work_flow_connect_custom_type_field),
             (scoping.Scoping, self._api.work_flow_connect_scoping),
             (collection.Collection, self._api.work_flow_connect_collection),
             (data_sources.DataSources, self._api.work_flow_connect_data_sources),
@@ -225,6 +227,7 @@ class Workflow:
             meshes_container,
             property_field,
             string_field,
+            custom_type_field,
             result_info,
             scoping,
             scopings_container,
@@ -243,6 +246,8 @@ class Workflow:
              "property_field"),
             (string_field.StringField, self._api.work_flow_getoutput_string_field,
              "string_field"),
+            (custom_type_field.CustomTypeField, self._api.work_flow_getoutput_custom_type_field,
+             "field"),
             (scoping.Scoping, self._api.work_flow_getoutput_scoping, "scoping"),
             (fields_container.FieldsContainer, self._api.work_flow_getoutput_fields_container,
              "fields_container"),
@@ -326,7 +331,7 @@ class Workflow:
         >>> workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
 
         >>> from ansys.dpf.core import examples
-        >>> data_src = dpf.DataSources(examples.multishells_rst)
+        >>> data_src = dpf.DataSources(examples.find_multishells_rst())
         >>> workflow.connect("data_sources", data_src)
 
         """
@@ -358,7 +363,7 @@ class Workflow:
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
         >>> workflow = dpf.Workflow()
-        >>> model = dpf.Model(examples.simple_bar)
+        >>> model = dpf.Model(examples.find_simple_bar())
         >>> disp_op = model.results.displacement()
         >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
         >>> workflow.set_output_name("contour", disp_op.outputs.fields_container)

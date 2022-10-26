@@ -59,12 +59,12 @@ class MeshesContainer(Collection):
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.multishells_rst)
+        >>> model = dpf.Model(examples.find_multishells_rst())
         >>> mesh = model.metadata.meshed_region
         >>> split_mesh_op = dpf.operators.mesh.split_mesh(mesh=mesh, property="mat")
         >>> meshes_cont = split_mesh_op.eval()
         >>> disp_op = dpf.operators.result.displacement(
-        ...     data_sources = dpf.DataSources(examples.multishells_rst),
+        ...     data_sources = dpf.DataSources(examples.find_multishells_rst()),
         ...     mesh = meshes_cont
         ... )
         >>> disp_fc = disp_op.outputs.fields_container()
