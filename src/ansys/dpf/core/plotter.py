@@ -317,8 +317,16 @@ class _PyVistaPlotter:
                 show_min = False
         elif location == locations.overall:
             mesh_location = meshed_region.elements
+        elif location == locations.elemental_nodal:
+            mesh_location = meshed_region.elements
+            # If ElementalNodal, first extend results to mid-nodes
+            field = dpf.core.operators.averaging.extend_to_mid_nodes(
+                field=field
+            ).eval()
         else:
-            raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+            raise ValueError(
+                "Only elemental, elemental nodal, nodal or faces location are supported for plotting."
+            )
 
         # Treat multilayered shells
         if not isinstance(shell_layer, eshell_layers):
@@ -333,13 +341,25 @@ class _PyVistaPlotter:
             )
             field = change_shell_layer_op.get_output(0, core.types.field)
 
+        location_data_len = meshed_region.location_data_len(location)
         component_count = field.component_count
         if component_count > 1:
-            overall_data = np.full((len(mesh_location), component_count), np.nan)
+            overall_data = np.full((location_data_len, component_count), np.nan)
         else:
-            overall_data = np.full(len(mesh_location), np.nan)
+            overall_data = np.full(location_data_len, np.nan)
         if location != locations.overall:
             ind, mask = mesh_location.map_scoping(field.scoping)
+
+            # Rework ind and mask to take into account n_nodes per element if ElementalNodal
+            if location == locations.elemental_nodal:
+                n_nodes_list = meshed_region.get_elemental_nodal_size_list().astype(np.int32)
+                first_index = np.insert(np.cumsum(n_nodes_list)[:-1], 0, 0).astype(np.int32)
+                mask_2 = np.asarray([mask_i for i, mask_i in enumerate(mask)
+                                     for _ in range(n_nodes_list[ind[i]])])
+                ind_2 = np.asarray([first_index[ind_i]+j for ind_i in ind
+                                    for j in range(n_nodes_list[ind_i])])  # OK
+                mask = mask_2
+                ind = ind_2
             overall_data[ind] = field.data[mask]
         else:
             overall_data[:] = field.data[0]
@@ -354,6 +374,8 @@ class _PyVistaPlotter:
             grid = meshed_region._as_vtk(
                 meshed_region.deform_by(deform_by, scale_factor), as_linear
             )
+        if location == locations.elemental_nodal:
+            grid = grid.shrink(1.0)
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
