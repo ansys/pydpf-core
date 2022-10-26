@@ -350,7 +350,12 @@ class DockerConfig:
         """
         mounted_volumes_args = "-v " + " -v ".join(
             key + ":" + val for key, val in self.mounted_volumes.items())
-        return f"docker run -d -p {local_port}:{docker_server_port} " \
+        la = os.environ.get("ANSYS_DPF_ACCEPT_LA", "N")
+        lf = os.environ.get("ANSYSLMD_LICENSE_FILE", "N")
+        additional_option = "-e ANSYSLMD_LICENSE_FILE=" + lf
+        return f"docker run -d -e ANSYS_DPF_ACCEPT_LA={la}" \
+               f" " + additional_option + " " \
+               f"-p {local_port}:{docker_server_port} " \
                f"{self.extra_args} " \
                f"{mounted_volumes_args} " \
                f"-e DOCKER_SERVER_PORT={docker_server_port} " \
