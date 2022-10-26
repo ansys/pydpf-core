@@ -516,6 +516,16 @@ class FieldsContainer(Collection):
         wf.set_input_name("loop_over", forward_index.inputs.any)
         # Define the field extraction using the fields_container and indices
         extract_field_op = dpf.core.operators.utility.extract_field(self)
+        to_render = extract_field_op.outputs.field
+        n_components = self[0].component_count
+        if n_components > 1:
+            norm_op = dpf.core.operators.math.norm(extract_field_op.outputs.field)
+            to_render = norm_op.outputs.field
+
+        loop_over = self.get_time_scoping()
+        frequencies = self.time_freq_support.time_frequencies
+        if frequencies is None:
+            raise ValueError("The fields_container has no time_frequencies.")
 
         loop_over = self.get_time_scoping()
         frequencies = self.time_freq_support.time_frequencies
@@ -535,7 +545,7 @@ class FieldsContainer(Collection):
             if deform_by is None or isinstance(deform_by, bool):
                 # By default, set deform_by as self if nodal 3D vector field
                 if self[0].location == dpf.core.common.locations.nodal and \
-                        self[0].component_count == 3:
+                        n_components == 3:
                     deform_by = self
                 else:
                     deform = False
@@ -567,7 +577,7 @@ class FieldsContainer(Collection):
             wf.set_output_name("deform_by", divide_op.outputs.field)
         else:
             scale_factor = None
-        wf.set_output_name("to_render", extract_field_op.outputs.field)
+        wf.set_output_name("to_render", to_render)
         wf.progress_bar = False
 
         loop_over_field = dpf.core.fields_factory.field_from_array(
