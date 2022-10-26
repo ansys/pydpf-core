@@ -34,7 +34,9 @@ if platform.system() == 'Linux':
 def load_all_types_plugin():
     current_dir = os.getcwd()
     return dpf.load_library(
-        os.path.join(current_dir, "testfiles", "pythonPlugins", "all_types"),
+        dpf.path_utilities.to_server_os(
+            os.path.join(current_dir, "testfiles", "pythonPlugins", "all_types")
+        ),
         "py_test_types",
         "load_operators",
     )
@@ -43,7 +45,9 @@ def load_all_types_plugin():
 def load_all_types_plugin_with_serv(my_server):
     current_dir = os.getcwd()
     return dpf.load_library(
-        os.path.join(current_dir, "testfiles", "pythonPlugins", "all_types"),
+        dpf.path_utilities.to_server_os(
+            os.path.join(current_dir, "testfiles", "pythonPlugins", "all_types"), my_server
+        ),
         "py_test_types",
         "load_operators",
         server=my_server,
@@ -244,10 +248,10 @@ def test_data_tree(server_type_remote_process):
 @conftest.raises_for_servers_version_under("4.0")
 def test_syntax_error(server_type_remote_process):
     current_dir = os.getcwd()
-    dpf.load_library(
+    dpf.load_library(dpf.path_utilities.to_server_os(
         os.path.join(
             current_dir, "testfiles", "pythonPlugins", "syntax_error_plugin"
-        ),
+        ), server_type_remote_process),
         "py_raising",
         "load_operators",
         server=server_type_remote_process,
@@ -345,8 +349,8 @@ def test_create_properties_specification():
 @conftest.raises_for_servers_version_under("4.0")
 def test_custom_op_with_spec(server_type_remote_process):
     current_dir = os.getcwd()
-    dpf.load_library(
-        os.path.join(current_dir, "testfiles", "pythonPlugins"),
+    dpf.load_library(dpf.path_utilities.to_server_os(
+        os.path.join(current_dir, "testfiles", "pythonPlugins"), server_type_remote_process),
         "py_operator_with_spec",
         "load_operators",
         server=server_type_remote_process,

@@ -1,13 +1,14 @@
 import numpy as np
 import pytest
 import copy
+import gc
 from ansys import dpf
 import conftest
 from ansys.dpf import core
 from ansys.dpf.core import FieldDefinition
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.common import locations, shell_layers
-
+from conftest import running_docker
 
 @pytest.fixture()
 def stress_field(allkindofcomplexity, server_type):
@@ -50,7 +51,7 @@ def test_set_get_data_from_list_of_list(server_type):
 def test_append_scalar_data(server_type):
     field = dpf.core.Field(nature=dpf.core.natures.scalar, server=server_type)
     for i in range(0, 10):
-        field.append(float(i), i+1)
+        field.append(float(i), i + 1)
     assert np.allclose(field.data, list(range(0, 10)))
 
 
@@ -469,7 +470,6 @@ def test_delete_auto_field(server_type):
     field = dpf.core.Field(server=server_type)
     field2 = dpf.core.Field(field=field, server=server_type)
     field = None
-    import gc
     gc.collect()
     with pytest.raises(Exception):
         field2.get_ids()
@@ -921,6 +921,87 @@ def test_field_mutable_data(server_clayer, allkindofcomplexity):
     assert np.allclose(changed_data[0], data_copy[0] + 2.)
 
 
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='change in memory ownership in server 5.0')
+def test_field_mutable_data_delete(server_clayer, allkindofcomplexity):
+    # set data with a field created from a model
+    model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
+    field = model.results.displacement().outputs.fields_container()[0]
+    data = field.data
+    data_copy = copy.deepcopy(data)
+    field = None
+    gc.collect()  # check that the memory is held by the dpfvector
+    assert np.allclose(data, data_copy)
+    data[0][0] = 1
+    assert np.allclose(data[0][0], 1)
+
+
+# not using a fixture on purpose: the instance of simple field SHOULD be owned by each test
+def get_simple_field(server_clayer):
+    field = dpf.core.Field(nentities=20, server=server_clayer)
+    field_def = dpf.core.FieldDefinition(server=server_clayer)
+    field_def.dimensionality = dpf.core.Dimensionality([6], dpf.core.natures.vector)
+    field.field_definition = field_def
+    scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_clayer)
+    field.scoping = scop
+
+    data = np.empty((24,), dtype=np.float)
+    for i in range(0, 24):
+        data[i] = i
+    field.data = data
+    field._data_pointer = [0, 6, 12, 18]
+    return field
+
+
+@conftest.raises_for_servers_version_under("4.0")
+def test_mutable_entity_data_contiguous_field(server_clayer):
+    simple_field = get_simple_field(server_clayer)
+    vec = simple_field.get_entity_data(0)
+    assert np.allclose(vec, np.array(range(0, 6)))
+
+    vec[0][0] = 1
+    vec[0][5] = 4
+
+    assert np.allclose(vec, np.array([1, 1, 2, 3, 4, 4]))
+
+    vec.commit()
+
+    assert np.allclose(simple_field.get_entity_data(0), np.array([1, 1, 2, 3, 4, 4]))
+
+    vec = simple_field.get_entity_data_by_id(2)
+    assert np.allclose(vec, np.array(range(6, 12)))
+
+    vec[0][0] = 1
+    vec[0][5] = 4
+    assert np.allclose(vec, np.array([1, 7, 8, 9, 10, 4]))
+    vec = None
+    assert np.allclose(simple_field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]))
+
+
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='change in memory ownership in server 5.0')
+def test_field_mutable_entity_data_by_id_delete(server_clayer):
+    simple_field = get_simple_field(server_clayer)
+    data = simple_field.get_entity_data_by_id(2)
+    simple_field = None
+    gc.collect()  # check that the memory is held by the dpfvector
+    assert np.allclose(data, np.array([6., 7., 8., 9., 10., 11.]))
+    data[0][0] = 0.
+    assert np.allclose(data, np.array([0, 7, 8, 9, 10, 11]))
+
+
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='change in memory ownership in server 5.0')
+def test_field_mutable_entity_data_delete(server_clayer):
+    simple_field = get_simple_field(server_clayer)
+    data = simple_field.get_entity_data(1)
+    simple_field = None
+    gc.collect()  # check that the memory is held by the dpfvector
+    assert np.allclose(data, np.array([6., 7., 8., 9., 10., 11.]))
+    data[0][0] = 0.
+    assert np.allclose(data, np.array([0, 7, 8, 9, 10, 11]))
+
+
 @conftest.raises_for_servers_version_under("4.0")
 def test_mutable_entity_data_contiguous_field(server_clayer):
     field = dpf.core.Field(nentities=20, server=server_clayer)
@@ -977,6 +1058,22 @@ def test_field_mutable_data_pointer(server_clayer, allkindofcomplexity):
     assert np.allclose(changed_data[0], data_copy[0] + 2)
 
 
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='change in memory ownership in server 5.0')
+def test_field_mutable_data_pointer_delete(server_clayer, allkindofcomplexity):
+    # set data with a field created from a model
+    model = dpf.core.Model(allkindofcomplexity, server=server_clayer)
+    field = model.results.stress().outputs.fields_container()[0]
+    data = field._data_pointer
+    data_copy = copy.deepcopy(data)
+    field = None
+    gc.collect()  # check that the memory is held by the dpfvector
+    assert np.allclose(data, data_copy)
+    data[0] = 1
+    data_copy[0] = 1
+    assert np.allclose(data, data_copy)
+
+
 def _deep_copy_test_identical_server(config):
     serv = dpf.core.start_local_server(as_global=False, config=config)
     field = dpf.core.fields_factory.create_3d_vector_field(100, server=serv)
@@ -988,9 +1085,9 @@ def _deep_copy_test_identical_server(config):
     assert field.unit == copy.unit
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+@pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
                     reason='this server type does not exist before client'
-                    'dedicated to 4.0 server version')
+                           'dedicated to 4.0 server version')
 def test_deep_copy_field_grpcclayer_to_grpcclayer():
     config = dpf.core.ServerConfig(
         protocol=dpf.core.server_factory.CommunicationProtocols.gRPC,
@@ -1005,9 +1102,9 @@ def test_deep_copy_field_grpclegacy_to_grpclegacy():
     _deep_copy_test_identical_server(config)
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+@pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
                     reason='this server type does not exist before client'
-                    'dedicated to 4.0 server version')
+                           'dedicated to 4.0 server version')
 def test_deep_copy_field_inprocess_to_inprocess():
     config = dpf.core.ServerConfig(
         protocol=dpf.core.server_factory.CommunicationProtocols.InProcess,

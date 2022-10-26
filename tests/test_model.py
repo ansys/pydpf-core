@@ -20,7 +20,7 @@ if misc.module_exists("pyvista"):
 @pytest.fixture()
 def static_model():
     try:
-        path = dpf.core.upload_file_in_tmp_folder(examples.find_static_rst())
+        path = dpf.core.upload_file_in_tmp_folder(examples.find_static_rst(return_local_path=True))
     except ServerTypeError:
         path = examples.find_static_rst()
     return dpf.core.Model(path)
