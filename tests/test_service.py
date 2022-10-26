@@ -4,6 +4,7 @@ import pytest
 import conftest
 import pkgutil
 import datetime
+import platform
 
 from ansys import dpf
 from ansys.dpf.core import path_utilities
@@ -45,10 +46,6 @@ def test_loadplugin(server_type):
     assert loaded
 
 
-@pytest.mark.skipif(platform.system() == "Windows"
-                    and (platform.python_version().startswith("3.8")
-                         or platform.python_version().startswith("3.7")),
-                    reason="Random SEGFAULT in the GitHub pipeline for 3.7-8 on Windows")
 def test_upload_download(tmp_path, server_type_remote_process):
     tmp_path = str(tmp_path)
     file = dpf.core.upload_file_in_tmp_folder(
