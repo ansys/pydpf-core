@@ -691,7 +691,7 @@ class GrpcServer(CServer):
         try:
             return self.info["server_ip"]
         except:
-            return 0
+            return ""
 
     @property
     def port(self):
