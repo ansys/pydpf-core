@@ -323,6 +323,17 @@ class DockerConfig:
         self._mounted_volumes = mounted_volumes
 
     @property
+    def licensing_args(self):
+        la = os.environ.get("ANSYS_DPF_ACCEPT_LA", "N")
+        lf = os.environ.get("ANSYSLMD_LICENSE_FILE", None)
+        additional_option = " -e ANSYS_DPF_ACCEPT_LA=" + la + " "
+        if lf is not None:
+            additional_option += " -e ANSYSLMD_LICENSE_FILE="
+            additional_option += lf
+            additional_option += " "
+        return additional_option
+
+    @property
     def extra_args(self):
         """Extra arguments to add to the docker run command.
 
@@ -350,11 +361,9 @@ class DockerConfig:
         """
         mounted_volumes_args = "-v " + " -v ".join(
             key + ":" + val for key, val in self.mounted_volumes.items())
-        la = os.environ.get("ANSYS_DPF_ACCEPT_LA", "N")
-        lf = os.environ.get("ANSYSLMD_LICENSE_FILE", "N")
-        additional_option = "-e ANSYSLMD_LICENSE_FILE=" + lf
-        return f"docker run -d -e ANSYS_DPF_ACCEPT_LA={la}" \
-               f" " + additional_option + " " \
+        licensing_options = self.licensing_args
+        return f"docker run -d " \
+               f" {licensing_options} " \
                f"-p {local_port}:{docker_server_port} " \
                f"{self.extra_args} " \
                f"{mounted_volumes_args} " \

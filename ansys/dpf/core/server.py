@@ -159,9 +159,6 @@ def start_local_server(
         is True, the server is ran as a docker (default is True).
     docker_config : server_factory.DockerConfig, optional
         To start DPF server as a docker, specify the docker configuration options here.
-        For Docker use with DPF Standalone package, it is required to set the
-        ANSYS_DPF_ACCEPT_LA environment variable to "Y" that confirms your acceptance
-        of the DPF User Licensing Agreement that can be found on the Ansys Customer Portal.
     timeout : float, optional
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
