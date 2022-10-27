@@ -34,6 +34,11 @@ def test_download_piston_rod():
     assert isinstance(Model(path), Model)
 
 
+def test_download_cycles_to_failure():
+    path = examples.download_cycles_to_failure()
+    assert isinstance(Model(path), Model)
+
+
 list_examples = [
     "simple_bar",
     "static_rst",
