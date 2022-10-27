@@ -26,8 +26,7 @@ def server_meet_version(required_version, server):
         ``True`` when successful, ``False`` when failed.
     """
     version = get_server_version(server)
-    meets = version_tuple(required_version)
-    return meets_version(version, meets)
+    return meets_version(version, required_version)
 
 
 def server_meet_version_and_raise(required_version, server, msg=None):
@@ -80,26 +79,8 @@ def meets_version(version, meets):
     bool
          ``True`` when successful, ``False`` when failed.
     """
-    if not isinstance(version, tuple):
-        va = version_tuple(version)
-    else:
-        va = version
-
-    if not isinstance(meets, tuple):
-        vb = version_tuple(meets)
-    else:
-        vb = meets
-
-    if len(va) != len(vb):
-        raise ValueError("Versions are not comparable.")
-
-    for i in range(len(va)):
-        if va[i] > vb[i]:
-            return True
-        elif va[i] < vb[i]:
-            return False
-
-    return True
+    from packaging.version import parse
+    return parse(version) >= parse(meets)
 
 
 def get_server_version(server=None):
@@ -121,39 +102,6 @@ def get_server_version(server=None):
     else:
         version = server.version
     return version
-
-
-def version_tuple(ver):
-    """Convert a version string to a tuple containing integers.
-
-    Parameters
-    ----------
-    ver : str
-        Version string to convert.
-
-    Returns
-    -------
-    ver_tuple : tuple
-        Three-part tuple representing the major, minor, and patch
-        versions.
-    """
-    split_ver = ver.split(".")
-    while len(split_ver) < 3:
-        split_ver.append("0")
-
-    if len(split_ver) > 3:
-        raise ValueError(
-            "Version strings containing more than three parts " "cannot be parsed"
-        )
-
-    vals = []
-    for item in split_ver:
-        if item.isnumeric():
-            vals.append(int(item))
-        else:
-            vals.append(0)
-
-    return tuple(vals)
 
 
 def version_requires(min_version):
