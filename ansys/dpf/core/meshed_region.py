@@ -444,7 +444,7 @@ class MeshedRegion:
             coordinates_field = coordinates
             coordinates = coordinates.data
         etypes = self.elements.element_types_field.data
-        conn = self.elements.connectivities_field.data
+        conn = self.elements.connectivities_field
         try:
             from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
         except ModuleNotFoundError:
