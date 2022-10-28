@@ -185,8 +185,13 @@ def d3plot_beam():
 
 @pytest.fixture()
 def binout_matsum():
-    """Resolve the path of the "binout/binout" result file."""
-    return resolve_test_file("binout", "binout")
+    """Resolve the path of the "binout/binout_matsum" result file."""
+    return resolve_test_file("binout_matsum", "binout")
+
+@pytest.fixture()
+def binout_glstat():
+    """Resolve the path of the "binout/binout_glstat" result file."""
+    return resolve_test_file("binout_glstat", "binout")
 
 @pytest.fixture()
 def engineering_data_sources():

@@ -1,10 +1,14 @@
 import numpy as np
+import os
 from ansys.dpf import core as dpf
 import pytest
 
 def try_load_lsdyna_operators():
     try:
-        dpf.load_library("Ans.Dpf.LSDYNAHGP.dll", "lsdyna")
+        if os.name == "posix":
+            dpf.load_library("libAns.Dpf.LSDYNAHGP.so", "lsdyna")
+        else:
+            dpf.load_library("Ans.Dpf.LSDYNAHGP.dll", "lsdyna")
         return True
     except:
         return False
@@ -35,44 +39,40 @@ def test_lsdyna_generic(d3plot):
     # ------------------------------------------------- Global Kinetic energy
 
     KE = dpf.operators.result.global_kinetic_energy()
-    KE.inputs.time_scoping.connect(time_sco)
     KE.inputs.data_sources.connect(ds)
     ke_op = KE.outputs.fields_container()
 
-    ke_mod = model.results.global_kinetic_energy(time_scoping=time_sco).eval()
+    ke_mod = model.results.global_kinetic_energy().eval()
 
     assert np.allclose(ke_op[0].data, ke_mod[0].data)
 
     # ------------------------------------------------- Global Internal energy
 
     IE = dpf.operators.result.global_internal_energy()
-    IE.inputs.time_scoping.connect(time_sco)
     IE.inputs.data_sources.connect(ds)
     ie_op = IE.outputs.fields_container()
 
-    ie_mod = model.results.global_internal_energy(time_scoping=time_sco).eval()
+    ie_mod = model.results.global_internal_energy().eval()
 
     assert np.allclose(ie_op[0].data[0], ie_mod[0].data[0])
 
     # ------------------------------------------------- Global Total energy
 
     TE = dpf.operators.result.global_total_energy()
-    TE.inputs.time_scoping.connect(time_sco)
     TE.inputs.data_sources.connect(ds)
     te_op = TE.outputs.fields_container()
 
-    te_mod = model.results.global_total_energy(time_scoping=time_sco).eval()
+    te_mod = model.results.global_total_energy().eval()
 
     assert np.allclose(te_op[0].data[0], te_mod[0].data[0])
 
     # ------------------------------------------------- Global velocity
 
     GV = dpf.operators.result.global_velocity()
-    GV.inputs.time_scoping.connect(time_sco)
     GV.inputs.data_sources.connect(ds)
     gv_op = GV.outputs.fields_container()
 
-    gv_mod = model.results.global_velocity(time_scoping=time_sco).eval()
+    gv_mod = model.results.global_velocity().eval()
 
     assert np.allclose(gv_op[0].data[0], gv_mod[0].data[0])
 
@@ -263,10 +263,11 @@ def test_lsdyna_beam(d3plot_beam):
 
     assert np.allclose(beppl_op[0].data, beppl_mod[0].data)
 
+
 @pytest.mark.skipif(
     not try_load_lsdyna_operators(), reason="Couldn't load lsdyna operators"
 )
-def test_lsdyna_matsum(binout_matsum):
+def test_lsdyna_matsum_rcforc(binout_matsum):
     try_load_lsdyna_operators()
 
     ds = dpf.DataSources()
@@ -412,3 +413,156 @@ def test_lsdyna_matsum(binout_matsum):
     cm_mod = CM2.eval()
 
     assert np.allclose(cm_op[0].data[2], cm_mod[0].data[2])
+
+
+@pytest.mark.skipif(
+    not try_load_lsdyna_operators(), reason="Couldn't load lsdyna operators"
+)
+def test_lsdyna_glstat(binout_glstat):
+    try_load_lsdyna_operators()
+
+    ds = dpf.DataSources()
+    ds.set_result_file_path(binout_glstat, "binout")
+
+    model = dpf.Model(ds)
+    print(model)
+
+    # ------------------------------------------------- Global Time Step
+
+    DT = dpf.operators.result.global_time_step()
+    DT.inputs.data_sources.connect(ds)
+    dt_op = DT.outputs.fields_container()
+
+    dt_mod = model.results.global_time_step().eval()
+
+    assert np.allclose(dt_op[0].data, dt_mod[0].data)
+
+    # ------------------------------------------------- Global Kinetic Energy
+
+    KE = dpf.operators.result.global_kinetic_energy()
+    KE.inputs.data_sources.connect(ds)
+    ke_op = KE.outputs.fields_container()
+
+    ke_mod = model.results.global_kinetic_energy().eval()
+
+    assert np.allclose(ke_op[0].data, ke_mod[0].data)
+
+    # ------------------------------------------------- Global Internal Energy
+
+    IE = dpf.operators.result.global_internal_energy()
+    IE.inputs.data_sources.connect(ds)
+    ie_op = IE.outputs.fields_container()
+
+    ie_mod = model.results.global_internal_energy().eval()
+
+    assert np.allclose(ie_op[0].data, ie_mod[0].data)
+
+    # ------------------------------------------------- Global Spring and Damper Energy
+
+    KDE = dpf.operators.result.global_spring_damper_energy()
+    KDE.inputs.data_sources.connect(ds)
+    kde_op = KDE.outputs.fields_container()
+
+    kde_mod = model.results.global_spring_damper_energy().eval()
+
+    assert np.allclose(kde_op[0].data, kde_mod[0].data)
+
+    # ------------------------------------------------- Global System Damping Energy
+
+    SDE = dpf.operators.result.global_system_damping_energy()
+    SDE.inputs.data_sources.connect(ds)
+    sde_op = SDE.outputs.fields_container()
+
+    sde_mod = model.results.global_system_damping_energy().eval()
+
+    assert np.allclose(sde_op[0].data, sde_mod[0].data)
+
+    # ------------------------------------------------- Global Sliding Interface Energy
+
+    SIE = dpf.operators.result.global_sliding_interface_energy()
+    SIE.inputs.data_sources.connect(ds)
+    sie_op = SIE.outputs.fields_container()
+
+    sie_mod = model.results.global_sliding_interface_energy().eval()
+
+    assert np.allclose(sie_op[0].data, sie_mod[0].data)
+
+    # ------------------------------------------------- Global External Work
+
+    EW = dpf.operators.result.global_external_work()
+    EW.inputs.data_sources.connect(ds)
+    ew_op = EW.outputs.fields_container()
+
+    ew_mod = model.results.global_external_work().eval()
+
+    assert np.allclose(ew_op[0].data, ew_mod[0].data)
+
+    # ------------------------------------------------- Global Eroded Kinetic Energy
+
+    ERKE = dpf.operators.result.global_eroded_kinetic_energy()
+    ERKE.inputs.data_sources.connect(ds)
+    erke_op = ERKE.outputs.fields_container()
+
+    erke_mod = model.results.global_eroded_kinetic_energy().eval()
+
+    assert np.allclose(erke_op[0].data, erke_mod[0].data)
+
+    # ------------------------------------------------- Global Eroded Internal Energy
+
+    ERIE = dpf.operators.result.global_eroded_internal_energy()
+    ERIE.inputs.data_sources.connect(ds)
+    erie_op = ERIE.outputs.fields_container()
+
+    erie_mod = model.results.global_eroded_internal_energy().eval()
+
+    assert np.allclose(erie_op[0].data, erie_mod[0].data)
+
+    # ------------------------------------------------- Global Eroded Hourglass Energy
+
+    ERAHO = dpf.operators.result.global_eroded_hourglass_energy()
+    ERAHO.inputs.data_sources.connect(ds)
+    eraho_op = ERAHO.outputs.fields_container()
+
+    eraho_mod = model.results.global_eroded_hourglass_energy().eval()
+
+    assert np.allclose(eraho_op[0].data, eraho_mod[0].data)
+
+    # ------------------------------------------------- Global Total Energy
+
+    TE = dpf.operators.result.global_total_energy()
+    TE.inputs.data_sources.connect(ds)
+    te_op = TE.outputs.fields_container()
+
+    te_mod = model.results.global_total_energy().eval()
+
+    assert np.allclose(te_op[0].data, te_mod[0].data)
+
+    # ------------------------------------------------- Global Energy Ratio
+
+    ER = dpf.operators.result.global_energy_ratio()
+    ER.inputs.data_sources.connect(ds)
+    er_op = ER.outputs.fields_container()
+
+    er_mod = model.results.global_energy_ratio().eval()
+
+    assert np.allclose(er_op[0].data, er_mod[0].data)
+
+    # ------------------------------------------------- Global Energy Ratio without Eroded Energy
+
+    ERWO = dpf.operators.result.global_energy_ratio_wo_eroded()
+    ERWO.inputs.data_sources.connect(ds)
+    erwo_op = ERWO.outputs.fields_container()
+
+    erwo_mod = model.results.global_energy_ratio_wo_eroded().eval()
+
+    assert np.allclose(erwo_op[0].data, erwo_mod[0].data)
+
+    # ------------------------------------------------- Global Velocity
+
+    V = dpf.operators.result.global_velocity()
+    V.inputs.data_sources.connect(ds)
+    v_op = V.outputs.fields_container()
+
+    v_mod = model.results.global_velocity().eval()
+
+    assert np.allclose(v_op[0].data, v_mod[0].data)
