@@ -28,6 +28,11 @@ print(ds)
 
 model = dpf.Model(data_sources=ds)
 print(model)
-model.plot(opacity=0.3)
-
+# model.plot(opacity=0.3)
+mesh = model.metadata.meshed_region
+scoping = dpf.mesh_scoping_factory.elemental_scoping([mesh.elements.scoping.ids[0]])
+mesh2 = dpf.operators.mesh.from_scoping(scoping=scoping,
+                                        mesh=mesh).eval()
+print(mesh2)
+mesh2.plot()
 # print(dir(model.results))
