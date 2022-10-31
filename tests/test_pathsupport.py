@@ -1,6 +1,7 @@
 # Tests specific to pathlib.Path support as path argument instead of str
 import pytest
 import functools
+import os
 
 from ansys import dpf
 from pathlib import Path
@@ -27,7 +28,8 @@ def test_print_data_sources_path(allkindofcomplexity):
     data_sources.set_result_file_path(path)
     print(data_sources)
     assert data_sources.result_key == "rst"
-    assert data_sources.result_files == [allkindofcomplexity]
+    assert len(data_sources.result_files) == 1
+    assert os.path.normpath(data_sources.result_files[0]) == os.path.normpath(allkindofcomplexity)
 
 
 def test_all_result_operators_exist_path(allkindofcomplexity):

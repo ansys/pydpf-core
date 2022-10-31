@@ -94,7 +94,7 @@ new_operator = dpf.Operator("easy_statistics")
 # Use the operator
 # ----------------
 
-ds = dpf.DataSources(dpf.upload_file_in_tmp_folder(examples.static_rst))
+ds = dpf.DataSources(dpf.upload_file_in_tmp_folder(examples.find_static_rst()))
 displacement = dpf.operators.result.displacement(data_sources=ds)
 norm = dpf.operators.math.norm(displacement)
 new_operator.inputs.connect(norm)

@@ -105,6 +105,7 @@ def test_connect_get_out_all_types_operator(server_type):
         dpf.core.Workflow(server=server_type),
         dpf.core.DataTree(server=server_type),
         dpf.core.StringField(server=server_type),
+        dpf.core.CustomTypeField(np.float, server=server_type),
     ] if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0 \
         else [
         1, 1.5, "hello", True,
@@ -1167,7 +1168,6 @@ def test_get_static_spec_operator(server_type_legacy_grpc):
     l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
     for i, name in enumerate(l):
         spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
-        print(name)
         assert len(spec.operator_name) > 0
         assert len(spec.inputs) > 0
         assert len(spec.description) > 0

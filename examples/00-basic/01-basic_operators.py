@@ -23,7 +23,7 @@ from ansys.dpf.core import examples
 ###############################################################################
 # Create a model object to establish a connection with an
 # example result file:
-model = dpf.Model(examples.static_rst)
+model = dpf.Model(examples.find_static_rst())
 print(model)
 
 ###############################################################################
@@ -102,8 +102,8 @@ print(model.metadata.meshed_region.plot(disp_op.outputs.fields_container()))
 ###############################################################################
 # Instead of using a ``model`` class instance, use a
 # ``DdataSources`` object directly. The ``DataSources`` constructor input is a path.
-ds = dpf.DataSources(examples.static_rst)
-print(examples.static_rst)
+ds = dpf.DataSources(examples.find_static_rst())
+print(examples.find_static_rst())
 
 ###############################################################################
 # Instantiate the operators and connect them:

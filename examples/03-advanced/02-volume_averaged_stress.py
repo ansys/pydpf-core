@@ -18,7 +18,7 @@ from ansys.dpf.core import operators as ops
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # The model provides easy access to the mesh and time frequency support.
 
-model = dpf.Model(examples.complex_rst)
+model = dpf.Model(examples.find_complex_rst())
 mesh = model.metadata.meshed_region
 
 # Volume size to check

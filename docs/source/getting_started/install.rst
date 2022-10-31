@@ -9,7 +9,7 @@ Install using ``pip``
 
 `pip <https://pypi.org/project/pip/>`_ is the package installer for Python.
 
-To use PyDPF-Core with Ansys 2021 R2 or later, install teh latest version
+To use PyDPF-Core with Ansys 2021 R2 or later, install the latest version
 with:
 
 .. code::
@@ -36,13 +36,13 @@ GitHub <https://github.com/pyansys/pydpf-post>`_ or
 Install for a quick tryout
 --------------------------
 
-For a quick tryou, use:
+For a quick tryout, use:
 
 .. code::
 
    from ansys.dpf.core import Model
    from ansys.dpf.core import examples
-   model = Model(examples.simple_bar)
+   model = Model(examples.find_simple_bar())
    print(model)
 
 

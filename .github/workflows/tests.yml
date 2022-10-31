@@ -1,0 +1,216 @@
+name: tests
+
+on:
+# Can be called by the CI
+  workflow_call:
+    inputs:
+      python_versions:
+        required: false
+        type: string
+        default: '["3.7"]'
+      ANSYS_VERSION:
+        required: false
+        type: string
+        default: "231"
+      wheel:
+        required: false
+        type: string
+        default: false
+      wheelhouse:
+        required: false
+        type: string
+        default: false
+      DOCSTRING:
+        required: false
+        type: string
+        default: true
+# Can be called manually
+  workflow_dispatch:
+    inputs:
+      python_versions:
+        description: "Python interpreters to test."
+        required: true
+        type: string
+        default: '["3.8", "3.9", "3.10"]'
+      ANSYS_VERSION:
+        description: "ANSYS version"
+        required: true
+        type: string
+        default: "231"
+      wheel:
+        description: "Generate a wheel"
+        required: false
+        type: string
+        default: 'false'
+      wheelhouse:
+        description: "Generate a wheelhouse"
+        required: false
+        type: string
+        default: 'false'
+      DOCSTRING:
+        description: "Whether to test docstrings"
+        required: false
+        type: string
+        default: 'true'
+
+env:
+  PACKAGE_NAME: ansys-dpf-core
+  MODULE: core
+  extra: "--find-links .github/"
+
+jobs:
+  setup:
+    name: "Setup"
+    runs-on: ubuntu-latest
+    outputs:
+      python_versions: ${{ steps.set_array.outputs.python_versions }}
+    steps:
+      - id: set_array
+        run: |
+          echo "python_versions=${{ inputs.python_versions }}" >> $GITHUB_OUTPUT
+
+  tests:
+    name: "Tests"
+    needs: setup
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
+        os: ["windows-latest", "ubuntu-latest"]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Build Package"
+        uses: pyansys/pydpf-actions/build_package@v2.2
+        with:
+          python-version: ${{ matrix.python-version }}
+          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+          wheel: ${{ inputs.wheel }}
+          wheelhouse: ${{ inputs.wheelhouse }}
+          extra-pip-args: ${{ env.extra }}
+
+      - name: "Install ansys-grpc-dpf==0.4.0"
+        if: inputs.ANSYS_VERSION == 221
+        shell: pwsh
+        run: |
+          pip install ansys-grpc-dpf==0.4.0
+
+      - name: "Prepare Testing Environment"
+        uses: pyansys/pydpf-actions/prepare_tests@v2.2
+        with:
+          DEBUG: true
+
+      - name: "Test Docstrings"
+        if: inputs.DOCSTRING == 'true'
+        uses: pyansys/pydpf-actions/test_docstrings@v2.2
+        with:
+          MODULE: ${{env.MODULE}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+
+      - name: "Separate long Core tests"
+        shell: pwsh
+        run: |
+          .github\workflows\scripts\separate_long_core_tests.ps1
+
+      - name: "Test API"
+        shell: bash
+        working-directory: tests
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Test API test_launcher"
+        shell: bash
+        working-directory: test_launcher
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Test API test_server"
+        shell: bash
+        working-directory: test_server
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Test API test_local_server"
+        shell: bash
+        working-directory: test_local_server
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Test API test_multi_server"
+        shell: bash
+        working-directory: test_multi_server
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Test API test_remote_workflow"
+        shell: bash
+        working-directory: test_remote_workflow
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Test API test_remote_operator"
+        shell: bash
+        working-directory: test_remote_operator
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Test API test_workflow"
+        shell: bash
+        working-directory: test_workflow
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Upload Test Results"
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}
+          path: tests/junit/test-results.xml
+        if: always()
+
+      - name: "Upload coverage to Codecov"
+        uses: codecov/codecov-action@v3

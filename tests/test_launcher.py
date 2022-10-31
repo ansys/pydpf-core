@@ -9,6 +9,9 @@ from ansys.dpf import core
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     DPF_SERVER_TYPE,
+    configsserver_type,
+    config_namesserver_type,
+    running_docker
 )
 
 
@@ -24,29 +27,8 @@ def test_start_local():
     assert starting_server == id(core.SERVER)
 
 
-server_configs = (
-    [
-        core.AvailableServerConfigs.InProcessServer,
-        core.AvailableServerConfigs.GrpcServer,
-        core.AvailableServerConfigs.LegacyGrpcServer,
-    ]
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
-    else [core.AvailableServerConfigs.LegacyGrpcServer]
-)
-
-server_configs_names = (
-    [
-        "InProcessServer",
-        "GrpcServer",
-        "LegacyGrpcServer",
-    ]
-    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
-    else ["LegacyGrpcServer"]
-)
-
-
 @pytest.mark.parametrize(
-    "server_config", server_configs, ids=server_configs_names, scope="class"
+    "server_config", configsserver_type, ids=config_namesserver_type, scope="class"
 )
 class TestServerConfigs:
     @pytest.fixture(scope="class", autouse=True)
@@ -63,34 +45,37 @@ class TestServerConfigs:
         reason="Ans.Dpf.Grpc.bat and .sh need AWP_ROOT221 for 221 install",
     )
     def test_start_local_custom_ansys_path(self, server_config):
-        ver_to_check = core._version.server_to_ansys_version[str(core.SERVER.version)]
+        ver_to_check = core._version.server_to_ansys_version[str(core.global_server().version)]
         ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
         awp_root_name = "AWP_ROOT" + ver_to_check
-        path = os.environ[awp_root_name]
-        try:
-            os.unsetenv(awp_root_name)
-        except:
-            del os.environ[awp_root_name]
+        path = os.environ.get(awp_root_name, None)
+        if path:
+            try:
+                os.unsetenv(awp_root_name)
+            except:
+                del os.environ[awp_root_name]
         try:
             server = core.start_local_server(
                 ansys_path=path,
-                use_docker_by_default=False,
                 config=server_config,
                 as_global=True,
             )
             assert isinstance(server.os, str)
-            if server_config != core.AvailableServerConfigs.InProcessServer:
+            if server_config != core.AvailableServerConfigs.InProcessServer and not running_docker:
                 p = psutil.Process(server.info["server_process_id"])
                 assert path in p.cwd()
-            os.environ[
-                awp_root_name
+            if path:
+                os.environ[
+                    awp_root_name
                 ] = path
         except Exception as e:
-            os.environ[
-                awp_root_name
+            if path:
+                os.environ[
+                    awp_root_name
                 ] = path
             raise e
 
+    @pytest.mark.skipif(running_docker, reason="AWP ROOT is not set with Docker")
     def test_start_local_no_ansys_path(self, server_config):
         server = core.start_local_server(
             use_docker_by_default=False, config=server_config, as_global=False
@@ -112,23 +97,23 @@ class TestServerConfigs:
         ver_to_check = core._version.server_to_ansys_version[str(core.SERVER.version)]
         ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
         awp_root_name = "AWP_ROOT" + ver_to_check
-        awp_root = os.environ[
-            awp_root_name
-            ]
+        awp_root = os.environ.get(
+            awp_root_name, None
+        )
         try:
-            os.environ["ANSYS_DPF_PATH"] = awp_root
-            try:
-                os.unsetenv(awp_root_name)
-            except:
-                del os.environ[
-                    awp_root_name
+            if awp_root:
+                os.environ["ANSYS_DPF_PATH"] = awp_root
+                try:
+                    os.unsetenv(awp_root_name)
+                except:
+                    del os.environ[
+                        awp_root_name
                     ]
-            server = core.start_local_server(
-                use_docker_by_default=False, config=server_config
-            )
+            server = core.start_local_server(config=server_config)
             assert isinstance(server.os, str)
-            os.environ[
-                awp_root_name
+            if awp_root:
+                os.environ[
+                    awp_root_name
                 ] = awp_root
             try:
                 os.unsetenv("ANSYS_DPF_PATH")
@@ -138,13 +123,14 @@ class TestServerConfigs:
         except Exception as e:
             os.environ[
                 awp_root_name
-                ] = awp_root
+            ] = awp_root
             try:
                 os.unsetenv("ANSYS_DPF_PATH")
             except:
                 del os.environ["ANSYS_DPF_PATH"]
             raise e
 
+    @pytest.mark.skipif(running_docker, reason="Not made to work on docker")
     def test_start_local_wrong_ansys_path(self, server_config):
         if server_config != core.AvailableServerConfigs.InProcessServer:
             try:
@@ -185,8 +171,8 @@ class TestServerConfigs:
             if process.returncode is not None:
                 raise Exception(errors)
 
-    @staticmethod
-    def test_launch_server_full_path(server_config):
+    @pytest.mark.skipif(running_docker, reason="Not made to work on docker")
+    def test_launch_server_full_path(self, server_config):
         ansys_path = os.environ.get(
             "AWP_ROOT" + core.misc.__ansys_version__, core.misc.find_ansys()
         )
@@ -210,6 +196,7 @@ class TestServerConfigs:
         assert "server_port" in server.info
 
 
+@pytest.mark.skipif(running_docker, reason="Not made to work on docker")
 def test_start_local_failed_executable(remote_config_server_type):
     from ansys.dpf.core.misc import get_ansys_path
     from pathlib import Path
@@ -217,6 +204,22 @@ def test_start_local_failed_executable(remote_config_server_type):
     with pytest.raises(FileNotFoundError):
         path = Path(get_ansys_path()).parent.absolute()
         core.start_local_server(ansys_path=path, config=remote_config_server_type)
+
+
+@pytest.mark.skipif(not running_docker, reason="Checks docker start server")
+def test_start_docker_without_awp_root(restore_awp_root, server_clayer_remote_process):
+    ver_to_check = core._version.server_to_ansys_version[str(server_clayer_remote_process.version)]
+    ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
+    awp_root_name = "AWP_ROOT" + ver_to_check
+    # delete awp_root
+    if os.environ.get(awp_root_name, None):
+        del os.environ[awp_root_name]
+
+    serv = core.start_local_server(
+        as_global=False
+    )
+
+    assert serv.ip is not None
 
 
 def test_server_ip(server_type_remote_process):
@@ -241,7 +244,7 @@ def test_start_with_dpf_server_type_env():
             "Fixture is not correctly working"
         )  # a specific case is already set to run the unit tests
     else:
-        if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+        if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 and not running_docker:
             # test for v222 and higher
             os.environ[dpf_server_type_str] = "GRPC"
             my_serv = core.start_local_server(as_global=False)
@@ -260,6 +263,19 @@ def test_start_with_dpf_server_type_env():
             os.environ[dpf_server_type_str] = "bla"
             with pytest.raises(NotImplementedError):
                 my_serv_3 = core.start_local_server(as_global=False)
+
+            del os.environ[dpf_server_type_str]
+        elif running_docker:
+            # test for v221 and lower
+            os.environ[dpf_server_type_str] = "GRPC"
+            my_serv = core.start_local_server(as_global=False)
+            assert isinstance(my_serv, core.server_types.GrpcServer)
+            my_serv.shutdown()
+
+            os.environ[dpf_server_type_str] = "LEGACYGRPC"
+            my_serv_2 = core.start_local_server(as_global=False)
+            assert isinstance(my_serv_2, core.server_types.LegacyGrpcServer)
+            my_serv_2.shutdown()
 
             del os.environ[dpf_server_type_str]
         else:

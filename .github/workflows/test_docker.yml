@@ -1,0 +1,118 @@
+name: tests
+
+on:
+# Can be called by the CI
+  workflow_call:
+# Can be called manually
+  workflow_dispatch:
+
+env:
+  PACKAGE_NAME: ansys-dpf-core
+  MODULE: core
+  extra: "--find-links .github/"
+  ANSYS_VERSION: 231
+
+jobs:
+  docker_tests:
+    name: "Build and Test On Docker"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8"]
+        os: ["ubuntu-latest"]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Build Docker Package"
+        uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@v2.2
+        with:
+          python-version: ${{ matrix.python-version }}
+          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+          wheelhouse: false
+          extra-pip-args: ${{ env.extra }}
+
+      - name: "Prepare Testing Environment"
+        uses: pyansys/pydpf-actions/prepare_tests@v2.2
+        with:
+          DEBUG: true
+
+      - name: "Separate long Core tests"
+        shell: pwsh
+        run: |
+          .github\workflows\scripts\separate_long_core_tests.ps1
+
+      - name: "Test API"
+        shell: bash
+        working-directory: tests
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
+        timeout-minutes: 20
+
+      - name: "Test API test_launcher"
+        shell: bash
+        working-directory: test_launcher
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+        if: always()
+        timeout-minutes: 20
+
+      - name: "Test API test_server"
+        shell: bash
+        working-directory: test_server
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
+        if: always()
+        timeout-minutes: 10
+
+      - name: "Test API test_local_server"
+        shell: bash
+        working-directory: test_local_server
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
+        if: always()
+        timeout-minutes: 20
+
+      - name: "Test API test_multi_server"
+        shell: bash
+        working-directory: test_multi_server
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
+        timeout-minutes: 20
+
+      - name: "Test API test_remote_workflow"
+        shell: bash
+        working-directory: test_remote_workflow
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
+        timeout-minutes: 20
+
+      - name: "Test API test_remote_operator"
+        shell: bash
+        working-directory: test_remote_operator
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
+        timeout-minutes: 5
+
+      - name: "Test API test_workflow"
+        shell: bash
+        working-directory: test_workflow
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
+        if: always()
+        timeout-minutes: 20
+
+      - name: "Upload Test Results"
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ env.ANSYS_VERSION }}_docker
+          path: tests/junit/test-results.xml
+        if: always()
+
+      - name: "Upload coverage to Codecov"
+        uses: codecov/codecov-action@v3

@@ -1,23 +1,45 @@
 name: PyDPF-Post testing
 
 on:
+# Can be called by the CI
+  workflow_call:
+    inputs:
+      PyDPF-Post_branch:
+        default: ''
+        type: string
+      ANSYS_VERSION:
+        required: false
+        type: string
+        default: "231"
+    secrets:
+      DPF_PIPELINE:
+        required: true
+# Can be called manually
   workflow_dispatch:
     inputs:
       PyDPF-Post_branch:
-        description: 'PyDPF-Post branch to test'
-        required: true
-        default: 'master'
+        description: 'PyDPF-Post branch or tag to test. Leave empty to get latest tagged version'
+        default: ''
         type: string
+      ANSYS_VERSION:
+        description: "ANSYS version"
+        required: true
+        type: string
+        default: "231"
 
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  ANSYS_VERSION: 231
+  extra: "--find-links .github/"
 
 jobs:
   Clone_and_Test:
     name: Clone and Test
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["windows-latest", "ubuntu-latest"]
 
     steps:
       - uses: actions/checkout@v3
@@ -28,51 +50,62 @@ jobs:
           python-version: "3.8"
 
       - name: "Build Core Package"
-        uses: pyansys/pydpf-actions/build_package@v2.2.dev1
+        uses: pyansys/pydpf-actions/build_package@v2.2
         with:
           python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
+          wheel: false
           wheelhouse: false
           extra-pip-args: ${{ env.extra }}
 
       - name: "Clone PyDPF-Post"
+        shell: bash
         run: |
-          $BranchName = ${{ inputs.PyDPF-Post_branch }}
-          git clone --branch "$BranchName" --single-branch https://${{secrets.pydpf-post-TOKEN}}@github.com/pyansys/pydpf-post
-        shell: pwsh
+          REPO="https://github.com/pyansys/pydpf-post.git"
+          in=""
+          if ["$in" = ""];
+          then
+              BranchName=$(git ls-remote --tags --refs $REPO | tail -n1 | cut -d/ -f3)
+          else
+              BranchName=$in
+          fi
+          git clone $REPO --single-branch --branch $BranchName
 
       - name: "Install PyDPF-Post"
+        shell: bash
         run: |
-          cd pydpf-post/
+          cd pydpf-post
           pip install .
-        shell: pwsh
+          ls
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.2.dev1
+        uses: pyansys/pydpf-actions/prepare_tests@v2.2
         with:
           DEBUG: true
+          working-directory: pydpf-post
 
       - name: "Test Docstrings"
-        uses: pyansys/pydpf-actions/test_docstrings@v2.2.dev1
+        uses: pyansys/pydpf-actions/test_docstrings@v2.2
         with:
           MODULE: post
           PACKAGE_NAME: ansys-dpf-post
+          working-directory: pydpf-post/src
 
       - name: "Test API"
         shell: bash
-        working-directory: tests
+        working-directory: pydpf-post/tests
         run: |
           pytest $DEBUG --cov=ansys.dpf.post --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results-post.xml --reruns 2 .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2.dev1
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v2
         with:
           name: ansys-dpf-post_pytest
-          path: tests/junit/test-results-post.xml
+          path: pydpf-post/tests/junit/test-results-post.xml

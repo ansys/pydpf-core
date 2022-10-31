@@ -64,17 +64,6 @@ def test_check_server_version_checkversion(multishells):
         check_version.server_meet_version_and_raise(v_up_patch, server)
 
 
-def test_version_tuple():
-    t1 = "2.0.0"
-    t1_check = 2, 0, 0
-    t1_get = check_version.version_tuple(t1)
-    assert t1_get == t1_check
-    t2 = "2.0"
-    t2_check = 2, 0, 0
-    t2_get = check_version.version_tuple(t2)
-    assert t2_get == t2_check
-
-
 def test_meets_version():
     # first is server version, second is version to meet
     assert check_version.meets_version("1.32.0", "1.31.0")

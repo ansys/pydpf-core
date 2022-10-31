@@ -66,8 +66,9 @@ class _PyVistaAnimator(_PyVistaPlotter):
         if cpos:
             if isinstance(cpos[0][0], float):
                 cpos = [cpos]*len(indices)
+        str_template = "t={0:{2}} {1}"
 
-        def render_field(frame):
+        def render_frame(frame):
             self._plotter.clear()
             # print(f"render frame {frame} for input {indices[frame]}")
             workflow.connect(input_name, [frame])
@@ -80,39 +81,51 @@ class _PyVistaAnimator(_PyVistaPlotter):
                            **kwargs)
             kwargs_in = _sort_supported_kwargs(
                 bound_method=self._plotter.add_text, **freq_kwargs)
-            str_template = "t={0:{2}} {1}"
             self._plotter.add_text(str_template.format(loop_over.data[frame], unit, freq_fmt),
                                    **kwargs_in)
             if cpos:
                 self._plotter.camera_position = cpos[frame]
 
         try:
-            # Write initial frame
-            render_field(0)
-            # If not off_screen, enable the user to choose the camera position
-            if not kwargs.pop("off_screen", None):
-                print('Orient the view, then press "q" to close the window '
-                      'and produce an animation')
-            # Show is necessary even when off_screen to initiate the renderer
-            result = self.show_figure(auto_close=False, **kwargs)
-            if save_as:
-                try:
-                    self._plotter.write_frame()
-                except AttributeError as e:  # pragma: no cover
-                    if "To retrieve an image after the render window has been closed" in e.args[0]:
-                        print("Animation canceled.")
-                        return result
-            # For each additional frame requested
-            if len(indices) > 1:
-                for frame in range(1, len(indices)):
+            def animation():
+                if save_as:
                     try:
-                        render_field(frame)
-                    except AttributeError as e:  # pragma: no cover
-                        if "'NoneType' object has no attribute 'interactor'" in e.args[0]:
-                            print("Animation canceled.")
-                            return result
-                    if save_as:
                         self._plotter.write_frame()
+                    except AttributeError as e:  # pragma: no cover
+                        if "To retrieve an image after the render window has been closed" \
+                                in e.args[0]:
+                            print("Animation canceled.")
+                            print(e)
+                            return result
+                # For each additional frame requested
+                if len(indices) > 1:
+                    for frame in range(1, len(indices)):
+                        try:
+                            render_frame(frame)
+                        except AttributeError as e:  # pragma: no cover
+                            if "'NoneType' object has no attribute 'interactor'" in e.args[0]:
+                                print("Animation canceled.")
+                                return result
+                        if save_as:
+                            self._plotter.write_frame()
+
+            # Write initial frame
+            render_frame(0)
+            # If not off_screen, enable the user to choose the camera position
+            off_screen = kwargs.pop("off_screen", None)
+            if off_screen is None:
+                import pyvista as pv
+                off_screen = pv.OFF_SCREEN
+
+            if not off_screen:
+                self._plotter.add_key_event("a", animation)
+                print('Orient the view, then press "a" to produce an animation')
+            else:
+                animation()
+            # Show is necessary even when off_screen to initiate the renderer
+            result = self._plotter.show(interactive=True)
+            # result = self.show_figure(auto_close=False, **kwargs)
+            # result = self._plotter.show()
         except Exception as e:  # pragma: no cover
             print(e)
             raise

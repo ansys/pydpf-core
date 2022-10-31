@@ -4,7 +4,7 @@ from enum import Enum
 from ansys.dpf.core import (
     field, property_field, scoping, collection, data_sources, meshed_region, time_freq_support, \
     workflow, data_tree, dpf_operator, fields_container, scopings_container, \
-    meshes_container, result_info, string_field
+    meshes_container, result_info, string_field, custom_type_field
 )
 
 external_operator_api = external_operator_capi.ExternalOperatorCAPI
@@ -33,6 +33,8 @@ _type_to_output_method = [
     (workflow.Workflow, external_operator_api.external_operator_put_out_workflow),
     (data_tree.DataTree, external_operator_api.external_operator_put_out_data_tree),
     (dpf_operator.Operator, external_operator_api.external_operator_put_out_operator),
+    (custom_type_field.CustomTypeField,
+     external_operator_api.external_operator_put_out_custom_type_field),
 ]
 
 _type_to_input_method = [
@@ -45,6 +47,8 @@ _type_to_input_method = [
      "property_field"),
     (string_field.StringField, external_operator_api.external_operator_get_in_string_field,
      "string_field"),
+    (custom_type_field.CustomTypeField,
+     external_operator_api.external_operator_get_in_custom_type_field, "field"),
     (scoping.Scoping, external_operator_api.external_operator_get_in_scoping,
      "scoping"),
     (fields_container.FieldsContainer,

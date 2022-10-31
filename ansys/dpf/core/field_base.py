@@ -38,12 +38,7 @@ class _FieldBase:
         self._api_instance = None  # see property self._api
 
         # step3: init environment
-        if hasattr(self._api, "init_property_field_environment"):
-            self._api.init_property_field_environment(self)  # creates stub when gRPC
-        elif hasattr(self._api, "init_field_environment"):
-            self._api.init_field_environment(self)  # creates stub when gRPC
-        else:
-            self._api.init_string_field_environment(self)
+        self._init_api_env()
 
         # step4: if object exists, take the instance, else create it
         if field is not None:
@@ -65,7 +60,13 @@ class _FieldBase:
                 client=self._server.client,
                 nature=nature,
                 nentities=nentities,
-                location=location)
+                location=location,
+                with_type=self._type if hasattr(self, "_type") else None
+            )
+
+    @abstractmethod
+    def _init_api_env(self):
+        pass
 
     @property
     @abstractmethod
@@ -74,8 +75,10 @@ class _FieldBase:
 
     @staticmethod
     @abstractmethod
-    def _field_create_internal_obj(api: field_abstract_api.FieldAbstractAPI, client, nature,
-                                   nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0):
+    def _field_create_internal_obj(
+            api: field_abstract_api.FieldAbstractAPI, client, nature,
+            nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0, with_type=None
+    ):
         """Returns a gRPC field message or C object instance of a new field.
         This new field is created with this functions parameter attributes
 
@@ -600,7 +603,7 @@ class _LocalFieldBase(_FieldBase):
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.static_rst)
+        >>> model = dpf.Model(examples.find_static_rst())
         >>> stress_op = model.results.stress()
         >>> fields_container = stress_op.outputs.fields_container()
         >>> with fields_container[0].as_local_field() as f:
