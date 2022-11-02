@@ -302,7 +302,7 @@ def test_load_api_without_awp_root(restore_awp_root):
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     serv = dpf.core.connect_to_server(
-        config=conf, as_global=False, ip=loc_serv.ip, port=loc_serv.port
+        config=conf, as_global=False, ip=loc_serv.external_ip, port=loc_serv.external_port
     )
 
     assert serv._client_api_path is not None
