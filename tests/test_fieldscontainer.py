@@ -337,6 +337,7 @@ def test_light_copy(server_type):
     assert fc2[0] != None
 
 
+@pytest.mark.slow
 def test_el_shape_fc(allkindofcomplexity):
     model = dpf.Model(allkindofcomplexity)
     fc = model.results.stress.split_by_shape.eval()
