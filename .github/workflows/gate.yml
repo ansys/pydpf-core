@@ -1,0 +1,122 @@
+name: gate
+
+on:
+# Can be called by the CI
+  workflow_call:
+    inputs:
+      python_versions:
+        required: false
+        type: string
+        default: '["3.7"]'
+      ANSYS_VERSION:
+        required: false
+        type: string
+        default: "231"
+# Can be called manually
+  workflow_dispatch:
+    inputs:
+      python_versions:
+        description: "Python interpreters to test."
+        required: true
+        type: string
+        default: '["3.7"]'
+      ANSYS_VERSION:
+        description: "ANSYS version"
+        required: true
+        type: string
+        default: "231"
+
+env:
+  PACKAGE_NAME: ansys-dpf-core
+  MODULE: core
+  extra: "--find-links .github/"
+
+jobs:
+  Gate:
+    name: "Gate"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ${{ inputs.python_versions }}
+        os: ["windows-latest", "ubuntu-latest"]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.2.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: "Build Package"
+        uses: pyansys/pydpf-actions/build_package@v2.2
+        with:
+          python-version: ${{ matrix.python-version }}
+          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+          wheelhouse: false
+          wheel: false
+          extra-pip-args: ${{ env.extra }}
+
+      - name: "Setup headless display"
+        uses: pyvista/setup-headless-display-action@v1
+
+      - name: "Check examples with gatebin"
+        shell: bash
+        working-directory: .ci
+        run: |
+          echo on
+          python run_examples.py
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Uninstall gatebin"
+        shell: bash
+        run: |
+          pip uninstall -y ansys-dpf-gatebin
+        if: always()
+
+      - name: "Check sanity without gatebin INPROCESS"
+        shell: bash
+        working-directory: .ci
+        run: |
+          python run_non_regression_examples.py
+        env:
+          DPF_SERVER_TYPE: INPROCESS
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Check sanity without gatebin GRPC"
+        shell: bash
+        working-directory: .ci
+        run: |
+          python run_non_regression_examples.py
+        env:
+          DPF_SERVER_TYPE: GRPC
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Check sanity without gatebin LEGACYGRPC"
+        shell: bash
+        working-directory: .ci
+        run: |
+          python run_non_regression_examples.py
+        env:
+          DPF_SERVER_TYPE: LEGACYGRPC
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
