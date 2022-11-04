@@ -17,7 +17,7 @@ from ansys.dpf.core.misc import is_ubuntu, get_ansys_path
 from ansys.dpf.core import errors
 
 from ansys.dpf.core.server_factory import ServerConfig, ServerFactory, CommunicationProtocols
-from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER, LOG
+from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER
 
 
 def shutdown_global_server():
