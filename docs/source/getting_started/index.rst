@@ -16,5 +16,5 @@ visit the `Ansys website <https://www.ansys.com/>`_.
    install
    dependencies
    docker
-   getting_started_with_dpf_server
+   GettingStartedWithDPFServer
 
