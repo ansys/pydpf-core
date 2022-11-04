@@ -6,7 +6,6 @@ from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 from ansys.dpf import core as dpf
 import conftest
 from ansys.dpf.core.errors import DPFServerException
-from ansys.dpf.core import server_types
 from ansys.dpf.core.operator_specification import (
     CustomSpecification,
     SpecificationProperties,
