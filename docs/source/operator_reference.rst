@@ -6,21 +6,8 @@ Operators
 
 Loading operators.
 
-.. raw:: html
+.. toctree::
+   :maxdepth: 2
 
-    <iframe
-      src="_static/dpf.html#CPython"
-      style="
-        position: fixed;
-        top: 36px;
-        bottom: 0px;
-        right: 0px;
-        width: 100%;
-        border: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        z-index: 1000;
-        height: 100%;
-      ">
-    </iframe>
+   operator_reference_entry
+   operator_reference_premium
