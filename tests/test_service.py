@@ -465,7 +465,7 @@ def clean_up(request):
 @conftest.raises_for_servers_version_under("4.0")
 def test_apply_context(clean_up):
     # Carefully: this test only work if the premium context has never been applied before on the
-    # in process server.
+    # in process server, otherwise premium operators will already be loaded.
     dpf.core.server.shutdown_all_session_servers()
     dpf.core.SERVER_CONFIGURATION = dpf.core.AvailableServerConfigs.InProcessServer
 
