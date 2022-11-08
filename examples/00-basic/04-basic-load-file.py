@@ -1,3 +1,4 @@
+# noqa: D400
 """
 .. _ref_basic_load_file_example:
 
@@ -87,9 +88,16 @@ os.remove(downloaded_client_file_path)
 ###############################################################################
 # Make operations over the imported fields container
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Use this fields container:
+# Use this fields container to get the minimum displacement:
 
 min_max_op = dpf.operators.min_max.min_max_fc()
 min_max_op.inputs.fields_container.connect(downloaded_fc_out)
 min_field = min_max_op.outputs.field_min()
 min_field.data
+
+###############################################################################
+# Make sure that the original and the downloaded fields container are the same
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Subtract the two fields and plot an error map:
+error = fc_out - downloaded_fc_out
+mesh.plot(error.eval())
