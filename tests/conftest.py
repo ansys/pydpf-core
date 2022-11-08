@@ -446,5 +446,5 @@ def count_servers(request):
 core.server.shutdown_all_session_servers()
 try:
     core.apply_server_context(core.AvailableServerContexts.premium)
-except core.errors.DPFServerException:
+except core.errors.DpfVersionNotSupported:
     pass
