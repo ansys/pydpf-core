@@ -5,7 +5,6 @@ from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core.errors import ServerTypeError
 from ansys.dpf.core import operators as ops
-from ansys.dpf.core.check_version import meets_version, get_server_version
 from conftest import local_servers, running_docker
 import conftest
 

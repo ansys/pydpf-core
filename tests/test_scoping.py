@@ -9,10 +9,6 @@ from ansys.dpf.core import Scoping
 from ansys.dpf.core import errors as dpf_errors
 
 
-
-# serv.shutdown()
-
-
 def test_create_scoping():
     scop = Scoping()
     assert scop._internal_obj
@@ -43,7 +39,8 @@ def test_set_get_ids_scoping(server_type):
 
 
 @pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0, reason="Requires server version higher than 2.0"
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0,
+    reason="Requires server version higher than 2.0"
 )
 def test_set_get_ids_long_scoping():
     scop = Scoping()
@@ -169,7 +166,8 @@ def test_throw_if_unsufficient_version():
 
 
 @pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0, reason="Requires server version higher than 2.0"
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0,
+    reason="Requires server version higher than 2.0"
 )
 def test_field_with_scoping_many_ids(allkindofcomplexity, server_type):
     # set scoping ids with a scoping created from a model

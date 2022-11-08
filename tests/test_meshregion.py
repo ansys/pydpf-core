@@ -5,8 +5,6 @@ import vtk
 from ansys import dpf
 import conftest
 
-from ansys.dpf.core.check_version import meets_version
-
 
 @pytest.fixture()
 def simple_bar_model(simple_bar, server_type):

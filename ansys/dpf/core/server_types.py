@@ -768,7 +768,6 @@ class InProcessServer(CServer):
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load DataProcessingCore
         from ansys.dpf.gate.utils import data_processing_core_load_api
-        from ansys.dpf.gate import data_processing_capi
         name = "DataProcessingCore"
         path = _get_dll_path(name, ansys_path)
         try:
@@ -783,6 +782,9 @@ class InProcessServer(CServer):
         try:
             self._base_service.apply_context(server_context.SERVER_CONTEXT)
         except errors.DpfVersionNotSupported:
+            self._base_service.initialize_with_context(
+                server_context.AvailableServerContexts.premium
+            )
             pass
 
     @property

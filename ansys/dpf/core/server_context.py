@@ -10,7 +10,7 @@ from enum import Enum
 
 class EContextType(Enum):
     pre_defined_environment = 0
-    """DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will 
+    """DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will
     be taken"""
     premium = 1
     """Gets the Specific premium DataProcessingCore.xml."""
@@ -56,10 +56,10 @@ class ServerContext:
 
 class AvailableServerContexts:
     pre_defined_environment = ServerContext(EContextType.pre_defined_environment)
-    """DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will 
+    """DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will
     be taken"""
     premium = ServerContext(EContextType.premium)
-    """Gets the Specific premium DataProcessingCore.xml to load most plugins with their 
+    """Gets the Specific premium DataProcessingCore.xml to load most plugins with their
     environments."""
     custom_defined = ServerContext(EContextType.custom_defined)
     """Loads the xml named "DpfCustomDefined.xml" that the user can modify."""

@@ -1,5 +1,3 @@
-import os
-
 import pytest
 
 from ansys.dpf import core as dpf
