@@ -472,6 +472,8 @@ def test_apply_context(set_context_back_to_premium):
     if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
         with pytest.raises(KeyError):
             dpf.core.Operator("core::field::high_pass")
+    else:
+        dpf.core.start_local_server()
 
     dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium, dpf.core.SERVER)
     dpf.core.Operator("core::field::high_pass")
