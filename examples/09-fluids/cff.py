@@ -1,8 +1,7 @@
 import os
+
 from ansys.dpf import core as dpf
-
 from ansys.dpf.core.dpf_operator import available_operator_names
-
 
 # WARNING: For this script to work as intended one needs the CFF plugin installed
 
@@ -13,9 +12,11 @@ cff_operators = [operator for operator in available_operators if "cff::" in oper
 print(cff_operators)
 
 # Define where the Polys.cas.h5 file can be found locally.
-data_path = r"D:\ANSYSDev\Sandbox\cff\Ans.Dpf.CFF\Ans.Dpf.CFFTest\test_models\fluent\3D"
-cas_path = os.path.join(data_path, r"Polys\Polys.cas.h5")
+data_path = r"C:\Users\gbarroso\repos\pydpf-core\examples\09-fluids"
+cas_path = os.path.join(data_path, r"Polys.cas.h5")
 dat_path = cas_path
+print(data_path)
+print(dat_path)
 
 # Create the DataSources.
 ds = dpf.DataSources()
