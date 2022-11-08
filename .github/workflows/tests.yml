@@ -69,7 +69,7 @@ jobs:
     steps:
       - id: set_array
         run: |
-          echo "python_versions=${{ inputs.python_versions }}" >> $GITHUB_OUTPUT
+          echo "python_versions=${{ toJSON(inputs.python_versions) }}" >> $GITHUB_OUTPUT
 
   tests:
     name: "Tests"
