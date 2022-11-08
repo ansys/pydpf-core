@@ -709,11 +709,11 @@ class GrpcServer(CServer):
     @property
     def external_ip(self):
         """Public IP address of the server.
-        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.ip` in all cases except
+        Is the same as  :func:`ansys.dpf.core.GrpcServer.ip` in all cases except
         for servers using a gateway:
         for example, servers running in Docker Images might have an internal
-        :func:`ansys.dpf.core.LegacyGrpcServer.ip` different from the public
-        :func:`ansys.dpf.core.LegacyGrpcServer.external_ip`, the latter should be used to get
+        :func:`ansys.dpf.core.GrpcServer.ip` different from the public
+        :func:`ansys.dpf.core.GrpcServer.external_ip`, the latter should be used to get
         connected to the server from outside the Docker Image.
 
         Returns
@@ -725,11 +725,11 @@ class GrpcServer(CServer):
     @property
     def external_port(self):
         """Public Port of the server.
-        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.port` in all cases except
+        Is the same as  :func:`ansys.dpf.core.GrpcServer.port` in all cases except
         for servers using a gateway:
         for example, servers running in Docker Images might have an internal
-        :func:`ansys.dpf.core.LegacyGrpcServer.port` different from the public
-        :func:`ansys.dpf.core.LegacyGrpcServer.external_port`, the latter should be used to get
+        :func:`ansys.dpf.core.GrpcServer.port` different from the public
+        :func:`ansys.dpf.core.GrpcServer.external_port`, the latter should be used to get
         connected to the server from outside the Docker Image.
 
         Returns
