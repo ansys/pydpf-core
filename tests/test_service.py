@@ -447,7 +447,7 @@ def set_context_back_to_premium(request):
     dpf.core.server.shutdown_all_session_servers()
     try:
         dpf.core.apply_server_context(dpf.core.AvailableServerContexts.entry)
-    except dpf.core.errors.DPFServerException:
+    except dpf.core.errors.DpfVersionNotSupported:
         pass
 
     def revert():
@@ -455,7 +455,7 @@ def set_context_back_to_premium(request):
         dpf.core.server.shutdown_all_session_servers()
         try:
             dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium)
-        except dpf.core.errors.DPFServerException:
+        except dpf.core.errors.DpfVersionNotSupported:
             pass
 
     request.addfinalizer(revert)
