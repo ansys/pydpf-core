@@ -462,8 +462,10 @@ def test_apply_context(clean_up):
     # in process server.
     dpf.core.server.shutdown_all_session_servers()
     dpf.core.SERVER_CONFIGURATION = dpf.core.AvailableServerConfigs.InProcessServer
-    with pytest.raises(KeyError):
-        dpf.core.Operator("core::field::high_pass")
+
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+        with pytest.raises(KeyError):
+            dpf.core.Operator("core::field::high_pass")
 
     dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium, dpf.core.SERVER)
     dpf.core.Operator("core::field::high_pass")
@@ -474,8 +476,9 @@ def test_apply_context(clean_up):
 def test_apply_context_remote(remote_config_server_type, clean_up):
     dpf.core.server.shutdown_all_session_servers()
     dpf.core.SERVER_CONFIGURATION = remote_config_server_type
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.Operator("core::field::high_pass")
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+        with pytest.raises(dpf.core.errors.DPFServerException):
+            dpf.core.Operator("core::field::high_pass")
 
     dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium, dpf.core.SERVER)
     dpf.core.Operator("core::field::high_pass")
