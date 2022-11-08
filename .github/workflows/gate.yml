@@ -32,13 +32,24 @@ env:
   extra: "--find-links .github/"
 
 jobs:
+  setup:
+    name: "Setup"
+    runs-on: ubuntu-latest
+    outputs:
+      python_versions: ${{ steps.set_array.outputs.python_versions }}
+    steps:
+      - id: set_array
+        run: |
+          echo "python_versions=${{ inputs.python_versions }}" >> $GITHUB_OUTPUT
+
   Gate:
     name: "Gate"
+    needs: setup
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ${{ inputs.python_versions }}
+        python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
         os: ["windows-latest", "ubuntu-latest"]
 
     steps:
