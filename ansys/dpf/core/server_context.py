@@ -67,7 +67,7 @@ SERVER_CONTEXT = AvailableServerContexts.entry
 
 
 def apply_server_context(context=AvailableServerContexts.entry, server=None) -> None:
-    """Allows to apply a complex globally (if no server is specified) or to a
+    """Allows to apply a context globally (if no server is specified) or to a
     given server.
     When called before any server is started, the context will be applied to the next servers.
 
