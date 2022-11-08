@@ -462,7 +462,7 @@ def set_context_back_to_premium(request):
 
 
 @pytest.mark.order(1)
-@conftest.raises_for_servers_version_under("4.0")
+@conftest.raises_for_servers_version_under("6.0")
 def test_apply_context(set_context_back_to_premium):
     # Carefully: this test only work if the premium context has never been applied before on the
     # in process server, otherwise premium operators will already be loaded.
