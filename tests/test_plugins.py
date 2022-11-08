@@ -5,17 +5,7 @@ import pytest
 from ansys.dpf import core as dpf
 
 
-def try_load_cff_operators():
-    try:
-        if os.name == "posix":
-            return False
-        dpf.load_library("Ans.Dpf.CFF.dll", "cff")
-        return True
-    except:
-        return False
-    # TODO: add loading for linux
-
-
+@pytest.fixture()
 def try_load_lsdyna_operators():
     try:
         dpf.load_library("Ans.Dpf.LSDYNA.dll", "lsdyna")
@@ -25,6 +15,7 @@ def try_load_lsdyna_operators():
         return False
 
 
+@pytest.fixture()
 def test_lsdyna(d3plot, try_load_lsdyna_operators):
     dpf.load_library("Ans.Dpf.LSDYNA.dll", "lsdyna")
     ds = dpf.DataSources()
