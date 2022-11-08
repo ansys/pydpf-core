@@ -25,10 +25,6 @@ class EContextType(Enum):
 class ServerContext:
     """The context allows to choose which capabilities are available server side.
 
-    The default parameters can be overwritten using the DPF_SERVER_TYPE environment
-    variable. DPF_SERVER_TYPE=INPROCESS, DPF_SERVER_TYPE=GRPC,
-    DPF_SERVER_TYPE=LEGACYGRPC can be used.
-
     Parameters
     ----------
     context_type : EContextType
