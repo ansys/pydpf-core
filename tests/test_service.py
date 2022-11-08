@@ -441,7 +441,7 @@ def test_load_api_with_awp_root_2_no_gatebin():
 
 
 @pytest.fixture(autouse=False, scope="function")
-def clean_up(request):
+def set_context_back_to_premium(request):
     """Count servers once we are finished."""
 
     dpf.core.server.shutdown_all_session_servers()
@@ -463,7 +463,7 @@ def clean_up(request):
 
 @pytest.mark.order(1)
 @conftest.raises_for_servers_version_under("4.0")
-def test_apply_context(clean_up):
+def test_apply_context(set_context_back_to_premium):
     # Carefully: this test only work if the premium context has never been applied before on the
     # in process server, otherwise premium operators will already be loaded.
     dpf.core.server.shutdown_all_session_servers()
@@ -479,7 +479,7 @@ def test_apply_context(clean_up):
 
 @pytest.mark.order(2)
 @conftest.raises_for_servers_version_under("6.0")
-def test_apply_context_remote(remote_config_server_type, clean_up):
+def test_apply_context_remote(remote_config_server_type, set_context_back_to_premium):
     dpf.core.server.shutdown_all_session_servers()
     dpf.core.SERVER_CONFIGURATION = remote_config_server_type
     if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
