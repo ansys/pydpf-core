@@ -3,13 +3,11 @@ import pytest
 
 from ansys import dpf
 import conftest
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0
 import copy
 from ansys.dpf.core import Scoping
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core.check_version import meets_version, get_server_version
 
-serv = dpf.core.start_local_server("127.0.0.1", 50075)
-SERVER_VERSION_HIGHER_THAN_2_0 = meets_version(get_server_version(serv), "2.1")
 
 
 # serv.shutdown()
@@ -45,7 +43,7 @@ def test_set_get_ids_scoping(server_type):
 
 
 @pytest.mark.skipif(
-    not SERVER_VERSION_HIGHER_THAN_2_0, reason="Requires server version higher than 2.0"
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0, reason="Requires server version higher than 2.0"
 )
 def test_set_get_ids_long_scoping():
     scop = Scoping()
@@ -153,7 +151,7 @@ def test_delete_auto_scoping(server_type):
 
 
 @pytest.mark.skipif(
-    SERVER_VERSION_HIGHER_THAN_2_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0,
     reason="Requires server version below (or equal) than 2.0",
 )
 def test_throw_if_unsufficient_version():
@@ -171,7 +169,7 @@ def test_throw_if_unsufficient_version():
 
 
 @pytest.mark.skipif(
-    not SERVER_VERSION_HIGHER_THAN_2_0, reason="Requires server version higher than 2.0"
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0, reason="Requires server version higher than 2.0"
 )
 def test_field_with_scoping_many_ids(allkindofcomplexity, server_type):
     # set scoping ids with a scoping created from a model

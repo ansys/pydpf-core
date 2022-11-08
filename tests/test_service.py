@@ -440,5 +440,52 @@ def test_load_api_with_awp_root_2_no_gatebin():
     assert dpf_inner_path in serv._grpc_client_path
 
 
+@pytest.fixture(autouse=False, scope="function")
+def clean_up(request):
+    """Count servers once we are finished."""
+
+    dpf.core.server.shutdown_all_session_servers()
+    dpf.core.apply_server_context(dpf.core.AvailableServerContexts.entry)
+
+    def revert():
+        dpf.core.SERVER_CONFIGURATION = None
+        dpf.core.server.shutdown_all_session_servers()
+        dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium)
+
+    request.addfinalizer(revert)
+
+
+@pytest.mark.order(1)
+@conftest.raises_for_servers_version_under("4.0")
+def test_apply_context(clean_up):
+    # Carefully: this test only work if the premium context has never been applied before on the
+    # in process server.
+    dpf.core.server.shutdown_all_session_servers()
+    dpf.core.SERVER_CONFIGURATION = dpf.core.AvailableServerConfigs.InProcessServer
+    with pytest.raises(KeyError):
+        dpf.core.Operator("core::field::high_pass")
+
+    dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium, dpf.core.SERVER)
+    dpf.core.Operator("core::field::high_pass")
+
+
+@pytest.mark.order(2)
+@conftest.raises_for_servers_version_under("6.0")
+def test_apply_context_remote(remote_config_server_type, clean_up):
+    dpf.core.server.shutdown_all_session_servers()
+    dpf.core.SERVER_CONFIGURATION = remote_config_server_type
+    with pytest.raises(dpf.core.errors.DPFServerException):
+        dpf.core.Operator("core::field::high_pass")
+
+    dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium, dpf.core.SERVER)
+    dpf.core.Operator("core::field::high_pass")
+
+    dpf.core.server.shutdown_all_session_servers()
+    with pytest.raises(dpf.core.errors.DPFServerException):
+        dpf.core.Operator("core::field::high_pass")
+    dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium)
+    dpf.core.Operator("core::field::high_pass")
+
+
 if __name__ == "__main__":
     test_load_api_with_awp_root()

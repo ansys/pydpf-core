@@ -21,13 +21,11 @@ def try_load_lsdyna_operators():
         dpf.load_library("Ans.Dpf.LSDYNA.dll", "lsdyna")
         return True
     except:
+        pytest.skip("Couldn't load lsdyna operators")
         return False
 
 
-@pytest.mark.skipif(
-    not try_load_lsdyna_operators(), reason="Couldn't load lsdyna operators"
-)
-def test_lsdyna(d3plot):
+def test_lsdyna(d3plot, try_load_lsdyna_operators):
     dpf.load_library("Ans.Dpf.LSDYNA.dll", "lsdyna")
     ds = dpf.DataSources()
     ds.set_result_file_path(d3plot, "d3plot")
@@ -44,13 +42,11 @@ def try_load_composites_operators():
         dpf.load_library("Ans.Dpf.EngineeringData.dll", "eng")
         return True
     except:
+        pytest.skip("Couldn't load composites operators")
         return False
 
 
-@pytest.mark.skipif(
-    not try_load_composites_operators(), reason="Couldn't load composites operators"
-)
-def test_eng(engineering_data_sources):
+def test_eng(engineering_data_sources, try_load_composites_operators):
     dpf.load_library("composite_operators.dll", "compo")
     dpf.load_library("Ans.Dpf.EngineeringData.dll", "eng")
     m = dpf.Model(engineering_data_sources)

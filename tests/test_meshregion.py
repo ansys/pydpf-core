@@ -5,11 +5,7 @@ import vtk
 from ansys import dpf
 import conftest
 
-from ansys.dpf.core.check_version import meets_version, get_server_version
-
-SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(
-    get_server_version(dpf.core._global_server()), "3.0"
-)
+from ansys.dpf.core.check_version import meets_version
 
 
 @pytest.fixture()

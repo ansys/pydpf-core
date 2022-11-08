@@ -8,6 +8,9 @@ from ansys.dpf.core.errors import ServerTypeError
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 
 
+dpf.apply_server_context(dpf.AvailableServerContexts.entry)
+
+
 @pytest.fixture(scope="module", params=[
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
 ] if (isinstance(server._global_server(), server_types.InProcessServer)) else
@@ -25,6 +28,10 @@ def other_remote_server(request):
     ):
         dpf.settings.get_runtime_client_config(server).cache_enabled = False
     return server
+
+
+dpf.server.shutdown_all_session_servers()
+dpf.apply_server_context(dpf.AvailableServerContexts.premium)
 
 
 @pytest.fixture()

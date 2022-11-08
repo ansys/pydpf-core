@@ -567,7 +567,7 @@ def test_multi_process_transparent_api_create_on_local_remote_ith_address_workfl
     assert np.allclose(max_field.data, [10.03242272])
 
 
-@pytest.mark.skipif(not meets_version(get_server_version(core._global_server()), "4.0"),
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
                     reason='Requires server version higher than 4.0')
 def test_distributed_workflows_integral_types():
     data_types = [
