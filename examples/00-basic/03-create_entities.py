@@ -1,3 +1,4 @@
+# noqa: D400
 """
 .. _ref_create_entities_example:
 
@@ -27,11 +28,12 @@ mesh = dpf.MeshedRegion()
 
 
 def search_sequence_numpy(arr, seq):
+    """Find sequence in array and return its index."""
     indexes = np.where(np.isclose(arr, seq[0]))
     for index in np.nditer(indexes[0]):
         if index % 3 == 0:
             if np.allclose(arr[index + 1], seq[1]) and np.allclose(
-                    arr[index + 2], seq[2]
+                arr[index + 2], seq[2]
             ):
                 return index
     return -1
@@ -41,22 +43,22 @@ def search_sequence_numpy(arr, seq):
 # Add nodes:
 n_id = 1
 for i, x in enumerate(
-        [
-            float(i) * length / float(num_nodes_in_length)
-            for i in range(0, num_nodes_in_length)
-        ]
+    [
+        float(i) * length / float(num_nodes_in_length)
+        for i in range(0, num_nodes_in_length)
+    ]
 ):
     for j, y in enumerate(
-            [
-                float(i) * width / float(num_nodes_in_width)
-                for i in range(0, num_nodes_in_width)
-            ]
+        [
+            float(i) * width / float(num_nodes_in_width)
+            for i in range(0, num_nodes_in_width)
+        ]
     ):
         for k, z in enumerate(
-                [
-                    float(i) * depth / float(num_nodes_in_depth)
-                    for i in range(0, num_nodes_in_depth)
-                ]
+            [
+                float(i) * depth / float(num_nodes_in_depth)
+                for i in range(0, num_nodes_in_depth)
+            ]
         ):
             mesh.nodes.add_node(n_id, [x, y, z])
             n_id += 1
@@ -77,22 +79,22 @@ coordinates_scoping = coordinates.scoping
 # Add solid elements (linear hexa with eight nodes):
 e_id = 1
 for i, x in enumerate(
-        [
-            float(i) * length / float(num_nodes_in_length)
-            for i in range(0, num_nodes_in_length - 1)
-        ]
+    [
+        float(i) * length / float(num_nodes_in_length)
+        for i in range(0, num_nodes_in_length - 1)
+    ]
 ):
     for j, y in enumerate(
-            [
-                float(i) * width / float(num_nodes_in_width)
-                for i in range(0, num_nodes_in_width - 1)
-            ]
+        [
+            float(i) * width / float(num_nodes_in_width)
+            for i in range(0, num_nodes_in_width - 1)
+        ]
     ):
         for k, z in enumerate(
-                [
-                    float(i) * depth / float(num_nodes_in_depth)
-                    for i in range(0, num_nodes_in_depth - 1)
-                ]
+            [
+                float(i) * depth / float(num_nodes_in_depth)
+                for i in range(0, num_nodes_in_depth - 1)
+            ]
         ):
             coord1 = np.array([x, y, z])
             connectivity = []
@@ -117,12 +119,12 @@ mesh.plot()
 
 ###############################################################################
 # Create displacement fields over time with three time sets.
-# Here the displacement on each node is the value of its x, y, and
-# z coordinates for time 1.
-# The displacement on each node is two times the value of its x, y,
-# and z coordinates for time 2.
-# The displacement on each node is three times the value of its x,
-# y, and z coordinates for time 3.
+# For the first time set, the displacement on each node is the
+# value of its x, y, and z coordinates.
+# For the second time set, the displacement on each node is two
+# times the value of its x, y, and z coordinates.
+# For the third time set, the displacement on each node is three
+# times the value of its x, y, and z coordinates for time 3.
 num_nodes = mesh.nodes.n_nodes
 time1_array = coordinates_data
 time2_array = 2.0 * coordinates_data
