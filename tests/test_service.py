@@ -445,12 +445,18 @@ def clean_up(request):
     """Count servers once we are finished."""
 
     dpf.core.server.shutdown_all_session_servers()
-    dpf.core.apply_server_context(dpf.core.AvailableServerContexts.entry)
+    try:
+        dpf.core.apply_server_context(dpf.core.AvailableServerContexts.entry)
+    except dpf.core.errors.DPFServerException:
+        pass
 
     def revert():
         dpf.core.SERVER_CONFIGURATION = None
         dpf.core.server.shutdown_all_session_servers()
-        dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium)
+        try:
+            dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium)
+        except dpf.core.errors.DPFServerException:
+            pass
 
     request.addfinalizer(revert)
 

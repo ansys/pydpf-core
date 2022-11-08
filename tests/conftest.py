@@ -444,4 +444,7 @@ def count_servers(request):
 
 # to call at the end
 core.server.shutdown_all_session_servers()
-core.apply_server_context(core.AvailableServerContexts.premium)
+try:
+    core.apply_server_context(core.AvailableServerContexts.premium)
+except core.errors.DPFServerException:
+    pass
