@@ -76,7 +76,7 @@ def apply_server_context(context=AvailableServerContexts.entry, server=None) -> 
     Parameters
     ----------
     context : ServerContext
-        Context to apply to the given server or to the next started servers (when no server
+        Context to apply to the given server or to the newly started servers (when no server
         is given).
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
