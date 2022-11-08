@@ -232,7 +232,8 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
                     face_fmt = [len(face_connectivity)] + list(face_connectivity)
                     poly_connectivity += face_fmt
                 print([len(poly_connectivity)])
-                polyhedron = [len(poly_connectivity)] + poly_connectivity
+                polyhedron = [len(faces)] + poly_connectivity
+                polyhedron = [len(polyhedron)] + polyhedron
                 # Replace the whole sequence between this index and the next
                 r = list(range(ind, ind+elem_size[i]+1))
                 cells = np.delete(cells, r)
