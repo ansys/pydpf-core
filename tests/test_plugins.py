@@ -13,7 +13,6 @@ def try_load_lsdyna_operators():
         return False
 
 
-@pytest.fixture()
 def test_lsdyna(d3plot, try_load_lsdyna_operators):
     dpf.load_library("Ans.Dpf.LSDYNA.dll", "lsdyna")
     ds = dpf.DataSources()
@@ -25,6 +24,7 @@ def test_lsdyna(d3plot, try_load_lsdyna_operators):
     assert len(fc[0]) == 3195
 
 
+@pytest.fixture()
 def try_load_composites_operators():
     try:
         dpf.load_library("composite_operators.dll", "compo")
