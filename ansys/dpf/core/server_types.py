@@ -691,7 +691,7 @@ class GrpcServer(CServer):
         try:
             return self.info["server_ip"]
         except:
-            return 0
+            return ""
 
     @property
     def port(self):
@@ -856,7 +856,7 @@ class LegacyGrpcServer(BaseServer):
             ansys_path=None,
             ip=LOCALHOST,
             port=DPF_DEFAULT_PORT,
-            timeout=10,
+            timeout=5,
             as_global=True,
             load_operators=True,
             launch_server=True,

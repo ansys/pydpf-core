@@ -66,6 +66,7 @@ def test_model_different_results_big_multi_server(all_kind_of_complexity_models)
     check_fc(fc, fc2)
 
 
+@pytest.mark.slow
 def test_el_shape_fc(allkindofcomplexity):
     model = dpf.Model(allkindofcomplexity)
     fc = model.results.stress.split_by_shape.eval()

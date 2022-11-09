@@ -127,7 +127,7 @@ def start_local_server(
         load_operators=True,
         use_docker_by_default=True,
         docker_config=RUNNING_DOCKER,
-        timeout=10.,
+        timeout=5.,
         config=None,
         use_pypim_by_default=True
 ):
@@ -208,7 +208,7 @@ def start_local_server(
         docker_config.use_docker = False
 
     server = None
-    n_attempts = 10
+    n_attempts = 3
     timed_out = False
     for _ in range(n_attempts):
         try:
@@ -241,7 +241,7 @@ def start_local_server(
     if server is None:
         raise OSError(
             f"Unable to launch the server after {n_attempts} attempts.  "
-            "Check the following path:\n{str(ansys_path)}\n\n"
+            f"Check the following path:\n{str(ansys_path)}\n\n"
             "or attempt to use a different port"
         )
 
