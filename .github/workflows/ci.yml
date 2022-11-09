@@ -28,29 +28,29 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
 
-  style:
-    name: "Style Check"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: "Setup Python"
-        uses: actions/setup-python@v4.2.0
-        with:
-          python-version: 3.8
-
-      - name: "Install style requirements"
-        run: |
-          pip install -r requirements/requirements_style.txt --disable-pip-version-check
-
-      - name: "Codespell"
-        run: |
-          make codespell
-        continue-on-error: true
-
-      - name: "flake8"
-        run: |
-          make flake8
+#  style:
+#    name: "Style Check"
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: "Setup Python"
+#        uses: actions/setup-python@v4.2.0
+#        with:
+#          python-version: 3.8
+#
+#      - name: "Install style requirements"
+#        run: |
+#          pip install -r requirements/requirements_style.txt --disable-pip-version-check
+#
+#      - name: "Codespell"
+#        run: |
+#          make codespell
+#        continue-on-error: true
+#
+#      - name: "flake8"
+#        run: |
+#          make flake8
 
   tests:
     uses: ./.github/workflows/tests.yml
@@ -61,25 +61,25 @@ jobs:
       wheelhouse: false
     secrets: inherit
 
-  docker_tests:
-    name: "Build and Test on Docker"
-    uses: ./.github/workflows/test_docker.yml
-    secrets: inherit
-
-  docs:
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/docs.yml
-    with:
-      ANSYS_VERSION: "232"
-    secrets: inherit
-
-  examples:
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/examples.yml
-    with:
-      ANSYS_VERSION: "232"
-      python_versions: '["3.8"]'
-    secrets: inherit
+#  docker_tests:
+#    name: "Build and Test on Docker"
+#    uses: ./.github/workflows/test_docker.yml
+#    secrets: inherit
+#
+#  docs:
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/docs.yml
+#    with:
+#      ANSYS_VERSION: "232"
+#    secrets: inherit
+#
+#  examples:
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/examples.yml
+#    with:
+#      ANSYS_VERSION: "232"
+#      python_versions: '["3.8"]'
+#    secrets: inherit
 
 #  retro_231:
 #    name: "retro 231"
@@ -111,11 +111,11 @@ jobs:
 #      DOCSTRING: false
 #    secrets: inherit
 
-  pydpf-post:
-    name: "PyDPF-Post"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/pydpf-post.yml
-    with:
-      ANSYS_VERSION: "232"
-    secrets: inherit
+#  pydpf-post:
+#    name: "PyDPF-Post"
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/pydpf-post.yml
+#    with:
+#      ANSYS_VERSION: "232"
+#    secrets: inherit
 
