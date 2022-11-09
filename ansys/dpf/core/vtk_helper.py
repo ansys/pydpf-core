@@ -231,7 +231,6 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
                         faces_nodes_connectivity_dp[face]:faces_nodes_connectivity_dp[face+1]]
                     face_fmt = [len(face_connectivity)] + list(face_connectivity)
                     poly_connectivity += face_fmt
-                print([len(poly_connectivity)])
                 polyhedron = [len(faces)] + poly_connectivity
                 polyhedron = [len(polyhedron)] + polyhedron
                 # Replace the whole sequence between this index and the next
