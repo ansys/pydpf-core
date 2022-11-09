@@ -10,7 +10,7 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   extra: "--find-links .github/"
-  ANSYS_VERSION: 231
+  ANSYS_VERSION: 232
 
 jobs:
   docker_tests:
