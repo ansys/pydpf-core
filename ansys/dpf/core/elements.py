@@ -921,7 +921,8 @@ class element_types(Enum):
     Beam4 = 31
     GeneralPlaceholder = 32
     Polygon = 33
-    Polyhedron = 34
+    QuadPolygon = 34
+    Polyhedron = 35
 
     @staticmethod
     def _descriptors():
@@ -1234,6 +1235,20 @@ class element_types(Enum):
                 False,
                 True,
                 False,
+                False,
+            ),
+            element_types.QuadPolygon: ElementDescriptor(
+                element_types.QuadPolygon,
+                "Quadratic Polygon",
+                "quad_polygon",
+                "shell",
+                -1,
+                -1,
+                -1,
+                False,
+                True,
+                False,
+                True,
             ),
             element_types.Polyhedron: ElementDescriptor(
                 element_types.Polyhedron,
@@ -1244,6 +1259,7 @@ class element_types(Enum):
                 0,
                 -1,
                 True,
+                False,
                 False,
                 False,
             ),

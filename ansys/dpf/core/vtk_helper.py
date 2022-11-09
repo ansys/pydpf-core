@@ -1,4 +1,6 @@
 import numpy as np
+from elements import element_types
+
 from vtk import (
     VTK_VERTEX,
     VTK_LINE,
@@ -60,9 +62,10 @@ SIZE_MAPPING = np.array(
         4,  # kAnsBeam4
         0,  # kAnsGeneralPlaceholder
         -1,  # kAnsPolygon
-        -2,  # kAnsPolyhedron
+        -1,  # kAnsQuadPolygon
+        -1,  # kAnsPolyhedron
     ]
-)  # kAnsBeam4
+)
 
 
 # DPF --> VTK mapping
@@ -103,8 +106,9 @@ VTK_MAPPING = np.array(
         0,  # kAnsBeam3 = 30,
         0,  # kAnsBeam4 = 31,
         0,  # kAnsGeneralPlaceholder = 32,
-        VTK_QUADRATIC_POLYGON,  # kAnsPolygon = 33,
-        VTK_POLYHEDRON,  # kAnsPolyhedron = 34,
+        VTK_POLYGON,  # kAnsPolygon = 33
+        VTK_QUADRATIC_POLYGON,  # kAnsQuadPolygon = 34,
+        VTK_POLYHEDRON,  # kAnsPolyhedron = 35,
     ]
 )
 
@@ -146,7 +150,8 @@ VTK_LINEAR_MAPPING = np.array(
         0,  # kAnsBeam4 = 31,
         0,  # kAnsGeneralPlaceholder = 32,
         VTK_POLYGON,  # kAnsPolygon = 33,
-        VTK_POLYHEDRON,  # kAnsPolyhedron = 34,
+        VTK_POLYGON,  # kAnsQuadPolygon = 34,
+        VTK_POLYHEDRON,  # kAnsPolyhedron = 35,
     ]
 )
 
@@ -212,7 +217,7 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
     cells = np.insert(connectivity.data, insert_ind, elem_size)
 
     # Check if polyhedrons are present
-    if 34 in etypes:
+    if element_types.Polygon in etypes:
         cells = np.array(cells)
         nodes = np.array(nodes)
         insert_ind = insert_ind + np.asarray(list(range(len(insert_ind))))
@@ -221,7 +226,7 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
         # NFaces, Face1NPoints, Face1Point1, Face1Point2..., Face1PointN, FaceNNPoints,...]]
         for i, ind in reversed(list(enumerate(insert_ind))):
             # Check if this is a polyhedron
-            if etypes[i] == 34:
+            if etypes[i] == element_types.Polygon:
                 # Construct the connectivity for the poly element
                 poly_connectivity = []
                 faces = elements_faces_connectivity.data[
