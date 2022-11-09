@@ -1,3 +1,4 @@
+# noqa: D400
 """
 .. _ref_basic_cyclic:
 
@@ -19,7 +20,10 @@ print(model)
 # Expand displacement results
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # This example expands displacement results, by default on all
-# nodes and the first time step.
+# nodes and the first time step. Note that the displacements are expanded using
+# the :func:`read_cyclic 
+# <ansys.dpf.core.operators.mesh.mesh_provider.InputsMeshProvider.read_cyclic>`
+# prpoerty with 2 as an argument (1 would ignore the cyclic symmetry).
 
 # Create displacement cyclic operator
 u_cyc = model.operator("mapdl::rst::U_cyclic")
