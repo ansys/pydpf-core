@@ -1,5 +1,5 @@
 import numpy as np
-from elements import element_types
+from ansys.dpf.core.elements import element_types
 
 from vtk import (
     VTK_VERTEX,
