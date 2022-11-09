@@ -59,7 +59,7 @@ You can also clone and install this repository with:
 ```
 git clone https://github.com/pyansys/pydpf-core
 cd pydpf-core
-pip install . --user
+pip install -e .
 ```
 
 
