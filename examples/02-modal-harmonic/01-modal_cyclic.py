@@ -21,7 +21,7 @@ print(model)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # This example expands displacement results, by default on all
 # nodes and the first time step. Note that the displacements are expanded using
-# the :func:`read_cyclic 
+# the :func:`read_cyclic
 # <ansys.dpf.core.operators.mesh.mesh_provider.InputsMeshProvider.read_cyclic>`
 # prpoerty with 2 as an argument (1 would ignore the cyclic symmetry).
 
