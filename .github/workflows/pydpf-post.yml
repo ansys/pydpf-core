@@ -50,6 +50,11 @@ jobs:
         with:
           python-version: "3.8"
 
+      - name: "Force install gatebin 0.3.0.dev0 on Linux"
+        run: |
+          pip install .github/ansys_dpf_gatebin-0.3.0.dev0-py3-none-manylinux_2_17_x86_64.whl
+        if: runner.os == 'Linux'
+
       - name: "Build Core Package"
         uses: pyansys/pydpf-actions/build_package@v2.2
         with:
