@@ -72,7 +72,6 @@ h5op.run()
 # Compare simple precision versus double precision.
 float_precision = os.stat(os.path.join(tmpdir, "dpf_float.h5")).st_size
 double_precision = os.stat(os.path.join(tmpdir, "dpf_double.h5")).st_size
-# double_precision = os.stat(os.path.join(tmpdir, directory, "dpf_double.h5")).st_size
 print(
     f"size with float precision: {float_precision}\n"
     f"size with double precision: {double_precision}"

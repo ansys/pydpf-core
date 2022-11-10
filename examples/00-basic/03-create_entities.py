@@ -81,19 +81,19 @@ e_id = 1
 for i, x in enumerate(
     [
         float(i) * length / float(num_nodes_in_length)
-        for i in range(0, num_nodes_in_length - 1)
+        for i in range(num_nodes_in_length - 1)
     ]
 ):
     for j, y in enumerate(
         [
             float(i) * width / float(num_nodes_in_width)
-            for i in range(0, num_nodes_in_width - 1)
+            for i in range(num_nodes_in_width - 1)
         ]
     ):
         for k, z in enumerate(
             [
                 float(i) * depth / float(num_nodes_in_depth)
-                for i in range(0, num_nodes_in_depth - 1)
+                for i in range(num_nodes_in_depth - 1)
             ]
         ):
             coord1 = np.array([x, y, z])
@@ -124,7 +124,7 @@ mesh.plot()
 # For the second time set, the displacement on each node is two
 # times the value of its x, y, and z coordinates.
 # For the third time set, the displacement on each node is three
-# times the value of its x, y, and z coordinates for time 3.
+# times the value of its x, y, and z coordinates.
 num_nodes = mesh.nodes.n_nodes
 time1_array = coordinates_data
 time2_array = 2.0 * coordinates_data
