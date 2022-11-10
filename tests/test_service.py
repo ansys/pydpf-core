@@ -462,7 +462,8 @@ def set_context_back_to_premium(request):
 
 
 @pytest.mark.order(1)
-@pytest.mark.skipif(running_docker, reason="AWP ROOT is not set with Docker")
+@pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason="AWP ROOT is not set with Docker")
 @conftest.raises_for_servers_version_under("6.0")
 def test_apply_context(set_context_back_to_premium):
     # Carefully: this test only work if the premium context has never been applied before on the
@@ -481,6 +482,8 @@ def test_apply_context(set_context_back_to_premium):
 
 
 @pytest.mark.order(2)
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason="not supported")
 @conftest.raises_for_servers_version_under("6.0")
 def test_apply_context_remote(remote_config_server_type, set_context_back_to_premium):
     dpf.core.server.shutdown_all_session_servers()
