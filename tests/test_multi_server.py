@@ -35,7 +35,6 @@ if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
     dpf.apply_server_context(dpf.AvailableServerContexts.premium)
 
 
-
 @pytest.fixture()
 def static_models(local_server, other_remote_server):
     try:
