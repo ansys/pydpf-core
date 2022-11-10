@@ -7,6 +7,9 @@ from ansys.dpf.core import examples, server_types, server
 from ansys.dpf.core.errors import ServerTypeError
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 
+if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+    dpf.apply_server_context(dpf.AvailableServerContexts.entry)
+
 
 @pytest.fixture(scope="module", params=[
     ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
@@ -25,6 +28,11 @@ def other_remote_server(request):
     ):
         dpf.settings.get_runtime_client_config(server).cache_enabled = False
     return server
+
+
+if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+    dpf.server.shutdown_all_session_servers()
+    dpf.apply_server_context(dpf.AvailableServerContexts.premium)
 
 
 @pytest.fixture()
