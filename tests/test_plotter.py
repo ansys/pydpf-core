@@ -611,3 +611,64 @@ def test_plot_warped_mesh(multishells):
                                                      mesh=meshes_cont)
     disp_fc = disp_op.outputs.fields_container()
     meshes_cont.plot(disp_fc, deform_by=disp_result, scale_factor=scale_factor)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+def test_plot_polygon():
+    # Define polygon points
+    polygon_points = [
+        [0.02, 0.0, 0.0],
+        [0.02, 0.01, 0.0],
+        [0.03, 0.01, 0.0],
+        [0.035, 0.005, 0.0],
+        [0.03, 0.0, 0.0],
+    ]
+    # Define polygon connectivity
+    connectivity = [0, 1, 2, 3, 4]
+    # Create mesh object and add nodes and elements
+    mesh = core.MeshedRegion()
+    for id, node in enumerate(polygon_points):
+        mesh.nodes.add_node(id, node)
+    mesh.elements.add_shell_element(0, connectivity)
+    mesh.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+def test_plot_polyhedron():
+    polyhedron_points = [
+    [0.02, 0.0, 0.02],
+    [0.02, 0.01, 0.02],
+    [0.03, 0.01, 0.02],
+    [0.035, 0.005, 0.02],
+    [0.03, 0.0, 0.02],
+    [0.02, 0.0, 0.03],
+    [0.02, 0.01, 0.03],
+    [0.03, 0.01, 0.03],
+    [0.035, 0.005, 0.03],
+    [0.03, 0.0, 0.03],
+    ]
+
+    connectivity = [0, 1, 2, 3, 4] + [0, 1, 6, 5] + [0, 4, 9, 5] + [4, 9, 8, 3] + [3, 8, 7, 2] + [2, 7, 6, 1] + [5, 6, 7, 8, 9]
+    face_pointer = [0, 5, 9, 13, 17, 21, 25]
+    elements_faces = [0, 1, 2, 3, 4, 5, 6]
+    elements_pointer = [0]
+
+    # Create mesh object and add nodes and elements
+    mesh = core.MeshedRegion()
+    for id, node in enumerate(polyhedron_points):
+        mesh.nodes.add_node(id, node)
+    mesh.elements.add_solid_element(0, connectivity)
+
+    connectivity_f = core.PropertyField(len(connectivity))
+    connectivity_f.data = connectivity
+    elements_faces_f = core.PropertyField(len(elements_faces))
+    elements_faces_f.data = elements_faces
+
+    # Add connectivity field as mesh property
+    mesh.set_property_field("faces_nodes_connectivity", connectivity_f)
+    mesh.set_property_field("elements_faces_connectivity", elements_faces_f)
+
+    # Add information on the starting node/face per face/element in _data_pointer
+    mesh.property_field("faces_nodes_connectivity")._data_pointer = face_pointer
+    mesh.property_field("elements_faces_connectivity")._data_pointer = elements_pointer
+    mesh.plot()
