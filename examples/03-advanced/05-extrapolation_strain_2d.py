@@ -140,7 +140,6 @@ error = strain_ref_nodal_op - fex_nodal_op
 abs_error_sqr.inputs.fields_container.connect(error)
 abs_error.inputs.fields_container.connect(abs_error_sqr)
 
-
 divide = dpf.operators.math.component_wise_divide()
 divide.inputs.fieldA.connect(strain_ref_nodal_op - fex_nodal_op)
 divide.inputs.fieldB.connect(strain_ref_nodal_op)

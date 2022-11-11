@@ -117,6 +117,6 @@ rel_error = scale.eval()
 # Instead, the relative error is similar accross the geometry since we
 # are dividing by the displacements ``fc_out``.
 # Both plots show errors that can be understood as zero due to machine precision
-# (1e-12 mm for the absolute error and 1e-5 % for the relative error).
+# (1e-12 mm for the absolute error and 1e-5% for the relative error).
 mesh.plot(abs_error, scalar_bar_args={'title': "Absolute error [mm]"})
 mesh.plot(rel_error, scalar_bar_args={'title': "Relative error [%]"})

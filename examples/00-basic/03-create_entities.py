@@ -28,7 +28,7 @@ mesh = dpf.MeshedRegion()
 
 
 def search_sequence_numpy(arr, seq):
-    """Find sequence in array and return its index."""
+    """Find a sequence in an array and return its index."""
     indexes = np.where(np.isclose(arr, seq[0]))
     for index in np.nditer(indexes[0]):
         if index % 3 == 0:
