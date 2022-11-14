@@ -16,7 +16,7 @@ simulation workflow.
 DPF Server is a package that contains all the necessary files to run the DPF Server, enabling DPF capabilities. It is available 
 on the Ansys Customer Portal.
 
-For more information about DPF and its use, see https://dpf.docs.pyansys.com/. 
+For more information about DPF and its use, see `PyDPF-Core documentation <https://dpf.docs.pyansys.com/>`_. 
 
 Installing DPF Server
 ---------------------
@@ -34,7 +34,7 @@ Using PyDPF-Core and PyDPF-Post clients with DPF Server
 
 PyDPF-Core and PyDPF-Post are python clients relying on a DPF Server. 
 The instructions to install and get started with PyDPF-Core (ansys-dpf-core module) can be found 
-at https://dpf.docs.pyansys.com/getting_started/install.html. 
+at `Getting Started section <https://dpf.docs.pyansys.com/getting_started/install.html>`_. 
 
 Starting Python environment, set AWP_ROOT232 environment variable to use DPF Server:
 
