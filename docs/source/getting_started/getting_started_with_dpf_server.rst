@@ -36,12 +36,12 @@ PyDPF-Core and PyDPF-Post are python clients relying on a DPF Server.
 The instructions to install and get started with PyDPF-Core (ansys-dpf-core module) can be found 
 at `Getting Started section <https://dpf.docs.pyansys.com/getting_started/install.html>`_. 
 
-Starting Python environment, set AWP_ROOT232 environment variable to use DPF Server:
+Starting Python environment, set ANSYS_DPF_PATH environment variable to use DPF Server:
 
 .. code::
 
     import os
-    os.environ["AWP_ROOT232"] = r"D:\ansys_dpf_server\v232" # path to DPF Server root
+    os.environ["ANSYS_DPF_PATH"] = r"D:\ansys_dpf_server\v232" # path to DPF Server root
 
 PyDPF-Core and PyDPF-Post python modules can now be used.
 
