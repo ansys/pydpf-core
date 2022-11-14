@@ -25,6 +25,7 @@ from ansys.dpf.core._version import (
     server_to_ansys_version
 )
 from ansys.dpf.core.misc import __ansys_version__
+from ansys.dpf.core import server_context
 from ansys.dpf.gate import load_api, data_processing_grpcapi
 
 import logging
@@ -613,6 +614,10 @@ class GrpcServer(CServer):
         self._create_shutdown_funcs()
         self._check_first_call(num_connection_tryouts)
         self.set_as_global(as_global=as_global)
+        try:
+            self._base_service.initialize_with_context(server_context.SERVER_CONTEXT)
+        except errors.DpfVersionNotSupported:
+            pass
 
     def _check_first_call(self, num_connection_tryouts):
         for i in range(num_connection_tryouts):
@@ -691,7 +696,7 @@ class GrpcServer(CServer):
         try:
             return self.info["server_ip"]
         except:
-            return 0
+            return ""
 
     @property
     def port(self):
@@ -709,11 +714,11 @@ class GrpcServer(CServer):
     @property
     def external_ip(self):
         """Public IP address of the server.
-        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.ip` in all cases except
+        Is the same as  :func:`ansys.dpf.core.GrpcServer.ip` in all cases except
         for servers using a gateway:
         for example, servers running in Docker Images might have an internal
-        :func:`ansys.dpf.core.LegacyGrpcServer.ip` different from the public
-        :func:`ansys.dpf.core.LegacyGrpcServer.external_ip`, the latter should be used to get
+        :func:`ansys.dpf.core.GrpcServer.ip` different from the public
+        :func:`ansys.dpf.core.GrpcServer.external_ip`, the latter should be used to get
         connected to the server from outside the Docker Image.
 
         Returns
@@ -725,11 +730,11 @@ class GrpcServer(CServer):
     @property
     def external_port(self):
         """Public Port of the server.
-        Is the same as  :func:`ansys.dpf.core.LegacyGrpcServer.port` in all cases except
+        Is the same as  :func:`ansys.dpf.core.GrpcServer.port` in all cases except
         for servers using a gateway:
         for example, servers running in Docker Images might have an internal
-        :func:`ansys.dpf.core.LegacyGrpcServer.port` different from the public
-        :func:`ansys.dpf.core.LegacyGrpcServer.external_port`, the latter should be used to get
+        :func:`ansys.dpf.core.GrpcServer.port` different from the public
+        :func:`ansys.dpf.core.GrpcServer.external_port`, the latter should be used to get
         connected to the server from outside the Docker Image.
 
         Returns
@@ -763,7 +768,6 @@ class InProcessServer(CServer):
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load DataProcessingCore
         from ansys.dpf.gate.utils import data_processing_core_load_api
-        from ansys.dpf.gate import data_processing_capi
         name = "DataProcessingCore"
         path = _get_dll_path(name, ansys_path)
         try:
@@ -774,8 +778,14 @@ class InProcessServer(CServer):
                     f"DPF directory not found at {os.path.dirname(path)}"
                     f"Unable to locate the following file: {path}")
             raise e
-        data_processing_capi.DataProcessingCAPI.data_processing_initialize_with_context(1, None)
         self.set_as_global(as_global=as_global)
+        try:
+            self._base_service.apply_context(server_context.SERVER_CONTEXT)
+        except errors.DpfVersionNotSupported:
+            self._base_service.initialize_with_context(
+                server_context.AvailableServerContexts.premium
+            )
+            pass
 
     @property
     def version(self):
@@ -856,7 +866,7 @@ class LegacyGrpcServer(BaseServer):
             ansys_path=None,
             ip=LOCALHOST,
             port=DPF_DEFAULT_PORT,
-            timeout=10,
+            timeout=5,
             as_global=True,
             load_operators=True,
             launch_server=True,
@@ -915,6 +925,10 @@ class LegacyGrpcServer(BaseServer):
 
         check_ansys_grpc_dpf_version(self, timeout)
         self.set_as_global(as_global=as_global)
+        try:
+            self._base_service.initialize_with_context(server_context.SERVER_CONTEXT)
+        except errors.DpfVersionNotSupported:
+            pass
 
     def _create_shutdown_funcs(self):
         self._core_api = data_processing_grpcapi.DataProcessingGRPCAPI

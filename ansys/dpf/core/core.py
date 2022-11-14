@@ -416,6 +416,58 @@ class BaseService:
                     TARGET_PATH=LOCAL_PATH, filename=file_path, name=name, symbol=symbol
                 )
 
+    @version_requires("6.0")
+    def apply_context(self, context):
+        """Defines the settings that will be used to load DPF's plugins.
+        A DPF xml file can be used to list the plugins and set up variables.
+
+        Parameters
+        ----------
+        context : ServerContext
+            The context allows to choose which capabilities are available server side.
+
+        Notes
+        -----
+        Available with server's version starting at 6.0 (Ansys 2023R2).
+        """
+        if not self._server().meet_version("6.0"):
+            raise errors.DpfVersionNotSupported("6.0")
+        if self._server().has_client():
+            error = self._api.data_processing_apply_context_on_client(
+                self._server().client, context.context_type.value, context.xml_path
+            )
+        else:
+            error = self._api.data_processing_apply_context(
+                context.context_type.value, context.xml_path
+            )
+
+    def initialize_with_context(self, context):
+        """Defines the settings that will be used to initialize DPF.
+        A DPF xml file can be used to list the plugins and set up variables.
+
+        Parameters
+        ----------
+        context : ServerContext
+            The context allows to choose which capabilities are available server side.
+
+        Notes
+        -----
+        Available with server's version starting at 4.0 (Ansys 2022R2) for InProcess Server
+        and starting at 6.0 (Ansys 2023R2) for Grpc Servers.
+        """
+        if self._server().has_client():
+            if not self._server().meet_version("6.0"):
+                raise errors.DpfVersionNotSupported("6.0")
+            error = self._api.data_processing_initialize_with_context_on_client(
+                self._server().client, context.context_type.value, context.xml_path
+            )
+        else:
+            if not self._server().meet_version("4.0"):
+                raise errors.DpfVersionNotSupported("4.0")
+            error = self._api.data_processing_initialize_with_context(
+                context.context_type.value, context.xml_path
+            )
+
     def get_runtime_client_config(self):
         if self._server().has_client():
             data_tree_tmp = (
