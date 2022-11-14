@@ -6,6 +6,7 @@ from vtk import (VTK_HEXAHEDRON, VTK_LINE, VTK_POLYGON, VTK_POLYHEDRON,
                  VTK_QUADRATIC_PYRAMID, VTK_QUADRATIC_QUAD,
                  VTK_QUADRATIC_TETRA, VTK_QUADRATIC_TRIANGLE, VTK_TETRA,
                  VTK_TRIANGLE, VTK_VERTEX, VTK_WEDGE, vtkVersion)
+from ansys.dpf.core.elements import element_types
 
 VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
 
@@ -203,7 +204,7 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
     cells = np.insert(connectivity.data, insert_ind, elem_size)
 
     # Check if polyhedrons are present
-    if 34 in etypes:
+    if element_types.Polyhedron in etypes:
         cells = np.array(cells)
         nodes = np.array(nodes)
         insert_ind = insert_ind + np.asarray(list(range(len(insert_ind))))
@@ -212,7 +213,7 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
         # NFaces, Face1NPoints, Face1Point1, Face1Point2..., Face1PointN, FaceNNPoints,...]]
         for i, ind in reversed(list(enumerate(insert_ind))):
             # Check if this is a polyhedron
-            if etypes[i] == 34:
+            if etypes[i] == element_types.Polyhedron:
                 # Construct the connectivity for the poly element
                 poly_connectivity = []
                 faces = elements_faces_connectivity.data[
