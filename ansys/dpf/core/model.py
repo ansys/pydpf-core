@@ -455,16 +455,6 @@ class Metadata:
             Mesh provider operator.
 
         """
-        try:
-            if self._mesh_selection_manager is None:
-                self._mesh_selection_manager = Operator(
-                    "MeshSelectionManagerProvider",
-                    server=self._server
-                )
-                self._mesh_selection_manager.inputs.connect(self._stream_provider.outputs)
-                self._mesh_selection_manager.run()
-        except:
-            pass
         mesh_provider = Operator("MeshProvider", server=self._server)
         if self._stream_provider:
             mesh_provider.inputs.connect(self._stream_provider.outputs)
