@@ -15,8 +15,38 @@ the operators available will be present in the Premium documentation.
 However, some operators present in the Premium documentation might
 not be available for older server versions (having been released later).
 
-.. toctree::
-   :maxdepth: 2
+.. grid:: 2
 
-   operator_reference_entry
-   operator_reference_premium
+   .. grid-item::
+        .. card:: Operators(Entry)
+            :img-top: ../_static/assets/basic.png
+            :link-type: doc
+            :link: operator_reference_entry
+
+            Operators allowing the manipulation and the 
+            transformation of simulation data
+            Click here to get start with basic operators.
+
+            +++
+            .. button-link:: ENTRY
+               :color: secondary
+               :expand:
+               :outline:
+               :click-parent:              
+
+   .. grid-item::
+        .. card:: Operators(Premium)
+            :img-top: ../_static/assets/premium.png
+            :link-type: doc
+            :link: operator_reference_premium
+
+            Operators allowing the manipulation and the 
+            transformation of simulation data
+            Click here to get start with premium operators.
+
+            +++
+            .. button-link:: PREMIUM
+               :color: secondary
+               :expand:
+               :outline:
+               :click-parent:

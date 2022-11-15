@@ -4,7 +4,7 @@ from datetime import datetime
 import numpy as np
 import pyvista
 from ansys.dpf.core import __version__
-from ansys_sphinx_theme import pyansys_logo_black
+from ansys_sphinx_theme import pyansys_logo_black, ansys_favicon
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -154,6 +154,7 @@ autodoc_member_order = "bysource"
 html_short_title = html_title = "PyDPF-Core"
 html_theme = "ansys_sphinx_theme"
 html_logo = pyansys_logo_black
+html_favicon = ansys_favicon
 html_theme_options = {
     "github_url": "https://github.com/pyansys/pydpf-core",
     "show_prev_next": False,
