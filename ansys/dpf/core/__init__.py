@@ -1,5 +1,4 @@
 import os
-import socket
 
 from ansys.dpf.core._version import __version__
 
