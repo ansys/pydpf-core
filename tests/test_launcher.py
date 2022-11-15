@@ -14,7 +14,7 @@ from conftest import (
     running_docker
 )
 
-
+@pytest.mark.skipif(running_docker, reason="Run to fix on internal side")
 def test_start_local():
     if not core.SERVER:
         core.start_local_server()
