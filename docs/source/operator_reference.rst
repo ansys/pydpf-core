@@ -4,16 +4,13 @@
 Operators
 =========
 
-Starting with the DPF server for Ansys 2023 R2, operator availability is
-determined by the active
+DPF operators allow the manipulation and the transformation of simulation data.
+
+From DPF Server for Ansys 2023R2 onwards, the operators available in DPF will depend on the active
 `ServerContext <https://dpf.docs.pyansys.com/api/ansys.dpf.core.server_context.html#servercontext>`_.
 
-The operator documentations for each context are listed below.
-
-For a DPF server delivered with Ansys 2023 R1 and older,
-the operators available will be present in the Premium documentation.
-However, some operators present in the Premium documentation might
-not be available for older server versions (having been released later).
+The available contexts are "Entry" and "Premium". Click on the correct section below to discover
+operators available in your context.
 
 .. grid:: 2
 
@@ -23,9 +20,8 @@ not be available for older server versions (having been released later).
             :link-type: doc
             :link: operator_reference_entry
 
-            Operators allowing the manipulation and the 
-            transformation of simulation data
-            Click here to get start with basic operators.
+            Click here to get the list of operators
+            available in DPF Entry.
 
             +++
             .. button-link:: ENTRY
@@ -40,9 +36,10 @@ not be available for older server versions (having been released later).
             :link-type: doc
             :link: operator_reference_premium
 
-            Operators allowing the manipulation and the 
-            transformation of simulation data
-            Click here to get started with premium operators.
+            Operators allow the manipulation and the
+            transformation of simulation data.
+            Click here to get started with operators
+            available in DPF Premium.
 
             +++
             .. button-link:: PREMIUM
@@ -50,3 +47,7 @@ not be available for older server versions (having been released later).
                :expand:
                :outline:
                :click-parent:
+
+.. note::
+    For Ansys 2023R1 and older, the Premium documentation should be used.
+    Some operators listed there might not be available for older Ansys versions.
