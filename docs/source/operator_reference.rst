@@ -42,7 +42,7 @@ not be available for older server versions (having been released later).
 
             Operators allowing the manipulation and the 
             transformation of simulation data
-            Click here to get start with premium operators.
+            Click here to get started with premium operators.
 
             +++
             .. button-link:: PREMIUM
