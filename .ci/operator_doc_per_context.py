@@ -1,5 +1,3 @@
-import ansys.dpf.gate._version
-
 import ansys.dpf.core as dpf
 from ansys.dpf.core.server_context import \
     apply_server_context, AvailableServerContexts, SERVER_CONTEXT
