@@ -1,4 +1,4 @@
-.. _ref_dpf_operators_reference_premium:
+:orphan:
 
 ===================
 Operators (Premium)

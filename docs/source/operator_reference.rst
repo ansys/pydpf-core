@@ -19,7 +19,7 @@ not be available for older server versions (having been released later).
 
    .. grid-item::
         .. card:: Operators(Entry)
-            :img-top: ../_static/assets/basic.png
+            :img-top: _static/assets/basic.png
             :link-type: doc
             :link: operator_reference_entry
 
@@ -36,7 +36,7 @@ not be available for older server versions (having been released later).
 
    .. grid-item::
         .. card:: Operators(Premium)
-            :img-top: ../_static/assets/premium.png
+            :img-top: _static/assets/premium.png
             :link-type: doc
             :link: operator_reference_premium
 
