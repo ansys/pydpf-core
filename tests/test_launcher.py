@@ -61,7 +61,8 @@ class TestServerConfigs:
                     as_global=True,
                 )
                 assert isinstance(server.os, str)
-                if server_config != core.AvailableServerConfigs.InProcessServer and not running_docker:
+                if server_config != core.AvailableServerConfigs.InProcessServer and \
+                        not running_docker:
                     p = psutil.Process(server.info["server_process_id"])
                     assert path in p.cwd()
                 if path:
@@ -91,7 +92,6 @@ class TestServerConfigs:
             ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
             if os.environ.get("AWP_ROOT" + ver_to_check, None) is not None:
                 assert os.environ["AWP_ROOT" + ver_to_check] in p.cwd()
-            pytest.skip("AWP_ROOT" + ver_to_check + " is not set")
 
     @pytest.mark.skipif(
         not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
