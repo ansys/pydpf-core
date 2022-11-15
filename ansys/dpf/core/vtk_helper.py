@@ -171,11 +171,6 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
     """
     elem_size = np.ediff1d(np.append(connectivity._data_pointer, connectivity.shape))
 
-    # global_etypes = etypes
-    # etypes = np.delete(etypes, polyhedron_indices)
-    # polys_types = np.delete(global_etypes, np.nonzero(polyhedron_mask == 0))
-    #
-    # # elem_size[polys_mask] = 0
     faces_nodes_connectivity = mesh.property_field("faces_nodes_connectivity")
     faces_nodes_connectivity_dp = np.append(
         faces_nodes_connectivity._data_pointer, len(faces_nodes_connectivity)
@@ -184,9 +179,6 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
     elements_faces_connectivity_dp = np.append(
         elements_faces_connectivity._data_pointer, len(elements_faces_connectivity)
     )
-    # #
-    n_faces_per_element = np.ediff1d(elements_faces_connectivity._data_pointer)
-    n_points_per_face = np.ediff1d(faces_nodes_connectivity._data_pointer)
 
     insert_ind = np.cumsum(elem_size)
     insert_ind = np.hstack(([0], insert_ind))[:-1]
