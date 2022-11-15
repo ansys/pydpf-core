@@ -204,7 +204,7 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
     cells = np.insert(connectivity.data, insert_ind, elem_size)
 
     # Check if polyhedrons are present
-    if element_types.Polyhedron in etypes:
+    if element_types.Polyhedron.value in etypes:
         cells = np.array(cells)
         nodes = np.array(nodes)
         insert_ind = insert_ind + np.asarray(list(range(len(insert_ind))))
@@ -213,7 +213,7 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
         # NFaces, Face1NPoints, Face1Point1, Face1Point2..., Face1PointN, FaceNNPoints,...]]
         for i, ind in reversed(list(enumerate(insert_ind))):
             # Check if this is a polyhedron
-            if etypes[i] == element_types.Polyhedron:
+            if etypes[i] == element_types.Polyhedron.value:
                 # Construct the connectivity for the poly element
                 poly_connectivity = []
                 faces = elements_faces_connectivity.data[
