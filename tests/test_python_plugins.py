@@ -22,11 +22,6 @@ if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
 #         "Known failures in the GitHub pipelines for 3.7",
 #         allow_module_level=True
 #     )
-if platform.system() == 'Linux':
-    pytest.skip(
-        "Known failures for the Ubuntu-latest GitHub pipelines",
-        allow_module_level=True
-    )
 
 
 @pytest.fixture(scope="module")
