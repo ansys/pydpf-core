@@ -440,5 +440,69 @@ def test_load_api_with_awp_root_2_no_gatebin():
     assert dpf_inner_path in serv._grpc_client_path
 
 
+@pytest.fixture(autouse=False, scope="function")
+def set_context_back_to_premium(request):
+    """Count servers once we are finished."""
+
+    dpf.core.server.shutdown_all_session_servers()
+    try:
+        dpf.core.apply_server_context(dpf.core.AvailableServerContexts.entry)
+    except dpf.core.errors.DpfVersionNotSupported:
+        pass
+
+    def revert():
+        dpf.core.SERVER_CONFIGURATION = None
+        dpf.core.server.shutdown_all_session_servers()
+        try:
+            dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium)
+        except dpf.core.errors.DpfVersionNotSupported:
+            pass
+
+    request.addfinalizer(revert)
+
+
+@pytest.mark.order(1)
+@pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason="AWP ROOT is not set with Docker")
+@conftest.raises_for_servers_version_under("6.0")
+def test_apply_context(set_context_back_to_premium):
+    # Carefully: this test only work if the premium context has never been applied before on the
+    # in process server, otherwise premium operators will already be loaded.
+    dpf.core.server.shutdown_all_session_servers()
+    dpf.core.SERVER_CONFIGURATION = dpf.core.AvailableServerConfigs.InProcessServer
+
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+        with pytest.raises(KeyError):
+            dpf.core.Operator("core::field::high_pass")
+    else:
+        dpf.core.start_local_server()
+
+    dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium, dpf.core.SERVER)
+    dpf.core.Operator("core::field::high_pass")
+
+
+@pytest.mark.order(2)
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason="not supported")
+@conftest.raises_for_servers_version_under("6.0")
+def test_apply_context_remote(remote_config_server_type, set_context_back_to_premium):
+    dpf.core.server.shutdown_all_session_servers()
+    dpf.core.SERVER_CONFIGURATION = remote_config_server_type
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+        with pytest.raises(dpf.core.errors.DPFServerException):
+            dpf.core.Operator("core::field::high_pass")
+    else:
+        dpf.core.start_local_server()
+
+    dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium, dpf.core.SERVER)
+    dpf.core.Operator("core::field::high_pass")
+
+    dpf.core.server.shutdown_all_session_servers()
+    with pytest.raises(dpf.core.errors.DPFServerException):
+        dpf.core.Operator("core::field::high_pass")
+    dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium)
+    dpf.core.Operator("core::field::high_pass")
+
+
 if __name__ == "__main__":
     test_load_api_with_awp_root()
