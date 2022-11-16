@@ -17,7 +17,6 @@ from ansys.dpf.core.server_types import LOG
 from ansys.dpf.core import misc
 from ansys.dpf.core.errors import protect_source_op_not_found
 from ansys.dpf.core._model_helpers import DataSourcesOrStreamsConnector
-from grpc._channel import _InactiveRpcError
 from ansys.dpf.core.check_version import version_requires
 
 
