@@ -128,18 +128,17 @@ if os.name == "nt" and not os.path.exists(
     cmd_file = examples.downloads._retrieve_file(
         CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
     )
-    run_cmd = f"powershell {cmd_file}"
-    args = (
-        f' -pluginpath "{plugin_path}" '
-        f"-zippath {os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')}"
-    )
-    print(run_cmd + args)
+    args = ["powershell", cmd_file,
+            "-pluginpath", plugin_path,
+            "-zippath", os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')
+            ]
+    print(args)
     import subprocess
 
-    process = subprocess.run(  # pragma: no cover
-        run_cmd + args,
+    process = subprocess.run(
+        args,
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        stderr=subprocess.PIPE
     )
     if process.stderr:
         raise RuntimeError(
