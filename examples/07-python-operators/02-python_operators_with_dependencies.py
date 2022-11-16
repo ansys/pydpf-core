@@ -137,7 +137,7 @@ if os.name == "nt" and not os.path.exists(
     import subprocess
 
     process = subprocess.run(
-        run_cmd + args, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        run_cmd + args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
     )
     if process.stderr:
         raise RuntimeError(
