@@ -73,13 +73,13 @@ jobs:
 #      ANSYS_VERSION: "232"
 #    secrets: inherit
 #
-#  examples:
-#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-#    uses: ./.github/workflows/examples.yml
-#    with:
-#      ANSYS_VERSION: "232"
-#      python_versions: '["3.8"]'
-#    secrets: inherit
+  examples:
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/examples.yml
+    with:
+      ANSYS_VERSION: "232"
+      python_versions: '["3.8"]'
+    secrets: inherit
 
 #  retro_231:
 #    name: "retro 231"
