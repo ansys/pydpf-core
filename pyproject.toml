@@ -1,0 +1,96 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "ansys-dpf-core"
+version = "0.6.dev0"
+description = "A python wrapper for Ansys DPF"
+readme = "README.md"
+requires-python = ">=3.7,<4"
+license = {file = "LICENSE"}
+authors = [{name = "ANSYS, Inc.", email = "ramdane.lagha@ansys.com"}]
+maintainers = [{name = "PyDPF-core developers", email = "pyansys.maintainers@ansys.com"}]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+
+dependencies = [
+    "packaging==21.3",
+    "psutil==5.9.2",
+    "tqdm==4.64.1",
+    "numpy==1.23.4",
+    "ansys-dpf-gate==0.2.1",
+    "wheel==0.37.1",
+    "chevron==0.14.0",
+    "black==22.10.0",
+    "codespell==2.2.1",
+    "flake8==5.0.4",
+]
+
+[project.optional-dependencies]
+docs = [
+    "pypandoc==1.9",
+    "sphinx==5.1.1",
+    "pyvista==0.36.1",
+    "ansys_sphinx_theme==0.6.1",
+    "imageio-ffmpeg==0.4.7",
+    "nbsphinx==0.8.9",
+    "pytest-sphinx==0.5.0",
+    "sphinx-autobuild==2021.3.14",
+    "sphinxcontrib-napoleon==0.7",
+    "sphinx_design==0.3.0",
+    "sphinx-notfound-page==0.8.3",
+    "sphinx-copybutton==0.5.0",
+    "sphinx-gallery==0.11.0",
+    "graphviz==0.20.1",
+    "enum-tools[sphinx]==0.9.0.post1",
+]
+test = [
+    "pytest==7.2.0",
+    "pytest-cov==4.0.0",
+    "pytest-rerunfailures==10.2",
+    "pytest-order==1.0.1",
+    "pyvista==0.36.1",
+    "ansys-platform-instancemanagement==1.0.2",
+    "coverage==6.5.0",
+]
+
+[project.urls]
+Source = "https://github.com/pyansys/pydpf-core"
+Documentation = "https://dpf.docs.pyansys.com/"
+Dev-Documentation = "https://dpf.docs.pyansys.com/"
+
+[tool.flit.module]
+name = "ansys.dpf.core"
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+profile = "black"
+force_sort_within_sections = true
+line_length = 100
+default_section = "THIRDPARTY"
+src_paths = ["docs", "src", "tests"]
+
+[tool.coverage.run]
+source = ["ansys.dpf"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.pytest.ini_options]
+addopts = "-ra --cov=ansys.geometry --cov-report html:.cov/html --cov-report xml:.cov/xml --cov-report term -vv"
+testpaths = [
+    "tests",
+]
