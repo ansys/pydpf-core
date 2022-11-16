@@ -9,6 +9,7 @@ DPF concepts
    concepts.rst
    waysofusing.rst
    stepbystep.rst
+   server_types.rst
 
 	
 .. card-carousel:: 2
@@ -31,6 +32,14 @@ DPF concepts
 
     .. card:: Using DPF: Step by step
        :link: user_guide_stepbystep
+       :link-type: ref
+       :width: 25%
+       :text-align: center
+
+       .. image:: ../images/drawings/checklist.png
+
+    .. card:: Using DPF across a network
+       :link: user_guide_server_types
        :link-type: ref
        :width: 25%
        :text-align: center
