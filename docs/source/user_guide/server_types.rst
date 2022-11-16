@@ -1,7 +1,7 @@
 .. _user_guide_server_types:
 
 ===========================
-DPF Communication Protocols
+Client-server communication
 ===========================
 
 DPF is based on a client-server architecture.
@@ -17,6 +17,7 @@ an instance of the :class:`ansys.dpf.core.server_factory.ServerConfig` class.
 Different predefined server configurations are available in DPF,
 to better answer different use-cases
 (See the :class:`ansys.dpf.core.server_factory.AvailableServerConfigs` class).
+
 - The `GrpcServer` configuration is available starting with server version 4.0 (Ansys 2022R2).
   It allows for remote connections to a DPF Server across a network by telling the client
   to communicate with this server via the gRPC communication protocol.
@@ -27,6 +28,11 @@ to better answer different use-cases
   to the server binaries from within the client's own Python process.
   This removes the need to copy and send data between the client and server, and makes calls
   to the server functionalities much faster as well as using less memory.
-- The `LegacyGrpcServer`configuration is the only one available for server versions below 4.0
+- The `LegacyGrpcServer` configuration is the only one available for server versions below 4.0
   (Ansys 2022R1, Ansys 2021R2 and Ansys 2021R1).
   The client communicates with a local or remote DPF server via the gRPC communication protocol.
+
+For DPF with Ansys 2023 R1 and newer, the default configuration is set to `InProcess`,
+meaning that servers are launched on the local machine.
+To launch a DPF server on a remote machine and communicate with it using gRPC, one should use
+the `GrpcServer` configuration as shown in :ref:`_ref_server_types_example`.

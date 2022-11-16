@@ -44,4 +44,4 @@ DPF concepts
        :width: 25%
        :text-align: center
 
-       .. image:: ../images/drawings/checklist.png
+       .. image:: ../images/drawings/using-dpf.png
