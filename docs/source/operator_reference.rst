@@ -15,11 +15,13 @@ operators available in your context.
 .. grid:: 2
 
    .. grid-item::
-        .. card:: Operators(Entry)
+        .. card:: Operators (Entry)
             :img-top: _static/assets/basic.png
             :link-type: doc
             :link: operator_reference_entry
 
+            Operators allow the manipulation and the
+            transformation of simulation data.
             Click here to get the list of operators
             available in DPF Entry.
 
@@ -31,7 +33,7 @@ operators available in your context.
                :click-parent:              
 
    .. grid-item::
-        .. card:: Operators(Premium)
+        .. card:: Operators (Premium)
             :img-top: _static/assets/premium.png
             :link-type: doc
             :link: operator_reference_premium
@@ -50,4 +52,5 @@ operators available in your context.
 
 .. note::
     For Ansys 2023R1 and older, the Premium documentation should be used.
-    Some operators listed there might not be available for older Ansys versions.
+    Depending on the server version, some operators listed there might
+    however not be available as they were released later.
