@@ -85,7 +85,7 @@ for file in file_list:
 #
 # To simplify this step, you can add a requirements file in the plug-in package:
 #
-print(f"\033[1m gltf_plugin/requirements.txt: \n \033[0m")
+print("\033[1m gltf_plugin/requirements.txt: \n \033[0m")
 with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
     for line in f.readlines():
         print("\t\t\t" + line)
