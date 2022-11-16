@@ -1,6 +1,6 @@
 .. _ref_getting_started_with_dpf_server:
 
-.. VERSION - <2023.2.pre0> 
+.. VERSION - 2023.2.pre0 
 
 ===============================
 Getting Started with DPF Server
@@ -41,7 +41,7 @@ Starting Python environment, set ANSYS_DPF_PATH environment variable to use DPF 
 .. code::
 
     import os
-    os.environ["ANSYS_DPF_PATH"] = r"D:\ansys_dpf_server\v232" # path to DPF Server root
+    os.environ["ANSYS_DPF_PATH"] = r"D:\ansys_dpf_server\v232 # path to DPF Server root
 
 PyDPF-Core and PyDPF-Post python modules can now be used.
 
@@ -96,4 +96,40 @@ Ansys licensing
 ~~~~~~~~~~~~~~~
 
 DPF Server is protected by Ansys licensing mechanism.
-Setting ANSYSLMD_LICENSE_FILE environment variable might also be needed.
+
+DPF capabilities are available through the following main services: 
+- Entry: load the minimum number of plugins for a basic usage. It is the default. It will only check if an Ansys License is available. 
+- Premium: get the specific premium DataProcessingCore.xml to load most plugins with their environments. It will checkout a license. 
+
+The context can be updated by applying a new server context:
+
+.. code::
+
+    dpf.apply_server_context(dpf.AvailableServerContexts.premium)
+
+Setting ANSYSLMD_LICENSE_FILE environment variable to point to the server  might also be needed 
+(Example ANSYSLMD_LICENSE_FILE = 1055@my_license_server.ansys.com).
+
+The following Ansys licensing increments currently provide rights to use DPF Server: 
+
+- "preppost" available in Ansys Mechanical Enterprise PrepPost product
+- "mech_2" availale in ANSYS Mechanical Premium product
+- "ansys" available in ANSYS Mechanical Enterprise product
+- "meba" available in ANSYS Mechanical Enterprise Solver product
+- "dynapp" available in ANSYS LS-DYNA PrepPost product
+- "acpreppost" available in Ansys Mechanical Enterprise product
+- "fluent_meshing_pro" available in Ansys CFD Enterprise product
+- "fluent_setup_post" available in Ansys CFD Enterprise product
+- "fluent_setup_post_pro" available in Ansys CFD Enterprise product
+- "cfd_preppost" available in Ansys CFD Enterprise product
+- "cfd_preppost_pro" available in Ansys CFD Enterprise product
+- "acfx_pre" available in Ansys CFD Enterprise product
+- "cfd_base" available in Ansys CFD Enterprise product
+- "advanced_meshing" available in Ansys CFD Enterprise product
+- "cfd_solve_level1" available in Ansys CFD Enterprise product
+- "cfd_solve_level2" available in Ansys CFD Enterprise product
+- "cfd_solve_level3" available in Ansys CFD Enterprise product
+- "fluent_meshing" available in Ansys CFD Enterprise product
+
+Each increment might be available in other products. The Product/Increment mapping can be found at
+`Licensing section of Ansys Customer Portal <https://download.ansys.com/Installation%20and%20Licensing%20Help%20and%20Tutorials>`_. 
