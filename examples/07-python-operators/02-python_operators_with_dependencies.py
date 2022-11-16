@@ -136,8 +136,10 @@ if os.name == "nt" and not os.path.exists(
     print(run_cmd + args)
     import subprocess
 
-    process = subprocess.run(  ## eslint-disable-line no-eval
-        run_cmd + args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False
+    process = subprocess.run(  # pragma: no cover
+        run_cmd + args,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
     )
     if process.stderr:
         raise RuntimeError(
