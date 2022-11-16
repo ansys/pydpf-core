@@ -15,11 +15,18 @@ origin is also needed to get the correct coordinates in LCS.
 
 The script below demonstrates the methodology using PyDPF.
 
-Import necessary modules:
-"""
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
 
+
+"""
+# Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+
+
+dpf.apply_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Create a model object to establish a connection with an example result file:

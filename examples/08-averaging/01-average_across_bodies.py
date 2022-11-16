@@ -6,8 +6,12 @@ Average across bodies
 This example shows how to activate and deactivate the DPF option for averaging
 across bodies. When a multi-body simulation calculates ``ElementalNodal`` fields,
 like stresses or strains, you can either activate or deactivate the averaging
-of theses fields across the different bodies when they share common nodes. This
+of these fields across the different bodies when they share common nodes. This
 likely changes the end results that are shown after postprocessing of the simulation.
+
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
 
 """
 ###############################################################################
@@ -16,6 +20,9 @@ likely changes the end results that are shown after postprocessing of the simula
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core import examples
+
+
+dpf.apply_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Load the simulation results from an RST file and create a model of it.

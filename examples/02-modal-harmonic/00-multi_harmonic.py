@@ -6,12 +6,20 @@ Multi-harmonic response example
 This example shows how to compute a multi-harmonic response
 using ``fft`` transformations.
 
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
+
 """
 import matplotlib.pyplot as pyplot
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
+
+
+dpf.apply_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Begin by downloading the example harmonic result. This result is

@@ -7,11 +7,19 @@ In this example, two DPF servers are started, and a workflow is created
 with a part on both servers. This example shows how you can read data
 from a given machine and transform this data on another machine
 without any more difficulties than working on a local computer.
+
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
+
+
+dpf.apply_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Create two servers

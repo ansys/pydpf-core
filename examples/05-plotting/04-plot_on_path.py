@@ -6,12 +6,19 @@ Plot results on a specific path
 This example shows how to get a result mapped over a specific path
 and how to plot it.
 
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.plotter import DpfPlotter
+
+
+dpf.apply_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Plot path

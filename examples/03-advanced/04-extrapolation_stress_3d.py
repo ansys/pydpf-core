@@ -28,10 +28,17 @@ Here are the steps for extrapolation:
 #. Compare the result for nodal stress from the data source
    and the nodal stress computed by the extrapolation method.
 
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+
+
+dpf.apply_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Get the data source's analysis of integration points and analysis reference

@@ -8,10 +8,18 @@ elements for a given node to get a minimum volume.
 For each list of elements, the elemental stress equivalent is multiplied by the
 volume of each element. This result is then accumulated to divide it by the
 total volume.
+
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
+
+
+dpf.apply_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Create a model targeting a given result file
