@@ -8,7 +8,7 @@ from ansys.dpf.core import Model, Operator
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import misc
 from ansys.dpf.core.plotter import plot_chart
-from conftest import running_docker
+from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -614,6 +614,8 @@ def test_plot_warped_mesh(multishells):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='Polygons are supported starting server version 5.0')
 def test_plot_polygon():
     # Define polygon points
     polygon_points = [
@@ -634,6 +636,8 @@ def test_plot_polygon():
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='Polyhedrons are supported starting server version 5.0')
 def test_plot_polyhedron():
     # Define the coordinates
     polyhedron_points = [
