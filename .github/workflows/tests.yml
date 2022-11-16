@@ -58,6 +58,7 @@ env:
   MODULE: core
   extra: "--pre --find-links .github/"
   ANSYS_DPF_ACCEPT_LA: Y
+  ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
 
 jobs:
   setup:
@@ -95,6 +96,8 @@ jobs:
           wheel: ${{ inputs.wheel }}
           wheelhouse: ${{ inputs.wheelhouse }}
           extra-pip-args: ${{ env.extra }}
+        env:
+          ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
 
       - name: "Install ansys-grpc-dpf==0.4.0"
         if: inputs.ANSYS_VERSION == 221
@@ -113,6 +116,8 @@ jobs:
         with:
           MODULE: ${{env.MODULE}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+        env:
+          ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
 
       - name: "Separate long Core tests"
         shell: pwsh
