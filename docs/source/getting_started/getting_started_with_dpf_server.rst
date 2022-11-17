@@ -23,27 +23,26 @@ Installing DPF Server
 
 .. _target_to_installing_server:
 
-#. Download the ansys_dpf_server_win_v2023.2.pre0.zip or ansys_dpf_server_lin_v2023.2.pre0.zip file as appropriate.
-#. Unzip the package.
+.. list-table::
 
-Using DPF Server
-----------------
+    * #. Download the ansys_dpf_server_win_v2023.2.pre0.zip or ansys_dpf_server_lin_v2023.2.pre0.zip file as appropriate.
+      #. Unzip the package.
+      #. Change to the ansys folder of the unzipped package. 
+      #. In a Python environment, run the following command:
+      
+      .. code::
+      
+          pip install -e . 
+	
+PyDPF-Core and PyDPF-Post python modules can now be used. The instructions to install and get started with PyDPF-Core 
+(ansys-dpf-core module) can be found at `Getting Started section <https://dpf.docs.pyansys.com/getting_started/install.html>`_. 
 
-Using PyDPF-Core and PyDPF-Post clients with DPF Server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-PyDPF-Core and PyDPF-Post are python clients relying on a DPF Server. 
-The instructions to install and get started with PyDPF-Core (ansys-dpf-core module) can be found 
-at `Getting Started section <https://dpf.docs.pyansys.com/getting_started/install.html>`_. 
-
-Starting Python environment, set ANSYS_DPF_PATH environment variable to use DPF Server:
+For ansys-dpf-core < 0.6.3, starting Python environment, set ANSYS_DPF_PATH environment variable to use DPF Server:
 
 .. code::
 
     import os
-    os.environ["ANSYS_DPF_PATH"] = r"D:\ansys_dpf_server\v232 # path to DPF Server root
-
-PyDPF-Core and PyDPF-Post python modules can now be used.
+    os.environ["ANSYS_DPF_PATH"] = r"D:\ansys_dpf_server\v232" # path to DPF Server root
 
 Running the DPF Server
 ~~~~~~~~~~~~~~~~~~~~~~
