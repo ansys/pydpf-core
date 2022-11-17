@@ -114,6 +114,8 @@ jobs:
         with:
           MODULE: ${{env.MODULE}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+        env:
+          ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
       - name: "Separate long Core tests"
         shell: pwsh
