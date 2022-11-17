@@ -23,16 +23,14 @@ Installing DPF Server
 
 .. _target_to_installing_server:
 
-.. list-table::
+#. Download the ansys_dpf_server_win_v2023.2.pre0.zip or ansys_dpf_server_lin_v2023.2.pre0.zip file as appropriate.
+#. Unzip the package.
+#. Change to the ansys folder of the unzipped package. 
+#. In a Python environment, run the following command:
 
-    * #. Download the ansys_dpf_server_win_v2023.2.pre0.zip or ansys_dpf_server_lin_v2023.2.pre0.zip file as appropriate.
-      #. Unzip the package.
-      #. Change to the ansys folder of the unzipped package. 
-      #. In a Python environment, run the following command:
-      
-      .. code::
-      
-          pip install -e . 
+.. code::
+
+    pip install -e . 
 	
 PyDPF-Core and PyDPF-Post python modules can now be used. The instructions to install and get started with PyDPF-Core 
 (ansys-dpf-core module) can be found at `Getting Started section <https://dpf.docs.pyansys.com/getting_started/install.html>`_. 
@@ -112,11 +110,17 @@ Setting ANSYSLMD_LICENSE_FILE environment variable to point to the server  might
 The following Ansys licensing increments currently provide rights to use DPF Server: 
 
 - "preppost" available in Ansys Mechanical Enterprise PrepPost product
+- "mech_1" availale in ANSYS Mechanical Pro product
 - "mech_2" availale in ANSYS Mechanical Premium product
 - "ansys" available in ANSYS Mechanical Enterprise product
 - "meba" available in ANSYS Mechanical Enterprise Solver product
 - "dynapp" available in ANSYS LS-DYNA PrepPost product
 - "acpreppost" available in Ansys Mechanical Enterprise product
+- "acdi_adprepost" available in Ansys AUTODYN and Ansys AUTODYN PrepPost products
+- "ans_act" available in ANSYS Customization Module product
+- "vmotion" available in Ansys Motion product
+- "vmotion_post" available in Ansys Motion Post product
+- "vmotion_pre" available in Ansys Motion Pre product
 - "fluent_meshing_pro" available in Ansys CFD Enterprise product
 - "fluent_setup_post" available in Ansys CFD Enterprise product
 - "fluent_setup_post_pro" available in Ansys CFD Enterprise product
