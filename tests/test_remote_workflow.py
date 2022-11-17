@@ -5,7 +5,6 @@ from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core.errors import ServerTypeError
 from ansys.dpf.core import operators as ops
-from ansys.dpf.core.check_version import meets_version, get_server_version
 from conftest import local_servers, running_docker
 import conftest
 
@@ -318,6 +317,7 @@ def test_remote_workflow_info(local_server):
     assert "distrib" in remote_workflow.output_names
 
 
+@pytest.mark.slow
 @pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
                     reason='Connecting data from different servers is '
@@ -567,7 +567,7 @@ def test_multi_process_transparent_api_create_on_local_remote_ith_address_workfl
     assert np.allclose(max_field.data, [10.03242272])
 
 
-@pytest.mark.skipif(not meets_version(get_server_version(core._global_server()), "4.0"),
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
                     reason='Requires server version higher than 4.0')
 def test_distributed_workflows_integral_types():
     data_types = [

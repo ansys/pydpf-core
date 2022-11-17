@@ -1130,6 +1130,7 @@ def test_deep_copy_field():
     assert field.unit == copy.unit
 
 
+@pytest.mark.slow
 def test_deep_copy_elemental_nodal_field(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     stress = model.results.stress()

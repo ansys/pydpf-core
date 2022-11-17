@@ -5,12 +5,6 @@ import vtk
 from ansys import dpf
 import conftest
 
-from ansys.dpf.core.check_version import meets_version, get_server_version
-
-SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(
-    get_server_version(dpf.core._global_server()), "3.0"
-)
-
 
 @pytest.fixture()
 def simple_bar_model(simple_bar, server_type):
@@ -561,6 +555,7 @@ def test_has_element_shape_meshed_region(server_type):
     assert mesh.elements.has_point_elements is True
 
 
+@pytest.mark.slow
 def test_mesh_deep_copy(allkindofcomplexity, server_type):
     model = dpf.core.Model(allkindofcomplexity, server=server_type)
     mesh = model.metadata.meshed_region
@@ -592,6 +587,7 @@ def test_mesh_deep_copy(allkindofcomplexity, server_type):
     )
 
 
+@pytest.mark.slow
 def test_mesh_deep_copy2(simple_bar_model, server_type):
     mesh = simple_bar_model.metadata.meshed_region
     copy = mesh.deep_copy()

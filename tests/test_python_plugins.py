@@ -6,7 +6,6 @@ from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 from ansys.dpf import core as dpf
 import conftest
 from ansys.dpf.core.errors import DPFServerException
-from ansys.dpf.core import server_types
 from ansys.dpf.core.operator_specification import (
     CustomSpecification,
     SpecificationProperties,
@@ -264,9 +263,8 @@ def test_syntax_error(server_type_remote_process):
 
 
 @conftest.raises_for_servers_version_under("4.0")
-def test_create_op_specification():
-    local_server = server_types.InProcessServer(as_global=False)
-    spec = CustomSpecification(server=local_server)
+def test_create_op_specification(server_in_process):
+    spec = CustomSpecification(server=server_in_process)
     spec.description = "Add a custom value to all the data of an input Field"
     spec.inputs = {
         0: PinSpecification(
@@ -306,9 +304,8 @@ def test_create_op_specification():
 
 
 @conftest.raises_for_servers_version_under("4.0")
-def test_create_config_op_specification():
-    local_server = server_types.InProcessServer(as_global=False)
-    spec = CustomSpecification(server=local_server)
+def test_create_config_op_specification(server_in_process):
+    spec = CustomSpecification(server=server_in_process)
     spec.config_specification = [
         CustomConfigOptionSpec("work_by_index", False, "iterate over indices")
     ]
@@ -331,15 +328,14 @@ def test_create_config_op_specification():
 
 
 @conftest.raises_for_servers_version_under("4.0")
-def test_create_properties_specification():
-    local_server = server_types.InProcessServer(as_global=False)
-    spec = CustomSpecification(server=local_server)
+def test_create_properties_specification(server_in_process):
+    spec = CustomSpecification(server=server_in_process)
     spec.properties = SpecificationProperties("custom add to field", "math")
     assert spec.properties["exposure"] == "public"
     assert spec.properties["category"] == "math"
     assert spec.properties.exposure == "public"
     assert spec.properties.category == "math"
-    spec = CustomSpecification(server=local_server)
+    spec = CustomSpecification(server=server_in_process)
     spec.properties["exposure"] = "public"
     spec.properties["category"] = "math"
     assert spec.properties.exposure == "public"

@@ -203,6 +203,9 @@ def cyclic_multistage():
     return core.examples.download_multi_stage_cyclic_result()
 
 
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 = meets_version(
+    get_server_version(core._global_server()), "6.0"
+)
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0 = meets_version(
     get_server_version(core._global_server()), "5.0"
 )
@@ -212,6 +215,10 @@ SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 = meets_version(
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 = meets_version(
     get_server_version(core._global_server()), "3.0"
 )
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0 = meets_version(
+    get_server_version(core._global_server()), "2.1"
+)
+
 
 IS_USING_GATEBIN = _try_use_gatebin()
 
@@ -224,7 +231,10 @@ def raises_for_servers_version_under(version):
 
     def decorator(func):
         @pytest.mark.xfail(
-            not meets_version(get_server_version(core._global_server()), version),
+            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 if version == "3.0" else
+            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 if version == "4.0" else
+            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0 if version == "5.0" else
+            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 if version == "6.0" else True,
             reason=f"Requires server version greater than or equal to {version}",
             raises=core.errors.DpfVersionNotSupported,
         )
@@ -305,6 +315,15 @@ def server_type_remote_process(request):
     ids=config_names_server_type_remote_process,
 )
 def remote_config_server_type(request):
+    return request.param
+
+
+@pytest.fixture(
+    scope="package",
+    params=configsserver_type,
+    ids=config_namesserver_type,
+)
+def config_server_type(request):
     return request.param
 
 
@@ -435,3 +454,12 @@ def count_servers(request):
         # assert num_dpf_exe == 1
 
     request.addfinalizer(count_servers)
+
+
+# to call at the end
+if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+    core.server.shutdown_all_session_servers()
+    try:
+        core.apply_server_context(core.AvailableServerContexts.premium)
+    except core.errors.DpfVersionNotSupported:
+        pass

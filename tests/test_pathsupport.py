@@ -2,6 +2,9 @@
 import pytest
 import functools
 import os
+from conftest import (
+    running_docker
+)
 
 from ansys import dpf
 from pathlib import Path
@@ -31,7 +34,7 @@ def test_print_data_sources_path(allkindofcomplexity):
     assert len(data_sources.result_files) == 1
     assert os.path.normpath(data_sources.result_files[0]) == os.path.normpath(allkindofcomplexity)
 
-
+@pytest.mark.skipif(os.name == "nt" and running_docker, reason="Path is setting backslashes")
 def test_all_result_operators_exist_path(allkindofcomplexity):
     path = Path(allkindofcomplexity)
     model = dpf.core.Model(path)
