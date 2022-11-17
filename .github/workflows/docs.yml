@@ -33,6 +33,9 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   extra: "--find-links .github/"
+  ANSYS_DPF_ACCEPT_LA: Y
+  ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
+  ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
 jobs:
   docs:
