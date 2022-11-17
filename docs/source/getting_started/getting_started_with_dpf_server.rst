@@ -35,13 +35,6 @@ Installing DPF Server
 PyDPF-Core and PyDPF-Post python modules can now be used. The instructions to install and get started with PyDPF-Core 
 (ansys-dpf-core module) can be found at `Getting Started section <https://dpf.docs.pyansys.com/getting_started/install.html>`_. 
 
-For ansys-dpf-core < 0.6.3, starting Python environment, set ANSYS_DPF_PATH environment variable to use DPF Server:
-
-.. code::
-
-    import os
-    os.environ["ANSYS_DPF_PATH"] = r"D:\ansys_dpf_server\v232" # path to DPF Server root
-
 Running the DPF Server
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -110,25 +103,24 @@ Setting ANSYSLMD_LICENSE_FILE environment variable to point to the server  might
 The following Ansys licensing increments currently provide rights to use DPF Server: 
 
 - "preppost" available in Ansys Mechanical Enterprise PrepPost product
-- "mech_1" availale in ANSYS Mechanical Pro product
-- "mech_2" availale in ANSYS Mechanical Premium product
-- "ansys" available in ANSYS Mechanical Enterprise product
 - "meba" available in ANSYS Mechanical Enterprise Solver product
+- "mech_2" availale in ANSYS Mechanical Premium product
+- "mech_1" availale in ANSYS Mechanical Pro product
+- "ansys" available in ANSYS Mechanical Enterprise product
 - "dynapp" available in ANSYS LS-DYNA PrepPost product
+- "vmotion" available in Ansys Motion product
 - "acpreppost" available in Ansys Mechanical Enterprise product
 - "acdi_adprepost" available in Ansys AUTODYN and Ansys AUTODYN PrepPost products
-- "ans_act" available in ANSYS Customization Module product
-- "vmotion" available in Ansys Motion product
+- "cfd_preppost" available in Ansys CFD Enterprise product
+- "cfd_preppost_pro" available in Ansys CFD Enterprise product
 - "vmotion_post" available in Ansys Motion Post product
 - "vmotion_pre" available in Ansys Motion Pre product
+- "advanced_meshing" available in Ansys CFD Enterprise product
 - "fluent_meshing_pro" available in Ansys CFD Enterprise product
 - "fluent_setup_post" available in Ansys CFD Enterprise product
 - "fluent_setup_post_pro" available in Ansys CFD Enterprise product
-- "cfd_preppost" available in Ansys CFD Enterprise product
-- "cfd_preppost_pro" available in Ansys CFD Enterprise product
 - "acfx_pre" available in Ansys CFD Enterprise product
 - "cfd_base" available in Ansys CFD Enterprise product
-- "advanced_meshing" available in Ansys CFD Enterprise product
 - "cfd_solve_level1" available in Ansys CFD Enterprise product
 - "cfd_solve_level2" available in Ansys CFD Enterprise product
 - "cfd_solve_level3" available in Ansys CFD Enterprise product
