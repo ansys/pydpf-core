@@ -1,3 +1,4 @@
+# noqa: D400
 """
 .. _ref_basic_example:
 
@@ -6,11 +7,11 @@ Basic DPF-Core usage
 This example shows how to open a result file and do some
 basic postprocessing.
 
-If you have Ansys 2021 R1 installed, starting DPF is quite easy
+If you have Ansys 2021 R1 or higher installed, starting DPF is quite easy
 as DPF-Core takes care of launching all the services that
 are required for postprocessing Ansys files.
 
-First, import the DPF-Core module as ``dpf_core`` and import the
+First, import the DPF-Core module as ``dpf`` and import the
 included examples file.
 
 
@@ -21,8 +22,8 @@ from ansys.dpf.core import examples
 
 ###############################################################################
 # Next, open an example and print out the ``model`` object. The
-# ``Model`` class helps to organize access methods for the result by
-# keeping track of the operators and data sources used by the result
+# :class:`Model <ansys.dpf.core.model.Model>` class helps to organize access methods
+# for the result by keeping track of the operators and data sources used by the result
 # file.
 #
 # Printing the model displays:
@@ -35,7 +36,7 @@ from ansys.dpf.core import examples
 # Also, note that the first time you create a DPF object, Python
 # automatically attempts to start the server in the background. If you
 # want to connect to an existing server (either local or remote), use
-# :func:`dpf.connect_to_server`.
+# :func:`ansys.dpf.core.connect_to_server`.
 
 model = dpf.Model(examples.find_simple_bar())
 print(model)
