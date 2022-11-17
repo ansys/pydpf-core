@@ -412,9 +412,9 @@ class Metadata:
         op.inputs.connect(self._stream_provider.outputs)
         try:
             result_info = op.get_output(0, types.result_info)
-        except _InactiveRpcError as e:
+        except Exception as e:
             # give the user a more helpful error
-            if "results file is not defined in the Data sources" in e.details():
+            if "results file is not defined in the Data sources" in e.args():
                 raise RuntimeError("Unable to open result file") from None
             else:
                 raise e

@@ -25,6 +25,12 @@ from ansys.dpf.gate import (
     object_handler
     )
 
+try:
+    from grpc import _channel
+    # weirdly necessary to delete LegacyGrpcError
+except ImportError:
+    pass
+
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
 
