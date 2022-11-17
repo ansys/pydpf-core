@@ -54,26 +54,29 @@ class TestServerConfigs:
                 os.unsetenv(awp_root_name)
             except:
                 del os.environ[awp_root_name]
-        try:
-            server = core.start_local_server(
-                ansys_path=path,
-                config=server_config,
-                as_global=True,
-            )
-            assert isinstance(server.os, str)
-            if server_config != core.AvailableServerConfigs.InProcessServer and not running_docker:
-                p = psutil.Process(server.info["server_process_id"])
-                assert path in p.cwd()
-            if path:
-                os.environ[
-                    awp_root_name
-                ] = path
-        except Exception as e:
-            if path:
-                os.environ[
-                    awp_root_name
-                ] = path
-            raise e
+            try:
+                server = core.start_local_server(
+                    ansys_path=path,
+                    config=server_config,
+                    as_global=True,
+                )
+                assert isinstance(server.os, str)
+                if server_config != core.AvailableServerConfigs.InProcessServer and \
+                        not running_docker:
+                    p = psutil.Process(server.info["server_process_id"])
+                    assert path in p.cwd()
+                if path:
+                    os.environ[
+                        awp_root_name
+                    ] = path
+            except Exception as e:
+                if path:
+                    os.environ[
+                        awp_root_name
+                    ] = path
+                raise e
+        else:
+            pytest.skip(awp_root_name + " is not set")
 
     @pytest.mark.skipif(running_docker, reason="AWP ROOT is not set with Docker")
     def test_start_local_no_ansys_path(self, server_config):
@@ -87,7 +90,8 @@ class TestServerConfigs:
                 str(server.version)
             ]
             ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
-            assert os.environ["AWP_ROOT" + ver_to_check] in p.cwd()
+            if os.environ.get("AWP_ROOT" + ver_to_check, None) is not None:
+                assert os.environ["AWP_ROOT" + ver_to_check] in p.cwd()
 
     @pytest.mark.skipif(
         not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
