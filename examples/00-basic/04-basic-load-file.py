@@ -1,3 +1,4 @@
+# noqa: D400
 """
 .. _ref_basic_load_file_example:
 
@@ -87,9 +88,35 @@ os.remove(downloaded_client_file_path)
 ###############################################################################
 # Make operations over the imported fields container
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Use this fields container:
+# Use this fields container to get the minimum displacement:
 
 min_max_op = dpf.operators.min_max.min_max_fc()
 min_max_op.inputs.fields_container.connect(downloaded_fc_out)
 min_field = min_max_op.outputs.field_min()
 min_field.data
+
+###############################################################################
+# Compare the original and the downloaded fields container
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Subtract the two fields and plot an error map:
+abs_error = (fc_out - downloaded_fc_out).eval()
+
+divide = dpf.operators.math.component_wise_divide()
+divide.inputs.fieldA.connect(fc_out - downloaded_fc_out)
+divide.inputs.fieldB.connect(fc_out)
+scale = dpf.operators.math.scale()
+scale.inputs.field.connect(divide)
+scale.inputs.ponderation.connect(100.)
+rel_error = scale.eval()
+
+###############################################################################
+# Plot both absolute and relative error fields
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Note that the absolute error is bigger where the displacements are
+# bigger, at the tip of the geometry.
+# Instead, the relative error is similar accross the geometry since we
+# are dividing by the displacements ``fc_out``.
+# Both plots show errors that can be understood as zero due to machine precision
+# (1e-12 mm for the absolute error and 1e-5% for the relative error).
+mesh.plot(abs_error, scalar_bar_args={'title': "Absolute error [mm]"})
+mesh.plot(rel_error, scalar_bar_args={'title': "Relative error [%]"})

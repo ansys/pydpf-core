@@ -1,14 +1,15 @@
+# noqa: D400
 """
 .. _ref_server_types_example:
 
 Communicate in process or via gRPC
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Starting with Ansys 2022 R2, PyDPF can communication either In Process or via gRPC
+Starting with Ansys 2022 R2, PyDPF can communicate either via In Process or via gRPC
 with DPF C++ core server (``Ans.Dpf.Grpc.exe``). To choose which type of
 :class:`ansys.dpf.core.server_types.BaseServer` (object defining the type of communication
 and the server instance to communicate with) to use, a
 :class:`ansys.dpf.core.server_factory.ServerConfig` class should be used.
-Until Ansys 2022R1, only gRPC communication using python module ansys.grpc.dpf is supported
+Until Ansys 2022R1, only gRPC communication using python module ``ansys.grpc.dpf`` is supported
 (now called :class:`ansys.dpf.core.server_types.LegacyGrpcServer`), starting with Ansys 2022 R2,
 three types of servers are supported:
 
@@ -45,9 +46,7 @@ legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config)
 ###############################################################################
 # Equivalent to:
 
-in_process_config = dpf.ServerConfig(
-    protocol=None, legacy=False
-)
+in_process_config = dpf.ServerConfig(protocol=None, legacy=False)
 grpc_config = dpf.ServerConfig(
     protocol=dpf.server_factory.CommunicationProtocols.gRPC, legacy=False
 )
@@ -64,14 +63,14 @@ legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config, as_global
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 in_process_field = dpf.fields_factory.create_scalar_field(2, server=in_process_server)
-in_process_field.append([1.], 1)
-in_process_field.append([2.], 2)
+in_process_field.append([1.0], 1)
+in_process_field.append([2.0], 2)
 grpc_field = dpf.fields_factory.create_scalar_field(2, server=grpc_server)
-grpc_field.append([1.], 1)
-grpc_field.append([2.], 2)
+grpc_field.append([1.0], 1)
+grpc_field.append([2.0], 2)
 legacy_grpc_field = dpf.fields_factory.create_scalar_field(2, server=legacy_grpc_server)
-legacy_grpc_field.append([1.], 1)
-legacy_grpc_field.append([2.], 2)
+legacy_grpc_field.append([1.0], 1)
+legacy_grpc_field.append([2.0], 2)
 
 print(in_process_field, type(in_process_field._server), in_process_field._server)
 print(grpc_field, type(grpc_field._server), grpc_field._server)
@@ -87,8 +86,8 @@ initial_config = dpf.SERVER_CONFIGURATION
 
 dpf.SERVER_CONFIGURATION = dpf.AvailableServerConfigs.GrpcServer
 grpc_field = dpf.fields_factory.create_scalar_field(2)
-grpc_field.append([1.], 1)
-grpc_field.append([2.], 2)
+grpc_field.append([1.0], 1)
+grpc_field.append([2.0], 2)
 print(grpc_field, type(grpc_field._server), grpc_field._server)
 
 # Go back to default config:

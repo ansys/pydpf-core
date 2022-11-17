@@ -1,11 +1,12 @@
+# noqa: D400
 """
 .. _extrapolation_test_stress_3Delement:
 
 Extrapolation method for stress result of a 3D element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to compute the nodal components stress from
-Gaussian points (integration points) for a 3D element by using
-of extrapolation.
+This example shows how to compute the stress nodal components from
+Gaussian points (integration points) for a 3D element using
+extrapolation.
 
 Extrapolate results available at Gaussian or quadrature points to nodal
 points for a field or fields container. The available elements are:
@@ -21,7 +22,7 @@ Here are the steps for extrapolation:
 
 #. Get the data source's solution from the integration points. (This
    result file was generated with the Ansys Mechanical APDL (MAPDL)
-   option ``EREXS, NO``).
+   option ``ERESX, NO``).
 #. Use the extrapolation operator to compute the nodal stress.
 #. Get the result for nodal stress from the data source.
    The analysis was computed by MAPDL.
@@ -112,25 +113,55 @@ stress_ref = stressop_ref.outputs.fields_container()
 # extrapolation
 fex_nodal_op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
 fex_nodal_op.inputs.fields_container.connect(fex)
-mesh.plot(fex_nodal_op.outputs.fields_container())
+fex_nodal_fc = fex_nodal_op.eval()
+mesh.plot(fex_nodal_fc)
+
 # reference
 stress_ref_nodal_op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
 stress_ref_nodal_op.inputs.fields_container.connect(stress_ref)
-mesh.plot(stress_ref_nodal_op.outputs.fields_container())
+stress_ref_nodal_fc = stress_ref_nodal_op.eval()
+mesh.plot(stress_ref_nodal_fc)
 
 ###############################################################################
 # Compare stress results
 # ~~~~~~~~~~~~~~~~~~~~~~
 # Compare the stress result computed by extrapolation and the reference's result.
-# Check if the two fields container are identical.
-# The maximum tolerance gap between two compared values is 1e-2.
+# Check if the two fields container are identical using the
+# :class:`identical_fc <ansys.dpf.core.operators.logic.identical_fc>` operator.
+# The relative tolerance is set to 1.1e-6.
 # The smallest value that is considered during the comparison step: all the
-# ``abs(values)`` in field less than 1e-8 is considered as null.
+# ``abs(values)`` in field less than 1e-2 is considered as null.
 
 # operator AreFieldsIdentical_fc
 op = dpf.operators.logic.identical_fc()
-op.inputs.fields_containerA.connect(fex)
-op.inputs.fields_containerB.connect(stress_ref)
-op.inputs.tolerance.connect(1.0e-8)
+op.inputs.fields_containerA.connect(fex_nodal_op)
+op.inputs.fields_containerB.connect(stress_ref_nodal_op)
+op.inputs.tolerance.connect(1.1e-6)
 op.inputs.small_value.connect(0.01)
 op.outputs.boolean()
+
+###############################################################################
+# Compute absolute and relative errors
+abs_error_sqr = dpf.operators.math.sqr_fc()
+abs_error = dpf.operators.math.sqrt_fc()
+error = stress_ref_nodal_op - fex_nodal_op
+abs_error_sqr.inputs.fields_container.connect(error)
+abs_error.inputs.fields_container.connect(abs_error_sqr)
+
+
+divide = dpf.operators.math.component_wise_divide()
+divide.inputs.fieldA.connect(stress_ref_nodal_op - fex_nodal_op)
+divide.inputs.fieldB.connect(stress_ref_nodal_op)
+rel_error = dpf.operators.math.scale()
+rel_error.inputs.field.connect(divide)
+rel_error.inputs.ponderation.connect(1.0)
+
+###############################################################################
+# Plot absolute and relative errors.
+# The absolute value is the order of 10, which is very small when compared to the
+# magnitude of 1e8 of the displacements. This is reflected in the relative error
+# plot, where the errors are found to be below 1.02e-6%. The result of these plots
+# can be used to set the tolerances for the
+# :class:`identical_fc <ansys.dpf.core.operators.logic.identical_fc>` operator.
+mesh.plot(abs_error.eval(), scalar_bar_args={"title": "Absolute error [mm]"})
+mesh.plot(rel_error.eval(), scalar_bar_args={"title": "Relative error [%]"})

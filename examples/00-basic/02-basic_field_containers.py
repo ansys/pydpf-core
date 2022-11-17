@@ -1,13 +1,14 @@
+# noqa: D400
 """
 .. _ref_basic_field_example:
 
 Field and field containers overview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In DPF, the field is the main simulation data container. During a numerical
-simulation, result data is defined by values associated to entities
+simulation, the result data is defined by values associated to entities
 (scoping). These entities are a subset of a model (support).
 
-Because field data is always associated to its scoping and support,
+Because the field data is always associated to its scoping and support,
 the field is a self-describing piece of data. A field is also
 defined by its parameters, such as dimensionality, unit, and location.
 For example, a field can describe any of the following:
