@@ -101,7 +101,7 @@ def get_ansys_path(ansys_path=None):
 
 
 def _pythonize_awp_version(version):
-    if len(version) != 3 or version[0] != "2":
+    if len(version) != 3:
         return version
     return "20" + version[0:2] + "." + version[2]
 
