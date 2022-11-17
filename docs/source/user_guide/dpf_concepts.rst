@@ -38,7 +38,7 @@ DPF concepts
 
        .. image:: ../images/drawings/checklist.png
 
-    .. card:: Using DPF across a network
+    .. card:: Using DPF: locally/remotely
        :link: user_guide_server_types
        :link-type: ref
        :width: 25%
