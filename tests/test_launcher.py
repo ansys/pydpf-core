@@ -125,7 +125,7 @@ class TestServerConfigs:
                 del os.environ["ANSYS_DPF_PATH"]
 
         except Exception as e:
-            if awp_root_name:
+            if awp_root_name and awp_root:
                 os.environ[
                     awp_root_name
                 ] = awp_root
