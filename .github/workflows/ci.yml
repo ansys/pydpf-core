@@ -28,29 +28,29 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
 
-#  style:
-#    name: "Style Check"
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#      - name: "Setup Python"
-#        uses: actions/setup-python@v4.2.0
-#        with:
-#          python-version: 3.8
-#
-#      - name: "Install style requirements"
-#        run: |
-#          pip install -r requirements/requirements_style.txt --disable-pip-version-check
-#
-#      - name: "Codespell"
-#        run: |
-#          make codespell
-#        continue-on-error: true
-#
-#      - name: "flake8"
-#        run: |
-#          make flake8
+  style:
+    name: "Style Check"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Setup Python"
+        uses: actions/setup-python@v4.2.0
+        with:
+          python-version: 3.8
+
+      - name: "Install style requirements"
+        run: |
+          pip install -r requirements/requirements_style.txt --disable-pip-version-check
+
+      - name: "Codespell"
+        run: |
+          make codespell
+        continue-on-error: true
+
+      - name: "flake8"
+        run: |
+          make flake8
 
   tests:
     uses: ./.github/workflows/tests.yml
