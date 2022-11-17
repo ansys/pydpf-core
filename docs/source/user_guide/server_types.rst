@@ -15,7 +15,7 @@ and the IronPython client (available within Ansys Mechanical).
 The communication logic with a DPF server is defined when starting it using
 an instance of the :class:`ansys.dpf.core.server_factory.ServerConfig` class.
 Different predefined server configurations are available in DPF,
-to better answer different use-cases
+each answering a different use-case
 (See the :class:`ansys.dpf.core.server_factory.AvailableServerConfigs` class).
 
 - The `GrpcServer` configuration is available starting with server version 4.0 (Ansys 2022R2).
@@ -24,7 +24,7 @@ to better answer different use-cases
   Although it can be used to communicate with a DPF server running on the same local machine,
   in that case the next configuration should be preferred.
 - The `InProcess` configuration is available starting with server version 4.0 (Ansys 2022R2).
-  It tells the client that a DPF server is installed on the local machine, enabling direct calls
+  It indicates to the client that a DPF server is installed on the local machine, enabling direct calls
   to the server binaries from within the client's own Python process.
   This removes the need to copy and send data between the client and server, and makes calls
   to the server functionalities much faster as well as using less memory.
