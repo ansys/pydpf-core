@@ -11,6 +11,8 @@ env:
   MODULE: core
   extra: "--find-links .github/"
   ANSYS_VERSION: 232
+  ANSYS_DPF_ACCEPT_LA: Y
+  ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
 
 jobs:
   docker_tests:
@@ -26,7 +28,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: "Build Docker Package"
-        uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@fix/docker_test_232
+        uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@prepare_v2.3
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{env.ANSYS_VERSION}}
