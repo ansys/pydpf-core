@@ -26,7 +26,7 @@ from ansys.dpf.gate import (
     )
 
 try:
-    from grpc import _channel
+    from grpc import _channel  # noqa: F401
     # weirdly necessary to delete LegacyGrpcError
 except ImportError:
     pass
