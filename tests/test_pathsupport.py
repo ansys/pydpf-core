@@ -34,7 +34,7 @@ def test_print_data_sources_path(allkindofcomplexity):
     assert len(data_sources.result_files) == 1
     assert os.path.normpath(data_sources.result_files[0]) == os.path.normpath(allkindofcomplexity)
 
-@pytest.mark.skipif(os.name == "nt" and running_docker, reason="Can't work because PATH is setting backslashes")
+@pytest.mark.skipif(os.name == "nt" and running_docker, reason="Path is setting backslashes")
 def test_all_result_operators_exist_path(allkindofcomplexity):
     path = Path(allkindofcomplexity)
     model = dpf.core.Model(path)
