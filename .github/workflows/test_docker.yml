@@ -38,7 +38,7 @@ jobs:
           extra-pip-args: ${{ env.extra }}
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.2
+        uses: pyansys/pydpf-actions/prepare_tests@prepare_v2.3
         with:
           DEBUG: true
 
