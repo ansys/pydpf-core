@@ -1,9 +1,11 @@
+# noqa: D400
 """
 .. _ref_compare_modes:
 
 Use Result Helpers to compare mode shapes for solids and then shells
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The `Result` class which instances are created by the `Model` gives access to
+The :class:`Result <ansys.dpf.core.results.Result>` class which instances
+are created by the :class:`Model <ansys.dpf.core.model.Model>` gives access to
 helpers to request results on specific mesh and time scopings.
 With those helpers, working on a custom spatial and temporal subset of the
 model is straightforward.

@@ -127,7 +127,7 @@ def start_local_server(
         load_operators=True,
         use_docker_by_default=True,
         docker_config=RUNNING_DOCKER,
-        timeout=5.,
+        timeout=20.,
         config=None,
         use_pypim_by_default=True
 ):

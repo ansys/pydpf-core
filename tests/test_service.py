@@ -504,5 +504,17 @@ def test_apply_context_remote(remote_config_server_type, set_context_back_to_pre
     dpf.core.Operator("core::field::high_pass")
 
 
+@pytest.mark.order("last")
+@pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason="AWP ROOT is not set with Docker")
+@conftest.raises_for_servers_version_under("6.0")
+def test_release_dpf(server_type):
+    op = dpf.core.Operator("expansion::modal_superposition", server=server_type)
+    server_type.release()
+
+    with pytest.raises((KeyError, dpf.core.errors.DPFServerException)):
+        dpf.core.Operator("expansion::modal_superposition", server=server_type)
+
+
 if __name__ == "__main__":
     test_load_api_with_awp_root()
