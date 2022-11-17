@@ -31,6 +31,8 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   extra: "--find-links .github/"
+  ANSYS_DPF_ACCEPT_LA: Y
+  ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
 
 jobs:
   Clone_and_Test:
@@ -50,9 +52,9 @@ jobs:
         with:
           python-version: "3.8"
 
-      - name: "Force install gatebin 0.3.0.dev0 on Linux"
+      - name: "Force install gatebin 0.3.0 on Linux"
         run: |
-          pip install .github/ansys_dpf_gatebin-0.3.0.dev0-py3-none-manylinux_2_17_x86_64.whl
+          pip install .github/ansys_dpf_gatebin-0.3.0-py3-none-manylinux_2_17_x86_64.whl
         if: runner.os == 'Linux'
 
       - name: "Build Core Package"
