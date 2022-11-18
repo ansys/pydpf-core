@@ -71,6 +71,12 @@ jobs:
           wheelhouse: false
           extra-pip-args: ${{ env.extra }}
 
+      - name: "Install ansys-grpc-dpf==0.4.0"
+        if: inputs.ANSYS_VERSION == 221
+        shell: bash
+        run: |
+          pip install ansys-grpc-dpf==0.4.0
+
       - name: "Clone PyDPF-Post"
         shell: bash
         run: |
