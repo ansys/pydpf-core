@@ -7,7 +7,7 @@ import psutil
 import pytest
 
 from ansys.dpf import core
-from ansys.dpf.core.server_versions import server_to_ansys_version
+from ansys.dpf.core import server_to_ansys_version
 from conftest import (
     DPF_SERVER_TYPE,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,

@@ -21,10 +21,16 @@ from ansys.dpf.gate import data_processing_grpcapi, load_api
 import psutil
 
 import ansys.dpf.core as core
-from ansys.dpf.core import errors, server_context, server_factory, session
+from ansys.dpf.core import (
+    errors,
+    server_context,
+    server_factory,
+    server_to_ansys_grpc_dpf_version,
+    server_to_ansys_version,
+    session,
+)
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.misc import __ansys_version__
-from ansys.dpf.core.server_versions import server_to_ansys_grpc_dpf_version, server_to_ansys_version
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")

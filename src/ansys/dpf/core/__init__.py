@@ -7,6 +7,24 @@ except ModuleNotFoundError:
 
 __version__ = importlib_metadata.version(__name__.replace(".", "-"))
 
+server_to_ansys_grpc_dpf_version = {
+    "1.0": "==0.2.2",
+    "2.0": "==0.3.0",
+    "3.0": ">=0.4.0",
+    "4.0": ">=0.5.0",
+    "5.0": ">=0.6.0",
+    "6.0": ">=0.7.*",
+}
+
+server_to_ansys_version = {
+    "1.0": "2021R1",
+    "2.0": "2021R2",
+    "3.0": "2022R1",
+    "4.0": "2022R2",
+    "5.0": "2023R1",
+    "6.0": "2023R2",
+}
+
 # Setup data directory
 USER_DATA_PATH = None
 LOCAL_DOWNLOADED_EXAMPLES_PATH = None
