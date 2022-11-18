@@ -34,3 +34,4 @@ Write-Host "Deactivating the venv"
 & ($tempfolder+"\venv\Scripts\deactivate.bat")
 Write-Host "Removing the venv"
 Remove-Item -Recurse -Force ($tempfolder + "/venv")
+Write-Host "Done"
