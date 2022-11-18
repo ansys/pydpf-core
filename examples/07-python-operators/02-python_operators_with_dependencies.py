@@ -35,7 +35,6 @@ file at the given path.
 # created for you.
 
 import os
-import sys
 
 from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
@@ -138,12 +137,9 @@ if os.name == "nt" and not os.path.exists(
     cmd_file = examples.downloads._retrieve_file(
         CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
     )
-    python_exe = sys.executable
-    print("*** python_exe:", python_exe)
     args = ["powershell", cmd_file,
             "-pluginpath", plugin_path,
-            "-zippath", os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip'),
-            "-pythonexe", python_exe,
+            "-zippath", os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')
             ]
     print(args)
     import subprocess
