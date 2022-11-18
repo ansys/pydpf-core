@@ -5,7 +5,9 @@ Contains the different kinds of
 servers available for the factory.
 """
 import abc
+from abc import ABC
 import io
+import logging
 import os
 import socket
 import subprocess
@@ -15,20 +17,14 @@ import traceback
 from threading import Thread, Lock
 from abc import ABC
 
+from ansys.dpf.gate import data_processing_grpcapi, load_api
 import psutil
 
 import ansys.dpf.core as core
+from ansys.dpf.core import errors, server_context, server_factory, session
 from ansys.dpf.core.check_version import server_meet_version
-from ansys.dpf.core import errors, session, server_factory
-from ansys.dpf.core._version import (
-    server_to_ansys_grpc_dpf_version,
-    server_to_ansys_version
-)
 from ansys.dpf.core.misc import __ansys_version__
-from ansys.dpf.core import server_context
-from ansys.dpf.gate import load_api, data_processing_grpcapi
-
-import logging
+from ansys.dpf.core.server_versions import server_to_ansys_grpc_dpf_version, server_to_ansys_version
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -90,7 +86,8 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
         if not os.path.exists(os.path.join(dpf_run_dir, executable)):
             raise FileNotFoundError(
                 f'DPF executable not found at "{dpf_run_dir}".  '
-                f'Unable to locate the executable "{executable}"')
+                f'Unable to locate the executable "{executable}"'
+            )
     return dpf_run_dir
 
 
@@ -126,8 +123,10 @@ def _run_launch_server_process(ip, port, ansys_path=None,
 
 
 def _wait_and_check_server_connection(
-        process, port, timeout, lines, current_errors, stderr=None, stdout=None):
+    process, port, timeout, lines, current_errors, stderr=None, stdout=None
+):
     if not stderr:
+
         def read_stderr():
             with io.TextIOWrapper(process.stderr, encoding="utf-8") as log_err:
                 for line in log_err:
@@ -137,6 +136,7 @@ def _wait_and_check_server_connection(
         stderr = read_stderr
         # check to see if the service started
     if not stdout:
+
         def read_stdout():
             with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
                 for line in log_out:
@@ -170,8 +170,10 @@ def _wait_and_check_server_connection(
         except PermissionError:
             pass
         errstr = "\n".join(current_errors)
-        if "Only one usage of each socket address" in errstr or \
-                "port is already allocated" in errstr:
+        if (
+            "Only one usage of each socket address" in errstr
+            or "port is already allocated" in errstr
+        ):
             raise errors.InvalidPortError(f"Port {port} in use")
         raise RuntimeError(errstr)
 
@@ -200,14 +202,21 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
     lines = []
     current_errors = []
     _wait_and_check_server_connection(
-        process, port, timeout, lines, current_errors, stderr=None, stdout=None)
+        process, port, timeout, lines, current_errors, stderr=None, stdout=None
+    )
 
 
+<<<<<<< HEAD
 def launch_dpf_on_docker(running_docker_config=server_factory.RunningDockerConfig(),
                          ansys_path=None,
                          ip=LOCALHOST,
                          port=DPF_DEFAULT_PORT,
                          timeout=10.):
+=======
+def launch_dpf_on_docker(
+    docker_config, ansys_path=None, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10
+):
+>>>>>>> fefe8d8d (Use pyproject for version defintion and rename _version to server_versions)
     """Launch Ansys DPF.
 
     Parameters
@@ -259,35 +268,50 @@ def launch_dpf_on_docker(running_docker_config=server_factory.RunningDockerConfi
                                                     timeout, False)
 
     _wait_and_check_server_connection(
+<<<<<<< HEAD
         process, port, timeout, lines, current_errors, stderr=read_stderr, stdout=read_stdout)
+=======
+        process, port, timeout, lines, current_errors, stderr=None, stdout=read_stdout
+    )
+
+    return running_docker_config
+>>>>>>> fefe8d8d (Use pyproject for version defintion and rename _version to server_versions)
 
 
 def launch_remote_dpf(version=None):
     try:
         import ansys.platform.instancemanagement as pypim
     except ImportError as e:
-        raise ImportError("Launching a remote session of DPF requires the installation"
-                          + " of ansys-platform-instancemanagement") from e
+        raise ImportError(
+            "Launching a remote session of DPF requires the installation"
+            + " of ansys-platform-instancemanagement"
+        ) from e
     version = version or __ansys_version__
     pim = pypim.connect()
     instance = pim.create_instance(product_name="dpf", product_version=version)
     instance.wait_for_ready()
     grpc_service = instance.services["grpc"]
     if grpc_service.headers:
-        LOG.error("Communicating with DPF in this remote environment requires metadata."
-                  + "This is not supported, you will likely encounter errors or limitations.")
+        LOG.error(
+            "Communicating with DPF in this remote environment requires metadata."
+            + "This is not supported, you will likely encounter errors or limitations."
+        )
     return instance
 
 
 def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_module_version: str):
     if right_grpc_module_version_str:
         import re
+
         from packaging.version import parse as parse_version
+
         right_version_first_numbers = re.search(r"\d", right_grpc_module_version_str)
-        right_version_numbers = right_grpc_module_version_str[
-                                right_version_first_numbers.start():]
-        compare = "==" if right_version_first_numbers.start() == 0 else \
-            right_grpc_module_version_str[0:right_version_first_numbers.start()].strip()
+        right_version_numbers = right_grpc_module_version_str[right_version_first_numbers.start() :]
+        compare = (
+            "=="
+            if right_version_first_numbers.start() == 0
+            else right_grpc_module_version_str[0 : right_version_first_numbers.start()].strip()
+        )
         if compare == "==":
             return parse_version(grpc_module_version) == parse_version(right_version_numbers)
         elif compare == ">=":
@@ -304,6 +328,7 @@ def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_mod
 def check_ansys_grpc_dpf_version(server, timeout):
     import ansys.grpc.dpf
     import grpc
+
     state = grpc.channel_ready_future(server.channel)
     # verify connection has matured
     tstart = time.time()
@@ -314,8 +339,9 @@ def check_ansys_grpc_dpf_version(server, timeout):
         raise TimeoutError(
             f"Failed to connect to {server._input_ip}:{server._input_port} in {timeout} seconds"
         )
-    compatibility_link = (f"https://dpf.docs.pyansys.com/getting_started/"
-                          f"index.html#client-server-compatibility")
+    compatibility_link = (
+        f"https://dpf.docs.pyansys.com/getting_started/" f"index.html#client-server-compatibility"
+    )
     LOG.debug("Established connection to DPF gRPC")
     grpc_module_version = ansys.grpc.dpf.__version__
     server_version = server.version
@@ -328,21 +354,22 @@ def check_ansys_grpc_dpf_version(server, timeout):
         #               f"{compatibility_link}.")
         return
     if not _compare_ansys_grpc_dpf_version(right_grpc_module_version, grpc_module_version):
-        ansys_version_to_use = server_to_ansys_version.get(server_version, 'Unknown')
+        ansys_version_to_use = server_to_ansys_version.get(server_version, "Unknown")
         ansys_versions = core._version.server_to_ansys_version
         latest_ansys = ansys_versions[max(ansys_versions.keys())]
-        raise ImportWarning(f"An incompatibility has been detected between the DPF server version "
-                            f"({server_version} "
-                            f"from Ansys {ansys_version_to_use})"
-                            f" and the ansys-grpc-dpf version installed ({grpc_module_version})."
-                            f" Please consider using the latest DPF server available in the "
-                            f"{latest_ansys} Ansys unified install.\n"
-                            f"To follow the compatibility guidelines given in "
-                            f"{compatibility_link} while still using DPF server {server_version}, "
-                            f"please install version {right_grpc_module_version} of ansys-grpc-dpf"
-                            f" with the command: \n"
-                            f"     pip install ansys-grpc-dpf{right_grpc_module_version}"
-                            )
+        raise ImportWarning(
+            f"An incompatibility has been detected between the DPF server version "
+            f"({server_version} "
+            f"from Ansys {ansys_version_to_use})"
+            f" and the ansys-grpc-dpf version installed ({grpc_module_version})."
+            f" Please consider using the latest DPF server available in the "
+            f"{latest_ansys} Ansys unified install.\n"
+            f"To follow the compatibility guidelines given in "
+            f"{compatibility_link} while still using DPF server {server_version}, "
+            f"please install version {right_grpc_module_version} of ansys-grpc-dpf"
+            f" with the command: \n"
+            f"     pip install ansys-grpc-dpf{right_grpc_module_version}"
+        )
 
 
 class BaseServer(abc.ABC):
@@ -350,8 +377,7 @@ class BaseServer(abc.ABC):
 
     @abc.abstractmethod
     def __init__(self):
-        """Base class for all types of servers: grpc, in process...
-        """
+        """Base class for all types of servers: grpc, in process..."""
         # TODO: Use _server_id to compare servers for equality?
         self._server_id = None
         self._session_instance = None
@@ -576,9 +602,7 @@ class BaseServer(abc.ABC):
 class CServer(BaseServer, ABC):
     """Abstract class for servers going through the DPFClientAPI"""
 
-    def __init__(self,
-                 ansys_path=None,
-                 load_operators=True):
+    def __init__(self, ansys_path=None, load_operators=True):
         super().__init__()
         self._own_process = False
         self.ansys_path = ansys_path
@@ -604,6 +628,7 @@ class CServer(BaseServer, ABC):
 class GrpcClient:
     def __init__(self, address=None):
         from ansys.dpf.gate import client_capi
+
         self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
         client_capi.ClientCAPI.init_client_environment(self)
 
@@ -617,6 +642,7 @@ class GrpcClient:
 class GrpcServer(CServer):
     """Server using the gRPC communication protocol"""
 
+<<<<<<< HEAD
     def __init__(self,
                  ansys_path=None,
                  ip=LOCALHOST,
@@ -630,8 +656,24 @@ class GrpcServer(CServer):
                  num_connection_tryouts=3,
                  context=server_context.SERVER_CONTEXT
                  ):
+=======
+    def __init__(
+        self,
+        ansys_path=None,
+        ip=LOCALHOST,
+        port=DPF_DEFAULT_PORT,
+        timeout=10,
+        as_global=True,
+        load_operators=True,
+        launch_server=True,
+        docker_config=RUNNING_DOCKER,
+        use_pypim=True,
+        num_connection_tryouts=3,
+    ):
+>>>>>>> fefe8d8d (Use pyproject for version defintion and rename _version to server_versions)
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
+
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load Ans.Dpf.GrpcClient
         self._grpc_client_path = load_api.load_grpc_client(ansys_path=ansys_path)
@@ -642,18 +684,32 @@ class GrpcServer(CServer):
 
         self._remote_instance = None
         if launch_server:
-            if is_pypim_configured() and not ansys_path and not docker_config.use_docker \
-                    and use_pypim:
+            if (
+                is_pypim_configured()
+                and not ansys_path
+                and not docker_config.use_docker
+                and use_pypim
+            ):
                 self._remote_instance = launch_remote_dpf()
                 address = self._remote_instance.services["grpc"].uri
                 ip = address.split(":")[-2]
                 port = int(address.split(":")[-1])
 
             elif docker_config.use_docker:
+<<<<<<< HEAD
                 self.docker_config = server_factory.RunningDockerConfig(docker_config)
                 launch_dpf_on_docker(
                     running_docker_config=self.docker_config,
                     ansys_path=ansys_path, ip=ip, port=port, timeout=timeout)
+=======
+                self.docker_config = launch_dpf_on_docker(
+                    docker_config=docker_config,
+                    ansys_path=ansys_path,
+                    ip=ip,
+                    port=port,
+                    timeout=timeout,
+                )
+>>>>>>> fefe8d8d (Use pyproject for version defintion and rename _version to server_versions)
             else:
                 launch_dpf(ansys_path, ip, port, timeout=timeout)
                 self._local_server = True
@@ -680,13 +736,15 @@ class GrpcServer(CServer):
                 self.version
                 break
             except errors.DPFServerException as e:
-                if ("GOAWAY" not in str(e.args) and "unavailable" not in str(e.args)) \
-                        or i == (num_connection_tryouts - 1):
+                if ("GOAWAY" not in str(e.args) and "unavailable" not in str(e.args)) or i == (
+                    num_connection_tryouts - 1
+                ):
                     raise e
 
     @property
     def version(self):
         from ansys.dpf.gate import data_processing_capi, integral_types
+
         api = data_processing_capi.DataProcessingCAPI
         major = integral_types.MutableInt32()
         minor = integral_types.MutableInt32()
@@ -697,11 +755,13 @@ class GrpcServer(CServer):
     @property
     def os(self):
         from ansys.dpf.gate import data_processing_capi
+
         api = data_processing_capi.DataProcessingCAPI
         return api.data_processing_get_os_on_client(self.client)
 
     def _create_shutdown_funcs(self):
         from ansys.dpf.gate import data_processing_capi
+
         api = data_processing_capi.DataProcessingCAPI
         self._preparing_shutdown_func = (api.data_processing_prepare_shutdown, self.client)
         self._shutdown_func = (api.data_processing_release_server, self.client)
@@ -816,6 +876,7 @@ class GrpcServer(CServer):
 class InProcessServer(CServer):
     """Server using the InProcess communication protocol"""
 
+<<<<<<< HEAD
     def __init__(self,
                  ansys_path=None,
                  as_global=True,
@@ -823,10 +884,14 @@ class InProcessServer(CServer):
                  timeout=None,
                  context=server_context.SERVER_CONTEXT
                  ):
+=======
+    def __init__(self, ansys_path=None, as_global=True, load_operators=True, timeout=None):
+>>>>>>> fefe8d8d (Use pyproject for version defintion and rename _version to server_versions)
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load DataProcessingCore
         from ansys.dpf.gate.utils import data_processing_core_load_api
+
         name = "DataProcessingCore"
         path = _get_dll_path(name, ansys_path)
         try:
@@ -835,7 +900,8 @@ class InProcessServer(CServer):
             if not os.path.isdir(os.path.dirname(path)):
                 raise NotADirectoryError(
                     f"DPF directory not found at {os.path.dirname(path)}"
-                    f"Unable to locate the following file: {path}")
+                    f"Unable to locate the following file: {path}"
+                )
             raise e
         try:
             self.apply_context(context)
@@ -850,6 +916,7 @@ class InProcessServer(CServer):
     @property
     def version(self):
         from ansys.dpf.gate import data_processing_capi, integral_types
+
         api = data_processing_capi.DataProcessingCAPI
         major = integral_types.MutableInt32()
         minor = integral_types.MutableInt32()
@@ -922,6 +989,7 @@ class LegacyGrpcServer(BaseServer):
     """
 
     def __init__(
+<<<<<<< HEAD
             self,
             ansys_path=None,
             ip=LOCALHOST,
@@ -933,10 +1001,23 @@ class LegacyGrpcServer(BaseServer):
             docker_config=RUNNING_DOCKER,
             use_pypim=True,
             context=server_context.SERVER_CONTEXT
+=======
+        self,
+        ansys_path=None,
+        ip=LOCALHOST,
+        port=DPF_DEFAULT_PORT,
+        timeout=5,
+        as_global=True,
+        load_operators=True,
+        launch_server=True,
+        docker_config=RUNNING_DOCKER,
+        use_pypim=True,
+>>>>>>> fefe8d8d (Use pyproject for version defintion and rename _version to server_versions)
     ):
         """Start the DPF server."""
         # Use ansys.grpc.dpf
         from ansys.dpf.core.misc import is_pypim_configured
+
         super().__init__()
 
         self._info_instance = None
@@ -956,8 +1037,12 @@ class LegacyGrpcServer(BaseServer):
 
         self._remote_instance = None
         if launch_server:
-            if is_pypim_configured() and not ansys_path and not docker_config.use_docker \
-                    and use_pypim:
+            if (
+                is_pypim_configured()
+                and not ansys_path
+                and not docker_config.use_docker
+                and use_pypim
+            ):
                 self._remote_instance = launch_remote_dpf()
                 address = self._remote_instance.services["grpc"].uri
                 ip = address.split(":")[-2]
@@ -965,11 +1050,21 @@ class LegacyGrpcServer(BaseServer):
             else:
 
                 if docker_config.use_docker:
+<<<<<<< HEAD
                     self.docker_config = server_factory.RunningDockerConfig(docker_config)
                     launch_dpf_on_docker(
                         running_docker_config=self.docker_config,
                         ansys_path=ansys_path, ip=ip,
                         port=port, timeout=timeout)
+=======
+                    self.docker_config = launch_dpf_on_docker(
+                        docker_config=docker_config,
+                        ansys_path=ansys_path,
+                        ip=ip,
+                        port=port,
+                        timeout=timeout,
+                    )
+>>>>>>> fefe8d8d (Use pyproject for version defintion and rename _version to server_versions)
                 else:
                     launch_dpf(ansys_path, ip, port, timeout=timeout)
                     self._local_server = True

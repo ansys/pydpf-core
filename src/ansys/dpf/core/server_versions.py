@@ -1,10 +1,15 @@
 """Version for ansys-dpf-core"""
+<<<<<<< HEAD:src/ansys/dpf/core/_version.py
 # major, minor, patch
 version_info = 0, 7, 1, 'dev0'
+=======
+# # major, minor, patch
+# version_info = 0, 6, 3, 'dev0'
+>>>>>>> fefe8d8d (Use pyproject for version defintion and rename _version to server_versions):src/ansys/dpf/core/server_versions.py
 
-# Nice string for the version
-__version__ = ".".join(map(str, version_info))
-min_server_version = "2.0"
+# # Nice string for the version
+# __version__ = ".".join(map(str, version_info))
+# min_server_version = "2.0"
 
 server_to_ansys_grpc_dpf_version = {
     "1.0": "==0.2.2",
