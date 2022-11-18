@@ -44,6 +44,10 @@ jobs:
         with:
           DEBUG: true
 
+      - name: "List installed packages"
+        shell: bash
+        run: pip list
+
       - name: "Separate long Core tests"
         shell: pwsh
         run: |

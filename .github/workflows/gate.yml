@@ -80,6 +80,10 @@ jobs:
         with:
           DEBUG: true
 
+      - name: "List installed packages"
+        shell: bash
+        run: pip list
+
       - name: "Check examples with gatebin"
         shell: bash
         working-directory: .ci

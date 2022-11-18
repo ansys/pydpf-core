@@ -108,6 +108,10 @@ jobs:
         with:
           DEBUG: true
 
+      - name: "List installed packages"
+        shell: bash
+        run: pip list
+
       - name: "Test Docstrings"
         if: inputs.DOCSTRING == 'true'
         uses: pyansys/pydpf-actions/test_docstrings@prepare_v2.3

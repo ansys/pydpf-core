@@ -81,6 +81,10 @@ jobs:
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@prepare_v2.3
 
+      - name: "List installed packages"
+        shell: bash
+        run: pip list
+
       - name: "Build HTML Documentation"
         shell: cmd
         working-directory: .ci
