@@ -80,21 +80,6 @@ jobs:
         with:
           DEBUG: true
 
-      - name: "Translate runner.temp to Longpath on Windows"
-        shell: python
-        id: longpath
-        run: |
-          import win32file
-          print(f"LONGPATH={win32file.GetLongPathName(r"${{ runner.temp }}")} >> $GITHUB_OUTPUT")
-        if: runner.os == 'Windows'
-
-      - name: "Set TMP"
-        shell: bash
-        run: |
-          echo "TMP=${{ steps.longpath.outputs.LONGPATH }}" >> $GITHUB_ENV
-          echo "TEMP=${{ steps.longpath.outputs.LONGPATH }}" >> $GITHUB_ENV
-        if: runner.os == 'Windows'
-
       - name: "List installed packages"
         shell: bash
         run: pip list
