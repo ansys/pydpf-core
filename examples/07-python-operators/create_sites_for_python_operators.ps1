@@ -31,6 +31,6 @@ Write-Host "Compressing the site-packages"
 Compress-Archive ($tempfolder+"/venv/Lib/site-packages/*") -DestinationPath $zippath -Force
 
 Write-Host "Deactivating the venv"
-deactivate
+& ($tempfolder+"\venv\Scripts\deactivate.bat")
 Write-Host "Removing the venv"
 Remove-Item -Recurse -Force ($tempfolder + "/venv")
