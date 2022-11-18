@@ -139,7 +139,8 @@ if os.name == "nt" and not os.path.exists(
     )
     args = ["powershell", cmd_file,
             "-pluginpath", plugin_path,
-            "-zippath", os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')
+            "-zippath", os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip'),
+            "-tempfolder", r"C:\Users\runneradmin\AppData\Local\Temp\venv\Scripts\python.exe",
             ]
     print(args)
     import subprocess
