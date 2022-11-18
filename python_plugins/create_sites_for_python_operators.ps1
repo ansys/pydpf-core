@@ -20,12 +20,17 @@ if (Test-Path ($tempfolder + "/venv/Lib/site-packages/__pycache__")){
     Write-Host "remove __pycache__"
     Remove-Item -Recurse -Force ($tempfolder + "/venv/Lib/site-packages/__pycache__")
 }
+Write-Host "Get zip directory"
 $dirName=[System.IO.Path]::GetDirectoryName($zippath)
 echo $dirName
 if (-Not (Test-Path $dirName)){
+    Write-Host "Creating the directory"
     New-Item $dirName -Type directory
 }
+Write-Host "Compressing the site-packages"
 Compress-Archive ($tempfolder+"/venv/Lib/site-packages/*") -DestinationPath $zippath -Force
 
-deactivate
+Write-Host "Deactivating the venv"
+& ($tempfolder+"\venv\Scripts\deactivate.bat")
+Write-Host "Removing the venv"
 Remove-Item -Recurse -Force ($tempfolder + "/venv")
