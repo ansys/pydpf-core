@@ -65,6 +65,11 @@ test = [
     "coverage==6.5.0",
 ]
 
+plotting = [
+    "pyvista>=0.32.0",
+    "matplotlib>=3.2",
+]
+
 [project.urls]
 Source = "https://github.com/pyansys/pydpf-core"
 Documentation = "https://dpf.docs.pyansys.com/"
