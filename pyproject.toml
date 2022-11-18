@@ -88,6 +88,12 @@ line_length = 100
 default_section = "THIRDPARTY"
 src_paths = ["docs", "src", "tests"]
 
+[tool.pydocstyle]
+convention = "numpy"
+inherit = false
+ignore = D400
+match = examples/*
+
 [tool.coverage.run]
 source = ["ansys.dpf"]
 
