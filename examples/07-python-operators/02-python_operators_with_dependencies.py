@@ -137,7 +137,7 @@ if os.name == "nt" and not os.path.exists(
     # cmd_file = examples.downloads._retrieve_file(
     #     CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
     # )
-    cmd_file = "create_sites_for_python_operators.ps1"
+    cmd_file = ".\create_sites_for_python_operators.ps1"
     args = ["powershell", cmd_file,
             "-pluginpath", plugin_path,
             "-zippath", os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')
