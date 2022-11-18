@@ -1,4 +1,4 @@
-name: tests
+name: test_docker
 
 on:
 # Can be called by the CI
