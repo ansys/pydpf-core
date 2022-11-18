@@ -56,7 +56,7 @@ plugin_path = None
 GITHUB_SOURCE_URL = (
     "https://github.com/pyansys/pydpf-core/raw/"
     ""
-    "fix/first_python_plugins/python_plugins"
+    "examples/first_python_plugins/python_plugins"
 )
 
 for file in file_list:
