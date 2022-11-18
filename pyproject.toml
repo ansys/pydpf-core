@@ -91,8 +91,6 @@ src_paths = ["docs", "src", "tests"]
 [tool.pydocstyle]
 convention = "numpy"
 inherit = false
-ignore = D400
-match = examples/*
 
 [tool.coverage.run]
 source = ["ansys.dpf"]

@@ -1,4 +1,3 @@
-# noqa: D400
 """
 .. _ref_use_result_helpers:
 

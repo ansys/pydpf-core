@@ -1,4 +1,3 @@
-# noqa: D400
 """
 .. _ref_transient_easy_time_scoping:
 

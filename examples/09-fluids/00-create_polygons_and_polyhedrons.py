@@ -1,4 +1,3 @@
-# noqa: D400
 """
 .. _create_polygons_and_polyhedrons:
 
@@ -47,7 +46,7 @@ mesh = dpf.MeshedRegion(num_nodes=len(coordinates), num_elements=2)
 
 # Add the nodes to the MeshedRegion
 for i, node in enumerate(mesh.nodes.add_nodes(num=len(coordinates))):
-    node.id = i+1
+    node.id = i + 1
     node.coordinates = coordinates[i]
 
 ###############################################################################

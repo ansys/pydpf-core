@@ -1,4 +1,3 @@
-# noqa: D400
 """
 .. _stress_gradient_path:
 
@@ -111,9 +110,7 @@ fz = lambda t: line_fp[2] + normal_vec_in[2] * t
 ###############################################################################
 # Create coordinates using 3D line equation.
 #
-coordinates = [
-    [fx(t * delta), fy(t * delta), fz(t * delta)] for t in range(int(depth / delta))
-]
+coordinates = [[fx(t * delta), fy(t * delta), fz(t * delta)] for t in range(int(depth / delta))]
 flat_coordinates = [entry for data in coordinates for entry in data]
 ###############################################################################
 # Create field for coordinates of the path.

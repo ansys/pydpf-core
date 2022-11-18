@@ -1,4 +1,3 @@
-# noqa: D400
 """
 .. _ref_python_operators_with_deps:
 
@@ -54,9 +53,7 @@ file_list = [
 ]
 plugin_path = None
 GITHUB_SOURCE_URL = (
-    "https://github.com/pyansys/pydpf-core/raw/"
-    ""
-    "examples/first_python_plugins/python_plugins"
+    "https://github.com/pyansys/pydpf-core/raw/" "" "examples/first_python_plugins/python_plugins"
 )
 
 for file in file_list:
@@ -137,18 +134,18 @@ if os.name == "nt" and not os.path.exists(
     cmd_file = examples.downloads._retrieve_file(
         CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
     )
-    args = ["powershell", cmd_file,
-            "-pluginpath", plugin_path,
-            "-zippath", os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')
-            ]
+    args = [
+        "powershell",
+        cmd_file,
+        "-pluginpath",
+        plugin_path,
+        "-zippath",
+        os.path.join(plugin_path, "assets", "gltf_sites_winx64.zip"),
+    ]
     print(args)
     import subprocess
 
-    process = subprocess.run(
-        args,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
+    process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if process.stderr:
         raise RuntimeError(
             "Installing pygltf in a virtual environment failed with error:\n"
@@ -193,12 +190,8 @@ from ansys.dpf.core import examples
 dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
 tmp = dpf.make_tmp_dir_server()
-dpf.upload_files_in_folder(
-    dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"), plugin_path
-)
-dpf.upload_file(
-    plugin_path + ".xml", dpf.path_utilities.join(tmp, "plugins", "gltf_plugin.xml")
-)
+dpf.upload_files_in_folder(dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"), plugin_path)
+dpf.upload_file(plugin_path + ".xml", dpf.path_utilities.join(tmp, "plugins", "gltf_plugin.xml"))
 
 dpf.load_library(
     dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"),

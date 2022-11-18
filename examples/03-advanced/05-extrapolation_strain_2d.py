@@ -1,4 +1,3 @@
-# noqa: D400
 """
 .. _extrapolation_test_strain_2Delement:
 

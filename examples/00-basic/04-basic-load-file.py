@@ -1,4 +1,3 @@
-# noqa: D400
 """
 .. _ref_basic_load_file_example:
 
@@ -114,7 +113,7 @@ divide.inputs.fieldA.connect(fc_out - downloaded_fc_out)
 divide.inputs.fieldB.connect(fc_out)
 scale = dpf.operators.math.scale()
 scale.inputs.field.connect(divide)
-scale.inputs.ponderation.connect(100.)
+scale.inputs.ponderation.connect(100.0)
 rel_error = scale.eval()
 
 ###############################################################################
@@ -122,9 +121,9 @@ rel_error = scale.eval()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Note that the absolute error is bigger where the displacements are
 # bigger, at the tip of the geometry.
-# Instead, the relative error is similar accross the geometry since we
+# Instead, the relative error is similar across the geometry since we
 # are dividing by the displacements ``fc_out``.
 # Both plots show errors that can be understood as zero due to machine precision
 # (1e-12 mm for the absolute error and 1e-5% for the relative error).
-mesh.plot(abs_error, scalar_bar_args={'title': "Absolute error [mm]"})
-mesh.plot(rel_error, scalar_bar_args={'title': "Relative error [%]"})
+mesh.plot(abs_error, scalar_bar_args={"title": "Absolute error [mm]"})
+mesh.plot(rel_error, scalar_bar_args={"title": "Relative error [%]"})

@@ -1,4 +1,3 @@
-# noqa: D400
 """
 .. _extrapolation_test_stress_3Delement:
 
