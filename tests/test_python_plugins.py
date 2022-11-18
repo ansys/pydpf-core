@@ -34,7 +34,7 @@ def load_all_types_plugin():
     current_dir = os.getcwd()
     return dpf.load_library(
         dpf.path_utilities.to_server_os(
-            os.path.join(current_dir, "testfiles", "pythonPlugins", "all_types")
+            os.path.join(current_dir, "tests", "testfiles", "pythonPlugins", "all_types")
         ),
         "py_test_types",
         "load_operators",
@@ -45,7 +45,7 @@ def load_all_types_plugin_with_serv(my_server):
     current_dir = os.getcwd()
     return dpf.load_library(
         dpf.path_utilities.to_server_os(
-            os.path.join(current_dir, "testfiles", "pythonPlugins", "all_types"), my_server
+            os.path.join(current_dir, "tests", "testfiles", "pythonPlugins", "all_types"), my_server
         ),
         "py_test_types",
         "load_operators",
@@ -249,7 +249,7 @@ def test_syntax_error(server_type_remote_process):
     current_dir = os.getcwd()
     dpf.load_library(dpf.path_utilities.to_server_os(
         os.path.join(
-            current_dir, "testfiles", "pythonPlugins", "syntax_error_plugin"
+            current_dir, "tests", "testfiles", "pythonPlugins", "syntax_error_plugin"
         ), server_type_remote_process),
         "py_raising",
         "load_operators",
@@ -346,7 +346,7 @@ def test_create_properties_specification(server_in_process):
 def test_custom_op_with_spec(server_type_remote_process):
     current_dir = os.getcwd()
     dpf.load_library(dpf.path_utilities.to_server_os(
-        os.path.join(current_dir, "testfiles", "pythonPlugins"), server_type_remote_process),
+        os.path.join(current_dir, "tests", "testfiles", "pythonPlugins"), server_type_remote_process),
         "py_operator_with_spec",
         "load_operators",
         server=server_type_remote_process,
