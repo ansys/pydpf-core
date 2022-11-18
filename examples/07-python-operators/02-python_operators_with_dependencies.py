@@ -133,14 +133,14 @@ with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
 if os.name == "nt" and not os.path.exists(
     os.path.join(plugin_path, "assets", "gltf_sites_winx64.zip")
 ):
-    CMD_FILE_URL = GITHUB_SOURCE_URL + "/create_sites_for_python_operators.ps1"
-    cmd_file = examples.downloads._retrieve_file(
-        CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
-    )
+    # CMD_FILE_URL = GITHUB_SOURCE_URL + "/create_sites_for_python_operators.ps1"
+    # cmd_file = examples.downloads._retrieve_file(
+    #     CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
+    # )
+    cmd_file = "create_sites_for_python_operators.ps1"
     args = ["powershell", cmd_file,
             "-pluginpath", plugin_path,
-            "-zippath", os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip'),
-            "-tempfolder", r"C:\Users\runneradmin\AppData\Local\Temp\venv\Scripts\python.exe",
+            "-zippath", os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')
             ]
     print(args)
     import subprocess
