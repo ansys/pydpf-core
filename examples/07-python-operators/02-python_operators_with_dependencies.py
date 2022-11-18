@@ -146,7 +146,7 @@ if os.name == "nt" and not os.path.exists(
 
     process = subprocess.run(
         args,
-        stdout=subprocess.PIPE,
+        # stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
     if process.stderr:
