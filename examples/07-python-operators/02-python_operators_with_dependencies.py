@@ -138,7 +138,7 @@ if os.name == "nt" and not os.path.exists(
     cmd_file = examples.downloads._retrieve_file(
         CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
     )
-    python_exe = sys.executable
+    python_exe = os.path.realpath(sys.executable)
     print("*** python_exe:", python_exe)
     args = ["powershell", cmd_file,
             "-pluginpath", plugin_path,
