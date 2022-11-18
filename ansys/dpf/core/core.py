@@ -468,6 +468,23 @@ class BaseService:
                 context.context_type.value, context.xml_path
             )
 
+    @version_requires("6.0")
+    def release_dpf(self):
+        """Clears the available Operators and Releases licenses when necessary.
+
+        Notes
+        -----
+        Available with server's version starting at 6.0 (Ansys 2023R2).
+        """
+        if self._server().has_client():
+            error = self._api.data_processing_release_on_client(
+                self._server().client, 1
+            )
+        else:
+            error = self._api.data_processing_release(
+                1
+            )
+
     def get_runtime_client_config(self):
         if self._server().has_client():
             data_tree_tmp = (

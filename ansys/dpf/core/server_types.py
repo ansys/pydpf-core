@@ -445,6 +445,30 @@ class BaseServer(abc.ABC):
     def shutdown(self):
         pass
 
+    def release(self):
+        """Clears the available Operators and Releases licenses when necessary.
+
+        Notes
+        -----
+        Available with server's version starting at 6.0 (Ansys 2023R2).
+        """
+        self._base_service.release_dpf()
+
+    def apply_context(self, context):
+        """Defines the settings that will be used to load DPF's plugins.
+        A DPF xml file can be used to list the plugins and set up variables.
+
+        Parameters
+        ----------
+        context : ServerContext
+            The context allows to choose which capabilities are available server side.
+
+        Notes
+        -----
+        Available with server's version starting at 6.0 (Ansys 2023R2).
+        """
+        self._base_service.apply_context(context)
+
     def check_version(self, required_version, msg=None):
         """Check if the server version matches with a required version.
 
