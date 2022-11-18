@@ -1,7 +1,6 @@
 ANSYS
 Ansys
 ansys
-Ans
 Abaqus
 componentization
 Componentization
