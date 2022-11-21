@@ -48,11 +48,11 @@ print(h5op)
 # Connect the correct time scoping to the results operators (stress
 # and displacement).
 
-timeIds = list(range(1, model.metadata.time_freq_support.n_sets + 1))
-timeIds
+time_ids = list(range(1, model.metadata.time_freq_support.n_sets + 1))
+time_ids
 
-stress.inputs.time_scoping.connect(timeIds)
-displacement.inputs.time_scoping.connect(timeIds)
+stress.inputs.time_scoping.connect(time_ids)
+displacement.inputs.time_scoping.connect(time_ids)
 
 ###############################################################################
 # Connect inputs of the HDF5 export operator.

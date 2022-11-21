@@ -49,8 +49,8 @@ data_integration_points = datafile["file_integrated"]
 data_sources_integration_points = dpf.DataSources(data_integration_points)
 
 # Get the reference
-dataSourceref = datafile["file_ref"]
-data_sources_ref = dpf.DataSources(dataSourceref)
+data = datafile["file_ref"]
+data_sources_ref = dpf.DataSources(data)
 
 # Get the mesh
 model = dpf.Model(data_integration_points)
