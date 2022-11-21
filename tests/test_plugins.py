@@ -98,7 +98,7 @@ def test_vtk(server_type, simple_bar, tmpdir):
     op.inputs.mesh.connect(model.metadata.mesh_provider)
     op.inputs.directory.connect(os.path.dirname(rst_file))
     out_path = op.eval()
-    assert out_path.result_files is not []
+    # assert out_path.result_files is not []
     # try:
     #     out_path = dpf.core.download_file(
     #         out_path, tmp_path, server=server_type)
