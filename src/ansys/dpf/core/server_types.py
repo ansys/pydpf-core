@@ -57,7 +57,7 @@ def _get_dll_path(name, ansys_path=None):
         raise ImportError(f"Could not find ansys installation path using {awp_root}.")
     api_path = load_api._get_path_in_install()
     if api_path is None:
-        raise ImportError(f"Could not find API path in install.")
+        raise ImportError("Could not find API path in install.")
     SUB_FOLDERS = os.path.join(ANSYS_INSTALL, api_path)
     if ISPOSIX:
         name = "lib" + name
@@ -346,7 +346,7 @@ def check_ansys_grpc_dpf_version(server, timeout):
             f"Failed to connect to {server._input_ip}:{server._input_port} in {timeout} seconds"
         )
     compatibility_link = (
-        f"https://dpf.docs.pyansys.com/getting_started/" f"index.html#client-server-compatibility"
+        "https://dpf.docs.pyansys.com/getting_started/index.html#client-server-compatibility"
     )
     LOG.debug("Established connection to DPF gRPC")
     grpc_module_version = ansys.grpc.dpf.__version__
