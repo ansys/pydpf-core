@@ -106,6 +106,3 @@ def test_vtk(server_type, simple_bar, tmpdir):
     #     print(e)
     #     pass
     # assert os.path.exists(tmp_path)
-
-
-
