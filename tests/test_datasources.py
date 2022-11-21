@@ -84,3 +84,15 @@ def test_delete_auto_data_sources(server_type):
     import gc
     gc.collect()
     assert ref() is None
+
+
+def test_get_result_files_data_sources_domain(server_type, simple_bar):
+    data_sources = dpf.core.DataSources(server=server_type)
+    # data_sources.add_file_path(simple_bar, key="vtu", is_domain=True, domain_id=1)
+    data_sources.set_domain_result_file_path(path=simple_bar, domain_id=1)
+    result_files = data_sources.result_files
+    assert result_files is not None
+    out_file = result_files[0]
+    assert out_file is not None
+
+
