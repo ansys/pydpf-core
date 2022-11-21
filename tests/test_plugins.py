@@ -4,6 +4,7 @@ import pytest
 
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
 from ansys.dpf import core as dpf
+from ansys.dpf.core import examples
 
 
 @pytest.fixture()
@@ -81,17 +82,17 @@ def test_cgns(server_type):
 
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
                     reason='Requires server version higher than 5.0')
-def test_vtk(server_type, simple_bar, tmpdir):
+def test_vtk(server_type, tmpdir):
     op = dpf.Operator("vtu_export", server=server_type)
     try:
-        rst_file = dpf.upload_file_in_tmp_folder(simple_bar, server=server_type)
+        rst_file = dpf.upload_file_in_tmp_folder(examples.download_pontoon(return_local_path=True)
+                                                 , server=server_type)
     except dpf.errors.ServerTypeError as e:
         print(e)
-        rst_file = simple_bar
+        rst_file = examples.download_pontoon(return_local_path=True)
         pass
 
     assert op is not None
-    tmp_path = str(tmpdir.join("simple_bar.vtu"))
     model = dpf.Model(rst_file, server=server_type)
     u = model.operator("U")
     op.inputs.fields1.connect(u)
