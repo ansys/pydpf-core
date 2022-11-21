@@ -1,5 +1,8 @@
+import os.path
+
 import pytest
 
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
 from ansys.dpf import core as dpf
 
 
@@ -55,3 +58,54 @@ def test_eng(engineering_data_sources, try_load_composites_operators):
     field_variable_provider.connect(4, engineering_data_sources)
     field_variable_provider.inputs.mesh.connect(m.metadata.mesh_provider)
     field_variable_provider.run()
+
+
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='Requires server version higher than 5.0')
+def test_lsdynahgp(d3plot, server_type):
+    ds = dpf.DataSources(server=server_type)
+    ds.set_result_file_path(d3plot, "d3plot")
+    streams = dpf.operators.metadata.streams_provider(ds, server=server_type)
+    u = dpf.operators.result.displacement(server_type, server=server_type)
+    u.inputs.streams_container(streams)
+    fc = u.outputs.fields_container()
+    assert len(fc[0]) == 3195
+    assert dpf.Operator("lsdyna::stream_provider") is not None
+
+
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='Requires server version higher than 5.0')
+def test_cgns(server_type):
+    assert dpf.Operator("cgns::stream_provider", server=server_type) is not None
+
+
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason='Requires server version higher than 5.0')
+def test_vtk(server_type, simple_bar, tmpdir):
+    op = dpf.Operator("vtu_export", server=server_type)
+    try:
+        rst_file = dpf.upload_file_in_tmp_folder(simple_bar, server=server_type)
+    except dpf.errors.ServerTypeError as e:
+        print(e)
+        rst_file = simple_bar
+        pass
+
+    assert op is not None
+    tmp_path = str(tmpdir.join("simple_bar.vtu"))
+    model = dpf.Model(rst_file, server=server_type)
+    u = model.operator("U")
+    op.inputs.fields1.connect(u)
+    op.inputs.mesh.connect(model.metadata.mesh_provider)
+    op.inputs.directory.connect(os.path.dirname(rst_file))
+    out_path = op.eval()
+    assert out_path.result_files is not []
+    # try:
+    #     out_path = dpf.core.download_file(
+    #         out_path, tmp_path, server=server_type)
+    # except dpf.errors.ServerTypeError as e:
+    #     print(e)
+    #     pass
+    # assert os.path.exists(tmp_path)
+
+
+
