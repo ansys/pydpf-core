@@ -54,7 +54,7 @@ jobs:
           python-version: "3.8"
 
       - name: "Build Core Package"
-        uses: pyansys/pydpf-actions/build_package@prepare_v2.3
+        uses: pyansys/pydpf-actions/build_package@v2.3
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
@@ -94,7 +94,7 @@ jobs:
           ls
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@prepare_v2.3
+        uses: pyansys/pydpf-actions/prepare_tests@v2.3
         with:
           DEBUG: true
           working-directory: pydpf-post
@@ -104,7 +104,7 @@ jobs:
         run: pip list
 
       - name: "Test Docstrings"
-        uses: pyansys/pydpf-actions/test_docstrings@prepare_v2.3
+        uses: pyansys/pydpf-actions/test_docstrings@v2.3
         with:
           MODULE: post
           PACKAGE_NAME: ansys-dpf-post
@@ -118,7 +118,7 @@ jobs:
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@prepare_v2.3
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v2

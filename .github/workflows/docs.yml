@@ -52,7 +52,7 @@ jobs:
 
       - name: "Build Package"
         id: build-package
-        uses: pyansys/pydpf-actions/build_package@prepare_v2.3
+        uses: pyansys/pydpf-actions/build_package@v2.3
         with:
           python-version: ${{ inputs.python_version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
@@ -79,7 +79,7 @@ jobs:
           pip install -r requirements/requirements_docs.txt
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@prepare_v2.3
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
 
       - name: "List installed packages"
         shell: bash
@@ -109,7 +109,7 @@ jobs:
           esac
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@prepare_v2.3
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Retrieve package version"

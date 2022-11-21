@@ -85,7 +85,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@prepare_v2.3
+        uses: pyansys/pydpf-actions/build_package@v2.3
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
@@ -104,7 +104,7 @@ jobs:
           pip install ansys-grpc-dpf==0.4.0
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@prepare_v2.3
+        uses: pyansys/pydpf-actions/prepare_tests@v2.3
         with:
           DEBUG: true
 
@@ -114,7 +114,7 @@ jobs:
 
       - name: "Test Docstrings"
         if: inputs.DOCSTRING == 'true'
-        uses: pyansys/pydpf-actions/test_docstrings@prepare_v2.3
+        uses: pyansys/pydpf-actions/test_docstrings@v2.3
         with:
           MODULE: ${{env.MODULE}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
@@ -135,7 +135,7 @@ jobs:
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@prepare_v2.3
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_launcher"
@@ -146,7 +146,7 @@ jobs:
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@prepare_v2.3
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_server"
@@ -157,7 +157,7 @@ jobs:
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@prepare_v2.3
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_local_server"
@@ -168,7 +168,7 @@ jobs:
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@prepare_v2.3
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_multi_server"
@@ -179,7 +179,7 @@ jobs:
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@prepare_v2.3
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_remote_workflow"
@@ -190,7 +190,7 @@ jobs:
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@prepare_v2.3
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_remote_operator"
@@ -201,7 +201,7 @@ jobs:
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@prepare_v2.3
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_workflow"
@@ -212,7 +212,7 @@ jobs:
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@prepare_v2.3
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Upload Test Results"
