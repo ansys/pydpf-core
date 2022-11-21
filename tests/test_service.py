@@ -500,7 +500,11 @@ def test_context_environment_variable(reset_context_environment_variable):
     for context in s_c.EContextType:
         os.environ[key] = context.name.upper()
         reload(s_c)
-        assert s_c.SERVER_CONTEXT == getattr(s_c.AvailableServerContexts, context.name)
+        try:
+            assert s_c.SERVER_CONTEXT == getattr(s_c.AvailableServerContexts, context.name)
+        except AttributeError:
+            continue
+
 
 
 @pytest.mark.order(1)
