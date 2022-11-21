@@ -503,7 +503,6 @@ def test_context_environment_variable(reset_context_environment_variable):
         assert s_c.SERVER_CONTEXT == getattr(s_c.AvailableServerContexts, context.name)
 
 
-
 @pytest.mark.order(1)
 @pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
                     reason="AWP ROOT is not set with Docker")
