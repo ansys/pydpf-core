@@ -66,7 +66,7 @@ def test_lsdynahgp(d3plot, server_type):
     ds = dpf.DataSources(server=server_type)
     ds.set_result_file_path(d3plot, "d3plot")
     streams = dpf.operators.metadata.streams_provider(ds, server=server_type)
-    u = dpf.operators.result.displacement(server_type, server=server_type)
+    u = dpf.operators.result.displacement(server=server_type)
     u.inputs.streams_container(streams)
     fc = u.outputs.fields_container()
     assert len(fc[0]) == 3195
