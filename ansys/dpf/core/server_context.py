@@ -76,7 +76,7 @@ if DPF_SERVER_CONTEXT_ENV in os.environ.keys():
     default_context = os.getenv(DPF_SERVER_CONTEXT_ENV)
     try:
         SERVER_CONTEXT = getattr(AvailableServerContexts, default_context.lower())
-    except AttributeError:  # pragma: no cover
+    except AttributeError:
         warnings.warn(UserWarning(
                       f"{DPF_SERVER_CONTEXT_ENV} is set to {default_context}, which is not "
                       f"recognized as an available DPF ServerContext type. \n"
