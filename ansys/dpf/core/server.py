@@ -315,6 +315,7 @@ def connect_to_server(
     """
     if context is None:
         context = server_context.SERVER_CONTEXT
+
     def connect():
         server_init_signature = inspect.signature(server_type.__init__)
         if "ip" in server_init_signature.parameters.keys() \

@@ -804,7 +804,7 @@ class InProcessServer(CServer):
                  load_operators=True,
                  timeout=None,
                  context=server_context.SERVER_CONTEXT
-    ):
+                 ):
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load DataProcessingCore
