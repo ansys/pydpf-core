@@ -342,6 +342,7 @@ class BaseServer(abc.ABC):
         self._server_id = None
         self._session_instance = None
         self._base_service_instance = None
+        self._context = None
         self._docker_config = server_factory.RunningDockerConfig()
 
     def set_as_global(self, as_global=True):
@@ -468,6 +469,19 @@ class BaseServer(abc.ABC):
         Available with server's version starting at 6.0 (Ansys 2023R2).
         """
         self._base_service.apply_context(context)
+        self._context = context
+
+    @property
+    def context(self):
+        """Returns the settings used to load DPF's plugins.
+        To update the context server side, use
+        :func:`ansys.dpf.core.BaseServer.server_types.apply_context`
+
+        Returns
+        -------
+        ServerContext
+        """
+        return self._context
 
     def check_version(self, required_version, msg=None):
         """Check if the server version matches with a required version.
@@ -639,7 +653,7 @@ class GrpcServer(CServer):
         self._check_first_call(num_connection_tryouts)
         self.set_as_global(as_global=as_global)
         try:
-            self._base_service.initialize_with_context(server_context.SERVER_CONTEXT)
+            self.apply_context(server_context.SERVER_CONTEXT)
         except errors.DpfVersionNotSupported:
             pass
 
@@ -804,11 +818,12 @@ class InProcessServer(CServer):
             raise e
         self.set_as_global(as_global=as_global)
         try:
-            self._base_service.apply_context(server_context.SERVER_CONTEXT)
+            self.apply_context(server_context.SERVER_CONTEXT)
         except errors.DpfVersionNotSupported:
             self._base_service.initialize_with_context(
                 server_context.AvailableServerContexts.premium
             )
+            self._context = server_context.AvailableServerContexts.premium
             pass
 
     @property
@@ -950,7 +965,7 @@ class LegacyGrpcServer(BaseServer):
         check_ansys_grpc_dpf_version(self, timeout)
         self.set_as_global(as_global=as_global)
         try:
-            self._base_service.initialize_with_context(server_context.SERVER_CONTEXT)
+            self.apply_context(server_context.SERVER_CONTEXT)
         except errors.DpfVersionNotSupported:
             pass
 

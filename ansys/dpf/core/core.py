@@ -439,12 +439,12 @@ class BaseService:
         if not self._server().meet_version("6.0"):
             raise errors.DpfVersionNotSupported("6.0")
         if self._server().has_client():
-            error = self._api.data_processing_apply_context_on_client(
-                self._server().client, context.context_type.value, context.xml_path
+            self._api.data_processing_apply_context_on_client(
+                self._server().client, int(context.licensing_context_type), context.xml_path
             )
         else:
-            error = self._api.data_processing_apply_context(
-                context.context_type.value, context.xml_path
+            self._api.data_processing_apply_context(
+                int(context.licensing_context_type), context.xml_path
             )
 
     def initialize_with_context(self, context):
@@ -464,14 +464,14 @@ class BaseService:
         if self._server().has_client():
             if not self._server().meet_version("6.0"):
                 raise errors.DpfVersionNotSupported("6.0")
-            error = self._api.data_processing_initialize_with_context_on_client(
-                self._server().client, context.context_type.value, context.xml_path
+            self._api.data_processing_initialize_with_context_on_client(
+                self._server().client, int(context.licensing_context_type), context.xml_path
             )
         else:
             if not self._server().meet_version("4.0"):
                 raise errors.DpfVersionNotSupported("4.0")
-            error = self._api.data_processing_initialize_with_context(
-                context.context_type.value, context.xml_path
+            self._api.data_processing_initialize_with_context(
+                int(context.licensing_context_type), context.xml_path
             )
 
     @version_requires("6.0")
