@@ -247,6 +247,9 @@ def launch_dpf_on_docker(docker_config, ansys_path=None, ip=LOCALHOST, port=DPF_
             running_docker_config.listen_to_process(docker_config, LOG, cmd_lines, lines, timeout)
 
     def read_stderr():
+        for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
+            LOG.error(line)
+            current_errors.append(line)
         while lock.locked():
             pass
         running_docker_config.listen_to_process(docker_config, LOG, cmd_lines, current_errors,
