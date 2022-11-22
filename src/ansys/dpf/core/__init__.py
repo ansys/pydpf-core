@@ -75,7 +75,8 @@ from ansys.dpf.core.dpf_operator import Config, Operator
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.core.elements import element_types
 from ansys.dpf.core.field import Field, FieldDefinition
-from ansys.dpf.core.fields_container import FieldsContainer
+
+# from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core.generic_support import GenericSupport
 from ansys.dpf.core.meshed_region import MeshedRegion
@@ -92,7 +93,8 @@ from ansys.dpf.core.server_context import AvailableServerContexts, apply_server_
 from ansys.dpf.core.server_factory import AvailableServerConfigs, ServerConfig
 from ansys.dpf.core.streams_container import StreamsContainer  # noqa: F401
 from ansys.dpf.core.string_field import StringField
-from ansys.dpf.core.time_freq_support import TimeFreqSupport
+
+# from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.workflow import Workflow
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.element_descriptor import ElementDescriptor
