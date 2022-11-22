@@ -614,6 +614,7 @@ class GrpcServer(CServer):
                  docker_config=RUNNING_DOCKER,
                  use_pypim=True,
                  num_connection_tryouts=3,
+                 context=server_context.SERVER_CONTEXT
                  ):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
@@ -652,7 +653,7 @@ class GrpcServer(CServer):
         self._create_shutdown_funcs()
         self._check_first_call(num_connection_tryouts)
         try:
-            self.apply_context(server_context.SERVER_CONTEXT)
+            self.apply_context(context)
         except errors.DpfVersionNotSupported:
             pass
         self.set_as_global(as_global=as_global)
@@ -801,7 +802,9 @@ class InProcessServer(CServer):
                  ansys_path=None,
                  as_global=True,
                  load_operators=True,
-                 timeout=None):
+                 timeout=None,
+                 context=server_context.SERVER_CONTEXT
+    ):
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load DataProcessingCore
@@ -817,7 +820,7 @@ class InProcessServer(CServer):
                     f"Unable to locate the following file: {path}")
             raise e
         try:
-            self.apply_context(server_context.SERVER_CONTEXT)
+            self.apply_context(context)
         except errors.DpfVersionNotSupported:
             self._base_service.initialize_with_context(
                 server_context.AvailableServerContexts.premium
@@ -911,6 +914,7 @@ class LegacyGrpcServer(BaseServer):
             launch_server=True,
             docker_config=RUNNING_DOCKER,
             use_pypim=True,
+            context=server_context.SERVER_CONTEXT
     ):
         """Start the DPF server."""
         # Use ansys.grpc.dpf
@@ -964,7 +968,7 @@ class LegacyGrpcServer(BaseServer):
 
         check_ansys_grpc_dpf_version(self, timeout)
         try:
-            self.apply_context(server_context.SERVER_CONTEXT)
+            self.apply_context(context)
         except errors.DpfVersionNotSupported:
             pass
         self.set_as_global(as_global=as_global)

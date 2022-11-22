@@ -18,6 +18,7 @@ from ansys.dpf.core import errors
 
 from ansys.dpf.core.server_factory import ServerConfig, ServerFactory, CommunicationProtocols
 from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER
+from ansys.dpf.core import server_context
 
 
 def shutdown_global_server():
@@ -129,7 +130,8 @@ def start_local_server(
         docker_config=RUNNING_DOCKER,
         timeout=20.,
         config=None,
-        use_pypim_by_default=True
+        use_pypim_by_default=True,
+        context=None
 ):
     """Start a new local DPF server at a given port and IP address.
 
@@ -168,6 +170,10 @@ def start_local_server(
     use_pypim_by_default: bool, optional
         Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
         Defaults to True.
+    context: ServerContext, optional
+        Defines the settings that will be used to load DPF's plugins.
+        A DPF xml file can be used to list the plugins and set up variables. Default is
+        `server_context.SERVER_CONTEXT`.
 
     Returns
     -------
@@ -207,6 +213,9 @@ def start_local_server(
     else:
         docker_config.use_docker = False
 
+    if context is None:
+        context = server_context.SERVER_CONTEXT
+
     server = None
     n_attempts = 3
     timed_out = False
@@ -221,11 +230,11 @@ def start_local_server(
                 server = server_type(
                     ansys_path, ip, port, as_global=as_global, launch_server=True,
                     load_operators=load_operators, docker_config=docker_config, timeout=timeout,
-                    use_pypim=use_pypim)
+                    use_pypim=use_pypim, context=context)
             else:
                 server = server_type(
                     ansys_path, as_global=as_global,
-                    load_operators=load_operators, timeout=timeout)
+                    load_operators=load_operators, timeout=timeout, context=context)
             break
         except errors.InvalidPortError:  # allow socket in use errors
             port += 1
@@ -249,7 +258,14 @@ def start_local_server(
     return server
 
 
-def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeout=5, config=None):
+def connect_to_server(
+        ip=LOCALHOST,
+        port=DPF_DEFAULT_PORT,
+        as_global=True,
+        timeout=5,
+        config=None,
+        context=None,
+):
     """Connect to an existing DPF server.
 
     This method sets the global default channel that is then used for the
@@ -273,6 +289,10 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
         passes, the connection fails.
     config: ServerConfig, optional
         Manages the type of server connection to use.
+    context: ServerContext, optional
+        Defines the settings that will be used to load DPF's plugins.
+        A DPF xml file can be used to list the plugins and set up variables. Default is
+        `server_context.SERVER_CONTEXT`.
 
     Examples
     --------
@@ -293,17 +313,20 @@ def connect_to_server(ip=LOCALHOST, port=DPF_DEFAULT_PORT, as_global=True, timeo
     >>> #unspecified_server = dpf.connect_to_server(as_global=False)
 
     """
-
+    if context is None:
+        context = server_context.SERVER_CONTEXT
     def connect():
         server_init_signature = inspect.signature(server_type.__init__)
         if "ip" in server_init_signature.parameters.keys() \
                 and "port" in server_init_signature.parameters.keys():
             server = server_type(
-                ip=ip, port=port, as_global=as_global, launch_server=False
+                ip=ip, port=port, as_global=as_global, launch_server=False,
+                context=context
             )
         else:
             server = server_type(
-                as_global=as_global
+                as_global=as_global,
+                context=context
             )
         dpf.core._server_instances.append(weakref.ref(server))
         return server

@@ -462,6 +462,19 @@ def set_context_back_to_premium(request):
 
 
 @pytest.mark.order(1)
+@pytest.mark.skipif(os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None,
+                    reason="Tests ANSYS_DPF_ACCEPT_LA")
+@conftest.raises_for_servers_version_under("6.0")
+def test_license_agr(config_server_type, set_context_back_to_premium):
+    init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
+    del os.environ["ANSYS_DPF_ACCEPT_LA"]
+    with pytest.raises(dpf.core.errors.DPFServerException):
+        rst = examples.find_static_rst()  # starts a server
+    os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
+    assert "static" in examples.find_static_rst()
+
+
+@pytest.mark.order(2)
 @pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
                     reason="AWP ROOT is not set with Docker")
 @conftest.raises_for_servers_version_under("6.0")
@@ -493,7 +506,7 @@ def test_apply_context(set_context_back_to_premium):
     assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.premium
 
 
-@pytest.mark.order(2)
+@pytest.mark.order(3)
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
                     reason="not supported")
 @conftest.raises_for_servers_version_under("6.0")
