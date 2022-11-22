@@ -81,7 +81,7 @@ jobs:
 
       - name: "Install documentation packages for Python"
         run: |
-          pip install .[doc]
+          pip install -r requirements/requirements_docs.txt
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
