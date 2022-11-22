@@ -71,10 +71,10 @@ from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.data_sources import DataSources
 from ansys.dpf.core.data_tree import DataTree
 from ansys.dpf.core.dimensionality import Dimensionality
-from ansys.dpf.core.dpf_operator import Config, Operator
+
+# from ansys.dpf.core.dpf_operator import Config, Operator
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.core.elements import element_types
-from ansys.dpf.core.field import Field, FieldDefinition
 
 # from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.dpf.core.fields_factory import field_from_array
@@ -84,7 +84,8 @@ from ansys.dpf.core.meshes_container import MeshesContainer
 from ansys.dpf.core.model import Model
 from ansys.dpf.core.property_field import PropertyField
 from ansys.dpf.core.result_info import ResultInfo
-from ansys.dpf.core.scoping import Scoping
+
+# from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.scopings_container import ScopingsContainer
 from ansys.dpf.core.server import _global_server
 from ansys.dpf.core.server import _global_server as global_server
@@ -113,6 +114,9 @@ from ansys.dpf.core import path_utilities
 from ansys.dpf.core import settings
 from ansys.dpf.core.server_factory import ServerConfig, AvailableServerConfigs
 from ansys.dpf.core.server_context import set_default_server_context, AvailableServerContexts
+
+# from ansys.dpf.core.field import Field, FieldDefinition
+
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."
