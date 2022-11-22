@@ -470,8 +470,11 @@ def test_license_agr(config_server_type, set_context_back_to_premium):
     del os.environ["ANSYS_DPF_ACCEPT_LA"]
     with pytest.raises(dpf.core.errors.DPFServerException):
         rst = examples.find_static_rst()  # starts a server
+    with pytest.raises((dpf.core.errors.DPFServerException, KeyError)):
+        dpf.core.Operator("stream_provider")
     os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
     assert "static" in examples.find_static_rst()
+    assert dpf.core.Operator("stream_provider") is not None
 
 
 @pytest.mark.order(2)
