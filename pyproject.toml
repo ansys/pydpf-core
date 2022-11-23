@@ -93,7 +93,7 @@ convention = "numpy"
 inherit = false
 
 [tool.coverage.run]
-source = ["ansys.dpf"]
+source = ["ansys.dpf.core"]
 
 [tool.coverage.report]
 show_missing = true
