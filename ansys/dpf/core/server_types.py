@@ -12,7 +12,7 @@ import subprocess
 import time
 import warnings
 import traceback
-from threading import Thread, Lock
+import threading
 from abc import ABC
 
 import psutil
@@ -144,8 +144,8 @@ def _wait_and_check_server_connection(
         stdout = read_stdout
 
     # must be in the background since the process reader is blocking
-    Thread(target=stdout, daemon=True).start()
-    Thread(target=stderr, daemon=True).start()
+    threading.Thread(target=stdout, daemon=True).start()
+    threading.Thread(target=stderr, daemon=True).start()
 
     t_timeout = time.time() + timeout
     started = False
@@ -233,7 +233,7 @@ def launch_dpf_on_docker(docker_config, ansys_path=None, ip=LOCALHOST, port=DPF_
     # check to see if the service started
     cmd_lines = []
     # Creating lock for threads
-    lock = Lock()
+    lock = threading.Lock()
     lock.acquire()
     lines = []
     current_errors = []
@@ -667,7 +667,7 @@ class GrpcServer(CServer):
         self._check_first_call(num_connection_tryouts)
         self.set_as_global(as_global=as_global)
         try:
-            self._base_service.initialize_with_context(server_context.SERVER_CONTEXT)
+            self.apply_context(context)
         except errors.DpfVersionNotSupported:
             pass
 
@@ -834,11 +834,12 @@ class InProcessServer(CServer):
             raise e
         self.set_as_global(as_global=as_global)
         try:
-            self._base_service.apply_context(server_context.SERVER_CONTEXT)
+            self.apply_context(context)
         except errors.DpfVersionNotSupported:
             self._base_service.initialize_with_context(
                 server_context.AvailableServerContexts.premium
             )
+            self._context = server_context.AvailableServerContexts.premium
             pass
 
     @property
@@ -981,7 +982,7 @@ class LegacyGrpcServer(BaseServer):
         check_ansys_grpc_dpf_version(self, timeout)
         self.set_as_global(as_global=as_global)
         try:
-            self._base_service.initialize_with_context(server_context.SERVER_CONTEXT)
+            self.apply_context(context)
         except errors.DpfVersionNotSupported:
             pass
 
