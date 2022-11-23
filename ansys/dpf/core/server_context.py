@@ -36,6 +36,7 @@ class LicensingContextType(Enum):
 
 class ServerContext:
     """The context allows to choose which capabilities are available server side.
+    xml_path argument won't be taken into account if using LicensingContextType.entry.
 
     Parameters
     ----------
