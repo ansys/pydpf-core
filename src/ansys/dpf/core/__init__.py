@@ -1,11 +1,12 @@
 import os
 
+# Get version information
 try:
     import importlib.metadata as importlib_metadata
 except ModuleNotFoundError:
     import importlib_metadata
 
-__version__ = importlib_metadata.version(__name__.replace(".", "-"))
+__version__ = importlib_metadata.version("ansys-dpf-core")
 
 server_to_ansys_grpc_dpf_version = {
     "1.0": "==0.2.2",
@@ -42,6 +43,7 @@ try:
 except:  # pragma: no cover
     pass
 
+# Ease imports
 from ansys.dpf.core import (
     check_version,
     fields_container_factory,
