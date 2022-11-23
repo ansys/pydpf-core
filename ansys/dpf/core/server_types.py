@@ -355,7 +355,7 @@ class BaseServer(abc.ABC):
         self._server_id = None
         self._session_instance = None
         self._base_service_instance = None
-        self._context = server_context.SERVER_CONTEXT
+        self._context = None
         self._docker_config = server_factory.RunningDockerConfig()
 
     def set_as_global(self, as_global=True):
