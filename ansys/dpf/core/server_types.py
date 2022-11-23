@@ -12,7 +12,7 @@ import subprocess
 import time
 import warnings
 import traceback
-import threading
+from threading import Thread, Lock
 from abc import ABC
 
 import psutil
