@@ -665,11 +665,11 @@ class GrpcServer(CServer):
         self.live = True
         self._create_shutdown_funcs()
         self._check_first_call(num_connection_tryouts)
-        self.set_as_global(as_global=as_global)
         try:
             self.apply_context(context)
         except errors.DpfVersionNotSupported:
             pass
+        self.set_as_global(as_global=as_global)
 
     def _check_first_call(self, num_connection_tryouts):
         for i in range(num_connection_tryouts):
@@ -832,7 +832,6 @@ class InProcessServer(CServer):
                     f"DPF directory not found at {os.path.dirname(path)}"
                     f"Unable to locate the following file: {path}")
             raise e
-        self.set_as_global(as_global=as_global)
         try:
             self.apply_context(context)
         except errors.DpfVersionNotSupported:
@@ -841,6 +840,7 @@ class InProcessServer(CServer):
             )
             self._context = server_context.AvailableServerContexts.premium
             pass
+        self.set_as_global(as_global=as_global)
 
     @property
     def version(self):
@@ -980,11 +980,11 @@ class LegacyGrpcServer(BaseServer):
         self._create_shutdown_funcs()
 
         check_ansys_grpc_dpf_version(self, timeout)
-        self.set_as_global(as_global=as_global)
         try:
             self.apply_context(context)
         except errors.DpfVersionNotSupported:
             pass
+        self.set_as_global(as_global=as_global)
 
     def _create_shutdown_funcs(self):
         self._core_api = data_processing_grpcapi.DataProcessingGRPCAPI
