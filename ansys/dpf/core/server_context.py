@@ -4,7 +4,13 @@ ServerContext
 
 Gives the ability to choose the context with which the server should be started.
 The context allows to choose which capabilities are available.
+By default, an **Entry** type of :class:`ServerContext` is used.
+The default context can be overwritten using the ANSYS_DPF_SERVER_CONTEXT environment
+variable.
+ANSYS_DPF_SERVER_CONTEXT=ENTRY and ANSYS_DPF_SERVER_CONTEXT=PREMIUM can be used.
 """
+import os
+import warnings
 from enum import Enum
 
 
@@ -63,7 +69,20 @@ class AvailableServerContexts:
     """Loads the minimum number of plugins for a basic usage. Is the default."""
 
 
+DPF_SERVER_CONTEXT_ENV = "ANSYS_DPF_SERVER_CONTEXT"
+
 SERVER_CONTEXT = AvailableServerContexts.entry
+if DPF_SERVER_CONTEXT_ENV in os.environ.keys():
+    default_context = os.getenv(DPF_SERVER_CONTEXT_ENV)
+    try:
+        SERVER_CONTEXT = getattr(AvailableServerContexts, default_context.lower())
+    except AttributeError:
+        warnings.warn(UserWarning(
+                      f"{DPF_SERVER_CONTEXT_ENV} is set to {default_context}, which is not "
+                      f"recognized as an available DPF ServerContext type. \n"
+                      f"Accepted values are: {[t.name.upper() for t in EContextType]}.\n"
+                      f"Using {EContextType.entry.name.upper()} "
+                      f"as the default ServerContext type."))
 
 
 def apply_server_context(context=AvailableServerContexts.entry, server=None) -> None:
