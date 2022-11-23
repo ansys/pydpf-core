@@ -124,6 +124,18 @@ jobs:
         with:
           DEBUG: true
 
+      - name: Test pyvista
+        run: |
+          python -c "import pyvista;pyvista.plot(pyvista.Sphere())"
+
+      - name: "Debug test docstrings"
+        shell: bash
+        working-directory: src
+        run: |
+          echo "TMP: "$TMP
+          echo "TEMP: "$TEMP
+          pytest --doctest-modules $DEBUG --junitxml=junit/test-doctests-results.xml ansys/dpf/${{inputs.MODULE}}
+
       - name: "List installed packages"
         shell: bash
         run: pip list
