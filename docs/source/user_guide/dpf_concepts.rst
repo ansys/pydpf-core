@@ -36,3 +36,11 @@ DPF concepts
        :text-align: center
 
        .. image:: ../images/drawings/checklist.png
+	  
+    .. card:: Using DPF with server context
+       :link: user_guide_server_context
+       :link-type: ref
+       :width: 25%
+       :text-align: center
+
+       .. image:: ../images/drawings/using-dpf.png
