@@ -6,7 +6,7 @@ try:
 except ModuleNotFoundError:
     import importlib_metadata
 
-__version__ = importlib_metadata.version("ansys-dpf-core")
+__version__ = importlib_metadata.version(__name__.replace(".", "-"))
 
 server_to_ansys_grpc_dpf_version = {
     "1.0": "==0.2.2",
