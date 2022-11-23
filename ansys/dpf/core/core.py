@@ -628,7 +628,7 @@ class BaseService:
             txt = """
             download service only available for server with gRPC communication protocol
             """
-            raise ValueError(txt)
+            raise errors.ServerTypeError(txt)
         client_path = self._api.data_processing_download_file(
             client=self._server().client,
             server_file_path=str(server_file_path),

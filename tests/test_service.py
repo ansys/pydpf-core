@@ -464,6 +464,51 @@ def set_context_back_to_premium(request):
     request.addfinalizer(revert)
 
 
+@pytest.fixture(autouse=False, scope="function")
+def reset_context_environment_variable(request):
+    """Reset ANSYS_DPF_SERVER_CONTEXT."""
+    from ansys.dpf.core import server_context as s_c
+
+    environment = os.environ
+    key = s_c.DPF_SERVER_CONTEXT_ENV
+    if key in environment.keys():
+        init_context = environment[key]
+    else:
+        init_context = None
+
+    def revert():
+        if init_context:
+            os.environ[key] = init_context
+
+    request.addfinalizer(revert)
+
+
+@pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+                    reason="AWP ROOT is not set with Docker")
+@conftest.raises_for_servers_version_under("6.0")
+def test_context_environment_variable(reset_context_environment_variable):
+    from importlib import reload
+    from ansys.dpf.core import server_context as s_c
+
+    key = s_c.DPF_SERVER_CONTEXT_ENV
+
+    # Test raise on wrong value
+    os.environ[key] = "PREM"
+    with pytest.warns(UserWarning, match="which is not recognized as an available "
+                                         "DPF ServerContext type."):
+        reload(s_c)
+    assert s_c.SERVER_CONTEXT == s_c.AvailableServerContexts.entry
+
+    # Test each possible value is correctly understood and sets SERVER_CONTEXT
+    for context in s_c.EContextType:
+        os.environ[key] = context.name.upper()
+        reload(s_c)
+        try:
+            assert s_c.SERVER_CONTEXT == getattr(s_c.AvailableServerContexts, context.name)
+        except AttributeError:
+            continue
+
+
 @pytest.mark.order(1)
 @pytest.mark.skipif(running_docker or os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None,
                     reason="Tests ANSYS_DPF_ACCEPT_LA")
