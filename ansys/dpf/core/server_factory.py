@@ -455,6 +455,10 @@ class RunningDockerConfig:
         """
         return self._port
 
+    @docker_server_port.setter
+    def docker_server_port(self, val):
+        self._port = val
+
     @property
     def server_id(self):
         """Running Docker Container id.
@@ -548,7 +552,7 @@ class RunningDockerConfig:
                     run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
                 )
 
-    def listen_to_process(self, docker_config, log, cmd_lines, lines, timeout, stdout: bool = True):
+    def listen_to_process(self, log, cmd_lines, lines, timeout, stdout: bool = True):
         """Search inside the Docker Container stdout log to fill in this instance's attributes.
 
         Parameters
@@ -565,7 +569,6 @@ class RunningDockerConfig:
         stdout : bool, optional
             Whether to check stdout or stderr.
         """
-        self._docker_config = docker_config
         self.server_id = cmd_lines[0].replace("\n", "")
         t_timeout = time.time() + timeout
         while time.time() < t_timeout:
@@ -582,6 +585,9 @@ class RunningDockerConfig:
                     if line not in lines:
                         # LOG.error(line)
                         lines.append(line)
+
+    def docker_run_cmd_command(self, docker_server_port, local_port):
+        return self._docker_config.docker_run_cmd_command(docker_server_port, local_port)
 
     def __str__(self):
         return str(self._docker_config) + f"\t- server_id: {self.server_id}\n"

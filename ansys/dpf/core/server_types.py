@@ -95,7 +95,7 @@ def _verify_ansys_path_is_valid(ansys_path, executable, path_in_install=None):
 
 
 def _run_launch_server_process(ip, port, ansys_path=None,
-                               docker_config=server_factory.DockerConfig()):
+                               docker_config=server_factory.RunningDockerConfig()):
     bShell = False
     if docker_config.use_docker:
         docker_server_port = int(os.environ.get("DOCKER_SERVER_PORT", port))
@@ -201,7 +201,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
         process, port, timeout, lines, current_errors, stderr=None, stdout=None)
 
 
-def launch_dpf_on_docker(docker_config, ansys_path=None, ip=LOCALHOST, port=DPF_DEFAULT_PORT,
+def launch_dpf_on_docker(running_docker_config, ansys_path=None, ip=LOCALHOST, port=DPF_DEFAULT_PORT,
                          timeout=10):
     """Launch Ansys DPF.
 
@@ -223,12 +223,8 @@ def launch_dpf_on_docker(docker_config, ansys_path=None, ip=LOCALHOST, port=DPF_
     docker_config : server_factory.DockerConfig, optional
         To start DPF server as a docker, specify the docker configurations here.
 
-    Returns
-    -------
-    running_docker_config : server_factory.RunningDockerConfig
-
     """
-    process = _run_launch_server_process(ip, port, ansys_path, docker_config)
+    process = _run_launch_server_process(ip, port, ansys_path, running_docker_config)
 
     # check to see if the service started
     cmd_lines = []
@@ -237,14 +233,14 @@ def launch_dpf_on_docker(docker_config, ansys_path=None, ip=LOCALHOST, port=DPF_
     lock.acquire()
     lines = []
     current_errors = []
-    running_docker_config = server_factory.RunningDockerConfig(docker_server_port=port)
+    running_docker_config.docker_server_port = port
 
     def read_stdout():
         for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
             LOG.debug(line)
             cmd_lines.append(line)
             lock.release()
-            running_docker_config.listen_to_process(docker_config, LOG, cmd_lines, lines, timeout)
+            running_docker_config.listen_to_process(LOG, cmd_lines, lines, timeout)
 
     def read_stderr():
         for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
@@ -252,13 +248,11 @@ def launch_dpf_on_docker(docker_config, ansys_path=None, ip=LOCALHOST, port=DPF_
             current_errors.append(line)
         while lock.locked():
             pass
-        running_docker_config.listen_to_process(docker_config, LOG, cmd_lines, current_errors,
+        running_docker_config.listen_to_process(LOG, cmd_lines, current_errors,
                                                 timeout, False)
 
     _wait_and_check_server_connection(
         process, port, timeout, lines, current_errors, stderr=read_stderr, stdout=read_stdout)
-
-    return running_docker_config
 
 
 def launch_remote_dpf(version=None):
@@ -649,8 +643,9 @@ class GrpcServer(CServer):
                 port = int(address.split(":")[-1])
 
             elif docker_config.use_docker:
-                self.docker_config = launch_dpf_on_docker(
-                    docker_config=docker_config,
+                self.docker_config = server_factory.RunningDockerConfig(docker_config)
+                launch_dpf_on_docker(
+                    running_docker_config=self.docker_config,
                     ansys_path=ansys_path, ip=ip, port=port, timeout=timeout)
             else:
                 launch_dpf(ansys_path, ip, port, timeout=timeout)
@@ -707,11 +702,13 @@ class GrpcServer(CServer):
         if self._remote_instance:
             self._remote_instance.delete()
         try:
-            self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
+            if hasattr(self, "_preparing_shutdown_func"):
+                self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
         except Exception as e:
             warnings.warn("couldn't prepare shutdown: " + str(e.args))
         try:
-            self._shutdown_func[0](self._shutdown_func[1])
+            if hasattr(self, "_shutdown_func"):
+                self._shutdown_func[0](self._shutdown_func[1])
         except Exception as e:
             warnings.warn("couldn't shutdown server: " + str(e.args))
         self._docker_config.remove_docker_image()
@@ -960,9 +957,11 @@ class LegacyGrpcServer(BaseServer):
             else:
 
                 if docker_config.use_docker:
-                    self.docker_config = launch_dpf_on_docker(docker_config=docker_config,
-                                                              ansys_path=ansys_path, ip=ip,
-                                                              port=port, timeout=timeout)
+                    self.docker_config = server_factory.RunningDockerConfig(docker_config)
+                    launch_dpf_on_docker(
+                        running_docker_config=self.docker_config,
+                        ansys_path=ansys_path, ip=ip,
+                        port=port, timeout=timeout)
                 else:
                     launch_dpf(ansys_path, ip, port, timeout=timeout)
                     self._local_server = True
@@ -1108,7 +1107,8 @@ class LegacyGrpcServer(BaseServer):
     def shutdown(self):
         if self._own_process and self.live:
             try:
-                self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
+                if hasattr(self, "_preparing_shutdown_func"):
+                    self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
             except Exception as e:
                 warnings.warn("couldn't prepare shutdown: " + str(e.args))
 
@@ -1116,7 +1116,8 @@ class LegacyGrpcServer(BaseServer):
                 self._remote_instance.delete()
             else:
                 try:
-                    self._shutdown_func[0](self._shutdown_func[1])
+                    if hasattr(self, "_shutdown_func"):
+                        self._shutdown_func[0](self._shutdown_func[1])
                 except Exception as e:
                     try:
                         if self.meet_version("4.0"):
