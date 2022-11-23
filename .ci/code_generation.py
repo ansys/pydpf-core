@@ -24,7 +24,6 @@ if os.name == "posix":
 else:
     LIB_TO_GENERATE = [
         "Ans.Dpf.Native.dll",
-        "Ans.Dpf.Mechanical.dll",
         "Ans.Dpf.FEMutils.dll",
         "meshOperatorsCore.dll",
         "mapdlOperatorsCore.dll",
@@ -58,17 +57,22 @@ for f in files:
             os.remove(f)
     except:
         pass
-core.start_local_server(config=core.AvailableServerConfigs.LegacyGrpcServer)
+core.start_local_server(config=core.AvailableServerConfigs.GrpcServer)
 code_gen = core.Operator("python_generator")
 code_gen.connect(1, TARGET_PATH)
 for lib in LIB_TO_GENERATE:
-    code_gen.connect(0, lib)
-    if lib != LIB_TO_GENERATE[0]:
-        code_gen.connect(2, False)
-    else:
-        code_gen.connect(2, True)
-    code_gen.run()
-    time.sleep(0.1)
+    try:
+        code_gen.connect(0, lib)
+        if lib != LIB_TO_GENERATE[0]:
+            code_gen.connect(2, False)
+        else:
+            code_gen.connect(2, True)
+        print(f"Generating {lib} operators for server {core.SERVER.version}...")
+        code_gen.run()
+        time.sleep(0.1)
+    except Exception as e:
+        print(f"Could not generate operators for library {lib}:\n{str(e)}")
+        raise e
 
 for lib in LIB_OPTIONAL_TO_GENERATE:
     try:
@@ -77,6 +81,7 @@ for lib in LIB_OPTIONAL_TO_GENERATE:
             code_gen.connect(2, False)
         else:
             code_gen.connect(2, True)
+        print(f"Generating optional {lib} operators for server {core.SERVER.version}...")
         code_gen.run()
         time.sleep(0.1)
     except Exception as e:
