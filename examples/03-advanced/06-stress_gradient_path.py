@@ -27,7 +27,7 @@ from ansys.dpf.core import operators as ops
 from ansys.dpf.core.plotter import DpfPlotter
 
 
-dpf.apply_server_context(dpf.AvailableServerContexts.premium)
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Open an example and print out the ``Model`` object. The

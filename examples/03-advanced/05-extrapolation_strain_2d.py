@@ -39,7 +39,7 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
 
-dpf.apply_server_context(dpf.AvailableServerContexts.premium)
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Get the data source's analyse of integration points and data source's analyse reference

@@ -22,7 +22,7 @@ from ansys.dpf.core import operators as ops
 from ansys.dpf.core import examples
 
 
-dpf.apply_server_context(dpf.AvailableServerContexts.premium)
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Load the simulation results from an RST file and create a model of it.

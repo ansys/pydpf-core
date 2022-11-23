@@ -37,7 +37,7 @@ from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
 
 
-dpf.apply_server_context(dpf.AvailableServerContexts.premium)
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/" \
                     "raw/examples/first_python_plugins/python_plugins"

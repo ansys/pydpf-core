@@ -16,7 +16,7 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
 
-dpf.apply_server_context(dpf.AvailableServerContexts.premium)
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 # Get and show the initial model
 model = dpf.Model(examples.find_multishells_rst())

@@ -20,7 +20,7 @@ from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
 
-dpf.apply_server_context(dpf.AvailableServerContexts.premium)
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Create a model object to establish a connection with an

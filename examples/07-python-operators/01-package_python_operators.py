@@ -38,7 +38,7 @@ from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
 
 
-dpf.apply_server_context(dpf.AvailableServerContexts.premium)
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 print("\033[1m average_filter_plugin")
 file_list = ["__init__.py", "operators.py", "operators_loader.py", "common.py"]
