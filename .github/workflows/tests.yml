@@ -124,9 +124,13 @@ jobs:
         with:
           DEBUG: true
 
-      - name: Test pyvista
+      - name: "DBG test pyvista"
         run: |
           python -c "import pyvista;pyvista.plot(pyvista.Sphere())"
+
+      - name: "DBG pip freeze"
+        run: |
+          python -m pip freeze
 
       - name: "Debug test docstrings"
         shell: bash
