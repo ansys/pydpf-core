@@ -500,7 +500,7 @@ def test_context_environment_variable(reset_context_environment_variable):
     assert s_c.SERVER_CONTEXT == s_c.AvailableServerContexts.entry
 
     # Test each possible value is correctly understood and sets SERVER_CONTEXT
-    for context in s_c.EContextType:
+    for context in s_c.LicensingContextType:
         os.environ[key] = context.name.upper()
         reload(s_c)
         try:

@@ -39,7 +39,7 @@ class ServerContext:
 
     Parameters
     ----------
-    context_type : EContextType
+    context_type : LicensingContextType
         Type of context.
     xml_path : str, optional
         Path to the xml to load.
@@ -109,8 +109,8 @@ if DPF_SERVER_CONTEXT_ENV in os.environ.keys():
         warnings.warn(UserWarning(
                       f"{DPF_SERVER_CONTEXT_ENV} is set to {default_context}, which is not "
                       f"recognized as an available DPF ServerContext type. \n"
-                      f"Accepted values are: {[t.name.upper() for t in EContextType]}.\n"
-                      f"Using {EContextType.entry.name.upper()} "
+                      f"Accepted values are: {[t.name.upper() for t in LicensingContextType]}.\n"
+                      f"Using {LicensingContextType.entry.name.upper()} "
                       f"as the default ServerContext type."))
 
 

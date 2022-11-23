@@ -548,18 +548,22 @@ class RunningDockerConfig:
                     run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
                 )
 
-    def listen_to_process(self, docker_config, LOG, cmd_lines, lines, timeout, stdout:bool = True):
+    def listen_to_process(self, docker_config, log, cmd_lines, lines, timeout, stdout: bool = True):
         """Search inside the Docker Container stdout log to fill in this instance's attributes.
 
         Parameters
         ----------
         docker_config :  DockerConfig
-        LOG
+        log
             Instance of ``logging`` to add debug info to.
+        cmd_lines: list
+            Stdout of the shell process run ``docker run`` command.
         lines : list
             Internal Container's stdout are copied into ``lines``.
         timeout : time
             When to stop searching for stdout.
+        stdout : bool, optional
+            Whether to check stdout or stderr.
         """
         self._docker_config = docker_config
         self.server_id = cmd_lines[0].replace("\n", "")
@@ -571,7 +575,7 @@ class RunningDockerConfig:
             self._use_docker = True
             if stdout:
                 for line in io.TextIOWrapper(docker_process.stdout, encoding="utf-8"):
-                    LOG.debug(line)
+                    log.debug(line)
                     lines.append(line)
             else:
                 for line in io.TextIOWrapper(docker_process.stderr, encoding="utf-8"):
