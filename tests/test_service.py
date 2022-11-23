@@ -5,6 +5,7 @@ import conftest
 import pkgutil
 import datetime
 import platform
+from importlib import reload
 
 from ansys import dpf
 from ansys.dpf.core import path_utilities
@@ -479,6 +480,13 @@ def reset_context_environment_variable(request):
     def revert():
         if init_context:
             os.environ[key] = init_context
+        else:
+            del os.environ[key]
+        reload(s_c)
+        try:
+            dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.premium)
+        except dpf.core.errors.DpfVersionNotSupported:
+            pass
 
     request.addfinalizer(revert)
 
@@ -487,7 +495,6 @@ def reset_context_environment_variable(request):
                     reason="AWP ROOT is not set with Docker")
 @conftest.raises_for_servers_version_under("6.0")
 def test_context_environment_variable(reset_context_environment_variable):
-    from importlib import reload
     from ansys.dpf.core import server_context as s_c
 
     key = s_c.DPF_SERVER_CONTEXT_ENV
