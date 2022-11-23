@@ -569,19 +569,22 @@ class RunningDockerConfig:
         self.server_id = cmd_lines[0].replace("\n", "")
         t_timeout = time.time() + timeout
         while time.time() < t_timeout:
-            docker_process = subprocess.Popen(f"docker logs {self.server_id}",
-                                              stdout=subprocess.PIPE,
-                                              stderr=subprocess.PIPE, shell=(os.name == 'posix'))
-            self._use_docker = True
-            if stdout:
-                for line in io.TextIOWrapper(docker_process.stdout, encoding="utf-8"):
-                    log.debug(line)
-                    lines.append(line)
-            else:
-                for line in io.TextIOWrapper(docker_process.stderr, encoding="utf-8"):
-                    if line not in lines:
-                        # LOG.error(line)
-                        lines.append(line)
+            with subprocess.Popen(f"docker logs {self.server_id}",
+                                  stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE, shell=(os.name == 'posix')) \
+                    as docker_process:
+                self._use_docker = True
+                if stdout:
+                    with io.TextIOWrapper(docker_process.stdout, encoding="utf-8") as log_out:
+                        for line in log_out:
+                            log.debug(line)
+                            lines.append(line)
+                else:
+                    with io.TextIOWrapper(docker_process.stderr, encoding="utf-8") as log_error:
+                        for line in log_error:
+                            if line not in lines:
+                                lines.append(line)
+                docker_process.kill()
 
     def __str__(self):
         return str(self._docker_config) + f"\t- server_id: {self.server_id}\n"
