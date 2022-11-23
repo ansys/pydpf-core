@@ -509,7 +509,7 @@ def test_multi_process_transparent_api_connect_local_op_remote_workflow():
 
 @pytest.mark.xfail(raises=ServerTypeError)
 @pytest.mark.skipif(
-    (conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 and os.name == "posix") and
+    (not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 and os.name == "posix") and
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
     reason='Connecting data from different servers is '
            'supported starting server version 3.0')
