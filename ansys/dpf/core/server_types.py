@@ -144,8 +144,8 @@ def _wait_and_check_server_connection(
         stdout = read_stdout
 
     # must be in the background since the process reader is blocking
-    threading.Thread(target=stdout, daemon=True).start()
-    threading.Thread(target=stderr, daemon=True).start()
+    Thread(target=stdout, daemon=True).start()
+    Thread(target=stderr, daemon=True).start()
 
     t_timeout = time.time() + timeout
     started = False
@@ -233,7 +233,7 @@ def launch_dpf_on_docker(docker_config, ansys_path=None, ip=LOCALHOST, port=DPF_
     # check to see if the service started
     cmd_lines = []
     # Creating lock for threads
-    lock = threading.Lock()
+    lock = Lock()
     lock.acquire()
     lines = []
     current_errors = []
@@ -666,7 +666,8 @@ class GrpcServer(CServer):
         self._create_shutdown_funcs()
         self._check_first_call(num_connection_tryouts)
         try:
-            self.apply_context(context)
+            self._base_service.initialize_with_context(context)
+            self._context = context
         except errors.DpfVersionNotSupported:
             pass
         self.set_as_global(as_global=as_global)
@@ -981,7 +982,8 @@ class LegacyGrpcServer(BaseServer):
 
         check_ansys_grpc_dpf_version(self, timeout)
         try:
-            self.apply_context(context)
+            self._base_service.initialize_with_context(context)
+            self._context = context
         except errors.DpfVersionNotSupported:
             pass
         self.set_as_global(as_global=as_global)
