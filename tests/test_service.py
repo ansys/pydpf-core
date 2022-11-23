@@ -5,6 +5,7 @@ import conftest
 import pkgutil
 import datetime
 import platform
+from importlib import reload
 
 from ansys import dpf
 from ansys.dpf.core import path_utilities
@@ -479,6 +480,13 @@ def reset_context_environment_variable(request):
     def revert():
         if init_context:
             os.environ[key] = init_context
+        else:
+            del os.environ[key]
+        reload(s_c)
+        try:
+            dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.premium)
+        except dpf.core.errors.DpfVersionNotSupported:
+            pass
 
     request.addfinalizer(revert)
 
@@ -487,7 +495,6 @@ def reset_context_environment_variable(request):
                     reason="AWP ROOT is not set with Docker")
 @conftest.raises_for_servers_version_under("6.0")
 def test_context_environment_variable(reset_context_environment_variable):
-    from importlib import reload
     from ansys.dpf.core import server_context as s_c
 
     key = s_c.DPF_SERVER_CONTEXT_ENV
@@ -510,9 +517,9 @@ def test_context_environment_variable(reset_context_environment_variable):
 
 
 @pytest.mark.order(1)
-@pytest.mark.skipif(os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
-                    or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+@pytest.mark.skipif(running_docker or os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None,
                     reason="Tests ANSYS_DPF_ACCEPT_LA")
+@conftest.raises_for_servers_version_under("6.0")
 def test_license_agr(set_context_back_to_premium):
     config = dpf.core.AvailableServerConfigs.InProcessServer
     init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
@@ -528,9 +535,9 @@ def test_license_agr(set_context_back_to_premium):
 
 
 @pytest.mark.order(2)
-@pytest.mark.skipif(os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
-                    or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+@pytest.mark.skipif(os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None,
                     reason="Tests ANSYS_DPF_ACCEPT_LA")
+@conftest.raises_for_servers_version_under("6.0")
 def test_license_agr_remote(remote_config_server_type, set_context_back_to_premium):
     init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
     del os.environ["ANSYS_DPF_ACCEPT_LA"]
