@@ -12,8 +12,8 @@ import subprocess
 import time
 import warnings
 import traceback
+import threading
 from abc import ABC
-from threading import Thread
 
 import psutil
 
@@ -144,8 +144,8 @@ def _wait_and_check_server_connection(
         stdout = read_stdout
 
     # must be in the background since the process reader is blocking
-    Thread(target=stdout, daemon=True).start()
-    Thread(target=stderr, daemon=True).start()
+    threading.Thread(target=stdout, daemon=True).start()
+    threading.Thread(target=stderr, daemon=True).start()
 
     t_timeout = time.time() + timeout
     started = False
@@ -231,19 +231,32 @@ def launch_dpf_on_docker(docker_config, ansys_path=None, ip=LOCALHOST, port=DPF_
     process = _run_launch_server_process(ip, port, ansys_path, docker_config)
 
     # check to see if the service started
+    cmd_lines = []
+    # Creating lock for threads
+    lock = threading.Lock()
+    lock.acquire()
     lines = []
-    docker_id = []
     current_errors = []
     running_docker_config = server_factory.RunningDockerConfig(docker_server_port=port)
 
     def read_stdout():
         for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
             LOG.debug(line)
-            lines.append(line)
-            running_docker_config.init_with_stdout(docker_config, LOG, lines, timeout)
+            cmd_lines.append(line)
+            lock.release()
+            running_docker_config.listen_to_process(docker_config, LOG, cmd_lines, lines, timeout)
+
+    def read_stderr():
+        for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
+            LOG.error(line)
+            current_errors.append(line)
+        while lock.locked():
+            pass
+        running_docker_config.listen_to_process(docker_config, LOG, cmd_lines, current_errors,
+                                                timeout, False)
 
     _wait_and_check_server_connection(
-        process, port, timeout, lines, current_errors, stderr=None, stdout=read_stdout)
+        process, port, timeout, lines, current_errors, stderr=read_stderr, stdout=read_stdout)
 
     return running_docker_config
 
@@ -342,6 +355,7 @@ class BaseServer(abc.ABC):
         self._server_id = None
         self._session_instance = None
         self._base_service_instance = None
+        self._context = None
         self._docker_config = server_factory.RunningDockerConfig()
 
     def set_as_global(self, as_global=True):
@@ -468,6 +482,19 @@ class BaseServer(abc.ABC):
         Available with server's version starting at 6.0 (Ansys 2023R2).
         """
         self._base_service.apply_context(context)
+        self._context = context
+
+    @property
+    def context(self):
+        """Returns the settings used to load DPF's plugins.
+        To update the context server side, use
+        :func:`ansys.dpf.core.BaseServer.server_types.apply_context`
+
+        Returns
+        -------
+        ServerContext
+        """
+        return self._context
 
     def check_version(self, required_version, msg=None):
         """Check if the server version matches with a required version.
@@ -600,6 +627,7 @@ class GrpcServer(CServer):
                  docker_config=RUNNING_DOCKER,
                  use_pypim=True,
                  num_connection_tryouts=3,
+                 context=server_context.SERVER_CONTEXT
                  ):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
@@ -637,11 +665,11 @@ class GrpcServer(CServer):
         self.live = True
         self._create_shutdown_funcs()
         self._check_first_call(num_connection_tryouts)
-        self.set_as_global(as_global=as_global)
         try:
-            self._base_service.initialize_with_context(server_context.SERVER_CONTEXT)
+            self.apply_context(context)
         except errors.DpfVersionNotSupported:
             pass
+        self.set_as_global(as_global=as_global)
 
     def _check_first_call(self, num_connection_tryouts):
         for i in range(num_connection_tryouts):
@@ -787,7 +815,9 @@ class InProcessServer(CServer):
                  ansys_path=None,
                  as_global=True,
                  load_operators=True,
-                 timeout=None):
+                 timeout=None,
+                 context=server_context.SERVER_CONTEXT
+                 ):
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load DataProcessingCore
@@ -802,14 +832,15 @@ class InProcessServer(CServer):
                     f"DPF directory not found at {os.path.dirname(path)}"
                     f"Unable to locate the following file: {path}")
             raise e
-        self.set_as_global(as_global=as_global)
         try:
-            self._base_service.apply_context(server_context.SERVER_CONTEXT)
+            self.apply_context(context)
         except errors.DpfVersionNotSupported:
             self._base_service.initialize_with_context(
                 server_context.AvailableServerContexts.premium
             )
+            self._context = server_context.AvailableServerContexts.premium
             pass
+        self.set_as_global(as_global=as_global)
 
     @property
     def version(self):
@@ -896,6 +927,7 @@ class LegacyGrpcServer(BaseServer):
             launch_server=True,
             docker_config=RUNNING_DOCKER,
             use_pypim=True,
+            context=server_context.SERVER_CONTEXT
     ):
         """Start the DPF server."""
         # Use ansys.grpc.dpf
@@ -948,11 +980,11 @@ class LegacyGrpcServer(BaseServer):
         self._create_shutdown_funcs()
 
         check_ansys_grpc_dpf_version(self, timeout)
-        self.set_as_global(as_global=as_global)
         try:
-            self._base_service.initialize_with_context(server_context.SERVER_CONTEXT)
+            self.apply_context(context)
         except errors.DpfVersionNotSupported:
             pass
+        self.set_as_global(as_global=as_global)
 
     def _create_shutdown_funcs(self):
         self._core_api = data_processing_grpcapi.DataProcessingGRPCAPI
