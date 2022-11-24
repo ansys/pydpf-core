@@ -33,8 +33,6 @@ Default use of DPF is local, using :class:`InProcess <ansys.dpf.core.server_type
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
     <ansys.dpf.core.server_types.InProcessServer object at ...>
@@ -65,8 +63,6 @@ GRPC communication is enabled using :class:`GrpcServer <ansys.dpf.core.server_ty
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
     <ansys.dpf.core.server_types.GrpcServer object at ...>
@@ -76,8 +72,6 @@ You can obtain the server port and ip:
 .. code-block::
 
     print(grpc_server)
-	
- Out:
 
  .. code-block:: none
 

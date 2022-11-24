@@ -55,8 +55,6 @@ This will check out a license.
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
     Server Context of type LicensingContextType.premium with no xml path
@@ -75,8 +73,6 @@ Once an entry server is started, it can be upgraded to premium:
 	
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
     Server Context of type LicensingContextType.entry with no xml path
@@ -88,8 +84,6 @@ Once an entry server is started, it can be upgraded to premium:
     print(server.context)
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
@@ -109,8 +103,6 @@ environment variable (see `<ansys.dpf.core.server_context>`) or writing:
     print(dpf.server_context.SERVER_CONTEXT)
 	
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
