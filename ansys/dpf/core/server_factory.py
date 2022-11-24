@@ -548,8 +548,10 @@ class RunningDockerConfig:
                     check=True
                 )
             except subprocess.CalledProcessError as e:
-                print(e)
-                print(e.output)
+                if "No such container" in e.output:
+                    pass
+                else:
+                    raise e
             process.kill()
 
     def listen_to_process(self,
