@@ -503,7 +503,7 @@ class RunningDockerConfig:
         -------
         str
         """
-        return self._docker_config.mounted_volumes
+        return self._docker_config.extra_args
 
     def replace_with_mounted_volumes(self, path: str):
         """Replace local path found in the list of mounted
