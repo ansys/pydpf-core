@@ -35,4 +35,4 @@ each answering a different use-case
 For DPF with Ansys 2023 R1 and newer, the default configuration is set to :class:`InProcess <ansys.dpf.core.server_types>`,
 meaning that servers are launched on the local machine.
 To launch a DPF server on a remote machine and communicate with it using gRPC, use
-the :class:`GrpcServer <ansys.dpf.core.server_types>` configuration as shown in :ref:`_ref_server_types_example`.
+the :class:`GrpcServer <ansys.dpf.core.server_types>` configuration as shown in :ref:`ref_server_types_example`.
