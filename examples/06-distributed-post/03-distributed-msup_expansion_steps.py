@@ -68,6 +68,10 @@ chain that is used to compute the final result.
         "expansion" -> "component";
     }
 
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 
 ###############################################################################
@@ -77,6 +81,9 @@ import os.path
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Configure the servers

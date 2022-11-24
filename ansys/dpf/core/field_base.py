@@ -216,7 +216,8 @@ class _FieldBase:
 
     def __del__(self):
         try:
-            self._deleter_func[0](self._deleter_func[1](self))
+            if hasattr(self, "_deleter_func"):
+                self._deleter_func[0](self._deleter_func[1](self))
         except:
             warnings.warn(traceback.format_exc())
 
