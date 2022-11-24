@@ -170,10 +170,6 @@ def start_local_server(
     use_pypim_by_default: bool, optional
         Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
         Defaults to True.
-    context: ServerContext, optional
-        Defines the settings that will be used to load DPF's plugins.
-        A DPF xml file can be used to list the plugins and set up variables. Default is
-        `server_context.SERVER_CONTEXT`.
 
     Returns
     -------
@@ -212,9 +208,6 @@ def start_local_server(
         port = docker_config.find_port_available_for_docker_bind(port)
     else:
         docker_config.use_docker = False
-
-    if context is None:
-        context = server_context.SERVER_CONTEXT
 
     server = None
     n_attempts = 3
@@ -289,10 +282,6 @@ def connect_to_server(
         passes, the connection fails.
     config: ServerConfig, optional
         Manages the type of server connection to use.
-    context: ServerContext, optional
-        Defines the settings that will be used to load DPF's plugins.
-        A DPF xml file can be used to list the plugins and set up variables. Default is
-        `server_context.SERVER_CONTEXT`.
 
     Examples
     --------
@@ -313,8 +302,6 @@ def connect_to_server(
     >>> #unspecified_server = dpf.connect_to_server(as_global=False)
 
     """
-    if context is None:
-        context = server_context.SERVER_CONTEXT
 
     def connect():
         server_init_signature = inspect.signature(server_type.__init__)

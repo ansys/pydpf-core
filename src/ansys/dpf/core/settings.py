@@ -8,7 +8,6 @@ Customize the behavior of the module.
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.core import misc
 from ansys.dpf.core.server import set_server_configuration  # noqa: F401
-from ansys.dpf.core.server_context import set_default_server_context  # noqa: F401
 from ansys.dpf.core.server_factory import ServerConfig  # noqa: F401
 from ansys.dpf.core import core
 

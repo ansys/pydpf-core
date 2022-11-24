@@ -426,19 +426,16 @@ def set_context_back_to_premium(request):
     """Count servers once we are finished."""
 
     dpf.core.server.shutdown_all_session_servers()
-    init_val = os.environ.get("ANSYS_DPF_ACCEPT_LA", None)
     try:
-        dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.entry)
+        dpf.core.apply_server_context(dpf.core.AvailableServerContexts.entry)
     except dpf.core.errors.DpfVersionNotSupported:
         pass
 
     def revert():
-        if init_val:
-            os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
         dpf.core.SERVER_CONFIGURATION = None
         dpf.core.server.shutdown_all_session_servers()
         try:
-            dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.premium)
+            dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium)
         except dpf.core.errors.DpfVersionNotSupported:
             pass
 
@@ -460,13 +457,6 @@ def reset_context_environment_variable(request):
     def revert():
         if init_context:
             os.environ[key] = init_context
-        else:
-            del os.environ[key]
-        reload(s_c)
-        try:
-            dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.premium)
-        except dpf.core.errors.DpfVersionNotSupported:
-            pass
 
     request.addfinalizer(revert)
 
@@ -475,6 +465,7 @@ def reset_context_environment_variable(request):
                     reason="AWP ROOT is not set with Docker")
 @conftest.raises_for_servers_version_under("6.0")
 def test_context_environment_variable(reset_context_environment_variable):
+    from importlib import reload
     from ansys.dpf.core import server_context as s_c
 
     key = s_c.DPF_SERVER_CONTEXT_ENV
@@ -487,7 +478,7 @@ def test_context_environment_variable(reset_context_environment_variable):
     assert s_c.SERVER_CONTEXT == s_c.AvailableServerContexts.entry
 
     # Test each possible value is correctly understood and sets SERVER_CONTEXT
-    for context in s_c.LicensingContextType:
+    for context in s_c.EContextType:
         os.environ[key] = context.name.upper()
         reload(s_c)
         try:
@@ -497,6 +488,7 @@ def test_context_environment_variable(reset_context_environment_variable):
 
 
 @pytest.mark.order(1)
+<<<<<<< HEAD
 <<<<<<< HEAD
 @pytest.mark.skipif(running_docker or os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
                     or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
@@ -536,6 +528,8 @@ def test_license_agr_remote(remote_config_server_type, set_context_back_to_premi
 @pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
                     reason="AWP ROOT is not set with Docker")
 =======
+=======
+>>>>>>> 5cfb6d5b (Revert "Merge branch 'master' into feat/update-layout")
 @pytest.mark.skipif(
     running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     reason="AWP ROOT is not set with Docker",
@@ -551,30 +545,21 @@ def test_apply_context(set_context_back_to_premium):
     if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
         with pytest.raises(KeyError):
             dpf.core.Operator("core::field::high_pass")
-        with pytest.raises(dpf.core.errors.DPFServerException):
-            if dpf.core.SERVER.os == "nt":
-                dpf.core.load_library("Ans.Dpf.Math.dll", "math_operators")
-            else:
-                dpf.core.load_library("libAns.Dpf.Math.so", "math_operators")
-        assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.entry
     else:
         dpf.core.start_local_server()
 
-    dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.premium)
-    assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.premium
+    dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium, dpf.core.SERVER)
     dpf.core.Operator("core::field::high_pass")
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.entry)
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.SERVER.apply_context(dpf.core.AvailableServerContexts.entry)
-    assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.premium
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 @pytest.mark.order(4)
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
                     reason="not supported")
 =======
+=======
+>>>>>>> 5cfb6d5b (Revert "Merge branch 'master' into feat/update-layout")
 @pytest.mark.order(2)
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0, reason="not supported"
@@ -587,31 +572,17 @@ def test_apply_context_remote(remote_config_server_type, set_context_back_to_pre
     if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
         with pytest.raises(dpf.core.errors.DPFServerException):
             dpf.core.Operator("core::field::high_pass")
-        with pytest.raises(dpf.core.errors.DPFServerException):
-            if dpf.core.SERVER.os == "nt":
-                dpf.core.load_library("Ans.Dpf.Math.dll", "math_operators")
-            else:
-                dpf.core.load_library("libAns.Dpf.Math.so", "math_operators")
-
-            assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.entry
     else:
         dpf.core.start_local_server()
 
-    dpf.core.SERVER.apply_context(dpf.core.AvailableServerContexts.premium)
+    dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium, dpf.core.SERVER)
     dpf.core.Operator("core::field::high_pass")
-    assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.premium
 
     dpf.core.server.shutdown_all_session_servers()
     with pytest.raises(dpf.core.errors.DPFServerException):
         dpf.core.Operator("core::field::high_pass")
-    dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.premium)
+    dpf.core.apply_server_context(dpf.core.AvailableServerContexts.premium)
     dpf.core.Operator("core::field::high_pass")
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.entry)
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.SERVER.apply_context(dpf.core.AvailableServerContexts.entry)
-
-    assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.premium
 
 
 @pytest.mark.order("last")
