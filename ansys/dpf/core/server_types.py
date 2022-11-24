@@ -243,7 +243,7 @@ def launch_dpf_on_docker(running_docker_config=server_factory.RunningDockerConfi
             LOG.debug(line)
             cmd_lines.append(line)
             lock.release()
-            running_docker_config.listen_to_process(LOG, cmd_lines, lines, timeout)
+        running_docker_config.listen_to_process(LOG, cmd_lines, lines, timeout)
 
     def read_stderr():
         for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
