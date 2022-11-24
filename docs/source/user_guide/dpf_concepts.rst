@@ -46,7 +46,7 @@ DPF concepts
        :width: 25%
        :text-align: center
 
-       .. image:: ../images/drawings/using-dpf.png
+       .. image:: ../images/drawings/remote_machine.png
 
     .. card:: Server context: Entry/Premium capabilities
        :link: user_guide_server_context
