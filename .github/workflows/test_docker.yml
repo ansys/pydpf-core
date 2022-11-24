@@ -11,8 +11,6 @@ env:
   MODULE: core
   extra: "--find-links .github/"
   ANSYS_VERSION: 232
-  ANSYS_DPF_ACCEPT_LA: Y
-  ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
 
 jobs:
   docker_tests:
@@ -26,6 +24,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: "Set licensing if necessary"
+        if: inputs.ANSYS_VERSION > 231
+        shell: bash
+        run: |
+          echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
+          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
       - name: "Build Docker Package"
         uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@v2.3

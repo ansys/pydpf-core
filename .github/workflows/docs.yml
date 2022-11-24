@@ -33,9 +33,6 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   extra: "--find-links .github/"
-  ANSYS_DPF_ACCEPT_LA: Y
-  ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
-  ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
 jobs:
   docs:
@@ -44,6 +41,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: "Set licensing if necessary"
+        if: inputs.ANSYS_VERSION > 231
+        shell: bash
+        run: |
+          echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
+          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
+          echo "ANSYS_DPF_SERVER_CONTEXT=PREMIUM" >> $GITHUB_ENV
 
       - name: Setup Python
         uses: actions/setup-python@v4.2.0
