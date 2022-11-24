@@ -47,7 +47,7 @@ On Linux, start the DPF Server by running the Ans.Dpf.Grpc.sh file in the unzipp
 Running the DPF Server in a Docker container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Along with the ansys_dpf_server_lin_v2023_2_pre0.zip archive mentioned in :ref:`Installing DPF Server <_target_installing_server>`, download the Dockerfile.
+1. Along with the ansys_dpf_server_lin_v2023_2_pre0.zip archive mentioned in :ref:`Installing DPF Server <target_installing_server>`, download the Dockerfile.
 2. Copy both the archive and Dockerfile in a folder and navigate into that folder.
 3. To build the DPF Docker container, run the following commands:
 
