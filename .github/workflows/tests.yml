@@ -152,7 +152,7 @@ jobs:
       - name: "Test API test_launcher"
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 1
+          timeout_minutes: 2
           max_attempts: 2
           shell: bash
           command: |
@@ -165,7 +165,7 @@ jobs:
       - name: "Test API test_server"
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 1
+          timeout_minutes: 2
           max_attempts: 2
           shell: bash
           command: |
@@ -179,7 +179,7 @@ jobs:
       - name: "Test API test_local_server"
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 1
+          timeout_minutes: 2
           max_attempts: 2
           shell: bash
           command: |
@@ -192,7 +192,7 @@ jobs:
       - name: "Test API test_multi_server"
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 1
+          timeout_minutes: 2
           max_attempts: 2
           shell: bash
           command: |
@@ -205,7 +205,7 @@ jobs:
       - name: "Test API test_remote_workflow"
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 1
+          timeout_minutes: 2
           max_attempts: 2
           shell: bash
           command: |
@@ -228,7 +228,7 @@ jobs:
       - name: "Test API test_workflow"
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 1
+          timeout_minutes: 2
           max_attempts: 2
           shell: bash
           command: |
@@ -242,7 +242,7 @@ jobs:
       - name: "Test API test_service"
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 1
+          timeout_minutes: 2
           max_attempts: 2
           shell: bash
           command: |
