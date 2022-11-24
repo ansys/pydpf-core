@@ -61,7 +61,7 @@ License terms
 -------------
 
 DPF Preview License Agreement 
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. _target_to_license_terms:
 
@@ -91,10 +91,10 @@ Ansys licensing
 DPF Server is protected by Ansys licensing mechanism.
 
 DPF capabilities are available through the following main services: 
-- Entry: load the minimum number of plugins for a basic usage. It is the default. It will only check if an Ansys License is available. 
-- Premium: get the specific premium DataProcessingCore.xml to load most plugins with their environments. It will checkout a license. 
+- Entry: Loads the minimum number of plugins for basic use. It is the default. It will only check if an Ansys License is available. 
+- Premium: Uses the premium DataProcessingCore.xml file to load most plugins.... with their environments. It will checkout a license. 
 
-The context can be updated by applying a new server context:
+To update the context, apply a new server context:
 
 .. code::
 
@@ -129,5 +129,5 @@ The following Ansys licensing increments currently provide rights to use DPF Ser
 - "cfd_solve_level3" available in Ansys CFD Enterprise product
 - "fluent_meshing" available in Ansys CFD Enterprise product
 
-Each increment might be available in other products. The Product/Increment mapping can be found at
-`Licensing section of Ansys Customer Portal <https://download.ansys.com/Installation%20and%20Licensing%20Help%20and%20Tutorials>`_. 
+Each increment may be available in other products. The product/increment mapping can be found in the Licensing section of the Ansys Customer Portal:
+`<https://download.ansys.com/Installation%20and%20Licensing%20Help%20and%20Tutorials>`_. 

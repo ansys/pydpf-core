@@ -28,8 +28,8 @@ Default use of DPF is local, using :class:`InProcess <ansys.dpf.core.server_type
 .. code-block::
 	   
     from ansys.dpf import core as dpf
-	local_server = dpf.start_local_server()
-	local_server
+    local_server = dpf.start_local_server()
+    local_server
 
 .. rst-class:: sphx-glr-script-out
 
@@ -41,12 +41,12 @@ This server can now be used to instantiate Models, Operators, and so on.
 
 .. code-block::
 	
-	# instantiate an operator
+    # instantiate an operator
     local_operator = dpf.operators.results.displacement(server=local_server)
 	
-	# instantiate a model
-	from ansys.dpf.core import examples
-	local_model = dpf.Model(examples.find_simple_bar(), server=local_server)
+    # instantiate a model
+    from ansys.dpf.core import examples
+    local_model = dpf.Model(examples.find_simple_bar(), server=local_server)
 	
 
 Getting started with DPF GRPC server
@@ -57,9 +57,9 @@ GRPC communication is enabled using :class:`GrpcServer <ansys.dpf.core.server_ty
 .. code-block::
 	   
     from ansys.dpf import core as dpf
-	grpc_server_config = dpf.AvailableServerConfigs.GrpcServer
-	grpc_server = dpf.start_local_server(config=grpc_server_config)
-	grpc_server
+    grpc_server_config = dpf.AvailableServerConfigs.GrpcServer
+    grpc_server = dpf.start_local_server(config=grpc_server_config)
+    grpc_server
 
 .. rst-class:: sphx-glr-script-out
 
@@ -72,6 +72,8 @@ You can obtain the server port and ip:
 .. code-block::
 
     print(grpc_server)
+	
+.. rst-class:: sphx-glr-script-out
 
  .. code-block:: none
 
@@ -82,14 +84,14 @@ From a another machine, you can connect remotly to this server and instantiate M
 .. code-block::
 	   
     from ansys.dpf import core as dpf
-	grpc_remote_server = dpf.connect_to_server(ip='127.0.0.1', port=50052)
-
-	# instantiate an operator
+    grpc_remote_server = dpf.connect_to_server(ip='127.0.0.1', port=50052)
+    
+    # instantiate an operator
     remote_operator = dpf.operators.results.displacement(server=grpc_remote_server)
-	
-	# instantiate a model
-	from ansys.dpf.core import examples
-	remote_model = dpf.Model(examples.find_simple_bar(), server=grpc_remote_server)
+    
+    # instantiate a model
+    from ansys.dpf.core import examples
+    remote_model = dpf.Model(examples.find_simple_bar(), server=grpc_remote_server)
 	
 GRPC server use also enables distributed computation capabilities. To learn more about 
 distributed computation with DPF, see :ref:`distributed_post`.
@@ -103,14 +105,14 @@ The different DPF server types can be started using one of the
 
 .. code-block::
     
-	in_process_config = dpf.AvailableServerConfigs.InProcessServer
-	in_process_server = dpf.start_local_server(config=in_process_config)
-	
+    in_process_config = dpf.AvailableServerConfigs.InProcessServer
+    in_process_server = dpf.start_local_server(config=in_process_config)
+    
     grpc_config = dpf.AvailableServerConfigs.GrpcServer
     grpc_server = dpf.start_local_server(config=grpc_config)
-	
-	legacy_grpc_config = dpf.AvailableServerConfigs.LegacyGrpcServer
-	legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config)
+    
+    legacy_grpc_config = dpf.AvailableServerConfigs.LegacyGrpcServer
+    legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config)
 
 
 Advanced concepts and release history
