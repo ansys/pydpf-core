@@ -109,3 +109,12 @@ environment variable (see `<ansys.dpf.core.server_context>`) or writing:
     Server Context of type LicensingContextType.premium with no xml path
 
 
+Release History
+---------------
+
+The Entry server context is available starting with server version 6.0 
+(Ansys 2023 R2). 
+
+With a server version lower than 6.0, Premium will be the default server 
+context and all the Premium operators at :ref:`ref_dpf_operators_reference` 
+will be available.
