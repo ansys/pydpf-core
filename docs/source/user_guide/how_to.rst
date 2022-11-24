@@ -48,4 +48,4 @@ How-tos
        :width: 25%
        :text-align: center
 
-       .. image:: ../images/drawings/using-dpf.png
+       .. image:: ../images/drawings/dpf_server_client.png
