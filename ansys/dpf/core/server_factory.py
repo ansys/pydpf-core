@@ -527,30 +527,23 @@ class RunningDockerConfig:
 
     def remove_docker_image(self):
         """Stops and Removes the Docker image with its id==server_id"""
-        if self.use_docker and self.server_id:
-            run_cmd = f"docker stop {self.server_id}"
-            b_shell = False
-            if os.name == 'posix':
-                b_shell = True
-            if b_shell:
-                process = subprocess.Popen(
-                    run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
-                )
-            else:
-                process = subprocess.Popen(
-                    run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-                )
-            run_cmd = f"docker rm {self.server_id}"
-            for _ in io.TextIOWrapper(process.stdout, encoding="utf-8"):
-                pass
-            if b_shell:
-                _ = subprocess.Popen(
-                    run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
-                )
-            else:
-                _ = subprocess.Popen(
-                    run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-                )
+        if not self.use_docker or not self.server_id:
+            return
+        stop_cmd = f"docker stop {self.server_id}"
+        b_shell = False
+        if os.name == 'posix':
+            b_shell = True
+        with subprocess.Popen(
+            stop_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
+        ) as process:
+            rm_cmd = f"docker rm {self.server_id}"
+            with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
+                for _ in log_out:
+                    pass
+            subprocess.check_call(
+                rm_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
+            )
+            process.kill()
 
     def listen_to_process(self,
                           log: logging.Logger,
