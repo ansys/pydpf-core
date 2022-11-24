@@ -129,17 +129,19 @@ def _wait_and_check_server_connection(
         process, port, timeout, lines, current_errors, stderr=None, stdout=None):
     if not stderr:
         def read_stderr():
-            for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
-                LOG.error(line)
-                current_errors.append(line)
+            with io.TextIOWrapper(process.stderr, encoding="utf-8") as log_err:
+                for line in log_err:
+                    LOG.error(line)
+                    current_errors.append(line)
 
         stderr = read_stderr
         # check to see if the service started
     if not stdout:
         def read_stdout():
-            for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
-                LOG.debug(line)
-                lines.append(line)
+            with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
+                for line in log_out:
+                    LOG.debug(line)
+                    lines.append(line)
 
         stdout = read_stdout
 
@@ -239,20 +241,22 @@ def launch_dpf_on_docker(running_docker_config=server_factory.RunningDockerConfi
     running_docker_config.docker_server_port = port
 
     def read_stdout():
-        for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
-            LOG.debug(line)
-            cmd_lines.append(line)
-            lock.release()
-        running_docker_config.listen_to_process(LOG, cmd_lines, lines, timeout)
+        with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
+            for line in log_out:
+                LOG.debug(line)
+                cmd_lines.append(line)
+                lock.release()
+            running_docker_config.listen_to_process(LOG, cmd_lines, lines, timeout)
 
     def read_stderr():
-        for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
-            LOG.error(line)
-            current_errors.append(line)
-        while lock.locked():
-            pass
-        running_docker_config.listen_to_process(LOG, cmd_lines, current_errors,
-                                                timeout, False)
+        with io.TextIOWrapper(process.stderr, encoding="utf-8") as log_err:
+            for line in log_err:
+                LOG.error(line)
+                current_errors.append(line)
+            while lock.locked():
+                pass
+            running_docker_config.listen_to_process(LOG, cmd_lines, current_errors,
+                                                    timeout, False)
 
     _wait_and_check_server_connection(
         process, port, timeout, lines, current_errors, stderr=read_stderr, stdout=read_stdout)
