@@ -67,7 +67,7 @@ jobs:
       python_versions: '["3.8"]'
       wheel: true
       wheelhouse: false
-      standalone_suffix: ${{ env.STANDALONE_SUFFIX }}
+      standalone_suffix: ${{ env.STANDALONE_SUFFIX || '' }}
     secrets: inherit
 
   docker_tests:
