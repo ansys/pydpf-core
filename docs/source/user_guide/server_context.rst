@@ -15,7 +15,7 @@ The server context is composed of two main information:
 class object, that defines if a License check out is required or not.
 - the xml_path that sets DPF default operators capabilities. For more
 information, see :class:`AvailableServerContexts <ansys.dpf.core.server_context>`
-and :ref:`_user_guide_xmlfiles`.
+and :ref:`user_guide_xmlfiles`.
 
 Two main licensing context type capabilities are available: 
 - Entry (default) that will load the minimum capabilities without requiring 
@@ -24,12 +24,12 @@ any license check out.
 requires a license check out. More operators will be available.
 
 The operators list for each licensing context type is available at
-:ref:`_ref_dpf_operators_reference`.
+:ref:`ref_dpf_operators_reference`.
 
 Getting started with Entry capabilities
 ---------------------------------------
 
-Entry operators list is available at :ref:`_ref_dpf_operators_reference`.
+Entry operators list is available at :ref:`ref_dpf_operators_reference`.
 This won't check out any license.
 
 .. code-block::
@@ -41,7 +41,7 @@ This won't check out any license.
 Getting started with Premium capabilities
 -----------------------------------------
 
-Entry operators list is available at :ref:`_ref_dpf_operators_reference`.
+Entry operators list is available at :ref:`ref_dpf_operators_reference`.
 This will check out a license.
 
 .. code-block::
