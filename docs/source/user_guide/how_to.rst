@@ -38,4 +38,14 @@ How-tos
        :text-align: center
 
        .. image:: ../images/drawings/xml.png
- 
+
+
+.. card-carousel:: 2
+
+    .. card:: Plot
+       :link: ref_getting_started_with_dpf_server
+       :link-type: ref
+       :width: 25%
+       :text-align: center
+
+       .. image:: ../images/drawings/using-dpf.png
