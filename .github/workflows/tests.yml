@@ -205,8 +205,8 @@ jobs:
       - name: "Test API test_remote_workflow"
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 2
-          max_attempts: 2
+          timeout_minutes: 3
+          max_attempts: 3
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results6.xml test_remote_workflow/.
