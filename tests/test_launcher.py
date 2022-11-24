@@ -172,10 +172,11 @@ class TestServerConfigs:
                 stderr=subprocess.PIPE,
             )
             errors = ""
-            for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
-                errors += line
-            if process.returncode is not None:
-                raise Exception(errors)
+            with io.TextIOWrapper(process.stderr, encoding="utf-8") as log_err:
+                for line in log_err:
+                    errors += line
+                if process.returncode is not None:
+                    raise Exception(errors)
 
     @pytest.mark.skipif(running_docker, reason="Not made to work on docker")
     def test_launch_server_full_path(self, server_config):

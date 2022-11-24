@@ -1,3 +1,5 @@
+import time
+
 import pytest
 import subprocess
 import platform
@@ -146,8 +148,11 @@ def test_docker_busy_port(remote_config_server_type, clean_up):
     my_serv = start_local_server(config=remote_config_server_type)
     busy_port = my_serv.external_port
     with pytest.raises(errors.InvalidPortError):
+        running_docker_config = dpf.core.server_factory.RunningDockerConfig(
+            docker_config=dpf.core.server.RUNNING_DOCKER
+        )
         server_types.launch_dpf_on_docker(port=busy_port,
-                                          docker_config=dpf.core.server.RUNNING_DOCKER
+                                          running_docker_config=running_docker_config
                                           )
     server = start_local_server(as_global=False, port=busy_port,
                                 config=remote_config_server_type)
@@ -170,6 +175,7 @@ def test_shutting_down_when_deleted_legacy():
         "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.LegacyGrpcServer;"
         "model = dpf.Model(examples.find_static_rst());"
     ])
+    time.sleep(2.0)
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():
         if "Ans.Dpf.Grpc" in proc.name():
@@ -191,6 +197,7 @@ def test_shutting_down_when_deleted():
         "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.GrpcServer;"
         "model = dpf.Model(examples.find_static_rst());"
     ])
+    time.sleep(2.0)
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():
         if "Ans.Dpf.Grpc" in proc.name():
