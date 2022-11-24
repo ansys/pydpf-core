@@ -592,6 +592,9 @@ class RunningDockerConfig:
     def docker_run_cmd_command(self, docker_server_port, local_port):
         return self._docker_config.docker_run_cmd_command(docker_server_port, local_port)
 
+    def docker_run_cmd_command(self, docker_server_port, local_port):
+        return self._docker_config.docker_run_cmd_command(docker_server_port, local_port)
+
     def __str__(self):
         return str(self._docker_config) + f"\t- server_id: {self.server_id}\n"
 
