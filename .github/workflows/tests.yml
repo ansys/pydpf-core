@@ -205,6 +205,17 @@ jobs:
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
         if: always()
 
+      - name: "Test API test_service"
+        shell: bash
+        working-directory: test_service
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results9.xml --reruns 3 .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v3
         with:
