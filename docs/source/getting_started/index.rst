@@ -79,9 +79,9 @@ In the same Python environment, run the following command:
     >>> print(model)
 
 
-.. card::
+.. rst-class:: sphx-glr-script-out
 
-   .. code:: none
+ .. code-block:: none
 
     DPF Model
     ------------------------------

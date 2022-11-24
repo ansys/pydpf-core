@@ -7,8 +7,3 @@
 .bd-content .sd-card .sd-card-body, .bd-content .sd-card .sd-card-footer {
     background-color: transparent;
 }
-
-.sd-card-text{
-    font-family: var(--pst-font-family-base);
-    font-size: var(--pst-font-size-base);
-}
