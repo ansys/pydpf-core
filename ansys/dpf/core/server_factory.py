@@ -252,7 +252,7 @@ class DockerConfig:
     Parameters
     ----------
     use_docker : bool, optional
-        Whether DPF's server should be started in a Docker Container by default.
+        Whether the DPF server should be started in a Docker Container by default.
     docker_name : str, optional
         Name of Docker Image to run.
     mounted_volumes : dict, optional
@@ -269,7 +269,7 @@ class DockerConfig:
             self,
             use_docker: bool = False,
             docker_name: str = "",
-            mounted_volumes=None,
+            mounted_volumes: dict = None,
             extra_args: str = ""
     ):
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
@@ -282,8 +282,8 @@ class DockerConfig:
         self._extra_args = extra_args
 
     @property
-    def use_docker(self):
-        """Whether DPF's server should be started in a Docker Container by default.
+    def use_docker(self) -> bool:
+        """Whether the DPF server should be started in a Docker Container by default.
 
         Returns
         -------
@@ -296,7 +296,7 @@ class DockerConfig:
         self._use_docker = val
 
     @property
-    def docker_name(self):
+    def docker_name(self) -> str:
         """Name of Docker Image to run.
 
         Returns
@@ -306,7 +306,7 @@ class DockerConfig:
         return self._docker_name
 
     @property
-    def mounted_volumes(self):
+    def mounted_volumes(self) -> dict:
         """Dictionary of key = local path and value = path of mounted volumes in the Docker Image.
         To prevent from uploading result files on the Docker Image
         :func:`ansys.dpc.core.server_factory.RunningDockerConfig.replace_with_mounted_volumes`
@@ -323,7 +323,7 @@ class DockerConfig:
         self._mounted_volumes = mounted_volumes
 
     @property
-    def licensing_args(self):
+    def licensing_args(self) -> str:
         la = os.environ.get("ANSYS_DPF_ACCEPT_LA", "N")
         lf = os.environ.get("ANSYSLMD_LICENSE_FILE", None)
         additional_option = " -e ANSYS_DPF_ACCEPT_LA=" + la + " "
@@ -334,7 +334,7 @@ class DockerConfig:
         return additional_option
 
     @property
-    def extra_args(self):
+    def extra_args(self) -> str:
         """Extra arguments to add to the docker run command.
 
         Returns
