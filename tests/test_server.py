@@ -1,3 +1,5 @@
+import time
+
 import pytest
 import subprocess
 import platform
@@ -173,6 +175,7 @@ def test_shutting_down_when_deleted_legacy():
         "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.LegacyGrpcServer;"
         "model = dpf.Model(examples.find_static_rst());"
     ])
+    time.sleep(2.0)
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():
         if "Ans.Dpf.Grpc" in proc.name():
@@ -194,6 +197,7 @@ def test_shutting_down_when_deleted():
         "dpf.SERVER_CONFIGURATION = dpf.server_factory.AvailableServerConfigs.GrpcServer;"
         "model = dpf.Model(examples.find_static_rst());"
     ])
+    time.sleep(2.0)
     new_num_dpf_exe = 0
     for proc in psutil.process_iter():
         if "Ans.Dpf.Grpc" in proc.name():

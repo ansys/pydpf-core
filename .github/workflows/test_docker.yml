@@ -64,7 +64,7 @@ jobs:
         working-directory: tests
         run: |
           pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results.xml  .
-        timeout-minutes: 5
+        timeout-minutes: 10
 
       - name: "Test API test_launcher"
         shell: bash
