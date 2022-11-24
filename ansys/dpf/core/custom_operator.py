@@ -19,6 +19,7 @@ from ansys.dpf.core import (
     operator_specification,
     dpf_operator,
     collection,
+    AvailableServerContexts,
 )
 from ansys.dpf.core._custom_operators_helpers import __operator_main__, functions_registry, \
     external_operator_api, _type_to_output_method, _type_to_input_method
@@ -46,7 +47,7 @@ def record_operator(operator_type, *args) -> None:
         operator = operator_type
     if dpf.SERVER is None:
         settings.set_server_configuration(server_factory.ServerConfig(None, False))
-        server.start_local_server()
+        server.start_local_server(context=AvailableServerContexts.premium)
     if len(args) == 2:
         external_operator_api.external_operator_record_with_abstract_core_and_wrapper(
             operator._call_back(),

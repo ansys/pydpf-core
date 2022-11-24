@@ -455,6 +455,10 @@ class RunningDockerConfig:
         """
         return self._port
 
+    @docker_server_port.setter
+    def docker_server_port(self, val):
+        self._port = val
+
     @property
     def server_id(self):
         """Running Docker Container id.
@@ -548,30 +552,42 @@ class RunningDockerConfig:
                     run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
                 )
 
-    def init_with_stdout(self, docker_config, LOG, lines, timeout):
+    def listen_to_process(self, log, cmd_lines, lines, timeout, stdout: bool = True):
         """Search inside the Docker Container stdout log to fill in this instance's attributes.
 
         Parameters
         ----------
         docker_config :  DockerConfig
-        LOG
+        log
             Instance of ``logging`` to add debug info to.
+        cmd_lines: list
+            Stdout of the shell process run ``docker run`` command.
         lines : list
             Internal Container's stdout are copied into ``lines``.
         timeout : time
             When to stop searching for stdout.
+        stdout : bool, optional
+            Whether to check stdout or stderr.
         """
-        self._docker_config = docker_config
-        self.server_id = lines[0].replace("\n", "")
+        self.server_id = cmd_lines[0].replace("\n", "")
         t_timeout = time.time() + timeout
         while time.time() < t_timeout:
             docker_process = subprocess.Popen(f"docker logs {self.server_id}",
                                               stdout=subprocess.PIPE,
                                               stderr=subprocess.PIPE, shell=(os.name == 'posix'))
             self._use_docker = True
-            for line in io.TextIOWrapper(docker_process.stdout, encoding="utf-8"):
-                LOG.debug(line)
-                lines.append(line)
+            if stdout:
+                for line in io.TextIOWrapper(docker_process.stdout, encoding="utf-8"):
+                    log.debug(line)
+                    lines.append(line)
+            else:
+                for line in io.TextIOWrapper(docker_process.stderr, encoding="utf-8"):
+                    if line not in lines:
+                        # LOG.error(line)
+                        lines.append(line)
+
+    def docker_run_cmd_command(self, docker_server_port, local_port):
+        return self._docker_config.docker_run_cmd_command(docker_server_port, local_port)
 
     def __str__(self):
         return str(self._docker_config) + f"\t- server_id: {self.server_id}\n"
