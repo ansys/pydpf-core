@@ -343,7 +343,7 @@ class DockerConfig:
         """
         return self._extra_args
 
-    def docker_run_cmd_command(self, docker_server_port, local_port):
+    def docker_run_cmd_command(self, docker_server_port, local_port) -> str:
         """Creates the docker run command with the ``DockerConfig`` attributes as well
         as the ``docker_server_port`` and ``local_port`` passed in as parameters.
 
@@ -414,7 +414,7 @@ class DockerConfig:
 
 class RunningDockerConfig:
     """Holds all the configuration options and the process information of a running Docker image
-    of a DPF's server.
+    of a DPF server.
 
     Parameters
     ----------
@@ -427,7 +427,10 @@ class RunningDockerConfig:
 
     """
 
-    def __init__(self, docker_config=None, server_id=None, docker_server_port=None):
+    def __init__(self,
+                 docker_config: DockerConfig = None,
+                 server_id: int = None,
+                 docker_server_port: int = None):
         if docker_config is None:
             docker_config = DockerConfig()
         self._docker_config = docker_config
@@ -436,8 +439,8 @@ class RunningDockerConfig:
         self._port = docker_server_port
 
     @property
-    def use_docker(self):
-        """Whether DPF's server should be started in a Docker Container by default.
+    def use_docker(self) -> bool:
+        """Whether the DPF server should be started in a Docker Container by default.
 
         Returns
         -------
@@ -446,7 +449,7 @@ class RunningDockerConfig:
         return self._use_docker
 
     @property
-    def docker_server_port(self):
+    def docker_server_port(self) -> int:
         """Port used inside the Docker Container to run the gRPC server.
 
         Returns
@@ -456,11 +459,11 @@ class RunningDockerConfig:
         return self._port
 
     @docker_server_port.setter
-    def docker_server_port(self, val):
+    def docker_server_port(self, val: int):
         self._port = val
 
     @property
-    def server_id(self):
+    def server_id(self) -> int:
         """Running Docker Container id.
 
         Returns
@@ -470,11 +473,11 @@ class RunningDockerConfig:
         return self._server_id
 
     @server_id.setter
-    def server_id(self, val):
+    def server_id(self, val: int):
         self._server_id = val
 
     @property
-    def docker_name(self):
+    def docker_name(self) -> str:
         """Name of Docker running Image.
 
         Returns
@@ -484,7 +487,7 @@ class RunningDockerConfig:
         return self._docker_config.docker_name
 
     @property
-    def mounted_volumes(self):
+    def mounted_volumes(self) -> dict:
         """Dictionary of local path to docker path of volumes mounted in the Docker Image.
         These paths are checked for when result files are looked for by the server to prevent from
         uploading them.
@@ -496,7 +499,7 @@ class RunningDockerConfig:
         return self._docker_config.mounted_volumes
 
     @property
-    def extra_args(self):
+    def extra_args(self) -> str:
         """Extra arguments used in the ``docker run`` command
 
         Returns
@@ -505,14 +508,14 @@ class RunningDockerConfig:
         """
         return self._docker_config.extra_args
 
-    def replace_with_mounted_volumes(self, path: str):
+    def replace_with_mounted_volumes(self, path: str) -> str:
         """Replace local path found in the list of mounted
         volumes by their mounted path in the docker.
 
         Parameters
         ----------
         path: str
-            Path to search for mounted volumes occurences.
+            Path to search for mounted volumes occurrences.
 
         Returns
         -------
@@ -525,7 +528,7 @@ class RunningDockerConfig:
                 path = path.replace(os.path.normpath(key), val)
         return path
 
-    def remove_docker_image(self):
+    def remove_docker_image(self) -> None:
         """Stops and Removes the Docker image with its id==server_id"""
         if not self.use_docker or not self.server_id:
             return
@@ -550,7 +553,8 @@ class RunningDockerConfig:
                           cmd_lines: list,
                           lines: list,
                           timeout: float,
-                          stdout: bool = True):
+                          stdout: bool = True
+                          ) -> None:
         """Search inside the Docker Container stdout log to fill in this instance's attributes.
 
         Parameters
@@ -586,14 +590,14 @@ class RunningDockerConfig:
                                 lines.append(line)
                 docker_process.kill()
 
-    def docker_run_cmd_command(self, docker_server_port, local_port):
+    def docker_run_cmd_command(self, docker_server_port: int, local_port: int) -> str:
         return self._docker_config.docker_run_cmd_command(docker_server_port, local_port)
 
     def __str__(self):
         return str(self._docker_config) + f"\t- server_id: {self.server_id}\n"
 
 
-def create_default_docker_config():
+def create_default_docker_config() -> DockerConfig:
     return DockerConfig(
         use_docker="DPF_DOCKER" in os.environ.keys(),
         docker_name=os.environ.get("DPF_DOCKER", "")
