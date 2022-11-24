@@ -5,7 +5,7 @@ Server factory, server configuration and communication protocols
 Contains the server factory as well as the communication
 protocols and server configurations available.
 """
-
+import logging
 import os
 import subprocess
 import time
@@ -552,19 +552,23 @@ class RunningDockerConfig:
                     run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
                 )
 
-    def listen_to_process(self, log, cmd_lines, lines, timeout, stdout: bool = True):
+    def listen_to_process(self,
+                          log: logging.Logger,
+                          cmd_lines: list,
+                          lines: list,
+                          timeout: float,
+                          stdout: bool = True):
         """Search inside the Docker Container stdout log to fill in this instance's attributes.
 
         Parameters
         ----------
-        docker_config :  DockerConfig
         log
             Instance of ``logging`` to add debug info to.
         cmd_lines: list
             Stdout of the shell process run ``docker run`` command.
         lines : list
             Internal Container's stdout are copied into ``lines``.
-        timeout : time
+        timeout : float
             When to stop searching for stdout.
         stdout : bool, optional
             Whether to check stdout or stderr.
@@ -588,9 +592,6 @@ class RunningDockerConfig:
                             if line not in lines:
                                 lines.append(line)
                 docker_process.kill()
-
-    def docker_run_cmd_command(self, docker_server_port, local_port):
-        return self._docker_config.docker_run_cmd_command(docker_server_port, local_port)
 
     def docker_run_cmd_command(self, docker_server_port, local_port):
         return self._docker_config.docker_run_cmd_command(docker_server_port, local_port)

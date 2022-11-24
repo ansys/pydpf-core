@@ -201,13 +201,17 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
         process, port, timeout, lines, current_errors, stderr=None, stdout=None)
 
 
-def launch_dpf_on_docker(running_docker_config,
-                         ansys_path=None, ip=LOCALHOST, port=DPF_DEFAULT_PORT,
-                         timeout=10):
+def launch_dpf_on_docker(running_docker_config=server_factory.RunningDockerConfig(),
+                         ansys_path=None,
+                         ip=LOCALHOST,
+                         port=DPF_DEFAULT_PORT,
+                         timeout=10.):
     """Launch Ansys DPF.
 
     Parameters
     ----------
+    running_docker_config : server_factory.RunningDockerConfig, optional
+        To start DPF server as a docker, specify the docker configurations here.
     ansys_path : str, optional
         Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
         The default is the latest Ansys installation.
@@ -221,8 +225,6 @@ def launch_dpf_on_docker(running_docker_config,
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
-    docker_config : server_factory.DockerConfig, optional
-        To start DPF server as a docker, specify the docker configurations here.
 
     """
     process = _run_launch_server_process(ip, port, ansys_path, running_docker_config)
