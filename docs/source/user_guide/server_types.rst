@@ -91,6 +91,9 @@ From a another machine, you can connect remotly to this server and instantiate M
 	from ansys.dpf.core import examples
 	remote_model = dpf.Model(examples.find_simple_bar(), server=grpc_remote_server)
 	
+GRPC server use also enables distributed computation capabilities. To learn more about 
+distributed computation with DPF, see :ref:`distributed_post`.
+	
 
 Starting a server using a configuration
 ---------------------------------------
