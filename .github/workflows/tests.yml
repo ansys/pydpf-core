@@ -134,11 +134,10 @@ jobs:
 
       - name: "Debug test docstrings"
         shell: bash
-        working-directory: src
         run: |
           echo "TMP: "$TMP
           echo "TEMP: "$TEMP
-          pytest --doctest-modules $DEBUG --junitxml=junit/test-doctests-results.xml ansys/dpf/${{inputs.MODULE}}
+          pytest --doctest-modules $DEBUG --junitxml=junit/test-doctests-results.xml src/ansys/dpf/${{inputs.MODULE}}
 
       - name: "List installed packages"
         shell: bash
