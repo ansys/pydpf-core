@@ -31,6 +31,8 @@ transient_therm = os.path.join(_module_path, "rth", "rth_transient.rth")
 msup_transient = os.path.join(_module_path, "msup_transient_plate1.rst")
 simple_cyclic = os.path.join(_module_path, "file_cyclic.rst")
 distributed_msup_folder = os.path.join(_module_path, 'msup_distributed')
+d3plot = os.path.join(_module_path, "lsdyna", "d3plot")
+binout = os.path.join(_module_path, "lsdyna", "binout")
 
 
 def find_files(local_path, should_upload=True, server=None, return_local_path=False):
@@ -385,3 +387,69 @@ def find_distributed_msup_folder(
 
     """
     return find_files(distributed_msup_folder, should_upload, server, return_local_path)
+
+def find_d3plot(
+        should_upload: bool = True, server = None, return_local_path = False
+) -> str:
+    """Make the result file available server side, if the server is remote the file is uploaded
+    server side. Returns the path on the file.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.find_d3plot()
+    >>> path
+    'C:/Users/user/AppData/local/temp/d3plot'
+
+    """
+    return find_files(d3plot, should_upload, server, return_local_path)
+
+def find_binout(
+        should_upload: bool = True, server = None, return_local_path = False
+) -> str:
+    """Make the result file available server side, if the server is remote the file is uploaded
+    server side. Returns the path on the file.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.find_binout()
+    >>> path
+    'C:/Users/user/AppData/local/temp/binout'
+
+    """
+    return find_files(binout, should_upload, server, return_local_path)

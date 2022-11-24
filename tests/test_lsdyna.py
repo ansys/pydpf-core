@@ -3,22 +3,7 @@ import os
 from ansys.dpf import core as dpf
 import pytest
 
-def try_load_lsdyna_operators():
-    try:
-        if os.name == "posix":
-            dpf.load_library("libAns.Dpf.LSDYNAHGP.so", "lsdyna")
-        else:
-            dpf.load_library("Ans.Dpf.LSDYNAHGP.dll", "lsdyna")
-        return True
-    except:
-        return False
-
-@pytest.mark.skipif(
-    not try_load_lsdyna_operators(), reason="Couldn't load lsdyna operators"
-)
 def test_lsdyna_generic(d3plot):
-    try_load_lsdyna_operators()
-
     ds = dpf.DataSources()
     ds.set_result_file_path(d3plot, "d3plot")
     time_sco = dpf.time_freq_scoping_factory.scoping_by_sets([3])
@@ -131,12 +116,7 @@ def test_lsdyna_generic(d3plot):
     assert np.allclose(epl_op[0].data, epl_mod[0].data)
 
 
-@pytest.mark.skipif(
-    not try_load_lsdyna_operators(), reason="Couldn't load lsdyna operators"
-)
 def test_lsdyna_beam(d3plot_beam):
-    try_load_lsdyna_operators()
-
     ds = dpf.DataSources()
     ds.set_result_file_path(d3plot_beam, "d3plot")
     time_sco = dpf.time_freq_scoping_factory.scoping_by_sets([5])
@@ -264,12 +244,7 @@ def test_lsdyna_beam(d3plot_beam):
     assert np.allclose(beppl_op[0].data, beppl_mod[0].data)
 
 
-@pytest.mark.skipif(
-    not try_load_lsdyna_operators(), reason="Couldn't load lsdyna operators"
-)
 def test_lsdyna_matsum_rcforc(binout_matsum):
-    try_load_lsdyna_operators()
-
     ds = dpf.DataSources()
     ds.set_result_file_path(binout_matsum, "binout")
     part_sco = dpf.Scoping()
@@ -415,15 +390,9 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     assert np.allclose(cm_op[0].data[2], cm_mod[0].data[2])
 
 
-@pytest.mark.skipif(
-    not try_load_lsdyna_operators(), reason="Couldn't load lsdyna operators"
-)
 def test_lsdyna_glstat(binout_glstat):
-    try_load_lsdyna_operators()
-
     ds = dpf.DataSources()
     ds.set_result_file_path(binout_glstat, "binout")
-
     model = dpf.Model(ds)
     print(model)
 
