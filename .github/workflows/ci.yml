@@ -10,10 +10,10 @@ on:
       - master
   workflow_dispatch:
     inputs:
-      name:
-        description: 'Person to greet'
+      standalone_branch_suffix:
+        description: 'Suffix of the branch on standalone'
         required: true
-        default: 'Mona the Octocat'
+        default: ''
 
 
 concurrency:
@@ -25,6 +25,7 @@ env:
   MODULE: core
   ANSYS_VERSION: 231
   extra: "--find-links .github/"
+  STANDALONE_SUFFIX: ${{ github.event.inputs.standalone_branch_suffix || "" }}
 
 jobs:
   debug:
@@ -66,6 +67,7 @@ jobs:
       python_versions: '["3.8"]'
       wheel: true
       wheelhouse: false
+      standalone_suffix: ${{ env.STANDALONE_SUFFIX }}
     secrets: inherit
 
   docker_tests:

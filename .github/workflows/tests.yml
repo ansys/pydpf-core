@@ -52,6 +52,11 @@ on:
         required: false
         type: string
         default: 'true'
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -83,7 +88,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.2
+        uses: pyansys/pydpf-actions/build_package@v2.2.dev3
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
@@ -94,6 +99,7 @@ jobs:
           wheel: ${{ inputs.wheel }}
           wheelhouse: ${{ inputs.wheelhouse }}
           extra-pip-args: ${{ env.extra }}
+          standalone_suffix: ${{ inputs.standalone_suffix }}
 
       - name: "Install ansys-grpc-dpf==0.4.0"
         if: inputs.ANSYS_VERSION == 221
