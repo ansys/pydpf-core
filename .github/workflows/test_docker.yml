@@ -53,67 +53,73 @@ jobs:
         run: |
           .github\workflows\scripts\separate_long_core_tests.ps1
 
+      - name: "Set pytest arguments"
+        shell: bash
+        run: |
+          echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR" >> $GITHUB_ENV
+          echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
+
       - name: "Test API"
         shell: bash
         working-directory: tests
         run: |
-          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
+          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results1.xml  .
         timeout-minutes: 20
 
       - name: "Test API test_launcher"
         shell: bash
         working-directory: test_launcher
         run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
+          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results2.xml .
         timeout-minutes: 20
 
       - name: "Test API test_server"
         shell: bash
         working-directory: test_server
         run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
+          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results3.xml .
         timeout-minutes: 20
 
       - name: "Test API test_local_server"
         shell: bash
         working-directory: test_local_server
         run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
+          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results4.xml .
         timeout-minutes: 20
 
       - name: "Test API test_multi_server"
         shell: bash
         working-directory: test_multi_server
         run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
+          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results5.xml .
         timeout-minutes: 20
 
       - name: "Test API test_remote_workflow"
         shell: bash
         working-directory: test_remote_workflow
         run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
+          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results6.xml .
         timeout-minutes: 20
 
       - name: "Test API test_remote_operator"
         shell: bash
         working-directory: test_remote_operator
         run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
+          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results7.xml .
         timeout-minutes: 5
 
       - name: "Test API test_workflow"
         shell: bash
         working-directory: test_workflow
         run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
+          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results8.xml .
         timeout-minutes: 20
 
       - name: "Test API test_service"
         shell: bash
         working-directory: test_service
         run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results9.xml --reruns 3 .
+          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results9.xml .
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v3
