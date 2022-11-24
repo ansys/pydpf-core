@@ -64,7 +64,7 @@ jobs:
         working-directory: tests
         run: |
           pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results1.xml  .
-        timeout-minutes: 20
+        timeout-minutes: 5
 
       - name: "Test API test_launcher"
         shell: bash
@@ -74,11 +74,13 @@ jobs:
         timeout-minutes: 20
 
       - name: "Test API test_server"
-        shell: bash
-        working-directory: test_server
-        run: |
-          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results3.xml .
-        timeout-minutes: 20
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results3.xml test_server/.
 
       - name: "Test API test_local_server"
         shell: bash
