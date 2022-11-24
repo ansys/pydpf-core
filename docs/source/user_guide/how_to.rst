@@ -16,7 +16,7 @@ How-tos
     .. card:: Plot
        :link: user_guide_plotting
        :link-type: ref
-       :width: 25%
+       :width: 30%
        :text-align: center
 
        .. image:: ../images/plotting/pontoon.png
@@ -25,7 +25,7 @@ How-tos
     .. card:: Create Custom Operators
        :link: user_guide_custom_operators
        :link-type: ref
-       :width: 25%
+       :width: 30%
        :text-align: center
 
        .. image:: ../images/drawings/plugin-logo.png
@@ -34,7 +34,7 @@ How-tos
     .. card:: Use DPF XML Files
        :link: user_guide_xmlfiles
        :link-type: ref
-       :width: 25%
+       :width: 30%
        :text-align: center
 
        .. image:: ../images/drawings/xml.png

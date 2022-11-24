@@ -17,7 +17,7 @@ DPF concepts
     .. card:: Concepts and terminology
        :link: user_guide_concepts
        :link-type: ref
-       :width: 25%
+       :width: 30%
        :text-align: center
 
        .. image:: ../images/drawings/book-logo.png
@@ -25,7 +25,7 @@ DPF concepts
     .. card:: Ways of using DPF
        :link: user_guide_waysofusing
        :link-type: ref
-       :width: 25%
+       :width: 30%
        :text-align: center
 
        .. image:: ../images/drawings/using-dpf.png
@@ -33,7 +33,7 @@ DPF concepts
     .. card:: Using DPF: Step by step
        :link: user_guide_stepbystep
        :link-type: ref
-       :width: 25%
+       :width: 30%
        :text-align: center
 
        .. image:: ../images/drawings/checklist.png
@@ -43,7 +43,7 @@ DPF concepts
     .. card:: DPF server local/remote use
        :link: user_guide_server_types
        :link-type: ref
-       :width: 25%
+       :width: 30%
        :text-align: center
 
        .. image:: ../images/drawings/using-dpf.png
@@ -51,7 +51,7 @@ DPF concepts
     .. card:: Server context: Entry/Premium capabilities
        :link: user_guide_server_context
        :link-type: ref
-       :width: 25%
+       :width: 30%
        :text-align: center
 
        .. image:: ../images/drawings/using-dpf.png
