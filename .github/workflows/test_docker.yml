@@ -68,15 +68,11 @@ jobs:
         timeout-minutes: 20
 
       - name: "Test API test_server"
-        uses: nick-fields/retry@v2
+        shell: bash
         working-directory: test_server
-        with:
-          timeout-minutes: 20
-          max_attempts: 2
-          shell: bash
-          command: |
-            pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
- 
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
+        timeout-minutes: 20
 
       - name: "Test API test_local_server"
         shell: bash
