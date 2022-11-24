@@ -65,7 +65,6 @@ jobs:
         working-directory: test_launcher
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
-        if: always()
         timeout-minutes: 20
 
       - name: "Test API test_server"
@@ -73,7 +72,6 @@ jobs:
         working-directory: test_server
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
-        if: always()
         timeout-minutes: 20
 
       - name: "Test API test_local_server"
@@ -81,7 +79,6 @@ jobs:
         working-directory: test_local_server
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
-        if: always()
         timeout-minutes: 20
 
       - name: "Test API test_multi_server"
@@ -110,15 +107,20 @@ jobs:
         working-directory: test_workflow
         run: |
           pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
-        if: always()
         timeout-minutes: 20
+
+      - name: "Test API test_service"
+        shell: bash
+        working-directory: test_service
+        run: |
+          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results9.xml --reruns 3 .
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ env.ANSYS_VERSION }}_docker
           path: tests/junit/test-results.xml
-        if: always()
+        timeout-minutes: 20
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v3
