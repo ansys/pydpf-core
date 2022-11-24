@@ -24,6 +24,11 @@ on:
         required: false
         type: string
         default: true
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
 # Can be called manually
   workflow_dispatch:
     inputs:
