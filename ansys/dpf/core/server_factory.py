@@ -343,7 +343,7 @@ class DockerConfig:
         """
         return self._extra_args
 
-    def docker_run_cmd_command(self, docker_server_port, local_port) -> str:
+    def docker_run_cmd_command(self, docker_server_port: int, local_port: int) -> str:
         """Creates the docker run command with the ``DockerConfig`` attributes as well
         as the ``docker_server_port`` and ``local_port`` passed in as parameters.
 
@@ -379,7 +379,7 @@ class DockerConfig:
                f"\t- extra_args: {self.extra_args}\n"
 
     @staticmethod
-    def find_port_available_for_docker_bind(port):
+    def find_port_available_for_docker_bind(port: int) -> int:
         """Checks for available internal ``docker_server_port`` by looking at the stdout of
         all running Docker Containers.
 
@@ -392,23 +392,22 @@ class DockerConfig:
         port: int
         """
         run_cmd = "docker ps --all"
+        b_shell = False
         if os.name == 'posix':
-            process = subprocess.Popen(
-                run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
-            )
-        else:
-            process = subprocess.Popen(
-                run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-            )
-        used_ports = []
-        for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
-            if not ("CONTAINER ID" in line):
-                split = line.split("0.0.0.0:")
-                if len(split) > 1:
-                    used_ports.append(int(split[1].split("-")[0]))
+            b_shell = True
+        with subprocess.Popen(
+            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
+        ) as process:
+            used_ports = []
+            with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
+                for line in log_out:
+                    if not ("CONTAINER ID" in line):
+                        split = line.split("0.0.0.0:")
+                        if len(split) > 1:
+                            used_ports.append(int(split[1].split("-")[0]))
 
-        while port in used_ports:
-            port += 1
+            while port in used_ports:
+                port += 1
         return port
 
 
