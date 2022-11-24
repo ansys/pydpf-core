@@ -542,9 +542,14 @@ class RunningDockerConfig:
             with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
                 for _ in log_out:
                     pass
-            subprocess.check_call(
-                rm_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=b_shell
-            )
+            try:
+                subprocess.run(
+                    rm_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=b_shell,
+                    check=True
+                )
+            except subprocess.CalledProcessError as e:
+                print(e)
+                print(e.output)
             process.kill()
 
     def listen_to_process(self,
