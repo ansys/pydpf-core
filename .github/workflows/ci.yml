@@ -25,7 +25,7 @@ env:
   MODULE: core
   ANSYS_VERSION: 231
   extra: "--find-links .github/"
-  STANDALONE_SUFFIX: ${{ github.event.inputs.standalone_branch_suffix || "" }}
+  STANDALONE_SUFFIX: ${{ github.event.inputs.standalone_branch_suffix || '' }}
 
 jobs:
   debug:
