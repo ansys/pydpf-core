@@ -229,7 +229,8 @@ jobs:
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: 3
-          max_attempts: 3
+          max_attempts: 4
+          retry_wait_seconds: 15
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results8.xml test_workflow/.
