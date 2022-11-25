@@ -30,17 +30,7 @@ How-tos
 
        .. image:: ../images/drawings/plugin-logo.png
           :width: 50%
-
-    .. card:: Use DPF XML Files
-       :link: user_guide_xmlfiles
-       :link-type: ref
-       :width: 25%
-       :text-align: center
-
-       .. image:: ../images/drawings/xml.png
-
-
-.. card-carousel:: 2
+		  
 
     .. card:: Use DPF Server package
        :link: ref_getting_started_with_dpf_server
@@ -49,3 +39,31 @@ How-tos
        :text-align: center
 
        .. image:: ../images/drawings/dpf_server_client.png
+
+
+.. card-carousel:: 2
+
+    .. card:: Switch between local and remote server
+       :link: user_guide_server_types
+       :link-type: ref
+       :width: 25%
+       :text-align: center
+
+       .. image:: ../images/drawings/remote_machines.png
+
+    .. card:: Access Entry and Premium capabilities
+       :link: user_guide_server_context
+       :link-type: ref
+       :width: 25%
+       :text-align: center
+
+       .. image:: ../images/drawings/entry_premium.png
+	   
+
+    .. card:: Use DPF XML Files
+       :link: user_guide_xmlfiles
+       :link-type: ref
+       :width: 25%
+       :text-align: center
+
+       .. image:: ../images/drawings/xml.png

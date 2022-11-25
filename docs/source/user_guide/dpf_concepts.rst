@@ -37,21 +37,3 @@ DPF concepts
        :text-align: center
 
        .. image:: ../images/drawings/checklist.png
-
-.. card-carousel:: 2
-
-    .. card:: DPF server local/remote use
-       :link: user_guide_server_types
-       :link-type: ref
-       :width: 25%
-       :text-align: center
-
-       .. image:: ../images/drawings/remote_machines.png
-
-    .. card:: Server context: Entry/Premium capabilities
-       :link: user_guide_server_context
-       :link-type: ref
-       :width: 25%
-       :text-align: center
-
-       .. image:: ../images/drawings/entry_premium.png
