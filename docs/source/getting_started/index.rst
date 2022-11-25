@@ -10,7 +10,7 @@ as several neutral formats (csv, hdf5, vtk, etc.).
 This **workflow-based** framework allows to perform complex preprocessing and postprocessing
 operations of large amounts of simulation data.
 
-PyDPF-Core is a python client API communicating with **DPF Server** either remotely using gRPC
+PyDPF-Core is a python client API communicating with a **DPF Server** either through the network using gRPC
 or directly in the same process.
 
 
@@ -23,7 +23,7 @@ In a Python environment, run the following command:
 
    pip install ansys-dpf-core
 
-For more installation options, refer to :ref:`installation`.
+For more installation options, refer to :ref:`Installation section <installation>`.
 
 
 Installing DPF Server
@@ -35,26 +35,26 @@ Installing DPF Server
    For more information on getting a licensed copy of Ansys,
    visit the `Ansys website <https://www.ansys.com/>`_.
 
-#. DPF Server is available as a **standalone** package available on the Ansys Customer Portal.
+#. DPF Server is available as a **standalone** package (independent of the Ansys Installer) available on the Ansys Customer Portal.
    Protected by Ansys license mechanism (see
    :ref:`Ansys licensing section <ref_getting_started_with_dpf_server>`), once having access to an
    Ansys license, install DPF Server with:
 
 .. card::
 
-    #. Download the ansys_dpf_server_win_v2023.2.pre0.zip or ansys_dpf_server_lin_v2023.2.pre0.zip
-       file as appropriate.
-    #. Unzip the package and go to the root folder of the unzipped package
-       (ansys_dpf_server_win_v2023.2.pre0 or ansys_dpf_server_lin_v2023.2.pre0).
-    #. In a Python environment, run the following command:
+    * Download the ansys_dpf_server_win_v2023.2.pre0.zip or ansys_dpf_server_lin_v2023.2.pre0.zip
+      file as appropriate.
+    * Unzip the package and go to the root folder of the unzipped package
+      (ansys_dpf_server_win_v2023.2.pre0 or ansys_dpf_server_lin_v2023.2.pre0).
+    * In a Python environment, run the following command:
 
     .. code::
 
         pip install -e .
 
-    #. DPF Server is protected using license terms specified in the DPFUserLicensingAgreement.txt
-       file that can be found on the Ansys Customer Portal. To accept the DPF User Licensing
-       Agreement terms, the following environment flag must be set:
+    * DPF Server is protected using license terms specified in the DPFUserLicensingAgreement.txt
+      file that can be found on the Ansys Customer Portal. To accept the DPF User Licensing
+      Agreement terms, the following environment flag must be set:
 
     .. code::
 
