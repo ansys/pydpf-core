@@ -465,7 +465,7 @@ class RunningDockerConfig:
         Parameters
         ----------
         path: str
-            Path to search for mounted volumes occurrences.
+            Path to search for occurrences of mounted volumes.
 
         Returns
         -------
