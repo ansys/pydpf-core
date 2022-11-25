@@ -221,3 +221,9 @@ if __name__ == "__main__":
 
     print(f"Generated {succeeded} out of {len(available_operators)}")
     dpf.SERVER.shutdown()
+    if succeeded == len(available_operators):
+        print("Success")
+        exit(0)
+    else:
+        print("Terminated with errors")
+        exit(1)

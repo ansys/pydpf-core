@@ -1,9 +1,13 @@
+import sys
+
 from ansys.dpf import core
 import os
 import glob
 from pathlib import Path
 import time
 import shutil
+import subprocess
+
 
 if os.name == "posix":
     LIB_TO_GENERATE = [
@@ -86,3 +90,10 @@ for lib in LIB_OPTIONAL_TO_GENERATE:
         time.sleep(0.1)
     except Exception as e:
         print(f"Could not generate operators for optional library {lib}:\n{str(e)}")
+
+# Call the dpf/core/operators/build.py script
+# Requires to have pip installed requirements_build.txt
+path_to_script = r"../ansys/dpf/core/operators/build.py"
+print("Re-generating operators according to operator.mustache file...")
+out = subprocess.check_output([sys.executable, path_to_script])
+print(out.decode(encoding="utf-8"))
