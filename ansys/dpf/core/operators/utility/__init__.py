@@ -40,4 +40,5 @@ from .merge_fields import merge_fields
 from .merge_meshes_containers import merge_meshes_containers 
 from .merge_fields_by_label import merge_fields_by_label 
 from .strain_from_voigt import strain_from_voigt 
-from .change_shell_layers import change_shell_layers 
+from .change_shell_layers import change_shell_layers
+from .hdf5dpf_custom_read import hdf5dpf_custom_read

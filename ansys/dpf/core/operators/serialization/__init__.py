@@ -8,7 +8,8 @@ from .data_tree_to_txt import data_tree_to_txt
 from .import_symbolic_workflow import import_symbolic_workflow 
 from .export_symbolic_workflow import export_symbolic_workflow 
 from .serializer_to_string import serializer_to_string 
-from .deserializer import deserializer 
+from .deserializer import deserializer
+from .serialize_to_hdf5 import serialize_to_hdf5
 from .data_tree_to_json import data_tree_to_json 
 from .json_to_data_tree import json_to_data_tree 
 from .vtk_export import vtk_export 
