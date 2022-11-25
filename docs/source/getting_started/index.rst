@@ -23,7 +23,7 @@ In a Python environment, run the following command:
 
    pip install ansys-dpf-core
 
-For more installation options, refer to :ref:`Installation section <installation>`.
+For more installation options, refer to the :ref:`Installation section <installation>`.
 
 
 Installing DPF Server
