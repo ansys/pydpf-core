@@ -1,5 +1,4 @@
 import numpy as np
-import os
 from ansys.dpf import core as dpf
 import pytest
 
