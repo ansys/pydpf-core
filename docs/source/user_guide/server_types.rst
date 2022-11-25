@@ -10,7 +10,7 @@ Terminology
 DPF is based on a **client-server** architecture. It allows **local** or **remote**
 client-server **communication** capabilities.
 
-The DPF server is a set of files that enables DPF capabilities.
+The DPF Server is a set of files that enables DPF capabilities.
 
 The different DPF client APIs (CPython, IronPython, C++, and so on) enable the use
 of these capabilities.
