@@ -129,17 +129,19 @@ def _wait_and_check_server_connection(
         process, port, timeout, lines, current_errors, stderr=None, stdout=None):
     if not stderr:
         def read_stderr():
-            for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
-                LOG.error(line)
-                current_errors.append(line)
+            with io.TextIOWrapper(process.stderr, encoding="utf-8") as log_err:
+                for line in log_err:
+                    LOG.error(line)
+                    current_errors.append(line)
 
         stderr = read_stderr
         # check to see if the service started
     if not stdout:
         def read_stdout():
-            for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
-                LOG.debug(line)
-                lines.append(line)
+            with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
+                for line in log_out:
+                    LOG.debug(line)
+                    lines.append(line)
 
         stdout = read_stdout
 
@@ -201,13 +203,17 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
         process, port, timeout, lines, current_errors, stderr=None, stdout=None)
 
 
-def launch_dpf_on_docker(running_docker_config,
-                         ansys_path=None, ip=LOCALHOST, port=DPF_DEFAULT_PORT,
-                         timeout=10):
+def launch_dpf_on_docker(running_docker_config=server_factory.RunningDockerConfig(),
+                         ansys_path=None,
+                         ip=LOCALHOST,
+                         port=DPF_DEFAULT_PORT,
+                         timeout=10.):
     """Launch Ansys DPF.
 
     Parameters
     ----------
+    running_docker_config : server_factory.RunningDockerConfig, optional
+        To start DPF server as a docker, specify the docker configurations here.
     ansys_path : str, optional
         Root path for the Ansys installation directory. For example, ``"/ansys_inc/v212/"``.
         The default is the latest Ansys installation.
@@ -221,8 +227,6 @@ def launch_dpf_on_docker(running_docker_config,
         Maximum number of seconds for the initialization attempt.
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
-    docker_config : server_factory.DockerConfig, optional
-        To start DPF server as a docker, specify the docker configurations here.
 
     """
     process = _run_launch_server_process(ip, port, ansys_path, running_docker_config)
@@ -237,20 +241,22 @@ def launch_dpf_on_docker(running_docker_config,
     running_docker_config.docker_server_port = port
 
     def read_stdout():
-        for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
-            LOG.debug(line)
-            cmd_lines.append(line)
-            lock.release()
+        with io.TextIOWrapper(process.stdout, encoding="utf-8") as log_out:
+            for line in log_out:
+                LOG.debug(line)
+                cmd_lines.append(line)
+                lock.release()
             running_docker_config.listen_to_process(LOG, cmd_lines, lines, timeout)
 
     def read_stderr():
-        for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
-            LOG.error(line)
-            current_errors.append(line)
-        while lock.locked():
-            pass
-        running_docker_config.listen_to_process(LOG, cmd_lines, current_errors,
-                                                timeout, False)
+        with io.TextIOWrapper(process.stderr, encoding="utf-8") as log_err:
+            for line in log_err:
+                LOG.error(line)
+                current_errors.append(line)
+            while lock.locked():
+                pass
+            running_docker_config.listen_to_process(LOG, cmd_lines, current_errors,
+                                                    timeout, False)
 
     _wait_and_check_server_connection(
         process, port, timeout, lines, current_errors, stderr=read_stderr, stdout=read_stdout)

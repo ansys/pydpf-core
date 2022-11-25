@@ -10,6 +10,11 @@ the ``numpy`` package.
 
 The objective of this simple example is to show how routines for DPF can
 be wrapped in Python plugins.
+
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 
 ###############################################################################
@@ -29,6 +34,10 @@ be wrapped in Python plugins.
 # Download and display the Python script.
 
 from ansys.dpf.core import examples
+from ansys.dpf import core as dpf
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/" \
                     "raw/examples/first_python_plugins/python_plugins"

@@ -6,6 +6,11 @@ Average Stress in distributed Workflows
 This example shows how stress can be read from distributed files and
 averaged from elemental nodal to nodal in parallel with a distributed workflow.
 After remote post-processing, results are merged on the local process.
+
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 
 ###############################################################################
@@ -14,6 +19,9 @@ After remote post-processing, results are merged on the local process.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Configure the servers
