@@ -17,6 +17,9 @@ class von_mises_eqv_fc(Operator):
     Parameters
     ----------
     fields_container : FieldsContainer
+    poisson_ratio : float or int
+        Poisson ratio to be used in equivalent strain
+        calculation.
 
 
     Examples
@@ -29,22 +32,29 @@ class von_mises_eqv_fc(Operator):
     >>> # Make input connections
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_poisson_ratio = float()
+    >>> op.inputs.poisson_ratio.connect(my_poisson_ratio)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.invariant.von_mises_eqv_fc(
     ...     fields_container=my_fields_container,
+    ...     poisson_ratio=my_poisson_ratio,
     ... )
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    def __init__(self, fields_container=None, config=None, server=None):
+    def __init__(
+        self, fields_container=None, poisson_ratio=None, config=None, server=None
+    ):
         super().__init__(name="eqv_fc", config=config, server=server)
         self._inputs = InputsVonMisesEqvFc(self)
         self._outputs = OutputsVonMisesEqvFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
+        if poisson_ratio is not None:
+            self.inputs.poisson_ratio.connect(poisson_ratio)
 
     @staticmethod
     def _spec():
@@ -58,6 +68,13 @@ class von_mises_eqv_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                ),
+                13: PinSpecification(
+                    name="poisson_ratio",
+                    type_names=["double", "int32"],
+                    optional=False,
+                    document="""Poisson ratio to be used in equivalent strain
+        calculation.""",
                 ),
             },
             map_output_pin_spec={
@@ -118,12 +135,16 @@ class InputsVonMisesEqvFc(_Inputs):
     >>> op = dpf.operators.invariant.von_mises_eqv_fc()
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_poisson_ratio = float()
+    >>> op.inputs.poisson_ratio.connect(my_poisson_ratio)
     """
 
     def __init__(self, op: Operator):
         super().__init__(von_mises_eqv_fc._spec().inputs, op)
         self._fields_container = Input(von_mises_eqv_fc._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._fields_container)
+        self._poisson_ratio = Input(von_mises_eqv_fc._spec().input_pin(13), 13, op, -1)
+        self._inputs.append(self._poisson_ratio)
 
     @property
     def fields_container(self):
@@ -142,6 +163,27 @@ class InputsVonMisesEqvFc(_Inputs):
         >>> op.inputs.fields_container(my_fields_container)
         """
         return self._fields_container
+
+    @property
+    def poisson_ratio(self):
+        """Allows to connect poisson_ratio input to the operator.
+
+        Poisson ratio to be used in equivalent strain
+        calculation.
+
+        Parameters
+        ----------
+        my_poisson_ratio : float or int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.invariant.von_mises_eqv_fc()
+        >>> op.inputs.poisson_ratio.connect(my_poisson_ratio)
+        >>> # or
+        >>> op.inputs.poisson_ratio(my_poisson_ratio)
+        """
+        return self._poisson_ratio
 
 
 class OutputsVonMisesEqvFc(_Outputs):

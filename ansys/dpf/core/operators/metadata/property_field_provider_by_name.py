@@ -30,8 +30,9 @@ class property_field_provider_by_name(Operator):
         elements_connectivity,
         nodes_connectivity, material,
         element_type, mapdl_element_type,
-        harmonic_index, step, substep,
-        keyopt_i (i = 1 -> 18).
+        mapdl_element_type_id harmonic_index,
+        step, substep, keyopt_i (i = 1 ->
+        18).
 
 
     Examples
@@ -122,8 +123,9 @@ class property_field_provider_by_name(Operator):
         elements_connectivity,
         nodes_connectivity, material,
         element_type, mapdl_element_type,
-        harmonic_index, step, substep,
-        keyopt_i (i = 1 -> 18).""",
+        mapdl_element_type_id harmonic_index,
+        step, substep, keyopt_i (i = 1 ->
+        18).""",
                 ),
             },
             map_output_pin_spec={
@@ -284,8 +286,9 @@ class InputsPropertyFieldProviderByName(_Inputs):
         elements_connectivity,
         nodes_connectivity, material,
         element_type, mapdl_element_type,
-        harmonic_index, step, substep,
-        keyopt_i (i = 1 -> 18).
+        mapdl_element_type_id harmonic_index,
+        step, substep, keyopt_i (i = 1 ->
+        18).
 
         Parameters
         ----------

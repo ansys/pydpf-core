@@ -19,6 +19,9 @@ class cms_matrices_provider(Operator):
     data_sources : DataSources
         Data_sources (must contain at list one
         subfile).
+    matrix_form : bool
+        If this pin i set to true, data are return as
+        matrix form.
 
 
     Examples
@@ -31,22 +34,27 @@ class cms_matrices_provider(Operator):
     >>> # Make input connections
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_matrix_form = bool()
+    >>> op.inputs.matrix_form.connect(my_matrix_form)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.cms_matrices_provider(
     ...     data_sources=my_data_sources,
+    ...     matrix_form=my_matrix_form,
     ... )
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    def __init__(self, data_sources=None, config=None, server=None):
+    def __init__(self, data_sources=None, matrix_form=None, config=None, server=None):
         super().__init__(name="cms_matrices_provider", config=config, server=server)
         self._inputs = InputsCmsMatricesProvider(self)
         self._outputs = OutputsCmsMatricesProvider(self)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
+        if matrix_form is not None:
+            self.inputs.matrix_form.connect(matrix_form)
 
     @staticmethod
     def _spec():
@@ -62,6 +70,13 @@ class cms_matrices_provider(Operator):
                     document="""Data_sources (must contain at list one
         subfile).""",
                 ),
+                200: PinSpecification(
+                    name="matrix_form",
+                    type_names=["bool"],
+                    optional=False,
+                    document="""If this pin i set to true, data are return as
+        matrix form.""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -70,7 +85,8 @@ class cms_matrices_provider(Operator):
                     optional=False,
                     document="""Fields container containing in this order :
         stiffness, damping, mass matrices,
-        and then load vector.""",
+        and then load vector. but if pin 200
+        is set to true, it's in matrix form.""",
                 ),
             },
         )
@@ -123,6 +139,8 @@ class InputsCmsMatricesProvider(_Inputs):
     >>> op = dpf.operators.result.cms_matrices_provider()
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_matrix_form = bool()
+    >>> op.inputs.matrix_form.connect(my_matrix_form)
     """
 
     def __init__(self, op: Operator):
@@ -131,6 +149,10 @@ class InputsCmsMatricesProvider(_Inputs):
             cms_matrices_provider._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
+        self._matrix_form = Input(
+            cms_matrices_provider._spec().input_pin(200), 200, op, -1
+        )
+        self._inputs.append(self._matrix_form)
 
     @property
     def data_sources(self):
@@ -152,6 +174,27 @@ class InputsCmsMatricesProvider(_Inputs):
         >>> op.inputs.data_sources(my_data_sources)
         """
         return self._data_sources
+
+    @property
+    def matrix_form(self):
+        """Allows to connect matrix_form input to the operator.
+
+        If this pin i set to true, data are return as
+        matrix form.
+
+        Parameters
+        ----------
+        my_matrix_form : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.cms_matrices_provider()
+        >>> op.inputs.matrix_form.connect(my_matrix_form)
+        >>> # or
+        >>> op.inputs.matrix_form(my_matrix_form)
+        """
+        return self._matrix_form
 
 
 class OutputsCmsMatricesProvider(_Outputs):
