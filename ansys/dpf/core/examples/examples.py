@@ -32,7 +32,7 @@ msup_transient = os.path.join(_module_path, "msup_transient_plate1.rst")
 simple_cyclic = os.path.join(_module_path, "file_cyclic.rst")
 distributed_msup_folder = os.path.join(_module_path, 'msup_distributed')
 d3plot = os.path.join(_module_path, "lsdyna", "d3plot")
-binout = os.path.join(_module_path, "lsdyna", "binout")
+binout = os.path.join(_module_path, "lsdyna", "binout_matsum")
 
 
 def find_files(local_path, should_upload=True, server=None, return_local_path=False):
