@@ -9,6 +9,8 @@ import shutil
 import subprocess
 
 
+core.set_default_server_context(core.AvailableServerContexts.premium)
+
 if os.name == "posix":
     LIB_TO_GENERATE = [
         "libAns.Dpf.Native.so",
@@ -97,3 +99,4 @@ path_to_script = r"../ansys/dpf/core/operators/build.py"
 print("Re-generating operators according to operator.mustache file...")
 out = subprocess.check_output([sys.executable, path_to_script])
 print(out.decode(encoding="utf-8"))
+core.server.shutdown_all_session_servers()
