@@ -1,6 +1,5 @@
 import numpy as np
 from ansys.dpf import core as dpf
-import pytest
 
 def test_lsdyna_generic(d3plot):
     ds = dpf.DataSources()
