@@ -9,9 +9,8 @@ DPF operators allow the manipulation and the transformation of simulation data.
 From DPF Server for Ansys 2023 R2 onwards, the operators available in DPF will depend on the active
 `ServerContext <https://dpf.docs.pyansys.com/api/ansys.dpf.core.server_context.html#servercontext>`_.
 
-The available contexts are **Entry** and **Premium**. Click on the correct section below to discover
-operators available in your context. For more information about **Entry** and **Premium** contexts use, 
-see :ref:`user_guide_server_context`.
+The available contexts are **Entry** and **Premium**. Click a section to discover the operators available in your context. 
+For more information about **Entry** and **Premium** contexts use, see :ref:`user_guide_server_context`.
 
 .. grid:: 2
 
@@ -21,8 +20,7 @@ see :ref:`user_guide_server_context`.
             :link-type: doc
             :link: operator_reference_entry
 
-            Click here to get the list of operators
-            available in DPF Entry.
+            Click here to get started with operators available in DPF Entry.
 
             +++
             .. button-link:: ENTRY
@@ -49,5 +47,5 @@ see :ref:`user_guide_server_context`.
 
 .. note::
     For Ansys 2023 R1 and older, the Premium documentation should be used.
-    Depending on the server version, some operators listed there might
-    however not be available as they were released later.
+    Depending on the server version,  some operators in the documentation may 
+    not be available.
