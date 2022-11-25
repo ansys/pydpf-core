@@ -25,6 +25,12 @@ from ansys.dpf.gate import (
     object_handler
     )
 
+try:
+    from grpc import _channel  # noqa: F401
+    # weirdly necessary to delete LegacyGrpcError
+except ImportError:
+    pass
+
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
 
@@ -433,12 +439,12 @@ class BaseService:
         if not self._server().meet_version("6.0"):
             raise errors.DpfVersionNotSupported("6.0")
         if self._server().has_client():
-            error = self._api.data_processing_apply_context_on_client(
-                self._server().client, context.context_type.value, context.xml_path
+            self._api.data_processing_apply_context_on_client(
+                self._server().client, int(context.licensing_context_type), context.xml_path
             )
         else:
-            error = self._api.data_processing_apply_context(
-                context.context_type.value, context.xml_path
+            self._api.data_processing_apply_context(
+                int(context.licensing_context_type), context.xml_path
             )
 
     def initialize_with_context(self, context):
@@ -458,14 +464,31 @@ class BaseService:
         if self._server().has_client():
             if not self._server().meet_version("6.0"):
                 raise errors.DpfVersionNotSupported("6.0")
-            error = self._api.data_processing_initialize_with_context_on_client(
-                self._server().client, context.context_type.value, context.xml_path
+            self._api.data_processing_initialize_with_context_on_client(
+                self._server().client, int(context.licensing_context_type), context.xml_path
             )
         else:
             if not self._server().meet_version("4.0"):
                 raise errors.DpfVersionNotSupported("4.0")
-            error = self._api.data_processing_initialize_with_context(
-                context.context_type.value, context.xml_path
+            self._api.data_processing_initialize_with_context(
+                int(context.licensing_context_type), context.xml_path
+            )
+
+    @version_requires("6.0")
+    def release_dpf(self):
+        """Clears the available Operators and Releases licenses when necessary.
+
+        Notes
+        -----
+        Available with server's version starting at 6.0 (Ansys 2023R2).
+        """
+        if self._server().has_client():
+            error = self._api.data_processing_release_on_client(
+                self._server().client, 1
+            )
+        else:
+            error = self._api.data_processing_release(
+                1
             )
 
     def get_runtime_client_config(self):
@@ -605,7 +628,7 @@ class BaseService:
             txt = """
             download service only available for server with gRPC communication protocol
             """
-            raise ValueError(txt)
+            raise errors.ServerTypeError(txt)
         client_path = self._api.data_processing_download_file(
             client=self._server().client,
             server_file_path=str(server_file_path),

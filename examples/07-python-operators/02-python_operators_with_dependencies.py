@@ -1,3 +1,4 @@
+# noqa: D400
 """
 .. _ref_python_operators_with_deps:
 
@@ -15,6 +16,11 @@ third-party Python module named `gltf <https://pypi.org/project/gltf/>`_.
 This operator takes a path, a mesh, and a 3D vector field as inputs
 and then exports the mesh and the norm of the 3D vector field to a GLTF
 file at the given path.
+
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 
 ###############################################################################
@@ -25,33 +31,47 @@ file at the given path.
 # and a call to the :py:func:`ansys.dpf.core.custom_operator.record_operator`
 # method, which records the operators of the plug-in package.
 #
-# Download the ```gltf_plugin`` plug-in package that has already been
+# Download the ``gltf_plugin`` plug-in package that has already been
 # created for you.
 
 import os
-from ansys.dpf.core import examples
 
-print('\033[1m gltf_plugin')
-file_list = ["gltf_plugin/__init__.py", "gltf_plugin/operators.py",
-             "gltf_plugin/operators_loader.py", "gltf_plugin/requirements.txt",
-             "gltf_plugin/gltf_export.py", "gltf_plugin/texture.png", "gltf_plugin.xml"
-             ]
+from ansys.dpf.core import examples
+from ansys.dpf import core as dpf
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
+
+print("\033[1m gltf_plugin")
+file_list = [
+    "gltf_plugin/__init__.py",
+    "gltf_plugin/operators.py",
+    "gltf_plugin/operators_loader.py",
+    "gltf_plugin/requirements.txt",
+    "gltf_plugin/gltf_export.py",
+    "gltf_plugin/texture.png",
+    "gltf_plugin.xml",
+]
 plugin_path = None
-GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/raw/" \
-                    "" \
-                    "examples/first_python_plugins/python_plugins"
+GITHUB_SOURCE_URL = (
+    "https://github.com/pyansys/pydpf-core/raw/"
+    ""
+    "examples/first_python_plugins/python_plugins"
+)
 
 for file in file_list:
     EXAMPLE_FILE = GITHUB_SOURCE_URL + "/gltf_plugin/" + file
     operator_file_path = examples.downloads._retrieve_file(
-        EXAMPLE_FILE, file, os.path.join("python_plugins", os.path.dirname(file)))
+        EXAMPLE_FILE, file, os.path.join("python_plugins", os.path.dirname(file))
+    )
 
-    print(f'\033[1m {file}\n \033[0m')
-    if (os.path.splitext(file)[1] == ".py" or os.path.splitext(file)[1] == ".xml") \
-            and file != "gltf_plugin/gltf_export.py":
+    print(f"\033[1m {file}\n \033[0m")
+    if (
+        os.path.splitext(file)[1] == ".py" or os.path.splitext(file)[1] == ".xml"
+    ) and file != "gltf_plugin/gltf_export.py":
         with open(operator_file_path, "r") as f:
             for line in f.readlines():
-                print('\t\t\t' + line)
+                print("\t\t\t" + line)
         print("\n\n")
         if plugin_path is None:
             plugin_path = os.path.dirname(operator_file_path)
@@ -74,10 +94,10 @@ for file in file_list:
 #
 # To simplify this step, you can add a requirements file in the plug-in package:
 #
-print(f'\033[1m gltf_plugin/requirements.txt: \n \033[0m')
+print("\033[1m gltf_plugin/requirements.txt: \n \033[0m")
 with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
     for line in f.readlines():
-        print('\t\t\t' + line)
+        print("\t\t\t" + line)
 
 
 # %%
@@ -110,32 +130,44 @@ with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
 #    create_sites_for_python_operators.sh -pluginpath /path/to/plugin -zippath /path/to/plugin/assets/linx64.zip # noqa: E501
 
 
-if os.name == "nt" and \
-        not os.path.exists(os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')):
+if os.name == "nt" and not os.path.exists(
+    os.path.join(plugin_path, "assets", "gltf_sites_winx64.zip")
+):
     CMD_FILE_URL = GITHUB_SOURCE_URL + "/create_sites_for_python_operators.ps1"
     cmd_file = examples.downloads._retrieve_file(
-        CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins")
-    run_cmd = f"powershell {cmd_file}"
-    args = f" -pluginpath \"{plugin_path}\" " \
-           f"-zippath {os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')}"
-    print(run_cmd + args)
+        CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
+    )
+    args = ["powershell", cmd_file,
+            "-pluginpath", plugin_path,
+            "-zippath", os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')
+            ]
+    print(args)
     import subprocess
-    process = subprocess.run(run_cmd + args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    process = subprocess.run(
+        args,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
     if process.stderr:
         raise RuntimeError(
             "Installing pygltf in a virtual environment failed with error:\n"
-            + process.stderr.decode())
+            + process.stderr.decode() + "\n\n and log:\n" + process.stdout.decode()
+        )
     else:
         print("Installing pygltf in a virtual environment succeeded")
-elif os.name == "posix" and \
-        not os.path.exists(os.path.join(plugin_path, 'assets', 'gltf_sites_linx64.zip')):
+elif os.name == "posix" and not os.path.exists(
+    os.path.join(plugin_path, "assets", "gltf_sites_linx64.zip")
+):
     CMD_FILE_URL = GITHUB_SOURCE_URL + "/create_sites_for_python_operators.sh"
     cmd_file = examples.downloads._retrieve_file(
         CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
     )
     run_cmd = f"{cmd_file}"
-    args = f" -pluginpath \"{plugin_path}\" " \
-           f"-zippath \"{os.path.join(plugin_path, 'assets', 'gltf_sites_linx64.zip')}\""
+    args = (
+        f' -pluginpath "{plugin_path}" '
+        f"-zippath \"{os.path.join(plugin_path, 'assets', 'gltf_sites_linx64.zip')}\""
+    )
     print(run_cmd + args)
     os.system(f"chmod u=rwx,o=x {cmd_file}")
     os.system(run_cmd + args)
@@ -149,8 +181,9 @@ elif os.name == "posix" and \
 #
 # - The first argument is the path to the directory where the plug-in package
 #   is located.
-# - The second argument is ``py_`` plus any name identifying the plug-in package.
-# - The third argument is the name of the function exposed in the ``__init__ file``
+# - The second argument is ``py_<package>``, where ``<package>`` is the name
+#   identifying the plug-in package.
+# - The third argument is the name of the function exposed in the ``__init__`` file
 #   for the plug-in package that is used to record operators.
 
 from ansys.dpf import core as dpf
@@ -161,18 +194,17 @@ dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
 tmp = dpf.make_tmp_dir_server()
 dpf.upload_files_in_folder(
-    dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"),
-    plugin_path
+    dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"), plugin_path
 )
 dpf.upload_file(
-    plugin_path + ".xml",
-    dpf.path_utilities.join(tmp, "plugins", "gltf_plugin.xml")
+    plugin_path + ".xml", dpf.path_utilities.join(tmp, "plugins", "gltf_plugin.xml")
 )
 
 dpf.load_library(
     dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"),
     "py_dpf_gltf",
-    "load_operators")
+    "load_operators",
+)
 
 ###############################################################################
 # Instantiate the operator.

@@ -1,9 +1,11 @@
+# noqa: D400
 """
 .. _ref_results_over_time:
 
 Scope results over custom time domains
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The ``Result`` class, which are instances created by the ``Model``, give
+The :class:`Result <ansys.dpf.core.results.Result>` class, which are instances
+created by the :class:`Model <ansys.dpf.core.model.Model>`, give
 access to helpers for requesting results on specific mesh and time scopings.
 With these helpers, working on a temporal subset of the
 model is straightforward. In this example, different ways to choose the temporal subset to

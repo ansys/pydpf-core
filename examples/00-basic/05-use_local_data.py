@@ -9,12 +9,18 @@ from the server to your local machine where you can work on it.
 When finished, you send the updated data back to the server
 in one transaction.
 
-Import necessary modules:
-"""
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
 
+"""
+# Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Create a model object to establish a connection with an

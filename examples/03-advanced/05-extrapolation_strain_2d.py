@@ -1,11 +1,12 @@
+# noqa: D400
 """
 .. _extrapolation_test_strain_2Delement:
 
 Extrapolation method for strain result of a 2D element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to compute the nodal component elastic strain
-from Gaussian points (integration points) for a 2D element by using the
-extrapolation method.
+This example shows how to compute the stress nodal components from
+Gaussian points (integration points) for a 2D element using
+extrapolation.
 
 Extrapolate results available at Gaussian or quadrature points to nodal
 points for a field or fields container. The available elements are:
@@ -21,18 +22,24 @@ Here are the steps for extrapolation:
 
 #. Get the data source's solution from the integration points. (This
    result file was generated with the Ansys Mechanical APDL (MAPDL)
-   option ``EREXS, NO``).
+   option ``ERESX, NO``).
 #. Use the extrapolation operator to compute the nodal elastic strain.
 #. Get the result for nodal elastic strain from the data source.
    The analysis was computed by MAPDL.
 #. Compare the result for nodal elastic strain from the data source
    and the nodal elastic strain computed by the extrapolation method.
 
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
 
 """
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Get the data source's analyse of integration points and data source's analyse reference
@@ -119,14 +126,39 @@ mesh.plot(strain_ref_nodal_op.outputs.fields_container())
 # ~~~~~~~~~~~~
 # Compare the elastic strain result computed by extrapolation and reference's result.
 # Check if the two fields containers are identical.
-# The maximum tolerance gap between two compared values is 1e-3.
+# The relative tolerance is set to 1e-14.
 # The smallest value that is to be considered during the comparison
-# step : all the ``abs(values)`` in the field less than 1e-14 are considered null.
+# step : all the ``abs(values)`` in the field less than 1e-2 are considered null.
 
 # operator AreFieldsIdentical_fc
 op = dpf.operators.logic.identical_fc()
-op.inputs.fields_containerA.connect(fex)
-op.inputs.fields_containerB.connect(strain_ref)
+op.inputs.fields_containerA.connect(fex_nodal_op)
+op.inputs.fields_containerB.connect(strain_ref_nodal_op)
 op.inputs.tolerance.connect(1.0e-14)
-op.inputs.small_value.connect(0.001)
-op.outputs.boolean()
+op.inputs.small_value.connect(0.01)
+print(op.outputs.boolean())
+
+###############################################################################
+# Compute absolute and relative errors
+abs_error_sqr = dpf.operators.math.sqr_fc()
+abs_error = dpf.operators.math.sqrt_fc()
+error = strain_ref_nodal_op - fex_nodal_op
+abs_error_sqr.inputs.fields_container.connect(error)
+abs_error.inputs.fields_container.connect(abs_error_sqr)
+
+divide = dpf.operators.math.component_wise_divide()
+divide.inputs.fieldA.connect(strain_ref_nodal_op - fex_nodal_op)
+divide.inputs.fieldB.connect(strain_ref_nodal_op)
+rel_error = dpf.operators.math.scale()
+rel_error.inputs.field.connect(divide)
+rel_error.inputs.ponderation.connect(1.0)
+
+###############################################################################
+# Plot absolute and relative errors.
+# The absolute value is the order of 1e-13, which is very small when compared to the
+# magnitude of 1e-5 of the displacements. This is reflected in the relative error
+# plot, where the errors are found to be below 1.1e-5%. The result of these plots
+# can be used to set the tolerances for the
+# :class:`identical_fc <ansys.dpf.core.operators.logic.identical_fc>` operator.
+mesh.plot(abs_error.eval(), scalar_bar_args={"title": "Absolute error [mm]"})
+mesh.plot(rel_error.eval(), scalar_bar_args={"title": "Relative error [%]"})

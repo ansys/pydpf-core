@@ -24,7 +24,7 @@ concurrency:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  ANSYS_VERSION: 231
+  ANSYS_VERSION: 232
   extra: "--find-links .github/"
 
 jobs:
@@ -63,7 +63,7 @@ jobs:
   tests:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: "231"
+      ANSYS_VERSION: "232"
       python_versions: '["3.7", "3.8", "3.9", "3.10"]'
       wheel: true
       wheelhouse: true
@@ -72,14 +72,23 @@ jobs:
   docs:
     uses: ./.github/workflows/docs.yml
     with:
-      ANSYS_VERSION: "231"
+      ANSYS_VERSION: "232"
     secrets: inherit
 
   examples:
     uses: ./.github/workflows/examples.yml
     with:
-      ANSYS_VERSION: "231"
+      ANSYS_VERSION: "232"
       python_versions: '["3.7", "3.8", "3.9", "3.10"]'
+    secrets: inherit
+
+  retro_231:
+    name: "retro 231"
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "231"
+      python_versions: '["3.8"]'
+      DOCSTRING: false
     secrets: inherit
 
   retro_222:
@@ -98,6 +107,13 @@ jobs:
       ANSYS_VERSION: "221"
       python_versions: '["3.8"]'
       DOCSTRING: false
+    secrets: inherit
+
+  pydpf-post_232:
+    name: "PyDPF-Post with 232"
+    uses: ./.github/workflows/pydpf-post.yml
+    with:
+      ANSYS_VERSION: "232"
     secrets: inherit
 
   pydpf-post_231:

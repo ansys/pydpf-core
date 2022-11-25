@@ -11,7 +11,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "231"
+        default: "232"
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -24,7 +24,7 @@ on:
         description: "ANSYS version"
         required: true
         type: string
-        default: "231"
+        default: "232"
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -32,17 +32,35 @@ env:
   extra: "--find-links .github/"
 
 jobs:
+  setup:
+    name: "Setup"
+    runs-on: ubuntu-latest
+    outputs:
+      python_versions: ${{ steps.set_array.outputs.python_versions }}
+    steps:
+      - id: set_array
+        run: |
+          echo "python_versions=${{ toJSON(inputs.python_versions) }}" >> $GITHUB_OUTPUT
+
   Gate:
     name: "Gate"
+    needs: setup
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ${{ inputs.python_versions }}
+        python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
         os: ["windows-latest", "ubuntu-latest"]
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: "Set licensing if necessary"
+        if: inputs.ANSYS_VERSION > 231
+        shell: bash
+        run: |
+          echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
+          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
       - name: Setup Python
         uses: actions/setup-python@v4.2.0
@@ -50,7 +68,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.2
+        uses: pyansys/pydpf-actions/build_package@v2.3
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
@@ -62,8 +80,14 @@ jobs:
           wheel: false
           extra-pip-args: ${{ env.extra }}
 
-      - name: "Setup headless display"
-        uses: pyvista/setup-headless-display-action@v1
+      - name: "Prepare Testing Environment"
+        uses: pyansys/pydpf-actions/prepare_tests@v2.3
+        with:
+          DEBUG: true
+
+      - name: "List installed packages"
+        shell: bash
+        run: pip list
 
       - name: "Check examples with gatebin"
         shell: bash
@@ -73,7 +97,7 @@ jobs:
           python run_examples.py
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Uninstall gatebin"
@@ -92,7 +116,7 @@ jobs:
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Check sanity without gatebin GRPC"
@@ -105,7 +129,7 @@ jobs:
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Check sanity without gatebin LEGACYGRPC"
@@ -118,5 +142,5 @@ jobs:
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()

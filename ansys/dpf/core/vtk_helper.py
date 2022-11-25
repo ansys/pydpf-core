@@ -1,22 +1,12 @@
 import numpy as np
-from vtk import (
-    VTK_VERTEX,
-    VTK_LINE,
-    VTK_TRIANGLE,
-    VTK_QUAD,
-    VTK_TETRA,
-    VTK_HEXAHEDRON,
-    VTK_WEDGE,
-    VTK_PYRAMID,
-    VTK_QUADRATIC_EDGE,
-    VTK_QUADRATIC_TRIANGLE,
-    VTK_QUADRATIC_QUAD,
-    VTK_QUADRATIC_TETRA,
-    VTK_QUADRATIC_HEXAHEDRON,
-    VTK_QUADRATIC_PYRAMID,
-    vtkVersion,
-)
 import pyvista as pv
+from vtk import (VTK_HEXAHEDRON, VTK_LINE, VTK_POLYGON, VTK_POLYHEDRON,
+                 VTK_PYRAMID, VTK_QUAD, VTK_QUADRATIC_EDGE,
+                 VTK_QUADRATIC_HEXAHEDRON, VTK_QUADRATIC_POLYGON,
+                 VTK_QUADRATIC_PYRAMID, VTK_QUADRATIC_QUAD,
+                 VTK_QUADRATIC_TETRA, VTK_QUADRATIC_TRIANGLE, VTK_TETRA,
+                 VTK_TRIANGLE, VTK_VERTEX, VTK_WEDGE, vtkVersion)
+from ansys.dpf.core.elements import element_types
 
 VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
 
@@ -54,7 +44,10 @@ SIZE_MAPPING = np.array(
         2,  # kAnsEdge2
         3,  # kAnsEdge3
         3,  # kAnsBeam3
-        4,
+        4,  # kAnsBeam4
+        0,  # kAnsGeneralPlaceholder
+        -1,  # kAnsPolygon
+        -2,  # kAnsPolyhedron
     ]
 )  # kAnsBeam4
 
@@ -95,9 +88,12 @@ VTK_MAPPING = np.array(
         0,  # kAnsEdge2 = 28,
         0,  # kAnsEdge3 = 29,
         0,  # kAnsBeam3 = 30,
-        0,
+        0,  # kAnsBeam4 = 31,
+        0,  # kAnsGeneralPlaceholder = 32,
+        VTK_QUADRATIC_POLYGON,  # kAnsPolygon = 33,
+        VTK_POLYHEDRON,  # kAnsPolyhedron = 34,
     ]
-)  # kAnsBeam4 = 31,
+)
 
 
 # map all cells to linear
@@ -134,22 +130,26 @@ VTK_LINEAR_MAPPING = np.array(
         0,  # kAnsEdge2 = 28,
         0,  # kAnsEdge3 = 29,
         0,  # kAnsBeam3 = 30,
-        0,
+        0,  # kAnsBeam4 = 31,
+        0,  # kAnsGeneralPlaceholder = 32,
+        VTK_POLYGON,  # kAnsPolygon = 33,
+        VTK_POLYHEDRON,  # kAnsPolyhedron = 34,
     ]
-)  # kAnsBeam4 = 31,
+)
 
 
 class PyVistaImportError(ModuleNotFoundError):
     """Error raised when PyVista could not be imported during plotting."""
 
     def __init__(
-        self, msg="To use plotting capabilities, please install pyvista "
-                  "with :\n pip install pyvista>=0.32.0"
+        self,
+        msg="To use plotting capabilities, please install pyvista "
+        "with :\n pip install pyvista>=0.32.0",
     ):
         ModuleNotFoundError.__init__(self, msg)
 
 
-def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
+def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
     """Return a pyvista unstructured grid given DPF node and element
     definitions.
 
@@ -167,21 +167,66 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True):
     Returns
     -------
     grid : pyvista.UnstructuredGrid
-        Unstructred grid of the DPF mesh.
+        Unstructured grid of the DPF mesh.
     """
-    # could make this more efficient in C...
-    elem_size = SIZE_MAPPING[etypes]
+    elem_size = np.ediff1d(np.append(connectivity._data_pointer, connectivity.shape))
+
+    faces_nodes_connectivity = mesh.property_field("faces_nodes_connectivity")
+    faces_nodes_connectivity_dp = np.append(
+        faces_nodes_connectivity._data_pointer, len(faces_nodes_connectivity)
+    )
+    elements_faces_connectivity = mesh.property_field("elements_faces_connectivity")
+    elements_faces_connectivity_dp = np.append(
+        elements_faces_connectivity._data_pointer, len(elements_faces_connectivity)
+    )
+
     insert_ind = np.cumsum(elem_size)
     insert_ind = np.hstack(([0], insert_ind))[:-1]
 
     # TODO: Investigate why connectivity can be -1
-    nullmask = connectivity == -1
-    connectivity[nullmask] = 0
+    nullmask = connectivity.data == -1
+    connectivity.data[nullmask] = 0
     if nullmask.any():
         nodes[0] = np.nan
 
+    # For each polyhedron, cell = [nCellFaces, nFace0pts, i, j, k, ..., nFace1pts, i, j, k, ...]
+    # polys_ind = insert_ind[polyhedron_mask]
+    # cells = np.take(cells, sorted(set(insert_ind)-set(polys_ind)))
     # partition cells in vtk format
-    cells = np.insert(connectivity, insert_ind, elem_size)
+    cells = np.insert(connectivity.data, insert_ind, elem_size)
+
+    # Check if polyhedrons are present
+    if element_types.Polyhedron.value in etypes:
+        cells = np.array(cells)
+        nodes = np.array(nodes)
+        insert_ind = insert_ind + np.asarray(list(range(len(insert_ind))))
+        # Replace in cells values for polyhedron format
+        # [NValuesToFollow,
+        # NFaces, Face1NPoints, Face1Point1, Face1Point2..., Face1PointN, FaceNNPoints,...]]
+        for i, ind in reversed(list(enumerate(insert_ind))):
+            # Check if this is a polyhedron
+            if etypes[i] == element_types.Polyhedron.value:
+                # Construct the connectivity for the poly element
+                poly_connectivity = []
+                faces = elements_faces_connectivity.data[
+                    elements_faces_connectivity_dp[i] : elements_faces_connectivity_dp[
+                        i + 1
+                    ]
+                ]
+                for face in faces:
+                    face_connectivity = faces_nodes_connectivity.data[
+                        faces_nodes_connectivity_dp[face] : faces_nodes_connectivity_dp[
+                            face + 1
+                        ]
+                    ]
+                    face_fmt = [len(face_connectivity)] + list(face_connectivity)
+                    poly_connectivity += face_fmt
+                polyhedron = [len(faces)] + poly_connectivity
+                polyhedron = [len(polyhedron)] + polyhedron
+                # Replace the whole sequence between this index and the next
+                r = list(range(ind, ind + elem_size[i] + 1))
+                cells = np.delete(cells, r)
+                cells = np.insert(cells, ind, polyhedron)
 
     def compute_offset():
         """Return the starting point of a cell in the cells array"""

@@ -1,3 +1,4 @@
+# noqa: D400
 """
 .. _ref_basic_operators_example:
 
@@ -48,12 +49,12 @@ print(disp_op.outputs)
 # Connect to the data sources of the model.
 disp_op.inputs.data_sources.connect(model.metadata.data_sources)
 
-# Create a field container norm operator and connect it to the
+# Create a fields container norm operator and connect it to the
 # displacement operator to chain the operators.
 norm_op = dpf.Operator("norm_fc")
 norm_op.inputs.connect(disp_op.outputs)
 
-# Create a field container min/max operator and connect it to the
+# Create a fields container min/max operator and connect it to the
 # output of the norm operator.
 mm_op = dpf.Operator("min_max_fc")
 mm_op.inputs.connect(norm_op.outputs)

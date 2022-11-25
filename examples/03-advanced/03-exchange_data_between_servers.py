@@ -1,3 +1,4 @@
+# noqa: D400
 """
 .. _ref_exchange_data_between_servers.:
 
@@ -7,27 +8,42 @@ In this example, two DPF servers are started, and a workflow is created
 with a part on both servers. This example shows how you can read data
 from a given machine and transform this data on another machine
 without any more difficulties than working on a local computer.
+
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
+
 ###############################################################################
 # Create two servers
 # ~~~~~~~~~~~~~~~~~~
-# Use the ``start_local_server()`` method to start two servers on your local
-# machine. If you have another server, you can use the ``connect_to_server()``
+# Use the :func:`start_local_server() <ansys.dpf.core.server.start_local_server>`
+# method to start two servers on your local machine. If you have another server,
+# you can use the :func:`connect_to_server() <ansys.dpf.core.server.connect_to_server>`
 # method to connect to any DPF server on your network.
-
+#
 # The ``as_global`` attributes allows you to choose whether a server is stored
 # by the module and used by default. This example sets the first server as the default.
-server1 = dpf.start_local_server(as_global=True, config=dpf.AvailableServerConfigs.GrpcServer)
-server2 = dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer)
+server1 = dpf.start_local_server(
+    as_global=True, config=dpf.AvailableServerConfigs.GrpcServer
+)
+server2 = dpf.start_local_server(
+    as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
+)
 
 # Check that the two servers are listening on different ports.
-print(server1.port if hasattr(server1, "port") else "",
-      server2.port if hasattr(server2, "port") else "")
+print(
+    server1.port if hasattr(server1, "port") else "",
+    server2.port if hasattr(server2, "port") else "",
+)
 
 ###############################################################################
 # Send the result file

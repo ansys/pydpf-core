@@ -3,15 +3,23 @@
 
 Solve harmonic problem (with damping) using matrix inverse
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example shows how to create an harmonic (over frequencies) fields
+This example shows how to create a harmonic (over frequencies) fields
 container for an analysis with damping. This fields container is then used to
 solve the problem Ma+Dv+Ku=F by inverting the matrix
+
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 
 import math
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Create 2D (x,y) matrix fields for inertia, damping, and stiffness.

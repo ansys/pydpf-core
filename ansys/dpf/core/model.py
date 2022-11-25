@@ -17,7 +17,6 @@ from ansys.dpf.core.server_types import LOG
 from ansys.dpf.core import misc
 from ansys.dpf.core.errors import protect_source_op_not_found
 from ansys.dpf.core._model_helpers import DataSourcesOrStreamsConnector
-from grpc._channel import _InactiveRpcError
 from ansys.dpf.core.check_version import version_requires
 
 
@@ -413,9 +412,9 @@ class Metadata:
         op.inputs.connect(self._stream_provider.outputs)
         try:
             result_info = op.get_output(0, types.result_info)
-        except _InactiveRpcError as e:
+        except Exception as e:
             # give the user a more helpful error
-            if "results file is not defined in the Data sources" in e.details():
+            if "results file is not defined in the Data sources" in e.args():
                 raise RuntimeError("Unable to open result file") from None
             else:
                 raise e
@@ -455,16 +454,6 @@ class Metadata:
             Mesh provider operator.
 
         """
-        try:
-            if self._mesh_selection_manager is None:
-                self._mesh_selection_manager = Operator(
-                    "MeshSelectionManagerProvider",
-                    server=self._server
-                )
-                self._mesh_selection_manager.inputs.connect(self._stream_provider.outputs)
-                self._mesh_selection_manager.run()
-        except:
-            pass
         mesh_provider = Operator("MeshProvider", server=self._server)
         if self._stream_provider:
             mesh_provider.inputs.connect(self._stream_provider.outputs)
