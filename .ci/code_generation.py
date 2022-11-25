@@ -63,7 +63,7 @@ for f in files:
             os.remove(f)
     except:
         pass
-core.start_local_server(config=core.AvailableServerConfigs.GrpcServer)
+core.start_local_server(config=core.AvailableServerConfigs.LegacyGrpcServer)
 code_gen = core.Operator("python_generator")
 code_gen.connect(1, TARGET_PATH)
 for lib in LIB_TO_GENERATE:
@@ -92,11 +92,3 @@ for lib in LIB_OPTIONAL_TO_GENERATE:
         time.sleep(0.1)
     except Exception as e:
         print(f"Could not generate operators for optional library {lib}:\n{str(e)}")
-
-# Call the dpf/core/operators/build.py script
-# Requires to have pip installed requirements_build.txt
-path_to_script = r"../ansys/dpf/core/operators/build.py"
-print("Re-generating operators according to operator.mustache file...")
-out = subprocess.check_output([sys.executable, path_to_script])
-print(out.decode(encoding="utf-8"))
-core.server.shutdown_all_session_servers()
