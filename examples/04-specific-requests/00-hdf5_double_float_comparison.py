@@ -7,6 +7,10 @@ HDF5 export and compare precision
 This example shows how to use HDF5 format to export and
 compare simple precision versus double precision.
 
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 
 ###############################################################################
@@ -19,6 +23,9 @@ import tempfile
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 tmpdir = tempfile.mkdtemp()
 

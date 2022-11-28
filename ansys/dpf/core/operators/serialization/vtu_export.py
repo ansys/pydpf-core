@@ -22,9 +22,11 @@ class vtu_export(Operator):
     mesh : MeshedRegion
         Mesh
     fields1 : Field or FieldsContainer
-        Fields (over time) to export
+        Nodal or elemental fields (over time) to
+        export
     fields2 : Field or FieldsContainer
-        Fields (over time) to export
+        Nodal or elemental fields (over time) to
+        export
     write_mode : str, optional
         Available are rawbinarycompressed, rawbinary,
         base64appended, base64inline, ascii,
@@ -121,13 +123,15 @@ class vtu_export(Operator):
                     name="fields",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document="""Fields (over time) to export""",
+                    document="""Nodal or elemental fields (over time) to
+        export""",
                 ),
                 4: PinSpecification(
                     name="fields",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document="""Fields (over time) to export""",
+                    document="""Nodal or elemental fields (over time) to
+        export""",
                 ),
                 100: PinSpecification(
                     name="write_mode",
@@ -287,7 +291,8 @@ class InputsVtuExport(_Inputs):
     def fields1(self):
         """Allows to connect fields1 input to the operator.
 
-        Fields (over time) to export
+        Nodal or elemental fields (over time) to
+        export
 
         Parameters
         ----------
@@ -307,7 +312,8 @@ class InputsVtuExport(_Inputs):
     def fields2(self):
         """Allows to connect fields2 input to the operator.
 
-        Fields (over time) to export
+        Nodal or elemental fields (over time) to
+        export
 
         Parameters
         ----------

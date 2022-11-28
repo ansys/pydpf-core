@@ -9,6 +9,11 @@ DPF-Core can upload files to and download files from the server machine.
 This example shows how to write and upload files on the server machine and then
 download them back on the client side. The resulting fields container is then
 exported to a CSV file.
+
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 
 ###############################################################################
@@ -17,6 +22,9 @@ exported to a CSV file.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 model = dpf.Model(examples.find_simple_bar())
 mesh = model.metadata.meshed_region

@@ -517,9 +517,9 @@ def test_context_environment_variable(reset_context_environment_variable):
 
 
 @pytest.mark.order(1)
-@pytest.mark.skipif(running_docker or os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None,
+@pytest.mark.skipif(running_docker or os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
+                    or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
                     reason="Tests ANSYS_DPF_ACCEPT_LA")
-@conftest.raises_for_servers_version_under("6.0")
 def test_license_agr(set_context_back_to_premium):
     config = dpf.core.AvailableServerConfigs.InProcessServer
     init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
@@ -535,9 +535,9 @@ def test_license_agr(set_context_back_to_premium):
 
 
 @pytest.mark.order(2)
-@pytest.mark.skipif(os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None,
+@pytest.mark.skipif(os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
+                    or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
                     reason="Tests ANSYS_DPF_ACCEPT_LA")
-@conftest.raises_for_servers_version_under("6.0")
 def test_license_agr_remote(remote_config_server_type, set_context_back_to_premium):
     init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
     del os.environ["ANSYS_DPF_ACCEPT_LA"]

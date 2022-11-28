@@ -25,16 +25,20 @@ class fft_approx(Operator):
         container) to rescope / split an
         input fields container
     entity_to_fit : FieldsContainer
+        Data changing in time to be fitted
     component_number : int
         Component number as an int, ex '0' for
         x-displacement, '1' for
         y-displacement,...
-    first_derivative : bool, optional
+    first_derivative : bool
         Calculate the first derivative? (bool):
         default is false
-    second_derivative : bool, optional
+    second_derivative : bool
         Calculate the second derivative? (bool):
         default is false
+    fit_data : bool
+        Calculate the fitted values? (bool): default
+        is false
 
 
     Examples
@@ -57,6 +61,8 @@ class fft_approx(Operator):
     >>> op.inputs.first_derivative.connect(my_first_derivative)
     >>> my_second_derivative = bool()
     >>> op.inputs.second_derivative.connect(my_second_derivative)
+    >>> my_fit_data = bool()
+    >>> op.inputs.fit_data.connect(my_fit_data)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.fft_approx(
@@ -66,12 +72,13 @@ class fft_approx(Operator):
     ...     component_number=my_component_number,
     ...     first_derivative=my_first_derivative,
     ...     second_derivative=my_second_derivative,
+    ...     fit_data=my_fit_data,
     ... )
 
     >>> # Get output data
     >>> result_fitted_entity_y = op.outputs.fitted_entity_y()
     >>> result_first_der_dy = op.outputs.first_der_dy()
-    >>> result_second_der_dy = op.outputs.second_der_dy()
+    >>> result_second_der_d2y = op.outputs.second_der_d2y()
     """
 
     def __init__(
@@ -82,6 +89,7 @@ class fft_approx(Operator):
         component_number=None,
         first_derivative=None,
         second_derivative=None,
+        fit_data=None,
         config=None,
         server=None,
     ):
@@ -100,6 +108,8 @@ class fft_approx(Operator):
             self.inputs.first_derivative.connect(first_derivative)
         if second_derivative is not None:
             self.inputs.second_derivative.connect(second_derivative)
+        if fit_data is not None:
+            self.inputs.fit_data.connect(fit_data)
 
     @staticmethod
     def _spec():
@@ -128,7 +138,7 @@ class fft_approx(Operator):
                     name="entity_to_fit",
                     type_names=["fields_container"],
                     optional=False,
-                    document="""""",
+                    document="""Data changing in time to be fitted""",
                 ),
                 3: PinSpecification(
                     name="component_number",
@@ -141,16 +151,23 @@ class fft_approx(Operator):
                 4: PinSpecification(
                     name="first_derivative",
                     type_names=["bool"],
-                    optional=True,
+                    optional=False,
                     document="""Calculate the first derivative? (bool):
         default is false""",
                 ),
                 5: PinSpecification(
                     name="second_derivative",
                     type_names=["bool"],
-                    optional=True,
+                    optional=False,
                     document="""Calculate the second derivative? (bool):
         default is false""",
+                ),
+                6: PinSpecification(
+                    name="fit_data",
+                    type_names=["bool"],
+                    optional=False,
+                    document="""Calculate the fitted values? (bool): default
+        is false""",
                 ),
             },
             map_output_pin_spec={
@@ -170,7 +187,7 @@ class fft_approx(Operator):
                     document="""The first derivative (dy) from the fitted y""",
                 ),
                 2: PinSpecification(
-                    name="second_der_dy",
+                    name="second_der_d2y",
                     type_names=["fields_container"],
                     optional=False,
                     document="""The second derivative (d2y) from the fitted y""",
@@ -236,6 +253,8 @@ class InputsFftApprox(_Inputs):
     >>> op.inputs.first_derivative.connect(my_first_derivative)
     >>> my_second_derivative = bool()
     >>> op.inputs.second_derivative.connect(my_second_derivative)
+    >>> my_fit_data = bool()
+    >>> op.inputs.fit_data.connect(my_fit_data)
     """
 
     def __init__(self, op: Operator):
@@ -252,6 +271,8 @@ class InputsFftApprox(_Inputs):
         self._inputs.append(self._first_derivative)
         self._second_derivative = Input(fft_approx._spec().input_pin(5), 5, op, -1)
         self._inputs.append(self._second_derivative)
+        self._fit_data = Input(fft_approx._spec().input_pin(6), 6, op, -1)
+        self._inputs.append(self._fit_data)
 
     @property
     def time_scoping(self):
@@ -299,6 +320,8 @@ class InputsFftApprox(_Inputs):
     @property
     def entity_to_fit(self):
         """Allows to connect entity_to_fit input to the operator.
+
+        Data changing in time to be fitted
 
         Parameters
         ----------
@@ -378,6 +401,27 @@ class InputsFftApprox(_Inputs):
         """
         return self._second_derivative
 
+    @property
+    def fit_data(self):
+        """Allows to connect fit_data input to the operator.
+
+        Calculate the fitted values? (bool): default
+        is false
+
+        Parameters
+        ----------
+        my_fit_data : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.fft_approx()
+        >>> op.inputs.fit_data.connect(my_fit_data)
+        >>> # or
+        >>> op.inputs.fit_data(my_fit_data)
+        """
+        return self._fit_data
+
 
 class OutputsFftApprox(_Outputs):
     """Intermediate class used to get outputs from
@@ -390,7 +434,7 @@ class OutputsFftApprox(_Outputs):
     >>> # Connect inputs : op.inputs. ...
     >>> result_fitted_entity_y = op.outputs.fitted_entity_y()
     >>> result_first_der_dy = op.outputs.first_der_dy()
-    >>> result_second_der_dy = op.outputs.second_der_dy()
+    >>> result_second_der_d2y = op.outputs.second_der_d2y()
     """
 
     def __init__(self, op: Operator):
@@ -399,8 +443,8 @@ class OutputsFftApprox(_Outputs):
         self._outputs.append(self._fitted_entity_y)
         self._first_der_dy = Output(fft_approx._spec().output_pin(1), 1, op)
         self._outputs.append(self._first_der_dy)
-        self._second_der_dy = Output(fft_approx._spec().output_pin(2), 2, op)
-        self._outputs.append(self._second_der_dy)
+        self._second_der_d2y = Output(fft_approx._spec().output_pin(2), 2, op)
+        self._outputs.append(self._second_der_d2y)
 
     @property
     def fitted_entity_y(self):
@@ -437,18 +481,18 @@ class OutputsFftApprox(_Outputs):
         return self._first_der_dy
 
     @property
-    def second_der_dy(self):
-        """Allows to get second_der_dy output of the operator
+    def second_der_d2y(self):
+        """Allows to get second_der_d2y output of the operator
 
         Returns
         ----------
-        my_second_der_dy : FieldsContainer
+        my_second_der_d2y : FieldsContainer
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.math.fft_approx()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_second_der_dy = op.outputs.second_der_dy()
+        >>> result_second_der_d2y = op.outputs.second_der_d2y()
         """  # noqa: E501
-        return self._second_der_dy
+        return self._second_der_d2y

@@ -1,11 +1,10 @@
-# noqa: D400
 """
 .. _ref_python_plugin_package:
 
 Create a plug-in package with multiple operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to create a plug-in package with multiple operators.
-The benefits of writing packages rather than simple scripts are:
+The benefits of writing a package rather than simple scripts are:
 
 - **Componentization:** You can split the code into several Python modules or files.
 - **Distribution:** You can use standard Python tools to upload and download packages.
@@ -15,6 +14,10 @@ For this example, the plug-in package contains two different operators:
 
 - One that returns all scoping IDs having data higher than the average
 - One that returns all scoping IDs having data lower than the average
+
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
 
 """
 
@@ -32,6 +35,10 @@ For this example, the plug-in package contains two different operators:
 import os
 
 from ansys.dpf.core import examples
+from ansys.dpf import core as dpf
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 print("\033[1m average_filter_plugin")
 file_list = ["__init__.py", "operators.py", "operators_loader.py", "common.py"]

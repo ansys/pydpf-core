@@ -11,7 +11,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class identical_meshes(Operator):
-    """Take two meshes and compare them.
+    """Take two meshes and compare them. Note: When comparing mesh properties
+    the current behaviour is to verify that the properties in the
+    first mesh (pin 0) are included in the second mesh (pin 1).
 
     Parameters
     ----------
@@ -23,6 +25,10 @@ class identical_meshes(Operator):
     tolerance : float
         Define the relative tolerance ceil for
         numeric comparison.
+    compare_auxiliary : bool
+        Compare auxiliary data (i.e property fields,
+        scopings...). default value is
+        'false'.
 
 
     Examples
@@ -41,6 +47,8 @@ class identical_meshes(Operator):
     >>> op.inputs.small_value.connect(my_small_value)
     >>> my_tolerance = float()
     >>> op.inputs.tolerance.connect(my_tolerance)
+    >>> my_compare_auxiliary = bool()
+    >>> op.inputs.compare_auxiliary.connect(my_compare_auxiliary)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.logic.identical_meshes(
@@ -48,6 +56,7 @@ class identical_meshes(Operator):
     ...     meshB=my_meshB,
     ...     small_value=my_small_value,
     ...     tolerance=my_tolerance,
+    ...     compare_auxiliary=my_compare_auxiliary,
     ... )
 
     >>> # Get output data
@@ -60,6 +69,7 @@ class identical_meshes(Operator):
         meshB=None,
         small_value=None,
         tolerance=None,
+        compare_auxiliary=None,
         config=None,
         server=None,
     ):
@@ -74,10 +84,15 @@ class identical_meshes(Operator):
             self.inputs.small_value.connect(small_value)
         if tolerance is not None:
             self.inputs.tolerance.connect(tolerance)
+        if compare_auxiliary is not None:
+            self.inputs.compare_auxiliary.connect(compare_auxiliary)
 
     @staticmethod
     def _spec():
-        description = """Take two meshes and compare them."""
+        description = """Take two meshes and compare them. Note: When comparing mesh properties
+            the current behaviour is to verify that the properties in
+            the first mesh (pin 0) are included in the second mesh
+            (pin 1)."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -106,6 +121,14 @@ class identical_meshes(Operator):
                     optional=False,
                     document="""Define the relative tolerance ceil for
         numeric comparison.""",
+                ),
+                4: PinSpecification(
+                    name="compare_auxiliary",
+                    type_names=["bool"],
+                    optional=False,
+                    document="""Compare auxiliary data (i.e property fields,
+        scopings...). default value is
+        'false'.""",
                 ),
             },
             map_output_pin_spec={
@@ -172,6 +195,8 @@ class InputsIdenticalMeshes(_Inputs):
     >>> op.inputs.small_value.connect(my_small_value)
     >>> my_tolerance = float()
     >>> op.inputs.tolerance.connect(my_tolerance)
+    >>> my_compare_auxiliary = bool()
+    >>> op.inputs.compare_auxiliary.connect(my_compare_auxiliary)
     """
 
     def __init__(self, op: Operator):
@@ -184,6 +209,10 @@ class InputsIdenticalMeshes(_Inputs):
         self._inputs.append(self._small_value)
         self._tolerance = Input(identical_meshes._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._tolerance)
+        self._compare_auxiliary = Input(
+            identical_meshes._spec().input_pin(4), 4, op, -1
+        )
+        self._inputs.append(self._compare_auxiliary)
 
     @property
     def meshA(self):
@@ -262,6 +291,28 @@ class InputsIdenticalMeshes(_Inputs):
         >>> op.inputs.tolerance(my_tolerance)
         """
         return self._tolerance
+
+    @property
+    def compare_auxiliary(self):
+        """Allows to connect compare_auxiliary input to the operator.
+
+        Compare auxiliary data (i.e property fields,
+        scopings...). default value is
+        'false'.
+
+        Parameters
+        ----------
+        my_compare_auxiliary : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.logic.identical_meshes()
+        >>> op.inputs.compare_auxiliary.connect(my_compare_auxiliary)
+        >>> # or
+        >>> op.inputs.compare_auxiliary(my_compare_auxiliary)
+        """
+        return self._compare_auxiliary
 
 
 class OutputsIdenticalMeshes(_Outputs):
