@@ -31,7 +31,7 @@ Install using a wheel file
 If you are unable to install PyDPF-Post on the host machine due to
 network isolation, download the latest wheel file from `PyDPF-Post
 GitHub <https://github.com/pyansys/pydpf-post>`_ or
-`PyDPF-Post PyPi <https://pypi.org/project/ansys-dpf-post/>`_.
+`PyDPF-Post PyPI <https://pypi.org/project/ansys-dpf-post/>`_.
 
 Install for a quick tryout
 --------------------------

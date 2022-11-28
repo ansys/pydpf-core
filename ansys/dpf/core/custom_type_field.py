@@ -38,7 +38,7 @@ numpy_type_to_dpf = dict_with_missing_numpy_type({
 
 class CustomTypeField(_FieldBase):
     """Represents a simulation data container with each unitary data being of a custom type.
-    When initiliazing the CustomTypeField, a unitary data type should be given.
+    When initializing the ``CustomTypeField``, provide a unitary data type.
     The ``CustomTypeField`` gives the ability to choose the most optimized unitary data type
     for a given usage, and hence, allows to optimize memory usage.
 
