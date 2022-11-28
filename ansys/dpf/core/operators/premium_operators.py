@@ -42,7 +42,8 @@ def get_premium_only_descriptions_rst(verbose: bool = False) -> str:
     for operator_name in premium_only_operators:
         op = dpf.Operator(operator_name)
         premium_only_descriptions[operator_name] = op.specification.description
-        lines = f"* {operator_name}:\n{op.specification.description}\n\n"
+        descr = op.specification.description.replace("\n", " ")
+        lines = f"* **{operator_name}**:\n  {descr}\n\n"
         result += lines
         if verbose:
             print(lines)
