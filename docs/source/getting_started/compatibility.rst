@@ -65,12 +65,17 @@ Updating Python environment
 ---------------------------
 
 Passing from an Ansys version to another (e.g. passing from Ansys 2022 R2 to Ansys 2023 R1), it is needed 
-to update ansys-dpf-core package and its dependencies. It can be done using:
+to update ansys-dpf-core package and its dependencies. To get the latest version of ansys-dpf-core, use:
 
 .. code::
     
 	pip install --upgrade --force-reinstall ansys-dpf-core
-	
+
+To get a specific version of ansys-dpf-core (e.g. 0.7.0), use:
+
+.. code::
+
+    pip install --force-reinstall ansys-dpf-core==0.7.0
 
 
 Environment variable
