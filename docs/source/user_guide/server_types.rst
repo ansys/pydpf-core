@@ -79,7 +79,7 @@ You can obtain the server port and ip:
 
     DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50052, 'server_process_id': 9999, 'server_version': '6.0', 'os': 'nt'}
 	
-From a another machine, you can connect remotly to this server and instantiate Models, Operators, and so on:
+From a another machine, you can connect remotely to this server and instantiate Models, Operators, and so on:
 
 .. code-block::
 	   
