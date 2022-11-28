@@ -103,3 +103,4 @@ addopts = "-ra --cov=ansys.dpf.core --cov-report html:.cov/html --cov-report xml
 testpaths = [
     "tests",
 ]
+doctest_optionflags = "NORMALIZE_WHITESPACE ELLIPSIS"
