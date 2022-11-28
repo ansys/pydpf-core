@@ -4,7 +4,7 @@
 Create a plug-in package with multiple operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to create a plug-in package with multiple operators.
-The benefits of writing packages rather than simple scripts are:
+The benefits of writing a package rather than simple scripts are:
 
 - **Componentization:** You can split the code into several Python modules or files.
 - **Distribution:** You can use standard Python tools to upload and download packages.
@@ -12,8 +12,12 @@ The benefits of writing packages rather than simple scripts are:
 
 For this example, the plug-in package contains two different operators:
 
-- One that returns all scoping ID having data higher than the average
+- One that returns all scoping IDs having data higher than the average
 - One that returns all scoping IDs having data lower than the average
+
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
 
 """
 
@@ -29,13 +33,20 @@ For this example, the plug-in package contains two different operators:
 # created for you.
 
 import os
-from ansys.dpf.core import examples
 
-print('\033[1m average_filter_plugin')
+from ansys.dpf.core import examples
+from ansys.dpf import core as dpf
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
+
+print("\033[1m average_filter_plugin")
 file_list = ["__init__.py", "operators.py", "operators_loader.py", "common.py"]
 plugin_folder = None
-GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/raw/" \
-                    "examples/first_python_plugins/python_plugins/average_filter_plugin"
+GITHUB_SOURCE_URL = (
+    "https://github.com/pyansys/pydpf-core/raw/"
+    "examples/first_python_plugins/python_plugins/average_filter_plugin"
+)
 
 for file in file_list:
     EXAMPLE_FILE = GITHUB_SOURCE_URL + "/average_filter_plugin/" + file
@@ -43,10 +54,10 @@ for file in file_list:
         EXAMPLE_FILE, file, "python_plugins/average_filter_plugin"
     )
     plugin_folder = os.path.dirname(operator_file_path)
-    print(f'\033[1m {file}:\n \033[0m')
+    print(f"\033[1m {file}:\n \033[0m")
     with open(operator_file_path, "r") as f:
         for line in f.readlines():
-            print('\t\t\t' + line)
+            print("\t\t\t" + line)
     print("\n\n")
 
 
@@ -58,12 +69,14 @@ for file in file_list:
 #
 # - The first argument is the path to the directory where the plug-in package
 #   is located.
-# - The second argument is ``py_`` plus any name identifying the plug-in package.
-# - The third argument is the name of the function exposed in the ``__init__ file``
+# - The second argument is ``py_<package>``, where ``<package>`` is the name
+#   identifying the plug-in package.
+# - The third argument is the name of the function exposed in the ``__init__`` file
 #   for the plug-in package that is used to record operators.
 #
 
 import os
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
@@ -72,13 +85,13 @@ dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
 tmp = dpf.make_tmp_dir_server()
 dpf.upload_files_in_folder(
-    dpf.path_utilities.join(tmp, "average_filter_plugin"),
-    plugin_folder
+    dpf.path_utilities.join(tmp, "average_filter_plugin"), plugin_folder
 )
 dpf.load_library(
     os.path.join(dpf.path_utilities.join(tmp, "average_filter_plugin")),
     "py_average_filter",
-    "load_operators")
+    "load_operators",
+)
 
 ###############################################################################
 # Instantiate the operator.

@@ -14,7 +14,7 @@ from conftest import (
     running_docker
 )
 
-
+@pytest.mark.skipif(running_docker, reason="Run to fix on internal side")
 def test_start_local():
     if not core.SERVER:
         core.start_local_server()
@@ -54,26 +54,29 @@ class TestServerConfigs:
                 os.unsetenv(awp_root_name)
             except:
                 del os.environ[awp_root_name]
-        try:
-            server = core.start_local_server(
-                ansys_path=path,
-                config=server_config,
-                as_global=True,
-            )
-            assert isinstance(server.os, str)
-            if server_config != core.AvailableServerConfigs.InProcessServer and not running_docker:
-                p = psutil.Process(server.info["server_process_id"])
-                assert path in p.cwd()
-            if path:
-                os.environ[
-                    awp_root_name
-                ] = path
-        except Exception as e:
-            if path:
-                os.environ[
-                    awp_root_name
-                ] = path
-            raise e
+            try:
+                server = core.start_local_server(
+                    ansys_path=path,
+                    config=server_config,
+                    as_global=True,
+                )
+                assert isinstance(server.os, str)
+                if server_config != core.AvailableServerConfigs.InProcessServer and \
+                        not running_docker:
+                    p = psutil.Process(server.info["server_process_id"])
+                    assert path in p.cwd()
+                if path:
+                    os.environ[
+                        awp_root_name
+                    ] = path
+            except Exception as e:
+                if path:
+                    os.environ[
+                        awp_root_name
+                    ] = path
+                raise e
+        else:
+            pytest.skip(awp_root_name + " is not set")
 
     @pytest.mark.skipif(running_docker, reason="AWP ROOT is not set with Docker")
     def test_start_local_no_ansys_path(self, server_config):
@@ -87,7 +90,8 @@ class TestServerConfigs:
                 str(server.version)
             ]
             ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
-            assert os.environ["AWP_ROOT" + ver_to_check] in p.cwd()
+            if os.environ.get("AWP_ROOT" + ver_to_check, None) is not None:
+                assert os.environ["AWP_ROOT" + ver_to_check] in p.cwd()
 
     @pytest.mark.skipif(
         not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
@@ -121,14 +125,16 @@ class TestServerConfigs:
                 del os.environ["ANSYS_DPF_PATH"]
 
         except Exception as e:
-            os.environ[
-                awp_root_name
-            ] = awp_root
-            try:
-                os.unsetenv("ANSYS_DPF_PATH")
-            except:
-                del os.environ["ANSYS_DPF_PATH"]
-            raise e
+            if awp_root_name and awp_root:
+                os.environ[
+                    awp_root_name
+                ] = awp_root
+            if "ANSYS_DPF_PATH" in os.environ.keys():
+                try:
+                    os.unsetenv("ANSYS_DPF_PATH")
+                except:
+                    del os.environ["ANSYS_DPF_PATH"]
+                raise e
 
     @pytest.mark.skipif(running_docker, reason="Not made to work on docker")
     def test_start_local_wrong_ansys_path(self, server_config):
@@ -166,10 +172,11 @@ class TestServerConfigs:
                 stderr=subprocess.PIPE,
             )
             errors = ""
-            for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
-                errors += line
-            if process.returncode is not None:
-                raise Exception(errors)
+            with io.TextIOWrapper(process.stderr, encoding="utf-8") as log_err:
+                for line in log_err:
+                    errors += line
+                if process.returncode is not None:
+                    raise Exception(errors)
 
     @pytest.mark.skipif(running_docker, reason="Not made to work on docker")
     def test_launch_server_full_path(self, server_config):

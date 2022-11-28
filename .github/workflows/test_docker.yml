@@ -1,4 +1,4 @@
-name: tests
+name: test_docker
 
 on:
 # Can be called by the CI
@@ -10,7 +10,9 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   extra: "--find-links .github/"
-  ANSYS_VERSION: 231
+  ANSYS_VERSION: 232
+  ANSYS_DPF_ACCEPT_LA: Y
+  ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
 
 jobs:
   docker_tests:
@@ -26,7 +28,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: "Build Docker Package"
-        uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@v2.2
+        uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{env.ANSYS_VERSION}}
@@ -38,81 +40,112 @@ jobs:
           extra-pip-args: ${{ env.extra }}
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.2
+        uses: pyansys/pydpf-actions/prepare_tests@v2.3
         with:
           DEBUG: true
+
+      - name: "List installed packages"
+        shell: bash
+        run: pip list
 
       - name: "Separate long Core tests"
         shell: pwsh
         run: |
           .github\workflows\scripts\separate_long_core_tests.ps1
 
-      - name: "Test API"
+      - name: "Set pytest arguments"
         shell: bash
-        working-directory: tests
         run: |
-          pytest $DEBUG --cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results.xml --reruns 2 .
-        timeout-minutes: 20
+          echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR" >> $GITHUB_ENV
+          echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
+
+      - name: "Test API"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results.xml tests/.
 
       - name: "Test API test_launcher"
-        shell: bash
-        working-directory: test_launcher
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results2.xml --reruns 2 .
-        if: always()
-        timeout-minutes: 20
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 2
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results2.xml test_launcher/.
 
       - name: "Test API test_server"
-        shell: bash
-        working-directory: test_server
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results4.xml --reruns 2 .
-        if: always()
-        timeout-minutes: 10
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results3.xml test_server/.
 
       - name: "Test API test_local_server"
-        shell: bash
-        working-directory: test_local_server
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results5.xml --reruns 2 .
-        if: always()
-        timeout-minutes: 20
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 2
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results4.xml test_local_server/.
 
       - name: "Test API test_multi_server"
-        shell: bash
-        working-directory: test_multi_server
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results6.xml --reruns 2 .
-        timeout-minutes: 20
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results5.xml test_multi_server/.
 
       - name: "Test API test_remote_workflow"
-        shell: bash
-        working-directory: test_remote_workflow
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results7.xml --reruns 2 .
-        timeout-minutes: 20
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 2
+          max_attempts: 3
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results6.xml test_remote_workflow/.
 
       - name: "Test API test_remote_operator"
-        shell: bash
-        working-directory: test_remote_operator
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results8.xml --reruns 2 .
-        timeout-minutes: 5
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 2
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results7.xml test_remote_operator/.
 
       - name: "Test API test_workflow"
-        shell: bash
-        working-directory: test_workflow
-        run: |
-          pytest $DEBUG --cov=ansys.dpf.core --cov-report=xml --cov-report=html --cov-append --log-level=ERROR --junitxml=../tests/junit/test-results3.xml --reruns 3 .
-        if: always()
-        timeout-minutes: 20
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 3
+          max_attempts: 3
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results8.xml test_workflow/.
+
+      - name: "Test API test_service"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 3
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results9.xml test_service/.
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ env.ANSYS_VERSION }}_docker
           path: tests/junit/test-results.xml
-        if: always()
+        timeout-minutes: 5
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v3
