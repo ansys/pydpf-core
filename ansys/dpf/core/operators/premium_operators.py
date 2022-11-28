@@ -36,17 +36,42 @@ def get_premium_only_descriptions_rst(verbose: bool = False) -> str:
     premium_only_descriptions = {}
     result = "List of Premium-only operators"
     result += "\n" + "="*len(result) + "\n"
-    result += "Generated using ``dpf.core.operators.premium_operators``\n\n"
+    result += "Generated using ``dpf.core.operators.premium_operators``.\n\n"
     if verbose:
         print(result)
     for operator_name in premium_only_operators:
         op = dpf.Operator(operator_name)
-        premium_only_descriptions[operator_name] = op.specification.description
-        descr = op.specification.description.replace("\n", " ")
-        lines = f"* **{operator_name}**:\n  {descr}\n\n"
-        result += lines
+        # print(operator_name)
+        # print(op.specification.properties.keys())
+        try:
+            category = op.specification.properties["category"]
+        except KeyError:
+            category = "no category"
+        if category in premium_only_descriptions.keys():
+            premium_only_descriptions[category][operator_name] = op.specification.description
+        else:
+            premium_only_descriptions[category] = {operator_name: op.specification.description}
+        # descr = op.specification.description.replace("\n", " ")
+
+    def category_to_rst(rst, cat):
+        title_char = "~"
+        subtitle_char = "^"
+        lines = f"{cat}\n" \
+                f"{title_char*len(cat)}\n"
+        for name in sorted(premium_only_descriptions[cat].keys()):
+            lines += f"{name}\n" \
+                     f"{subtitle_char*len(name)}\n" \
+                     f"{premium_only_descriptions[cat][name]}\n\n"
+        rst += lines
         if verbose:
             print(lines)
+        return rst
+
+    for category in sorted(premium_only_descriptions.keys()):
+        if category == "no category":
+            continue
+        result = category_to_rst(result, category)
+    result = category_to_rst(result, "no category")
     return result
 
 
