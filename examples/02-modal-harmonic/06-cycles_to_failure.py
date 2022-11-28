@@ -8,14 +8,14 @@ Youngs Modulus (youngsSteel)
 Poisson's Ratio (prxySteel)
 Cycles to Failure (sn_data)
 The first step is to generate a simple model with high stress and save the
-results .rst locally to myDir (default C:\temp).
-For this we use a short pyMapdl script
+results .rst file locally to myDir (default C:\temp).
+For this, we use a short pyMapdl script.
 The second step uses DPF-Core to generate the cycles to failure result.
-The locally saved rst is imported and plotted.
+The locally saved .rst file is imported and plotted.
 Then the von Mises stress is generated and plotted with DPF operators.
-The python package numpy is then used to interpolate the cycles to failure values.
+The numpy python package is then used to interpolate the cycles to failure values.
 The nodal von Mises equivalent stress value is used in the interpolation.
-Note the cycles to failure data needs to be manipulated to use numpy interpolation.
+Note: The cycles to failure data must be manipulated to use numpy interpolation.
 An empty field is created and filled with the resulting cycles to failure values.
 Cycles to failure result plotted.
 The cycles to failure result is the (interpolated) negative of the stress result.
@@ -39,7 +39,7 @@ sn_data[:, 1] = [3.999e9, 2.8327e9, 1.896e9, 1.413e9, 1.069e9, 4.41e8, 2.62e8, 2
 
 ###############################################################################
 
-# This .rst file is here already available but can be obtained using the short pyMapdl code below:
+# This .rst file is already available, but can be obtained using the short pyMAPDL code below:
 
 # # ### Launch pymapdl to generate rst file in myDir
 # from ansys.mapdl.core import launch_mapdl
@@ -74,7 +74,7 @@ sn_data[:, 1] = [3.999e9, 2.8327e9, 1.896e9, 1.413e9, 1.069e9, 4.41e8, 2.62e8, 2
 
 ###############################################################################
 
-# PyDPF-Core is then used to post process the .rst in order to estimate the cycles to failure
+# PyDPF-Core is then used to post-process the .rst file to estimate the cycles to failure.
 
 # Comment the two following lines if solving the mapdl problem first.
 rst = examples.download_cycles_to_failure()
