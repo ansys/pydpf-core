@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 # Create the model and print its contents. This LS-DYNA d3plot file contains
 # several individual results, each at a different times.
 
-d3plot = examples.find_d3plot()
+d3plot = examples.download_d3plot_beam()
 ds = dpf.DataSources()
 ds.set_result_file_path(d3plot, "d3plot")
 model = dpf.Model(ds)
@@ -68,7 +68,7 @@ plt.show()
 # Create the model and dprint its contents. This LS-DYNA binout file contains
 # several branches (glstat, matsum and rcforc)
 
-binout = examples.find_binout()
+binout = examples.download_binout_glstat()
 ds = dpf.DataSources()
 ds.set_result_file_path(binout, "binout")
 model = dpf.Model(ds)

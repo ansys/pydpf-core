@@ -167,20 +167,24 @@ def d3plot():
     """Resolve the path of the "d3plot/d3plot" result file."""
     return resolve_test_file("d3plot", "d3plot")
 
+
 @pytest.fixture()
 def d3plot_beam():
-    """Resolve the path of the "d3plot/d3plot_beam" result file."""
-    return resolve_test_file("d3plot", "", "d3plot")
+    """Resolve the path of the "d3plot_beam/d3plot" result file."""
+    return examples.download_d3plot_beam()[0]
+
 
 @pytest.fixture()
 def binout_matsum():
     """Resolve the path of the "binout/binout_matsum" result file."""
-    return resolve_test_file("binout_matsum", "", "binout")
+    return examples.download_binout_matsum()
+
 
 @pytest.fixture()
 def binout_glstat():
     """Resolve the path of the "binout/binout_glstat" result file."""
-    return resolve_test_file("binout_glstat", "binout")
+    return examples.download_binout_glstat()
+
 
 @pytest.fixture()
 def engineering_data_sources():
