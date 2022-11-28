@@ -1,12 +1,12 @@
-import weakref
-
 import numpy as np
 import pytest
+import weakref
 
 from ansys import dpf
-from ansys.dpf.core import Model, examples, fields_factory
+from ansys.dpf.core import TimeFreqSupport, Model
+from ansys.dpf.core import examples
+from ansys.dpf.core import fields_factory
 from ansys.dpf.core.common import locations
-from ansys.dpf.core.time_freq_support import TimeFreqSupport
 import conftest
 
 
@@ -68,7 +68,6 @@ def test_delete_timefreqsupport(velocity_acceleration):
     res = op.get_output(0, dpf.core.types.time_freq_support)
     res = None
     import gc
-
     gc.collect()
     with pytest.raises(Exception):
         res.get_frequence(0, 0)
@@ -83,7 +82,6 @@ def test_delete_auto_timefreqsupport(simple_rst):
     ref = weakref.ref(res)
     res = None
     import gc
-
     gc.collect()
     assert ref() is None
 
@@ -198,7 +196,9 @@ def test_append_step_1(server_type):
 
 def test_append_step_2(server_type):
     tfq = TimeFreqSupport(server=server_type)
-    tfq.append_step(1, [0.1, 0.21, 1.0], rpm_value=2.0, step_harmonic_indices=[1.0, 2.0, 3.0])
+    tfq.append_step(
+        1, [0.1, 0.21, 1.0], rpm_value=2.0, step_harmonic_indices=[1.0, 2.0, 3.0]
+    )
     tfq.append_step(2, [1.1, 2.0], rpm_value=2.3, step_harmonic_indices=[1.0, 2.0])
     tfq.append_step(3, [0.23, 0.25], rpm_value=3.0, step_harmonic_indices=[1.0, 2.0])
     assert len(tfq.rpms.data) == 3
@@ -207,7 +207,9 @@ def test_append_step_2(server_type):
     assert tfq.rpms.location == locations.time_freq_step
     assert tfq.get_harmonic_indices().location == locations.time_freq
     assert tfq.time_frequencies.location == locations.time_freq
-    assert np.allclose([0.1, 0.21, 1.0, 1.1, 2.0, 0.23, 0.25], tfq.time_frequencies.data)
+    assert np.allclose(
+        [0.1, 0.21, 1.0, 1.1, 2.0, 0.23, 0.25], tfq.time_frequencies.data
+    )
     assert np.allclose([2.0, 2.3, 3.0], tfq.rpms.data)
     assert tfq.complex_frequencies is None
 
@@ -262,16 +264,26 @@ def test_deep_copy_time_freq_support_multi_stage():
     assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
     assert tf.time_frequencies.unit == copy.time_frequencies.unit
-    assert np.allclose(tf.get_harmonic_indices(0).data, copy.get_harmonic_indices(0).data)
-    assert tf.get_harmonic_indices(0).scoping.ids == copy.get_harmonic_indices(0).scoping.ids
-    assert np.allclose(tf.get_harmonic_indices(1).data, copy.get_harmonic_indices(1).data)
-    assert tf.get_harmonic_indices(1).scoping.ids == copy.get_harmonic_indices(1).scoping.ids
+    assert np.allclose(
+        tf.get_harmonic_indices(0).data, copy.get_harmonic_indices(0).data
+    )
+    assert (
+            tf.get_harmonic_indices(0).scoping.ids
+            == copy.get_harmonic_indices(0).scoping.ids
+    )
+    assert np.allclose(
+        tf.get_harmonic_indices(1).data, copy.get_harmonic_indices(1).data
+    )
+    assert (
+            tf.get_harmonic_indices(1).scoping.ids
+            == copy.get_harmonic_indices(1).scoping.ids
+    )
 
     assert len(tf.get_harmonic_indices(0).data) == 6
     assert len(tf.get_harmonic_indices(1).data) == 6
 
 
-@conftest.raises_for_servers_version_under("3.0")
+@conftest.raises_for_servers_version_under('3.0')
 def test_operator_connect_get_output_time_freq_support(velocity_acceleration):
     model = Model(velocity_acceleration)
     tf = model.metadata.time_freq_support
@@ -280,7 +292,7 @@ def test_operator_connect_get_output_time_freq_support(velocity_acceleration):
     assert np.allclose(tf.time_frequencies.data, tfout.time_frequencies.data)
 
 
-@conftest.raises_for_servers_version_under("3.0")
+@conftest.raises_for_servers_version_under('3.0')
 def test_workflow_connect_get_output_time_freq_support(velocity_acceleration):
     model = Model(velocity_acceleration)
     tf = model.metadata.time_freq_support
@@ -296,10 +308,8 @@ def test_workflow_connect_get_output_time_freq_support(velocity_acceleration):
 @pytest.mark.skipif(True, reason="used to check memory leaks")
 def test_timefreqsupport_memory_leaks():
     import gc
-
     from ansys.dpf.core import start_local_server
-    from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
-
+    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
     config = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     # config = ServerConfig(protocol=CommunicationProtocols.gRPC)
     # config = ServerConfig(protocol=CommunicationProtocols.InProcess)
@@ -333,7 +343,9 @@ def test_getters_support_base(server_type):
     harm = fields_factory.create_scalar_field(3, server=server_type)
     harm.data = [0.1, 0.32, 0.4]
     tfq.set_harmonic_indices(harm)
-    expected_props = ["time_freqs", "imaginary_freqs", "rpms", "harmonic_indices"]
+    expected_props = [
+        "time_freqs", "imaginary_freqs", "rpms", "harmonic_indices"
+    ]
     assert tfq.available_string_field_supported_properties() == []
     assert tfq.available_prop_field_supported_properties() == []
     for prop in expected_props:
