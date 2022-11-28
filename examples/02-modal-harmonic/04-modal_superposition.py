@@ -9,10 +9,18 @@ are multiplied by mode shapes (of a previous modal analysis) to analyse
 a structure under given boundary conditions in a range of frequencies.
 Doing this expansion "on demand" in DPF instead of in the solver
 reduces the size of the result files.
+
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Create data sources

@@ -753,6 +753,9 @@ def test_create_on_other_server_with_address2_workflow(local_server):
 
 @pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.10"),
                     reason="Known failure in the GitHub pipeline for 3.10 on Ubuntu")
+@pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.8")
+                    and not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+                    reason="Known failure in the GitHub pipeline for 3.8 on Ubuntu for 221")
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
 @conftest.raises_for_servers_version_under('3.0')
 def test_create_on_other_server_and_connect_workflow(

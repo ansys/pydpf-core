@@ -8,15 +8,22 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
+    inputs:
+      standalone_branch_suffix:
+        description: 'Suffix of the branch on standalone'
+        required: true
+        default: ''
+
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: true
 
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  ANSYS_VERSION: 231
+  ANSYS_VERSION: 232
   extra: "--find-links .github/"
 
 jobs:
@@ -55,10 +62,11 @@ jobs:
   tests:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: "231"
+      ANSYS_VERSION: "232"
       python_versions: '["3.8"]'
       wheel: true
       wheelhouse: false
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   docker_tests:
@@ -70,15 +78,25 @@ jobs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/docs.yml
     with:
-      ANSYS_VERSION: "231"
+      ANSYS_VERSION: "232"
     secrets: inherit
 
   examples:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/examples.yml
     with:
+      ANSYS_VERSION: "232"
+      python_versions: '["3.8"]'
+    secrets: inherit
+
+  retro_231:
+    name: "retro 231"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/tests.yml
+    with:
       ANSYS_VERSION: "231"
       python_versions: '["3.8"]'
+      DOCSTRING: false
     secrets: inherit
 
   retro_222:
@@ -106,6 +124,6 @@ jobs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/pydpf-post.yml
     with:
-      ANSYS_VERSION: "231"
+      ANSYS_VERSION: "232"
     secrets: inherit
 

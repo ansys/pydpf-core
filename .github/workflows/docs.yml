@@ -11,7 +11,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "231"
+        default: "232"
     secrets:
       DPF_PIPELINE:
         required: true
@@ -27,7 +27,7 @@ on:
         description: "ANSYS version"
         required: true
         type: string
-        default: "231"
+        default: "232"
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -42,6 +42,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: "Set licensing if necessary"
+        if: inputs.ANSYS_VERSION > 231
+        shell: bash
+        run: |
+          echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
+          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
+          echo "ANSYS_DPF_SERVER_CONTEXT=PREMIUM" >> $GITHUB_ENV
+
       - name: Setup Python
         uses: actions/setup-python@v4.2.0
         with:
@@ -49,7 +57,7 @@ jobs:
 
       - name: "Build Package"
         id: build-package
-        uses: pyansys/pydpf-actions/build_package@v2.2
+        uses: pyansys/pydpf-actions/build_package@v2.3
         with:
           python-version: ${{ inputs.python_version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
@@ -76,7 +84,11 @@ jobs:
           pip install -r requirements/requirements_docs.txt
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+
+      - name: "List installed packages"
+        shell: bash
+        run: pip list
 
       - name: "Build HTML Documentation"
         shell: cmd
@@ -102,7 +114,7 @@ jobs:
           esac
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Retrieve package version"

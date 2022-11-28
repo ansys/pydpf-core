@@ -15,12 +15,14 @@ class merge_meshes(Operator):
 
     Parameters
     ----------
-    meshes1 : MeshedRegion
-        A vector of meshed region to merge or meshed
-        region from pin 0 to ...
-    meshes2 : MeshedRegion
-        A vector of meshed region to merge or meshed
-        region from pin 0 to ...
+    meshes1 : MeshedRegion or MeshesContainer
+        Either a meshes container, a vector of meshed
+        region to merge or meshed region from
+        pin 0 to ...
+    meshes2 : MeshedRegion or MeshesContainer
+        Either a meshes container, a vector of meshed
+        region to merge or meshed region from
+        pin 0 to ...
 
 
     Examples
@@ -63,17 +65,19 @@ class merge_meshes(Operator):
             map_input_pin_spec={
                 0: PinSpecification(
                     name="meshes",
-                    type_names=["abstract_meshed_region"],
+                    type_names=["abstract_meshed_region", "meshes_container"],
                     optional=False,
-                    document="""A vector of meshed region to merge or meshed
-        region from pin 0 to ...""",
+                    document="""Either a meshes container, a vector of meshed
+        region to merge or meshed region from
+        pin 0 to ...""",
                 ),
                 1: PinSpecification(
                     name="meshes",
-                    type_names=["abstract_meshed_region"],
+                    type_names=["abstract_meshed_region", "meshes_container"],
                     optional=False,
-                    document="""A vector of meshed region to merge or meshed
-        region from pin 0 to ...""",
+                    document="""Either a meshes container, a vector of meshed
+        region to merge or meshed region from
+        pin 0 to ...""",
                 ),
             },
             map_output_pin_spec={
@@ -149,12 +153,13 @@ class InputsMergeMeshes(_Inputs):
     def meshes1(self):
         """Allows to connect meshes1 input to the operator.
 
-        A vector of meshed region to merge or meshed
-        region from pin 0 to ...
+        Either a meshes container, a vector of meshed
+        region to merge or meshed region from
+        pin 0 to ...
 
         Parameters
         ----------
-        my_meshes1 : MeshedRegion
+        my_meshes1 : MeshedRegion or MeshesContainer
 
         Examples
         --------
@@ -170,12 +175,13 @@ class InputsMergeMeshes(_Inputs):
     def meshes2(self):
         """Allows to connect meshes2 input to the operator.
 
-        A vector of meshed region to merge or meshed
-        region from pin 0 to ...
+        Either a meshes container, a vector of meshed
+        region to merge or meshed region from
+        pin 0 to ...
 
         Parameters
         ----------
-        my_meshes2 : MeshedRegion
+        my_meshes2 : MeshedRegion or MeshesContainer
 
         Examples
         --------

@@ -26,6 +26,8 @@ class rotate_in_cylindrical_cs(Operator):
         3-3 rotation matrix and origin coordinates
         must be set here to define a
         coordinate system.
+    mesh : MeshedRegion, optional
+        Mesh support of the input field
 
 
     Examples
@@ -40,18 +42,23 @@ class rotate_in_cylindrical_cs(Operator):
     >>> op.inputs.field.connect(my_field)
     >>> my_coordinate_system = dpf.Field()
     >>> op.inputs.coordinate_system.connect(my_coordinate_system)
+    >>> my_mesh = dpf.MeshedRegion()
+    >>> op.inputs.mesh.connect(my_mesh)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.geo.rotate_in_cylindrical_cs(
     ...     field=my_field,
     ...     coordinate_system=my_coordinate_system,
+    ...     mesh=my_mesh,
     ... )
 
     >>> # Get output data
-    >>> result_fields_container = op.outputs.fields_container()
+    >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, field=None, coordinate_system=None, config=None, server=None):
+    def __init__(
+        self, field=None, coordinate_system=None, mesh=None, config=None, server=None
+    ):
         super().__init__(name="transform_cylindricalCS", config=config, server=server)
         self._inputs = InputsRotateInCylindricalCs(self)
         self._outputs = OutputsRotateInCylindricalCs(self)
@@ -59,6 +66,8 @@ class rotate_in_cylindrical_cs(Operator):
             self.inputs.field.connect(field)
         if coordinate_system is not None:
             self.inputs.coordinate_system.connect(coordinate_system)
+        if mesh is not None:
+            self.inputs.mesh.connect(mesh)
 
     @staticmethod
     def _spec():
@@ -85,11 +94,17 @@ class rotate_in_cylindrical_cs(Operator):
         must be set here to define a
         coordinate system.""",
                 ),
+                2: PinSpecification(
+                    name="mesh",
+                    type_names=["abstract_meshed_region"],
+                    optional=True,
+                    document="""Mesh support of the input field""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
-                    name="fields_container",
-                    type_names=["fields_container"],
+                    name="field",
+                    type_names=["field"],
                     optional=False,
                     document="""""",
                 ),
@@ -146,6 +161,8 @@ class InputsRotateInCylindricalCs(_Inputs):
     >>> op.inputs.field.connect(my_field)
     >>> my_coordinate_system = dpf.Field()
     >>> op.inputs.coordinate_system.connect(my_coordinate_system)
+    >>> my_mesh = dpf.MeshedRegion()
+    >>> op.inputs.mesh.connect(my_mesh)
     """
 
     def __init__(self, op: Operator):
@@ -156,6 +173,8 @@ class InputsRotateInCylindricalCs(_Inputs):
             rotate_in_cylindrical_cs._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._coordinate_system)
+        self._mesh = Input(rotate_in_cylindrical_cs._spec().input_pin(2), 2, op, -1)
+        self._inputs.append(self._mesh)
 
     @property
     def field(self):
@@ -200,6 +219,26 @@ class InputsRotateInCylindricalCs(_Inputs):
         """
         return self._coordinate_system
 
+    @property
+    def mesh(self):
+        """Allows to connect mesh input to the operator.
+
+        Mesh support of the input field
+
+        Parameters
+        ----------
+        my_mesh : MeshedRegion
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.geo.rotate_in_cylindrical_cs()
+        >>> op.inputs.mesh.connect(my_mesh)
+        >>> # or
+        >>> op.inputs.mesh(my_mesh)
+        """
+        return self._mesh
+
 
 class OutputsRotateInCylindricalCs(_Outputs):
     """Intermediate class used to get outputs from
@@ -210,29 +249,27 @@ class OutputsRotateInCylindricalCs(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.geo.rotate_in_cylindrical_cs()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_fields_container = op.outputs.fields_container()
+    >>> result_field = op.outputs.field()
     """
 
     def __init__(self, op: Operator):
         super().__init__(rotate_in_cylindrical_cs._spec().outputs, op)
-        self._fields_container = Output(
-            rotate_in_cylindrical_cs._spec().output_pin(0), 0, op
-        )
-        self._outputs.append(self._fields_container)
+        self._field = Output(rotate_in_cylindrical_cs._spec().output_pin(0), 0, op)
+        self._outputs.append(self._field)
 
     @property
-    def fields_container(self):
-        """Allows to get fields_container output of the operator
+    def field(self):
+        """Allows to get field output of the operator
 
         Returns
         ----------
-        my_fields_container : FieldsContainer
+        my_field : Field
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.geo.rotate_in_cylindrical_cs()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_fields_container = op.outputs.fields_container()
+        >>> result_field = op.outputs.field()
         """  # noqa: E501
-        return self._fields_container
+        return self._field

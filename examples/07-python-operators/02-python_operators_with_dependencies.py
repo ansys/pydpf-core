@@ -16,6 +16,11 @@ third-party Python module named `gltf <https://pypi.org/project/gltf/>`_.
 This operator takes a path, a mesh, and a 3D vector field as inputs
 and then exports the mesh and the norm of the 3D vector field to a GLTF
 file at the given path.
+
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`_ref_getting_started_contexts`.
+
 """
 
 ###############################################################################
@@ -32,6 +37,10 @@ file at the given path.
 import os
 
 from ansys.dpf.core import examples
+from ansys.dpf import core as dpf
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 print("\033[1m gltf_plugin")
 file_list = [
@@ -143,7 +152,7 @@ if os.name == "nt" and not os.path.exists(
     if process.stderr:
         raise RuntimeError(
             "Installing pygltf in a virtual environment failed with error:\n"
-            + process.stderr.decode()
+            + process.stderr.decode() + "\n\n and log:\n" + process.stdout.decode()
         )
     else:
         print("Installing pygltf in a virtual environment succeeded")

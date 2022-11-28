@@ -15,11 +15,15 @@ class merge_property_fields(Operator):
 
     Parameters
     ----------
-    vector_shared_ptr_property_field__1 : PropertyField
-        A vector of property fields to merge or
+    vector_shared_ptr_property_field__1 : PropertyField or Class
+        Dataprocessing::Cpropertyfieldscontainer
+        Either a property fields container, a vector
+        of property fields to merge or
         property fields from pin 0 to ...
-    vector_shared_ptr_property_field__2 : PropertyField
-        A vector of property fields to merge or
+    vector_shared_ptr_property_field__2 : PropertyField or Class
+        Dataprocessing::Cpropertyfieldscontainer
+        Either a property fields container, a vector
+        of property fields to merge or
         property fields from pin 0 to ...
 
 
@@ -75,16 +79,24 @@ class merge_property_fields(Operator):
             map_input_pin_spec={
                 0: PinSpecification(
                     name="vector_shared_ptr_property_field__",
-                    type_names=["property_field"],
+                    type_names=[
+                        "property_field",
+                        "class dataProcessing::CPropertyFieldsContainer",
+                    ],
                     optional=False,
-                    document="""A vector of property fields to merge or
+                    document="""Either a property fields container, a vector
+        of property fields to merge or
         property fields from pin 0 to ...""",
                 ),
                 1: PinSpecification(
                     name="vector_shared_ptr_property_field__",
-                    type_names=["property_field"],
+                    type_names=[
+                        "property_field",
+                        "class dataProcessing::CPropertyFieldsContainer",
+                    ],
                     optional=False,
-                    document="""A vector of property fields to merge or
+                    document="""Either a property fields container, a vector
+        of property fields to merge or
         property fields from pin 0 to ...""",
                 ),
             },
@@ -165,12 +177,14 @@ class InputsMergePropertyFields(_Inputs):
     def vector_shared_ptr_property_field__1(self):
         """Allows to connect vector_shared_ptr_property_field__1 input to the operator.
 
-        A vector of property fields to merge or
+        Either a property fields container, a vector
+        of property fields to merge or
         property fields from pin 0 to ...
 
         Parameters
         ----------
-        my_vector_shared_ptr_property_field__1 : PropertyField
+        my_vector_shared_ptr_property_field__1 : PropertyField or Class
+        Dataprocessing::Cpropertyfieldscontainer
 
         Examples
         --------
@@ -186,12 +200,14 @@ class InputsMergePropertyFields(_Inputs):
     def vector_shared_ptr_property_field__2(self):
         """Allows to connect vector_shared_ptr_property_field__2 input to the operator.
 
-        A vector of property fields to merge or
+        Either a property fields container, a vector
+        of property fields to merge or
         property fields from pin 0 to ...
 
         Parameters
         ----------
-        my_vector_shared_ptr_property_field__2 : PropertyField
+        my_vector_shared_ptr_property_field__2 : PropertyField or Class
+        Dataprocessing::Cpropertyfieldscontainer
 
         Examples
         --------

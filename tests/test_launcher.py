@@ -125,14 +125,16 @@ class TestServerConfigs:
                 del os.environ["ANSYS_DPF_PATH"]
 
         except Exception as e:
-            os.environ[
-                awp_root_name
-            ] = awp_root
-            try:
-                os.unsetenv("ANSYS_DPF_PATH")
-            except:
-                del os.environ["ANSYS_DPF_PATH"]
-            raise e
+            if awp_root_name and awp_root:
+                os.environ[
+                    awp_root_name
+                ] = awp_root
+            if "ANSYS_DPF_PATH" in os.environ.keys():
+                try:
+                    os.unsetenv("ANSYS_DPF_PATH")
+                except:
+                    del os.environ["ANSYS_DPF_PATH"]
+                raise e
 
     @pytest.mark.skipif(running_docker, reason="Not made to work on docker")
     def test_start_local_wrong_ansys_path(self, server_config):
@@ -170,10 +172,11 @@ class TestServerConfigs:
                 stderr=subprocess.PIPE,
             )
             errors = ""
-            for line in io.TextIOWrapper(process.stderr, encoding="utf-8"):
-                errors += line
-            if process.returncode is not None:
-                raise Exception(errors)
+            with io.TextIOWrapper(process.stderr, encoding="utf-8") as log_err:
+                for line in log_err:
+                    errors += line
+                if process.returncode is not None:
+                    raise Exception(errors)
 
     @pytest.mark.skipif(running_docker, reason="Not made to work on docker")
     def test_launch_server_full_path(self, server_config):

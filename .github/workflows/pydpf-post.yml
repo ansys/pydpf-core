@@ -10,7 +10,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "231"
+        default: "232"
     secrets:
       DPF_PIPELINE:
         required: true
@@ -25,7 +25,7 @@ on:
         description: "ANSYS version"
         required: true
         type: string
-        default: "231"
+        default: "232"
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -40,9 +40,18 @@ jobs:
       fail-fast: false
       matrix:
         os: ["windows-latest", "ubuntu-latest"]
+        python-version: ["3.8"]
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: "Set licensing if necessary"
+        if: inputs.ANSYS_VERSION > 231
+        shell: bash
+        run: |
+          echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
+          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
+          echo "ANSYS_DPF_SERVER_CONTEXT=PREMIUM" >> $GITHUB_ENV
 
       - name: "Setup Python"
         uses: actions/setup-python@v2.1.4
@@ -50,7 +59,7 @@ jobs:
           python-version: "3.8"
 
       - name: "Build Core Package"
-        uses: pyansys/pydpf-actions/build_package@v2.2
+        uses: pyansys/pydpf-actions/build_package@v2.3
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
@@ -61,6 +70,13 @@ jobs:
           wheel: false
           wheelhouse: false
           extra-pip-args: ${{ env.extra }}
+
+      - name: "Install ansys-grpc-dpf==0.4.0"
+        if: inputs.ANSYS_VERSION == 221
+        shell: bash
+        run: |
+          pip install ansys-grpc-dpf==0.4.0
+          pip install protobuf==3.20.*
 
       - name: "Clone PyDPF-Post"
         shell: bash
@@ -83,13 +99,17 @@ jobs:
           ls
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.2
+        uses: pyansys/pydpf-actions/prepare_tests@v2.3
         with:
           DEBUG: true
           working-directory: pydpf-post
 
+      - name: "List installed packages"
+        shell: bash
+        run: pip list
+
       - name: "Test Docstrings"
-        uses: pyansys/pydpf-actions/test_docstrings@v2.2
+        uses: pyansys/pydpf-actions/test_docstrings@v2.3
         with:
           MODULE: post
           PACKAGE_NAME: ansys-dpf-post
@@ -100,9 +120,10 @@ jobs:
         working-directory: pydpf-post/tests
         run: |
           pytest $DEBUG --cov=ansys.dpf.post --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results-post.xml --reruns 2 .
+        if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v2

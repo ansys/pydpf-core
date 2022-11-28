@@ -16,7 +16,7 @@ class change_fc(Operator):
 
     Parameters
     ----------
-    fields_container : FieldsContainer
+    field_or_fields_container : FieldsContainer or Field
     scopings_container : ScopingsContainer
 
 
@@ -28,14 +28,14 @@ class change_fc(Operator):
     >>> op = dpf.operators.scoping.change_fc()
 
     >>> # Make input connections
-    >>> my_fields_container = dpf.FieldsContainer()
-    >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_field_or_fields_container = dpf.FieldsContainer()
+    >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
     >>> my_scopings_container = dpf.ScopingsContainer()
     >>> op.inputs.scopings_container.connect(my_scopings_container)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.scoping.change_fc(
-    ...     fields_container=my_fields_container,
+    ...     field_or_fields_container=my_field_or_fields_container,
     ...     scopings_container=my_scopings_container,
     ... )
 
@@ -44,13 +44,17 @@ class change_fc(Operator):
     """
 
     def __init__(
-        self, fields_container=None, scopings_container=None, config=None, server=None
+        self,
+        field_or_fields_container=None,
+        scopings_container=None,
+        config=None,
+        server=None,
     ):
         super().__init__(name="rescope_fc", config=config, server=server)
         self._inputs = InputsChangeFc(self)
         self._outputs = OutputsChangeFc(self)
-        if fields_container is not None:
-            self.inputs.fields_container.connect(fields_container)
+        if field_or_fields_container is not None:
+            self.inputs.field_or_fields_container.connect(field_or_fields_container)
         if scopings_container is not None:
             self.inputs.scopings_container.connect(scopings_container)
 
@@ -62,8 +66,8 @@ class change_fc(Operator):
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="fields_container",
-                    type_names=["fields_container"],
+                    name="field_or_fields_container",
+                    type_names=["fields_container", "field"],
                     optional=False,
                     document="""""",
                 ),
@@ -130,36 +134,38 @@ class InputsChangeFc(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.scoping.change_fc()
-    >>> my_fields_container = dpf.FieldsContainer()
-    >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_field_or_fields_container = dpf.FieldsContainer()
+    >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
     >>> my_scopings_container = dpf.ScopingsContainer()
     >>> op.inputs.scopings_container.connect(my_scopings_container)
     """
 
     def __init__(self, op: Operator):
         super().__init__(change_fc._spec().inputs, op)
-        self._fields_container = Input(change_fc._spec().input_pin(0), 0, op, -1)
-        self._inputs.append(self._fields_container)
+        self._field_or_fields_container = Input(
+            change_fc._spec().input_pin(0), 0, op, -1
+        )
+        self._inputs.append(self._field_or_fields_container)
         self._scopings_container = Input(change_fc._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._scopings_container)
 
     @property
-    def fields_container(self):
-        """Allows to connect fields_container input to the operator.
+    def field_or_fields_container(self):
+        """Allows to connect field_or_fields_container input to the operator.
 
         Parameters
         ----------
-        my_fields_container : FieldsContainer
+        my_field_or_fields_container : FieldsContainer or Field
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.scoping.change_fc()
-        >>> op.inputs.fields_container.connect(my_fields_container)
+        >>> op.inputs.field_or_fields_container.connect(my_field_or_fields_container)
         >>> # or
-        >>> op.inputs.fields_container(my_fields_container)
+        >>> op.inputs.field_or_fields_container(my_field_or_fields_container)
         """
-        return self._fields_container
+        return self._field_or_fields_container
 
     @property
     def scopings_container(self):
