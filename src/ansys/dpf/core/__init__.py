@@ -91,29 +91,12 @@ from ansys.dpf.core.scopings_container import ScopingsContainer
 from ansys.dpf.core.server import _global_server
 from ansys.dpf.core.server import _global_server as global_server
 from ansys.dpf.core.server import connect_to_server, has_local_server, start_local_server
-from ansys.dpf.core.server_context import AvailableServerContexts, apply_server_context
+from ansys.dpf.core.server_context import AvailableServerContexts, set_default_server_context
 from ansys.dpf.core.server_factory import AvailableServerConfigs, ServerConfig
 from ansys.dpf.core.streams_container import StreamsContainer  # noqa: F401
 from ansys.dpf.core.string_field import StringField
 from ansys.dpf.core.time_freq_support import TimeFreqSupport
 from ansys.dpf.core.workflow import Workflow
-from ansys.dpf.core.cyclic_support import CyclicSupport
-from ansys.dpf.core.element_descriptor import ElementDescriptor
-from ansys.dpf.core.data_tree import DataTree
-from ansys.dpf.core import operators
-from ansys.dpf.core.fields_factory import field_from_array
-from ansys.dpf.core import (
-    fields_container_factory,
-    fields_factory,
-    mesh_scoping_factory,
-    time_freq_scoping_factory,
-)
-from ansys.dpf.core import server
-from ansys.dpf.core import check_version
-from ansys.dpf.core import path_utilities
-from ansys.dpf.core import settings
-from ansys.dpf.core.server_factory import ServerConfig, AvailableServerConfigs
-from ansys.dpf.core.server_context import set_default_server_context, AvailableServerContexts
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."

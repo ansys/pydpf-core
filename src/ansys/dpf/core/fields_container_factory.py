@@ -5,10 +5,11 @@ fields_container_factory
 Contains functions to simplify creating a fields container.
 """
 
-from ansys.dpf.core import FieldsContainer, TimeFreqSupport
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import fields_factory
 from ansys.dpf.core.common import locations
+from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
 
 
 def over_time_freq_fields_container(fields, time_freq_unit=None, server=None):
@@ -103,14 +104,10 @@ def over_time_freq_complex_fields_container(
     """
     if not isinstance(real_fields, dict) and not isinstance(real_fields, list):
         raise dpf_errors.InvalidTypeError("dictionary/list", "real_fields")
-    if not isinstance(imaginary_fields, dict) and not isinstance(
-        imaginary_fields, list
-    ):
+    if not isinstance(imaginary_fields, dict) and not isinstance(imaginary_fields, list):
         raise dpf_errors.InvalidTypeError("dictionary/list", "imaginary_fields")
 
-    errorString = (
-        "Both real_fields and imaginary_fields must have the same type (list or dict)"
-    )
+    errorString = "Both real_fields and imaginary_fields must have the same type (list or dict)"
     if isinstance(real_fields, dict):
         if not isinstance(imaginary_fields, dict):
             raise dpf_errors.DpfValueError(errorString)
