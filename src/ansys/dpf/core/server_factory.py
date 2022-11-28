@@ -465,7 +465,7 @@ class RunningDockerConfig:
         Parameters
         ----------
         path: str
-            Path to search for mounted volumes occurences.
+            Path to search for mounted volumes occurrences.
 
         Returns
         -------
@@ -518,13 +518,16 @@ class RunningDockerConfig:
         ----------
         log
             Instance of ``logging`` to add debug info to.
+        cmd_lines: list
+            Stdout of the shell process run ``docker run`` command.
         lines : list
             Internal Container's stdout are copied into ``lines``.
         timeout : float
             When to stop searching for stdout.
+        stdout : bool, optional
+            Whether to check stdout or stderr.
         """
-        self._docker_config = docker_config
-        self.server_id = lines[0].replace("\n", "")
+        self.server_id = cmd_lines[0].replace("\n", "")
         t_timeout = time.time() + timeout
         while time.time() < t_timeout:
             with subprocess.Popen(f"docker logs {self.server_id}",

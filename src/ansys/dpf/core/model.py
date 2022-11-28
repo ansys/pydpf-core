@@ -9,15 +9,15 @@ Module contains the Model class to manage file result models.
 """
 
 from ansys import dpf
-from ansys.dpf.core import misc
-from ansys.dpf.core._model_helpers import DataSourcesOrStreamsConnector
-from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core import Operator
 from ansys.dpf.core.common import types
 from ansys.dpf.core.data_sources import DataSources
-from ansys.dpf.core.dpf_operator import Operator
-from ansys.dpf.core.errors import protect_source_op_not_found
-from ansys.dpf.core.results import CommonResults, Results
+from ansys.dpf.core.results import Results, CommonResults
 from ansys.dpf.core.server_types import LOG
+from ansys.dpf.core import misc
+from ansys.dpf.core.errors import protect_source_op_not_found
+from ansys.dpf.core._model_helpers import DataSourcesOrStreamsConnector
+from ansys.dpf.core.check_version import version_requires
 
 
 class Model:
@@ -151,12 +151,8 @@ class Model:
 
         """
         if not self._results:
-            args = [
-                self.metadata._build_connector(),
-                self.metadata.result_info,
-                self.mesh_by_default,
-                self._server,
-            ]
+            args = [self.metadata._build_connector(), self.metadata.result_info,
+                    self.mesh_by_default, self._server]
             if misc.DYNAMIC_RESULTS:
                 try:
                     self._results = Results(*args)
@@ -231,7 +227,6 @@ class Model:
 
         """
         from ansys.dpf.core.plotter import DpfPlotter
-
         kwargs["color"] = color
         kwargs["show_edges"] = show_edges
         pl = DpfPlotter(**kwargs)
@@ -283,7 +278,9 @@ class Metadata:
         """Create a stream provider and cache it."""
         from ansys.dpf.core import operators
 
-        if hasattr(operators, "metadata") and hasattr(operators.metadata, "stream_provider"):
+        if hasattr(operators, "metadata") and hasattr(
+                operators.metadata, "stream_provider"
+        ):
             self._stream_provider = operators.metadata.streams_provider(
                 data_sources=self._data_sources, server=self._server
             )
@@ -342,7 +339,9 @@ class Metadata:
                 timeProvider.inputs.connect(self._stream_provider.outputs)
             else:
                 timeProvider.inputs.connect(self.data_sources)
-            self._time_freq_support = timeProvider.get_output(0, types.time_freq_support)
+            self._time_freq_support = timeProvider.get_output(
+                0, types.time_freq_support
+            )
         return self._time_freq_support
 
     @property
@@ -399,7 +398,6 @@ class Metadata:
 
     def _set_data_sources(self, var_inp):
         from pathlib import Path
-
         if isinstance(var_inp, dpf.core.DataSources):
             self._data_sources = var_inp
         elif isinstance(var_inp, (str, Path)):

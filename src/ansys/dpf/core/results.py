@@ -7,10 +7,13 @@ This module contains the Results and Result classes that are created by the mode
 to easily access results in result files."""
 import functools
 
+from ansys.dpf.core import Operator
 from ansys.dpf.core import errors
-from ansys.dpf.core.custom_fields_container import BodyFieldsContainer, ElShapeFieldsContainer
-from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.custom_fields_container import (
+    ElShapeFieldsContainer,
+    BodyFieldsContainer,
+)
 
 
 class Results:
@@ -82,7 +85,7 @@ class Results:
     """  # noqa: E501
 
     def __init__(
-        self, connector, result_info, mesh_by_default=True, server=None, generate_ops=True
+            self, connector, result_info, mesh_by_default=True, server=None, generate_ops=True
     ):
         self._connector = connector
         self._mesh_by_default = mesh_by_default
@@ -120,7 +123,9 @@ class Results:
         self._op_map_rev = {}
         for result_type in result_info:
             try:
-                doc = Operator(result_type.operator_name, server=self._server).__str__()
+                doc = Operator(
+                    result_type.operator_name, server=self._server
+                ).__str__()
                 bound_method = self.__result__
                 method2 = functools.partial(bound_method, result_type)
                 setattr(self.__class__, result_type.name, property(method2, doc=doc))
@@ -193,7 +198,6 @@ class Result:
         self._mesh_by_default = mesh_by_default
         if isinstance(result_info, str):
             from ansys.dpf.core.available_result import available_result_from_name
-
             self._result_info = available_result_from_name(result_info)
         else:
             self._result_info = result_info
@@ -203,14 +207,20 @@ class Result:
         try:
             # create the operator to read its documentation
             # if the operator doesn't exist, the method will not be added
-            doc = Operator(self._result_info.operator_name, server=self._server).__str__()
+            doc = Operator(
+                self._result_info.operator_name, server=self._server
+            ).__str__()
             self.__doc__ = doc
-            if hasattr(operators, "result") and hasattr(operators.result, self._result_info.name):
+            if hasattr(operators, "result") and hasattr(
+                    operators.result, self._result_info.name
+            ):
                 self._operator = getattr(operators.result, self._result_info.name)(
                     server=self._server
                 )
             else:
-                self._operator = Operator(self._result_info.operator_name, server=self._server)
+                self._operator = Operator(
+                    self._result_info.operator_name, server=self._server
+                )
             self._connector.__connect_op__(self._operator, self._mesh_by_default)
             self._operator._add_sub_res_operators(self._result_info.sub_results)
         except errors.DPFServerException:
@@ -327,7 +337,9 @@ class Result:
         ...[20]...
 
         """
-        self._time_scoping = len(self._connector.time_freq_support.time_frequencies)
+        self._time_scoping = len(
+            self._connector.time_freq_support.time_frequencies
+        )
         return self
 
     def on_time_scoping(self, time_scoping):
@@ -453,12 +465,16 @@ class Result:
         previous_mesh_scoping = self._mesh_scoping
         from ansys.dpf.core import operators
 
-        if hasattr(operators, "scoping") and hasattr(operators.scoping, "split_on_property_type"):
+        if hasattr(operators, "scoping") and hasattr(
+                operators.scoping, "split_on_property_type"
+        ):
             self._mesh_scoping = operators.scoping.split_on_property_type()
         else:
             self._mesh_scoping = Operator("scoping::by_property")
 
-        self._mesh_scoping.inputs.requested_location(self._result_info.native_scoping_location)
+        self._mesh_scoping.inputs.requested_location(
+            self._result_info.native_scoping_location
+        )
         self._mesh_scoping.inputs.mesh(self._connector.mesh_provider)
         self._mesh_scoping.inputs.label1(prop)
         if previous_mesh_scoping:
@@ -559,14 +575,12 @@ class CommonResults(Results):
 
     def __init__(self, connector, mesh_by_default, result_info, server):
         super().__init__(connector, mesh_by_default, result_info, server, False)
-        self._op_map_rev = dict(
-            displacement="displacement",
-            stress="stress",
-            elastic_strain="elastic_strain",
-            structural_temperature="structural_temperature",
-            temperature="temperature",
-            electric_potential="electric_potential",
-        )
+        self._op_map_rev = dict(displacement="displacement",
+                                stress="stress",
+                                elastic_strain="elastic_strain",
+                                structural_temperature="structural_temperature",
+                                temperature="temperature",
+                                electric_potential="electric_potential")
 
     @property
     def displacement(self):

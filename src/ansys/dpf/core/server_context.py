@@ -14,16 +14,9 @@ import warnings
 from enum import Enum
 
 
-class EContextType(Enum):
-    pre_defined_environment = 0
-    """DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will
-    be taken"""
+class LicensingContextType(Enum):
     premium = 1
-    """Gets the Specific premium DataProcessingCore.xml."""
-    user_defined = 2
-    """Load a user defined xml using its path."""
-    custom_defined = 3
-    """Loads the xml named "DpfCustomDefined.xml" that the user can modify."""
+    """Allows capabilities requiring Licenses check out."""
     entry = 4
     """Loads minimum capabilities without requiring any Licenses check out."""
 
@@ -43,24 +36,38 @@ class EContextType(Enum):
 
 class ServerContext:
     """The context allows to choose which capabilities are available server side.
+    xml_path argument won't be taken into account if using LicensingContextType.entry.
 
     Parameters
     ----------
-    context_type : EContextType
+    context_type : LicensingContextType
         Type of context.
     xml_path : str, optional
         Path to the xml to load.
     """
-    def __init__(self, context_type=EContextType.user_defined, xml_path=""):
+
+    def __init__(self, context_type=LicensingContextType.premium, xml_path=""):
         self._context_type = context_type
         self._xml_path = xml_path
 
     @property
-    def context_type(self):
+    def licensing_context_type(self):
+        """Whether capabilities requiring Licenses check out should be allowed.
+
+        Returns
+        -------
+        LicensingContextType
+        """
         return self._context_type
 
     @property
     def xml_path(self):
+        """Path to the xml listing the capabilities to load on the server.
+
+        Returns
+        -------
+        str
+        """
         return self._xml_path
 
     def __str__(self):
@@ -80,15 +87,15 @@ class ServerContext:
 
 
 class AvailableServerContexts:
-    pre_defined_environment = ServerContext(EContextType.pre_defined_environment)
+    pre_defined_environment = ServerContext(0)
     """DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will
     be taken"""
-    premium = ServerContext(EContextType.premium)
+    premium = ServerContext(LicensingContextType.premium)
     """Gets the Specific premium DataProcessingCore.xml to load most plugins with their
     environments."""
-    custom_defined = ServerContext(EContextType.custom_defined)
+    custom_defined = ServerContext(3)
     """Loads the xml named "DpfCustomDefined.xml" that the user can modify."""
-    entry = ServerContext(EContextType.entry)
+    entry = ServerContext(LicensingContextType.entry)
     """Loads the minimum number of plugins for a basic usage. Is the default."""
 
 
@@ -108,11 +115,9 @@ if DPF_SERVER_CONTEXT_ENV in os.environ.keys():
                       f"as the default ServerContext type."))
 
 
-def apply_server_context(context=AvailableServerContexts.entry, server=None) -> None:
-    """Allows to apply a context globally (if no server is specified) or to a
-    given server.
-    When called before any server is started, the context will be applied by default to any
-    new server.
+def set_default_server_context(context=AvailableServerContexts.entry) -> None:
+    """This context will be applied by default to any new server as well as
+    the global server, if it's running.
 
     The context allows to choose which capabilities are available server side.
 
@@ -121,9 +126,6 @@ def apply_server_context(context=AvailableServerContexts.entry, server=None) -> 
     context : ServerContext
         Context to apply to the given server or to the newly started servers (when no server
         is given).
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the global server.
 
     Notes
     -----
