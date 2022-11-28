@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 
 d3plot = examples.download_d3plot_beam()
 ds = dpf.DataSources()
-ds.set_result_file_path(d3plot, "d3plot")
+ds.set_result_file_path(d3plot[0], "d3plot")
 model = dpf.Model(ds)
 print(model)
 
