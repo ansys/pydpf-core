@@ -41,16 +41,23 @@ def get_premium_only_descriptions_rst(verbose: bool = False) -> str:
         print(result)
     for operator_name in premium_only_operators:
         op = dpf.Operator(operator_name)
-        # print(operator_name)
-        # print(op.specification.properties.keys())
+        try:
+            if op.specification.properties["exposure"] == "private":
+                continue
+        except KeyError:
+            continue
+        try:
+            scripting_name = op.specification.properties["scripting_name"]
+        except KeyError:
+            scripting_name = operator_name
         try:
             category = op.specification.properties["category"]
         except KeyError:
             category = "no category"
         if category in premium_only_descriptions.keys():
-            premium_only_descriptions[category][operator_name] = op.specification.description
+            premium_only_descriptions[category][scripting_name] = op.specification.description
         else:
-            premium_only_descriptions[category] = {operator_name: op.specification.description}
+            premium_only_descriptions[category] = {scripting_name: op.specification.description}
         # descr = op.specification.description.replace("\n", " ")
 
     def category_to_rst(rst, cat):
@@ -71,7 +78,8 @@ def get_premium_only_descriptions_rst(verbose: bool = False) -> str:
         if category == "no category":
             continue
         result = category_to_rst(result, category)
-    result = category_to_rst(result, "no category")
+    if "no category" in premium_only_descriptions.keys():
+        result = category_to_rst(result, "no category")
     return result
 
 
