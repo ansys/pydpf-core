@@ -49,3 +49,9 @@ For more information about **Entry** and **Premium** contexts use, see :ref:`use
     For Ansys 2023 R1 and older, the Premium documentation should be used.
     Depending on the server version,  some operators in the documentation may 
     not be available.
+
+
+.. toctree::
+   :hidden:
+
+   premium_only_operators_link
