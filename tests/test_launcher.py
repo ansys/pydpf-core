@@ -1,18 +1,20 @@
+import io
 import os
-
-import pytest
-import psutil
 import subprocess
 import sys
-import io
+
+import psutil
+import pytest
+
 from ansys.dpf import core
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     DPF_SERVER_TYPE,
-    configsserver_type,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     config_namesserver_type,
-    running_docker
+    configsserver_type,
+    running_docker,
 )
+
 
 @pytest.mark.skipif(running_docker, reason="Run to fix on internal side")
 def test_start_local():
@@ -45,7 +47,7 @@ class TestServerConfigs:
         reason="Ans.Dpf.Grpc.bat and .sh need AWP_ROOT221 for 221 install",
     )
     def test_start_local_custom_ansys_path(self, server_config):
-        ver_to_check = core._version.server_to_ansys_version[str(core.global_server().version)]
+        ver_to_check = core.server_to_ansys_version[str(core.global_server().version)]
         ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
         awp_root_name = "AWP_ROOT" + ver_to_check
         path = os.environ.get(awp_root_name, None)
@@ -61,19 +63,17 @@ class TestServerConfigs:
                     as_global=True,
                 )
                 assert isinstance(server.os, str)
-                if server_config != core.AvailableServerConfigs.InProcessServer and \
-                        not running_docker:
+                if (
+                    server_config != core.AvailableServerConfigs.InProcessServer
+                    and not running_docker
+                ):
                     p = psutil.Process(server.info["server_process_id"])
                     assert path in p.cwd()
                 if path:
-                    os.environ[
-                        awp_root_name
-                    ] = path
+                    os.environ[awp_root_name] = path
             except Exception as e:
                 if path:
-                    os.environ[
-                        awp_root_name
-                    ] = path
+                    os.environ[awp_root_name] = path
                 raise e
         else:
             pytest.skip(awp_root_name + " is not set")
@@ -86,9 +86,7 @@ class TestServerConfigs:
         assert isinstance(server.os, str)
         if server_config != core.AvailableServerConfigs.InProcessServer:
             p = psutil.Process(server.info["server_process_id"])
-            ver_to_check = core._version.server_to_ansys_version[
-                str(server.version)
-            ]
+            ver_to_check = core.server_to_ansys_version[str(server.version)]
             ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
             if os.environ.get("AWP_ROOT" + ver_to_check, None) is not None:
                 assert os.environ["AWP_ROOT" + ver_to_check] in p.cwd()
@@ -98,27 +96,21 @@ class TestServerConfigs:
         reason="Ans.Dpf.Grpc.bat and .sh need AWP_ROOT221 for 221 install",
     )
     def test_start_local_ansys_path_environment_variable(self, server_config):
-        ver_to_check = core._version.server_to_ansys_version[str(core.SERVER.version)]
+        ver_to_check = core.server_to_ansys_version[str(core.SERVER.version)]
         ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
         awp_root_name = "AWP_ROOT" + ver_to_check
-        awp_root = os.environ.get(
-            awp_root_name, None
-        )
+        awp_root = os.environ.get(awp_root_name, None)
         try:
             if awp_root:
                 os.environ["ANSYS_DPF_PATH"] = awp_root
                 try:
                     os.unsetenv(awp_root_name)
                 except:
-                    del os.environ[
-                        awp_root_name
-                    ]
+                    del os.environ[awp_root_name]
             server = core.start_local_server(config=server_config)
             assert isinstance(server.os, str)
             if awp_root:
-                os.environ[
-                    awp_root_name
-                ] = awp_root
+                os.environ[awp_root_name] = awp_root
             try:
                 os.unsetenv("ANSYS_DPF_PATH")
             except:
@@ -126,9 +118,7 @@ class TestServerConfigs:
 
         except Exception as e:
             if awp_root_name and awp_root:
-                os.environ[
-                    awp_root_name
-                ] = awp_root
+                os.environ[awp_root_name] = awp_root
             if "ANSYS_DPF_PATH" in os.environ.keys():
                 try:
                     os.unsetenv("ANSYS_DPF_PATH")
@@ -188,8 +178,10 @@ class TestServerConfigs:
         else:
             if server_config.protocol == core.server_factory.CommunicationProtocols.InProcess:
                 path = os.path.join(ansys_path, "aisol", "dll", "linx64")
-            elif server_config.protocol == core.server_factory.CommunicationProtocols.gRPC \
-                    and server_config.legacy is False:
+            elif (
+                server_config.protocol == core.server_factory.CommunicationProtocols.gRPC
+                and server_config.legacy is False
+            ):
                 # full path is not working because DPFClientAPI and
                 # Ans.Dpf.Grpc.sh reside in two different folders
                 return
@@ -198,15 +190,15 @@ class TestServerConfigs:
 
         print("trying to launch on ", path)
         print(os.listdir(path))
-        server = core.start_local_server(as_global=False, ansys_path=path,
-                                         config=server_config)
+        server = core.start_local_server(as_global=False, ansys_path=path, config=server_config)
         assert "server_port" in server.info
 
 
 @pytest.mark.skipif(running_docker, reason="Not made to work on docker")
 def test_start_local_failed_executable(remote_config_server_type):
-    from ansys.dpf.core.misc import get_ansys_path
     from pathlib import Path
+
+    from ansys.dpf.core.misc import get_ansys_path
 
     with pytest.raises(FileNotFoundError):
         path = Path(get_ansys_path()).parent.absolute()
@@ -222,9 +214,7 @@ def test_start_docker_without_awp_root(restore_awp_root, server_clayer_remote_pr
     if os.environ.get(awp_root_name, None):
         del os.environ[awp_root_name]
 
-    serv = core.start_local_server(
-        as_global=False
-    )
+    serv = core.start_local_server(as_global=False)
 
     assert serv.ip is not None
 
