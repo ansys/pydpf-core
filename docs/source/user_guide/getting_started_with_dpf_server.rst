@@ -23,9 +23,9 @@ Installing DPF Server
 
 .. _target_installing_server:
 
-#. Download the ansys_dpf_server_win_v2023_2_pre0.zip or ansys_dpf_server_lin_v2023_2_pre0.zip file as appropriate.
+#. Download the ansys_dpf_server_win_v2023.2.pre0.zip or ansys_dpf_server_lin_v2023.2.pre0.zip file as appropriate.
 #. Unzip the package.
-#. Change to the root folder (ansys_dpf_server_win_v2023_2_pre0) of the unzipped package. 
+#. Change to the root folder (ansys_dpf_server_win_v2023.2.pre0) of the unzipped package. 
 #. In a Python environment, run the following command:
 
 .. code::
@@ -47,13 +47,13 @@ On Linux, start the DPF Server by running the Ans.Dpf.Grpc.sh file in the unzipp
 Running the DPF Server in a Docker container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Along with the ansys_dpf_server_lin_v2023_2_pre0.zip archive mentioned in :ref:`Installing DPF Server <target_installing_server>`, download the Dockerfile.
+1. Along with the ansys_dpf_server_lin_v2023.2.pre0.zip archive mentioned in :ref:`Installing DPF Server <target_installing_server>`, download the Dockerfile.
 2. Copy both the archive and Dockerfile in a folder and navigate into that folder.
 3. To build the DPF Docker container, run the following commands:
 
 .. code::
 
-    docker build . -t dpf-core:v2023_2_pre0 --build-arg DPF_VERSION=232 --build-arg DPF_SERVER_FILE=ansys_dpf_server_lin_v2023_2_pre0.zip
+    docker build . -t dpf-core:v2023_2_pre0 --build-arg DPF_VERSION=232 --build-arg DPF_SERVER_FILE=ansys_dpf_server_lin_v2023.2.pre0.zip
 
 4. To run the DPF Docker container, see the :ref:`License terms <target_to_license_terms>` section.
 
