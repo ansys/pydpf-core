@@ -30,8 +30,6 @@ This example uses the ``elastic_strain`` operator to access a fields container:
     
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
     DPF elastic_strain(s)Fields Container
@@ -76,8 +74,6 @@ Access the field:
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
     20
@@ -105,7 +101,6 @@ To access fields for more complex requests, you can use the
     
 .. rst-class:: sphx-glr-script-out
 
- Out:
 
  .. code-block:: none
  
@@ -129,8 +124,6 @@ Here is a more real-word example:
     print(field)
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
@@ -158,8 +151,6 @@ time complex IDs are available in the fields container:
     print(fields.time_freq_support)
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
@@ -216,8 +207,6 @@ You can get an overview of a field's metadata by printing the field:
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
    DPF elastic_strain_0.01s Field
@@ -245,8 +234,6 @@ To access the scoping of the field, use the ``scoping`` attribute:
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
@@ -300,8 +287,6 @@ units of the data:
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
@@ -450,8 +435,6 @@ average of a field:
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
