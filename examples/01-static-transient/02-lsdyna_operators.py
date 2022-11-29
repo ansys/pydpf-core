@@ -7,6 +7,7 @@ Results extraction and analysis from LS-DYNA sources
 This example provides an overview of the LS-DYNA result providers
 """
 
+import matplotlib.pyplot as plt
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
