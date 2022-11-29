@@ -71,7 +71,7 @@ to update ansys-dpf-core package and its dependencies. To get the latest version
     
 	pip install --upgrade --force-reinstall ansys-dpf-core
 
-To get a specific version of ansys-dpf-core (e.g. 0.7.0), use:
+To get a specific version of the ``ansys-dpf-core`` package, such as 0.7.0, use this code:
 
 .. code::
 
