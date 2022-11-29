@@ -329,7 +329,8 @@ class Collection:
         if not self_len:
             raise IndexError("This collection contains no items")
         if index >= self_len:
-            raise IndexError(f"This collection contains only {self_len} entrie(s)")
+            word = "entry" if self_len == 1 else "entries"
+            raise IndexError(f"This collection contains only {self_len} {word}")
 
         return self._get_entries(index)
 
