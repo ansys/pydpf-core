@@ -98,7 +98,7 @@ DPF Server is protected by Ansys licensing mechanism.
 
 DPF capabilities are available through the following main services: 
 - Entry: Loads the minimum number of plugins for basic use. It is the default. It will only check if an Ansys License is available. 
-- Premium: Uses the premium DataProcessingCore.xml file to load most plugins.... with their environments. It will checkout a license. 
+- Premium: Uses the premium ``DataProcessingCore.xml`` file to load most plugins with their environments. It will checkout a license. 
 
 To update the context, apply a new server context:
 
