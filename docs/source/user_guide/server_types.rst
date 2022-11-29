@@ -128,8 +128,7 @@ each answering a different use-case
   with server version 4.0 (Ansys 2022 R2).
   It allows you to remotely connect to a DPF server across a network by telling the client
   to communicate with this server via the gRPC communication protocol.
-  Although it can be used to communicate with a DPF server running on the same local machine,
-  in that case the next configuration is better for this option.
+  Although it can be used to communicate with a DPF server running on the same local machine, the next configuration is better for this option.
 - The :class:`InProcess <ansys.dpf.core.server_types>` configuration is available starting 
   with server version 4.0 (Ansys 2022 R2).
   It indicates to the client that a DPF server is installed on the local machine, enabling direct 

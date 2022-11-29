@@ -10,18 +10,18 @@ What is server context
 The :class:`ServerContext <ansys.dpf.core.server_context>` class drives the
 default capabilities a server will be started with. 
 
-The server context is composed of two main information: 
+The server context is composed of the following information: 
 - context_type, :class:`LicensingContextType <ansys.dpf.core.server_context>`
-class object, that defines if a License check out is required or not.
+class object, that defines if a License checkout is required or not.
 - the xml_path that sets DPF default operators capabilities. For more
 information, see :class:`AvailableServerContexts <ansys.dpf.core.server_context>`
 and :ref:`user_guide_xmlfiles`.
 
 Two main licensing context type capabilities are available: 
-- Entry (default) that will load the minimum capabilities without requiring 
-any license check out.
-- Premium that will enable the entry capabilities and the capabilities that
-requires a license check out. More operators will be available.
+- Entry (default):  Loads the minimum capabilities without requiring 
+any license checkout.
+- Premium: Enables the entry capabilities and the capabilities that
+requires a license checkout. More operators are available.
 
 The operators list for each licensing context type is available at
 :ref:`ref_dpf_operators_reference`.
@@ -29,7 +29,7 @@ The operators list for each licensing context type is available at
 Getting started with Entry capabilities
 ---------------------------------------
 
-Entry operators list is available at :ref:`ref_dpf_operators_reference`.
+Find the list of operators available when the context is Entry at :ref:`ref_dpf_operators_reference`.
 This won't check out any license.
 
 .. code-block::
@@ -41,7 +41,7 @@ This won't check out any license.
 Getting started with Premium capabilities
 -----------------------------------------
 
-Entry operators list is available at :ref:`ref_dpf_operators_reference`.
+Find the list of operators available when the context is Premium at :ref:`ref_dpf_operators_reference`.
 This will check out a license.
 
 .. code-block::
@@ -59,10 +59,10 @@ This will check out a license.
  
     Server Context of type LicensingContextType.premium with no xml path
 	   
-Changing server context from entry to Premium
+Changing server context from Entry to Premium
 ---------------------------------------------
 
-Once an entry server is started, it can be upgraded to premium:
+Once an Entry server is started, it can be upgraded to Premium:
 
 .. code-block::
 
@@ -90,10 +90,10 @@ Once an entry server is started, it can be upgraded to premium:
     Server Context of type LicensingContextType.premium with no xml path
 
 
-Changing default server context
--------------------------------
+Changing the default server context
+-----------------------------------
 
-Entry is the default server context. This can be changed either using ANSYS_DPF_SERVER_CONTEXT
+Entry is the default server context. This can be changed either using the ANSYS_DPF_SERVER_CONTEXT
 environment variable (see `<ansys.dpf.core.server_context>`) or writing:
 
 .. code-block::
@@ -117,4 +117,4 @@ The Entry server context is available starting with server version 6.0
 
 With a server version lower than 6.0, Premium will be the default server 
 context and all the Premium operators at :ref:`ref_dpf_operators_reference` 
-will be available.
+will be available (depending only on their release date).
