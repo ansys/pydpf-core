@@ -1,5 +1,4 @@
 parm
 pres
 WAN
-filname
 ans
