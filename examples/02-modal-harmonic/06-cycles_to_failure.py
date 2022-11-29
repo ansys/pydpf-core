@@ -1,5 +1,5 @@
 """
-DPF-Core Fatigue Engineering Simple Example
+Calculate the number of cycles to fatigue failure
 ~~~~~~~~~~~~~~~~~~~~
 This example shows how to generate and use a result file to calculate the
 cycles to failure result for a simple model.
