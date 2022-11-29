@@ -7,21 +7,24 @@ Server context
 What is server context
 ----------------------
 
-The :class:`ServerContext <ansys.dpf.core.server_context>` class drives the
+The :class:`ServerContext <ansys.dpf.core.server_context.ServerContext>` class drives the
 default capabilities a server will be started with. 
 
-The server context is composed of the following information: 
-- context_type, :class:`LicensingContextType <ansys.dpf.core.server_context>`
-class object, that defines if a License checkout is required or not.
-- the xml_path that sets DPF default operators capabilities. For more
-information, see :class:`AvailableServerContexts <ansys.dpf.core.server_context>`
+The server context is composed of the following information:
+
+- context_type, a :class:`LicensingContextType <ansys.dpf.core.server_context.LicensingContextType>`
+  class object that defines if a License checkout is required or not.
+- the xml_path that sets DPF default operators capabilities.
+
+For more information,
+see :class:`AvailableServerContexts <ansys.dpf.core.server_context.AvailableServerContexts>`
 and :ref:`user_guide_xmlfiles`.
 
 Two main licensing context type capabilities are available: 
-- Entry (default):  Loads the minimum capabilities without requiring 
-any license checkout.
-- Premium: Enables the entry capabilities and the capabilities that
-requires a license checkout. More operators are available.
+
+- Entry (default): Loads the minimum capabilities without requiring any license checkout.
+- Premium: Enables the entry capabilities and the capabilities that requires a license checkout.
+  More operators are available.
 
 The operators list for each licensing context type is available at
 :ref:`ref_dpf_operators_reference`.
