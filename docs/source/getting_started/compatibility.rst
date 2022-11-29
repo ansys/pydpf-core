@@ -29,20 +29,25 @@ should also be synchronized with the server version.
    :widths: 20 20 20 20 20
    :header-rows: 1
 
-   * - ``Ans.Dpf.Grpc.exe`` server version
+   * - Server version
      - ``ansys.dpf.gatebin`` binaries Python module version
      - ``ansys.dpf.gate`` Python module version
      - ``ansys.grpc.dpf`` Python module version
      - ``ansys.dpf.core`` Python module version
+   * - 6.0 (Ansys 2023 R2)
+     - 0.3.0 and later
+     - 0.3.0 and later
+     - 0.7.0 and later
+     - 0.7.0 and later
    * - 5.0 (Ansys 2023 R1)
      - 0.2.0 and later
      - 0.2.0 and later
      - 0.6.0 and later
      - 0.6.0 and later
    * - 4.0 (Ansys 2022 R2)
-     - 0.1.*
-     - 0.1.*
-     - 0.5.*
+     - 0.1.0 and later
+     - 0.1.0 and later
+     - 0.5.0 and later
      - 0.5.0 and later
    * - 3.0 (Ansys 2022 R1)
      - None
@@ -53,13 +58,14 @@ should also be synchronized with the server version.
      - None
      - None
      - 0.3.0
-     - 0.3.0 and later
+     - 0.3.0 and later**
    * - 1.0 (Ansys 2021 R1)
      - None
      - None
      - 0.2.2
      - 0.2.*
 
+(** compatibility of DPF 2.0 with ansys-dpf-core 0.5.0 and later is assumed but no longer certified)
 
 Environment variable
 --------------------
