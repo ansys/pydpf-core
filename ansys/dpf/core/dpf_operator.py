@@ -108,7 +108,9 @@ class Operator:
             self._internal_obj = self._api.operator_new(self.name)
 
         if self._internal_obj is None:
-            raise KeyError(f"The operator {self.name} doesn't exist in the registry")
+            raise KeyError(f"The operator {self.name} doesn't exist in the registry. "
+                           f"Check its spelling in the documentation or verify its availability"
+                           f" in your Context (Entry/Premium).")
 
         self._spec = Specification(operator_name=self.name, server=self._server)
         # add dynamic inputs
