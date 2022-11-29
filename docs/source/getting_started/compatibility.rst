@@ -70,8 +70,8 @@ should also be synchronized with the server version.
 Updating Python environment
 ---------------------------
 
-Passing from an Ansys version to another (e.g. passing from Ansys 2022 R2 to Ansys 2023 R1), it is needed 
-to update ansys-dpf-core package and its dependencies. To get the latest version of ansys-dpf-core, use:
+When moving from one Ansys release to another, you must update the ``ansys-dpf-core`` package and its dependencies.
+To get the latest version of the ``ansys-dpf-core`` package, use this code:
 
 .. code::
     
