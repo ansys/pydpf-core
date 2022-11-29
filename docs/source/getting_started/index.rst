@@ -5,40 +5,39 @@ Getting started
 ===============
 
 The Data Processing Framework (DPF) provides numerical simulation users and engineers with a toolbox
-for accessing and transforming simulation data. DPF can access data from solver result files as well
-as several neutral formats (csv, hdf5, vtk, etc.).
-This **workflow-based** framework allows to perform complex preprocessing and postprocessing
-operations of large amounts of simulation data.
+for accessing and transforming simulation data. DPF can access data from Ansys solver
+result (RST) files as well as from several neutral file formats, including CSV, HDF5, and VTK.
+This **workflow-based** framework allows you to perform complex preprocessing and
+postprocessing operations on large amounts of simulation data.
 
-PyDPF-Core is a python client API communicating with a **DPF Server** either through the network using gRPC
-or directly in the same process.
+PyDPF-Core is a Python client API communicating with a **DPF Server**, either
+through the network using gRPC or directly in the same process.
 
 
-Installing PyDPF-Core Client
-----------------------------
+Installing PyDPF-Core
+---------------------
 
-In a Python environment, run the following command:
+In a Python environment, run the following command to install PyDPF-Core:
 
 .. code::
 
    pip install ansys-dpf-core
 
-For more installation options, refer to the :ref:`Installation section <installation>`.
+For more installation options, see :ref:`Installation section <installation>`.
 
 
 Installing DPF Server
 ---------------------
 
-#. DPF Server is packaged within **Ansys Unified Installer** starting with Ansys 2021 R1.
-   To use it, install Ansys following the installer instructions. For any trouble, refer to the
-   :ref:`Environment variable section <ref_compatibility>`.
-   For more information on getting a licensed copy of Ansys,
-   visit the `Ansys website <https://www.ansys.com/>`_.
+#. DPF Server is packaged within the **Ansys Unified Installer** starting with Ansys 2021 R1.
+   To use it, install Ansys following the installer instructions. If you experience problems,
+   see  :ref:`Environment variable section <ref_compatibility>`. For information on getting
+   a licensed copy of Ansys, visit the `Ansys website <https://www.ansys.com/>`_.
 
-#. DPF Server is available as a **standalone** package (independent of the Ansys Installer) available on the Ansys Customer Portal.
-   Protected by Ansys license mechanism (see
-   :ref:`Ansys licensing section <ref_getting_started_with_dpf_server>`), once having access to an
-   Ansys license, install DPF Server with:
+#. DPF Server is available as a **standalone** package (independent of the Ansys installer) on the `Ansys Customer Portal <https://support.ansys.com/Home/HomePage>`_.
+   As explained in :ref:`Ansys licensing section <ref_getting_started_with_dpf_server>`,
+   DPF Server is protected by an Ansys license mechanism. Once you have access to an
+   Ansys license, install DPF Server:
 
 .. card::
 
@@ -52,9 +51,10 @@ Installing DPF Server
 
         pip install -e .
 
-    * DPF Server is protected using license terms specified in the DPFUserLicensingAgreement.txt
-      file that can be found on the Ansys Customer Portal. To accept the DPF User Licensing
-      Agreement terms, the following environment flag must be set:
+    * DPF Server is protected using the license terms specified in the
+    ``DPFUserLicensingAgreement.txt`` file, which is available on the
+    Ansys Customer Portal. To accept these terms, you must set the
+    following environment flag:
 
     .. code::
 
@@ -62,14 +62,14 @@ Installing DPF Server
 
 
 
-For other ways of using the Server (without pip install, user **Docker Containers**...), see
+For installation methods that do not use pip, such as using **Docker containers**, see
 :ref:`ref_getting_started_with_dpf_server`.
 
 
 Use PyDPF-Core
 --------------
 
-In the same Python environment, run the following command:
+In the same Python environment, run the following command to use PyDPF-Core:
 
 .. code:: python
 
