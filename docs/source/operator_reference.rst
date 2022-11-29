@@ -4,7 +4,7 @@
 Operators
 =========
 
-DPF operators allow the manipulation and the transformation of simulation data.
+DPF operators provide for manipulating and transforming simulation data.
 
 From DPF Server for Ansys 2023 R2 and later, the operators available in DPF depend on the active
 `ServerContext <https://dpf.docs.pyansys.com/api/ansys.dpf.core.server_context.html#servercontext>`_.
