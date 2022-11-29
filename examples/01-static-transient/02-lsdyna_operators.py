@@ -68,7 +68,7 @@ plt.show()
 # Create the model and dprint its contents. This LS-DYNA binout file contains
 # several branches (glstat, matsum and rcforc)
 
-binout = examples.download_binout_glstat()
+binout = examples.download_binout_matsum()
 ds = dpf.DataSources()
 ds.set_result_file_path(binout, "binout")
 model = dpf.Model(ds)
