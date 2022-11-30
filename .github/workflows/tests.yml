@@ -24,6 +24,11 @@ on:
         required: false
         type: string
         default: true
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -52,6 +57,11 @@ on:
         required: false
         type: string
         default: 'true'
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -101,6 +111,7 @@ jobs:
           wheel: ${{ inputs.wheel }}
           wheelhouse: ${{ inputs.wheelhouse }}
           extra-pip-args: ${{ env.extra }}
+          standalone_suffix: ${{ inputs.standalone_suffix }}
 
       - name: "Install ansys-grpc-dpf==0.4.0"
         if: inputs.ANSYS_VERSION == 221
@@ -205,7 +216,7 @@ jobs:
       - name: "Test API test_remote_workflow"
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 3
+          timeout_minutes: 4
           max_attempts: 3
           shell: bash
           command: |
@@ -228,8 +239,9 @@ jobs:
       - name: "Test API test_workflow"
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 2
-          max_attempts: 2
+          timeout_minutes: 3
+          max_attempts: 4
+          retry_wait_seconds: 15
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results8.xml test_workflow/.

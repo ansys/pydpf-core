@@ -21,12 +21,14 @@ class merge_fields(Operator):
         being ignored.
     merged_support : AbstractFieldSupport, optional
         Already merged field support.
-    fields1 : Field
-        A vector of fields to merge or fields from
-        pin 0 to ...
-    fields2 : Field
-        A vector of fields to merge or fields from
-        pin 0 to ...
+    fields1 : Field or FieldsContainer
+        Either a fields containter, a vector of
+        fields to merge or fields from pin 0
+        to ...
+    fields2 : Field or FieldsContainer
+        Either a fields containter, a vector of
+        fields to merge or fields from pin 0
+        to ...
 
 
     Examples
@@ -101,17 +103,19 @@ class merge_fields(Operator):
                 ),
                 0: PinSpecification(
                     name="fields",
-                    type_names=["field"],
+                    type_names=["field", "fields_container"],
                     optional=False,
-                    document="""A vector of fields to merge or fields from
-        pin 0 to ...""",
+                    document="""Either a fields containter, a vector of
+        fields to merge or fields from pin 0
+        to ...""",
                 ),
                 1: PinSpecification(
                     name="fields",
-                    type_names=["field"],
+                    type_names=["field", "fields_container"],
                     optional=False,
-                    document="""A vector of fields to merge or fields from
-        pin 0 to ...""",
+                    document="""Either a fields containter, a vector of
+        fields to merge or fields from pin 0
+        to ...""",
                 ),
             },
             map_output_pin_spec={
@@ -237,12 +241,13 @@ class InputsMergeFields(_Inputs):
     def fields1(self):
         """Allows to connect fields1 input to the operator.
 
-        A vector of fields to merge or fields from
-        pin 0 to ...
+        Either a fields containter, a vector of
+        fields to merge or fields from pin 0
+        to ...
 
         Parameters
         ----------
-        my_fields1 : Field
+        my_fields1 : Field or FieldsContainer
 
         Examples
         --------
@@ -258,12 +263,13 @@ class InputsMergeFields(_Inputs):
     def fields2(self):
         """Allows to connect fields2 input to the operator.
 
-        A vector of fields to merge or fields from
-        pin 0 to ...
+        Either a fields containter, a vector of
+        fields to merge or fields from pin 0
+        to ...
 
         Parameters
         ----------
-        my_fields2 : Field
+        my_fields2 : Field or FieldsContainer
 
         Examples
         --------

@@ -15,9 +15,10 @@ class merge_scopings(Operator):
 
     Parameters
     ----------
-    scopings : Scoping
-        A vector of result info containers to merge
-        or scopings from pin 0 to ...
+    scopings : Scoping or ScopingsContainer
+        Either a scopings container, a vector of
+        scopings to merge or scopings from
+        pin 0 to ...
 
 
     Examples
@@ -55,10 +56,15 @@ class merge_scopings(Operator):
             map_input_pin_spec={
                 0: PinSpecification(
                     name="scopings",
-                    type_names=["vector<shared_ptr<scoping>>", "scoping"],
+                    type_names=[
+                        "vector<shared_ptr<scoping>>",
+                        "scoping",
+                        "scopings_container",
+                    ],
                     optional=False,
-                    document="""A vector of result info containers to merge
-        or scopings from pin 0 to ...""",
+                    document="""Either a scopings container, a vector of
+        scopings to merge or scopings from
+        pin 0 to ...""",
                 ),
             },
             map_output_pin_spec={
@@ -130,12 +136,13 @@ class InputsMergeScopings(_Inputs):
     def scopings(self):
         """Allows to connect scopings input to the operator.
 
-        A vector of result info containers to merge
-        or scopings from pin 0 to ...
+        Either a scopings container, a vector of
+        scopings to merge or scopings from
+        pin 0 to ...
 
         Parameters
         ----------
-        my_scopings : Scoping
+        my_scopings : Scoping or ScopingsContainer
 
         Examples
         --------

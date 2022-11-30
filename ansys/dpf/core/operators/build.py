@@ -13,6 +13,7 @@ from ansys.dpf.core.outputs import _make_printable_type
 from ansys.dpf.core.mapping_types import map_types_to_python
 
 
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 dpf.start_local_server(config=dpf.AvailableServerConfigs.LegacyGrpcServer)
 
 def build_docstring(specification):
@@ -166,17 +167,25 @@ def build_operator(
 
 
 if __name__ == "__main__":
+    print(f"Generating operators for server {dpf.SERVER.version}")
+
     this_path = os.path.dirname(os.path.abspath(__file__))
 
     available_operators = available_operator_names()
 
+    print(f"{len(available_operators)} operators found to generate.")
+
     succeeded = 0
+    done = 0
     for operator_name in available_operators:
+        if succeeded == done + 100:
+            done += 100
+            print(f"{done} operators done...")
         specification = dpf.Operator.operator_specification(operator_name)
 
         category = specification.properties.get("category", "")
         if not category:
-            raise (f"Category not defined for operator {operator_name}.")
+            raise ValueError(f"Category not defined for operator {operator_name}.")
         scripting_name = specification.properties.get("scripting_name", "")
 
         # Make directory for new category
@@ -221,3 +230,9 @@ if __name__ == "__main__":
 
     print(f"Generated {succeeded} out of {len(available_operators)}")
     dpf.SERVER.shutdown()
+    if succeeded == len(available_operators):
+        print("Success")
+        exit(0)
+    else:
+        print("Terminated with errors")
+        exit(1)

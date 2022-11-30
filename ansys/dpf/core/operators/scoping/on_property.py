@@ -19,10 +19,12 @@ class on_property(Operator):
     requested_location : str
         Nodal or elemental location are expected
     property_name : str
-        Ex "mapdl_element_type", "apdl_type_index",
-        "mapdl_type_id", "material",
-        "apdl_section_id", "apdl_real_id",
-        "shell_axi", "volume_axi"...
+        Ex "mapdl_element_type",
+        "mapdl_element_type_id",
+        "apdl_type_index", "mapdl_type_id",
+        "material", "apdl_section_id",
+        "apdl_real_id", "shell_axi",
+        "volume_axi"...
     property_id : int
     streams_container : StreamsContainer, optional
     data_sources : DataSources
@@ -115,10 +117,12 @@ class on_property(Operator):
                     name="property_name",
                     type_names=["string"],
                     optional=False,
-                    document="""Ex "mapdl_element_type", "apdl_type_index",
-        "mapdl_type_id", "material",
-        "apdl_section_id", "apdl_real_id",
-        "shell_axi", "volume_axi"...""",
+                    document="""Ex "mapdl_element_type",
+        "mapdl_element_type_id",
+        "apdl_type_index", "mapdl_type_id",
+        "material", "apdl_section_id",
+        "apdl_real_id", "shell_axi",
+        "volume_axi"...""",
                 ),
                 2: PinSpecification(
                     name="property_id",
@@ -260,10 +264,12 @@ class InputsOnProperty(_Inputs):
     def property_name(self):
         """Allows to connect property_name input to the operator.
 
-        Ex "mapdl_element_type", "apdl_type_index",
-        "mapdl_type_id", "material",
-        "apdl_section_id", "apdl_real_id",
-        "shell_axi", "volume_axi"...
+        Ex "mapdl_element_type",
+        "mapdl_element_type_id",
+        "apdl_type_index", "mapdl_type_id",
+        "material", "apdl_section_id",
+        "apdl_real_id", "shell_axi",
+        "volume_axi"...
 
         Parameters
         ----------

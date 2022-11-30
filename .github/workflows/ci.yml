@@ -8,9 +8,16 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
+    inputs:
+      standalone_branch_suffix:
+        description: 'Suffix of the branch on standalone'
+        required: true
+        default: ''
+
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: true
 
 env:
@@ -59,6 +66,7 @@ jobs:
       python_versions: '["3.8"]'
       wheel: true
       wheelhouse: false
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   docker_tests:
