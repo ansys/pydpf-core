@@ -115,10 +115,10 @@ Advanced concepts and release history
 -------------------------------------
 
 The communication logic with a DPF server is defined when starting it using
-an instance of the :class:`ServerConfig <ansys.dpf.core.server_factory>` class.
+an instance of the :class:`ServerConfig <ansys.dpf.core.server_factory.ServerConfig>` class.
 Different predefined server configurations are available in DPF,
 each answering a different use-case
-(See the :class:`AvailableServerConfigs <ansys.dpf.core.server_factory>` class).
+(See the :class:`AvailableServerConfigs <ansys.dpf.core.server_factory.AvailableServerConfigs>` class).
 
 - The :class:`GrpcServer <ansys.dpf.core.server_types.GrpcServer>` configuration is available starting 
   with server version 4.0 (Ansys 2022 R2).
