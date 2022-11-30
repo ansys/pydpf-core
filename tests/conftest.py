@@ -88,7 +88,7 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
 
 
 @pytest.fixture(scope="session", autouse=True)
-def cleanup(request):
+def remove_test_files(request):
     def remove_test_dir():
         for test_dir_path in TEST_DIR_PATHS:
             try:
