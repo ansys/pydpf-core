@@ -39,8 +39,8 @@ numpy_type_to_dpf = dict_with_missing_numpy_type({
 class CustomTypeField(_FieldBase):
     """Represents a simulation data container with each unitary data being of a custom type.
     When initializing the ``CustomTypeField`` class, provide a unitary data type.
-    The ``CustomTypeField`` class gives you the ability to choose the most optimized unitary data type
-    for a given usage, and hence, allows you to optimize memory usage.
+    The ``CustomTypeField`` class gives you the ability to choose the most optimized unitary
+    data type for a given usage, and hence, allows you to optimize memory usage.
 
     This can be evaluated data from the :class:`Operator <ansys.dpf.core.Operator>` class
     or created directly by an instance of this class.
