@@ -16,7 +16,6 @@ For more information about using these two contexts, see :ref:`user_guide_server
 
    .. grid-item::
         .. card:: Operators (Entry)
-            :img-top: _static/assets/basic.png
             :link-type: doc
             :link: operator_reference_entry
 
@@ -31,7 +30,6 @@ For more information about using these two contexts, see :ref:`user_guide_server
 
    .. grid-item::
         .. card:: Operators (Premium)
-            :img-top: _static/assets/premium.png
             :link-type: doc
             :link: operator_reference_premium
 
