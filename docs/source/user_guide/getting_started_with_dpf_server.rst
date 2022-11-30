@@ -49,7 +49,7 @@ For example, the following code will automatically start a DPF Server behind the
     from ansys.dpf import core as dpf
     data_sources = dpf.DataSources()
 
-With PyDPF-Core, the server can be started using:
+With PyDPF-Core, you can also explicitly start a DPF Server using:
 
 .. code::
 
