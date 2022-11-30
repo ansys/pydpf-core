@@ -43,6 +43,7 @@ sn_data[:, 0] = [10, 20, 50, 100, 200, 2000, 10000, 20000, 1e5, 2e5, 1e6]
 sn_data[:, 1] = [3.999e9, 2.8327e9, 1.896e9, 1.413e9, 1.069e9, 4.41e8, 2.62e8, 2.14e8, 1.38e8,
                  1.14e8, 8.62e7]
 
+###############################################################################
 
 # The .rst file used is already available, but can be obtained using the short pyMAPDL code below:
 
@@ -77,6 +78,7 @@ sn_data[:, 1] = [3.999e9, 2.8327e9, 1.896e9, 1.413e9, 1.069e9, 4.41e8, 2.62e8, 2
 # mapdl.exit()
 # print('apdl model solved.')
 
+###############################################################################
 
 # PyDPF-Core is then used to post-process the .rst file to estimate the cycles to failure.
 
