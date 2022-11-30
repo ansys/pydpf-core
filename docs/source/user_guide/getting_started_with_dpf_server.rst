@@ -56,6 +56,7 @@ With PyDPF-Core, you can also explicitly start a DPF Server using:
     from ansys.dpf import core as dpf
     server = dpf.start_local_server()
 
+To start a DPF Server from outside a Python environment, you can also use the execution script provided with your DPF Server package.
 On Windows, start the DPF Server by running the Ans.Dpf.Grpc.bat file in the unzipped package.
 On Linux, start the DPF Server by running the Ans.Dpf.Grpc.sh file in the unzipped package.
 
