@@ -4,3 +4,6 @@ WAN
 filname
 ans
 entrie
+dout
+mane
+systyem

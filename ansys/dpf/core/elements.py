@@ -615,7 +615,7 @@ class Elements:
         """
         Mapping between the IDs and indices of the entity.
 
-        This proprty is useful for mapping scalar results from a field to the meshed region.
+        This property is useful for mapping scalar results from a field to the meshed region.
 
         Examples
         --------

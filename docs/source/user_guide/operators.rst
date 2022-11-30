@@ -77,8 +77,6 @@ operator by printing it:
     
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
     DPF U Operator: 
@@ -138,8 +136,6 @@ Because several other examples use the ``Model`` class, this example uses the
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
   DPF  DataSources: 
@@ -179,8 +175,6 @@ class from the operator:
     
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
     DPF displacement(s)Fields Container
@@ -201,8 +195,6 @@ like this one:
     
     
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
@@ -240,8 +232,6 @@ displacement data on the client side to compute the maximum:
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
     array([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
@@ -261,8 +251,6 @@ On an industrial model, however, you should use code like this:
     
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
@@ -374,8 +362,6 @@ operators:
     
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
      array([[ 2.,  4.,  6.],
@@ -393,8 +379,6 @@ operators:
     out.data
     
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
@@ -447,8 +431,6 @@ Python client is not on the same machine as the server:
    
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
