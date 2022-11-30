@@ -9,7 +9,6 @@ DPF concepts
    concepts.rst
    waysofusing.rst
    stepbystep.rst
-   server_types.rst
 
 	
 .. card-carousel:: 2

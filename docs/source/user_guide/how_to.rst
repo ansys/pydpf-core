@@ -8,6 +8,9 @@ How-tos
 
     plotting.rst
     custom_operators.rst
+    getting_started_with_dpf_server.rst
+    server_types.rst
+    server_context.rst
     xmlfiles.rst
 
 
@@ -21,6 +24,7 @@ How-tos
 
        .. image:: ../images/plotting/pontoon.png
        .. image:: ../images/plotting/pontoon_strain.png
+
 
     .. card:: Create Custom Operators
        :link: user_guide_custom_operators
