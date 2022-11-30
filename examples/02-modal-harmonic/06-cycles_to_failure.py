@@ -1,38 +1,28 @@
 """
+.. _ref_cycles_to_failure:
+
 Calculate the number of cycles to fatigue failure
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to generate and use a result file to calculate the
 cycles to failure result for a simple model.
 
 Material data is manually imported, Structural Steel from Ansys Mechanical:
-
 Youngs Modulus (youngsSteel)
-
 Poisson's Ratio (prxySteel)
-
 Cycles to Failure (sn_data), as a Strength-Number of cycles curve
-
 
 The first step is to generate a simple model with high stress and save the
 results .rst file locally to myDir (default C:\temp).
 For this, we use a short pyMapdl script.
 
-
 The second step uses DPF-Core to generate the cycles to failure result.
-
 The locally saved .rst file is imported and plotted.
 Then the von Mises stress is generated and plotted with DPF operators.
-
 The numpy python package is then used to interpolate the cycles to failure values.
-
 The nodal von Mises equivalent stress value is used in the interpolation.
-
 Note: The cycles to failure data must be manipulated to use NumPy interpolation.
-
 An empty field is created and filled with the resulting cycles to failure values.
-
 The cycles to failure result is plotted.
-
 
 The cycles to failure result is the (interpolated) negative of the stress result.
 The higher the stress result, the lower the number of cycles to failure.
