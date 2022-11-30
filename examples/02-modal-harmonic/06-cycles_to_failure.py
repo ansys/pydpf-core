@@ -6,7 +6,7 @@ cycles to failure result for a simple model.
 Material data is manually imported, Structural Steel from Ansys Mechanical:
 Youngs Modulus (youngsSteel)
 Poisson's Ratio (prxySteel)
-Cycles to Failure (sn_data)
+Cycles to Failure (sn_data), as a Strength-Number of cycles curve
 The first step is to generate a simple model with high stress and save the
 results .rst file locally to myDir (default C:\temp).
 For this, we use a short pyMapdl script.
@@ -39,7 +39,7 @@ sn_data[:, 1] = [3.999e9, 2.8327e9, 1.896e9, 1.413e9, 1.069e9, 4.41e8, 2.62e8, 2
 
 ###############################################################################
 
-# This .rst file is already available, but can be obtained using the short pyMAPDL code below:
+# The .rst file used in this example is already available, but can be obtained using the short pyMAPDL code below:
 
 # # ### Launch pymapdl to generate rst file in myDir
 # from ansys.mapdl.core import launch_mapdl
@@ -76,9 +76,8 @@ sn_data[:, 1] = [3.999e9, 2.8327e9, 1.896e9, 1.413e9, 1.069e9, 4.41e8, 2.62e8, 2
 
 # PyDPF-Core is then used to post-process the .rst file to estimate the cycles to failure.
 
-# Comment the two following lines if solving the mapdl problem first.
+# Comment the following line if solving the MAPDL problem first.
 rst = examples.download_cycles_to_failure()
-#
 
 # Import the result as a DPF Model object.
 model = dpf.Model(rst)
@@ -92,7 +91,7 @@ vm_stress_field = vm_stress_fc[0]
 vm_stress_field.plot(text="VM stress field")
 
 ###############################################################################
-# Use numpy to interpolate the results.
+# Use NumPy to interpolate the results.
 
 # Inverse the sn_data
 x_values = sn_data[:, 1][::-1]  # the x values are the stress ranges in ascending order
