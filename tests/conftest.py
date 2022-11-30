@@ -194,9 +194,7 @@ def cyclic_multistage():
     Originally:
     UnitTestDataFiles/DataProcessing/expansion/msup/Transient/plate1/file.rst
     """
-    local_path = examples.download_multi_stage_cyclic_result()
-    yield local_path
-    os.remove(local_path)
+    return core.examples.download_multi_stage_cyclic_result()
 
 
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 = meets_version(
