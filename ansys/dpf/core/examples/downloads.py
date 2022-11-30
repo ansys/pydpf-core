@@ -731,10 +731,10 @@ def download_piston_rod(should_upload: bool = True, server=None, return_local_pa
 
 
 def download_d3plot_beam(should_upload: bool = True, server=None, return_local_path=False) -> list:
-    """Download the result file of an example of a d3plot file with beam elements
-    and return the download path available server side.
+    """Download the result file of an example of a d3plot file with beam elements and return the
+    download paths available on the server side.
     If the server is remote (or doesn't share the memory), the file is uploaded or made available
-    server side.
+    on the server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
@@ -742,7 +742,7 @@ def download_d3plot_beam(should_upload: bool = True, server=None, return_local_p
     Parameters
     ----------
     should_upload : bool, optional (default True)
-        Whether the file should be uploaded server side when the server is remote.
+        Whether the file should be uploaded to the server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
@@ -757,7 +757,7 @@ def download_d3plot_beam(should_upload: bool = True, server=None, return_local_p
 
     Examples
     --------
-    Download an example result file and return the path of the file
+    Download an example result file and return the path of the files.
 
     >>> from ansys.dpf.core import examples
     >>> paths = examples.download_d3plot_beam()
@@ -773,10 +773,10 @@ def download_d3plot_beam(should_upload: bool = True, server=None, return_local_p
 
 
 def download_binout_matsum(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Download the result file of an example of a binout file with matsum branch
-    and return the download path available server side.
+    """Download the result file of an example of a binout file with matsum branch and return the
+    download path available on the server side.
     If the server is remote (or doesn't share the memory), the file is uploaded or made available
-    server side.
+    on the server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
@@ -784,7 +784,7 @@ def download_binout_matsum(should_upload: bool = True, server=None, return_local
     Parameters
     ----------
     should_upload : bool, optional (default True)
-        Whether the file should be uploaded server side when the server is remote.
+        Whether the file should be uploaded to the server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
@@ -799,7 +799,7 @@ def download_binout_matsum(should_upload: bool = True, server=None, return_local
 
     Examples
     --------
-    Download an example result file and return the path of the file
+    Download an example result file and return the path of the file.
 
     >>> from ansys.dpf.core import examples
     >>> path = examples.download_binout_matsum()
@@ -811,10 +811,10 @@ def download_binout_matsum(should_upload: bool = True, server=None, return_local
 
 
 def download_binout_glstat(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Download the result file of an example of a binout file with glstat branch
-    and return the download path available server side.
+    """Download the result file of an example of a binout file with glstat branch and return the
+    download path available on the server side.
     If the server is remote (or doesn't share the memory), the file is uploaded or made available
-    server side.
+    on the server side.
 
     Examples files are downloaded to a persistent cache to avoid
     re-downloading the same file twice.
@@ -822,7 +822,7 @@ def download_binout_glstat(should_upload: bool = True, server=None, return_local
     Parameters
     ----------
     should_upload : bool, optional (default True)
-        Whether the file should be uploaded server side when the server is remote.
+        Whether the file should be uploaded to the server side when the server is remote.
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
@@ -837,7 +837,7 @@ def download_binout_glstat(should_upload: bool = True, server=None, return_local
 
     Examples
     --------
-    Download an example result file and return the path of the file
+    Download an example result file and return the path of the file.
 
     >>> from ansys.dpf.core import examples
     >>> path = examples.download_binout_glstat()

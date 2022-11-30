@@ -4,7 +4,7 @@
 
 Results extraction and analysis from LS-DYNA sources
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This example provides an overview of the LS-DYNA result providers
+This example provides an overview of the LS-DYNA results providers.
 """
 
 import matplotlib.pyplot as plt
@@ -15,7 +15,7 @@ from ansys.dpf.core import examples
 # d3plot file results extraction
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create the model and print its contents. This LS-DYNA d3plot file contains
-# several individual results, each at a different times.
+# several individual results, each at different times.
 
 d3plot = examples.download_d3plot_beam()
 ds = dpf.DataSources()
@@ -29,7 +29,7 @@ print(model)
 # the axial force for beams, for example).
 #
 # Let's extract beam axial force for the last time step and plot it, deforming
-# the mesh according to the displacement field at the same time step
+# the mesh according to the displacement field at the same time step.
 
 N = model.results.beam_axial_force(time_scoping = [12]).eval()
 u = model.results.displacement(time_scoping = [12]).eval()
@@ -41,13 +41,13 @@ N[0].plot(deform_by = u[0])
 # only been deformed by the displacement field.
 #
 # Some of the results are also marked as global. They are not scoped over any
-# mesh entity, but are global variables of the model
+# mesh entity, but are global variables of the model.
 
 K = model.results.global_kinetic_energy().eval()
 print(K)
 
 ###############################################################################
-# Energy plots over time (the sphere was released with some initial velocity)
+# Energy plots over time (the sphere was released with some initial velocity).
 
 U = model.results.global_internal_energy().eval()
 H = model.results.global_total_energy().eval()
@@ -64,7 +64,7 @@ plt.show()
 # binout file results extraction
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create the model and dprint its contents. This LS-DYNA binout file contains
-# several branches (glstat, matsum and rcforc)
+# several branches (glstat, matsum and rcforc).
 
 binout = examples.download_binout_matsum()
 ds = dpf.DataSources()
@@ -74,13 +74,13 @@ print(model)
 
 ###############################################################################
 # Results from the matsum branch of the binout file are a FieldsContainer on a
-# LabelSpace comprised by part ids. Extract part kinetic energy for all parts:
+# LabelSpace comprised by part IDs. Extract part kinetic energy for all parts:
 
 PKE = model.results.part_kinetic_energy().eval()
 print(PKE)
 
 ###############################################################################
-# Extract part internal energy for only a selected number of parts
+# Extract part internal energy for only a selected number of parts.
 
 part_sco = dpf.Scoping(ids=[50, 1522], location="part")
 PIE_op = model.results.part_internal_energy()
@@ -108,8 +108,8 @@ plt.show()
 
 ###############################################################################
 # Similarly, results from the rcforc branch of the binout file are a
-# FieldsContainer on a LabelSpace comprised by interface ids. Extract interface
-# contact force for only one interface
+# FieldsContainer on a LabelSpace comprised by interface IDs. Extract interface
+# contact force for only one interface.
 
 interface_sco = dpf.Scoping(ids=[19], location="interface")
 FC_op = model.results.interface_contact_force()
@@ -120,7 +120,7 @@ print(FC)
 ###############################################################################
 # In addition to interface, the FieldsContainer is scoped on idtype (0 for the
 # master side of the interface, 1 for the slave). Contact force is a vector, and
-# the three components are available
+# the three components are available.
 
 rescope_op = dpf.operators.scoping.rescope()
 rescope_op.inputs.fields.connect(FC.time_freq_support.time_frequencies)
