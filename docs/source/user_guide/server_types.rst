@@ -7,23 +7,19 @@ Client-server communication
 Terminology
 -----------
 
-DPF is based on a **client-server** architecture. It allows **local** or **remote**
-client-server **communication** capabilities.
+DPF is based on a **client-server** architecture. 
 
 The DPF Server is a set of files that enables DPF capabilities.
 
-The different DPF client APIs (CPython, IronPython, C++, and so on) enable the use
-of these capabilities.
-
-PyDPF is a term encompassing both the CPython client
-(the Python packages such as ansys-dpf-core or ansys-dpf-post, available on PyPI)
-and the IronPython client (available within Ansys Mechanical).
+PyDPF-Core is a Python client API communicating with a DPF Server, either through 
+the network using **gRPC** **or** directly **in** the same **process**.
 
 
-Getting started with DPF local server
--------------------------------------
+Getting started with DPF in process server
+------------------------------------------
 
-Default use of DPF is local, using :class:`InProcess <ansys.dpf.core.server_types>` class.
+Default use of a PyDPF-Core client and a DPF Server is in the same process,
+using :class:`InProcess <ansys.dpf.core.server_types.InProcessServer>` class.
 
 .. code-block::
 	   
@@ -52,7 +48,7 @@ This server can now be used to instantiate Models, Operators, and so on.
 Getting started with DPF GRPC server
 ------------------------------------
 
-GRPC communication is enabled using :class:`GrpcServer <ansys.dpf.core.server_types>`. 
+GRPC communication is enabled using :class:`GrpcServer <ansys.dpf.core.server_types.GrpcServer>`. 
 
 .. code-block::
 	   
@@ -101,7 +97,7 @@ Starting a server using a configuration
 ---------------------------------------
 
 The different DPF server types can be started using one of the 
-:class:`AvailableServerConfigs <ansys.dpf.core.server_factory>` configurations. 
+:class:`AvailableServerConfigs <ansys.dpf.core.server_factory.AvailableServerConfigs>` configurations. 
 
 .. code-block::
     
@@ -124,23 +120,23 @@ Different predefined server configurations are available in DPF,
 each answering a different use-case
 (See the :class:`AvailableServerConfigs <ansys.dpf.core.server_factory>` class).
 
-- The :class:`GrpcServer <ansys.dpf.core.server_types>` configuration is available starting 
+- The :class:`GrpcServer <ansys.dpf.core.server_types.GrpcServer>` configuration is available starting 
   with server version 4.0 (Ansys 2022 R2).
   It allows you to remotely connect to a DPF server across a network by telling the client
   to communicate with this server via the gRPC communication protocol.
   Although it can be used to communicate with a DPF server running on the same local machine, the next configuration is better for this option.
-- The :class:`InProcess <ansys.dpf.core.server_types>` configuration is available starting 
+- The :class:`InProcessServer <ansys.dpf.core.server_types.InProcessServer>` configuration is available starting 
   with server version 4.0 (Ansys 2022 R2).
   It indicates to the client that a DPF server is installed on the local machine, enabling direct 
   calls to the server binaries from within the client's own Python process.
   This removes the need to copy and send data between the client and server, and makes calls
   to the server functionalities much faster as well as using less memory.
-- The :class:`LegacyGrpcServer <ansys.dpf.core.server_types>` configuration is the only one 
+- The :class:`LegacyGrpcServer <ansys.dpf.core.server_types.LegacyGrpcServer>` configuration is the only one 
   available for server versions below 4.0
   (Ansys 2022 R1, Ansys 2021 R2 and Ansys 2021 R1).
   The client communicates with a local or remote DPF server via the gRPC communication protocol.
 
-For DPF with Ansys 2023 R1 and newer, the default configuration is set to :class:`InProcess <ansys.dpf.core.server_types>`,
+For DPF with Ansys 2023 R1 and newer, the default configuration is set to :class:`InProcess <ansys.dpf.core.server_types.InProcessServer>`,
 meaning that servers are launched on the local machine.
 To launch a DPF server on a remote machine and communicate with it using gRPC, use
-the :class:`GrpcServer <ansys.dpf.core.server_types>` configuration as shown in :ref:`ref_server_types_example`.
+the :class:`GrpcServer <ansys.dpf.core.server_types.GrpcServer>` configuration as shown in :ref:`ref_server_types_example`.

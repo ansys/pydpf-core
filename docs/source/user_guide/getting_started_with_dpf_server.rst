@@ -38,8 +38,17 @@ PyDPF-Core and PyDPF-Post python modules can now be used. The instructions to in
 Using DPF Server
 ----------------
 
-Running the DPF Server
-~~~~~~~~~~~~~~~~~~~~~~
+Running the DPF Server with PyDPF
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+With PyDPF-Core and PyDPF-Post, the creation of the first DPF entity will start the server.
+
+With PyDPF-Core, the server can be started using:
+
+.. code::
+
+    from ansys.dpf import core as dpf
+    dpf.start_local_server()
 
 On Windows, start the DPF Server by running the Ans.Dpf.Grpc.bat file in the unzipped package.
 On Linux, start the DPF Server by running the Ans.Dpf.Grpc.sh file in the unzipped package.
@@ -98,7 +107,7 @@ DPF Server is protected by Ansys licensing mechanism.
 
 DPF capabilities are available through the following main services: 
 - Entry: Loads the minimum number of plugins for basic use. It is the default. It will only check if an Ansys License is available. 
-- Premium: Uses the premium ``DataProcessingCore.xml`` file to load most plugins with their environments. It will checkout a license. 
+- Premium: Loads the entry and the premium capabilities that require a license checkout. 
 
 To update the context, apply a new server context:
 

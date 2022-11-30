@@ -87,6 +87,8 @@ class ServerContext:
 
 
 class AvailableServerContexts:
+    """Defines available server contexts.
+    """
     pre_defined_environment = ServerContext(0)
     """DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will
     be taken"""
