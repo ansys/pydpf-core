@@ -8,6 +8,7 @@ from ansys.dpf.core.elements import element_types
 def model_elements(allkindofcomplexity):
     model = dpf.Model(allkindofcomplexity)
     elements = model.metadata.meshed_region.elements
+    model.metadata.release_streams()
     return elements
 
 
