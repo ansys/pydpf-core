@@ -19,6 +19,10 @@ from ansys.dpf.gate.load_api import _try_use_gatebin
 import warnings
 
 ACCEPTABLE_FAILURE_RATE = 0
+TEST_DIR_PATHS = [
+    "ansys/dpf/core/examples/testing",
+    "ansys/dpf/core/examples/multistage",
+]
 
 core.settings.disable_off_screen_rendering()
 os.environ["PYVISTA_OFF_SCREEN"] = "true"
@@ -82,11 +86,17 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
             )
     return examples.find_files(filename)
 
+
 @pytest.fixture(scope="session", autouse=True)
 def cleanup(request):
     def remove_test_dir():
-        shutil.rmtree("ansys/dpf/core/examples/testing")
+        for test_dir_path in TEST_DIR_PATHS:
+            try:
+                shutil.rmtree(test_dir_path)
+            except FileNotFoundError:
+                pass
     request.addfinalizer(remove_test_dir)
+
 
 @pytest.fixture()
 def allkindofcomplexity():
