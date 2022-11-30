@@ -41,7 +41,13 @@ Using DPF Server
 Running the DPF Server with PyDPF
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-With PyDPF-Core and PyDPF-Post, the creation of the first DPF entity will start the server.
+With PyDPF-Core and PyDPF-Post, the first creation of most DPF entities will start a DPF Server with the current default configuration and context.
+For example, the following code will automatically start a DPF Server behind the scenes:
+
+.. code::
+
+    from ansys.dpf import core as dpf
+    data_sources = dpf.DataSources()
 
 With PyDPF-Core, the server can be started using:
 
