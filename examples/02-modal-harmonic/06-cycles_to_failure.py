@@ -32,7 +32,7 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 import numpy as np
 
-
+###############################################################################
 # The first step is to generate a simple model with high stress
 
 # # Material parameters from Ansys Mechanical Structural Steel
@@ -44,7 +44,6 @@ sn_data[:, 1] = [3.999e9, 2.8327e9, 1.896e9, 1.413e9, 1.069e9, 4.41e8, 2.62e8, 2
                  1.14e8, 8.62e7]
 
 ###############################################################################
-
 # The .rst file used is already available, but can be obtained using the short pyMAPDL code below:
 
 # # ### Launch pymapdl to generate rst file in myDir
@@ -79,7 +78,6 @@ sn_data[:, 1] = [3.999e9, 2.8327e9, 1.896e9, 1.413e9, 1.069e9, 4.41e8, 2.62e8, 2
 # print('apdl model solved.')
 
 ###############################################################################
-
 # PyDPF-Core is then used to post-process the .rst file to estimate the cycles to failure.
 
 # Comment the following line if solving the MAPDL problem first.
