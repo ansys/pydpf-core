@@ -14,7 +14,7 @@ Material data is manually imported, Structural Steel from Ansys Mechanical:
 - Cycles to Failure (sn_data)
 
 The first step is to generate a simple model with high stress and save the
-results .rst file locally to myDir (default C:\\\temp).
+results .rst file locally to myDir (default "C:\temp").
 For this, we use a short pyMAPDL script.
 
 The second step uses DPF-Core to generate the cycles to failure result.
