@@ -33,7 +33,9 @@ print(model)
 
 N = model.results.beam_axial_force(time_scoping = [12]).eval()
 u = model.results.displacement(time_scoping = [12]).eval()
-N[0].plot(deform_by = u[0])
+
+sargs = dict(title="N", fmt="%.2e", title_font_size=30, label_font_size=20)
+N[0].plot(deform_by = u[0], scalar_bar_args=sargs)
 
 ###############################################################################
 # The axial force has only been computed for the beam elements (the bottom
@@ -43,15 +45,9 @@ N[0].plot(deform_by = u[0])
 # PyDPF also allows you to animate the results in a FieldsContainer. Thus, if
 # all time steps are extracted, an animation can be produced.
 
-N_op = model.results.beam_axial_force()
-N_op.inputs.time_scoping.connect(model.metadata.time_freq_support.time_frequencies.scoping)
-N_all = N_op.eval()
-
-u_op = model.results.displacement()
-u_op.inputs.time_scoping.connect(model.metadata.time_freq_support.time_frequencies.scoping)
-u_all = u_op.eval()
-
-N_all.animate(deform_by=u_all, save_as="falling_ball.gif")
+N_all = model.results.beam_axial_force.on_all_time_freqs.eval()
+u_all = model.results.displacement.on_all_time_freqs.eval()
+N_all.animate(deform_by=u_all, save_as="falling_ball.gif", scalar_bar_args=sargs)
 
 ###############################################################################
 # Some of the results are marked as global. They are not scoped over any mesh
