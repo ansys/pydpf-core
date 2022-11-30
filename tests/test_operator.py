@@ -1264,6 +1264,10 @@ def test_memory_outputs_operator(allkindofcomplexity):
     mesh = model.metadata.meshed_region
     stress_fc = model.results.stress().eqv().eval()
     assert len(stress_fc) == 2
+    model.metadata.release_streams()
+    print(model.metadata._server)
+    os.remove("ansys/dpf/core/examples/testing")
+    os.remove(allkindofcomplexity) # this DOES work. How can we do this at fixture level in conftest.py at the end of the session?
 
 
 def test_delete_auto_operator(server_type):
