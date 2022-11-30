@@ -91,9 +91,7 @@ def cleanup(request):
 @pytest.fixture()
 def allkindofcomplexity():
     """Resolve the path of the "allKindOfComplexity.rst" result file."""
-    local_path = examples.download_all_kinds_of_complexity()
-    yield local_path
-    os.remove(local_path)
+    return examples.download_all_kinds_of_complexity()
 
 
 @pytest.fixture()
