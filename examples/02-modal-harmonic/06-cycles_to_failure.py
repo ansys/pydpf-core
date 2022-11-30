@@ -3,13 +3,14 @@
 
 Calculate the number of cycles to fatigue failure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to generate and use a result file to calculate the
 cycles to failure result for a simple model.
 
 Material data is manually imported, Structural Steel from Ansys Mechanical:
-Youngs Modulus (youngsSteel)
-Poisson's Ratio (prxySteel)
-Cycles to Failure (sn_data), as a Strength-Number of cycles curve
+* Youngs Modulus (youngsSteel)
+* Poisson's Ratio (prxySteel)
+* Cycles to Failure (sn_data), as a Strength-Number of cycles curve
 
 The first step is to generate a simple model with high stress and save the
 results .rst file locally to myDir (default C:\temp).
