@@ -54,7 +54,7 @@ sn_data[:, 1] = [3.999e9, 2.8327e9, 1.896e9, 1.413e9, 1.069e9, 4.41e8, 2.62e8, 2
                  1.14e8, 8.62e7]
 
 
-# The .rst file used in this example is already available, but can be obtained using the short pyMAPDL code below:
+# The .rst file used is already available, but can be obtained using the short pyMAPDL code below:
 
 # # ### Launch pymapdl to generate rst file in myDir
 # from ansys.mapdl.core import launch_mapdl
