@@ -3,7 +3,7 @@
 .. _lsdyna_operators:
 
 Results extraction and analysis from LS-DYNA sources
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example provides an overview of the LS-DYNA results providers.
 """
 
@@ -40,8 +40,22 @@ N[0].plot(deform_by = u[0])
 # frame), whereas the top sphere, which is comprised by solid elements, has
 # only been deformed by the displacement field.
 #
-# Some of the results are also marked as global. They are not scoped over any
-# mesh entity, but are global variables of the model.
+# PyDPF also allows you to animate the results in a FieldsContainer. Thus, if
+# all time steps are extracted, an animation can be produced.
+
+N_op = model.results.beam_axial_force()
+N_op.inputs.time_scoping.connect(model.metadata.time_freq_support.time_frequencies.scoping)
+N_all = N_op.eval()
+
+u_op = model.results.displacement()
+u_op.inputs.time_scoping.connect(model.metadata.time_freq_support.time_frequencies.scoping)
+u_all = u_op.eval()
+
+N_all.animate(deform_by=u_all, save_as="falling_ball.gif")
+
+###############################################################################
+# Some of the results are marked as global. They are not scoped over any mesh
+# entity, but are global variables of the model.
 
 K = model.results.global_kinetic_energy().eval()
 print(K)
