@@ -91,10 +91,9 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
 def remove_test_files(request):
     def remove_test_dir():
         for test_dir_path in TEST_DIR_PATHS:
-            try:
-                shutil.rmtree(test_dir_path)
-            except FileNotFoundError:
-                pass
+            if os.path.isdir(test_dir_path):
+                for file in os.listdir(test_dir_path):
+                    os.remove(os.path.join(test_dir_path, file))
     request.addfinalizer(remove_test_dir)
 
 
