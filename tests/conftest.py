@@ -8,6 +8,7 @@ import functools
 
 import psutil
 import pytest
+import shutil
 
 import ansys.dpf.core.server_types
 from ansys.dpf import core
@@ -81,6 +82,11 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
             )
     return examples.find_files(filename)
 
+@pytest.fixture(scope="session", autouse=True)
+def cleanup(request):
+    def remove_test_dir():
+        shutil.rmtree("ansys/dpf/core/examples/testing")
+    request.addfinalizer(remove_test_dir)
 
 @pytest.fixture()
 def allkindofcomplexity():
