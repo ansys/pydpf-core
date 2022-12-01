@@ -4,7 +4,7 @@ from datetime import datetime
 import numpy as np
 import pyvista
 from ansys.dpf.core import __version__
-from ansys_sphinx_theme import pyansys_logo_black
+from ansys_sphinx_theme import pyansys_logo_black, ansys_favicon
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -131,7 +131,7 @@ sphinx_gallery_conf = {
     'abort_on_example_error': True,
     # path where to save gallery generated examples
     "gallery_dirs": ["examples"],
-    # Patter to search for example files
+    # Pattern to search for example files
     "filename_pattern": r"\.py",
     # Remove the "Download all examples" button from the top level gallery
     "download_all_examples": False,
@@ -154,6 +154,7 @@ autodoc_member_order = "bysource"
 html_short_title = html_title = "PyDPF-Core"
 html_theme = "ansys_sphinx_theme"
 html_logo = pyansys_logo_black
+html_favicon = ansys_favicon
 html_theme_options = {
     "github_url": "https://github.com/pyansys/pydpf-core",
     "show_prev_next": False,

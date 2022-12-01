@@ -11,17 +11,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class global_velocity(Operator):
-    """Read/compute Global Velocity (LSDyna) by calling the readers defined
-    by the datasources. The location will be overall (global result).
+    """Read Global Velocity (LSDyna) by calling the readers defined by the
+    datasources.
 
     Parameters
     ----------
-    time_scoping : Scoping or int or float or Field, optional
-        Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output
     streams_container : StreamsContainer, optional
         Result file container allowed to be kept open
         to cache data
@@ -38,8 +32,6 @@ class global_velocity(Operator):
     >>> op = dpf.operators.result.global_velocity()
 
     >>> # Make input connections
-    >>> my_time_scoping = dpf.Scoping()
-    >>> op.inputs.time_scoping.connect(my_time_scoping)
     >>> my_streams_container = dpf.StreamsContainer()
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
@@ -47,7 +39,6 @@ class global_velocity(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.global_velocity(
-    ...     time_scoping=my_time_scoping,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ... )
@@ -57,18 +48,11 @@ class global_velocity(Operator):
     """
 
     def __init__(
-        self,
-        time_scoping=None,
-        streams_container=None,
-        data_sources=None,
-        config=None,
-        server=None,
+        self, streams_container=None, data_sources=None, config=None, server=None
     ):
         super().__init__(name="GLOB_V", config=config, server=server)
         self._inputs = InputsGlobalVelocity(self)
         self._outputs = OutputsGlobalVelocity(self)
-        if time_scoping is not None:
-            self.inputs.time_scoping.connect(time_scoping)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
@@ -76,29 +60,11 @@ class global_velocity(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read/compute Global Velocity (LSDyna) by calling the readers defined
-            by the datasources. The location will be overall (global
-            result)."""
+        description = """Read Global Velocity (LSDyna) by calling the readers defined by the
+            datasources."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
-                0: PinSpecification(
-                    name="time_scoping",
-                    type_names=[
-                        "scoping",
-                        "int32",
-                        "vector<int32>",
-                        "double",
-                        "field",
-                        "vector<double>",
-                    ],
-                    optional=True,
-                    document="""Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output""",
-                ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
@@ -170,8 +136,6 @@ class InputsGlobalVelocity(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.result.global_velocity()
-    >>> my_time_scoping = dpf.Scoping()
-    >>> op.inputs.time_scoping.connect(my_time_scoping)
     >>> my_streams_container = dpf.StreamsContainer()
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
@@ -180,36 +144,10 @@ class InputsGlobalVelocity(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(global_velocity._spec().inputs, op)
-        self._time_scoping = Input(global_velocity._spec().input_pin(0), 0, op, -1)
-        self._inputs.append(self._time_scoping)
         self._streams_container = Input(global_velocity._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._streams_container)
         self._data_sources = Input(global_velocity._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
-
-    @property
-    def time_scoping(self):
-        """Allows to connect time_scoping input to the operator.
-
-        Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output
-
-        Parameters
-        ----------
-        my_time_scoping : Scoping or int or float or Field
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.global_velocity()
-        >>> op.inputs.time_scoping.connect(my_time_scoping)
-        >>> # or
-        >>> op.inputs.time_scoping(my_time_scoping)
-        """
-        return self._time_scoping
 
     @property
     def streams_container(self):
