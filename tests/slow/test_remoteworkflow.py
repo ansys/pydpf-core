@@ -4,14 +4,17 @@ import pytest
 from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
-from ansys.dpf.core.check_version import meets_version, get_server_version
+from ansys.dpf.core.check_version import get_server_version, meets_version
 from conftest import local_servers
 
-SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(core._global_server()), "3.0")
+SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(
+    get_server_version(core._global_server()), "3.0"
+)
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_simple_remote_workflow(simple_bar, local_server):
     data_sources1 = core.DataSources(simple_bar)
     wf = core.Workflow()
@@ -29,7 +32,9 @@ def test_simple_remote_workflow(simple_bar, local_server):
 
     grpc_stream_provider = ops.metadata.streams_provider()
     grpc_data_sources = core.DataSources()
-    grpc_data_sources.set_result_file_path(local_server.ip + ":" + str(local_server.port), "grpc")
+    grpc_data_sources.set_result_file_path(
+        local_server.ip + ":" + str(local_server.port), "grpc"
+    )
     grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
     remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -43,8 +48,9 @@ def test_simple_remote_workflow(simple_bar, local_server):
     assert np.allclose(max.data, [2.52368345e-05])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_multi_process_remote_workflow():
     files = examples.download_distributed_files()
     workflows = []
@@ -60,7 +66,8 @@ def test_multi_process_remote_workflow():
         grpc_stream_provider = ops.metadata.streams_provider()
         grpc_data_sources = core.DataSources()
         grpc_data_sources.set_result_file_path(
-            local_servers[i].ip + ":" + str(local_servers[i].port), "grpc")
+            local_servers[i].ip + ":" + str(local_servers[i].port), "grpc"
+        )
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
         remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -86,8 +93,9 @@ def test_multi_process_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_multi_process_connect_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -104,8 +112,8 @@ def test_multi_process_connect_remote_workflow():
         grpc_stream_provider = ops.metadata.streams_provider()
         grpc_data_sources = core.DataSources()
         grpc_data_sources.set_result_file_path(
-            local_servers[i].ip + ":" + str(local_servers[i].port),
-            "grpc")
+            local_servers[i].ip + ":" + str(local_servers[i].port), "grpc"
+        )
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
         remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -131,8 +139,9 @@ def test_multi_process_connect_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_multi_process_connect_operator_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -149,8 +158,8 @@ def test_multi_process_connect_operator_remote_workflow():
         grpc_stream_provider = ops.metadata.streams_provider()
         grpc_data_sources = core.DataSources()
         grpc_data_sources.set_result_file_path(
-            local_servers[i].ip + ":" + str(local_servers[i].port),
-            "grpc")
+            local_servers[i].ip + ":" + str(local_servers[i].port), "grpc"
+        )
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
         remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -177,8 +186,9 @@ def test_multi_process_connect_operator_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_multi_process_getoutput_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -195,8 +205,8 @@ def test_multi_process_getoutput_remote_workflow():
         grpc_stream_provider = ops.metadata.streams_provider()
         grpc_data_sources = core.DataSources()
         grpc_data_sources.set_result_file_path(
-            local_servers[i].ip + ":" + str(local_servers[i].port),
-            "grpc")
+            local_servers[i].ip + ":" + str(local_servers[i].port), "grpc"
+        )
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
         remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -223,8 +233,10 @@ def test_multi_process_getoutput_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
-@pytest.mark.skipif(True or not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    True or not SERVER_VERSION_HIGHER_THAN_3_0,
+    reason="Requires server version higher than 3.0",
+)
 def test_multi_process_chain_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -241,8 +253,8 @@ def test_multi_process_chain_remote_workflow():
         grpc_stream_provider = ops.metadata.streams_provider()
         grpc_data_sources = core.DataSources()
         grpc_data_sources.set_result_file_path(
-            local_servers[i].ip + ":" + str(local_servers[i].port),
-            "grpc")
+            local_servers[i].ip + ":" + str(local_servers[i].port), "grpc"
+        )
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
         remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -264,8 +276,8 @@ def test_multi_process_chain_remote_workflow():
     grpc_stream_provider = ops.metadata.streams_provider()
     grpc_data_sources = core.DataSources()
     grpc_data_sources.set_result_file_path(
-        local_servers[2].ip + ":" + str(local_servers[2].port),
-        "grpc")
+        local_servers[2].ip + ":" + str(local_servers[2].port), "grpc"
+    )
     grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
     remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -280,8 +292,9 @@ def test_multi_process_chain_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_remote_workflow_info(local_server):
     wf = core.Workflow()
     op = ops.result.displacement()
@@ -293,8 +306,8 @@ def test_remote_workflow_info(local_server):
     grpc_stream_provider = ops.metadata.streams_provider()
     grpc_data_sources = core.DataSources()
     grpc_data_sources.set_result_file_path(
-        local_server.ip + ":" + str(local_server.port),
-        "grpc")
+        local_server.ip + ":" + str(local_server.port), "grpc"
+    )
     grpc_stream_provider.inputs.data_sources(grpc_data_sources)
     remote_workflow_prov = core.Operator("remote_workflow_instantiate")
     remote_workflow_prov.connect(3, grpc_stream_provider, 0)
@@ -304,8 +317,9 @@ def test_remote_workflow_info(local_server):
     assert "distrib" in remote_workflow.output_names
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_multi_process_local_remote_local_remote_workflow():
     files = examples.download_distributed_files()
 
@@ -322,8 +336,8 @@ def test_multi_process_local_remote_local_remote_workflow():
         grpc_stream_provider = ops.metadata.streams_provider()
         grpc_data_sources = core.DataSources()
         grpc_data_sources.set_result_file_path(
-            local_servers[i].ip + ":" + str(local_servers[i].port),
-            "grpc")
+            local_servers[i].ip + ":" + str(local_servers[i].port), "grpc"
+        )
         grpc_stream_provider.inputs.data_sources(grpc_data_sources)
 
         remote_workflow_prov = core.Operator("remote_workflow_instantiate")
@@ -357,15 +371,18 @@ def test_multi_process_local_remote_local_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_multi_process_transparent_api_remote_workflow():
     files = examples.download_distributed_files()
     workflows = []
     for i in files:
         data_sources1 = core.DataSources(files[i], server=local_servers[i])
         wf = core.Workflow(server=local_servers[i])
-        op = ops.result.displacement(data_sources=data_sources1, server=local_servers[i])
+        op = ops.result.displacement(
+            data_sources=data_sources1, server=local_servers[i]
+        )
         average = core.operators.math.norm_fc(op, server=local_servers[i])
 
         wf.add_operators([op, average])
@@ -388,15 +405,18 @@ def test_multi_process_transparent_api_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_multi_process_with_names_transparent_api_remote_workflow():
     files = examples.download_distributed_files()
     workflows = []
     for i in files:
         data_sources1 = core.DataSources(files[i], server=local_servers[i])
         wf = core.Workflow(server=local_servers[i])
-        op = ops.result.displacement(data_sources=data_sources1, server=local_servers[i])
+        op = ops.result.displacement(
+            data_sources=data_sources1, server=local_servers[i]
+        )
         average = core.operators.math.norm_fc(op, server=local_servers[i])
 
         wf.add_operators([op, average])
@@ -419,8 +439,9 @@ def test_multi_process_with_names_transparent_api_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_multi_process_transparent_api_connect_local_datasources_remote_workflow():
     files = examples.download_distributed_files()
     workflows = []
@@ -451,8 +472,9 @@ def test_multi_process_transparent_api_connect_local_datasources_remote_workflow
     assert np.allclose(max.data, [10.03242272])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_multi_process_transparent_api_connect_local_op_remote_workflow():
     files = examples.download_distributed_files()
     workflows = []
@@ -484,8 +506,9 @@ def test_multi_process_transparent_api_connect_local_op_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_multi_process_transparent_api_create_on_local_remote_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -514,8 +537,9 @@ def test_multi_process_transparent_api_create_on_local_remote_workflow():
     assert np.allclose(max.data, [10.03242272])
 
 
-@pytest.mark.skipif(not SERVER_VERSION_HIGHER_THAN_3_0,
-                    reason='Requires server version higher than 3.0')
+@pytest.mark.skipif(
+    not SERVER_VERSION_HIGHER_THAN_3_0, reason="Requires server version higher than 3.0"
+)
 def test_multi_process_transparent_api_create_on_local_remote_ith_address_workflow():
     files = examples.download_distributed_files()
     wf = core.Workflow()
@@ -535,7 +559,9 @@ def test_multi_process_transparent_api_create_on_local_remote_ith_address_workfl
 
     for i in files:
         data_sources1 = core.DataSources(files[i])
-        remote_wf = wf.create_on_other_server(ip=local_servers[i].ip, port=local_servers[i].port)
+        remote_wf = wf.create_on_other_server(
+            ip=local_servers[i].ip, port=local_servers[i].port
+        )
         remote_wf.connect("ds", data_sources1)
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(remote_wf, ("distrib", "distrib" + str(i)))

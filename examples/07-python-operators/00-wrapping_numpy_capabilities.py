@@ -33,14 +33,15 @@ be wrapped in Python plugins.
 #
 # Download and display the Python script.
 
-from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
-
+from ansys.dpf.core import examples
 
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
-GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/" \
-                    "raw/examples/first_python_plugins/python_plugins"
+GITHUB_SOURCE_URL = (
+    "https://github.com/pyansys/pydpf-core/"
+    "raw/examples/first_python_plugins/python_plugins"
+)
 EXAMPLE_FILE = GITHUB_SOURCE_URL + "/easy_statistics.py"
 operator_file_path = examples.downloads._retrieve_file(
     EXAMPLE_FILE, "easy_statistics.py", "python_plugins"
@@ -48,7 +49,7 @@ operator_file_path = examples.downloads._retrieve_file(
 
 with open(operator_file_path, "r") as f:
     for line in f.readlines():
-        print('\t\t\t' + line)
+        print("\t\t\t" + line)
 
 ###############################################################################
 # Load the plugin
@@ -63,6 +64,7 @@ with open(operator_file_path, "r") as f:
 #
 
 import os
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
@@ -70,7 +72,9 @@ from ansys.dpf.core import examples
 dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
 operator_server_file_path = dpf.upload_file_in_tmp_folder(operator_file_path)
-dpf.load_library(os.path.dirname(operator_server_file_path), "py_easy_statistics", "load_operators")
+dpf.load_library(
+    os.path.dirname(operator_server_file_path), "py_easy_statistics", "load_operators"
+)
 
 ###############################################################################
 # Instantiate the operator.

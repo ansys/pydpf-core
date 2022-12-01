@@ -7,13 +7,10 @@ This module contains the Results and Result classes that are created by the mode
 to easily access results in result files."""
 import functools
 
-from ansys.dpf.core import Operator
-from ansys.dpf.core import errors
+from ansys.dpf.core import Operator, errors
+from ansys.dpf.core.custom_fields_container import (BodyFieldsContainer,
+                                                    ElShapeFieldsContainer)
 from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core.custom_fields_container import (
-    ElShapeFieldsContainer,
-    BodyFieldsContainer,
-)
 
 
 class Results:
@@ -85,7 +82,12 @@ class Results:
     """  # noqa: E501
 
     def __init__(
-            self, connector, result_info, mesh_by_default=True, server=None, generate_ops=True
+        self,
+        connector,
+        result_info,
+        mesh_by_default=True,
+        server=None,
+        generate_ops=True,
     ):
         self._connector = connector
         self._mesh_by_default = mesh_by_default
@@ -123,9 +125,7 @@ class Results:
         self._op_map_rev = {}
         for result_type in result_info:
             try:
-                doc = Operator(
-                    result_type.operator_name, server=self._server
-                ).__str__()
+                doc = Operator(result_type.operator_name, server=self._server).__str__()
                 bound_method = self.__result__
                 method2 = functools.partial(bound_method, result_type)
                 setattr(self.__class__, result_type.name, property(method2, doc=doc))
@@ -197,7 +197,9 @@ class Result:
         self._location = None
         self._mesh_by_default = mesh_by_default
         if isinstance(result_info, str):
-            from ansys.dpf.core.available_result import available_result_from_name
+            from ansys.dpf.core.available_result import \
+                available_result_from_name
+
             self._result_info = available_result_from_name(result_info)
         else:
             self._result_info = result_info
@@ -212,7 +214,7 @@ class Result:
             ).__str__()
             self.__doc__ = doc
             if hasattr(operators, "result") and hasattr(
-                    operators.result, self._result_info.name
+                operators.result, self._result_info.name
             ):
                 self._operator = getattr(operators.result, self._result_info.name)(
                     server=self._server
@@ -267,9 +269,13 @@ class Result:
         """
         fc = self.__call__().outputs.fields_container()
         if self._specific_fc_type == "shape":
-            fc = ElShapeFieldsContainer(fields_container=fc._get_ownership(), server=fc._server)
+            fc = ElShapeFieldsContainer(
+                fields_container=fc._get_ownership(), server=fc._server
+            )
         elif self._specific_fc_type == "body":
-            fc = BodyFieldsContainer(fields_container=fc._get_ownership(), server=fc._server)
+            fc = BodyFieldsContainer(
+                fields_container=fc._get_ownership(), server=fc._server
+            )
         return fc
 
     @property
@@ -337,9 +343,7 @@ class Result:
         ...[20]...
 
         """
-        self._time_scoping = len(
-            self._connector.time_freq_support.time_frequencies
-        )
+        self._time_scoping = len(self._connector.time_freq_support.time_frequencies)
         return self
 
     def on_time_scoping(self, time_scoping):
@@ -466,7 +470,7 @@ class Result:
         from ansys.dpf.core import operators
 
         if hasattr(operators, "scoping") and hasattr(
-                operators.scoping, "split_on_property_type"
+            operators.scoping, "split_on_property_type"
         ):
             self._mesh_scoping = operators.scoping.split_on_property_type()
         else:
@@ -575,12 +579,14 @@ class CommonResults(Results):
 
     def __init__(self, connector, mesh_by_default, result_info, server):
         super().__init__(connector, mesh_by_default, result_info, server, False)
-        self._op_map_rev = dict(displacement="displacement",
-                                stress="stress",
-                                elastic_strain="elastic_strain",
-                                structural_temperature="structural_temperature",
-                                temperature="temperature",
-                                electric_potential="electric_potential")
+        self._op_map_rev = dict(
+            displacement="displacement",
+            stress="stress",
+            elastic_strain="elastic_strain",
+            structural_temperature="structural_temperature",
+            temperature="temperature",
+            electric_potential="electric_potential",
+        )
 
     @property
     def displacement(self):

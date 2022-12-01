@@ -9,20 +9,22 @@ import logging
 import os
 import traceback
 import warnings
-
 from enum import Enum
-from ansys.dpf.core.check_version import version_requires, server_meet_version
+
+from ansys.dpf.gate import (collection_capi, collection_grpcapi,
+                            data_processing_capi, data_processing_grpcapi,
+                            dpf_vector, object_handler, operator_abstract_api,
+                            operator_capi, operator_grpcapi)
+
+from ansys.dpf.core import server as server_module
+from ansys.dpf.core.check_version import server_meet_version, version_requires
+from ansys.dpf.core.common import types_enum_to_types
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.mapping_types import types
-from ansys.dpf.core.common import types_enum_to_types
-from ansys.dpf.core.outputs import Output, Outputs, _Outputs
-from ansys.dpf.core import server as server_module
 from ansys.dpf.core.operator_specification import Specification
-from ansys.dpf.gate import operator_capi, operator_abstract_api, operator_grpcapi, \
-    data_processing_capi, data_processing_grpcapi, collection_capi, collection_grpcapi, \
-    dpf_vector, object_handler
+from ansys.dpf.core.outputs import Output, Outputs, _Outputs
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -103,14 +105,18 @@ class Operator:
 
         # step4: if object exists: take instance, else create it (server)
         if self._server.has_client():
-            self._internal_obj = self._api.operator_new_on_client(self.name, self._server.client)
+            self._internal_obj = self._api.operator_new_on_client(
+                self.name, self._server.client
+            )
         else:
             self._internal_obj = self._api.operator_new(self.name)
 
         if self._internal_obj is None:
-            raise KeyError(f"The operator {self.name} doesn't exist in the registry. "
-                           f"Check its spelling in the documentation or verify its availability "
-                           f"in your Context (Entry/Premium) and in your loaded plugins.")
+            raise KeyError(
+                f"The operator {self.name} doesn't exist in the registry. "
+                f"Check its spelling in the documentation or verify its availability "
+                f"in your Context (Entry/Premium) and in your loaded plugins."
+            )
 
         self._spec = Specification(operator_name=self.name, server=self._server)
         # add dynamic inputs
@@ -129,7 +135,7 @@ class Operator:
         if self._api_instance is None:
             self._api_instance = self._server.get_api_for_type(
                 capi=operator_capi.OperatorCAPI,
-                grpcapi=operator_grpcapi.OperatorGRPCAPI
+                grpcapi=operator_grpcapi.OperatorGRPCAPI,
             )
         return self._api_instance
 
@@ -155,7 +161,11 @@ class Operator:
 
         for result_type in sub_results:
             try:
-                setattr(self, result_type["name"], _SubOperator(result_type["operator name"], self))
+                setattr(
+                    self,
+                    result_type["name"],
+                    _SubOperator(result_type["operator name"], self),
+                )
             except KeyError:
                 pass
 
@@ -217,9 +227,12 @@ class Operator:
         elif isinstance(inpt, Operator):
             self._api.operator_connect_operator_output(self, pin, inpt, pin_out)
         elif isinstance(inpt, Output):
-            self._api.operator_connect_operator_output(self, pin, inpt._operator, inpt._pin)
+            self._api.operator_connect_operator_output(
+                self, pin, inpt._operator, inpt._pin
+            )
         elif isinstance(inpt, list):
             from ansys.dpf.core import collection
+
             if server_meet_version("3.0", self._server):
                 inpt = collection.Collection.integral_collection(inpt, self._server)
                 self._api.operator_connect_collection_as_vector(self, pin, inpt)
@@ -230,10 +243,9 @@ class Operator:
                     self._api.operator_connect_vector_double(self, pin, inpt, len(inpt))
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
+
             label_space_to_con = label_space.LabelSpace(
-                label_space=inpt,
-                obj=self,
-                server=self._server
+                label_space=inpt, obj=self, server=self._server
             )
             self._api.operator_connect_label_space(self, pin, label_space_to_con)
         else:
@@ -249,84 +261,108 @@ class Operator:
 
     @property
     def _type_to_output_method(self):
-        from ansys.dpf.core import (
-            cyclic_support,
-            data_sources,
-            field,
-            fields_container,
-            meshed_region,
-            meshes_container,
-            property_field,
-            string_field,
-            custom_type_field,
-            result_info,
-            scoping,
-            scopings_container,
-            time_freq_support,
-            data_tree,
-            workflow,
-            collection,
-            streams_container,
-        )
+        from ansys.dpf.core import (collection, custom_type_field,
+                                    cyclic_support, data_sources, data_tree,
+                                    field, fields_container, meshed_region,
+                                    meshes_container, property_field,
+                                    result_info, scoping, scopings_container,
+                                    streams_container, string_field,
+                                    time_freq_support, workflow)
+
         return [
             (bool, self._api.operator_getoutput_bool),
             (int, self._api.operator_getoutput_int),
             (str, self._api.operator_getoutput_string),
             (float, self._api.operator_getoutput_double),
             (field.Field, self._api.operator_getoutput_field, "field"),
-            (property_field.PropertyField, self._api.operator_getoutput_property_field,
-             "property_field"),
-            (string_field.StringField, self._api.operator_getoutput_string_field,
-             "string_field"),
-            (custom_type_field.CustomTypeField, self._api.operator_getoutput_custom_type_field,
-             "field"),
+            (
+                property_field.PropertyField,
+                self._api.operator_getoutput_property_field,
+                "property_field",
+            ),
+            (
+                string_field.StringField,
+                self._api.operator_getoutput_string_field,
+                "string_field",
+            ),
+            (
+                custom_type_field.CustomTypeField,
+                self._api.operator_getoutput_custom_type_field,
+                "field",
+            ),
             (scoping.Scoping, self._api.operator_getoutput_scoping, "scoping"),
-            (fields_container.FieldsContainer, self._api.operator_getoutput_fields_container,
-             "fields_container"),
-            (scopings_container.ScopingsContainer, self._api.operator_getoutput_scopings_container,
-             "scopings_container"),
-            (meshes_container.MeshesContainer, self._api.operator_getoutput_meshes_container,
-             "meshes_container"),
-            (streams_container.StreamsContainer, self._api.operator_getoutput_streams,
-             "streams_container"),
-            (data_sources.DataSources, self._api.operator_getoutput_data_sources,
-             "data_sources"),
-            (cyclic_support.CyclicSupport, self._api.operator_getoutput_cyclic_support,
-             "cyclic_support"),
-            (meshed_region.MeshedRegion, self._api.operator_getoutput_meshed_region, "mesh"),
-            (result_info.ResultInfo, self._api.operator_getoutput_result_info, "result_info"),
-            (time_freq_support.TimeFreqSupport, self._api.operator_getoutput_time_freq_support,
-             "time_freq_support"),
+            (
+                fields_container.FieldsContainer,
+                self._api.operator_getoutput_fields_container,
+                "fields_container",
+            ),
+            (
+                scopings_container.ScopingsContainer,
+                self._api.operator_getoutput_scopings_container,
+                "scopings_container",
+            ),
+            (
+                meshes_container.MeshesContainer,
+                self._api.operator_getoutput_meshes_container,
+                "meshes_container",
+            ),
+            (
+                streams_container.StreamsContainer,
+                self._api.operator_getoutput_streams,
+                "streams_container",
+            ),
+            (
+                data_sources.DataSources,
+                self._api.operator_getoutput_data_sources,
+                "data_sources",
+            ),
+            (
+                cyclic_support.CyclicSupport,
+                self._api.operator_getoutput_cyclic_support,
+                "cyclic_support",
+            ),
+            (
+                meshed_region.MeshedRegion,
+                self._api.operator_getoutput_meshed_region,
+                "mesh",
+            ),
+            (
+                result_info.ResultInfo,
+                self._api.operator_getoutput_result_info,
+                "result_info",
+            ),
+            (
+                time_freq_support.TimeFreqSupport,
+                self._api.operator_getoutput_time_freq_support,
+                "time_freq_support",
+            ),
             (workflow.Workflow, self._api.operator_getoutput_workflow, "workflow"),
             (data_tree.DataTree, self._api.operator_getoutput_data_tree, "data_tree"),
             (Operator, self._api.operator_getoutput_operator, "operator"),
-            (dpf_vector.DPFVectorInt, self._api.operator_getoutput_int_collection,
-             lambda obj: collection.IntCollection(
-                 server=self._server, collection=obj
-             ).get_integral_entries()),
-            (dpf_vector.DPFVectorDouble, self._api.operator_getoutput_double_collection,
-             lambda obj: collection.FloatCollection(
-                 server=self._server, collection=obj
-             ).get_integral_entries()),
+            (
+                dpf_vector.DPFVectorInt,
+                self._api.operator_getoutput_int_collection,
+                lambda obj: collection.IntCollection(
+                    server=self._server, collection=obj
+                ).get_integral_entries(),
+            ),
+            (
+                dpf_vector.DPFVectorDouble,
+                self._api.operator_getoutput_double_collection,
+                lambda obj: collection.FloatCollection(
+                    server=self._server, collection=obj
+                ).get_integral_entries(),
+            ),
         ]
 
     @property
     def _type_to_input_method(self):
-        from ansys.dpf.core import (
-            cyclic_support,
-            data_sources,
-            field,
-            collection,
-            meshed_region,
-            property_field,
-            string_field,
-            custom_type_field,
-            scoping,
-            time_freq_support,
-            data_tree,
-            workflow,
-            model,
-        )
+        from ansys.dpf.core import (collection, custom_type_field,
+                                    cyclic_support, data_sources, data_tree,
+                                    field, meshed_region, model,
+                                    property_field, scoping, string_field,
+                                    time_freq_support, workflow)
+
         return [
             (bool, self._api.operator_connect_bool),
             ((int, Enum), self._api.operator_connect_int),
@@ -335,16 +371,25 @@ class Operator:
             (field.Field, self._api.operator_connect_field),
             (property_field.PropertyField, self._api.operator_connect_property_field),
             (string_field.StringField, self._api.operator_connect_string_field),
-            (custom_type_field.CustomTypeField, self._api.operator_connect_custom_type_field),
+            (
+                custom_type_field.CustomTypeField,
+                self._api.operator_connect_custom_type_field,
+            ),
             (scoping.Scoping, self._api.operator_connect_scoping),
             (collection.Collection, self._api.operator_connect_collection),
             (data_sources.DataSources, self._api.operator_connect_data_sources),
-            (model.Model, self._api.operator_connect_data_sources,
-             lambda obj: obj.metadata.data_sources),
+            (
+                model.Model,
+                self._api.operator_connect_data_sources,
+                lambda obj: obj.metadata.data_sources,
+            ),
             (cyclic_support.CyclicSupport, self._api.operator_connect_cyclic_support),
             (meshed_region.MeshedRegion, self._api.operator_connect_meshed_region),
             # TO DO: (result_info.ResultInfo, self._api.operator_connect_result_info),
-            (time_freq_support.TimeFreqSupport, self._api.operator_connect_time_freq_support),
+            (
+                time_freq_support.TimeFreqSupport,
+                self._api.operator_connect_time_freq_support,
+            ),
             (workflow.Workflow, self._api.operator_connect_workflow),
             (data_tree.DataTree, self._api.operator_connect_data_tree),
             (Operator, self._api.operator_connect_operator_as_input),
@@ -385,7 +430,9 @@ class Operator:
                         out = type_tuple[2](type_tuple[1](self, pin))
                 if out is None:
                     try:
-                        return output_type(type_tuple[1](self, pin), server=self._server)
+                        return output_type(
+                            type_tuple[1](self, pin), server=self._server
+                        )
                     except TypeError:
                         self._progress_thread = None
                         return output_type(type_tuple[1](self, pin))
@@ -557,9 +604,10 @@ class Operator:
                     return output()
 
     def _find_outputs_corresponding_pins(
-            self, type_names, inpt, pin, corresponding_pins
+        self, type_names, inpt, pin, corresponding_pins
     ):
         from ansys.dpf.core.results import Result
+
         for python_name in type_names:
             # appears to be an issue on Linux.  This check is here
             # because cpp mappings are a single type mapping and
@@ -573,7 +621,9 @@ class Operator:
                 if isinstance(inpt, Operator):
                     output_pin_available = inpt.outputs._get_given_output([python_name])
                 elif isinstance(inpt, Result):
-                    output_pin_available = inpt().outputs._get_given_output([python_name])
+                    output_pin_available = inpt().outputs._get_given_output(
+                        [python_name]
+                    )
                 else:
                     output_pin_available = inpt._get_given_output([python_name])
                 for outputpin in output_pin_available:
@@ -644,7 +694,7 @@ class Operator:
         from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(
-                operators.math, "generalized_inner_product_fc"
+            operators.math, "generalized_inner_product_fc"
         ):
             op = operators.math.generalized_inner_product_fc(server=self._server)
         else:
@@ -713,12 +763,13 @@ def available_operator_names(server=None):
 
     api = server.get_api_for_type(
         capi=data_processing_capi.DataProcessingCAPI,
-        grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+        grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
     )
     api.init_data_processing_environment(server)  # creates stub when gRPC
     coll_api = server.get_api_for_type(
         capi=collection_capi.CollectionCAPI,
-        grpcapi=collection_grpcapi.CollectionGRPCAPI)
+        grpcapi=collection_grpcapi.CollectionGRPCAPI,
+    )
     coll_api.init_collection_environment(server)
 
     if server.has_client():
@@ -726,11 +777,12 @@ def available_operator_names(server=None):
             data_processing_api=api,
             internal_obj=api.data_processing_list_operators_as_collection_on_client(
                 server.client
-            ))
+            ),
+        )
     else:
         coll_obj = object_handler.ObjHandler(
             data_processing_api=api,
-            internal_obj=api.data_processing_list_operators_as_collection()
+            internal_obj=api.data_processing_list_operators_as_collection(),
         )
     num = coll_api.collection_get_size(coll_obj)
     out = []

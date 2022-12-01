@@ -36,9 +36,8 @@ file at the given path.
 
 import os
 
-from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
-
+from ansys.dpf.core import examples
 
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -137,22 +136,24 @@ if os.name == "nt" and not os.path.exists(
     cmd_file = examples.downloads._retrieve_file(
         CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
     )
-    args = ["powershell", cmd_file,
-            "-pluginpath", plugin_path,
-            "-zippath", os.path.join(plugin_path, 'assets', 'gltf_sites_winx64.zip')
-            ]
+    args = [
+        "powershell",
+        cmd_file,
+        "-pluginpath",
+        plugin_path,
+        "-zippath",
+        os.path.join(plugin_path, "assets", "gltf_sites_winx64.zip"),
+    ]
     print(args)
     import subprocess
 
-    process = subprocess.run(
-        args,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
+    process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if process.stderr:
         raise RuntimeError(
             "Installing pygltf in a virtual environment failed with error:\n"
-            + process.stderr.decode() + "\n\n and log:\n" + process.stdout.decode()
+            + process.stderr.decode()
+            + "\n\n and log:\n"
+            + process.stdout.decode()
         )
     else:
         print("Installing pygltf in a virtual environment succeeded")

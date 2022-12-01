@@ -5,8 +5,9 @@ GenericSupport
 ==============
 """
 from ansys.dpf.gate import generic_support_capi, generic_support_grpcapi
+
+from ansys.dpf.core import errors, field, property_field, string_field
 from ansys.dpf.core.support import Support
-from ansys.dpf.core import field, property_field, string_field, errors
 
 
 class GenericSupport(Support):
@@ -55,7 +56,8 @@ class GenericSupport(Support):
         # step 2: get api
         self._api = self._server.get_api_for_type(
             capi=generic_support_capi.GenericSupportCAPI,
-            grpcapi=generic_support_grpcapi.GenericSupportGRPCAPI)
+            grpcapi=generic_support_grpcapi.GenericSupportGRPCAPI,
+        )
 
         # step3: init environment
         self._api.init_generic_support_environment(self)  # creates stub when gRPC
@@ -67,8 +69,7 @@ class GenericSupport(Support):
         else:
             if self._server.has_client():
                 self._internal_obj = self._api.generic_support_new_on_client(
-                    self._server.client,
-                    name
+                    self._server.client, name
                 )
             else:
                 self._internal_obj = self._api.generic_support_new(name)

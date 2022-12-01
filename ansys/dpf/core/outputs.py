@@ -5,10 +5,11 @@ Outputs
 =======
 """
 
-from ansys.dpf.core.mapping_types import map_types_to_python
-from ansys.dpf.core.common import types
-from ansys.dpf.core.operator_specification import PinSpecification
 import re
+
+from ansys.dpf.core.common import types
+from ansys.dpf.core.mapping_types import map_types_to_python
+from ansys.dpf.core.operator_specification import PinSpecification
 
 
 class Output:
@@ -27,6 +28,7 @@ class Output:
     True
     >>> fc = disp_op.outputs.fields_container()
     """
+
     def __init__(self, spec, pin, operator):
         self._spec = spec
         self._operator = operator

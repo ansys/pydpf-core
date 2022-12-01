@@ -1,15 +1,14 @@
-import os
-
-import pytest
-import conftest
-import pkgutil
 import datetime
+import os
+import pkgutil
 import platform
 from importlib import reload
 
+import pytest
+
+import conftest
 from ansys import dpf
-from ansys.dpf.core import path_utilities
-from ansys.dpf.core import examples
+from ansys.dpf.core import examples, path_utilities
 from conftest import running_docker
 
 
@@ -47,15 +46,19 @@ def test_loadplugin(server_type):
     assert loaded
 
 
-@pytest.mark.skipif(platform.system() == "Windows"
-                    and (platform.python_version().startswith("3.8")
-                         or platform.python_version().startswith("3.7")),
-                    reason="Random SEGFAULT in the GitHub pipeline for 3.7-8 on Windows")
+@pytest.mark.skipif(
+    platform.system() == "Windows"
+    and (
+        platform.python_version().startswith("3.8")
+        or platform.python_version().startswith("3.7")
+    ),
+    reason="Random SEGFAULT in the GitHub pipeline for 3.7-8 on Windows",
+)
 def test_upload_download(tmpdir, server_type_remote_process):
     tmpdir = str(tmpdir)
     file = dpf.core.upload_file_in_tmp_folder(
         examples.download_all_kinds_of_complexity(return_local_path=True),
-        server=server_type_remote_process
+        server=server_type_remote_process,
     )
     dataSource = dpf.core.DataSources(file, server=server_type_remote_process)
     op = dpf.core.Operator("S", server=server_type_remote_process)
@@ -68,18 +71,20 @@ def test_upload_download(tmpdir, server_type_remote_process):
 
     dir = os.path.dirname(file)
     vtk_path = os.path.join(dir, "file.vtk")
-    vtk = dpf.core.operators.serialization.vtk_export(file_path=vtk_path, fields1=fcOut,
-                                                      server=server_type_remote_process)
+    vtk = dpf.core.operators.serialization.vtk_export(
+        file_path=vtk_path, fields1=fcOut, server=server_type_remote_process
+    )
     vtk.run()
 
-    dpf.core.download_file(vtk_path, os.path.join(tmpdir, "file.vtk"),
-                           server=server_type_remote_process)
+    dpf.core.download_file(
+        vtk_path, os.path.join(tmpdir, "file.vtk"), server=server_type_remote_process
+    )
     assert os.path.exists(os.path.join(tmpdir, "file.vtk"))
 
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_download_folder(
-        allkindofcomplexity, plate_msup, multishells, tmpdir, server_type_remote_process
+    allkindofcomplexity, plate_msup, multishells, tmpdir, server_type_remote_process
 ):
     tmpdir = str(tmpdir)
     file = dpf.core.upload_file_in_tmp_folder(
@@ -135,7 +140,7 @@ def test_download_with_subdir(multishells, tmpdir, server_type_remote_process):
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_downloadinfolder_uploadinfolder(
-        multishells, tmpdir, server_type_remote_process
+    multishells, tmpdir, server_type_remote_process
 ):
     tmpdir = str(tmpdir)
     base = dpf.core.BaseService(server=server_type_remote_process)
@@ -231,13 +236,17 @@ def test_uploadinfolder_emptyfolder(tmpdir, server_type_remote_process):
 
 def test_load_plugin_correctly(server_type):
     from ansys.dpf import core as dpf
+
     actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
 
     base = dpf.BaseService(server=server_type)
     if server_type.os == "nt":
         base.load_library("Ans.Dpf.Math.dll", "math_operators", generate_operators=True)
         t = os.path.getmtime(os.path.join(actual_path, r"operators/math/fft_eval.py"))
-        assert datetime.datetime.fromtimestamp(t).date() == datetime.datetime.today().date()
+        assert (
+            datetime.datetime.fromtimestamp(t).date()
+            == datetime.datetime.today().date()
+        )
     else:
         base.load_library("libAns.Dpf.Math.so", "math_operators")
     exists = os.path.exists(os.path.join(actual_path, r"operators/fft_eval.py"))
@@ -251,18 +260,27 @@ def test_load_plugin_correctly(server_type):
 @conftest.raises_for_servers_version_under("4.0")
 def test_load_plugin_correctly_remote():
     from ansys.dpf import core as dpf
-    server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer, as_global=False)
-    server_connected = dpf.connect_to_server(server.external_ip, server.external_port,
-                                             as_global=False)
+
+    server = dpf.start_local_server(
+        config=dpf.AvailableServerConfigs.GrpcServer, as_global=False
+    )
+    server_connected = dpf.connect_to_server(
+        server.external_ip, server.external_port, as_global=False
+    )
 
     actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
 
     if server.os == "posix":
-        dpf.load_library("libAns.Dpf.Math.so", "math_operators", server=server_connected)
+        dpf.load_library(
+            "libAns.Dpf.Math.so", "math_operators", server=server_connected
+        )
     else:
         dpf.load_library("Ans.Dpf.Math.dll", "math_operators", server=server_connected)
         t = os.path.getmtime(os.path.join(actual_path, r"operators/math/fft_eval.py"))
-        assert datetime.datetime.fromtimestamp(t).date() == datetime.datetime.today().date()
+        assert (
+            datetime.datetime.fromtimestamp(t).date()
+            == datetime.datetime.today().date()
+        )
 
     actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
 
@@ -289,7 +307,8 @@ def test_dpf_join(server_type):
     reason="GrpcServer class is " "supported starting server version 4.0",
 )
 def test_load_api_without_awp_root(restore_awp_root):
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import (CommunicationProtocols,
+                                               ServerConfig)
 
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
@@ -303,7 +322,10 @@ def test_load_api_without_awp_root(restore_awp_root):
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     serv = dpf.core.connect_to_server(
-        config=conf, as_global=False, ip=loc_serv.external_ip, port=loc_serv.external_port
+        config=conf,
+        as_global=False,
+        ip=loc_serv.external_ip,
+        port=loc_serv.external_port,
     )
 
     assert serv._client_api_path is not None
@@ -322,7 +344,8 @@ def test_load_api_without_awp_root(restore_awp_root):
 )
 def test_load_api_with_awp_root():
     # with awp_root
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import (CommunicationProtocols,
+                                               ServerConfig)
 
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     serv_2 = dpf.core.start_local_server(config=conf, as_global=False)
@@ -342,7 +365,8 @@ def test_load_api_with_awp_root():
     reason="GrpcServer class is " "supported starting server version 4.0",
 )
 def test_load_api_with_awp_root_2():
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import (CommunicationProtocols,
+                                               ServerConfig)
 
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
@@ -350,7 +374,10 @@ def test_load_api_with_awp_root_2():
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     serv = dpf.core.connect_to_server(
-        config=conf, as_global=False, ip=loc_serv.external_ip, port=loc_serv.external_port
+        config=conf,
+        as_global=False,
+        ip=loc_serv.external_ip,
+        port=loc_serv.external_port,
     )
 
     assert serv._client_api_path is not None
@@ -368,7 +395,8 @@ def test_load_api_with_awp_root_2():
     reason="GrpcServer class is " "supported starting server version 4.0",
 )
 def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import (CommunicationProtocols,
+                                               ServerConfig)
 
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
@@ -379,10 +407,16 @@ def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
 
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
-    with pytest.warns(UserWarning, match="Could not connect to remote server as ansys-dpf--gatebin "
-                                         "is missing. Trying again using LegacyGrpcServer.\n"):
+    with pytest.warns(
+        UserWarning,
+        match="Could not connect to remote server as ansys-dpf--gatebin "
+        "is missing. Trying again using LegacyGrpcServer.\n",
+    ):
         serv = dpf.core.connect_to_server(
-            config=conf, as_global=False, ip=loc_serv.external_ip, port=loc_serv.external_port
+            config=conf,
+            as_global=False,
+            ip=loc_serv.external_ip,
+            port=loc_serv.external_port,
         )
 
 
@@ -395,7 +429,8 @@ def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
 )
 def test_load_api_with_awp_root_no_gatebin():
     # with awp_root
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import (CommunicationProtocols,
+                                               ServerConfig)
 
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     serv_2 = dpf.core.start_local_server(config=conf, as_global=False)
@@ -419,7 +454,8 @@ def test_load_api_with_awp_root_no_gatebin():
     reason="GrpcServer class is " "supported starting server version 4.0",
 )
 def test_load_api_with_awp_root_2_no_gatebin():
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import (CommunicationProtocols,
+                                               ServerConfig)
 
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
@@ -458,7 +494,9 @@ def set_context_back_to_premium(request):
         dpf.core.SERVER_CONFIGURATION = None
         dpf.core.server.shutdown_all_session_servers()
         try:
-            dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.premium)
+            dpf.core.set_default_server_context(
+                dpf.core.AvailableServerContexts.premium
+            )
         except dpf.core.errors.DpfVersionNotSupported:
             pass
 
@@ -484,15 +522,19 @@ def reset_context_environment_variable(request):
             del os.environ[key]
         reload(s_c)
         try:
-            dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.premium)
+            dpf.core.set_default_server_context(
+                dpf.core.AvailableServerContexts.premium
+            )
         except dpf.core.errors.DpfVersionNotSupported:
             pass
 
     request.addfinalizer(revert)
 
 
-@pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-                    reason="AWP ROOT is not set with Docker")
+@pytest.mark.skipif(
+    running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="AWP ROOT is not set with Docker",
+)
 @conftest.raises_for_servers_version_under("6.0")
 def test_context_environment_variable(reset_context_environment_variable):
     from ansys.dpf.core import server_context as s_c
@@ -501,8 +543,10 @@ def test_context_environment_variable(reset_context_environment_variable):
 
     # Test raise on wrong value
     os.environ[key] = "PREM"
-    with pytest.warns(UserWarning, match="which is not recognized as an available "
-                                         "DPF ServerContext type."):
+    with pytest.warns(
+        UserWarning,
+        match="which is not recognized as an available " "DPF ServerContext type.",
+    ):
         reload(s_c)
     assert s_c.SERVER_CONTEXT == s_c.AvailableServerContexts.entry
 
@@ -511,15 +555,20 @@ def test_context_environment_variable(reset_context_environment_variable):
         os.environ[key] = context.name.upper()
         reload(s_c)
         try:
-            assert s_c.SERVER_CONTEXT == getattr(s_c.AvailableServerContexts, context.name)
+            assert s_c.SERVER_CONTEXT == getattr(
+                s_c.AvailableServerContexts, context.name
+            )
         except AttributeError:
             continue
 
 
 @pytest.mark.order(1)
-@pytest.mark.skipif(running_docker or os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
-                    or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-                    reason="Tests ANSYS_DPF_ACCEPT_LA")
+@pytest.mark.skipif(
+    running_docker
+    or os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
+    or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="Tests ANSYS_DPF_ACCEPT_LA",
+)
 def test_license_agr(set_context_back_to_premium):
     config = dpf.core.AvailableServerConfigs.InProcessServer
     init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
@@ -535,9 +584,11 @@ def test_license_agr(set_context_back_to_premium):
 
 
 @pytest.mark.order(2)
-@pytest.mark.skipif(os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
-                    or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-                    reason="Tests ANSYS_DPF_ACCEPT_LA")
+@pytest.mark.skipif(
+    os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
+    or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="Tests ANSYS_DPF_ACCEPT_LA",
+)
 def test_license_agr_remote(remote_config_server_type, set_context_back_to_premium):
     init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
     del os.environ["ANSYS_DPF_ACCEPT_LA"]
@@ -552,8 +603,10 @@ def test_license_agr_remote(remote_config_server_type, set_context_back_to_premi
 
 
 @pytest.mark.order(3)
-@pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-                    reason="AWP ROOT is not set with Docker")
+@pytest.mark.skipif(
+    running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="AWP ROOT is not set with Docker",
+)
 @conftest.raises_for_servers_version_under("6.0")
 def test_apply_context(set_context_back_to_premium):
     # Carefully: this test only work if the premium context has never been applied before on the
@@ -584,8 +637,9 @@ def test_apply_context(set_context_back_to_premium):
 
 
 @pytest.mark.order(4)
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-                    reason="not supported")
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0, reason="not supported"
+)
 @conftest.raises_for_servers_version_under("6.0")
 def test_apply_context_remote(remote_config_server_type, set_context_back_to_premium):
     dpf.core.server.shutdown_all_session_servers()
@@ -621,8 +675,10 @@ def test_apply_context_remote(remote_config_server_type, set_context_back_to_pre
 
 
 @pytest.mark.order("last")
-@pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-                    reason="AWP ROOT is not set with Docker")
+@pytest.mark.skipif(
+    running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="AWP ROOT is not set with Docker",
+)
 @conftest.raises_for_servers_version_under("6.0")
 def test_release_dpf(server_type):
     op = dpf.core.Operator("expansion::modal_superposition", server=server_type)

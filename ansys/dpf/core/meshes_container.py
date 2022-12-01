@@ -4,10 +4,10 @@ MeshesContainer
 ===============
 Contains classes associated with the DPF MeshesContainer.
 """
+from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import meshed_region
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.plotter import DpfPlotter
-from ansys.dpf.core import errors as dpf_errors
 
 
 class MeshesContainer(Collection):
@@ -26,12 +26,12 @@ class MeshesContainer(Collection):
     """
 
     def __init__(self, meshes_container=None, server=None):
-        super().__init__(
-            collection=meshes_container, server=server
-        )
+        super().__init__(collection=meshes_container, server=server)
         if self._internal_obj is None:
             if self._server.has_client():
-                self._internal_obj = self._api.collection_of_mesh_new_on_client(self._server.client)
+                self._internal_obj = self._api.collection_of_mesh_new_on_client(
+                    self._server.client
+                )
             else:
                 self._internal_obj = self._api.collection_of_mesh_new()
 
@@ -89,22 +89,32 @@ class MeshesContainer(Collection):
                 field = fields_container[i]
                 if deform_by:
                     from ansys.dpf.core.operators import scoping
+
                     mesh_scoping = scoping.from_mesh(mesh=mesh_to_send)
                     deform_by = deform_by.on_mesh_scoping(mesh_scoping)
-                pl.add_field(field, mesh_to_send,
-                             deform_by=deform_by,
-                             show_axes=kwargs.pop("show_axes", True),
-                             scale_factor=scale_factor,
-                             **kwargs)
+                pl.add_field(
+                    field,
+                    mesh_to_send,
+                    deform_by=deform_by,
+                    show_axes=kwargs.pop("show_axes", True),
+                    scale_factor=scale_factor,
+                    **kwargs,
+                )
         else:
             # If no field given, associate a random color to each mesh in the container
             from random import random
+
             random_color = "color" not in kwargs
             for mesh in self:
                 if random_color:
                     kwargs["color"] = [random(), random(), random()]
-                pl.add_mesh(mesh, deform_by=deform_by, scale_factor=scale_factor,
-                            show_axes=kwargs.pop("show_axes", True), **kwargs)
+                pl.add_mesh(
+                    mesh,
+                    deform_by=deform_by,
+                    scale_factor=scale_factor,
+                    show_axes=kwargs.pop("show_axes", True),
+                    **kwargs,
+                )
         # Plot the figure
         return pl.show_figure(**kwargs)
 

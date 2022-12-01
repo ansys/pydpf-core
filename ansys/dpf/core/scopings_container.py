@@ -27,9 +27,7 @@ class ScopingsContainer(Collection):
     """
 
     def __init__(self, scopings_container=None, server=None):
-        super().__init__(
-            collection=scopings_container, server=server
-        )
+        super().__init__(collection=scopings_container, server=server)
         if self._internal_obj is None:
             if self._server.has_client():
                 self._internal_obj = self._api.collection_of_scoping_new_on_client(

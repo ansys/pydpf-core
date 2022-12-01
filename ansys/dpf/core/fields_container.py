@@ -6,9 +6,9 @@ FieldsContainer
 Contains classes associated with the DPF FieldsContainer.
 """
 from ansys import dpf
-from ansys.dpf.core.collection import Collection
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import field
+from ansys.dpf.core.collection import Collection
 
 
 class FieldsContainer(Collection):
@@ -64,9 +64,7 @@ class FieldsContainer(Collection):
     """
 
     def __init__(self, fields_container=None, server=None):
-        super().__init__(
-            collection=fields_container, server=server
-        )
+        super().__init__(collection=fields_container, server=server)
         if self._internal_obj is None:
             if self._server.has_client():
                 self._internal_obj = self._api.collection_of_field_new_on_client(
@@ -534,7 +532,9 @@ class FieldsContainer(Collection):
 
         # TODO /!\ We should be using a mechanical::time_selector, however it is not wrapped.
 
-        wf.set_input_name("indices", extract_field_op.inputs.indices)  # Have to do it this way
+        wf.set_input_name(
+            "indices", extract_field_op.inputs.indices
+        )  # Have to do it this way
         wf.connect("indices", forward_index)  # Otherwise not accepted
         # Add the operators to the workflow
         wf.add_operators([extract_field_op, forward_index])
@@ -544,23 +544,29 @@ class FieldsContainer(Collection):
         if deform_by is not False:
             if deform_by is None or isinstance(deform_by, bool):
                 # By default, set deform_by as self if nodal 3D vector field
-                if self[0].location == dpf.core.common.locations.nodal and \
-                        n_components == 3:
+                if (
+                    self[0].location == dpf.core.common.locations.nodal
+                    and n_components == 3
+                ):
                     deform_by = self
                 else:
                     deform = False
             if deform_by and not isinstance(deform_by, dpf.core.FieldsContainer):
                 deform_by = deform_by.eval()
                 if len(deform_by) != len(self):
-                    raise ValueError("'deform_by' argument must result in a FieldsContainer "
-                                     "of same length as the animated one "
-                                     f"(len(deform_by.eval())={len(deform_by)} "
-                                     f"!= len(self)={len(self)}).")
+                    raise ValueError(
+                        "'deform_by' argument must result in a FieldsContainer "
+                        "of same length as the animated one "
+                        f"(len(deform_by.eval())={len(deform_by)} "
+                        f"!= len(self)={len(self)})."
+                    )
         else:
             deform = False
 
         if deform:
-            scale_factor_fc = dpf.core.animator.scale_factor_to_fc(scale_factor, deform_by)
+            scale_factor_fc = dpf.core.animator.scale_factor_to_fc(
+                scale_factor, deform_by
+            )
             scale_factor_invert = dpf.core.operators.math.invert_fc(scale_factor_fc)
             # Extraction of the field of interest based on index
             # time_selector = dpf.core.Operator("mechanical::time_selector")
@@ -568,12 +574,15 @@ class FieldsContainer(Collection):
             wf.set_input_name("indices", extract_field_op_2.inputs.indices)
             wf.connect("indices", forward_index)  # Otherwise not accepted
             # Scaling of the field based on scale_factor and index
-            extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor_invert)
+            extract_scale_factor_op = dpf.core.operators.utility.extract_field(
+                scale_factor_invert
+            )
             wf.set_input_name("indices", extract_scale_factor_op.inputs.indices)
             wf.connect("indices", forward_index)  # Otherwise not accepted
 
             divide_op = dpf.core.operators.math.component_wise_divide(
-                extract_field_op_2.outputs.field, extract_scale_factor_op.outputs.field)
+                extract_field_op_2.outputs.field, extract_scale_factor_op.outputs.field
+            )
             wf.set_output_name("deform_by", divide_op.outputs.field)
         else:
             scale_factor = None
@@ -581,7 +590,8 @@ class FieldsContainer(Collection):
         wf.progress_bar = False
 
         loop_over_field = dpf.core.fields_factory.field_from_array(
-            frequencies.data[loop_over.ids-1])
+            frequencies.data[loop_over.ids - 1]
+        )
         loop_over_field.scoping.ids = loop_over.ids
         loop_over_field.unit = frequencies.unit
 
@@ -590,9 +600,12 @@ class FieldsContainer(Collection):
 
         kwargs.setdefault("freq_kwargs", {"font_size": 12, "fmt": ".3e"})
 
-        return anim.animate(loop_over=loop_over_field,
-                            save_as=save_as, scale_factor=scale_factor,
-                            **kwargs)
+        return anim.animate(
+            loop_over=loop_over_field,
+            save_as=save_as,
+            scale_factor=scale_factor,
+            **kwargs,
+        )
 
     def __add__(self, fields_b):
         """Add two fields or two fields containers.
@@ -601,8 +614,7 @@ class FieldsContainer(Collection):
         -------
         add : operators.math.add_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "add_fc"):
             op = operators.math.add_fc(self, fields_b, server=self._server)
@@ -619,8 +631,7 @@ class FieldsContainer(Collection):
         -------
         minus : operators.math.minus_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "minus_fc"):
             op = operators.math.minus_fc(server=self._server)
@@ -633,8 +644,7 @@ class FieldsContainer(Collection):
     def __pow__(self, value):
         if value != 2:
             raise ValueError('DPF only the value is "2" supported')
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(operators.math, "sqr_fc"):
             op = operators.math.sqr_fc(server=self._server)
@@ -651,8 +661,7 @@ class FieldsContainer(Collection):
         -------
         mul : operators.math.generalized_inner_product_fc
         """
-        from ansys.dpf.core import dpf_operator
-        from ansys.dpf.core import operators
+        from ansys.dpf.core import dpf_operator, operators
 
         if hasattr(operators, "math") and hasattr(
             operators.math, "generalized_inner_product_fc"

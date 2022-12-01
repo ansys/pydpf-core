@@ -6,10 +6,10 @@ server into account to create path.
 """
 
 import os
+from pathlib import Path
 
 import ansys.dpf.core.server_types
 from ansys.dpf.core import server as server_module
-from pathlib import Path
 
 
 def join(*args, **kwargs):
@@ -58,7 +58,7 @@ def join(*args, **kwargs):
     if len(parts) == 0:
         return ""
     separator = "\\"
-    if current_os == 'posix':
+    if current_os == "posix":
         separator = "/"
     path_to_return = parts[0]
     for ipath in range(1, len(parts)):
@@ -70,7 +70,7 @@ def to_server_os(path, server=None):
     path = str(path)
     server = server_module.get_or_create_server(server)
     path = server.docker_config.replace_with_mounted_volumes(path)
-    if server.os == 'posix':
+    if server.os == "posix":
         return path.replace("\\", "/")
     else:
         return path.replace("/", "\\")

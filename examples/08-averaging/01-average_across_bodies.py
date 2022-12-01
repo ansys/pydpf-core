@@ -18,9 +18,8 @@ likely changes the end results that are shown after postprocessing of the simula
 # Perform the required imports.
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import operators as ops
 from ansys.dpf.core import examples
-
+from ansys.dpf.core import operators as ops
 
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 

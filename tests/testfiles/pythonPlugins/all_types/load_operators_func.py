@@ -1,5 +1,7 @@
+from all_types import dpf_types_op, integral_types_op
+
 from ansys.dpf.core.custom_operator import record_operator
-from all_types import integral_types_op, dpf_types_op
+
 
 def load_operators(*args):
     record_operator(integral_types_op.ForwardBoolOperator, *args)

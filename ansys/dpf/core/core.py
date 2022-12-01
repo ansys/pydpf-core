@@ -2,31 +2,25 @@
 Core
 ====
 """
-import os
 import logging
+import os
 import warnings
 import weakref
+
+from ansys.dpf.gate import (collection_capi, collection_grpcapi,
+                            data_processing_capi, data_processing_grpcapi,
+                            integral_types, object_handler, tmp_dir_capi,
+                            tmp_dir_grpcapi)
 
 from ansys.dpf.core import errors, misc
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.runtime_config import (
-    RuntimeClientConfig,
-    RuntimeCoreConfig,
-    )
-from ansys.dpf.gate import (
-    data_processing_capi,
-    data_processing_grpcapi,
-    tmp_dir_capi,
-    tmp_dir_grpcapi,
-    collection_capi,
-    collection_grpcapi,
-    integral_types,
-    object_handler
-    )
+from ansys.dpf.core.runtime_config import (RuntimeClientConfig,
+                                           RuntimeCoreConfig)
 
 try:
     from grpc import _channel  # noqa: F401
+
     # weirdly necessary to delete LegacyGrpcError
 except ImportError:
     pass
@@ -40,7 +34,9 @@ else:
     CONFIGURATION = "release"
 
 
-def load_library(filename, name="", symbol="LoadOperators", server=None, generate_operators=False):
+def load_library(
+    filename, name="", symbol="LoadOperators", server=None, generate_operators=False
+):
     """Dynamically load an operators library for dpf.core.
     Code containing this library's operators is generated in
     ansys.dpf.core.operators
@@ -114,7 +110,7 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
 
 
 def upload_files_in_folder(
-        to_server_folder_path, client_folder_path, specific_extension=None, server=None
+    to_server_folder_path, client_folder_path, specific_extension=None, server=None
 ):
     """Upload all the files from a folder of the client
     to the target server folder path.
@@ -182,7 +178,7 @@ def download_file(server_file_path, to_client_file_path, server=None):
 
 
 def download_files_in_folder(
-        server_folder_path, to_client_folder_path, specific_extension=None, server=None
+    server_folder_path, to_client_folder_path, specific_extension=None, server=None
 ):
     """Download all the files from a folder of the server
     to the target client folder path
@@ -276,7 +272,9 @@ def _description(dpf_entity_message, server=None):
        description : str
     """
     try:
-        return BaseService(server, load_operators=False)._description(dpf_entity_message)
+        return BaseService(server, load_operators=False)._description(
+            dpf_entity_message
+        )
     except:
         return ""
 
@@ -322,11 +320,10 @@ class BaseService:
         # step 2: get api
         self._api = self._server().get_api_for_type(
             capi=data_processing_capi.DataProcessingCAPI,
-            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
         )
         self._api_tmp_dir = self._server().get_api_for_type(
-            capi=tmp_dir_capi.TmpDirCAPI,
-            grpcapi=tmp_dir_grpcapi.TmpDirGRPCAPI
+            capi=tmp_dir_capi.TmpDirCAPI, grpcapi=tmp_dir_grpcapi.TmpDirGRPCAPI
         )
 
         # step3: init environment
@@ -343,11 +340,15 @@ class BaseService:
             path to the temporary dir
         """
         if self._server().has_client():
-            return self._api_tmp_dir.tmp_dir_get_dir_on_client(client=self._server().client)
+            return self._api_tmp_dir.tmp_dir_get_dir_on_client(
+                client=self._server().client
+            )
         else:
             return self._api_tmp_dir.tmp_dir_get_dir()
 
-    def load_library(self, file_path, name="", symbol="LoadOperators", generate_operators=False):
+    def load_library(
+        self, file_path, name="", symbol="LoadOperators", generate_operators=False
+    ):
         """Dynamically load an operators library for dpf.core.
         Code containing this library's operators is generated in
         ansys.dpf.core.operators
@@ -379,17 +380,19 @@ class BaseService:
                 sLibraryKey=name,
                 sDllPath=file_path,
                 sloader_symbol=symbol,
-                client=self._server().client
+                client=self._server().client,
             )
         else:
-            self._internal_obj = self._api.data_processing_load_library(name=name,
-                                                                        dllPath=file_path,
-                                                                        symbol=symbol)
+            self._internal_obj = self._api.data_processing_load_library(
+                name=name, dllPath=file_path, symbol=symbol
+            )
         if generate_operators:
             # TODO: fix code generation upload posix
             import os
+
             def __generate_code(TARGET_PATH, filename, name, symbol):
                 from ansys.dpf.core.dpf_operator import Operator
+
                 try:
                     code_gen = Operator("python_generator")
                     code_gen.connect(1, TARGET_PATH)
@@ -398,12 +401,16 @@ class BaseService:
                     code_gen.connect(3, name)
                     code_gen.run()
                 except Exception as e:
-                    warnings.warn("Unable to generate the python code with error: " + str(e.args))
+                    warnings.warn(
+                        "Unable to generate the python code with error: " + str(e.args)
+                    )
 
             local_dir = os.path.dirname(os.path.abspath(__file__))
             LOCAL_PATH = os.path.join(local_dir, "operators")
             if not self._server().local_server:
-                if self._server().os != 'posix' or (not self._server().os and os.name != 'posix'):
+                if self._server().os != "posix" or (
+                    not self._server().os and os.name != "posix"
+                ):
                     # send local generated code
                     TARGET_PATH = self.make_tmp_dir_server()
                     self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
@@ -440,7 +447,9 @@ class BaseService:
             raise errors.DpfVersionNotSupported("6.0")
         if self._server().has_client():
             self._api.data_processing_apply_context_on_client(
-                self._server().client, int(context.licensing_context_type), context.xml_path
+                self._server().client,
+                int(context.licensing_context_type),
+                context.xml_path,
             )
         else:
             self._api.data_processing_apply_context(
@@ -465,7 +474,9 @@ class BaseService:
             if not self._server().meet_version("6.0"):
                 raise errors.DpfVersionNotSupported("6.0")
             self._api.data_processing_initialize_with_context_on_client(
-                self._server().client, int(context.licensing_context_type), context.xml_path
+                self._server().client,
+                int(context.licensing_context_type),
+                context.xml_path,
             )
         else:
             if not self._server().meet_version("4.0"):
@@ -487,19 +498,18 @@ class BaseService:
                 self._server().client, 1
             )
         else:
-            error = self._api.data_processing_release(
-                1
-            )
+            error = self._api.data_processing_release(1)
 
     def get_runtime_client_config(self):
         if self._server().has_client():
-            data_tree_tmp = (
-                self._api.data_processing_get_client_config_as_data_tree()
-                )
-            config_to_return = RuntimeClientConfig(data_tree=data_tree_tmp, server=self._server())
+            data_tree_tmp = self._api.data_processing_get_client_config_as_data_tree()
+            config_to_return = RuntimeClientConfig(
+                data_tree=data_tree_tmp, server=self._server()
+            )
         else:
             if misc.RUNTIME_CLIENT_CONFIG is None:
                 from ansys.dpf.core import data_tree
+
                 misc.RUNTIME_CLIENT_CONFIG = RuntimeClientConfig(
                     data_tree=data_tree.DataTree(server=self._server())
                 )
@@ -510,13 +520,14 @@ class BaseService:
     @version_requires("4.0")
     def get_runtime_core_config(self):
         if self._server().has_client():
-            data_tree_tmp =\
+            data_tree_tmp = (
                 self._api.data_processing_get_global_config_as_data_tree_on_client(
-                    self._server().client)
+                    self._server().client
+                )
+            )
 
         else:
-            data_tree_tmp = \
-                self._api.data_processing_get_global_config_as_data_tree()
+            data_tree_tmp = self._api.data_processing_get_global_config_as_data_tree()
         return RuntimeCoreConfig(data_tree=data_tree_tmp, server=self._server())
 
     @property
@@ -550,17 +561,20 @@ class BaseService:
             serv_port = None
         # process id
         if self._server().has_client():
-            proc_id = self._api.data_processing_process_id_on_client(client=self._server().client)
+            proc_id = self._api.data_processing_process_id_on_client(
+                client=self._server().client
+            )
         else:
             proc_id = self._api.data_processing_process_id()
         # server version
         if self._server().has_client():
             self._api.data_processing_get_server_version_on_client(
-                client=self._server().client,
-                major=serv_ver_maj,
-                minor=serv_ver_min)
+                client=self._server().client, major=serv_ver_maj, minor=serv_ver_min
+            )
         else:
-            self._api.data_processing_get_server_version(major=serv_ver_maj, minor=serv_ver_min)
+            self._api.data_processing_get_server_version(
+                major=serv_ver_maj, minor=serv_ver_min
+            )
         # server os
         if self._server().has_client():
             serv_os = self._api.data_processing_get_os_on_client(
@@ -573,10 +587,8 @@ class BaseService:
             "server_ip": serv_ip,
             "server_port": serv_port,
             "server_process_id": proc_id,
-            "server_version": str(int(serv_ver_maj))
-                              + "."
-                              + str(int(serv_ver_min)),
-            "os": serv_os
+            "server_version": str(int(serv_ver_maj)) + "." + str(int(serv_ver_min)),
+            "os": serv_os,
         }
 
         return out
@@ -597,8 +609,8 @@ class BaseService:
         data = object_handler.ObjHandler(
             data_processing_api=self._api,
             internal_obj=dpf_entity_message,
-            server=self._server()
-            )
+            server=self._server(),
+        )
         data.get_ownership()
         return self._api.data_processing_description_string(data=data)
 
@@ -632,20 +644,20 @@ class BaseService:
         client_path = self._api.data_processing_download_file(
             client=self._server().client,
             server_file_path=str(server_file_path),
-            to_client_file_path=str(to_client_file_path)
+            to_client_file_path=str(to_client_file_path),
         )
 
     def _set_collection_api(self):
         if self._collection_api is None:
             self._collection_api = self._server().get_api_for_type(
                 capi=collection_capi.CollectionCAPI,
-                grpcapi=collection_grpcapi.CollectionGRPCAPI
+                grpcapi=collection_grpcapi.CollectionGRPCAPI,
             )
             self._collection_api.init_collection_environment(self)
         return self._collection_api
 
     def download_files_in_folder(
-            self, server_folder_path, to_client_folder_path, specific_extension=None
+        self, server_folder_path, to_client_folder_path, specific_extension=None
     ):
         """Download all the files from a folder of the server
         to the target client folder path
@@ -674,16 +686,21 @@ class BaseService:
             raise ValueError(txt)
         if specific_extension is None:
             specific_extension = ""
-        client_paths_ptr = self._api.data_processing_download_files(client=self._server().client,
-                                                 server_file_path=str(server_folder_path),
-                                                 to_client_file_path=str(to_client_folder_path),
-                                                 specific_extension=specific_extension)
+        client_paths_ptr = self._api.data_processing_download_files(
+            client=self._server().client,
+            server_file_path=str(server_folder_path),
+            to_client_file_path=str(to_client_folder_path),
+            specific_extension=specific_extension,
+        )
         if not isinstance(client_paths_ptr, list):
             from ansys.dpf.gate import object_handler
+
             # collection of string
-            client_paths = object_handler.ObjHandler(data_processing_api=self._api,
-                                                     internal_obj=client_paths_ptr,
-                                                     server=self._server())
+            client_paths = object_handler.ObjHandler(
+                data_processing_api=self._api,
+                internal_obj=client_paths_ptr,
+                server=self._server(),
+            )
             coll_api = self._set_collection_api()
             size = coll_api.collection_get_size(client_paths)
             out = [0] * size
@@ -694,7 +711,7 @@ class BaseService:
         return client_paths_ptr
 
     def upload_files_in_folder(
-            self, to_server_folder_path, client_folder_path, specific_extension=None
+        self, to_server_folder_path, client_folder_path, specific_extension=None
     ):
         """Upload all the files from a folder of the client
         to the target server folder path.
@@ -733,40 +750,46 @@ class BaseService:
             for file in files:
                 f = os.path.join(root, file)
                 server_paths = self._upload_and_get_server_path(
-                    specific_extension, f, file, server_paths, str(to_server_folder_path)
+                    specific_extension,
+                    f,
+                    file,
+                    server_paths,
+                    str(to_server_folder_path),
                 )
             break
         return server_paths
 
     def _upload_and_get_server_path(
-            self,
-            specific_extension,
-            f,
-            filename,
-            server_paths,
-            to_server_folder_path,
-            subdirectory=None,
+        self,
+        specific_extension,
+        f,
+        filename,
+        server_paths,
+        to_server_folder_path,
+        subdirectory=None,
     ):
         separator = self._get_separator(to_server_folder_path)
 
         if subdirectory is not None:
             to_server_file_path = (
-                    to_server_folder_path + separator + subdirectory + separator + filename
+                to_server_folder_path + separator + subdirectory + separator + filename
             )
         else:
             to_server_file_path = to_server_folder_path + separator + filename
         if ((specific_extension is not None) and (f.endswith(specific_extension))) or (
-                specific_extension is None
+            specific_extension is None
         ):
             if not self._server().has_client():
                 txt = """
                 download service only available for server with gRPC communication protocol
                 """
                 raise errors.ServerTypeError(txt)
-            server_path = self._api.data_processing_upload_file(client=self._server().client,
-                                                     file_path=f,
-                                                     to_server_file_path=to_server_file_path,
-                                                     use_tmp_dir=False)
+            server_path = self._api.data_processing_upload_file(
+                client=self._server().client,
+                file_path=f,
+                to_server_file_path=to_server_file_path,
+                use_tmp_dir=False,
+            )
             server_paths.append(server_path)
         return server_paths
 
@@ -793,10 +816,12 @@ class BaseService:
             download service only available for server with gRPC communication protocol
             """
             raise errors.ServerTypeError(txt)
-        return self._api.data_processing_upload_file(client=self._server().client,
-                                                     file_path=str(file_path),
-                                                     to_server_file_path=str(to_server_file_path),
-                                                     use_tmp_dir=False)
+        return self._api.data_processing_upload_file(
+            client=self._server().client,
+            file_path=str(file_path),
+            to_server_file_path=str(to_server_file_path),
+            use_tmp_dir=False,
+        )
 
     def upload_file_in_tmp_folder(self, file_path, new_file_name=None):
         """Upload a file from the client to the server in a temporary folder
@@ -827,16 +852,18 @@ class BaseService:
             download service only available for server with gRPC communication protocol
             """
             raise errors.ServerTypeError(txt)
-        return self._api.data_processing_upload_file(client=self._server().client,
-                                                     file_path=str(file_path),
-                                                     to_server_file_path=str(file_name),
-                                                     use_tmp_dir=True)
+        return self._api.data_processing_upload_file(
+            client=self._server().client,
+            file_path=str(file_path),
+            to_server_file_path=str(file_name),
+            use_tmp_dir=True,
+        )
 
     def _prepare_shutdown(self):
         if self._server().has_client():
             self._api.data_processing_prepare_shutdown(client=self._server().client)
 
-    #@version_requires("4.0")
+    # @version_requires("4.0")
     def _release_server(self):
         """
         Release the reference taken by this client on the server
@@ -847,6 +874,4 @@ class BaseService:
         To use only with server version > 4.0
         """
         if self._server().has_client():
-            self._api.data_processing_release_server(
-                client=self._server().client
-            )
+            self._api.data_processing_release_server(client=self._server().client)

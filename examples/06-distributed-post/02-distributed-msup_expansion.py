@@ -78,7 +78,6 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
-
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
@@ -100,9 +99,11 @@ global_server = dpf.start_local_server(
 
 remote_servers = [
     dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
+    ),
     dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
+    ),
 ]
 ips = [remote_server.ip for remote_server in remote_servers]
 ports = [remote_server.port for remote_server in remote_servers]
@@ -116,8 +117,8 @@ print("ports:", ports)
 # Specify the file path.
 
 base_path = examples.find_distributed_msup_folder()
-files = [base_path + r'/file0.mode', base_path + r'/file1.mode']
-files_aux = [base_path + r'/file0.rst', base_path + r'/file1.rst']
+files = [base_path + r"/file0.mode", base_path + r"/file1.mode"]
+files_aux = [base_path + r"/file0.rst", base_path + r"/file1.rst"]
 
 ###############################################################################
 # Create operators on each server
@@ -148,13 +149,12 @@ for i, server in enumerate(remote_servers):
 merge_fields = ops.utility.merge_fields_containers()
 merge_mesh = ops.utility.merge_meshes()
 
-ds = dpf.DataSources(base_path + r'/file_load_1.rfrq')
+ds = dpf.DataSources(base_path + r"/file_load_1.rfrq")
 response = ops.result.displacement(data_sources=ds)
 response.inputs.mesh(merge_mesh.outputs.merges_mesh)
 
 expansion = ops.math.modal_superposition(
-    solution_in_modal_space=response,
-    modal_basis=merge_fields
+    solution_in_modal_space=response, modal_basis=merge_fields
 )
 component = ops.logic.component_selector_fc(expansion, 1)
 

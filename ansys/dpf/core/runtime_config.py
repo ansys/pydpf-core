@@ -2,14 +2,13 @@
 RuntimeConfig
 =============
 """
-from ansys.dpf.core.data_tree import DataTree
-from ansys.dpf.core.common import types
 from ansys.dpf.core import misc
+from ansys.dpf.core.common import types
+from ansys.dpf.core.data_tree import DataTree
 
 
 class _RuntimeConfig:
-    """ Parent class for configuration options.
-    """
+    """Parent class for configuration options."""
 
     def __init__(self, data_tree, server=None):
         if isinstance(data_tree, DataTree):
@@ -54,6 +53,7 @@ class RuntimeClientConfig(_RuntimeConfig):
     ... # or True/False
     >>> client_config.streaming_buffer_size = streaming_buffer_size # or 10000, 2000 ...
     """
+
     def __init__(self, data_tree, server=None):
         super().__init__(data_tree=data_tree, server=server)
         if not self._data_tree.has("return_arrays"):
@@ -164,6 +164,7 @@ class RuntimeCoreConfig(_RuntimeConfig):
     >>> num_threads = core_config.num_threads # doctest: +SKIP
     >>> core_config.num_threads = num_threads # or 3, 6, ... # doctest: +SKIP
     """
+
     def __init__(self, data_tree, server=None):
         super().__init__(data_tree=data_tree, server=server)
 

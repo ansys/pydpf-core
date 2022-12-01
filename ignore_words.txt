@@ -7,3 +7,6 @@ entrie
 dout
 mane
 systyem
+Ans
+dout
+parm

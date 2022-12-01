@@ -6,11 +6,12 @@ Support
 """
 import traceback
 import warnings
-from ansys.dpf.gate import support_capi, support_grpcapi
-from ansys.dpf.core.check_version import version_requires
 
-from ansys.dpf.core import server as server_module
+from ansys.dpf.gate import support_capi, support_grpcapi
+
 from ansys.dpf.core import collection
+from ansys.dpf.core import server as server_module
+from ansys.dpf.core.check_version import version_requires
 
 
 class Support:
@@ -51,8 +52,8 @@ class Support:
 
         # step 2: get api
         self._support_api = self._server.get_api_for_type(
-            capi=support_capi.SupportCAPI,
-            grpcapi=support_grpcapi.SupportGRPCAPI)
+            capi=support_capi.SupportCAPI, grpcapi=support_grpcapi.SupportGRPCAPI
+        )
 
         # step3: init environment
         self._support_api.init_support_environment(self)  # creates stub when gRPC
@@ -74,7 +75,10 @@ class Support:
         Available with server's version starting at 5.0.
         """
         from ansys.dpf.core.field import Field
-        out = self._support_api.support_get_field_support_by_property(self, property_name)
+
+        out = self._support_api.support_get_field_support_by_property(
+            self, property_name
+        )
         if out is not None:
             return Field(field=out, server=self._server)
 
@@ -91,7 +95,10 @@ class Support:
         Available with server's version starting at 5.0.
         """
         from ansys.dpf.core.property_field import PropertyField
-        out = self._support_api.support_get_property_field_support_by_property(self, property_name)
+
+        out = self._support_api.support_get_property_field_support_by_property(
+            self, property_name
+        )
         if out is not None:
             return PropertyField(property_field=out, server=self._server)
 
@@ -108,7 +115,10 @@ class Support:
         Available with server's version starting at 5.0.
         """
         from ansys.dpf.core.string_field import StringField
-        out = self._support_api.support_get_string_field_support_by_property(self, property_name)
+
+        out = self._support_api.support_get_string_field_support_by_property(
+            self, property_name
+        )
         if out is not None:
             return StringField(string_field=out, server=self._server)
 
@@ -125,8 +135,10 @@ class Support:
         Available with server's version starting at 5.0.
         """
         coll_obj = collection.StringCollection(
-            collection=self._support_api.support_get_property_names_as_string_coll_for_fields(self),
-            server=self._server
+            collection=self._support_api.support_get_property_names_as_string_coll_for_fields(
+                self
+            ),
+            server=self._server,
         )
         return coll_obj.get_integral_entries()
 
@@ -143,10 +155,11 @@ class Support:
         Available with server's version starting at 5.0.
         """
         coll_obj = collection.StringCollection(
-            collection=
-            self._support_api.support_get_property_names_as_string_coll_for_property_fields(self),
-            server=self._server
-        )
+            collection=self._support_api.support_get_property_names_as_string_coll_for_property_fields(
+                self
+            ),
+            server=self._server,
+        ) # noqa: E501
         return coll_obj.get_integral_entries()
 
     @version_requires("5.0")
@@ -162,10 +175,11 @@ class Support:
         Available with server's version starting at 5.0.
         """
         coll_obj = collection.StringCollection(
-            collection=
-            self._support_api.support_get_property_names_as_string_coll_for_string_fields(self),
-            server=self._server
-        )
+            collection=self._support_api.support_get_property_names_as_string_coll_for_string_fields(
+                self
+            ),
+            server=self._server,
+        ) # noqa: E501
         return coll_obj.get_integral_entries()
 
     def __del__(self):

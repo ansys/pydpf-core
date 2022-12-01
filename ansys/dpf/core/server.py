@@ -3,22 +3,21 @@ Server
 ======
 Contains the directives necessary to start the DPF server.
 """
-import os
-import socket
-import weakref
 import copy
 import inspect
-import warnings
+import os
+import socket
 import traceback
+import warnings
+import weakref
 
 from ansys import dpf
-
-from ansys.dpf.core.misc import is_ubuntu, get_ansys_path
-from ansys.dpf.core import errors
-
-from ansys.dpf.core.server_factory import ServerConfig, ServerFactory, CommunicationProtocols
-from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER
-from ansys.dpf.core import server_context
+from ansys.dpf.core import errors, server_context
+from ansys.dpf.core.misc import get_ansys_path, is_ubuntu
+from ansys.dpf.core.server_factory import (CommunicationProtocols,
+                                           ServerConfig, ServerFactory)
+from ansys.dpf.core.server_types import (DPF_DEFAULT_PORT, LOCALHOST,
+                                         RUNNING_DOCKER)
 
 
 def shutdown_global_server():
@@ -121,17 +120,17 @@ def shutdown_all_session_servers():
 
 
 def start_local_server(
-        ip=LOCALHOST,
-        port=DPF_DEFAULT_PORT,
-        ansys_path=None,
-        as_global=True,
-        load_operators=True,
-        use_docker_by_default=True,
-        docker_config=RUNNING_DOCKER,
-        timeout=20.,
-        config=None,
-        use_pypim_by_default=True,
-        context=None
+    ip=LOCALHOST,
+    port=DPF_DEFAULT_PORT,
+    ansys_path=None,
+    as_global=True,
+    load_operators=True,
+    use_docker_by_default=True,
+    docker_config=RUNNING_DOCKER,
+    timeout=20.0,
+    config=None,
+    use_pypim_by_default=True,
+    context=None,
 ):
     """Start a new local DPF server at a given port and IP address.
 
@@ -180,6 +179,7 @@ def start_local_server(
     server : server.ServerBase
     """
     from ansys.dpf.core.misc import is_pypim_configured
+
     use_docker = use_docker_by_default and docker_config.use_docker
     use_pypim = use_pypim_by_default and is_pypim_configured()
     if not use_docker and not use_pypim:
@@ -188,7 +188,9 @@ def start_local_server(
         try:
             ver = int(str(ansys_path)[-3:])
             if ver < 211:
-                raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
+                raise errors.InvalidANSYSVersionError(
+                    f"Ansys v{ver} does not support DPF"
+                )
             if ver == 211 and is_ubuntu():
                 raise OSError("DPF on v211 does not support Ubuntu")
         except ValueError:
@@ -225,16 +227,30 @@ def start_local_server(
                 config, ansys_path, docker_config
             )
             server_init_signature = inspect.signature(server_type.__init__)
-            if "ip" in server_init_signature.parameters.keys() and \
-                    "port" in server_init_signature.parameters.keys():
+            if (
+                "ip" in server_init_signature.parameters.keys()
+                and "port" in server_init_signature.parameters.keys()
+            ):
                 server = server_type(
-                    ansys_path, ip, port, as_global=as_global, launch_server=True,
-                    load_operators=load_operators, docker_config=docker_config, timeout=timeout,
-                    use_pypim=use_pypim, context=context)
+                    ansys_path,
+                    ip,
+                    port,
+                    as_global=as_global,
+                    launch_server=True,
+                    load_operators=load_operators,
+                    docker_config=docker_config,
+                    timeout=timeout,
+                    use_pypim=use_pypim,
+                    context=context,
+                )
             else:
                 server = server_type(
-                    ansys_path, as_global=as_global,
-                    load_operators=load_operators, timeout=timeout, context=context)
+                    ansys_path,
+                    as_global=as_global,
+                    load_operators=load_operators,
+                    timeout=timeout,
+                    context=context,
+                )
             break
         except errors.InvalidPortError:  # allow socket in use errors
             port += 1
@@ -242,9 +258,12 @@ def start_local_server(
             if timed_out:
                 break
             import warnings
-            warnings.warn(f"Failed to start a server in {timeout}s, " +
-                          f"trying again once in {timeout * 2.}s.")
-            timeout *= 2.
+
+            warnings.warn(
+                f"Failed to start a server in {timeout}s, "
+                + f"trying again once in {timeout * 2.}s."
+            )
+            timeout *= 2.0
             timed_out = True
 
     if server is None:
@@ -259,12 +278,12 @@ def start_local_server(
 
 
 def connect_to_server(
-        ip=LOCALHOST,
-        port=DPF_DEFAULT_PORT,
-        as_global=True,
-        timeout=5,
-        config=None,
-        context=None,
+    ip=LOCALHOST,
+    port=DPF_DEFAULT_PORT,
+    as_global=True,
+    timeout=5,
+    config=None,
+    context=None,
 ):
     """Connect to an existing DPF server.
 
@@ -318,17 +337,19 @@ def connect_to_server(
 
     def connect():
         server_init_signature = inspect.signature(server_type.__init__)
-        if "ip" in server_init_signature.parameters.keys() \
-                and "port" in server_init_signature.parameters.keys():
+        if (
+            "ip" in server_init_signature.parameters.keys()
+            and "port" in server_init_signature.parameters.keys()
+        ):
             server = server_type(
-                ip=ip, port=port, as_global=as_global, launch_server=False,
-                context=context
+                ip=ip,
+                port=port,
+                as_global=as_global,
+                launch_server=False,
+                context=context,
             )
         else:
-            server = server_type(
-                as_global=as_global,
-                context=context
-            )
+            server = server_type(as_global=as_global, context=context)
         dpf.core._server_instances.append(weakref.ref(server))
         return server
 
@@ -338,10 +359,15 @@ def connect_to_server(
     except ModuleNotFoundError as e:
         if "gatebin" in e.msg:
             server_type = ServerFactory.get_remote_server_type_from_config(
-                ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True))
-            warnings.warn(UserWarning("Could not connect to remote server as ansys-dpf--gatebin "
-                                      "is missing. Trying again using LegacyGrpcServer.\n"
-                                      f"The error stated:\n{e.msg}"))
+                ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
+            )
+            warnings.warn(
+                UserWarning(
+                    "Could not connect to remote server as ansys-dpf--gatebin "
+                    "is missing. Trying again using LegacyGrpcServer.\n"
+                    f"The error stated:\n{e.msg}"
+                )
+            )
             return connect()
 
 

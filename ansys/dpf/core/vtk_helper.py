@@ -6,6 +6,7 @@ from vtk import (VTK_HEXAHEDRON, VTK_LINE, VTK_POLYGON, VTK_POLYHEDRON,
                  VTK_QUADRATIC_PYRAMID, VTK_QUADRATIC_QUAD,
                  VTK_QUADRATIC_TETRA, VTK_QUADRATIC_TRIANGLE, VTK_TETRA,
                  VTK_TRIANGLE, VTK_VERTEX, VTK_WEDGE, vtkVersion)
+
 from ansys.dpf.core.elements import element_types
 
 VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
@@ -275,4 +276,5 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
 
 def vtk_update_coordinates(vtk_grid, coordinates_array):
     from copy import copy
+
     vtk_grid.points = copy(coordinates_array)

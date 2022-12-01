@@ -4,26 +4,20 @@ ResultInfo
 """
 import traceback
 import warnings
-
 from enum import Enum, unique
 from types import SimpleNamespace
-from ansys.dpf.gate import (
-    result_info_capi,
-    result_info_grpcapi,
-    integral_types,
-    label_space_capi,
-    label_space_grpcapi,
-    object_handler,
-    data_processing_grpcapi,
-    data_processing_capi,
-)
 
-from ansys.dpf.core import collection
+from ansys.dpf.gate import (data_processing_capi, data_processing_grpcapi,
+                            integral_types, label_space_capi,
+                            label_space_grpcapi, object_handler,
+                            result_info_capi, result_info_grpcapi)
+
+from ansys.dpf.core import available_result, collection
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core import available_result, support
+from ansys.dpf.core import support
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.label_space import LabelSpace
-from ansys.dpf.core.check_version import version_requires
 
 
 @unique
@@ -31,6 +25,7 @@ class physics_types(Enum):
     """
     ``'Physics_types'`` enumerates the different types of physics that an analysis can have.
     """
+
     mechanical = 0
     thermal = 1
     magnetic = 2
@@ -41,6 +36,7 @@ class physics_types(Enum):
 @unique
 class analysis_types(Enum):
     """``'Analysis_types'`` enumerates the different types of analysis."""
+
     static = 0
     buckling = 1
     modal = 2
@@ -91,8 +87,10 @@ class ResultInfo:
         self._server = server_module.get_or_create_server(server)
 
         # step 2: get api
-        self._api = self._server.get_api_for_type(capi=result_info_capi.ResultInfoCAPI,
-                                                  grpcapi=result_info_grpcapi.ResultInfoGRPCAPI)
+        self._api = self._server.get_api_for_type(
+            capi=result_info_capi.ResultInfoCAPI,
+            grpcapi=result_info_grpcapi.ResultInfoGRPCAPI,
+        )
 
         # step3: init environment
         self._api.init_result_info_environment(self)  # creates stub when gRPC
@@ -109,18 +107,23 @@ class ResultInfo:
     def __str__(self):
         try:
             txt = (
-                    "%s analysis\n" % self.analysis_type.capitalize()
-                    + "Unit system: %s\n" % self.unit_system
-                    + "Physics Type: %s\n" % self.physics_type.capitalize()
-                    + "Available results:\n"
+                "%s analysis\n" % self.analysis_type.capitalize()
+                + "Unit system: %s\n" % self.unit_system
+                + "Physics Type: %s\n" % self.physics_type.capitalize()
+                + "Available results:\n"
             )
             for res in self.available_results:
-                line = ["", "-", f'{res.name}: {res.native_location} {res.physical_name}']
+                line = [
+                    "",
+                    "-",
+                    f"{res.name}: {res.native_location} {res.physical_name}",
+                ]
                 txt += "{0:^4} {1:^2} {2:<30}".format(*line) + "\n"
 
             return txt
         except Exception as e:
             from ansys.dpf.core.core import _description
+
             return _description(self._internal_obj, self._server)
 
     @property
@@ -305,7 +308,8 @@ class ResultInfo:
     def _data_processing_core_api(self):
         core_api = self._server.get_api_for_type(
             capi=data_processing_capi.DataProcessingCAPI,
-            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+        )
         core_api.init_data_processing_environment(self)
         return core_api
 
@@ -327,7 +331,9 @@ class ResultInfo:
 
         name = self._api.result_info_get_result_name(self, numres)
         physic_name = self._api.result_info_get_result_physics_name(self, numres)
-        dimensionality = self._api.result_info_get_result_dimensionality_nature(self, numres)
+        dimensionality = self._api.result_info_get_result_dimensionality_nature(
+            self, numres
+        )
         n_comp = self._api.result_info_get_result_number_of_components(self, numres)
         unit_symbol = self._api.result_info_get_result_unit_symbol(self, numres)
         homogeneity = self._api.result_info_get_result_homogeneity(self, numres)
@@ -341,10 +347,14 @@ class ResultInfo:
             else:
                 loc_name = ""
         try:
-            scripting_name = self._api.result_info_get_result_scripting_name(self, numres)
+            scripting_name = self._api.result_info_get_result_scripting_name(
+                self, numres
+            )
         except AttributeError:
             if name in available_result._result_properties:
-                scripting_name = available_result._result_properties[name]["scripting_name"]
+                scripting_name = available_result._result_properties[name][
+                    "scripting_name"
+                ]
             else:
                 scripting_name = available_result._remove_spaces(physic_name)
         num_sub_res = self._api.result_info_get_number_of_sub_results(self, numres)
@@ -352,9 +362,9 @@ class ResultInfo:
         for ires in range(num_sub_res):
             sub_res_name = self._api.result_info_get_sub_result_name(self, numres, ires)
             ssub_res_rec_name = integral_types.MutableString(256)
-            self._api.result_info_get_sub_result_operator_name(self, numres,
-                                                               ires,
-                                                               ssub_res_rec_name)
+            self._api.result_info_get_sub_result_operator_name(
+                self, numres, ires, ssub_res_rec_name
+            )
             ssub_res_rec_name = str(ssub_res_rec_name)
             descr = self._api.result_info_get_sub_result_description(self, numres, ires)
             sub_res[sub_res_name] = [ssub_res_rec_name, descr]
@@ -363,29 +373,36 @@ class ResultInfo:
         if self._server.meet_version("5.0"):
             qual_obj = object_handler.ObjHandler(
                 data_processing_api=self._data_processing_core_api,
-                internal_obj=self._api.result_info_get_qualifiers_for_result(self, numres)
+                internal_obj=self._api.result_info_get_qualifiers_for_result(
+                    self, numres
+                ),
             )
             label_space_api = self._server.get_api_for_type(
-                capi=label_space_capi.LabelSpaceCAPI, grpcapi=label_space_grpcapi.LabelSpaceGRPCAPI
+                capi=label_space_capi.LabelSpaceCAPI,
+                grpcapi=label_space_grpcapi.LabelSpaceGRPCAPI,
             )
             num_qual_obj = label_space_api.list_label_spaces_size(qual_obj)
             for ires in range(num_qual_obj):
                 qualifiers.append(
                     LabelSpace(
-                        label_space=label_space_api.list_label_spaces_at(qual_obj, ires),
+                        label_space=label_space_api.list_label_spaces_at(
+                            qual_obj, ires
+                        ),
                         obj=self,
-                        server=self._server
-                    ))
+                        server=self._server,
+                    )
+                )
 
         availableresult = SimpleNamespace(
-            name=name, physicsname=physic_name, ncomp=n_comp,
-            dimensionality=dimensionality, homogeneity=homogeneity,
-            unit=unit_symbol, sub_res=sub_res,
-            properties={
-                "loc_name": loc_name,
-                "scripting_name": scripting_name
-            },
-            qualifiers=qualifiers
+            name=name,
+            physicsname=physic_name,
+            ncomp=n_comp,
+            dimensionality=dimensionality,
+            homogeneity=homogeneity,
+            unit=unit_symbol,
+            sub_res=sub_res,
+            properties={"loc_name": loc_name, "scripting_name": scripting_name},
+            qualifiers=qualifiers,
         )
         return available_result.AvailableResult(availableresult)
 
@@ -403,9 +420,10 @@ class ResultInfo:
         Available with server's version starting at 5.0.
         """
         coll_obj = collection.StringCollection(
-            collection=
-            self._support_api.result_info_get_available_qualifier_labels_as_string_coll(self),
-            server=self._server
+            collection=self._support_api.result_info_get_available_qualifier_labels_as_string_coll(
+                self
+            ),
+            server=self._server,
         )
         return coll_obj.get_integral_entries()
 
@@ -427,7 +445,7 @@ class ResultInfo:
         """
         return support.Support(
             support=self._api.result_info_get_qualifier_label_support(self, label),
-            server=self._server
+            server=self._server,
         )
 
     def __len__(self):

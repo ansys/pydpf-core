@@ -12,8 +12,9 @@ Errors
 """
 
 from functools import wraps
-from ansys.dpf.gate.errors import DPFServerException, \
-    DPFServerNullObject, DpfVersionNotSupported  # noqa: F401
+
+from ansys.dpf.gate.errors import (DPFServerException,  # noqa: F401
+                                   DPFServerNullObject, DpfVersionNotSupported)
 
 _COMPLEX_PLOTTING_ERROR_MSG = """
 Complex fields cannot be plotted. Use operators to get the amplitude
@@ -88,6 +89,7 @@ class InvalidPortError(OSError):
 
 class ServerTypeError(NotImplementedError):
     """Error raised when using a functionality unavailable for this server type"""
+
     pass
 
 

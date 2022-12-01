@@ -1,30 +1,34 @@
 import numpy as np
 import pytest
-import conftest
 
+import conftest
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples, server_types, server
+from ansys.dpf.core import examples, server, server_types
 from ansys.dpf.core.errors import ServerTypeError
-from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 
 if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
     dpf.set_default_server_context(dpf.AvailableServerContexts.entry)
 
 
-@pytest.fixture(scope="module", params=[
-    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
-] if (isinstance(server._global_server(), server_types.InProcessServer)) else
-    conftest.remove_none_available_config([
-        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-        ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)],
-        ["gRPC", "inProcess"])[0]
-    if isinstance(server._global_server(), server_types.GrpcServer) else [
-    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
-])
+@pytest.fixture(
+    scope="module",
+    params=[ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)]
+    if (isinstance(server._global_server(), server_types.InProcessServer))
+    else conftest.remove_none_available_config(
+        [
+            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+            ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
+        ],
+        ["gRPC", "inProcess"],
+    )[0]
+    if isinstance(server._global_server(), server_types.GrpcServer)
+    else [ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
+)
 def other_remote_server(request):
     server = dpf.start_local_server(config=request.param, as_global=False)
     if request.param == ServerConfig(
-            protocol=CommunicationProtocols.gRPC, legacy=False
+        protocol=CommunicationProtocols.gRPC, legacy=False
     ):
         dpf.settings.get_runtime_client_config(server).cache_enabled = False
     return server
@@ -38,34 +42,46 @@ if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
 @pytest.fixture()
 def static_models(local_server, other_remote_server):
     try:
-        upload = dpf.upload_file_in_tmp_folder(examples.static_rst, server=other_remote_server)
+        upload = dpf.upload_file_in_tmp_folder(
+            examples.static_rst, server=other_remote_server
+        )
     except ServerTypeError:
         upload = examples.static_rst
-    return (dpf.Model(upload, server=other_remote_server),
-            dpf.Model(examples.find_static_rst(server=local_server), server=local_server))
+    return (
+        dpf.Model(upload, server=other_remote_server),
+        dpf.Model(examples.find_static_rst(server=local_server), server=local_server),
+    )
 
 
 @pytest.fixture()
 def transient_models(local_server, other_remote_server):
     try:
-        upload = dpf.upload_file_in_tmp_folder(examples.msup_transient, server=other_remote_server)
+        upload = dpf.upload_file_in_tmp_folder(
+            examples.msup_transient, server=other_remote_server
+        )
     except ServerTypeError:
         upload = examples.msup_transient
     return (
         dpf.Model(upload, server=other_remote_server),
-        dpf.Model(examples.find_msup_transient(server=local_server), server=local_server),
+        dpf.Model(
+            examples.find_msup_transient(server=local_server), server=local_server
+        ),
     )
 
 
 @pytest.fixture()
 def cyc_models(local_server, other_remote_server):
     try:
-        upload = dpf.upload_file_in_tmp_folder(examples.simple_cyclic, server=other_remote_server)
+        upload = dpf.upload_file_in_tmp_folder(
+            examples.simple_cyclic, server=other_remote_server
+        )
     except ServerTypeError:
         upload = examples.simple_cyclic
     return (
         dpf.Model(upload, server=other_remote_server),
-        dpf.Model(examples.find_simple_cyclic(server=local_server), server=local_server),
+        dpf.Model(
+            examples.find_simple_cyclic(server=local_server), server=local_server
+        ),
     )
 
 
@@ -157,26 +173,30 @@ def test_model_cyc_support_multi_server(cyc_models):
     cyc_support2 = result_info2.cyclic_support
     assert cyc_support.num_stages == cyc_support2.num_stages
     assert cyc_support.num_sectors() == cyc_support2.num_sectors()
-    assert np.allclose(cyc_support.base_nodes_scoping().ids, cyc_support2.base_nodes_scoping().ids)
     assert np.allclose(
-        cyc_support.base_elements_scoping().ids
-        , cyc_support2.base_elements_scoping().ids
+        cyc_support.base_nodes_scoping().ids, cyc_support2.base_nodes_scoping().ids
     )
     assert np.allclose(
-        cyc_support.sectors_set_for_expansion().ids
-        , cyc_support2.sectors_set_for_expansion().ids
-    )
-    assert np.allclose(cyc_support.expand_node_id(1).ids, cyc_support2.expand_node_id(1).ids)
-    assert np.allclose(cyc_support.expand_element_id(1).ids, cyc_support2.expand_element_id(1).ids)
-    assert np.allclose(
-        cyc_support.expand_node_id(1, cyc_support.sectors_set_for_expansion()).ids
-        , cyc_support2.expand_node_id(1, cyc_support2.sectors_set_for_expansion()).ids
+        cyc_support.base_elements_scoping().ids,
+        cyc_support2.base_elements_scoping().ids,
     )
     assert np.allclose(
-        cyc_support.expand_element_id(1, cyc_support.sectors_set_for_expansion())
-        .ids, cyc_support2.expand_element_id(1,
-                                             cyc_support2.sectors_set_for_expansion()
-                                             ).ids
+        cyc_support.sectors_set_for_expansion().ids,
+        cyc_support2.sectors_set_for_expansion().ids,
+    )
+    assert np.allclose(
+        cyc_support.expand_node_id(1).ids, cyc_support2.expand_node_id(1).ids
+    )
+    assert np.allclose(
+        cyc_support.expand_element_id(1).ids, cyc_support2.expand_element_id(1).ids
+    )
+    assert np.allclose(
+        cyc_support.expand_node_id(1, cyc_support.sectors_set_for_expansion()).ids,
+        cyc_support2.expand_node_id(1, cyc_support2.sectors_set_for_expansion()).ids,
+    )
+    assert np.allclose(
+        cyc_support.expand_element_id(1, cyc_support.sectors_set_for_expansion()).ids,
+        cyc_support2.expand_element_id(1, cyc_support2.sectors_set_for_expansion()).ids,
     )
 
 
@@ -210,7 +230,9 @@ def check_fc(fc, fc2):
         assert np.allclose(f.scoping.ids, fc2[i].scoping.ids)
         assert np.allclose(f.data, ftocheck.data)
         assert np.allclose(f.scoping.ids, ftocheck.scoping.ids)
-    idenfc = dpf.operators.logic.identical_fc(fc, fc2.deep_copy(server=f._server), server=f._server)
+    idenfc = dpf.operators.logic.identical_fc(
+        fc, fc2.deep_copy(server=f._server), server=f._server
+    )
     assert idenfc.outputs.boolean()
 
 

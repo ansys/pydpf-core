@@ -1,12 +1,13 @@
+import copy
+
 import numpy as np
 import pytest
 
-from ansys import dpf
 import conftest
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0
-import copy
+from ansys import dpf
 from ansys.dpf.core import Scoping
 from ansys.dpf.core import errors as dpf_errors
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0
 
 
 def test_create_scoping():
@@ -14,9 +15,10 @@ def test_create_scoping():
     assert scop._internal_obj
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-                    reason='Copying data is '
-                           'supported starting server version 3.0')
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+    reason="Copying data is " "supported starting server version 3.0",
+)
 def test_createbycopy_scoping(server_type):
     scop = Scoping(server=server_type)
     scop2 = Scoping(scoping=scop, server=server_type)
@@ -24,8 +26,11 @@ def test_createbycopy_scoping(server_type):
 
 
 def test_create_scoping_with_ids_location(server_type):
-    scop = Scoping(ids=[1, 2, 3, 5, 8, 9, 10], location=dpf.core.locations.elemental,
-                   server=server_type)
+    scop = Scoping(
+        ids=[1, 2, 3, 5, 8, 9, 10],
+        location=dpf.core.locations.elemental,
+        server=server_type,
+    )
     assert scop._internal_obj
     assert np.allclose(scop.ids, [1, 2, 3, 5, 8, 9, 10])
     assert scop.location == dpf.core.locations.elemental
@@ -40,7 +45,7 @@ def test_set_get_ids_scoping(server_type):
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0,
-    reason="Requires server version higher than 2.0"
+    reason="Requires server version higher than 2.0",
 )
 def test_set_get_ids_long_scoping():
     scop = Scoping()
@@ -113,6 +118,7 @@ def test_print_scoping():
     scop.ids = ids
     print(scop)
 
+
 def test_documentation_string_on_scoping(server_type):
     scop = Scoping(server=server_type)
     ids = [1, 2, 3, 5, 8, 9, 10]
@@ -122,6 +128,7 @@ def test_documentation_string_on_scoping(server_type):
     assert "location" in to_check
     assert "blabla" in to_check
     assert "7 entities" in to_check
+
 
 def test_iter_scoping(server_type):
     scop = Scoping(server=server_type)
@@ -138,8 +145,10 @@ def test_delete_scoping(server_type):
         scop.ids
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-                    reason='Copying data is supported starting server version 3.0')
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+    reason="Copying data is supported starting server version 3.0",
+)
 def test_delete_auto_scoping(server_type):
     scop = Scoping(server=server_type)
     scop2 = Scoping(scoping=scop)
@@ -167,7 +176,7 @@ def test_throw_if_unsufficient_version():
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0,
-    reason="Requires server version higher than 2.0"
+    reason="Requires server version higher than 2.0",
 )
 def test_field_with_scoping_many_ids(allkindofcomplexity, server_type):
     # set scoping ids with a scoping created from a model

@@ -1,7 +1,6 @@
 import numpy as np
 
 import conftest
-
 from ansys import dpf
 from ansys.dpf import core
 
@@ -24,7 +23,7 @@ def test_set_get_data_custom_type_field(server_type):
     field = dpf.core.CustomTypeField(np.byte, nentities=20, server=server_type)
     data = np.empty((20,), dtype=np.byte)
     for i in range(0, 20):
-        data[i] = np.byte(b'2')
+        data[i] = np.byte(b"2")
     field.data = data
     assert np.allclose(field.data, data)
     print(field.data)
@@ -72,10 +71,18 @@ def test_set_get_data_pointer_custom_type_field(server_type):
     assert np.allclose(field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
     assert np.allclose(field.get_entity_data(2), np.array(range(12, 18)).reshape(2, 3))
     assert np.allclose(field.get_entity_data(3), np.array(range(18, 24)).reshape(2, 3))
-    assert np.allclose(field.get_entity_data_by_id(1), np.array(range(0, 6)).reshape(2, 3))
-    assert np.allclose(field.get_entity_data_by_id(2), np.array(range(6, 12)).reshape(2, 3))
-    assert np.allclose(field.get_entity_data_by_id(3), np.array(range(12, 18)).reshape(2, 3))
-    assert np.allclose(field.get_entity_data_by_id(4), np.array(range(18, 24)).reshape(2, 3))
+    assert np.allclose(
+        field.get_entity_data_by_id(1), np.array(range(0, 6)).reshape(2, 3)
+    )
+    assert np.allclose(
+        field.get_entity_data_by_id(2), np.array(range(6, 12)).reshape(2, 3)
+    )
+    assert np.allclose(
+        field.get_entity_data_by_id(3), np.array(range(12, 18)).reshape(2, 3)
+    )
+    assert np.allclose(
+        field.get_entity_data_by_id(4), np.array(range(18, 24)).reshape(2, 3)
+    )
     assert field.elementary_data_count == 8
     assert field.size == 24
 
@@ -139,7 +146,9 @@ def test_mutable_data_custom_type_field(server_clayer):
 
     vec.commit()
 
-    assert np.allclose(field.get_entity_data(0), np.array([1, 1, 2, 3, 4, 4]).reshape(2, 3))
+    assert np.allclose(
+        field.get_entity_data(0), np.array([1, 1, 2, 3, 4, 4]).reshape(2, 3)
+    )
 
     vec = field.get_entity_data_by_id(2)
     assert np.allclose(vec, np.array(range(6, 12)).reshape(2, 3))
@@ -148,7 +157,9 @@ def test_mutable_data_custom_type_field(server_clayer):
     vec[1][2] = 4
     assert np.allclose(vec, np.array([1, 7, 8, 9, 10, 4]).reshape(2, 3))
     vec = None
-    assert np.allclose(field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]).reshape(2, 3))
+    assert np.allclose(
+        field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]).reshape(2, 3)
+    )
 
 
 @conftest.raises_for_servers_version_under("5.0")
@@ -208,20 +219,32 @@ def get_float_field(server_clayer):
 @conftest.raises_for_servers_version_under("5.0")
 def test_mutable_data_pointer_custom_type_field(server_clayer):
     float_field = get_float_field(server_clayer)
-    assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
-    assert np.allclose(float_field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
+    assert np.allclose(
+        float_field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3)
+    )
+    assert np.allclose(
+        float_field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3)
+    )
     vec = float_field._data_pointer
     vec[1] = 9
     vec[2] = 15
     vec.commit()
 
-    assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 9)).reshape(3, 3))
-    assert np.allclose(float_field.get_entity_data(1), np.array(range(9, 15)).reshape(2, 3))
+    assert np.allclose(
+        float_field.get_entity_data(0), np.array(range(0, 9)).reshape(3, 3)
+    )
+    assert np.allclose(
+        float_field.get_entity_data(1), np.array(range(9, 15)).reshape(2, 3)
+    )
     vec[1] = 6
     vec[2] = 12
     vec = None
-    assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
-    assert np.allclose(float_field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
+    assert np.allclose(
+        float_field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3)
+    )
+    assert np.allclose(
+        float_field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3)
+    )
 
 
 @conftest.raises_for_servers_version_under("5.0")

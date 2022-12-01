@@ -1,10 +1,14 @@
 import numpy as np
 import pytest
+
 import conftest
 from ansys.dpf import core as dpf
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-                    reason='LS-DYNA source operators where not supported before 0.6')
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="LS-DYNA source operators where not supported before 0.6",
+)
 def test_lsdyna_generic(d3plot):
     ds = dpf.DataSources()
     ds.set_result_file_path(d3plot, "d3plot")
@@ -116,8 +120,11 @@ def test_lsdyna_generic(d3plot):
 
     assert np.allclose(epl_op[0].data, epl_mod[0].data)
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-                    reason='LS-DYNA source operators where not supported before 0.6')
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="LS-DYNA source operators where not supported before 0.6",
+)
 def test_lsdyna_beam(d3plot_beam):
     ds = dpf.DataSources()
     ds.set_result_file_path(d3plot_beam, "d3plot")
@@ -244,8 +251,11 @@ def test_lsdyna_beam(d3plot_beam):
 
     assert np.allclose(beppl_op[0].data, beppl_mod[0].data)
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-                    reason='LS-DYNA source operators where not supported before 0.6')
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="LS-DYNA source operators where not supported before 0.6",
+)
 def test_lsdyna_matsum_rcforc(binout_matsum):
     ds = dpf.DataSources()
     ds.set_result_file_path(binout_matsum, "binout")
@@ -390,8 +400,11 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
 
     assert np.allclose(cm_op[0].data[2], cm_mod[0].data[2])
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-                    reason='LS-DYNA source operators where not supported before 0.6')
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="LS-DYNA source operators where not supported before 0.6",
+)
 def test_lsdyna_glstat(binout_glstat):
     ds = dpf.DataSources()
     ds.set_result_file_path(binout_glstat, "binout")

@@ -23,7 +23,6 @@ exported to a CSV file.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 model = dpf.Model(examples.find_simple_bar())
@@ -114,7 +113,7 @@ divide.inputs.fieldA.connect(fc_out - downloaded_fc_out)
 divide.inputs.fieldB.connect(fc_out)
 scale = dpf.operators.math.scale()
 scale.inputs.field.connect(divide)
-scale.inputs.ponderation.connect(100.)
+scale.inputs.ponderation.connect(100.0)
 rel_error = scale.eval()
 
 ###############################################################################
@@ -126,5 +125,5 @@ rel_error = scale.eval()
 # are dividing by the displacements ``fc_out``.
 # Both plots show errors that can be understood as zero due to machine precision
 # (1e-12 mm for the absolute error and 1e-5% for the relative error).
-mesh.plot(abs_error, scalar_bar_args={'title': "Absolute error [mm]"})
-mesh.plot(rel_error, scalar_bar_args={'title': "Relative error [%]"})
+mesh.plot(abs_error, scalar_bar_args={"title": "Absolute error [mm]"})
+mesh.plot(rel_error, scalar_bar_args={"title": "Relative error [%]"})

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
 import copy
+import os
 import tempfile
 
 import ansys.grpc.dpf
@@ -296,7 +296,9 @@ def test_generated_operator_set_config():
     op1.inputs.fieldA.connect(inpt)
     op1.inputs.fieldB.connect(inpt2)
     out = op1.outputs.field()
-    assert np.allclose(out.scoping.ids, [1, 2, 3]) or np.allclose(out.scoping.ids, [3, 4, 5])
+    assert np.allclose(out.scoping.ids, [1, 2, 3]) or np.allclose(
+        out.scoping.ids, [3, 4, 5]
+    )
     assert np.allclose(
         out.data, np.array([[2.0, 4.0, 6.0], [8.0, 10.0, 12.0], [14.0, 16.0, 18.0]])
     )

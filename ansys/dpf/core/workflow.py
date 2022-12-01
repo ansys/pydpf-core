@@ -7,21 +7,16 @@ Workflow
 import logging
 import traceback
 import warnings
-
 from enum import Enum
+
+from ansys.dpf.gate import (data_processing_capi, data_processing_grpcapi,
+                            dpf_vector, object_handler, workflow_abstract_api,
+                            workflow_capi, workflow_grpcapi)
+
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
-from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core import server as server_module
-from ansys.dpf.gate import (
-    workflow_abstract_api,
-    workflow_grpcapi,
-    workflow_capi,
-    data_processing_capi,
-    data_processing_grpcapi,
-    dpf_vector,
-    object_handler,
-)
+from ansys.dpf.core.check_version import server_meet_version, version_requires
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -80,7 +75,9 @@ class Workflow:
             self._internal_obj = workflow
         else:
             if self._server.has_client():
-                self._internal_obj = self._api.work_flow_new_on_client(self._server.client)
+                self._internal_obj = self._api.work_flow_new_on_client(
+                    self._server.client
+                )
             else:
                 self._internal_obj = self._api.work_flow_new()
 
@@ -91,7 +88,7 @@ class Workflow:
         if not self._api_instance:
             self._api_instance = self._server.get_api_for_type(
                 capi=workflow_capi.WorkflowCAPI,
-                grpcapi=workflow_grpcapi.WorkflowGRPCAPI
+                grpcapi=workflow_grpcapi.WorkflowGRPCAPI,
             )
         return self._api_instance
 
@@ -149,23 +146,29 @@ class Workflow:
         elif isinstance(inpt, dpf_operator.Operator):
             self._api.work_flow_connect_operator_output(self, pin_name, inpt, pin_out)
         elif isinstance(inpt, dpf_operator.Output):
-            self._api.work_flow_connect_operator_output(self, pin_name, inpt._operator, inpt._pin)
+            self._api.work_flow_connect_operator_output(
+                self, pin_name, inpt._operator, inpt._pin
+            )
         elif isinstance(inpt, list):
             from ansys.dpf.core import collection
+
             if server_meet_version("3.0", self._server):
                 inpt = collection.Collection.integral_collection(inpt, self._server)
                 self._api.work_flow_connect_collection_as_vector(self, pin_name, inpt)
             else:
                 if all(isinstance(x, int) for x in inpt):
-                    self._api.work_flow_connect_vector_int(self, pin_name, inpt, len(inpt))
+                    self._api.work_flow_connect_vector_int(
+                        self, pin_name, inpt, len(inpt)
+                    )
                 else:
-                    self._api.work_flow_connect_vector_double(self, pin_name, inpt, len(inpt))
+                    self._api.work_flow_connect_vector_double(
+                        self, pin_name, inpt, len(inpt)
+                    )
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
+
             label_space_to_con = label_space.LabelSpace(
-                label_space=inpt,
-                obj=self,
-                server=self._server
+                label_space=inpt, obj=self, server=self._server
             )
             self._api.work_flow_connect_label_space(self, pin_name, label_space_to_con)
         else:
@@ -179,21 +182,12 @@ class Workflow:
 
     @property
     def _type_to_input_method(self):
-        from ansys.dpf.core import (
-            cyclic_support,
-            data_sources,
-            field,
-            collection,
-            meshed_region,
-            property_field,
-            string_field,
-            custom_type_field,
-            scoping,
-            time_freq_support,
-            data_tree,
-            workflow,
-            model,
-        )
+        from ansys.dpf.core import (collection, custom_type_field,
+                                    cyclic_support, data_sources, data_tree,
+                                    field, meshed_region, model,
+                                    property_field, scoping, string_field,
+                                    time_freq_support, workflow)
+
         return [
             (bool, self._api.work_flow_connect_bool),
             ((int, Enum), self._api.work_flow_connect_int),
@@ -202,75 +196,117 @@ class Workflow:
             (field.Field, self._api.work_flow_connect_field),
             (property_field.PropertyField, self._api.work_flow_connect_property_field),
             (string_field.StringField, self._api.work_flow_connect_string_field),
-            (custom_type_field.CustomTypeField, self._api.work_flow_connect_custom_type_field),
+            (
+                custom_type_field.CustomTypeField,
+                self._api.work_flow_connect_custom_type_field,
+            ),
             (scoping.Scoping, self._api.work_flow_connect_scoping),
             (collection.Collection, self._api.work_flow_connect_collection),
             (data_sources.DataSources, self._api.work_flow_connect_data_sources),
-            (model.Model, self._api.work_flow_connect_data_sources,
-             lambda obj: obj.metadata.data_sources),
+            (
+                model.Model,
+                self._api.work_flow_connect_data_sources,
+                lambda obj: obj.metadata.data_sources,
+            ),
             (cyclic_support.CyclicSupport, self._api.work_flow_connect_cyclic_support),
             (meshed_region.MeshedRegion, self._api.work_flow_connect_meshed_region),
             # TO DO: (result_info.ResultInfo, self._api.work_flow_connect_result_info),
-            (time_freq_support.TimeFreqSupport, self._api.work_flow_connect_time_freq_support),
+            (
+                time_freq_support.TimeFreqSupport,
+                self._api.work_flow_connect_time_freq_support,
+            ),
             (workflow.Workflow, self._api.work_flow_connect_workflow),
             (data_tree.DataTree, self._api.work_flow_connect_data_tree),
         ]
 
     @property
     def _type_to_output_method(self):
-        from ansys.dpf.core import (
-            cyclic_support,
-            data_sources,
-            field,
-            fields_container,
-            meshed_region,
-            meshes_container,
-            property_field,
-            string_field,
-            custom_type_field,
-            result_info,
-            scoping,
-            scopings_container,
-            time_freq_support,
-            data_tree,
-            workflow,
-            collection,
-        )
+        from ansys.dpf.core import (collection, custom_type_field,
+                                    cyclic_support, data_sources, data_tree,
+                                    field, fields_container, meshed_region,
+                                    meshes_container, property_field,
+                                    result_info, scoping, scopings_container,
+                                    string_field, time_freq_support, workflow)
+
         return [
             (bool, self._api.work_flow_getoutput_bool),
             (int, self._api.work_flow_getoutput_int),
             (str, self._api.work_flow_getoutput_string),
             (float, self._api.work_flow_getoutput_double),
             (field.Field, self._api.work_flow_getoutput_field, "field"),
-            (property_field.PropertyField, self._api.work_flow_getoutput_property_field,
-             "property_field"),
-            (string_field.StringField, self._api.work_flow_getoutput_string_field,
-             "string_field"),
-            (custom_type_field.CustomTypeField, self._api.work_flow_getoutput_custom_type_field,
-             "field"),
+            (
+                property_field.PropertyField,
+                self._api.work_flow_getoutput_property_field,
+                "property_field",
+            ),
+            (
+                string_field.StringField,
+                self._api.work_flow_getoutput_string_field,
+                "string_field",
+            ),
+            (
+                custom_type_field.CustomTypeField,
+                self._api.work_flow_getoutput_custom_type_field,
+                "field",
+            ),
             (scoping.Scoping, self._api.work_flow_getoutput_scoping, "scoping"),
-            (fields_container.FieldsContainer, self._api.work_flow_getoutput_fields_container,
-             "fields_container"),
-            (scopings_container.ScopingsContainer, self._api.work_flow_getoutput_scopings_container,
-             "scopings_container"),
-            (meshes_container.MeshesContainer, self._api.work_flow_getoutput_meshes_container,
-             "meshes_container"),
-            (data_sources.DataSources, self._api.work_flow_getoutput_data_sources, "data_sources"),
-            (cyclic_support.CyclicSupport, self._api.work_flow_getoutput_cyclic_support,
-             "cyclic_support"),
-            (meshed_region.MeshedRegion, self._api.work_flow_getoutput_meshed_region, "mesh"),
-            (result_info.ResultInfo, self._api.work_flow_getoutput_result_info, "result_info"),
-            (time_freq_support.TimeFreqSupport, self._api.work_flow_getoutput_time_freq_support,
-             "time_freq_support"),
+            (
+                fields_container.FieldsContainer,
+                self._api.work_flow_getoutput_fields_container,
+                "fields_container",
+            ),
+            (
+                scopings_container.ScopingsContainer,
+                self._api.work_flow_getoutput_scopings_container,
+                "scopings_container",
+            ),
+            (
+                meshes_container.MeshesContainer,
+                self._api.work_flow_getoutput_meshes_container,
+                "meshes_container",
+            ),
+            (
+                data_sources.DataSources,
+                self._api.work_flow_getoutput_data_sources,
+                "data_sources",
+            ),
+            (
+                cyclic_support.CyclicSupport,
+                self._api.work_flow_getoutput_cyclic_support,
+                "cyclic_support",
+            ),
+            (
+                meshed_region.MeshedRegion,
+                self._api.work_flow_getoutput_meshed_region,
+                "mesh",
+            ),
+            (
+                result_info.ResultInfo,
+                self._api.work_flow_getoutput_result_info,
+                "result_info",
+            ),
+            (
+                time_freq_support.TimeFreqSupport,
+                self._api.work_flow_getoutput_time_freq_support,
+                "time_freq_support",
+            ),
             (workflow.Workflow, self._api.work_flow_getoutput_workflow, "workflow"),
             (data_tree.DataTree, self._api.work_flow_getoutput_data_tree, "data_tree"),
             (dpf_operator.Operator, self._api.work_flow_getoutput_operator, "operator"),
-            (dpf_vector.DPFVectorInt, self._api.work_flow_getoutput_int_collection,
-             lambda obj: collection.IntCollection(server=self._server,
-                                                  collection=obj).get_integral_entries()),
-            (dpf_vector.DPFVectorDouble, self._api.work_flow_getoutput_double_collection,
-             lambda obj: collection.FloatCollection(server=self._server,
-                                                    collection=obj).get_integral_entries()),
+            (
+                dpf_vector.DPFVectorInt,
+                self._api.work_flow_getoutput_int_collection,
+                lambda obj: collection.IntCollection(
+                    server=self._server, collection=obj
+                ).get_integral_entries(),
+            ),
+            (
+                dpf_vector.DPFVectorDouble,
+                self._api.work_flow_getoutput_double_collection,
+                lambda obj: collection.FloatCollection(
+                    server=self._server, collection=obj
+                ).get_integral_entries(),
+            ),
         ]
 
     def get_output(self, pin_name, output_type):
@@ -301,7 +337,9 @@ class Workflow:
                         out = type_tuple[2](type_tuple[1](self, pin_name))
                 if out is None:
                     try:
-                        out = output_type(type_tuple[1](self, pin_name), server=self._server)
+                        out = output_type(
+                            type_tuple[1](self, pin_name), server=self._server
+                        )
                     except TypeError:
                         self._progress_thread = None
                         out = output_type(type_tuple[1](self, pin_name))
@@ -486,7 +524,9 @@ class Workflow:
         """
         wf = Workflow(workflow="None", server=server)
         if wf._server.has_client():
-            wf._internal_obj = wf._api.work_flow_get_by_identifier_on_client(id, wf._server.client)
+            wf._internal_obj = wf._api.work_flow_get_by_identifier_on_client(
+                id, wf._server.client
+            )
         else:
             wf._internal_obj = wf._api.work_flow_get_by_identifier(id)
         if wf._internal_obj is None:
@@ -593,10 +633,11 @@ class Workflow:
         if output_input_names:
             core_api = self._server.get_api_for_type(
                 capi=data_processing_capi.DataProcessingCAPI,
-                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+                grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+            )
             map = object_handler.ObjHandler(
                 data_processing_api=core_api,
-                internal_obj=self._api.workflow_create_connection_map_for_object(self)
+                internal_obj=self._api.workflow_create_connection_map_for_object(self),
             )
             if isinstance(output_input_names, tuple):
                 self._api.workflow_add_entry_connection_map(
@@ -608,8 +649,10 @@ class Workflow:
                         map, key, output_input_names[key]
                     )
             else:
-                raise TypeError("output_input_names argument is expect"
-                                "to be either a str tuple or a str dict")
+                raise TypeError(
+                    "output_input_names argument is expect"
+                    "to be either a str tuple or a str dict"
+                )
             self._api.work_flow_connect_with_specified_names(self, left_workflow, map)
         else:
             self._api.work_flow_connect_with(self, left_workflow)
@@ -677,17 +720,21 @@ class Workflow:
             wf = Workflow(workflow="None", server=server)
             if wf._server.has_client():
                 wf._internal_obj = wf._api.work_flow_create_from_text_on_client(
-                    text_stream,
-                    wf._server.client)
+                    text_stream, wf._server.client
+                )
             else:
                 wf._internal_obj = wf._api.work_flow_create_from_text(text_stream)
             return wf
         elif address:
-            internal_obj = self._api.work_flow_get_copy_on_other_client(self, address, "grpc")
+            internal_obj = self._api.work_flow_get_copy_on_other_client(
+                self, address, "grpc"
+            )
             return Workflow(workflow=internal_obj, server=self._server)
         else:
-            raise ValueError("a connection address (either with address input"
-                             "or both ip and port inputs) or a server is required")
+            raise ValueError(
+                "a connection address (either with address input"
+                "or both ip and port inputs) or a server is required"
+            )
 
     def __del__(self):
         try:
@@ -705,4 +752,5 @@ class Workflow:
         description : str
         """
         from ansys.dpf.core.core import _description
+
         return _description(self._internal_obj, self._server)

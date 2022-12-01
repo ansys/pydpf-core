@@ -79,8 +79,8 @@ setup(
             "msup_distributed/file_load_2.rfrq",
         ]
     },
-    author='ANSYS',
-    author_email='ramdane.lagha@ansys.com',
+    author="ANSYS",
+    author_email="ramdane.lagha@ansys.com",
     maintainer_email="pyansys.maintainers@ansys.com",
     python_requires=">=3.7.*,<4.0",
     install_requires=install_requires,
@@ -88,5 +88,5 @@ setup(
         "plotting": ["pyvista>=0.32.0", "matplotlib>=3.2"],
     },
     url="https://github.com/pyansys/pydpf-core",
-    license='MIT License',
+    license="MIT License",
 )

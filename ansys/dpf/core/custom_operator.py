@@ -8,22 +8,20 @@ Contains utilities allowing you to implement and record custom Python operators.
 
 import abc
 import ctypes
-import numpy
 import traceback
 
+import numpy
+from ansys.dpf.gate import capi, dpf_vector, integral_types, object_handler
+
 from ansys.dpf import core as dpf
-from ansys.dpf.core import (
-    settings,
-    server,
-    server_factory,
-    operator_specification,
-    dpf_operator,
-    collection,
-    AvailableServerContexts,
-)
-from ansys.dpf.core._custom_operators_helpers import __operator_main__, functions_registry, \
-    external_operator_api, _type_to_output_method, _type_to_input_method
-from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
+from ansys.dpf.core import (AvailableServerContexts, collection, dpf_operator,
+                            operator_specification, server, server_factory,
+                            settings)
+from ansys.dpf.core._custom_operators_helpers import (__operator_main__,
+                                                      _type_to_input_method,
+                                                      _type_to_output_method,
+                                                      external_operator_api,
+                                                      functions_registry)
 
 
 def record_operator(operator_type, *args) -> None:
@@ -54,7 +52,8 @@ def record_operator(operator_type, *args) -> None:
             __operator_main__,
             operator.name,
             operator._internal_specification,
-            ctypes.c_void_p(*args[0]), ctypes.c_void_p(*args[1]),
+            ctypes.c_void_p(*args[0]),
+            ctypes.c_void_p(*args[1]),
         )
     else:
         external_operator_api.external_operator_record_with_abstract_core(
@@ -62,7 +61,8 @@ def record_operator(operator_type, *args) -> None:
             __operator_main__,
             operator.name,
             operator._internal_specification,
-            ctypes.c_void_p(*args))
+            ctypes.c_void_p(*args),
+        )
 
 
 class CustomOperatorBase:
@@ -158,7 +158,9 @@ class CustomOperatorBase:
         for type_tuple in _type_to_input_method:
             if type is type_tuple[0]:
                 if len(type_tuple) >= 3:
-                    parameters = {type_tuple[2]: type_tuple[1](self._operator_data, index)}
+                    parameters = {
+                        type_tuple[2]: type_tuple[1](self._operator_data, index)
+                    }
                     return type(**parameters)
                 return type(type_tuple[1](self._operator_data, index))
         if type == dpf_vector.DPFVectorInt:
@@ -190,8 +192,9 @@ class CustomOperatorBase:
             try:
                 self.run()
             except:
-                external_operator_api.external_operator_put_exception(self._operator_data, 4,
-                                                                      str(traceback.format_exc()))
+                external_operator_api.external_operator_put_exception(
+                    self._operator_data, 4, str(traceback.format_exc())
+                )
 
         functions_registry.append(capi.OperatorMainCallback(_self_call_back))
         return functions_registry[-1]

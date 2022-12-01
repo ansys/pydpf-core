@@ -4,18 +4,14 @@ StringField
 """
 
 import numpy as np
-from ansys.dpf.core.common import natures, locations, _get_size_of_list
-from ansys.dpf.core import scoping
+from ansys.dpf.gate import (dpf_vector, integral_types,
+                            string_field_abstract_api, string_field_capi,
+                            string_field_grpcapi)
+
+from ansys.dpf.core import errors, scoping
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core import errors
+from ansys.dpf.core.common import _get_size_of_list, locations, natures
 from ansys.dpf.core.field_base import _FieldBase
-from ansys.dpf.gate import (
-    string_field_abstract_api,
-    string_field_capi,
-    string_field_grpcapi,
-    dpf_vector,
-    integral_types
-)
 
 
 class StringField(_FieldBase):
@@ -60,7 +56,10 @@ class StringField(_FieldBase):
         if string_field is None and not self._server.meet_version("5.0"):
             raise errors.DpfVersionNotSupported("5.0")
         super().__init__(
-            nentities=nentities, nature=natures.scalar, field=string_field, server=server
+            nentities=nentities,
+            nature=natures.scalar,
+            field=string_field,
+            server=server,
         )
 
     @property
@@ -68,7 +67,7 @@ class StringField(_FieldBase):
         if not self._api_instance:
             self._api_instance = self._server.get_api_for_type(
                 capi=string_field_capi.StringFieldCAPI,
-                grpcapi=string_field_grpcapi.StringFieldGRPCAPI
+                grpcapi=string_field_grpcapi.StringFieldGRPCAPI,
             )
         return self._api_instance
 
@@ -76,13 +75,18 @@ class StringField(_FieldBase):
         self._api.init_string_field_environment(self)
 
     @staticmethod
-    def _field_create_internal_obj(api: string_field_abstract_api.StringFieldAbstractAPI,
-                                   client, nature, nentities,
-                                   location=locations.nodal, ncomp_n=0, ncomp_m=0, with_type=None):
+    def _field_create_internal_obj(
+        api: string_field_abstract_api.StringFieldAbstractAPI,
+        client,
+        nature,
+        nentities,
+        location=locations.nodal,
+        ncomp_n=0,
+        ncomp_m=0,
+        with_type=None,
+    ):
         if client is not None:
-            return api.csstring_field_new_on_client(
-                client, nentities, nentities
-            )
+            return api.csstring_field_new_on_client(client, nentities, nentities)
         else:
             return api.csstring_field_new(nentities, nentities)
 
@@ -162,8 +166,7 @@ class StringField(_FieldBase):
 
     def _get_scoping(self):
         return scoping.Scoping(
-            scoping=self._api.csstring_field_get_cscoping(self),
-            server=self._server
+            scoping=self._api.csstring_field_get_cscoping(self), server=self._server
         )
 
     def get_entity_data(self, index):
@@ -181,7 +184,8 @@ class StringField(_FieldBase):
         try:
             vec = dpf_vector.DPFVectorString(client=self._server.client)
             self._api.csstring_field_get_entity_data_by_id_for_dpf_vector(
-                self, vec, vec.internal_data, vec.internal_size, id)
+                self, vec, vec.internal_data, vec.internal_size, id
+            )
             return vec
         except NotImplementedError:
             index = self.scoping.index(id)
@@ -192,7 +196,9 @@ class StringField(_FieldBase):
 
     def append(self, data, scopingid):
         string_list = integral_types.MutableListString(data)
-        self._api.csstring_field_push_back(self, scopingid, _get_size_of_list(data), string_list)
+        self._api.csstring_field_push_back(
+            self, scopingid, _get_size_of_list(data), string_list
+        )
 
     def _get_data(self, np_array=True):
         try:
@@ -208,14 +214,16 @@ class StringField(_FieldBase):
     def _set_data(self, data):
         if isinstance(data, (np.ndarray, np.generic)):
             if (
-                    0 != self.size
-                    and self.component_count > 1
-                    and data.size // self.component_count
-                    != data.size / self.component_count
+                0 != self.size
+                and self.component_count > 1
+                and data.size // self.component_count
+                != data.size / self.component_count
             ):
                 raise ValueError(
                     f"An array of shape {self.shape} is expected and "
                     f"shape {data.shape} was input"
                 )
         string_list = integral_types.MutableListString(data)
-        return self._api.csstring_field_set_data(self, _get_size_of_list(data), string_list)
+        return self._api.csstring_field_set_data(
+            self, _get_size_of_list(data), string_list
+        )

@@ -3,9 +3,11 @@ AvailableResult
 ===============
 """
 
-from warnings import warn
-from ansys.dpf.core.common import _remove_spaces, _make_as_function_name, natures
 from enum import Enum, unique
+from warnings import warn
+
+from ansys.dpf.core.common import (_make_as_function_name, _remove_spaces,
+                                   natures)
 
 
 @unique
@@ -109,19 +111,21 @@ class AvailableResult:
         self._homogeneity = availableresult.homogeneity
         self._unit = availableresult.unit
         self._n_comp = availableresult.ncomp
-        self._properties = {"scripting_name": availableresult.properties["scripting_name"],
-                            "location": availableresult.properties["loc_name"]}
+        self._properties = {
+            "scripting_name": availableresult.properties["scripting_name"],
+            "location": availableresult.properties["loc_name"],
+        }
         self._sub_res = availableresult.sub_res
         self._qualifiers = availableresult.qualifiers
 
     def __str__(self):
         txt = (
-                self.name
-                + "\n"
-                + 'Operator name: "%s"\n' % self.operator_name
-                + "Number of components: %d\n" % self.n_components
-                + "Dimensionality: %s\n" % self.dimensionality
-                + "Homogeneity: %s\n" % self.homogeneity
+            self.name
+            + "\n"
+            + 'Operator name: "%s"\n' % self.operator_name
+            + "Number of components: %d\n" % self.n_components
+            + "Dimensionality: %s\n" % self.dimensionality
+            + "Homogeneity: %s\n" % self.homogeneity
         )
         if self.unit:
             txt += "Units: %s\n" % self.unit
@@ -223,6 +227,7 @@ class AvailableResult:
         """
         return self._qualifiers
 
+
 _result_properties = {
     "S": {"location": "ElementalNodal", "scripting_name": "stress"},
     "ENF": {"location": "ElementalNodal", "scripting_name": "element_nodal_forces"},
@@ -261,13 +266,17 @@ def available_result_from_name(name) -> AvailableResult:
     for key, item in _result_properties.items():
         if item["scripting_name"] == name:
             from types import SimpleNamespace
+
             availableresult = SimpleNamespace(
-                name=key, physicsname=name, ncomp=None,
+                name=key,
+                physicsname=name,
+                ncomp=None,
                 dimensionality=None,
                 homogeneity=None,
-                unit=None, sub_res={},
-                properties={"loc_name": item["location"],
-                            "scripting_name": name},
-                qualifiers=[])
+                unit=None,
+                sub_res={},
+                properties={"loc_name": item["location"], "scripting_name": name},
+                qualifiers=[],
+            )
 
             return AvailableResult(availableresult)

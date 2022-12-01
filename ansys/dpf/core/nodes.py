@@ -5,9 +5,9 @@ Nodes
 =====
 """
 import numpy as np
-from ansys.dpf.core.common import nodal_properties, locations
+
 from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.common import locations, nodal_properties
 
 
 class Node:
@@ -164,15 +164,17 @@ class Nodes:
             nodeindex = self._mesh._api.meshed_region_get_node_index(self._mesh, nodeid)
         elif nodeid is None:
             nodeid = self._mesh._api.meshed_region_get_node_id(self._mesh, nodeindex)
-        node_coordinates = [self._mesh._api.meshed_region_get_node_coord(self._mesh,
-                                                                         index=nodeindex,
-                                                                         coordinate=0),
-                            self._mesh._api.meshed_region_get_node_coord(self._mesh,
-                                                                         index=nodeindex,
-                                                                         coordinate=1),
-                            self._mesh._api.meshed_region_get_node_coord(self._mesh,
-                                                                         index=nodeindex,
-                                                                         coordinate=2)]
+        node_coordinates = [
+            self._mesh._api.meshed_region_get_node_coord(
+                self._mesh, index=nodeindex, coordinate=0
+            ),
+            self._mesh._api.meshed_region_get_node_coord(
+                self._mesh, index=nodeindex, coordinate=1
+            ),
+            self._mesh._api.meshed_region_get_node_coord(
+                self._mesh, index=nodeindex, coordinate=2
+            ),
+        ]
         return Node(self._mesh, nodeid, nodeindex, node_coordinates)
 
     @property

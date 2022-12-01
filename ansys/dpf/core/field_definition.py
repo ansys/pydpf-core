@@ -6,15 +6,13 @@ FieldDefinition
 import traceback
 import warnings
 
-from ansys.dpf.core.common import natures, shell_layers
-from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.dimensionality import Dimensionality
+from ansys.dpf.gate import (field_definition_capi, field_definition_grpcapi,
+                            integral_types)
+
 from ansys.dpf.core import server as server_module
-from ansys.dpf.gate import (
-    field_definition_capi,
-    field_definition_grpcapi,
-    integral_types,
-)
+from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.common import natures, shell_layers
+from ansys.dpf.core.dimensionality import Dimensionality
 
 
 class FieldDefinition:
@@ -37,7 +35,7 @@ class FieldDefinition:
         # step 2: get api
         self._api = self._server.get_api_for_type(
             capi=field_definition_capi.FieldDefinitionCAPI,
-            grpcapi=field_definition_grpcapi.FieldDefinitionGRPCAPI
+            grpcapi=field_definition_grpcapi.FieldDefinitionGRPCAPI,
         )
 
         # step3: init environment
@@ -48,7 +46,9 @@ class FieldDefinition:
             self._internal_obj = field_definition
         else:
             if self._server.has_client():
-                self._internal_obj = self._api.field_definition_new_on_client(self._server.client)
+                self._internal_obj = self._api.field_definition_new_on_client(
+                    self._server.client
+                )
             else:
                 self._internal_obj = self._api.field_definition_new()
 
@@ -91,10 +91,12 @@ class FieldDefinition:
             Units of the field.
         """
         unit = integral_types.MutableString(256)
-        unused = [integral_types.MutableInt32(),
-                  integral_types.MutableInt32(),
-                  integral_types.MutableDouble(),
-                  integral_types.MutableDouble()]
+        unused = [
+            integral_types.MutableInt32(),
+            integral_types.MutableInt32(),
+            integral_types.MutableDouble(),
+            integral_types.MutableDouble(),
+        ]
         self._api.csfield_definition_fill_unit(self, unit, *unused)
         return str(unit)
 
@@ -123,7 +125,9 @@ class FieldDefinition:
         """
         dim = integral_types.MutableListInt32(size=3)
         nature = integral_types.MutableInt32()
-        self._api.csfield_definition_fill_dimensionality(self, dim, nature, dim.internal_size)
+        self._api.csfield_definition_fill_dimensionality(
+            self, dim, nature, dim.internal_size
+        )
         return Dimensionality(dim.tolist(), natures(int(nature)))
 
     @unit.setter
