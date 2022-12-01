@@ -119,7 +119,7 @@ jobs:
           install_extras: plotting
           wheel: ${{ inputs.wheel }}
           wheelhouse: ${{ inputs.wheelhouse }}
-          extra-pip-args: ${{ format('--find-links ./dpf-standalone/v{0}', inputs.ANSYS_VERSION) }}
+          extra-pip-args: ${{ format('--find-links ./dpf-standalone/v{0}/dist', inputs.ANSYS_VERSION) }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           custom-requirements: ${{ inputs.custom-requirements }}
 
