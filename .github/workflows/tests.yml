@@ -76,7 +76,7 @@ on:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  extra: "--find-links " ${{ github.workspace }}/dpf-standalone/v${{env.ANSYS_VERSION}}
+  extra: "--find-links .github/"
 
 jobs:
   setup:
@@ -120,7 +120,7 @@ jobs:
           install_extras: plotting
           wheel: ${{ inputs.wheel }}
           wheelhouse: ${{ inputs.wheelhouse }}
-          extra-pip-args: ${{ env.extra }}
+          extra-pip-args: "--find-links " ${{ github.workspace }}/dpf-standalone/v${{env.ANSYS_VERSION}}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           custom-requirements: ${{ inputs.custom-requirements }}
 
