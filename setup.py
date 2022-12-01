@@ -10,7 +10,7 @@ install_requires = ["packaging", "psutil", "tqdm", "numpy", "ansys-dpf-gate>=0.3
 # Get version from version info
 filepath = os.path.dirname(__file__)
 __version__ = None
-version_file = os.path.join(filepath, "ansys", "dpf", "core", "_version.py")
+version_file = os.path.join(filepath, "src", "ansys", "dpf", "core", "_version.py")
 with io_open(version_file, mode="r") as fd:
     exec(fd.read())  # execute file from raw string
 
@@ -18,6 +18,7 @@ readme_file = os.path.join(filepath, "README.md")
 
 setup(
     name="ansys-dpf-core",
+    package_dir={"":"src"},
     packages=[
         "ansys.dpf.core",
         "ansys.dpf.core.examples",
