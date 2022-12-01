@@ -303,8 +303,8 @@ def test_connect_get_output_int_list_workflow(server_type):
     wf.add_operators([op])
     wf.set_input_name("in", op, 0)
     wf.set_output_name("out", op, 0)
-    dout = wf.get_output("out", dpf.core.types.vec_int)
-    assert np.allclose(d, dout)
+    d_out = wf.get_output("out", dpf.core.types.vec_int)
+    assert np.allclose(d, d_out)
 
 
 @conftest.raises_for_servers_version_under('3.0')
@@ -315,8 +315,8 @@ def test_connect_get_output_double_list_workflow(server_type):
     wf.add_operators([op])
     wf.set_input_name("in", op, 0)
     wf.set_output_name("out", op, 0)
-    dout = wf.get_output("out", dpf.core.types.vec_double)
-    assert np.allclose(d, dout)
+    d_out = wf.get_output("out", dpf.core.types.vec_double)
+    assert np.allclose(d, d_out)
 
 
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
@@ -341,8 +341,8 @@ def test_connect_get_output_string_field_workflow(server_type):
     str_field.data = ["hello"]
     wf.connect("in", str_field)
     wf.set_output_name("out", op, 0)
-    dout = wf.get_output("out", dpf.core.types.string_field)
-    assert dout.data == ["hello"]
+    d_out = wf.get_output("out", dpf.core.types.string_field)
+    assert d_out.data == ["hello"]
 
 
 @conftest.raises_for_servers_version_under('5.0')
@@ -355,9 +355,9 @@ def test_connect_get_output_custom_type_field_workflow(server_type):
     str_field.data = [-1]
     wf.connect("in", str_field)
     wf.set_output_name("out", op, 0)
-    dout = wf.get_output("out", dpf.core.types.custom_type_field)
-    assert dout.data == [-1]
-    assert dout._type == np.int16
+    d_out = wf.get_output("out", dpf.core.types.custom_type_field)
+    assert d_out.data == [-1]
+    assert d_out._type == np.int16
 
 
 def test_inputs_outputs_inputs_outputs_scopings_container_workflow(allkindofcomplexity,
@@ -421,8 +421,8 @@ def test_connect_get_output_data_tree_operator(server_type):
     wf.set_input_name("in", op.inputs.any)
     wf.set_output_name("out", op.outputs.any)
     wf.connect("in", d)
-    dout = wf.get_output("out", dpf.core.types.data_tree)
-    assert dout.get_as("name") == "Paul"
+    d_out = wf.get_output("out", dpf.core.types.data_tree)
+    assert d_out.get_as("name") == "Paul"
 
 
 def test_record_workflow(allkindofcomplexity, server_type):
