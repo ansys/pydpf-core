@@ -6,42 +6,61 @@ from ansys.dpf.core import examples
 
 @conftest.raises_for_servers_version_under("6.1")
 def test_logging(tmpdir, server_type):
-    server_type.session.handle_events_with_file_logger(os.path.join(tmpdir, "log.txt"), 2)
+    if not isinstance(server_type, core.server_types.InProcessServer):
+        server_tmp = core.core.make_tmp_dir_server(server=server_type)
+        result_file = core.upload_file_in_tmp_folder(
+            examples.find_static_rst(return_local_path=True, server=server_type),
+            server=server_type,
+        )
+        log_path = os.path.join(server_tmp, "log.txt")
+    else:
+        log_path = os.path.join(tmpdir, "log.txt")
+        result_file = examples.find_static_rst(server=server_type)
+
+    # download it
+    new_tmpdir = os.path.join(tmpdir, "my_tmp_dir")
+    server_type.session.handle_events_with_file_logger(log_path, 2)
 
     wf = core.Workflow(server=server_type)
-    model = core.Model(examples.download_pontoon(server=server_type), server=server_type)
+    model = core.Model(result_file, server=server_type)
     stress = model.results.stress()
     to_nodal = core.operators.averaging.to_nodal_fc(stress, server=server_type)
     wf.add_operators([stress, to_nodal])
     wf.set_output_name("out", to_nodal.outputs.fields_container)
 
     wf.get_output("out", core.types.fields_container)
-    assert os.path.exists(os.path.join(tmpdir, "log.txt"))
-    file_size = os.path.getsize(os.path.join(tmpdir, "log.txt"))
+    assert os.path.exists(log_path)
+    file_size = os.path.getsize(log_path)
     assert file_size > 20
     server_type._del_session()
-    file_size = os.path.getsize(os.path.join(tmpdir, "log.txt"))
+    file_size = os.path.getsize(log_path)
 
     wf = core.Workflow(server=server_type)
-    model = core.Model(examples.download_pontoon(server=server_type), server=server_type)
+    model = core.Model(result_file, server=server_type)
     stress = model.results.stress()
     to_nodal = core.operators.averaging.to_nodal_fc(stress, server=server_type)
     wf.add_operators([stress, to_nodal])
     wf.set_output_name("out", to_nodal.outputs.fields_container)
 
     wf.get_output("out", core.types.fields_container)
-    assert file_size == os.path.getsize(os.path.join(tmpdir, "log.txt"))
+    assert file_size == os.path.getsize(log_path)
 
 
 @conftest.raises_for_servers_version_under("6.1")
 def test_logging_remote(tmpdir, server_type_remote_process):
+    server_tmp = core.core.make_tmp_dir_server(server=server_type_remote_process)
+    result_file = core.upload_file_in_tmp_folder(
+        examples.find_multishells_rst(return_local_path=True),
+        server=server_type_remote_process,
+    )
+    log_path = os.path.join(server_tmp, "log.txt")
     server_type_remote_process.session.handle_events_with_file_logger(
-        os.path.join(tmpdir, "log.txt"), 2
+        log_path, 2
     )
     server_type_remote_process.session.start_emitting_rpc_log()
 
     wf = core.Workflow(server=server_type_remote_process)
-    model = core.Model(examples.download_pontoon(server=server_type_remote_process),
+    model = core.Model(result_file,
                        server=server_type_remote_process)
     stress = model.results.stress()
     to_nodal = core.operators.averaging.to_nodal_fc(stress, server=server_type_remote_process)
@@ -49,14 +68,14 @@ def test_logging_remote(tmpdir, server_type_remote_process):
     wf.set_output_name("out", to_nodal.outputs.fields_container)
 
     wf.get_output("out", core.types.fields_container)
-    assert os.path.exists(os.path.join(tmpdir, "log.txt"))
-    file_size = os.path.getsize(os.path.join(tmpdir, "log.txt"))
+    assert os.path.exists(log_path)
+    file_size = os.path.getsize(log_path)
     assert file_size > 3000
     server_type_remote_process._del_session()
-    file_size = os.path.getsize(os.path.join(tmpdir, "log.txt"))
+    file_size = os.path.getsize(log_path)
 
     wf = core.Workflow(server=server_type_remote_process)
-    model = core.Model(examples.download_pontoon(server=server_type_remote_process),
+    model = core.Model(result_file,
                        server=server_type_remote_process)
     stress = model.results.stress()
     to_nodal = core.operators.averaging.to_nodal_fc(stress, server=server_type_remote_process)
@@ -64,4 +83,4 @@ def test_logging_remote(tmpdir, server_type_remote_process):
     wf.set_output_name("out", to_nodal.outputs.fields_container)
 
     wf.get_output("out", core.types.fields_container)
-    assert file_size == os.path.getsize(os.path.join(tmpdir, "log.txt"))
+    assert file_size == os.path.getsize(log_path)
