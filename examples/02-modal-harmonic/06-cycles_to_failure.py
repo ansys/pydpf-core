@@ -11,7 +11,7 @@ Material data is manually imported, Structural Steel from Ansys Mechanical:
 
 - Youngs Modulus (youngsSteel)
 - Poisson's Ratio (prxySteel)
-- Cycles to Failure (sn_data)
+- SN curve (sn_data)
 
 The first step is to generate a simple model with high stress and save the
 results .rst file locally to myDir (default is "C:\\\\temp").
@@ -111,7 +111,7 @@ cycles_to_failure = np.interp(vm_stress_field.data, x_values, y_values)
 # Generate a cycles_to_failure DPF Field
 
 # Create an empty field
-cycles_to_failure_field = dpf.Field(nentities=len(vm_stress_field.scoping.ids),
+cycles_to_failure_field = dpf.Field(nentities=len(vm_stress_field.scoping),
                                     nature=dpf.natures.scalar,
                                     location=dpf.locations.nodal)
 # Populate the field
