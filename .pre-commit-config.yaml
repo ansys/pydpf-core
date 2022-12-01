@@ -1,7 +1,9 @@
 exclude: |
     (?x)^(
         docs/source/|
-        ansys/dpf/core/operators/
+        ansys/dpf/core/operators/|
+        examples_notebooks/|
+        tests/test_lsdyna.py
     )
 repos:
 
@@ -24,7 +26,7 @@ repos:
   rev: v2.2.2
   hooks:
   - id: codespell
-    args: [--ignore-words=ignore_words.txt]
+    args: ["--ignore-words=ignore_words.txt"]
 
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.4.0
