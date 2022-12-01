@@ -24,7 +24,7 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   ANSYS_VERSION: 232
-  extra: "--find-links .github/"
+  extra: "--find-links " ${{ github.workspace }}/dpf-standalone/v${{env.ANSYS_VERSION}}
 
 jobs:
   debug:
@@ -69,8 +69,6 @@ jobs:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test' }}
       custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
-    env:
-      extra: "--find-links " ${{ github.workspace }}/dpf-standalone/v${{env.ANSYS_VERSION}}
 
   docker_tests:
     name: "Build and Test on Docker"
