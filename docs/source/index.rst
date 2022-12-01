@@ -48,7 +48,7 @@ Here is how you plot displacement results:
 .. code:: python
 
     >>> disp = model.results.displacement().X()
-    model.metadata.meshed_region.plot(disp.outputs.fields_container())
+    >>> model.metadata.meshed_region.plot(disp.outputs.fields_container())
 
 For comprehensive demos, see :ref:`gallery`.
 

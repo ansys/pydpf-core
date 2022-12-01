@@ -12,8 +12,6 @@ extract results:
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     DPF Model
@@ -53,7 +51,5 @@ extract results:
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. figure:: images/plotting/simple_example.png

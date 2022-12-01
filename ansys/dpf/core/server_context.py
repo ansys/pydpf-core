@@ -16,9 +16,9 @@ from enum import Enum
 
 class LicensingContextType(Enum):
     premium = 1
-    """Allows capabilities requiring Licenses check out."""
+    """Allows capabilities requiring Licenses checkout."""
     entry = 4
-    """Loads minimum capabilities without requiring any Licenses check out."""
+    """Loads minimum capabilities without requiring any Licenses checkout."""
 
     def __int__(self):
         return self.value
@@ -52,7 +52,7 @@ class ServerContext:
 
     @property
     def licensing_context_type(self):
-        """Whether capabilities requiring Licenses check out should be allowed.
+        """Whether capabilities requiring Licenses checkout should be allowed.
 
         Returns
         -------
@@ -87,6 +87,8 @@ class ServerContext:
 
 
 class AvailableServerContexts:
+    """Defines available server contexts.
+    """
     pre_defined_environment = ServerContext(0)
     """DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will
     be taken"""

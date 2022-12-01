@@ -29,20 +29,25 @@ should also be synchronized with the server version.
    :widths: 20 20 20 20 20
    :header-rows: 1
 
-   * - ``Ans.Dpf.Grpc.exe`` server version
+   * - Server version
      - ``ansys.dpf.gatebin`` binaries Python module version
      - ``ansys.dpf.gate`` Python module version
      - ``ansys.grpc.dpf`` Python module version
      - ``ansys.dpf.core`` Python module version
+   * - 6.0 (Ansys 2023 R2)
+     - 0.3.0 and later
+     - 0.3.0 and later
+     - 0.7.0 and later
+     - 0.7.0 and later
    * - 5.0 (Ansys 2023 R1)
      - 0.2.0 and later
      - 0.2.0 and later
      - 0.6.0 and later
      - 0.6.0 and later
    * - 4.0 (Ansys 2022 R2)
-     - 0.1.*
-     - 0.1.*
-     - 0.5.*
+     - 0.1.0 and later
+     - 0.1.0 and later
+     - 0.5.0 and later
      - 0.5.0 and later
    * - 3.0 (Ansys 2022 R1)
      - None
@@ -53,12 +58,30 @@ should also be synchronized with the server version.
      - None
      - None
      - 0.3.0
-     - 0.3.0 and later
+     - 0.3.0 and later**
    * - 1.0 (Ansys 2021 R1)
      - None
      - None
      - 0.2.2
      - 0.2.*
+
+(** compatibility of DPF 2.0 with ansys-dpf-core 0.5.0 and later is assumed but no longer certified)
+
+Updating Python environment
+---------------------------
+
+When moving from one Ansys release to another, you must update the ``ansys-dpf-core`` package and its dependencies.
+To get the latest version of the ``ansys-dpf-core`` package, use this code:
+
+.. code::
+    
+	pip install --upgrade --force-reinstall ansys-dpf-core
+
+To get a specific version of the ``ansys-dpf-core`` package, such as 0.7.0, use this code:
+
+.. code::
+
+    pip install --force-reinstall ansys-dpf-core==0.7.0
 
 
 Environment variable
@@ -69,4 +92,4 @@ The ``start_local_server``  method uses the ``Ans.Dpf.Grpc.bat`` file or
 environment variable is set to your installed Ansys version. For example, if Ansys
 2022 R2 is installed, ensure that the ``AWP_ROOT222`` environment
 variable is set to the path for this Ansys installation.
-   
+  
