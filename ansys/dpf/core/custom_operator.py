@@ -14,14 +14,22 @@ import numpy
 from ansys.dpf.gate import capi, dpf_vector, integral_types, object_handler
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import (AvailableServerContexts, collection, dpf_operator,
-                            operator_specification, server, server_factory,
-                            settings)
-from ansys.dpf.core._custom_operators_helpers import (__operator_main__,
-                                                      _type_to_input_method,
-                                                      _type_to_output_method,
-                                                      external_operator_api,
-                                                      functions_registry)
+from ansys.dpf.core import (
+    AvailableServerContexts,
+    collection,
+    dpf_operator,
+    operator_specification,
+    server,
+    server_factory,
+    settings,
+)
+from ansys.dpf.core._custom_operators_helpers import (
+    __operator_main__,
+    _type_to_input_method,
+    _type_to_output_method,
+    external_operator_api,
+    functions_registry,
+)
 
 
 def record_operator(operator_type, *args) -> None:

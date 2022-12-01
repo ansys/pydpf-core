@@ -119,8 +119,7 @@ class CustomTypeField(_FieldBase):
 
     @property
     def _api(self):
-        from ansys.dpf.gate import (custom_type_field_capi,
-                                    custom_type_field_grpcapi)
+        from ansys.dpf.gate import custom_type_field_capi, custom_type_field_grpcapi
 
         if not self._api_instance:
             self._api_instance = self._server.get_api_for_type(

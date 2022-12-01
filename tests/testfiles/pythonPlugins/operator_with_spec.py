@@ -1,8 +1,10 @@
 from ansys.dpf.core import Field
 from ansys.dpf.core.custom_operator import CustomOperatorBase, record_operator
-from ansys.dpf.core.operator_specification import (CustomSpecification,
-                                                   PinSpecification,
-                                                   SpecificationProperties)
+from ansys.dpf.core.operator_specification import (
+    CustomSpecification,
+    PinSpecification,
+    SpecificationProperties,
+)
 
 
 class AddFloatToFieldData(CustomOperatorBase):

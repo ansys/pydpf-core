@@ -1,11 +1,25 @@
 import numpy as np
 import pyvista as pv
-from vtk import (VTK_HEXAHEDRON, VTK_LINE, VTK_POLYGON, VTK_POLYHEDRON,
-                 VTK_PYRAMID, VTK_QUAD, VTK_QUADRATIC_EDGE,
-                 VTK_QUADRATIC_HEXAHEDRON, VTK_QUADRATIC_POLYGON,
-                 VTK_QUADRATIC_PYRAMID, VTK_QUADRATIC_QUAD,
-                 VTK_QUADRATIC_TETRA, VTK_QUADRATIC_TRIANGLE, VTK_TETRA,
-                 VTK_TRIANGLE, VTK_VERTEX, VTK_WEDGE, vtkVersion)
+from vtk import (
+    VTK_HEXAHEDRON,
+    VTK_LINE,
+    VTK_POLYGON,
+    VTK_POLYHEDRON,
+    VTK_PYRAMID,
+    VTK_QUAD,
+    VTK_QUADRATIC_EDGE,
+    VTK_QUADRATIC_HEXAHEDRON,
+    VTK_QUADRATIC_POLYGON,
+    VTK_QUADRATIC_PYRAMID,
+    VTK_QUADRATIC_QUAD,
+    VTK_QUADRATIC_TETRA,
+    VTK_QUADRATIC_TRIANGLE,
+    VTK_TETRA,
+    VTK_TRIANGLE,
+    VTK_VERTEX,
+    VTK_WEDGE,
+    vtkVersion,
+)
 
 from ansys.dpf.core.elements import element_types
 

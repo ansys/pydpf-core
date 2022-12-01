@@ -1,6 +1,15 @@
-from ansys.dpf.core import (data_sources, data_tree, field, fields_container,
-                            meshes_container, property_field, scoping,
-                            scopings_container, types, workflow)
+from ansys.dpf.core import (
+    data_sources,
+    data_tree,
+    field,
+    fields_container,
+    meshes_container,
+    property_field,
+    scoping,
+    scopings_container,
+    types,
+    workflow,
+)
 from ansys.dpf.core.custom_operator import CustomOperatorBase
 
 

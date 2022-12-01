@@ -9,9 +9,15 @@ import traceback
 import warnings
 from enum import Enum
 
-from ansys.dpf.gate import (data_processing_capi, data_processing_grpcapi,
-                            dpf_vector, object_handler, workflow_abstract_api,
-                            workflow_capi, workflow_grpcapi)
+from ansys.dpf.gate import (
+    data_processing_capi,
+    data_processing_grpcapi,
+    dpf_vector,
+    object_handler,
+    workflow_abstract_api,
+    workflow_capi,
+    workflow_grpcapi,
+)
 
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
@@ -182,11 +188,21 @@ class Workflow:
 
     @property
     def _type_to_input_method(self):
-        from ansys.dpf.core import (collection, custom_type_field,
-                                    cyclic_support, data_sources, data_tree,
-                                    field, meshed_region, model,
-                                    property_field, scoping, string_field,
-                                    time_freq_support, workflow)
+        from ansys.dpf.core import (
+            collection,
+            custom_type_field,
+            cyclic_support,
+            data_sources,
+            data_tree,
+            field,
+            meshed_region,
+            model,
+            property_field,
+            scoping,
+            string_field,
+            time_freq_support,
+            workflow,
+        )
 
         return [
             (bool, self._api.work_flow_connect_bool),
@@ -221,12 +237,24 @@ class Workflow:
 
     @property
     def _type_to_output_method(self):
-        from ansys.dpf.core import (collection, custom_type_field,
-                                    cyclic_support, data_sources, data_tree,
-                                    field, fields_container, meshed_region,
-                                    meshes_container, property_field,
-                                    result_info, scoping, scopings_container,
-                                    string_field, time_freq_support, workflow)
+        from ansys.dpf.core import (
+            collection,
+            custom_type_field,
+            cyclic_support,
+            data_sources,
+            data_tree,
+            field,
+            fields_container,
+            meshed_region,
+            meshes_container,
+            property_field,
+            result_info,
+            scoping,
+            scopings_container,
+            string_field,
+            time_freq_support,
+            workflow,
+        )
 
         return [
             (bool, self._api.work_flow_getoutput_bool),

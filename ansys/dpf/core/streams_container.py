@@ -7,8 +7,7 @@ Contains classes associated with the DPF StreamsContainer.
 import traceback
 import warnings
 
-from ansys.dpf.gate import (data_processing_capi, data_processing_grpcapi,
-                            streams_capi)
+from ansys.dpf.gate import data_processing_capi, data_processing_grpcapi, streams_capi
 
 from ansys.dpf.core import errors
 from ansys.dpf.core import server as server_module

@@ -7,10 +7,16 @@ import warnings
 from enum import Enum, unique
 from types import SimpleNamespace
 
-from ansys.dpf.gate import (data_processing_capi, data_processing_grpcapi,
-                            integral_types, label_space_capi,
-                            label_space_grpcapi, object_handler,
-                            result_info_capi, result_info_grpcapi)
+from ansys.dpf.gate import (
+    data_processing_capi,
+    data_processing_grpcapi,
+    integral_types,
+    label_space_capi,
+    label_space_grpcapi,
+    object_handler,
+    result_info_capi,
+    result_info_grpcapi,
+)
 
 from ansys.dpf.core import available_result, collection
 from ansys.dpf.core import server as server_module

@@ -8,8 +8,7 @@ from ansys.dpf.core import Model, Operator
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import misc
 from ansys.dpf.core.plotter import plot_chart
-from conftest import (SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-                      running_docker)
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0, running_docker
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True

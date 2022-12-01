@@ -11,10 +11,17 @@ import traceback
 import warnings
 from enum import Enum
 
-from ansys.dpf.gate import (collection_capi, collection_grpcapi,
-                            data_processing_capi, data_processing_grpcapi,
-                            dpf_vector, object_handler, operator_abstract_api,
-                            operator_capi, operator_grpcapi)
+from ansys.dpf.gate import (
+    collection_capi,
+    collection_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
+    dpf_vector,
+    object_handler,
+    operator_abstract_api,
+    operator_capi,
+    operator_grpcapi,
+)
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.check_version import server_meet_version, version_requires
@@ -261,13 +268,25 @@ class Operator:
 
     @property
     def _type_to_output_method(self):
-        from ansys.dpf.core import (collection, custom_type_field,
-                                    cyclic_support, data_sources, data_tree,
-                                    field, fields_container, meshed_region,
-                                    meshes_container, property_field,
-                                    result_info, scoping, scopings_container,
-                                    streams_container, string_field,
-                                    time_freq_support, workflow)
+        from ansys.dpf.core import (
+            collection,
+            custom_type_field,
+            cyclic_support,
+            data_sources,
+            data_tree,
+            field,
+            fields_container,
+            meshed_region,
+            meshes_container,
+            property_field,
+            result_info,
+            scoping,
+            scopings_container,
+            streams_container,
+            string_field,
+            time_freq_support,
+            workflow,
+        )
 
         return [
             (bool, self._api.operator_getoutput_bool),
@@ -357,11 +376,21 @@ class Operator:
 
     @property
     def _type_to_input_method(self):
-        from ansys.dpf.core import (collection, custom_type_field,
-                                    cyclic_support, data_sources, data_tree,
-                                    field, meshed_region, model,
-                                    property_field, scoping, string_field,
-                                    time_freq_support, workflow)
+        from ansys.dpf.core import (
+            collection,
+            custom_type_field,
+            cyclic_support,
+            data_sources,
+            data_tree,
+            field,
+            meshed_region,
+            model,
+            property_field,
+            scoping,
+            string_field,
+            time_freq_support,
+            workflow,
+        )
 
         return [
             (bool, self._api.operator_connect_bool),

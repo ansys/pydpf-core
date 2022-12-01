@@ -13,9 +13,11 @@ from ansys.dpf.core import errors
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.misc import get_ansys_path
 from ansys.dpf.core.operator_specification import Specification
-from conftest import (SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-                      SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                      SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0)
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+)
 
 # Check for ANSYS installation env var
 HAS_AWP_ROOT212 = os.environ.get("AWP_ROOT212", False) is not False

@@ -9,14 +9,21 @@ import pytest
 
 from ansys import dpf
 from ansys.dpf.core import errors, server_types
-from ansys.dpf.core.server import (_global_server, connect_to_server,
-                                   get_or_create_server, has_local_server,
-                                   set_server_configuration,
-                                   shutdown_all_session_servers,
-                                   start_local_server)
+from ansys.dpf.core.server import (
+    _global_server,
+    connect_to_server,
+    get_or_create_server,
+    has_local_server,
+    set_server_configuration,
+    shutdown_all_session_servers,
+    start_local_server,
+)
 from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
-from conftest import (SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                      remove_none_available_config, running_docker)
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    remove_none_available_config,
+    running_docker,
+)
 
 server_configs, server_configs_names = remove_none_available_config(
     [

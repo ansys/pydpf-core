@@ -1,7 +1,9 @@
 import ansys.dpf.core as dpf
-from ansys.dpf.core.server_context import (SERVER_CONTEXT,
-                                           AvailableServerContexts,
-                                           apply_server_context)
+from ansys.dpf.core.server_context import (
+    SERVER_CONTEXT,
+    AvailableServerContexts,
+    apply_server_context,
+)
 
 print(f"Server version: {dpf.global_server().version}")
 # Generate entry documentation

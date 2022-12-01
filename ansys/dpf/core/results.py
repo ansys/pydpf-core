@@ -8,8 +8,10 @@ to easily access results in result files."""
 import functools
 
 from ansys.dpf.core import Operator, errors
-from ansys.dpf.core.custom_fields_container import (BodyFieldsContainer,
-                                                    ElShapeFieldsContainer)
+from ansys.dpf.core.custom_fields_container import (
+    BodyFieldsContainer,
+    ElShapeFieldsContainer,
+)
 from ansys.dpf.core.scoping import Scoping
 
 
@@ -197,8 +199,7 @@ class Result:
         self._location = None
         self._mesh_by_default = mesh_by_default
         if isinstance(result_info, str):
-            from ansys.dpf.core.available_result import \
-                available_result_from_name
+            from ansys.dpf.core.available_result import available_result_from_name
 
             self._result_info = available_result_from_name(result_info)
         else:

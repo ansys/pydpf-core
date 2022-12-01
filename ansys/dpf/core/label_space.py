@@ -4,8 +4,12 @@ Internal Usage
 import traceback
 import warnings
 
-from ansys.dpf.gate import (data_processing_capi, data_processing_grpcapi,
-                            label_space_capi, label_space_grpcapi)
+from ansys.dpf.gate import (
+    data_processing_capi,
+    data_processing_grpcapi,
+    label_space_capi,
+    label_space_grpcapi,
+)
 
 from ansys.dpf.core import server as server_module
 

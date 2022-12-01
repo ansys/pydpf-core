@@ -9,9 +9,14 @@ import traceback
 import warnings
 
 import numpy as np
-from ansys.dpf.gate import (collection_capi, collection_grpcapi,
-                            data_processing_capi, data_processing_grpcapi,
-                            dpf_array, dpf_vector)
+from ansys.dpf.gate import (
+    collection_capi,
+    collection_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
+    dpf_array,
+    dpf_vector,
+)
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.label_space import LabelSpace
@@ -374,9 +379,13 @@ class Collection:
         -------
         time_freq_support : TimeFreqSupport
         """
-        from ansys.dpf.gate import (data_processing_capi,
-                                    data_processing_grpcapi, object_handler,
-                                    support_capi, support_grpcapi)
+        from ansys.dpf.gate import (
+            data_processing_capi,
+            data_processing_grpcapi,
+            object_handler,
+            support_capi,
+            support_grpcapi,
+        )
 
         from ansys.dpf.core.time_freq_support import TimeFreqSupport
 

@@ -7,8 +7,11 @@ import functools
 import traceback
 import warnings
 
-from ansys.dpf.gate import (operator_config_abstract_api, operator_config_capi,
-                            operator_config_grpcapi)
+from ansys.dpf.gate import (
+    operator_config_abstract_api,
+    operator_config_capi,
+    operator_config_grpcapi,
+)
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.operator_specification import Specification

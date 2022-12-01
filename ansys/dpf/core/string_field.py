@@ -4,9 +4,13 @@ StringField
 """
 
 import numpy as np
-from ansys.dpf.gate import (dpf_vector, integral_types,
-                            string_field_abstract_api, string_field_capi,
-                            string_field_grpcapi)
+from ansys.dpf.gate import (
+    dpf_vector,
+    integral_types,
+    string_field_abstract_api,
+    string_field_capi,
+    string_field_grpcapi,
+)
 
 from ansys.dpf.core import errors, scoping
 from ansys.dpf.core import server as server_module

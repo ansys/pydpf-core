@@ -19,18 +19,36 @@ try:
 except:  # pragma: no cover
     pass
 
-from ansys.dpf.core import (check_version, fields_container_factory,
-                            fields_factory, help, mesh_scoping_factory,
-                            operators, path_utilities, server, settings,
-                            time_freq_scoping_factory)
+from ansys.dpf.core import (
+    check_version,
+    fields_container_factory,
+    fields_factory,
+    help,
+    mesh_scoping_factory,
+    operators,
+    path_utilities,
+    server,
+    settings,
+    time_freq_scoping_factory,
+)
 from ansys.dpf.core.collection import Collection
-from ansys.dpf.core.common import (config_options, locations, natures,
-                                   shell_layers, types)
-from ansys.dpf.core.core import (BaseService, download_file,
-                                 download_files_in_folder, load_library,
-                                 make_tmp_dir_server, upload_file,
-                                 upload_file_in_tmp_folder,
-                                 upload_files_in_folder)
+from ansys.dpf.core.common import (
+    config_options,
+    locations,
+    natures,
+    shell_layers,
+    types,
+)
+from ansys.dpf.core.core import (
+    BaseService,
+    download_file,
+    download_files_in_folder,
+    load_library,
+    make_tmp_dir_server,
+    upload_file,
+    upload_file_in_tmp_folder,
+    upload_files_in_folder,
+)
 from ansys.dpf.core.custom_type_field import CustomTypeField  # noqa: F401
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.data_sources import DataSources
@@ -52,10 +70,15 @@ from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.scopings_container import ScopingsContainer
 from ansys.dpf.core.server import _global_server
 from ansys.dpf.core.server import _global_server as global_server
-from ansys.dpf.core.server import (connect_to_server, has_local_server,
-                                   start_local_server)
-from ansys.dpf.core.server_context import (AvailableServerContexts,
-                                           set_default_server_context)
+from ansys.dpf.core.server import (
+    connect_to_server,
+    has_local_server,
+    start_local_server,
+)
+from ansys.dpf.core.server_context import (
+    AvailableServerContexts,
+    set_default_server_context,
+)
 from ansys.dpf.core.server_factory import AvailableServerConfigs, ServerConfig
 from ansys.dpf.core.streams_container import StreamsContainer  # noqa: F401
 from ansys.dpf.core.string_field import StringField

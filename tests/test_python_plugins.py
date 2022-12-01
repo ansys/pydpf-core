@@ -7,10 +7,12 @@ import pytest
 import conftest
 from ansys.dpf import core as dpf
 from ansys.dpf.core.errors import DPFServerException
-from ansys.dpf.core.operator_specification import (CustomConfigOptionSpec,
-                                                   CustomSpecification,
-                                                   PinSpecification,
-                                                   SpecificationProperties)
+from ansys.dpf.core.operator_specification import (
+    CustomConfigOptionSpec,
+    CustomSpecification,
+    PinSpecification,
+    SpecificationProperties,
+)
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 
 if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:

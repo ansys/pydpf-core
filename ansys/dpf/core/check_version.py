@@ -99,8 +99,7 @@ def get_server_version(server=None):
         Server version.
     """
     if server is None:
-        from ansys.dpf.core import \
-            SERVER  # to keep here, cannot import in __del__
+        from ansys.dpf.core import SERVER  # to keep here, cannot import in __del__
 
         version = SERVER.version
     else:

@@ -4,8 +4,13 @@ PropertyField
 """
 
 import numpy as np
-from ansys.dpf.gate import (dpf_array, dpf_vector, property_field_abstract_api,
-                            property_field_capi, property_field_grpcapi)
+from ansys.dpf.gate import (
+    dpf_array,
+    dpf_vector,
+    property_field_abstract_api,
+    property_field_capi,
+    property_field_grpcapi,
+)
 
 from ansys.dpf.core import dimensionality, scoping
 from ansys.dpf.core.common import _get_size_of_list, locations, natures

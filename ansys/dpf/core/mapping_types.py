@@ -2,12 +2,16 @@ import inspect
 import sys
 
 from ansys.dpf.core.available_result import *  # noqa: F401, F403
-from ansys.dpf.core.common import (_camel_to_snake_case, _smart_dict_camel,
-                                   _smart_dict_unit_system,
-                                   _snake_to_camel_case)
+from ansys.dpf.core.common import (
+    _camel_to_snake_case,
+    _smart_dict_camel,
+    _smart_dict_unit_system,
+    _snake_to_camel_case,
+)
 from ansys.dpf.core.data_sources import *  # noqa: F401, F403
 from ansys.dpf.core.field import *  # noqa: F401, F403
 from ansys.dpf.core.fields_container import *  # noqa: F401, F403
+
 ## to do : change that one the module is done
 from ansys.dpf.core.meshed_region import *  # noqa: F401, F403
 from ansys.dpf.core.scoping import *  # noqa: F401, F403

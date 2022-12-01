@@ -6,8 +6,11 @@ FieldDefinition
 import traceback
 import warnings
 
-from ansys.dpf.gate import (field_definition_capi, field_definition_grpcapi,
-                            integral_types)
+from ansys.dpf.gate import (
+    field_definition_capi,
+    field_definition_grpcapi,
+    integral_types,
+)
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.check_version import version_requires

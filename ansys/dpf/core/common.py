@@ -11,9 +11,9 @@ import sys
 from enum import Enum
 
 from ansys.dpf.gate.common import ProgressBarBase, locations  # noqa: F401
-from ansys.dpf.gate.dpf_vector import \
-    get_size_of_list as _get_size_of_list  # noqa: F401
-
+from ansys.dpf.gate.dpf_vector import (  # noqa: F401
+    get_size_of_list as _get_size_of_list,
+)
 from ansys.dpf.core.misc import module_exists
 
 
@@ -102,12 +102,26 @@ class types(Enum):
 def types_enum_to_types():
     from ansys.dpf.gate import dpf_vector
 
-    from ansys.dpf.core import (collection, custom_type_field, cyclic_support,
-                                data_sources, data_tree, dpf_operator, field,
-                                fields_container, meshed_region,
-                                meshes_container, property_field, result_info,
-                                scoping, scopings_container, streams_container,
-                                string_field, time_freq_support, workflow)
+    from ansys.dpf.core import (
+        collection,
+        custom_type_field,
+        cyclic_support,
+        data_sources,
+        data_tree,
+        dpf_operator,
+        field,
+        fields_container,
+        meshed_region,
+        meshes_container,
+        property_field,
+        result_info,
+        scoping,
+        scopings_container,
+        streams_container,
+        string_field,
+        time_freq_support,
+        workflow,
+    )
 
     return {
         types.string: str,

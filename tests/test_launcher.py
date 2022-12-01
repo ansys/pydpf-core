@@ -7,10 +7,13 @@ import psutil
 import pytest
 
 from ansys.dpf import core
-from conftest import (DPF_SERVER_TYPE,
-                      SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                      config_namesserver_type, configsserver_type,
-                      running_docker)
+from conftest import (
+    DPF_SERVER_TYPE,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    config_namesserver_type,
+    configsserver_type,
+    running_docker,
+)
 
 
 @pytest.mark.skipif(running_docker, reason="Run to fix on internal side")

@@ -144,6 +144,7 @@ class _PyVistaPlotter:
             bound_method=self._plotter.add_point_labels, **kwargs
         )
         import pyvista as pv
+
         # The scalar data used will be the one of the last field added.
         from packaging.version import parse
 
