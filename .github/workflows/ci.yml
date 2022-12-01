@@ -66,8 +66,11 @@ jobs:
       python_versions: '["3.8"]'
       wheel: true
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test' }}
+      custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
+    env:
+      extra: "--find-links " ${{ github.workspace }}/dpf-standalone/v${{env.ANSYS_VERSION}}
 
   docker_tests:
     name: "Build and Test on Docker"
