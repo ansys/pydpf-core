@@ -24,7 +24,6 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   ANSYS_VERSION: 232
-  extra: "--find-links " ${{ github.workspace }}/dpf-standalone/v${{env.ANSYS_VERSION}}
 
 jobs:
   debug:
@@ -61,6 +60,8 @@ jobs:
 
   tests:
     uses: ./.github/workflows/tests.yml
+    env:
+      extra: "--find-links " ${{ github.workspace }}/dpf-standalone/v${{env.ANSYS_VERSION}}
     with:
       ANSYS_VERSION: "232"
       python_versions: '["3.8"]'
