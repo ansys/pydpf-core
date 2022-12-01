@@ -24,7 +24,7 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   ANSYS_VERSION: 232
-  extra: ${{ format('--find-links dpf-standalone/v{0}', env.ANSYS_VERSION) }}
+  extra: "--find-links dpf-standalone/v232"
 
 jobs:
   debug:
