@@ -155,11 +155,11 @@ class Support:
         Available with server's version starting at 5.0.
         """
         coll_obj = collection.StringCollection(
-            collection=self._support_api.support_get_property_names_as_string_coll_for_property_fields(
+            collection=self._support_api.support_get_property_names_as_string_coll_for_property_fields(  # noqa: E501
                 self
             ),
             server=self._server,
-        ) # noqa: E501
+        )
         return coll_obj.get_integral_entries()
 
     @version_requires("5.0")
@@ -175,11 +175,11 @@ class Support:
         Available with server's version starting at 5.0.
         """
         coll_obj = collection.StringCollection(
-            collection=self._support_api.support_get_property_names_as_string_coll_for_string_fields(
+            collection=self._support_api.support_get_property_names_as_string_coll_for_string_fields(  # noqa: E501
                 self
             ),
             server=self._server,
-        ) # noqa: E501
+        )
         return coll_obj.get_integral_entries()
 
     def __del__(self):

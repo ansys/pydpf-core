@@ -13,8 +13,9 @@ Errors
 
 from functools import wraps
 
-from ansys.dpf.gate.errors import (DPFServerException,  # noqa: F401
-                                   DPFServerNullObject, DpfVersionNotSupported)
+from ansys.dpf.gate.errors import DPFServerNullObject  # noqa: F401
+from ansys.dpf.gate.errors import DpfVersionNotSupported  # noqa: F401
+from ansys.dpf.gate.errors import DPFServerException
 
 _COMPLEX_PLOTTING_ERROR_MSG = """
 Complex fields cannot be plotted. Use operators to get the amplitude
