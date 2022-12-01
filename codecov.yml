@@ -18,4 +18,4 @@ coverage:
     - "docs"  # ignore folder and all its contents
     - "docker"  # ignore folder and all its contents
     - "tests"  # ignore folder and all its contents
-    - "ansys/dpf/core/operators"  # ignore folder and all its contents
+    - "src/ansys/dpf/core/operators"  # ignore folder and all its contents
