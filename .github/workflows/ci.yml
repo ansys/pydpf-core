@@ -24,7 +24,6 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   ANSYS_VERSION: 232
-  extra: "--find-links dpf-standalone/v232"
 
 jobs:
   debug:
