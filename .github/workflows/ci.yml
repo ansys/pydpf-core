@@ -60,8 +60,6 @@ jobs:
 
   tests:
     uses: ./.github/workflows/tests.yml
-    env:
-      extra: "--find-links " ${{ github.workspace }}/dpf-standalone/v${{env.ANSYS_VERSION}}
     with:
       ANSYS_VERSION: "232"
       python_versions: '["3.8"]'
