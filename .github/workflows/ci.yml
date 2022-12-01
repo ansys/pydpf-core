@@ -42,7 +42,7 @@ jobs:
       - name: PyAnsys code style checks
         uses: pyansys/actions/code-style@v1
         with:
-          python-version: 3.10
+          python-version: '3.10'
 
   tests:
     uses: ./.github/workflows/tests.yml
