@@ -123,6 +123,7 @@ jobs:
         uses: pyansys/pydpf-actions/prepare_tests@v2.3
         with:
           DEBUG: true
+          working-directory: src
 
       - name: "List installed packages"
         shell: bash
