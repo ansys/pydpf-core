@@ -18,7 +18,7 @@ readme_file = os.path.join(filepath, "README.md")
 
 setup(
     name="ansys-dpf-core",
-    package_dir={"":"src"},
+    package_dir={"": "src"},
     packages=[
         "ansys.dpf.core",
         "ansys.dpf.core.examples",
