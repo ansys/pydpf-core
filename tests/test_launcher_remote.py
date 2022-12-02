@@ -6,7 +6,6 @@ import grpc
 import pytest
 
 from ansys.dpf.core import server_types
-from ansys.dpf.core.misc import __ansys_version__
 from ansys.dpf.core.server_factory import ServerFactory
 from conftest import running_docker
 
