@@ -20,6 +20,7 @@ from vtk import (
     VTK_WEDGE,
     vtkVersion,
 )
+
 from ansys.dpf.core.elements import element_types
 
 VTK9 = vtkVersion().GetVTKMajorVersion() >= 9

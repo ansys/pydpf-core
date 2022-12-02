@@ -6,18 +6,19 @@ This module contains the DPF plotter class.
 Contains classes used to plot a mesh and a fields container using PyVista.
 """
 
-import tempfile
+import inspect
 import os
 import sys
-import numpy as np
-import inspect
+import tempfile
 import warnings
+
+import numpy as np
 
 from ansys import dpf
 from ansys.dpf import core
-from ansys.dpf.core.common import locations, DefinitionLabels
-from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core.common import DefinitionLabels, locations
+from ansys.dpf.core.common import shell_layers as eshell_layers
 
 
 def _sort_supported_kwargs(bound_method, **kwargs):

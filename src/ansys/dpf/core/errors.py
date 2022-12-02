@@ -12,9 +12,10 @@ Errors
 """
 
 from functools import wraps
+
+from ansys.dpf.gate.errors import DPFServerNullObject  # noqa: F401
 from ansys.dpf.gate.errors import (  # noqa: F401
     DPFServerException,
-    DPFServerNullObject,  # noqa: F401
     DpfVersionNotSupported,
 )
 

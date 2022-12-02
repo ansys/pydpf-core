@@ -1,9 +1,11 @@
-import numpy as np
-import pytest
 import copy
 import gc
-from ansys import dpf
+
+import numpy as np
+import pytest
+
 import conftest
+from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core import FieldDefinition
 from ansys.dpf.core import operators as ops

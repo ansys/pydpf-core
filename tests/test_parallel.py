@@ -3,8 +3,9 @@ Verify all examples can be accessed or downloaded
 
 """
 import pytest
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+
 from ansys.dpf import core as dpf
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 
 
 @pytest.mark.skipif(

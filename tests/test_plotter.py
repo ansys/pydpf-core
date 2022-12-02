@@ -8,12 +8,13 @@ from ansys.dpf.core import Model, Operator
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import misc
 from ansys.dpf.core.plotter import plot_chart
-from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0, running_docker
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
-    from ansys.dpf.core.plotter import DpfPlotter, Plotter
     from pyvista.plotting.renderer import CameraPosition  # noqa: F401
+
+    from ansys.dpf.core.plotter import DpfPlotter, Plotter
 else:
     HAS_PYVISTA = False
 

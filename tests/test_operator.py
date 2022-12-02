@@ -1,3 +1,4 @@
+import copy
 import gc
 import os
 import shutil
@@ -5,14 +6,13 @@ import weakref
 
 import numpy as np
 import pytest
-import copy
 
+import conftest
 from ansys import dpf
 from ansys.dpf.core import errors
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.misc import get_ansys_path
 from ansys.dpf.core.operator_specification import Specification
-import conftest
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,

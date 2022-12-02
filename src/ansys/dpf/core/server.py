@@ -3,26 +3,23 @@ Server
 ======
 Contains the directives necessary to start the DPF server.
 """
-import os
-import socket
-import weakref
 import copy
 import inspect
-import warnings
+import os
+import socket
 import traceback
+import warnings
+import weakref
 
 from ansys import dpf
-
-from ansys.dpf.core.misc import is_ubuntu, get_ansys_path
-from ansys.dpf.core import errors
-
+from ansys.dpf.core import errors, server_context
+from ansys.dpf.core.misc import get_ansys_path, is_ubuntu
 from ansys.dpf.core.server_factory import (
+    CommunicationProtocols,
     ServerConfig,
     ServerFactory,
-    CommunicationProtocols,
 )
 from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER
-from ansys.dpf.core import server_context
 
 
 def shutdown_global_server():

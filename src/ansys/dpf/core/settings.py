@@ -4,12 +4,11 @@ settings
 Customize the behavior of the module.
 """
 
+from ansys.dpf.core import core, misc
 from ansys.dpf.core.misc import module_exists
-from ansys.dpf.core import misc
 from ansys.dpf.core.server import set_server_configuration  # noqa: F401
 from ansys.dpf.core.server_context import set_default_server_context  # noqa: F401
 from ansys.dpf.core.server_factory import ServerConfig  # noqa: F401
-from ansys.dpf.core import core
 
 
 def disable_off_screen_rendering() -> None:
@@ -90,8 +89,9 @@ def set_dynamic_available_results_capability(value) -> None:
 
 def _forward_to_gate():
     from ansys.dpf.gate import settings
-    from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
+
     from ansys.dpf.core.common import _common_progress_bar, _progress_bar_is_available
+    from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
 
     settings.forward_settings(
         DEFAULT_FILE_CHUNK_SIZE,

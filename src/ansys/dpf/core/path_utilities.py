@@ -6,10 +6,10 @@ server into account to create path.
 """
 
 import os
+from pathlib import Path
 
 import ansys.dpf.core.server_types
 from ansys.dpf.core import server as server_module
-from pathlib import Path
 
 
 def join(*args, **kwargs):

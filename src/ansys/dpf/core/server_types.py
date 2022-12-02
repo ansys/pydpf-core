@@ -6,29 +6,27 @@ servers available for the factory.
 """
 import abc
 import io
+import logging
 import os
 import socket
 import subprocess
 import time
-import warnings
 import traceback
-from threading import Thread, Lock
+import warnings
 from abc import ABC
+from threading import Lock, Thread
 
 import psutil
+from ansys.dpf.gate import data_processing_grpcapi, load_api
 
 import ansys.dpf.core as core
-from ansys.dpf.core.check_version import server_meet_version
-from ansys.dpf.core import errors, session, server_factory
+from ansys.dpf.core import errors, server_context, server_factory, session
 from ansys.dpf.core._version import (
     server_to_ansys_grpc_dpf_version,
     server_to_ansys_version,
 )
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.misc import __ansys_version__
-from ansys.dpf.core import server_context
-from ansys.dpf.gate import load_api, data_processing_grpcapi
-
-import logging
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -316,6 +314,7 @@ def _compare_ansys_grpc_dpf_version(
 ):
     if right_grpc_module_version_str:
         import re
+
         from packaging.version import parse as parse_version
 
         right_version_first_numbers = re.search(r"\d", right_grpc_module_version_str)

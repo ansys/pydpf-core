@@ -1,6 +1,7 @@
+import platform
+
 import numpy as np
 import pytest
-import platform
 
 import ansys.dpf.core.operators as op
 import conftest

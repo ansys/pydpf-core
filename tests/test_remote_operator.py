@@ -1,9 +1,10 @@
 import numpy as np
-from conftest import local_servers
+import pytest
+
 import conftest
 from ansys.dpf import core
 from ansys.dpf.core import operators as ops
-import pytest
+from conftest import local_servers
 
 
 @pytest.mark.skipif(

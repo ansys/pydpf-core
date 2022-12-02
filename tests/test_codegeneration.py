@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
 import copy
+import os
 import tempfile
 
 import ansys.grpc.dpf

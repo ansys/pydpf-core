@@ -1,7 +1,6 @@
 import numpy as np
 
 import conftest
-
 from ansys import dpf
 from ansys.dpf import core
 

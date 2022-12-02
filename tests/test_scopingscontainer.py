@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import weakref
 
-import pytest
 import numpy as np
+import pytest
 
 import conftest
 from ansys.dpf.core import Scoping, ScopingsContainer

@@ -4,10 +4,10 @@ MeshesContainer
 ===============
 Contains classes associated with the DPF MeshesContainer.
 """
+from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import meshed_region
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core.plotter import DpfPlotter
-from ansys.dpf.core import errors as dpf_errors
 
 
 class MeshesContainer(Collection):

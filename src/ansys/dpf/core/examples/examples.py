@@ -6,12 +6,12 @@ Result Files Examples
 Examples result files.
 """
 
-import os
 import inspect
+import os
 
+from ansys.dpf.core import path_utilities
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.core import upload_file_in_tmp_folder
-from ansys.dpf.core import path_utilities
 
 if os.environ.get("DPF_DOCKER", "").lower() == "true":
     # must pass a path that can be accessed by a docker image with
