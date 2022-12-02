@@ -54,7 +54,7 @@ def test_start_remote(monkeypatch):
 
     # It created a remote instance through PyPIM
     mock_client.create_instance.assert_called_with(
-        product_name="dpf", product_version=__ansys_version__
+        product_name="dpf", product_version=None
     )
 
     # It waited for this instance to be ready
