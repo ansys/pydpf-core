@@ -126,4 +126,3 @@ jobs:
     with:
       ANSYS_VERSION: "232"
     secrets: inherit
-
