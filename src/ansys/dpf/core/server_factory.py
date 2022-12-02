@@ -66,7 +66,7 @@ class DockerConfig:
         if mounted_volumes is None:
             mounted_volumes = {
                 LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"
-            }
+            }  # fmt: skip,
 
         self._use_docker = use_docker
         self._docker_name = docker_name
@@ -507,7 +507,7 @@ class RunningDockerConfig:
                     rm_cmd,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
-                    shell=b_shell,
+                    shell=b_shell,  # fmt: skip
                     check=True,
                 )
             except subprocess.CalledProcessError as e:
@@ -542,13 +542,12 @@ class RunningDockerConfig:
         """
         self.server_id = cmd_lines[0].replace("\n", "")
         t_timeout = time.time() + timeout
+        # fmt: off
         while time.time() < t_timeout:
-            with subprocess.Popen(
-                f"docker logs {self.server_id}",
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                shell=(os.name == "posix"),
-            ) as docker_process:
+            with subprocess.Popen(f"docker logs {self.server_id}",
+                                  stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE, shell=(os.name == 'posix')) \
+                    as docker_process:
                 self._use_docker = True
                 if stdout:
                     with io.TextIOWrapper(
@@ -565,6 +564,7 @@ class RunningDockerConfig:
                             if line not in lines:
                                 lines.append(line)
                 docker_process.kill()
+        # fmt: on
 
     def docker_run_cmd_command(self, docker_server_port: int, local_port: int) -> str:
         return self._docker_config.docker_run_cmd_command(

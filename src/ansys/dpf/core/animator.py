@@ -28,16 +28,8 @@ class _PyVistaAnimator(_PyVistaPlotter):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def animate_workflow(
-        self,
-        loop_over,
-        workflow,
-        output_name,
-        input_name="loop_over",
-        save_as="",
-        scale_factor=1.0,
-        **kwargs,
-    ):
+    def animate_workflow(self, loop_over, workflow, output_name, input_name="loop_over",
+                         save_as="", scale_factor=1.0, **kwargs):  # fmt: skip
         # Extract useful information from the given frequencies Field
 
         unit = loop_over.unit

@@ -147,7 +147,11 @@ if os.name == "nt" and not os.path.exists(
     print(args)
     import subprocess
 
-    process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.run(
+        args,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )  # fmt: skip
     if process.stderr:
         raise RuntimeError(
             "Installing pygltf in a virtual environment failed with error:\n"

@@ -10,11 +10,11 @@ import re
 import sys
 from enum import Enum
 
-from ansys.dpf.gate.common import ProgressBarBase, locations  # noqa: F401
-from ansys.dpf.gate.dpf_vector import (  # noqa: F401
-    get_size_of_list as _get_size_of_list,
-)
+from ansys.dpf.gate.common import locations, ProgressBarBase  # noqa: F401, # fmt: skip
 
+# fmt: off
+from ansys.dpf.gate.dpf_vector import get_size_of_list as _get_size_of_list # noqa: F401
+# fmt: on
 from ansys.dpf.core.misc import module_exists
 
 
@@ -272,8 +272,8 @@ class TqdmProgressBar(ProgressBarBase):
 
     def update(self, current_value):
         if self.tot_size is None:
-            self.bar.total = current_value * 2
-        self.bar.update(current_value - self.current)
+            self.bar.total = current_value*2  # fmt: skip
+        self.bar.update(current_value-self.current)  # fmt: skip
         self.current = current_value
 
     @staticmethod

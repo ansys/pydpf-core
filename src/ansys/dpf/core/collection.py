@@ -379,13 +379,8 @@ class Collection:
         -------
         time_freq_support : TimeFreqSupport
         """
-        from ansys.dpf.gate import (
-            data_processing_capi,
-            data_processing_grpcapi,
-            object_handler,
-            support_capi,
-            support_grpcapi,
-        )
+        from ansys.dpf.gate import support_capi, support_grpcapi, object_handler, \
+            data_processing_capi, data_processing_grpcapi  # fmt: skip
 
         from ansys.dpf.core.time_freq_support import TimeFreqSupport
 

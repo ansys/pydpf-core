@@ -503,7 +503,7 @@ class _LocalScoping(Scoping):
         """
         init_size = self._count()
         if init_size <= index:
-            for i in range(init_size, index + 1):
+            for i in range(init_size, index+1):  # fmt: skip
                 self._scoping_ids_copy.append(-1)
         self._scoping_ids_copy[index] = scopingid
         self._mapper[scopingid] = index
