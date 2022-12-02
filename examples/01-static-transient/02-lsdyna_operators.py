@@ -31,11 +31,11 @@ print(model)
 # Let's extract beam axial force for the last time step and plot it, deforming
 # the mesh according to the displacement field at the same time step.
 
-N = model.results.beam_axial_force(time_scoping = [12]).eval()
-u = model.results.displacement(time_scoping = [12]).eval()
+N = model.results.beam_axial_force(time_scoping=[12]).eval()
+u = model.results.displacement(time_scoping=[12]).eval()
 
 sargs = dict(title="N", fmt="%.2e", title_font_size=30, label_font_size=20)
-N[0].plot(deform_by = u[0], scalar_bar_args=sargs)
+N[0].plot(deform_by=u[0], scalar_bar_args=sargs)
 
 ###############################################################################
 # The axial force has only been computed for the beam elements (the bottom
@@ -62,9 +62,9 @@ print(K)
 U = model.results.global_internal_energy().eval()
 H = model.results.global_total_energy().eval()
 
-plt.plot(K.time_freq_support.time_frequencies.data, K[0].data, label = "Kinetic")
-plt.plot(U.time_freq_support.time_frequencies.data, U[0].data, label = "Internal")
-plt.plot(H.time_freq_support.time_frequencies.data, H[0].data, label = "Total")
+plt.plot(K.time_freq_support.time_frequencies.data, K[0].data, label="Kinetic")
+plt.plot(U.time_freq_support.time_frequencies.data, U[0].data, label="Internal")
+plt.plot(H.time_freq_support.time_frequencies.data, H[0].data, label="Total")
 plt.xlabel("Time")
 plt.ylabel("Energies")
 plt.legend()

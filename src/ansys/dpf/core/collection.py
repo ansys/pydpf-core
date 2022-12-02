@@ -20,7 +20,7 @@ from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
     dpf_vector,
-    dpf_array
+    dpf_array,
 )
 
 
@@ -40,8 +40,7 @@ class Collection:
 
     """
 
-    def __init__(self, collection=None,
-                 server: BaseServer = None):
+    def __init__(self, collection=None, server: BaseServer = None):
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
@@ -52,10 +51,12 @@ class Collection:
                 self._server = collection._server
                 core_api = self._server.get_api_for_type(
                     capi=data_processing_capi.DataProcessingCAPI,
-                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
                 )
                 core_api.init_data_processing_environment(self)
-                self._internal_obj = core_api.data_processing_duplicate_object_reference(collection)
+                self._internal_obj = (
+                    core_api.data_processing_duplicate_object_reference(collection)
+                )
             else:
                 self._internal_obj = collection
         self.owned = False
@@ -68,8 +69,10 @@ class Collection:
     def _server(self, value):
         self._server_instance = value
         # step 2: get api
-        self._api = self._server.get_api_for_type(capi=collection_capi.CollectionCAPI,
-                                                  grpcapi=collection_grpcapi.CollectionGRPCAPI)
+        self._api = self._server.get_api_for_type(
+            capi=collection_capi.CollectionCAPI,
+            grpcapi=collection_grpcapi.CollectionGRPCAPI,
+        )
         # step3: init environment
         self._api.init_collection_environment(self)  # creates stub when gRPC
 
@@ -107,9 +110,11 @@ class Collection:
         if all(isinstance(x, (float, np.float)) for x in inpt):
             return FloatCollection(inpt, server=server)
         else:
-            raise NotImplementedError(f"{IntegralCollection.__name__} is only "
-                                      "implemented for int and float values "
-                                      f"and not {type(inpt[0]).__name__}")
+            raise NotImplementedError(
+                f"{IntegralCollection.__name__} is only "
+                "implemented for int and float values "
+                f"and not {type(inpt[0]).__name__}"
+            )
 
     def set_labels(self, labels):
         """Set labels for scoping the collection.
@@ -151,7 +156,9 @@ class Collection:
 
         """
         if default_value is not None:
-            self._api.collection_add_label_with_default_value(self, label, default_value)
+            self._api.collection_add_label_with_default_value(
+                self, label, default_value
+            )
         else:
             self._api.collection_add_label(self, label)
 
@@ -216,12 +223,18 @@ class Collection:
             client_label_space = LabelSpace(
                 label_space=label_space_or_index, obj=self, server=self._server
             )
-            num = self._api.collection_get_num_obj_for_label_space(self, client_label_space)
+            num = self._api.collection_get_num_obj_for_label_space(
+                self, client_label_space
+            )
             out = []
             for i in range(0, num):
-                out.append(self.create_subtype(
-                    self._api.collection_get_obj_by_index_for_label_space(
-                        self, client_label_space, i)))
+                out.append(
+                    self.create_subtype(
+                        self._api.collection_get_obj_by_index_for_label_space(
+                            self, client_label_space, i
+                        )
+                    )
+                )
             return out
         else:
             return self.create_subtype(
@@ -268,9 +281,9 @@ class Collection:
             ``{"time": 1, "complex": 0}``.
         """
         return LabelSpace(
-                label_space=self._api.collection_get_obj_label_space_by_index(self, index),
-                server=self._server
-            ).__dict__()
+            label_space=self._api.collection_get_obj_label_space_by_index(self, index),
+            server=self._server,
+        ).__dict__()
 
     def get_available_ids_for_label(self, label="time"):
         """Retrieve the IDs assigned to an input label.
@@ -305,7 +318,9 @@ class Collection:
         scoping: Scoping
             IDs scoped to the input label.
         """
-        scoping = Scoping(self._api.collection_get_label_scoping(self, label), server=self._server)
+        scoping = Scoping(
+            self._api.collection_get_label_scoping(self, label), server=self._server
+        )
         return scoping
 
     def __getitem__(self, index):
@@ -337,7 +352,8 @@ class Collection:
     def _data_processing_core_api(self):
         core_api = self._server.get_api_for_type(
             capi=data_processing_capi.DataProcessingCAPI,
-            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+        )
         core_api.init_data_processing_environment(self)
         return core_api
 
@@ -351,7 +367,9 @@ class Collection:
         entry : Field or Scoping
             DPF entry to add.
         """
-        client_label_space = LabelSpace(label_space=label_space, obj=self, server=self._server)
+        client_label_space = LabelSpace(
+            label_space=label_space, obj=self, server=self._server
+        )
         self._api.collection_add_entry(self, client_label_space, entry)
 
     def _get_time_freq_support(self):
@@ -362,18 +380,25 @@ class Collection:
         time_freq_support : TimeFreqSupport
         """
         from ansys.dpf.core.time_freq_support import TimeFreqSupport
-        from ansys.dpf.gate import support_capi, support_grpcapi, object_handler, \
-            data_processing_capi, data_processing_grpcapi
+        from ansys.dpf.gate import (
+            support_capi,
+            support_grpcapi,
+            object_handler,
+            data_processing_capi,
+            data_processing_grpcapi,
+        )
+
         data_api = self._server.get_api_for_type(
             capi=data_processing_capi.DataProcessingCAPI,
-            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+        )
         support = object_handler.ObjHandler(
             data_processing_api=data_api,
             internal_obj=self._api.collection_get_support(self, "time"),
-            server=self._server)
+            server=self._server,
+        )
         support_api = self._server.get_api_for_type(
-            capi=support_capi.SupportCAPI,
-            grpcapi=support_grpcapi.SupportGRPCAPI
+            capi=support_capi.SupportCAPI, grpcapi=support_grpcapi.SupportGRPCAPI
         )
         time_freq = support_api.support_get_as_time_freq_support(support)
         res = TimeFreqSupport(time_freq_support=time_freq, server=self._server)
@@ -392,6 +417,7 @@ class Collection:
             Description of the entity.
         """
         from ansys.dpf.core.core import _description
+
         return _description(self._internal_obj, self._server)
 
     def __len__(self):
@@ -473,7 +499,9 @@ class IntCollection(Collection):
         super().__init__(server=server, collection=collection)
         if self._internal_obj is None:
             if self._server.has_client():
-                self._internal_obj = self._api.collection_of_int_new_on_client(self._server.client)
+                self._internal_obj = self._api.collection_of_int_new_on_client(
+                    self._server.client
+                )
             else:
                 self._internal_obj = self._api.collection_of_int_new()
         if list is not None:

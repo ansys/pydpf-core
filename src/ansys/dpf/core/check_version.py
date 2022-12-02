@@ -80,6 +80,7 @@ def meets_version(version, meets):
          ``True`` when successful, ``False`` when failed.
     """
     from packaging.version import parse
+
     return parse(version) >= parse(meets)
 
 
@@ -97,7 +98,8 @@ def get_server_version(server=None):
         Server version.
     """
     if server is None:
-        from ansys.dpf.core import SERVER # to keep here, cannot import in __del__
+        from ansys.dpf.core import SERVER  # to keep here, cannot import in __del__
+
         version = SERVER.version
     else:
         version = server.version
@@ -131,13 +133,16 @@ def version_requires(min_version):
             # particular cases
             # scoping._set_ids case, must be checked in a particular way
             from ansys.dpf.core import scoping
+
             if func_name == "_set_ids" and isinstance(self, scoping.Scoping):
                 ids = args[0]
                 size = len(ids)
                 if size != 0:
                     max_size = 8.0e6 // sys.getsizeof(ids[0])
                     if size > max_size:
-                        server.check_version(min_version, " called from " + func.__name__)
+                        server.check_version(
+                            min_version, " called from " + func.__name__
+                        )
             # default case, just check the compatibility
             else:
                 server.check_version(min_version, " called from " + func.__name__)

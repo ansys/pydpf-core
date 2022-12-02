@@ -21,12 +21,12 @@ class _FieldBase:
     """Contains base APIs for all implementations that follow DPF's field concept."""
 
     def __init__(
-            self,
-            nentities=0,
-            nature=natures.vector,
-            location=locations.nodal,
-            field=None,
-            server=None,
+        self,
+        nentities=0,
+        nature=natures.vector,
+        location=locations.nodal,
+        field=None,
+        server=None,
     ):
         """Initialize the field either with an optional field message or by connecting to a stub."""
         # step 1: get server
@@ -47,10 +47,12 @@ class _FieldBase:
                 self._api_instance = None
                 core_api = self._server.get_api_for_type(
                     capi=data_processing_capi.DataProcessingCAPI,
-                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
                 )
                 core_api.init_data_processing_environment(self)
-                self._internal_obj = core_api.data_processing_duplicate_object_reference(field)
+                self._internal_obj = (
+                    core_api.data_processing_duplicate_object_reference(field)
+                )
             else:
                 self._internal_obj = field
 
@@ -61,7 +63,7 @@ class _FieldBase:
                 nature=nature,
                 nentities=nentities,
                 location=location,
-                with_type=self._type if hasattr(self, "_type") else None
+                with_type=self._type if hasattr(self, "_type") else None,
             )
 
     @abstractmethod
@@ -76,8 +78,14 @@ class _FieldBase:
     @staticmethod
     @abstractmethod
     def _field_create_internal_obj(
-            api: field_abstract_api.FieldAbstractAPI, client, nature,
-            nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0, with_type=None
+        api: field_abstract_api.FieldAbstractAPI,
+        client,
+        nature,
+        nentities,
+        location=locations.nodal,
+        ncomp_n=0,
+        ncomp_m=0,
+        with_type=None,
     ):
         """Returns a gRPC field message or C object instance of a new field.
         This new field is created with this functions parameter attributes
@@ -241,7 +249,9 @@ class _FieldBase:
         scoping : :class:`ansys.dpf.core.scoping.Scoping`
 
         """
-        return scoping.Scoping(scoping=self._api.csfield_get_cscoping(self), server=self._server)
+        return scoping.Scoping(
+            scoping=self._api.csfield_get_cscoping(self), server=self._server
+        )
 
     @property
     def scoping(self):
@@ -582,10 +592,10 @@ class _LocalFieldBase(_FieldBase):
             last_index = self._ncomp * (index + 1) - 1
         if self._is_property_field:
             array = np.array(
-                self._data_copy[first_index: last_index + 1], dtype=np.int32
+                self._data_copy[first_index : last_index + 1], dtype=np.int32
             )
         else:
-            array = np.array(self._data_copy[first_index: last_index + 1])
+            array = np.array(self._data_copy[first_index : last_index + 1])
 
         if self._ncomp > 1:
             return array.reshape((array.size // self._ncomp, self._ncomp))
@@ -663,7 +673,7 @@ class _LocalFieldBase(_FieldBase):
             if not isinstance(data[0], int) and not isinstance(data[0], np.int32):
                 raise errors.InvalidTypeError("data", "list of int")
         if (len(data) > 0 and isinstance(data, list)) or isinstance(
-                data, (np.ndarray, np.generic)
+            data, (np.ndarray, np.generic)
         ):
             data = np.array(data).flatten().tolist()
 

@@ -173,7 +173,9 @@ class Element:
     def _get_type(self):
         """Retrieve the Ansys element type."""
         type = integral_types.MutableInt32()
-        self._mesh._api.meshed_region_get_element_type(self._mesh, self.id, type, self.index)
+        self._mesh._api.meshed_region_get_element_type(
+            self._mesh, self.id, type, self.index
+        )
         return element_types(int(type))
 
     @property
@@ -203,9 +205,9 @@ class Element:
     def _get_shape(self):
         """Retrieve the element shape."""
         shape = integral_types.MutableInt32()
-        self._mesh._api.meshed_region_get_element_shape(self._mesh, self.id,
-                                                        shape,
-                                                        self.index)
+        self._mesh._api.meshed_region_get_element_shape(
+            self._mesh, self.id, shape, self.index
+        )
         for name in _element_shapes:
             if name.value == int(shape):
                 return name.name.lower()
@@ -343,9 +345,9 @@ class Elements:
             add = ElementAdder()
             yield add
             shape_id = _element_shapes[add.shape.upper()].value
-            self._mesh._api.meshed_region_add_element_by_shape(self._mesh, add.id,
-                                                               len(add.connectivity),
-                                                               add.connectivity, shape_id)
+            self._mesh._api.meshed_region_add_element_by_shape(
+                self._mesh, add.id, len(add.connectivity), add.connectivity, shape_id
+            )
 
     def add_solid_element(self, id, connectivity):
         """
@@ -419,8 +421,9 @@ class Elements:
 
         """
         shape_id = _element_shapes[shape.upper()].value
-        self._mesh._api.meshed_region_add_element_by_shape(self._mesh, id, len(connectivity),
-                                                           connectivity, shape_id)
+        self._mesh._api.meshed_region_add_element_by_shape(
+            self._mesh, id, len(connectivity), connectivity, shape_id
+        )
 
     def __get_element(self, elementindex=None, elementid=None):
         """
@@ -438,30 +441,36 @@ class Elements:
         element : Element
         """
         if elementindex is None:
-            elementindex = self._mesh._api.meshed_region_get_element_index(self._mesh, elementid)
+            elementindex = self._mesh._api.meshed_region_get_element_index(
+                self._mesh, elementid
+            )
         elif elementid is None:
-            elementid = self._mesh._api.meshed_region_get_element_id(self._mesh, elementindex)
+            elementid = self._mesh._api.meshed_region_get_element_id(
+                self._mesh, elementindex
+            )
         nodesOut = []
-        num_nodes = self._mesh._api.meshed_region_get_num_nodes_of_element(self._mesh,
-                                                                           index=elementindex)
+        num_nodes = self._mesh._api.meshed_region_get_num_nodes_of_element(
+            self._mesh, index=elementindex
+        )
         for i_node in range(num_nodes):
             node_id = self._mesh._api.meshed_region_get_node_id_of_element(
                 self._mesh, elementindex, i_node
             )
             if node_id >= 0:
-                node_index = self._mesh._api.meshed_region_get_node_index(self._mesh, node_id)
-                node_coordinates = [self._mesh._api.meshed_region_get_node_coord(
-                    self._mesh,
-                    index=node_index,
-                    coordinate=0),
-                                    self._mesh._api.meshed_region_get_node_coord(
-                                        self._mesh,
-                                        index=node_index,
-                                        coordinate=1),
-                                    self._mesh._api.meshed_region_get_node_coord(
-                                        self._mesh,
-                                        index=node_index,
-                                        coordinate=2)]
+                node_index = self._mesh._api.meshed_region_get_node_index(
+                    self._mesh, node_id
+                )
+                node_coordinates = [
+                    self._mesh._api.meshed_region_get_node_coord(
+                        self._mesh, index=node_index, coordinate=0
+                    ),
+                    self._mesh._api.meshed_region_get_node_coord(
+                        self._mesh, index=node_index, coordinate=1
+                    ),
+                    self._mesh._api.meshed_region_get_node_coord(
+                        self._mesh, index=node_index, coordinate=2
+                    ),
+                ]
                 nodesOut.append(
                     nodes.Node(self._mesh, node_id, node_index, node_coordinates)
                 )

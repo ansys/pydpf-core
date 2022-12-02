@@ -41,23 +41,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: "Setup Python"
-        uses: actions/setup-python@v4.2.0
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.8
+          python-version: 3.9
 
-      - name: "Install style requirements"
-        run: |
-          pip install -r requirements/requirements_style.txt --disable-pip-version-check
+      - name: Install pre-commit
+        run: pip install pre-commit
 
-      - name: "Codespell"
-        run: |
-          make codespell
-        continue-on-error: true
-
-      - name: "flake8"
-        run: |
-          make flake8
+      - name: Run pre-commit
+        run: pre-commit run --all-files || ( git status --short ; git diff ; exit 1 )
 
   tests:
     uses: ./.github/workflows/tests.yml

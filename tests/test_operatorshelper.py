@@ -31,14 +31,14 @@ def test_sqr():
     data = np.array([1, 2, 3])
     field = dpf.core.field_from_array(data)
     field_sqr = dpf.core.help.sqr(field)
-    assert np.allclose(field_sqr.data, data ** 2)
+    assert np.allclose(field_sqr.data, data**2)
 
 
 def test_sqr_builtin():
     data = np.array([1, 2, 3])
     field = dpf.core.field_from_array(data)
-    field_sqr = field ** 2
-    assert np.allclose(field_sqr.outputs.field().data, data ** 2)
+    field_sqr = field**2
+    assert np.allclose(field_sqr.outputs.field().data, data**2)
 
 
 def test_dot_tensor():

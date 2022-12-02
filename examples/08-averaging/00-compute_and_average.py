@@ -71,6 +71,7 @@ analysis = examples.download_crankshaft()
 # stresses. To create it, define a function that computes the von Mises stresses
 # in the crankshaft and then apply the averaging operator.
 
+
 def compute_von_mises_then_average(analysis):
 
     # Create a model from the results of the simulation and retrieve its mesh
@@ -158,8 +159,12 @@ diff = (max1 - max2) / max2 * 100
 
 print("Max stress when Von Mises is computed first: {:.2f} Pa".format(max1))
 print("Max stress when the stress averaging is done first: {:.2f} Pa".format(max2))
-print("The maximum Von Mises stress value is {:.2f}% higher when \
-the averaging is done after the calculations.".format(diff))
+print(
+    "The maximum Von Mises stress value is {:.2f}% higher when \
+the averaging is done after the calculations.".format(
+        diff
+    )
+)
 
 ###############################################################################
 # Even though both workflows apply the same steps to the same initial data,

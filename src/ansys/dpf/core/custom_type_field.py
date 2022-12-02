@@ -27,13 +27,15 @@ class dict_with_missing_numpy_type(dict):
         return key.name
 
 
-numpy_type_to_dpf = dict_with_missing_numpy_type({
-    np.float64: "double",
-    np.float32: "float",
-    np.int16: "short",
-    np.byte: "char",
-    np.int8: "char",
-})
+numpy_type_to_dpf = dict_with_missing_numpy_type(
+    {
+        np.float64: "double",
+        np.float32: "float",
+        np.int16: "short",
+        np.byte: "char",
+        np.int8: "char",
+    }
+)
 
 
 class CustomTypeField(_FieldBase):
@@ -82,11 +84,11 @@ class CustomTypeField(_FieldBase):
     """
 
     def __init__(
-            self,
-            unitary_type=None,
-            nentities=0,
-            field=None,
-            server=None,
+        self,
+        unitary_type=None,
+        nentities=0,
+        field=None,
+        server=None,
     ):
         """Initialize the field either with an optional field message or
         by connecting to a stub.
@@ -110,10 +112,12 @@ class CustomTypeField(_FieldBase):
             try:
                 self._type = np.dtype(str(type_name))
                 if self._type.itemsize != int(unitary_size):
-                    warnings.warn(f"The field unitary data type will be interpreted as a void, of "
-                                  f"{int(unitary_size)} bytes because"
-                                  f" a {str(type_name)} type was expected to have "
-                                  f"{self._type.itemsize} bytes.")
+                    warnings.warn(
+                        f"The field unitary data type will be interpreted as a void, of "
+                        f"{int(unitary_size)} bytes because"
+                        f" a {str(type_name)} type was expected to have "
+                        f"{self._type.itemsize} bytes."
+                    )
                     raise TypeError()
             except TypeError:
                 self._type = np.dtype(f"V{int(unitary_size)}")
@@ -121,10 +125,12 @@ class CustomTypeField(_FieldBase):
     @property
     def _api(self):
         from ansys.dpf.gate import custom_type_field_capi, custom_type_field_grpcapi
+
         if not self._api_instance:
             self._api_instance = self._server.get_api_for_type(
                 capi=custom_type_field_capi.CustomTypeFieldCAPI,
-                grpcapi=custom_type_field_grpcapi.CustomTypeFieldGRPCAPI)
+                grpcapi=custom_type_field_grpcapi.CustomTypeFieldGRPCAPI,
+            )
         return self._api_instance
 
     def _init_api_env(self):
@@ -132,22 +138,24 @@ class CustomTypeField(_FieldBase):
 
     @staticmethod
     def _field_create_internal_obj(
-            api,
-            client,
-            nature,
-            nentities,
-            location=locations.nodal,
-            ncomp_n=0,
-            ncomp_m=0,
-            with_type=None,
+        api,
+        client,
+        nature,
+        nentities,
+        location=locations.nodal,
+        ncomp_n=0,
+        ncomp_m=0,
+        with_type=None,
     ):
         dpf_type_name = numpy_type_to_dpf[with_type]
         if client is not None:
             return api.cscustom_type_field_new_on_client(
-                client, dpf_type_name, with_type.itemsize, nentities, nentities)
+                client, dpf_type_name, with_type.itemsize, nentities, nentities
+            )
         else:
             return api.cscustom_type_field_new(
-                dpf_type_name, with_type.itemsize, nentities, nentities)
+                dpf_type_name, with_type.itemsize, nentities, nentities
+            )
 
     @property
     def location(self):
@@ -336,7 +344,8 @@ class CustomTypeField(_FieldBase):
         try:
             vec = dpf_vector.DPFVectorCustomType(self._type, client=self._server.client)
             self._api.cscustom_type_field_get_entity_data_by_id_for_dpf_vector(
-                self, vec, vec.internal_data, vec.internal_size, id)
+                self, vec, vec.internal_data, vec.internal_size, id
+            )
             data = dpf_array.DPFArray(vec)
 
         except NotImplementedError:
@@ -352,7 +361,9 @@ class CustomTypeField(_FieldBase):
     def append(self, data, scopingid):
         if isinstance(data, list):
             data = np.array(data, dtype=self._type)
-        self._api.cscustom_type_field_push_back(self, scopingid, _get_size_of_list(data), data)
+        self._api.cscustom_type_field_push_back(
+            self, scopingid, _get_size_of_list(data), data
+        )
 
     def _get_data_pointer(self):
         try:
@@ -366,7 +377,9 @@ class CustomTypeField(_FieldBase):
             return self._api.cscustom_type_field_get_data_pointer(self, True)
 
     def _set_data_pointer(self, data):
-        return self._api.cscustom_type_field_set_data_pointer(self, _get_size_of_list(data), data)
+        return self._api.cscustom_type_field_set_data_pointer(
+            self, _get_size_of_list(data), data
+        )
 
     def _get_data(self, np_array=True):
         try:
@@ -374,7 +387,11 @@ class CustomTypeField(_FieldBase):
             self._api.cscustom_type_field_get_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
-            data = dpf_array.DPFArray(vec) if np_array else dpf_array.DPFArray(vec).tolist()
+            data = (
+                dpf_array.DPFArray(vec)
+                if np_array
+                else dpf_array.DPFArray(vec).tolist()
+            )
         except NotImplementedError:
             data = self._api.cscustom_type_field_get_data(self, np_array)
         n_comp = self.component_count
@@ -514,10 +531,7 @@ class CustomTypeField(_FieldBase):
     def support(self):
         obj = self._api.cscustom_type_field_get_support(self)
         if obj is not None:
-            return Support(
-                support=obj,
-                server=self._server
-            )
+            return Support(support=obj, server=self._server)
 
     @support.setter
     def support(self, val):
