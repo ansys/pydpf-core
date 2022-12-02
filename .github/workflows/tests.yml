@@ -29,6 +29,11 @@ on:
         required: false
         type: string
         default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -62,11 +67,15 @@ on:
         required: false
         type: string
         default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
 
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  extra: "--find-links .github/"
 
 jobs:
   setup:
@@ -100,7 +109,7 @@ jobs:
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
       - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.3
+        uses: pyansys/pydpf-actions/build_package@v2.3.dev1
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
@@ -110,8 +119,9 @@ jobs:
           install_extras: plotting
           wheel: ${{ inputs.wheel }}
           wheelhouse: ${{ inputs.wheelhouse }}
-          extra-pip-args: ${{ env.extra }}
+          extra-pip-args: ${{ format('--find-links ./dpf-standalone/v{0}/dist', inputs.ANSYS_VERSION) }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
+          custom-requirements: ${{ inputs.custom-requirements }}
 
       - name: "Install ansys-grpc-dpf==0.4.0"
         if: inputs.ANSYS_VERSION == 221
