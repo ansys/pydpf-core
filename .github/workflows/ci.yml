@@ -65,7 +65,7 @@ jobs:
       python_versions: '["3.8"]'
       wheel: true
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
 
