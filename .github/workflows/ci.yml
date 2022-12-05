@@ -24,7 +24,6 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   ANSYS_VERSION: 232
-  extra: "--find-links .github/"
 
 jobs:
   debug:
@@ -60,6 +59,7 @@ jobs:
       wheel: true
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
 
   docker_tests:
@@ -119,4 +119,3 @@ jobs:
     with:
       ANSYS_VERSION: "232"
     secrets: inherit
-
