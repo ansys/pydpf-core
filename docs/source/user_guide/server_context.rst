@@ -39,7 +39,7 @@ This won't check out any license.
 	   
     from ansys.dpf import core as dpf
     entry_server = dpf.start_local_server()
-    entry_server.context
+    print(entry_server.context)
 
 Getting started with Premium capabilities
 -----------------------------------------
