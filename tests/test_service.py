@@ -552,6 +552,25 @@ def test_license_agr_remote(remote_config_server_type, set_context_back_to_premi
 
 
 @pytest.mark.order(3)
+def test_multi_client_context(remote_config_server_type, set_context_back_to_premium):
+    # this test intends to ensure the context information is hold by the server
+    dpf.core.server.shutdown_all_session_servers()
+    dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.entry)
+    s = dpf.core.start_local_server(config=remote_config_server_type)
+    assert s.context == dpf.core.AvailableServerContexts.entry
+    # create a second client
+    s2 = dpf.core.connect_to_server(ip=s.ip, port=s.port, config=remote_config_server_type)
+    assert s2.context == dpf.core.AvailableServerContexts.entry
+    s2.apply_context(dpf.core.AvailableServerContexts.premium)
+    assert s2.context == dpf.core.AvailableServerContexts.premium
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1:
+        assert s.context == dpf.core.AvailableServerContexts.premium
+    else:
+        # information stays on client side
+        assert s.context == dpf.core.AvailableServerContexts.entry
+
+
+@pytest.mark.order(4)
 @pytest.mark.skipif(running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
                     reason="AWP ROOT is not set with Docker")
 @conftest.raises_for_servers_version_under("6.0")
@@ -583,7 +602,7 @@ def test_apply_context(set_context_back_to_premium):
     assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.premium
 
 
-@pytest.mark.order(4)
+@pytest.mark.order(5)
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
                     reason="not supported")
 @conftest.raises_for_servers_version_under("6.0")

@@ -19,6 +19,7 @@ import psutil
 
 import ansys.dpf.core as core
 from ansys.dpf.core.check_version import server_meet_version
+from ansys.dpf.core.server_context import AvailableServerContexts
 from ansys.dpf.core import errors, session, server_factory
 from ansys.dpf.core._version import (
     server_to_ansys_grpc_dpf_version,
@@ -38,6 +39,15 @@ RUNNING_DOCKER = server_factory.create_default_docker_config()
 
 MAX_PORT = 65535
 
+def _get_context_from_str(context_str: str):
+    context_str_to_obj = {
+        "ePremium": AvailableServerContexts.premium,
+        "eEntry": AvailableServerContexts.entry
+    }
+    if context_str in context_str_to_obj:
+        serv_context = context_str_to_obj[context_str]
+        return serv_context
+    return None
 
 def _get_dll_path(name, ansys_path=None):
     """Helper function to get the right dll path for Linux or Windows"""
@@ -499,7 +509,7 @@ class BaseServer(abc.ABC):
         -------
         ServerContext
         """
-        return self._context
+        pass
 
     def check_version(self, required_version, msg=None):
         """Check if the server version matches with a required version.
@@ -704,6 +714,15 @@ class GrpcServer(CServer):
         api = data_processing_capi.DataProcessingCAPI
         return api.data_processing_get_os_on_client(self.client)
 
+    @property
+    def context(self):
+        if self.meet_version("6.1"):
+            from ansys.dpf.gate import data_processing_capi
+            api = data_processing_capi.DataProcessingCAPI
+            context_str = api.data_processing_get_licensing_context_on_client(self.client)
+            self._context = _get_context_from_str(context_str)
+        return self._context
+
     def _create_shutdown_funcs(self):
         from ansys.dpf.gate import data_processing_capi
         api = data_processing_capi.DataProcessingCAPI
@@ -865,6 +884,16 @@ class InProcessServer(CServer):
     def os(self):
         # Since it is InProcess, one could return the current os
         return os.name
+
+    @property
+    def context(self):
+        if self.meet_version("6.1"):
+            from ansys.dpf.gate import data_processing_capi
+            api = data_processing_capi.DataProcessingCAPI
+            serv_context_str = api.data_processing_get_licensing_context()
+            self._context = _get_context_from_str(serv_context_str)
+        return self._context
+
 
     def shutdown(self):
         pass
@@ -1102,6 +1131,22 @@ class LegacyGrpcServer(BaseServer):
             "nt" or "posix"
         """
         return self.info["os"]
+
+    @property
+    def context(self):
+        """Get the operating system of the server
+
+        Returns
+        -------
+        os : str
+            "nt" or "posix"
+        """
+        if self.meet_version("6.1"):
+            context_str = self._core_api.data_processing_get_licensing_context_on_client(
+                    client=self.client
+                )
+            self._context = _get_context_from_str(context_str)
+        return self._context
 
     @property
     def info(self):

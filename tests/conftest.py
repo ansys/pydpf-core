@@ -206,7 +206,9 @@ def cyclic_multistage():
     """
     return core.examples.download_multi_stage_cyclic_result()
 
-
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1 = meets_version(
+    get_server_version(core._global_server()), "6.1"
+)
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 = meets_version(
     get_server_version(core._global_server()), "6.0"
 )
@@ -238,7 +240,8 @@ def raises_for_servers_version_under(version):
             not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 if version == "3.0" else
             not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 if version == "4.0" else
             not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0 if version == "5.0" else
-            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 if version == "6.0" else True,
+            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 if version == "6.0" else
+            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1 if version == "6.1" else True,
             reason=f"Requires server version greater than or equal to {version}",
             raises=core.errors.DpfVersionNotSupported,
         )
