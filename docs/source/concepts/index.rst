@@ -1,4 +1,14 @@
-.. _dpf_concepts:
+.. _ref_concepts:
+
+========
+Concepts
+========
+
+This section gives in depth descriptions and explanations of DPF concepts, including terminology.
+
+Other sections of this guide include :ref:`ref_user_guide`, :ref:`ref_api_section`,
+:ref:`ref_dpf_operators_reference`, and :ref:`gallery`.
+
 
 DPF concepts
 ~~~~~~~~~~~~
@@ -10,7 +20,7 @@ DPF concepts
    waysofusing.rst
    stepbystep.rst
 
-	
+
 .. card-carousel:: 2
 
     .. card:: Concepts and terminology
