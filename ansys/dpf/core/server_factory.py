@@ -575,7 +575,7 @@ class ServerFactory:
         )
 
         # dpf.core.SERVER_CONFIGURATION is required to know what type of connection to set
-        if config is None:
+        if config is None: 
             # If no SERVER_CONFIGURATION is yet defined, set one with default values
             is_server_old = False
             if not "ansys_dpf_server" in ansys_path:
