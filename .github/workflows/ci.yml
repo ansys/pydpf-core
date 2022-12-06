@@ -63,7 +63,7 @@ jobs:
     secrets: inherit
 
   docker_tests:
-    name: "Build and Test on Docker"
+    # name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
     secrets: inherit
 
