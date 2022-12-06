@@ -35,7 +35,7 @@ jobs:
         GITHUB_CONTEXT: ${{ toJson(github) }}
 
   style:
-    name: "Style Check"
+    name: Style Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
