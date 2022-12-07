@@ -30,7 +30,7 @@ Installing DPF Server
 ---------------------
 
 #. DPF Server is packaged within the **Ansys Unified Installer** starting with Ansys 2021 R1.
-   To use it, download the standard installation via your prefered distribution channel, 
+   To use it, download the standard installation via your preferred distribution channel, 
    and install Ansys following the installer instructions. If you experience problems,
    see  :ref:`Environment variable section <ref_compatibility>`. For information on getting
    a licensed copy of Ansys, visit the `Ansys website <https://www.ansys.com/>`_.
