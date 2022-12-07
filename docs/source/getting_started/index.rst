@@ -34,7 +34,7 @@ Installing DPF Server
    see  :ref:`Environment variable section <ref_compatibility>`. For information on getting
    a licensed copy of Ansys, visit the `Ansys website <https://www.ansys.com/>`_.
 
-#. DPF Server is available as a **standalone** package (independent of the Ansys installer) on the `Ansys Customer Portal <https://support.ansys.com/Home/HomePage>`_.
+#. DPF Server is available as a **standalone** package (independent of the Ansys installer) on the `Ansys Customer Portal <https://download.ansys.com/>`_.
    As explained in :ref:`Ansys licensing section <ref_getting_started_with_dpf_server>`,
    DPF Server is protected by an Ansys license mechanism. Once you have access to an
    Ansys license, install DPF Server:
