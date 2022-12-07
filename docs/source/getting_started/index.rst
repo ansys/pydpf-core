@@ -52,7 +52,7 @@ Installing DPF Server
         pip install -e .
 
     * DPF Server is protected using the license terms specified in the
-    ``DPFUserLicensingAgreement.txt`` file, which is available on the
+    ``DPFPreviewLicenseAgreement`` file, which is available on the
     Ansys Customer Portal. To accept these terms, you must set the
     following environment variable:
 
