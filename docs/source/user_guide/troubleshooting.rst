@@ -69,7 +69,7 @@ Any static results that are available for the model are used instead.
 Plotting issues
 ---------------
 
-Trying to plot a result with DPF plotting capabilities, the following error can be raised:
+When trying to plot a result with DPF, the following error might be raised:
 
 .. code-block:: default
 
