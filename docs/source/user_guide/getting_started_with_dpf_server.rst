@@ -35,7 +35,7 @@ Installing DPF Server
 Using DPF Server
 ----------------
 
-DPF Server use is protected using license terms. For more information, see the :ref:`DPF Preview License Agreement<target_to_license_terms>` section
+DPF Server use is protected using license terms. For more information, see the :ref:`DPF Preview License Agreement<target_to_license_terms>` section.
 
 Running the DPF Server with PyDPF
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -119,6 +119,7 @@ Ansys licensing
 DPF Server is protected by Ansys licensing mechanism.
 
 DPF capabilities are available through the following main services: 
+
 - Entry: Loads the minimum number of plugins for basic use. It is the default. It will only check if an Ansys License is available. 
 - Premium: Loads the entry and the premium capabilities that require a license checkout. 
 
