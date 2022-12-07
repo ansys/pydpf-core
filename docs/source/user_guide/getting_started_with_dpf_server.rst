@@ -31,15 +31,19 @@ Installing DPF Server
 .. code::
 
     pip install -e . 
-	
-PyDPF-Core and PyDPF-Post python modules can now be used. The instructions to install and get started with PyDPF-Core 
-(ansys-dpf-core module) can be found at `Getting Started section <https://dpf.docs.pyansys.com/getting_started/install.html>`_. 
 
 Using DPF Server
 ----------------
 
 Running the DPF Server with PyDPF
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PyDPF-Core is a Python client API communicating with a **DPF Server**, either
+through the network using gRPC or directly in the same process. PyDPF-Post is a Python
+module based on PyDPF-Core. 
+Both PyDPF-Core and PyDPF-Post python modules can be used with the DPF Server. The instructions to install and get started with PyDPF-Core 
+can be found at `PyDPF-Core, Getting Started section <https://dpf.docs.pyansys.com/getting_started/install.html>`_. The instructions to install and get
+started with PyDPF-Post can be found at `PyDPF-Post, Getting Started section <https://post.docs.pyansys.com/getting_started/install.html>`_.
 
 With PyDPF-Core and PyDPF-Post, the first creation of most DPF entities will start a DPF Server with the current default configuration and context.
 For example, the following code will automatically start a DPF Server behind the scenes:
