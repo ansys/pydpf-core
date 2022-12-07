@@ -20,7 +20,7 @@ class LicensingContextType(Enum):
     Blocks an increment."""
     entry = 4
     """Loads the minimum number of plugins for basic use. Checks if at least one
-    increments exists. This increment won't be blocked."""
+    increment exists. This increment won't be blocked."""
 
     def __int__(self):
         return self.value
