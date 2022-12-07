@@ -54,3 +54,18 @@ clone the repository and install it using ``pip`` with the ``-e``
 development flag:
 
 .. include:: ../pydpf-core_clone_install.rst
+
+
+.. _target_to_install_with_plotting_capabilities:
+
+Install with plotting capabilities
+----------------------------------
+
+PyDPF-Core plotting capabilities are based on PyVista. That means that PyVista must be installed with PyDPF-Core. 
+To proceed, use:
+
+.. code::
+
+   pip install ansys-dpf-core[plotting]
+
+For more information about PyDPF-Core plotting capabilities, see :ref:`ref_plotter`.

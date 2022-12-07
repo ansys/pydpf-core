@@ -66,6 +66,24 @@ Then, with result files reproducing this issue, you can prevent the warning from
 However, the preceding code disables the reading and generation of the available results for the model.
 Any static results that are available for the model are used instead.
 
+Plotting issues
+---------------
+
+Trying to plot a result with DPF plotting capabilities, the following error can be raised:
+
+.. code-block:: default
+
+    ModuleNotFoundError: No module named 'pyvista'
+
+Then, to use DPF plotting capabilities, it is needed to install PyVista with:
+
+.. code-block:: default
+
+    pip install pyvista
+
+Another option is to install PyVista along PyDPF-Core. For more information, see 
+:ref:`Install with plotting capabilities<target_to_install_with_plotting_capabilities>`
+
 Performance issues
 ------------------
 
