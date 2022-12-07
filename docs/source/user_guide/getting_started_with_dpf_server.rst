@@ -118,16 +118,20 @@ Ansys licensing
 
 DPF Server is protected by Ansys licensing mechanism.
 
-DPF capabilities are available through the following main services: 
+DPF capabilities are available through the following main contexts: 
 
-- Entry: Loads the minimum number of plugins for basic use. It is the default. It will only check if an Ansys License is available. 
-- Premium: Loads the entry and the premium capabilities that require a license checkout. 
+- Entry: Loads the minimum number of plugins for basic use. It is the default. Checks if at least one increments exists 
+  from the following :ref:`Ansys licensing increments list<target_to_ansys_license_increments_list>`. This increment won't be blocked.
+- Premium: Loads the entry and the premium capabilities that require a license checkout. Blocks an increment from the 
+  following :ref:`Ansys licensing increments list<target_to_ansys_license_increments_list>`.
 
 To update the context, apply a new server context:
 
 .. code::
 
     dpf.apply_server_context(dpf.AvailableServerContexts.premium)
+
+.. _target_to_ansys_license_increments_list:
 
 The following Ansys licensing increments currently provide rights to use DPF Server: 
 

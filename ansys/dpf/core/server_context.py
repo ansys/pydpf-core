@@ -16,9 +16,11 @@ from enum import Enum
 
 class LicensingContextType(Enum):
     premium = 1
-    """Allows capabilities requiring Licenses checkout."""
+    """Loads the entry and the premium capabilities that require a license checkout.
+    Blocks an increment."""
     entry = 4
-    """Loads minimum capabilities without requiring any Licenses checkout."""
+    """Loads the minimum number of plugins for basic use. Checks if at least one
+    increments exists. This increment won't be blocked."""
 
     def __int__(self):
         return self.value
