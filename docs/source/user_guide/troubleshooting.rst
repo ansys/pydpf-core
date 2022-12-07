@@ -75,7 +75,7 @@ Trying to plot a result with DPF plotting capabilities, the following error can 
 
     ModuleNotFoundError: No module named 'pyvista'
 
-Then, to use DPF plotting capabilities, PyVista needs to be installed with:
+In that case, simply install PyVista with:
 
 .. code-block:: default
 
