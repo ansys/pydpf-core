@@ -578,8 +578,9 @@ class ServerFactory:
         if config is None:
             # If no SERVER_CONFIGURATION is yet defined, set one with default values
             is_server_old = False
-            if not "ansys_dpf_server" in ansys_path:
-                is_server_old = _find_outdated_ansys_version(ansys_path)
+            if ansys_path is not None:
+                if not "ansys_dpf_server" in ansys_path:
+                    is_server_old = _find_outdated_ansys_version(ansys_path)
             config = get_default_server_config(is_server_old, docker_config)
         if config.protocol == CommunicationProtocols.gRPC and config.legacy:
             return LegacyGrpcServer
