@@ -35,6 +35,8 @@ Installing DPF Server
 Using DPF Server
 ----------------
 
+DPF Server use is protected using license terms. For more information, see the :ref:`DPF Preview License Agreement<target_to_license_terms>` section
+
 Running the DPF Server with PyDPF
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -75,17 +77,17 @@ Running the DPF Server in a Docker container
 
     docker build . -t dpf-core:v2023_2_pre0 --build-arg DPF_VERSION=232 --build-arg DPF_SERVER_FILE=ansys_dpf_server_lin_v2023.2.pre0.zip
 
-4. To run the DPF Docker container, see the :ref:`License terms<target_to_license_terms>` section.
+4. To run the DPF Docker container, see the :ref:`DPF Preview License Agreement<target_to_license_terms>` section.
 
 License terms
 -------------
 
+.. _target_to_license_terms:
+
 DPF Preview License Agreement 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _target_to_license_terms:
-
-DPF Server is protected using license terms specified in the DPFPreviewLicenseAgreement file that 
+DPF Server use is protected using license terms specified in the DPFPreviewLicenseAgreement file that 
 can be found on the Ansys Customer Portal.
 
 To accept the DPF User Licensing Agreement terms, the following environment variable must be set: 
@@ -106,13 +108,13 @@ For a DPF Docker container usage, it can be set using:
 For any other case, set "ANSYS_DPF_ACCEPT_LA" as an environment variable with "Y" value.
 
 Replace "<license_server_to_use>" mention that ANSYSLMD_LICENSE_FILE environment variable points to the Ansys license server.
-For more information about Ansys license mechanism use with DPF Server, see :ref:`Ansys licensing section<target_to_ansys_license_mechanism>`.
+For more information about Ansys license mechanism use with DPF Server, see :ref:`Ansys licensing<target_to_ansys_license_mechanism>` section.
 
+
+.. _target_to_ansys_license_mechanism:
 
 Ansys licensing
 ~~~~~~~~~~~~~~~
-
-.. _target_to_ansys_license_mechanism:
 
 DPF Server is protected by Ansys licensing mechanism.
 

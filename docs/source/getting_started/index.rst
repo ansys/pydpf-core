@@ -62,7 +62,8 @@ Installing DPF Server
 
         ANSYS_DPF_ACCEPT_LA=Y
 
-
+For more information about the license terms, see the :ref:`DPF Preview License Agreement<target_to_license_terms>` 
+section.
 
 For installation methods that do not use pip, such as using **Docker containers**, see
 :ref:`ref_getting_started_with_dpf_server`.
