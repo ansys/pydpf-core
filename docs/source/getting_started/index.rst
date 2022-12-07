@@ -54,7 +54,7 @@ Installing DPF Server
     * DPF Server is protected using the license terms specified in the
     ``DPFUserLicensingAgreement.txt`` file, which is available on the
     Ansys Customer Portal. To accept these terms, you must set the
-    following environment flag:
+    following environment variable:
 
     .. code::
 

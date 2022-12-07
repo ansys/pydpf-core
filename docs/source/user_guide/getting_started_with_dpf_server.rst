@@ -84,7 +84,7 @@ DPF Preview License Agreement
 DPF Server is protected using license terms specified in the DPFPreviewLicenseAgreement file that 
 can be found on the Ansys Customer Portal.
 
-To accept the DPF User Licensing Agreement terms, the following environment flag must be set: 
+To accept the DPF User Licensing Agreement terms, the following environment variable must be set: 
 
 .. code::
 
