@@ -12,7 +12,7 @@ server_to_ansys_grpc_dpf_version = {
     "3.0": ">=0.4.0",
     "4.0": ">=0.5.0",
     "5.0": ">=0.6.0",
-    "6.0": ">=0.7.*",
+    "6.0": ">=0.7dev",
 }
 
 server_to_ansys_version = {
