@@ -588,6 +588,7 @@ def test_info_workflow(allkindofcomplexity, server_type):
     assert wf.output_names == ["scopings"]
 
 
+@conftest.raises_for_servers_version_under('4.0')
 def test_rename_pins_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
     op = dpf.core.Operator("min_max", server=server_type)
@@ -621,7 +622,6 @@ def test_rename_pins_workflow(server_type):
     wf.connect("afield", inpt)
     f_out = wf.get_output("amin", dpf.core.types.field)
     assert np.allclose(f_out.data, [1., 2., 3.])
-
 
 
 def test_print_workflow(server_type):

@@ -382,6 +382,7 @@ class Workflow:
                 pin = arg
         return self._api.work_flow_set_name_output_pin(self, operator, pin, name)
 
+    @version_requires("4.0")
     def rename_input(self, old_name, new_name):
         """Rename the input pin of the workflow.
 
@@ -404,9 +405,14 @@ class Workflow:
         >>> workflow.rename_input("data_sources", "new_data_sources")
         >>> workflow.input_names
         ['new_data_sources']
+
+        Notes
+        -----
+        Function available with server's version starting at 4.0 (Ansys 2022R2).
         """
         return self._api.work_flow_rename_input_pin(self, old_name, new_name)
 
+    @version_requires("4.0")
     def rename_output(self, old_name, new_name):
         """Rename the output pin of the workflow.
 
@@ -429,6 +435,10 @@ class Workflow:
         >>> workflow.rename_output("result", "displacement")
         >>> workflow.output_names
         ['displacement']
+
+        Notes
+        -----
+        Function available with server's version starting at 4.0 (Ansys 2022R2).
         """
         return self._api.work_flow_rename_output_pin(self, old_name, new_name)
 
