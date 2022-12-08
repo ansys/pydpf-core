@@ -42,7 +42,7 @@ Running the DPF Server with PyDPF
 
 PyDPF-Core is a Python client API communicating with a **DPF Server**, either
 through the network using gRPC or directly in the same process. PyDPF-Post is a Python
-module based on PyDPF-Core. 
+module for postprocessing based on PyDPF-Core. 
 
 Both PyDPF-Core and PyDPF-Post python modules can be used with the DPF Server. The instructions to install and get started with PyDPF-Core 
 can be found at `PyDPF-Core, Getting Started section <https://dpf.docs.pyansys.com/getting_started/install.html>`_. The instructions to install and get
