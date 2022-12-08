@@ -382,6 +382,56 @@ class Workflow:
                 pin = arg
         return self._api.work_flow_set_name_output_pin(self, operator, pin, name)
 
+    def rename_input(self, old_name, new_name):
+        """Rename the input pin of the workflow.
+
+        Parameters
+        ----------
+        old_name : str
+            Existing name of the pin. This name should be
+            exposed before with wf.set_input_name
+        new_name : str
+            New name of the pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+
+        >>> workflow = dpf.Workflow()
+        >>> disp_op = dpf.operators.result.displacement()
+        >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
+        >>> workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
+        >>> workflow.rename_input("data_sources", "new_data_sources")
+        >>> workflow.input_names
+        ['new_data_sources']
+        """
+        return self._api.work_flow_rename_input_pin(self, old_name, new_name)
+
+    def rename_output(self, old_name, new_name):
+        """Rename the output pin of the workflow.
+
+        Parameters
+        ----------
+        old_name : str
+            Existing name of the pin. This name should be
+            exposed before with wf.set_output_name
+        new_name : str
+            New name of the pin.
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+
+        >>> workflow = dpf.Workflow()
+        >>> disp_op = dpf.operators.result.displacement()
+        >>> max_fc_op = dpf.operators.min_max.min_max_fc(disp_op)
+        >>> workflow.set_output_name("result", disp_op.outputs.fields_container)
+        >>> workflow.rename_output("result", "displacement")
+        >>> workflow.output_names
+        ['displacement']
+        """
+        return self._api.work_flow_rename_output_pin(self, old_name, new_name)
+
     def add_operators(self, operators):
         """Add operators to the list of operators of the workflow.
 

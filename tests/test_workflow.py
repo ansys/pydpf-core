@@ -588,6 +588,42 @@ def test_info_workflow(allkindofcomplexity, server_type):
     assert wf.output_names == ["scopings"]
 
 
+def test_rename_pins_workflow(server_type):
+    wf = dpf.core.Workflow(server=server_type)
+    op = dpf.core.Operator("min_max", server=server_type)
+    inpt = dpf.core.Field(nentities=3, server=server_type)
+    data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    scop = dpf.core.Scoping(server=server_type)
+    scop.ids = [1, 2, 3]
+    inpt.data = data
+    inpt.scoping = scop
+
+    wf.add_operator(op)
+    wf.set_input_name("field", op, 0)
+    wf.set_output_name("min", op, 0)
+    wf.set_output_name("max", op, 1)
+    wf.connect("field", inpt)
+    wf.connect("field", inpt)
+    f_out = wf.get_output("min", dpf.core.types.field)
+    assert np.allclose(f_out.data, [1., 2., 3.])
+    assert wf.input_names == ["field"]
+    assert wf.output_names == ["max", "min"]
+
+    wf.rename_input("field", "afield")
+    assert wf.input_names == ["afield"]
+    wf.rename_output("max", "amax")
+    assert wf.output_names == ["amax", "min"]
+    wf.rename_output("min", "amin")
+    assert wf.output_names == ['amax', 'amin']
+
+    with pytest.raises(Exception):
+        wf.get_output("min", dpf.core.types.field)
+    wf.connect("afield", inpt)
+    f_out = wf.get_output("amin", dpf.core.types.field)
+    assert np.allclose(f_out.data, [1., 2., 3.])
+
+
+
 def test_print_workflow(server_type):
     inpt = dpf.core.Field(nentities=3, server=server_type)
     data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
