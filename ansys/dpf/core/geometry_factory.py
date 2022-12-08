@@ -8,11 +8,6 @@ def create_points(coordinates, server=None):
 
 def create_line_from_points(points, server=None):
     """Construct line from two DPF points."""
-    # Input check
-    if isinstance(points, Points):
-        if not points.num_points == 2:
-            raise ValueError("Only two points must be used to define a line")
-        points = points.coordinates.data
     return Line(points, server)
 
 def create_line_from_vector(ini, end=None, server=None):
@@ -107,23 +102,6 @@ def get_cross_product(vects):
 
 
 if __name__ == "__main__":
-    ######################### CREATE POINTS ####################################
-    points = create_points([[0.3, 0.2, 0.5], [1, 1, 1]])
-    # points.plot()
-
-    ######################### CREATE LINES #####################################
-    line_from_coords = create_line_from_points([[0.3, 0.2, 0.5], [1, 1, 1]])
-    # line_from_coords.plot()
-    line_from_points = create_line_from_points(points)
-    # line_from_points.plot()
-    line_from_origin_and_dir = create_line_from_vector(
-        ini = [0.3, 0.2, 0.5],
-        end = [0.7, 0.8, 0.5]
-    )
-    # line_from_origin_and_dir.plot()
-    line_from_origin_and_dir = create_line_from_vector([[0.3, 0.2, 0.5], [0.7, 0.8, 0.5]])
-    # line_from_origin_and_dir.plot()
-
     ######################### CREATE PLANES #####################################
     plane_from_center_and_normal = create_plane_from_center_and_normal(
         center = [0, 0, 0],
