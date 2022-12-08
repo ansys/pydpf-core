@@ -79,6 +79,16 @@ class _PyVistaPlotter:
         self._plotter.add_text(f"Scale factor: {scale_factor}", position='upper_right',
                                font_size=12, **kwargs_in)
 
+    def add_points(self, points):
+        self._plotter.add_points(points)
+
+    def add_line(self, points):
+        self._plotter.add_lines(points)
+
+    # def add_plane(self, center, normal):
+    #     import pyvista as pv
+    #     self._plotter.add_floor(pv.Plane(center, normal))
+
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
 
         kwargs = self._set_scalar_bar_title(kwargs)
@@ -363,6 +373,15 @@ class DpfPlotter:
                                                                     meshed_region=meshed_region,
                                                                     labels=labels,
                                                                     **kwargs))
+
+    def add_points(self, points):
+        self._internal_plotter.add_points(points)
+
+    def add_line(self, points):
+        self._internal_plotter.add_line(points)
+
+    # def add_plane(self, center, normal):
+    #     self._internal_plotter.add_plane(center, normal)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
         """Add a mesh to plot.
