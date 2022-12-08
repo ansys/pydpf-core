@@ -41,6 +41,12 @@ This won't check out any license.
     entry_server = dpf.start_local_server()
     print(entry_server.context)
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+ 
+    Server Context of type LicensingContextType.entry with no xml path
+
 Getting started with Premium capabilities
 -----------------------------------------
 
