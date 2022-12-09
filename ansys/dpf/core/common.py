@@ -92,6 +92,7 @@ class types(Enum):
     scopings_container = -2
     meshes_container = -3
     streams_container = -4
+    materials = -5
 
 
 def types_enum_to_types():
@@ -114,6 +115,7 @@ def types_enum_to_types():
         data_tree,
         workflow,
         streams_container,
+        materials_container,
     )
     from ansys.dpf.gate import dpf_vector
     return {
@@ -141,6 +143,7 @@ def types_enum_to_types():
         types.string_field: string_field.StringField,
         types.custom_type_field: custom_type_field.CustomTypeField,
         types.streams_container: streams_container.StreamsContainer,
+        types.materials: materials_container.MaterialsContainer,
     }
 
 
