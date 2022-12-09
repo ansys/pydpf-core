@@ -1,3 +1,5 @@
+"""Geometry factory module containing functions to create the different geometries."""
+
 import numpy as np
 
 from ansys.dpf.core.geometry import Points, Line, Plane
@@ -27,6 +29,7 @@ def create_line_from_vector(ini, end=None, server=None):
             raise ValueError("'end' argument must be of length = 3 \
             representing the 3D coordinates of the end point of the vector.")
         vect = [ini, end]
+
     return Line(vect, server)
 
 def create_plane_from_center_and_normal(center, normal, server=None):
@@ -52,7 +55,7 @@ def create_plane_from_points(points, server=None):
 def create_plane_from_lines(line1, line2, server=None):
     """Create plane from two lines."""
     # Input check
-    if not isinstance(line1, Line) == isinstance(line2, Line):
+    if not isinstance(line1, Line) and not isinstance(line2, Line):
         if not len(line1) == len(line2) == 2:
             raise ValueError("Each line must contain two points.")
         if not len(line1[0]) == len(line1[1]) == len(line2[0]) == len(line2[1]) == 3:
@@ -63,72 +66,44 @@ def create_plane_from_lines(line1, line2, server=None):
     vect2 = [x-y for x,y in zip(line2[0], line2[1])]
     center = get_center_from_coords([vect1, vect2])
     normal = get_cross_product([vect1, vect2])
-
     return Plane(center, normal, server)
 
-def create_plane_from_point_and_line(point, vector, server=None):
-    """Create plane from point and line"""
+def create_plane_from_point_and_line(point, line, server=None):
+    """Create plane from point and line."""
     # Input check
     if isinstance(point, Points):
         if not len(point) == 1:
             raise ValueError("Only one point must be passed.")
     else:
         if not len(point) == 3:
-            raise ValueError("A point must contain 3 coordinates 'x', 'y' and 'z'.")
-    if not len(vector) == 3:
-        raise ValueError("'vector' must contain 3 coordinates.")
+            raise ValueError("A point must contain three coordinates 'x', 'y' and 'z'.")
+    if not isinstance(line, Line):
+        if not len(line) == 2:
+            raise ValueError("'line' must be of length = 2 containing two points.")
+        if not len(line[0]) == len(line[1]) == 3:
+            raise ValueError("Each point in line must contain three coordinates 'x', 'y' and 'z'.")
 
     # Get center and normal from point and vector
-    vects = [point, vector]
-    center = get_center_from_coords(vects)
+    coords = [line[0], line[1], point]
+    vects = [line, [line[0], point]]
+    center = get_center_from_coords(coords)
     normal = get_cross_product(vects)
-
     return Plane(center, normal, server)
 
 def get_center_from_coords(coords):
+    """Get average coordinates from several points."""
     n_points = len(coords)
     n_coords = len(coords[0])
     return [sum(coords[i][j] for i in range(n_points))/n_points for j in range(n_coords)]
 
-def get_normal_direction_from_coords(coords):
+def get_normal_direction_from_coords(points):
+    """Get normal direction between three points."""
     vects = [
-        [coords[1][i]-coords[0][i] for i in range(len(coords))],
-        [coords[2][i]-coords[0][i] for i in range(len(coords))],
+        [points[1][i]-points[0][i] for i in range(len(points))],
+        [points[2][i]-points[0][i] for i in range(len(points))],
     ]
     return get_cross_product(vects)
 
 def get_cross_product(vects):
+    """Compute cross product between two vectors."""
     return np.cross(vects[0], vects[1])
-
-
-if __name__ == "__main__":
-    ######################### CREATE PLANES #####################################
-    plane_from_center_and_normal = create_plane_from_center_and_normal(
-        center = [0, 0, 0],
-        normal = [[0, 0, 0], [0, 0, 1]],
-    )
-    # plane_from_center_and_normal.plot()
-    plane_from_center_and_normal = create_plane_from_center_and_normal(
-        center = [0, 0, 0],
-        normal = Line([[0, 0, 0], [0, 0, 1]]),
-    )
-    # plane_from_center_and_normal.plot()
-    plane_from_coords = create_plane_from_points(
-        [[0, 0, 0],
-        [0, 1, 0],
-        [1, 0, 0]]
-    )
-    # plane_from_coords.plot()
-
-    points = create_points([[0, 0, 0],[0, 1, 0], [1, 0, 0]])
-    plane_from_coords = create_plane_from_points(points)
-    # plane_from_coords.plot()
-
-    line1 = [[0, 0, 0], [1, 0, 0]]
-    line2 = [[2, 1, 0], [0, 1, 0]]
-    plane_from_vects = create_plane_from_lines(line1, line2)
-    plane_from_vects.plot()
-
-    plane_from_vects = create_plane_from_lines(Line(line1), Line(line2))
-    plane_from_vects.plot()
-

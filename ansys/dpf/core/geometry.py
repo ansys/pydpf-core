@@ -1,8 +1,9 @@
+"""Module containing the different geometry objects."""
+
 from ansys.dpf.core import Field
 from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core.plotter import DpfPlotter
 
-import pyvista as pv
 import numpy as np
 
 class Points():
@@ -33,7 +34,7 @@ class Points():
         return self.coordinates.data[value]
 
     def __len__(self):
-        return len(self._coordinates.data)
+        return self.num_points
 
     @property
     def coordinates(self):
@@ -42,7 +43,11 @@ class Points():
 
     @property
     def num_points(self):
-        return len(self._coordinates.data)
+        return self._coordinates.shape[0] if isinstance(self._coordinates.shape, tuple) else 1
+
+    @property
+    def dimension(self):
+        return 3
 
     def __str__(self):
         """Print Points information."""
