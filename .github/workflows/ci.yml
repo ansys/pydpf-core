@@ -21,8 +21,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PACKAGE_NAME: ansys-dpf-core
-  MODULE: core
   ANSYS_VERSION: 232
 
 jobs:
@@ -66,12 +64,15 @@ jobs:
       wheel: true
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: requirements/requirements_dev.txt
+      custom-requirements: ''
     secrets: inherit
 
   docker_tests:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
+    with:
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      custom-requirements: ''
     secrets: inherit
 
   docs:
@@ -79,6 +80,8 @@ jobs:
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: "232"
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      custom-requirements: ''
     secrets: inherit
 
   examples:
@@ -87,6 +90,8 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       python_versions: '["3.8"]'
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      custom-requirements: ''
     secrets: inherit
 
   retro_231:
@@ -125,4 +130,6 @@ jobs:
     uses: ./.github/workflows/pydpf-post.yml
     with:
       ANSYS_VERSION: "232"
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      custom-requirements: ''
     secrets: inherit

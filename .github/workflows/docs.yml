@@ -12,9 +12,16 @@ on:
         required: false
         type: string
         default: "232"
-    secrets:
-      DPF_PIPELINE:
-        required: true
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -28,6 +35,16 @@ on:
         required: true
         type: string
         default: "232"
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -68,6 +85,8 @@ jobs:
           wheel: false
           wheelhouse: false
           extra-pip-args: ${{ env.extra }}
+          standalone_suffix: ${{ inputs.standalone_suffix }}
+          custom-requirements: ${{ inputs.custom-requirements }}
 
       - name: "Setup headless display"
         uses: pyvista/setup-headless-display-action@v1
