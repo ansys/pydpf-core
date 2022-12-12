@@ -1,5 +1,5 @@
 packaging==21.3
-psutil==5.9.2
+psutil==5.9.4
 tqdm==4.64.1
 numpy==1.23.4
 ansys-dpf-gate==0.2.1
