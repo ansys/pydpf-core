@@ -21,9 +21,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PACKAGE_NAME: ansys-dpf-core
-  MODULE: core
-  ANSYS_VERSION: 232
+  STANDALONE_SUFFIX: '.pre0'
 
 jobs:
   debug:
@@ -65,7 +63,7 @@ jobs:
       python_versions: '["3.8"]'
       wheel: true
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || env.STANDALONE_SUFFIX }}
       custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
 
