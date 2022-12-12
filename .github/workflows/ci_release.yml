@@ -145,6 +145,8 @@ jobs:
   docker_tests:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
+    with:
+      standalone_suffix: ".pre0"
     secrets: inherit
 
   draft_release:

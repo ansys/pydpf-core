@@ -70,6 +70,9 @@ jobs:
   docker_tests:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
+    with:
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      custom-requirements: ''
     secrets: inherit
 
   docs:

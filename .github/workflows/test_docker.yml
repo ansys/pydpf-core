@@ -3,8 +3,28 @@ name: test_docker
 on:
 # Can be called by the CI
   workflow_call:
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
 # Can be called manually
   workflow_dispatch:
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -38,6 +58,8 @@ jobs:
           install_extras: plotting
           wheelhouse: false
           extra-pip-args: ${{ env.extra }}
+          standalone_suffix: ${{ inputs.standalone_suffix }}
+          custom-requirements: ${{ inputs.custom-requirements }}
 
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.3
