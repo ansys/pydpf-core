@@ -75,6 +75,7 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      custom-requirements: ''
     secrets: inherit
 
   examples:
@@ -84,6 +85,7 @@ jobs:
       ANSYS_VERSION: "232"
       python_versions: '["3.8"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      custom-requirements: ''
     secrets: inherit
 
   retro_231:
@@ -123,4 +125,5 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      custom-requirements: ''
     secrets: inherit

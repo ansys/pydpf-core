@@ -17,11 +17,6 @@ on:
         required: false
         type: string
         default: ''
-      custom-requirements:
-        description: "Path to requirements.txt file to install"
-        required: false
-        type: string
-        default: ''
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -37,11 +32,6 @@ on:
         default: "232"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
-        required: false
-        type: string
-        default: ''
-      custom-requirements:
-        description: "Path to requirements.txt file to install"
         required: false
         type: string
         default: ''
