@@ -22,9 +22,6 @@ on:
         required: false
         type: string
         default: ''
-    secrets:
-      DPF_PIPELINE:
-        required: true
 # Can be called manually
   workflow_dispatch:
     inputs:
