@@ -20,9 +20,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: true
 
-env:
-  STANDALONE_SUFFIX: '.pre0'
-
 jobs:
   debug:
     runs-on: ubuntu-latest
@@ -63,7 +60,7 @@ jobs:
       python_versions: '["3.8"]'
       wheel: true
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || env.STANDALONE_SUFFIX }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
       custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
 
@@ -77,7 +74,7 @@ jobs:
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: "232"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || env.STANDALONE_SUFFIX }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
   examples:
