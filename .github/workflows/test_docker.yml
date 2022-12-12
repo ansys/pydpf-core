@@ -3,6 +3,7 @@ name: test_docker
 on:
 # Can be called by the CI
   workflow_call:
+    inputs:
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -15,6 +16,7 @@ on:
         default: ''
 # Can be called manually
   workflow_dispatch:
+    inputs:
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
