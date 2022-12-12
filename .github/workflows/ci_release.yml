@@ -21,12 +21,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  PACKAGE_NAME: ansys-dpf-core
-  MODULE: core
-  ANSYS_VERSION: 232
-  extra: "--find-links .github/"
-
 jobs:
   debug:
     runs-on: ubuntu-latest
