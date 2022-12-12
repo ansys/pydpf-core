@@ -12,9 +12,6 @@ on:
         required: false
         type: string
         default: "232"
-    secrets:
-      DPF_PIPELINE:
-        required: true
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -25,6 +22,9 @@ on:
         required: false
         type: string
         default: ''
+    secrets:
+      DPF_PIPELINE:
+        required: true
 # Can be called manually
   workflow_dispatch:
     inputs:
