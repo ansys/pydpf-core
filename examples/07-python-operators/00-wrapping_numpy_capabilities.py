@@ -3,6 +3,7 @@
 
 Create a basic operator plugin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to create a basic operator plugin, which is for
 a single custom operator. This custom operator, ``easy_statistics``,
 computes simple statistics quantities on a scalar field with the help of
@@ -13,7 +14,7 @@ be wrapped in Python plugins.
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 
