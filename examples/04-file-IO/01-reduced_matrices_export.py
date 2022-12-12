@@ -9,7 +9,7 @@ export them to HDF5 and CSV files.
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_user_guide_server_context`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 
