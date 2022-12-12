@@ -21,7 +21,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  ANSYS_VERSION: 232
+  ANSYS_VERSION: "232"
 
 jobs:
   debug:
@@ -59,7 +59,7 @@ jobs:
   tests:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: "232"
+      ANSYS_VERSION: ${{env.ANSYS_VERSION}}
       python_versions: '["3.8"]'
       wheel: true
       wheelhouse: false
@@ -76,7 +76,7 @@ jobs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/docs.yml
     with:
-      ANSYS_VERSION: "232"
+      ANSYS_VERSION: ${{env.ANSYS_VERSION}}
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: ''
     secrets: inherit
@@ -85,7 +85,7 @@ jobs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/examples.yml
     with:
-      ANSYS_VERSION: "232"
+      ANSYS_VERSION: ${{env.ANSYS_VERSION}}
       python_versions: '["3.8"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: ''
@@ -126,7 +126,7 @@ jobs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/pydpf-post.yml
     with:
-      ANSYS_VERSION: "232"
+      ANSYS_VERSION: ${{env.ANSYS_VERSION}}
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: ''
     secrets: inherit
