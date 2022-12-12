@@ -20,7 +20,7 @@ file at the given path.
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`_user_guide_server_context`.
 
 """
 
