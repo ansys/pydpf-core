@@ -83,6 +83,7 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       python_versions: '["3.8"]'
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
   retro_231:
