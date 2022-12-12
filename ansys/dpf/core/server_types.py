@@ -268,8 +268,12 @@ def launch_remote_dpf(version=None):
     except ImportError as e:
         raise ImportError("Launching a remote session of DPF requires the installation"
                           + " of ansys-platform-instancemanagement") from e
-    version = version or __ansys_version__
     pim = pypim.connect()
+
+    # Possible improvement:
+    # When the version is not specified, it would be possible to use
+    # pim.list_definition(product_name="dpf") and select a version compatible with the current
+    # pydpf version, following the compatibility rules
     instance = pim.create_instance(product_name="dpf", product_version=version)
     instance.wait_for_ready()
     grpc_service = instance.services["grpc"]
