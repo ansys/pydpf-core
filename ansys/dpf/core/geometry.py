@@ -1,10 +1,12 @@
 """Module containing the different geometry objects."""
 
+from ansys.dpf import core as dpf
 from ansys.dpf.core import Field
-from ansys.dpf.core.fields_factory import field_from_array
+from ansys.dpf.core.fields_factory import create_3d_vector_field, field_from_array
 from ansys.dpf.core.plotter import DpfPlotter
 
 import numpy as np
+import pyvista as pv
 
 class Points():
     """
@@ -75,7 +77,7 @@ class Line():
     TO DO
 
     """
-    def __init__(self, coordinates, server=None):
+    def __init__(self, coordinates, num_points = 100, server=None):
         if not isinstance(coordinates, Field):
             coordinates = field_from_array(coordinates)
         if not len(coordinates.data) == 2:
@@ -83,6 +85,8 @@ class Line():
 
         self._coordinates = coordinates
         self._server = server
+        self._num_points = num_points
+        self._path = self._discretize()
 
     def __getitem__(self, value):
         return self.coordinates.data[value]
@@ -90,10 +94,23 @@ class Line():
     def __len__(self):
         return len(self._coordinates.data)
 
+    def _discretize(self):
+        origin = self._coordinates.data[0]
+        diff = self._coordinates.data[1]-self._coordinates.data[0]
+        i_points = np.linspace(0,1,self._num_points)
+        path = [origin + i_point*diff for i_point in i_points]
+        # return over_time_freq_fields_container(path)
+        return field_from_array(path)
+
     @property
     def coordinates(self):
         """Coordinates fo the two points defining the line."""
         return self._coordinates
+
+    @property
+    def path(self):
+        """Get discretized path"""
+        return self._path
 
     @property
     def direction(self):
@@ -154,6 +171,15 @@ class Plane():
     def normal_dir(self):
         """Normal direction to the plane."""
         return self._normal_dir
+
+    @property
+    def mesh(self):
+        """Get discretized mesh on the plane."""
+        return self._discretize()
+
+    def _discretize(self):
+        mesh = pv.Plane(center=self._center, direction=self._normal_dir, i_size=0.05, j_size=0.05, i_resolution=20, j_resolution=20)
+        return mesh
 
     def _get_direction_from_vect(self, vect):
         """Normal direction to the plane."""

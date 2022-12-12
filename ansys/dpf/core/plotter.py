@@ -79,15 +79,23 @@ class _PyVistaPlotter:
         self._plotter.add_text(f"Scale factor: {scale_factor}", position='upper_right',
                                font_size=12, **kwargs_in)
 
-    def add_points(self, points):
-        self._plotter.add_points(points)
-
-    def add_line(self, points):
-        self._plotter.add_lines(points)
-
-    def add_plane(self, center, direction):
+    def add_points(self, points, field):
         import pyvista as pv
-        self._plotter.add_mesh(pv.Plane(center, direction))
+        point_cloud = pv.PolyData(points)
+        point_cloud[f"{field.name}"] = field.data
+        self._plotter.add_points(point_cloud)
+
+    def add_line(self, points, field=None):
+        import pyvista as pv
+        line_field = pv.PolyData(np.array(points))
+        line_field[f"{field.name}"] = field.data
+        self._plotter.add_mesh(line_field)
+
+    def add_plane(self, center, direction, field=None):
+        import pyvista as pv
+        plane = pv.Plane(center=center, direction=direction, i_size=0.005, j_size=0.005, i_resolution=20, j_resolution=20)
+        plane[f"{field.name}"] = field.data
+        self._plotter.add_mesh(plane)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
 
@@ -374,14 +382,14 @@ class DpfPlotter:
                                                                     labels=labels,
                                                                     **kwargs))
 
-    def add_points(self, points):
-        self._internal_plotter.add_points(points)
+    def add_points(self, points, field=None):
+        self._internal_plotter.add_points(points, field)
 
-    def add_line(self, points):
-        self._internal_plotter.add_line(points)
+    def add_line(self, points, field=None):
+        self._internal_plotter.add_line(points, field)
 
-    def add_plane(self, center, normal):
-        self._internal_plotter.add_plane(center, normal)
+    def add_plane(self, center, normal, field=None):
+        self._internal_plotter.add_plane(center, normal, field)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
         """Add a mesh to plot.
