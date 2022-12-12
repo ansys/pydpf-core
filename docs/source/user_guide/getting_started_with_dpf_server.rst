@@ -88,7 +88,7 @@ License terms
 DPF Preview License Agreement 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-DPF Server use is protected using license terms specified in the DPFPreviewLicenseAgreement file that 
+DPF Server use is protected using license terms specified in the `DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_ file that 
 can be found on the `DPF Pre-Release page of the Ansys Customer Portal <https://download.ansys.com/Others/DPF%20Pre-Release>`_.
 
 To accept the DPF User Licensing Agreement terms, the following environment variable must be set: 
