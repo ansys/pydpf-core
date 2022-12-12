@@ -81,6 +81,10 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
             )
     return examples.find_files(filename)
 
+@pytest.fixture()
+def testfiles_dir():
+    """Return the path of the testfiles directory."""
+    return _get_test_files_directory()
 
 @pytest.fixture()
 def allkindofcomplexity():
