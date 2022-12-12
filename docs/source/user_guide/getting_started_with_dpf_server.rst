@@ -12,7 +12,7 @@ simulation data. With DPF, you can perform complex preprocessing or postprocessi
 simulation workflow.
 
 DPF Server is a package that contains all the necessary files to run the DPF Server, enabling DPF capabilities. It is available 
-on the Ansys Customer Portal. DPF Server first available version is 6.0 (2023 R2).
+on the `DPF Pre-Release page of the Ansys Customer Portal <https://download.ansys.com/Others/DPF%20Pre-Release>`_. DPF Server first available version is 6.0 (2023 R2).
 
 For more information about DPF and its use, see :ref:`ref_user_guide`. 
 
@@ -23,10 +23,22 @@ Installing DPF Server
 
 .. _target_installing_server:
 
-#. Download the ansys_dpf_server_win_v2023.2.pre0.zip or ansys_dpf_server_lin_v2023.2.pre0.zip file as appropriate.
-#. Unzip the package.
-#. Change to the root folder (ansys_dpf_server_win_v2023.2.pre0) of the unzipped package. 
-#. In a Python environment, run the following command:
+1. Download the ansys_dpf_server_win_v2023.2.pre0.zip or ansys_dpf_server_lin_v2023.2.pre0.zip file as appropriate.
+
+	.. card:: DPF Server
+		:link-type: doc
+		:link: https://download.ansys.com/Others/DPF%20Pre-Release
+
+		+++
+		.. button-link:: Download DPF Server files
+		   :color: secondary
+		   :expand:
+		   :outline:
+		   :click-parent:     
+
+2. Unzip the package.
+3. Change to the root folder (ansys_dpf_server_win_v2023.2.pre0) of the unzipped package. 
+4. In a Python environment, run the following command:
 
 .. code::
 
@@ -160,5 +172,5 @@ The following Ansys licensing increments currently provide rights to use DPF Ser
 - "cfd_solve_level3" available in Ansys CFD Enterprise product
 - "fluent_meshing" available in Ansys CFD Enterprise product
 
-Each increment may be available in other products. The product/increment mapping can be found in the Licensing section of the Ansys Customer Portal:
-`<https://download.ansys.com/Installation%20and%20Licensing%20Help%20and%20Tutorials>`_. 
+Each increment may be available in other products. The product/increment mapping can be found in the 
+`Licensing section of the Ansys Customer Portal <https://download.ansys.com/Installation%20and%20Licensing%20Help%20and%20Tutorials>`_.
