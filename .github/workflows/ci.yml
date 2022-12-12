@@ -77,6 +77,7 @@ jobs:
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: "232"
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || env.STANDALONE_SUFFIX }}
     secrets: inherit
 
   examples:
