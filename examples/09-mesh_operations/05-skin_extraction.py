@@ -3,6 +3,7 @@
 
 Extract the skin from a mesh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Extracting the skin of a mesh to reduce the amount of data to operate on
 can be useful for specific results and for performance.
 

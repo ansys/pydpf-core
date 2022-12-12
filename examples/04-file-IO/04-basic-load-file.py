@@ -4,7 +4,6 @@
 
 Working with a result file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-DPF-Core can upload files to and download files from the server machine.
 
 This example shows how to write and upload files on the server machine and then
 download them back on the client side. The resulting fields container is then

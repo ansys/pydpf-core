@@ -3,6 +3,7 @@
 
 Average elemental stress on a given volume
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to find the minimum list of surrounding
 elements for a given node to get a minimum volume.
 For each list of elements, the elemental stress equivalent is multiplied by the

@@ -3,6 +3,7 @@
 
 Create a plug-in package with multiple operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to create a plug-in package with multiple operators.
 The benefits of writing a package rather than simple scripts are:
 

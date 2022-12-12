@@ -4,6 +4,7 @@
 
 Extrapolation method for strain result of a 2D element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to compute the stress nodal components from
 Gaussian points (integration points) for a 2D element using
 extrapolation.

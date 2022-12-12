@@ -4,6 +4,7 @@
 
 Stress gradient normal to a defined node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to plot a stress gradient normal to a selected node.
 Because the example is based on creating a path along the normal, the selected node
 must be on the surface of the geometry.

@@ -4,6 +4,7 @@
 
 HDF5 export and compare precision
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to use HDF5 format to export and
 compare simple precision versus double precision.
 

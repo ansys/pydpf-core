@@ -4,6 +4,7 @@
 
 Extrapolation method for stress result of a 3D element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to compute the stress nodal components from
 Gaussian points (integration points) for a 3D element using
 extrapolation.

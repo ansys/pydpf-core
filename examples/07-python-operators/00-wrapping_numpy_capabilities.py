@@ -3,6 +3,7 @@
 
 Create a basic operator plugin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to create a basic operator plugin, which is for
 a single custom operator. This custom operator, ``easy_statistics``,
 computes simple statistics quantities on a scalar field with the help of

@@ -3,6 +3,7 @@
 
 Distributed MSUP distributed modal response
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to read and expand distributed files on distributed
 processes. The modal basis (two distributed files) is read on two remote
 servers. The modal response (two distributed files) is then read and expanded

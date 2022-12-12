@@ -3,6 +3,7 @@
 
 Solve harmonic problem (with damping) using matrix inverse
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to create a harmonic (over frequencies) fields
 container for an analysis with damping. This fields container is then used to
 solve the problem Ma+Dv+Ku=F by inverting the matrix

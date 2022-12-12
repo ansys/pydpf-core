@@ -3,6 +3,7 @@
 
 Bring a field's data locally to improve performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Reducing the number of calls to the server is key to improving
 performance. Using the ``as_local_field`` option brings the data
 from the server to your local machine where you can work on it.
@@ -10,6 +11,7 @@ When finished, you send the updated data back to the server
 in one transaction.
 
 """
+
 # Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples

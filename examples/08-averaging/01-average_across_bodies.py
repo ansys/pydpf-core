@@ -3,6 +3,7 @@
 
 Average across bodies
 ~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to activate and deactivate the DPF option for averaging
 across bodies. When a multi-body simulation calculates ``ElementalNodal`` fields,
 like stresses or strains, you can either activate or deactivate the averaging

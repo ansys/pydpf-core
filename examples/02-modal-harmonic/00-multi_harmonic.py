@@ -3,6 +3,7 @@
 
 Multi-harmonic response example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to compute a multi-harmonic response
 using ``fft`` transformations.
 

@@ -3,6 +3,7 @@
 
 Review of available animation commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example lists the different commands available for creating animations of transient results,
 shown with the arguments available.
 

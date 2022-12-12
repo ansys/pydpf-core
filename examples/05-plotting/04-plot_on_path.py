@@ -4,6 +4,7 @@
 
 Plot results on a specific path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to get a result mapped over a specific path
 and how to plot it.
 

@@ -3,6 +3,7 @@
 
 Load plugin
 ~~~~~~~~~~~
+
 This example shows how to load a plugin that is not loaded automatically.
 
 .. note::

@@ -4,6 +4,7 @@
 
 Create a plug-in package that has third-party dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to create a Python plug-in package with
 third-party dependencies. You should be familiar with these
 examples before proceeding with this more advanced one:
