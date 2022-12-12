@@ -67,12 +67,14 @@ jobs:
       python_versions: '["3.7", "3.8", "3.9", "3.10"]'
       wheel: true
       wheelhouse: true
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
   docs:
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: "232"
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
   examples:
@@ -80,6 +82,7 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       python_versions: '["3.7", "3.8", "3.9", "3.10"]'
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
   retro_231:

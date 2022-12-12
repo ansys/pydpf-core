@@ -122,4 +122,5 @@ jobs:
     uses: ./.github/workflows/pydpf-post.yml
     with:
       ANSYS_VERSION: "232"
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
