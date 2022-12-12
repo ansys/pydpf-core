@@ -12,7 +12,7 @@ simulation data. With DPF, you can perform complex preprocessing or postprocessi
 simulation workflow.
 
 DPF Server is a package that contains all the necessary files to run the DPF Server, enabling DPF capabilities. It is available 
-on the Ansys Customer Portal. DPF Server first available version is 6.0 (2023 R2).
+on the `DPF Pre-Release page of the Ansys Customer Portal <https://download.ansys.com/Others/DPF%20Pre-Release>`_. DPF Server first available version is 6.0 (2023 R2).
 
 For more information about DPF and its use, see :ref:`ref_user_guide`. 
 
@@ -88,8 +88,8 @@ License terms
 DPF Preview License Agreement 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-DPF Server use is protected using license terms specified in the DPFPreviewLicenseAgreement file that 
-can be found on the Ansys Customer Portal.
+DPF Server use is protected using license terms specified in the `DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_ file that 
+can be found on the `DPF Pre-Release page of the Ansys Customer Portal <https://download.ansys.com/Others/DPF%20Pre-Release>`_.
 
 To accept the DPF User Licensing Agreement terms, the following environment variable must be set: 
 
@@ -160,5 +160,5 @@ The following Ansys licensing increments currently provide rights to use DPF Ser
 - "cfd_solve_level3" available in Ansys CFD Enterprise product
 - "fluent_meshing" available in Ansys CFD Enterprise product
 
-Each increment may be available in other products. The product/increment mapping can be found in the Licensing section of the Ansys Customer Portal:
-`<https://download.ansys.com/Installation%20and%20Licensing%20Help%20and%20Tutorials>`_. 
+Each increment may be available in other products. The product/increment mapping can be found in the 
+`Licensing section of the Ansys Customer Portal <https://download.ansys.com/Installation%20and%20Licensing%20Help%20and%20Tutorials>`_.
