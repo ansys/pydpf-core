@@ -30,7 +30,7 @@ print(model)
 ###############################################################################
 # Create points, line and plane objects
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Create line passing through the geometry's diagional and a plane in the middle
+# Create 8 points in the corners and one in the middle
 points = Points([
     [0.0, 0.03, 0.0],
     [0.0, 0.03, 0.03],
@@ -41,8 +41,14 @@ points = Points([
     [0.03, 0.06, 0.00],
     [0.03, 0.06, 0.03],
     [0.015, 0.045, 0.015],
-    ])
+])
+
+###############################################################################
+# Create line passing through the geometry's diagional
 line = Line([[0.0, 0.06, 0.0], [0.03, 0.03, 0.03]], num_points=100)
+
+###############################################################################
+# Create vertical plane passing thorugh the mid point
 plane = Plane([0.015, 0.045, 0.015], [0, 1, 0])
 plane.discretize(0.015, 0.015, 0.015, resolution=60)
 
