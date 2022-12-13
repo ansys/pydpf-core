@@ -4,6 +4,7 @@
 
 Create a plug-in package that has third-party dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to create a Python plug-in package with
 third-party dependencies. You should be familiar with these
 examples before proceeding with this more advanced one:
@@ -19,7 +20,7 @@ file at the given path.
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 

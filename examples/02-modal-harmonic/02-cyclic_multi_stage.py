@@ -4,6 +4,7 @@
 
 Multi-stage cyclic symmetry example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to expand the mesh and results from a
 multi-stage cyclic analysis.
 
