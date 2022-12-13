@@ -50,7 +50,6 @@ jobs:
       - name: "Codespell"
         run: |
           make codespell
-        continue-on-error: true
 
       - name: "flake8"
         run: |

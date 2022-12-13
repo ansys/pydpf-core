@@ -139,8 +139,8 @@ The following Ansys licensing increments currently provide rights to use DPF Ser
 
 - "preppost" available in Ansys Mechanical Enterprise PrepPost product
 - "meba" available in ANSYS Mechanical Enterprise Solver product
-- "mech_2" availale in ANSYS Mechanical Premium product
-- "mech_1" availale in ANSYS Mechanical Pro product
+- "mech_2" available in ANSYS Mechanical Premium product
+- "mech_1" available in ANSYS Mechanical Pro product
 - "ansys" available in ANSYS Mechanical Enterprise product
 - "dynapp" available in ANSYS LS-DYNA PrepPost product
 - "vmotion" available in Ansys Motion product

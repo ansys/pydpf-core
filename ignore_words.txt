@@ -1,9 +1,4 @@
-parm
-pres
-WAN
-filname
 ans
-entrie
-dout
+containter
 mane
 systyem
