@@ -86,7 +86,7 @@ class Line():
         self._coordinates = coordinates
         self._server = server
         self._num_points = num_points
-        self._path = self._discretize()
+        self._path, self._length = self._discretize()
 
     def __getitem__(self, value):
         return self.coordinates.data[value]
@@ -100,7 +100,7 @@ class Line():
         i_points = np.linspace(0,1,self._num_points)
         path = [origin + i_point*diff for i_point in i_points]
         # return over_time_freq_fields_container(path)
-        return field_from_array(path)
+        return field_from_array(path), i_points
 
     @property
     def coordinates(self):
@@ -109,8 +109,13 @@ class Line():
 
     @property
     def path(self):
-        """Get discretized path"""
+        """Get discretized path."""
         return self._path
+
+    @property
+    def length(self):
+        """Get line length coordiante in 1D."""
+        return self._length
 
     @property
     def direction(self):
