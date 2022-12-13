@@ -3,6 +3,7 @@
 
 Compare results using the plotter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to plot several mesh/result combinations on the
 same plot so that you can compare results at different time steps.
 

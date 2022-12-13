@@ -4,6 +4,7 @@
 
 Convert nodal coordinates field to local coordinate system
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Currently, there is no native operator to get nodal coordinates in an Local
 Coordinate System (LCS). The operator :class:`rotate <ansys.dpf.core.operators.geo.rotate.rotate>`
 rotates the input field in Global Coordinate System (GCS) as per the input rotation matrix.
@@ -16,7 +17,7 @@ The script below demonstrates the methodology using PyDPF.
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 
 """

@@ -12,7 +12,7 @@ simulation data. With DPF, you can perform complex preprocessing or postprocessi
 simulation workflow.
 
 DPF Server is a package that contains all the necessary files to run the DPF Server, enabling DPF capabilities. It is available 
-on the Ansys Customer Portal. DPF Server first available version is 6.0 (2023 R2).
+on the `DPF Pre-Release page of the Ansys Customer Portal <https://download.ansys.com/Others/DPF%20Pre-Release>`_. DPF Server first available version is 6.0 (2023 R2).
 
 For more information about DPF and its use, see :ref:`ref_user_guide`. 
 
@@ -31,15 +31,22 @@ Installing DPF Server
 .. code::
 
     pip install -e . 
-	
-PyDPF-Core and PyDPF-Post python modules can now be used. The instructions to install and get started with PyDPF-Core 
-(ansys-dpf-core module) can be found at `Getting Started section <https://dpf.docs.pyansys.com/getting_started/install.html>`_. 
 
 Using DPF Server
 ----------------
 
+DPF Server use is protected using license terms. For more information, see the :ref:`DPF Preview License Agreement<target_to_license_terms>` section.
+
 Running the DPF Server with PyDPF
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PyDPF-Core is a Python client API communicating with a **DPF Server**, either
+through the network using gRPC or directly in the same process. PyDPF-Post is a Python
+module for postprocessing based on PyDPF-Core. 
+
+Both PyDPF-Core and PyDPF-Post python modules can be used with the DPF Server. The instructions to install and get started with PyDPF-Core 
+can be found at `PyDPF-Core, Getting Started section <https://dpf.docs.pyansys.com/getting_started/install.html>`_. The instructions to install and get
+started with PyDPF-Post can be found at `PyDPF-Post, Getting Started section <https://post.docs.pyansys.com/getting_started/install.html>`_.
 
 With PyDPF-Core and PyDPF-Post, the first creation of most DPF entities will start a DPF Server with the current default configuration and context.
 For example, the following code will automatically start a DPF Server behind the scenes:
@@ -71,20 +78,21 @@ Running the DPF Server in a Docker container
 
     docker build . -t dpf-core:v2023_2_pre0 --build-arg DPF_VERSION=232 --build-arg DPF_SERVER_FILE=ansys_dpf_server_lin_v2023.2.pre0.zip
 
-4. To run the DPF Docker container, see the :ref:`License terms<target_to_license_terms>` section.
+4. To run the DPF Docker container, see the :ref:`DPF Preview License Agreement<target_to_license_terms>` section.
 
 License terms
 -------------
 
+.. _target_to_license_terms:
+
 DPF Preview License Agreement 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _target_to_license_terms:
+DPF Server use is protected using license terms specified in the `DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_ file that 
+can be found on the `DPF Pre-Release page of the Ansys Customer Portal <https://download.ansys.com/Others/DPF%20Pre-Release>`_. 
+``DPFPreviewLicenseAgreement`` is a text file and can be opened with a text editor, such as notepad.
 
-DPF Server is protected using license terms specified in the DPFPreviewLicenseAgreement file that 
-can be found on the Ansys Customer Portal.
-
-To accept the DPF User Licensing Agreement terms, the following environment flag must be set: 
+To accept the DPF User Licensing Agreement terms, the following environment variable must be set: 
 
 .. code::
 
@@ -102,25 +110,30 @@ For a DPF Docker container usage, it can be set using:
 For any other case, set "ANSYS_DPF_ACCEPT_LA" as an environment variable with "Y" value.
 
 Replace "<license_server_to_use>" mention that ANSYSLMD_LICENSE_FILE environment variable points to the Ansys license server.
-For more information about Ansys license mechanism use with DPF Server, see :ref:`Ansys licensing section<target_to_ansys_license_mechanism>`.
+For more information about Ansys license mechanism use with DPF Server, see :ref:`Ansys licensing<target_to_ansys_license_mechanism>` section.
 
+
+.. _target_to_ansys_license_mechanism:
 
 Ansys licensing
 ~~~~~~~~~~~~~~~
 
-.. _target_to_ansys_license_mechanism:
-
 DPF Server is protected by Ansys licensing mechanism.
 
-DPF capabilities are available through the following main services: 
-- Entry: Loads the minimum number of plugins for basic use. It is the default. It will only check if an Ansys License is available. 
-- Premium: Loads the entry and the premium capabilities that require a license checkout. 
+DPF capabilities are available through the following main contexts: 
+
+- Entry: Loads the minimum number of plugins for basic use. It is the default. Checks if at least one increment exists 
+  from the following :ref:`Ansys licensing increments list<target_to_ansys_license_increments_list>`. This increment won't be blocked.
+- Premium: Loads the entry and the premium capabilities that require a license checkout. Blocks an increment from the 
+  following :ref:`Ansys licensing increments list<target_to_ansys_license_increments_list>`.
 
 To update the context, apply a new server context:
 
 .. code::
 
     dpf.apply_server_context(dpf.AvailableServerContexts.premium)
+
+.. _target_to_ansys_license_increments_list:
 
 The following Ansys licensing increments currently provide rights to use DPF Server: 
 
@@ -148,5 +161,5 @@ The following Ansys licensing increments currently provide rights to use DPF Ser
 - "cfd_solve_level3" available in Ansys CFD Enterprise product
 - "fluent_meshing" available in Ansys CFD Enterprise product
 
-Each increment may be available in other products. The product/increment mapping can be found in the Licensing section of the Ansys Customer Portal:
-`<https://download.ansys.com/Installation%20and%20Licensing%20Help%20and%20Tutorials>`_. 
+Each increment may be available in other products. The product/increment mapping can be found in the 
+`Licensing section of the Ansys Customer Portal <https://download.ansys.com/Installation%20and%20Licensing%20Help%20and%20Tutorials>`_.

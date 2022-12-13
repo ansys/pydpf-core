@@ -4,6 +4,7 @@
 
 Scope results over custom space domains
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The :class:`Result <ansys.dpf.core.results.Result>` class, which are instances
 created by the :class:`Model <ansys.dpf.core.model.Model>`, give
 access to helpers for requesting results on specific mesh and time scopings.

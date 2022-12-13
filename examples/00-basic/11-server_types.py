@@ -4,6 +4,7 @@
 
 Communicate in process or via gRPC
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Starting with Ansys 2022 R2, PyDPF can communicate either via In Process or via gRPC
 with DPF C++ core server (``Ans.Dpf.Grpc.exe``). To choose which type of
 :class:`ansys.dpf.core.server_types.BaseServer` (object defining the type of communication
