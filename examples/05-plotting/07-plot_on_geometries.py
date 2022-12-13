@@ -45,12 +45,14 @@ points = Points([
 
 ###############################################################################
 # Create line passing through the geometry's diagional
-line = Line([[0.0, 0.06, 0.0], [0.03, 0.03, 0.03]], num_points=100)
+# line = Line([[0.0, 0.06, 0.0], [0.03, 0.03, 0.05]], num_points=50)
+line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], num_points=50)
 
 ###############################################################################
 # Create vertical plane passing thorugh the mid point
-plane = Plane([0.015, 0.045, 0.015], [0, 1, 0])
-plane.discretize(0.015, 0.015, 0.015, resolution=60)
+# plane = Plane([0.015, 0.045, 0.015], [0, 0, 1])
+plane = Plane([1, 0.0, 0.0], [1, 1, 1])
+plane.discretize(0.015, 0.015, 0.015, resolution=3)
 
 ###############################################################################
 # Map displacement field to geometry objects
@@ -71,7 +73,7 @@ field_points = fields_mapped[0]
 ###############################################################################
 # Map to points in Line object
 mapping_operator = ops.mapping.on_coordinates(
-    fields_container=disp, coordinates=line.path, create_support=True, mesh=mesh
+    fields_container=disp, coordinates=line.mesh.nodes.coordinates_field, create_support=True, mesh=mesh
 )
 fields_mapped = mapping_operator.outputs.fields_container()
 field_line = fields_mapped[0]
@@ -79,7 +81,7 @@ field_line = fields_mapped[0]
 ###############################################################################
 # Map to points in Plane object
 mapping_operator = ops.mapping.on_coordinates(
-    fields_container=disp, coordinates=field_from_array(plane.grid.points), create_support=True, mesh=mesh
+    fields_container=disp, coordinates=plane.mesh.nodes.coordinates_field, create_support=True, mesh=mesh
 )
 fields_mapped = mapping_operator.outputs.fields_container()
 field_plane = fields_mapped[0]
@@ -96,21 +98,22 @@ pl.show_figure(show_axes=True)
 ###############################################################################
 # 3D plot of Line and mesh
 pl = DpfPlotter()
-pl.add_field(field_line)
+pl.add_field(field_line, line.mesh, line_width=5)
+pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
+pl.show_figure(show_axes=True)
+
+###############################################################################
+# Plot Plane and display mesh in background
+pl = DpfPlotter()
+pl.add_field(field_plane, plane.mesh)
 pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
 pl.show_figure(show_axes=True)
 
 ###############################################################################
 # 2D plot (graph) of Line (line length vs displacement field)
 norm_disp = [np.linalg.norm(field_line.data[i]) for i in range(len(field_line.data))]
-plt.plot(line.length, norm_disp)
+length = line.length[field_line.scoping.ids-1]
+plt.plot(length, norm_disp)
 plt.xlabel("Line length")
-plt.ylabel("Displacement field")
+plt.ylabel("Displacement norm field")
 plt.show()
-
-###############################################################################
-# Plot Plane and display mesh in background
-pl = DpfPlotter()
-pl.add_mesh(field_plane.meshed_region, scalars=field_plane.data)
-pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
-pl.show_figure(show_axes=True)

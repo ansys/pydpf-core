@@ -86,7 +86,7 @@ class Line():
         self._coordinates = coordinates
         self._server = server
         self._num_points = num_points
-        self._path, self._length = self._discretize()
+        self._mesh, self._length = self._discretize()
 
     def __getitem__(self, value):
         return self.coordinates.data[value]
@@ -99,8 +99,17 @@ class Line():
         diff = self._coordinates.data[1]-self._coordinates.data[0]
         i_points = np.linspace(0,1,self._num_points)
         path = [origin + i_point*diff for i_point in i_points]
-        # return over_time_freq_fields_container(path)
-        return field_from_array(path), i_points
+
+        # Create mesh for a line
+        mesh = dpf.MeshedRegion(
+            num_nodes=self._num_points, num_elements=self._num_points-1, server=self._server
+        )
+        for i, node in enumerate(mesh.nodes.add_nodes(self._num_points)):
+            node.id = i+1
+            node.coordinates = path[i]
+
+        [mesh.elements.add_beam_element(i+1, [i, i+1]) for i in range(self._num_points-1)]
+        return mesh, i_points
 
     @property
     def coordinates(self):
@@ -108,9 +117,9 @@ class Line():
         return self._coordinates
 
     @property
-    def path(self):
-        """Get discretized path."""
-        return self._path
+    def mesh(self):
+        """Get line mesh."""
+        return self._mesh
 
     @property
     def length(self):
@@ -151,7 +160,7 @@ class Plane():
                 normal_vect = normal
                 normal_dir = self._get_direction_from_vect(normal_vect)
             elif len(normal) == 3:
-                normal_dir = normal
+                normal_dir = normal / np.linalg.norm(normal)
                 normal_vect = [[0, 0, 0], normal_dir]
         else:
             normal_vect = [normal.coordinates.data[0], normal.coordinates.data[1]]
@@ -179,27 +188,76 @@ class Plane():
         """Normal direction to the plane."""
         return self._normal_dir
 
+    @property
+    def mesh(self):
+        """Get discretized mesh for the plane."""
+        return self._mesh
+
     def discretize(self, x_l, y_l, z_l, resolution):
         normal = self._normal_dir
         center = self._center
-        x_delta = (1-normal[0])*x_l
-        y_delta = (1-normal[1])*y_l
-        z_delta = (1-normal[2])*z_l
-        x_lim = [center[0]-x_delta, center[0] + x_delta]
-        y_lim = [center[1]-y_delta, center[1] + y_delta]
-        z_lim = [center[2]-z_delta, center[2] + z_delta]
-        x_range = np.unique(np.linspace(x_lim[0], x_lim[1], resolution))
-        y_range = np.unique(np.linspace(y_lim[0], y_lim[1], resolution))
-        z_range = np.unique(np.linspace(z_lim[0], z_lim[1], resolution))
-        meshgrid = np.meshgrid(x_range, y_range, z_range)
-        # self.nodes = np.reshape(meshgrid, [25,3])
-        self.grid = pv.StructuredGrid(meshgrid[0], meshgrid[1], meshgrid[2])
-        # plotter = pv.Plotter()
-        # plotter.add_mesh(self.grid, scalars=self.grid[:,-1], show_edges=True,
-        #                 scalar_bar_args={'vertical': True})
-        # plotter.show_grid()
-        # plotter.show()
+
+        axis_ref = np.array([np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([0, 0, 1])])
+        axis_plane = normal - np.dot(normal, axis_ref)*normal
+
+        # Get rotation-translation matrix
+        R0 = np.array([
+            [np.cos(axis_plane[0]), -np.sin(axis_plane[0]), 0],
+            [np.sin(axis_plane[0]), np.cos(axis_plane[0]), 0],
+            [0, 0, 1],
+        ])
+        R1 = np.array([
+            [np.cos(axis_plane[1]), 0, np.sin(axis_plane[1])],
+            [0, 1, 0],
+            [-np.sin(axis_plane[1]), 0, np.cos(axis_plane[1])],
+        ])
+        R2 = np.array([
+            [1, 0, 0],
+            [0, np.cos(axis_plane[2]), -np.sin(axis_plane[2])],
+            [0, np.sin(axis_plane[2]), np.cos(axis_plane[2])],
+        ])
+        R = R0*R1*R2
+
+        point_ref = np.array([1, 1, 1])
+        point_plane = np.dot(R, point_ref) + center
+
+        # x_delta = (1-normal[0])*x_l
+        # y_delta = (1-normal[1])*y_l
+        # z_delta = (1-normal[2])*z_l
+        # x_lim = [center[0]-x_delta, center[0] + x_delta]
+        # y_lim = [center[1]-y_delta, center[1] + y_delta]
+        # z_lim = [center[2]-z_delta, center[2] + z_delta]
+        # x_range = np.unique(np.linspace(x_lim[0], x_lim[1], resolution))
+        # y_range = np.unique(np.linspace(y_lim[0], y_lim[1], resolution))
+        # z_range = np.unique(np.linspace(z_lim[0], z_lim[1], resolution))
+        # meshgrid = np.meshgrid(x_range, y_range, z_range)
+        # self.grid = pv.StructuredGrid(meshgrid[0], meshgrid[1], meshgrid[2])
+
+        num_points = self.grid.n_points
+        num_elems = self.grid.n_cells
+
+        # Create mesh
+        mesh = dpf.MeshedRegion(
+            num_nodes=num_points, num_elements=num_elems, server=self._server
+        )
+        for i, node in enumerate(mesh.nodes.add_nodes(num_points)):
+            node.id = i+1
+            node.coordinates = self.grid.points[i]
+
+        # plot = pv.Plotter()
+        # plot.add_points(mesh.nodes.coordinates_field.data)
+        # plot.show()
+
+        mesh.elements.add_solid_element(1, [0, 1, 3, 4])
+        mesh.elements.add_solid_element(2, [1, 2, 4, 5])
+        mesh.elements.add_solid_element(3, [3, 4, 6, 7])
+        mesh.elements.add_solid_element(4, [4, 5, 7, 8])
+        self._mesh = mesh
+        # plot = DpfPlotter()
+        # plot.add_mesh(mesh)
+        # plot.show_figure()
         # test = 1
+
 
 
     def _get_direction_from_vect(self, vect):
