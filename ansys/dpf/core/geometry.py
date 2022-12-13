@@ -156,6 +156,8 @@ class Plane():
         self._normal_vect = normal_vect
         self._normal_dir = normal_dir
         self._server = server
+        self.grid = None
+        self.nodes = None
 
     @property
     def center(self):
@@ -172,14 +174,28 @@ class Plane():
         """Normal direction to the plane."""
         return self._normal_dir
 
-    @property
-    def mesh(self):
-        """Get discretized mesh on the plane."""
-        return self._discretize()
+    def discretize(self, x_l, y_l, z_l, resolution):
+        normal = self._normal_dir
+        center = self._center
+        x_delta = (1-normal[0])*x_l
+        y_delta = (1-normal[1])*y_l
+        z_delta = (1-normal[2])*z_l
+        x_lim = [center[0]-x_delta, center[0] + x_delta]
+        y_lim = [center[1]-y_delta, center[1] + y_delta]
+        z_lim = [center[2]-z_delta, center[2] + z_delta]
+        x_range = np.unique(np.linspace(x_lim[0], x_lim[1], resolution))
+        y_range = np.unique(np.linspace(y_lim[0], y_lim[1], resolution))
+        z_range = np.unique(np.linspace(z_lim[0], z_lim[1], resolution))
+        meshgrid = np.meshgrid(x_range, y_range, z_range)
+        # self.nodes = np.reshape(meshgrid, [25,3])
+        self.grid = pv.StructuredGrid(meshgrid[0], meshgrid[1], meshgrid[2])
+        # plotter = pv.Plotter()
+        # plotter.add_mesh(self.grid, scalars=self.grid[:,-1], show_edges=True,
+        #                 scalar_bar_args={'vertical': True})
+        # plotter.show_grid()
+        # plotter.show()
+        # test = 1
 
-    def _discretize(self):
-        mesh = pv.Plane(center=self._center, direction=self._normal_dir, i_size=0.05, j_size=0.05, i_resolution=20, j_resolution=20)
-        return mesh
 
     def _get_direction_from_vect(self, vect):
         """Normal direction to the plane."""
