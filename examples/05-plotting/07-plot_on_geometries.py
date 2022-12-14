@@ -50,9 +50,9 @@ line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], num_points=50)
 
 ###############################################################################
 # Create vertical plane passing thorugh the mid point
-# plane = Plane([0.015, 0.045, 0.015], [0, 0, 1])
-plane = Plane([1, 0.0, 0.0], [1, 1, 1])
-plane.discretize(0.015, 0.015, 0.015, resolution=3)
+# plane = Plane([0.015, 0.045, 0.015], [1, 1, 1])
+plane = Plane([0.015, 0.045, 0.015], [1, 0, 0])
+plane.discretize(width=0.03, height=0.03, num_cells_x=10, num_cells_y=10)
 
 ###############################################################################
 # Map displacement field to geometry objects
@@ -105,7 +105,8 @@ pl.show_figure(show_axes=True)
 ###############################################################################
 # Plot Plane and display mesh in background
 pl = DpfPlotter()
-pl.add_field(field_plane, plane.mesh)
+if not len(field_plane) == 0:
+    pl.add_field(field_plane, plane.mesh, show_edges=False)
 pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
 pl.show_figure(show_axes=True)
 

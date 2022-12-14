@@ -170,7 +170,7 @@ class Plane():
         self._normal_vect = normal_vect
         self._normal_dir = normal_dir
         self._server = server
-        self.grid = None
+        self._mesh = None
         self.nodes = None
 
     @property
@@ -193,77 +193,61 @@ class Plane():
         """Get discretized mesh for the plane."""
         return self._mesh
 
-    def discretize(self, x_l, y_l, z_l, resolution):
+    def _normalize_vector(self, vector):
+        return vector/np.linalg.norm(vector)
+
+    def discretize(self, width, height, num_cells_x, num_cells_y):
+        # Get plane axis (local) from reference axis (global) and plane's normal
         normal = self._normal_dir
-        center = self._center
+        axis_ref = [np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([0, 0, 1])]
+        if np.allclose(normal, [1., 0., 0.]):
+            plane_x = np.cross(axis_ref[1], normal)
+            plane_y = np.cross(normal, plane_x)
+        else:
+            plane_y = np.cross(axis_ref[0], normal)
+            plane_x = np.cross(normal, plane_y)
+        plane_z = normal
 
-        axis_ref = np.array([np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([0, 0, 1])])
-        axis_plane = normal - np.dot(normal, axis_ref)*normal
+        plane_x = self._normalize_vector(plane_x)
+        plane_y = self._normalize_vector(plane_y)
+        plane_z = self._normalize_vector(plane_z)
+        axis_plane = [plane_x, plane_y, plane_z]
 
-        # Get rotation-translation matrix
-        R0 = np.array([
-            [np.cos(axis_plane[0]), -np.sin(axis_plane[0]), 0],
-            [np.sin(axis_plane[0]), np.cos(axis_plane[0]), 0],
-            [0, 0, 1],
-        ])
-        R1 = np.array([
-            [np.cos(axis_plane[1]), 0, np.sin(axis_plane[1])],
-            [0, 1, 0],
-            [-np.sin(axis_plane[1]), 0, np.cos(axis_plane[1])],
-        ])
-        R2 = np.array([
-            [1, 0, 0],
-            [0, np.cos(axis_plane[2]), -np.sin(axis_plane[2])],
-            [0, np.sin(axis_plane[2]), np.cos(axis_plane[2])],
-        ])
-        R = R0*R1*R2
+        # Create grid on plane coordinates
+        num_nodes = (num_cells_x+1)*(num_cells_y+1)
+        x_range = np.linspace(-width/2, width/2, num_cells_x+1)
+        y_range = np.linspace(-height/2, height/2, num_cells_y+1)
+        meshgrid = np.meshgrid(x_range, y_range)
+        plane_coords = [meshgrid[0].flatten(), meshgrid[1].flatten(), np.zeros(num_nodes)]
 
-        point_ref = np.array([1, 1, 1])
-        point_plane = np.dot(R, point_ref) + center
-
-        # x_delta = (1-normal[0])*x_l
-        # y_delta = (1-normal[1])*y_l
-        # z_delta = (1-normal[2])*z_l
-        # x_lim = [center[0]-x_delta, center[0] + x_delta]
-        # y_lim = [center[1]-y_delta, center[1] + y_delta]
-        # z_lim = [center[2]-z_delta, center[2] + z_delta]
-        # x_range = np.unique(np.linspace(x_lim[0], x_lim[1], resolution))
-        # y_range = np.unique(np.linspace(y_lim[0], y_lim[1], resolution))
-        # z_range = np.unique(np.linspace(z_lim[0], z_lim[1], resolution))
-        # meshgrid = np.meshgrid(x_range, y_range, z_range)
-        # self.grid = pv.StructuredGrid(meshgrid[0], meshgrid[1], meshgrid[2])
-
-        num_points = self.grid.n_points
-        num_elems = self.grid.n_cells
+        # Map coordinates from plane to global coordinates system
+        global_coords = np.zeros([num_nodes, 3])
+        for i in range(num_nodes):
+            node_coords = np.array([plane_coords[0][i], plane_coords[1][i], plane_coords[2][i]])
+            global_coords[i,:] = np.dot(node_coords, axis_plane) + self._center
 
         # Create mesh
+        num_elems = num_cells_x*num_cells_y
         mesh = dpf.MeshedRegion(
-            num_nodes=num_points, num_elements=num_elems, server=self._server
+            num_nodes=num_nodes, num_elements=num_elems, server=self._server
         )
-        for i, node in enumerate(mesh.nodes.add_nodes(num_points)):
+        for i, node in enumerate(mesh.nodes.add_nodes(num_nodes)):
             node.id = i+1
-            node.coordinates = self.grid.points[i]
+            node.coordinates = global_coords[i]
 
-        # plot = pv.Plotter()
-        # plot.add_points(mesh.nodes.coordinates_field.data)
-        # plot.show()
+        # Build connectivity
+        for i in range(num_elems):
+            i_col = i//num_cells_x
+            element_connectivity = [i_col+i, i_col+i+1, i_col+num_cells_x+1+i+1, i_col+num_cells_x+1+i]
+            mesh.elements.add_solid_element(i+1, element_connectivity)
 
-        mesh.elements.add_solid_element(1, [0, 1, 3, 4])
-        mesh.elements.add_solid_element(2, [1, 2, 4, 5])
-        mesh.elements.add_solid_element(3, [3, 4, 6, 7])
-        mesh.elements.add_solid_element(4, [4, 5, 7, 8])
+        # Store mesh
         self._mesh = mesh
-        # plot = DpfPlotter()
-        # plot.add_mesh(mesh)
-        # plot.show_figure()
-        # test = 1
-
-
 
     def _get_direction_from_vect(self, vect):
         """Normal direction to the plane."""
         direction = [x - y for x,y in zip(vect[1], vect[0])]
-        return direction / np.linalg.norm(direction)
+        return self._normalize_vector(direction)
 
     def plot(self, **kwargs):
         pl = DpfPlotter(**kwargs)
