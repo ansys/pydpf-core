@@ -50,8 +50,7 @@ line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], num_points=50)
 
 ###############################################################################
 # Create vertical plane passing thorugh the mid point
-# plane = Plane([0.015, 0.045, 0.015], [1, 1, 1])
-plane = Plane([0.015, 0.045, 0.015], [1, 0, 0])
+plane = Plane([0.015, 0.045, 0.015], [1, 1, 0])
 plane.discretize(width=0.03, height=0.03, num_cells_x=10, num_cells_y=10)
 
 ###############################################################################
@@ -104,6 +103,7 @@ pl.show_figure(show_axes=True)
 
 ###############################################################################
 # Plot Plane and display mesh in background
+# Note that the plane is only displayed if some points are found inside the mesh.
 pl = DpfPlotter()
 if not len(field_plane) == 0:
     pl.add_field(field_plane, plane.mesh, show_edges=False)
