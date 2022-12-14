@@ -52,14 +52,20 @@ class Config:
         else:
             if self._server.has_client():
                 if operator_name:
-                    self._internal_obj = self._api.operator_config_default_new_on_client(
-                        self._server.client, operator_name)
+                    self._internal_obj = (
+                        self._api.operator_config_default_new_on_client(
+                            self._server.client, operator_name
+                        )
+                    )
                 else:
                     self._internal_obj = self._api.operator_config_empty_new_on_client(
-                        self._server.client)
+                        self._server.client
+                    )
             else:
                 if operator_name:
-                    self._internal_obj = self._api.operator_config_default_new(operator_name)
+                    self._internal_obj = self._api.operator_config_default_new(
+                        operator_name
+                    )
                 else:
                     self._internal_obj = self._api.operator_config_empty_new()
 
@@ -82,13 +88,16 @@ class Config:
         if self._api_instance is None:
             self._api_instance = self._server.get_api_for_type(
                 capi=operator_config_capi.OperatorConfigCAPI,
-                grpcapi=operator_config_grpcapi.OperatorConfigGRPCAPI)
+                grpcapi=operator_config_grpcapi.OperatorConfigGRPCAPI,
+            )
         return self._api_instance
 
     @property
     def _spec(self):
         if self._spec_instance is None and self._operator_name is not None:
-            self._spec_instance = Specification(self._operator_name, server=self._server)
+            self._spec_instance = Specification(
+                self._operator_name, server=self._server
+            )
         return self._spec_instance
 
     @property
@@ -110,8 +119,7 @@ class Config:
         for i in range(num_options):
             options[
                 self._api.operator_config_get_config_option_name(self, i)
-            ] = self._api.operator_config_get_config_option_printable_value(
-                self, i)
+            ] = self._api.operator_config_get_config_option_printable_value(self, i)
         return options
 
     def __set_config_option__(self, config_value, config_name):
@@ -248,6 +256,7 @@ class Config:
             Description of the entity.
         """
         from ansys.dpf.core.core import _description
+
         return _description(self._internal_obj, self._server)
 
     def __del__(self):

@@ -20,7 +20,9 @@ if misc.module_exists("pyvista"):
 @pytest.fixture()
 def static_model():
     try:
-        path = dpf.core.upload_file_in_tmp_folder(examples.find_static_rst(return_local_path=True))
+        path = dpf.core.upload_file_in_tmp_folder(
+            examples.find_static_rst(return_local_path=True)
+        )
     except ServerTypeError:
         path = examples.find_static_rst()
     return dpf.core.Model(path)
@@ -133,8 +135,8 @@ def test_result_displacement_model():
     assert len(results.displacement.split_by_body.eval()) == 32
     assert len(results.displacement.split_by_shape.eval()) == 4
     assert (
-            len(results.displacement.on_named_selection("_FIXEDSU").eval()[0].scoping)
-            == 222
+        len(results.displacement.on_named_selection("_FIXEDSU").eval()[0].scoping)
+        == 222
     )
     all_time_ns = results.displacement.on_named_selection(
         "_FIXEDSU"
@@ -173,8 +175,8 @@ def test_result_stress_location_model(plate_msup):
         stress.on_mesh_scoping(
             dpf.core.Scoping(ids=[1, 2], location=dpf.core.locations.elemental)
         )
-            .on_location(dpf.core.locations.nodal)
-            .eval()
+        .on_location(dpf.core.locations.nodal)
+        .eval()
     )
     assert fc[0].location == "Nodal"
 
@@ -218,8 +220,10 @@ def test_result_not_dynamic(plate_msup):
     dpf.core.settings.set_dynamic_available_results_capability(True)
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                    reason='Requires server version higher than 4.0')
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    reason="Requires server version higher than 4.0",
+)
 def test_model_meshes_container(simple_bar):
     data_source = dpf.core.DataSources(simple_bar)
     model = dpf.core.Model(data_source)
@@ -227,14 +231,17 @@ def test_model_meshes_container(simple_bar):
     assert model.metadata.meshes_container[0].nodes.n_nodes == 3751
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                    reason='Requires server version higher than 4.0')
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    reason="Requires server version higher than 4.0",
+)
 def test_model_meshes_provider(simple_bar):
     data_source = dpf.core.DataSources(simple_bar)
     model = dpf.core.Model(data_source)
     meshes = model.metadata.meshes_provider.eval()
     assert len(meshes) == 1
     assert meshes[0].nodes.n_nodes == 3751
+
 
 # @pytest.mark.skipif(NO_PLOTTING, reason="Requires system to support plotting")
 # def test_displacements_plot(static_model):

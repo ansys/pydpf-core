@@ -65,8 +65,7 @@ class Scoping:
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
         self._api = self._server.get_api_for_type(
-            capi=scoping_capi.ScopingCAPI,
-            grpcapi=scoping_grpcapi.ScopingGRPCAPI
+            capi=scoping_capi.ScopingCAPI, grpcapi=scoping_grpcapi.ScopingGRPCAPI
         )
         # step3: init environment
         self._api.init_scoping_environment(self)  # creates stub when gRPC
@@ -77,22 +76,26 @@ class Scoping:
                 self._server = scoping._server
                 self._api = self._server.get_api_for_type(
                     capi=scoping_capi.ScopingCAPI,
-                    grpcapi=scoping_grpcapi.ScopingGRPCAPI
+                    grpcapi=scoping_grpcapi.ScopingGRPCAPI,
                 )
                 # step3: init environment
                 self._api.init_scoping_environment(self)  # creates stub when gRPC
                 core_api = self._server.get_api_for_type(
                     capi=data_processing_capi.DataProcessingCAPI,
-                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
                 )
                 core_api.init_data_processing_environment(self)
-                self._internal_obj = core_api.data_processing_duplicate_object_reference(scoping)
+                self._internal_obj = (
+                    core_api.data_processing_duplicate_object_reference(scoping)
+                )
             else:
                 # scoping is of type protobuf.message or DPFObject*
                 self._internal_obj = scoping
         else:
             if self._server.has_client():
-                self._internal_obj = self._api.scoping_new_on_client(self._server.client)
+                self._internal_obj = self._api.scoping_new_on_client(
+                    self._server.client
+                )
             else:
                 self._internal_obj = self._api.scoping_new()
 
@@ -149,7 +152,7 @@ class Scoping:
             ctypes.memmove(
                 ids_ptr,
                 utils.to_int32_ptr(ids),
-                len(ids)*ctypes.sizeof(ctypes.c_int32())
+                len(ids) * ctypes.sizeof(ctypes.c_int32()),
             )
         else:
             self._api.scoping_set_ids(self, ids, len(ids))
@@ -169,14 +172,15 @@ class Scoping:
         """
         if np_array == None:
             from ansys.dpf.core import settings
+
             np_array = settings.get_runtime_client_config(self._server).return_arrays
         try:
             vec = dpf_vector.DPFVectorInt(
                 client=self._server.client,
                 api=self._server.get_api_for_type(
                     capi=dpf_vector_capi.DpfVectorCAPI,
-                    grpcapi=dpf_vector_abstract_api.DpfVectorAbstractAPI
-                )
+                    grpcapi=dpf_vector_abstract_api.DpfVectorAbstractAPI,
+                ),
             )
             self._api.scoping_get_ids_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
@@ -499,7 +503,7 @@ class _LocalScoping(Scoping):
         """
         init_size = self._count()
         if init_size <= index:
-            for i in range(init_size, index+1):
+            for i in range(init_size, index + 1):
                 self._scoping_ids_copy.append(-1)
         self._scoping_ids_copy[index] = scopingid
         self._mapper[scopingid] = index
@@ -507,7 +511,7 @@ class _LocalScoping(Scoping):
     @_setter
     def append(self, id):
         self._scoping_ids_copy.append(id)
-        self._mapper[id] = len(self)-1
+        self._mapper[id] = len(self) - 1
 
     def _get_id(self, index):
         """Retrieve the index that the scoping ID is located on.

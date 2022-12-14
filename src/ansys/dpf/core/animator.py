@@ -15,6 +15,7 @@ from ansys.dpf.core.plotter import _sort_supported_kwargs, _PyVistaPlotter
 class _InternalAnimatorFactory:
     """
     Factory for _InternalAnimator based on the backend."""
+
     @staticmethod
     def get_animator_class():
         return _PyVistaAnimator
@@ -22,41 +23,55 @@ class _InternalAnimatorFactory:
 
 class _PyVistaAnimator(_PyVistaPlotter):
     """This _InternalAnimator class is based on PyVista"""
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def animate_workflow(self, loop_over, workflow, output_name, input_name="loop_over",
-                         save_as="", scale_factor=1.0, **kwargs):
+    def animate_workflow(
+        self,
+        loop_over,
+        workflow,
+        output_name,
+        input_name="loop_over",
+        save_as="",
+        scale_factor=1.0,
+        **kwargs,
+    ):
         # Extract useful information from the given frequencies Field
 
         unit = loop_over.unit
         indices = loop_over.scoping.ids
         if scale_factor is None:
-            scale_factor = [False]*len(indices)
+            scale_factor = [False] * len(indices)
         type_scale = type(scale_factor)
         if type_scale in [int, float]:
-            scale_factor = [scale_factor]*len(indices)
+            scale_factor = [scale_factor] * len(indices)
         elif type_scale == list:
             pass
         # elif type_scale in [core.field.Field, core.fields_container.FieldsContainer]:
         #     scale_factor = ["Non-homogenous"]*len(indices)
         else:
-            raise ValueError("Argument scale_factor must be an int, a float, or a list of either, "
-                             f"(not {type_scale})")
+            raise ValueError(
+                "Argument scale_factor must be an int, a float, or a list of either, "
+                f"(not {type_scale})"
+            )
         # Initiate movie or gif file if necessary
         if save_as:
             if save_as.endswith(".gif"):
                 self._plotter.open_gif(save_as)
             else:  # pragma: no cover
                 kwargs_in = _sort_supported_kwargs(
-                    bound_method=self._plotter.open_movie, **kwargs)
+                    bound_method=self._plotter.open_movie, **kwargs
+                )
                 try:
                     self._plotter.open_movie(save_as, **kwargs_in)
                 except ImportError as e:
                     if "imageio ffmpeg plugin you need" in e.msg:
-                        raise ImportError("The imageio-ffmpeg library is required to save "
-                                          "animations. Please install it first with the command "
-                                          "'pip install imageio-ffmpeg'")
+                        raise ImportError(
+                            "The imageio-ffmpeg library is required to save "
+                            "animations. Please install it first with the command "
+                            "'pip install imageio-ffmpeg'"
+                        )
                     else:
                         raise e
         freq_kwargs = kwargs.pop("freq_kwargs", {})
@@ -65,7 +80,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
         cpos = kwargs.pop("cpos", None)
         if cpos:
             if isinstance(cpos[0][0], float):
-                cpos = [cpos]*len(indices)
+                cpos = [cpos] * len(indices)
         str_template = "t={0:{2}} {1}"
 
         def render_frame(frame):
@@ -76,24 +91,32 @@ class _PyVistaAnimator(_PyVistaPlotter):
             deform = None
             if "deform_by" in workflow.output_names:
                 deform = workflow.get_output("deform_by", core.types.field)
-            self.add_field(field, deform_by=deform,
-                           scale_factor_legend=scale_factor[frame],
-                           **kwargs)
+            self.add_field(
+                field,
+                deform_by=deform,
+                scale_factor_legend=scale_factor[frame],
+                **kwargs,
+            )
             kwargs_in = _sort_supported_kwargs(
-                bound_method=self._plotter.add_text, **freq_kwargs)
-            self._plotter.add_text(str_template.format(loop_over.data[frame], unit, freq_fmt),
-                                   **kwargs_in)
+                bound_method=self._plotter.add_text, **freq_kwargs
+            )
+            self._plotter.add_text(
+                str_template.format(loop_over.data[frame], unit, freq_fmt), **kwargs_in
+            )
             if cpos:
                 self._plotter.camera_position = cpos[frame]
 
         try:
+
             def animation():
                 if save_as:
                     try:
                         self._plotter.write_frame()
                     except AttributeError as e:  # pragma: no cover
-                        if "To retrieve an image after the render window has been closed" \
-                                in e.args[0]:
+                        if (
+                            "To retrieve an image after the render window has been closed"
+                            in e.args[0]
+                        ):
                             print("Animation canceled.")
                             print(e)
                             return result
@@ -103,7 +126,10 @@ class _PyVistaAnimator(_PyVistaPlotter):
                         try:
                             render_frame(frame)
                         except AttributeError as e:  # pragma: no cover
-                            if "'NoneType' object has no attribute 'interactor'" in e.args[0]:
+                            if (
+                                "'NoneType' object has no attribute 'interactor'"
+                                in e.args[0]
+                            ):
                                 print("Animation canceled.")
                                 return result
                         if save_as:
@@ -115,6 +141,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             off_screen = kwargs.pop("off_screen", None)
             if off_screen is None:
                 import pyvista as pv
+
                 off_screen = pv.OFF_SCREEN
 
             if not off_screen:
@@ -200,13 +227,16 @@ class Animator:
         """
         self._workflow = workflow
 
-    def animate(self, loop_over: core.Field,
-                output_name: str = "to_render",
-                input_name: str = "loop_over",
-                save_as: str = None,
-                scale_factor: Union[float, Sequence[float]] = 1.0,
-                freq_kwargs: dict = None,
-                **kwargs):
+    def animate(
+        self,
+        loop_over: core.Field,
+        output_name: str = "to_render",
+        input_name: str = "loop_over",
+        save_as: str = None,
+        scale_factor: Union[float, Sequence[float]] = 1.0,
+        freq_kwargs: dict = None,
+        **kwargs,
+    ):
         """
         Animate the workflow of the Animator, using inputs
 
@@ -244,21 +274,23 @@ class Animator:
             freq_kwargs = {"font_size": 12, "fmt": ".3e"}
         if self.workflow is None:
             raise ValueError("Cannot animate without self.workflow.")
-        return self._internal_animator.animate_workflow(loop_over=loop_over,
-                                                        workflow=self.workflow,
-                                                        output_name=output_name,
-                                                        input_name=input_name,
-                                                        save_as=save_as,
-                                                        scale_factor=scale_factor,
-                                                        freq_kwargs=freq_kwargs,
-                                                        **kwargs)
+        return self._internal_animator.animate_workflow(
+            loop_over=loop_over,
+            workflow=self.workflow,
+            output_name=output_name,
+            input_name=input_name,
+            save_as=save_as,
+            scale_factor=scale_factor,
+            freq_kwargs=freq_kwargs,
+            **kwargs,
+        )
 
 
 def scale_factor_to_fc(scale_factor, fc):
-
     def int_to_field(value, shape, scoping):
         field = core.fields_factory.field_from_array(
-            np.full(shape=shape, fill_value=value))
+            np.full(shape=shape, fill_value=value)
+        )
         field.scoping = scoping
         return field
 
@@ -272,29 +304,45 @@ def scale_factor_to_fc(scale_factor, fc):
         #     fields.append(scale_factor)
         # scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
     elif scale_type == core.fields_container.FieldsContainer:
-        raise NotImplementedError("Scaling by a FieldsContainer is not yet implemented.")
+        raise NotImplementedError(
+            "Scaling by a FieldsContainer is not yet implemented."
+        )
         # if scale_factor.time_freq_support.n_sets != n_sets:
         #     raise ValueError(f"The scale_factor FieldsContainer does not contain the same "
         #                      f"number of fields as the fields_container being animated "
         #                      f" ({scale_factor.time_freq_support.n_sets} != {n_sets}).")
     elif scale_type == list:
         if len(scale_factor) != n_sets:
-            raise ValueError(f"The scale_factor list is not the same length as the fields_container"
-                             f"being animated ({len(scale_factor)} != {n_sets}).")
+            raise ValueError(
+                f"The scale_factor list is not the same length as the fields_container"
+                f"being animated ({len(scale_factor)} != {n_sets})."
+            )
         # Turn the scalar list into a FieldsContainer
         fields = []
         for i in range(len(fc)):
-            fields.append(int_to_field(scale_factor[i], fc.get_field(0).shape,
-                          fc.get_field(0).scoping))
-        scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
+            fields.append(
+                int_to_field(
+                    scale_factor[i], fc.get_field(0).shape, fc.get_field(0).scoping
+                )
+            )
+        scale_factor = core.fields_container_factory.over_time_freq_fields_container(
+            fields
+        )
     elif scale_type == int or scale_type == float:
         # Turn the float into a fields_container
         fields = []
         for i in range(n_sets):
-            fields.append(int_to_field(scale_factor, fc.get_field(0).shape,
-                          fc.get_field(0).scoping))
-        scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
+            fields.append(
+                int_to_field(
+                    scale_factor, fc.get_field(0).shape, fc.get_field(0).scoping
+                )
+            )
+        scale_factor = core.fields_container_factory.over_time_freq_fields_container(
+            fields
+        )
     else:
-        raise ValueError("Argument scale_factor must be an int, a float, or a list of either, "
-                         f"(not {scale_type})")
+        raise ValueError(
+            "Argument scale_factor must be an int, a float, or a list of either, "
+            f"(not {scale_type})"
+        )
     return scale_factor

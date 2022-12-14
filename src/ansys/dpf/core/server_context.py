@@ -28,10 +28,12 @@ class LicensingContextType(Enum):
     @staticmethod
     def same_licensing_context(first, second):
         if int(first) == int(LicensingContextType.entry) and int(second) != int(
-                LicensingContextType.entry):
+            LicensingContextType.entry
+        ):
             return False
         elif int(second) == int(LicensingContextType.entry) and int(first) != int(
-                LicensingContextType.entry):
+            LicensingContextType.entry
+        ):
             return False
         return True
 
@@ -73,24 +75,28 @@ class ServerContext:
         return self._xml_path
 
     def __str__(self):
-        return f"Server Context of type {self.licensing_context_type}" \
-               f" with {'no' if len(self.xml_path) == 0 else ''} xml path" \
-               f"{'' if len(self.xml_path) == 0 else ': ' + self.xml_path}"
+        return (
+            f"Server Context of type {self.licensing_context_type}"
+            f" with {'no' if len(self.xml_path) == 0 else ''} xml path"
+            f"{'' if len(self.xml_path) == 0 else ': ' + self.xml_path}"
+        )
 
     def __eq__(self, other):
         if not isinstance(other, ServerContext):
             return False
-        return os.path.normpath(self.xml_path) == os.path.normpath(other.xml_path) \
-               and LicensingContextType.same_licensing_context(self.licensing_context_type,
-                                                               other.licensing_context_type)
+        return os.path.normpath(self.xml_path) == os.path.normpath(
+            other.xml_path
+        ) and LicensingContextType.same_licensing_context(
+            self.licensing_context_type, other.licensing_context_type
+        )
 
     def __ne__(self, other):
         return not self == other
 
 
 class AvailableServerContexts:
-    """Defines available server contexts.
-    """
+    """Defines available server contexts."""
+
     pre_defined_environment = ServerContext(0)
     """DataProcessingCore.xml that is next to DataProcessingCore.dll/libDataProcessingCore.so will
     be taken"""
@@ -111,12 +117,15 @@ if DPF_SERVER_CONTEXT_ENV in os.environ.keys():
     try:
         SERVER_CONTEXT = getattr(AvailableServerContexts, default_context.lower())
     except AttributeError:
-        warnings.warn(UserWarning(
-                      f"{DPF_SERVER_CONTEXT_ENV} is set to {default_context}, which is not "
-                      f"recognized as an available DPF ServerContext type. \n"
-                      f"Accepted values are: {[t.name.upper() for t in LicensingContextType]}.\n"
-                      f"Using {LicensingContextType.entry.name.upper()} "
-                      f"as the default ServerContext type."))
+        warnings.warn(
+            UserWarning(
+                f"{DPF_SERVER_CONTEXT_ENV} is set to {default_context}, which is not "
+                f"recognized as an available DPF ServerContext type. \n"
+                f"Accepted values are: {[t.name.upper() for t in LicensingContextType]}.\n"
+                f"Using {LicensingContextType.entry.name.upper()} "
+                f"as the default ServerContext type."
+            )
+        )
 
 
 def set_default_server_context(context=AvailableServerContexts.entry) -> None:
@@ -136,6 +145,7 @@ def set_default_server_context(context=AvailableServerContexts.entry) -> None:
     Available with server's version starting at 6.0 (Ansys 2023R2).
     """
     from ansys.dpf.core import SERVER
+
     global SERVER_CONTEXT
     SERVER_CONTEXT = context
     if SERVER is not None:

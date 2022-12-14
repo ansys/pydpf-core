@@ -37,8 +37,8 @@ class StreamsContainer:
     >>> streams_provider = model.metadata.streams_provider
     >>> sc = streams_provider.outputs.streams_container()
     """
-    def __init__(self, streams_container=None,
-                 server: BaseServer = None):
+
+    def __init__(self, streams_container=None, server: BaseServer = None):
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
         if self._server.has_client():
@@ -54,11 +54,14 @@ class StreamsContainer:
                 self._server = streams_container._server
                 core_api = self._server.get_api_for_type(
                     capi=data_processing_capi.DataProcessingCAPI,
-                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
                 )
                 core_api.init_data_processing_environment(self)
-                self._internal_obj = core_api.data_processing_duplicate_object_reference(
-                    streams_container)
+                self._internal_obj = (
+                    core_api.data_processing_duplicate_object_reference(
+                        streams_container
+                    )
+                )
             else:
                 self._internal_obj = streams_container
         self.owned = False
@@ -71,10 +74,13 @@ class StreamsContainer:
     def _server(self, value):
         self._server_instance = value
         # step 2: get api
-        self._api = self._server.get_api_for_type(capi=streams_capi.StreamsCAPI,
-                                                  grpcapi=None)
+        self._api = self._server.get_api_for_type(
+            capi=streams_capi.StreamsCAPI, grpcapi=None
+        )
         if not self._api:
-            raise NotImplementedError("StreamsContainer unavailable for LegacyGrpc servers")
+            raise NotImplementedError(
+                "StreamsContainer unavailable for LegacyGrpc servers"
+            )
         # step3: init environment
         self._api.init_streams_environment(self)  # creates stub when gRPC
 

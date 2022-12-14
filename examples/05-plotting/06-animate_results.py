@@ -18,7 +18,9 @@ print(model)
 
 # Use Scoping instances to adjust the region and the steps involved.
 # Create a scoping on all nodes
-mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(model.metadata.meshed_region.nodes.scoping)
+mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(
+    model.metadata.meshed_region.nodes.scoping
+)
 # Create a scoping on all time steps
 time_scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(model)
 
@@ -70,10 +72,12 @@ stress_fields = stress_op.eval()
 
 # Save the animation using "save_as" with a target path with the desired format as extension.
 # (accepts .gif, .avi or .mp4, see pyvista.Plotter.open_movie)
-camera_pos = displacement_fields.animate(scale_factor=10.,
-                                         save_as="06-animate_results.gif",
-                                         return_cpos=True,
-                                         show_axes=True)
+camera_pos = displacement_fields.animate(
+    scale_factor=10.0,
+    save_as="06-animate_results.gif",
+    return_cpos=True,
+    show_axes=True,
+)
 
 # Can be made off_screen for batch animation creation.
 # This accepts as kwargs arguments taken by pyvista.Plotter.open_movie such as the frame-rate and

@@ -31,8 +31,7 @@ else:
         "meshOperatorsCore.dll",
         "mapdlOperatorsCore.dll",
         "Ans.Dpf.Math.dll",
-        "Ans.Dpf.PythonPluginWrapper.dll"
-        "Ans.Dpf.Hdf5.dll",
+        "Ans.Dpf.PythonPluginWrapper.dll" "Ans.Dpf.Hdf5.dll",
         "Ans.Dpf.FlowDiagram.dll",
         "Ans.Dpf.LSDYNAHGP.dll",
         "Ans.Dpf.LivePost.dll",
@@ -84,7 +83,9 @@ for lib in LIB_OPTIONAL_TO_GENERATE:
             code_gen.connect(2, False)
         else:
             code_gen.connect(2, True)
-        print(f"Generating optional {lib} operators for server {core.SERVER.version}...")
+        print(
+            f"Generating optional {lib} operators for server {core.SERVER.version}..."
+        )
         code_gen.run()
         time.sleep(0.1)
     except Exception as e:
