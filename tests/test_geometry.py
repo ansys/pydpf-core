@@ -143,3 +143,31 @@ coords_data = [
 def test_get_center_from_coords(coords, expected):
     center = get_center_from_coords(coords)
     assert center == expected
+
+
+def test_line_discretization():
+    line = Line([[0, 0, 0], [1, 1, 1]])
+    assert line.mesh.nodes.n_nodes == 100
+    assert line.mesh.elements.n_elements == 99
+
+    line = Line([[0, 0, 0], [1, 1, 1]], num_points=1200)
+    assert line.mesh.nodes.n_nodes == 1200
+    assert line.mesh.elements.n_elements == 1199
+
+plane_discretization_data = [0, 1, 2]
+@pytest.mark.parametrize(("component"), plane_discretization_data)
+def test_plane_discretization(component):
+    normal = np.zeros(3)
+    normal[component] = 1
+    plane = create_plane_from_center_and_normal([0, 0, 0], [1, 0, 0])
+    plane.discretize(1, 1, 30, 30)
+    assert plane.mesh.elements.n_elements == 30*30
+    assert all(plane.mesh.nodes.coordinates_field.data[:,component]) == 0.0
+
+if __name__ == "__main__":
+    # points = [[0.4, 0.1, 0], [0.1, 0, 0.5]]
+
+    points = Points([[0.4, 0.1, 0], [0.1, 0, 0.5]])
+
+    line = create_line_from_points(points)
+    line.plot()

@@ -8,11 +8,11 @@ def create_points(coordinates, server=None):
     """Construct points given its coordinates."""
     return Points(coordinates, server)
 
-def create_line_from_points(points, server=None):
+def create_line_from_points(points, num_points=100, server=None):
     """Construct line from two DPF points."""
-    return Line(points, server)
+    return Line(points, num_points, server)
 
-def create_line_from_vector(ini, end=None, server=None):
+def create_line_from_vector(ini, end=None, num_points=100, server=None):
     """Construct line from origin's coordinates and a vector direction."""
     # Input check
     if isinstance(ini[0], list):
@@ -30,7 +30,7 @@ def create_line_from_vector(ini, end=None, server=None):
             representing the 3D coordinates of the end point of the vector.")
         vect = [ini, end]
 
-    return Line(vect, server)
+    return Line(vect, num_points, server)
 
 def create_plane_from_center_and_normal(center, normal, server=None):
     return Plane(center, normal, server)
