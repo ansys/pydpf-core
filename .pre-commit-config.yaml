@@ -3,7 +3,6 @@ exclude: |
         docs/source/|
         src/ansys/dpf/core/operators/|
         examples_notebooks/|
-        tests/test_lsdyna.py|
         src/ansys/dpf/core/__init__.py
     )
 repos:
