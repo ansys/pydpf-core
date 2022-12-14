@@ -4,6 +4,7 @@
 
 Field and field containers overview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 In DPF, the field is the main simulation data container. During a numerical
 simulation, the result data is defined by values associated to entities
 (scoping). These entities are a subset of a model (support).
@@ -29,9 +30,9 @@ indexed, just like a Python list. Operators applied to a fields
 container have each individual field operated on. Fields
 containers are outputs from operators.
 
-First, import necessary modules:
-
 """
+
+# First, import necessary modules
 import numpy as np
 
 from ansys.dpf import core as dpf

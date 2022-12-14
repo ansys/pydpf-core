@@ -4,6 +4,7 @@
 
 Modal cyclic symmetry example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to expand a cyclic mesh and its results.
 
 """

@@ -3,6 +3,7 @@
 
 Averaging order
 ~~~~~~~~~~~~~~~
+
 This example compares two different workflows that accomplish the same task to show
 how the order of the operators can change the end result.
 

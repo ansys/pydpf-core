@@ -3,6 +3,7 @@
 
 Create a custom workflow on distributed processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to read and postprocess distributed files on
 distributed processes. After remote postprocessing, results are merged
 on the local process. This example creates different operator

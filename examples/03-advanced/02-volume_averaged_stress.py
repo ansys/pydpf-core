@@ -3,6 +3,7 @@
 
 Average elemental stress on a given volume
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to find the minimum list of surrounding
 elements for a given node to get a minimum volume.
 For each list of elements, the elemental stress equivalent is multiplied by the
@@ -11,7 +12,7 @@ total volume.
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 from ansys.dpf import core as dpf

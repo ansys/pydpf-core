@@ -4,12 +4,13 @@
 
 HDF5 export and compare precision
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to use HDF5 format to export and
 compare simple precision versus double precision.
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 

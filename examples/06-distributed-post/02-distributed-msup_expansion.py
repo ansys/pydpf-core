@@ -3,6 +3,7 @@
 
 Distributed mode superposition (MSUP)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to read and expand distributed files
 on distributed processes. The modal basis (two distributed files) is read
 on two remote servers. The modal response is then read and expanded on a
@@ -67,7 +68,7 @@ chain that is used to compute the final result.
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 

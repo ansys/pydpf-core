@@ -4,6 +4,7 @@
 
 Choose a time scoping for a transient analysis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to use a model's result to choose a time scoping.
 
 """
