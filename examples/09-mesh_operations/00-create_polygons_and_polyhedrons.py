@@ -48,7 +48,7 @@ mesh = dpf.MeshedRegion(num_nodes=len(coordinates), num_elements=2)
 
 # Add the nodes to the MeshedRegion
 for i, node in enumerate(mesh.nodes.add_nodes(num=len(coordinates))):
-    node.id = i+1
+    node.id = i + 1
     node.coordinates = coordinates[i]
 
 ###############################################################################
@@ -99,7 +99,9 @@ element_faces = polygon_faces + polyhedron_faces
 elements_faces_f = dpf.PropertyField()
 for element_index, element_faces in enumerate(element_faces):
     elements_faces_f.append(element_faces, element_index)
-mesh.set_property_field(property_name="elements_faces_connectivity", value=elements_faces_f)
+mesh.set_property_field(
+    property_name="elements_faces_connectivity", value=elements_faces_f
+)
 
 ###############################################################################
 # Visualize mesh

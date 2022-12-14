@@ -8,8 +8,11 @@ The OperatorSpecification Provides a documentation for each Operator
 
 import abc
 from ansys.dpf.core import server as server_module
-from ansys.dpf.gate import operator_specification_capi, operator_specification_grpcapi,\
-    integral_types
+from ansys.dpf.gate import (
+    operator_specification_capi,
+    operator_specification_grpcapi,
+    integral_types,
+)
 from ansys.dpf.core import mapping_types, common
 from ansys.dpf.core.check_version import version_requires
 
@@ -45,6 +48,7 @@ class PinSpecification:
     >>> pin_spec.optional
     False
     """
+
     name: str
     _type_names: list
     document: str
@@ -77,37 +81,44 @@ class PinSpecification:
             self._type_names = [mapping_types.map_types_to_cpp[val.__name__]]
             return
         elif isinstance(val, common.types):
-            self._type_names = [mapping_types.map_types_to_cpp[
-                                    common.types_enum_to_types()[val].__name__
-                                ]]
+            self._type_names = [
+                mapping_types.map_types_to_cpp[
+                    common.types_enum_to_types()[val].__name__
+                ]
+            ]
             return
         elif isinstance(val, list):
             if len(val) > 0 and isinstance(val[0], type):
-                self._type_names = [mapping_types.map_types_to_cpp[ival.__name__] for ival in val]
+                self._type_names = [
+                    mapping_types.map_types_to_cpp[ival.__name__] for ival in val
+                ]
                 return
             if len(val) > 0 and isinstance(val[0], common.types):
                 self._type_names = [
                     mapping_types.map_types_to_cpp[
                         common.types_enum_to_types()[ival].__name__
-                    ] for ival in val
+                    ]
+                    for ival in val
                 ]
                 return
         self._type_names = val
 
     @staticmethod
     def _get_copy(other, changed_types):
-        return PinSpecification(other.name,
-                                changed_types,
-                                other.document,
-                                other.optional,
-                                other.ellipsis)
+        return PinSpecification(
+            other.name, changed_types, other.document, other.optional, other.ellipsis
+        )
 
     def __repr__(self):
-        return '{class_name}({params})'.format(
+        return "{class_name}({params})".format(
             class_name=self.__class__.__name__,
-            params=', '.join('{param}={value}'.format(
-                param=k, value=f"'{v}'" if isinstance(v, str) else v) for k, v in
-                             vars(self).items()))
+            params=", ".join(
+                "{param}={value}".format(
+                    param=k, value=f"'{v}'" if isinstance(v, str) else v
+                )
+                for k, v in vars(self).items()
+            ),
+        )
 
     def __eq__(self, other):
         return str(self) == str(other)
@@ -117,6 +128,7 @@ class ConfigSpecification(dict):
     """Dictionary of the available configuration options and their specification
     (:class:`ansys.dpf.core.operator_specification.ConfigOptionSpec`)
     """
+
     def __init__(self, *arg, **kw):
         super(ConfigSpecification, self).__init__(*arg, **kw)
 
@@ -162,11 +174,15 @@ class ConfigOptionSpec:
         self.document = document
 
     def __repr__(self):
-        return '{class_name}({params})'.format(
+        return "{class_name}({params})".format(
             class_name=self.__class__.__name__,
-            params=', '.join('{param}={value}'.format(
-                param=k, value=f"'{v}'" if isinstance(v, str) else v) for k, v in
-                             vars(self).items()))
+            params=", ".join(
+                "{param}={value}".format(
+                    param=k, value=f"'{v}'" if isinstance(v, str) else v
+                )
+                for k, v in vars(self).items()
+            ),
+        )
 
 
 class SpecificationBase:
@@ -221,10 +237,13 @@ class Specification(SpecificationBase):
         # step 2: get api
         self._api = self._server.get_api_for_type(
             capi=operator_specification_capi.OperatorSpecificationCAPI,
-            grpcapi=operator_specification_grpcapi.OperatorSpecificationGRPCAPI)
+            grpcapi=operator_specification_grpcapi.OperatorSpecificationGRPCAPI,
+        )
 
         # step3: init environment
-        self._api.init_operator_specification_environment(self)  # creates stub when gRPC
+        self._api.init_operator_specification_environment(
+            self
+        )  # creates stub when gRPC
 
         # step4: if object exists: take instance, else create it (specification)
         if specification is not None:
@@ -233,9 +252,12 @@ class Specification(SpecificationBase):
             if operator_name:
                 if self._server.has_client():
                     self._internal_obj = self._api.operator_specification_new_on_client(
-                        self._server.client, operator_name)
+                        self._server.client, operator_name
+                    )
                 else:
-                    self._internal_obj = self._api.operator_specification_new(operator_name)
+                    self._internal_obj = self._api.operator_specification_new(
+                        operator_name
+                    )
             else:
                 if self._server.has_client():
                     raise NotImplementedError(
@@ -264,12 +286,16 @@ class Specification(SpecificationBase):
         if self._properties is None:
             temp_properties = dict()
             if self._internal_obj is not None:
-                num_properties = self._api.operator_specification_get_num_properties(self)
+                num_properties = self._api.operator_specification_get_num_properties(
+                    self
+                )
                 for i_property in range(num_properties):
                     property_key = self._api.operator_specification_get_property_key(
                         self, i_property
                     )
-                    prop = self._api.operator_specification_get_properties(self, property_key)
+                    prop = self._api.operator_specification_get_properties(
+                        self, property_key
+                    )
                     temp_properties[property_key] = prop
             # Reorder the properties for consistency
             self._properties = dict()
@@ -347,23 +373,31 @@ class Specification(SpecificationBase):
             pins = pins.tolist()
 
             for i_pin in pins:
-                pin_name = self._api.operator_specification_get_pin_name(self, binput, i_pin)
-                pin_opt = self._api.operator_specification_is_pin_optional(self, binput, i_pin)
-                pin_doc = self._api.operator_specification_get_pin_document(self, binput, i_pin)
-                n_types = self._api.operator_specification_get_pin_num_type_names(self, binput,
-                                                                                  i_pin)
+                pin_name = self._api.operator_specification_get_pin_name(
+                    self, binput, i_pin
+                )
+                pin_opt = self._api.operator_specification_is_pin_optional(
+                    self, binput, i_pin
+                )
+                pin_doc = self._api.operator_specification_get_pin_document(
+                    self, binput, i_pin
+                )
+                n_types = self._api.operator_specification_get_pin_num_type_names(
+                    self, binput, i_pin
+                )
                 pin_type_names = [
-                    self._api.operator_specification_get_pin_type_name(self, binput,
-                                                                       i_pin,
-                                                                       i_type)
-                    for i_type in range(n_types)]
+                    self._api.operator_specification_get_pin_type_name(
+                        self, binput, i_pin, i_type
+                    )
+                    for i_type in range(n_types)
+                ]
 
-                pin_ell = self._api.operator_specification_is_pin_ellipsis(self, binput, i_pin)
-                to_fill[i_pin] = PinSpecification(pin_name,
-                                                  pin_type_names,
-                                                  pin_doc,
-                                                  pin_opt,
-                                                  pin_ell)
+                pin_ell = self._api.operator_specification_is_pin_ellipsis(
+                    self, binput, i_pin
+                )
+                to_fill[i_pin] = PinSpecification(
+                    pin_name, pin_type_names, pin_doc, pin_opt, pin_ell
+                )
 
     @property
     def config_specification(self) -> ConfigSpecification:
@@ -378,25 +412,41 @@ class Specification(SpecificationBase):
             num_options = self._api.operator_specification_get_num_config_options(self)
             for i in range(num_options):
                 option_name = self._api.operator_specification_get_config_name(self, i)
-                n_types = self._api.operator_specification_get_config_num_type_names(self, i)
-                option_type_names = [self._api.operator_specification_get_config_type_name(
-                    self, i, n_type) for n_type in range(n_types)]
-                option_default_value = \
-                    self._api.operator_specification_get_config_printable_default_value(self, i)
-                option_doc = self._api.operator_specification_get_config_description(self, i)
+                n_types = self._api.operator_specification_get_config_num_type_names(
+                    self, i
+                )
+                option_type_names = [
+                    self._api.operator_specification_get_config_type_name(
+                        self, i, n_type
+                    )
+                    for n_type in range(n_types)
+                ]
+                option_default_value = (
+                    self._api.operator_specification_get_config_printable_default_value(
+                        self, i
+                    )
+                )
+                option_doc = self._api.operator_specification_get_config_description(
+                    self, i
+                )
                 self._config_specification[option_name] = ConfigOptionSpec(
                     name=option_name,
                     type_names=option_type_names,
                     default_value_str=option_default_value,
-                    document=option_doc)
+                    document=option_doc,
+                )
         return self._config_specification
 
 
 class CustomConfigOptionSpec(ConfigOptionSpec):
     def __init__(self, option_name: str, default_value, document: str):
         type_names = [mapping_types.map_types_to_cpp[type(default_value).__name__]]
-        super().__init__(name=option_name, type_names=list(type_names),
-                         default_value_str=str(default_value), document=document)
+        super().__init__(
+            name=option_name,
+            type_names=list(type_names),
+            default_value_str=str(default_value),
+            document=document,
+        )
 
 
 class Exposures:
@@ -444,14 +494,26 @@ class SpecificationProperties:
         Snake case name of the plugin it belongs to.
 
     """
-    def __init__(self, user_name: str = None, category: str = None, scripting_name: str = None,
-                 exposure: Exposures = Exposures.public,
-                 plugin: str = None, spec=None,
-                 **kwargs):
+
+    def __init__(
+        self,
+        user_name: str = None,
+        category: str = None,
+        scripting_name: str = None,
+        exposure: Exposures = Exposures.public,
+        plugin: str = None,
+        spec=None,
+        **kwargs,
+    ):
         self._spec = spec
         self.__dict__.update(
-            user_name=user_name, category=category, exposure=exposure,
-            scripting_name=scripting_name, plugin=plugin, **kwargs)
+            user_name=user_name,
+            category=category,
+            exposure=exposure,
+            scripting_name=scripting_name,
+            plugin=plugin,
+            **kwargs,
+        )
 
     def __repr__(self):
         keys = sorted(self.__dict__)
@@ -461,11 +523,13 @@ class SpecificationProperties:
     def __setitem__(self, key, value):
         if self._spec is not None:
             if value is not None:
-                self._spec._api.operator_specification_set_property(self._spec, key, value)
+                self._spec._api.operator_specification_set_property(
+                    self._spec, key, value
+                )
                 self._spec._properties = None
         setattr(self, key, value)
 
-    def __getitem__(self, item : str):
+    def __getitem__(self, item: str):
         return getattr(self, item)
 
     def __eq__(self, other):
@@ -550,8 +614,16 @@ class CustomSpecification(Specification):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
             self._api.operator_specification_set_pin(
-                self, True, key, value.name, value.document, len(value.type_names)
-                , list_types, value.optional, value.ellipsis)
+                self,
+                True,
+                key,
+                value.name,
+                value.document,
+                len(value.type_names),
+                list_types,
+                value.optional,
+                value.ellipsis,
+            )
 
     @property
     @version_requires("4.0")
@@ -569,8 +641,16 @@ class CustomSpecification(Specification):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
             self._api.operator_specification_set_pin(
-                self, False, key, value.name, value.document, len(value.type_names),
-                list_types, value.optional, value.ellipsis)
+                self,
+                False,
+                key,
+                value.name,
+                value.document,
+                len(value.type_names),
+                list_types,
+                value.optional,
+                value.ellipsis,
+            )
 
     @property
     @version_requires("4.0")
@@ -591,19 +671,22 @@ class CustomSpecification(Specification):
             for type in value.type_names:
                 if type == "double":
                     self._api.operator_specification_add_double_config_option(
-                        self, value.name,
-                        float(value.default_value_str),
-                        value.document)
+                        self, value.name, float(value.default_value_str), value.document
+                    )
                 elif type == "int32":
                     self._api.operator_specification_add_int_config_option(
-                        self, value.name,
+                        self,
+                        value.name,
                         int(float(value.default_value_str)),
-                        value.document)
+                        value.document,
+                    )
                 elif type == "bool":
                     self._api.operator_specification_add_bool_config_option(
-                        self, value.name,
+                        self,
+                        value.name,
                         value.default_value_str == "True",
-                        value.document)
+                        value.document,
+                    )
                 else:
                     raise TypeError(
                         "config options are expected to be either boolean, integer or double values"

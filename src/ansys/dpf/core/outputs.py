@@ -27,6 +27,7 @@ class Output:
     True
     >>> fc = disp_op.outputs.fields_container()
     """
+
     def __init__(self, spec, pin, operator):
         self._spec = spec
         self._operator = operator

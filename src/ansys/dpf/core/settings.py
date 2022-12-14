@@ -1,4 +1,3 @@
-
 """
 settings
 ========
@@ -59,6 +58,7 @@ def disable_interpreter_properties_evaluation() -> bool:
     """
     if module_exists("jedi"):
         import jedi
+
         jedi.Interpreter._allow_descriptor_getattr_default = False
         return True
     return False
@@ -92,8 +92,11 @@ def _forward_to_gate():
     from ansys.dpf.gate import settings
     from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
     from ansys.dpf.core.common import _common_progress_bar, _progress_bar_is_available
+
     settings.forward_settings(
-        DEFAULT_FILE_CHUNK_SIZE, _common_progress_bar if _progress_bar_is_available() else None)
+        DEFAULT_FILE_CHUNK_SIZE,
+        _common_progress_bar if _progress_bar_is_available() else None,
+    )
 
 
 def get_runtime_client_config(server=None):

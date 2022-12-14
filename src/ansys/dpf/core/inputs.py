@@ -59,6 +59,7 @@ class Input:
 
         """
         from pathlib import Path
+
         # always convert ranges to lists
         if isinstance(inpt, range):
             inpt = list(inpt)
@@ -114,22 +115,27 @@ class Input:
         from ansys.dpf.core.results import Result
 
         if isinstance(inpt, _Outputs):
-            self._operator().connect(self._pin, inpt._operator, corresponding_pins[0][1])
+            self._operator().connect(
+                self._pin, inpt._operator, corresponding_pins[0][1]
+            )
             self._operator().inputs._connected_inputs[self._pin] = {
                 corresponding_pins[0][1]: weakref.ref(inpt._operator)
             }
         elif isinstance(inpt, Output):
             self._operator().connect(self._pin, inpt._operator, inpt._pin)
-            self._operator().inputs._connected_inputs[self._pin] = {inpt._pin: weakref.ref(inpt)}
+            self._operator().inputs._connected_inputs[self._pin] = {
+                inpt._pin: weakref.ref(inpt)
+            }
         elif isinstance(inpt, Result):
             self._operator().connect(self._pin, inpt(), corresponding_pins[0][1])
             self._operator().inputs._connected_inputs[self._pin] = {
                 corresponding_pins[0][1]: weakref.ref(inpt)
-                }
+            }
         else:
             self._operator().connect(self._pin, inpt)
-            self._operator().inputs._connected_inputs[self._pin] = weakref.ref(inpt) \
-                if hasattr(inpt, "__weakref__") else inpt
+            self._operator().inputs._connected_inputs[self._pin] = (
+                weakref.ref(inpt) if hasattr(inpt, "__weakref__") else inpt
+            )
 
         self.__inc_if_ellipsis()
 
@@ -202,6 +208,7 @@ class _Inputs:
 
         """
         from pathlib import Path
+
         corresponding_pins = []
         if isinstance(inpt, core.Operator):
             if hasattr(inpt, "outputs"):
@@ -242,9 +249,12 @@ class _Inputs:
             raise TypeError(err_str)
 
         from ansys.dpf.core.results import Result
+
         if isinstance(inpt, Output):
             self._operator().connect(corresponding_pins[0], inpt._operator, inpt._pin)
-            self._connected_inputs[corresponding_pins[0]] = {inpt._pin: weakref.ref(inpt._operator)}
+            self._connected_inputs[corresponding_pins[0]] = {
+                inpt._pin: weakref.ref(inpt._operator)
+            }
         elif isinstance(inpt, _Outputs):
             self._operator().connect(
                 corresponding_pins[0][0], inpt._operator, corresponding_pins[0][1]
@@ -261,8 +271,9 @@ class _Inputs:
             }
         else:
             self._operator().connect(corresponding_pins[0], inpt)
-            self._connected_inputs[corresponding_pins[0]] = weakref.ref(inpt) \
-                if hasattr(inpt, "__weakref__") else inpt
+            self._connected_inputs[corresponding_pins[0]] = (
+                weakref.ref(inpt) if hasattr(inpt, "__weakref__") else inpt
+            )
 
     def _add_input(self, pin, spec, count_ellipsis=-1):
         if spec is not None:
@@ -296,6 +307,7 @@ class Inputs(_Inputs):
     >>> disp_op.inputs.connect(data_src)
     >>> disp_op.inputs.connect([2])
     """
+
     def __init__(self, dict_inputs, operator):
         super().__init__(dict_inputs, operator)
 

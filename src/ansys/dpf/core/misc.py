@@ -7,9 +7,7 @@ import packaging.version
 import pkg_resources
 import importlib
 from pkgutil import iter_modules
-from ansys.dpf.gate._version import (
-    __ansys_version__
-)
+from ansys.dpf.gate._version import __ansys_version__
 
 DEFAULT_FILE_CHUNK_SIZE = 524288
 DYNAMIC_RESULTS = True
@@ -96,7 +94,8 @@ def get_ansys_path(ansys_path=None):
             "You can also manually define the path to the ANSYS installation root folder"
             " of the version you want to use (vXXX folder):\n"
             '- when starting the server with "start_local_server(ansys_path=*/vXXX)"\n'
-            '- or by setting it by default with the environment variable "ANSYS_DPF_PATH"')
+            '- or by setting it by default with the environment variable "ANSYS_DPF_PATH"'
+        )
     return ansys_path
 
 
@@ -122,9 +121,11 @@ def _find_latest_ansys_versions():
     installed_packages = pkg_resources.working_set
     for i in installed_packages:
         if "ansys-dpf-server" in i.key:
-            file_name = pkg_resources.to_filename(i.project_name.replace("ansys-dpf-", ""))
+            file_name = pkg_resources.to_filename(
+                i.project_name.replace("ansys-dpf-", "")
+            )
             try:
-                module = importlib.import_module("ansys.dpf."+file_name)
+                module = importlib.import_module("ansys.dpf." + file_name)
                 installed_packages_list[
                     packaging.version.parse(module.__version__)
                 ] = module.__path__[0]

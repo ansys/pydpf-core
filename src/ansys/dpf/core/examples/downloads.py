@@ -13,12 +13,21 @@ EXAMPLE_REPO = "https://github.com/pyansys/example-data/raw/master/result_files/
 def delete_downloads():
     """Delete all downloaded examples to free space or update the files"""
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH, examples
-    not_to_remove = [getattr(examples.examples, item) for item in dir(examples.examples) if
-                     not item.startswith("_") and not item.endswith("_") and isinstance(
-                         getattr(examples.examples, item), str)]
-    not_to_remove.extend([os.path.join(os.path.dirname(examples.__file__), "__init__.py"),
-                          os.path.join(os.path.dirname(examples.__file__), "downloads.py"),
-                          os.path.join(os.path.dirname(examples.__file__), "examples.py")])
+
+    not_to_remove = [
+        getattr(examples.examples, item)
+        for item in dir(examples.examples)
+        if not item.startswith("_")
+        and not item.endswith("_")
+        and isinstance(getattr(examples.examples, item), str)
+    ]
+    not_to_remove.extend(
+        [
+            os.path.join(os.path.dirname(examples.__file__), "__init__.py"),
+            os.path.join(os.path.dirname(examples.__file__), "downloads.py"),
+            os.path.join(os.path.dirname(examples.__file__), "examples.py"),
+        ]
+    )
     for root, dirs, files in os.walk(LOCAL_DOWNLOADED_EXAMPLES_PATH, topdown=False):
         if root not in not_to_remove:
             for name in files:
@@ -46,9 +55,11 @@ def _get_file_url(directory, filename):
 def _retrieve_file(url, filename, directory):
     """Download a file from a url"""
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
+
     # First check if file has already been downloaded
-    local_path = os.path.join(LOCAL_DOWNLOADED_EXAMPLES_PATH, directory,
-                              os.path.basename(filename))
+    local_path = os.path.join(
+        LOCAL_DOWNLOADED_EXAMPLES_PATH, directory, os.path.basename(filename)
+    )
     local_path_no_zip = local_path.replace(".zip", "")
     if os.path.isfile(local_path_no_zip) or os.path.isdir(local_path_no_zip):
         return local_path_no_zip
@@ -75,8 +86,9 @@ def _download_file(directory, filename, should_upload: bool, server, return_loca
 # front-facing functions
 
 
-def download_transient_result(should_upload: bool = True, server=None,
-                              return_local_path=False) -> str:
+def download_transient_result(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download an example transient result file and return the download path
     available server side.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -111,11 +123,14 @@ def download_transient_result(should_upload: bool = True, server=None,
     'C:/Users/user/AppData/local/temp/transient.rst'
 
     """
-    return _download_file("transient", "transient.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "transient", "transient.rst", should_upload, server, return_local_path
+    )
 
 
-def download_all_kinds_of_complexity(should_upload: bool = True, server=None
-                                     , return_local_path=False) -> str:
+def download_all_kinds_of_complexity(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download an example static result and return the download path
     available server side.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -150,12 +165,14 @@ def download_all_kinds_of_complexity(should_upload: bool = True, server=None
     'C:/Users/user/AppData/local/temp/allKindOfComplexity.rst'
 
     """
-    return _download_file("testing", "allKindOfComplexity.rst", should_upload, server,
-                          return_local_path)
+    return _download_file(
+        "testing", "allKindOfComplexity.rst", should_upload, server, return_local_path
+    )
 
 
-def download_all_kinds_of_complexity_modal(should_upload: bool = True, server=None,
-                                           return_local_path=False) -> str:
+def download_all_kinds_of_complexity_modal(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download an example result file from a static modal analysis and
     return the download path available server side.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -190,11 +207,18 @@ def download_all_kinds_of_complexity_modal(should_upload: bool = True, server=No
     'C:/Users/user/AppData/local/temp/modal_allKindOfComplexity.rst'
 
     """
-    return _download_file("testing", "modal_allKindOfComplexity.rst", should_upload, server,
-                          return_local_path)
+    return _download_file(
+        "testing",
+        "modal_allKindOfComplexity.rst",
+        should_upload,
+        server,
+        return_local_path,
+    )
 
 
-def download_pontoon(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def download_pontoon(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download an example result file from a static modal analsys and
     return the download path available server side.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -229,11 +253,14 @@ def download_pontoon(should_upload: bool = True, server=None, return_local_path=
     'C:/Users/user/AppData/local/temp/pontoon.rst'
 
     """
-    return _download_file("docs", "pontoon.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "docs", "pontoon.rst", should_upload, server, return_local_path
+    )
 
 
-def download_multi_harmonic_result(should_upload: bool = True, server=None,
-                                   return_local_path=False) -> str:
+def download_multi_harmonic_result(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download an example multi-harmonic result file and return the
     download path available server side.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -267,12 +294,14 @@ def download_multi_harmonic_result(should_upload: bool = True, server=None,
     >>> path
     'C:/Users/user/AppData/local/temp/file_harmonic_5rpms.rst'
     """
-    return _download_file("harmonic", "file_harmonic_5rpms.rst", should_upload, server,
-                          return_local_path)
+    return _download_file(
+        "harmonic", "file_harmonic_5rpms.rst", should_upload, server, return_local_path
+    )
 
 
-def download_multi_stage_cyclic_result(should_upload: bool = True, server=None,
-                                       return_local_path=False) -> str:
+def download_multi_stage_cyclic_result(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download an example multi-stage result file and return the
     download path available server side.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -307,10 +336,14 @@ def download_multi_stage_cyclic_result(should_upload: bool = True, server=None,
     'C:/Users/user/AppData/local/temp/multistage.rst'
 
     """
-    return _download_file("multistage", "multistage.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "multistage", "multistage.rst", should_upload, server, return_local_path
+    )
 
 
-def download_sub_file(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def download_sub_file(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download an example .sub result file containing matrices and return the
     download path available server side.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -348,8 +381,9 @@ def download_sub_file(should_upload: bool = True, server=None, return_local_path
     return _download_file("sub", "cp56.sub", should_upload, server, return_local_path)
 
 
-def download_msup_files_to_dict(should_upload: bool = True, server=None,
-                                return_local_path=False) -> dict:
+def download_msup_files_to_dict(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> dict:
     """Download all the files necessary for a msup expansion and return the
     download paths available server side into a dictionary extension->path.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -387,14 +421,21 @@ def download_msup_files_to_dict(should_upload: bool = True, server=None,
 
     """
     return {
-        "rfrq": _download_file("msup", "file.rfrq", should_upload, server, return_local_path),
-        "mode": _download_file("msup", "file.mode", should_upload, server, return_local_path),
-        "rst": _download_file("msup", "file.rst", should_upload, server, return_local_path),
+        "rfrq": _download_file(
+            "msup", "file.rfrq", should_upload, server, return_local_path
+        ),
+        "mode": _download_file(
+            "msup", "file.mode", should_upload, server, return_local_path
+        ),
+        "rst": _download_file(
+            "msup", "file.rst", should_upload, server, return_local_path
+        ),
     }
 
 
-def download_distributed_files(should_upload: bool = True, server=None,
-                               return_local_path=False) -> dict:
+def download_distributed_files(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> dict:
     """Download distributed rst files and return the
     download paths into a dictionary domain id->path.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -431,12 +472,18 @@ def download_distributed_files(should_upload: bool = True, server=None,
 
     """
     return {
-        0: _download_file("distributed", "file0.rst", should_upload, server, return_local_path),
-        1: _download_file("distributed", "file1.rst", should_upload, server, return_local_path),
+        0: _download_file(
+            "distributed", "file0.rst", should_upload, server, return_local_path
+        ),
+        1: _download_file(
+            "distributed", "file1.rst", should_upload, server, return_local_path
+        ),
     }
 
 
-def download_fluent_files(should_upload: bool = True, server=None, return_local_path=False) -> dict:
+def download_fluent_files(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> dict:
     """Download the cas and dat file of a fluent analysis and return the
     download paths into a dictionary extension->path.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -473,13 +520,18 @@ def download_fluent_files(should_upload: bool = True, server=None, return_local_
 
     """
     return {
-        "cas": _download_file("fluent", "FFF.cas.h5", should_upload, server, return_local_path),
-        "dat": _download_file("fluent", "FFF.dat.h5", should_upload, server, return_local_path),
+        "cas": _download_file(
+            "fluent", "FFF.cas.h5", should_upload, server, return_local_path
+        ),
+        "dat": _download_file(
+            "fluent", "FFF.dat.h5", should_upload, server, return_local_path
+        ),
     }
 
 
-def download_extrapolation_3d_result(should_upload: bool = True, server=None,
-                                     return_local_path=False) -> dict:
+def download_extrapolation_3d_result(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> dict:
     """Download example static results of reference and integrated points
     for extrapolation of 3d-element and return the dictionary of 2 download paths.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -519,17 +571,20 @@ def download_extrapolation_3d_result(should_upload: bool = True, server=None,
 
     """
     path_dict = {
-        "file_ref": _download_file("extrapolate", "file_ref.rst", should_upload, server,
-                                   return_local_path),
-        "file_integrated": _download_file("extrapolate", "file.rst", should_upload, server,
-                                          return_local_path),
+        "file_ref": _download_file(
+            "extrapolate", "file_ref.rst", should_upload, server, return_local_path
+        ),
+        "file_integrated": _download_file(
+            "extrapolate", "file.rst", should_upload, server, return_local_path
+        ),
     }
 
     return path_dict
 
 
-def download_extrapolation_2d_result(should_upload: bool = True, server=None,
-                                     return_local_path=False) -> dict:
+def download_extrapolation_2d_result(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> dict:
     """Download example static results of reference and integrated points
     for extrapolation of 2d-element and return the dictionary of 2 download paths.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -569,16 +624,28 @@ def download_extrapolation_2d_result(should_upload: bool = True, server=None,
 
     """
     path_dict = {
-        "file_ref": _download_file("extrapolate", "extrapolate_2d_ref.rst", should_upload, server,
-                                   return_local_path),
-        "file_integrated": _download_file("extrapolate", "extrapolate_2d.rst",
-                                          should_upload, server, return_local_path),
+        "file_ref": _download_file(
+            "extrapolate",
+            "extrapolate_2d_ref.rst",
+            should_upload,
+            server,
+            return_local_path,
+        ),
+        "file_integrated": _download_file(
+            "extrapolate",
+            "extrapolate_2d.rst",
+            should_upload,
+            server,
+            return_local_path,
+        ),
     }
 
     return path_dict
 
 
-def download_hemisphere(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def download_hemisphere(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download an example result file from a static analysis and
     return the download path available server side.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -613,11 +680,14 @@ def download_hemisphere(should_upload: bool = True, server=None, return_local_pa
     'C:/Users/user/AppData/local/temp/hemisphere.rst'
 
     """
-    return _download_file("hemisphere", "hemisphere.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "hemisphere", "hemisphere.rst", should_upload, server, return_local_path
+    )
 
 
-def download_example_asme_result(should_upload: bool = True, server=None,
-                                 return_local_path=False) -> str:
+def download_example_asme_result(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download an example result file from a static analysis and
     return the download path available server side.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -650,11 +720,14 @@ def download_example_asme_result(should_upload: bool = True, server=None,
     >>> path
     'C:/Users/user/AppData/local/temp/asme_example.rst'
     """
-    return _download_file("postprocessing", "asme_example.rst", should_upload, server,
-                          return_local_path)
+    return _download_file(
+        "postprocessing", "asme_example.rst", should_upload, server, return_local_path
+    )
 
 
-def download_crankshaft(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def download_crankshaft(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download the result file of an example of a crankshaft
     under load and return the download path available server side.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -689,10 +762,14 @@ def download_crankshaft(should_upload: bool = True, server=None, return_local_pa
     'C:/Users/user/AppData/local/temp/crankshaft.rst'
 
     """
-    return _download_file("crankshaft", "crankshaft.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "crankshaft", "crankshaft.rst", should_upload, server, return_local_path
+    )
 
 
-def download_piston_rod(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def download_piston_rod(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download the result file of an example of a piston rod
     under load and return the download path available server side.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -727,10 +804,14 @@ def download_piston_rod(should_upload: bool = True, server=None, return_local_pa
     'C:/Users/user/AppData/local/temp/piston_rod.rst'
 
     """
-    return _download_file("piston_rod", "piston_rod.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "piston_rod", "piston_rod.rst", should_upload, server, return_local_path
+    )
 
 
-def download_d3plot_beam(should_upload: bool = True, server=None, return_local_path=False) -> list:
+def download_d3plot_beam(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> list:
     """Download the result file of an example of a d3plot file with beam elements and return the
     download paths available on the server side.
     If the server is remote (or doesn't share the memory), the file is uploaded or made available
@@ -767,12 +848,22 @@ def download_d3plot_beam(should_upload: bool = True, server=None, return_local_p
      'C:/Users/user/AppData/local/temp/d3plot02']
 
     """
-    return [_download_file("d3plot_beam", "d3plot"  , should_upload, server, return_local_path),
-            _download_file("d3plot_beam", "d3plot01", should_upload, server, return_local_path),
-            _download_file("d3plot_beam", "d3plot02", should_upload, server, return_local_path)]
+    return [
+        _download_file(
+            "d3plot_beam", "d3plot", should_upload, server, return_local_path
+        ),
+        _download_file(
+            "d3plot_beam", "d3plot01", should_upload, server, return_local_path
+        ),
+        _download_file(
+            "d3plot_beam", "d3plot02", should_upload, server, return_local_path
+        ),
+    ]
 
 
-def download_binout_matsum(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def download_binout_matsum(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download the result file of an example of a binout file with matsum branch and return the
     download path available on the server side.
     If the server is remote (or doesn't share the memory), the file is uploaded or made available
@@ -807,10 +898,14 @@ def download_binout_matsum(should_upload: bool = True, server=None, return_local
     'C:/Users/user/AppData/local/temp/binout_matsum'
 
     """
-    return _download_file("binout", "binout_matsum", should_upload, server, return_local_path)
+    return _download_file(
+        "binout", "binout_matsum", should_upload, server, return_local_path
+    )
 
 
-def download_binout_glstat(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def download_binout_glstat(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download the result file of an example of a binout file with glstat branch and return the
     download path available on the server side.
     If the server is remote (or doesn't share the memory), the file is uploaded or made available
@@ -845,12 +940,14 @@ def download_binout_glstat(should_upload: bool = True, server=None, return_local
     'C:/Users/user/AppData/local/temp/binout_glstat'
 
     """
-    return _download_file("binout", "binout_glstat", should_upload, server, return_local_path)
+    return _download_file(
+        "binout", "binout_glstat", should_upload, server, return_local_path
+    )
 
 
-def download_cycles_to_failure(should_upload: bool = True,
-                               server=None,
-                               return_local_path=False) -> str:
+def download_cycles_to_failure(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Download an example result file from a cyclic analysis and
     return the download path.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
@@ -885,5 +982,6 @@ def download_cycles_to_failure(should_upload: bool = True,
     'C:/Users/user/AppData/local/temp/cycles_to_failure.rst'
 
     """
-    return _download_file("cyclic", "cyclic_to_failure.rst",
-                          should_upload, server, return_local_path)
+    return _download_file(
+        "cyclic", "cyclic_to_failure.rst", should_upload, server, return_local_path
+    )

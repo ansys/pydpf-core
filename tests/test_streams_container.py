@@ -13,7 +13,7 @@ def test_create_streams_container(server_in_process, simple_bar):
 
 def test_release_handles(server_in_process, simple_bar):
     split = os.path.splitext(simple_bar)
-    copy_path = split[0]+"copy"+split[1]
+    copy_path = split[0] + "copy" + split[1]
     shutil.copyfile(simple_bar, copy_path)
     model = dpf.core.Model(copy_path, server=server_in_process)
     # Evaluate something from the rst
@@ -26,7 +26,7 @@ def test_release_handles(server_in_process, simple_bar):
 
 def test_release_streams_model(server_in_process, simple_bar):
     split = os.path.splitext(simple_bar)
-    copy_path = split[0]+"copy2"+split[1]
+    copy_path = split[0] + "copy2" + split[1]
     shutil.copyfile(simple_bar, copy_path)
     model = dpf.core.Model(copy_path, server=server_in_process)
     # Evaluate something from the rst
@@ -44,5 +44,6 @@ def test_create_from_streams_container(server_in_process, simple_bar):
     model = dpf.core.Model(simple_bar, server=server_in_process)
     streams_provider = model.metadata.streams_provider
     sc = streams_provider.outputs.streams_container()
-    dpf.core.streams_container.StreamsContainer(streams_container=sc,
-                                                server=server_in_process)
+    dpf.core.streams_container.StreamsContainer(
+        streams_container=sc, server=server_in_process
+    )

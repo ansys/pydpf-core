@@ -151,8 +151,12 @@ class Model:
 
         """
         if not self._results:
-            args = [self.metadata._build_connector(), self.metadata.result_info,
-                    self.mesh_by_default, self._server]
+            args = [
+                self.metadata._build_connector(),
+                self.metadata.result_info,
+                self.mesh_by_default,
+                self._server,
+            ]
             if misc.DYNAMIC_RESULTS:
                 try:
                     self._results = Results(*args)
@@ -227,10 +231,15 @@ class Model:
 
         """
         from ansys.dpf.core.plotter import DpfPlotter
+
         kwargs["color"] = color
         kwargs["show_edges"] = show_edges
         pl = DpfPlotter(**kwargs)
-        pl.add_mesh(self.metadata.meshed_region, show_axes=kwargs.pop("show_axes", True), **kwargs)
+        pl.add_mesh(
+            self.metadata.meshed_region,
+            show_axes=kwargs.pop("show_axes", True),
+            **kwargs
+        )
         return pl.show_figure(**kwargs)
 
     @property
@@ -279,7 +288,7 @@ class Metadata:
         from ansys.dpf.core import operators
 
         if hasattr(operators, "metadata") and hasattr(
-                operators.metadata, "stream_provider"
+            operators.metadata, "stream_provider"
         ):
             self._stream_provider = operators.metadata.streams_provider(
                 data_sources=self._data_sources, server=self._server
@@ -398,6 +407,7 @@ class Metadata:
 
     def _set_data_sources(self, var_inp):
         from pathlib import Path
+
         if isinstance(var_inp, dpf.core.DataSources):
             self._data_sources = var_inp
         elif isinstance(var_inp, (str, Path)):
@@ -491,7 +501,9 @@ class Metadata:
             Meshes
         """
         if self._meshes_container is None:
-            self._meshes_container = self.meshes_provider.get_output(0, types.meshes_container)
+            self._meshes_container = self.meshes_provider.get_output(
+                0, types.meshes_container
+            )
 
         return self._meshes_container
 

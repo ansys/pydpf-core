@@ -15,10 +15,13 @@ from ansys.dpf.gate import session_capi, session_grpcapi, capi
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import server_types, errors
 from ansys.dpf.core.check_version import version_requires, server_meet_version
-from ansys.dpf.core.common import _common_percentage_progress_bar, _progress_bar_is_available
+from ansys.dpf.core.common import (
+    _common_percentage_progress_bar,
+    _progress_bar_is_available,
+)
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel('DEBUG')
+LOG.setLevel("DEBUG")
 
 
 @capi.GenericCallBackType
@@ -31,7 +34,9 @@ def progress_call_back(obj, nature, arg):
         elif nature == 1:
             handler.finished_operators += 1
             if handler.finished_operators > 0 and handler.bar:
-                handler.bar.update(handler.finished_operators / handler.started_operators * 100)
+                handler.bar.update(
+                    handler.finished_operators / handler.started_operators * 100
+                )
                 if handler.finished_operators == handler.started_operators:
                     handler.bar.finish()
         elif nature == 9:
@@ -61,8 +66,10 @@ class EventHandler(EventHandlerBase):
         self.finished_operators = 0
         self.py_obj = ctypes.py_object(self)
         self._session()._api.add_external_event_handler(
-            self._session(), ctypes.cast(ctypes.pointer(self.py_obj),
-                                         ctypes.c_void_p), progress_call_back)
+            self._session(),
+            ctypes.cast(ctypes.pointer(self.py_obj), ctypes.c_void_p),
+            progress_call_back,
+        )
 
     def start_listening(self):
         if not _progress_bar_is_available():
@@ -74,6 +81,7 @@ class EventHandler(EventHandlerBase):
 
     def add_operator(self, operator, pin, identifier):
         from ansys.dpf.core import workflow
+
         wf = workflow.Workflow(server=self._session()._server)
         wf.add_operator(operator)
         wf.set_output_name("out", operator, pin)
@@ -93,7 +101,8 @@ class GrpcEventHandler(EventHandlerBase):
             return
         self.bar = _common_percentage_progress_bar("Workflow running")
         thread = threading.Thread(
-            target=self._session()._api.start_listening, args=[self._session(), self.bar, LOG]
+            target=self._session()._api.start_listening,
+            args=[self._session(), self.bar, LOG],
         )
         return thread
 
@@ -118,8 +127,9 @@ class Session:
             raise errors.DpfVersionNotSupported("3.0")
         self._server_weak_ref = weakref.ref(server)
         # step 2: get api
-        self._api = server.get_api_for_type(capi=session_capi.SessionCAPI,
-                                            grpcapi=session_grpcapi.SessionGRPCAPI)
+        self._api = server.get_api_for_type(
+            capi=session_capi.SessionCAPI, grpcapi=session_grpcapi.SessionGRPCAPI
+        )
 
         # step3: init environment
         self._api.init_session_environment(self)  # creates stub when gRPC
@@ -201,7 +211,7 @@ class Session:
 
     @version_requires("3.0")
     def flush_workflows(self):
-        """This removes the handle on the workflow by the ``session`` """
+        """This removes the handle on the workflow by the ``session``"""
         self._api.flush_workflows(self)
 
     def delete(self):
