@@ -4,7 +4,7 @@ from datetime import datetime
 import numpy as np
 import pyvista
 from ansys.dpf.core import __version__
-from ansys_sphinx_theme import pyansys_logo_black, ansys_favicon
+from ansys_sphinx_theme import pyansys_logo_black, ansys_favicon, get_version_match
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -28,6 +28,7 @@ pyvista.global_theme.lighting = False
 project = "PyDPF-Core"
 copyright = f"(c) {datetime.now().year} ANSYS, Inc. All rights reserved"
 author = "ANSYS Inc."
+cname = os.getenv("DOCUMENTATION_CNAME", "nocname.com")
 
 # The short X.Y version
 version = __version__
@@ -162,6 +163,11 @@ html_theme_options = {
     "additional_breadcrumbs": [
         ("PyAnsys", "https://docs.pyansys.com/"),
     ],
+    "switcher": {
+        "json_url": f"https://{cname}/release/versions.json",
+        "version_match": get_version_match(__version__),
+    },
+    "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
 }
 
 
