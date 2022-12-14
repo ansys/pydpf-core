@@ -52,10 +52,15 @@ env:
   extra: "--find-links .github/"
 
 jobs:
+  doc-style:
+    name: "Check doc style"
+    uses: ./.github/workflows/docs-style.yml
+    secrets: inherit
+
   docs:
     name: "Documentation"
     runs-on: windows-latest
-
+    needs: [doc-style]
     steps:
       - uses: actions/checkout@v3
 
