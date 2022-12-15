@@ -83,13 +83,13 @@ def test_meets_version():
 
 
 def test_find_outdated_ansys_version():
-    arg1 = 'v3RG bla v21a ghldv3EF'
-    arg2 = 'v3RG bla v212 ghldv3EF'
-    arg3 = 'v3RG bla v222 ghldv3EF'
-    arg4 = 'v3RGldv3'
-    arg5 = 'v'
-    arg6 = 'a'
-    arg7 = 'blav221hlof'
+    arg1 = "v3RG bla v21a ghldv3EF"
+    arg2 = "v3RG bla v212 ghldv3EF"
+    arg3 = "v3RG bla v222 ghldv3EF"
+    arg4 = "v3RGldv3"
+    arg5 = "v"
+    arg6 = "a"
+    arg7 = "blav221hlof"
     assert _find_outdated_ansys_version(arg1) == False
     assert _find_outdated_ansys_version(arg2) == True
     assert _find_outdated_ansys_version(arg3) == False

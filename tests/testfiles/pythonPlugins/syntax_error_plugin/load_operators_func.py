@@ -1,6 +1,7 @@
 from ansys.dpf.core.custom_operator import record_operator
 from ansys.dpf.core.custom_operator import CustomOperatorBase
 
+
 class SyntaxeError(CustomOperatorBase):
     def run(self):
         f = self.get_input(0, int)

@@ -55,7 +55,8 @@ class GenericSupport(Support):
         # step 2: get api
         self._api = self._server.get_api_for_type(
             capi=generic_support_capi.GenericSupportCAPI,
-            grpcapi=generic_support_grpcapi.GenericSupportGRPCAPI)
+            grpcapi=generic_support_grpcapi.GenericSupportGRPCAPI,
+        )
 
         # step3: init environment
         self._api.init_generic_support_environment(self)  # creates stub when gRPC
@@ -67,8 +68,7 @@ class GenericSupport(Support):
         else:
             if self._server.has_client():
                 self._internal_obj = self._api.generic_support_new_on_client(
-                    self._server.client,
-                    name
+                    self._server.client, name
                 )
             else:
                 self._internal_obj = self._api.generic_support_new(name)

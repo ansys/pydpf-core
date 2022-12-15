@@ -111,9 +111,7 @@ def scoping_by_sets(cumulative_sets, server=None):
     return scoping
 
 
-def scoping_by_step_and_substep(
-        load_step_id, subset_id, time_freq_support
-):
+def scoping_by_step_and_substep(load_step_id, subset_id, time_freq_support):
     """Create a specific :class:`ansys.dpf.core.Scoping` for a given step and subset.
 
     The returned scoping describes a specific time frequency support element for a given
@@ -136,7 +134,8 @@ def scoping_by_step_and_substep(
     scoping = Scoping(
         ids=[set_index + 1],
         location=locations.time_freq,
-        server=time_freq_support._server)
+        server=time_freq_support._server,
+    )
     return scoping
 
 
@@ -185,4 +184,5 @@ def scoping_on_all_time_freqs(tf_support_or_model):
     return Scoping(
         ids=range(1, len(tf_support_or_model.time_frequencies) + 1),
         location=locations.time_freq,
-        server=tf_support_or_model._server)
+        server=tf_support_or_model._server,
+    )

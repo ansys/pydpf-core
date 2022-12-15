@@ -12,12 +12,14 @@ def class_handling_cache(cls):
        The method must be used as a class decorator.
     """
     if hasattr(cls, "_to_cache"):
+
         def get_handler(mesh):
             if hasattr(mesh, "__cache"):
                 return mesh.__cache
             else:
                 setattr(mesh, "__cache", CacheHandler(cls, cls._to_cache))
             return mesh.__cache
+
         for getter, setters in cls._to_cache.items():
             if setters:
                 for setter in setters:
@@ -37,9 +39,11 @@ class MethodIdentifier(NamedTuple):
         if isinstance(other, str):
             return self.method_name == other
         else:
-            return self.method_name == other.method_name \
-                   and self.args == other.args \
-                   and self.kwargs == other.kwargs
+            return (
+                self.method_name == other.method_name
+                and self.args == other.args
+                and self.kwargs == other.kwargs
+            )
 
     def __hash__(self):
         hash = self.method_name.__hash__()
@@ -51,7 +55,7 @@ class MethodIdentifier(NamedTuple):
 
 
 class CacheHandler:
-    """"Handle cache complexity.
+    """ "Handle cache complexity.
     Is initialized by a class and a dictionary mapping the getters
     which support caching to their setters.
     When the getters of the dictionary are called, their parameters
@@ -68,6 +72,7 @@ class CacheHandler:
     getters_to_setters_dict : dict[function:list[function]]
         Map class getters to their list of setters which need to be cached
     """
+
     def __init__(self, cls, getters_to_setters_dict):
 
         self.getter_to_setters_name = {}
@@ -94,8 +99,10 @@ class CacheHandler:
             setattr(func, "under_cache", False)
             return self.cached[identifier]
         else:
-            if func.__name__ in self.setter_to_getter_names \
-                    and self.setter_to_getter_names[func.__name__] in self.cached:
+            if (
+                func.__name__ in self.setter_to_getter_names
+                and self.setter_to_getter_names[func.__name__] in self.cached
+            ):
                 del self.cached[self.setter_to_getter_names[func.__name__]]
             return func(object, *args, **kwargs)
 
@@ -119,6 +126,7 @@ def _handle_cache(func):
             func(self, *args, **kwargs)
 
     return wrapper
+
 
 def _setter(func):
     """Add a private attribute to the class (``self._is_set = True``)

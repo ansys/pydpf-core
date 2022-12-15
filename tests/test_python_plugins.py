@@ -14,18 +14,15 @@ from ansys.dpf.core.operator_specification import (
 )
 
 if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
-    pytest.skip(
-        "Requires server version higher than 4.0", allow_module_level=True
-    )
+    pytest.skip("Requires server version higher than 4.0", allow_module_level=True)
 # if platform.python_version().startswith("3.7"):
 #     pytest.skip(
 #         "Known failures in the GitHub pipelines for 3.7",
 #         allow_module_level=True
 #     )
-if platform.system() == 'Linux':
+if platform.system() == "Linux":
     pytest.skip(
-        "Known failures for the Ubuntu-latest GitHub pipelines",
-        allow_module_level=True
+        "Known failures for the Ubuntu-latest GitHub pipelines", allow_module_level=True
     )
 
 
@@ -57,9 +54,7 @@ def test_integral_types(server_type_remote_process, testfiles_dir):
     op.connect(0, 1)
     assert op.get_output(0, dpf.types.int) == 1
 
-    op = dpf.Operator(
-        "custom_forward_float", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_forward_float", server=server_type_remote_process)
     op.connect(0, 1.5)
     assert op.get_output(0, dpf.types.double) == 1.5
 
@@ -74,24 +69,16 @@ def test_integral_types(server_type_remote_process, testfiles_dir):
 
 def test_lists(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
-    op = dpf.Operator(
-        "custom_forward_vec_int", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_forward_vec_int", server=server_type_remote_process)
     op.connect(0, [1, 2, 3])
     assert np.allclose(op.get_output(0, dpf.types.vec_int), [1, 2, 3])
-    op = dpf.Operator(
-        "custom_set_out_vec_double", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_set_out_vec_double", server=server_type_remote_process)
     assert np.allclose(op.get_output(0, dpf.types.vec_double), [1.0, 2.0, 3.0])
-    op = dpf.Operator(
-        "custom_set_out_np_int", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_set_out_np_int", server=server_type_remote_process)
     assert np.allclose(
         op.get_output(0, dpf.types.vec_int), np.ones((200), dtype=np.int)
     )
-    op = dpf.Operator(
-        "custom_set_out_np_double", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_set_out_np_double", server=server_type_remote_process)
     assert np.allclose(op.get_output(0, dpf.types.vec_double), np.ones((200)))
 
 
@@ -101,9 +88,7 @@ def test_field(server_type_remote_process, testfiles_dir):
         3, "Elemental", server=server_type_remote_process
     )
     f.data = np.ones((3, 3), dtype=np.float)
-    op = dpf.Operator(
-        "custom_forward_field", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_forward_field", server=server_type_remote_process)
     op.connect(0, f)
     assert np.allclose(
         op.get_output(0, dpf.types.field).data, np.ones((3, 3), dtype=np.float)
@@ -140,11 +125,13 @@ def test_custom_type_field(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.CustomTypeField(np.uint64, server=server_type_remote_process)
     f.data = np.array([1000000000000, 200000000000000], dtype=np.uint64)
-    op = dpf.Operator("custom_forward_custom_type_field", server=server_type_remote_process)
+    op = dpf.Operator(
+        "custom_forward_custom_type_field", server=server_type_remote_process
+    )
     op.connect(0, f)
     assert np.allclose(
         op.get_output(0, dpf.types.custom_type_field).data,
-        [1000000000000, 200000000000000]
+        [1000000000000, 200000000000000],
     )
 
 
@@ -173,9 +160,7 @@ def test_fields_container(server_type_remote_process, testfiles_dir):
         op.get_output(0, dpf.types.fields_container)[0].data,
         np.ones((3, 3), dtype=np.float),
     )
-    assert (
-        op.get_output(0, dpf.types.fields_container)[0].location == "Elemental"
-    )
+    assert op.get_output(0, dpf.types.fields_container)[0].location == "Elemental"
 
 
 def test_scopings_container(server_type_remote_process, testfiles_dir):
@@ -187,10 +172,7 @@ def test_scopings_container(server_type_remote_process, testfiles_dir):
         "custom_forward_scopings_container", server=server_type_remote_process
     )
     op.connect(0, sc)
-    assert (
-        op.get_output(0, dpf.types.scopings_container)[0].location
-        == "Elemental"
-    )
+    assert op.get_output(0, dpf.types.scopings_container)[0].location == "Elemental"
 
 
 def test_meshes_container(server_type_remote_process, testfiles_dir):
@@ -208,23 +190,19 @@ def test_meshes_container(server_type_remote_process, testfiles_dir):
 def test_data_sources(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.DataSources("file.rst", server=server_type_remote_process)
-    op = dpf.Operator(
-        "custom_forward_data_sources", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_forward_data_sources", server=server_type_remote_process)
     op.connect(0, f)
-    assert op.get_output(0, dpf.types.data_sources).result_files == [
-        "file.rst"
-    ]
+    assert op.get_output(0, dpf.types.data_sources).result_files == ["file.rst"]
 
 
-@pytest.mark.skipif(platform.system() == "Windows" and platform.python_version().startswith("3.8"),
-                    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Windows")
+@pytest.mark.skipif(
+    platform.system() == "Windows" and platform.python_version().startswith("3.8"),
+    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Windows",
+)
 def test_workflow(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.Workflow(server=server_type_remote_process)
-    op = dpf.Operator(
-        "custom_forward_workflow", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_forward_workflow", server=server_type_remote_process)
     op.connect(0, f)
     assert op.get_output(0, dpf.types.workflow) is not None
 
@@ -233,9 +211,7 @@ def test_data_tree(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.DataTree(server=server_type_remote_process)
     f.add(name="Paul")
-    op = dpf.Operator(
-        "custom_forward_data_tree", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_forward_data_tree", server=server_type_remote_process)
     op.connect(0, f)
     dt = op.get_output(0, dpf.types.data_tree)
     assert dt is not None
@@ -244,10 +220,11 @@ def test_data_tree(server_type_remote_process, testfiles_dir):
 
 @conftest.raises_for_servers_version_under("4.0")
 def test_syntax_error(server_type_remote_process, testfiles_dir):
-    dpf.load_library(dpf.path_utilities.to_server_os(
-        os.path.join(
-            testfiles_dir, "pythonPlugins", "syntax_error_plugin"
-        ), server_type_remote_process),
+    dpf.load_library(
+        dpf.path_utilities.to_server_os(
+            os.path.join(testfiles_dir, "pythonPlugins", "syntax_error_plugin"),
+            server_type_remote_process,
+        ),
         "py_raising",
         "load_operators",
         server=server_type_remote_process,
@@ -278,10 +255,7 @@ def test_create_op_specification(server_in_process):
     spec.config_specification = [
         CustomConfigOptionSpec("work_by_index", False, "iterate over indices")
     ]
-    assert (
-        spec.description
-        == "Add a custom value to all the data of an input Field"
-    )
+    assert spec.description == "Add a custom value to all the data of an input Field"
     assert len(spec.inputs) == 2
     assert spec.inputs[0].name == "field"
     assert spec.inputs[0].type_names == ["field"]
@@ -291,13 +265,8 @@ def test_create_op_specification(server_in_process):
     )
     assert spec.properties["exposure"] == "public"
     assert spec.properties["category"] == "math"
-    assert (
-        spec.config_specification["work_by_index"].document
-        == "iterate over indices"
-    )
-    assert (
-        spec.config_specification["work_by_index"].default_value_str == "false"
-    )
+    assert spec.config_specification["work_by_index"].document == "iterate over indices"
+    assert spec.config_specification["work_by_index"].default_value_str == "false"
 
 
 @conftest.raises_for_servers_version_under("4.0")
@@ -309,13 +278,8 @@ def test_create_config_op_specification(server_in_process):
     spec.config_specification = [CustomConfigOptionSpec("other", 1, "bla")]
     spec.config_specification = [CustomConfigOptionSpec("other2", 1.5, "blo")]
     spec.config_specification = [CustomConfigOptionSpec("other3", 1.0, "blo")]
-    assert (
-        spec.config_specification["work_by_index"].document
-        == "iterate over indices"
-    )
-    assert (
-        spec.config_specification["work_by_index"].default_value_str == "false"
-    )
+    assert spec.config_specification["work_by_index"].document == "iterate over indices"
+    assert spec.config_specification["work_by_index"].default_value_str == "false"
     assert spec.config_specification["other"].document == "bla"
     assert spec.config_specification["other"].default_value_str == "1"
     assert spec.config_specification["other"].type_names == ["int32"]
@@ -341,8 +305,10 @@ def test_create_properties_specification(server_in_process):
 
 @conftest.raises_for_servers_version_under("4.0")
 def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
-    dpf.load_library(dpf.path_utilities.to_server_os(
-        os.path.join(testfiles_dir, "pythonPlugins"), server_type_remote_process),
+    dpf.load_library(
+        dpf.path_utilities.to_server_os(
+            os.path.join(testfiles_dir, "pythonPlugins"), server_type_remote_process
+        ),
         "py_operator_with_spec",
         "load_operators",
         server=server_type_remote_process,

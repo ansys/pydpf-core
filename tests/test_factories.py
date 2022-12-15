@@ -73,7 +73,9 @@ def test_over_time_freq_fields_container_1():
 
 def test_over_time_freq_fields_container_2(server_type):
     f1 = fields_factory.create_vector_field(24, 4, server=server_type)
-    f2 = fields_factory.create_vector_field(32, 4, location=locations.elemental, server=server_type)
+    f2 = fields_factory.create_vector_field(
+        32, 4, location=locations.elemental, server=server_type
+    )
     fc = fields_container_factory.over_time_freq_fields_container(
         {0.43: f1, 1.12: f2}, "Hz", server=server_type
     )
@@ -246,7 +248,9 @@ def test_scoping_on_all_freqs(plate_msup):
     scop = time_freq_scoping_factory.scoping_on_all_time_freqs(model)
     assert scop is not None
     assert np.allclose(scop.ids, range(1, 21))
-    scop = time_freq_scoping_factory.scoping_on_all_time_freqs(model.metadata.time_freq_support)
+    scop = time_freq_scoping_factory.scoping_on_all_time_freqs(
+        model.metadata.time_freq_support
+    )
     assert scop is not None
     assert np.allclose(scop.ids, range(1, 21))
 

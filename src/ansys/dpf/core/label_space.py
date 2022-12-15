@@ -21,7 +21,7 @@ class LabelSpace:
         # step 2: get api
         self._api = self._server.get_api_for_type(
             capi=label_space_capi.LabelSpaceCAPI,
-            grpcapi=label_space_grpcapi.LabelSpaceGRPCAPI
+            grpcapi=label_space_grpcapi.LabelSpaceGRPCAPI,
         )
         # step3: init environment
         self._api.init_label_space_environment(self)  # creates stub when gRPC
@@ -38,7 +38,8 @@ class LabelSpace:
     def _data_processing_core_api(self):
         core_api = self._server.get_api_for_type(
             capi=data_processing_capi.DataProcessingCAPI,
-            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI)
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+        )
         core_api.init_data_processing_environment(self)
         return core_api
 
@@ -52,8 +53,9 @@ class LabelSpace:
         out = {}
 
         for i in range(0, self._api.label_space_get_size(self)):
-            out[self._api.label_space_get_labels_name(self, i)] = \
-                self._api.label_space_get_labels_value(self, i)
+            out[
+                self._api.label_space_get_labels_name(self, i)
+            ] = self._api.label_space_get_labels_value(self, i)
         return out
 
     def __del__(self):
