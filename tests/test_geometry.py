@@ -23,6 +23,7 @@ def test_create_points():
     print(points)
     assert len(points) == points.num_points == num_points
 
+
 points_data = [
     ([[0.4, 0.1, 0], [0.1, 0, 0.5]]),
     (Points([[0.4, 0.1, 0], [0.1, 0, 0.5]])),
@@ -39,6 +40,7 @@ points_data = [
 def test_create_line_from_points(points):
     line = create_line_from_points(points)
     line.plot()
+
 
 vects_data = [
     ([[0.4, 0.1, 0], [0.1, 0, 0.5]], None),
@@ -69,6 +71,7 @@ def test_create_line_from_vectors(ini, end):
     line = create_line_from_vector(ini, end)
     line.plot()
 
+
 planes_data = [
     ([0, 0, 0], [[0, 0, 0], [0, 0, 1]]),
     ([0, 0, 0], [0, 0, 1]),
@@ -89,6 +92,7 @@ def test_create_plane_from_center_and_normal(center, normal):
     plane = create_plane_from_center_and_normal(center, normal)
     plane.plot()
 
+
 plane_data = [
     ([[0, 0, 0], [0, 1, 0],[1, 0, 0]]),
     (Points([[0, 0, 0], [0, 1, 0],[1, 0, 0]])),
@@ -105,6 +109,7 @@ plane_data = [
 def test_create_plane_from_points(points):
     plane = create_plane_from_points(points)
     plane.plot()
+
 
 plane_lines_data = [
     ([[0, 0, 0], [1, 0, 0]], [[2, 1, 0], [0, 1, 0]]),
@@ -125,6 +130,7 @@ def test_create_plane_from_lines(line1, line2):
     plane = create_plane_from_lines(line1, line2)
     plane.plot()
 
+
 plane_point_line_data = [
     ([0, 0, 0], [[0, 0, 0], [0, 0, 1]]),
     (Points([0, 0, 0]), [[0, 0, 0], [0, 0, 1]]),
@@ -134,6 +140,7 @@ plane_point_line_data = [
 def test_create_plane_from_point_and_line(point, line):
     plane = create_plane_from_point_and_line(point, line)
     plane.plot()
+
 
 coords_data = [
     ([[0, 0, 0], [0, 0, 1], [1, 0, 0]], [1/3, 0, 1/3]),
@@ -154,6 +161,7 @@ def test_line_discretization():
     assert line.mesh.nodes.n_nodes == 1200
     assert line.mesh.elements.n_elements == 1199
 
+
 plane_discretization_data = [0, 1, 2]
 @pytest.mark.parametrize(("component"), plane_discretization_data)
 def test_plane_discretization(component):
@@ -163,11 +171,3 @@ def test_plane_discretization(component):
     plane.discretize(1, 1, 30, 30)
     assert plane.mesh.elements.n_elements == 30*30
     assert all(plane.mesh.nodes.coordinates_field.data[:,component]) == 0.0
-
-if __name__ == "__main__":
-    # points = [[0.4, 0.1, 0], [0.1, 0, 0.5]]
-
-    points = Points([[0.4, 0.1, 0], [0.1, 0, 0.5]])
-
-    line = create_line_from_points(points)
-    line.plot()

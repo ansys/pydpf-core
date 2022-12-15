@@ -2,11 +2,10 @@
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import Field
-from ansys.dpf.core.fields_factory import create_3d_vector_field, field_from_array
+from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core.plotter import DpfPlotter
 
 import numpy as np
-import pyvista as pv
 
 class Points():
     """
