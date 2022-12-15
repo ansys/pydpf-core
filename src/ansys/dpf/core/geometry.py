@@ -154,10 +154,9 @@ class Line:
             node.id = i + 1
             node.coordinates = path[i]
 
-        [
+        for i in range(self._num_points - 1):
             mesh.elements.add_beam_element(i + 1, [i, i + 1])
-            for i in range(self._num_points - 1)
-        ]
+
         return mesh, i_points
 
     @property
@@ -261,7 +260,7 @@ class Plane:
         txt += f"Center point: {self._center}\n"
         txt += f"Normal direction: {self._normal_dir}\n"
         if self._mesh:
-            txt += f"Plane discretizaton using:\n"
+            txt += "Plane discretizaton using:\n"
             txt += f"  Width (x-dir): {self.width}\n"
             txt += f"  Height (y-dir): {self.height}\n"
             txt += f"  Num cells x-dir: {self.num_cells_x}\n"
@@ -291,7 +290,8 @@ class Plane:
         """Get discretized mesh for the plane."""
         return self._mesh
 
-    def _normalize_vector(self, vector):
+    @staticmethod
+    def _normalize_vector(vector):
         """Normalize vector."""
         return vector / np.linalg.norm(vector)
 
