@@ -67,7 +67,7 @@ To start a DPF Server from outside a Python environment, you can also use the ex
 On Windows, start the DPF Server by running the ``Ans.Dpf.Grpc.bat`` file in the unzipped package.
 On Linux, start the DPF Server by running the ``Ans.Dpf.Grpc.sh`` file in the unzipped package.
 
-Running the DPF Server in a Docker container
+Running DPF Server in a Docker container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. Along with the ansys_dpf_server_lin_v2023.2.pre0.zip archive mentioned in :ref:`Installing DPF Server <target_installing_server>`, download the ``Dockerfile``.
@@ -99,7 +99,7 @@ To accept the DPF User Licensing Agreement terms, the following environment vari
     ANSYS_DPF_ACCEPT_LA=Y
 
 ``ANSYS_DPF_ACCEPT_LA`` confirms your acceptance of the DPF User Licensing Agreement. By passing the value ``Y`` to the environment variable
-``ANSYS_DPF_ACCEPT_LA``, you are expressing that you have a valid and existing license for the edition and version of DPF Server you intend to use.
+``ANSYS_DPF_ACCEPT_LA``, you are indicating that you have a valid and existing license for the edition and version of DPF Server you intend to use.
 
 For a DPF Docker container usage, it can be set using:
 
