@@ -23,7 +23,7 @@ and :ref:`user_guide_xmlfiles`.
 Two main licensing context type capabilities are available: 
 
 - Entry (default): Loads the minimum capabilities without requiring any license checkout.
-- Premium: Enables the entry capabilities and the capabilities that requires a license checkout.
+- Premium: Enables the Entry capabilities and the capabilities that require a license checkout.
   More operators are available.
 
 The operators list for each licensing context type is available at

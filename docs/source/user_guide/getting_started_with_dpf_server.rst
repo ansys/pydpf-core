@@ -99,7 +99,7 @@ To accept the DPF User Licensing Agreement terms, the following environment vari
     ANSYS_DPF_ACCEPT_LA=Y
 
 ``ANSYS_DPF_ACCEPT_LA`` confirms your acceptance of the DPF User Licensing Agreement. By passing the value ``Y`` to the environment variable
-``ANSYS_DPF_ACCEPT_LA``, you are expressing that you have a valid and existing license for the edition and version of DPF server you intend to use.
+``ANSYS_DPF_ACCEPT_LA``, you are expressing that you have a valid and existing license for the edition and version of DPF Server you intend to use.
 
 For a DPF Docker container usage, it can be set using:
 
