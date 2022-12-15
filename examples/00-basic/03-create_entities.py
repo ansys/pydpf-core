@@ -4,13 +4,15 @@
 
 Create your own entities using DPF operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 You can create your field, fields container, or meshed region to use DPF operators
 with your own data. The ability to use scripting to create any DPF entity means
 that you are not dependent on result files and can connect the DPF environment
 with any Python tool.
 
-Import necessary modules:
 """
+
+# Import necessary modules
 import numpy as np
 
 from ansys.dpf import core as dpf

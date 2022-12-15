@@ -75,6 +75,7 @@ def test_print_result_info(model):
 @pytest.mark.skipif(True, reason="Used to test memory leaks")
 def test_result_info_memory_leaks(model):
     import gc
+
     for i in range(1000):
         gc.collect()
         metadata = model.metadata

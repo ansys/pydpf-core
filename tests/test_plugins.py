@@ -61,8 +61,10 @@ def test_eng(engineering_data_sources, try_load_composites_operators):
     field_variable_provider.run()
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-                    reason='Requires server version higher than 5.0')
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="Requires server version higher than 5.0",
+)
 def test_lsdynahgp(d3plot, server_type):
     ds = dpf.DataSources(server=server_type)
     ds.set_result_file_path(d3plot, "d3plot")
@@ -74,19 +76,24 @@ def test_lsdynahgp(d3plot, server_type):
     assert dpf.Operator("lsdyna::stream_provider") is not None
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-                    reason='Requires server version higher than 5.0')
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="Requires server version higher than 5.0",
+)
 def test_cgns(server_type):
     assert dpf.Operator("cgns::stream_provider", server=server_type) is not None
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-                    reason='Requires server version higher than 5.0')
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="Requires server version higher than 5.0",
+)
 def test_vtk(server_type, tmpdir):
     op = dpf.Operator("vtu_export", server=server_type)
     try:
-        rst_file = dpf.upload_file_in_tmp_folder(examples.download_pontoon(return_local_path=True)
-                                                 , server=server_type)
+        rst_file = dpf.upload_file_in_tmp_folder(
+            examples.download_pontoon(return_local_path=True), server=server_type
+        )
     except dpf.errors.ServerTypeError as e:
         print(e)
         rst_file = examples.download_pontoon(return_local_path=True)

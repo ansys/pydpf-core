@@ -83,6 +83,7 @@ To get a specific version of the ``ansys-dpf-core`` package, such as 0.7.0, use 
 
     pip install --force-reinstall ansys-dpf-core==0.7.0
 
+.. _target_environment_variable_with_dpf_section:
 
 Environment variable
 --------------------

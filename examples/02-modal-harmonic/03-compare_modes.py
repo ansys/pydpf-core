@@ -3,7 +3,8 @@
 .. _ref_compare_modes:
 
 Use Result Helpers to compare mode shapes for solids and then shells
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The :class:`Result <ansys.dpf.core.results.Result>` class which instances
 are created by the :class:`Model <ansys.dpf.core.model.Model>` gives access to
 helpers to request results on specific mesh and time scopings.

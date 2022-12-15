@@ -3,6 +3,7 @@
 
 Create a plug-in package with multiple operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to create a plug-in package with multiple operators.
 The benefits of writing a package rather than simple scripts are:
 
@@ -17,7 +18,7 @@ For this example, the plug-in package contains two different operators:
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 

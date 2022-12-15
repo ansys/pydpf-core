@@ -4,6 +4,7 @@
 
 Basic DPF-Core usage
 ~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to open a result file and do some
 basic postprocessing.
 
@@ -11,12 +12,9 @@ If you have Ansys 2021 R1 or higher installed, starting DPF is quite easy
 as DPF-Core takes care of launching all the services that
 are required for postprocessing Ansys files.
 
-First, import the DPF-Core module as ``dpf`` and import the
-included examples file.
-
-
 """
 
+# First, import the DPF-Core module as ``dpf`` and import the included examples file.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
