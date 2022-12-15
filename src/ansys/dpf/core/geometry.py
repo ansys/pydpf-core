@@ -17,12 +17,22 @@ class Points:
 
     Parameters
     ----------
-    coordinates: Field
+    coordinates: array, list, Field
         Coordinates of the points in a 3D space.
 
     Examples
     --------
-    TO DO
+    Create Points object with two points, print object information and plot.
+
+    >>> from ansys.dpf.core.geometry import Points
+    >>> points = Points([[0, 0, 0], [1, 0, 0]])
+    >>> print(points)
+    DPF Points object:
+    Number of points: 2
+    Coordinates:
+      [[0. 0. 0.]
+      [1. 0. 0.]]
+    >>> points.plot()
 
     """
 
@@ -40,6 +50,13 @@ class Points:
     def __len__(self):
         return self.num_points
 
+    def __str__(self):
+        """Print Points information."""
+        txt = "DPF Points object:\n"
+        txt += f"Number of points: {self.num_points}\n"
+        txt += f"Coordinates:\n  {self._coordinates.data}\n"
+        return txt
+
     @property
     def coordinates(self):
         """Coordinates of the Points."""
@@ -47,6 +64,7 @@ class Points:
 
     @property
     def num_points(self):
+        """Total number of points."""
         return (
             self._coordinates.shape[0]
             if isinstance(self._coordinates.shape, tuple)
@@ -55,13 +73,8 @@ class Points:
 
     @property
     def dimension(self):
+        """Dimension of the Points object space."""
         return 3
-
-    def __str__(self):
-        """Print Points information."""
-        txt = "DPF Points object:\n"
-        txt += f"Coordinates: {self.coordinates}\n"
-        return txt
 
     def plot(self, **kwargs):
         """Visualize Points object."""
@@ -72,20 +85,32 @@ class Points:
 
 class Line:
     """
-    Line object.
+    Create Line object from two 3D points.
 
     Parameters
     ----------
-    coordinates: Field
-        Coordinates of the two points defining the line.
+    coordinates: array, list, Field, Points
+        3D coordinates of the two points defining the line.
+    num_points: int
+        Number of points used to discretize the line.
 
     Examples
     --------
-    TO DO
+    Create a line from two points, print object information and plot.
+
+    >>> from ansys.dpf.core.geometry import Line
+    >>> line = Line([[0, 0, 0], [1, 0, 0]])
+    >>> print(line)
+    DPF Line object:
+    Starting point: [0. 0. 0.]
+    Ending point: [1. 0. 0.]
+    Line discretized with 100 points
+    >>> line.plot()
 
     """
 
     def __init__(self, coordinates, num_points=100, server=None):
+        """Initialize line object from two 3D points and discretize."""
         if not isinstance(coordinates, Field):
             coordinates = field_from_array(coordinates)
         if not len(coordinates.data) == 2:
@@ -97,12 +122,23 @@ class Line:
         self._mesh, self._length = self._discretize()
 
     def __getitem__(self, value):
+        """Overwrite getitem so coordinates.data is iterable."""
         return self.coordinates.data[value]
 
     def __len__(self):
+        """Overwrite len so it returns the number of points."""
         return len(self._coordinates.data)
 
+    def __str__(self):
+        """Print line information."""
+        txt = "DPF Line object:\n"
+        txt += f"Starting point: {self._coordinates.data[0]}\n"
+        txt += f"Ending point: {self._coordinates.data[1]}\n"
+        txt += f"Line discretized with {self._num_points} points\n"
+        return txt
+
     def _discretize(self):
+        """Discretize line."""
         origin = self._coordinates.data[0]
         diff = self._coordinates.data[1] - self._coordinates.data[0]
         i_points = np.linspace(0, 1, self._num_points)
@@ -148,6 +184,7 @@ class Line:
         return diff / np.linalg.norm(diff)
 
     def plot(self, **kwargs):
+        """Visualize line."""
         pl = DpfPlotter(**kwargs)
         pl.add_line(self._coordinates.data)
         pl.show_figure()
@@ -159,13 +196,39 @@ class Plane:
 
     Parameters
     ----------
+    center : array, list
+        3D coordinates of the center point of the plane.
+    normal : array, list, Line
+        Normal direction to the plane.
 
     Examples
     --------
+    Create a plane from its center and normal direction, print object information and plot.
+
+    >>> from ansys.dpf.core.geometry import Plane
+    >>> plane = Plane([0, 0, 0], [1, 0, 0])
+    >>> print(plane)
+    DPF Plane object:
+    Center point: [0, 0, 0]
+    Normal direction: [1. 0. 0.]
+    Plane has not been discretized.
+      Use plane.discretize(width, height, num_cells_x, num_cells_y)
+    >>> plane.discretize(width=1, height=1, num_cells_y=10, num_cells_x=10)
+    >>> print(plane)
+    DPF Plane object:
+    Center point: [0, 0, 0]
+    Normal direction: [1. 0. 0.]
+    Plane discretizaton using:
+      Width (x-dir): 1
+      Height (y-dir): 1
+      Num cells x-dir: 10
+      Num cells y-dir: 10
+    >>> plane.plot()
 
     """
 
     def __init__(self, center, normal, server=None):
+        """Initialize Plane object from its center and normal direction."""
         # Input check
         if not len(center) == 3:
             raise ValueError("'center' of the plane must have length 3")
@@ -187,7 +250,26 @@ class Plane:
         self._normal_dir = normal_dir
         self._server = server
         self._mesh = None
-        self.nodes = None
+        self.width = None
+        self.height = None
+        self.num_cells_x = None
+        self.num_cells_y = None
+
+    def __str__(self):
+        """Print plane information."""
+        txt = "DPF Plane object:\n"
+        txt += f"Center point: {self._center}\n"
+        txt += f"Normal direction: {self._normal_dir}\n"
+        if self._mesh:
+            txt += f"Plane discretizaton using:\n"
+            txt += f"  Width (x-dir): {self.width}\n"
+            txt += f"  Height (y-dir): {self.height}\n"
+            txt += f"  Num cells x-dir: {self.num_cells_x}\n"
+            txt += f"  Num cells y-dir: {self.num_cells_y}\n"
+        else:
+            txt += "Plane has not been discretized.\n"
+            txt += "  Use plane.discretize(width, height, num_cells_x, num_cells_y)\n"
+        return txt
 
     @property
     def center(self):
@@ -210,24 +292,33 @@ class Plane:
         return self._mesh
 
     def _normalize_vector(self, vector):
+        """Normalize vector."""
         return vector / np.linalg.norm(vector)
 
-    def discretize(self, width, height, num_cells_x, num_cells_y):
-        # Get plane axis (local) from reference axis (global) and plane's normal
-        normal = self._normal_dir
+    def _get_plane_local_axis(self):
         axis_ref = [np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([0, 0, 1])]
-        if np.allclose(normal, [1.0, 0.0, 0.0]):
-            plane_x = np.cross(axis_ref[1], normal)
-            plane_y = np.cross(normal, plane_x)
+        if np.allclose(self._normal_dir, [1.0, 0.0, 0.0]):
+            plane_x = np.cross(axis_ref[1], self._normal_dir)
+            plane_y = np.cross(self._normal_dir, plane_x)
         else:
-            plane_y = np.cross(axis_ref[0], normal)
-            plane_x = np.cross(normal, plane_y)
-        plane_z = normal
+            plane_y = np.cross(axis_ref[0], self._normal_dir)
+            plane_x = np.cross(self._normal_dir, plane_y)
+        plane_z = self._normal_dir
 
         plane_x = self._normalize_vector(plane_x)
         plane_y = self._normalize_vector(plane_y)
         plane_z = self._normalize_vector(plane_z)
-        axis_plane = [plane_x, plane_y, plane_z]
+        return [plane_x, plane_y, plane_z]
+
+    def discretize(self, width, height, num_cells_x, num_cells_y):
+        """Discretize plane with a certain size and number of cells per direction."""
+        self.width = width
+        self.height = height
+        self.num_cells_x = num_cells_x
+        self.num_cells_y = num_cells_y
+
+        # Get plane axis (local) from reference axis (global) and plane's normal
+        axis_plane = self._get_plane_local_axis()
 
         # Create grid on plane coordinates
         num_nodes = (num_cells_x + 1) * (num_cells_y + 1)
@@ -277,6 +368,7 @@ class Plane:
         return self._normalize_vector(direction)
 
     def plot(self, **kwargs):
+        """Visualize plane object."""
         pl = DpfPlotter(**kwargs)
         pl.add_plane(self._center, self._normal_dir)
         pl.show_figure()
