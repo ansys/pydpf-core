@@ -48,7 +48,7 @@ displacement of a result entirely within the DPF service, without
 transferring any data from DPF to Python until DPF arrives at the
 solution data that you want.
 
-DPF's library of operators is large and includes file readers and mathematical, 
+The library of DPF operators is large and includes file readers and mathematical,
 geometrical, and logical transformations. For more information on this library,
 which is progressively enhanced, see :ref:`ref_dpf_operators_reference`.
 
@@ -207,7 +207,7 @@ Chain operators
 ~~~~~~~~~~~~~~~
 
 To create more complex operations and customizable results, you can chain operators
-together to create workflows. Using DPF's large library of operators, you can
+together to create workflows. Using the large library of DPF operators, you can
 customize results to get a specific output.
 
 While manually customizing results on the Python side is far less efficient
@@ -312,7 +312,7 @@ These operators provide for reading data from solver files or from standard file
 
 To read these files, different readers are implemented as plugins.
 Plugins can be loaded on demand in any DPF scripting language with the "load library" methods. 
-File readers can be used generically thanks to DPF's result providers, which means that the same operators can be used for any file types.
+File readers can be used generically thanks to the DPF result providers, which means that the same operators can be used for any file types.
 
 This example shows how to read a displacement or a stress for any file:
 
