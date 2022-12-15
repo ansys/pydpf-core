@@ -108,8 +108,10 @@ pl.show_figure(show_axes=True)
 
 ###############################################################################
 # 3D plot of Line and mesh
+# Note that the line is only displayed if some points are found inside the mesh.
 pl = DpfPlotter()
-pl.add_field(field_line, line.mesh, line_width=5)
+if not len(field_line) == 0:
+    pl.add_field(field_line, line.mesh, line_width=5)
 pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
 pl.show_figure(show_axes=True)
 
@@ -125,8 +127,8 @@ pl.show_figure(show_axes=True)
 ###############################################################################
 # 2D plot (graph) of Line (line length vs displacement field)
 norm_disp = [np.linalg.norm(field_line.data[i]) for i in range(len(field_line.data))]
-length = line.length[field_line.scoping.ids - 1]
-plt.plot(length, norm_disp)
+path = line.path[field_line.scoping.ids - 1]
+plt.plot(path, norm_disp)
 plt.xlabel("Line length")
 plt.ylabel("Displacement norm field")
 plt.show()

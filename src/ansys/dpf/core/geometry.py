@@ -143,7 +143,10 @@ class Line:
         origin = self._coordinates.data[0]
         diff = self._coordinates.data[1] - self._coordinates.data[0]
         path_1D = np.linspace(0, self.length, self._num_points)
-        path_3D = [origin + i_point * diff for i_point in path_1D]
+        path_3D = [
+            origin + i_point * diff / self._num_points
+            for i_point in range(self._num_points)
+        ]
 
         # Create mesh for a line
         mesh = dpf.MeshedRegion(
