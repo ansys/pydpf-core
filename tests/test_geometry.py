@@ -209,15 +209,19 @@ def test_plane_discretization(component):
         "  Use plane.discretize(width, height, num_cells_x, num_cells_y)\n"
     )
     assert print(plane) == print(info_no_discretization)
-    plane.discretize(1, 1, 30, 30)
+    width = height = 1
+    num_cells_x = num_cells_y = 30
+    plane.discretize(
+        width=width, height=height, num_cells_x=num_cells_x, num_cells_y=num_cells_y
+    )
     assert plane.mesh.elements.n_elements == 30 * 30
     assert all(plane.mesh.nodes.coordinates_field.data[:, component] == 0.0)
     info_discretization = "DPF Plane object:\n"
     info_discretization += f"Center point: {center}\n"
     info_discretization += f"Normal direction: {normal}\n"
     info_discretization += "Plane discretizaton using:\n"
-    info_discretization += f"  Width (x-dir): {plane.width}\n"
-    info_discretization += f"  Height (y-dir): {plane.height}\n"
-    info_discretization += f"  Num cells x-dir: {plane.num_cells_x}\n"
-    info_discretization += f"  Num cells y-dir: {plane.num_cells_y}\n"
+    info_discretization += f"  Width (x-dir): {width}\n"
+    info_discretization += f"  Height (y-dir): {height}\n"
+    info_discretization += f"  Num cells x-dir: {num_cells_x}\n"
+    info_discretization += f"  Num cells y-dir: {num_cells_y}\n"
     assert print(plane) == print(info_discretization)
