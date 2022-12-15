@@ -2,6 +2,7 @@ ANSYS
 Ansys
 ansys
 Abaqus
+APIs
 componentization
 Componentization
 core
@@ -23,6 +24,7 @@ Postprocessing
 protobuf
 psutil
 PyDPF
+Python
 Pythonic
 pyvista
 PyVista
