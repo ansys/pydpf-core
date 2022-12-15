@@ -29,13 +29,15 @@ points_data = [
     (Points([[0.4, 0.1, 0], [0.1, 0, 0.5]])),
     pytest.param(
         [[0.4, 0.1, 0], [0.1, 0, 0.5], [0.1, 0, 0.5]],
-        marks=pytest.mark.xfail(strict=True, raises=ValueError)
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
         [[0.4, 0.1, 0], [0.1, 0, 0.5, 0]],
-        marks=pytest.mark.xfail(strict=True, raises=TypeError)
+        marks=pytest.mark.xfail(strict=True, raises=TypeError),
     ),
 ]
+
+
 @pytest.mark.parametrize("points", points_data)
 def test_create_line_from_points(points):
     line = create_line_from_points(points)
@@ -48,24 +50,26 @@ vects_data = [
     pytest.param(
         [[0.4, 0.1, 0], [0.1, 0, 0.5, 0], [0, 0, 0]],
         None,
-        marks=pytest.mark.xfail(strict=True, raises=ValueError)
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
         [[0.4, 0.1, 0], [0.1, 0, 0.5, 0, 0]],
         None,
-        marks=pytest.mark.xfail(strict=True, raises=ValueError)
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
         [0.4, 0.1, 0, 0],
         [0.1, 0, 0.5],
-        marks=pytest.mark.xfail(strict=True, raises=ValueError)
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
         [0.4, 0.1, 0],
         [0.1, 0, 0.5, 0],
-        marks=pytest.mark.xfail(strict=True, raises=ValueError)
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
+
+
 @pytest.mark.parametrize(("ini", "end"), vects_data)
 def test_create_line_from_vectors(ini, end):
     line = create_line_from_vector(ini, end)
@@ -77,16 +81,16 @@ planes_data = [
     ([0, 0, 0], [0, 0, 1]),
     ([0, 0, 0], Line([[0, 0, 0], [0, 0, 1]])),
     pytest.param(
-        [0, 0],
-        [0, 0, 1],
-        marks=pytest.mark.xfail(strict=True, raises=ValueError)
+        [0, 0], [0, 0, 1], marks=pytest.mark.xfail(strict=True, raises=ValueError)
     ),
     pytest.param(
         [0, 0, 0],
         [[0, 0], [0, 0, 1]],
-        marks=pytest.mark.xfail(strict=True, raises=ValueError)
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
+
+
 @pytest.mark.parametrize(("center", "normal"), planes_data)
 def test_create_plane_from_center_and_normal(center, normal):
     plane = create_plane_from_center_and_normal(center, normal)
@@ -94,17 +98,18 @@ def test_create_plane_from_center_and_normal(center, normal):
 
 
 plane_data = [
-    ([[0, 0, 0], [0, 1, 0],[1, 0, 0]]),
-    (Points([[0, 0, 0], [0, 1, 0],[1, 0, 0]])),
+    ([[0, 0, 0], [0, 1, 0], [1, 0, 0]]),
+    (Points([[0, 0, 0], [0, 1, 0], [1, 0, 0]])),
     pytest.param(
-        [[0, 0, 0], [0, 1, 0]],
-        marks=pytest.mark.xfail(strict=True, raises=ValueError)
+        [[0, 0, 0], [0, 1, 0]], marks=pytest.mark.xfail(strict=True, raises=ValueError)
     ),
     pytest.param(
         [[0, 0], [0, 1, 0], [0, 0, 1]],
-        marks=pytest.mark.xfail(strict=True, raises=ValueError)
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
+
+
 @pytest.mark.parametrize(("points"), plane_data)
 def test_create_plane_from_points(points):
     plane = create_plane_from_points(points)
@@ -117,14 +122,16 @@ plane_lines_data = [
     pytest.param(
         [[0, 0, 0], [0, 1, 0], [0, 1, 0]],
         [[0, 0, 0], [0, 0, 1]],
-        marks=pytest.mark.xfail(strict=True, raises=ValueError)
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
         [[0, 0, 0], [0, 1, 0]],
         [[0, 0, 0], [0, 0]],
-        marks=pytest.mark.xfail(strict=True, raises=ValueError)
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
+
+
 @pytest.mark.parametrize(("line1", "line2"), plane_lines_data)
 def test_create_plane_from_lines(line1, line2):
     plane = create_plane_from_lines(line1, line2)
@@ -136,6 +143,8 @@ plane_point_line_data = [
     (Points([0, 0, 0]), [[0, 0, 0], [0, 0, 1]]),
     ([0, 0, 0], Line([[0, 0, 0], [0, 0, 1]])),
 ]
+
+
 @pytest.mark.parametrize(("point", "line"), plane_point_line_data)
 def test_create_plane_from_point_and_line(point, line):
     plane = create_plane_from_point_and_line(point, line)
@@ -143,9 +152,11 @@ def test_create_plane_from_point_and_line(point, line):
 
 
 coords_data = [
-    ([[0, 0, 0], [0, 0, 1], [1, 0, 0]], [1/3, 0, 1/3]),
-    ([[0, 0], [1, 0], [0, 1]], [1/3, 1/3]),
+    ([[0, 0, 0], [0, 0, 1], [1, 0, 0]], [1 / 3, 0, 1 / 3]),
+    ([[0, 0], [1, 0], [0, 1]], [1 / 3, 1 / 3]),
 ]
+
+
 @pytest.mark.parametrize(("coords", "expected"), coords_data)
 def test_get_center_from_coords(coords, expected):
     center = get_center_from_coords(coords)
@@ -163,11 +174,13 @@ def test_line_discretization():
 
 
 plane_discretization_data = [0, 1, 2]
+
+
 @pytest.mark.parametrize(("component"), plane_discretization_data)
 def test_plane_discretization(component):
     normal = np.zeros(3)
     normal[component] = 1
     plane = create_plane_from_center_and_normal([0, 0, 0], [1, 0, 0])
     plane.discretize(1, 1, 30, 30)
-    assert plane.mesh.elements.n_elements == 30*30
-    assert all(plane.mesh.nodes.coordinates_field.data[:,component]) == 0.0
+    assert plane.mesh.elements.n_elements == 30 * 30
+    assert all(plane.mesh.nodes.coordinates_field.data[:, component]) == 0.0

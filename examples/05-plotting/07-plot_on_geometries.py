@@ -11,6 +11,7 @@ objects such as points, lines and planes.
 # Imports and load model
 # ~~~~~~~~~~~~~~~~~~~~~~
 # Import modules
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -31,17 +32,19 @@ print(model)
 # Create points, line and plane objects
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create 8 points in the corners and one in the middle
-points = Points([
-    [0.0, 0.03, 0.0],
-    [0.0, 0.03, 0.03],
-    [0.0, 0.06, 0.00],
-    [0.0, 0.06, 0.03],
-    [0.03, 0.03, 0.0],
-    [0.03, 0.03, 0.03],
-    [0.03, 0.06, 0.00],
-    [0.03, 0.06, 0.03],
-    [0.015, 0.045, 0.015],
-])
+points = Points(
+    [
+        [0.0, 0.03, 0.0],
+        [0.0, 0.03, 0.03],
+        [0.0, 0.06, 0.00],
+        [0.0, 0.06, 0.03],
+        [0.03, 0.03, 0.0],
+        [0.03, 0.03, 0.03],
+        [0.03, 0.06, 0.00],
+        [0.03, 0.06, 0.03],
+        [0.015, 0.045, 0.015],
+    ]
+)
 
 ###############################################################################
 # Create line passing through the geometry's diagional
@@ -49,7 +52,7 @@ points = Points([
 line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], num_points=50)
 
 ###############################################################################
-# Create vertical plane passing thorugh the mid point
+# Create vertical plane passing through the mid point
 plane = Plane([0.015, 0.045, 0.015], [1, 1, 0])
 plane.discretize(width=0.03, height=0.03, num_cells_x=10, num_cells_y=10)
 
@@ -64,7 +67,10 @@ mesh = model.metadata.meshed_region
 # Map displacement field to the required objects
 # Map to points in Points object
 mapping_operator = ops.mapping.on_coordinates(
-    fields_container=disp, coordinates=field_from_array(points.coordinates.data), create_support=True, mesh=mesh
+    fields_container=disp,
+    coordinates=field_from_array(points.coordinates.data),
+    create_support=True,
+    mesh=mesh,
 )
 fields_mapped = mapping_operator.outputs.fields_container()
 field_points = fields_mapped[0]
@@ -72,7 +78,10 @@ field_points = fields_mapped[0]
 ###############################################################################
 # Map to points in Line object
 mapping_operator = ops.mapping.on_coordinates(
-    fields_container=disp, coordinates=line.mesh.nodes.coordinates_field, create_support=True, mesh=mesh
+    fields_container=disp,
+    coordinates=line.mesh.nodes.coordinates_field,
+    create_support=True,
+    mesh=mesh,
 )
 fields_mapped = mapping_operator.outputs.fields_container()
 field_line = fields_mapped[0]
@@ -80,7 +89,10 @@ field_line = fields_mapped[0]
 ###############################################################################
 # Map to points in Plane object
 mapping_operator = ops.mapping.on_coordinates(
-    fields_container=disp, coordinates=plane.mesh.nodes.coordinates_field, create_support=True, mesh=mesh
+    fields_container=disp,
+    coordinates=plane.mesh.nodes.coordinates_field,
+    create_support=True,
+    mesh=mesh,
 )
 fields_mapped = mapping_operator.outputs.fields_container()
 field_plane = fields_mapped[0]
@@ -113,7 +125,7 @@ pl.show_figure(show_axes=True)
 ###############################################################################
 # 2D plot (graph) of Line (line length vs displacement field)
 norm_disp = [np.linalg.norm(field_line.data[i]) for i in range(len(field_line.data))]
-length = line.length[field_line.scoping.ids-1]
+length = line.length[field_line.scoping.ids - 1]
 plt.plot(length, norm_disp)
 plt.xlabel("Line length")
 plt.ylabel("Displacement norm field")
