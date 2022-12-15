@@ -124,7 +124,7 @@ DPF capabilities are available through the following main contexts:
 
 - Entry: Loads the minimum number of plugins for basic use. It is the default. Checks if at least one increment exists 
   from the following :ref:`Ansys licensing increments list<target_to_ansys_license_increments_list>`. This increment won't be blocked.
-- Premium: Loads the entry and the premium capabilities that require a license checkout. Blocks an increment from the 
+- Premium: Loads the Entry and the Premium capabilities that require a license checkout. Blocks an increment from the
   following :ref:`Ansys licensing increments list<target_to_ansys_license_increments_list>`.
 
 To update the context, apply a new server context:
