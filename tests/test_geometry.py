@@ -21,6 +21,7 @@ def test_create_points():
     points = create_points(points)
     points.plot()
     print(points)
+    assert points.dimension == 3
     assert len(points) == points.num_points == num_points
 
 
@@ -42,6 +43,14 @@ points_data = [
 def test_create_line_from_points(points):
     line = create_line_from_points(points)
     line.plot()
+    info = "DPF Line object:\n"
+    info += f"Starting point: {np.array(points[0])}\n"
+    info += f"Ending point: {np.array(points[1])}\n"
+    info += f"Line discretized with {line._num_points} points\n"
+    assert print(line) == print(info)
+    assert line.length == np.linalg.norm(points)
+    diff = np.array(points[1]) - np.array(points[0])
+    assert all(line.direction) == all(diff / np.linalg.norm(diff))
 
 
 vects_data = [
@@ -95,6 +104,16 @@ planes_data = [
 def test_create_plane_from_center_and_normal(center, normal):
     plane = create_plane_from_center_and_normal(center, normal)
     plane.plot()
+    assert plane.center == center
+    if len(normal) == 2:
+        normal_vect = np.array(normal)
+        diff = np.array(normal[1]) - np.array(normal[0])
+        normal_dir = diff / np.linalg.norm(diff)
+    else:
+        normal_vect = [np.array([0, 0, 0]), np.array(normal)]
+        normal_dir = np.array(normal)
+    assert [(plane.normal_vect[i] == normal_vect[i]).all() for i in range(2)]
+    assert (plane.normal_dir == normal_dir).all()
 
 
 plane_data = [
@@ -179,8 +198,26 @@ plane_discretization_data = [0, 1, 2]
 @pytest.mark.parametrize(("component"), plane_discretization_data)
 def test_plane_discretization(component):
     normal = np.zeros(3)
+    center = np.zeros(3)
     normal[component] = 1
-    plane = create_plane_from_center_and_normal([0, 0, 0], [1, 0, 0])
+    plane = create_plane_from_center_and_normal(center, normal)
+    info_no_discretization = "DPF Plane object:\n"
+    info_no_discretization += f"Center point: {center}\n"
+    info_no_discretization += f"Normal direction: {normal}\n"
+    info_no_discretization += "Plane has not been discretized.\n"
+    info_no_discretization += (
+        "  Use plane.discretize(width, height, num_cells_x, num_cells_y)\n"
+    )
+    assert print(plane) == print(info_no_discretization)
     plane.discretize(1, 1, 30, 30)
     assert plane.mesh.elements.n_elements == 30 * 30
-    assert all(plane.mesh.nodes.coordinates_field.data[:, component]) == 0.0
+    assert all(plane.mesh.nodes.coordinates_field.data[:, component] == 0.0)
+    info_discretization = "DPF Plane object:\n"
+    info_discretization += f"Center point: {center}\n"
+    info_discretization += f"Normal direction: {normal}\n"
+    info_discretization += "Plane discretizaton using:\n"
+    info_discretization += f"  Width (x-dir): {plane.width}\n"
+    info_discretization += f"  Height (y-dir): {plane.height}\n"
+    info_discretization += f"  Num cells x-dir: {plane.num_cells_x}\n"
+    info_discretization += f"  Num cells y-dir: {plane.num_cells_y}\n"
+    assert print(plane) == print(info_discretization)

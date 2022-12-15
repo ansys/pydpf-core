@@ -119,7 +119,8 @@ class Line:
         self._coordinates = coordinates
         self._server = server
         self._num_points = num_points
-        self._mesh, self._length = self._discretize()
+        self._length = np.linalg.norm(coordinates.data)
+        self._mesh, self._path = self._discretize()
 
     def __getitem__(self, value):
         """Overwrite getitem so coordinates.data is iterable."""
@@ -133,7 +134,7 @@ class Line:
         """Print line information."""
         txt = "DPF Line object:\n"
         txt += f"Starting point: {self._coordinates.data[0]}\n"
-        txt += f"Ending point: {self._coordinates.data[1]}\n"
+        txt += f"Ending point: {self._coordinates.data[-1]}\n"
         txt += f"Line discretized with {self._num_points} points\n"
         return txt
 
@@ -141,8 +142,8 @@ class Line:
         """Discretize line."""
         origin = self._coordinates.data[0]
         diff = self._coordinates.data[1] - self._coordinates.data[0]
-        i_points = np.linspace(0, 1, self._num_points)
-        path = [origin + i_point * diff for i_point in i_points]
+        path_1D = np.linspace(0, self.length, self._num_points)
+        path_3D = [origin + i_point * diff for i_point in path_1D]
 
         # Create mesh for a line
         mesh = dpf.MeshedRegion(
@@ -152,12 +153,12 @@ class Line:
         )
         for i, node in enumerate(mesh.nodes.add_nodes(self._num_points)):
             node.id = i + 1
-            node.coordinates = path[i]
+            node.coordinates = path_3D[i]
 
         for i in range(self._num_points - 1):
             mesh.elements.add_beam_element(i + 1, [i, i + 1])
 
-        return mesh, i_points
+        return mesh, path_1D
 
     @property
     def coordinates(self):
@@ -171,8 +172,13 @@ class Line:
 
     @property
     def length(self):
-        """Get line length coordinate in 1D."""
+        """Get line length."""
         return self._length
+
+    @property
+    def path(self):
+        """Get line path (1D line coordinate)."""
+        return self._path
 
     @property
     def direction(self):
@@ -239,7 +245,7 @@ class Plane:
                 normal_dir = self._get_direction_from_vect(normal_vect)
             elif len(normal) == 3:
                 normal_dir = normal / np.linalg.norm(normal)
-                normal_vect = [[0, 0, 0], normal_dir]
+                normal_vect = [np.array([0, 0, 0]), normal_dir]
         else:
             normal_vect = [normal.coordinates.data[0], normal.coordinates.data[1]]
             normal_dir = self._get_direction_from_vect(normal_vect)
