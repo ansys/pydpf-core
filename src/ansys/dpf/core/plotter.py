@@ -89,6 +89,7 @@ class _PyVistaPlotter:
 
     def add_points(self, points, field):
         import pyvista as pv
+
         point_cloud = pv.PolyData(points)
         if field:
             point_cloud[f"{field.name}"] = field.data
@@ -96,6 +97,7 @@ class _PyVistaPlotter:
 
     def add_line(self, points, field=None):
         import pyvista as pv
+
         line_field = pv.PolyData(np.array(points))
         if field:
             line_field[f"{field.name}"] = field.data
@@ -105,7 +107,15 @@ class _PyVistaPlotter:
 
     def add_plane(self, center, direction, field=None):
         import pyvista as pv
-        plane = pv.Plane(center=center, direction=direction, i_size=0.005, j_size=0.005, i_resolution=20, j_resolution=20)
+
+        plane = pv.Plane(
+            center=center,
+            direction=direction,
+            i_size=0.005,
+            j_size=0.005,
+            i_resolution=20,
+            j_resolution=20,
+        )
         if field:
             plane[f"{field.name}"] = field.data
         self._plotter.add_mesh(plane)
