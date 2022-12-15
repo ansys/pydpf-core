@@ -1,7 +1,7 @@
 .. _ref_getting_started_with_dpf_server:
 
 ===============================
-Getting Started with DPF Server
+Getting started with DPF Server
 ===============================
 
 What is DPF Server

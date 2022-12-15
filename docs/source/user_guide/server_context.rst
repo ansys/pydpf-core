@@ -118,7 +118,7 @@ environment variable (see `<ansys.dpf.core.server_context>`) or writing:
     Server Context of type LicensingContextType.premium with no xml path
 
 
-Release History
+Release history
 ---------------
 
 The Entry server context is available starting with server version 6.0 
