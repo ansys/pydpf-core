@@ -71,7 +71,7 @@ jobs:
           delete-branch: true
           add-paths: src/ansys/dpf/core/operators/*
           commit-message: update operators
-          title: Update Operators for new DPF Server
+          title: Update Operators for DPF ${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }}
           body: An update of operators has been triggered either manually or by an update in the dpf-standalone repository.
           branch: maint/update_operators_${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }}
           labels: maintenance
