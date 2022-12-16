@@ -69,6 +69,7 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           delete-branch: true
+          add-paths: src/ansys/dpf/core/operators/*
           commit-message: update operators
           title: Update Operators for new DPF Server
           body: An update of operators has been triggered either manually or by an update in the dpf-standalone repository.
