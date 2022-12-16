@@ -1,4 +1,7 @@
+# import subprocess
+
 from ansys.dpf import core
+from ansys.dpf.core.operators import build
 import os
 import glob
 from pathlib import Path
@@ -93,3 +96,5 @@ for lib in LIB_OPTIONAL_TO_GENERATE:
         time.sleep(0.1)
     except Exception as e:
         print(f"Could not generate operators for optional library {lib}:\n{str(e)}")
+
+build.build_operators()
