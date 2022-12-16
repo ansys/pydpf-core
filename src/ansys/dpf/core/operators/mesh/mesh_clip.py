@@ -24,9 +24,9 @@ class mesh_clip(Operator):
     mesh : MeshedRegion, optional
     slice_surfaces : bool
         True: slicing will also take into account
-        shell and 2d elements, false: slicing
-        will ignore shell and 2d elements.
-        default is true
+        shell and skin elements, false:
+        slicing will ignore shell and skin
+        elements. default is true
 
 
     Examples
@@ -122,9 +122,9 @@ class mesh_clip(Operator):
                     type_names=["bool"],
                     optional=False,
                     document="""True: slicing will also take into account
-        shell and 2d elements, false: slicing
-        will ignore shell and 2d elements.
-        default is true""",
+        shell and skin elements, false:
+        slicing will ignore shell and skin
+        elements. default is true""",
                 ),
             },
             map_output_pin_spec={
@@ -295,9 +295,9 @@ class InputsMeshClip(_Inputs):
         """Allows to connect slice_surfaces input to the operator.
 
         True: slicing will also take into account
-        shell and 2d elements, false: slicing
-        will ignore shell and 2d elements.
-        default is true
+        shell and skin elements, false:
+        slicing will ignore shell and skin
+        elements. default is true
 
         Parameters
         ----------

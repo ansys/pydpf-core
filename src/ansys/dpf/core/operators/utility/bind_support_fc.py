@@ -17,7 +17,7 @@ class bind_support_fc(Operator):
     ----------
     fields_container : FieldsContainer
     support : MeshedRegion or AbstractFieldSupport
-        Meshed region or a support of the field
+        Meshed region or a support of the field.
 
 
     Examples
@@ -68,7 +68,7 @@ class bind_support_fc(Operator):
                     name="support",
                     type_names=["abstract_meshed_region", "abstract_field_support"],
                     optional=False,
-                    document="""Meshed region or a support of the field""",
+                    document="""Meshed region or a support of the field.""",
                 ),
             },
             map_output_pin_spec={
@@ -162,7 +162,7 @@ class InputsBindSupportFc(_Inputs):
     def support(self):
         """Allows to connect support input to the operator.
 
-        Meshed region or a support of the field
+        Meshed region or a support of the field.
 
         Parameters
         ----------
