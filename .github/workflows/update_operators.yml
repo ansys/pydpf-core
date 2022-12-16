@@ -21,7 +21,6 @@ on:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  extra: "-e --find-links .github/"
   ANSYSLMD_LICENSE_FILE: 1055@${{ secrets.LICENSE_SERVER }}
   ANSYS_DPF_ACCEPT_LA: Y
 
@@ -44,23 +43,20 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4.2.0
         with:
-          python-version: ${{ inputs.python_version }}
-
-      - name: "Build Package"
-        id: build-package
-        uses: pyansys/pydpf-actions/build_package@v2.3
-        with:
           python-version: "3.10"
-          ANSYS_VERSION: ${{ github.event.inputs.ANSYS_VERSION || '232' }}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
+
+      - name: "Install DPF"
+        id: set-server-path
+        uses: pyansys/pydpf-actions/install-dpf-server@v2.3
+        with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheel: false
-          wheelhouse: false
-          extra-pip-args: ${{ env.extra }}
           standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-          custom-requirements: ""
+          ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '232' }}
+
+      - name: "Install local package as editable"
+        shell: bash
+        run: |
+          pip install --find-links=.github/ -e .
 
       - name: "Install requirements_build"
         run: |
