@@ -6,22 +6,22 @@ from ansys.dpf.core import errors as dpf_errors
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
                     reason='unit systems where not supported before 0.6')
 def test_predefined_unit_systems():
-    # Test ids of the predefined ones
-    assert dpf.unit_systems.solver_mks.id == 11
-    assert dpf.unit_systems.solver_cgs.id == 5
-    assert dpf.unit_systems.solver_nmm.id == 6
-    assert dpf.unit_systems.solver_bft.id == 7
-    assert dpf.unit_systems.solver_bin.id == 8
-    assert dpf.unit_systems.solver_umks.id == 10
-    assert dpf.unit_systems.solver_knms.id == 16
-    assert dpf.unit_systems.undefined.id == -1
+    # Test IDs of the predefined ones
+    assert dpf.unit_systems.solver_mks.ID == 11
+    assert dpf.unit_systems.solver_cgs.ID == 5
+    assert dpf.unit_systems.solver_nmm.ID == 6
+    assert dpf.unit_systems.solver_bft.ID == 7
+    assert dpf.unit_systems.solver_bin.ID == 8
+    assert dpf.unit_systems.solver_umks.ID == 10
+    assert dpf.unit_systems.solver_knms.ID == 16
+    assert dpf.unit_systems.undefined.ID == -1
 
 
 @pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
                     reason='unit systems where not supported before 0.6')
 def test_unit_system_api():
-    # Create custom units from id
-    my_mks = dpf.UnitSystem("mks", id=11)
+    # Create custom units from ID
+    my_mks = dpf.UnitSystem("mks", ID=11)
     mks_units = my_mks.unit_names.split(";")
     assert "m" in mks_units
     assert "kg" in mks_units
@@ -43,12 +43,12 @@ def test_unit_system_api():
     # unit_names not used
     with pytest.raises(dpf_errors.InvalidTypeError) as e:
         wrong_us = dpf.UnitSystem("throw_1", "m;kg;K;rad;C;s")
-        assert "id" in e
+        assert "ID" in e
 
-    # id and unit_names used at the same time
+    # ID and unit_names used at the same time
     with pytest.raises(Exception) as e:
-        wrong_us = dpf.UnitSystem("throw_2", id = 1, unit_names = "m;kg;K;rad;C;s")
-        assert "id and unit_names are mutually exclusionary, but one of them should be provided." in e
+        wrong_us = dpf.UnitSystem("throw_2", ID = 1, unit_names = "m;kg;K;rad;C;s")
+        assert "ID and unit_names are mutually exclusionary, but one of them should be provided." in e
 
     # incomplete unit system
     with pytest.raises(Exception) as e:
