@@ -34,6 +34,9 @@ class beam_axial_stress(Operator):
         Integration point where the result will be
         read from. default value: 0 (first
         integration point).
+    unit_system : int or str, optional
+        Unit system id (int) or semicolon-separated
+        list of base unit strings
 
 
     Examples
@@ -54,6 +57,8 @@ class beam_axial_stress(Operator):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_integration_point = int()
     >>> op.inputs.integration_point.connect(my_integration_point)
+    >>> my_unit_system = int()
+    >>> op.inputs.unit_system.connect(my_unit_system)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.beam_axial_stress(
@@ -62,6 +67,7 @@ class beam_axial_stress(Operator):
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ...     integration_point=my_integration_point,
+    ...     unit_system=my_unit_system,
     ... )
 
     >>> # Get output data
@@ -75,6 +81,7 @@ class beam_axial_stress(Operator):
         streams_container=None,
         data_sources=None,
         integration_point=None,
+        unit_system=None,
         config=None,
         server=None,
     ):
@@ -91,6 +98,8 @@ class beam_axial_stress(Operator):
             self.inputs.data_sources.connect(data_sources)
         if integration_point is not None:
             self.inputs.integration_point.connect(integration_point)
+        if unit_system is not None:
+            self.inputs.unit_system.connect(unit_system)
 
     @staticmethod
     def _spec():
@@ -143,6 +152,13 @@ class beam_axial_stress(Operator):
                     document="""Integration point where the result will be
         read from. default value: 0 (first
         integration point).""",
+                ),
+                50: PinSpecification(
+                    name="unit_system",
+                    type_names=["int32", "string"],
+                    optional=True,
+                    document="""Unit system id (int) or semicolon-separated
+        list of base unit strings""",
                 ),
             },
             map_output_pin_spec={
@@ -211,6 +227,8 @@ class InputsBeamAxialStress(_Inputs):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_integration_point = int()
     >>> op.inputs.integration_point.connect(my_integration_point)
+    >>> my_unit_system = int()
+    >>> op.inputs.unit_system.connect(my_unit_system)
     """
 
     def __init__(self, op: Operator):
@@ -229,6 +247,8 @@ class InputsBeamAxialStress(_Inputs):
             beam_axial_stress._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._integration_point)
+        self._unit_system = Input(beam_axial_stress._spec().input_pin(50), 50, op, -1)
+        self._inputs.append(self._unit_system)
 
     @property
     def time_scoping(self):
@@ -337,6 +357,27 @@ class InputsBeamAxialStress(_Inputs):
         >>> op.inputs.integration_point(my_integration_point)
         """
         return self._integration_point
+
+    @property
+    def unit_system(self):
+        """Allows to connect unit_system input to the operator.
+
+        Unit system id (int) or semicolon-separated
+        list of base unit strings
+
+        Parameters
+        ----------
+        my_unit_system : int or str
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.beam_axial_stress()
+        >>> op.inputs.unit_system.connect(my_unit_system)
+        >>> # or
+        >>> op.inputs.unit_system(my_unit_system)
+        """
+        return self._unit_system
 
 
 class OutputsBeamAxialStress(_Outputs):

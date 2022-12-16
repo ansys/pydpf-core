@@ -30,6 +30,9 @@ class beam_s_shear_force(Operator):
     data_sources : DataSources
         Result file path container, used if no
         streams are set
+    unit_system : int or str, optional
+        Unit system id (int) or semicolon-separated
+        list of base unit strings
 
 
     Examples
@@ -48,6 +51,8 @@ class beam_s_shear_force(Operator):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_unit_system = int()
+    >>> op.inputs.unit_system.connect(my_unit_system)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.beam_s_shear_force(
@@ -55,6 +60,7 @@ class beam_s_shear_force(Operator):
     ...     mesh_scoping=my_mesh_scoping,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
+    ...     unit_system=my_unit_system,
     ... )
 
     >>> # Get output data
@@ -67,6 +73,7 @@ class beam_s_shear_force(Operator):
         mesh_scoping=None,
         streams_container=None,
         data_sources=None,
+        unit_system=None,
         config=None,
         server=None,
     ):
@@ -81,6 +88,8 @@ class beam_s_shear_force(Operator):
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
+        if unit_system is not None:
+            self.inputs.unit_system.connect(unit_system)
 
     @staticmethod
     def _spec():
@@ -125,6 +134,13 @@ class beam_s_shear_force(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set""",
+                ),
+                50: PinSpecification(
+                    name="unit_system",
+                    type_names=["int32", "string"],
+                    optional=True,
+                    document="""Unit system id (int) or semicolon-separated
+        list of base unit strings""",
                 ),
             },
             map_output_pin_spec={
@@ -191,6 +207,8 @@ class InputsBeamSShearForce(_Inputs):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_unit_system = int()
+    >>> op.inputs.unit_system.connect(my_unit_system)
     """
 
     def __init__(self, op: Operator):
@@ -205,6 +223,8 @@ class InputsBeamSShearForce(_Inputs):
         self._inputs.append(self._streams_container)
         self._data_sources = Input(beam_s_shear_force._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
+        self._unit_system = Input(beam_s_shear_force._spec().input_pin(50), 50, op, -1)
+        self._inputs.append(self._unit_system)
 
     @property
     def time_scoping(self):
@@ -291,6 +311,27 @@ class InputsBeamSShearForce(_Inputs):
         >>> op.inputs.data_sources(my_data_sources)
         """
         return self._data_sources
+
+    @property
+    def unit_system(self):
+        """Allows to connect unit_system input to the operator.
+
+        Unit system id (int) or semicolon-separated
+        list of base unit strings
+
+        Parameters
+        ----------
+        my_unit_system : int or str
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.beam_s_shear_force()
+        >>> op.inputs.unit_system.connect(my_unit_system)
+        >>> # or
+        >>> op.inputs.unit_system(my_unit_system)
+        """
+        return self._unit_system
 
 
 class OutputsBeamSShearForce(_Outputs):
