@@ -60,6 +60,10 @@ jobs:
           standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
           custom-requirements: ""
 
+      - name: "Install requirements_build"
+        run: |
+          pip install -r requirements/requirements_build.txt
+
       - name: "List installed packages"
         shell: bash
         run: pip list
