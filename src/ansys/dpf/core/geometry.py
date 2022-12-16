@@ -119,7 +119,7 @@ class Line:
         if not isinstance(coordinates, Field):
             coordinates = field_from_array(coordinates)
         if not len(coordinates.data) == 2:
-            raise ValueError("Only two points have to be introduced to define a line")
+            raise ValueError("Only two points must be introduced to define a line")
 
         self._coordinates = coordinates
         self._server = server
