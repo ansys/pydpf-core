@@ -7,9 +7,10 @@ UnitSystem
 from ansys.dpf import core as dpf
 from ansys.dpf.core import errors as dpf_errors
 
+
 class UnitSystem:
-    """Defines an internally coherent way of measuring units.
-    """
+    """Defines an internally coherent way of measuring units."""
+
     def __init__(self, name, ID=None, unit_names=None):
         """
         Creates a new UnitSystem from its name and its Ansys ID
@@ -21,8 +22,8 @@ class UnitSystem:
         ID: int
             internal Ansys ID that identifies the Unit System (optional)
         unit_names: string
-            semicolon-separated string with the base units (Length, Mass, Time, Temperature, Electric Charge and Angle)
-            (optional).
+            semicolon-separated string with the base units (Length, Mass, Time, Temperature,
+            Electric Charge and Angle) (optional).
 
         ID and unit_names are mutually exclusionary, but one of them should
         be provided (either one or the other, but not both)
@@ -61,9 +62,11 @@ class UnitSystem:
                 self._unit_names = unit_names
             else:
                 raise Exception(unit_system_check.outputs.get_output(1, str))
-            
+
         else:
-            raise Exception("ID and unit_names are mutually exclusionary, but one of them should be provided.")
+            raise Exception(
+                "ID and unit_names are mutually exclusionary, but one of them should be provided."
+            )
 
     @property
     def ID(self) -> int:
@@ -75,11 +78,11 @@ class UnitSystem:
 
     @property
     def unit_names(self) -> str:
-        if self._unit_names == "": #Ansys UnitSystem
+        if self._unit_names == "":  # Ansys UnitSystem
             unit_system_strings = dpf.Operator("unit_system_strings")
             unit_system_strings.connect(0, self._ID)
             return unit_system_strings.get_output(0, str)
-        else: #Custom UnitSystem
+        else:  # Custom UnitSystem
             return self._unit_names
 
 
@@ -105,6 +108,7 @@ class unit_systems:
     undefined : All units are dimensionless
 
     """
+
     solver_mks = UnitSystem("solver_mks", ID=11)
     solver_cgs = UnitSystem("solver_cgs", ID=5)
     solver_nmm = UnitSystem("solver_nmm", ID=6)
