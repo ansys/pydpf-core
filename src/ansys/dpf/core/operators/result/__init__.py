@@ -22,7 +22,7 @@ from .thermal_strain_XZ import thermal_strain_XZ
 from .interface_contact_area import interface_contact_area 
 from .part_internal_energy import part_internal_energy 
 from .total_strain import total_strain 
-from .pressure import pressure 
+from .pressure import Pressure
 from .stress import stress 
 from .stress_X import stress_X 
 from .stress_Y import stress_Y 
