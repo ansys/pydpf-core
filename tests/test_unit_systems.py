@@ -7,13 +7,6 @@ from ansys.dpf.core import errors as dpf_errors
                     reason='unit systems where not supported before 0.6')
 def test_predefined_unit_systems():
     # Test ids of the predefined ones
-    assert dpf.unit_systems.SI.id == 0
-    assert dpf.unit_systems.ansys_cgs.id == 1
-    assert dpf.unit_systems.ansys_nmm.id == 2
-    assert dpf.unit_systems.ansys_cust.id == 12
-    assert dpf.unit_systems.ansys_bin.id == 4
-    assert dpf.unit_systems.ansys_umks.id == 9
-    assert dpf.unit_systems.ansys_knms.id == 15
     assert dpf.unit_systems.solver_mks.id == 11
     assert dpf.unit_systems.solver_cgs.id == 5
     assert dpf.unit_systems.solver_nmm.id == 6
