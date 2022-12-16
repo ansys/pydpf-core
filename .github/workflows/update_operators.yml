@@ -7,11 +7,6 @@ on:
 # Can be called manually or remotely
   workflow_dispatch:
     inputs:
-      python_version:
-        description: "Python interpreter"
-        required: true
-        type: string
-        default: "3.8"
       ANSYS_VERSION:
         description: "ANSYS version"
         required: true
@@ -22,6 +17,11 @@ on:
         required: false
         type: string
         default: ''
+
+env:
+  PACKAGE_NAME: ansys-dpf-core
+  MODULE: core
+  extra: "--find-links .github/"
 
 jobs:
   update_operators:
@@ -48,8 +48,8 @@ jobs:
         id: build-package
         uses: pyansys/pydpf-actions/build_package@v2.3
         with:
-          python-version: ${{ inputs.python_version }}
-          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
+          python-version: "3.10"
+          ANSYS_VERSION: ${{ github.event.inputs.ANSYS_VERSION || '232' }}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
