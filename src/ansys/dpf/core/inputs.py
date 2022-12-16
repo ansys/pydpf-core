@@ -11,6 +11,7 @@ from ansys.dpf.core.mapping_types import map_types_to_python
 from ansys.dpf.core.outputs import _Outputs, Output
 from ansys.dpf import core
 
+
 class Input:
     """
     Intermediate class internally instantiated by the :class:`ansys.dpf.core.dpf_operator.Operator`.
@@ -75,9 +76,9 @@ class Input:
         elif isinstance(inpt, Path):
             inpt = str(inpt)
         elif isinstance(inpt, core.UnitSystem):
-            if inpt.id != -2: #Ansys UnitSystem
+            if inpt.id != -2:  # Ansys UnitSystem
                 inpt = inpt.id
-            else: #Custom UnitSystem
+            else:  # Custom UnitSystem
                 inpt = inpt.unit_names
 
         input_type_name = type(inpt).__name__

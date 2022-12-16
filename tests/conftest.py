@@ -167,8 +167,10 @@ def cff_data_sources():
 @pytest.fixture()
 def d3plot_files():
     """Resolve the path of the "d3plot/d3plot" result file."""
-    return [resolve_test_file("d3plot", "d3plot"),
-            resolve_test_file("file.actunits", "d3plot")]
+    return [
+        resolve_test_file("d3plot", "d3plot"),
+        resolve_test_file("file.actunits", "d3plot"),
+    ]
 
 
 @pytest.fixture()

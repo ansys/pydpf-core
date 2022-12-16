@@ -86,7 +86,8 @@ def test_lsdyna_generic(d3plot_files):
     ).eval()
 
     assert np.allclose(
-        initial_coordinates_fc[0].data, initial_coordinates_model[0].data)
+        initial_coordinates_fc[0].data, initial_coordinates_model[0].data
+    )
     assert initial_coordinates_fc[0].unit == "mm"
     assert initial_coordinates_model[0].unit == "mm"
 
@@ -346,7 +347,9 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
 
     kinetic_energy_op_2 = model.results.part_kinetic_energy()
     kinetic_energy_op_2.inputs.entity_scoping.connect(part_sco)
-    kinetic_energy_op_2.inputs.unit_system.connect(dpf.unit_systems.solver_bft) #just once
+    kinetic_energy_op_2.inputs.unit_system.connect(
+        dpf.unit_systems.solver_bft
+    )  # just once
     ke_mod = kinetic_energy_op_2.eval()
 
     assert np.allclose(ke_fc[0].data[39], ke_mod[0].data[39])
@@ -358,7 +361,9 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     part_eroded_kinetic_energy_op = dpf.operators.result.part_eroded_kinetic_energy()
     part_eroded_kinetic_energy_op.inputs.data_sources.connect(ds)
     part_eroded_kinetic_energy_op.inputs.entity_scoping.connect(part_sco)
-    part_eroded_kinetic_energy_op.inputs.unit_system.connect(dpf.unit_systems.solver_bft)
+    part_eroded_kinetic_energy_op.inputs.unit_system.connect(
+        dpf.unit_systems.solver_bft
+    )
     part_eroded_kinetic_energy_fc = (
         part_eroded_kinetic_energy_op.outputs.fields_container()
     )
@@ -395,7 +400,9 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     part_eroded_internal_energy_op = dpf.operators.result.part_eroded_internal_energy()
     part_eroded_internal_energy_op.inputs.data_sources.connect(ds)
     part_eroded_internal_energy_op.inputs.entity_scoping.connect(part_sco)
-    part_eroded_internal_energy_op.inputs.unit_system.connect(dpf.unit_systems.solver_bft)
+    part_eroded_internal_energy_op.inputs.unit_system.connect(
+        dpf.unit_systems.solver_bft
+    )
     erie_fc = part_eroded_internal_energy_op.outputs.fields_container()
 
     part_eroded_internal_energy_op_2 = model.results.part_eroded_internal_energy()
@@ -699,8 +706,10 @@ def test_lsdyna_glstat(binout_glstat):
         model.results.global_energy_ratio_wo_eroded().eval()
     )
 
-    assert np.allclose(global_energy_ratio_wo_eroded_fc[0].data,
-                       global_energy_ratio_wo_eroded_mod[0].data)
+    assert np.allclose(
+        global_energy_ratio_wo_eroded_fc[0].data,
+        global_energy_ratio_wo_eroded_mod[0].data,
+    )
     assert global_energy_ratio_wo_eroded_fc[0].unit == ""
     assert global_energy_ratio_wo_eroded_mod[0].unit == ""
 

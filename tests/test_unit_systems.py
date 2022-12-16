@@ -3,8 +3,11 @@ import conftest
 from ansys.dpf import core as dpf
 from ansys.dpf.core import errors as dpf_errors
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-                    reason='unit systems where not supported before 0.6')
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="unit systems where not supported before 0.6",
+)
 def test_predefined_unit_systems():
     # Test IDs of the predefined ones
     assert dpf.unit_systems.solver_mks.ID == 11
@@ -17,8 +20,10 @@ def test_predefined_unit_systems():
     assert dpf.unit_systems.undefined.ID == -1
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-                    reason='unit systems where not supported before 0.6')
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="unit systems where not supported before 0.6",
+)
 def test_unit_system_api():
     # Create custom units from ID
     my_mks = dpf.UnitSystem("mks", ID=11)
@@ -47,20 +52,25 @@ def test_unit_system_api():
 
     # ID and unit_names used at the same time
     with pytest.raises(Exception) as e:
-        wrong_us = dpf.UnitSystem("throw_2", ID = 1, unit_names = "m;kg;K;rad;C;s")
-        assert "ID and unit_names are mutually exclusionary, but one of them should be provided." in e
+        wrong_us = dpf.UnitSystem("throw_2", ID=1, unit_names="m;kg;K;rad;C;s")
+        assert (
+            "ID and unit_names are mutually exclusionary, but one of them should be provided."
+            in e
+        )
 
     # incomplete unit system
     with pytest.raises(Exception) as e:
         wrong_us = dpf.UnitSystem("throw_3", unit_names="in;kg")
-        assert "Some of the basic Units are not present in the UnitSystem definition" in e
+        assert (
+            "Some of the basic Units are not present in the UnitSystem definition" in e
+        )
 
     # wrong separator in unit system
     with pytest.raises(Exception) as e:
         wrong_us = dpf.UnitSystem("throw_4", unit_names="in,kg,h,C,degF,deg")
-        assert "Unit strings must be seperated by semicolons" in e
+        assert "Unit strings must be separated by semicolons" in e
 
     # incorrect unit strings
     with pytest.raises(Exception) as e:
         wrong_us = dpf.UnitSystem("throw_4", unit_names="asd;awe")
-        assert "\"asd\" is not a valid unit." in e
+        assert '"asd" is not a valid unit.' in e
