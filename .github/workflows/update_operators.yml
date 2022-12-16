@@ -9,7 +9,7 @@ on:
     inputs:
       ANSYS_VERSION:
         description: "ANSYS version"
-        required: true
+        required: false
         type: string
         default: "232"
       standalone_suffix:
@@ -22,6 +22,8 @@ env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
   extra: "--find-links .github/"
+  ANSYSLMD_LICENSE_FILE: 1055@${{ secrets.LICENSE_SERVER }}
+  ANSYS_DPF_ACCEPT_LA: Y
 
 jobs:
   update_operators:
