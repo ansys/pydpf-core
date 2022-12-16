@@ -9,6 +9,11 @@ from ansys.dpf.core.plotter import DpfPlotter
 import numpy as np
 
 
+def normalize_vector(vector):
+    """Normalize vector."""
+    return vector / np.linalg.norm(vector)
+
+
 class Points:
     """
     Collection of DPF points.
@@ -80,7 +85,7 @@ class Points:
         """Visualize Points object."""
         pl = DpfPlotter(**kwargs)
         pl.add_points(self._coordinates.data)
-        pl.show_figure()
+        pl.show_figure(show_axes=True)
 
 
 class Line:
@@ -193,9 +198,18 @@ class Line:
 
     def plot(self, **kwargs):
         """Visualize line."""
+        # Check if line is along the [1, 1, 1] direction to change camera position
+        if np.isclose(
+            np.abs(self.direction), normalize_vector(np.array([1, 1, 1]))
+        ).all():
+            camera_position = "xy"
+        else:
+            camera_position = None
+
+        # Plot line object
         pl = DpfPlotter(**kwargs)
         pl.add_line(self._coordinates.data)
-        pl.show_figure()
+        pl.show_figure(show_axes=True, cpos=camera_position)
 
 
 class Plane:
@@ -299,11 +313,6 @@ class Plane:
         """Get discretized mesh for the plane."""
         return self._mesh
 
-    @staticmethod
-    def _normalize_vector(vector):
-        """Normalize vector."""
-        return vector / np.linalg.norm(vector)
-
     def _get_plane_local_axis(self):
         axis_ref = [np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([0, 0, 1])]
         if np.allclose(self._normal_dir, [1.0, 0.0, 0.0]):
@@ -314,9 +323,9 @@ class Plane:
             plane_x = np.cross(self._normal_dir, plane_y)
         plane_z = self._normal_dir
 
-        plane_x = self._normalize_vector(plane_x)
-        plane_y = self._normalize_vector(plane_y)
-        plane_z = self._normalize_vector(plane_z)
+        plane_x = normalize_vector(plane_x)
+        plane_y = normalize_vector(plane_y)
+        plane_z = normalize_vector(plane_z)
         return [plane_x, plane_y, plane_z]
 
     def discretize(self, width, height, num_cells_x, num_cells_y):
@@ -374,10 +383,21 @@ class Plane:
     def _get_direction_from_vect(self, vect):
         """Normal direction to the plane."""
         direction = [x - y for x, y in zip(vect[1], vect[0])]
-        return self._normalize_vector(direction)
+        return normalize_vector(direction)
 
     def plot(self, **kwargs):
         """Visualize plane object."""
+        # Check if normal is in [1, -1, 0] direction to change camera position
+        no_vision_normal = normalize_vector(np.array([1, -1, 0]))
+        if (
+            np.isclose(self.normal_dir, no_vision_normal).all()
+            or np.isclose(self.normal_dir, -no_vision_normal).all()
+        ):
+            camera_position = "xz"
+        else:
+            camera_position = None
+
+        # Plot plane object
         pl = DpfPlotter(**kwargs)
         pl.add_plane(self._center, self._normal_dir)
-        pl.show_figure()
+        pl.show_figure(show_axes=True, cpos=camera_position)
