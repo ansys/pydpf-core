@@ -30,7 +30,7 @@ steady_therm = os.path.join(_module_path, "rth", "rth_steady.rth")
 transient_therm = os.path.join(_module_path, "rth", "rth_transient.rth")
 msup_transient = os.path.join(_module_path, "msup_transient_plate1.rst")
 simple_cyclic = os.path.join(_module_path, "file_cyclic.rst")
-distributed_msup_folder = os.path.join(_module_path, 'msup_distributed')
+distributed_msup_folder = os.path.join(_module_path, "msup_distributed")
 
 
 def find_files(local_path, should_upload=True, server=None, return_local_path=False):
@@ -65,7 +65,9 @@ def find_files(local_path, should_upload=True, server=None, return_local_path=Fa
     return path_utilities.to_server_os(local_path, server)
 
 
-def find_simple_bar(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def find_simple_bar(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -97,7 +99,9 @@ def find_simple_bar(should_upload: bool = True, server=None, return_local_path=F
     return find_files(simple_bar, should_upload, server, return_local_path)
 
 
-def find_static_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def find_static_rst(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -129,7 +133,9 @@ def find_static_rst(should_upload: bool = True, server=None, return_local_path=F
     return find_files(static_rst, should_upload, server, return_local_path)
 
 
-def find_complex_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def find_complex_rst(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -161,7 +167,9 @@ def find_complex_rst(should_upload: bool = True, server=None, return_local_path=
     return find_files(complex_rst, should_upload, server, return_local_path)
 
 
-def find_multishells_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def find_multishells_rst(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -193,7 +201,9 @@ def find_multishells_rst(should_upload: bool = True, server=None, return_local_p
     return find_files(multishells_rst, should_upload, server, return_local_path)
 
 
-def find_electric_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def find_electric_therm(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -225,7 +235,9 @@ def find_electric_therm(should_upload: bool = True, server=None, return_local_pa
     return find_files(electric_therm, should_upload, server, return_local_path)
 
 
-def find_steady_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def find_steady_therm(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -257,7 +269,9 @@ def find_steady_therm(should_upload: bool = True, server=None, return_local_path
     return find_files(steady_therm, should_upload, server, return_local_path)
 
 
-def find_transient_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def find_transient_therm(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -289,7 +303,9 @@ def find_transient_therm(should_upload: bool = True, server=None, return_local_p
     return find_files(transient_therm, should_upload, server, return_local_path)
 
 
-def find_msup_transient(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def find_msup_transient(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -321,7 +337,9 @@ def find_msup_transient(should_upload: bool = True, server=None, return_local_pa
     return find_files(msup_transient, should_upload, server, return_local_path)
 
 
-def find_simple_cyclic(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def find_simple_cyclic(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -354,7 +372,7 @@ def find_simple_cyclic(should_upload: bool = True, server=None, return_local_pat
 
 
 def find_distributed_msup_folder(
-        should_upload: bool = True, server=None, return_local_path=False
+    should_upload: bool = True, server=None, return_local_path=False
 ) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.

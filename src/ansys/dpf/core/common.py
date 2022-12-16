@@ -12,7 +12,9 @@ from enum import Enum
 
 from ansys.dpf.core.misc import module_exists
 from ansys.dpf.gate.common import locations, ProgressBarBase  # noqa: F401
-from ansys.dpf.gate.dpf_vector import get_size_of_list as _get_size_of_list  # noqa: F401
+from ansys.dpf.gate.dpf_vector import (  # noqa: F401
+    get_size_of_list as _get_size_of_list,
+)
 
 
 def _camel_to_snake_case(name):
@@ -28,15 +30,17 @@ def _remove_spaces(name):
 
 def _make_as_function_name(name):
     out = name.lower()
-    out = out.replace(" ", "_"). \
-        replace("-", "_"). \
-        replace("/", "_"). \
-        replace(".", "_"). \
-        replace(":", "_"). \
-        replace(";", "_"). \
-        replace(",", "_"). \
-        replace("(", ""). \
-        replace(")", "")
+    out = (
+        out.replace(" ", "_")
+        .replace("-", "_")
+        .replace("/", "_")
+        .replace(".", "_")
+        .replace(":", "_")
+        .replace(";", "_")
+        .replace(",", "_")
+        .replace("(", "")
+        .replace(")", "")
+    )
     return out
 
 
@@ -62,6 +66,7 @@ class types(Enum):
 
 
     """
+
     # Types from grpc proto, do not modify
     string = 0
     int = 1
@@ -116,6 +121,7 @@ def types_enum_to_types():
         streams_container,
     )
     from ansys.dpf.gate import dpf_vector
+
     return {
         types.string: str,
         types.int: int,
@@ -148,6 +154,7 @@ class natures(Enum):
     """The ``'natures'`` enum contains the dimensionality types.
     It can be used to create a field of a given dimensionality.
     """
+
     scalar = 0
     vector = 1
     matrix = 2
@@ -159,6 +166,7 @@ class shell_layers(Enum):
     shell layers (or lack of shell layers) that defines how the
     field's data is ordered.
     """
+
     notset = -1
     top = 0
     bottom = 1
@@ -192,6 +200,7 @@ class elemental_properties:
     apdl_element_type = "apdl_element_type"
         apdl element type property data is provided
     """
+
     element_shape = "elshape"
     element_type = "eltype"
     connectivity = "connectivity"
@@ -211,6 +220,7 @@ class nodal_properties:
     nodal_connectivity = "reverse_connectivity"
         nodal connectivity property data is provided
     """
+
     coordinates = "coordinates"
     nodal_connectivity = "reverse_connectivity"
 
@@ -227,6 +237,7 @@ class config_options:
         usage of cache if a server with gRPC communication
         protocol is used.
     """
+
     num_threads = "num_threads"
     use_cache = "use_cache"
 
@@ -241,16 +252,26 @@ class DefinitionLabels:
 class TqdmProgressBar(ProgressBarBase):
     def __init__(self, text, unit, tot_size=None):
         import tqdm
+
         super().__init__(text, tot_size)
-        bar_format = '{l_bar}{bar}| {n_fmt} {unit}' \
-            if self.tot_size is None else '{l_bar}{bar}| {n_fmt}/{total_fmt} {unit}'
-        self.bar = tqdm.tqdm(desc=text, total=tot_size, unit=unit, file=sys.stdout,
-                             bar_format=bar_format, ncols=100)
+        bar_format = (
+            "{l_bar}{bar}| {n_fmt} {unit}"
+            if self.tot_size is None
+            else "{l_bar}{bar}| {n_fmt}/{total_fmt} {unit}"
+        )
+        self.bar = tqdm.tqdm(
+            desc=text,
+            total=tot_size,
+            unit=unit,
+            file=sys.stdout,
+            bar_format=bar_format,
+            ncols=100,
+        )
 
     def update(self, current_value):
         if self.tot_size is None:
-            self.bar.total = current_value*2
-        self.bar.update(current_value-self.current)
+            self.bar.total = current_value * 2
+        self.bar.update(current_value - self.current)
         self.current = current_value
 
     @staticmethod

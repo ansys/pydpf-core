@@ -1,3 +1,0 @@
-codespell==2.2.1
-flake8==5.0.4
-

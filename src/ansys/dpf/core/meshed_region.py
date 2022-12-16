@@ -24,12 +24,16 @@ def update_grid(func):
         mesh = args[0]
         if mesh._full_grid is not None:
             # Treat each setter separately to improve performance by updating the minimum required.
-            if func.__name__ == 'set_coordinates_field':
+            if func.__name__ == "set_coordinates_field":
                 # When setting node coordinates
                 from ansys.dpf.core.vtk_helper import vtk_update_coordinates
-                vtk_update_coordinates(vtk_grid=mesh._full_grid, coordinates_array=args[1].data)
+
+                vtk_update_coordinates(
+                    vtk_grid=mesh._full_grid, coordinates_array=args[1].data
+                )
 
         return func(*args, **kwargs)
+
     return wrapper
 
 
@@ -438,6 +442,7 @@ class MeshedRegion:
 
         """
         from ansys.dpf.core.operators.math import add, scale, unit_convert
+
         if hasattr(deform_by, "eval"):
             # If a Result or an Operator, eval and get the field.
             deform_by = deform_by.eval()[0]
@@ -606,7 +611,7 @@ class MeshedRegion:
         >>> deep_copy = meshed_region.deep_copy(server=other_server)
 
         """
-        if self.nodes.scoping is None: # empty Mesh
+        if self.nodes.scoping is None:  # empty Mesh
             return MeshedRegion()
         node_ids = self.nodes.scoping.ids
         element_ids = self.elements.scoping.ids

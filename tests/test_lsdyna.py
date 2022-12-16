@@ -4,8 +4,10 @@ import conftest
 from ansys.dpf import core as dpf
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-                    reason='LS-DYNA source operators where not supported before 0.6')
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="LS-DYNA source operators where not supported before 0.6",
+)
 def test_lsdyna_generic(d3plot_files):
     ds = dpf.DataSources()
     ds.set_result_file_path(d3plot_files[0], "d3plot")
@@ -79,9 +81,12 @@ def test_lsdyna_generic(d3plot_files):
     initial_coordinates_op.inputs.data_sources.connect(ds)
     initial_coordinates_fc = initial_coordinates_op.outputs.fields_container()
 
-    initial_coordinates_model = model.results.initial_coordinates(time_scoping=time_sco).eval()
+    initial_coordinates_model = model.results.initial_coordinates(
+        time_scoping=time_sco
+    ).eval()
 
-    assert np.allclose(initial_coordinates_fc[0].data, initial_coordinates_model[0].data)
+    assert np.allclose(
+        initial_coordinates_fc[0].data, initial_coordinates_model[0].data)
     assert initial_coordinates_fc[0].unit == "mm"
     assert initial_coordinates_model[0].unit == "mm"
 
@@ -125,18 +130,25 @@ def test_lsdyna_generic(d3plot_files):
     equivalent_plastic_strain_op = dpf.operators.result.plastic_strain_eqv()
     equivalent_plastic_strain_op.inputs.time_scoping.connect(time_sco)
     equivalent_plastic_strain_op.inputs.data_sources.connect(ds)
-    equivalent_plastic_strain_fc = equivalent_plastic_strain_op.outputs.fields_container()
+    equivalent_plastic_strain_fc = (
+        equivalent_plastic_strain_op.outputs.fields_container()
+    )
 
-    equivalent_plastic_strain_model = model.results.plastic_strain_eqv(time_scoping=time_sco).eval()
+    equivalent_plastic_strain_model = model.results.plastic_strain_eqv(
+        time_scoping=time_sco
+    ).eval()
 
-    assert np.allclose(equivalent_plastic_strain_fc[0].data,
-                       equivalent_plastic_strain_model[0].data)
+    assert np.allclose(
+        equivalent_plastic_strain_fc[0].data, equivalent_plastic_strain_model[0].data
+    )
     assert equivalent_plastic_strain_fc[0].unit == ""
     assert equivalent_plastic_strain_model[0].unit == ""
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-                    reason='LS-DYNA source operators where not supported before 0.6')
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="LS-DYNA source operators where not supported before 0.6",
+)
 def test_lsdyna_beam(d3plot_beam):
     ds = dpf.DataSources()
     ds.set_result_file_path(d3plot_beam, "d3plot")
@@ -160,7 +172,9 @@ def test_lsdyna_beam(d3plot_beam):
     beam_axial_force_model_op.inputs.unit_system.connect(my_units)
     beam_axial_force_model = beam_axial_force_model_op.outputs.fields_container()
 
-    assert np.allclose(beam_axial_force_fc[0].data, beam_axial_force_model[0].data)
+    beam_axial_force_model = model.results.beam_axial_force(
+        time_scoping=time_sco
+    ).eval()
     assert beam_axial_force_fc[0].unit == "mN"
     assert beam_axial_force_model[0].unit == "mN"
 
@@ -299,15 +313,20 @@ def test_lsdyna_beam(d3plot_beam):
     beam_axial_total_strain_fc = beam_axial_total_strain_op.outputs.fields_container()
 
     beam_axial_total_strain_model = model.results.beam_axial_total_strain(
-        time_scoping=time_sco).eval()
+        time_scoping=time_sco
+    ).eval()
 
-    assert np.allclose(beam_axial_total_strain_fc[0].data, beam_axial_total_strain_model[0].data)
+    assert np.allclose(
+        beam_axial_total_strain_fc[0].data, beam_axial_total_strain_model[0].data
+    )
     assert beam_axial_total_strain_fc[0].unit == ""
     assert beam_axial_total_strain_model[0].unit == ""
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-                    reason='LS-DYNA source operators where not supported before 0.6')
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="LS-DYNA source operators where not supported before 0.6",
+)
 def test_lsdyna_matsum_rcforc(binout_matsum):
     ds = dpf.DataSources()
     ds.set_result_file_path(binout_matsum, "binout")
@@ -340,14 +359,18 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     part_eroded_kinetic_energy_op.inputs.data_sources.connect(ds)
     part_eroded_kinetic_energy_op.inputs.entity_scoping.connect(part_sco)
     part_eroded_kinetic_energy_op.inputs.unit_system.connect(dpf.unit_systems.solver_bft)
-    part_eroded_kinetic_energy_fc = part_eroded_kinetic_energy_op.outputs.fields_container()
+    part_eroded_kinetic_energy_fc = (
+        part_eroded_kinetic_energy_op.outputs.fields_container()
+    )
 
     part_eroded_kinetic_energy_op_2 = model.results.part_eroded_kinetic_energy()
     part_eroded_kinetic_energy_op_2.inputs.entity_scoping.connect(part_sco)
     part_eroded_kinetic_energy_model = part_eroded_kinetic_energy_op_2.eval()
 
-    assert np.allclose(part_eroded_kinetic_energy_fc[0].data[39],
-                       part_eroded_kinetic_energy_model[0].data[39])
+    assert np.allclose(
+        part_eroded_kinetic_energy_fc[0].data[39],
+        part_eroded_kinetic_energy_model[0].data[39],
+    )
     assert part_eroded_kinetic_energy_fc[0].unit == "ft^2*slug*s^-2"
     assert part_eroded_kinetic_energy_model[0].unit == "ft^2*slug*s^-2"
 
@@ -485,8 +508,10 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     assert cm_mod[0].unit == "slug"
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-                    reason='LS-DYNA source operators where not supported before 0.6')
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="LS-DYNA source operators where not supported before 0.6",
+)
 def test_lsdyna_glstat(binout_glstat):
     ds = dpf.DataSources()
     ds.set_result_file_path(binout_glstat, "binout")
@@ -542,7 +567,9 @@ def test_lsdyna_glstat(binout_glstat):
 
     # ------------------------------------------------- Global System Damping Energy
 
-    global_system_damping_energy_op = dpf.operators.result.global_system_damping_energy()
+    global_system_damping_energy_op = (
+        dpf.operators.result.global_system_damping_energy()
+    )
     global_system_damping_energy_op.inputs.data_sources.connect(ds)
     sde_fc = global_system_damping_energy_op.outputs.fields_container()
 
@@ -560,7 +587,9 @@ def test_lsdyna_glstat(binout_glstat):
 
     glob_slid_int_energy_mod = model.results.global_sliding_interface_energy().eval()
 
-    assert np.allclose(glob_slid_int_energy_fc[0].data, glob_slid_int_energy_mod[0].data)
+    assert np.allclose(
+        glob_slid_int_energy_fc[0].data, glob_slid_int_energy_mod[0].data
+    )
     assert glob_slid_int_energy_fc[0].unit == ""
     assert glob_slid_int_energy_mod[0].unit == ""
 
@@ -578,20 +607,30 @@ def test_lsdyna_glstat(binout_glstat):
 
     # ------------------------------------------------- Global Eroded Kinetic Energy
 
-    global_eroded_kinetic_energy_op = dpf.operators.result.global_eroded_kinetic_energy()
+    global_eroded_kinetic_energy_op = (
+        dpf.operators.result.global_eroded_kinetic_energy()
+    )
     global_eroded_kinetic_energy_op.inputs.data_sources.connect(ds)
-    global_eroded_kinetic_energy_fc = global_eroded_kinetic_energy_op.outputs.fields_container()
+    global_eroded_kinetic_energy_fc = (
+        global_eroded_kinetic_energy_op.outputs.fields_container()
+    )
 
-    global_eroded_kinetic_energy_model = model.results.global_eroded_kinetic_energy().eval()
+    global_eroded_kinetic_energy_model = (
+        model.results.global_eroded_kinetic_energy().eval()
+    )
 
-    assert np.allclose(global_eroded_kinetic_energy_fc[0].data,
-                       global_eroded_kinetic_energy_model[0].data)
+    assert np.allclose(
+        global_eroded_kinetic_energy_fc[0].data,
+        global_eroded_kinetic_energy_model[0].data,
+    )
     assert global_eroded_kinetic_energy_fc[0].unit == ""
     assert global_eroded_kinetic_energy_model[0].unit == ""
 
     # ------------------------------------------------- Global Eroded Internal Energy
 
-    global_eroded_internal_energy_op = dpf.operators.result.global_eroded_internal_energy()
+    global_eroded_internal_energy_op = (
+        dpf.operators.result.global_eroded_internal_energy()
+    )
     global_eroded_internal_energy_op.inputs.data_sources.connect(ds)
     erie_fc = global_eroded_internal_energy_op.outputs.fields_container()
 
@@ -603,14 +642,22 @@ def test_lsdyna_glstat(binout_glstat):
 
     # ------------------------------------------------- Global Eroded Hourglass Energy
 
-    global_eroded_hourglass_energy_op = dpf.operators.result.global_eroded_hourglass_energy()
+    global_eroded_hourglass_energy_op = (
+        dpf.operators.result.global_eroded_hourglass_energy()
+    )
     global_eroded_hourglass_energy_op.inputs.data_sources.connect(ds)
-    global_eroded_hourglass_energy_fc = global_eroded_hourglass_energy_op.outputs.fields_container()
+    global_eroded_hourglass_energy_fc = (
+        global_eroded_hourglass_energy_op.outputs.fields_container()
+    )
 
-    global_eroded_hourglass_energy_mod = model.results.global_eroded_hourglass_energy().eval()
+    global_eroded_hourglass_energy_mod = (
+        model.results.global_eroded_hourglass_energy().eval()
+    )
 
-    assert np.allclose(global_eroded_hourglass_energy_fc[0].data,
-                       global_eroded_hourglass_energy_mod[0].data)
+    assert np.allclose(
+        global_eroded_hourglass_energy_fc[0].data,
+        global_eroded_hourglass_energy_mod[0].data,
+    )
     assert global_eroded_hourglass_energy_fc[0].unit == ""
     assert global_eroded_hourglass_energy_mod[0].unit == ""
 
@@ -640,11 +687,17 @@ def test_lsdyna_glstat(binout_glstat):
 
     # ------------------------------------------------- Global Energy Ratio without Eroded Energy
 
-    global_energy_ratio_wo_eroded_op = dpf.operators.result.global_energy_ratio_wo_eroded()
+    global_energy_ratio_wo_eroded_op = (
+        dpf.operators.result.global_energy_ratio_wo_eroded()
+    )
     global_energy_ratio_wo_eroded_op.inputs.data_sources.connect(ds)
-    global_energy_ratio_wo_eroded_fc = global_energy_ratio_wo_eroded_op.outputs.fields_container()
+    global_energy_ratio_wo_eroded_fc = (
+        global_energy_ratio_wo_eroded_op.outputs.fields_container()
+    )
 
-    global_energy_ratio_wo_eroded_mod = model.results.global_energy_ratio_wo_eroded().eval()
+    global_energy_ratio_wo_eroded_mod = (
+        model.results.global_energy_ratio_wo_eroded().eval()
+    )
 
     assert np.allclose(global_energy_ratio_wo_eroded_fc[0].data,
                        global_energy_ratio_wo_eroded_mod[0].data)

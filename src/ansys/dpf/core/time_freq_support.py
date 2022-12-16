@@ -47,7 +47,8 @@ class TimeFreqSupport(Support):
         # step 2: get api
         self._api = self._server.get_api_for_type(
             capi=time_freq_support_capi.TimeFreqSupportCAPI,
-            grpcapi=time_freq_support_grpcapi.TimeFreqSupportGRPCAPI)
+            grpcapi=time_freq_support_grpcapi.TimeFreqSupportGRPCAPI,
+        )
 
         # step3: init environment
         self._api.init_time_freq_support_environment(self)  # creates stub when gRPC
@@ -57,10 +58,12 @@ class TimeFreqSupport(Support):
         if time_freq_support is not None:
             self._internal_obj = time_freq_support
             # Might to test for type for CLayer as I have not tested this for C
-            #self._internal_obj = support_api.support_get_as_time_freq_support(self)
+            # self._internal_obj = support_api.support_get_as_time_freq_support(self)
         else:
             if self._server.has_client():
-                self._internal_obj = self._api.time_freq_support_new_on_client(self._server.client)
+                self._internal_obj = self._api.time_freq_support_new_on_client(
+                    self._server.client
+                )
             else:
                 self._internal_obj = self._api.time_freq_support_new()
 
@@ -150,7 +153,9 @@ class TimeFreqSupport(Support):
         complex_frequencies : Field
             Field of frequencies that must be set.
         """
-        self._api.time_freq_support_set_shared_imaginary_freqs(self, complex_frequencies)
+        self._api.time_freq_support_set_shared_imaginary_freqs(
+            self, complex_frequencies
+        )
 
     @complex_frequencies.setter
     def complex_frequencies(self, value):
@@ -222,7 +227,9 @@ class TimeFreqSupport(Support):
         stage_num: int, default: 0, optional
             Stage number that is defined by these harmonic indices.
         """
-        self._api.time_freq_support_set_harmonic_indices(self, harmonic_indices, stage_num)
+        self._api.time_freq_support_set_harmonic_indices(
+            self, harmonic_indices, stage_num
+        )
 
     @property
     def n_sets(self):
@@ -271,20 +278,26 @@ class TimeFreqSupport(Support):
             # Use by_step methods
             if cplx:
                 # Call for imaginary
-                return self._api.time_freq_support_get_imaginary_freq_by_step(self, step, substep)
+                return self._api.time_freq_support_get_imaginary_freq_by_step(
+                    self, step, substep
+                )
             else:
                 # Call for real
-                return self._api.time_freq_support_get_time_freq_by_step(self, step, substep)
+                return self._api.time_freq_support_get_time_freq_by_step(
+                    self, step, substep
+                )
         else:
             # Use by_cumul_index methods
             if cplx:
                 # Call for imaginary
                 return self._api.time_freq_support_get_imaginary_freq_by_cumul_index(
-                    self, cumulative_index)
+                    self, cumulative_index
+                )
             else:
                 # Call for real
-                return self._api.time_freq_support_get_time_freq_by_cumul_index(self,
-                                                                                cumulative_index)
+                return self._api.time_freq_support_get_time_freq_by_cumul_index(
+                    self, cumulative_index
+                )
 
     def get_cumulative_index(self, step=0, substep=0, freq=None, cplx=False):
         """Retrieves the cumulative index corresponding to the requested step/substep
@@ -314,18 +327,25 @@ class TimeFreqSupport(Support):
         or frequency."""
         if freq is None:
             if cplx is False:
-                return self._api.time_freq_support_get_time_freq_cummulative_index_by_step(self,
-                                                                                           step,
-                                                                                           substep)
+                return (
+                    self._api.time_freq_support_get_time_freq_cummulative_index_by_step(
+                        self, step, substep
+                    )
+                )
             else:
-                raise NotImplementedError("get_cumulative_index is not implemented for cplx=False")
+                raise NotImplementedError(
+                    "get_cumulative_index is not implemented for cplx=False"
+                )
         else:
             from ansys.dpf.gate import integral_types
+
             i1 = integral_types.MutableInt32()
             i2 = integral_types.MutableInt32()
             if cplx:
-                return self._api.time_freq_support_get_imaginary_freqs_cummulative_index(
-                    self, freq, i1, i2
+                return (
+                    self._api.time_freq_support_get_imaginary_freqs_cummulative_index(
+                        self, freq, i1, i2
+                    )
                 )
             else:
                 return self._api.time_freq_support_get_time_freq_cummulative_index_by_value(
@@ -389,17 +409,19 @@ class TimeFreqSupport(Support):
         stage_num: int, optional, default = 0
             Targeted stage number.
         """
-        harmonic_indices = self._api.time_freq_support_get_shared_harmonic_indices(self, stage_num)
+        harmonic_indices = self._api.time_freq_support_get_shared_harmonic_indices(
+            self, stage_num
+        )
         if harmonic_indices is not None:
             return dpf.core.Field(server=self._server, field=harmonic_indices)
 
     def append_step(
-            self,
-            step_id,
-            step_time_frequencies,
-            step_complex_frequencies=None,
-            rpm_value=None,
-            step_harmonic_indices=None,
+        self,
+        step_id,
+        step_time_frequencies,
+        step_complex_frequencies=None,
+        rpm_value=None,
+        step_harmonic_indices=None,
     ):
         """Append a step with all its field values in the time frequencies support.
         The RPM value is a step (or load step)-based value.

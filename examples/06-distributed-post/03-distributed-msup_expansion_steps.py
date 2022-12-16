@@ -105,9 +105,11 @@ global_server = dpf.start_local_server(
 
 remote_servers = [
     dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
+    ),
     dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
+    ),
 ]
 
 ips = [remote_server.ip for remote_server in remote_servers]
@@ -172,8 +174,7 @@ merge_use_pass.inputs.fields_containers1(response)
 merge_use_pass.inputs.fields_containers2(response2fc)
 
 expansion = ops.math.modal_superposition(
-    solution_in_modal_space=merge_use_pass,
-    modal_basis=merge_fields
+    solution_in_modal_space=merge_use_pass, modal_basis=merge_fields
 )
 component = ops.logic.component_selector_fc(expansion, 1)
 
