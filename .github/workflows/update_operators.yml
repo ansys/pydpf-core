@@ -66,12 +66,14 @@ jobs:
         timeout-minutes: 5
 
       - name: "Create Pull Request"
-        uses: peter-evans/create_pull_request@v4
+        uses: peter-evans/create-pull-request@v4
         with:
+          delete-branch: true
           commit-message: update operators
           title: Update Operators for new DPF Server
           body: An update of operators has been triggered either manually or by an update in the dpf-standalone repository.
           branch: maint/update_operators_${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }}
+          labels: maintenance
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
