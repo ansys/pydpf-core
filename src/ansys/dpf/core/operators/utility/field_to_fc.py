@@ -11,13 +11,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class field_to_fc(Operator):
-    """Create a field container containing the field in input.
+    """Create a field container containing the field provided on pin 0.
 
     Parameters
     ----------
     field : Field or FieldsContainer
         If a fields container is set in input, it is
-        pass on as output.
+        passed on as an output.
 
 
     Examples
@@ -49,7 +49,9 @@ class field_to_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Create a field container containing the field in input."""
+        description = (
+            """Create a field container containing the field provided on pin 0."""
+        )
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -58,7 +60,7 @@ class field_to_fc(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""If a fields container is set in input, it is
-        pass on as output.""",
+        passed on as an output.""",
                 ),
             },
             map_output_pin_spec={
@@ -131,7 +133,7 @@ class InputsFieldToFc(_Inputs):
         """Allows to connect field input to the operator.
 
         If a fields container is set in input, it is
-        pass on as output.
+        passed on as an output.
 
         Parameters
         ----------

@@ -222,6 +222,7 @@ from .mapdl_material_properties import mapdl_material_properties
 from .rom_data_provider import rom_data_provider 
 from .write_cms_rbd_file import write_cms_rbd_file 
 from .cyclic_expanded_heat_flux import cyclic_expanded_heat_flux 
+from .migrate_to_h5dpf import migrate_to_h5dpf 
 from .compute_total_strain_YZ import compute_total_strain_YZ 
 from .compute_total_strain_1 import compute_total_strain_1 
 from .compute_total_strain_Y import compute_total_strain_Y 
