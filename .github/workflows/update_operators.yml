@@ -32,14 +32,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: "Set licensing if necessary"
-        if: inputs.ANSYS_VERSION > 231
-        shell: bash
-        run: |
-          echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
-          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
-          echo "ANSYS_DPF_SERVER_CONTEXT=PREMIUM" >> $GITHUB_ENV
-
       - name: Setup Python
         uses: actions/setup-python@v4.2.0
         with:
@@ -72,6 +64,14 @@ jobs:
         run: |
           python code_generation.py
         timeout-minutes: 5
+
+      - name: "Create Pull Request"
+        uses: peter-evans/create_pull_request@v4
+        with:
+          commit-message: update operators
+          title: Update Operators for new DPF Server
+          body: An update of operators has been triggered either manually or by an update in the dpf-standalone repository.
+          branch: maint/update_operators_${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }}
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
