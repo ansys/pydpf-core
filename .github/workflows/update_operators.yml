@@ -21,7 +21,7 @@ on:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  extra: "-e --find-links .github/"
+  extra: "--find-links=.github/ -e"
   ANSYSLMD_LICENSE_FILE: 1055@${{ secrets.LICENSE_SERVER }}
   ANSYS_DPF_ACCEPT_LA: Y
 
@@ -48,7 +48,7 @@ jobs:
 
       - name: "Build Package"
         id: build-package
-        uses: pyansys/pydpf-actions/build_package@v2.3
+        uses: pyansys/pydpf-actions/build_package@fix/reposition_extra_pip_arguments
         with:
           python-version: "3.10"
           ANSYS_VERSION: ${{ github.event.inputs.ANSYS_VERSION || '232' }}
