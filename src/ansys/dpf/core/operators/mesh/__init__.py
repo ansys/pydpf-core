@@ -3,6 +3,7 @@ from .from_field import from_field
 from .mesh_provider import mesh_provider 
 from .meshes_provider import meshes_provider 
 from .beam_properties import beam_properties 
+from .merge_meshes import merge_meshes 
 from .change_cs import change_cs 
 from .from_scoping import from_scoping 
 from .split_fields import split_fields 
@@ -21,4 +22,6 @@ from .mesh_to_graphics import mesh_to_graphics
 from .mesh_to_graphics_edges import mesh_to_graphics_edges 
 from .make_plane_levelset import make_plane_levelset 
 from .exclude_levelset import exclude_levelset 
+from .mesh_extraction import mesh_extraction 
+from .wireframe import wireframe 
 from .decimate_mesh import decimate_mesh 
