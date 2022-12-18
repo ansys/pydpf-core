@@ -55,7 +55,7 @@ points = Points(
 
 ###############################################################################
 # Create line passing through the geometry's diagional:
-line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], num_points=50)
+line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
 
 ###############################################################################
 # Create vertical plane passing through the mid point:

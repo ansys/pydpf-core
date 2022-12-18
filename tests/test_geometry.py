@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from ansys.dpf.core.geometry import Points, Line
+from ansys.dpf.core.geometry import Points, Line, normalize_vector
 from ansys.dpf.core.geometry_factory import (
     create_points,
     create_line_from_points,
@@ -27,6 +27,7 @@ def test_create_points():
 
 points_data = [
     ([[0.4, 0.1, 0], [0.1, 0, 0.5]]),
+    ([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
     (Points([[0.4, 0.1, 0], [0.1, 0, 0.5]])),
     pytest.param(
         [[0.4, 0.1, 0], [0.1, 0, 0.5], [0.1, 0, 0.5]],
@@ -46,11 +47,12 @@ def test_create_line_from_points(points):
     info = "DPF Line object:\n"
     info += f"Starting point: {np.array(points[0])}\n"
     info += f"Ending point: {np.array(points[1])}\n"
-    info += f"Line discretized with {line._num_points} points\n"
+    info += f"Line discretized with {line.n_points} points\n"
     assert print(line) == print(info)
     assert line.length == np.linalg.norm(points)
     diff = np.array(points[1]) - np.array(points[0])
     assert all(line.direction) == all(diff / np.linalg.norm(diff))
+    assert (line.path == np.linspace(0, line.length, line.n_points)).all()
 
 
 vects_data = [
@@ -88,6 +90,7 @@ def test_create_line_from_vectors(ini, end):
 planes_data = [
     ([0, 0, 0], [[0, 0, 0], [0, 0, 1]]),
     ([0, 0, 0], [0, 0, 1]),
+    ([1, 1, 1], [1, -1, 0]),
     ([0, 0, 0], Line([[0, 0, 0], [0, 0, 1]])),
     pytest.param(
         [0, 0], [0, 0, 1], marks=pytest.mark.xfail(strict=True, raises=ValueError)
@@ -106,13 +109,14 @@ def test_create_plane_from_center_and_normal(center, normal):
     plane.plot()
     assert plane.center == center
     if len(normal) == 2:
-        normal_vect = np.array(normal)
+        normal_vect = normalize_vector(np.array(normal))
         diff = np.array(normal[1]) - np.array(normal[0])
-        normal_dir = diff / np.linalg.norm(diff)
+        normal_dir = normalize_vector(diff)
     else:
-        normal_vect = [np.array([0, 0, 0]), np.array(normal)]
-        normal_dir = np.array(normal)
-    assert [(plane.normal_vect[i] == normal_vect[i]).all() for i in range(2)]
+        normal_vect = [np.array([0, 0, 0]), normalize_vector(np.array(normal))]
+        normal_dir = normalize_vector(np.array(normal))
+    assert (plane.normal_vect[0] == normal_vect[0]).all()
+    assert (plane.normal_vect[1] == normal_vect[1]).all()
     assert (plane.normal_dir == normal_dir).all()
 
 
@@ -121,6 +125,10 @@ plane_data = [
     (Points([[0, 0, 0], [0, 1, 0], [1, 0, 0]])),
     pytest.param(
         [[0, 0, 0], [0, 1, 0]], marks=pytest.mark.xfail(strict=True, raises=ValueError)
+    ),
+    pytest.param(
+        Points([[0, 0, 0], [0, 1, 0]]),
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
         [[0, 0], [0, 1, 0], [0, 0, 1]],
@@ -161,6 +169,26 @@ plane_point_line_data = [
     ([0, 0, 0], [[0, 0, 0], [0, 0, 1]]),
     (Points([0, 0, 0]), [[0, 0, 0], [0, 0, 1]]),
     ([0, 0, 0], Line([[0, 0, 0], [0, 0, 1]])),
+    pytest.param(
+        Points([[0, 0, 0], [1, 1, 1]]),
+        [[0, 0, 0], [0, 0, 1]],
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
+    ),
+    pytest.param(
+        [0, 0, 0, 0],
+        [[0, 0, 0], [0, 0, 1]],
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
+    ),
+    pytest.param(
+        [0, 0, 0],
+        [[0, 0, 0], [0, 0, 1], [0, 1, 0]],
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
+    ),
+    pytest.param(
+        [0, 0, 0],
+        [[0, 0, 0, 0], [0, 0, 1]],
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
+    ),
 ]
 
 
@@ -187,7 +215,7 @@ def test_line_discretization():
     assert line.mesh.nodes.n_nodes == 100
     assert line.mesh.elements.n_elements == 99
 
-    line = Line([[0, 0, 0], [1, 1, 1]], num_points=1200)
+    line = Line([[0, 0, 0], [1, 1, 1]], n_points=1200)
     assert line.mesh.nodes.n_nodes == 1200
     assert line.mesh.elements.n_elements == 1199
 

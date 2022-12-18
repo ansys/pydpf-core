@@ -10,12 +10,12 @@ def create_points(coordinates, server=None):
     return Points(coordinates, server)
 
 
-def create_line_from_points(points, num_points=100, server=None):
+def create_line_from_points(points, n_points=100, server=None):
     """Construct line from two DPF points."""
-    return Line(points, num_points, server)
+    return Line(points, n_points, server)
 
 
-def create_line_from_vector(ini, end=None, num_points=100, server=None):
+def create_line_from_vector(ini, end=None, n_points=100, server=None):
     """Construct line from origin's coordinates and a vector direction."""
     # Input check
     if isinstance(ini[0], list):
@@ -39,7 +39,7 @@ def create_line_from_vector(ini, end=None, num_points=100, server=None):
             )
         vect = [ini, end]
 
-    return Line(vect, num_points, server)
+    return Line(vect, n_points, server)
 
 
 def create_plane_from_center_and_normal(center, normal, server=None):

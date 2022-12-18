@@ -114,7 +114,7 @@ class Line:
 
     """
 
-    def __init__(self, coordinates, num_points=100, server=None):
+    def __init__(self, coordinates, n_points=100, server=None):
         """Initialize line object from two 3D points and discretize."""
         if not isinstance(coordinates, Field):
             coordinates = field_from_array(coordinates)
@@ -123,7 +123,7 @@ class Line:
 
         self._coordinates = coordinates
         self._server = server
-        self._num_points = num_points
+        self._n_points = n_points
         self._length = np.linalg.norm(coordinates.data)
         self._mesh, self._path = self._discretize()
 
@@ -140,30 +140,30 @@ class Line:
         txt = "DPF Line object:\n"
         txt += f"Starting point: {self._coordinates.data[0]}\n"
         txt += f"Ending point: {self._coordinates.data[-1]}\n"
-        txt += f"Line discretized with {self._num_points} points\n"
+        txt += f"Line discretized with {self._n_points} points\n"
         return txt
 
     def _discretize(self):
         """Discretize line."""
         origin = self._coordinates.data[0]
         diff = self._coordinates.data[1] - self._coordinates.data[0]
-        path_1D = np.linspace(0, self.length, self._num_points)
+        path_1D = np.linspace(0, self.length, self._n_points)
         path_3D = [
-            origin + i_point * diff / self._num_points
-            for i_point in range(self._num_points)
+            origin + i_point * diff / self._n_points
+            for i_point in range(self._n_points)
         ]
 
         # Create mesh for a line
         mesh = dpf.MeshedRegion(
-            num_nodes=self._num_points,
-            num_elements=self._num_points - 1,
+            num_nodes=self._n_points,
+            num_elements=self._n_points - 1,
             server=self._server,
         )
-        for i, node in enumerate(mesh.nodes.add_nodes(self._num_points)):
+        for i, node in enumerate(mesh.nodes.add_nodes(self._n_points)):
             node.id = i + 1
             node.coordinates = path_3D[i]
 
-        for i in range(self._num_points - 1):
+        for i in range(self._n_points - 1):
             mesh.elements.add_beam_element(i + 1, [i, i + 1])
 
         return mesh, path_1D
@@ -187,6 +187,11 @@ class Line:
     def path(self):
         """Get line path (1D line coordinate)."""
         return self._path
+
+    @property
+    def n_points(self):
+        """Get number of points for the line discretization."""
+        return self._n_points
 
     @property
     def direction(self):
