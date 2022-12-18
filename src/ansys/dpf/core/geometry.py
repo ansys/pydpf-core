@@ -53,12 +53,12 @@ class Points:
         return self.coordinates.data[value]
 
     def __len__(self):
-        return self.num_points
+        return self.n_points
 
     def __str__(self):
         """Print Points information."""
         txt = "DPF Points object:\n"
-        txt += f"Number of points: {self.num_points}\n"
+        txt += f"Number of points: {self.n_points}\n"
         txt += f"Coordinates:\n  {self._coordinates.data}\n"
         return txt
 
@@ -68,7 +68,7 @@ class Points:
         return self._coordinates
 
     @property
-    def num_points(self):
+    def n_points(self):
         """Total number of points."""
         return (
             self._coordinates.shape[0]
@@ -96,8 +96,8 @@ class Line:
     ----------
     coordinates: array, list, Field, Points
         3D coordinates of the two points defining the line.
-    num_points: int
-        Number of points used to discretize the line.
+    n_points: int
+        Number of points used to discretize the line (optional).
 
     Examples
     --------
@@ -227,6 +227,14 @@ class Plane:
         3D coordinates of the center point of the plane.
     normal : array, list, Line
         Normal direction to the plane.
+    width : int, float
+        Width of the discretized plane (default = 1).
+    height : int, float
+        Height of the discretized plane (default = 1).
+    n_cells_x : int
+        Number of cells in the x direction of the plane.
+    n_cells_y : int
+        Number of cells in the y direction of the plane.
 
     Examples
     --------
@@ -238,23 +246,18 @@ class Plane:
     DPF Plane object:
     Center point: [0, 0, 0]
     Normal direction: [1. 0. 0.]
-    Plane has not been discretized.
-      Use plane.discretize(width, height, num_cells_x, num_cells_y)
-    >>> plane.discretize(width=1, height=1, num_cells_y=10, num_cells_x=10)
-    >>> print(plane)
-    DPF Plane object:
-    Center point: [0, 0, 0]
-    Normal direction: [1. 0. 0.]
     Plane discretizaton using:
       Width (x-dir): 1
       Height (y-dir): 1
-      Num cells x-dir: 10
-      Num cells y-dir: 10
+      Num cells x-dir: 20
+      Num cells y-dir: 20
     >>> plane.plot()
 
     """
 
-    def __init__(self, center, normal, server=None):
+    def __init__(
+        self, center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
+    ):
         """Initialize Plane object from its center and normal direction."""
         # Input check
         if not len(center) == 3:
@@ -271,16 +274,21 @@ class Plane:
         else:
             normal_vect = [normal.coordinates.data[0], normal.coordinates.data[1]]
             normal_dir = self._get_direction_from_vect(normal_vect)
+        if not isinstance(width, (int, float)) or not isinstance(height, (int, float)):
+            raise ValueError("Width and height must be either integers of floats.")
+        if not isinstance(n_cells_x, int) or not isinstance(n_cells_y, int):
+            raise ValueError("Number of cells x and y must be either integers.")
 
         self._center = center
         self._normal_vect = normal_vect
         self._normal_dir = normal_dir
         self._server = server
         self._mesh = None
-        self.width = None
-        self.height = None
-        self.num_cells_x = None
-        self.num_cells_y = None
+        self._width = width
+        self._height = height
+        self._n_cells_x = n_cells_x
+        self._n_cells_y = n_cells_y
+        self._discretize()
 
     def __str__(self):
         """Print plane information."""
@@ -291,11 +299,11 @@ class Plane:
             txt += "Plane discretizaton using:\n"
             txt += f"  Width (x-dir): {self.width}\n"
             txt += f"  Height (y-dir): {self.height}\n"
-            txt += f"  Num cells x-dir: {self.num_cells_x}\n"
-            txt += f"  Num cells y-dir: {self.num_cells_y}\n"
+            txt += f"  Num cells x-dir: {self.n_cells_x}\n"
+            txt += f"  Num cells y-dir: {self.n_cells_y}\n"
         else:
             txt += "Plane has not been discretized.\n"
-            txt += "  Use plane.discretize(width, height, num_cells_x, num_cells_y)\n"
+            txt += "  Use plane.discretize(width, height, n_cells_x, n_cells_y)\n"
         return txt
 
     @property
@@ -318,6 +326,26 @@ class Plane:
         """Get discretized mesh for the plane."""
         return self._mesh
 
+    @property
+    def width(self):
+        """Get width of the discretized plane."""
+        return self._width
+
+    @property
+    def height(self):
+        """Get height of the discretized plane."""
+        return self._height
+
+    @property
+    def n_cells_x(self):
+        """Get number of cells in the x direction of the plane."""
+        return self._n_cells_x
+
+    @property
+    def n_cells_y(self):
+        """Get number of cells in the y direction of the plane."""
+        return self._n_cells_y
+
     def _get_plane_local_axis(self):
         axis_ref = [np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([0, 0, 1])]
         if np.allclose(self._normal_dir, [1.0, 0.0, 0.0]):
@@ -333,20 +361,16 @@ class Plane:
         plane_z = normalize_vector(plane_z)
         return [plane_x, plane_y, plane_z]
 
-    def discretize(self, width, height, num_cells_x, num_cells_y):
+    def _discretize(self):
         """Discretize plane with a certain size and number of cells per direction."""
-        self.width = width
-        self.height = height
-        self.num_cells_x = num_cells_x
-        self.num_cells_y = num_cells_y
 
         # Get plane axis (local) from reference axis (global) and plane's normal
         axis_plane = self._get_plane_local_axis()
 
         # Create grid on plane coordinates
-        num_nodes = (num_cells_x + 1) * (num_cells_y + 1)
-        x_range = np.linspace(-width / 2, width / 2, num_cells_x + 1)
-        y_range = np.linspace(-height / 2, height / 2, num_cells_y + 1)
+        num_nodes = (self._n_cells_x + 1) * (self._n_cells_y + 1)
+        x_range = np.linspace(-self._width / 2, self._width / 2, self._n_cells_x + 1)
+        y_range = np.linspace(-self._height / 2, self._height / 2, self._n_cells_y + 1)
         meshgrid = np.meshgrid(x_range, y_range)
         plane_coords = [
             meshgrid[0].flatten(),
@@ -363,7 +387,7 @@ class Plane:
             global_coords[i, :] = np.dot(node_coords, axis_plane) + self._center
 
         # Create mesh
-        num_elems = num_cells_x * num_cells_y
+        num_elems = self._n_cells_x * self._n_cells_y
         mesh = dpf.MeshedRegion(
             num_nodes=num_nodes, num_elements=num_elems, server=self._server
         )
@@ -373,12 +397,12 @@ class Plane:
 
         # Build connectivity
         for i in range(num_elems):
-            i_col = i // num_cells_x
+            i_col = i // self._n_cells_x
             element_connectivity = [
                 i_col + i,
                 i_col + i + 1,
-                i_col + num_cells_x + 1 + i + 1,
-                i_col + num_cells_x + 1 + i,
+                i_col + self._n_cells_x + 1 + i + 1,
+                i_col + self._n_cells_x + 1 + i,
             ]
             mesh.elements.add_solid_element(i + 1, element_connectivity)
 

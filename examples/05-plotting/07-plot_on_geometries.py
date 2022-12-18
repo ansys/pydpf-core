@@ -59,8 +59,14 @@ line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
 
 ###############################################################################
 # Create vertical plane passing through the mid point:
-plane = Plane([0.015, 0.045, 0.015], [1, 1, 0])
-plane.discretize(width=0.03, height=0.03, num_cells_x=10, num_cells_y=10)
+plane = Plane(
+    [0.015, 0.045, 0.015],
+    [1, 1, 0],
+    width=0.03,
+    height=0.03,
+    n_cells_x=10,
+    n_cells_y=10,
+)
 
 ###############################################################################
 # Map displacement field to geometry objects

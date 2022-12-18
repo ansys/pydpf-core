@@ -15,14 +15,14 @@ from ansys.dpf.core.geometry_factory import (
 
 
 def test_create_points():
-    num_points = 1000
+    n_points = 1000
     rng = np.random.default_rng()
-    points = rng.random((num_points, 3))
+    points = rng.random((n_points, 3))
     points = create_points(points)
     points.plot()
     print(points)
     assert points.dimension == 3
-    assert len(points) == points.num_points == num_points
+    assert len(points) == points.n_points == n_points
 
 
 points_data = [
@@ -228,20 +228,24 @@ def test_plane_discretization(component):
     normal = np.zeros(3)
     center = np.zeros(3)
     normal[component] = 1
-    plane = create_plane_from_center_and_normal(center, normal)
-    info_no_discretization = "DPF Plane object:\n"
-    info_no_discretization += f"Center point: {center}\n"
-    info_no_discretization += f"Normal direction: {normal}\n"
-    info_no_discretization += "Plane has not been discretized.\n"
-    info_no_discretization += (
-        "  Use plane.discretize(width, height, num_cells_x, num_cells_y)\n"
-    )
-    assert print(plane) == print(info_no_discretization)
     width = height = 1
-    num_cells_x = num_cells_y = 30
-    plane.discretize(
-        width=width, height=height, num_cells_x=num_cells_x, num_cells_y=num_cells_y
+    n_cells_x = n_cells_y = 30
+    plane = create_plane_from_center_and_normal(
+        center=center,
+        normal=normal,
+        width=width,
+        height=height,
+        n_cells_x=n_cells_x,
+        n_cells_y=n_cells_y,
     )
+    # info_no_discretization = "DPF Plane object:\n"
+    # info_no_discretization += f"Center point: {center}\n"
+    # info_no_discretization += f"Normal direction: {normal}\n"
+    # info_no_discretization += "Plane has not been discretized.\n"
+    # info_no_discretization += (
+    #     "  Use plane.discretize(width, height, num_cells_x, num_cells_y)\n"
+    # )
+    # assert print(plane) == print(info_no_discretization)
     assert plane.mesh.elements.n_elements == 30 * 30
     assert all(plane.mesh.nodes.coordinates_field.data[:, component] == 0.0)
     info_discretization = "DPF Plane object:\n"
@@ -250,6 +254,6 @@ def test_plane_discretization(component):
     info_discretization += "Plane discretizaton using:\n"
     info_discretization += f"  Width (x-dir): {width}\n"
     info_discretization += f"  Height (y-dir): {height}\n"
-    info_discretization += f"  Num cells x-dir: {num_cells_x}\n"
-    info_discretization += f"  Num cells y-dir: {num_cells_y}\n"
+    info_discretization += f"  Num cells x-dir: {n_cells_x}\n"
+    info_discretization += f"  Num cells y-dir: {n_cells_y}\n"
     assert print(plane) == print(info_discretization)

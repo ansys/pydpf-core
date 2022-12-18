@@ -42,11 +42,15 @@ def create_line_from_vector(ini, end=None, n_points=100, server=None):
     return Line(vect, n_points, server)
 
 
-def create_plane_from_center_and_normal(center, normal, server=None):
-    return Plane(center, normal, server)
+def create_plane_from_center_and_normal(
+    center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
+):
+    return Plane(center, normal, width, height, n_cells_x, n_cells_y, server)
 
 
-def create_plane_from_points(points, server=None):
+def create_plane_from_points(
+    points, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
+):
     """Create plane from three points."""
     # Input check
     if isinstance(points, Points):
@@ -65,10 +69,12 @@ def create_plane_from_points(points, server=None):
     # Get center and normal from points
     center = get_center_from_coords(points)
     normal_dir = get_normal_direction_from_coords(points)
-    return Plane(center, normal_dir, server)
+    return Plane(center, normal_dir, width, height, n_cells_x, n_cells_y, server)
 
 
-def create_plane_from_lines(line1, line2, server=None):
+def create_plane_from_lines(
+    line1, line2, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
+):
     """Create plane from two lines."""
     # Input check
     if not isinstance(line1, Line) and not isinstance(line2, Line):
@@ -82,10 +88,12 @@ def create_plane_from_lines(line1, line2, server=None):
     vect2 = [x - y for x, y in zip(line2[0], line2[1])]
     center = get_center_from_coords([vect1, vect2])
     normal = get_cross_product([vect1, vect2])
-    return Plane(center, normal, server)
+    return Plane(center, normal, width, height, n_cells_x, n_cells_y, server)
 
 
-def create_plane_from_point_and_line(point, line, server=None):
+def create_plane_from_point_and_line(
+    point, line, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
+):
     """Create plane from point and line."""
     # Input check
     if isinstance(point, Points):
@@ -107,7 +115,7 @@ def create_plane_from_point_and_line(point, line, server=None):
     vects = [line, [line[0], point]]
     center = get_center_from_coords(coords)
     normal = get_cross_product(vects)
-    return Plane(center, normal, server)
+    return Plane(center, normal, width, height, n_cells_x, n_cells_y, server)
 
 
 def get_center_from_coords(coords):
