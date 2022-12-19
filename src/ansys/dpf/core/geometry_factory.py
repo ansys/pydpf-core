@@ -26,6 +26,7 @@ def create_points(coordinates, server=None):
 
     Examples
     --------
+    >>> from ansys.dpf.core.geometry_factory import create_points
     >>> points = create_points([[1, 1, 1], [2, 1, 1], [0, 2, 0]])
     >>> print(points)
     DPF Points object:
@@ -55,6 +56,7 @@ def create_line_from_points(points, n_points=100, server=None):
 
     Examples
     --------
+    >>> from ansys.dpf.core.geometry_factory import create_line_from_points
     >>> line = create_line_from_points([[0, 0, 0], [1, 1, 1]])
     >>> print(line)
     DPF Line object:
@@ -86,6 +88,7 @@ def create_line_from_vector(ini, end=None, n_points=100, server=None):
 
     Examples
     --------
+    >>> from ansys.dpf.core.geometry_factory import create_line_from_vector
     >>> line = create_line_from_vector([0, 0, 0], [2, 2, 2])
     >>> print(line)
     DPF Line object:
@@ -146,6 +149,7 @@ def create_plane_from_center_and_normal(
 
     Examples
     --------
+    >>> from ansys.dpf.core.geometry_factory import create_plane_from_center_and_normal
     >>> plane = create_plane_from_center_and_normal([1, 1, 1], [0, 0, 1])
     >>> print(plane)
     DPF Plane object:
@@ -183,6 +187,7 @@ def create_plane_from_points(points, n_cells_x=20, n_cells_y=20, server=None):
 
     Examples
     --------
+    >>> from ansys.dpf.core.geometry_factory import create_plane_from_points
     >>> plane = create_plane_from_points([[0, 0, 0], [0, 0, 4], [0, 4, 0]])
     >>> print(plane)
     DPF Plane object:
@@ -253,6 +258,7 @@ def create_plane_from_lines(
 
     Examples
     --------
+    >>> from ansys.dpf.core.geometry_factory import create_plane_from_lines
     >>> plane = create_plane_from_lines([[0, 0, 0], [1, 1, 1]], [[0, 1, 0], [2, 1, 0]])
     >>> print(plane)
     DPF Plane object:
@@ -307,6 +313,7 @@ def create_plane_from_point_and_line(
 
     Examples
     --------
+    >>> from ansys.dpf.core.geometry_factory import create_plane_from_point_and_line
     >>> plane = create_plane_from_point_and_line([1, 2, 1], [[0, 0, 0], [1, 1, 1]])
     >>> print(plane)
     DPF Plane object:
