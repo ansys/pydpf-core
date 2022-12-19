@@ -141,9 +141,7 @@ class CyclicSupport:
         >>> base = cyc_support.base_nodes_scoping(0)
 
         """
-        base_node_scoping = self._api.cyclic_support_get_base_nodes_scoping(
-            self, stage_num
-        )
+        base_node_scoping = self._api.cyclic_support_get_base_nodes_scoping(self, stage_num)
         return Scoping(scoping=base_node_scoping, server=self._server)
 
     def base_elements_scoping(self, stage_num=0) -> Scoping:
@@ -169,9 +167,7 @@ class CyclicSupport:
         >>> base = cyc_support.base_elements_scoping(stage_num=1)
 
         """
-        base_element_scoping = self._api.cyclic_support_get_base_elements_scoping(
-            self, stage_num
-        )
+        base_element_scoping = self._api.cyclic_support_get_base_elements_scoping(self, stage_num)
         return Scoping(scoping=base_element_scoping, server=self._server)
 
     def sectors_set_for_expansion(self, stage_num=0) -> Scoping:
@@ -201,9 +197,7 @@ class CyclicSupport:
         [...0... 1... 2... 3... 4... 5... 6... 7... 8... 9... 10... 11]
 
         """
-        sectors_for_expansion = self._api.cyclic_support_get_sectors_scoping(
-            self, stage_num
-        )
+        sectors_for_expansion = self._api.cyclic_support_get_sectors_scoping(self, stage_num)
         return Scoping(scoping=sectors_for_expansion, server=self._server)
 
     def expand_node_id(self, node_id, sectors=None, stage_num=0):

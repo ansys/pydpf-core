@@ -141,12 +141,8 @@ planes_data = [
 @pytest.mark.parametrize(
     ("center", "normal", "width", "height", "n_cells_x", "n_cells_y"), planes_data
 )
-def test_create_plane_from_center_and_normal(
-    center, normal, width, height, n_cells_x, n_cells_y
-):
-    plane = create_plane_from_center_and_normal(
-        center, normal, width, height, n_cells_x, n_cells_y
-    )
+def test_create_plane_from_center_and_normal(center, normal, width, height, n_cells_x, n_cells_y):
+    plane = create_plane_from_center_and_normal(center, normal, width, height, n_cells_x, n_cells_y)
     plane.plot()
     assert plane.center == center
     if len(normal) == 2:
@@ -164,9 +160,7 @@ def test_create_plane_from_center_and_normal(
 plane_data = [
     ([[0, 0, 0], [0, 1, 0], [1, 0, 0]]),
     (Points([[0, 0, 0], [0, 1, 0], [1, 0, 0]])),
-    pytest.param(
-        [[0, 0, 0], [0, 1, 0]], marks=pytest.mark.xfail(strict=True, raises=ValueError)
-    ),
+    pytest.param([[0, 0, 0], [0, 1, 0]], marks=pytest.mark.xfail(strict=True, raises=ValueError)),
     pytest.param(
         Points([[0, 0, 0], [0, 1, 0]]),
         marks=pytest.mark.xfail(strict=True, raises=ValueError),

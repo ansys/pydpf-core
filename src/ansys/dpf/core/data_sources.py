@@ -72,17 +72,15 @@ class DataSources:
                     grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
                 )
                 core_api.init_data_processing_environment(self)
-                self._internal_obj = (
-                    core_api.data_processing_duplicate_object_reference(data_sources)
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(
+                    data_sources
                 )
             else:
                 # It should be a message (usually from a call to operator_getoutput_data_sources)
                 self._internal_obj = data_sources
         else:
             if self._server.has_client():
-                self._internal_obj = self._api.data_sources_new_on_client(
-                    self._server.client
-                )
+                self._internal_obj = self._api.data_sources_new_on_client(self._server.client)
             else:
                 self._internal_obj = self._api.data_sources_new("data_sources")
 
@@ -115,9 +113,7 @@ class DataSources:
         if key == "":
             self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
         else:
-            self._api.data_sources_set_result_file_path_with_key_utf8(
-                self, str(filepath), key
-            )
+            self._api.data_sources_set_result_file_path_with_key_utf8(self, str(filepath), key)
 
     def set_domain_result_file_path(self, path, domain_id):
         """Add a result file path by domain.
@@ -140,9 +136,7 @@ class DataSources:
         >>> data_sources.set_domain_result_file_path('/tmp/file1.sub', 1)
 
         """
-        self._api.data_sources_set_domain_result_file_path_utf8(
-            self, str(path), domain_id
-        )
+        self._api.data_sources_set_domain_result_file_path_utf8(self, str(path), domain_id)
 
     def add_file_path(self, filepath, key="", is_domain: bool = False, domain_id=0):
         """Add a file path to the data sources.
@@ -176,9 +170,7 @@ class DataSources:
             filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
         if is_domain:
             if key == "":
-                raise NotImplementedError(
-                    "A key must be given when using is_domain=True."
-                )
+                raise NotImplementedError("A key must be given when using is_domain=True.")
             else:
                 self._api.data_sources_add_domain_file_path_with_key_utf8(
                     self, str(filepath), key, domain_id
@@ -187,9 +179,7 @@ class DataSources:
             if key == "":
                 self._api.data_sources_add_file_path_utf8(self, str(filepath))
             else:
-                self._api.data_sources_add_file_path_with_key_utf8(
-                    self, str(filepath), key
-                )
+                self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
 
     def add_file_path_for_specified_result(self, filepath, key="", result_key=""):
         """Add a file path for a specified result file key to the data sources.
@@ -235,9 +225,7 @@ class DataSources:
 
         """
         if result_key == "":
-            self._api.data_sources_add_upstream_data_sources(
-                self, upstream_data_sources
-            )
+            self._api.data_sources_add_upstream_data_sources(self, upstream_data_sources)
         else:
             self._api.data_sources_add_upstream_data_sources_for_specified_result(
                 self, upstream_data_sources, result_key

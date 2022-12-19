@@ -61,9 +61,7 @@ class TimeFreqSupport(Support):
             # self._internal_obj = support_api.support_get_as_time_freq_support(self)
         else:
             if self._server.has_client():
-                self._internal_obj = self._api.time_freq_support_new_on_client(
-                    self._server.client
-                )
+                self._internal_obj = self._api.time_freq_support_new_on_client(self._server.client)
             else:
                 self._internal_obj = self._api.time_freq_support_new()
 
@@ -153,9 +151,7 @@ class TimeFreqSupport(Support):
         complex_frequencies : Field
             Field of frequencies that must be set.
         """
-        self._api.time_freq_support_set_shared_imaginary_freqs(
-            self, complex_frequencies
-        )
+        self._api.time_freq_support_set_shared_imaginary_freqs(self, complex_frequencies)
 
     @complex_frequencies.setter
     def complex_frequencies(self, value):
@@ -227,9 +223,7 @@ class TimeFreqSupport(Support):
         stage_num: int, default: 0, optional
             Stage number that is defined by these harmonic indices.
         """
-        self._api.time_freq_support_set_harmonic_indices(
-            self, harmonic_indices, stage_num
-        )
+        self._api.time_freq_support_set_harmonic_indices(self, harmonic_indices, stage_num)
 
     @property
     def n_sets(self):
@@ -278,14 +272,10 @@ class TimeFreqSupport(Support):
             # Use by_step methods
             if cplx:
                 # Call for imaginary
-                return self._api.time_freq_support_get_imaginary_freq_by_step(
-                    self, step, substep
-                )
+                return self._api.time_freq_support_get_imaginary_freq_by_step(self, step, substep)
             else:
                 # Call for real
-                return self._api.time_freq_support_get_time_freq_by_step(
-                    self, step, substep
-                )
+                return self._api.time_freq_support_get_time_freq_by_step(self, step, substep)
         else:
             # Use by_cumul_index methods
             if cplx:
@@ -327,25 +317,19 @@ class TimeFreqSupport(Support):
         or frequency."""
         if freq is None:
             if cplx is False:
-                return (
-                    self._api.time_freq_support_get_time_freq_cummulative_index_by_step(
-                        self, step, substep
-                    )
+                return self._api.time_freq_support_get_time_freq_cummulative_index_by_step(
+                    self, step, substep
                 )
             else:
-                raise NotImplementedError(
-                    "get_cumulative_index is not implemented for cplx=False"
-                )
+                raise NotImplementedError("get_cumulative_index is not implemented for cplx=False")
         else:
             from ansys.dpf.gate import integral_types
 
             i1 = integral_types.MutableInt32()
             i2 = integral_types.MutableInt32()
             if cplx:
-                return (
-                    self._api.time_freq_support_get_imaginary_freqs_cummulative_index(
-                        self, freq, i1, i2
-                    )
+                return self._api.time_freq_support_get_imaginary_freqs_cummulative_index(
+                    self, freq, i1, i2
                 )
             else:
                 return self._api.time_freq_support_get_time_freq_cummulative_index_by_value(
@@ -409,9 +393,7 @@ class TimeFreqSupport(Support):
         stage_num: int, optional, default = 0
             Targeted stage number.
         """
-        harmonic_indices = self._api.time_freq_support_get_shared_harmonic_indices(
-            self, stage_num
-        )
+        harmonic_indices = self._api.time_freq_support_get_shared_harmonic_indices(self, stage_num)
         if harmonic_indices is not None:
             return dpf.core.Field(server=self._server, field=harmonic_indices)
 
@@ -506,9 +488,7 @@ class TimeFreqSupport(Support):
                 self._set_harmonic_indices_at_stage(0, step_harmonic_indices, step_id)
             elif isinstance(step_harmonic_indices, dict):
                 for key in step_harmonic_indices:
-                    self._set_harmonic_indices_at_stage(
-                        key, step_harmonic_indices[key], step_id
-                    )
+                    self._set_harmonic_indices_at_stage(key, step_harmonic_indices[key], step_id)
             else:
                 raise dpf_errors.InvalidTypeError("list/dict", "step_harmonic_indices")
 
@@ -537,9 +517,7 @@ class TimeFreqSupport(Support):
         i = 0
         while True:
             try:
-                tf.set_harmonic_indices(
-                    self.get_harmonic_indices(i).deep_copy(server=server), i
-                )
+                tf.set_harmonic_indices(self.get_harmonic_indices(i).deep_copy(server=server), i)
                 i += 1
             except:
                 break

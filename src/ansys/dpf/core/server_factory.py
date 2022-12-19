@@ -67,9 +67,7 @@ class DockerConfig:
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
 
         if mounted_volumes is None:
-            mounted_volumes = {
-                LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"
-            }
+            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
 
         self._use_docker = use_docker
         self._docker_name = docker_name
@@ -321,9 +319,7 @@ def get_default_server_config(
     elif config is None and docker_config.use_docker:
         config = get_default_remote_server_config()
     elif config is None:
-        config = ServerConfig(
-            protocol=DEFAULT_COMMUNICATION_PROTOCOL, legacy=DEFAULT_LEGACY
-        )
+        config = ServerConfig(protocol=DEFAULT_COMMUNICATION_PROTOCOL, legacy=DEFAULT_LEGACY)
     return config
 
 
@@ -554,25 +550,19 @@ class RunningDockerConfig:
             ) as docker_process:
                 self._use_docker = True
                 if stdout:
-                    with io.TextIOWrapper(
-                        docker_process.stdout, encoding="utf-8"
-                    ) as log_out:
+                    with io.TextIOWrapper(docker_process.stdout, encoding="utf-8") as log_out:
                         for line in log_out:
                             log.debug(line)
                             lines.append(line)
                 else:
-                    with io.TextIOWrapper(
-                        docker_process.stderr, encoding="utf-8"
-                    ) as log_error:
+                    with io.TextIOWrapper(docker_process.stderr, encoding="utf-8") as log_error:
                         for line in log_error:
                             if line not in lines:
                                 lines.append(line)
                 docker_process.kill()
 
     def docker_run_cmd_command(self, docker_server_port: int, local_port: int) -> str:
-        return self._docker_config.docker_run_cmd_command(
-            docker_server_port, local_port
-        )
+        return self._docker_config.docker_run_cmd_command(docker_server_port, local_port)
 
     def __str__(self):
         return str(self._docker_config) + f"\t- server_id: {self.server_id}\n"
