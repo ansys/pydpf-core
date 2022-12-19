@@ -52,10 +52,15 @@ env:
   extra: "--find-links .github/"
 
 jobs:
+  doc-style:
+    name: "Check doc style"
+    uses: ./.github/workflows/docs-style.yml
+    secrets: inherit
+
   docs:
     name: "Documentation"
     runs-on: windows-latest
-
+    needs: [doc-style]
     steps:
       - uses: actions/checkout@v3
 
@@ -164,3 +169,9 @@ jobs:
           name: HTML-doc-${{env.PACKAGE_NAME}}
           path: HTML-doc-${{env.PACKAGE_NAME}}.zip
         if: always()
+
+      - name: "Upload HTML Documentation"
+        uses: actions/upload-artifact@v3
+        with:
+          name: documentation-html
+          path: docs/build/html

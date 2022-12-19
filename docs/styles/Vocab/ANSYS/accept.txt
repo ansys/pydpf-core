@@ -1,12 +1,12 @@
 ANSYS
-Ansys
-ansys
+[Aa]nsys
 Abaqus
-componentization
-Componentization
-core
-Core
+APIs
+[Cc]omponentization
+[Cc]ore
 CPython
+DPF [Ss]erver
+Entry
 Gaussian
 getters
 gltf
@@ -18,14 +18,15 @@ Mises
 MSUP
 numpy
 postprocess
-postprocessing
-Postprocessing
+[Pp]ostprocessing
+Premium
+Preview License Agreement
 protobuf
 psutil
 PyDPF
+[Pp]ython
 Pythonic
-pyvista
-PyVista
+[Pp]yvista
 recursivity
 Remotable
 Reusability
