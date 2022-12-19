@@ -15,7 +15,7 @@ Write-Host "activate venv"
 
 
 Write-Host "install deps"
-Start-Process "python" -ArgumentList ("-m pip install -r "+$pluginpath+"\requirements.txt --disable-pip-version-check") -NoNewWindow -Wait
+Start-Process "python" -ArgumentList ("-m pip install -r "+$pluginpath+"\requirements.txt --disable-pip-version-check --use-pep517") -NoNewWindow -Wait
 if (Test-Path ($tempfolder + "/venv/Lib/site-packages/__pycache__")){
     Write-Host "remove __pycache__"
     Remove-Item -Recurse -Force ($tempfolder + "/venv/Lib/site-packages/__pycache__")
