@@ -1,7 +1,14 @@
 import numpy as np
 import pytest
 
-from ansys.dpf.core.geometry import Points, Line, normalize_vector
+from ansys.dpf.core.geometry import (
+    Points,
+    Line,
+    normalize_vector,
+    get_plane_local_axis,
+    get_local_coords_from_global,
+    get_global_coords_from_local,
+)
 from ansys.dpf.core.geometry_factory import (
     create_points,
     create_line_from_points,
@@ -88,24 +95,58 @@ def test_create_line_from_vectors(ini, end):
 
 
 planes_data = [
-    ([0, 0, 0], [[0, 0, 0], [0, 0, 1]]),
-    ([0, 0, 0], [0, 0, 1]),
-    ([1, 1, 1], [1, -1, 0]),
-    ([0, 0, 0], Line([[0, 0, 0], [0, 0, 1]])),
+    ([0, 0, 0], [[0, 0, 0], [0, 0, 1]], 1, 1, 20, 20),
+    ([0, 0, 0], [0, 0, 1], 1, 1, 20, 20),
+    ([1, 1, 1], [1, -1, 0], 1, 1, 20, 20),
+    ([0, 0, 0], Line([[0, 0, 0], [0, 0, 1]]), 1, 1, 20, 20),
     pytest.param(
-        [0, 0], [0, 0, 1], marks=pytest.mark.xfail(strict=True, raises=ValueError)
+        [0, 0],
+        [0, 0, 1],
+        1,
+        1,
+        20,
+        20,
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
         [0, 0, 0],
         [[0, 0], [0, 0, 1]],
+        1,
+        1,
+        20,
+        20,
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
+    ),
+    pytest.param(
+        [0, 0, 0],
+        [[0, 0, 0], [0, 0, 1]],
+        1,
+        1.5,
+        5.5,
+        5.5,
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
+    ),
+    pytest.param(
+        [0, 0, 0],
+        [[0, 0, 0], [0, 0, 1]],
+        "testing",
+        1.5,
+        20,
+        20,
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
 
 
-@pytest.mark.parametrize(("center", "normal"), planes_data)
-def test_create_plane_from_center_and_normal(center, normal):
-    plane = create_plane_from_center_and_normal(center, normal)
+@pytest.mark.parametrize(
+    ("center", "normal", "width", "height", "n_cells_x", "n_cells_y"), planes_data
+)
+def test_create_plane_from_center_and_normal(
+    center, normal, width, height, n_cells_x, n_cells_y
+):
+    plane = create_plane_from_center_and_normal(
+        center, normal, width, height, n_cells_x, n_cells_y
+    )
     plane.plot()
     assert plane.center == center
     if len(normal) == 2:
@@ -238,14 +279,6 @@ def test_plane_discretization(component):
         n_cells_x=n_cells_x,
         n_cells_y=n_cells_y,
     )
-    # info_no_discretization = "DPF Plane object:\n"
-    # info_no_discretization += f"Center point: {center}\n"
-    # info_no_discretization += f"Normal direction: {normal}\n"
-    # info_no_discretization += "Plane has not been discretized.\n"
-    # info_no_discretization += (
-    #     "  Use plane.discretize(width, height, num_cells_x, num_cells_y)\n"
-    # )
-    # assert print(plane) == print(info_no_discretization)
     assert plane.mesh.elements.n_elements == 30 * 30
     assert all(plane.mesh.nodes.coordinates_field.data[:, component] == 0.0)
     info_discretization = "DPF Plane object:\n"
@@ -257,3 +290,22 @@ def test_plane_discretization(component):
     info_discretization += f"  Num cells x-dir: {n_cells_x}\n"
     info_discretization += f"  Num cells y-dir: {n_cells_y}\n"
     assert print(plane) == print(info_discretization)
+
+
+plane_mapping_data = [
+    ([0, 0, 0], [0, 1, 0], [[1, 0, 1], [0.5, 0, 0.5], [2, 0, 1]]),
+    ([0.2, -0.6, 2], [0, 1, 0], [[1, 0, 1], [0.5, 0, 0.5], [2, 0, 1]]),
+    ([0, 0, 0], [0, 0, 1], [[1, 1, 0], [2, 1, 0], [-2, -1, 0]]),
+    ([0.3, 0.5, -1], [1, 0, 0], [[0, 1, 1], [0, -1, 1], [0, 4, -2]]),
+]
+
+
+@pytest.mark.parametrize(("center", "normal", "global_ref"), plane_mapping_data)
+def test_plane_axes_and_coords_mapping(center, normal, global_ref):
+    normal = normalize_vector(np.array(normal))
+    axes_plane = get_plane_local_axis(normal)
+    for i in range(len(global_ref)):
+        local = get_local_coords_from_global(global_ref[i], axes_plane, center)
+        assert np.isclose(local[2], -center[np.where(normal == 1.0)[0][0]])
+        glob = get_global_coords_from_local(local, axes_plane, center)
+        assert np.isclose(glob, global_ref[i]).all()

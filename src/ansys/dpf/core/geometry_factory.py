@@ -2,21 +2,99 @@
 
 import numpy as np
 
-from ansys.dpf.core.geometry import Points, Line, Plane
+from ansys.dpf.core.geometry import (
+    Points,
+    Line,
+    Plane,
+    normalize_vector,
+    get_plane_local_axis,
+    get_local_coords_from_global,
+)
 
 
 def create_points(coordinates, server=None):
-    """Construct points given its coordinates."""
+    """Construct points given its coordinates.
+
+    Parameters
+    ----------
+    coordinates : list, array, Field
+        3D coordinates of the points.
+    server : :class:`ansys.dpf.core.server`, optional
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
+
+    Examples
+    --------
+    >>> points = create_points([[1, 1, 1], [2, 1, 1], [0, 2, 0]])
+    >>> print(points)
+    DPF Points object:
+    Number of points: 3
+    Coordinates:
+      [1. 1. 1.]
+      [2. 1. 1.]
+      [0. 2. 0.]
+    >>> points.plot()
+    """
     return Points(coordinates, server)
 
 
 def create_line_from_points(points, n_points=100, server=None):
-    """Construct line from two DPF points."""
+    """Construct line from two points.
+
+    Parameters
+    ----------
+    points : list, array, Field, Points
+        3D coordinates of the points.
+    n_points : int
+        Number of points in which the line will be discretized.
+    server : :class:`ansys.dpf.core.server`, optional
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
+
+    Examples
+    --------
+    >>> line = create_line_from_points([[0, 0, 0], [1, 1, 1]])
+    >>> print(line)
+    DPF Line object:
+    Starting point: [0. 0. 0.]
+    Ending point: [1. 1. 1.]
+    Line discretized with 100 points
+    >>> line.plot()
+
+    """
     return Line(points, n_points, server)
 
 
 def create_line_from_vector(ini, end=None, n_points=100, server=None):
-    """Construct line from origin's coordinates and a vector direction."""
+    """Construct line from origin's coordinates and a vector direction.
+
+    Parameters
+    ----------
+    ini : list, array, Line
+        List 3D coordinates of the initial and ending points of the line.
+    end : list, array, Line, optional
+        3D coordinates of the ending point of the line (if ``ini`` only contains
+        the initial point).
+    n_points : int
+        Number of points in which the line will be discretized.
+    server : :class:`ansys.dpf.core.server`, optional
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
+
+    Examples
+    --------
+    >>> line = create_line_from_vector([0, 0, 0], [2, 2, 2])
+    >>> print(line)
+    DPF Line object:
+    Starting point: [0. 0. 0.]
+    Ending point: [2. 2. 2.]
+    Line discretized with 100 points
+    >>> line.plot()
+
+    """
     # Input check
     if isinstance(ini[0], list):
         if not len(ini) == 2:
@@ -45,13 +123,79 @@ def create_line_from_vector(ini, end=None, n_points=100, server=None):
 def create_plane_from_center_and_normal(
     center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
 ):
+    """Create plane from its center and normal direction.
+
+    Parameters
+    ----------
+    center : list, array, Points
+        3D coordinates of the center point of the plane.
+    normal : list, array, Line
+        Normal direction to the plane.
+    width : int, float
+        Width of the discretized plane (default = 1).
+    height : int, float
+        Height of the discretized plane (default = 1).
+    n_cells_x : int
+        Number of cells in the x direction of the plane (default = 20).
+    n_cells_y : int
+        Number of cells in the y direction of the plane (default = 20).
+    server : :class:`ansys.dpf.core.server`, optional
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
+
+    Examples
+    --------
+    >>> plane = create_plane_from_center_and_normal([1, 1, 1], [0, 0, 1])
+    >>> print(plane)
+    DPF Plane object:
+    Center point: [1, 1, 1]
+    Normal direction: [0. 0. 1.]
+    Plane discretizaton using:
+      Width (x-dir): 1
+      Height (y-dir): 1
+      Num cells x-dir: 20
+      Num cells y-dir: 20
+    >>> plane.plot()
+
+    """
     return Plane(center, normal, width, height, n_cells_x, n_cells_y, server)
 
 
-def create_plane_from_points(
-    points, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
-):
-    """Create plane from three points."""
+def create_plane_from_points(points, n_cells_x=20, n_cells_y=20, server=None):
+    """Create plane from three points.
+
+    Note that when creating a plane using three points, the plane's width and height
+    will be computed such that the three points are the corner points of the plane.
+
+    Parameters
+    ----------
+    points : list, array, Points
+        3D coordinates of the three points defining the plane.
+    n_cells_x : int
+        Number of cells in the x direction of the plane (default = 20).
+    n_cells_y : int
+        Number of cells in the y direction of the plane (default = 20).
+    server : :class:`ansys.dpf.core.server`, optional
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
+
+    Examples
+    --------
+    >>> plane = create_plane_from_points([[0, 0, 0], [0, 0, 4], [0, 4, 0]])
+    >>> print(plane)
+    DPF Plane object:
+    Center point: [0.0, 1.3333333333333333, 1.3333333333333333]
+    Normal direction: [-1.  0.  0.]
+    Plane discretizaton using:
+      Width (x-dir): 4.0
+      Height (y-dir): 4.0
+      Num cells x-dir: 20
+      Num cells y-dir: 20
+    >>> plane.plot()
+
+    """
     # Input check
     if isinstance(points, Points):
         if not len(points) == 3:
@@ -69,13 +213,59 @@ def create_plane_from_points(
     # Get center and normal from points
     center = get_center_from_coords(points)
     normal_dir = get_normal_direction_from_coords(points)
+
+    # Get width and height from points
+    axes_plane = get_plane_local_axis(normal_dir)
+    points_local = [
+        get_local_coords_from_global(points[i], axes_plane, center) for i in range(3)
+    ]
+    x_coords = np.array(points_local)[:, 0]
+    y_coords = np.array(points_local)[:, 1]
+    width = float(x_coords.max() - x_coords.min())
+    height = float(y_coords.max() - y_coords.min())
+
     return Plane(center, normal_dir, width, height, n_cells_x, n_cells_y, server)
 
 
 def create_plane_from_lines(
     line1, line2, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
 ):
-    """Create plane from two lines."""
+    """Create plane from two lines.
+
+    Parameters
+    ----------
+    line1 : list, array, Line
+        3D coordinates of the two points defining a line.
+    line2 : list, array, Line
+        3D coordinates of the two points defining a line.
+    width : int, float
+        Width of the discretized plane (default = 1).
+    height : int, float
+        Height of the discretized plane (default = 1).
+    n_cells_x : int
+        Number of cells in the x direction of the plane (default = 20).
+    n_cells_y : int
+        Number of cells in the y direction of the plane (default = 20).
+    server : :class:`ansys.dpf.core.server`, optional
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
+
+    Examples
+    --------
+    >>> plane = create_plane_from_lines([[0, 0, 0], [1, 1, 1]], [[0, 1, 0], [2, 1, 0]])
+    >>> print(plane)
+    DPF Plane object:
+    Center point: [-1.5, -0.5, -0.5]
+    Normal direction: [ 0.          0.70710678 -0.70710678]
+    Plane discretizaton using:
+      Width (x-dir): 1
+      Height (y-dir): 1
+      Num cells x-dir: 20
+      Num cells y-dir: 20
+    >>> plane.plot()
+
+    """
     # Input check
     if not isinstance(line1, Line) and not isinstance(line2, Line):
         if not len(line1) == len(line2) == 2:
@@ -94,7 +284,42 @@ def create_plane_from_lines(
 def create_plane_from_point_and_line(
     point, line, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
 ):
-    """Create plane from point and line."""
+    """Create plane from point and line.
+
+    Parameters
+    ----------
+    point : list, array, Points
+        3D coordinates of the point.
+    line : list, array, Line
+        3D coordinates of the two points defining a line.
+    width : int, float
+        Width of the discretized plane (default = 1).
+    height : int, float
+        Height of the discretized plane (default = 1).
+    n_cells_x : int
+        Number of cells in the x direction of the plane (default = 20).
+    n_cells_y : int
+        Number of cells in the y direction of the plane (default = 20).
+    server : :class:`ansys.dpf.core.server`, optional
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
+
+    Examples
+    --------
+    >>> plane = create_plane_from_point_and_line([1, 2, 1], [[0, 0, 0], [1, 1, 1]])
+    >>> print(plane)
+    DPF Plane object:
+    Center point: [0.6666666666666666, 1.0, 0.6666666666666666]
+    Normal direction: [-0.70710678  0.          0.70710678]
+    Plane discretizaton using:
+      Width (x-dir): 1
+      Height (y-dir): 1
+      Num cells x-dir: 20
+      Num cells y-dir: 20
+    >>> plane.plot()
+
+    """
     # Input check
     if isinstance(point, Points):
         if not len(point) == 1:
@@ -133,7 +358,7 @@ def get_normal_direction_from_coords(points):
         [points[1][i] - points[0][i] for i in range(len(points))],
         [points[2][i] - points[0][i] for i in range(len(points))],
     ]
-    return get_cross_product(vects)
+    return normalize_vector(get_cross_product(vects))
 
 
 def get_cross_product(vects):

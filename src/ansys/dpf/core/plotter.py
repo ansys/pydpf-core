@@ -105,20 +105,20 @@ class _PyVistaPlotter:
         else:
             self._plotter.add_lines(points)
 
-    def add_plane(self, center, direction, field=None):
+    def add_plane(self, plane, field=None):
         import pyvista as pv
 
-        plane = pv.Plane(
-            center=center,
-            direction=direction,
-            i_size=0.005,
-            j_size=0.005,
-            i_resolution=20,
-            j_resolution=20,
+        plane_plot = pv.Plane(
+            center=plane.center,
+            direction=plane.normal_dir,
+            i_size=plane.width,
+            j_size=plane.height,
+            i_resolution=plane.n_cells_x,
+            j_resolution=plane.n_cells_y,
         )
         if field:
             plane[f"{field.name}"] = field.data
-        self._plotter.add_mesh(plane)
+        self._plotter.add_mesh(plane_plot)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
 
@@ -436,8 +436,8 @@ class DpfPlotter:
     def add_line(self, points, field=None):
         self._internal_plotter.add_line(points, field)
 
-    def add_plane(self, center, normal, field=None):
-        self._internal_plotter.add_plane(center, normal, field)
+    def add_plane(self, plane, field=None):
+        self._internal_plotter.add_plane(plane, field)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
         """Add a mesh to plot.

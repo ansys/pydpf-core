@@ -24,6 +24,10 @@ class Points:
     ----------
     coordinates: array, list, Field
         Coordinates of the points in a 3D space.
+    server : :class:`ansys.dpf.core.server`, optional
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
 
     Examples
     --------
@@ -35,8 +39,8 @@ class Points:
     DPF Points object:
     Number of points: 2
     Coordinates:
-      [[0. 0. 0.]
-      [1. 0. 0.]]
+      [0. 0. 0.]
+      [1. 0. 0.]
     >>> points.plot()
 
     """
@@ -59,7 +63,9 @@ class Points:
         """Print Points information."""
         txt = "DPF Points object:\n"
         txt += f"Number of points: {self.n_points}\n"
-        txt += f"Coordinates:\n  {self._coordinates.data}\n"
+        txt += f"Coordinates:\n"
+        for point in self._coordinates.data:
+            txt += f"  {point}\n"
         return txt
 
     @property
@@ -98,6 +104,10 @@ class Line:
         3D coordinates of the two points defining the line.
     n_points: int
         Number of points used to discretize the line (optional).
+    server : :class:`ansys.dpf.core.server`, optional
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
 
     Examples
     --------
@@ -235,6 +245,10 @@ class Plane:
         Number of cells in the x direction of the plane.
     n_cells_y : int
         Number of cells in the y direction of the plane.
+    server : :class:`ansys.dpf.core.server`, optional
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
 
     Examples
     --------
@@ -288,6 +302,7 @@ class Plane:
         self._height = height
         self._n_cells_x = n_cells_x
         self._n_cells_y = n_cells_y
+        self._axes_plane = None
         self._discretize()
 
     def __str__(self):
@@ -346,26 +361,11 @@ class Plane:
         """Get number of cells in the y direction of the plane."""
         return self._n_cells_y
 
-    def _get_plane_local_axis(self):
-        axis_ref = [np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([0, 0, 1])]
-        if np.allclose(self._normal_dir, [1.0, 0.0, 0.0]):
-            plane_x = np.cross(axis_ref[1], self._normal_dir)
-            plane_y = np.cross(self._normal_dir, plane_x)
-        else:
-            plane_y = np.cross(axis_ref[0], self._normal_dir)
-            plane_x = np.cross(self._normal_dir, plane_y)
-        plane_z = self._normal_dir
-
-        plane_x = normalize_vector(plane_x)
-        plane_y = normalize_vector(plane_y)
-        plane_z = normalize_vector(plane_z)
-        return [plane_x, plane_y, plane_z]
-
     def _discretize(self):
         """Discretize plane with a certain size and number of cells per direction."""
 
         # Get plane axis (local) from reference axis (global) and plane's normal
-        axis_plane = self._get_plane_local_axis()
+        self._axes_plane = get_plane_local_axis(self._normal_dir)
 
         # Create grid on plane coordinates
         num_nodes = (self._n_cells_x + 1) * (self._n_cells_y + 1)
@@ -384,7 +384,7 @@ class Plane:
             node_coords = np.array(
                 [plane_coords[0][i], plane_coords[1][i], plane_coords[2][i]]
             )
-            global_coords[i, :] = np.dot(node_coords, axis_plane) + self._center
+            global_coords[i, :] = np.dot(node_coords, self._axes_plane) + self._center
 
         # Create mesh
         num_elems = self._n_cells_x * self._n_cells_y
@@ -428,5 +428,29 @@ class Plane:
 
         # Plot plane object
         pl = DpfPlotter(**kwargs)
-        pl.add_plane(self._center, self._normal_dir)
+        pl.add_plane(self)
         pl.show_figure(show_axes=True, cpos=camera_position)
+
+
+def get_plane_local_axis(normal_dir):
+    axis_ref = [np.array([1, 0, 0]), np.array([0, 1, 0]), np.array([0, 0, 1])]
+    if np.allclose(abs(normal_dir), [1.0, 0.0, 0.0]):
+        plane_x = np.cross(axis_ref[1], normal_dir)
+        plane_y = np.cross(normal_dir, plane_x)
+    else:
+        plane_y = np.cross(axis_ref[0], normal_dir)
+        plane_x = np.cross(normal_dir, plane_y)
+    plane_z = normal_dir
+
+    plane_x = normalize_vector(plane_x)
+    plane_y = normalize_vector(plane_y)
+    plane_z = normalize_vector(plane_z)
+    return [plane_x, plane_y, plane_z]
+
+
+def get_global_coords_from_local(local_coords, axes_plane, center):
+    return np.dot(local_coords, axes_plane) + center
+
+
+def get_local_coords_from_global(global_coords, axes_plane, center):
+    return np.dot(axes_plane, (global_coords - np.array(center)))
