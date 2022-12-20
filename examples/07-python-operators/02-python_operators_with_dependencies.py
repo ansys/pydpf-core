@@ -53,18 +53,13 @@ file_list = [
     "gltf_plugin/texture.png",
     "gltf_plugin.xml",
 ]
+import os
+folder_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+source_path_in_repo = r"docs\source\examples\07-python-operators\plugins"
 plugin_path = None
-GITHUB_SOURCE_URL = (
-    "https://github.com/pyansys/pydpf-core/raw/"
-    ""
-    "examples/first_python_plugins/python_plugins"
-)
 
 for file in file_list:
-    EXAMPLE_FILE = GITHUB_SOURCE_URL + "/gltf_plugin/" + file
-    operator_file_path = examples.downloads._retrieve_file(
-        EXAMPLE_FILE, file, os.path.join("python_plugins", os.path.dirname(file))
-    )
+    operator_file_path = os.path.join(folder_root, source_path_in_repo, file)
 
     print(f"\033[1m {file}\n \033[0m")
     if (
