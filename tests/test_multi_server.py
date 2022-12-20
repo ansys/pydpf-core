@@ -8,7 +8,7 @@ from ansys.dpf.core.errors import ServerTypeError
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 
 if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
-    dpf.set_default_server_context(dpf.AvailableServerContexts.entry)
+    dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 
 @pytest.fixture(
