@@ -137,7 +137,7 @@ if os.name == "nt" and not os.path.exists(
         "docs",
         "source",
         "user_guide",
-        "create_sites_for_python_operators.ps1"
+        "create_sites_for_python_operators.ps1",
     )
     args = [
         "powershell",
@@ -168,7 +168,7 @@ elif os.name == "posix" and not os.path.exists(
         "docs",
         "source",
         "user_guide",
-        "create_sites_for_python_operators.sh"
+        "create_sites_for_python_operators.sh",
     )
     run_cmd = f"{cmd_file}"
     args = (
