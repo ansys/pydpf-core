@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
-
+import conftest
+from ansys.dpf import core as dpf
 from ansys.dpf.core.geometry import (
     Points,
     Line,
@@ -19,6 +20,9 @@ from ansys.dpf.core.geometry_factory import (
     create_plane_from_point_and_line,
     get_center_from_coords,
 )
+
+if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+    dpf.set_default_server_context(dpf.AvailableServerContexts.entry)
 
 
 def test_create_points():
