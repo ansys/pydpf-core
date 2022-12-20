@@ -54,6 +54,7 @@ file_list = [
     "gltf_plugin.xml",
 ]
 import os
+
 folder_root = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 )
@@ -131,10 +132,7 @@ with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
 if os.name == "nt" and not os.path.exists(
     os.path.join(plugin_path, "assets", "gltf_sites_winx64.zip")
 ):
-    CMD_FILE_URL = GITHUB_SOURCE_URL + "/create_sites_for_python_operators.ps1"
-    cmd_file = examples.downloads._retrieve_file(
-        CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
-    )
+    cmd_file = os.path.join(folder_root, "docs", "source", "user_guide", "create_sites_for_python_operators.ps1")
     args = [
         "powershell",
         cmd_file,
@@ -159,10 +157,7 @@ if os.name == "nt" and not os.path.exists(
 elif os.name == "posix" and not os.path.exists(
     os.path.join(plugin_path, "assets", "gltf_sites_linx64.zip")
 ):
-    CMD_FILE_URL = GITHUB_SOURCE_URL + "/create_sites_for_python_operators.sh"
-    cmd_file = examples.downloads._retrieve_file(
-        CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
-    )
+    cmd_file = os.path.join(folder_root, "docs", "source", "user_guide", "create_sites_for_python_operators.sh")
     run_cmd = f"{cmd_file}"
     args = (
         f' -pluginpath "{plugin_path}" '
