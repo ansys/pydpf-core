@@ -211,15 +211,19 @@ def test_model_displacement_multi_server(transient_models):
     fc2 = disp2.outputs.fields_container()
     for i, f in enumerate(fc):
         assert fc.get_label_space(i) == fc2.get_label_space(i)
-        premium_context = dpf.AvailableServerContexts.premium
-        premium_server = dpf.start_local_server(
-            context=premium_context, as_global=False
-        )
-        ftocheck = fc2[i].deep_copy(server=premium_server)
-        f_on_premium = f.deep_copy(server=premium_server)
-        iden = dpf.operators.logic.identical_fields(
-            f_on_premium, ftocheck, server=premium_server
-        )
+        if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+            premium_context = dpf.AvailableServerContexts.premium
+            premium_server = dpf.start_local_server(
+                context=premium_context, as_global=False
+            )
+            ftocheck = fc2[i].deep_copy(server=premium_server)
+            f_on_premium = f.deep_copy(server=premium_server)
+            iden = dpf.operators.logic.identical_fields(
+                f_on_premium, ftocheck, server=premium_server
+            )
+        else:
+            ftocheck = fc2[i].deep_copy(server=f._server)
+            iden = dpf.operators.logic.identical_fields(f, ftocheck, server=f._server)
         assert iden.outputs.boolean()
         assert np.allclose(f.data, fc2[i].data)
         assert np.allclose(f.scoping.ids, fc2[i].scoping.ids)
@@ -227,7 +231,7 @@ def test_model_displacement_multi_server(transient_models):
         assert np.allclose(f.scoping.ids, ftocheck.scoping.ids)
 
 
-def check_fc(fc, fc2, premium_server):
+def check_fc(fc, fc2, premium_server=None):
     for i, f in enumerate(fc):
         assert fc.get_label_space(i) == fc2.get_label_space(i)
         ftocheck = fc2[i].deep_copy(server=premium_server)
@@ -256,12 +260,20 @@ def test_model_stress_multi_server(transient_models):
     disp2.inputs.time_scoping(time_scoping)
     fc = disp.outputs.fields_container()
     fc2 = disp2.outputs.fields_container()
-    premium_context = dpf.AvailableServerContexts.premium
-    premium_server = dpf.start_local_server(context=premium_context, as_global=False)
-    check_fc(fc, fc2, premium_server)
-    idenfc = dpf.operators.logic.identical_fc(
-        fc.deep_copy(premium_server),
-        fc2.deep_copy(premium_server),
-        server=premium_server,
-    )
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+        premium_context = dpf.AvailableServerContexts.premium
+        premium_server = dpf.start_local_server(
+            context=premium_context, as_global=False
+        )
+        check_fc(fc, fc2, premium_server)
+        idenfc = dpf.operators.logic.identical_fc(
+            fc.deep_copy(premium_server),
+            fc2.deep_copy(premium_server),
+            server=premium_server,
+        )
+    else:
+        check_fc(fc, fc2)
+        idenfc = dpf.operators.logic.identical_fc(
+            fc.deep_copy(fc2._server), fc2, server=fc2._server
+        )
     assert idenfc.outputs.boolean()
