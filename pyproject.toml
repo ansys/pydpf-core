@@ -39,7 +39,7 @@ plotting = ["pyvista>=0.32.0", "matplotlib>=3.2"]
 name = "ansys.dpf.core"
 
 [project.urls]
-Homepage = "https://dpfdocs.pyansys.com/"
+Homepage = "https://dpf.docs.pyansys.com/"
 Documentation = "https://dpf.docs.pyansys.com/"
 Source = "https://github.com/pyansys/pydpf-core"
 Tracker = "https://github.com/pyansys/pydpf-core/issues"
