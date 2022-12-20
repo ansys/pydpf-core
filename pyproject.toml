@@ -40,7 +40,7 @@ name = "ansys.dpf.core"
 
 [project.urls]
 Homepage = "https://dpfdocs.pyansys.com/"
-Documentation = "https://dpfdocs.pyansys.com/"
+Documentation = "https://dpf.docs.pyansys.com/"
 Source = "https://github.com/pyansys/pydpf-core"
 Tracker = "https://github.com/pyansys/pydpf-core/issues"
 
