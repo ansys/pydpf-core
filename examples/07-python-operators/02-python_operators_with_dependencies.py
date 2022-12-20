@@ -53,16 +53,18 @@ file_list = [
     "gltf_plugin/texture.png",
     "gltf_plugin.xml",
 ]
-import os
-
-folder_root = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)
-source_path_in_repo = r"docs\source\examples\07-python-operators\plugins"
 plugin_path = None
+GITHUB_SOURCE_URL = (
+    "https://github.com/pyansys/pydpf-core/raw/"
+    ""
+    "examples/first_python_plugins/python_plugins"
+)
 
 for file in file_list:
-    operator_file_path = os.path.join(folder_root, source_path_in_repo, file)
+    EXAMPLE_FILE = GITHUB_SOURCE_URL + "/gltf_plugin/" + file
+    operator_file_path = examples.downloads._retrieve_file(
+        EXAMPLE_FILE, file, os.path.join("python_plugins", os.path.dirname(file))
+    )
 
     print(f"\033[1m {file}\n \033[0m")
     if (
@@ -132,12 +134,9 @@ with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
 if os.name == "nt" and not os.path.exists(
     os.path.join(plugin_path, "assets", "gltf_sites_winx64.zip")
 ):
-    cmd_file = os.path.join(
-        folder_root,
-        "docs",
-        "source",
-        "user_guide",
-        "create_sites_for_python_operators.ps1",
+    CMD_FILE_URL = GITHUB_SOURCE_URL + "/create_sites_for_python_operators.ps1"
+    cmd_file = examples.downloads._retrieve_file(
+        CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
     )
     args = [
         "powershell",
@@ -163,12 +162,9 @@ if os.name == "nt" and not os.path.exists(
 elif os.name == "posix" and not os.path.exists(
     os.path.join(plugin_path, "assets", "gltf_sites_linx64.zip")
 ):
-    cmd_file = os.path.join(
-        folder_root,
-        "docs",
-        "source",
-        "user_guide",
-        "create_sites_for_python_operators.sh",
+    CMD_FILE_URL = GITHUB_SOURCE_URL + "/create_sites_for_python_operators.sh"
+    cmd_file = examples.downloads._retrieve_file(
+        CMD_FILE_URL, "create_sites_for_python_operators.ps1", "python_plugins"
     )
     run_cmd = f"{cmd_file}"
     args = (
