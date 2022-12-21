@@ -69,7 +69,7 @@ points = Points(
 points.plot(mesh, cpos=cpos)
 
 ###############################################################################
-# Create line passing through the geometry's diagional:
+# Create line passing through the geometry's diagonal:
 line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
 
 ###############################################################################
