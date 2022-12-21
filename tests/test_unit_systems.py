@@ -45,6 +45,8 @@ def test_unit_system_api():
     assert "C" in mks_units
     assert "rad" in mks_units
 
+    wrong_us = None
+
     # unit_names not used
     with pytest.raises(dpf_errors.InvalidTypeError) as e:
         wrong_us = dpf.UnitSystem("throw_1", "m;kg;K;rad;C;s")
