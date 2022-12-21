@@ -738,8 +738,8 @@ function checkPageExistsAndRedirect(event) {
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plotting-displacement-field">
-   Plotting displacement field
+  <a class="reference internal nav-link" href="#plotting-displacement-field-on-the-geometry-objects">
+   Plotting displacement field on the geometry objects
   </a>
  </li>
 </ul>
@@ -828,6 +828,17 @@ Cumulative     Time (s)       LoadStep       Substep
 1              1.000000       1              1
 </pre></div>
 </div>
+<p>Load model’s mesh and define camera position
+(obtained with <code class="docutils literal notranslate"><span class="pre">cpos=pl.show_figure(return_cpos=True)</span></code>). This will be used
+later for plotting.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+<span class="n">cpos</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mf">0.07635352356975698</span><span class="p">,</span> <span class="mf">0.1200500294271993</span><span class="p">,</span> <span class="mf">0.041072502929096165</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">0.015</span><span class="p">,</span> <span class="mf">0.045</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">),</span>
+    <span class="p">(</span><span class="o">-</span><span class="mf">0.16771051558419411</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1983722658245161</span><span class="p">,</span> <span class="mf">0.9656715938216944</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
 </section>
 <section id="create-points-line-and-plane-objects">
 <h1>Create points, line and plane objects<a class="headerlink" href="#create-points-line-and-plane-objects" title="Permalink to this heading">#</a></h1>
@@ -847,11 +858,19 @@ Cumulative     Time (s)       LoadStep       Substep
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>Create line passing through the geometry’s diagional:</p>
+<p>Show points together with the mesh</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">points</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">cpos</span><span class="o">=</span><span class="n">cpos</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_07-plot_on_geometries_001.png" srcset="../../_images/sphx_glr_07-plot_on_geometries_001.png" alt="07 plot on geometries" class = "sphx-glr-single-img"/><p>Create line passing through the geometry’s diagional:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">line</span> <span class="o">=</span> <span class="n">Line</span><span class="p">([[</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]],</span> <span class="n">n_points</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Create vertical plane passing through the mid point:</p>
+<p>Show line with the 3D mesh</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">line</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">cpos</span><span class="o">=</span><span class="n">cpos</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_07-plot_on_geometries_002.png" srcset="../../_images/sphx_glr_07-plot_on_geometries_002.png" alt="07 plot on geometries" class = "sphx-glr-single-img"/><p>Create vertical plane passing through the mid point:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plane</span> <span class="o">=</span> <span class="n">Plane</span><span class="p">(</span>
     <span class="p">[</span><span class="mf">0.015</span><span class="p">,</span> <span class="mf">0.045</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">],</span>
     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
@@ -862,12 +881,15 @@ Cumulative     Time (s)       LoadStep       Substep
 <span class="p">)</span>
 </pre></div>
 </div>
-</section>
+<p>Show plane with the 3D mesh</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plane</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">cpos</span><span class="o">=</span><span class="n">cpos</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_07-plot_on_geometries_003.png" srcset="../../_images/sphx_glr_07-plot_on_geometries_003.png" alt="07 plot on geometries" class = "sphx-glr-single-img"/></section>
 <section id="map-displacement-field-to-geometry-objects">
 <h1>Map displacement field to geometry objects<a class="headerlink" href="#map-displacement-field-to-geometry-objects" title="Permalink to this heading">#</a></h1>
-<p>Get displacement field and model’s mesh:</p>
+<p>Get displacement field from model:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span>
-<span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
 </pre></div>
 </div>
 <p>Map displacement to points in Points object:</p>
@@ -904,16 +926,8 @@ Cumulative     Time (s)       LoadStep       Substep
 </pre></div>
 </div>
 </section>
-<section id="plotting-displacement-field">
-<h1>Plotting displacement field<a class="headerlink" href="#plotting-displacement-field" title="Permalink to this heading">#</a></h1>
-<p>Define camera position (obtained with <code class="docutils literal notranslate"><span class="pre">cpos=pl.show_figure(return_cpos=True)</span></code>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cpos</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="mf">0.07635352356975698</span><span class="p">,</span> <span class="mf">0.1200500294271993</span><span class="p">,</span> <span class="mf">0.041072502929096165</span><span class="p">),</span>
-    <span class="p">(</span><span class="mf">0.015</span><span class="p">,</span> <span class="mf">0.045</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">),</span>
-    <span class="p">(</span><span class="o">-</span><span class="mf">0.16771051558419411</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1983722658245161</span><span class="p">,</span> <span class="mf">0.9656715938216944</span><span class="p">),</span>
-<span class="p">]</span>
-</pre></div>
-</div>
+<section id="plotting-displacement-field-on-the-geometry-objects">
+<h1>Plotting displacement field on the geometry objects<a class="headerlink" href="#plotting-displacement-field-on-the-geometry-objects" title="Permalink to this heading">#</a></h1>
 <p>3D plot of Points and display mesh:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">DpfPlotter</span><span class="p">()</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">field_points</span><span class="p">,</span> <span class="n">render_points_as_spheres</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -921,7 +935,7 @@ Cumulative     Time (s)       LoadStep       Substep
 <span class="n">pl</span><span class="o">.</span><span class="n">show_figure</span><span class="p">(</span><span class="n">show_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cpos</span><span class="o">=</span><span class="n">cpos</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_07-plot_on_geometries_001.png" srcset="../../_images/sphx_glr_07-plot_on_geometries_001.png" alt="07 plot on geometries" class = "sphx-glr-single-img"/><p>3D plot of Line and mesh.
+<img src="../../_images/sphx_glr_07-plot_on_geometries_004.png" srcset="../../_images/sphx_glr_07-plot_on_geometries_004.png" alt="07 plot on geometries" class = "sphx-glr-single-img"/><p>3D plot of Line and mesh.
 Note that the line is only displayed if some points are found inside the mesh:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">DpfPlotter</span><span class="p">()</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">field_line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -930,7 +944,7 @@ Note that the line is only displayed if some points are found inside the mesh:</
 <span class="n">pl</span><span class="o">.</span><span class="n">show_figure</span><span class="p">(</span><span class="n">show_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cpos</span><span class="o">=</span><span class="n">cpos</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_07-plot_on_geometries_002.png" srcset="../../_images/sphx_glr_07-plot_on_geometries_002.png" alt="07 plot on geometries" class = "sphx-glr-single-img"/><p>Plot Plane and display mesh in background.
+<img src="../../_images/sphx_glr_07-plot_on_geometries_005.png" srcset="../../_images/sphx_glr_07-plot_on_geometries_005.png" alt="07 plot on geometries" class = "sphx-glr-single-img"/><p>Plot Plane and display mesh in background.
 Note that the plane is only displayed if some points are found inside the mesh:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">DpfPlotter</span><span class="p">()</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">field_plane</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -939,7 +953,7 @@ Note that the plane is only displayed if some points are found inside the mesh:<
 <span class="n">pl</span><span class="o">.</span><span class="n">show_figure</span><span class="p">(</span><span class="n">show_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cpos</span><span class="o">=</span><span class="n">cpos</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_07-plot_on_geometries_003.png" srcset="../../_images/sphx_glr_07-plot_on_geometries_003.png" alt="07 plot on geometries" class = "sphx-glr-single-img"/><p>2D plot (graph) of Line (line length vs displacement field):</p>
+<img src="../../_images/sphx_glr_07-plot_on_geometries_006.png" srcset="../../_images/sphx_glr_07-plot_on_geometries_006.png" alt="07 plot on geometries" class = "sphx-glr-single-img"/><p>2D plot (graph) of Line (line length vs displacement field):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">norm_disp</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">field_line</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">field_line</span><span class="o">.</span><span class="n">data</span><span class="p">))]</span>
 <span class="n">path</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="n">field_line</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">norm_disp</span><span class="p">)</span>
@@ -948,7 +962,7 @@ Note that the plane is only displayed if some points are found inside the mesh:<
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_07-plot_on_geometries_004.png" srcset="../../_images/sphx_glr_07-plot_on_geometries_004.png" alt="07 plot on geometries" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.566 seconds)</p>
+<img src="../../_images/sphx_glr_07-plot_on_geometries_007.png" srcset="../../_images/sphx_glr_07-plot_on_geometries_007.png" alt="07 plot on geometries" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  7.708 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-05-plotting-07-plot-on-geometries-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/13b68d3dc761f80450528bffa3125332/07-plot_on_geometries.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">07-plot_on_geometries.py</span></code></a></p>
