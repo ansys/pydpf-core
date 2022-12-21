@@ -76,8 +76,8 @@ class Input:
         elif isinstance(inpt, Path):
             inpt = str(inpt)
         elif isinstance(inpt, core.UnitSystem):
-            if inpt.id != -2:  # Ansys UnitSystem
-                inpt = inpt.id
+            if inpt.ID != -2:  # Ansys UnitSystem
+                inpt = inpt.ID
             else:  # Custom UnitSystem
                 inpt = inpt.unit_names
 

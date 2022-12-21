@@ -256,8 +256,8 @@ class Operator:
             )
             self._api.operator_connect_label_space(self, pin, label_space_to_con)
         elif isinstance(inpt, UnitSystem):
-            if inpt.id != -2:  # Ansys UnitSystem
-                self.connect(pin, inpt.id)
+            if inpt.ID != -2:  # Ansys UnitSystem
+                self.connect(pin, inpt.ID)
             else:  # Custom UnitSystem
                 self.connect(pin, inpt.unit_names)
         else:
