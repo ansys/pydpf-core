@@ -36,9 +36,10 @@ model = dpf.Model(examples.find_static_rst())
 print(model)
 
 ###############################################################################
-# Load model's mesh and define camera position
+# Load model's mesh and displacement field. Also, define the camera position
 # (obtained with ``cpos=pl.show_figure(return_cpos=True)``). This will be used
 # later for plotting.
+disp = model.results.displacement
 mesh = model.metadata.meshed_region
 cpos = [
     (0.07635352356975698, 0.1200500294271993, 0.041072502929096165),
@@ -66,7 +67,7 @@ points = Points(
 
 ###############################################################################
 # Show points together with the mesh
-points.plot(mesh, cpos=cpos)
+# points.plot(mesh, cpos=cpos)
 
 ###############################################################################
 # Create line passing through the geometry's diagonal:
@@ -74,13 +75,13 @@ line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
 
 ###############################################################################
 # Show line with the 3D mesh
-line.plot(mesh, cpos=cpos)
+# line.plot(mesh, cpos=cpos)
 
 ###############################################################################
 # Create vertical plane passing through the mid point:
 plane = Plane(
     [0.015, 0.045, 0.015],
-    [1, 1, 0],
+    [1, 1, 1],
     width=0.03,
     height=0.03,
     n_cells_x=10,
@@ -89,16 +90,12 @@ plane = Plane(
 
 ###############################################################################
 # Show plane with the 3D mesh
-plane.plot(mesh, cpos=cpos)
+# plane.plot(mesh, cpos=cpos)
 
 ###############################################################################
-# Map displacement field to geometry objects
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Get displacement field from model:
-disp = model.results.displacement
-
-###############################################################################
-# Map displacement to points in Points object:
+# Map displacement field to Points
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Use ``on_coordinates`` mapping opretor:
 mapping_operator = ops.mapping.on_coordinates(
     fields_container=disp,
     coordinates=field_from_array(points.coordinates.data),
@@ -109,7 +106,9 @@ fields_mapped = mapping_operator.outputs.fields_container()
 field_points = fields_mapped[0]
 
 ###############################################################################
-# Map displacement to points in Line object:
+# Map displacement field to Line
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Use ``on_coordinates`` mapping opretor:
 mapping_operator = ops.mapping.on_coordinates(
     fields_container=disp,
     coordinates=line.mesh.nodes.coordinates_field,
@@ -120,6 +119,49 @@ fields_mapped = mapping_operator.outputs.fields_container()
 field_line = fields_mapped[0]
 
 ###############################################################################
+# Map displacement field to Plane
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Steps to get the displacements on the plane are:
+#
+# 1. Get the levelset of the plane with respect to the mesh nodes
+# 2. Use the plane's levelset to obtain intersection with the 3D mesh
+# 3. Add the intersection to the plane
+# 4. Map displacement field to all points (the ones inside the mesh and the ones
+# in the intersection)
+#
+# Obtain the levelset of the plane with respect to the mesh nodes
+origin = dpf.Field(1, dpf.natures.vector)
+origin.append(plane.center, 0)
+
+change_location_op = ops.utility.change_location()
+change_location_op.inputs.field.connect(origin)
+change_location_op.inputs.new_location.connect("overall")
+origin_overall = change_location_op.outputs.field()
+
+normal = dpf.Field(1, dpf.natures.vector, dpf.locations.overall)
+normal.append(plane.normal_dir, 0)
+
+change_location_op = ops.utility.change_location()
+change_location_op.inputs.field.connect(normal)
+change_location_op.inputs.new_location.connect("overall")
+normal_overall = change_location_op.outputs.field()
+
+levelset_op = ops.mesh.make_plane_levelset()
+levelset_op.inputs.coordinates.connect(mesh.nodes.coordinates_field)
+levelset_op.inputs.origin.connect(origin_overall)
+levelset_op.inputs.normal.connect(normal_overall)
+levelset = levelset_op.outputs.field()
+
+###############################################################################
+# Use the plane's levelset to obtain intersection with the 3D mesh
+mesh_cutter_op = ops.mesh.mesh_cut()
+mesh_cutter_op.inputs.field.connect(levelset)
+mesh_cutter_op.inputs.iso_value.connect(float(0))
+mesh_cutter_op.inputs.closed_surface.connect(float(0))
+mesh_cutter_op.inputs.slice_surfaces.connect(True)
+intersection = mesh_cutter_op.outputs.mesh()
+
+
 # Map displacement to points in Plane object:
 mapping_operator = ops.mapping.on_coordinates(
     fields_container=disp,
