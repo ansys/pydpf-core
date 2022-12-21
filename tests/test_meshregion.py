@@ -5,12 +5,6 @@ import vtk
 from ansys import dpf
 import conftest
 
-from ansys.dpf.core.check_version import meets_version, get_server_version
-
-SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(
-    get_server_version(dpf.core._global_server()), "3.0"
-)
-
 
 @pytest.fixture()
 def simple_bar_model(simple_bar, server_type):
@@ -121,7 +115,15 @@ def test_set_coordinates_field_meshedregion(simple_bar_model):
     field_coordinates.data = new_data
     mesh.set_coordinates_field(field_coordinates)
     field_coordinates = mesh.nodes.coordinates_field
+    point_0 = list(mesh.grid.points[0])
     assert np.allclose(field_coordinates.data[0], [1.0, 1.0, 1.0])
+    assert np.allclose(point_0, [1.0, 1.0, 1.0])
+    field_coordinates.data = field_coordinates.data * 2.0
+    mesh.set_coordinates_field(field_coordinates)
+    field_coordinates = mesh.nodes.coordinates_field
+    point_1 = list(mesh.grid.points[0])
+    assert np.allclose(field_coordinates.data[0], [2.0, 2.0, 2.0])
+    assert np.allclose(point_1, [2.0, 2.0, 2.0])
 
 
 def test_get_element_types_field_meshedregion(simple_bar_model):
@@ -553,6 +555,7 @@ def test_has_element_shape_meshed_region(server_type):
     assert mesh.elements.has_point_elements is True
 
 
+@pytest.mark.slow
 def test_mesh_deep_copy(allkindofcomplexity, server_type):
     model = dpf.core.Model(allkindofcomplexity, server=server_type)
     mesh = model.metadata.meshed_region
@@ -584,6 +587,7 @@ def test_mesh_deep_copy(allkindofcomplexity, server_type):
     )
 
 
+@pytest.mark.slow
 def test_mesh_deep_copy2(simple_bar_model, server_type):
     mesh = simple_bar_model.metadata.meshed_region
     copy = mesh.deep_copy()
@@ -632,6 +636,8 @@ def test_semi_parabolic_meshed_region(server_type, allkindofcomplexity):
     reason="Bug in server version lower than 4.0",
 )
 def test_empty_mesh_get_scoping(server_type):
-    mesh = dpf.core.MeshedRegion()
-    assert mesh.nodes.scoping is None
-    assert mesh.elements.scoping is None
+    mesh = dpf.core.MeshedRegion(server=server_type)
+    okay = mesh.nodes.scoping is None or len(mesh.nodes.scoping) == 0
+    assert okay
+    okay = mesh.elements.scoping is None or len(mesh.elements.scoping) == 0
+    assert okay

@@ -3,6 +3,7 @@
 
 Averaging order
 ~~~~~~~~~~~~~~~
+
 This example compares two different workflows that accomplish the same task to show
 how the order of the operators can change the end result.
 
@@ -70,6 +71,7 @@ analysis = examples.download_crankshaft()
 # The first workflow applies the averaging operator after computing the equivalent
 # stresses. To create it, define a function that computes the von Mises stresses
 # in the crankshaft and then apply the averaging operator.
+
 
 def compute_von_mises_then_average(analysis):
 
@@ -146,8 +148,7 @@ def average_then_compute_von_mises(analysis):
 # Plot the results
 # ~~~~~~~~~~~~~~~~
 # Plot both von Mises stress fields side by side to compare them.
-# - The first plot displays the results when the equivalent stresses are calculated
-#   first.
+# - The first plot displays the results when the equivalent stresses are calculated first.
 # - The second plot shows the results when the averaging is done first.
 #
 
@@ -159,8 +160,12 @@ diff = (max1 - max2) / max2 * 100
 
 print("Max stress when Von Mises is computed first: {:.2f} Pa".format(max1))
 print("Max stress when the stress averaging is done first: {:.2f} Pa".format(max2))
-print("The maximum Von Mises stress value is {:.2f}% higher when \
-the averaging is done after the calculations.".format(diff))
+print(
+    "The maximum Von Mises stress value is {:.2f}% higher when \
+the averaging is done after the calculations.".format(
+        diff
+    )
+)
 
 ###############################################################################
 # Even though both workflows apply the same steps to the same initial data,

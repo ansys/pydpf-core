@@ -17,7 +17,7 @@ or a path relative to the DPF server.
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
 
-    path = examples.simple_bar
+    path = examples.find_simple_bar()
     model = dpf.Model(path)
 
 To understand what is available in the result file, you can print the model
@@ -30,8 +30,6 @@ To understand what is available in the result file, you can print the model
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -88,8 +86,6 @@ This example shows you get the analysis type:
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     'static'
@@ -104,8 +100,6 @@ This example shows how you get mesh information:
     >>> print(model.metadata.meshed_region.elements.element_by_id(1))
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -128,8 +122,6 @@ This example shows how you get time sets:
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     [1.]
@@ -150,8 +142,6 @@ This example shows how you view available results:
     print(model.results)
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 

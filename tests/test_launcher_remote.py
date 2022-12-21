@@ -6,16 +6,18 @@ import grpc
 import pytest
 
 from ansys.dpf.core import server_types
-from ansys.dpf.core.misc import __ansys_version__
 from ansys.dpf.core.server_factory import ServerFactory
+from conftest import running_docker
 
 
+@pytest.mark.skipif(running_docker, reason="not for Docker")
 def test_start_remote(monkeypatch):
     # Test for the Product Instance Management API integration
 
     # Start a local DPF server and create a mock PyPIM pretending it is starting it
     from ansys.dpf import core
     from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     local_server = core.start_local_server(as_global=False, config=conf)
     server_address = f"{local_server.ip}:{local_server.port}"
@@ -52,7 +54,7 @@ def test_start_remote(monkeypatch):
 
     # It created a remote instance through PyPIM
     mock_client.create_instance.assert_called_with(
-        product_name="dpf", product_version=__ansys_version__
+        product_name="dpf", product_version=None
     )
 
     # It waited for this instance to be ready

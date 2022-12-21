@@ -8,6 +8,7 @@ import numpy as np
 
 import ansys.dpf.core.operators as op
 from ansys.dpf import core
+from ansys.dpf.core import examples
 
 
 def test_workflowwithgeneratedcode(allkindofcomplexity):
@@ -131,6 +132,9 @@ def test_operator_any_input(allkindofcomplexity):
 
     # create a temporary file at the default temp directory
     path = os.path.join(tempfile.gettempdir(), "dpf_temp_ser.txt")
+    if not core.SERVER.local_server:
+        core.upload_file_in_tmp_folder(examples.find_static_rst(return_local_path=True))
+        path = core.path_utilities.join(core.make_tmp_dir_server(), "dpf_temp_ser.txt")
     serialization.inputs.file_path(path)
     serialization.run()
 
@@ -292,7 +296,9 @@ def test_generated_operator_set_config():
     op1.inputs.fieldA.connect(inpt)
     op1.inputs.fieldB.connect(inpt2)
     out = op1.outputs.field()
-    assert np.allclose(out.scoping.ids, [1, 2, 3]) or np.allclose(out.scoping.ids, [3, 4, 5])
+    assert np.allclose(out.scoping.ids, [1, 2, 3]) or np.allclose(
+        out.scoping.ids, [3, 4, 5]
+    )
     assert np.allclose(
         out.data, np.array([[2.0, 4.0, 6.0], [8.0, 10.0, 12.0], [14.0, 16.0, 18.0]])
     )

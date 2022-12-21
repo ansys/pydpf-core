@@ -1,26 +1,10 @@
 import numpy as np
 import pytest
 import platform
-import psutil
-import warnings
 
 import ansys.dpf.core.operators as op
 import conftest
 from ansys import dpf
-
-
-@pytest.fixture(autouse=False)
-def clear_local_server(request):
-    def clear_local():
-        conftest.local_servers.clear()
-        num_dpf_exe = 0
-        proc_name = "Ans.Dpf.Grpc"
-        for proc in psutil.process_iter():
-            if proc_name in proc.name():
-                num_dpf_exe += 1
-                proc.kill()
-        warnings.warn(UserWarning(f"Killed {num_dpf_exe} {proc_name} processes."))
-    request.addfinalizer(clear_local)
 
 
 def test_create_workflow(server_type):
@@ -43,20 +27,20 @@ def test_connect_field_workflow(server_type):
     wf.set_output_name("min", op, 0)
     wf.set_output_name("max", op, 1)
     wf.connect("field", inpt)
-    fOut = wf.get_output("min", dpf.core.types.field)
-    assert np.allclose(fOut.data, [1.0, 2.0, 3.0])
-    fOut = wf.get_output("max", dpf.core.types.field)
-    assert np.allclose(fOut.data, [7.0, 8.0, 9.0])
+    f_out = wf.get_output("min", dpf.core.types.field)
+    assert np.allclose(f_out.data, [1.0, 2.0, 3.0])
+    f_out = wf.get_output("max", dpf.core.types.field)
+    assert np.allclose(f_out.data, [7.0, 8.0, 9.0])
 
     wf = dpf.core.Workflow(server=server_type)
     wf.set_input_name("field", op.inputs.field)
     wf.set_output_name("min", op.outputs.field_min)
     wf.set_output_name("max", op.outputs.field_max)
     wf.connect("field", inpt)
-    fOut = wf.get_output("min", dpf.core.types.field)
-    assert np.allclose(fOut.data, [1.0, 2.0, 3.0])
-    fOut = wf.get_output("max", dpf.core.types.field)
-    assert np.allclose(fOut.data, [7.0, 8.0, 9.0])
+    f_out = wf.get_output("min", dpf.core.types.field)
+    assert np.allclose(f_out.data, [1.0, 2.0, 3.0])
+    f_out = wf.get_output("max", dpf.core.types.field)
+    assert np.allclose(f_out.data, [7.0, 8.0, 9.0])
 
 
 def test_connect_list_workflow(velocity_acceleration, server_type):
@@ -67,14 +51,14 @@ def test_connect_list_workflow(velocity_acceleration, server_type):
     wf.set_input_name("time_scoping", op, 0)
     wf.set_output_name("field", op, 0)
     wf.connect("time_scoping", [1, 2])
-    fcOut = wf.get_output("field", dpf.core.types.fields_container)
-    assert fcOut.get_available_ids_for_label() == [1, 2]
+    f_out = wf.get_output("field", dpf.core.types.fields_container)
+    assert f_out.get_available_ids_for_label() == [1, 2]
 
     wf.set_input_name("time_scoping", op.inputs.time_scoping)
     wf.set_output_name("field", op.outputs.fields_container)
     wf.connect("time_scoping", [1, 2])
-    fcOut = wf.get_output("field", dpf.core.types.fields_container)
-    assert fcOut.get_available_ids_for_label() == [1, 2]
+    f_out = wf.get_output("field", dpf.core.types.fields_container)
+    assert f_out.get_available_ids_for_label() == [1, 2]
 
 
 def test_connect_fieldscontainer_workflow(server_type):
@@ -96,8 +80,8 @@ def test_connect_fieldscontainer_workflow(server_type):
     wf.set_input_name("fields_container", op, 0)
     wf.set_output_name("field", op, 0)
     wf.connect("fields_container", fc)
-    fOut = wf.get_output("field", dpf.core.types.field)
-    assert fOut.data.size == 60
+    f_out = wf.get_output("field", dpf.core.types.field)
+    assert f_out.data.size == 60
 
 
 def test_connect_fieldscontainer_2_workflow(server_type):
@@ -119,8 +103,8 @@ def test_connect_fieldscontainer_2_workflow(server_type):
     wf.set_input_name("fields_container", op.inputs.fields_container)
     wf.set_output_name("field", op.outputs.field_min)
     wf.connect("fields_container", fc)
-    fOut = wf.get_output("field", dpf.core.types.field)
-    assert fOut.data.size == 60
+    f_out = wf.get_output("field", dpf.core.types.field)
+    assert f_out.data.size == 60
 
 
 def test_connect_bool_workflow(server_type):
@@ -155,9 +139,9 @@ def test_connect_scoping_workflow(server_type):
     wf.set_input_name("mesh_scoping", op, 1)
     wf.connect("mesh_scoping", scop2)
     wf.set_output_name("field", op, 0)
-    fOut = wf.get_output("field", dpf.core.types.field)
-    scopOut = fOut.scoping
-    assert np.allclose(scopOut.ids, list(range(1, 5)))
+    f_out = wf.get_output("field", dpf.core.types.field)
+    scop_out = f_out.scoping
+    assert np.allclose(scop_out.ids, list(range(1, 5)))
 
 
 def test_connect_scoping_2_workflow(server_type):
@@ -179,9 +163,9 @@ def test_connect_scoping_2_workflow(server_type):
     wf.set_input_name("mesh_scoping", op.inputs.mesh_scoping)
     wf.connect("mesh_scoping", scop2)
     wf.set_output_name("field", op, 0)
-    fOut = wf.get_output("field", dpf.core.types.field)
-    scopOut = fOut.scoping
-    assert np.allclose(scopOut.ids, list(range(1, 5)))
+    f_out = wf.get_output("field", dpf.core.types.field)
+    scop_out = f_out.scoping
+    assert np.allclose(scop_out.ids, list(range(1, 5)))
 
 
 def test_connect_datasources_workflow(fields_container_csv, server_type):
@@ -195,8 +179,8 @@ def test_connect_datasources_workflow(fields_container_csv, server_type):
     wf.connect("data_sources", data_sources)
     wf.set_output_name("fields_container", op, 0)
 
-    fcOut = wf.get_output("fields_container", dpf.core.types.fields_container)
-    assert len(fcOut.get_available_ids_for_label()) == 4
+    f_out = wf.get_output("fields_container", dpf.core.types.fields_container)
+    assert len(f_out.get_available_ids_for_label()) == 4
 
     wf = dpf.core.Workflow(server=server_type)
     wf.add_operator(op)
@@ -204,8 +188,8 @@ def test_connect_datasources_workflow(fields_container_csv, server_type):
     wf.connect("data_sources", data_sources)
     wf.set_output_name("fields_container", op, 0)
 
-    fcOut = wf.get_output("fields_container", dpf.core.types.fields_container)
-    assert len(fcOut.get_available_ids_for_label()) == 4
+    f_out = wf.get_output("fields_container", dpf.core.types.fields_container)
+    assert len(f_out.get_available_ids_for_label()) == 4
 
 
 def test_connect_operator_workflow(server_type):
@@ -227,8 +211,8 @@ def test_connect_operator_workflow(server_type):
     wf.set_output_name("field", op, 0)
 
     wf.connect("comp", 0)
-    fOut = wf.get_output("field", dpf.core.types.field)
-    assert len(fOut.data) == 3
+    f_out = wf.get_output("field", dpf.core.types.field)
+    assert len(f_out.data) == 3
 
 
 def test_connect_operator_2_workflow(server_type):
@@ -250,8 +234,8 @@ def test_connect_operator_2_workflow(server_type):
     wf.set_output_name("field", op, 0)
 
     wf.connect("comp", 0)
-    fOut = wf.get_output("field", dpf.core.types.field)
-    assert len(fOut.data) == 3
+    f_out = wf.get_output("field", dpf.core.types.field)
+    assert len(f_out.data) == 3
 
 
 def test_output_mesh_workflow(cyclic_lin_rst, cyclic_ds, server_type):
@@ -283,8 +267,8 @@ def test_output_mesh_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     coord = meshed_region.nodes.coordinates_field
     assert coord.shape == (meshed_region.nodes.n_nodes, 3)
     assert (
-            meshed_region.elements.connectivities_field.data.size
-            == meshed_region.elements.connectivities_field.size
+        meshed_region.elements.connectivities_field.data.size
+        == meshed_region.elements.connectivities_field.size
     )
 
     fields = wf.get_output("fields", dpf.core.types.fields_container)
@@ -308,10 +292,10 @@ def test_outputs_bool_workflow(server_type):
     wf.set_output_name("bool", op, 0)
 
     out = wf.get_output("bool", dpf.core.types.bool)
-    assert out == True
+    assert out is True
 
 
-@conftest.raises_for_servers_version_under('3.0')
+@conftest.raises_for_servers_version_under("3.0")
 def test_connect_get_output_int_list_workflow(server_type):
     d = list(range(0, 1000000))
     wf = dpf.core.Workflow(server=server_type)
@@ -319,11 +303,11 @@ def test_connect_get_output_int_list_workflow(server_type):
     wf.add_operators([op])
     wf.set_input_name("in", op, 0)
     wf.set_output_name("out", op, 0)
-    dout = wf.get_output("out", dpf.core.types.vec_int)
-    assert np.allclose(d, dout)
+    d_out = wf.get_output("out", dpf.core.types.vec_int)
+    assert np.allclose(d, d_out)
 
 
-@conftest.raises_for_servers_version_under('3.0')
+@conftest.raises_for_servers_version_under("3.0")
 def test_connect_get_output_double_list_workflow(server_type):
     d = list(np.ones(500000))
     wf = dpf.core.Workflow(server=server_type)
@@ -331,23 +315,24 @@ def test_connect_get_output_double_list_workflow(server_type):
     wf.add_operators([op])
     wf.set_input_name("in", op, 0)
     wf.set_output_name("out", op, 0)
-    dout = wf.get_output("out", dpf.core.types.vec_double)
-    assert np.allclose(d, dout)
+    d_out = wf.get_output("out", dpf.core.types.vec_double)
+    assert np.allclose(d, d_out)
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-                    reason='Copying data is '
-                           'supported starting server version 5.0')
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="Copying data is " "supported starting server version 5.0",
+)
 def test_connect_label_space_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
     op = dpf.core.operators.utility.forward(server=server_type)
     wf.add_operators([op])
     wf.set_input_name("in", op, 0)
-    dict = {"time": 1, "complex": 0}
-    wf.connect("in", dict)
+    dic = {"time": 1, "complex": 0}
+    wf.connect("in", dic)
 
 
-@conftest.raises_for_servers_version_under('5.0')
+@conftest.raises_for_servers_version_under("5.0")
 def test_connect_get_output_string_field_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
     op = dpf.core.operators.utility.forward(server=server_type)
@@ -357,12 +342,28 @@ def test_connect_get_output_string_field_workflow(server_type):
     str_field.data = ["hello"]
     wf.connect("in", str_field)
     wf.set_output_name("out", op, 0)
-    dout = wf.get_output("out", dpf.core.types.string_field)
-    assert dout.data == ["hello"]
+    d_out = wf.get_output("out", dpf.core.types.string_field)
+    assert d_out.data == ["hello"]
 
 
-def test_inputs_outputs_inputs_outputs_scopings_container_workflow(allkindofcomplexity,
-                                                                   server_type):
+@conftest.raises_for_servers_version_under("5.0")
+def test_connect_get_output_custom_type_field_workflow(server_type):
+    wf = dpf.core.Workflow(server=server_type)
+    op = dpf.core.operators.utility.forward(server=server_type)
+    wf.add_operators([op])
+    wf.set_input_name("in", op, 0)
+    str_field = dpf.core.CustomTypeField(np.int16, server=server_type)
+    str_field.data = [-1]
+    wf.connect("in", str_field)
+    wf.set_output_name("out", op, 0)
+    d_out = wf.get_output("out", dpf.core.types.custom_type_field)
+    assert d_out.data == [-1]
+    assert d_out._type == np.int16
+
+
+def test_inputs_outputs_inputs_outputs_scopings_container_workflow(
+    allkindofcomplexity, server_type
+):
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)
     model = dpf.core.Model(data_sources, server=server_type)
     op = dpf.core.Operator("scoping::by_property", server=server_type)
@@ -388,7 +389,9 @@ def test_inputs_outputs_inputs_outputs_scopings_container_workflow(allkindofcomp
     assert len(out) == len(sc)
 
 
-def test_inputs_outputs_inputs_outputs_meshes_container_workflow(allkindofcomplexity, server_type):
+def test_inputs_outputs_inputs_outputs_meshes_container_workflow(
+    allkindofcomplexity, server_type
+):
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)
     model = dpf.core.Model(data_sources, server=server_type)
     op = dpf.core.Operator("split_mesh", server=server_type)
@@ -414,7 +417,7 @@ def test_inputs_outputs_inputs_outputs_meshes_container_workflow(allkindofcomple
     assert len(out) == len(mc)
 
 
-@conftest.raises_for_servers_version_under('4.0')
+@conftest.raises_for_servers_version_under("4.0")
 def test_connect_get_output_data_tree_operator(server_type):
     d = dpf.core.DataTree({"name": "Paul"}, server=server_type)
     wf = dpf.core.Workflow(server=server_type)
@@ -422,8 +425,8 @@ def test_connect_get_output_data_tree_operator(server_type):
     wf.set_input_name("in", op.inputs.any)
     wf.set_output_name("out", op.outputs.any)
     wf.connect("in", d)
-    dout = wf.get_output("out", dpf.core.types.data_tree)
-    assert dout.get_as("name") == "Paul"
+    d_out = wf.get_output("out", dpf.core.types.data_tree)
+    assert d_out.get_as("name") == "Paul"
 
 
 def test_record_workflow(allkindofcomplexity, server_type):
@@ -481,7 +484,7 @@ def test_transfer_owner_workflow(allkindofcomplexity, server_type):
     wf_copy = dpf.core.Workflow.get_recorded_workflow(id, server=server_type)
 
 
-@conftest.raises_for_servers_version_under('3.0')
+@conftest.raises_for_servers_version_under("3.0")
 def test_connect_with_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     data_sources = dpf.core.DataSources(cyclic_lin_rst, server=server_type)
     data_sources.add_file_path(cyclic_ds)
@@ -510,7 +513,7 @@ def test_connect_with_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     fc = wf2.get_output("u", dpf.core.types.fields_container)
 
 
-@conftest.raises_for_servers_version_under('3.0')
+@conftest.raises_for_servers_version_under("3.0")
 def test_connect_with_2_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     data_sources = dpf.core.DataSources(cyclic_lin_rst, server=server_type)
     data_sources.add_file_path(cyclic_ds)
@@ -539,7 +542,7 @@ def test_connect_with_2_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     fc = wf2.get_output("u", dpf.core.types.fields_container)
 
 
-@conftest.raises_for_servers_version_under('3.0')
+@conftest.raises_for_servers_version_under("3.0")
 def test_connect_with_dict_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     data_sources = dpf.core.DataSources(cyclic_lin_rst, server=server_type)
     data_sources.add_file_path(cyclic_ds)
@@ -613,9 +616,11 @@ def test_print_workflow(server_type):
     assert "bool" in str(wf)
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-                    reason="Bug with server's version older than 3.0")
-def test_throws_error(allkindofcomplexity, clear_local_server):
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+    reason="Bug with server's version older than 3.0",
+)
+def test_throws_error(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     wf = dpf.core.Workflow()
     op = model.results.stress()
@@ -635,9 +640,8 @@ def test_throws_error(allkindofcomplexity, clear_local_server):
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@conftest.raises_for_servers_version_under('3.0')
-def test_flush_workflows_session(allkindofcomplexity, clear_local_server):
-    dpf.core.start_local_server()
+@conftest.raises_for_servers_version_under("3.0")
+def test_flush_workflows_session(allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity)
     wf = dpf.core.Workflow()
     op = model.results.stress()
@@ -667,11 +671,12 @@ def test_flush_workflows_session(allkindofcomplexity, clear_local_server):
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@conftest.raises_for_servers_version_under('3.0')
-@pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.8"),
-                    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu")
-def test_create_on_other_server_workflow(local_server, clear_local_server):
-    dpf.core.start_local_server()
+@conftest.raises_for_servers_version_under("3.0")
+@pytest.mark.skipif(
+    platform.system() == "Linux" and platform.python_version().startswith("3.8"),
+    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu",
+)
+def test_create_on_other_server_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -680,16 +685,17 @@ def test_create_on_other_server_workflow(local_server, clear_local_server):
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
     new_workflow = workflow.create_on_other_server(local_server)
-    assert new_workflow.input_names == ['data_sources']
-    assert new_workflow.output_names == ['max', 'min']
+    assert new_workflow.input_names == ["data_sources"]
+    assert new_workflow.output_names == ["max", "min"]
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@conftest.raises_for_servers_version_under('3.0')
-@pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.8"),
-                    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu")
-def test_create_on_other_server2_workflow(local_server, clear_local_server):
-    dpf.core.start_local_server()
+@conftest.raises_for_servers_version_under("3.0")
+@pytest.mark.skipif(
+    platform.system() == "Linux" and platform.python_version().startswith("3.8"),
+    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu",
+)
+def test_create_on_other_server2_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -698,16 +704,17 @@ def test_create_on_other_server2_workflow(local_server, clear_local_server):
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
     new_workflow = workflow.create_on_other_server(server=local_server)
-    assert new_workflow.input_names == ['data_sources']
-    assert new_workflow.output_names == ['max', 'min']
+    assert new_workflow.input_names == ["data_sources"]
+    assert new_workflow.output_names == ["max", "min"]
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@conftest.raises_for_servers_version_under('3.0')
-@pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.8"),
-                    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu")
-def test_create_on_other_server_with_ip_workflow(local_server, clear_local_server):
-    dpf.core.start_local_server()
+@conftest.raises_for_servers_version_under("3.0")
+@pytest.mark.skipif(
+    platform.system() == "Linux" and platform.python_version().startswith("3.8"),
+    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu",
+)
+def test_create_on_other_server_with_ip_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -716,18 +723,19 @@ def test_create_on_other_server_with_ip_workflow(local_server, clear_local_serve
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
     new_workflow = workflow.create_on_other_server(
-        ip=local_server.ip,
-        port=local_server.port)
-    assert new_workflow.input_names == ['data_sources']
-    assert new_workflow.output_names == ['max', 'min']
+        ip=local_server.ip, port=local_server.port
+    )
+    assert new_workflow.input_names == ["data_sources"]
+    assert new_workflow.output_names == ["max", "min"]
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@conftest.raises_for_servers_version_under('3.0')
-@pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.8"),
-                    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu")
-def test_create_on_other_server_with_address_workflow(local_server, clear_local_server):
-    dpf.core.start_local_server()
+@conftest.raises_for_servers_version_under("3.0")
+@pytest.mark.skipif(
+    platform.system() == "Linux" and platform.python_version().startswith("3.8"),
+    reason="Random SEGFAULT in the GitHub pipeline for 3.8 on Ubuntu",
+)
+def test_create_on_other_server_with_address_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -736,15 +744,15 @@ def test_create_on_other_server_with_address_workflow(local_server, clear_local_
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
     new_workflow = workflow.create_on_other_server(
-        address=local_server.ip + ":" + str(local_server.port))
-    assert new_workflow.input_names == ['data_sources']
-    assert new_workflow.output_names == ['max', 'min']
+        address=local_server.ip + ":" + str(local_server.port)
+    )
+    assert new_workflow.input_names == ["data_sources"]
+    assert new_workflow.output_names == ["max", "min"]
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@conftest.raises_for_servers_version_under('3.0')
-def test_create_on_other_server_with_address2_workflow(local_server, clear_local_server):
-    dpf.core.start_local_server()
+@conftest.raises_for_servers_version_under("3.0")
+def test_create_on_other_server_with_address2_workflow(local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -753,18 +761,25 @@ def test_create_on_other_server_with_address2_workflow(local_server, clear_local
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
     new_workflow = workflow.create_on_other_server(
-        local_server.ip + ":" + str(local_server.port))
-    assert new_workflow.input_names == ['data_sources']
-    assert new_workflow.output_names == ['max', 'min']
+        local_server.ip + ":" + str(local_server.port)
+    )
+    assert new_workflow.input_names == ["data_sources"]
+    assert new_workflow.output_names == ["max", "min"]
 
 
-@pytest.mark.skipif(platform.system() == "Linux" and platform.python_version().startswith("3.10"),
-                    reason="Known failure in the GitHub pipeline for 3.10 on Ubuntu")
+@pytest.mark.skipif(
+    platform.system() == "Linux" and platform.python_version().startswith("3.10"),
+    reason="Known failure in the GitHub pipeline for 3.10 on Ubuntu",
+)
+@pytest.mark.skipif(
+    platform.system() == "Linux"
+    and platform.python_version().startswith("3.8")
+    and not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    reason="Known failure in the GitHub pipeline for 3.8 on Ubuntu for 221",
+)
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
-@conftest.raises_for_servers_version_under('3.0')
-def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_server,
-                                                     clear_local_server):
-    dpf.core.start_local_server()
+@conftest.raises_for_servers_version_under("3.0")
+def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_server):
     disp_op = op.result.displacement()
     max_fc_op = op.min_max.min_max_fc(disp_op)
     workflow = dpf.core.Workflow()
@@ -775,7 +790,7 @@ def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_
     new_workflow = workflow.create_on_other_server(local_server)
     new_workflow.connect("data_sources", dpf.core.DataSources(allkindofcomplexity))
     max = new_workflow.get_output("max", dpf.core.types.field)
-    assert np.allclose(max.data, [[8.50619058e+04, 1.04659292e+01, 3.73620870e+05]])
+    assert np.allclose(max.data, [[8.50619058e04, 1.04659292e01, 3.73620870e05]])
 
 
 def main():

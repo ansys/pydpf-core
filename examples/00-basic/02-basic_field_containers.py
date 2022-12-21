@@ -1,13 +1,15 @@
+# noqa: D400
 """
 .. _ref_basic_field_example:
 
 Field and field containers overview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 In DPF, the field is the main simulation data container. During a numerical
-simulation, result data is defined by values associated to entities
+simulation, the result data is defined by values associated to entities
 (scoping). These entities are a subset of a model (support).
 
-Because field data is always associated to its scoping and support,
+Because the field data is always associated to its scoping and support,
 the field is a self-describing piece of data. A field is also
 defined by its parameters, such as dimensionality, unit, and location.
 For example, a field can describe any of the following:
@@ -28,9 +30,9 @@ indexed, just like a Python list. Operators applied to a fields
 container have each individual field operated on. Fields
 containers are outputs from operators.
 
-First, import necessary modules:
-
 """
+
+# First, import necessary modules
 import numpy as np
 
 from ansys.dpf import core as dpf
@@ -39,7 +41,7 @@ from ansys.dpf.core import examples
 ###############################################################################
 # Create a model object to establish a connection with an
 # example result file and then extract:
-model = dpf.Model(examples.static_rst)
+model = dpf.Model(examples.find_static_rst())
 print(model)
 
 ###############################################################################

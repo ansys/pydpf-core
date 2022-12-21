@@ -64,17 +64,6 @@ def test_check_server_version_checkversion(multishells):
         check_version.server_meet_version_and_raise(v_up_patch, server)
 
 
-def test_version_tuple():
-    t1 = "2.0.0"
-    t1_check = 2, 0, 0
-    t1_get = check_version.version_tuple(t1)
-    assert t1_get == t1_check
-    t2 = "2.0"
-    t2_check = 2, 0, 0
-    t2_get = check_version.version_tuple(t2)
-    assert t2_get == t2_check
-
-
 def test_meets_version():
     # first is server version, second is version to meet
     assert check_version.meets_version("1.32.0", "1.31.0")
@@ -94,13 +83,13 @@ def test_meets_version():
 
 
 def test_find_outdated_ansys_version():
-    arg1 = 'v3RG bla v21a ghldv3EF'
-    arg2 = 'v3RG bla v212 ghldv3EF'
-    arg3 = 'v3RG bla v222 ghldv3EF'
-    arg4 = 'v3RGldv3'
-    arg5 = 'v'
-    arg6 = 'a'
-    arg7 = 'blav221hlof'
+    arg1 = "v3RG bla v21a ghldv3EF"
+    arg2 = "v3RG bla v212 ghldv3EF"
+    arg3 = "v3RG bla v222 ghldv3EF"
+    arg4 = "v3RGldv3"
+    arg5 = "v"
+    arg6 = "a"
+    arg7 = "blav221hlof"
     assert _find_outdated_ansys_version(arg1) == False
     assert _find_outdated_ansys_version(arg2) == True
     assert _find_outdated_ansys_version(arg3) == False

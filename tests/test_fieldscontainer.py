@@ -37,13 +37,16 @@ def test_empty_index(server_type):
 
 def test_createby_message_copy_fields_container(server_type_legacy_grpc):
     fc = FieldsContainer(server=server_type_legacy_grpc)
-    fields_container2 = FieldsContainer(fields_container=fc._internal_obj,
-                                        server=server_type_legacy_grpc)
+    fields_container2 = FieldsContainer(
+        fields_container=fc._internal_obj, server=server_type_legacy_grpc
+    )
     assert fc._internal_obj == fields_container2._internal_obj
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-                    reason='Copying data is supported starting server version 3.0')
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+    reason="Copying data is supported starting server version 3.0",
+)
 def test_createbycopy_fields_container(server_type):
     fc = FieldsContainer(server=server_type)
     fields_container2 = FieldsContainer(fields_container=fc)
@@ -62,7 +65,8 @@ def test_set_get_field_fields_container(server_type):
         assert fieldid != None
         assert fc.get_field(i)._internal_obj != None
         assert (
-                fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._internal_obj != None
+            fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._internal_obj
+            != None
         )
         assert fc[i]._internal_obj != None
 
@@ -89,7 +93,8 @@ def test_set_get_field_fields_container_new_label(server_type):
         assert fc.get_field({"time": i + 1, "complex": 0})._internal_obj != None
         assert fc.get_field(i)._internal_obj != None
         assert (
-                fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._internal_obj != None
+            fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._internal_obj
+            != None
         )
         assert fc[i]._internal_obj != None
         assert fc.get_label_space(i) == {"time": i + 1, "complex": 0}
@@ -101,7 +106,10 @@ def test_set_get_field_fields_container_new_label(server_type):
     assert len(fc.get_fields({"time": i + 1, "complex": 0})) == 2
 
     for i in range(0, 20):
-        fieldid = fc.get_field({"time": i + 1, "complex": 0, "shape": 1})._internal_obj != None
+        fieldid = (
+            fc.get_field({"time": i + 1, "complex": 0, "shape": 1})._internal_obj
+            != None
+        )
         assert fieldid != 0
         assert fc.get_field(i + 20)._internal_obj != None
         assert fc[i]._internal_obj != None
@@ -147,6 +155,7 @@ def test_delete_fields_container(server_type):
     ref = weakref.ref(fc)
     fc = None
     import gc
+
     gc.collect()
     assert ref() is None
 
@@ -306,7 +315,7 @@ def test_collection_update_support():
     assert np.allclose(tfq.time_frequencies.data, tfq_check.time_frequencies.data)
 
 
-@pytest.mark.skipif(os.name == 'posix', reason="linux issue: SEGFAULT to investigate")
+@pytest.mark.skipif(os.name == "posix", reason="linux issue: SEGFAULT to investigate")
 def test_deep_copy_over_time_fields_container(velocity_acceleration):
     model = dpf.Model(velocity_acceleration)
     stress = model.results.stress(time_scoping=[1, 2, 3])
@@ -322,8 +331,10 @@ def test_deep_copy_over_time_fields_container(velocity_acceleration):
     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-                    reason='Bug in server version lower than 3.0')
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+    reason="Bug in server version lower than 3.0",
+)
 def test_light_copy(server_type):
     fc = FieldsContainer(server=server_type)
     fc.labels = ["time"]
@@ -337,6 +348,7 @@ def test_light_copy(server_type):
     assert fc2[0] != None
 
 
+@pytest.mark.slow
 def test_el_shape_fc(allkindofcomplexity):
     model = dpf.Model(allkindofcomplexity)
     fc = model.results.stress.split_by_shape.eval()
@@ -347,17 +359,17 @@ def test_el_shape_fc(allkindofcomplexity):
     mesh = model.metadata.meshed_region
 
     f = fc.beam_field()
-    ids = f.scoping.ids[0:int(len(f.scoping)/4)]
+    ids = f.scoping.ids[0 : int(len(f.scoping) / 4)]
     for id in ids:
         assert mesh.elements.element_by_id(id).shape == "beam"
 
     f = fc.shell_field()
-    ids = f.scoping.ids[0:int(len(f.scoping)/10)]
+    ids = f.scoping.ids[0 : int(len(f.scoping) / 10)]
     for id in ids:
         assert mesh.elements.element_by_id(id).shape == "shell"
 
     f = fc.solid_field()
-    ids = f.scoping.ids[0:int(len(f.scoping)/10)]
+    ids = f.scoping.ids[0 : int(len(f.scoping) / 10)]
     for id in ids:
         assert mesh.elements.element_by_id(id).shape == "solid"
 
@@ -375,15 +387,15 @@ def test_el_shape_time_fc():
     mesh = model.metadata.meshed_region
 
     f = fc.beam_field(3)
-    for id in f.scoping.ids[0:int(len(f.scoping.ids)/3)]:
+    for id in f.scoping.ids[0 : int(len(f.scoping.ids) / 3)]:
         assert mesh.elements.element_by_id(id).shape == "beam"
 
     f = fc.shell_field(4)
-    for id in f.scoping.ids[0:int(len(f.scoping.ids)/10)]:
+    for id in f.scoping.ids[0 : int(len(f.scoping.ids) / 10)]:
         assert mesh.elements.element_by_id(id).shape == "shell"
 
     f = fc.solid_field(5)
-    for id in f.scoping.ids[0:int(len(f.scoping.ids)/10)]:
+    for id in f.scoping.ids[0 : int(len(f.scoping.ids) / 10)]:
         assert mesh.elements.element_by_id(id).shape == "solid"
 
 

@@ -1,3 +1,4 @@
+# noqa: D400
 """
 .. _ref_basic_operators_example:
 
@@ -14,16 +15,16 @@ For a list of all operators, see :ref:`ref_dpf_operators_reference`.
 This example demonstrates how to work directly with operators and
 compares this method to a wrapped approach.
 
-Import the necessary modules:
 """
 
+# Import the necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
 ###############################################################################
 # Create a model object to establish a connection with an
 # example result file:
-model = dpf.Model(examples.static_rst)
+model = dpf.Model(examples.find_static_rst())
 print(model)
 
 ###############################################################################
@@ -48,12 +49,12 @@ print(disp_op.outputs)
 # Connect to the data sources of the model.
 disp_op.inputs.data_sources.connect(model.metadata.data_sources)
 
-# Create a field container norm operator and connect it to the
+# Create a fields container norm operator and connect it to the
 # displacement operator to chain the operators.
 norm_op = dpf.Operator("norm_fc")
 norm_op.inputs.connect(disp_op.outputs)
 
-# Create a field container min/max operator and connect it to the
+# Create a fields container min/max operator and connect it to the
 # output of the norm operator.
 mm_op = dpf.Operator("min_max_fc")
 mm_op.inputs.connect(norm_op.outputs)
@@ -102,8 +103,8 @@ print(model.metadata.meshed_region.plot(disp_op.outputs.fields_container()))
 ###############################################################################
 # Instead of using a ``model`` class instance, use a
 # ``DdataSources`` object directly. The ``DataSources`` constructor input is a path.
-ds = dpf.DataSources(examples.static_rst)
-print(examples.static_rst)
+ds = dpf.DataSources(examples.find_static_rst())
+print(examples.find_static_rst())
 
 ###############################################################################
 # Instantiate the operators and connect them:

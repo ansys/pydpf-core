@@ -36,7 +36,7 @@ of a result:
     from ansys.dpf.core import Model
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
-    model = Model(examples.simple_bar)
+    model = Model(examples.find_simple_bar())
     displacement = model.results.displacement()
     norm = ops.math.norm(displacement)
     min_max = ops.min_max.min_max(norm)
@@ -48,7 +48,7 @@ displacement of a result entirely within the DPF service, without
 transferring any data from DPF to Python until DPF arrives at the
 solution data that you want.
 
-DPF's library of operators is large and includes file readers and mathematical, 
+The library of DPF operators is large and includes file readers and mathematical,
 geometrical, and logical transformations. For more information on this library,
 which is progressively enhanced, see :ref:`ref_dpf_operators_reference`.
 
@@ -76,8 +76,6 @@ operator by printing it:
     print(op)
     
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
@@ -109,7 +107,7 @@ available results for your result files:
     from ansys.dpf.core import Model
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
-    model = Model(examples.simple_bar)
+    model = Model(examples.find_simple_bar())
     displacement = model.results.displacement()
 
 
@@ -126,19 +124,17 @@ You can create data sources in two ways:
 
 
 Because several other examples use the ``Model`` class, this example uses the
-``DataSources``class:
+``DataSources`` class:
 
 .. code-block:: python
 
    from ansys.dpf import core as dpf
    from ansys.dpf.core import examples
-   data_src = dpf.DataSources(examples.multishells_rst)
+   data_src = dpf.DataSources(examples.find_multishells_rst())
    print(data_src)
    
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
@@ -168,7 +164,7 @@ can also be connected to work on a temporal subset:
     
 Evaluate operators
 ~~~~~~~~~~~~~~~~~~
-With all the required inputs assigned, you can output the :class:`ansys.dpf.core.fields_container`_
+With all the required inputs assigned, you can output the :class:`ansys.dpf.core.fields_container`
 class from the operator:
 
 .. code-block:: python
@@ -178,8 +174,6 @@ class from the operator:
     
     
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
@@ -202,8 +196,6 @@ like this one:
     
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
     DPFServerException: U<-Data sources are not defined.
@@ -215,7 +207,7 @@ Chain operators
 ~~~~~~~~~~~~~~~
 
 To create more complex operations and customizable results, you can chain operators
-together to create workflows. Using DPF's large library of operators, you can
+together to create workflows. Using the large library of DPF operators, you can
 customize results to get a specific output.
 
 While manually customizing results on the Python side is far less efficient
@@ -227,7 +219,7 @@ displacement data on the client side to compute the maximum:
     from ansys.dpf.core import Model
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
-    model = Model(examples.simple_bar)
+    model = Model(examples.find_simple_bar())
     displacement = model.results.displacement()
     fc = displacement.outputs.fields_container()
 
@@ -240,8 +232,6 @@ displacement data on the client side to compute the maximum:
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
     array([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
@@ -253,7 +243,7 @@ On an industrial model, however, you should use code like this:
     from ansys.dpf.core import Model
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
-    model = Model(examples.simple_bar)
+    model = Model(examples.find_simple_bar())
     displacement = model.results.displacement()
     min_max = ops.min_max.min_max(displacement)
     max_field = min_max.outputs.field_max()
@@ -261,8 +251,6 @@ On an industrial model, however, you should use code like this:
     
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
@@ -324,7 +312,7 @@ These operators provide for reading data from solver files or from standard file
 
 To read these files, different readers are implemented as plugins.
 Plugins can be loaded on demand in any DPF scripting language with the "load library" methods. 
-File readers can be used generically thanks to DPF's result providers, which means that the same operators can be used for any file types.
+File readers can be used generically thanks to the DPF result providers, which means that the same operators can be used for any file types.
 
 This example shows how to read a displacement or a stress for any file:
 
@@ -333,7 +321,7 @@ This example shows how to read a displacement or a stress for any file:
    from ansys.dpf import core as dpf
    from ansys.dpf.core import examples
    from ansys.dpf.core import operators as ops
-   data_src = dpf.DataSources(examples.multishells_rst)
+   data_src = dpf.DataSources(examples.find_multishells_rst())
    disp = ops.result.displacement(data_sources = data_src)
    stress = ops.result.stress(data_sources = data_src)
 
@@ -374,8 +362,6 @@ operators:
     
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
  
      array([[ 2.,  4.,  6.],
@@ -393,8 +379,6 @@ operators:
     out.data
     
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  
@@ -420,7 +404,7 @@ displays available import and export operators.
    from ansys.dpf import core as dpf
    from ansys.dpf.core import examples
    from ansys.dpf.core import operators as ops
-   model = dpf.Model(examples.multishells_rst)
+   model = dpf.Model(examples.find_multishells_rst())
    disp = model.results.displacement()
    vtk = ops.serialization.vtk_export(file_path='c:/temp/file.vtk',
        mesh=model.metadata.meshed_region, fields1=disp)
@@ -437,7 +421,7 @@ Python client is not on the same machine as the server:
    from ansys.dpf.core import operators as ops
    server_dir = dpf.make_tmp_dir_server()
    print(server_dir)
-   up_loaded_file = dpf.upload_file_in_tmp_folder(examples.multishells_rst)
+   up_loaded_file = dpf.upload_file_in_tmp_folder(examples.find_multishells_rst())
    model = dpf.Model(up_loaded_file)
    disp = model.results.displacement()
    vtk = ops.serialization.vtk_export(file_path=server_dir+"\\file.vtk",
@@ -447,8 +431,6 @@ Python client is not on the same machine as the server:
    
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
  

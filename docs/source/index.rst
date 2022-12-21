@@ -39,7 +39,7 @@ and extract results:
 
     >>> from ansys.dpf.core import Model
     >>> from ansys.dpf.core import examples
-    >>> model = Model(examples.simple_bar)
+    >>> model = Model(examples.find_simple_bar())
     >>> print(model)
 
 
@@ -48,7 +48,7 @@ Here is how you plot displacement results:
 .. code:: python
 
     >>> disp = model.results.displacement().X()
-    model.metadata.meshed_region.plot(disp.outputs.fields_container())
+    >>> model.metadata.meshed_region.plot(disp.outputs.fields_container())
 
 For comprehensive demos, see :ref:`gallery`.
 
@@ -83,6 +83,8 @@ of the framework. Because DPF is plugin-based, new features or formats can be ea
 
    getting_started/index
    user_guide/index
+   concepts/index
    api/index
+   operator_reference
    examples/index
    contributing

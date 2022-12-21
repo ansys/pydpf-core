@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 import copy
 import conftest
+import gc
 
 from ansys import dpf
 from ansys.dpf import core
@@ -32,7 +33,9 @@ def test_scopingdata_property_field(server_type):
 
 
 def test_set_get_data_property_field(server_type):
-    field = dpf.core.PropertyField(nentities=20, nature=natures.scalar, server=server_type)
+    field = dpf.core.PropertyField(
+        nentities=20, nature=natures.scalar, server=server_type
+    )
     data = []
     for i in range(0, 20):
         data.append(i)
@@ -41,7 +44,9 @@ def test_set_get_data_property_field(server_type):
 
 
 def test_create_property_field_push_back(server_type):
-    f_vec = core.PropertyField(1, core.natures.vector, core.locations.nodal, server=server_type)
+    f_vec = core.PropertyField(
+        1, core.natures.vector, core.locations.nodal, server=server_type
+    )
     f_vec.append([1, 2, 4], 1)
     assert len(f_vec.data) == 3
     assert f_vec.data[0] == 1
@@ -50,7 +55,9 @@ def test_create_property_field_push_back(server_type):
     assert f_vec.scoping.ids == [1]
     assert len(f_vec.scoping.ids) == 1
 
-    f_scal = core.PropertyField(1, core.natures.scalar, core.locations.nodal, server=server_type)
+    f_scal = core.PropertyField(
+        1, core.natures.scalar, core.locations.nodal, server=server_type
+    )
     f_scal.append([2], 1)
     f_scal.append([5], 2)
     assert len(f_scal.data) == 2
@@ -100,8 +107,9 @@ def test_set_prop_field_from_message(simple_bar, server_type_legacy_grpc):
     op.inputs.mesh.connect(mesh)
     property_field = op.outputs.property_field_new_elements_to_old()
     prop_field_message = property_field._internal_obj
-    new_prop_field = dpf.core.PropertyField(property_field=prop_field_message,
-                                            server=server_type_legacy_grpc)
+    new_prop_field = dpf.core.PropertyField(
+        property_field=prop_field_message, server=server_type_legacy_grpc
+    )
     assert isinstance(new_prop_field, dpf.core.PropertyField)
     check_on_property_field_from_simplebar(new_prop_field)
 
@@ -113,9 +121,11 @@ def test_set_prop_field_from_prop_field(property_field):
 
 
 def test_connect_property_field_operator(server_type):
-    f_vec = dpf.core.PropertyField(1, natures.vector, locations.nodal, server=server_type)
+    f_vec = dpf.core.PropertyField(
+        1, natures.vector, locations.nodal, server=server_type
+    )
     f_vec.append([1, 2, 4], 1)
-    op = dpf.core.operators.utility.forward(server = server_type)
+    op = dpf.core.operators.utility.forward(server=server_type)
     op.inputs.connect(f_vec)
     out = op.get_output(0, core.types.property_field)
     assert out is not None
@@ -181,12 +191,12 @@ def test_local_property_field():
     assert np.allclose(field_to_local.data, data)
     assert np.allclose(field_to_local.scoping.ids, scoping_ids)
     assert np.allclose(
-        field_to_local._data_pointer, data_pointer[0: len(data_pointer)]
+        field_to_local._data_pointer, data_pointer[0 : len(data_pointer)]
     )
 
     with field_to_local.as_local_field() as f:
         assert np.allclose(f.data, data)
-        assert np.allclose(f._data_pointer, data_pointer[0: len(data_pointer)])
+        assert np.allclose(f._data_pointer, data_pointer[0 : len(data_pointer)])
 
 
 @conftest.raises_for_servers_version_under("4.0")
@@ -215,9 +225,30 @@ def test_mutable_data_property_field(server_clayer, simple_bar):
     assert np.allclose(changed_data[0], data_copy[0] + 2)
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-                    reason='Copying data is '
-                           'supported starting server version 5.0')
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="change in memory ownership in server 5.0",
+)
+def test_mutable_data_delete_property_field(server_clayer, simple_bar):
+    model = dpf.core.Model(simple_bar, server=server_clayer)
+    mesh = model.metadata.meshed_region
+    op = dpf.core.Operator("meshed_skin_sector", server=server_clayer)
+    op.inputs.mesh.connect(mesh)
+    property_field = op.get_output(3, dpf.core.types.property_field)
+    data = property_field.data
+    data_copy = copy.deepcopy(data)
+    changed_data = property_field.data
+    property_field = None
+    gc.collect()  # check that the memory is held by the dpfvector
+    assert np.allclose(changed_data, data_copy)
+    changed_data[0] = 1
+    assert np.allclose(changed_data[0], 1)
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    reason="Copying data is " "supported starting server version 5.0",
+)
 def test_print_property_field(server_type):
     pfield = dpf.core.PropertyField(server=server_type)
     assert "Property Field" in str(pfield)

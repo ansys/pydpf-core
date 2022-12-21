@@ -1,4 +1,4 @@
-.. _averaging_examples
+.. _averaging_examples:
 
 Averaging examples
 ==================

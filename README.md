@@ -59,7 +59,7 @@ You can also clone and install this repository with:
 ```
 git clone https://github.com/pyansys/pydpf-core
 cd pydpf-core
-pip install . --user
+pip install -e .
 ```
 
 
@@ -77,7 +77,7 @@ To open a result file and explore what's inside, do:
 ```py
 >>> from ansys.dpf import core as dpf
 >>> from ansys.dpf.core import examples
->>> model = dpf.Model(examples.simple_bar)
+>>> model = dpf.Model(examples.find_simple_bar())
 >>> print(model)
 
     DPF Model

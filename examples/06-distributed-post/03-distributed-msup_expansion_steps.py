@@ -3,6 +3,7 @@
 
 Distributed MSUP distributed modal response
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to read and expand distributed files on distributed
 processes. The modal basis (two distributed files) is read on two remote
 servers. The modal response (two distributed files) is then read and expanded
@@ -68,6 +69,10 @@ chain that is used to compute the final result.
         "expansion" -> "component";
     }
 
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`user_guide_server_context`.
+
 """
 
 ###############################################################################
@@ -77,6 +82,9 @@ import os.path
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
+
+
+dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Configure the servers
@@ -97,9 +105,11 @@ global_server = dpf.start_local_server(
 
 remote_servers = [
     dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
+    ),
     dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
+    ),
 ]
 
 ips = [remote_server.ip for remote_server in remote_servers]
@@ -113,7 +123,7 @@ print("ports:", ports)
 ###############################################################################
 # Specify the file path.
 
-base_path = examples.distributed_msup_folder
+base_path = examples.find_distributed_msup_folder()
 files = [os.path.join(base_path, "file0.mode"), os.path.join(base_path, "file1.mode")]
 files_aux = [os.path.join(base_path, "file0.rst"), os.path.join(base_path, "file1.rst")]
 
@@ -164,8 +174,7 @@ merge_use_pass.inputs.fields_containers1(response)
 merge_use_pass.inputs.fields_containers2(response2fc)
 
 expansion = ops.math.modal_superposition(
-    solution_in_modal_space=merge_use_pass,
-    modal_basis=merge_fields
+    solution_in_modal_space=merge_use_pass, modal_basis=merge_fields
 )
 component = ops.logic.component_selector_fc(expansion, 1)
 

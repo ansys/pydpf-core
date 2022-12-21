@@ -3,6 +3,7 @@
 
 Add nodal labels on plots
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
 You can add use label properties to add custom labels to specific nodes.
 If label for a node is missing, the nodal scalar value is shown by default.
 """
@@ -27,7 +28,7 @@ from ansys.dpf.core.plotter import DpfPlotter
 # - Size of the mesh
 # - Number of results
 #
-model = dpf.Model(examples.msup_transient)
+model = dpf.Model(examples.find_msup_transient())
 print(model)
 
 ###############################################################################

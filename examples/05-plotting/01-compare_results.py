@@ -3,6 +3,7 @@
 
 Compare results using the plotter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to plot several mesh/result combinations on the
 same plot so that you can compare results at different time steps.
 
@@ -19,7 +20,7 @@ from ansys.dpf.core.plotter import DpfPlotter
 # results over the same mesh and compare them.
 
 # Here we create a Model and request its mesh
-model = dpf.Model(examples.msup_transient)
+model = dpf.Model(examples.find_msup_transient())
 mesh_set2 = model.metadata.meshed_region
 
 # Then we need to request the displacement for two different time steps

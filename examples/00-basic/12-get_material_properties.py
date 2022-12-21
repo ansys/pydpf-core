@@ -3,19 +3,20 @@
 
 Get material properties from the result file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Material properties are assigned to each element in APDL and by default they
 are written out in the APDL result file. This example shows how you can extract
 material properties of each element using PyDPF-Core.
 
-Import necessary modules:
 """
 
+# Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
 ###############################################################################
 # Create a model object to establish a connection with an example result file.
-model = dpf.Model(examples.simple_bar)
+model = dpf.Model(examples.find_simple_bar())
 
 ###############################################################################
 # Get the :class:`meshed_region <ansys.dpf.core.meshed_region.MeshedRegion>`

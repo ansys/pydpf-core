@@ -5,14 +5,12 @@ extract results:
 
     from ansys.dpf.core import Model
     from ansys.dpf.core import examples
-    model = Model(examples.simple_bar)
+    model = Model(examples.find_simple_bar())
     print(model)
 
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -53,7 +51,5 @@ extract results:
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. figure:: images/plotting/simple_example.png

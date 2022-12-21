@@ -1,16 +1,19 @@
+# noqa: D400
 """
 .. _ref_use_result_helpers:
 
 Use result helpers to load custom data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The ``Result`` class, which is an instance created by the ``Model``, gives
+
+The :class:`Result <ansys.dpf.core.results.Result>` class, which is an instance
+created by the :class:`Model <ansys.dpf.core.model.Model>`, gives
 access to helpers for requesting results on specific mesh and time scopings.
 With these helpers, working on a custom spatial and temporal subset of the
 model is straightforward.
 
-Import necessary modules:
 """
 
+# Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 

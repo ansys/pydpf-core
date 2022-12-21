@@ -1,15 +1,18 @@
+# noqa: D400
 """
 .. _ref_create_entities_example:
 
 Create your own entities using DPF operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 You can create your field, fields container, or meshed region to use DPF operators
 with your own data. The ability to use scripting to create any DPF entity means
 that you are not dependent on result files and can connect the DPF environment
 with any Python tool.
 
-Import necessary modules:
 """
+
+# Import necessary modules
 import numpy as np
 
 from ansys.dpf import core as dpf
@@ -27,11 +30,12 @@ mesh = dpf.MeshedRegion()
 
 
 def search_sequence_numpy(arr, seq):
+    """Find a sequence in an array and return its index."""
     indexes = np.where(np.isclose(arr, seq[0]))
     for index in np.nditer(indexes[0]):
         if index % 3 == 0:
             if np.allclose(arr[index + 1], seq[1]) and np.allclose(
-                    arr[index + 2], seq[2]
+                arr[index + 2], seq[2]
             ):
                 return index
     return -1
@@ -39,27 +43,27 @@ def search_sequence_numpy(arr, seq):
 
 ###############################################################################
 # Add nodes:
-id = 1
+n_id = 1
 for i, x in enumerate(
-        [
-            float(i) * length / float(num_nodes_in_length)
-            for i in range(0, num_nodes_in_length)
-        ]
+    [
+        float(i) * length / float(num_nodes_in_length)
+        for i in range(0, num_nodes_in_length)
+    ]
 ):
     for j, y in enumerate(
-            [
-                float(i) * width / float(num_nodes_in_width)
-                for i in range(0, num_nodes_in_width)
-            ]
+        [
+            float(i) * width / float(num_nodes_in_width)
+            for i in range(0, num_nodes_in_width)
+        ]
     ):
         for k, z in enumerate(
-                [
-                    float(i) * depth / float(num_nodes_in_depth)
-                    for i in range(0, num_nodes_in_depth)
-                ]
+            [
+                float(i) * depth / float(num_nodes_in_depth)
+                for i in range(0, num_nodes_in_depth)
+            ]
         ):
-            mesh.nodes.add_node(id, [x, y, z])
-            id += 1
+            mesh.nodes.add_node(n_id, [x, y, z])
+            n_id += 1
 
 ###############################################################################
 # Get the nodes' coordinates field:
@@ -75,24 +79,24 @@ coordinates_scoping = coordinates.scoping
 
 ###############################################################################
 # Add solid elements (linear hexa with eight nodes):
-id = 1
+e_id = 1
 for i, x in enumerate(
-        [
-            float(i) * length / float(num_nodes_in_length)
-            for i in range(0, num_nodes_in_length - 1)
-        ]
+    [
+        float(i) * length / float(num_nodes_in_length)
+        for i in range(num_nodes_in_length - 1)
+    ]
 ):
     for j, y in enumerate(
-            [
-                float(i) * width / float(num_nodes_in_width)
-                for i in range(0, num_nodes_in_width - 1)
-            ]
+        [
+            float(i) * width / float(num_nodes_in_width)
+            for i in range(num_nodes_in_width - 1)
+        ]
     ):
         for k, z in enumerate(
-                [
-                    float(i) * depth / float(num_nodes_in_depth)
-                    for i in range(0, num_nodes_in_depth - 1)
-                ]
+            [
+                float(i) * depth / float(num_nodes_in_depth)
+                for i in range(num_nodes_in_depth - 1)
+            ]
         ):
             coord1 = np.array([x, y, z])
             connectivity = []
@@ -111,17 +115,18 @@ for i, x in enumerate(
             tmp = connectivity[6]
             connectivity[6] = connectivity[7]
             connectivity[7] = tmp
-            mesh.elements.add_solid_element(id, connectivity)
+            mesh.elements.add_solid_element(e_id, connectivity)
+            e_id += 1
 mesh.plot()
 
 ###############################################################################
 # Create displacement fields over time with three time sets.
-# Here the displacement on each node is the value of its x, y, and
-# z coordinates for time 1.
-# The displacement on each node is two times the value of its x, y,
-# and z coordinates for time 2.
-# The displacement on each node is three times the value of its x,
-# y, and z coordinates for time 3.
+# For the first time set, the displacement on each node is the
+# value of its x, y, and z coordinates.
+# For the second time set, the displacement on each node is two
+# times the value of its x, y, and z coordinates.
+# For the third time set, the displacement on each node is three
+# times the value of its x, y, and z coordinates.
 num_nodes = mesh.nodes.n_nodes
 time1_array = coordinates_data
 time2_array = 2.0 * coordinates_data

@@ -1,8 +1,10 @@
+# noqa: D400
 """
 .. _solution_combination:
 
 Load case combination for principal stress
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to get a principal stress load case combination using DPF
 And highlight min/max values in the plot.
 
@@ -17,7 +19,7 @@ from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Open an example and print the ``Model`` object. The
-# # :class:`Model <ansys.dpf.core.model.Model>` class helps to organize access
+# :class:`Model <ansys.dpf.core.model.Model>` class helps to organize access
 # methods for the result by keeping track of the operators and data sources
 # used by the result file.
 #
@@ -28,12 +30,12 @@ from ansys.dpf.core.plotter import DpfPlotter
 # - Size of the mesh
 # - Number of results
 #
-model = dpf.Model(examples.msup_transient)
+model = dpf.Model(examples.find_msup_transient())
 print(model)
 
 ###############################################################################
 # Get the stress tensor and ``connect`` time scoping.
-# # Make sure that you define ``"Nodal"`` as the scoping location because
+# Make sure that you define ``"Nodal"`` as the scoping location because
 # labels are supported only for nodal results.
 #
 stress_tensor = model.results.stress()
@@ -43,21 +45,17 @@ stress_tensor.inputs.time_scoping.connect(time_scope)
 stress_tensor.inputs.requested_location.connect("Nodal")
 
 ###############################################################################
-# This code performs solution combination on two load cases.
-# =>LC1 - LC2
+# This code performs solution combination on two load cases, LC1 and LC2.
 # You can access individual load cases as the fields of a fields container for
-# The stress tensor.
-# LC1: stress_tensor.outputs.fields_container.get_data()[0]
-# LC2: stress_tensor.outputs.fields_container.get_data()[1]
-#
-# Scale LC2 to -1.
+# the stress tensor.
+field_lc1 = stress_tensor.outputs.fields_container.get_data()[0]
 field_lc2 = stress_tensor.outputs.fields_container.get_data()[1]
+
+# Scale LC2 to -1.
 stress_tensor_lc2_sc = dpf.operators.math.scale(field=field_lc2, ponderation=-1.0)
 
 ###############################################################################
 # Add load cases.
-#
-field_lc1 = stress_tensor.outputs.fields_container.get_data()[0]
 stress_tensor_combi = dpf.operators.math.add(
     fieldA=field_lc1, fieldB=stress_tensor_lc2_sc
 )
