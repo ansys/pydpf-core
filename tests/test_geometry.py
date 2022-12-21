@@ -1,6 +1,8 @@
 import numpy as np
 import pytest
+import conftest
 
+from ansys.dpf import core as dpf
 from ansys.dpf.core.geometry import (
     Points,
     Line,
@@ -32,6 +34,9 @@ def test_create_points():
     assert len(points) == points.n_points == n_points
 
 
+if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+    dpf.set_default_server_context(dpf.AvailableServerContexts.entry)
+
 points_data = [
     ([[0.4, 0.1, 0], [0.1, 0, 0.5]]),
     ([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
@@ -45,22 +50,6 @@ points_data = [
         marks=pytest.mark.xfail(strict=True, raises=TypeError),
     ),
 ]
-
-
-@pytest.mark.parametrize("points", points_data)
-def test_create_line_from_points(points):
-    line = create_line_from_points(points)
-    line.plot()
-    info = "DPF Line object:\n"
-    info += f"Starting point: {np.array(points[0])}\n"
-    info += f"Ending point: {np.array(points[1])}\n"
-    info += f"Line discretized with {line.n_points} points\n"
-    assert print(line) == print(info)
-    assert line.length == np.linalg.norm(points)
-    diff = np.array(points[1]) - np.array(points[0])
-    assert all(line.direction) == all(diff / np.linalg.norm(diff))
-    assert (line.path == np.linspace(0, line.length, line.n_points)).all()
-
 
 vects_data = [
     ([[0.4, 0.1, 0], [0.1, 0, 0.5]], None),
@@ -86,13 +75,6 @@ vects_data = [
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
-
-
-@pytest.mark.parametrize(("ini", "end"), vects_data)
-def test_create_line_from_vectors(ini, end):
-    line = create_line_from_vector(ini, end)
-    line.plot()
-
 
 planes_data = [
     ([0, 0, 0], [[0, 0, 0], [0, 0, 1]], 1, 1, 20, 20),
@@ -137,53 +119,6 @@ planes_data = [
     ),
 ]
 
-
-@pytest.mark.parametrize(
-    ("center", "normal", "width", "height", "n_cells_x", "n_cells_y"), planes_data
-)
-def test_create_plane_from_center_and_normal(
-    center, normal, width, height, n_cells_x, n_cells_y
-):
-    plane = create_plane_from_center_and_normal(
-        center, normal, width, height, n_cells_x, n_cells_y
-    )
-    plane.plot()
-    assert plane.center == center
-    if len(normal) == 2:
-        normal_vect = normalize_vector(np.array(normal))
-        diff = np.array(normal[1]) - np.array(normal[0])
-        normal_dir = normalize_vector(diff)
-    else:
-        normal_vect = [np.array([0, 0, 0]), normalize_vector(np.array(normal))]
-        normal_dir = normalize_vector(np.array(normal))
-    assert (plane.normal_vect[0] == normal_vect[0]).all()
-    assert (plane.normal_vect[1] == normal_vect[1]).all()
-    assert (plane.normal_dir == normal_dir).all()
-
-
-plane_data = [
-    ([[0, 0, 0], [0, 1, 0], [1, 0, 0]]),
-    (Points([[0, 0, 0], [0, 1, 0], [1, 0, 0]])),
-    pytest.param(
-        [[0, 0, 0], [0, 1, 0]], marks=pytest.mark.xfail(strict=True, raises=ValueError)
-    ),
-    pytest.param(
-        Points([[0, 0, 0], [0, 1, 0]]),
-        marks=pytest.mark.xfail(strict=True, raises=ValueError),
-    ),
-    pytest.param(
-        [[0, 0], [0, 1, 0], [0, 0, 1]],
-        marks=pytest.mark.xfail(strict=True, raises=ValueError),
-    ),
-]
-
-
-@pytest.mark.parametrize(("points"), plane_data)
-def test_create_plane_from_points(points):
-    plane = create_plane_from_points(points)
-    plane.plot()
-
-
 plane_lines_data = [
     ([[0, 0, 0], [1, 0, 0]], [[2, 1, 0], [0, 1, 0]]),
     (Line([[0, 0, 0], [1, 0, 0]]), Line([[2, 1, 0], [0, 1, 0]])),
@@ -198,13 +133,6 @@ plane_lines_data = [
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
-
-
-@pytest.mark.parametrize(("line1", "line2"), plane_lines_data)
-def test_create_plane_from_lines(line1, line2):
-    plane = create_plane_from_lines(line1, line2)
-    plane.plot()
-
 
 plane_point_line_data = [
     ([0, 0, 0], [[0, 0, 0], [0, 0, 1]]),
@@ -231,6 +159,82 @@ plane_point_line_data = [
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
+
+plane_data = [
+    ([[0, 0, 0], [0, 1, 0], [1, 0, 0]]),
+    (Points([[0, 0, 0], [0, 1, 0], [1, 0, 0]])),
+    pytest.param(
+        [[0, 0, 0], [0, 1, 0]], marks=pytest.mark.xfail(strict=True, raises=ValueError)
+    ),
+    pytest.param(
+        Points([[0, 0, 0], [0, 1, 0]]),
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
+    ),
+    pytest.param(
+        [[0, 0], [0, 1, 0], [0, 0, 1]],
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
+    ),
+]
+
+if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+    dpf.server.shutdown_all_session_servers()
+    dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
+
+
+@pytest.mark.parametrize("points", points_data)
+def test_create_line_from_points(points):
+    line = create_line_from_points(points)
+    line.plot()
+    info = "DPF Line object:\n"
+    info += f"Starting point: {np.array(points[0])}\n"
+    info += f"Ending point: {np.array(points[1])}\n"
+    info += f"Line discretized with {line.n_points} points\n"
+    assert print(line) == print(info)
+    assert line.length == np.linalg.norm(points)
+    diff = np.array(points[1]) - np.array(points[0])
+    assert all(line.direction) == all(diff / np.linalg.norm(diff))
+    assert (line.path == np.linspace(0, line.length, line.n_points)).all()
+
+
+@pytest.mark.parametrize(("ini", "end"), vects_data)
+def test_create_line_from_vectors(ini, end):
+    line = create_line_from_vector(ini, end)
+    line.plot()
+
+
+@pytest.mark.parametrize(
+    ("center", "normal", "width", "height", "n_cells_x", "n_cells_y"), planes_data
+)
+def test_create_plane_from_center_and_normal(
+        center, normal, width, height, n_cells_x, n_cells_y
+):
+    plane = create_plane_from_center_and_normal(
+        center, normal, width, height, n_cells_x, n_cells_y
+    )
+    plane.plot()
+    assert plane.center == center
+    if len(normal) == 2:
+        normal_vect = normalize_vector(np.array(normal))
+        diff = np.array(normal[1]) - np.array(normal[0])
+        normal_dir = normalize_vector(diff)
+    else:
+        normal_vect = [np.array([0, 0, 0]), normalize_vector(np.array(normal))]
+        normal_dir = normalize_vector(np.array(normal))
+    assert (plane.normal_vect[0] == normal_vect[0]).all()
+    assert (plane.normal_vect[1] == normal_vect[1]).all()
+    assert (plane.normal_dir == normal_dir).all()
+
+
+@pytest.mark.parametrize(("points"), plane_data)
+def test_create_plane_from_points(points):
+    plane = create_plane_from_points(points)
+    plane.plot()
+
+
+@pytest.mark.parametrize(("line1", "line2"), plane_lines_data)
+def test_create_plane_from_lines(line1, line2):
+    plane = create_plane_from_lines(line1, line2)
+    plane.plot()
 
 
 @pytest.mark.parametrize(("point", "line"), plane_point_line_data)
