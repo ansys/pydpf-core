@@ -47,6 +47,11 @@ def test_unit_system_api():
 
     wrong_us = None
 
+    # name is not a string
+    with pytest.raises(dpf_errors.InvalidTypeError) as e:
+        wrong_us = dpf.UnitSystem(1, ID=2)
+        assert "str" in e
+
     # unit_names not used
     with pytest.raises(dpf_errors.InvalidTypeError) as e:
         wrong_us = dpf.UnitSystem("throw_1", "m;kg;K;rad;C;s")
@@ -74,5 +79,5 @@ def test_unit_system_api():
 
     # incorrect unit strings
     with pytest.raises(Exception) as e:
-        wrong_us = dpf.UnitSystem("throw_4", unit_names="asd;awe")
+        wrong_us = dpf.UnitSystem("throw_5", unit_names="asd;awe")
         assert '"asd" is not a valid unit.' in e
