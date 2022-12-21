@@ -35,7 +35,7 @@ def test_create_points():
 points_data = [
     ([[0.4, 0.1, 0], [0.1, 0, 0.5]]),
     ([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
-    (Points([[0.4, 0.1, 0], [0.1, 0, 0.5]])),
+    lambda: (Points([[0.4, 0.1, 0], [0.1, 0, 0.5]])),
     pytest.param(
         [[0.4, 0.1, 0], [0.1, 0, 0.5], [0.1, 0, 0.5]],
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
@@ -47,8 +47,9 @@ points_data = [
 ]
 
 
-@pytest.mark.parametrize("points", points_data)
-def test_create_line_from_points(points):
+@pytest.mark.parametrize("points_param", points_data)
+def test_create_line_from_points(points_param):
+    points = points_param() if callable(points_param) else points_param
     line = create_line_from_points(points)
     line.plot()
     info = "DPF Line object:\n"
@@ -98,7 +99,7 @@ planes_data = [
     ([0, 0, 0], [[0, 0, 0], [0, 0, 1]], 1, 1, 20, 20),
     ([0, 0, 0], [0, 0, 1], 1, 1, 20, 20),
     ([1, 1, 1], [1, -1, 0], 1, 1, 20, 20),
-    ([0, 0, 0], Line([[0, 0, 0], [0, 0, 1]]), 1, 1, 20, 20),
+    ([0, 0, 0], lambda: Line([[0, 0, 0], [0, 0, 1]]), 1, 1, 20, 20),
     pytest.param(
         [0, 0],
         [0, 0, 1],
@@ -139,11 +140,12 @@ planes_data = [
 
 
 @pytest.mark.parametrize(
-    ("center", "normal", "width", "height", "n_cells_x", "n_cells_y"), planes_data
+    ("center", "normal_arg", "width", "height", "n_cells_x", "n_cells_y"), planes_data
 )
 def test_create_plane_from_center_and_normal(
-    center, normal, width, height, n_cells_x, n_cells_y
+    center, normal_arg, width, height, n_cells_x, n_cells_y
 ):
+    normal = normal_arg() if callable(normal_arg) else normal_arg
     plane = create_plane_from_center_and_normal(
         center, normal, width, height, n_cells_x, n_cells_y
     )
@@ -163,12 +165,12 @@ def test_create_plane_from_center_and_normal(
 
 plane_data = [
     ([[0, 0, 0], [0, 1, 0], [1, 0, 0]]),
-    (Points([[0, 0, 0], [0, 1, 0], [1, 0, 0]])),
+    lambda: (Points([[0, 0, 0], [0, 1, 0], [1, 0, 0]])),
     pytest.param(
         [[0, 0, 0], [0, 1, 0]], marks=pytest.mark.xfail(strict=True, raises=ValueError)
     ),
     pytest.param(
-        Points([[0, 0, 0], [0, 1, 0]]),
+        lambda: Points([[0, 0, 0], [0, 1, 0]]),
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
@@ -180,13 +182,13 @@ plane_data = [
 
 @pytest.mark.parametrize(("points"), plane_data)
 def test_create_plane_from_points(points):
-    plane = create_plane_from_points(points)
+    plane = create_plane_from_points(points() if callable(points) else points)
     plane.plot()
 
 
 plane_lines_data = [
     ([[0, 0, 0], [1, 0, 0]], [[2, 1, 0], [0, 1, 0]]),
-    (Line([[0, 0, 0], [1, 0, 0]]), Line([[2, 1, 0], [0, 1, 0]])),
+    (lambda: Line([[0, 0, 0], [1, 0, 0]]), lambda: Line([[2, 1, 0], [0, 1, 0]])),
     pytest.param(
         [[0, 0, 0], [0, 1, 0], [0, 1, 0]],
         [[0, 0, 0], [0, 0, 1]],
@@ -202,16 +204,18 @@ plane_lines_data = [
 
 @pytest.mark.parametrize(("line1", "line2"), plane_lines_data)
 def test_create_plane_from_lines(line1, line2):
-    plane = create_plane_from_lines(line1, line2)
+    plane = create_plane_from_lines(
+        line1() if callable(line1) else line1, line2() if callable(line2) else line2
+    )
     plane.plot()
 
 
 plane_point_line_data = [
     ([0, 0, 0], [[0, 0, 0], [0, 0, 1]]),
-    (Points([0, 0, 0]), [[0, 0, 0], [0, 0, 1]]),
-    ([0, 0, 0], Line([[0, 0, 0], [0, 0, 1]])),
+    (lambda: Points([0, 0, 0]), [[0, 0, 0], [0, 0, 1]]),
+    ([0, 0, 0], lambda: Line([[0, 0, 0], [0, 0, 1]])),
     pytest.param(
-        Points([[0, 0, 0], [1, 1, 1]]),
+        lambda: Points([[0, 0, 0], [1, 1, 1]]),
         [[0, 0, 0], [0, 0, 1]],
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
@@ -235,7 +239,9 @@ plane_point_line_data = [
 
 @pytest.mark.parametrize(("point", "line"), plane_point_line_data)
 def test_create_plane_from_point_and_line(point, line):
-    plane = create_plane_from_point_and_line(point, line)
+    plane = create_plane_from_point_and_line(
+        point() if callable(point) else point, line() if callable(line) else line
+    )
     plane.plot()
 
 
