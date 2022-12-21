@@ -99,7 +99,7 @@ planes_data = [
     ([0, 0, 0], [[0, 0, 0], [0, 0, 1]], 1, 1, 20, 20),
     ([0, 0, 0], [0, 0, 1], 1, 1, 20, 20),
     ([1, 1, 1], [1, -1, 0], 1, 1, 20, 20),
-    ([0, 0, 0], Line([[0, 0, 0], [0, 0, 1]]), 1, 1, 20, 20),
+    ([0, 0, 0], lambda: Line([[0, 0, 0], [0, 0, 1]]), 1, 1, 20, 20),
     pytest.param(
         [0, 0],
         [0, 0, 1],
@@ -140,11 +140,12 @@ planes_data = [
 
 
 @pytest.mark.parametrize(
-    ("center", "normal", "width", "height", "n_cells_x", "n_cells_y"), planes_data
+    ("center", "normal_arg", "width", "height", "n_cells_x", "n_cells_y"), planes_data
 )
 def test_create_plane_from_center_and_normal(
-    center, normal, width, height, n_cells_x, n_cells_y
+    center, normal_arg, width, height, n_cells_x, n_cells_y
 ):
+    normal = normal_arg() if callable(normal_arg) else normal_arg
     plane = create_plane_from_center_and_normal(
         center, normal, width, height, n_cells_x, n_cells_y
     )
@@ -169,7 +170,7 @@ plane_data = [
         [[0, 0, 0], [0, 1, 0]], marks=pytest.mark.xfail(strict=True, raises=ValueError)
     ),
     pytest.param(
-        Points([[0, 0, 0], [0, 1, 0]]),
+        lambda: Points([[0, 0, 0], [0, 1, 0]]),
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
@@ -214,7 +215,7 @@ plane_point_line_data = [
     (lambda: Points([0, 0, 0]), [[0, 0, 0], [0, 0, 1]]),
     ([0, 0, 0], lambda: Line([[0, 0, 0], [0, 0, 1]])),
     pytest.param(
-        Points([[0, 0, 0], [1, 1, 1]]),
+        lambda: Points([[0, 0, 0], [1, 1, 1]]),
         [[0, 0, 0], [0, 0, 1]],
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
