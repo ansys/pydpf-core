@@ -105,15 +105,14 @@ def test_delete_downloaded_files():
     reason="Tests ANSYS_DPF_ACCEPT_LA",
 )
 def test_license_agr(set_context_back_to_premium):
-    config = dpf.core.AvailableServerConfigs.InProcessServer
+    config = dpf.AvailableServerConfigs.InProcessServer
     init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
     del os.environ["ANSYS_DPF_ACCEPT_LA"]
     with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.start_local_server(config=config, as_global=True)
+        dpf.start_local_server(config=config, as_global=True)
     with pytest.raises(dpf.core.errors.DPFServerException):
         dpf.core.Operator("stream_provider")
     os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
-    dpf.core.start_local_server(config=config, as_global=True)
+    dpf.start_local_server(config=config, as_global=True)
     assert "static" in examples.find_static_rst()
-    assert dpf.core.Operator("stream_provider") is not None
-
+    assert dpf.Operator("stream_provider") is not None

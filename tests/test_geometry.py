@@ -206,7 +206,7 @@ def test_create_line_from_vectors(ini, end):
     ("center", "normal", "width", "height", "n_cells_x", "n_cells_y"), planes_data
 )
 def test_create_plane_from_center_and_normal(
-        center, normal, width, height, n_cells_x, n_cells_y
+    center, normal, width, height, n_cells_x, n_cells_y
 ):
     plane = create_plane_from_center_and_normal(
         center, normal, width, height, n_cells_x, n_cells_y
