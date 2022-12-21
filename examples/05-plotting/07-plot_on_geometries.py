@@ -36,6 +36,17 @@ model = dpf.Model(examples.find_static_rst())
 print(model)
 
 ###############################################################################
+# Load model's mesh and define camera position
+# (obtained with ``cpos=pl.show_figure(return_cpos=True)``). This will be used
+# later for plotting.
+mesh = model.metadata.meshed_region
+cpos = [
+    (0.07635352356975698, 0.1200500294271993, 0.041072502929096165),
+    (0.015, 0.045, 0.015),
+    (-0.16771051558419411, -0.1983722658245161, 0.9656715938216944),
+]
+
+###############################################################################
 # Create points, line and plane objects
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create 8 points in the corners and one in the middle:
@@ -54,8 +65,16 @@ points = Points(
 )
 
 ###############################################################################
-# Create line passing through the geometry's diagional:
+# Show points together with the mesh
+points.plot(mesh, cpos=cpos)
+
+###############################################################################
+# Create line passing through the geometry's diagonal:
 line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
+
+###############################################################################
+# Show line with the 3D mesh
+line.plot(mesh, cpos=cpos)
 
 ###############################################################################
 # Create vertical plane passing through the mid point:
@@ -69,11 +88,14 @@ plane = Plane(
 )
 
 ###############################################################################
+# Show plane with the 3D mesh
+plane.plot(mesh, cpos=cpos)
+
+###############################################################################
 # Map displacement field to geometry objects
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Get displacement field and model's mesh:
+# Get displacement field from model:
 disp = model.results.displacement
-mesh = model.metadata.meshed_region
 
 ###############################################################################
 # Map displacement to points in Points object:
@@ -109,15 +131,8 @@ fields_mapped = mapping_operator.outputs.fields_container()
 field_plane = fields_mapped[0]
 
 ###############################################################################
-# Plotting displacement field
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Define camera position (obtained with ``cpos=pl.show_figure(return_cpos=True)``):
-cpos = [
-    (0.07635352356975698, 0.1200500294271993, 0.041072502929096165),
-    (0.015, 0.045, 0.015),
-    (-0.16771051558419411, -0.1983722658245161, 0.9656715938216944),
-]
-###############################################################################
+# Plotting displacement field on the geometry objects
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 3D plot of Points and display mesh:
 pl = DpfPlotter()
 pl.add_field(field_points, render_points_as_spheres=True, point_size=10)

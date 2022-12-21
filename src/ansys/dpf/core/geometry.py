@@ -87,11 +87,16 @@ class Points:
         """Dimension of the Points object space."""
         return 3
 
-    def plot(self, **kwargs):
-        """Visualize Points object."""
+    def plot(self, mesh=None, **kwargs):
+        """Visualize Points object. If provided, ``mesh`` will be also plotted."""
+        cpos = kwargs.pop("cpos", None)
         pl = DpfPlotter(**kwargs)
-        pl.add_points(self._coordinates.data)
-        pl.show_figure(show_axes=True)
+        pl.add_points(
+            self._coordinates.data, render_points_as_spheres=True, point_size=10
+        )
+        if mesh:
+            pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
+        pl.show_figure(show_axes=True, cpos=cpos)
 
 
 class Line:
@@ -211,20 +216,24 @@ class Line:
         ]
         return diff / np.linalg.norm(diff)
 
-    def plot(self, **kwargs):
-        """Visualize line."""
-        # Check if line is along the [1, 1, 1] direction to change camera position
-        if np.isclose(
-            np.abs(self.direction), normalize_vector(np.array([1, 1, 1]))
-        ).all():
-            camera_position = "xy"
-        else:
-            camera_position = None
+    def plot(self, mesh=None, **kwargs):
+        """Visualize line. If provided, ``mesh`` will be also plotted."""
+        cpos = kwargs.pop("cpos", None)
+        if not cpos:
+            # Check if line is along the [1, 1, 1] direction to change camera position
+            if np.isclose(
+                np.abs(self.direction), normalize_vector(np.array([1, 1, 1]))
+            ).all():
+                cpos = "xy"
+            else:
+                cpos = None
 
         # Plot line object
         pl = DpfPlotter(**kwargs)
-        pl.add_line(self._coordinates.data)
-        pl.show_figure(show_axes=True, cpos=camera_position)
+        pl.add_line(self._coordinates.data, width=5)
+        if mesh:
+            pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
+        pl.show_figure(show_axes=True, cpos=cpos)
 
 
 class Plane:
@@ -414,22 +423,26 @@ class Plane:
         direction = [x - y for x, y in zip(vect[1], vect[0])]
         return normalize_vector(direction)
 
-    def plot(self, **kwargs):
-        """Visualize plane object."""
-        # Check if normal is in [1, -1, 0] direction to change camera position
-        no_vision_normal = normalize_vector(np.array([1, -1, 0]))
-        if (
-            np.isclose(self.normal_dir, no_vision_normal).all()
-            or np.isclose(self.normal_dir, -no_vision_normal).all()
-        ):
-            camera_position = "xz"
-        else:
-            camera_position = None
+    def plot(self, mesh=None, **kwargs):
+        """Visualize plane object. If provided, ``mesh`` will be also plotted."""
+        cpos = kwargs.pop("cpos", None)
+        if not cpos:
+            # Check if normal is in [1, -1, 0] direction to change camera position
+            no_vision_normal = normalize_vector(np.array([1, -1, 0]))
+            if (
+                np.isclose(self.normal_dir, no_vision_normal).all()
+                or np.isclose(self.normal_dir, -no_vision_normal).all()
+            ):
+                cpos = "xz"
+            else:
+                cpos = None
 
         # Plot plane object
         pl = DpfPlotter(**kwargs)
         pl.add_plane(self)
-        pl.show_figure(show_axes=True, cpos=camera_position)
+        if mesh:
+            pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
+        pl.show_figure(show_axes=True, cpos=cpos)
 
 
 def get_plane_local_axis(normal_dir):
