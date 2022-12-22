@@ -25,24 +25,14 @@ from ansys.dpf.core.plotter import DpfPlotter
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
-# Load model from examples and print information:
+# Load model from examples and print information
 model = dpf.Model(examples.find_static_rst())
 print(model)
 
 ###############################################################################
-# Load model's mesh and displacement field. Also, define the camera position
-# (obtained with ``cpos=pl.show_figure(return_cpos=True)``). This will be used
-# later for plotting.
-disp = model.results.displacement
-mesh = model.metadata.meshed_region
-cpos = [
-    (0.07635352356975698, 0.1200500294271993, 0.041072502929096165),
-    (0.015, 0.045, 0.015),
-    (-0.16771051558419411, -0.1983722658245161, 0.9656715938216944),
-]
-
-###############################################################################
-# Create plane passing through the mid point:
+# Create plane object
+# ~~~~~~~~~~~~~~~~~~~
+# Create plane passing through the mid point
 plane1 = Plane(
     [0.015, 0.045, 0.015],
     [1, 1, 0],
@@ -62,15 +52,75 @@ plane2 = Plane(
 )
 
 ###############################################################################
-# Show plane with the 3D mesh
+# Load mesh and show plane with the 3D mesh
+mesh = model.metadata.meshed_region
+
+###############################################################################
+# Define the camera position
+# (obtained with ``cpos=pl.show_figure(return_cpos=True)``)
+cpos = [
+    (0.07635352356975698, 0.1200500294271993, 0.041072502929096165),
+    (0.015, 0.045, 0.015),
+    (-0.16771051558419411, -0.1983722658245161, 0.9656715938216944),
+]
+
+###############################################################################
+# Plot planes
 plane1.plot(mesh, cpos=cpos)
 plane2.plot(mesh, cpos=cpos)
 
 ###############################################################################
-# Compute intersection plane / mesh
+# Map displacements to plane
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Map displacement field to points in plane object using
+# :class:`on_coordinates <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>:`
+disp = model.results.displacement
+mapping_operator = ops.mapping.on_coordinates(
+    fields_container=disp,
+    coordinates=plane1.mesh.nodes.coordinates_field,
+    create_support=True,
+    mesh=mesh,
+)
+fields_mapped = mapping_operator.outputs.fields_container()
+field_plane1 = fields_mapped[0]
+
+mapping_operator = ops.mapping.on_coordinates(
+    fields_container=disp,
+    coordinates=plane2.mesh.nodes.coordinates_field,
+    create_support=True,
+    mesh=mesh,
+)
+fields_mapped = mapping_operator.outputs.fields_container()
+field_plane2 = fields_mapped[0]
+
+###############################################################################
+# Plot plane and display mesh in background.
+pl = DpfPlotter()
+pl.add_field(field_plane1, plane1.mesh, show_edges=False)
+pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
+pl.show_figure(show_axes=True, cpos=cpos)
+
+pl = DpfPlotter()
+pl.add_field(field_plane2, plane2.mesh, show_edges=False)
+pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
+pl.show_figure(show_axes=True, cpos=cpos)
+
+###############################################################################
+# Note that when the discretized plane contains nodes outside the geometry, some
+# missing data leads to plotting artifacts.
+#
+# The alternative is presented in the following sections.
+#
+#   1. Compute levelset plane/mesh
+#   2. Compute intersection plane / mesh
+#   3. Map field to intersection plane / mesh
+
+###############################################################################
+# Compute levelset plane / mesh
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# First, obtain the levelset of the plane with respect to the mesh using
-# :class:`Result <ansys.dpf.core.operators.mesh.make_plane_levelset.make_plane_levelset>:
+# Obtain the levelset of the plane with respect to the mesh using
+# :class:`make_plane_levelset <ansys.dpf.core.operators.mesh.make_plane_levelset.
+# make_plane_levelset>`:
 # A levelset is a scalar Field representing the normal distance between the plane
 # and the nodes of the mesh.
 # Note that origin and normal must be ``dpf.locations.overall`` 3D vectors.
@@ -105,7 +155,10 @@ pl.add_field(levelset2, mesh)
 pl.show_figure(show_axes=True, cpos=cpos)
 
 ###############################################################################
-# Use levelsets to obtain intersection with the 3D mesh:
+# Compute intersection plane / mesh
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Use the :class:`mesh_cut <ansys.dpf.core.operators.mesh.mesh_cut.mesh_cut>`:
+# operator to obtain the intersection of the plane with the mesh from the levelset
 mesh_cutter_op = ops.mesh.mesh_cut()
 mesh_cutter_op.inputs.field.connect(levelset1)
 mesh_cutter_op.inputs.iso_value.connect(float(0))
@@ -137,7 +190,9 @@ pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
 pl.show_figure(show_axes=True, cpos=cpos)
 
 ###############################################################################
-# Map the displacement field to the intersections:
+# Map field to intersection plane / mesh
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Map the displacement field to the intersections
 mapping_operator = ops.mapping.on_coordinates(
     fields_container=disp,
     coordinates=intersection1.nodes.coordinates_field,
@@ -166,43 +221,5 @@ pl.show_figure(show_axes=True, cpos=cpos)
 
 pl = DpfPlotter()
 pl.add_field(field_plane_intersection2, intersection2, show_edges=False)
-pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
-pl.show_figure(show_axes=True, cpos=cpos)
-
-
-###############################################################################
-# Map displacements to plane
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Map displacement field to points in plane object using
-# :class:`Result <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>:`
-mapping_operator = ops.mapping.on_coordinates(
-    fields_container=disp,
-    coordinates=plane1.mesh.nodes.coordinates_field,
-    create_support=True,
-    mesh=mesh,
-)
-fields_mapped = mapping_operator.outputs.fields_container()
-field_plane1 = fields_mapped[0]
-
-mapping_operator = ops.mapping.on_coordinates(
-    fields_container=disp,
-    coordinates=plane2.mesh.nodes.coordinates_field,
-    create_support=True,
-    mesh=mesh,
-)
-fields_mapped = mapping_operator.outputs.fields_container()
-field_plane2 = fields_mapped[0]
-
-###############################################################################
-# Plot plane and display mesh in background.
-pl = DpfPlotter()
-if not len(field_plane1) == 0:
-    pl.add_field(field_plane1, plane1.mesh, show_edges=False)
-pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
-pl.show_figure(show_axes=True, cpos=cpos)
-
-pl = DpfPlotter()
-if not len(field_plane2) == 0:
-    pl.add_field(field_plane2, plane1.mesh, show_edges=False)
 pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
 pl.show_figure(show_axes=True, cpos=cpos)
