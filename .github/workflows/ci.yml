@@ -22,6 +22,8 @@ concurrency:
 
 env:
   ANSYS_VERSION: 232
+  DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
+  MAIN_PYTHON_VERSION: '3.8'
 
 jobs:
   debug:
@@ -41,7 +43,7 @@ jobs:
       - name: "Setup Python"
         uses: actions/setup-python@v4
         with:
-          python-version: 3.8
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}
 
       - name: "Install pre-commit"
         run: pip install pre-commit
@@ -76,6 +78,17 @@ jobs:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: ''
     secrets: inherit
+
+  upload-development-docs:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/master' }}
+    needs: [docs]
+    steps:
+      - name: "Upload development documentation"
+        uses: pyansys/actions/doc-deploy-dev@v2
+        with:
+          cname: ${{ env.DOCUMENTATION_CNAME }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   examples:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft

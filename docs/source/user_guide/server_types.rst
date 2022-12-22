@@ -63,7 +63,7 @@ GRPC communication is enabled using :class:`GrpcServer <ansys.dpf.core.server_ty
  
     <ansys.dpf.core.server_types.GrpcServer object at ...>
 
-You can obtain the server port and ip:
+You can obtain the server port and IP address:
 
 .. code-block::
 
