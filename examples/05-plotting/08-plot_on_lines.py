@@ -28,16 +28,22 @@ from ansys.dpf.core.plotter import DpfPlotter
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
-# Load model from examples and print information:
+# Load model from examples and print information
 model = dpf.Model(examples.find_static_rst())
 print(model)
 
 ###############################################################################
-# Load model's mesh and displacement field. Also, define the camera position
-# (obtained with ``cpos=pl.show_figure(return_cpos=True)``). This will be used
-# later for plotting.
-disp = model.results.displacement
+# Create Line
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create line passing through the geometry's diagonal
+line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
+
+###############################################################################
+# Get mesh from model
 mesh = model.metadata.meshed_region
+
+###############################################################################
+# Define the camera position (obtained with ``cpos=pl.show_figure(return_cpos=True)``)
 cpos = [
     (0.07635352356975698, 0.1200500294271993, 0.041072502929096165),
     (0.015, 0.045, 0.015),
@@ -45,20 +51,15 @@ cpos = [
 ]
 
 ###############################################################################
-# Create Line
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Create line passing through the geometry's diagonal:
-line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
-
-###############################################################################
-# Show line with the 3D mesh
+# Plot the line with the mesh in the background
 line.plot(mesh, cpos=cpos)
 
 ###############################################################################
 # Map displacement field to Line
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Use :class:`Result <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`
+# Use :class:`on_coordinates <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`:
 # mapping opretor to obtain the displacement Field on the line:
+disp = model.results.displacement
 mapping_operator = ops.mapping.on_coordinates(
     fields_container=disp,
     coordinates=line.mesh.nodes.coordinates_field,
@@ -68,10 +69,8 @@ mapping_operator = ops.mapping.on_coordinates(
 fields_mapped = mapping_operator.outputs.fields_container()
 field_line = fields_mapped[0]
 
-
 ###############################################################################
-# 3D plot of Line and mesh.
-# Note that the line is only displayed if some points are found inside the mesh:
+# 3D plot of the line and the mesh
 pl = DpfPlotter()
 if not len(field_line) == 0:
     pl.add_field(field_line, line.mesh, line_width=5)
