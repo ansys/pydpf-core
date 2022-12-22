@@ -62,11 +62,21 @@ jobs:
           python code_generation.py
         timeout-minutes: 5
 
+      - name: "Generate Operators Documentation"
+        shell: bash
+        working-directory: .ci
+        run: |
+          python operator_doc_per_context.py
+        timeout-minutes: 5
+
       - name: "Create Pull Request"
         uses: peter-evans/create-pull-request@v4
         with:
           delete-branch: true
-          add-paths: src/ansys/dpf/core/operators/*
+          add-paths: |
+            src/ansys/dpf/core/operators/*
+            docs/source/_static/dpf_entry.html
+            docs/source/_static/dpf_premium.html
           commit-message: update operators
           title: Update Operators for DPF ${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }}
           body: An update of operators has been triggered either manually or by an update in the dpf-standalone repository.
