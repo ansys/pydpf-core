@@ -12,7 +12,7 @@ on:
     inputs:
       standalone_branch_suffix:
         description: 'Suffix of the branch on standalone'
-        required: true
+        required: false
         default: ''
 
 
