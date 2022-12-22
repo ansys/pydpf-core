@@ -16,7 +16,6 @@ This example shows how to plot a Field on a Line object.
 # Imports and load model
 # ~~~~~~~~~~~~~~~~~~~~~~
 # Import modules and set context as Premium.
-import numpy as np
 import matplotlib.pyplot as plt
 
 from ansys.dpf import core as dpf
@@ -79,8 +78,11 @@ pl.show_figure(show_axes=True, cpos=cpos)
 ###############################################################################
 # 2D Plot displacement field alogn line length
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Get norm of the displacement
-norm_disp = [np.linalg.norm(field_line.data[i]) for i in range(len(field_line.data))]
+# Get norm of the displacement using
+# :class:`norm <ansys.dpf.core.operators.math.norm.norm>`:
+norm_op = dpf.operators.math.norm()  # operator instantiation
+norm_op.inputs.field.connect(field_line)
+norm = norm_op.outputs.field()
 
 ###############################################################################
 # Get discretized line's path
@@ -88,7 +90,7 @@ path = line.path[field_line.scoping.ids - 1]
 
 ###############################################################################
 # 2D plot (graph) of Line (line length vs displacement field)
-plt.plot(path, norm_disp)
+plt.plot(path, norm.data)
 plt.xlabel("Line length")
 plt.ylabel("Displacement norm field")
 plt.show()

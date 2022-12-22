@@ -33,7 +33,7 @@ print(model)
 ###############################################################################
 # Create Points object
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Create 8 points in the corners and one in the middle:
+# Create 8 points in the corners and one in the middle
 points = Points(
     [
         [0.0, 0.03, 0.0],
@@ -81,7 +81,7 @@ field_points = fields_mapped[0]
 ###############################################################################
 # Plotting displacement field on the geometry objects
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 3D plot of Points and display mesh:
+# 3D plot of Points and display mesh
 pl = DpfPlotter()
 pl.add_field(field_points, render_points_as_spheres=True, point_size=10)
 pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
