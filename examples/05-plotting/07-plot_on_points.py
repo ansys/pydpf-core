@@ -26,24 +26,12 @@ from ansys.dpf.core.fields_factory import field_from_array
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
-# Load model from examples and print information:
+# Load model from examples and print information
 model = dpf.Model(examples.find_static_rst())
 print(model)
 
 ###############################################################################
-# Load model's mesh and displacement field. Also, define the camera position
-# (obtained with ``cpos=pl.show_figure(return_cpos=True)``). This will be used
-# later for plotting.
-disp = model.results.displacement
-mesh = model.metadata.meshed_region
-cpos = [
-    (0.07635352356975698, 0.1200500294271993, 0.041072502929096165),
-    (0.015, 0.045, 0.015),
-    (-0.16771051558419411, -0.1983722658245161, 0.9656715938216944),
-]
-
-###############################################################################
-# Create points object
+# Create Points object
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create 8 points in the corners and one in the middle:
 points = Points(
@@ -61,14 +49,26 @@ points = Points(
 )
 
 ###############################################################################
+# Get mesh from model
+mesh = model.metadata.meshed_region
+
+###############################################################################
+# Set camera position (obtained with ``cpos=pl.show_figure(return_cpos=True)``)
+cpos = [
+    (0.07635352356975698, 0.1200500294271993, 0.041072502929096165),
+    (0.015, 0.045, 0.015),
+    (-0.16771051558419411, -0.1983722658245161, 0.9656715938216944),
+]
+###############################################################################
 # Show points together with the mesh
 points.plot(mesh, cpos=cpos)
 
 ###############################################################################
 # Map displacement field to Points
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Use :class:`Result <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`
-#  mapping opretor:
+# Use :class:`on_coordinates <ansys.dpf.core.operators.mapping.on_coordinates.
+# on_coordinates>`: mapping opretor
+disp = model.results.displacement
 mapping_operator = ops.mapping.on_coordinates(
     fields_container=disp,
     coordinates=field_from_array(points.coordinates.data),

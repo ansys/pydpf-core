@@ -33,7 +33,7 @@ model = dpf.Model(examples.find_static_rst())
 print(model)
 
 ###############################################################################
-# Create Line
+# Create Line object
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create line passing through the geometry's diagonal
 line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
@@ -72,16 +72,22 @@ field_line = fields_mapped[0]
 ###############################################################################
 # 3D plot of the line and the mesh
 pl = DpfPlotter()
-if not len(field_line) == 0:
-    pl.add_field(field_line, line.mesh, line_width=5)
+pl.add_field(field_line, line.mesh, line_width=5)
 pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
 pl.show_figure(show_axes=True, cpos=cpos)
 
+###############################################################################
+# 2D Plot displacement field alogn line length
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get norm of the displacement
+norm_disp = [np.linalg.norm(field_line.data[i]) for i in range(len(field_line.data))]
 
 ###############################################################################
-# 2D plot (graph) of Line (line length vs displacement field):
-norm_disp = [np.linalg.norm(field_line.data[i]) for i in range(len(field_line.data))]
+# Get discretized line's path
 path = line.path[field_line.scoping.ids - 1]
+
+###############################################################################
+# 2D plot (graph) of Line (line length vs displacement field)
 plt.plot(path, norm_disp)
 plt.xlabel("Line length")
 plt.ylabel("Displacement norm field")
