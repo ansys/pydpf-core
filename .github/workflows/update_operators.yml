@@ -1,6 +1,9 @@
 name: update_operators
 
 on:
+  push:
+    branches:
+      - "maint/fix_src_code_generation"
 # Can be called manually or remotely
   workflow_dispatch:
     inputs:
