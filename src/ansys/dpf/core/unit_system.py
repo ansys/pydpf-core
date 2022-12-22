@@ -93,7 +93,7 @@ class unit_systems:
     -----------
     solver_mks : Metric (m, kg, N, s, J, Pa, degC, C, rad)
 
-    ansys_cgs : Metric (cm, g, dyne, s, erg, dyne*cm^-2, degC, C, rad)
+    solver_cgs : Metric (cm, g, dyne, s, erg, dyne*cm^-2, degC, C, rad)
 
     solver_nmm : Metric (mm, ton, N, s, mJ, MPa, degC, mC, rad)
 

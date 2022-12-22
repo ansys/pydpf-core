@@ -184,7 +184,7 @@ def test_lsdyna_beam(d3plot_beam):
     beam_s_shear_force_op = dpf.operators.result.beam_s_shear_force()
     beam_s_shear_force_op.inputs.time_scoping.connect(time_sco)
     beam_s_shear_force_op.inputs.data_sources.connect(ds)
-    beam_s_shear_force_op.inputs.unit_system.connect(my_units)
+    beam_s_shear_force_op.connect(50, my_units)
     t1_fc = beam_s_shear_force_op.outputs.fields_container()
 
     t1_mod = model.results.beam_s_shear_force(time_scoping=time_sco).eval()
@@ -342,7 +342,7 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     kinetic_energy_op = dpf.operators.result.part_kinetic_energy()
     kinetic_energy_op.inputs.data_sources.connect(ds)
     kinetic_energy_op.inputs.entity_scoping.connect(part_sco)
-    kinetic_energy_op.inputs.unit_system.connect(dpf.unit_systems.solver_bft)
+    kinetic_energy_op.connect(50, dpf.unit_systems.solver_bft)
     ke_fc = kinetic_energy_op.outputs.fields_container()
 
     kinetic_energy_op_2 = model.results.part_kinetic_energy()
