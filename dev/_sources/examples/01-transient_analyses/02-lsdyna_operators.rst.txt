@@ -70,7 +70,7 @@ several individual results, each at different times.
     DPF Model
     ------------------------------
     Unknown analysis
-    Unit system: MKS: m, kg, N, s, V, A, degC
+    Unit system: SI: m, kg, s, V, A, K
     Physics Type: Unknown
     Available results:
          -  global_kinetic_energy: TimeFreq_steps Global Kinetic Energy
@@ -107,7 +107,7 @@ several individual results, each at different times.
     ------------------------------
     DPF  Time/Freq Support: 
       Number of sets: 12 
-    Cumulative     Time (s)       LoadStep       Substep         
+    Cumulative     Frequency ()   LoadStep       Substep         
     1              0.000000       1              1               
     2              0.997460       2              1               
     3              1.997818       3              1               
@@ -213,7 +213,7 @@ entity, but are global variables of the model.
       defined on labels: 
 
       with:
-      - field 0 {} with Nodal location, 1 components and 12 entities.
+      - field 0 {} with TimeFreq_steps location, 1 components and 12 entities.
 
 
 
@@ -280,7 +280,7 @@ several branches (glstat, matsum and rcforc).
     DPF Model
     ------------------------------
     Unknown analysis
-    Unit system: MKS: m, kg, N, s, V, A, degC
+    Unit system: SI: m, kg, s, V, A, K
     Physics Type: Unknown
     Available results:
          -  displacement: Nodal Displacement
@@ -319,7 +319,7 @@ several branches (glstat, matsum and rcforc).
     ------------------------------
     DPF  Time/Freq Support: 
       Number of sets: 1010 
-    Cumulative     Time (s)       LoadStep       Substep         
+    Cumulative     Frequency ()   LoadStep       Substep         
     1              0.000000       1              1               
     2              0.097868       2              1               
     3              0.195737       3              1               
@@ -1636,7 +1636,7 @@ the three components are available.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  11.555 seconds)
+   **Total running time of the script:** ( 0 minutes  8.691 seconds)
 
 
 .. _sphx_glr_download_examples_01-transient_analyses_02-lsdyna_operators.py:

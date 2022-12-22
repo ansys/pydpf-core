@@ -779,7 +779,7 @@ several individual results, each at different times.</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
 ------------------------------
 Unknown analysis
-Unit system: MKS: m, kg, N, s, V, A, degC
+Unit system: SI: m, kg, s, V, A, K
 Physics Type: Unknown
 Available results:
      -  global_kinetic_energy: TimeFreq_steps Global Kinetic Energy
@@ -816,7 +816,7 @@ DPF  Meshed Region:
 ------------------------------
 DPF  Time/Freq Support:
   Number of sets: 12
-Cumulative     Time (s)       LoadStep       Substep
+Cumulative     Frequency ()   LoadStep       Substep
 1              0.000000       1              1
 2              0.997460       2              1
 3              1.997818       3              1
@@ -864,7 +864,7 @@ entity, but are global variables of the model.</p>
   defined on labels:
 
   with:
-  - field 0 {} with Nodal location, 1 components and 12 entities.
+  - field 0 {} with TimeFreq_steps location, 1 components and 12 entities.
 </pre></div>
 </div>
 <p>Energy plots over time (the sphere was released with some initial velocity).</p>
@@ -895,7 +895,7 @@ several branches (glstat, matsum and rcforc).</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
 ------------------------------
 Unknown analysis
-Unit system: MKS: m, kg, N, s, V, A, degC
+Unit system: SI: m, kg, s, V, A, K
 Physics Type: Unknown
 Available results:
      -  displacement: Nodal Displacement
@@ -934,7 +934,7 @@ DPF  Meshed Region:
 ------------------------------
 DPF  Time/Freq Support:
   Number of sets: 1010
-Cumulative     Time (s)       LoadStep       Substep
+Cumulative     Frequency ()   LoadStep       Substep
 1              0.000000       1              1
 2              0.097868       2              1
 3              0.195737       3              1
@@ -2158,7 +2158,7 @@ the three components are available.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_02-lsdyna_operators_005.png" srcset="../../_images/sphx_glr_02-lsdyna_operators_005.png" alt="02 lsdyna operators" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  11.555 seconds)</p>
+<img src="../../_images/sphx_glr_02-lsdyna_operators_005.png" srcset="../../_images/sphx_glr_02-lsdyna_operators_005.png" alt="02 lsdyna operators" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  8.691 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-01-transient-analyses-02-lsdyna-operators-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/5cf599e13e3ed93547ec2e2781e05526/02-lsdyna_operators.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-lsdyna_operators.py</span></code></a></p>

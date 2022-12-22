@@ -114,11 +114,35 @@ Load model from examples and print information:
 
 .. GENERATED FROM PYTHON SOURCE LINES 39-42
 
+Load model's mesh and define camera position
+(obtained with ``cpos=pl.show_figure(return_cpos=True)``). This will be used
+later for plotting.
+
+.. GENERATED FROM PYTHON SOURCE LINES 42-49
+
+.. code-block:: default
+
+    mesh = model.metadata.meshed_region
+    cpos = [
+        (0.07635352356975698, 0.1200500294271993, 0.041072502929096165),
+        (0.015, 0.045, 0.015),
+        (-0.16771051558419411, -0.1983722658245161, 0.9656715938216944),
+    ]
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 50-53
+
 Create points, line and plane objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Create 8 points in the corners and one in the middle:
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-56
+.. GENERATED FROM PYTHON SOURCE LINES 53-67
 
 .. code-block:: default
 
@@ -143,11 +167,33 @@ Create 8 points in the corners and one in the middle:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-58
+.. GENERATED FROM PYTHON SOURCE LINES 68-69
 
-Create line passing through the geometry's diagional:
+Show points together with the mesh
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-60
+.. GENERATED FROM PYTHON SOURCE LINES 69-71
+
+.. code-block:: default
+
+    points.plot(mesh, cpos=cpos)
+
+
+
+
+.. image-sg:: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_001.png
+   :alt: 07 plot on geometries
+   :srcset: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_001.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 72-73
+
+Create line passing through the geometry's diagonal:
+
+.. GENERATED FROM PYTHON SOURCE LINES 73-75
 
 .. code-block:: default
 
@@ -160,11 +206,33 @@ Create line passing through the geometry's diagional:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-62
+.. GENERATED FROM PYTHON SOURCE LINES 76-77
+
+Show line with the 3D mesh
+
+.. GENERATED FROM PYTHON SOURCE LINES 77-79
+
+.. code-block:: default
+
+    line.plot(mesh, cpos=cpos)
+
+
+
+
+.. image-sg:: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_002.png
+   :alt: 07 plot on geometries
+   :srcset: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_002.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 80-81
 
 Create vertical plane passing through the mid point:
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-71
+.. GENERATED FROM PYTHON SOURCE LINES 81-90
 
 .. code-block:: default
 
@@ -184,18 +252,39 @@ Create vertical plane passing through the mid point:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-75
+.. GENERATED FROM PYTHON SOURCE LINES 91-92
+
+Show plane with the 3D mesh
+
+.. GENERATED FROM PYTHON SOURCE LINES 92-94
+
+.. code-block:: default
+
+    plane.plot(mesh, cpos=cpos)
+
+
+
+
+.. image-sg:: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_003.png
+   :alt: 07 plot on geometries
+   :srcset: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_003.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 95-98
 
 Map displacement field to geometry objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Get displacement field and model's mesh:
+Get displacement field from model:
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-78
+.. GENERATED FROM PYTHON SOURCE LINES 98-100
 
 .. code-block:: default
 
     disp = model.results.displacement
-    mesh = model.metadata.meshed_region
 
 
 
@@ -204,11 +293,11 @@ Get displacement field and model's mesh:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-80
+.. GENERATED FROM PYTHON SOURCE LINES 101-102
 
 Map displacement to points in Points object:
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-89
+.. GENERATED FROM PYTHON SOURCE LINES 102-111
 
 .. code-block:: default
 
@@ -228,11 +317,11 @@ Map displacement to points in Points object:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-91
+.. GENERATED FROM PYTHON SOURCE LINES 112-113
 
 Map displacement to points in Line object:
 
-.. GENERATED FROM PYTHON SOURCE LINES 91-100
+.. GENERATED FROM PYTHON SOURCE LINES 113-122
 
 .. code-block:: default
 
@@ -252,11 +341,11 @@ Map displacement to points in Line object:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-102
+.. GENERATED FROM PYTHON SOURCE LINES 123-124
 
 Map displacement to points in Plane object:
 
-.. GENERATED FROM PYTHON SOURCE LINES 102-111
+.. GENERATED FROM PYTHON SOURCE LINES 124-133
 
 .. code-block:: default
 
@@ -276,33 +365,13 @@ Map displacement to points in Plane object:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-115
+.. GENERATED FROM PYTHON SOURCE LINES 134-137
 
-Plotting displacement field
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Define camera position (obtained with ``cpos=pl.show_figure(return_cpos=True)``):
-
-.. GENERATED FROM PYTHON SOURCE LINES 115-120
-
-.. code-block:: default
-
-    cpos = [
-        (0.07635352356975698, 0.1200500294271993, 0.041072502929096165),
-        (0.015, 0.045, 0.015),
-        (-0.16771051558419411, -0.1983722658245161, 0.9656715938216944),
-    ]
-
-
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 121-122
-
+Plotting displacement field on the geometry objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 3D plot of Points and display mesh:
 
-.. GENERATED FROM PYTHON SOURCE LINES 122-127
+.. GENERATED FROM PYTHON SOURCE LINES 137-142
 
 .. code-block:: default
 
@@ -311,86 +380,6 @@ Define camera position (obtained with ``cpos=pl.show_figure(return_cpos=True)``)
     pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
     pl.show_figure(show_axes=True, cpos=cpos)
 
-
-
-
-.. image-sg:: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_001.png
-   :alt: 07 plot on geometries
-   :srcset: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_001.png
-   :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 128-130
-
-3D plot of Line and mesh.
-Note that the line is only displayed if some points are found inside the mesh:
-
-.. GENERATED FROM PYTHON SOURCE LINES 130-136
-
-.. code-block:: default
-
-    pl = DpfPlotter()
-    if not len(field_line) == 0:
-        pl.add_field(field_line, line.mesh, line_width=5)
-    pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
-    pl.show_figure(show_axes=True, cpos=cpos)
-
-
-
-
-.. image-sg:: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_002.png
-   :alt: 07 plot on geometries
-   :srcset: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_002.png
-   :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 137-139
-
-Plot Plane and display mesh in background.
-Note that the plane is only displayed if some points are found inside the mesh:
-
-.. GENERATED FROM PYTHON SOURCE LINES 139-145
-
-.. code-block:: default
-
-    pl = DpfPlotter()
-    if not len(field_plane) == 0:
-        pl.add_field(field_plane, plane.mesh, show_edges=False)
-    pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
-    pl.show_figure(show_axes=True, cpos=cpos)
-
-
-
-
-.. image-sg:: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_003.png
-   :alt: 07 plot on geometries
-   :srcset: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_003.png
-   :class: sphx-glr-single-img
-
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 146-147
-
-2D plot (graph) of Line (line length vs displacement field):
-
-.. GENERATED FROM PYTHON SOURCE LINES 147-153
-
-.. code-block:: default
-
-    norm_disp = [np.linalg.norm(field_line.data[i]) for i in range(len(field_line.data))]
-    path = line.path[field_line.scoping.ids - 1]
-    plt.plot(path, norm_disp)
-    plt.xlabel("Line length")
-    plt.ylabel("Displacement norm field")
-    plt.show()
 
 
 
@@ -403,10 +392,90 @@ Note that the plane is only displayed if some points are found inside the mesh:
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 143-145
+
+3D plot of Line and mesh.
+Note that the line is only displayed if some points are found inside the mesh:
+
+.. GENERATED FROM PYTHON SOURCE LINES 145-151
+
+.. code-block:: default
+
+    pl = DpfPlotter()
+    if not len(field_line) == 0:
+        pl.add_field(field_line, line.mesh, line_width=5)
+    pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
+    pl.show_figure(show_axes=True, cpos=cpos)
+
+
+
+
+.. image-sg:: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_005.png
+   :alt: 07 plot on geometries
+   :srcset: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_005.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 152-154
+
+Plot Plane and display mesh in background.
+Note that the plane is only displayed if some points are found inside the mesh:
+
+.. GENERATED FROM PYTHON SOURCE LINES 154-160
+
+.. code-block:: default
+
+    pl = DpfPlotter()
+    if not len(field_plane) == 0:
+        pl.add_field(field_plane, plane.mesh, show_edges=False)
+    pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
+    pl.show_figure(show_axes=True, cpos=cpos)
+
+
+
+
+.. image-sg:: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_006.png
+   :alt: 07 plot on geometries
+   :srcset: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_006.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 161-162
+
+2D plot (graph) of Line (line length vs displacement field):
+
+.. GENERATED FROM PYTHON SOURCE LINES 162-168
+
+.. code-block:: default
+
+    norm_disp = [np.linalg.norm(field_line.data[i]) for i in range(len(field_line.data))]
+    path = line.path[field_line.scoping.ids - 1]
+    plt.plot(path, norm_disp)
+    plt.xlabel("Line length")
+    plt.ylabel("Displacement norm field")
+    plt.show()
+
+
+
+.. image-sg:: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_007.png
+   :alt: 07 plot on geometries
+   :srcset: /examples/05-plotting/images/sphx_glr_07-plot_on_geometries_007.png
+   :class: sphx-glr-single-img
+
+
+
+
+
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.049 seconds)
+   **Total running time of the script:** ( 0 minutes  6.536 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_07-plot_on_geometries.py:
