@@ -54,16 +54,15 @@ def test_logging_remote(tmpdir, server_type_remote_process):
         server=server_type_remote_process,
     )
     log_path = os.path.join(server_tmp, "log.txt")
-    server_type_remote_process.session.handle_events_with_file_logger(
-        log_path, 2
-    )
+    server_type_remote_process.session.handle_events_with_file_logger(log_path, 2)
     server_type_remote_process.session.start_emitting_rpc_log()
 
     wf = core.Workflow(server=server_type_remote_process)
-    model = core.Model(result_file,
-                       server=server_type_remote_process)
+    model = core.Model(result_file, server=server_type_remote_process)
     stress = model.results.stress()
-    to_nodal = core.operators.averaging.to_nodal_fc(stress, server=server_type_remote_process)
+    to_nodal = core.operators.averaging.to_nodal_fc(
+        stress, server=server_type_remote_process
+    )
     wf.add_operators([stress, to_nodal])
     wf.set_output_name("out", to_nodal.outputs.fields_container)
 
@@ -75,10 +74,11 @@ def test_logging_remote(tmpdir, server_type_remote_process):
     file_size = os.path.getsize(log_path)
 
     wf = core.Workflow(server=server_type_remote_process)
-    model = core.Model(result_file,
-                       server=server_type_remote_process)
+    model = core.Model(result_file, server=server_type_remote_process)
     stress = model.results.stress()
-    to_nodal = core.operators.averaging.to_nodal_fc(stress, server=server_type_remote_process)
+    to_nodal = core.operators.averaging.to_nodal_fc(
+        stress, server=server_type_remote_process
+    )
     wf.add_operators([stress, to_nodal])
     wf.set_output_name("out", to_nodal.outputs.fields_container)
 
