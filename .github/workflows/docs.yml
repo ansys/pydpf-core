@@ -58,7 +58,7 @@ env:
 
 jobs:
   doc-style:
-    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.event_name != 'workflow_dispatch'}}
+    if: ${{ github.event.inputs.event_name != 'workflow_dispatch' && github.event != 'workflow_call'}}
     name: "Check doc style"
     uses: ./.github/workflows/docs-style.yml
     secrets: inherit
@@ -66,7 +66,6 @@ jobs:
   docs:
     name: "Documentation"
     runs-on: windows-latest
-    needs: [doc-style]
     steps:
       - uses: actions/checkout@v3
 
