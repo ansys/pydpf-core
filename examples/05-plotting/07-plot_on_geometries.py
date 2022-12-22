@@ -78,7 +78,7 @@ line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
 # line.plot(mesh, cpos=cpos)
 
 ###############################################################################
-# Create vertical plane passing through the mid point:
+# Create plane passing through the mid point:
 plane = Plane(
     [0.015, 0.045, 0.015],
     [1, 1, 1],
@@ -90,7 +90,7 @@ plane = Plane(
 
 ###############################################################################
 # Show plane with the 3D mesh
-# plane.plot(mesh, cpos=cpos)
+plane.plot(mesh, cpos=cpos)
 
 ###############################################################################
 # Map displacement field to Points
@@ -152,15 +152,25 @@ levelset_op.inputs.origin.connect(origin_overall)
 levelset_op.inputs.normal.connect(normal_overall)
 levelset = levelset_op.outputs.field()
 
+pl = DpfPlotter()
+pl.add_field(levelset, mesh)
+pl.show_figure(show_axes=True, cpos=cpos)
+
 ###############################################################################
-# Use the plane's levelset to obtain intersection with the 3D mesh
+# Use the plane's levelset to obtain intersection with the 3D mesh:
 mesh_cutter_op = ops.mesh.mesh_cut()
 mesh_cutter_op.inputs.field.connect(levelset)
 mesh_cutter_op.inputs.iso_value.connect(float(0))
-mesh_cutter_op.inputs.closed_surface.connect(float(0))
+mesh_cutter_op.connect(2, 0)
+# mesh_cutter_op.inputs.mesh.connect(mesh)
+mesh_cutter_op.connect(3, mesh)
 mesh_cutter_op.inputs.slice_surfaces.connect(True)
 intersection = mesh_cutter_op.outputs.mesh()
 
+pl = DpfPlotter()
+pl.add_mesh(intersection)
+pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
+pl.show_figure(show_axes=True, cpos=cpos)
 
 # Map displacement to points in Plane object:
 mapping_operator = ops.mapping.on_coordinates(
@@ -171,6 +181,16 @@ mapping_operator = ops.mapping.on_coordinates(
 )
 fields_mapped = mapping_operator.outputs.fields_container()
 field_plane = fields_mapped[0]
+
+# Map displacement to points in intersection:
+mapping_operator = ops.mapping.on_coordinates(
+    fields_container=disp,
+    coordinates=intersection.nodes.coordinates_field,
+    create_support=True,
+    mesh=mesh,
+)
+fields_mapped = mapping_operator.outputs.fields_container()
+field_plane_intersection = fields_mapped[0]
 
 ###############################################################################
 # Plotting displacement field on the geometry objects
@@ -196,6 +216,12 @@ pl.show_figure(show_axes=True, cpos=cpos)
 pl = DpfPlotter()
 if not len(field_plane) == 0:
     pl.add_field(field_plane, plane.mesh, show_edges=False)
+pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
+pl.show_figure(show_axes=True, cpos=cpos)
+
+pl = DpfPlotter()
+if not len(field_plane) == 0:
+    pl.add_field(field_plane_intersection, intersection, show_edges=False)
 pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
 pl.show_figure(show_axes=True, cpos=cpos)
 
