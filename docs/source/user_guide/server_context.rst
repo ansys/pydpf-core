@@ -8,13 +8,13 @@ What is server context
 ----------------------
 
 The :class:`ServerContext <ansys.dpf.core.server_context.ServerContext>` class drives the
-default capabilities a server will be started with. 
+default capabilities a server starts with.
 
 The server context is composed of the following information:
 
-- context_type, a :class:`LicensingContextType <ansys.dpf.core.server_context.LicensingContextType>`
+- ``context_type``, a :class:`LicensingContextType <ansys.dpf.core.server_context.LicensingContextType>`
   class object that defines if a License checkout is required or not.
-- the xml_path that sets DPF default operators capabilities.
+- the ``xml_path`` that sets DPF default operators capabilities.
 
 For more information,
 see :class:`AvailableServerContexts <ansys.dpf.core.server_context.AvailableServerContexts>`
@@ -23,7 +23,7 @@ and :ref:`user_guide_xmlfiles`.
 Two main licensing context type capabilities are available: 
 
 - Entry (default): Loads the minimum capabilities without requiring any license checkout.
-- Premium: Enables the entry capabilities and the capabilities that requires a license checkout.
+- Premium: Enables the Entry capabilities and the capabilities that require a license checkout.
   More operators are available.
 
 The operators list for each licensing context type is available at
@@ -51,7 +51,7 @@ Getting started with Premium capabilities
 -----------------------------------------
 
 Find the list of operators available when the context is Premium at :ref:`ref_dpf_operators_reference`.
-This will check out a license.
+This checks out a license.
 
 .. code-block::
 	   
@@ -118,12 +118,12 @@ environment variable (see `<ansys.dpf.core.server_context>`) or writing:
     Server Context of type LicensingContextType.premium with no xml path
 
 
-Release History
+Release history
 ---------------
 
 The Entry server context is available starting with server version 6.0 
 (Ansys 2023 R2). 
 
-With a server version lower than 6.0, Premium will be the default server 
+With a server version lower than 6.0, Premium is the default server
 context and all the Premium operators at :ref:`ref_dpf_operators_reference` 
-will be available (depending only on their release date).
+are available (depending only on their release date).

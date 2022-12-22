@@ -4,6 +4,7 @@
 
 Scope results over custom time domains
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The :class:`Result <ansys.dpf.core.results.Result>` class, which are instances
 created by the :class:`Model <ansys.dpf.core.model.Model>`, give
 access to helpers for requesting results on specific mesh and time scopings.
@@ -11,9 +12,9 @@ With these helpers, working on a temporal subset of the
 model is straightforward. In this example, different ways to choose the temporal subset to
 evaluate a result are exposed. This example can be extended to frequency subsets.
 
-Import necessary modules:
 """
 
+# Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 

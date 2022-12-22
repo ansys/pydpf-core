@@ -3,52 +3,37 @@
 
 Bring a field's data locally to improve performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Reducing the number of calls to the server is key to improving
 performance. Using the ``as_local_field`` option brings the data
 from the server to your local machine where you can work on it.
 When finished, you send the updated data back to the server
 in one transaction.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
-
 """
+
 # Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
 
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
-
 ###############################################################################
 # Create a model object to establish a connection with an
 # example result file and then extract:
 model = dpf.Model(examples.download_multi_stage_cyclic_result())
 print(model)
+mesh = model.metadata.meshed_region
 
 ###############################################################################
 # Create the workflow
 # ~~~~~~~~~~~~~~~~~~~~
-# Maximum principal stress usually occurs on the skin of the
-# model. Computing results only on this skin reduces the data size.
-
-# Create a simple workflow computing the principal stress on the skin
-# of the model.
-
-skin_op = ops.mesh.external_layer(model.metadata.meshed_region)
-skin_mesh = skin_op.outputs.mesh()
 
 ###############################################################################
-# Plot the mesh skin:
-skin_mesh.plot()
-
-###############################################################################
-# Compute the stress principal invariants on the skin nodes only:
+# Compute the stress principal invariants:
 stress_op = ops.result.stress(data_sources=model.metadata.data_sources)
 stress_op.inputs.requested_location.connect(dpf.locations.nodal)
-stress_op.inputs.mesh_scoping.connect(skin_op.outputs.nodes_mesh_scoping)
+stress_op.inputs.mesh_scoping.connect(mesh.nodes.scoping)
 
 principal_op = ops.invariant.principal_invariants_fc(stress_op)
 principal_stress_1 = principal_op.outputs.fields_eig_1()[0]
@@ -91,7 +76,7 @@ with field_to_keep.as_local_field() as f:
 
 ###############################################################################
 # Plot the result field on the skin mesh:
-skin_mesh.plot(field_to_keep)
+mesh.plot(field_to_keep)
 
 ###############################################################################
 # Plot initial invariants
@@ -99,8 +84,8 @@ skin_mesh.plot(field_to_keep)
 
 
 ###############################################################################
-# Plot the initial invariants on the skin mesh:
+# Plot the initial invariants:
 
-skin_mesh.plot(principal_stress_1)
-skin_mesh.plot(principal_stress_2)
-skin_mesh.plot(principal_stress_3)
+mesh.plot(principal_stress_1)
+mesh.plot(principal_stress_2)
+mesh.plot(principal_stress_3)

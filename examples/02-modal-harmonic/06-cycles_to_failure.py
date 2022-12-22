@@ -43,8 +43,19 @@ youngsSteel = 200e9
 prxySteel = 0.3
 sn_data = np.empty((11, 2))  # initialize empty np matrix
 sn_data[:, 0] = [10, 20, 50, 100, 200, 2000, 10000, 20000, 1e5, 2e5, 1e6]
-sn_data[:, 1] = [3.999e9, 2.8327e9, 1.896e9, 1.413e9, 1.069e9, 4.41e8, 2.62e8, 2.14e8, 1.38e8,
-                 1.14e8, 8.62e7]
+sn_data[:, 1] = [
+    3.999e9,
+    2.8327e9,
+    1.896e9,
+    1.413e9,
+    1.069e9,
+    4.41e8,
+    2.62e8,
+    2.14e8,
+    1.38e8,
+    1.14e8,
+    8.62e7,
+]
 
 ###############################################################################
 # The .rst file used is already available, but can be obtained using the short pyMAPDL code below:
@@ -111,9 +122,11 @@ cycles_to_failure = np.interp(vm_stress_field.data, x_values, y_values)
 # Generate a cycles_to_failure DPF Field
 
 # Create an empty field
-cycles_to_failure_field = dpf.Field(nentities=len(vm_stress_field.scoping),
-                                    nature=dpf.natures.scalar,
-                                    location=dpf.locations.nodal)
+cycles_to_failure_field = dpf.Field(
+    nentities=len(vm_stress_field.scoping),
+    nature=dpf.natures.scalar,
+    location=dpf.locations.nodal,
+)
 # Populate the field
 cycles_to_failure_field.scoping = vm_stress_field.scoping
 cycles_to_failure_field.meshed_region = vm_stress_field.meshed_region

@@ -3,6 +3,7 @@
 
 Expand harmonic modal superposition with DPF
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Different types of linear dynamics expansions are implemented in DPF.
 With modal superposition used in harmonic analysis, modal coefficients
 are multiplied by mode shapes (of a previous modal analysis) to analyse
@@ -12,7 +13,7 @@ reduces the size of the result files.
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 
