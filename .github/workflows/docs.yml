@@ -22,6 +22,11 @@ on:
         required: false
         type: string
         default: ''
+      event_name:
+        description: "Check style with Vale (does not work when CI is called manually)"
+        required: false
+        type: string
+        default: 'workflow_dispatch'
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -53,6 +58,7 @@ env:
 
 jobs:
   doc-style:
+    if: ${{ github.event.inputs.event_name != 'workflow_dispatch' && github.event_name != 'workflow_dispatch' }}
     name: "Check doc style"
     uses: ./.github/workflows/docs-style.yml
     secrets: inherit
@@ -60,7 +66,6 @@ jobs:
   docs:
     name: "Documentation"
     runs-on: windows-latest
-    needs: [doc-style]
     steps:
       - uses: actions/checkout@v3
 
