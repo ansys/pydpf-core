@@ -146,30 +146,33 @@ origin1 = dpf.Field(1, dpf.natures.vector, dpf.locations.overall)
 origin1.append(plane1.center, 0)
 normal1 = dpf.Field(1, dpf.natures.vector, dpf.locations.overall)
 normal1.append(plane1.normal_dir, 0)
-origin2 = dpf.Field(2, dpf.natures.vector, dpf.locations.overall)
+origin2 = dpf.Field(1, dpf.natures.vector, dpf.locations.overall)
 origin2.append(plane2.center, 0)
 normal2 = dpf.Field(1, dpf.natures.vector, dpf.locations.overall)
 normal2.append(plane2.normal_dir, 0)
 
 ###############################################################################
 # Get levelsets
-levelset_op = ops.mesh.make_plane_levelset()
-levelset_op.inputs.coordinates.connect(mesh.nodes.coordinates_field)
-levelset_op.inputs.origin.connect(origin1)
-levelset_op.inputs.normal.connect(normal1)
-levelset1 = levelset_op.outputs.field()
+levelset1_op = ops.mesh.make_plane_levelset()
+levelset1_op.inputs.coordinates.connect(mesh.nodes.coordinates_field)
+levelset1_op.inputs.origin.connect(origin1)
+levelset1_op.inputs.normal.connect(normal1)
+levelset1 = levelset1_op.outputs.field()
 
-levelset_op.inputs.origin.connect(origin2)
-levelset_op.inputs.normal.connect(normal2)
-levelset2 = levelset_op.outputs.field()
+levelset2_op = ops.mesh.make_plane_levelset()
+levelset2_op.inputs.coordinates.connect(mesh.nodes.coordinates_field)
+levelset2_op.inputs.origin.connect(origin2)
+levelset2_op.inputs.normal.connect(normal2)
+levelset2 = levelset2_op.outputs.field()
 
 ###############################################################################
 # Plot levelsets on the mesh. The zero value marks the plane's location.
 pl = DpfPlotter()
-pl.add_field(levelset1, mesh)
+pl.add_mesh(mesh, scalars=levelset1.data)
 pl.show_figure(show_axes=True, cpos=cpos)
+
 pl = DpfPlotter()
-pl.add_field(levelset2, mesh)
+pl.add_mesh(mesh, scalars=levelset2.data)
 pl.show_figure(show_axes=True, cpos=cpos)
 
 ###############################################################################
