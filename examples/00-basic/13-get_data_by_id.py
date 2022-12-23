@@ -32,12 +32,14 @@ print(model.metadata.available_named_selections)
 ###############################################################################
 # Visualize the entire mesh
 # ~~~~~~~~~~~~~~~~~~~~~~~~~
-# Extract displacements on the entire geometry
-# .. note::
-#     Note that this is just for demonstration purposes. On a real simulation, the
-#     user shouldn't evaluate (request from the server) data that is not needed.
+# Extract displacements on the entire geometry. Note that this is just for
+# demonstration purposes. On a real simulation, the user should not evaluate
+# (request from the server) data that is not needed.
 disp_fc = model.results.displacement().eval()
 print(disp_fc)
+
+###############################################################################
+# The displacement FieldsContainer contains a total of 15113 entities.
 
 ###############################################################################
 # Plot the entire mesh
@@ -65,12 +67,15 @@ disp_selection_fc = model.results.displacement.on_mesh_scoping(mesh_scoping).eva
 print(disp_selection_fc)
 
 ###############################################################################
+# Note how the number of entities has decreased from 15113 to 12970 entities
+# after applying the scoping on ``my_named_selection``.
+
+###############################################################################
 # Get the only Field available
 disp_selection = disp_selection_fc[0]
 
 ###############################################################################
 # Scope mesh only for that named selection
-# mesh_scoping = model.metadata.named_selection(my_named_selection)  ## Force location == nodal
 mesh_from_scoping_op = ops.mesh.from_scoping()
 mesh_from_scoping_op.inputs.scoping.connect(mesh_scoping)
 mesh_from_scoping_op.inputs.mesh.connect(model.metadata.meshed_region)
@@ -81,17 +86,21 @@ mesh_selection = mesh_from_scoping_op.outputs.mesh()
 mesh_selection.plot()
 
 ###############################################################################
+# The plot shows only one of the two cubes from the total geometry shown before.
+
+###############################################################################
 # Identify the location of the Field
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Check the location of the scoping to see what is the information associated
-# to the IDs. For this example, the displacement field is defined at ``"nodal"`` level.
-# Note that this example is only valid for locations that are either ``"nodal"`` or
-# ``"elemental"``.
+# to the IDs. The displacement field is defined at ``"nodal"`` location. Other fields
+# may have other locations such as ``"elemental"`` or ``"elementalNodal"``.
+# Note that this way of retrieving data by ID is only valid for locations that
+# are either ``"nodal"`` or ``"elemental"``.
 print(disp_selection.scoping.location)
 
 ###############################################################################
 # Another way to check that ``disp_selection`` contains nodal data is to check that
-# the number of entities in the displacement FieldsContainer (=12970) matches the
+# the number of entities in the displacement FieldsContainer (12970) matches the
 # number of nodes of the scoped mesh ``mesh_selection``
 print(mesh_selection.nodes.n_nodes)
 
@@ -102,7 +111,7 @@ print(mesh_selection.elements.n_elements)
 ###############################################################################
 # Access data in ``disp_selection`` by ID
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Get the list of IDs (associated to each element)
+# Get the list of nodal IDs
 ids = disp_selection.scoping.ids
 
 ###############################################################################
@@ -111,8 +120,8 @@ ids = disp_selection.scoping.ids
 data = disp_selection.data
 
 ###############################################################################
-# Loop over ``ids`` to have access to both, the ID value and the displacement
-# for that ID (associated to elements for this example)
+# Loop over ``ids`` to have access to both, the node ID and the displacement
+# for that node
 for idx, id in enumerate(ids):
     node_disp = data[idx]
     node_id = id
