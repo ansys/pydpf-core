@@ -12,17 +12,16 @@ from ansys.dpf.core.geometry import (
 )
 
 
-def create_points(coordinates, server=None):
+def create_points(coordinates, **kwargs):
     """Construct points given its coordinates.
 
     Parameters
     ----------
     coordinates : list, array, Field
         3D coordinates of the points.
-    server : :class:`ansys.dpf.core.server`, optional
-        Server with the channel connected to the remote or local instance. The
-        default is ``None``, in which case an attempt is made to use the global
-        server.
+    **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :class:`ansys.dpf.core.geometry.Points`.
 
     Examples
     --------
@@ -37,22 +36,19 @@ def create_points(coordinates, server=None):
       [0. 2. 0.]
     >>> points.plot()
     """
-    return Points(coordinates, server)
+    return Points(coordinates, **kwargs)
 
 
-def create_line_from_points(points, n_points=100, server=None):
+def create_line_from_points(points, **kwargs):
     """Construct line from two points.
 
     Parameters
     ----------
     points : list, array, Field, Points
         3D coordinates of the points.
-    n_points : int
-        Number of points in which the line will be discretized.
-    server : :class:`ansys.dpf.core.server`, optional
-        Server with the channel connected to the remote or local instance. The
-        default is ``None``, in which case an attempt is made to use the global
-        server.
+    **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :class:`ansys.dpf.core.geometry.Line`.
 
     Examples
     --------
@@ -66,10 +62,10 @@ def create_line_from_points(points, n_points=100, server=None):
     >>> line.plot()
 
     """
-    return Line(points, n_points, server)
+    return Line(points, **kwargs)
 
 
-def create_line_from_vector(ini, end=None, n_points=100, server=None):
+def create_line_from_vector(ini, end=None, **kwargs):
     """Construct line from origin's coordinates and a vector direction.
 
     Parameters
@@ -79,12 +75,9 @@ def create_line_from_vector(ini, end=None, n_points=100, server=None):
     end : list, array, Line, optional
         3D coordinates of the ending point of the line (if ``ini`` only contains
         the initial point).
-    n_points : int
-        Number of points in which the line will be discretized.
-    server : :class:`ansys.dpf.core.server`, optional
-        Server with the channel connected to the remote or local instance. The
-        default is ``None``, in which case an attempt is made to use the global
-        server.
+    **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :class:`ansys.dpf.core.geometry.Line`.
 
     Examples
     --------
@@ -120,12 +113,10 @@ def create_line_from_vector(ini, end=None, n_points=100, server=None):
             )
         vect = [ini, end]
 
-    return Line(vect, n_points, server)
+    return Line(vect, **kwargs)
 
 
-def create_plane_from_center_and_normal(
-    center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
-):
+def create_plane_from_center_and_normal(center, normal, **kwargs):
     """Create plane from its center and normal direction.
 
     Parameters
@@ -134,18 +125,9 @@ def create_plane_from_center_and_normal(
         3D coordinates of the center point of the plane.
     normal : list, array, Line
         Normal direction to the plane.
-    width : int, float
-        Width of the discretized plane (default = 1).
-    height : int, float
-        Height of the discretized plane (default = 1).
-    n_cells_x : int
-        Number of cells in the x direction of the plane (default = 20).
-    n_cells_y : int
-        Number of cells in the y direction of the plane (default = 20).
-    server : :class:`ansys.dpf.core.server`, optional
-        Server with the channel connected to the remote or local instance. The
-        default is ``None``, in which case an attempt is made to use the global
-        server.
+    **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :class:`ansys.dpf.core.geometry.Plane`.
 
     Examples
     --------
@@ -163,10 +145,10 @@ def create_plane_from_center_and_normal(
     >>> plane.plot()
 
     """
-    return Plane(center, normal, width, height, n_cells_x, n_cells_y, server)
+    return Plane(center, normal, **kwargs)
 
 
-def create_plane_from_points(points, n_cells_x=20, n_cells_y=20, server=None):
+def create_plane_from_points(points, **kwargs):
     """Create plane from three points.
 
     Note that when creating a plane using three points, the plane's width and height
@@ -176,14 +158,9 @@ def create_plane_from_points(points, n_cells_x=20, n_cells_y=20, server=None):
     ----------
     points : list, array, Points
         3D coordinates of the three points defining the plane.
-    n_cells_x : int
-        Number of cells in the x direction of the plane (default = 20).
-    n_cells_y : int
-        Number of cells in the y direction of the plane (default = 20).
-    server : :class:`ansys.dpf.core.server`, optional
-        Server with the channel connected to the remote or local instance. The
-        default is ``None``, in which case an attempt is made to use the global
-        server.
+    **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :class:`ansys.dpf.core.geometry.Plane`.
 
     Examples
     --------
@@ -229,12 +206,10 @@ def create_plane_from_points(points, n_cells_x=20, n_cells_y=20, server=None):
     width = float(x_coords.max() - x_coords.min())
     height = float(y_coords.max() - y_coords.min())
 
-    return Plane(center, normal_dir, width, height, n_cells_x, n_cells_y, server)
+    return Plane(center, normal_dir, width, height, **kwargs)
 
 
-def create_plane_from_lines(
-    line1, line2, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
-):
+def create_plane_from_lines(line1, line2, **kwargs):
     """Create plane from two lines.
 
     Parameters
@@ -243,18 +218,9 @@ def create_plane_from_lines(
         3D coordinates of the two points defining a line.
     line2 : list, array, Line
         3D coordinates of the two points defining a line.
-    width : int, float
-        Width of the discretized plane (default = 1).
-    height : int, float
-        Height of the discretized plane (default = 1).
-    n_cells_x : int
-        Number of cells in the x direction of the plane (default = 20).
-    n_cells_y : int
-        Number of cells in the y direction of the plane (default = 20).
-    server : :class:`ansys.dpf.core.server`, optional
-        Server with the channel connected to the remote or local instance. The
-        default is ``None``, in which case an attempt is made to use the global
-        server.
+    **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :class:`ansys.dpf.core.geometry.Plane`.
 
     Examples
     --------
@@ -284,12 +250,10 @@ def create_plane_from_lines(
     vect2 = [x - y for x, y in zip(line2[0], line2[1])]
     center = get_center_from_coords([vect1, vect2])
     normal = get_cross_product([vect1, vect2])
-    return Plane(center, normal, width, height, n_cells_x, n_cells_y, server)
+    return Plane(center, normal, **kwargs)
 
 
-def create_plane_from_point_and_line(
-    point, line, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
-):
+def create_plane_from_point_and_line(point, line, **kwargs):
     """Create plane from point and line.
 
     Parameters
@@ -298,18 +262,9 @@ def create_plane_from_point_and_line(
         3D coordinates of the point.
     line : list, array, Line
         3D coordinates of the two points defining a line.
-    width : int, float
-        Width of the discretized plane (default = 1).
-    height : int, float
-        Height of the discretized plane (default = 1).
-    n_cells_x : int
-        Number of cells in the x direction of the plane (default = 20).
-    n_cells_y : int
-        Number of cells in the y direction of the plane (default = 20).
-    server : :class:`ansys.dpf.core.server`, optional
-        Server with the channel connected to the remote or local instance. The
-        default is ``None``, in which case an attempt is made to use the global
-        server.
+    **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :class:`ansys.dpf.core.geometry.Plane`.
 
     Examples
     --------
@@ -347,7 +302,7 @@ def create_plane_from_point_and_line(
     vects = [line, [line[0], point]]
     center = get_center_from_coords(coords)
     normal = get_cross_product(vects)
-    return Plane(center, normal, width, height, n_cells_x, n_cells_y, server)
+    return Plane(center, normal, **kwargs)
 
 
 def get_center_from_coords(coords):
