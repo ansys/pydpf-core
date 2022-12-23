@@ -35,7 +35,7 @@ print(model)
 # Create Line object
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create line passing through the geometry's diagonal
-line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
+line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50, unit="m")
 
 ###############################################################################
 # Get Line object properties
@@ -106,6 +106,6 @@ path = line.path[field_line.scoping.ids - 1]
 ###############################################################################
 # 2D plot (graph) of Line (line length vs displacement field)
 plt.plot(path, norm.data)
-plt.xlabel("Line length")
-plt.ylabel("Displacement norm field")
+plt.xlabel(f"Line length [{line.unit}]")
+plt.ylabel(f"Displacement norm field [{field_line.unit}]")
 plt.show()
