@@ -1,8 +1,8 @@
 """
 .. _ref_get_data_by_id:
 
-Retrieve field by ID
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieve field data by ID
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This example shows how to scope a field for a given named selection,
 obtain the mesh for that scoped selection and to retrieve data from the field
@@ -14,6 +14,8 @@ by node ID.
 # Imports and load model
 # ~~~~~~~~~~~~~~~~~~~~~~
 # Import modules and set context as Premium.
+import time
+import numpy as np
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
@@ -109,18 +111,53 @@ print(mesh_selection.nodes.n_nodes)
 print(mesh_selection.elements.n_elements)
 
 ###############################################################################
-# Access data in ``disp_selection`` by ID
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Access data in ``disp_selection`` by ID (index approach)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Get the list of nodal IDs
 ids = disp_selection.scoping.ids
 
 ###############################################################################
 # Retrieve data of ``disp_selection`` from the server. Note that this is done before the
 # loop below so only one call is made to the server.
+start = time.time()
 data = disp_selection.data
 
 ###############################################################################
 # Loop over ``ids`` to have access to both, the node ID and the displacement
 # for that node
+nodal_disp_index = np.zeros([mesh_selection.nodes.n_nodes, 3])
 for idx, node_id in enumerate(ids):
     node_disp = data[idx]
+    nodal_disp_index[idx, :] = node_disp
+
+index_time = time.time() - start
+
+###############################################################################
+# Access data in ``disp_selection`` by ID (get entity approach)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# An alternative to the index approach is to use the ``get_entity_data_by_id`` method
+# to get the nodal displacement given a certain node ID.
+start = time.time()
+nodal_disp_get_entity = np.zeros([mesh_selection.nodes.n_nodes, 3])
+for idx, node_id in enumerate(ids):
+    node_disp = disp_selection.get_entity_data_by_id(node_id)
+    nodal_disp_get_entity[idx, :] = node_disp
+
+get_entity_time = time.time() - start
+
+###############################################################################
+# Assess both approaches to get data by node ID
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Find below the difference of the arrays obtained with both methods. The zero value
+# indicates that the two approaches are completely equivalent.
+diff = np.sum(nodal_disp_index - nodal_disp_get_entity)
+print(f"Difference between the two approaches: {diff}")
+
+###############################################################################
+# In terms of performance, the index approach is found to be an order of magnitude
+# faster for this particular example. The time difference can be attributed to the
+# fact that only one server call is required for the index approach.
+# Instead, the get entity strategy requires one server call per node in the mesh.
+# The difference in perforance is likely to scale with the number of nodes in the mesh.
+print(f"Time taken using index approach: {index_time}")
+print(f"Time taken using get_entity_data_by_id approach: {get_entity_time}")
