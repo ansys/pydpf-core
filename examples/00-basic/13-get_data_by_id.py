@@ -122,6 +122,5 @@ data = disp_selection.data
 ###############################################################################
 # Loop over ``ids`` to have access to both, the node ID and the displacement
 # for that node
-for idx, id in enumerate(ids):
+for idx, node_id in enumerate(ids):
     node_disp = data[idx]
-    node_id = id
