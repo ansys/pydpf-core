@@ -24,6 +24,8 @@ class Points:
     ----------
     coordinates: array, list, Field
         Coordinates of the points in a 3D space.
+    units: str, optional
+        Units of the coordinates.
     server : :class:`ansys.dpf.core.server`, optional
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
@@ -45,13 +47,14 @@ class Points:
 
     """
 
-    def __init__(self, coordinates, server=None):
+    def __init__(self, coordinates, units=None, server=None):
         # Input check
         if not isinstance(coordinates, Field):
             coordinates = field_from_array(coordinates, server=server)
 
         self._coordinates = coordinates
         self._server = server
+        self._units = units
 
     def __getitem__(self, value):
         return self.coordinates.data[value]
@@ -83,6 +86,11 @@ class Points:
         )
 
     @property
+    def units(self):
+        """Return units of the coordinates."""
+        return self._units
+
+    @property
     def dimension(self):
         """Dimension of the Points object space."""
         return 3
@@ -108,7 +116,9 @@ class Line:
     coordinates: array, list, Field, Points
         3D coordinates of the two points defining the line.
     n_points: int
-        Number of points used to discretize the line (optional).
+        Number of points used to discretize the line (default = 100).
+    units: str, optional
+        Units of the coordinates.
     server : :class:`ansys.dpf.core.server`, optional
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
@@ -129,7 +139,7 @@ class Line:
 
     """
 
-    def __init__(self, coordinates, n_points=100, server=None):
+    def __init__(self, coordinates, n_points=100, units=None, server=None):
         """Initialize line object from two 3D points and discretize."""
         if not isinstance(coordinates, Field):
             coordinates = field_from_array(coordinates)
@@ -139,6 +149,7 @@ class Line:
         self._coordinates = coordinates
         self._server = server
         self._n_points = n_points
+        self._units = units
         self._length = np.linalg.norm(coordinates.data)
         self._mesh, self._path = self._discretize()
 
@@ -209,6 +220,11 @@ class Line:
         return self._n_points
 
     @property
+    def units(self):
+        """Units of the coordinates."""
+        return self._units
+
+    @property
     def direction(self):
         """Normalized direction vector between the two points defining the line."""
         diff = [
@@ -242,19 +258,21 @@ class Plane:
 
     Parameters
     ----------
-    center : array, list
+    center: array, list
         3D coordinates of the center point of the plane.
-    normal : array, list, Line
+    normal: array, list, Line
         Normal direction to the plane.
-    width : int, float
+    width: int, float
         Width of the discretized plane (default = 1).
-    height : int, float
+    height: int, float
         Height of the discretized plane (default = 1).
-    n_cells_x : int
-        Number of cells in the x direction of the plane.
-    n_cells_y : int
-        Number of cells in the y direction of the plane.
-    server : :class:`ansys.dpf.core.server`, optional
+    n_cells_x: int
+        Number of cells in the x direction of the plane (default = 20).
+    n_cells_y: int
+        Number of cells in the y direction of the plane (default = 20).
+    units: srt, optional
+        Units of the plane.
+    server: :class:`ansys.dpf.core.server`, optional
         Server with the channel connected to the remote or local instance. The
         default is ``None``, in which case an attempt is made to use the global
         server.
@@ -279,7 +297,15 @@ class Plane:
     """
 
     def __init__(
-        self, center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
+        self,
+        center,
+        normal,
+        width=1,
+        height=1,
+        n_cells_x=20,
+        n_cells_y=20,
+        units=None,
+        server=None,
     ):
         """Initialize Plane object from its center and normal direction."""
         # Input check
@@ -311,6 +337,7 @@ class Plane:
         self._height = height
         self._n_cells_x = n_cells_x
         self._n_cells_y = n_cells_y
+        self._units = units
         self._axes_plane = None
         self._discretize()
 
@@ -369,6 +396,11 @@ class Plane:
     def n_cells_y(self):
         """Get number of cells in the y direction of the plane."""
         return self._n_cells_y
+
+    @property
+    def units(self):
+        """Units of the plane."""
+        return self._units
 
     def _discretize(self):
         """Discretize plane with a certain size and number of cells per direction."""
