@@ -65,8 +65,15 @@ mapping_operator = ops.mapping.on_coordinates(
     create_support=True,
     mesh=mesh,
 )
-fields_mapped = mapping_operator.outputs.fields_container()
-field_line = fields_mapped[0]
+disp_line_fc = mapping_operator.outputs.fields_container()
+
+###############################################################################
+# Print ``disp_line_fc`` information
+print(disp_line_fc)
+
+###############################################################################
+# Extract the only field (0th entry) available in ``disp_line_fc`` FieldsContainer
+field_line = disp_line_fc[0]
 
 ###############################################################################
 # 3D plot of the line and the mesh

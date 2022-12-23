@@ -75,8 +75,15 @@ mapping_operator = ops.mapping.on_coordinates(
     create_support=True,
     mesh=mesh,
 )
-fields_mapped = mapping_operator.outputs.fields_container()
-field_points = fields_mapped[0]
+disp_points_fc = mapping_operator.outputs.fields_container()
+
+###############################################################################
+# Print ``disp_points_fc`` information
+print(disp_points_fc)
+
+###############################################################################
+# Extract the only field (0th entry) available in ``disp_points_fc`` FieldsContainer
+field_points = disp_points_fc[0]
 
 ###############################################################################
 # Plotting displacement field on the geometry objects

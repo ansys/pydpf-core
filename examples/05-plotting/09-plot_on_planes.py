@@ -81,8 +81,15 @@ mapping_operator = ops.mapping.on_coordinates(
     create_support=True,
     mesh=mesh,
 )
-fields_mapped = mapping_operator.outputs.fields_container()
-field_plane1 = fields_mapped[0]
+disp_plane1_fc = mapping_operator.outputs.fields_container()
+
+###############################################################################
+# Print ``disp_plane1_fc`` information
+print(disp_plane1_fc)
+
+###############################################################################
+# Extract the only field (0th entry) available in ``disp_plane1_fc`` FieldsContainer
+field_plane1 = disp_plane1_fc[0]
 
 mapping_operator = ops.mapping.on_coordinates(
     fields_container=disp,
@@ -90,8 +97,15 @@ mapping_operator = ops.mapping.on_coordinates(
     create_support=True,
     mesh=mesh,
 )
-fields_mapped = mapping_operator.outputs.fields_container()
-field_plane2 = fields_mapped[0]
+disp_plane2_fc = mapping_operator.outputs.fields_container()
+
+###############################################################################
+# Print ``disp_plane2_fc`` information
+print(disp_plane2_fc)
+
+###############################################################################
+# Extract the only field (0th entry) available in ``disp_plane2_fc`` FieldsContainer
+field_plane2 = disp_plane2_fc[0]
 
 ###############################################################################
 # Plot plane and display mesh in background.
