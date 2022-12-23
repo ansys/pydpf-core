@@ -1,8 +1,8 @@
 """
 .. _plot_on_points:
 
-Plot on geometry elements
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Plot on Points object
+~~~~~~~~~~~~~~~~~~~~~
 This example shows how to plot a Field on a Points object.
 
 .. note::
@@ -49,6 +49,12 @@ points = Points(
 )
 
 ###############################################################################
+# Get Points object properties
+print(f"Total number of points: n_points = {points.n_points}")
+print(f"Get points' coordinates:\n {points.coordinates.data}")
+print(f"Access first point: {points[0]}")
+
+###############################################################################
 # Get mesh from model
 mesh = model.metadata.meshed_region
 
@@ -67,7 +73,7 @@ points.plot(mesh, cpos=cpos)
 # Map displacement field to Points
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Use :class:`on_coordinates <ansys.dpf.core.operators.mapping.on_coordinates.
-# on_coordinates>`: mapping opretor
+# on_coordinates>` mapping opretor
 disp = model.results.displacement
 mapping_operator = ops.mapping.on_coordinates(
     fields_container=disp,

@@ -34,8 +34,8 @@ print(model)
 # ~~~~~~~~~~~~~~~~~~~
 # Create plane passing through the mid point
 plane1 = Plane(
-    [0.015, 0.045, 0.015],
-    [1, 1, 0],
+    center=[0.015, 0.045, 0.015],
+    normal=[1, 1, 0],
     width=0.03,
     height=0.03,
     n_cells_x=10,
@@ -43,8 +43,8 @@ plane1 = Plane(
 )
 
 plane2 = Plane(
-    [0.015, 0.045, 0.015],
-    [1, 1, 1],
+    center=[0.015, 0.045, 0.015],
+    normal=[1, 1, 1],
     width=0.03,
     height=0.03,
     n_cells_x=10,
@@ -70,10 +70,19 @@ plane1.plot(mesh, cpos=cpos)
 plane2.plot(mesh, cpos=cpos)
 
 ###############################################################################
+# Get plane's properties
+print(f"Center of the plane = {plane1.center}")
+print(f"Normal direction of the plane = {plane1.normal_dir}")
+print(f"Number of cells in the x axis to discretize the plane = {plane1.n_cells_x}")
+print(f"Number of cells in the y axis to discretize the plane = {plane1.n_cells_y}")
+print(f"Height of the discretized plane = {plane1.height}")
+print(f"Width of the discretized plane = {plane1.width}")
+
+###############################################################################
 # Map displacements to plane
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Map displacement field to points in plane object using
-# :class:`on_coordinates <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>:`
+# :class:`on_coordinates <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`
 disp = model.results.displacement
 mapping_operator = ops.mapping.on_coordinates(
     fields_container=disp,
@@ -91,6 +100,8 @@ print(disp_plane1_fc)
 # Extract the only field (0th entry) available in ``disp_plane1_fc`` FieldsContainer
 field_plane1 = disp_plane1_fc[0]
 
+###############################################################################
+# Repeat process for plane2
 mapping_operator = ops.mapping.on_coordinates(
     fields_container=disp,
     coordinates=plane2.mesh.nodes.coordinates_field,
@@ -98,13 +109,6 @@ mapping_operator = ops.mapping.on_coordinates(
     mesh=mesh,
 )
 disp_plane2_fc = mapping_operator.outputs.fields_container()
-
-###############################################################################
-# Print ``disp_plane2_fc`` information
-print(disp_plane2_fc)
-
-###############################################################################
-# Extract the only field (0th entry) available in ``disp_plane2_fc`` FieldsContainer
 field_plane2 = disp_plane2_fc[0]
 
 ###############################################################################
@@ -134,7 +138,7 @@ pl.show_figure(show_axes=True, cpos=cpos)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Obtain the levelset of the plane with respect to the mesh using
 # :class:`make_plane_levelset <ansys.dpf.core.operators.mesh.make_plane_levelset.
-# make_plane_levelset>`:
+# make_plane_levelset>`
 # A levelset is a scalar Field representing the normal distance between the plane
 # and the nodes of the mesh.
 # Note that origin and normal must be ``dpf.locations.overall`` 3D vectors.
@@ -171,13 +175,12 @@ pl.show_figure(show_axes=True, cpos=cpos)
 ###############################################################################
 # Compute intersection plane / mesh
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Use the :class:`mesh_cut <ansys.dpf.core.operators.mesh.mesh_cut.mesh_cut>`:
+# Use the :class:`mesh_cut <ansys.dpf.core.operators.mesh.mesh_cut.mesh_cut>`
 # operator to obtain the intersection of the plane with the mesh from the levelset
 mesh_cutter_op = ops.mesh.mesh_cut()
 mesh_cutter_op.inputs.field.connect(levelset1)
 mesh_cutter_op.inputs.iso_value.connect(float(0))
 mesh_cutter_op.connect(2, 0)
-# mesh_cutter_op.inputs.mesh.connect(mesh)
 mesh_cutter_op.connect(3, mesh)
 mesh_cutter_op.inputs.slice_surfaces.connect(True)
 intersection1 = mesh_cutter_op.outputs.mesh()
@@ -186,7 +189,6 @@ mesh_cutter_op = ops.mesh.mesh_cut()
 mesh_cutter_op.inputs.field.connect(levelset2)
 mesh_cutter_op.inputs.iso_value.connect(float(0))
 mesh_cutter_op.connect(2, 0)
-# mesh_cutter_op.inputs.mesh.connect(mesh)
 mesh_cutter_op.connect(3, mesh)
 mesh_cutter_op.inputs.slice_surfaces.connect(True)
 intersection2 = mesh_cutter_op.outputs.mesh()

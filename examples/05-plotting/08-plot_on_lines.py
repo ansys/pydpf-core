@@ -38,6 +38,14 @@ print(model)
 line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50)
 
 ###############################################################################
+# Get Line object properties
+print(f"Coordinates of the two points:\n {line.coordinates.data}")
+print(f"Direction of the line = {line.direction}")
+print(f"Length of the line = {line.length}")
+print(f"Path of the line =\n {line.path}")
+assert len(line.path) == line.n_points
+
+###############################################################################
 # Get mesh from model
 mesh = model.metadata.meshed_region
 
@@ -56,7 +64,7 @@ line.plot(mesh, cpos=cpos)
 ###############################################################################
 # Map displacement field to Line
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Use :class:`on_coordinates <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`:
+# Use :class:`on_coordinates <ansys.dpf.core.operators.mapping.on_coordinates.on_coordinates>`
 # mapping opretor to obtain the displacement Field on the line:
 disp = model.results.displacement
 mapping_operator = ops.mapping.on_coordinates(
@@ -86,7 +94,7 @@ pl.show_figure(show_axes=True, cpos=cpos)
 # 2D Plot displacement field alogn line length
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Get norm of the displacement using
-# :class:`norm <ansys.dpf.core.operators.math.norm.norm>`:
+# :class:`norm <ansys.dpf.core.operators.math.norm.norm>`
 norm_op = dpf.operators.math.norm()  # operator instantiation
 norm_op.inputs.field.connect(field_line)
 norm = norm_op.outputs.field()
