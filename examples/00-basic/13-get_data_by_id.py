@@ -1,12 +1,14 @@
-from ansys.dpf import core as dpf
-from ansys.dpf.core import examples
+"""
+.. _ref_get_data_by_id:
 
-model = dpf.Model(examples.download_all_kinds_of_complexity())
-disp_selection_fc = model.results.displacement.on_named_selection(
-    named_selection="_CM82"
-).eval()
-print(disp_selection_fc[0].location)
+Retrieve field by ID
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+This example shows how to scope a field for a given named selection,
+obtain the mesh for that scoped selection and to retrieve data from the field
+by node ID.
+
+"""
 
 ###############################################################################
 # Imports and load model
