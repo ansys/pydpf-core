@@ -51,7 +51,7 @@ points = Points(
 ###############################################################################
 # Get Points object properties
 print(f"Total number of points: n_points = {points.n_points}")
-print(f"Get points' coordinates:\n {points.coordinates.data}")
+print(f"Get points' coordinates:\n {points.coordinates}")
 print(f"Access first point: {points[0]}")
 
 ###############################################################################

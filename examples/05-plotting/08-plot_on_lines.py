@@ -39,7 +39,7 @@ line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]], n_points=50, unit="m")
 
 ###############################################################################
 # Get Line object properties
-print(f"Coordinates of the two points:\n {line.coordinates.data}")
+print(f"Coordinates of the two points:\n {line.coordinates}")
 print(f"Direction of the line = {line.direction}")
 print(f"Length of the line = {line.length}")
 print(f"Path of the line =\n {line.path}")

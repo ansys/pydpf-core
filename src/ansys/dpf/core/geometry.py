@@ -57,7 +57,7 @@ class Points:
         self._unit = unit
 
     def __getitem__(self, value):
-        return self.coordinates.data[value]
+        return self._coordinates.data[value]
 
     def __len__(self):
         return self.n_points
@@ -74,7 +74,7 @@ class Points:
     @property
     def coordinates(self):
         """Coordinates of the Points."""
-        return self._coordinates
+        return self._coordinates.data
 
     @property
     def n_points(self):
@@ -155,7 +155,7 @@ class Line:
 
     def __getitem__(self, value):
         """Overwrite getitem so coordinates.data is iterable."""
-        return self.coordinates.data[value]
+        return self._coordinates.data[value]
 
     def __len__(self):
         """Overwrite len so it returns the number of points."""
@@ -197,7 +197,7 @@ class Line:
     @property
     def coordinates(self):
         """Coordinates of the two points defining the line."""
-        return self._coordinates
+        return self._coordinates.data
 
     @property
     def mesh(self):
@@ -321,7 +321,7 @@ class Plane:
                 normal_dir = normal / np.linalg.norm(normal)
                 normal_vect = [np.array([0, 0, 0]), normal_dir]
         else:
-            normal_vect = [normal.coordinates.data[0], normal.coordinates.data[1]]
+            normal_vect = [normal.coordinates[0], normal.coordinates[1]]
             normal_dir = self._get_direction_from_vect(normal_vect)
         if not isinstance(width, (int, float)) or not isinstance(height, (int, float)):
             raise ValueError("Width and height must be either integers of floats.")
