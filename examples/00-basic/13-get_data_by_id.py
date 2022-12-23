@@ -8,6 +8,10 @@ This example shows how to scope a field for a given named selection,
 obtain the mesh for that scoped selection and to retrieve data from the field
 by node ID.
 
+.. note::
+    This example requires the Premium ServerContext.
+    For more information, see :ref:`user_guide_server_context`.
+
 """
 
 ###############################################################################
@@ -41,15 +45,16 @@ disp_fc = model.results.displacement().eval()
 print(disp_fc)
 
 ###############################################################################
-# The displacement FieldsContainer contains a total of 15113 entities.
+# The displacement FieldsContainer contains a total of 15113 entities, i.e.
+# nodal values.
 
 ###############################################################################
 # Plot the entire mesh
 disp_fc[0].meshed_region.plot()
 
 ###############################################################################
-# Get mesh and results for only a certain named selection
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get mesh and field scoped only for a certain named selection
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Define named selection
 my_named_selection = "_CM82"
 
@@ -62,6 +67,11 @@ scoping_op.inputs.data_sources.connect(
     dpf.DataSources(examples.download_all_kinds_of_complexity())
 )
 mesh_scoping = scoping_op.outputs.mesh_scoping()
+
+###############################################################################
+# Check that the named selection requested contains IDs information
+if len(mesh_scoping.ids) == 0:
+    raise ValueError("No IDs information for the requested named selection.")
 
 ###############################################################################
 # Extract displacements by applying the ``mesh_scoping``
@@ -94,16 +104,16 @@ mesh_selection.plot()
 # Identify the location of the Field
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Check the location of the scoping to see what is the information associated
-# to the IDs. The displacement field is defined at ``"nodal"`` location. Other fields
-# may have other locations such as ``"elemental"`` or ``"elementalNodal"``.
+# to the IDs. The displacement field is defined at ``"nodal"`` location. Other
+# fields may have other locations such as ``"elemental"`` or ``"elementalNodal"``.
 # Note that this way of retrieving data by ID is only valid for locations that
 # are either ``"nodal"`` or ``"elemental"``.
 print(disp_selection.scoping.location)
 
 ###############################################################################
-# Another way to check that ``disp_selection`` contains nodal data is to check that
-# the number of entities in the displacement FieldsContainer (12970) matches the
-# number of nodes of the scoped mesh ``mesh_selection``
+# Another way to check that ``disp_selection`` contains nodal data is to check
+# that the number of entities in the displacement FieldsContainer (12970)
+# matches the number of nodes of the scoped mesh ``mesh_selection``
 print(mesh_selection.nodes.n_nodes)
 
 ###############################################################################
@@ -117,8 +127,8 @@ print(mesh_selection.elements.n_elements)
 ids = disp_selection.scoping.ids
 
 ###############################################################################
-# Retrieve data of ``disp_selection`` from the server. Note that this is done before the
-# loop below so only one call is made to the server.
+# Retrieve data of ``disp_selection`` from the server. Note that this is done
+# before the loop below so only one call is made to the server.
 start = time.time()
 data = disp_selection.data
 
@@ -135,8 +145,8 @@ index_time = time.time() - start
 ###############################################################################
 # Access data in ``disp_selection`` by ID (get entity approach)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# An alternative to the index approach is to use the ``get_entity_data_by_id`` method
-# to get the nodal displacement given a certain node ID.
+# An alternative to the index approach is to use the ``get_entity_data_by_id``
+# method to get the nodal displacement given a certain node ID.
 start = time.time()
 nodal_disp_get_entity = np.zeros([mesh_selection.nodes.n_nodes, 3])
 for idx, node_id in enumerate(ids):
@@ -148,8 +158,8 @@ get_entity_time = time.time() - start
 ###############################################################################
 # Assess both approaches to get data by node ID
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Find below the difference of the arrays obtained with both methods. The zero value
-# indicates that the two approaches are completely equivalent.
+# Find below the difference of the arrays obtained with both methods. The zero
+# value indicates that the two approaches are completely equivalent.
 diff = np.sum(nodal_disp_index - nodal_disp_get_entity)
 print(f"Difference between the two approaches: {diff}")
 
