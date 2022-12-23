@@ -24,15 +24,15 @@ from ansys.dpf.core.geometry_factory import (
 
 def test_create_points():
     n_points = 1000
-    units = "m"
+    unit = "m"
     rng = np.random.default_rng()
     points = rng.random((n_points, 3))
-    points = create_points(points, units=units)
+    points = create_points(points, unit=unit)
     points.plot()
     print(points)
     assert points.dimension == 3
     assert len(points) == points.n_points == n_points
-    assert points.units == units
+    assert points.unit == unit
 
 
 points_data = [
@@ -52,10 +52,10 @@ points_data = [
 ]
 
 
-@pytest.mark.parametrize(("points_param", "units"), points_data)
-def test_create_line_from_points(points_param, units):
+@pytest.mark.parametrize(("points_param", "unit"), points_data)
+def test_create_line_from_points(points_param, unit):
     points = points_param() if callable(points_param) else points_param
-    line = create_line_from_points(points, units=units)
+    line = create_line_from_points(points, unit=unit)
     line.plot()
     info = "DPF Line object:\n"
     info += f"Starting point: {np.array(points[0])}\n"
@@ -66,7 +66,7 @@ def test_create_line_from_points(points_param, units):
     diff = np.array(points[1]) - np.array(points[0])
     assert all(line.direction) == all(diff / np.linalg.norm(diff))
     assert (line.path == np.linspace(0, line.length, line.n_points)).all()
-    assert line.units == units
+    assert line.unit == unit
 
 
 vects_data = [
@@ -150,11 +150,11 @@ planes_data = [
 
 
 @pytest.mark.parametrize(
-    ("center", "normal_arg", "width", "height", "n_cells_x", "n_cells_y", "units"),
+    ("center", "normal_arg", "width", "height", "n_cells_x", "n_cells_y", "unit"),
     planes_data,
 )
 def test_create_plane_from_center_and_normal(
-    center, normal_arg, width, height, n_cells_x, n_cells_y, units
+    center, normal_arg, width, height, n_cells_x, n_cells_y, unit
 ):
     normal = normal_arg() if callable(normal_arg) else normal_arg
     plane = create_plane_from_center_and_normal(
@@ -164,7 +164,7 @@ def test_create_plane_from_center_and_normal(
         height=height,
         n_cells_x=n_cells_x,
         n_cells_y=n_cells_y,
-        units=units,
+        unit=unit,
     )
     plane.plot()
     assert plane.center == center
@@ -178,7 +178,7 @@ def test_create_plane_from_center_and_normal(
     assert (plane.normal_vect[0] == normal_vect[0]).all()
     assert (plane.normal_vect[1] == normal_vect[1]).all()
     assert (plane.normal_dir == normal_dir).all()
-    assert plane.units == units
+    assert plane.unit == unit
 
 
 plane_data = [
