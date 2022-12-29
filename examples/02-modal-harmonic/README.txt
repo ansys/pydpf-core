@@ -2,5 +2,5 @@
 
 Harmonic analysis examples
 ===========================
-These examples show how to use DPF to extract and manipulate,
+These examples show how to use DPF to extract and manipulate
 results from harmonic or modal analyses.

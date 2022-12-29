@@ -7,16 +7,14 @@ Contribute
 Overall guidance on contributing to a PyAnsys repository appears in
 `Contribute <https://dev.docs.pyansys.com/overview/contributing.html>`_
 in the *PyAnsys Developer's Guide*. Ensure that you are thoroughly familiar
-with this guide, paying particular attention to `Guidelines and Best Practices
-<https://dev.docs.pyansys.com/guidelines/index.html>`_, before attempting
-to contribute to PyDPF-Core.
+with this guide before attempting to contribute to PyDPF-Core.
  
 The following contribution information is specific to PyDPF-Core.
 
 Clone the repository
 --------------------
-To clone and install the latest version of PyDPF-Core in
-development mode, run:
+Clone and install the latest version of PyDPF-Core in
+development mode by running this code:
 
 .. code::
 
