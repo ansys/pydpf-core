@@ -87,7 +87,7 @@ You specify the set of entities by defining a range of IDs:
 
 You must define a scoping prior to its use in the transformation data workflow.
 
-This exacodemple shows how to define a mesh scoping:
+This code shows how to define a mesh scoping:
 
 .. code-block:: python
 
