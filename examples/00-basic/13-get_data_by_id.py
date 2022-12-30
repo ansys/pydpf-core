@@ -168,6 +168,6 @@ print(f"Difference between the two approaches: {diff}")
 # faster for this particular example. The time difference can be attributed to the
 # fact that only one server call is required for the index approach.
 # Instead, the get entity strategy requires one server call per node in the mesh.
-# The difference in perforance is likely to scale with the number of nodes in the mesh.
+# The difference in performance is likely to scale with the number of nodes in the mesh.
 print(f"Time taken using index approach: {index_time}")
 print(f"Time taken using get_entity_data_by_id approach: {get_entity_time}")
