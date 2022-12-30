@@ -106,8 +106,6 @@ mesh_selection.plot()
 # Check the location of the scoping to see what is the information associated
 # to the IDs. The displacement field is defined at ``"nodal"`` location. Other
 # fields may have other locations such as ``"elemental"`` or ``"elementalNodal"``.
-# Note that this way of retrieving data by ID is only valid for locations that
-# are either ``"nodal"`` or ``"elemental"``.
 print(disp_selection.scoping.location)
 
 ###############################################################################
@@ -143,6 +141,12 @@ for idx, node_id in enumerate(ids):
 index_time = time.time() - start
 
 ###############################################################################
+# .. note::
+#     Note that this way of retrieving data by ID is only valid for locations that
+#     are either ``"nodal"`` or ``"elemental"``.
+
+
+###############################################################################
 # Access data in ``disp_selection`` by ID (get entity approach)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # An alternative to the index approach is to use the ``get_entity_data_by_id``
@@ -154,6 +158,12 @@ for idx, node_id in enumerate(ids):
     nodal_disp_get_entity[idx, :] = node_disp
 
 get_entity_time = time.time() - start
+
+###############################################################################
+# .. note::
+#    This approach is not efficient to retrieve data for all nodes, since it would
+#    make one server request per node. Instead, this approach is useful when
+#    we are only interesed on requesting data on one or a few nodes.
 
 ###############################################################################
 # Assess both approaches to get data by node ID
