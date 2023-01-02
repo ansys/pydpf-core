@@ -4,6 +4,7 @@ import pytest
 from ansys.dpf.core.geometry import (
     Points,
     Line,
+    Plane,
     normalize_vector,
     get_plane_local_axis,
     get_local_coords_from_global,
@@ -315,3 +316,20 @@ def test_plane_axes_and_coords_mapping(center, normal, global_ref):
         assert np.isclose(local[2], -center[np.where(normal == 1.0)[0][0]])
         glob = get_global_coords_from_local(local, axes_plane, center)
         assert np.isclose(glob, global_ref[i]).all()
+
+
+def test_plotting_with_mesh():
+    from ansys.dpf import core as dpf
+    from ansys.dpf.core import examples
+
+    model = dpf.Model(examples.find_static_rst())
+    mesh = model.metadata.meshed_region
+
+    points = Points([[0.03, 0.06, 0.03], [0.03, 0.03, 0], [0, 0, 0]])
+    points.plot(mesh)
+
+    line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]])
+    line.plot(mesh)
+
+    plane = Plane([0.015, 0.045, 0.015], [1, 1, 0])
+    plane.plot(mesh)

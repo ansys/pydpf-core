@@ -63,6 +63,7 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       standalone_suffix: ""
+      event_name: ${{ github.event_name }}
     secrets: inherit
 
   examples:
