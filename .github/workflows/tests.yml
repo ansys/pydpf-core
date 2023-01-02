@@ -34,6 +34,11 @@ on:
         required: false
         type: string
         default: ''
+      dpf_wheels_directory:
+        description: "Path where to find dpf wheels such as ansys-dpf-gate.whl, etc."
+        required: false
+        type: string
+        default: ''
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -69,6 +74,11 @@ on:
         default: ''
       custom-requirements:
         description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
+      dpf_wheels_directory:
+        description: "Path where to find dpf wheels such as ansys-dpf-gate.whl, etc."
         required: false
         type: string
         default: ''
@@ -119,7 +129,7 @@ jobs:
           install_extras: plotting
           wheel: ${{ inputs.wheel }}
           wheelhouse: ${{ inputs.wheelhouse }}
-          extra-pip-args: ${{ format('--find-links ./dpf-standalone/v{0}/dist', inputs.ANSYS_VERSION) }}
+          extra-pip-args: ${{ format(inputs.dpf_wheels_directory, inputs.ANSYS_VERSION) }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           custom-requirements: ${{ inputs.custom-requirements }}
 
