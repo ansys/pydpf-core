@@ -43,7 +43,7 @@ points_data = [
     ),
     pytest.param(
         [[0.4, 0.1, 0], [0.1, 0, 0.5, 0]],
-        marks=pytest.mark.xfail(strict=True, raises=TypeError),
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
 
