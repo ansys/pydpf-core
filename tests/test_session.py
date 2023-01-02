@@ -8,9 +8,7 @@ def get_log_file(log_path, server):
     if not isinstance(server, core.server_types.InProcessServer):
         return core.core.download_file(
             log_path,
-            os.path.join(
-                core.core.make_tmp_dir_server(server=server), os.path.basename(log_path)
-            ),
+            os.path.join(core.core.make_tmp_dir_server(server=server), "log2.txt"),
             server=server,
         )
     else:
