@@ -49,6 +49,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: "Debug"
+        shell: pwsh
+        run: |
+          ls .
+          ls dpf-standalone
+          ls dpf-standalone/dist
       - name: "Build Docker Package"
         uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
         with:
