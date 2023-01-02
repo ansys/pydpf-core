@@ -9,7 +9,7 @@ install_requires = [
     "packaging",
     "psutil",
     "tqdm",
-    "numpy",
+    "numpy<1.24",
     "ansys-dpf-gate>=0.3.*",
 ]
 
