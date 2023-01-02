@@ -641,19 +641,14 @@ class BaseService:
             file path to download on the server side
 
         to_client_file_path: str or os.PathLike
-            file path target where the file will be located client side.
-
-        Returns
-        -------
-        to_client_file_path: str or os.PathLike
-            file path target where the file is located client side.
+            file path target where the file will be located client side
         """
         if not self._server().has_client():
             txt = """
             download service only available for server with gRPC communication protocol
             """
             raise errors.ServerTypeError(txt)
-        return self._api.data_processing_download_file(
+        client_path = self._api.data_processing_download_file(
             client=self._server().client,
             server_file_path=str(server_file_path),
             to_client_file_path=str(to_client_file_path),
