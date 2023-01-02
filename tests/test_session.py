@@ -1,5 +1,6 @@
 import os
 import conftest
+import tempfile
 from ansys.dpf import core
 from ansys.dpf.core import examples
 
@@ -8,10 +9,10 @@ def get_log_file(log_path, server):
     if not isinstance(server, core.server_types.InProcessServer):
         core.core.download_file(
             log_path,
-            os.path.join(core.core.make_tmp_dir_server(server=server), "log2.txt"),
+            os.path.join(tempfile.gettempdir(), "log2.txt"),
             server=server,
         )
-        return os.path.join(core.core.make_tmp_dir_server(server=server), "log2.txt")
+        return os.path.join(tempfile.gettempdir(), "log2.txt")
     else:
         return log_path
 
