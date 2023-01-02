@@ -76,7 +76,7 @@ def test_lists(server_type_remote_process, testfiles_dir):
     assert np.allclose(op.get_output(0, dpf.types.vec_double), [1.0, 2.0, 3.0])
     op = dpf.Operator("custom_set_out_np_int", server=server_type_remote_process)
     assert np.allclose(
-        op.get_output(0, dpf.types.vec_int), np.ones((200), dtype=np.int)
+        op.get_output(0, dpf.types.vec_int), np.ones((200), dtype=np.int32)
     )
     op = dpf.Operator("custom_set_out_np_double", server=server_type_remote_process)
     assert np.allclose(op.get_output(0, dpf.types.vec_double), np.ones((200)))

@@ -676,7 +676,7 @@ class Elements:
             raise ValueError('Input scope location must be "Nodal"')
         arr = np.array(list(map(self.mapping_id_to_index.get, external_scope.ids)))
         mask = arr != None
-        ind = arr[mask].astype(np.int)
+        ind = arr[mask].astype(np.int32)
         return ind, mask
 
     @property
