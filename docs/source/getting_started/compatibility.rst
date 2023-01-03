@@ -71,7 +71,7 @@ Update Python environment
 -------------------------
 
 When moving from one Ansys release to another, you must update the ``ansys-dpf-core`` package and its dependencies.
-To get the latest version of the ``ansys-dpf-core`` package, use this cocommand:
+To get the latest version of the ``ansys-dpf-core`` package, use this command:
 
 .. code::
     

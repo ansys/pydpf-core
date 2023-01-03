@@ -22,7 +22,7 @@ Data can come from two sources:
   defining where the result files are located.
 - **Manual input in DPF:** You can create fields of data in DPF.
 
-Once you specify data sources or manually create fields in PDF,
+Once you specify data sources or manually create fields in DPF,
 you can create field containers (if applicable) and define scopings to
 identify the subset of data that you want to evaluate.
 

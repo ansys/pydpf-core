@@ -92,7 +92,7 @@ Access the field based on its time set ID:
     field = fields.get_field_by_time_id(1)
 
 To access fields for more complex requests, you can use the 
-``get_field ()`` method with the ID of the requested field:
+``get_field()`` method with the ID of the requested field:
 
 .. code-block::
     
