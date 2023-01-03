@@ -24,6 +24,7 @@ env:
   ANSYS_VERSION: 232
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
   MAIN_PYTHON_VERSION: '3.8'
+  ROOT_SPACE: ${{ github.workspace }}
 
 jobs:
   debug:
@@ -110,7 +111,7 @@ jobs:
       ANSYS_VERSION: "231"
       python_versions: '["3.8"]'
       DOCSTRING: false
-      dpf_wheels_directory: "--find-links ${{ github.workspace }}/.github"
+      dpf_wheels_directory: "--find-links ${{ env.ROOT_SPACE }}/.github"
     secrets: inherit
 
   retro_222:
@@ -121,7 +122,7 @@ jobs:
       ANSYS_VERSION: "222"
       python_versions: '["3.8"]'
       DOCSTRING: false
-      dpf_wheels_directory: "--find-links ${{ github.workspace }}/.github"
+      dpf_wheels_directory: "--find-links ${{ env.ROOT_SPACE }}/.github"
     secrets: inherit
 
   retro_221:
@@ -132,7 +133,7 @@ jobs:
       ANSYS_VERSION: "221"
       python_versions: '["3.8"]'
       DOCSTRING: false
-      dpf_wheels_directory: "--find-links ${{ github.workspace }}/.github"
+      dpf_wheels_directory: "--find-links ${{ env.ROOT_SPACE }}/.github"
     secrets: inherit
 
   pydpf-post:

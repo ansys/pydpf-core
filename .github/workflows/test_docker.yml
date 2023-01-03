@@ -34,6 +34,7 @@ env:
   ANSYS_VERSION: 232
   ANSYS_DPF_ACCEPT_LA: Y
   ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
+  ROOT_SPACE: ${{ github.workspace }}
 
 jobs:
   docker_tests:
@@ -59,7 +60,7 @@ jobs:
           install_extras: plotting
           wheel: false
           wheelhouse: false
-          extra-pip-args: ${{ format('--find-links ${{ github.workspace }}/dpf-standalone/v{0}/dist', inputs.ANSYS_VERSION) }}
+          extra-pip-args: ${{ format('--find-links ${{ env.ROOT_SPACE }}/dpf-standalone/v{0}/dist', inputs.ANSYS_VERSION) }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           custom-requirements: ${{ inputs.custom-requirements }}
 
