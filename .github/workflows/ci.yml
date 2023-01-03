@@ -111,7 +111,7 @@ jobs:
       ANSYS_VERSION: "231"
       python_versions: '["3.8"]'
       DOCSTRING: false
-      dpf_wheels_directory: "--find-links ${{ env.ROOT_SPACE }}/.github"
+      dpf_wheels_directory: '--find-links ${{ env.ROOT_SPACE }}/.github'
     secrets: inherit
 
   retro_222:
@@ -122,7 +122,7 @@ jobs:
       ANSYS_VERSION: "222"
       python_versions: '["3.8"]'
       DOCSTRING: false
-      dpf_wheels_directory: "--find-links ${{ env.ROOT_SPACE }}/.github"
+      dpf_wheels_directory: '--find-links ${{ env.ROOT_SPACE }}/.github'
     secrets: inherit
 
   retro_221:
@@ -133,7 +133,7 @@ jobs:
       ANSYS_VERSION: "221"
       python_versions: '["3.8"]'
       DOCSTRING: false
-      dpf_wheels_directory: "--find-links ${{ env.ROOT_SPACE }}/.github"
+      dpf_wheels_directory: '--find-links ${{ env.ROOT_SPACE }}/.github'
     secrets: inherit
 
   pydpf-post:
