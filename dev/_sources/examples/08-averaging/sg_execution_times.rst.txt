@@ -5,10 +5,10 @@
 
 Computation times
 =================
-**00:08.757** total execution time for **examples_08-averaging** files:
+**00:10.445** total execution time for **examples_08-averaging** files:
 
 +-----------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_08-averaging_01-average_across_bodies.py` (``01-average_across_bodies.py``) | 00:04.542 | 0.0 MB |
+| :ref:`sphx_glr_examples_08-averaging_01-average_across_bodies.py` (``01-average_across_bodies.py``) | 00:05.551 | 0.0 MB |
 +-----------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_08-averaging_00-compute_and_average.py` (``00-compute_and_average.py``)     | 00:04.216 | 0.0 MB |
+| :ref:`sphx_glr_examples_08-averaging_00-compute_and_average.py` (``00-compute_and_average.py``)     | 00:04.895 | 0.0 MB |
 +-----------------------------------------------------------------------------------------------------+-----------+--------+
