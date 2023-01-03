@@ -111,6 +111,21 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: "check"
+        shell: bash
+        run: |
+          env 
+          echo ------------
+          echo ${{ format(inputs.dpf_wheels_directory, inputs.ANSYS_VERSION) }}
+          pwd -P
+          ls
+          echo -----
+          cd ..
+          ls
+          echo -----
+          echo ${{ github.workspace }}/.github
+          ls ${{ github.workspace }}/.github
+
       - name: "Set licensing if necessary"
         if: inputs.ANSYS_VERSION > 231
         shell: bash
@@ -147,20 +162,6 @@ jobs:
       - name: "List installed packages"
         shell: bash
         run: pip list
-
-      - name: "check"
-        shell: bash
-        run: |
-          env 
-          echo ------------
-          echo ${{ format(inputs.dpf_wheels_directory, inputs.ANSYS_VERSION) }}
-          pwd -P
-          ls
-          echo -----
-          cd ..
-          ls
-          echo -----
-          echo ${{ env.GITHUB_WORKSPACE }}/.github
 
       - name: "Test Docstrings"
         if: inputs.DOCSTRING == 'true'
