@@ -19,7 +19,7 @@ import psutil
 
 import ansys.dpf.core as core
 from ansys.dpf.core.check_version import server_meet_version
-from ansys.dpf.core import errors, session, server_factory
+from ansys.dpf.core import errors, server_factory
 from ansys.dpf.core._version import (
     server_to_ansys_grpc_dpf_version,
     server_to_ansys_version,
@@ -476,8 +476,17 @@ class BaseServer(abc.ABC):
         self._session_instance = None
 
     @property
-    def _session(self):
+    def session(self):
+        """Allows to plan events call backs from the server:
+        progress bar when workflows are running, logging...
+
+        Returns
+        -------
+        ansys.dpf.core.session.Session
+        """
         if not self._session_instance:
+            from ansys.dpf.core import session
+
             self._session_instance = session.Session(self)
         return self._session_instance
 

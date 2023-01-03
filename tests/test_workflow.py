@@ -667,7 +667,7 @@ def test_flush_workflows_session(allkindofcomplexity):
     wf.set_output_name("output", add4, 0)
     fc = wf.get_output("output", dpf.core.types.fields_container)
     assert len(fc) == 2
-    wf._server._session.flush_workflows()
+    wf._server.session.flush_workflows()
 
 
 @pytest.mark.xfail(raises=dpf.core.errors.ServerTypeError)
