@@ -59,7 +59,7 @@ jobs:
           install_extras: plotting
           wheel: false
           wheelhouse: false
-          extra-pip-args: ${{ format('--find-links ./dpf-standalone/v{0}/dist', inputs.ANSYS_VERSION) }}
+          extra-pip-args: ${{ format('--find-links ${{ github.workspace }}/dpf-standalone/v{0}/dist', inputs.ANSYS_VERSION) }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           custom-requirements: ${{ inputs.custom-requirements }}
 
