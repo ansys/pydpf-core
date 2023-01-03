@@ -156,8 +156,11 @@ jobs:
           echo ${{ format(inputs.dpf_wheels_directory, inputs.ANSYS_VERSION) }}
           pwd -P
           ls
+          echo -----
           cd ..
           ls
+          echo -----
+          echo ${{ env.GITHUB_WORKSPACE }}/.github
 
       - name: "Test Docstrings"
         if: inputs.DOCSTRING == 'true'
