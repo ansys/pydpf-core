@@ -122,6 +122,8 @@ jobs:
         shell: bash
         run: |
           echo ${{ format(inputs.dpf_wheels_directory, inputs.ANSYS_VERSION) }}
+          pwd -P
+          ls -R
 
       - name: "Build Package"
         uses: pyansys/pydpf-actions/build_package@v2.3
