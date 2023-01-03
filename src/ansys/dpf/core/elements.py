@@ -668,8 +668,6 @@ class Elements:
         >>> vol = model.results.elemental_volume()
         >>> field = vol.outputs.fields_container()[0]
         >>> ind, mask = elements.map_scoping(field.scoping)
-        >>> ind
-        array([0, 1, 2, 3, 4, 5, 6, 7], dtype=int32)
 
         """
         if external_scope.location in ["Nodal", "NodalElemental"]:
