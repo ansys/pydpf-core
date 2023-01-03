@@ -118,6 +118,12 @@ jobs:
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
+      - name: "check"
+        if: inputs.ANSYS_VERSION > 231
+        shell: bash
+        run: |
+          echo ${{ format(inputs.dpf_wheels_directory, inputs.ANSYS_VERSION) }}
+
       - name: "Build Package"
         uses: pyansys/pydpf-actions/build_package@v2.3
         with:
