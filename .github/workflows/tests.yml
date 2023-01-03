@@ -123,8 +123,6 @@ jobs:
           cd ..
           ls
           echo -----
-          echo ${{ github.workspace }}/.github
-          ls ${{ github.workspace }}/.github
 
       - name: "Set licensing if necessary"
         if: inputs.ANSYS_VERSION > 231
