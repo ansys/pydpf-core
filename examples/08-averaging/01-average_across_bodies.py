@@ -8,12 +8,12 @@ In multibody simulations, some nodes may be shared by the bodies at their interf
 but the values of the results, like stresses or strains, calculated at these nodes
 may differ between the bodies. This can cause discontinous plots, given that a single
 node will have multiple values for a variable. We can avoid this, however, by
-averaging these results across the bodies of the model. 
+averaging these results across the bodies of the model.
 
 
 This example will demonstrate how averaging across bodies can be done in DPF when
 dealing with ``Nodal`` variables and illustrate how the end results of a post
-processing workflow can be different when it's done and when it's not. 
+processing workflow can be different when it's done and when it's not.
 
 .. note::
     This example requires the Premium ServerContext.
