@@ -277,7 +277,7 @@ is {:.2f}% LOWER than when it is NOT PERFORMED".format(
 # in the functions above depending on what is passed to the "average_across_bodies" input
 # pin:
 
-stress_op = dpf.Operator("stress_eqv_as_mechanical")
+stress_op = ops.result.stress_eqv_as_mechanical()
 stress_op.inputs.time_scoping.connect([time_set])
 stress_op.inputs.data_sources.connect(model)
 stress_op.inputs.requestedd_location.connect("Nodal")
