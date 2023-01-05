@@ -103,7 +103,7 @@ meshes.plot(text="Body meshes")
 # The computation of Von Mises stresses without averaging across the bodies of the
 # model requires the stresses to be extracted separately for each body. This is
 # achieved in DPF by passing to the stress operator a scopings container that
-# contains the elements of each body in scopings separated by the ``mat`` label. 
+# contains the elements of each body in scopings separated by the ``mat`` label.
 
 split_scop_op = ops.scoping.split_on_property_type()
 split_scop_op.inputs.mesh.connect(mesh)
@@ -216,7 +216,7 @@ def average_across_bodies(analysis):
     merge_op.inputs.fields_container.connect(von_mises_op)
     merge_op.inputs.label.connect("mat")
     # Connecting weights needed to perform the weighted average
-    merge_op.inputs.weights.connect(1000, eln_to_n_op, 1)
+    merge_op.inputs.weights.connect(eln_to_n_op, 1)
 
     vm_stresses = merge_op.outputs.fields_container()
 
