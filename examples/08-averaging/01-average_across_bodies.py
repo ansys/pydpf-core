@@ -6,7 +6,7 @@ Average across bodies
 
 In multibody simulations, some nodes may be shared by the bodies at their interfaces,
 but the values of the results, like stresses or strains, calculated at these nodes
-may differ between the bodies. This can cause discontinous plots, given that a single
+may differ between the bodies. This can cause discontinuous plots, given that a single
 node will have multiple values for a variable. We can avoid this, however, by
 averaging these results across the bodies of the model.
 
@@ -272,7 +272,7 @@ is {:.2f}% LOWER than when it is NOT PERFORMED".format(
 ###############################################################################
 # Dedicated Operator
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Alternatively, those workflows can be automatically instanciated by calling the
+# Alternatively, those workflows can be automatically instantiated by calling the
 # ``stress_eqv_as_mechanical`` operator, which does exactly the same thing as described
 # in the functions above depending on what is passed to the "average_across_bodies" input
 # pin:
