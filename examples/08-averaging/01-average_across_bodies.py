@@ -216,7 +216,7 @@ def average_across_bodies(analysis):
     merge_op.inputs.fields_container.connect(von_mises_op)
     merge_op.inputs.label.connect("mat")
     # Connecting weights needed to perform the weighted average
-    merge_op.inputs.weights.connect(eln_to_n_op, 1)
+    merge_op.connect(1000, eln_to_n_op, 1)
 
     vm_stresses = merge_op.outputs.fields_container()
 

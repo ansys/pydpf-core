@@ -27,6 +27,7 @@ from .merge_fields_containers import merge_fields_containers
 from .merge_scopings import merge_scopings 
 from .merge_materials import merge_materials 
 from .merge_scopings_containers import merge_scopings_containers 
+from .remove_unnecessary_labels import remove_unnecessary_labels 
 from .merge_supports import merge_supports 
 from .merge_property_fields import merge_property_fields 
 from .remote_workflow_instantiate import remote_workflow_instantiate 
@@ -38,7 +39,8 @@ from .merge_meshes import merge_meshes
 from .merge_weighted_fields import merge_weighted_fields 
 from .merge_fields import merge_fields 
 from .merge_meshes_containers import merge_meshes_containers 
-from .merge_fields_by_label import merge_fields_by_label 
+from .merge_fields_by_label import merge_fields_by_label
+from .weighted_merge_fields_by_label import weighted_merge_fields_by_label  
 from .strain_from_voigt import strain_from_voigt 
 from .change_shell_layers import change_shell_layers
 from .hdf5dpf_custom_read import hdf5dpf_custom_read
