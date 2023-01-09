@@ -198,7 +198,6 @@ class ResultInfo:
     def unit_system(self):
         """Unit system of the result."""
         return self._api.result_info_get_unit_system_name(self)
-        # return map_unit_system[self._api.result_info_get_ansys_unit_system_enum(self)]
 
     @property
     def cyclic_symmetry_type(self):
