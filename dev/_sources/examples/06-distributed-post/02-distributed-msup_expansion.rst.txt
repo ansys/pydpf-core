@@ -244,7 +244,7 @@ the modal response, and expand the modal response with the modal basis.
 
 
     merge_fields = ops.utility.merge_fields_containers()
-    merge_mesh = ops.utility.merge_meshes()
+    merge_mesh = ops.mesh.merge_meshes()
 
     ds = dpf.DataSources(base_path + r"/file_load_1.rfrq")
     response = ops.result.displacement(data_sources=ds)
@@ -339,7 +339,7 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.924 seconds)
+   **Total running time of the script:** ( 0 minutes  4.315 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_02-distributed-msup_expansion.py:
