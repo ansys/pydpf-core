@@ -22,7 +22,7 @@ class scale_fc(Operator):
         Double/field scoped on overall
     boolean : bool, optional
         Bool(optional, default false) if set to true,
-        output of scale is mane dimensionless
+        output of scale is made dimensionless
 
 
     Examples
@@ -93,7 +93,7 @@ class scale_fc(Operator):
                     type_names=["bool"],
                     optional=True,
                     document="""Bool(optional, default false) if set to true,
-        output of scale is mane dimensionless""",
+        output of scale is made dimensionless""",
                 ),
             },
             map_output_pin_spec={
@@ -215,7 +215,7 @@ class InputsScaleFc(_Inputs):
         """Allows to connect boolean input to the operator.
 
         Bool(optional, default false) if set to true,
-        output of scale is mane dimensionless
+        output of scale is made dimensionless
 
         Parameters
         ----------
