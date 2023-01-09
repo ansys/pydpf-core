@@ -10,7 +10,7 @@ from ansys.dpf.core.outputs import Output, _Outputs
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
 
-class Pressure(Operator):
+class pressure(Operator):
     """Read/compute names result from result streams.
 
     Parameters
