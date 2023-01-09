@@ -5,9 +5,9 @@ from .tangential_contact_force import tangential_contact_force
 from .normal_contact_force import normal_contact_force 
 from .plastic_strain_principal_1 import plastic_strain_principal_1 
 from .global_eroded_internal_energy import global_eroded_internal_energy 
+from .velocity_Z import velocity_Z 
 from .initial_coordinates import initial_coordinates 
 from .num_surface_status_changes import num_surface_status_changes 
-from .beam_axial_total_strain import beam_axial_total_strain 
 from .global_sliding_interface_energy import global_sliding_interface_energy 
 from .joint_relative_angular_velocity import joint_relative_angular_velocity 
 from .beam_axial_force import beam_axial_force 
@@ -15,6 +15,7 @@ from .nodal_moment import nodal_moment
 from .elemental_mass import elemental_mass 
 from .heat_flux import heat_flux 
 from .co_energy import co_energy 
+from .beam_axial_total_strain import beam_axial_total_strain 
 from .electric_flux_density import electric_flux_density 
 from .plastic_strain_principal_2 import plastic_strain_principal_2 
 from .normal_contact_moment import normal_contact_moment 
@@ -22,6 +23,7 @@ from .thermal_strain_XZ import thermal_strain_XZ
 from .interface_contact_area import interface_contact_area 
 from .part_internal_energy import part_internal_energy 
 from .total_strain import total_strain 
+from .elastic_strain import elastic_strain 
 from .pressure import pressure 
 from .stress import stress 
 from .stress_X import stress_X 
@@ -35,7 +37,6 @@ from .stress_principal_1 import stress_principal_1
 from .stress_principal_2 import stress_principal_2 
 from .tangential_contact_moment import tangential_contact_moment 
 from .stress_principal_3 import stress_principal_3 
-from .elastic_strain import elastic_strain 
 from .elastic_strain_X import elastic_strain_X 
 from .elastic_strain_Y import elastic_strain_Y 
 from .elastic_strain_Z import elastic_strain_Z 
@@ -48,6 +49,7 @@ from .rigid_transformation import rigid_transformation
 from .elastic_strain_principal_1 import elastic_strain_principal_1 
 from .elastic_strain_principal_2 import elastic_strain_principal_2 
 from .elastic_strain_principal_3 import elastic_strain_principal_3 
+from .elastic_strain_eqv import elastic_strain_eqv 
 from .plastic_strain import plastic_strain 
 from .plastic_strain_X import plastic_strain_X 
 from .coordinates import coordinates 
@@ -80,7 +82,6 @@ from .reaction_force import reaction_force
 from .velocity import velocity 
 from .velocity_X import velocity_X 
 from .velocity_Y import velocity_Y 
-from .velocity_Z import velocity_Z 
 from .displacement import displacement 
 from .displacement_X import displacement_X 
 from .displacement_Y import displacement_Y 
