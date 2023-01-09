@@ -48,7 +48,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
       - name: "Build Docker Package"
         uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
         with:
@@ -60,7 +59,7 @@ jobs:
           install_extras: plotting
           wheel: false
           wheelhouse: false
-          extra-pip-args: ${{ env.extra }}
+          extra-pip-args: '--find-links ./dpf-standalone/dist'
           standalone_suffix: ${{ inputs.standalone_suffix }}
           custom-requirements: ${{ inputs.custom-requirements }}
 

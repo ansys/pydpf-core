@@ -28,10 +28,10 @@ with:
 Install using a wheel file
 --------------------------
 
-If you are unable to install PyDPF-Post on the host machine due to
-network isolation, download the latest wheel file from `PyDPF-Post
-GitHub <https://github.com/pyansys/pydpf-post>`_ or
-`PyDPF-Post PyPI <https://pypi.org/project/ansys-dpf-post/>`_.
+If you are unable to install PyDPF-Core on the host machine due to
+network isolation, download the latest wheel file from `PyDPF-Core
+GitHub <https://github.com/pyansys/pydpf-core>`_ or
+`PyDPF-Core PyPI <https://pypi.org/project/ansys-dpf-core/>`_.
 
 Install for a quick tryout
 --------------------------

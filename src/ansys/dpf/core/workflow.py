@@ -350,8 +350,8 @@ class Workflow:
         """
         if server_meet_version("3.0", self._server) and self.progress_bar:
             # handle progress bar
-            self._server._session.add_workflow(self, "workflow")
-            self._progress_thread = self._server._session.listen_to_progress()
+            self._server.session.add_workflow(self, "workflow")
+            self._progress_thread = self._server.session.listen_to_progress()
         output_type = dpf_operator._write_output_type_to_type(output_type)
         out = None
         for type_tuple in self._type_to_output_method:

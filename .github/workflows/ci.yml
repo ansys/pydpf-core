@@ -59,7 +59,7 @@ jobs:
       wheel: true
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ''
+      custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
 
   docker_tests:
@@ -67,7 +67,7 @@ jobs:
     uses: ./.github/workflows/test_docker.yml
     with:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ''
+      custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
 
   docs:

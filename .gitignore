@@ -179,3 +179,6 @@ ansys/dpf/core/examples/_cache/
 
 # Visual studio code settings
 .vscode
+
+# dpf-standalone repository when installed locally
+dpf-standalone/

@@ -58,9 +58,10 @@ body:
   - type: dropdown
     id: dpf-server-version
     attributes:
-      label: Which Ansys version are you using?
+      label: Which DPF/Ansys version are you using?
       multiple: false
       options:
+       - 'DPF Server as standalone'
        - 'Ansys 2023 R1'
        - 'Ansys 2022 R2'
        - 'Ansys 2022 R1'
