@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class skin(Operator):
-    """Extracts a skin of the mesh (2D elements) in a new meshed region.
-    Material id of initial elements are propagated to their facets.
+    """Extracts a skin of the mesh in a new meshed region. Material id of
+    initial elements are propagated to their facets.
 
     Parameters
     ----------
@@ -58,9 +58,8 @@ class skin(Operator):
 
     @staticmethod
     def _spec():
-        description = """Extracts a skin of the mesh (2D elements) in a new meshed region.
-            Material id of initial elements are propagated to their
-            facets."""
+        description = """Extracts a skin of the mesh in a new meshed region. Material id of
+            initial elements are propagated to their facets."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
