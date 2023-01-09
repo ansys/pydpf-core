@@ -1,7 +1,18 @@
 name: update_operators
 
 on:
-# Can be called manually or remotely
+# Can be called by the CI
+  workflow_call:
+    inputs:
+      ANSYS_VERSION:
+        required: false
+        type: string
+        default: "232"
+      standalone_suffix:
+        required: false
+        type: string
+        default: ''
+# Can be called manually
   workflow_dispatch:
     inputs:
       ANSYS_VERSION:
