@@ -72,6 +72,11 @@ jobs:
           python operator_doc_per_context.py
         timeout-minutes: 5
 
+      - name: "Show changes"
+        shell: bash
+        run: |
+          git status
+
       - name: "Create Pull Request"
         uses: peter-evans/create-pull-request@v4
         with:
