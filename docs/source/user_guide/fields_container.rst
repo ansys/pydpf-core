@@ -222,7 +222,10 @@ Field metadata
 ~~~~~~~~~~~~~~
 A field contains the metadata for the result it is associated with. The metadata 
 includes the location (such as ``Elemental``, ``Nodal``, or
-``ElementalNodal``) and the IDs associated with the location.  
+``ElementalNodal``) and the IDs associated with the location.
+
+The field's scoping defines the order of the data, for example: the first ID in the
+``scoping`` identifies to which entity the first ``entity data`` in the data vector belongs.
 
 To access the scoping of the field, use the ``scoping`` attribute:
 
@@ -309,8 +312,8 @@ interacting with result data is to minimize the exchange of data between
 Python and DPF, either by using operators or by accessing only the data 
 that is needed.
 
-If you need to access the entire array of data, request that the data
-be returned as a ``numpy`` array:
+The field's ``data`` is ordered with respect to its ``scoping ids`` (see above).
+To access the entire array of data as a ``numpy`` array:
 
 .. code::
 
