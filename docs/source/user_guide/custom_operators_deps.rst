@@ -29,7 +29,7 @@ For this approach, do the following:
 3. Run the downloaded script with the mandatory arguments:
 
    - ``-pluginpath``: Path to the folder with the plug-in package.
-   - ``-zippath``: Path and name for ZIP file.
+   - ``-zippath``: Path and name for the ZIP file.
    
    Optional arguments are:
 
