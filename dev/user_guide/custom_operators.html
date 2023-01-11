@@ -446,7 +446,7 @@ function checkPageExistsAndRedirect(event) {
   <section id="custom-operators">
 <span id="user-guide-custom-operators"></span><h1>Custom operators<a class="headerlink" href="#custom-operators" title="Permalink to this heading">#</a></h1>
 <p>In Ansys 2022 R2 and later, you can create custom operators in CPython. Creating custom operators
-consists of wrapping Python routines in a DPF-compliant way so that you can them in the same way
+consists of wrapping Python routines in a DPF-compliant way so that you can access them in the same way
 as you access the native operators in the <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></code> class in
 PyDPF-Core or in any supported client API.</p>
 <p>With support for custom operators, PyDPF-Core becomes a development tool offering:</p>
@@ -459,7 +459,7 @@ PyDPF-Core or in any supported client API.</p>
 <li><p><strong>Remotable and parallel computing:</strong> Native DPF capabilities are inherited by custom operators.</p></li>
 </ul>
 <p>The only prerequisite for creating custom operators is to be familiar with native operators.
-For more information, see (<a class="reference internal" href="operators.html#ref-user-guide-operators"><span class="std std-ref">Operators</span></a>).</p>
+For more information, see <a class="reference internal" href="operators.html#ref-user-guide-operators"><span class="std std-ref">Operators</span></a>.</p>
 <section id="install-module">
 <h2>Install module<a class="headerlink" href="#install-module" title="Permalink to this heading">#</a></h2>
 <p>Once an Ansys-unified installation is complete, you must install the <code class="docutils literal notranslate"><span class="pre">ansys-dpf-core</span></code> module in the Ansys
@@ -467,8 +467,8 @@ installer’s Python interpreter.</p>
 <ol class="arabic simple">
 <li><p>Download the script for you operating system:</p>
 <ul class="simple">
-<li><p>For Windows, download this <a class="reference download internal" download="" href="../_downloads/f2a946bd7f90d3d33515a361c428380f/install_ansys_dpf_core_in_ansys.ps1"><code class="xref download docutils literal notranslate"><span class="pre">powershell</span> <span class="pre">script</span></code></a>.</p></li>
-<li><p>For Linux, download this <a class="reference download internal" download="" href="../_downloads/552872e543c3c85d749d2cb67e00c0af/install_ansys_dpf_core_in_ansys.sh"><code class="xref download docutils literal notranslate"><span class="pre">shell</span> <span class="pre">script</span></code></a></p></li>
+<li><p>For Windows, download this <a class="reference download internal" download="" href="../_downloads/f2a946bd7f90d3d33515a361c428380f/install_ansys_dpf_core_in_ansys.ps1"><code class="xref download docutils literal notranslate"><span class="pre">PowerShell</span> <span class="pre">script</span></code></a>.</p></li>
+<li><p>For Linux, download this <a class="reference download internal" download="" href="../_downloads/552872e543c3c85d749d2cb67e00c0af/install_ansys_dpf_core_in_ansys.sh"><code class="xref download docutils literal notranslate"><span class="pre">Shell</span> <span class="pre">script</span></code></a></p></li>
 </ul>
 </li>
 <li><p>Run the downloaded script for installing with optional arguments:</p>
@@ -484,8 +484,8 @@ with <code class="docutils literal notranslate"><span class="pre">Ansys</span> <
 <ol class="arabic simple">
 <li><p>Download the script for your operating system:</p>
 <ul class="simple">
-<li><p>For Windows, download this <a class="reference download internal" download="" href="../_downloads/9179bc817b36fb88f232383ca181865e/uninstall_ansys_dpf_core_in_ansys.ps1"><code class="xref download docutils literal notranslate"><span class="pre">powershell</span> <span class="pre">script</span></code></a>.</p></li>
-<li><p>For Linux, download this <a class="reference download internal" download="" href="../_downloads/d5bf8cd92339935409e6aea9baf587a0/uninstall_ansys_dpf_core_in_ansys.sh"><code class="xref download docutils literal notranslate"><span class="pre">shell</span> <span class="pre">script</span></code></a>.</p></li>
+<li><p>For Windows, download this <a class="reference download internal" download="" href="../_downloads/9179bc817b36fb88f232383ca181865e/uninstall_ansys_dpf_core_in_ansys.ps1"><code class="xref download docutils literal notranslate"><span class="pre">PowerShell</span> <span class="pre">script</span></code></a>.</p></li>
+<li><p>For Linux, download this <a class="reference download internal" download="" href="../_downloads/d5bf8cd92339935409e6aea9baf587a0/uninstall_ansys_dpf_core_in_ansys.sh"><code class="xref download docutils literal notranslate"><span class="pre">Shell</span> <span class="pre">script</span></code></a>.</p></li>
 </ul>
 </li>
 </ol>
@@ -663,7 +663,7 @@ name as the plug-in package plus an <code class="docutils literal notranslate"><
 <li><p>Run the downloaded script with the mandatory arguments:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-pluginpath</span></code>: Path to the folder with the plug-in package.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">-zippath</span></code>: Path and name for ZIP file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-zippath</span></code>: Path and name for the ZIP file.</p></li>
 </ul>
 <p>Optional arguments are:</p>
 <ul class="simple">
@@ -766,8 +766,8 @@ A folder with this name would contain these files:</p>
 </div>
 <p>The ZIP files for Windows and Linux are included as assets:</p>
 <ul class="simple">
-<li><p>winx64.zip</p></li>
-<li><p>linx64.zip</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">winx64.zip</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">linx64.zip</span></code></p></li>
 </ul>
 <p><strong>custom_plugin.xml file</strong></p>
 <p>The <code class="docutils literal notranslate"><span class="pre">custom_plugin.xml</span></code> file contains code like this:</p>
@@ -813,7 +813,8 @@ identifying the plugin. The last argument is the function name for recording ope
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
-<p>See the API reference at <span class="xref std std-ref">ref_custom_operator</span> and examples of Custom Operators implementations in <a class="reference internal" href="../examples/07-python-operators/index.html#python-operators"><span class="std std-ref">Examples of creating custom operator plugins</span></a>.</p>
+<p>For more information, see <span class="xref std std-ref">ref_custom_operator</span> in the <strong>API reference</strong>
+and <a class="reference internal" href="../examples/07-python-operators/index.html#python-operators"><span class="std std-ref">Examples of creating custom operator plugins</span></a> in <strong>Examples</strong>.</p>
 </section>
 </section>
 

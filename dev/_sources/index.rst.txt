@@ -18,7 +18,7 @@ or complex data-processing workflows that you can reuse for repeated or
 future evaluations.
 
 The data in DPF is defined based on physics-agnostic mathematical quantities 
-described in self-sufficient entities called *fields*. This allows DPF to be 
+described in self-sufficient entities called **fields**. This allows DPF to be 
 a modular and easy-to-use tool with a large range of capabilities. 
 
 .. image:: images/drawings/dpf-flow.png
@@ -50,7 +50,7 @@ Here is how you plot displacement results:
     >>> disp = model.results.displacement().X()
     >>> model.metadata.meshed_region.plot(disp.outputs.fields_container())
 
-For comprehensive demos, see :ref:`gallery`.
+For comprehensive examples of how you use PyDPF-Core, see :ref:`gallery`.
 
 
 Key features
@@ -67,10 +67,11 @@ DPF is physics-agnostic, which means that its use is not limited to a particular
 field, physics solution, or file format.
 
 **Extensibility and customization**
+
 DPF is developed around two core entities:
 
-- Data represented as a *field*
-- An *operator* to act upon this data
+- Data represented as a **field**
+- An **operator** to act upon this data
 
 Each DPF capability is developed through operators that allow for componentization
 of the framework. Because DPF is plugin-based, new features or formats can be easily added.

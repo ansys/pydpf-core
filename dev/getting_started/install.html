@@ -399,14 +399,14 @@ function checkPageExistsAndRedirect(event) {
 <span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h1>
 <section id="install-using-pip">
 <h2>Install using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#install-using-pip" title="Permalink to this heading">#</a></h2>
-<p><a class="reference external" href="https://pypi.org/project/pip/">pip</a> is the package installer for Python.</p>
+<p>The standard package installer for Python is <a class="reference external" href="https://pypi.org/project/pip/">pip</a>.</p>
 <p>To use PyDPF-Core with Ansys 2021 R2 or later, install the latest version
-with:</p>
+with this command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">ansys</span><span class="o">-</span><span class="n">dpf</span><span class="o">-</span><span class="n">core</span>
 </pre></div>
 </div>
 <p>To use PyDPF-Core with Ansys 2021 R1, install the latest version
-with:</p>
+with this command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">ansys</span><span class="o">-</span><span class="n">dpf</span><span class="o">-</span><span class="n">core</span><span class="o">&lt;</span><span class="mf">0.3.0</span>
 </pre></div>
 </div>
@@ -420,7 +420,7 @@ GitHub</a> or
 </section>
 <section id="install-for-a-quick-tryout">
 <h2>Install for a quick tryout<a class="headerlink" href="#install-for-a-quick-tryout" title="Permalink to this heading">#</a></h2>
-<p>For a quick tryout, use:</p>
+<p>For a quick tryout, install PyDPF-Core with this code:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">Model</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_simple_bar</span><span class="p">())</span>
@@ -441,12 +441,12 @@ development flag:</p>
 </section>
 <section id="install-with-plotting-capabilities">
 <span id="target-to-install-with-plotting-capabilities"></span><h2>Install with plotting capabilities<a class="headerlink" href="#install-with-plotting-capabilities" title="Permalink to this heading">#</a></h2>
-<p>PyDPF-Core plotting capabilities are based on PyVista. That means that PyVista must be installed with PyDPF-Core.
-To proceed, use:</p>
+<p>PyDPF-Core plotting capabilities are based on <a class="reference external" href="https://pyvista.org/">PyVista</a>.
+This means that PyVista must be installed with PyDPF-Core. To proceed, use this command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">ansys</span><span class="o">-</span><span class="n">dpf</span><span class="o">-</span><span class="n">core</span><span class="p">[</span><span class="n">plotting</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>For more information about PyDPF-Core plotting capabilities, see <span class="xref std std-ref">ref_plotter</span>.</p>
+<p>For more information about PyDPF-Core plotting capabilities, see <span class="xref std std-ref">_user_guide_plotting</span>.</p>
 </section>
 </section>
 

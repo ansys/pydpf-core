@@ -448,8 +448,8 @@ function checkPageExistsAndRedirect(event) {
                 
   <section id="dpf-xml-files">
 <span id="user-guide-xmlfiles"></span><h1>DPF XML files<a class="headerlink" href="#dpf-xml-files" title="Permalink to this heading">#</a></h1>
-<p>This page describes the <code class="docutils literal notranslate"><span class="pre">DataProcessingCore.xml``and</span> <span class="pre">``Plugin.xml</span></code> XML files
-provided with the DPF software. These XML files work on both Linux and Windows
+<p>This page describes the <code class="docutils literal notranslate"><span class="pre">DataProcessingCore.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">Plugin.xml</span></code> XML files
+provided with DPF. These XML files work on both Linux and Windows
 because they contain content for both of these operating systems.</p>
 <p>These XML files must be located alongside the plugin DLL files on Windows or
 SO files on Linux.</p>
@@ -502,7 +502,7 @@ SO files on Linux.</p>
 elements have Linux-specific versus Windows-specific child elements.</p>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
-<p>To ensure that the DPF software operates correctly, modify this XML file
+<p>To ensure that DPF operates correctly, modify this XML file
 carefully. All paths specified in this XML file must adhere to the path
 conventions of the respective operating system. For Linux paths, use
 forward slashes (/). For Windows paths, use backward slashes (\).</p>
@@ -514,8 +514,8 @@ of the Ansys software. Its child <code class="docutils literal notranslate"><spa
 define the root folders for Ansys software installed on Linux and on Windows.</p>
 <p>The path for the root folder ends with Ansys version information, <code class="docutils literal notranslate"><span class="pre">v###</span></code>,
 where <code class="docutils literal notranslate"><span class="pre">###</span></code> is the three-digit format for the installed version. For example,
-on Windows, the path for the root folder for Ansys 2022 R2likely looks something
-like <code class="docutils literal notranslate"><span class="pre">C:\Program</span> <span class="pre">Files\ANSYS</span> <span class="pre">Inc\v222</span></code>.</p>
+on Windows, the path for the root folder for Ansys 2022 R2 likely ends with
+<code class="docutils literal notranslate"><span class="pre">\ANSYS</span> <span class="pre">Inc\v222</span></code>.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">ANSYS_ROOT_FOLDER</span></code> element is like an environment variable. You can use
 this element in other XML files. For example, you might use it to find required
 third-party software.</p>
@@ -531,14 +531,14 @@ location.</p>
 <section id="defaultplugin-element">
 <h3><code class="docutils literal notranslate"><span class="pre">&lt;DefaultPlugin&gt;</span></code> element<a class="headerlink" href="#defaultplugin-element" title="Permalink to this heading">#</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">&lt;DefaultPlugin&gt;</span></code> element defines the plugins to load. The <code class="docutils literal notranslate"><span class="pre">&lt;Linux&gt;</span></code> or
-<code class="docutils literal notranslate"><span class="pre">Windows</span></code> child element contains the operating system for plugins defined
-in child elements.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">native</span></code> element defines DPF native operators. The further subdividing of
+<code class="docutils literal notranslate"><span class="pre">&lt;Windows&gt;</span></code> child element contains the operating system for the plugins defined
+in the child elements.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;native&gt;</span></code> element defines DPF native operators. The further subdividing of
 plugins into <code class="docutils literal notranslate"><span class="pre">&lt;Debug&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;Release&gt;</span></code> elements is optional. The <code class="docutils literal notranslate"><span class="pre">&lt;Debug&gt;</span></code>
 element, for example, would only be used with a debug version of the
 <code class="docutils literal notranslate"><span class="pre">DataProcessingCore</span> <span class="pre">DLL/SO</span></code> file.</p>
 <p>The element names for plugins, such as <code class="docutils literal notranslate"><span class="pre">&lt;native&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;fem_utils&gt;</span></code>, are used as
-<em>keys</em> when loading plugins. Each plugin must have a unique key.</p>
+<strong>keys</strong> when loading plugins. Each plugin must have a unique key.</p>
 <p>The element for each plug-in has child elements:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&lt;Path&gt;</span></code>: Contains the location of the plugin to load. The normal mechanism
@@ -562,7 +562,7 @@ file.</p></li>
 plugins in a folder defined by a <code class="docutils literal notranslate"><span class="pre">MY_PLUGINS</span></code> environment variable, you could use
 it in the XML file.</p>
 <p>You specify environment variables in the same way as the <code class="docutils literal notranslate"><span class="pre">ANSYS_ROOT_FOLDER</span></code>
-or <code class="docutils literal notranslate"><span class="pre">THIS_XML_FOLDER</span></code> variable. They are defined as $(…).</p>
+or <code class="docutils literal notranslate"><span class="pre">THIS_XML_FOLDER</span></code> variable. They are defined as <code class="docutils literal notranslate"><span class="pre">$(…)</span></code>.</p>
 <p>In the Ansys installation, the default <code class="docutils literal notranslate"><span class="pre">DataProcessingCore.xml</span></code> file is located
 next to the <code class="docutils literal notranslate"><span class="pre">DataProcessingCore</span></code> DLL or SO file. If you want to use a different
 one, you can initialize DPF using a specific <code class="docutils literal notranslate"><span class="pre">DataProcessingCore.xml</span></code> file.</p>

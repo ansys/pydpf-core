@@ -77,7 +77,7 @@ To access all information about an analysis, you can use model metadata:
 - Mesh
 - Available results
 
-This example shows you get the analysis type:
+This example shows how you get the analysis type:
 
 
 .. code-block:: default
@@ -127,7 +127,7 @@ This example shows how you get time sets:
     [1.]
 
 
-For a description of the ```Metadata``` object, see :ref:`ref_model`.
+For a description of the ``Metadata`` object, see :ref:`ref_model`.
 
 Model results
 -------------

@@ -11,7 +11,7 @@ that hold data.
 Access a fields container or field
 -----------------------------------
 The outputs from operators can be either a 
-:class:`ansys.dpf.core.fields_container.FieldsContainer` class or a 
+:class:`ansys.dpf.core.fields_container.FieldsContainer` or 
 :class:`ansys.dpf.core.field.Field` class.
 
 A fields container is the DPF equivalent of a list of fields. It holds a
@@ -59,8 +59,8 @@ This example uses the ``elastic_strain`` operator to access a fields container:
       - field 19 {time:  20} with ElementalNodal location, 6 components and 40 entities.
 
 
-Accessing fields within a fields container
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Access fields within a fields container
+---------------------------------------
 Many methods are available for accessing a field in a fields
 container. The preceding results contain a transient
 result, which means that the fields container has one field
@@ -92,7 +92,7 @@ Access the field based on its time set ID:
     field = fields.get_field_by_time_id(1)
 
 To access fields for more complex requests, you can use the 
-``get_field`` method with the ID of the requested field:
+``get_field()`` method with the ID of the requested field:
 
 .. code-block::
     
@@ -183,8 +183,8 @@ indexing with ``fields[0]``, you can use zero-based indexing. When using
 the ``get_fields()`` method to access results, you should base the request on
 time-scoping set IDs.
 
-Field
------
+Field data
+----------
 The :class:`ansys.dpf.core.field.Field` class is the fundamental unit of data within DPF.
 It contains the actual data and its metadata, which is results data defined by values 
 associated with entities (scoping). These entities are a subset of a model (support). 
@@ -219,7 +219,7 @@ The next section provides an overview of the metadata associated with the field 
 
 
 Field metadata
-~~~~~~~~~~~~~~
+--------------
 A field contains the metadata for the result it is associated with. The metadata 
 includes the location (such as ``Elemental``, ``Nodal``, or
 ``ElementalNodal``) and the IDs associated with the location.  
@@ -295,11 +295,8 @@ units of the data:
      6
 
 
-Field data
-----------
-
 Access field data
-~~~~~~~~~~~~~~~~~
+-----------------
 When DPF-Core returns the :class:`ansys.dpf.core.field.Field` class, 
 what Python actually has is a client-side representation of the field, 
 not the entirety of the field itself. This means that all the data of
@@ -394,7 +391,7 @@ a field's data can be recovered locally before sending a large number of request
 
 
 Operate on field data
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 Oftentimes, you do not need to directly act on the data of an array within
 Python. For example, if you want to know the maximum of the data, you can
 use the ``array.max()`` method to compute the maximum of the array with the
@@ -422,7 +419,7 @@ the field while returning the field:
     [369, 1073, 1031, 1040, 2909, 2909]
 
 
-Here is an example of using the ``elemental_mean`` operator to compute the 
+This example uses the ``elemental_mean`` operator to compute the 
 average of a field:
 
 .. code-block::
@@ -445,6 +442,6 @@ average of a field:
 For comprehensive information on chaining operators, see :ref:`ref_user_guide_operators`.  
 
 API reference
-~~~~~~~~~~~~~
-See the API reference at :ref:`ref_fields_container` and
-:ref:`ref_field`.
+-------------
+For more information, see :ref:`ref_fields_container` and
+:ref:`ref_field` in the **API reference**.

@@ -438,8 +438,8 @@ which is progressively enhanced, see <a class="reference internal" href="../oper
 <h2>Create operators<a class="headerlink" href="#create-operators" title="Permalink to this heading">#</a></h2>
 <p>Each operator is of type <span class="xref std std-ref">ref_operator</span>. You can create an instance
 in Python with any of the derived classes available in the
-package <span class="xref std std-ref">ref_operators_package</span> or directly with the class <span class="xref std std-ref">ref_operator</span>
-using the internal name string that indicates the operator type.
+package <span class="xref std std-ref">ref_operators_package</span> or directly with the <span class="xref std std-ref">ref_operator</span>
+class using the internal name string that indicates the operator type.
 For more information, see <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>.</p>
 <p>This example shows how to create the displacement operator:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
@@ -468,7 +468,7 @@ operator by printing it:</p>
 </div>
 <p>Alternatively, you can instantiate result providers using the <code class="docutils literal notranslate"><span class="pre">Model</span></code> object.
 For more information, see <a class="reference internal" href="model.html#user-guide-model"><span class="std std-ref">DPF model</span></a>.</p>
-<p>When using this model’s result usage, file paths for the results are directly
+<p>When using this model’s results, file paths for the results are directly
 connected to the operator, which means that you can only instantiate
 available results for your result files:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">Model</span>
@@ -481,8 +481,8 @@ available results for your result files:</p>
 </section>
 <section id="connect-operators">
 <h2>Connect operators<a class="headerlink" href="#connect-operators" title="Permalink to this heading">#</a></h2>
-<p>The only required input for the displacement operator is <code class="docutils literal notranslate"><span class="pre">data_sources</span></code> (see above).
-To compute an output in the <code class="docutils literal notranslate"><span class="pre">fields_container</span></code> object, which contains the displacement
+<p>The only required input for the displacement operator is the <code class="docutils literal notranslate"><span class="pre">data_sources``input</span> <span class="pre">(see</span> <span class="pre">above).</span>
+<span class="pre">To</span> <span class="pre">compute</span> <span class="pre">an</span> <span class="pre">output</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">``fields_container</span></code> object, which contains the displacement
 results, you must provide paths for the result files.</p>
 <p>You can create data sources in two ways:</p>
 <ul class="simple">
@@ -543,7 +543,7 @@ like this one:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFServerException: U&lt;-Data sources are not defined.
 </pre></div>
 </div>
-<p>For more information on using the fields container, see <a class="reference internal" href="fields_container.html#ref-user-guide-fields-container"><span class="std std-ref">Fields container and fields</span></a>.</p>
+<p>For more information on using a fields container, see <a class="reference internal" href="fields_container.html#ref-user-guide-fields-container"><span class="std std-ref">Fields container and fields</span></a>.</p>
 </section>
 <section id="chain-operators">
 <h2>Chain operators<a class="headerlink" href="#chain-operators" title="Permalink to this heading">#</a></h2>
@@ -586,8 +586,8 @@ displacement data on the client side to compute the maximum:</p>
 </div>
 <p>In the preceding example, only the maximum displacements in the X, Y, and Z
 components are transferred and returned as a numpy array.</p>
-<p>For small data sets, you can compute the maximum of the array in NumpPy.
-While there might be times where having the entire data array for a given
+<p>For small data sets, you can compute the maximum of the array in <a class="reference external" href="https://numpy.org/">NumpPy</a>.
+While there may be times where having the entire data array for a given
 result type is necessary, many times it is not necessary. In these
 cases, it is faster not to transfer the array to Python but rather to
 compute the maximum of the fields container within DPF and then return
@@ -626,9 +626,9 @@ having several matching inputs or outputs.</p>
 <li><p>For Abaqus, ODB files are supported.</p></li>
 </ul>
 <p>To read these files, different readers are implemented as plugins.
-Plugins can be loaded on demand in any DPF scripting language with the “load library” methods.
+Plugins can be loaded on demand in any DPF scripting language with “load library” methods.
 File readers can be used generically thanks to the DPF result providers, which means that the same operators can be used for any file types.</p>
-<p>This example shows how to read a displacement or a stress for any file:</p>
+<p>This example shows how to read a displacement and a stress for any file:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
@@ -690,7 +690,8 @@ to export the results in a given format to either use them in another
 environment or save them for future use with DPF. Supported file formats
 for export include VTK, H5, CSV, and TXT (serializer operator). Export
 operators often match with import operators, allowing you to reuse data.
-In <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>, the <strong>Serialization</strong> category
+In <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>, both the <strong>Entry</strong>
+and <strong>Premium</strong> sections have a <strong>Serialization</strong> category that
 displays available import and export operators.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
@@ -727,7 +728,7 @@ Downloading...: 759 KB|
 <section id="api-reference">
 <h2>API reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">#</a></h2>
 <p>For a list of all operators in DPF, see <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>
-or <span class="xref std std-ref">ref_operators_package</span>.  For more information about the
+or the package <span class="xref std std-ref">ref_operators_package</span>.  For more information about the
 class itself, see <span class="xref std std-ref">ref_operator</span>.</p>
 </section>
 </section>

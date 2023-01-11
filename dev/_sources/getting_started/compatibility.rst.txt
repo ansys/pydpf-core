@@ -65,19 +65,19 @@ should also be synchronized with the server version.
      - 0.2.2
      - 0.2.*
 
-(** compatibility of DPF 2.0 with ansys-dpf-core 0.5.0 and later is assumed but no longer certified)
+(** Compatibility of DPF 2.0 with ansys-dpf-core 0.5.0 and later is assumed but no longer certified.)
 
-Updating Python environment
----------------------------
+Update Python environment
+-------------------------
 
 When moving from one Ansys release to another, you must update the ``ansys-dpf-core`` package and its dependencies.
-To get the latest version of the ``ansys-dpf-core`` package, use this code:
+To get the latest version of the ``ansys-dpf-core`` package, use this command:
 
 .. code::
     
 	pip install --upgrade --force-reinstall ansys-dpf-core
 
-To get a specific version of the ``ansys-dpf-core`` package, such as 0.7.0, use this code:
+To get a specific version of the ``ansys-dpf-core`` package, such as 0.7.0, use this command:
 
 .. code::
 
@@ -88,7 +88,7 @@ To get a specific version of the ``ansys-dpf-core`` package, such as 0.7.0, use 
 Environment variable
 --------------------
 
-The ``start_local_server``  method uses the ``Ans.Dpf.Grpc.bat`` file or
+The ``start_local_server()``  method uses the ``Ans.Dpf.Grpc.bat`` file or
 ``Ans.Dpf.Grpc.sh`` file to start the server. Ensure that the ``AWP_ROOT{VER}``
 environment variable is set to your installed Ansys version. For example, if Ansys
 2022 R2 is installed, ensure that the ``AWP_ROOT222`` environment

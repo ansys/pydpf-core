@@ -275,7 +275,7 @@ stresses, and strains for a transient result.
 
 Harmonic analysis examples
 ===========================
-These examples show how to use DPF to extract and manipulate,
+These examples show how to use DPF to extract and manipulate
 results from harmonic or modal analyses.
 
 
@@ -411,7 +411,7 @@ results from harmonic or modal analyses.
 
 Advanced and miscellaneous examples
 ===================================
-These demos show advanced use cases demonstrating high level of workflow customization
+These examples show advanced use cases to demonstrate the high level of workflow customization.
 
 
 
@@ -581,7 +581,7 @@ These demos show advanced use cases demonstrating high level of workflow customi
 File manipulation and input-output examples
 ===========================================
 These examples show how to manipulate files,
-import or export from or to specific formats.
+as well as importing or exporting from or to specific formats.
 
 
 
@@ -648,7 +648,7 @@ import or export from or to specific formats.
 
 Plotting examples
 =================
-These examples show how to use the ``DpfPlotter`` module.
+These examples show how to use the :class:`ansys.dpf.core.plotter.DpfPlotter` class.
 
 
 .. raw:: html

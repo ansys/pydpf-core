@@ -369,7 +369,7 @@ transform this data. You can also chain operators together to create simple
 or complex data-processing workflows that you can reuse for repeated or
 future evaluations.</p>
 <p>The data in DPF is defined based on physics-agnostic mathematical quantities
-described in self-sufficient entities called <em>fields</em>. This allows DPF to be
+described in self-sufficient entities called <strong>fields</strong>. This allows DPF to be
 a modular and easy-to-use tool with a large range of capabilities.</p>
 <a class="reference internal image-reference" href="_images/dpf-flow.png"><img alt="DPF flow" src="_images/dpf-flow.png" style="width: 670px;" /></a>
 <p>The <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> package provides a Python interface to DPF, enabling
@@ -390,7 +390,7 @@ and extract results:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">disp</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>For comprehensive demos, see <a class="reference internal" href="examples/index.html#gallery"><span class="std std-ref">Examples</span></a>.</p>
+<p>For comprehensive examples of how you use PyDPF-Core, see <a class="reference internal" href="examples/index.html#gallery"><span class="std std-ref">Examples</span></a>.</p>
 </section>
 <section id="key-features">
 <h2>Key features<a class="headerlink" href="#key-features" title="Permalink to this heading">#</a></h2>
@@ -400,11 +400,11 @@ to continued development, new capabilities are frequently added.</p>
 <p><strong>Generic interface</strong></p>
 <p>DPF is physics-agnostic, which means that its use is not limited to a particular
 field, physics solution, or file format.</p>
-<p><strong>Extensibility and customization</strong>
-DPF is developed around two core entities:</p>
+<p><strong>Extensibility and customization</strong></p>
+<p>DPF is developed around two core entities:</p>
 <ul class="simple">
-<li><p>Data represented as a <em>field</em></p></li>
-<li><p>An <em>operator</em> to act upon this data</p></li>
+<li><p>Data represented as a <strong>field</strong></p></li>
+<li><p>An <strong>operator</strong> to act upon this data</p></li>
 </ul>
 <p>Each DPF capability is developed through operators that allow for componentization
 of the framework. Because DPF is plugin-based, new features or formats can be easily added.</p>

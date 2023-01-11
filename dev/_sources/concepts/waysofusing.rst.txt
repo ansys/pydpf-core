@@ -13,7 +13,7 @@ CPython
 Standalone DPF uses CPython and can be accessed with any Python console. 
 Data can be exported to universal file formats, such as VTK, HDF5, and TXT
 files. You can use it to generate TH-plots, screenshots, and animations or
-to create custom result plots using `numpy <https://numpy.org/>`_
+to create custom result plots using the `numpy <https://numpy.org/>`_
 and `matplotlib <https://matplotlib.org/>`_ packages.
 
 .. image:: ../images/drawings/dpf-reports.png

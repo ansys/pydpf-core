@@ -402,7 +402,7 @@ function checkPageExistsAndRedirect(event) {
                 
   <section id="terms-and-concepts">
 <span id="user-guide-concepts"></span><h1>Terms and concepts<a class="headerlink" href="#terms-and-concepts" title="Permalink to this heading">#</a></h1>
-<p>DPF sees <em>fields of data</em>, not physical results. This makes DPF a
+<p>DPF sees <strong>fields of data</strong>, not physical results. This makes DPF a
 very versatile tool that can be used across teams, projects, and
 simulations.</p>
 <section id="key-terms">
@@ -418,7 +418,7 @@ or frequency.</p></li>
 uses three different spatial locations for finite element data: <code class="docutils literal notranslate"><span class="pre">Nodal</span></code>,
 <code class="docutils literal notranslate"><span class="pre">Elemental</span></code>, and <code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code>.</p></li>
 <li><p><strong>Operators:</strong> Objects that are used to create and transform the data.
-An operator is composed of a <em>core</em> and <em>pins</em>. The core handles the
+An operator is composed of a <strong>core</strong> and <strong>pins</strong>. The core handles the
 calculation, and the pins provide input data to and output data from
 the operator.</p></li>
 <li><p><strong>Scoping:</strong> Spatial and/or temporal subset of a model’s support.</p></li>
@@ -431,8 +431,8 @@ by chained operators.</p></li>
 <section id="scoping">
 <h2>Scoping<a class="headerlink" href="#scoping" title="Permalink to this heading">#</a></h2>
 <p>In most cases, you do not want to work with an entire set of data
-but rather with a subset of this data. To achieve this, you define
-a <em>scoping</em>, which is a subset of the model’s support.
+but rather with a subset. To achieve this, you define
+a <strong>scoping</strong>, which is a subset of the model’s support.
 Typically, scoping can represent node IDs, element IDs, time steps,
 frequencies, and joints. Scoping describes a spatial and/or temporal
 subset that the field is scoped on.</p>
@@ -440,10 +440,10 @@ subset that the field is scoped on.</p>
 <section id="field-data">
 <h2>Field data<a class="headerlink" href="#field-data" title="Permalink to this heading">#</a></h2>
 <p>In DPF, field data is always associated with its scoping and support, making
-the <em>field</em> a self-describing piece of data. For example, in a field of nodal
-displacement, the <em>displacement</em> is the simulation data, and the associated
-<em>nodes</em> are the scoping. A field can also be defined by its dimensionality,
-unit of data, and <em>location</em>.</p>
+the <strong>field</strong> a self-describing piece of data. For example, in a field of nodal
+displacement, the <strong>displacement</strong> is the simulation data, and the associated
+<strong>nodes</strong> are the scoping. A field can also be defined by its dimensionality,
+unit of data, and <strong>location</strong>.</p>
 </section>
 <section id="location">
 <h2>Location<a class="headerlink" href="#location" title="Permalink to this heading">#</a></h2>
@@ -457,7 +457,7 @@ by an ID, which is typically a node number.</p></li>
 is identified by an ID, which is typically an element number.</p></li>
 <li><p>An <code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code> location describes data defined on the nodes of the elements.
 To retrieve an elemental node, you must use the ID for the element. To achieve
-this, you define an <em>elemental scoping</em> or <em>nodal scoping</em>.</p></li>
+this, you define an elemental scoping or nodal scoping.</p></li>
 </ul>
 </section>
 <section id="concept-summary">
@@ -478,7 +478,7 @@ submit data to the operator and output the computed result from the operator.</p
 </section>
 <section id="workflows">
 <h2>Workflows<a class="headerlink" href="#workflows" title="Permalink to this heading">#</a></h2>
-<p>You can chain operators together to create a <em>workflow</em>, which is a global entity
+<p>You can chain operators together to create a <strong>workflow</strong>, which is a global entity
 that you use to evaluate data produced by operators. A workflow requires inputs
 to operators, which computes requested outputs.</p>
 <p>Think of a workflow as a black box in which some operators are chained,

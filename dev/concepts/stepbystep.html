@@ -432,14 +432,14 @@ result files. When using result files as input, you specify the data source by
 defining where the result files are located.</p></li>
 <li><p><strong>Manual input in DPF:</strong> You can create fields of data in DPF.</p></li>
 </ul>
-<p>Once you have specify data sources or manually create fields in PDF,
+<p>Once you specify data sources or manually create fields in DPF,
 you can create field containers (if applicable) and define scopings to
 identify the subset of data that you want to evaluate.</p>
 <section id="specify-the-data-source">
 <h3>Specify the data source<a class="headerlink" href="#specify-the-data-source" title="Permalink to this heading">#</a></h3>
 <p>To evaluate the data in simulation result files, you specify the data source by defining
 where the results files are located.</p>
-<p>This example shows how to define the data source:</p>
+<p>This code shows how to define the data source:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="n">data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
 <span class="n">data_sources</span><span class="o">.</span><span class="n">set_result_file_path</span><span class="p">(</span><span class="s1">&#39;/tmp/file.rst&#39;</span><span class="p">)</span>
@@ -448,7 +448,7 @@ where the results files are located.</p>
 </pre></div>
 </div>
 <p>To evaluate data files, they must be opened. To open data files, you
-define <em>streams</em>. A stream is an entity that contains the data sources.
+define <strong>streams</strong>. A stream is an entity that contains the data sources.
 Streams keep the data files open and keep some data cached to make the next
 evaluation faster. Streams are particularly convenient when using large
 data files. They save time when opening and closing data files. When a stream
@@ -456,12 +456,12 @@ is released, the data files are closed.</p>
 </section>
 <section id="define-fields">
 <h3>Define fields<a class="headerlink" href="#define-fields" title="Permalink to this heading">#</a></h3>
-<p>A <em>field</em> is a container of simulation data. In numerical simulations,
+<p>A <strong>field</strong> is a container of simulation data. In numerical simulations,
 result data is defined by values associated with entities:</p>
 <img alt="../_images/values-entities.png" src="../_images/values-entities.png" />
 <p>Therefore, a field of data might look something like this:</p>
 <img alt="../_images/field.png" src="../_images/field.png" />
-<p>This example shows how to define a field from scratch:</p>
+<p>This code shows how to define a field from scratch:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">fields_factory</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">locations</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
@@ -483,7 +483,7 @@ be a set of mesh IDs, geometric entity IDs, time domain, or frequency domain.</p
 <p>You specify the set of entities by defining a range of IDs:</p>
 <img alt="../_images/scoping-eg.png" src="../_images/scoping-eg.png" />
 <p>You must define a scoping prior to its use in the transformation data workflow.</p>
-<p>This example shows how to define a mesh scoping:</p>
+<p>This code shows how to define a mesh scoping:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="c1"># 1. using the mesh_scoping_factory</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">mesh_scoping_factory</span>
@@ -500,7 +500,7 @@ be a set of mesh IDs, geometric entity IDs, time domain, or frequency domain.</p
 </section>
 <section id="define-field-containers">
 <h3>Define field containers<a class="headerlink" href="#define-field-containers" title="Permalink to this heading">#</a></h3>
-<p>A <em>field container</em> holds a set of fields. It is used mainly for
+<p>A <strong>field container</strong> holds a set of fields. It is used mainly for
 transient, harmonic, modal, or multi-step analyses. This image
 explains its structure:</p>
 <img alt="../_images/field-con-overview.png" src="../_images/field-con-overview.png" />
@@ -514,7 +514,7 @@ and the IDs are the time or frequency sets:</p>
 <li><p>Create a field container from a CSV file.</p></li>
 <li><p>Convert existing fields to a field container.</p></li>
 </ul>
-<p>This example shows how to define a field container from scratch:</p>
+<p>This code shows how to define a field container from scratch:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="n">fc</span><span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">FieldsContainer</span><span class="p">()</span>
 <span class="n">fc</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span><span class="s1">&#39;complex&#39;</span><span class="p">]</span>
@@ -548,7 +548,8 @@ an input pin. Based on what it is designed to do, the operator computes
 an output that it passes to a field or field container using an output pin.</p>
 <img alt="../_images/circuit.png" src="../_images/circuit.png" />
 <p>Comprehensive information on operators is available in <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>.
-In the <strong>Available Operators</strong> area, you can either type a keyword in the <strong>Search</strong> option
+In the <strong>Available Operators</strong> area for either the <strong>Entry</strong> or <strong>Premium</strong> operators,
+you can either type a keyword in the <strong>Search</strong> option
 or browse by operator categories:</p>
 <img alt="../_images/help-operators.png" src="../_images/help-operators.png" />
 <p>The page for each operator describes how the operator transforms data,
@@ -565,7 +566,7 @@ indicates input and output data, and provides usage examples.</p>
 <p>This image shows how the page for an operator provides a usage example for each available
 language (IronPython, CPython, and C++).</p>
 <img alt="../_images/operator-def.png" src="../_images/operator-def.png" />
-<p>This example shows how to define an operator from a model:</p>
+<p>This code shows how to define an operator from a model:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">Model</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_static_rst</span><span class="p">())</span>
@@ -580,12 +581,12 @@ desired result. In DPF, you can chain operators together to create a complete
 data transformation workflow, enabling you to perform all operations necessary
 to get the result that you want.</p>
 <p>In a workflow, the output pins of one operator can be connected to the input pins
-of another operator, allowing output data from one operator to be passed as
-input to another operator.</p>
+of another operator, allowing the output from one operator to be passed as
+the input to another operator.</p>
 <p>This image shows how you would get the norm of a resulting vector from the
 dot product of two vectors:</p>
 <img alt="../_images/connect-operators.png" src="../_images/connect-operators.png" />
-<p>This example shows how to define a generic workflow that computes the minimum
+<p>This code shows how to define a generic workflow that computes the minimum
 of displacement by chaining the <code class="docutils literal notranslate"><span class="pre">U</span></code> and <code class="docutils literal notranslate"><span class="pre">min_max_fc</span></code> operators:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="n">disp_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>

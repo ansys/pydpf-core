@@ -476,11 +476,11 @@ using PyDPF-Core. It also includes suggestions for improving scripts.</p>
 <h3>Start the DPF server<a class="headerlink" href="#start-the-dpf-server" title="Permalink to this heading">#</a></h3>
 <p>When using PyDPF-Core to start the server with the
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">start_local_server()</span></code> method
-or when starting the server manually with the <code class="docutils literal notranslate"><span class="pre">Ans.Dpf.Grpc.sh``or</span> <span class="pre">``Ans.Dpf.Grpc.bat</span></code>
+or when starting the server manually with the <code class="docutils literal notranslate"><span class="pre">Ans.Dpf.Grpc.sh</span></code> or <code class="docutils literal notranslate"><span class="pre">Ans.Dpf.Grpc.bat</span></code>
 file, a Python error might occur: <code class="docutils literal notranslate"><span class="pre">TimeoutError:</span> <span class="pre">Server</span> <span class="pre">did</span> <span class="pre">not</span> <span class="pre">start</span> <span class="pre">in</span> <span class="pre">10</span> <span class="pre">seconds</span></code>.
 This kind of error might mean that the server or its dependencies were not found. Ensure that
-the environment variable <code class="docutils literal notranslate"><span class="pre">AWP_ROOT{VER}</span></code> is set, where <code class="docutils literal notranslate"><span class="pre">VER``is</span>&#160; <span class="pre">the</span> <span class="pre">three-digit</span> <span class="pre">numeric</span>
-<span class="pre">format</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">version,</span> <span class="pre">such</span> <span class="pre">as</span> <span class="pre">``221</span></code> or <code class="docutils literal notranslate"><span class="pre">222</span></code>.</p>
+the <code class="docutils literal notranslate"><span class="pre">AWP_ROOT{VER}</span></code> environment variable is set, where <code class="docutils literal notranslate"><span class="pre">VER</span></code> is the three-digit numeric
+format for the version, such as <code class="docutils literal notranslate"><span class="pre">221</span></code> or <code class="docutils literal notranslate"><span class="pre">222</span></code>.</p>
 </section>
 <section id="connect-to-the-dpf-server">
 <h3>Connect to the DPF server<a class="headerlink" href="#connect-to-the-dpf-server" title="Permalink to this heading">#</a></h3>
@@ -529,11 +529,11 @@ Any static results that are available for the model are used instead.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ModuleNotFoundError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="s1">&#39;pyvista&#39;</span>
 </pre></div>
 </div>
-<p>In that case, simply install PyVista with:</p>
+<p>In that case, simply install <cite>PyVista &lt;https://pyvista.org/&gt;`_</cite> with this command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pyvista</span>
 </pre></div>
 </div>
-<p>Another option is to install PyVista along PyDPF-Core. For more information, see
+<p>Another option is to install PyVista along with PyDPF-Core. For more information, see
 <a class="reference internal" href="../getting_started/install.html#target-to-install-with-plotting-capabilities"><span class="std std-ref">Install with plotting capabilities</span></a></p>
 </section>
 <section id="performance-issues">

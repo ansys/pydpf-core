@@ -357,8 +357,8 @@ function checkPageExistsAndRedirect(event) {
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#updating-python-environment">
-   Updating Python environment
+  <a class="reference internal nav-link" href="#update-python-environment">
+   Update Python environment
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -459,23 +459,23 @@ should also be synchronized with the server version.</p>
 </tr>
 </tbody>
 </table>
-<p>(** compatibility of DPF 2.0 with ansys-dpf-core 0.5.0 and later is assumed but no longer certified)</p>
+<p>(** Compatibility of DPF 2.0 with ansys-dpf-core 0.5.0 and later is assumed but no longer certified.)</p>
 </section>
-<section id="updating-python-environment">
-<h2>Updating Python environment<a class="headerlink" href="#updating-python-environment" title="Permalink to this heading">#</a></h2>
+<section id="update-python-environment">
+<h2>Update Python environment<a class="headerlink" href="#update-python-environment" title="Permalink to this heading">#</a></h2>
 <p>When moving from one Ansys release to another, you must update the <code class="docutils literal notranslate"><span class="pre">ansys-dpf-core</span></code> package and its dependencies.
-To get the latest version of the <code class="docutils literal notranslate"><span class="pre">ansys-dpf-core</span></code> package, use this code:</p>
+To get the latest version of the <code class="docutils literal notranslate"><span class="pre">ansys-dpf-core</span></code> package, use this command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">force</span><span class="o">-</span><span class="n">reinstall</span> <span class="n">ansys</span><span class="o">-</span><span class="n">dpf</span><span class="o">-</span><span class="n">core</span>
 </pre></div>
 </div>
-<p>To get a specific version of the <code class="docutils literal notranslate"><span class="pre">ansys-dpf-core</span></code> package, such as 0.7.0, use this code:</p>
+<p>To get a specific version of the <code class="docutils literal notranslate"><span class="pre">ansys-dpf-core</span></code> package, such as 0.7.0, use this command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">force</span><span class="o">-</span><span class="n">reinstall</span> <span class="n">ansys</span><span class="o">-</span><span class="n">dpf</span><span class="o">-</span><span class="n">core</span><span class="o">==</span><span class="mf">0.7.0</span>
 </pre></div>
 </div>
 </section>
 <section id="environment-variable">
 <span id="target-environment-variable-with-dpf-section"></span><h2>Environment variable<a class="headerlink" href="#environment-variable" title="Permalink to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">start_local_server</span></code>  method uses the <code class="docutils literal notranslate"><span class="pre">Ans.Dpf.Grpc.bat</span></code> file or
+<p>The <code class="docutils literal notranslate"><span class="pre">start_local_server()</span></code>  method uses the <code class="docutils literal notranslate"><span class="pre">Ans.Dpf.Grpc.bat</span></code> file or
 <code class="docutils literal notranslate"><span class="pre">Ans.Dpf.Grpc.sh</span></code> file to start the server. Ensure that the <code class="docutils literal notranslate"><span class="pre">AWP_ROOT{VER}</span></code>
 environment variable is set to your installed Ansys version. For example, if Ansys
 2022 R2 is installed, ensure that the <code class="docutils literal notranslate"><span class="pre">AWP_ROOT222</span></code> environment

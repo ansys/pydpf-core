@@ -26,7 +26,7 @@ How-tos
        .. image:: ../images/plotting/pontoon_strain.png
 
 
-    .. card:: Create Custom Operators
+    .. card:: Create custom operators
        :link: user_guide_custom_operators
        :link-type: ref
        :width: 25%

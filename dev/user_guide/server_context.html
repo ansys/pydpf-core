@@ -386,28 +386,23 @@ function checkPageExistsAndRedirect(event) {
 <nav id="bd-toc-nav">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-is-server-context">
-   What is server context
+  <a class="reference internal nav-link" href="#entry-capabilities">
+   Entry capabilities
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#getting-started-with-entry-capabilities">
-   Getting started with Entry capabilities
+  <a class="reference internal nav-link" href="#premium-capabilities">
+   Premium capabilities
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#getting-started-with-premium-capabilities">
-   Getting started with Premium capabilities
+  <a class="reference internal nav-link" href="#change-server-context-from-entry-to-premium">
+   Change server context from Entry to Premium
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#changing-server-context-from-entry-to-premium">
-   Changing server context from Entry to Premium
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#changing-the-default-server-context">
-   Changing the default server context
+  <a class="reference internal nav-link" href="#change-the-default-server-context">
+   Change the default server context
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -436,32 +431,27 @@ function checkPageExistsAndRedirect(event) {
                 
   <section id="server-context">
 <span id="user-guide-server-context"></span><h1>Server context<a class="headerlink" href="#server-context" title="Permalink to this heading">#</a></h1>
-<section id="what-is-server-context">
-<h2>What is server context<a class="headerlink" href="#what-is-server-context" title="Permalink to this heading">#</a></h2>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">ServerContext</span></code> class drives the
 default capabilities a server starts with.</p>
 <p>The server context is composed of the following information:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">context_type</span></code>, a <code class="xref py py-class docutils literal notranslate"><span class="pre">LicensingContextType</span></code>
-class object that defines if a License checkout is required or not.</p></li>
-<li><p>the <code class="docutils literal notranslate"><span class="pre">xml_path</span></code> that sets DPF default operators capabilities.</p></li>
+class object that defines whether a license checkout is required.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xml_path</span></code>, which sets DPF default operator capabilities.</p></li>
 </ul>
-<p>For more information,
-see <code class="xref py py-class docutils literal notranslate"><span class="pre">AvailableServerContexts</span></code>
-and <a class="reference internal" href="xmlfiles.html#user-guide-xmlfiles"><span class="std std-ref">DPF XML files</span></a>.</p>
+<p>For more information, see the <code class="xref py py-class docutils literal notranslate"><span class="pre">AvailableServerContexts</span></code>
+class and <a class="reference internal" href="xmlfiles.html#user-guide-xmlfiles"><span class="std std-ref">DPF XML files</span></a>.</p>
 <p>Two main licensing context type capabilities are available:</p>
 <ul class="simple">
-<li><p>Entry (default): Loads the minimum capabilities without requiring any license checkout.</p></li>
-<li><p>Premium: Enables the Entry capabilities and the capabilities that require a license checkout.
-More operators are available.</p></li>
+<li><p><strong>Entry:</strong> This context, which is the default, loads the minimum capabilities without requiring any license checkout.</p></li>
+<li><p><strong>Premium:</strong> This context enables <strong>Entry</strong> capabilities and the capabilities that require a license checkout, making
+more operators available.</p></li>
 </ul>
-<p>The operators list for each licensing context type is available at
-<a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>.</p>
-</section>
-<section id="getting-started-with-entry-capabilities">
-<h2>Getting started with Entry capabilities<a class="headerlink" href="#getting-started-with-entry-capabilities" title="Permalink to this heading">#</a></h2>
-<p>Find the list of operators available when the context is Entry at <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>.
-This won’t check out any license.</p>
+<p>For the operator list for each licensing context type, see <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>.</p>
+<section id="entry-capabilities">
+<h2>Entry capabilities<a class="headerlink" href="#entry-capabilities" title="Permalink to this heading">#</a></h2>
+<p>The following code finds the list of operators available when the <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a> context
+is <strong>Entry</strong>. This context won’t check out any license.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="n">entry_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">entry_server</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
@@ -471,10 +461,10 @@ This won’t check out any license.</p>
 </pre></div>
 </div>
 </section>
-<section id="getting-started-with-premium-capabilities">
-<h2>Getting started with Premium capabilities<a class="headerlink" href="#getting-started-with-premium-capabilities" title="Permalink to this heading">#</a></h2>
-<p>Find the list of operators available when the context is Premium at <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>.
-This checks out a license.</p>
+<section id="premium-capabilities">
+<h2>Premium capabilities<a class="headerlink" href="#premium-capabilities" title="Permalink to this heading">#</a></h2>
+<p>The following code find the list of operators available when the context is <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>
+context is <strong>Premium</strong>. This context checks out a license.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="n">premium_server_context</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerContexts</span><span class="o">.</span><span class="n">premium</span>
 <span class="n">premium_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span>
@@ -487,9 +477,10 @@ This checks out a license.</p>
 </pre></div>
 </div>
 </section>
-<section id="changing-server-context-from-entry-to-premium">
-<h2>Changing server context from Entry to Premium<a class="headerlink" href="#changing-server-context-from-entry-to-premium" title="Permalink to this heading">#</a></h2>
-<p>Once an Entry server is started, it can be upgraded to Premium:</p>
+<section id="change-server-context-from-entry-to-premium">
+<h2>Change server context from Entry to Premium<a class="headerlink" href="#change-server-context-from-entry-to-premium" title="Permalink to this heading">#</a></h2>
+<p>Once a DPF Server is started in <strong>Entry</strong> context, it can be upgraded to the
+<strong>Premium</strong> context:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="c1"># start a server with entry capabilities</span>
 <span class="n">server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">()</span>
@@ -508,10 +499,12 @@ This checks out a license.</p>
 </pre></div>
 </div>
 </section>
-<section id="changing-the-default-server-context">
-<h2>Changing the default server context<a class="headerlink" href="#changing-the-default-server-context" title="Permalink to this heading">#</a></h2>
-<p>Entry is the default server context. This can be changed either using the ANSYS_DPF_SERVER_CONTEXT
-environment variable (see <cite>&lt;ansys.dpf.core.server_context&gt;</cite>) or writing:</p>
+<section id="change-the-default-server-context">
+<h2>Change the default server context<a class="headerlink" href="#change-the-default-server-context" title="Permalink to this heading">#</a></h2>
+<p>The default context for the server is <strong>Entry</strong>. You can change the context using
+the <code class="docutils literal notranslate"><span class="pre">ANSYS_DPF_SERVER_CONTEXT</span></code> environment variable. For more information, see
+the :module: <cite>&lt;ansys.dpf.core.server_context&gt;</cite> module). You can also change the server context
+with this code:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="n">dpf</span><span class="o">.</span><span class="n">set_default_server_context</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerContexts</span><span class="o">.</span><span class="n">premium</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">server_context</span><span class="o">.</span><span class="n">SERVER_CONTEXT</span><span class="p">)</span>
@@ -523,11 +516,11 @@ environment variable (see <cite>&lt;ansys.dpf.core.server_context&gt;</cite>) or
 </section>
 <section id="release-history">
 <h2>Release history<a class="headerlink" href="#release-history" title="Permalink to this heading">#</a></h2>
-<p>The Entry server context is available starting with server version 6.0
-(Ansys 2023 R2).</p>
-<p>With a server version lower than 6.0, Premium is the default server
-context and all the Premium operators at <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>
-are available (depending only on their release date).</p>
+<p>The <strong>Entry</strong> server context is available in server version 6.0
+(Ansys 2023 R2) and later.</p>
+<p>With a server version earlier than 6.0, <strong>Premium</strong> is the default server
+context and all <strong>Premium</strong> <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>
+are available, depending only on their release date.</p>
 </section>
 </section>
 

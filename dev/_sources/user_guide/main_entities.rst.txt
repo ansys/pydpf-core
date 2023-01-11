@@ -12,7 +12,7 @@ DPF most-used entities
 
 .. card-carousel:: 2
 
-    .. card:: DPF Model
+    .. card:: DPF model
        :link: user_guide_model
        :link-type: ref
        :width: 25%
@@ -20,7 +20,7 @@ DPF most-used entities
 
        .. image:: ../images/drawings/model.png
 
-    .. card:: Fields Container and Fields
+    .. card:: Fields container and fields
        :link: ref_user_guide_fields_container
        :link-type: ref
        :width: 25%

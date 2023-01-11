@@ -391,23 +391,23 @@ function checkPageExistsAndRedirect(event) {
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#installing-dpf-server">
-   Installing DPF Server
+  <a class="reference internal nav-link" href="#install-dpf-server">
+   Install DPF Server
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#using-dpf-server">
-   Using DPF Server
+  <a class="reference internal nav-link" href="#use-dpf-server">
+   Use DPF Server
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#running-the-dpf-server-with-pydpf">
-     Running the DPF Server with PyDPF
+    <a class="reference internal nav-link" href="#run-dpf-server-with-pydpf">
+     Run DPF Server with PyDPF
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#running-dpf-server-in-a-docker-container">
-     Running DPF Server in a Docker container
+    <a class="reference internal nav-link" href="#run-dpf-server-in-a-docker-container">
+     Run DPF Server in a Docker container
     </a>
    </li>
   </ul>
@@ -452,44 +452,51 @@ function checkPageExistsAndRedirect(event) {
 <span id="ref-getting-started-with-dpf-server"></span><h1>Getting started with DPF Server<a class="headerlink" href="#getting-started-with-dpf-server" title="Permalink to this heading">#</a></h1>
 <section id="what-is-dpf-server">
 <h2>What is DPF Server<a class="headerlink" href="#what-is-dpf-server" title="Permalink to this heading">#</a></h2>
-<p>The Data Processing Framework (DPF) provides numerical simulation users and engineers with a toolbox for accessing and transforming
+<p>DPF provides numerical simulation users and engineers with a toolbox for accessing and transforming
 simulation data. With DPF, you can perform complex preprocessing or postprocessing of large amounts of simulation data within a
 simulation workflow.</p>
 <p>DPF Server is a package that contains all the necessary files to run the DPF Server, enabling DPF capabilities. It is available
-on the <a class="reference external" href="https://download.ansys.com/Others/DPF%20Pre-Release">DPF Pre-Release page of the Ansys Customer Portal</a>. DPF Server first available version is 6.0 (2023 R2).</p>
-<p>For more information about DPF and its use, see <a class="reference internal" href="index.html#ref-user-guide"><span class="std std-ref">User guide</span></a>.</p>
-<p>The following section details how to use DPF Server package. For a quick start with DPF Server, see <a class="reference internal" href="../getting_started/index.html#ref-getting-started"><span class="std std-ref">Getting started</span></a>.</p>
+on the <a class="reference external" href="https://download.ansys.com/Others/DPF%20Pre-Release">DPF Pre-Release page</a> of the Ansys Customer Portal.
+The first version of DPF Server is 6.0 (2023 R2).</p>
+<p>The sections on this page describe how to use DPF Server.</p>
+<ul class="simple">
+<li><p>For a quick start on DPF Server, see <a class="reference internal" href="../getting_started/index.html#ref-getting-started"><span class="std std-ref">Getting started</span></a>.</p></li>
+<li><p>For more information on DPF and its use, see <a class="reference internal" href="index.html#ref-user-guide"><span class="std std-ref">User guide</span></a>.</p></li>
+</ul>
 </section>
-<section id="installing-dpf-server">
-<h2>Installing DPF Server<a class="headerlink" href="#installing-dpf-server" title="Permalink to this heading">#</a></h2>
+<section id="install-dpf-server">
+<h2>Install DPF Server<a class="headerlink" href="#install-dpf-server" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple" id="target-installing-server">
-<li><p>Download the ansys_dpf_server_win_v2023.2.pre0.zip or ansys_dpf_server_lin_v2023.2.pre0.zip file as appropriate.</p></li>
+<li><p>Download the <code class="docutils literal notranslate"><span class="pre">ansys_dpf_server_win_v2023.2.pre0.zip</span></code> or <code class="docutils literal notranslate"><span class="pre">ansys_dpf_server_lin_v2023.2.pre0.zip</span></code> file as appropriate.</p></li>
 <li><p>Unzip the package.</p></li>
-<li><p>Change to the root folder (ansys_dpf_server_win_v2023.2.pre0) of the unzipped package.</p></li>
-<li><p>In a Python environment, run the following command:</p></li>
+<li><p>Change to the root folder (<code class="docutils literal notranslate"><span class="pre">ansys_dpf_server_win_v2023.2.pre0</span></code>) of the unzipped package.</p></li>
+<li><p>In a Python environment, run this command:</p></li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
 </pre></div>
 </div>
 </section>
-<section id="using-dpf-server">
-<h2>Using DPF Server<a class="headerlink" href="#using-dpf-server" title="Permalink to this heading">#</a></h2>
-<p>DPF Server use is protected using license terms. For more information, see the <a class="reference internal" href="#target-to-license-terms"><span class="std std-ref">DPF Preview License Agreement</span></a> section.</p>
-<section id="running-the-dpf-server-with-pydpf">
-<h3>Running the DPF Server with PyDPF<a class="headerlink" href="#running-the-dpf-server-with-pydpf" title="Permalink to this heading">#</a></h3>
+<section id="use-dpf-server">
+<h2>Use DPF Server<a class="headerlink" href="#use-dpf-server" title="Permalink to this heading">#</a></h2>
+<p>DPF Server is protected using the license terms specified in the
+<a class="reference external" href="https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&amp;hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9">DPFPreviewLicenseAgreement</a>
+file, which is available on the <a class="reference external" href="https://download.ansys.com/Others/DPF%20Pre-Release">DPF Pre-Release page</a>
+of the Ansys Customer Portal.</p>
+<section id="run-dpf-server-with-pydpf">
+<h3>Run DPF Server with PyDPF<a class="headerlink" href="#run-dpf-server-with-pydpf" title="Permalink to this heading">#</a></h3>
 <p>PyDPF-Core is a Python client API communicating with a <strong>DPF Server</strong>, either
 through the network using gRPC or directly in the same process. PyDPF-Post is a Python
 module for postprocessing based on PyDPF-Core.</p>
-<p>Both PyDPF-Core and PyDPF-Post python modules can be used with the DPF Server. The instructions to install and get started with PyDPF-Core
-can be found at <a class="reference external" href="https://dpf.docs.pyansys.com/getting_started/install.html">PyDPF-Core, Getting Started section</a>. The instructions to install and get
-started with PyDPF-Post can be found at <a class="reference external" href="https://post.docs.pyansys.com/getting_started/install.html">PyDPF-Post, Getting Started section</a>.</p>
+<p>Both PyDPF-Core and PyDPF-Post can be used with DPF Server. Installation instructions
+for PyDPF-Core are available in the PyDPF-Core <a class="reference external" href="https://dpf.docs.pyansys.com/getting_started/install.html">Getting started</a>.
+Installation instructions for PyDPF-Post are available in the PyDPF-Post <a class="reference external" href="https://post.docs.pyansys.com/getting_started/install.html">Getting started</a>.</p>
 <p>With PyDPF-Core and PyDPF-Post, the first creation of most DPF entities starts a DPF Server with the current default configuration and context.
 For example, the following code automatically starts a DPF Server behind the scenes:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="n">data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>With PyDPF-Core, you can also explicitly start a DPF Server using:</p>
+<p>With PyDPF-Core, you can also explicitly start a DPF Server using this code:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="n">server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">()</span>
 </pre></div>
@@ -498,18 +505,21 @@ For example, the following code automatically starts a DPF Server behind the sce
 On Windows, start the DPF Server by running the <code class="docutils literal notranslate"><span class="pre">Ans.Dpf.Grpc.bat</span></code> file in the unzipped package.
 On Linux, start the DPF Server by running the <code class="docutils literal notranslate"><span class="pre">Ans.Dpf.Grpc.sh</span></code> file in the unzipped package.</p>
 </section>
-<section id="running-dpf-server-in-a-docker-container">
-<h3>Running DPF Server in a Docker container<a class="headerlink" href="#running-dpf-server-in-a-docker-container" title="Permalink to this heading">#</a></h3>
+<section id="run-dpf-server-in-a-docker-container">
+<h3>Run DPF Server in a Docker container<a class="headerlink" href="#run-dpf-server-in-a-docker-container" title="Permalink to this heading">#</a></h3>
+<p>DPF server can be run in a Docker container.</p>
 <ol class="arabic simple">
-<li><p>Along with the ansys_dpf_server_lin_v2023.2.pre0.zip archive mentioned in <a class="reference internal" href="#target-installing-server"><span class="std std-ref">Installing DPF Server</span></a>, download the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>.</p></li>
-<li><p>Copy both the archive and <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> in a folder and navigate into that folder.</p></li>
-<li><p>To build the DPF Docker container, run the following commands:</p></li>
+<li><p>Along with the <code class="docutils literal notranslate"><span class="pre">ansys_dpf_server_lin_v2023.2.pre0.zip</span></code> file mentioned earlier
+in <a class="reference internal" href="#target-installing-server"><span class="std std-ref">Install DPF Server</span></a>, download the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> file.</p></li>
+<li><p>Copy both the ZIP file and <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> file in a folder and navigate into that folder.</p></li>
+<li><p>To build the DPF Docker container, run the following command:</p></li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">.</span> <span class="o">-</span><span class="n">t</span> <span class="n">dpf</span><span class="o">-</span><span class="n">core</span><span class="p">:</span><span class="n">v2023_2_pre0</span> <span class="o">--</span><span class="n">build</span><span class="o">-</span><span class="n">arg</span> <span class="n">DPF_VERSION</span><span class="o">=</span><span class="mi">232</span> <span class="o">--</span><span class="n">build</span><span class="o">-</span><span class="n">arg</span> <span class="n">DPF_SERVER_FILE</span><span class="o">=</span><span class="n">ansys_dpf_server_lin_v2023</span><span class="mf">.2</span><span class="o">.</span><span class="n">pre0</span><span class="o">.</span><span class="n">zip</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="4">
-<li><p>To run the DPF Docker container, see the <a class="reference internal" href="#target-to-license-terms"><span class="std std-ref">DPF Preview License Agreement</span></a> section.</p></li>
+<li><p>To run the DPF Docker container, license it. For more information, see’
+<a class="reference internal" href="#target-to-license-terms"><span class="std std-ref">DPF Preview License Agreement</span></a>.</p></li>
 </ol>
 </section>
 </section>
@@ -517,65 +527,71 @@ On Linux, start the DPF Server by running the <code class="docutils literal notr
 <h2>License terms<a class="headerlink" href="#license-terms" title="Permalink to this heading">#</a></h2>
 <section id="dpf-preview-license-agreement">
 <span id="target-to-license-terms"></span><h3>DPF Preview License Agreement<a class="headerlink" href="#dpf-preview-license-agreement" title="Permalink to this heading">#</a></h3>
-<p>DPF Server use is protected using license terms specified in the <a class="reference external" href="https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&amp;hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9">DPFPreviewLicenseAgreement</a> file that
-can be found on the <a class="reference external" href="https://download.ansys.com/Others/DPF%20Pre-Release">DPF Pre-Release page of the Ansys Customer Portal</a>.
-<code class="docutils literal notranslate"><span class="pre">DPFPreviewLicenseAgreement</span></code> is a text file and can be opened with a text editor, such as notepad.</p>
-<p>To accept the DPF User Licensing Agreement terms, the following environment variable must be set:</p>
+<p>DPF Server is protected using license terms specified in the <a class="reference external" href="https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&amp;hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9">DPFPreviewLicenseAgreement</a>
+file that can be found on the <a class="reference external" href="https://download.ansys.com/Others/DPF%20Pre-Release">DPF Pre-Release page</a>
+of the Ansys Customer Portal. The <code class="docutils literal notranslate"><span class="pre">DPFPreviewLicenseAgreement</span></code> file s a text file, which means that you can
+open it with a text editor, such as notepad.</p>
+<p>To accept the terms of this license agreement, you must set the following environment variable:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ANSYS_DPF_ACCEPT_LA</span><span class="o">=</span><span class="n">Y</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">ANSYS_DPF_ACCEPT_LA</span></code> confirms your acceptance of the DPF User Licensing Agreement. By passing the value <code class="docutils literal notranslate"><span class="pre">Y</span></code> to the environment variable
-<code class="docutils literal notranslate"><span class="pre">ANSYS_DPF_ACCEPT_LA</span></code>, you are indicating that you have a valid and existing license for the edition and version of DPF Server you intend to use.</p>
-<p>For a DPF Docker container usage, it can be set using:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">ANSYS_DPF_ACCEPT_LA</span></code> environment variable confirms your acceptance of the DPF License Agreement.
+By passing the value <code class="docutils literal notranslate"><span class="pre">Y</span></code> to this environment variable, you are indicating that you have a valid and
+existing license for the edition and version of DPF Server that you intend to use.</p>
+<p>For DPF Docker container usage only, you can use the following code to set both the <cite>ANSYS_DPF_ACCEPT_LA`</cite>
+and <code class="docutils literal notranslate"><span class="pre">ANSYSLMD_LICENSE_FILE</span></code> environment variables. For the <code class="docutils literal notranslate"><span class="pre">ANSYSLMD_LICENSE_FILE</span></code> environment variable,
+ensure that you replace <code class="docutils literal notranslate"><span class="pre">&lt;license_server_to_use&gt;</span></code> to point to the Ansys license server.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">e</span> <span class="s2">&quot;ANSYS_DPF_ACCEPT_LA=Y&quot;</span> <span class="o">-</span><span class="n">e</span> <span class="n">ANSYSLMD_LICENSE_FILE</span><span class="o">=</span><span class="mi">1055</span><span class="o">@&lt;</span><span class="n">license_server_to_use</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">p</span> <span class="mi">50052</span><span class="p">:</span><span class="mi">50052</span> <span class="o">-</span><span class="n">e</span> <span class="n">DOCKER_SERVER_PORT</span><span class="o">=</span><span class="mi">50052</span> <span class="o">--</span><span class="n">expose</span><span class="o">=</span><span class="mi">50052</span> <span class="n">dpf</span><span class="o">-</span><span class="n">core</span><span class="p">:</span><span class="n">v2023_2_pre0</span>
 </pre></div>
 </div>
-<p>For any other case, set “ANSYS_DPF_ACCEPT_LA” as an environment variable with “Y” value.</p>
-<p>Replace “&lt;license_server_to_use&gt;” mention that ANSYSLMD_LICENSE_FILE environment variable points to the Ansys license server.
-For more information about Ansys license mechanism use with DPF Server, see <a class="reference internal" href="#target-to-ansys-license-mechanism"><span class="std std-ref">Ansys licensing</span></a> section.</p>
+<p>The next section, <a class="reference internal" href="#target-to-ansys-license-mechanism"><span class="std std-ref">Ansys licensing</span></a>, provides information on
+the Ansys license mechanism that is used with DPF Server.</p>
 </section>
 <section id="ansys-licensing">
 <span id="target-to-ansys-license-mechanism"></span><h3>Ansys licensing<a class="headerlink" href="#ansys-licensing" title="Permalink to this heading">#</a></h3>
-<p>DPF Server is protected by Ansys licensing mechanism.</p>
+<p>DPF Server is protected by an Ansys licensing mechanism.</p>
 <p>DPF capabilities are available through the following main contexts:</p>
 <ul class="simple">
-<li><p>Entry: Loads the minimum number of plugins for basic use. It is the default. Checks if at least one increment exists
-from the following <a class="reference internal" href="#target-to-ansys-license-increments-list"><span class="std std-ref">Ansys licensing increments list</span></a>. This increment won’t be blocked.</p></li>
-<li><p>Premium: Loads the Entry and the Premium capabilities that require a license checkout. Blocks an increment from the
-following <a class="reference internal" href="#target-to-ansys-license-increments-list"><span class="std std-ref">Ansys licensing increments list</span></a>.</p></li>
+<li><p><strong>Entry:</strong> Loads the minimum number of plugins for basic use. This context, which is the default,
+checks if at least one increment exists from the <a class="reference internal" href="#target-to-ansys-license-increments-list"><span class="std std-ref">Ansys licensing increments list</span></a>,
+which follows. This increment won’t be blocked.</p></li>
+<li><p><strong>Premium:</strong> Loads the <strong>Entry</strong> and the <strong>Premium</strong> capabilities that require a license checkout.
+This context blocks an increment from the <a class="reference internal" href="#target-to-ansys-license-increments-list"><span class="std std-ref">Ansys licensing increments list</span></a>,
+which follows.</p></li>
 </ul>
 <p>To update the context, apply a new server context:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dpf</span><span class="o">.</span><span class="n">apply_server_context</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerContexts</span><span class="o">.</span><span class="n">premium</span><span class="p">)</span>
 </pre></div>
 </div>
-<p id="target-to-ansys-license-increments-list">The following Ansys licensing increments currently provide rights to use DPF Server:</p>
+<p id="target-to-ansys-license-increments-list">The following Ansys licensing increments provide rights to use DPF Server:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">preppost</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">Mechanical</span> <span class="pre">Enterprise</span> <span class="pre">PrepPost</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">meba</span></code> available in <code class="docutils literal notranslate"><span class="pre">ANSYS</span> <span class="pre">Mechanical</span> <span class="pre">Enterprise</span> <span class="pre">Solver</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">mech_2</span></code> available in <code class="docutils literal notranslate"><span class="pre">ANSYS</span> <span class="pre">Mechanical</span> <span class="pre">Premium</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">mech_1</span></code> available in <code class="docutils literal notranslate"><span class="pre">ANSYS</span> <span class="pre">Mechanical</span> <span class="pre">Pro</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ansys</span></code> available in <code class="docutils literal notranslate"><span class="pre">ANSYS</span> <span class="pre">Mechanical</span> <span class="pre">Enterprise</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">dynapp</span></code> available in <code class="docutils literal notranslate"><span class="pre">ANSYS</span> <span class="pre">LS-DYNA</span> <span class="pre">PrepPost</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">vmotion</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">Motion</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">acpreppost</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">Mechanical</span> <span class="pre">Enterprise</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">acdi_adprepost</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">AUTODYN</span></code> and <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">AUTODYN</span> <span class="pre">PrepPost</span></code> products</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cfd_preppost</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cfd_preppost_pro</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">vmotion_post</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">Motion</span> <span class="pre">Post</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">vmotion_pre</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">Motion</span> <span class="pre">Pre</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">advanced_meshing</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">fluent_meshing_pro</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">fluent_setup_post</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">fluent_setup_post_pro</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">acfx_pre</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cfd_base</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cfd_solve_level1</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cfd_solve_level2</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cfd_solve_level3</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">fluent_meshing</span></code> available in <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">preppost</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">Mechanical</span> <span class="pre">Enterprise</span> <span class="pre">PrepPost</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">meba</span></code> available in the <code class="docutils literal notranslate"><span class="pre">ANSYS</span> <span class="pre">Mechanical</span> <span class="pre">Enterprise</span> <span class="pre">Solver</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mech_2</span></code> available in the <code class="docutils literal notranslate"><span class="pre">ANSYS</span> <span class="pre">Mechanical</span> <span class="pre">Premium</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mech_1</span></code> available in the <code class="docutils literal notranslate"><span class="pre">ANSYS</span> <span class="pre">Mechanical</span> <span class="pre">Pro</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ansys</span></code> available in the <code class="docutils literal notranslate"><span class="pre">ANSYS</span> <span class="pre">Mechanical</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dynapp</span></code> available in the <code class="docutils literal notranslate"><span class="pre">ANSYS</span> <span class="pre">LS-DYNA</span> <span class="pre">PrepPost</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vmotion</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">Motion</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">acpreppost</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">Mechanical</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">acdi_adprepost</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">AUTODYN</span></code> and <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">AUTODYN</span> <span class="pre">PrepPost</span></code> products</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cfd_preppost</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cfd_preppost_pro</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vmotion_post</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">Motion</span> <span class="pre">Post</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vmotion_pre</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">Motion</span> <span class="pre">Pre</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">advanced_meshing</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fluent_meshing_pro</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fluent_setup_post</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fluent_setup_post_pro</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">acfx_pre</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cfd_base</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cfd_solve_level1</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cfd_solve_level2</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cfd_solve_level3</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fluent_meshing</span></code> available in the <code class="docutils literal notranslate"><span class="pre">Ansys</span> <span class="pre">CFD</span> <span class="pre">Enterprise</span></code> product</p></li>
 </ul>
-<p>Each increment may be available in other products. The product/increment mapping can be found in the
-<a class="reference external" href="https://download.ansys.com/Installation%20and%20Licensing%20Help%20and%20Tutorials">Licensing section of the Ansys Customer Portal</a>.</p>
+<p>Each increment may be available in other products. On the Ansys Customer Portal,
+the <a class="reference external" href="https://download.ansys.com/Installation%20and%20Licensing%20Help%20and%20Tutorials">Licensing section</a>
+provides product/increment mapping.</p>
 </section>
 </section>
 </section>
