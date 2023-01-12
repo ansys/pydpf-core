@@ -272,6 +272,10 @@ is {:.2f}% LOWER than when it is NOT PERFORMED".format(
 ###############################################################################
 # Dedicated Operator
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# .. note::
+#     The operator detailed below is available starting from Ansys 23R2.
+#
 # Alternatively, those workflows can be automatically instantiated by calling the
 # ``stress_eqv_as_mechanical`` operator, which does exactly the same thing as described
 # in the functions above depending on what is passed to the "average_across_bodies" input
