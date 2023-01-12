@@ -405,3 +405,4 @@ class OutputsWeightedMergeFieldsByLabel(_Outputs):
         >>> result_fields_container = op.outputs.fields_container()
         """  # noqa: E501
         return self._fields_container
+
