@@ -5,18 +5,18 @@ Average across bodies
 ~~~~~~~~~~~~~~~~~~~~~
 
 In multibody simulations, some nodes may be shared by the bodies at their interfaces,
-but the values of the results, like stresses or strains, calculated at these nodes
+but the values of the results (for example stresses or strains) calculated at these nodes
 may differ between the bodies. This can cause discontinuous plots, given that a single
-node will have multiple values for a variable. We can avoid this, however, by
-averaging these results across the bodies of the model.
+node will have multiple values for a variable. To avoid this, you can average these results
+across the bodies of the model.
 
 
-This example will demonstrate how averaging across bodies can be done in DPF when
-dealing with ``Nodal`` variables and illustrate how the end results of a post
-processing workflow can be different when it's done and when it's not.
+This example demonstrates how to average across bodies in DPF when
+dealing with ``Nodal`` variables. It also illustrates how the end results
+of a postprocessing workflow can be different when averaging and when not.
 
 .. note::
-    This example requires the Premium ServerContext.
+    This example requires the Premium Server Context.
     For more information, see :ref:`user_guide_server_context`.
 
 """
@@ -50,14 +50,15 @@ meshes.plot(text="Body meshes")
 
 ###############################################################################
 # As can be seen in the preceding image, even though the piston rod is one single part,
-# it is composed of two different bodies. Additionally, their interface share common nodes.
+# it is composed of two different bodies. Additionally, their interface shares common nodes.
 
 ###############################################################################
 # Averaging across bodies with DPF
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# To compare the results when averaging across bodies is performed to when it's not,
-# two workflows are going to be defined. The variable of interest is the Von Mises
-# stress field, which will be calculated by applying the ``eqv_fc`` operator on the
+# # To compare the results of averaging across bodies and not averaging,
+# define two workflows.
+# The variable of interest is the Von Mises stress field, which is
+# calculated by applying the ``eqv_fc`` operator on the
 # stresses extracted from the model.
 
 # %%
@@ -98,12 +99,12 @@ meshes.plot(text="Body meshes")
 
 
 ###############################################################################
-# Without averaging across bodies
+# Workflow for not averaging across bodies
 # ---------------------------------
-# The computation of Von Mises stresses without averaging across the bodies of the
-# model requires the stresses to be extracted separately for each body. This is
-# achieved in DPF by passing to the stress operator a scopings container that
-# contains the elements of each body in scopings separated by the ``mat`` label.
+# Computing Von Mises stresses without averaging across the bodies of the
+# model requires the stresses to be extracted separately for each body.
+# To do this in DPF, pass a scopings container the stress operator that
+# contains the elements of each body in scopings, separated by the ``mat`` label
 
 split_scop_op = ops.scoping.split_on_property_type()
 split_scop_op.inputs.mesh.connect(mesh)
@@ -136,9 +137,9 @@ von_mises_op.inputs.fields_container.connect(eln_to_n_op)
 
 print(von_mises_op.outputs.fields_container())
 ###############################################################################
-# As can be seen, the final Von Mises stresses fields container has the ``mat``
+# As you can see, the final Von Mises stresses fields container has the ``mat``
 # label with two different entries, meaning that it holds data for two separate bodies.
-# Finally, this workflow can be defined as a function for better organization and
+# Finally, define this workflow as a function for better organization and
 # ease of use:
 
 
@@ -174,13 +175,13 @@ def not_average_across_bodies(analysis):
 
 
 ###############################################################################
-# With averaging across bodies
+# Workflow for averaging across bodies
 # -----------------------------------
 # The workflow for performing averaging across bodies in DPF is similar to to the
 # one shown above, with the extraction of stresses per body. The difference comes
 # in the end, where a weighted merge is done between the fields that contain different
 # values for the ``mat`` label to actually average the results across the bodies.
-# Thus, defining a function like the one above:
+# Define a function like the one above:
 
 
 def average_across_bodies(analysis):
@@ -274,11 +275,11 @@ is {:.2f}% LOWER than when it is NOT PERFORMED".format(
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 # .. note::
-#     The operator detailed below is available starting from Ansys 23R2.
+#     The operator detailed below is available in Ansys 23R2 and later versions.
 #
 # Alternatively, those workflows can be automatically instantiated by calling the
 # ``stress_eqv_as_mechanical`` operator, which does exactly the same thing as described
-# in the functions above depending on what is passed to the "average_across_bodies" input
+# in the functions above, depending on what is passed to the "average_across_bodies" input
 # pin:
 
 stress_op = ops.result.stress_eqv_as_mechanical()
