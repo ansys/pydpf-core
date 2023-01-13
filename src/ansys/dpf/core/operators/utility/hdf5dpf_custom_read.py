@@ -22,6 +22,9 @@ class hdf5dpf_custom_read(Operator):
         Hdf5df file stream.
     data_sources : DataSources, optional
         Hdf5df file data source.
+    meta_data : DataTree, optional
+        Meta_data that may be used to evaluate
+        results or extract workflows.
     result_name :
         Name of the result that must be extracted
         from the hdf5dpf file
@@ -43,6 +46,8 @@ class hdf5dpf_custom_read(Operator):
     >>> op.inputs.streams.connect(my_streams)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_meta_data = dpf.DataTree()
+    >>> op.inputs.meta_data.connect(my_meta_data)
     >>> my_result_name = dpf.()
     >>> op.inputs.result_name.connect(my_result_name)
 
@@ -52,6 +57,7 @@ class hdf5dpf_custom_read(Operator):
     ...     mesh_scoping=my_mesh_scoping,
     ...     streams=my_streams,
     ...     data_sources=my_data_sources,
+    ...     meta_data=my_meta_data,
     ...     result_name=my_result_name,
     ... )
 
@@ -65,6 +71,7 @@ class hdf5dpf_custom_read(Operator):
         mesh_scoping=None,
         streams=None,
         data_sources=None,
+        meta_data=None,
         result_name=None,
         config=None,
         server=None,
@@ -80,6 +87,8 @@ class hdf5dpf_custom_read(Operator):
             self.inputs.streams.connect(streams)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
+        if meta_data is not None:
+            self.inputs.meta_data.connect(meta_data)
         if result_name is not None:
             self.inputs.result_name.connect(result_name)
 
@@ -112,6 +121,13 @@ class hdf5dpf_custom_read(Operator):
                     type_names=["data_sources"],
                     optional=True,
                     document="""Hdf5df file data source.""",
+                ),
+                24: PinSpecification(
+                    name="meta_data",
+                    type_names=["abstract_data_tree"],
+                    optional=True,
+                    document="""Meta_data that may be used to evaluate
+        results or extract workflows.""",
                 ),
                 60: PinSpecification(
                     name="result_name",
@@ -185,6 +201,8 @@ class InputsHdf5DpfCustomRead(_Inputs):
     >>> op.inputs.streams.connect(my_streams)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_meta_data = dpf.DataTree()
+    >>> op.inputs.meta_data.connect(my_meta_data)
     >>> my_result_name = dpf.()
     >>> op.inputs.result_name.connect(my_result_name)
     """
@@ -199,6 +217,8 @@ class InputsHdf5DpfCustomRead(_Inputs):
         self._inputs.append(self._streams)
         self._data_sources = Input(hdf5dpf_custom_read._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
+        self._meta_data = Input(hdf5dpf_custom_read._spec().input_pin(24), 24, op, -1)
+        self._inputs.append(self._meta_data)
         self._result_name = Input(hdf5dpf_custom_read._spec().input_pin(60), 60, op, -1)
         self._inputs.append(self._result_name)
 
@@ -277,6 +297,27 @@ class InputsHdf5DpfCustomRead(_Inputs):
         >>> op.inputs.data_sources(my_data_sources)
         """
         return self._data_sources
+
+    @property
+    def meta_data(self):
+        """Allows to connect meta_data input to the operator.
+
+        Meta_data that may be used to evaluate
+        results or extract workflows.
+
+        Parameters
+        ----------
+        my_meta_data : DataTree
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.hdf5dpf_custom_read()
+        >>> op.inputs.meta_data.connect(my_meta_data)
+        >>> # or
+        >>> op.inputs.meta_data(my_meta_data)
+        """
+        return self._meta_data
 
     @property
     def result_name(self):
