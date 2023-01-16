@@ -69,7 +69,7 @@ jobs:
     with:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: requirements/requirements_dev.txt
-      custom-wheels: '$AWP_ROOT232/../../../dist'
+      custom-wheels: '/ansys_inc/dist/'
     secrets: inherit
 
   docs:
