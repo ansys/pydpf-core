@@ -77,7 +77,7 @@ jobs:
       ANSYS_VERSION: "232"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: ''
-      event_name: ${{ github.event_name }}
+      from_PR: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
     secrets: inherit
 
   upload-development-docs:
