@@ -24,7 +24,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           files: docs
-          reporter: ${{ inputs.vale_reporter }}
+          reporter: ${{ inputs.vale_reporter || 'local' }}
           level: error
           filter_mode: nofilter
           fail_on_error: true
