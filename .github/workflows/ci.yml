@@ -76,7 +76,7 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ''
+      custom-requirements: requirements/requirements_dev.txt
       event_name: ${{ github.event_name }}
     secrets: inherit
 
@@ -98,7 +98,7 @@ jobs:
       ANSYS_VERSION: "232"
       python_versions: '["3.8"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ''
+      custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
 
   retro_231:
@@ -138,5 +138,5 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ''
+      custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
