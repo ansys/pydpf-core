@@ -69,7 +69,7 @@ jobs:
     name: "Check doc style"
     uses: ./.github/workflows/docs-style.yml
     with:
-      PR: ${{ github.event.inputs.from_PR == 'pull_request' }}
+      PR: ${{ github.event.inputs.from_PR == 'true' }}
     secrets: inherit
 
 #  docs:
