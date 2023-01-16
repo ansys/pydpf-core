@@ -50,11 +50,6 @@ on:
         required: false
         type: string
         default: ''
-      event_name:
-        description: "Whether the run request is from a PR (used for Vale)"
-        required: true
-        type: string
-        default: ''
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -74,7 +69,7 @@ jobs:
     name: "Check doc style"
     uses: ./.github/workflows/docs-style.yml
     with:
-      from_PR: ${{ github.event.inputs.event_name }}
+      from_PR: ${{ github.event_name }}
     secrets: inherit
 
 #  docs:
