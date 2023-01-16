@@ -3,17 +3,13 @@ name: Documentation Style Check
 
 on:
   workflow_call:
+    inputs:
       PR:
         description: "Whether to link Vale report to a PR check."
         required: false
         type: string
         default: 'false'
   workflow_dispatch:
-      PR:
-        description: "Whether to link Vale report to a PR check."
-        required: false
-        type: string
-        default: 'false'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

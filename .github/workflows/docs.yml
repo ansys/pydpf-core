@@ -50,11 +50,6 @@ on:
         required: false
         type: string
         default: ''
-      from_PR:
-        description: "Whether the run request is from a PR (used for Vale)"
-        required: false
-        type: string
-        default: 'false'
 
 env:
   PACKAGE_NAME: ansys-dpf-core
