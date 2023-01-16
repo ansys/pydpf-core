@@ -56,7 +56,7 @@ jobs:
       wheel: true
       wheelhouse: true
       standalone_suffix: ""
-      custom-requirements: requirements/requirements_dev.txt
+      custom-requirements: ${{ (!startsWith(github.ref, 'refs/tags/v')) && 'requirements/requirements_dev.txt' || '' }}
     secrets: inherit
 
   docs:
@@ -145,7 +145,7 @@ jobs:
     uses: ./.github/workflows/test_docker.yml
     with:
       standalone_suffix: ""
-      custom-requirements: requirements/requirements_dev.txt
+      custom-requirements: ${{ (!startsWith(github.ref, 'refs/tags/v')) && 'requirements/requirements_dev.txt' || '' }}
     secrets: inherit
 
   draft_release:
