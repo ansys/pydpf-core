@@ -10,6 +10,7 @@ on:
         default: 'false'
   workflow_dispatch:
       PR:
+        description: "Whether to link Vale report to a PR check."
         required: false
         type: string
         default: 'false'
