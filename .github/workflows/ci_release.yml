@@ -56,6 +56,7 @@ jobs:
       wheel: true
       wheelhouse: true
       standalone_suffix: ""
+      custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
 
   docs:
@@ -63,6 +64,7 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       standalone_suffix: ""
+      custom-requirements: ''
       event_name: ${{ github.event_name }}
     secrets: inherit
 
@@ -72,6 +74,7 @@ jobs:
       ANSYS_VERSION: "232"
       python_versions: '["3.7", "3.8", "3.9", "3.10"]'
       standalone_suffix: ""
+      custom-requirements: ''
     secrets: inherit
 
   retro_231:
@@ -142,6 +145,7 @@ jobs:
     uses: ./.github/workflows/test_docker.yml
     with:
       standalone_suffix: ""
+      custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
 
   draft_release:
