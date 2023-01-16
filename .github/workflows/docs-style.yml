@@ -4,11 +4,11 @@ name: Documentation Style Check
 on:
   workflow_call:
     inputs:
-      from_PR:
-        description: "Whether to link Vale report to a PR check."
+      vale_reporter:
+        description: "Vale reporter to use"
         required: false
         type: string
-        default: ''
+        default: 'local'
   workflow_dispatch:
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           files: docs
-          reporter: ${{ github.event.inputs.from_PR && 'github-check' || 'local' }}
+          reporter: ${{ inputs.vale_reporter }}
           level: error
           filter_mode: nofilter
           fail_on_error: true
