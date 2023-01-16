@@ -22,11 +22,11 @@ on:
         required: false
         type: string
         default: ''
-      event_name:
-        description: "Check style with Vale (does not work when CI is called manually)"
-        required: false
+      from_PR:
+        description: "Whether the run request is from a PR (used for Vale)"
+        required: true
         type: string
-        default: 'workflow_dispatch'
+        default: 'false'
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -60,6 +60,8 @@ jobs:
   doc-style:
     name: "Check doc style"
     uses: ./.github/workflows/docs-style.yml
+    with:
+      from_PR: ${{ github.event.inputs.from_PR && 'true' || 'false' }}
     secrets: inherit
 
   docs:
