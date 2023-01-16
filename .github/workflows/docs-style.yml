@@ -24,7 +24,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           files: docs
-          reporter: ${{ (github.event.inputs.PR == 'true') && 'github-check' || 'local' }}
+          reporter: ${{ github.event.inputs.PR && 'github-check' || 'local' }}
           level: error
           filter_mode: nofilter
           fail_on_error: true
