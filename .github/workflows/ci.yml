@@ -60,6 +60,7 @@ jobs:
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: requirements/requirements_dev.txt
+      custom-wheels: ${{ format('./dpf-standalone/v{0}/dist', inputs.ANSYS_VERSION) }}
     secrets: inherit
 
   docker_tests:
