@@ -69,7 +69,7 @@ jobs:
     name: "Check doc style"
     uses: ./.github/workflows/docs-style.yml
     with:
-      vale_reporter: ${{ (inputs.event_name == 'pull_request') && 'github-check' || '' }}
+      vale_reporter: ${{ (inputs.event_name == 'pull_request') && 'github-check' || 'local' }}
     secrets: inherit
 
 #  docs:
