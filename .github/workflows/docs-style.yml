@@ -3,7 +3,7 @@ name: Documentation Style Check
 
 on:
   workflow_call:
-      from_PR:
+      PR:
         description: "Whether to link Vale report to a PR check."
         required: true
         type: string
@@ -27,7 +27,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           files: docs
-          reporter: ${{ github.event.inputs.from_PR && 'github-check' || 'local' }}
+          reporter: ${{ github.event.inputs.PR && 'github-check' || 'local' }}
           level: error
           filter_mode: nofilter
           fail_on_error: true
