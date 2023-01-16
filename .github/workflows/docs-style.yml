@@ -10,6 +10,11 @@ on:
         type: string
         default: ''
   workflow_dispatch:
+      from_PR:
+        description: "Whether to link Vale report to a PR check."
+        required: false
+        type: string
+        default: ''
 
 jobs:
   docs-style:
