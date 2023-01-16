@@ -23,7 +23,7 @@ on:
         type: string
         default: ''
       event_name:
-        description: "Whether the run request is from a PR (used for Vale)"
+        description: "Name of event calling"
         required: true
         type: string
         default: ''
@@ -69,7 +69,7 @@ jobs:
     name: "Check doc style"
     uses: ./.github/workflows/docs-style.yml
     with:
-      vale_reporter: 'github-check'
+      vale_reporter: ${{ (inputs.event_name == 'pull_request') && 'github-check' || '' }}
     secrets: inherit
 
 #  docs:
