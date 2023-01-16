@@ -9,6 +9,10 @@ on:
         type: string
         default: 'false'
   workflow_dispatch:
+      PR:
+        required: false
+        type: string
+        default: 'false'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
