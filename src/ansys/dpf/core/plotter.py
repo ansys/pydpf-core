@@ -85,25 +85,25 @@ class _PyVistaPlotter:
             **kwargs_in,
         )
 
-    def add_points(self, points, field):
+    def add_points(self, points, field, **kwargs):
         import pyvista as pv
 
         point_cloud = pv.PolyData(points)
         if field:
             point_cloud[f"{field.name}"] = field.data
-        self._plotter.add_points(point_cloud)
+        self._plotter.add_points(point_cloud, **kwargs)
 
-    def add_line(self, points, field=None):
+    def add_line(self, points, field=None, **kwargs):
         import pyvista as pv
 
         line_field = pv.PolyData(np.array(points))
         if field:
             line_field[f"{field.name}"] = field.data
-            self._plotter.add_mesh(line_field)
+            self._plotter.add_mesh(line_field, **kwargs)
         else:
-            self._plotter.add_lines(points)
+            self._plotter.add_lines(points, **kwargs)
 
-    def add_plane(self, plane, field=None):
+    def add_plane(self, plane, field=None, **kwargs):
         import pyvista as pv
 
         plane_plot = pv.Plane(
@@ -116,7 +116,7 @@ class _PyVistaPlotter:
         )
         if field:
             plane[f"{field.name}"] = field.data
-        self._plotter.add_mesh(plane_plot)
+        self._plotter.add_mesh(plane_plot, **kwargs)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
 
@@ -406,14 +406,14 @@ class DpfPlotter:
             )
         )
 
-    def add_points(self, points, field=None):
-        self._internal_plotter.add_points(points, field)
+    def add_points(self, points, field=None, **kwargs):
+        self._internal_plotter.add_points(points, field, **kwargs)
 
-    def add_line(self, points, field=None):
-        self._internal_plotter.add_line(points, field)
+    def add_line(self, points, field=None, **kwargs):
+        self._internal_plotter.add_line(points, field, **kwargs)
 
-    def add_plane(self, plane, field=None):
-        self._internal_plotter.add_plane(plane, field)
+    def add_plane(self, plane, field=None, **kwargs):
+        self._internal_plotter.add_plane(plane, field, **kwargs)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
         """Add a mesh to plot.

@@ -34,6 +34,9 @@ class elemental_nodal_to_nodal_fc(Operator):
     extend_to_mid_nodes : bool, optional
         Compute mid nodes (when available) by
         averaging neighbour primary nodes
+    extend_weights_to_mid_nodes : bool, optional
+        Extends weights to mid nodes (when
+        available). default is false
 
 
     Examples
@@ -54,6 +57,8 @@ class elemental_nodal_to_nodal_fc(Operator):
     >>> op.inputs.scoping.connect(my_scoping)
     >>> my_extend_to_mid_nodes = bool()
     >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
+    >>> my_extend_weights_to_mid_nodes = bool()
+    >>> op.inputs.extend_weights_to_mid_nodes.connect(my_extend_weights_to_mid_nodes)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_fc(
@@ -62,6 +67,7 @@ class elemental_nodal_to_nodal_fc(Operator):
     ...     should_average=my_should_average,
     ...     scoping=my_scoping,
     ...     extend_to_mid_nodes=my_extend_to_mid_nodes,
+    ...     extend_weights_to_mid_nodes=my_extend_weights_to_mid_nodes,
     ... )
 
     >>> # Get output data
@@ -76,6 +82,7 @@ class elemental_nodal_to_nodal_fc(Operator):
         should_average=None,
         scoping=None,
         extend_to_mid_nodes=None,
+        extend_weights_to_mid_nodes=None,
         config=None,
         server=None,
     ):
@@ -94,6 +101,8 @@ class elemental_nodal_to_nodal_fc(Operator):
             self.inputs.scoping.connect(scoping)
         if extend_to_mid_nodes is not None:
             self.inputs.extend_to_mid_nodes.connect(extend_to_mid_nodes)
+        if extend_weights_to_mid_nodes is not None:
+            self.inputs.extend_weights_to_mid_nodes.connect(extend_weights_to_mid_nodes)
 
     @staticmethod
     def _spec():
@@ -141,6 +150,13 @@ class elemental_nodal_to_nodal_fc(Operator):
                     optional=True,
                     document="""Compute mid nodes (when available) by
         averaging neighbour primary nodes""",
+                ),
+                5: PinSpecification(
+                    name="extend_weights_to_mid_nodes",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Extends weights to mid nodes (when
+        available). default is false""",
                 ),
             },
             map_output_pin_spec={
@@ -221,6 +237,8 @@ class InputsElementalNodalToNodalFc(_Inputs):
     >>> op.inputs.scoping.connect(my_scoping)
     >>> my_extend_to_mid_nodes = bool()
     >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
+    >>> my_extend_weights_to_mid_nodes = bool()
+    >>> op.inputs.extend_weights_to_mid_nodes.connect(my_extend_weights_to_mid_nodes)
     """
 
     def __init__(self, op: Operator):
@@ -243,6 +261,10 @@ class InputsElementalNodalToNodalFc(_Inputs):
             elemental_nodal_to_nodal_fc._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._extend_to_mid_nodes)
+        self._extend_weights_to_mid_nodes = Input(
+            elemental_nodal_to_nodal_fc._spec().input_pin(5), 5, op, -1
+        )
+        self._inputs.append(self._extend_weights_to_mid_nodes)
 
     @property
     def fields_container(self):
@@ -348,6 +370,27 @@ class InputsElementalNodalToNodalFc(_Inputs):
         >>> op.inputs.extend_to_mid_nodes(my_extend_to_mid_nodes)
         """
         return self._extend_to_mid_nodes
+
+    @property
+    def extend_weights_to_mid_nodes(self):
+        """Allows to connect extend_weights_to_mid_nodes input to the operator.
+
+        Extends weights to mid nodes (when
+        available). default is false
+
+        Parameters
+        ----------
+        my_extend_weights_to_mid_nodes : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
+        >>> op.inputs.extend_weights_to_mid_nodes.connect(my_extend_weights_to_mid_nodes)
+        >>> # or
+        >>> op.inputs.extend_weights_to_mid_nodes(my_extend_weights_to_mid_nodes)
+        """
+        return self._extend_weights_to_mid_nodes
 
 
 class OutputsElementalNodalToNodalFc(_Outputs):

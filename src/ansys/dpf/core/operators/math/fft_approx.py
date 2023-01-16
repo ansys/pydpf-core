@@ -39,6 +39,8 @@ class fft_approx(Operator):
     fit_data : bool
         Calculate the fitted values? (bool): default
         is false
+    cutoff_fr : float or int, optional
+        Cutoff frequency
 
 
     Examples
@@ -63,6 +65,8 @@ class fft_approx(Operator):
     >>> op.inputs.second_derivative.connect(my_second_derivative)
     >>> my_fit_data = bool()
     >>> op.inputs.fit_data.connect(my_fit_data)
+    >>> my_cutoff_fr = float()
+    >>> op.inputs.cutoff_fr.connect(my_cutoff_fr)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.fft_approx(
@@ -73,6 +77,7 @@ class fft_approx(Operator):
     ...     first_derivative=my_first_derivative,
     ...     second_derivative=my_second_derivative,
     ...     fit_data=my_fit_data,
+    ...     cutoff_fr=my_cutoff_fr,
     ... )
 
     >>> # Get output data
@@ -90,6 +95,7 @@ class fft_approx(Operator):
         first_derivative=None,
         second_derivative=None,
         fit_data=None,
+        cutoff_fr=None,
         config=None,
         server=None,
     ):
@@ -110,6 +116,8 @@ class fft_approx(Operator):
             self.inputs.second_derivative.connect(second_derivative)
         if fit_data is not None:
             self.inputs.fit_data.connect(fit_data)
+        if cutoff_fr is not None:
+            self.inputs.cutoff_fr.connect(cutoff_fr)
 
     @staticmethod
     def _spec():
@@ -168,6 +176,12 @@ class fft_approx(Operator):
                     optional=False,
                     document="""Calculate the fitted values? (bool): default
         is false""",
+                ),
+                7: PinSpecification(
+                    name="cutoff_fr",
+                    type_names=["double", "int32"],
+                    optional=True,
+                    document="""Cutoff frequency""",
                 ),
             },
             map_output_pin_spec={
@@ -255,6 +269,8 @@ class InputsFftApprox(_Inputs):
     >>> op.inputs.second_derivative.connect(my_second_derivative)
     >>> my_fit_data = bool()
     >>> op.inputs.fit_data.connect(my_fit_data)
+    >>> my_cutoff_fr = float()
+    >>> op.inputs.cutoff_fr.connect(my_cutoff_fr)
     """
 
     def __init__(self, op: Operator):
@@ -273,6 +289,8 @@ class InputsFftApprox(_Inputs):
         self._inputs.append(self._second_derivative)
         self._fit_data = Input(fft_approx._spec().input_pin(6), 6, op, -1)
         self._inputs.append(self._fit_data)
+        self._cutoff_fr = Input(fft_approx._spec().input_pin(7), 7, op, -1)
+        self._inputs.append(self._cutoff_fr)
 
     @property
     def time_scoping(self):
@@ -421,6 +439,26 @@ class InputsFftApprox(_Inputs):
         >>> op.inputs.fit_data(my_fit_data)
         """
         return self._fit_data
+
+    @property
+    def cutoff_fr(self):
+        """Allows to connect cutoff_fr input to the operator.
+
+        Cutoff frequency
+
+        Parameters
+        ----------
+        my_cutoff_fr : float or int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.fft_approx()
+        >>> op.inputs.cutoff_fr.connect(my_cutoff_fr)
+        >>> # or
+        >>> op.inputs.cutoff_fr(my_cutoff_fr)
+        """
+        return self._cutoff_fr
 
 
 class OutputsFftApprox(_Outputs):

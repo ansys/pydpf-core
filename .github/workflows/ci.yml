@@ -12,7 +12,7 @@ on:
     inputs:
       standalone_branch_suffix:
         description: 'Suffix of the branch on standalone'
-        required: true
+        required: false
         default: ''
 
 
@@ -59,7 +59,7 @@ jobs:
       wheel: true
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ''
+      custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
 
   docker_tests:
@@ -67,7 +67,7 @@ jobs:
     uses: ./.github/workflows/test_docker.yml
     with:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ''
+      custom-requirements: requirements/requirements_dev.txt
     secrets: inherit
 
   docs:
@@ -77,11 +77,12 @@ jobs:
       ANSYS_VERSION: "232"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: ''
+      event_name: ${{ github.event_name }}
     secrets: inherit
 
   upload-development-docs:
     runs-on: ubuntu-latest
-    if: startsWith(github.head_ref, 'master')
+    if: ${{ github.ref == 'refs/heads/master' }}
     needs: [docs]
     steps:
       - name: "Upload development documentation"

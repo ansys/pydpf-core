@@ -64,34 +64,36 @@ node_index_to_found_volume = {}
 # data locally and to work only on the local process before sending the data
 # updates to the server as the end of the with statement
 # the performances are a lot better using this syntax
-with connectivity_field.as_local_field() as connectivity:
-    with nodal_connectivity_field.as_local_field() as nodal_connectivity:
-        with vol_field.as_local_field() as vol:
-            for i, node in enumerate(nodes_ids_to_compute):
+# fmt: off
+with connectivity_field.as_local_field() as connectivity, \
+    nodal_connectivity_field.as_local_field() as nodal_connectivity,\
+        vol_field.as_local_field() as vol:  # fmt: on
+    for i, node in enumerate(nodes_ids_to_compute):
 
-                current_node_indexes = [i]
-                volume = 0.0
-                # Loop through recursively selecting elements attached
-                # to nodes until specified volume is reached
-                while volume_check > volume:
-                    volume = 0.0
-                    elements_indexes = []
-                    # get elements attached to nodes
-                    for current_node_index in current_node_indexes:
-                        elements_indexes.extend(nodal_connectivity.get_entity_data(i).flatten())
+        current_node_indexes = [i]
+        volume = 0.0
+        # Loop through recursively selecting elements attached
+        # to nodes until specified volume is reached
+        while volume_check > volume:
+            volume = 0.0
+            elements_indexes = []
 
-                    current_node_indexes = []
-                    for index in elements_indexes:
-                        # sum up the volume on those elements
-                        volume += vol.get_entity_data(index)[0]
+            # Get elements attached to nodes
+            for current_node_index in current_node_indexes:
+                elements_indexes.extend(nodal_connectivity.get_entity_data(i).flatten())
 
-                        # get all nodes of the current elements for next iteration
-                        current_node_indexes.extend(connectivity.get_entity_data(index))
-                node_index_to_el_ids[i] = dpf.Scoping(
-                    ids=[elements_ids[index] for index in elements_indexes],
-                    location=dpf.locations().elemental,
-                )
-                node_index_to_found_volume[i] = volume
+            current_node_indexes = []
+            for index in elements_indexes:
+                # Sum up the volume on those elements
+                volume += vol.get_entity_data(index)[0]
+                # Get all nodes of the current elements for next iteration
+                current_node_indexes.extend(connectivity.get_entity_data(index))
+
+        node_index_to_el_ids[i] = dpf.Scoping(
+            ids=[elements_ids[index] for index in elements_indexes],
+            location=dpf.locations().elemental,
+        )
+        node_index_to_found_volume[i] = volume
 
 ###############################################################################
 # Create workflow

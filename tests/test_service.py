@@ -432,30 +432,6 @@ def test_load_api_with_awp_root_2_no_gatebin():
 
 
 @pytest.fixture(autouse=False, scope="function")
-def set_context_back_to_premium(request):
-    """Count servers once we are finished."""
-
-    dpf.core.server.shutdown_all_session_servers()
-    init_val = os.environ.get("ANSYS_DPF_ACCEPT_LA", None)
-    try:
-        dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.entry)
-    except dpf.core.errors.DpfVersionNotSupported:
-        pass
-
-    def revert():
-        if init_val:
-            os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
-        dpf.core.SERVER_CONFIGURATION = None
-        dpf.core.server.shutdown_all_session_servers()
-        try:
-            dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.premium)
-        except dpf.core.errors.DpfVersionNotSupported:
-            pass
-
-    request.addfinalizer(revert)
-
-
-@pytest.fixture(autouse=False, scope="function")
 def reset_context_environment_variable(request):
     """Reset ANSYS_DPF_SERVER_CONTEXT."""
     from ansys.dpf.core import server_context as s_c

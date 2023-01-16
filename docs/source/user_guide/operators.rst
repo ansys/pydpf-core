@@ -57,8 +57,8 @@ Create operators
 ~~~~~~~~~~~~~~~~
 Each operator is of type :ref:`ref_operator`. You can create an instance 
 in Python with any of the derived classes available in the 
-package :ref:`ref_operators_package` or directly with the class :ref:`ref_operator`
-using the internal name string that indicates the operator type. 
+package :ref:`ref_operators_package` or directly with the :ref:`ref_operator`
+class using the internal name string that indicates the operator type. 
 For more information, see :ref:`ref_dpf_operators_reference`.
 
 This example shows how to create the displacement operator:
@@ -97,7 +97,7 @@ operator by printing it:
 Alternatively, you can instantiate result providers using the ``Model`` object.
 For more information, see :ref:`user_guide_model`.
 
-When using this model's result usage, file paths for the results are directly  
+When using this model's results, file paths for the results are directly  
 connected to the operator, which means that you can only instantiate 
 available results for your result files:
 
@@ -113,7 +113,7 @@ available results for your result files:
 
 Connect operators
 ~~~~~~~~~~~~~~~~~
-The only required input for the displacement operator is ``data_sources`` (see above). 
+The only required input for the displacement operator is the ``data_sources``input (see above). 
 To compute an output in the ``fields_container`` object, which contains the displacement
 results, you must provide paths for the result files.
 
@@ -200,7 +200,7 @@ like this one:
  
     DPFServerException: U<-Data sources are not defined.
 
-For more information on using the fields container, see :ref:`ref_user_guide_fields_container`.
+For more information on using a fields container, see :ref:`ref_user_guide_fields_container`.
 
 
 Chain operators
@@ -260,8 +260,8 @@ On an industrial model, however, you should use code like this:
 In the preceding example, only the maximum displacements in the X, Y, and Z
 components are transferred and returned as a numpy array.
 
-For small data sets, you can compute the maximum of the array in NumpPy.
-While there might be times where having the entire data array for a given 
+For small data sets, you can compute the maximum of the array in `NumpPy <https://numpy.org/>`_.
+While there may be times where having the entire data array for a given 
 result type is necessary, many times it is not necessary. In these 
 cases, it is faster not to transfer the array to Python but rather to 
 compute the maximum of the fields container within DPF and then return 
@@ -311,10 +311,10 @@ These operators provide for reading data from solver files or from standard file
 - For Abaqus, ODB files are supported.
 
 To read these files, different readers are implemented as plugins.
-Plugins can be loaded on demand in any DPF scripting language with the "load library" methods. 
+Plugins can be loaded on demand in any DPF scripting language with "load library" methods. 
 File readers can be used generically thanks to the DPF result providers, which means that the same operators can be used for any file types.
 
-This example shows how to read a displacement or a stress for any file:
+This example shows how to read a displacement and a stress for any file:
 
 .. code-block:: python
 
@@ -395,7 +395,8 @@ to export the results in a given format to either use them in another
 environment or save them for future use with DPF. Supported file formats 
 for export include VTK, H5, CSV, and TXT (serializer operator). Export 
 operators often match with import operators, allowing you to reuse data. 
-In :ref:`ref_dpf_operators_reference`, the **Serialization** category
+In :ref:`ref_dpf_operators_reference`, both the **Entry**
+and **Premium** sections have a **Serialization** category that
 displays available import and export operators.
 
 
@@ -441,5 +442,5 @@ Python client is not on the same machine as the server:
 API reference
 ~~~~~~~~~~~~~
 For a list of all operators in DPF, see :ref:`ref_dpf_operators_reference` 
-or :ref:`ref_operators_package`.  For more information about the
+or the package :ref:`ref_operators_package`.  For more information about the
 class itself, see :ref:`ref_operator`.

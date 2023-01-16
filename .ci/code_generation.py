@@ -1,4 +1,7 @@
+# import subprocess
+
 from ansys.dpf import core
+from ansys.dpf.core.operators import build
 import os
 import glob
 from pathlib import Path
@@ -44,7 +47,9 @@ else:
     ]
 
 local_dir = os.path.dirname(os.path.abspath(__file__))
-TARGET_PATH = os.path.join(local_dir, os.pardir, "ansys", "dpf", "core", "operators")
+TARGET_PATH = os.path.join(
+    local_dir, os.pardir, "src", "ansys", "dpf", "core", "operators"
+)
 files = glob.glob(os.path.join(TARGET_PATH, "*"))
 for f in files:
     if Path(f).stem == "specification":
@@ -89,3 +94,5 @@ for lib in LIB_OPTIONAL_TO_GENERATE:
         time.sleep(0.1)
     except Exception as e:
         print(f"Could not generate operators for optional library {lib}:\n{str(e)}")
+
+build.build_operators()
