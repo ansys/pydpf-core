@@ -8,7 +8,7 @@ on:
         description: "Whether to link Vale report to a PR check."
         required: false
         type: string
-        default: 'false'
+        default: ''
   workflow_dispatch:
 
 jobs:
