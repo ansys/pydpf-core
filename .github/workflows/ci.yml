@@ -60,6 +60,7 @@ jobs:
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: requirements/requirements_dev.txt
+      custom-wheels: './dpf-standalone/v232/dist'
     secrets: inherit
 
   docker_tests:
@@ -68,6 +69,7 @@ jobs:
     with:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: requirements/requirements_dev.txt
+      custom-wheels: 'dpf-standalone/dist'
     secrets: inherit
 
   docs:
@@ -76,7 +78,8 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ''
+      custom-requirements: requirements/requirements_dev.txt
+      custom-wheels: './dpf-standalone/v232/dist'
       event_name: ${{ github.event_name }}
     secrets: inherit
 
@@ -98,7 +101,8 @@ jobs:
       ANSYS_VERSION: "232"
       python_versions: '["3.8"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ''
+      custom-requirements: requirements/requirements_dev.txt
+      custom-wheels: './dpf-standalone/v232/dist'
     secrets: inherit
 
   retro_231:
@@ -138,5 +142,6 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ''
+      custom-requirements: requirements/requirements_dev.txt
+      custom-wheels: './dpf-standalone/v232/dist'
     secrets: inherit
