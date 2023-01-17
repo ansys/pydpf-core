@@ -5,16 +5,16 @@
 
 Computation times
 =================
-**00:16.031** total execution time for **examples_06-distributed-post** files:
+**00:13.540** total execution time for **examples_06-distributed-post** files:
 
 +----------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_06-distributed-post_02-distributed-msup_expansion.py` (``02-distributed-msup_expansion.py``)             | 00:04.237 | 0.0 MB |
+| :ref:`sphx_glr_examples_06-distributed-post_02-distributed-msup_expansion.py` (``02-distributed-msup_expansion.py``)             | 00:03.566 | 0.0 MB |
 +----------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_06-distributed-post_03-distributed-msup_expansion_steps.py` (``03-distributed-msup_expansion_steps.py``) | 00:04.221 | 0.0 MB |
+| :ref:`sphx_glr_examples_06-distributed-post_03-distributed-msup_expansion_steps.py` (``03-distributed-msup_expansion_steps.py``) | 00:03.407 | 0.0 MB |
 +----------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_06-distributed-post_06-distributed_stress_averaging.py` (``06-distributed_stress_averaging.py``)         | 00:03.753 | 0.0 MB |
+| :ref:`sphx_glr_examples_06-distributed-post_06-distributed_stress_averaging.py` (``06-distributed_stress_averaging.py``)         | 00:03.174 | 0.0 MB |
 +----------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_06-distributed-post_01-distributed_workflows_on_remote.py` (``01-distributed_workflows_on_remote.py``)   | 00:02.502 | 0.0 MB |
+| :ref:`sphx_glr_examples_06-distributed-post_01-distributed_workflows_on_remote.py` (``01-distributed_workflows_on_remote.py``)   | 00:02.142 | 0.0 MB |
 +----------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_06-distributed-post_00-distributed_total_disp.py` (``00-distributed_total_disp.py``)                     | 00:01.318 | 0.0 MB |
+| :ref:`sphx_glr_examples_06-distributed-post_00-distributed_total_disp.py` (``00-distributed_total_disp.py``)                     | 00:01.250 | 0.0 MB |
 +----------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
