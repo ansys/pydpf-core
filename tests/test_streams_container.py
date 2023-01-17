@@ -44,6 +44,4 @@ def test_create_from_streams_container(server_in_process, simple_bar):
     model = dpf.core.Model(simple_bar, server=server_in_process)
     streams_provider = model.metadata.streams_provider
     sc = streams_provider.outputs.streams_container()
-    dpf.core.streams_container.StreamsContainer(
-        streams_container=sc, server=server_in_process
-    )
+    dpf.core.streams_container.StreamsContainer(streams_container=sc, server=server_in_process)

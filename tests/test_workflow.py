@@ -389,9 +389,7 @@ def test_inputs_outputs_inputs_outputs_scopings_container_workflow(
     assert len(out) == len(sc)
 
 
-def test_inputs_outputs_inputs_outputs_meshes_container_workflow(
-    allkindofcomplexity, server_type
-):
+def test_inputs_outputs_inputs_outputs_meshes_container_workflow(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)
     model = dpf.core.Model(data_sources, server=server_type)
     op = dpf.core.Operator("split_mesh", server=server_type)
@@ -722,9 +720,7 @@ def test_create_on_other_server_with_ip_workflow(local_server):
     workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
-    new_workflow = workflow.create_on_other_server(
-        ip=local_server.ip, port=local_server.port
-    )
+    new_workflow = workflow.create_on_other_server(ip=local_server.ip, port=local_server.port)
     assert new_workflow.input_names == ["data_sources"]
     assert new_workflow.output_names == ["max", "min"]
 
@@ -760,9 +756,7 @@ def test_create_on_other_server_with_address2_workflow(local_server):
     workflow.set_input_name("data_sources", disp_op.inputs.data_sources)
     workflow.set_output_name("min", max_fc_op.outputs.field_min)
     workflow.set_output_name("max", max_fc_op.outputs.field_max)
-    new_workflow = workflow.create_on_other_server(
-        local_server.ip + ":" + str(local_server.port)
-    )
+    new_workflow = workflow.create_on_other_server(local_server.ip + ":" + str(local_server.port))
     assert new_workflow.input_names == ["data_sources"]
     assert new_workflow.output_names == ["max", "min"]
 
@@ -795,18 +789,14 @@ def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_
 
 def main():
     test_connect_field_workflow()
-    velocity_acceleration = conftest.resolve_test_file(
-        "velocity_acceleration.rst", "rst_operators"
-    )
+    velocity_acceleration = conftest.resolve_test_file("velocity_acceleration.rst", "rst_operators")
     test_connect_list_workflow(velocity_acceleration)
     test_connect_fieldscontainer_workflow()
     test_connect_fieldscontainer_2_workflow()
     test_connect_bool_workflow()
     test_connect_scoping_workflow()
     test_connect_scoping_2_workflow()
-    fields_container_csv = conftest.resolve_test_file(
-        "fields_container.csv", "csvToField"
-    )
+    fields_container_csv = conftest.resolve_test_file("fields_container.csv", "csvToField")
     test_connect_datasources_workflow(fields_container_csv)
     test_connect_operator_workflow()
     test_connect_operator_2_workflow()

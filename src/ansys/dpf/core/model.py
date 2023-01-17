@@ -235,11 +235,7 @@ class Model:
         kwargs["color"] = color
         kwargs["show_edges"] = show_edges
         pl = DpfPlotter(**kwargs)
-        pl.add_mesh(
-            self.metadata.meshed_region,
-            show_axes=kwargs.pop("show_axes", True),
-            **kwargs
-        )
+        pl.add_mesh(self.metadata.meshed_region, show_axes=kwargs.pop("show_axes", True), **kwargs)
         return pl.show_figure(**kwargs)
 
     @property
@@ -287,9 +283,7 @@ class Metadata:
         """Create a stream provider and cache it."""
         from ansys.dpf.core import operators
 
-        if hasattr(operators, "metadata") and hasattr(
-            operators.metadata, "stream_provider"
-        ):
+        if hasattr(operators, "metadata") and hasattr(operators.metadata, "stream_provider"):
             self._stream_provider = operators.metadata.streams_provider(
                 data_sources=self._data_sources, server=self._server
             )
@@ -348,9 +342,7 @@ class Metadata:
                 timeProvider.inputs.connect(self._stream_provider.outputs)
             else:
                 timeProvider.inputs.connect(self.data_sources)
-            self._time_freq_support = timeProvider.get_output(
-                0, types.time_freq_support
-            )
+            self._time_freq_support = timeProvider.get_output(0, types.time_freq_support)
         return self._time_freq_support
 
     @property
@@ -501,9 +493,7 @@ class Metadata:
             Meshes
         """
         if self._meshes_container is None:
-            self._meshes_container = self.meshes_provider.get_output(
-                0, types.meshes_container
-            )
+            self._meshes_container = self.meshes_provider.get_output(0, types.meshes_container)
 
         return self._meshes_container
 

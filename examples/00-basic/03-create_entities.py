@@ -34,9 +34,7 @@ def search_sequence_numpy(arr, seq):
     indexes = np.where(np.isclose(arr, seq[0]))
     for index in np.nditer(indexes[0]):
         if index % 3 == 0:
-            if np.allclose(arr[index + 1], seq[1]) and np.allclose(
-                arr[index + 2], seq[2]
-            ):
+            if np.allclose(arr[index + 1], seq[1]) and np.allclose(arr[index + 2], seq[2]):
                 return index
     return -1
 
@@ -45,22 +43,13 @@ def search_sequence_numpy(arr, seq):
 # Add nodes:
 n_id = 1
 for i, x in enumerate(
-    [
-        float(i) * length / float(num_nodes_in_length)
-        for i in range(0, num_nodes_in_length)
-    ]
+    [float(i) * length / float(num_nodes_in_length) for i in range(0, num_nodes_in_length)]
 ):
     for j, y in enumerate(
-        [
-            float(i) * width / float(num_nodes_in_width)
-            for i in range(0, num_nodes_in_width)
-        ]
+        [float(i) * width / float(num_nodes_in_width) for i in range(0, num_nodes_in_width)]
     ):
         for k, z in enumerate(
-            [
-                float(i) * depth / float(num_nodes_in_depth)
-                for i in range(0, num_nodes_in_depth)
-            ]
+            [float(i) * depth / float(num_nodes_in_depth) for i in range(0, num_nodes_in_depth)]
         ):
             mesh.nodes.add_node(n_id, [x, y, z])
             n_id += 1
@@ -81,31 +70,20 @@ coordinates_scoping = coordinates.scoping
 # Add solid elements (linear hexa with eight nodes):
 e_id = 1
 for i, x in enumerate(
-    [
-        float(i) * length / float(num_nodes_in_length)
-        for i in range(num_nodes_in_length - 1)
-    ]
+    [float(i) * length / float(num_nodes_in_length) for i in range(num_nodes_in_length - 1)]
 ):
     for j, y in enumerate(
-        [
-            float(i) * width / float(num_nodes_in_width)
-            for i in range(num_nodes_in_width - 1)
-        ]
+        [float(i) * width / float(num_nodes_in_width) for i in range(num_nodes_in_width - 1)]
     ):
         for k, z in enumerate(
-            [
-                float(i) * depth / float(num_nodes_in_depth)
-                for i in range(num_nodes_in_depth - 1)
-            ]
+            [float(i) * depth / float(num_nodes_in_depth) for i in range(num_nodes_in_depth - 1)]
         ):
             coord1 = np.array([x, y, z])
             connectivity = []
             for xx in [x, x + length / float(num_nodes_in_length)]:
                 for yy in [y, y + width / float(num_nodes_in_width)]:
                     for zz in [z, z + depth / float(num_nodes_in_depth)]:
-                        data_index = search_sequence_numpy(
-                            flat_coordinates_data, [xx, yy, zz]
-                        )
+                        data_index = search_sequence_numpy(flat_coordinates_data, [xx, yy, zz])
                         scoping_index = int(data_index / 3)  # 3components
                         connectivity.append(scoping_index)
             # rearrange connectivity

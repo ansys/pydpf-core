@@ -213,9 +213,7 @@ class PropertyField(_FieldBase):
         return data
 
     def append(self, data, scopingid):
-        self._api.csproperty_field_push_back(
-            self, scopingid, _get_size_of_list(data), data
-        )
+        self._api.csproperty_field_push_back(self, scopingid, _get_size_of_list(data), data)
 
     def _get_data_pointer(self):
         try:
@@ -229,9 +227,7 @@ class PropertyField(_FieldBase):
             return self._api.csproperty_field_get_data_pointer(self, True)
 
     def _set_data_pointer(self, data):
-        return self._api.csproperty_field_set_data_pointer(
-            self, _get_size_of_list(data), data
-        )
+        return self._api.csproperty_field_set_data_pointer(self, _get_size_of_list(data), data)
 
     def _get_data(self, np_array=True):
         try:
@@ -239,11 +235,7 @@ class PropertyField(_FieldBase):
             self._api.csproperty_field_get_data_for_dpf_vector(
                 self, vec, vec.internal_data, vec.internal_size
             )
-            data = (
-                dpf_array.DPFArray(vec)
-                if np_array
-                else dpf_array.DPFArray(vec).tolist()
-            )
+            data = dpf_array.DPFArray(vec) if np_array else dpf_array.DPFArray(vec).tolist()
         except NotImplementedError:
             data = self._api.csproperty_field_get_data(self, np_array)
         n_comp = self.component_count
@@ -256,8 +248,7 @@ class PropertyField(_FieldBase):
             if (
                 0 != self.size
                 and self.component_count > 1
-                and data.size // self.component_count
-                != data.size / self.component_count
+                and data.size // self.component_count != data.size / self.component_count
             ):
                 raise ValueError(
                     f"An array of shape {self.shape} is expected and "

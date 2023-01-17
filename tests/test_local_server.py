@@ -23,9 +23,7 @@ def test_add_operator_server_field(local_server):
     out = add.outputs.field()
     assert len(out) == 6
     assert np.allclose(out.scoping.ids, [1, 2])
-    assert np.allclose(
-        out.data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
-    )
+    assert np.allclose(out.data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]]))
 
     # field + float
     add = field + 1.0
@@ -123,9 +121,7 @@ def test_add_operator_server_fields_container(local_server):
     out = add.outputs.fields_container()
     assert len(out) == 2
     assert np.allclose(out[0].scoping.ids, [1, 2])
-    assert np.allclose(
-        out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
-    )
+    assert np.allclose(out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]]))
 
     # fc + float
     add = fc + 1.0
@@ -235,9 +231,7 @@ def test_add_operator_server_fields_container(local_server):
     out = add.outputs.fields_container()
     assert len(out) == 2
     assert np.allclose(out[0].scoping.ids, [1, 2])
-    assert np.allclose(
-        out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
-    )
+    assert np.allclose(out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]]))
 
     # fc + float
     add = fc + 1.0

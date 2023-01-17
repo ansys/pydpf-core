@@ -33,9 +33,7 @@ class Dimensionality:
             elif isinstance(nature, int):
                 self.nature = natures(nature)
             else:
-                raise TypeError(
-                    "Nature is expected to be cast into ansys.dpf.core.natures enum"
-                )
+                raise TypeError("Nature is expected to be cast into ansys.dpf.core.natures enum")
 
         if self.dim is not None and 0 in self.dim:
             self.dim = [x for x in self.dim if x != 0]

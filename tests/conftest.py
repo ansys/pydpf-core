@@ -192,9 +192,7 @@ def binout_glstat():
 def engineering_data_sources():
     """Resolve the path of the "model_with_ns.rst" result file."""
     ds = core.DataSources(resolve_test_file("file.rst", "engineeringData"))
-    ds.add_file_path(
-        resolve_test_file("MatML.xml", "engineeringData"), "EngineeringData"
-    )
+    ds.add_file_path(resolve_test_file("MatML.xml", "engineeringData"), "EngineeringData")
     ds.add_file_path(resolve_test_file("ds.dat", "engineeringData"), "dat")
     return ds
 
@@ -413,9 +411,7 @@ def server_in_process():
 
 @pytest.fixture()
 def restore_awp_root():
-    ver_to_check = core._version.server_to_ansys_version[
-        str(core.global_server().version)
-    ]
+    ver_to_check = core._version.server_to_ansys_version[str(core.global_server().version)]
     ver_to_check = ver_to_check[2:4] + ver_to_check[5:6]
     awp_root_name = "AWP_ROOT" + ver_to_check
     awp_root_save = os.environ.get(awp_root_name, None)
@@ -437,9 +433,7 @@ class LocalServers:
             conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
         if len(self._local_servers) <= item:
             while len(self._local_servers) <= item:
-                self._local_servers.append(
-                    core.start_local_server(as_global=False, config=conf)
-                )
+                self._local_servers.append(core.start_local_server(as_global=False, config=conf))
         try:
             self._local_servers[item].info
             return self._local_servers[item]

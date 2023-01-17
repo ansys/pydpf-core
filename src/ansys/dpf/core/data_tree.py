@@ -102,9 +102,7 @@ class DataTree:
             # step3: init environment
             self._api.init_dpf_data_tree_environment(self)  # creates stub when gRPC
             if self._server.has_client():
-                self._internal_obj = self._api.dpf_data_tree_new_on_client(
-                    self._server.client
-                )
+                self._internal_obj = self._api.dpf_data_tree_new_on_client(self._server.client)
             else:
                 self._internal_obj = self._api.dpf_data_tree_new()
 
@@ -158,29 +156,21 @@ class DataTree:
 
         def add_data(self, key, value):
             if isinstance(value, str):
-                self._api.dpf_data_tree_set_string_attribute(
-                    self, key, value, len(value)
-                )
+                self._api.dpf_data_tree_set_string_attribute(self, key, value, len(value))
             elif isinstance(value, float):
                 self._api.dpf_data_tree_set_double_attribute(self, key, value)
             elif isinstance(value, (bool, int, enum.Enum)):
                 self._api.dpf_data_tree_set_int_attribute(self, key, int(value))
             elif isinstance(value, list):
                 if len(value) > 0 and isinstance(value[0], float):
-                    self._api.dpf_data_tree_set_vec_double_attribute(
-                        self, key, value, len(value)
-                    )
+                    self._api.dpf_data_tree_set_vec_double_attribute(self, key, value, len(value))
                 elif len(value) > 0 and isinstance(value[0], str):
                     coll_obj = collection.StringCollection(
                         list=value, local=True, server=self._server
                     )
-                    self._api.dpf_data_tree_set_string_collection_attribute(
-                        self, key, coll_obj
-                    )
+                    self._api.dpf_data_tree_set_string_collection_attribute(self, key, coll_obj)
                 elif len(value) > 0 and isinstance(value[0], int):
-                    self._api.dpf_data_tree_set_vec_int_attribute(
-                        self, key, value, len(value)
-                    )
+                    self._api.dpf_data_tree_set_vec_int_attribute(self, key, value, len(value))
                 elif len(value) > 0:
                     raise TypeError(
                         f"List of {type(value[0]).__name__} is not supported, "
@@ -252,9 +242,7 @@ class DataTree:
                 return path
             else:
                 directory = core.core.make_tmp_dir_server(self._server)
-                server_path = core.path_utilities.join(
-                    directory, "tmp.txt", server=self._server
-                )
+                server_path = core.path_utilities.join(directory, "tmp.txt", server=self._server)
                 operator.inputs.path.connect(server_path)
                 operator.run()
                 return core.download_file(server_path, path, server=self._server)
@@ -330,14 +318,10 @@ class DataTree:
         if path:
             server = server_module.get_or_create_server(server)
             if server.local_server:
-                operator.inputs.string_or_path.connect(
-                    core.DataSources(path, server=server)
-                )
+                operator.inputs.string_or_path.connect(core.DataSources(path, server=server))
             else:
                 server_path = core.upload_file_in_tmp_folder(path, server=server)
-                operator.inputs.string_or_path.connect(
-                    core.DataSources(server_path, server=server)
-                )
+                operator.inputs.string_or_path.connect(core.DataSources(server_path, server=server))
         elif txt:
             operator.inputs.string_or_path.connect(str(txt))
         return operator.outputs.data_tree()
@@ -481,21 +465,15 @@ class DataTree:
             out = str(out)
         elif type_to_return == types.vec_double:
             out = integral_types.MutableListDouble()
-            self._api.dpf_data_tree_get_vec_double_attribute(
-                self, name, out, out.internal_size
-            )
+            self._api.dpf_data_tree_get_vec_double_attribute(self, name, out, out.internal_size)
             out = out.tolist()
         elif type_to_return == types.vec_int:
             out = integral_types.MutableListInt32()
-            self._api.dpf_data_tree_get_vec_int_attribute(
-                self, name, out, out.internal_size
-            )
+            self._api.dpf_data_tree_get_vec_int_attribute(self, name, out, out.internal_size)
             out = out.tolist()
         elif type_to_return == types.vec_string:
             coll_obj = collection.StringCollection(
-                collection=self._api.dpf_data_tree_get_string_collection_attribute(
-                    self, name
-                ),
+                collection=self._api.dpf_data_tree_get_string_collection_attribute(self, name),
                 server=self._server,
             )
             out = coll_obj.get_integral_entries()

@@ -223,15 +223,11 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
                 # Construct the connectivity for the poly element
                 poly_connectivity = []
                 faces = elements_faces_connectivity.data[
-                    elements_faces_connectivity_dp[i] : elements_faces_connectivity_dp[
-                        i + 1
-                    ]
+                    elements_faces_connectivity_dp[i] : elements_faces_connectivity_dp[i + 1]
                 ]
                 for face in faces:
                     face_connectivity = faces_nodes_connectivity.data[
-                        faces_nodes_connectivity_dp[face] : faces_nodes_connectivity_dp[
-                            face + 1
-                        ]
+                        faces_nodes_connectivity_dp[face] : faces_nodes_connectivity_dp[face + 1]
                     ]
                     face_fmt = [len(face_connectivity)] + list(face_connectivity)
                     poly_connectivity += face_fmt
