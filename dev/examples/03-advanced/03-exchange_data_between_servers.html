@@ -804,12 +804,8 @@ you can use the <code class="xref py py-func docutils literal notranslate"><span
 method to connect to any DPF server on your network.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">as_global</span></code> attributes allows you to choose whether a server is stored
 by the module and used by default. This example sets the first server as the default.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">server1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span>
-    <span class="n">as_global</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span>
-<span class="p">)</span>
-<span class="n">server2</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span>
-    <span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span>
-<span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">server1</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span><span class="p">)</span>
+<span class="n">server2</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span><span class="p">)</span>
 
 <span class="c1"># Check that the two servers are listening on different ports.</span>
 <span class="nb">print</span><span class="p">(</span>
@@ -887,7 +883,7 @@ machines.</p>
 <li><img src="../../_images/sphx_glr_03-exchange_data_between_servers_001.png" srcset="../../_images/sphx_glr_03-exchange_data_between_servers_001.png" alt="03 exchange data between servers" class = "sphx-glr-multi-img"/></li>
 <li><img src="../../_images/sphx_glr_03-exchange_data_between_servers_002.png" srcset="../../_images/sphx_glr_03-exchange_data_between_servers_002.png" alt="03 exchange data between servers" class = "sphx-glr-multi-img"/></li>
 </ul>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  6.222 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  6.393 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-03-advanced-03-exchange-data-between-servers-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a9a7452a6e24e8dbb7d55f9f7eb6adcf/03-exchange_data_between_servers.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">03-exchange_data_between_servers.py</span></code></a></p>

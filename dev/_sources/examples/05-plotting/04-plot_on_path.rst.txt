@@ -173,13 +173,11 @@ Create the plotter and add fields and meshes.
 Plot the solution along the specified line. Note that since the line is only
 moving along the y-axis, the stresses are plotted with respect to the y coordinate.
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-83
+.. GENERATED FROM PYTHON SOURCE LINES 76-81
 
 .. code-block:: default
 
-    y_coords = [
-        mesh_m.nodes.coordinates_field.data[i][1] for i in range(mesh_m.nodes.n_nodes)
-    ]
+    y_coords = [mesh_m.nodes.coordinates_field.data[i][1] for i in range(mesh_m.nodes.n_nodes)]
     plt.plot(y_coords, field_m.data, "r")
     plt.xlabel(f"y-coordinate [{mesh.unit}]")
     plt.ylabel(f"Stress [{field_m.unit}]")
@@ -199,7 +197,7 @@ moving along the y-axis, the stresses are plotted with respect to the y coordina
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.282 seconds)
+   **Total running time of the script:** ( 0 minutes  1.298 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_04-plot_on_path.py:

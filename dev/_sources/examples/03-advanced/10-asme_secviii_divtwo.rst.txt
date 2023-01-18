@@ -205,13 +205,11 @@ Triaxial strain limit calculation
 Strain limit condition (less than 1 pass the criteria)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 137-142
+.. GENERATED FROM PYTHON SOURCE LINES 137-140
 
 .. code-block:: default
 
-    strainratio = dpf.operators.math.component_wise_divide(
-        fieldA=eppleqvave, fieldB=strainlimit
-    )
+    strainratio = dpf.operators.math.component_wise_divide(fieldA=eppleqvave, fieldB=strainlimit)
     strainratio = strainratio.outputs.field()
 
 
@@ -221,12 +219,12 @@ Strain limit condition (less than 1 pass the criteria)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 143-145
+.. GENERATED FROM PYTHON SOURCE LINES 141-143
 
 Strain limit condition is plot
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 145-147
+.. GENERATED FROM PYTHON SOURCE LINES 143-145
 
 .. code-block:: default
 
@@ -247,7 +245,7 @@ Strain limit condition is plot
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.298 seconds)
+   **Total running time of the script:** ( 0 minutes  1.549 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_10-asme_secviii_divtwo.py:

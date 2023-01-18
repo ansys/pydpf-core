@@ -793,8 +793,7 @@ The Python operator and its recording are available in the
 <span class="n">dpf</span><span class="o">.</span><span class="n">set_default_server_context</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerContexts</span><span class="o">.</span><span class="n">premium</span><span class="p">)</span>
 
 <span class="n">GITHUB_SOURCE_URL</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s2">&quot;https://github.com/pyansys/pydpf-core/&quot;</span>
-    <span class="s2">&quot;raw/examples/first_python_plugins/python_plugins&quot;</span>
+    <span class="s2">&quot;https://github.com/pyansys/pydpf-core/&quot;</span> <span class="s2">&quot;raw/examples/first_python_plugins/python_plugins&quot;</span>
 <span class="p">)</span>
 <span class="n">EXAMPLE_FILE</span> <span class="o">=</span> <span class="n">GITHUB_SOURCE_URL</span> <span class="o">+</span> <span class="s2">&quot;/easy_statistics.py&quot;</span>
 <span class="n">operator_file_path</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">downloads</span><span class="o">.</span><span class="n">_retrieve_file</span><span class="p">(</span>
@@ -914,9 +913,7 @@ plugin.</p>
 <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span><span class="p">)</span>
 
 <span class="n">operator_server_file_path</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">upload_file_in_tmp_folder</span><span class="p">(</span><span class="n">operator_file_path</span><span class="p">)</span>
-<span class="n">dpf</span><span class="o">.</span><span class="n">load_library</span><span class="p">(</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">operator_server_file_path</span><span class="p">),</span> <span class="s2">&quot;py_easy_statistics&quot;</span><span class="p">,</span> <span class="s2">&quot;load_operators&quot;</span>
-<span class="p">)</span>
+<span class="n">dpf</span><span class="o">.</span><span class="n">load_library</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">operator_server_file_path</span><span class="p">),</span> <span class="s2">&quot;py_easy_statistics&quot;</span><span class="p">,</span> <span class="s2">&quot;load_operators&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&#39;py_easy_statistics successfully loaded&#39;
@@ -963,7 +960,7 @@ third quartile is 1.4276663319275634e-08
 variance is 3.054190175494998e-17
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.830 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.991 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-07-python-operators-00-wrapping-numpy-capabilities-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/ed1907232d69ade0798fc5971e321e6c/00-wrapping_numpy_capabilities.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-wrapping_numpy_capabilities.py</span></code></a></p>

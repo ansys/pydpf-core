@@ -164,7 +164,7 @@ Define the polyhedron's connectivity
 
 Set property fields required for Polyhedron elements
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-106
+.. GENERATED FROM PYTHON SOURCE LINES 85-104
 
 .. code-block:: default
 
@@ -185,9 +185,7 @@ Set property fields required for Polyhedron elements
     elements_faces_f = dpf.PropertyField()
     for element_index, element_faces in enumerate(element_faces):
         elements_faces_f.append(element_faces, element_index)
-    mesh.set_property_field(
-        property_name="elements_faces_connectivity", value=elements_faces_f
-    )
+    mesh.set_property_field(property_name="elements_faces_connectivity", value=elements_faces_f)
 
 
 
@@ -196,13 +194,13 @@ Set property fields required for Polyhedron elements
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 107-110
+.. GENERATED FROM PYTHON SOURCE LINES 105-108
 
 Visualize mesh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Plot the :class:`MeshedRegion <ansys.dpf.meshed_region.MeshedRegion>`
 
-.. GENERATED FROM PYTHON SOURCE LINES 110-111
+.. GENERATED FROM PYTHON SOURCE LINES 108-109
 
 .. code-block:: default
 
@@ -222,7 +220,7 @@ Plot the :class:`MeshedRegion <ansys.dpf.meshed_region.MeshedRegion>`
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.797 seconds)
+   **Total running time of the script:** ( 0 minutes  0.751 seconds)
 
 
 .. _sphx_glr_download_examples_09-mesh_operations_00-create_polygons_and_polyhedrons.py:

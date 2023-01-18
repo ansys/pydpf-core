@@ -293,7 +293,7 @@ by bodies.
 Given that there are three different time steps, create a scopings container
 that contains the meshes of each of these time steps.
 
-.. GENERATED FROM PYTHON SOURCE LINES 153-166
+.. GENERATED FROM PYTHON SOURCE LINES 153-164
 
 .. code-block:: default
 
@@ -304,9 +304,7 @@ that contains the meshes of each of these time steps.
     for tset in time_sets:
         body = 1
         for mesh_scop in mesh_scop_cont:
-            scop_cont.add_scoping(
-                scoping=mesh_scop, label_space={"body": body, "time": int(tset)}
-            )
+            scop_cont.add_scoping(scoping=mesh_scop, label_space={"body": body, "time": int(tset)})
             body += 1
     print(scop_cont)
 
@@ -327,14 +325,14 @@ that contains the meshes of each of these time steps.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 167-171
+.. GENERATED FROM PYTHON SOURCE LINES 165-169
 
 The scopings container has six different scopings, one for each body over
 each of the three time steps.
 
 Set the time set of interest to the last time set.
 
-.. GENERATED FROM PYTHON SOURCE LINES 171-173
+.. GENERATED FROM PYTHON SOURCE LINES 169-171
 
 .. code-block:: default
 
@@ -347,14 +345,14 @@ Set the time set of interest to the last time set.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 174-178
+.. GENERATED FROM PYTHON SOURCE LINES 172-176
 
 To retrieve the Z stresses without averaging across the two bodies, you must
 pass a scopings container that contains their respective meshes as a parameter
 to the ``stress_Z`` operator. To do this, create a scopings container that contains
 the meshes of the two bodies in the desired time step.
 
-.. GENERATED FROM PYTHON SOURCE LINES 178-187
+.. GENERATED FROM PYTHON SOURCE LINES 176-185
 
 .. code-block:: default
 
@@ -384,15 +382,15 @@ the meshes of the two bodies in the desired time step.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 188-189
+.. GENERATED FROM PYTHON SOURCE LINES 186-187
 
 This contain has only two scopings, one for each body in the last time step.
 
-.. GENERATED FROM PYTHON SOURCE LINES 191-192
+.. GENERATED FROM PYTHON SOURCE LINES 189-190
 
 Extract the stresses in the Z direction.
 
-.. GENERATED FROM PYTHON SOURCE LINES 192-202
+.. GENERATED FROM PYTHON SOURCE LINES 190-198
 
 .. code-block:: default
 
@@ -400,9 +398,7 @@ Extract the stresses in the Z direction.
     stress_op = ops.result.stress_Z()
     stress_op.inputs.connect(model)
     stress_op.inputs.time_scoping.connect(time_set)
-    stress_op.inputs.mesh_scoping.connect(
-        scopings
-    )  # This option deactivates averaging across bodies.
+    stress_op.inputs.mesh_scoping.connect(scopings)  # This option deactivates averaging across bodies.
     stress_op.inputs.requested_location.connect(dpf.locations.nodal)
     stresses = stress_op.outputs.fields_container()
     print(stresses)
@@ -426,11 +422,11 @@ Extract the stresses in the Z direction.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 203-204
+.. GENERATED FROM PYTHON SOURCE LINES 199-200
 
 Find the maximum value of the stress field for comparison purposes.
 
-.. GENERATED FROM PYTHON SOURCE LINES 204-208
+.. GENERATED FROM PYTHON SOURCE LINES 200-204
 
 .. code-block:: default
 
@@ -445,11 +441,11 @@ Find the maximum value of the stress field for comparison purposes.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 209-210
+.. GENERATED FROM PYTHON SOURCE LINES 205-206
 
 Define the preceding workflow as a function:
 
-.. GENERATED FROM PYTHON SOURCE LINES 210-262
+.. GENERATED FROM PYTHON SOURCE LINES 206-256
 
 .. code-block:: default
 
@@ -474,9 +470,7 @@ Define the preceding workflow as a function:
         for tset in time_sets:
             body = 1
             for mesh_scop in mesh_scop_cont:
-                scop_cont.add_scoping(
-                    scoping=mesh_scop, label_space={"body": body, "time": int(tset)}
-                )
+                scop_cont.add_scoping(scoping=mesh_scop, label_space={"body": body, "time": int(tset)})
                 body += 1
 
         time_set = 3
@@ -512,7 +506,7 @@ Define the preceding workflow as a function:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 263-268
+.. GENERATED FROM PYTHON SOURCE LINES 257-262
 
 Plot and compare the results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -520,7 +514,7 @@ Plot and compare the results. The first plot shows the stress distribution
 when averaging across bodies is activated. The second plot shows the stress
 distribution when averaging across bodies is deactivated.
 
-.. GENERATED FROM PYTHON SOURCE LINES 268-272
+.. GENERATED FROM PYTHON SOURCE LINES 262-266
 
 .. code-block:: default
 
@@ -552,19 +546,13 @@ distribution when averaging across bodies is deactivated.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 273-288
+.. GENERATED FROM PYTHON SOURCE LINES 267-276
 
 .. code-block:: default
 
     diff = abs(max_avg_on - max_avg_off) / max_avg_off * 100
-    print(
-        "Max stress when averaging across bodies is activated: {:.2f} Pa".format(max_avg_on)
-    )
-    print(
-        "Max stress when averaging across bodies is deactivated: {:.2f} Pa".format(
-            max_avg_off
-        )
-    )
+    print("Max stress when averaging across bodies is activated: {:.2f} Pa".format(max_avg_on))
+    print("Max stress when averaging across bodies is deactivated: {:.2f} Pa".format(max_avg_off))
     print(
         "The maximum stress value when averaging across bodies is ACTIVATED \
     is {:.2f}% LOWER than when it is DEACTIVATED".format(
@@ -589,7 +577,7 @@ distribution when averaging across bodies is deactivated.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.394 seconds)
+   **Total running time of the script:** ( 0 minutes  4.551 seconds)
 
 
 .. _sphx_glr_download_examples_08-averaging_01-average_across_bodies.py:

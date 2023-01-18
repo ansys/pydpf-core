@@ -98,7 +98,7 @@ Consequently, it require two remote processes.
 To make it easier, this example starts local servers. However, you can
 connect to any existing servers on your network.
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-84
+.. GENERATED FROM PYTHON SOURCE LINES 68-80
 
 .. code-block:: default
 
@@ -108,12 +108,8 @@ connect to any existing servers on your network.
     )
 
     remote_servers = [
-        dpf.start_local_server(
-            as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
-        ),
-        dpf.start_local_server(
-            as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
-        ),
+        dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+        dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
     ]
     ips = [remote_server.ip for remote_server in remote_servers]
     ports = [remote_server.port for remote_server in remote_servers]
@@ -125,11 +121,11 @@ connect to any existing servers on your network.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-86
+.. GENERATED FROM PYTHON SOURCE LINES 81-82
 
 Print the IP addresses and ports.
 
-.. GENERATED FROM PYTHON SOURCE LINES 86-89
+.. GENERATED FROM PYTHON SOURCE LINES 82-85
 
 .. code-block:: default
 
@@ -150,11 +146,11 @@ Print the IP addresses and ports.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-91
+.. GENERATED FROM PYTHON SOURCE LINES 86-87
 
 Send files to the temporary directory if they are not in shared memory.
 
-.. GENERATED FROM PYTHON SOURCE LINES 91-97
+.. GENERATED FROM PYTHON SOURCE LINES 87-93
 
 .. code-block:: default
 
@@ -171,14 +167,14 @@ Send files to the temporary directory if they are not in shared memory.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 98-102
+.. GENERATED FROM PYTHON SOURCE LINES 94-98
 
 Create operators on each server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 On each server, create two operators, one for displacement computations
 and one for norm computations. Define their data sources:
 
-.. GENERATED FROM PYTHON SOURCE LINES 102-116
+.. GENERATED FROM PYTHON SOURCE LINES 98-112
 
 .. code-block:: default
 
@@ -203,13 +199,13 @@ and one for norm computations. Define their data sources:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 117-120
+.. GENERATED FROM PYTHON SOURCE LINES 113-116
 
 Create an operator to merge results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Create the ``merge_fields_containers`` operator to merge the results.
 
-.. GENERATED FROM PYTHON SOURCE LINES 120-123
+.. GENERATED FROM PYTHON SOURCE LINES 116-119
 
 .. code-block:: default
 
@@ -223,12 +219,12 @@ Create the ``merge_fields_containers`` operator to merge the results.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 124-126
+.. GENERATED FROM PYTHON SOURCE LINES 120-122
 
 Connect the operators together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 126-134
+.. GENERATED FROM PYTHON SOURCE LINES 122-130
 
 .. code-block:: default
 
@@ -264,7 +260,7 @@ Connect the operators together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.250 seconds)
+   **Total running time of the script:** ( 0 minutes  1.188 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_00-distributed_total_disp.py:

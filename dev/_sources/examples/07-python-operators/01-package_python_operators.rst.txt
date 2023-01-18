@@ -295,7 +295,7 @@ plug-in package.
   for the plug-in package that is used to record operators.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-97
+.. GENERATED FROM PYTHON SOURCE LINES 78-95
 
 .. code-block:: default
 
@@ -309,9 +309,7 @@ plug-in package.
     dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
     tmp = dpf.make_tmp_dir_server()
-    dpf.upload_files_in_folder(
-        dpf.path_utilities.join(tmp, "average_filter_plugin"), plugin_folder
-    )
+    dpf.upload_files_in_folder(dpf.path_utilities.join(tmp, "average_filter_plugin"), plugin_folder)
     dpf.load_library(
         os.path.join(dpf.path_utilities.join(tmp, "average_filter_plugin")),
         "py_average_filter",
@@ -331,11 +329,11 @@ plug-in package.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 98-99
+.. GENERATED FROM PYTHON SOURCE LINES 96-97
 
 Instantiate the operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 99-102
+.. GENERATED FROM PYTHON SOURCE LINES 97-100
 
 .. code-block:: default
 
@@ -349,7 +347,7 @@ Instantiate the operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 103-110
+.. GENERATED FROM PYTHON SOURCE LINES 101-108
 
 Connect a workflow
 ------------------
@@ -359,7 +357,7 @@ Methods of the ``ids_with_data_lower_than_average`` class are dynamically
 added because specifications for the operator are defined in the plug-in
 package.
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-124
+.. GENERATED FROM PYTHON SOURCE LINES 110-122
 
 .. graphviz::
 
@@ -374,12 +372,12 @@ package.
       norm -> ids_with_data_lower_than_average;
    }
 
-.. GENERATED FROM PYTHON SOURCE LINES 126-128
+.. GENERATED FROM PYTHON SOURCE LINES 124-126
 
 Use the operator
 ----------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 128-139
+.. GENERATED FROM PYTHON SOURCE LINES 126-137
 
 .. code-block:: default
 
@@ -416,7 +414,7 @@ Use the operator
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.259 seconds)
+   **Total running time of the script:** ( 0 minutes  4.870 seconds)
 
 
 .. _sphx_glr_download_examples_07-python-operators_01-package_python_operators.py:

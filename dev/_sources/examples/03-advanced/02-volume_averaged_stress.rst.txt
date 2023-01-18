@@ -175,7 +175,7 @@ For each list of elements surrounding nodes:
 - Divide this sum by the total volume on these elements.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 108-142
+.. GENERATED FROM PYTHON SOURCE LINES 108-141
 
 .. code-block:: default
 
@@ -197,8 +197,7 @@ For each list of elements surrounding nodes:
                 ssum = 0.0
                 for id in node_index_to_el_ids[key]:
                     ssum += (
-                        values_to_sum.get_entity_data_by_id(id)[0]
-                        * vol.get_entity_data_by_id(id)[0]
+                        values_to_sum.get_entity_data_by_id(id)[0] * vol.get_entity_data_by_id(id)[0]
                     )
                 dataseqvsum.append(ssum)
                 datavolsum.append(node_index_to_found_volume[key])
@@ -220,12 +219,12 @@ For each list of elements surrounding nodes:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 143-145
+.. GENERATED FROM PYTHON SOURCE LINES 142-144
 
 Plot equivalent elemental stress and volume averaged elemental equivalent stress
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 145-148
+.. GENERATED FROM PYTHON SOURCE LINES 144-147
 
 .. code-block:: default
 
@@ -256,20 +255,18 @@ Plot equivalent elemental stress and volume averaged elemental equivalent stress
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 149-152
+.. GENERATED FROM PYTHON SOURCE LINES 148-151
 
 Use the operator instead
 ~~~~~~~~~~~~~~~~~~~~~~~~
 An operator with the same algorithm has been implemented
 
-.. GENERATED FROM PYTHON SOURCE LINES 152-169
+.. GENERATED FROM PYTHON SOURCE LINES 151-166
 
 .. code-block:: default
 
     s_fc = s.outputs.fields_container()
-    single_field_vol_fc = dpf.fields_container_factory.over_time_freq_fields_container(
-        [vol_field]
-    )
+    single_field_vol_fc = dpf.fields_container_factory.over_time_freq_fields_container([vol_field])
 
     single_field_fc = dpf.fields_container_factory.over_time_freq_fields_container(
         [values_to_sum_field]
@@ -298,7 +295,7 @@ An operator with the same algorithm has been implemented
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.955 seconds)
+   **Total running time of the script:** ( 0 minutes  3.017 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_02-volume_averaged_stress.py:

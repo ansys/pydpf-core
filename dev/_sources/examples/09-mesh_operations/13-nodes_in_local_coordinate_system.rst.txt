@@ -170,15 +170,13 @@ Get rotated nodal coordinates field:
 Transform rotated nodal coordinates field along rotated position vector
 ``pos_vec_rot``:
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-71
+.. GENERATED FROM PYTHON SOURCE LINES 66-69
 
 .. code-block:: default
 
     pos_vec_rot_neg_f = dpf.operators.math.scale(field=pos_vec_rot, ponderation=-1.0)
     pos_vec_rot_neg = pos_vec_rot_neg_f.outputs.field.get_data().data_as_list
-    ncoord_translate = dpf.operators.math.add_constant(
-        field=ncoord_rot_f, ponderation=pos_vec_rot_neg
-    )
+    ncoord_translate = dpf.operators.math.add_constant(field=ncoord_rot_f, ponderation=pos_vec_rot_neg)
 
 
 
@@ -186,11 +184,11 @@ Transform rotated nodal coordinates field along rotated position vector
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-73
+.. GENERATED FROM PYTHON SOURCE LINES 70-71
 
 Get the nodal coordinates field ``ncoord_lcs_f`` in LCS:
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-75
+.. GENERATED FROM PYTHON SOURCE LINES 71-73
 
 .. code-block:: default
 
@@ -203,11 +201,11 @@ Get the nodal coordinates field ``ncoord_lcs_f`` in LCS:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-77
+.. GENERATED FROM PYTHON SOURCE LINES 74-75
 
 Coordinates of NID 1 in GCS
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-79
+.. GENERATED FROM PYTHON SOURCE LINES 75-77
 
 .. code-block:: default
 
@@ -226,11 +224,11 @@ Coordinates of NID 1 in GCS
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-81
+.. GENERATED FROM PYTHON SOURCE LINES 78-79
 
 Coordinates of NID 1 in LCS
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-82
+.. GENERATED FROM PYTHON SOURCE LINES 79-80
 
 .. code-block:: default
 

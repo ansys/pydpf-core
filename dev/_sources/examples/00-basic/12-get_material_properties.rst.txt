@@ -186,17 +186,35 @@ print the operator help.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-53
+.. GENERATED FROM PYTHON SOURCE LINES 52-54
 
-Extract the Young's modulus for element ID ``1``.
+To extract the Young's modulus for element ID ``1``, first we need to get the
+mat_id for EID ``1``.
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-57
+.. GENERATED FROM PYTHON SOURCE LINES 54-56
+
+.. code-block:: default
+
+    mat_id = mats.get_entity_data_by_id(1)
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 57-58
+
+And then use the mat_id get the material property.
+
+.. GENERATED FROM PYTHON SOURCE LINES 58-62
 
 .. code-block:: default
 
     mat_prop.inputs.properties_name.connect("EX")
     mat_field = mat_prop.outputs.properties_value.get_data()[0]
-    print(mat_field.get_entity_data_by_id(1))
+    print(mat_field.get_entity_data_by_id(mat_id[0]))
 
 
 
@@ -211,17 +229,17 @@ Extract the Young's modulus for element ID ``1``.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-59
+.. GENERATED FROM PYTHON SOURCE LINES 63-64
 
 Extract Poisson's ratio for element ID ``1``.
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-62
+.. GENERATED FROM PYTHON SOURCE LINES 64-67
 
 .. code-block:: default
 
     mat_prop.inputs.properties_name.connect("NUXY")
     mat_field = mat_prop.outputs.properties_value.get_data()[0]
-    print(mat_field.get_entity_data_by_id(1))
+    print(mat_field.get_entity_data_by_id(mat_id[0]))
 
 
 
@@ -238,7 +256,7 @@ Extract Poisson's ratio for element ID ``1``.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.031 seconds)
+   **Total running time of the script:** ( 0 minutes  0.016 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_12-get_material_properties.py:

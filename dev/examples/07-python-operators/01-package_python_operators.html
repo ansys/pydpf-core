@@ -1020,9 +1020,7 @@ for the plug-in package that is used to record operators.</p></li>
 <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span><span class="p">)</span>
 
 <span class="n">tmp</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">make_tmp_dir_server</span><span class="p">()</span>
-<span class="n">dpf</span><span class="o">.</span><span class="n">upload_files_in_folder</span><span class="p">(</span>
-    <span class="n">dpf</span><span class="o">.</span><span class="n">path_utilities</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="s2">&quot;average_filter_plugin&quot;</span><span class="p">),</span> <span class="n">plugin_folder</span>
-<span class="p">)</span>
+<span class="n">dpf</span><span class="o">.</span><span class="n">upload_files_in_folder</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">path_utilities</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="s2">&quot;average_filter_plugin&quot;</span><span class="p">),</span> <span class="n">plugin_folder</span><span class="p">)</span>
 <span class="n">dpf</span><span class="o">.</span><span class="n">load_library</span><span class="p">(</span>
     <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">path_utilities</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="s2">&quot;average_filter_plugin&quot;</span><span class="p">)),</span>
     <span class="s2">&quot;py_average_filter&quot;</span><span class="p">,</span>
@@ -1078,7 +1076,7 @@ scoping out is: DPF  Scoping:
   with Nodal location and 35 entities
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.259 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.870 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-07-python-operators-01-package-python-operators-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a509d520cc7e8df99837074c955c911c/01-package_python_operators.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-package_python_operators.py</span></code></a></p>

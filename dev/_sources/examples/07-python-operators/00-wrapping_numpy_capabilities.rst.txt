@@ -52,7 +52,7 @@ The Python operator and its recording are available in the
 
 Download and display the Python script.
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-56
+.. GENERATED FROM PYTHON SOURCE LINES 36-55
 
 .. code-block:: default
 
@@ -64,8 +64,7 @@ Download and display the Python script.
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
     GITHUB_SOURCE_URL = (
-        "https://github.com/pyansys/pydpf-core/"
-        "raw/examples/first_python_plugins/python_plugins"
+        "https://github.com/pyansys/pydpf-core/" "raw/examples/first_python_plugins/python_plugins"
     )
     EXAMPLE_FILE = GITHUB_SOURCE_URL + "/easy_statistics.py"
     operator_file_path = examples.downloads._retrieve_file(
@@ -176,14 +175,14 @@ Download and display the Python script.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-61
+.. GENERATED FROM PYTHON SOURCE LINES 56-60
 
 Load the plugin
 ---------------
 You use the :py:func:`ansys.dpf.core.core.load_library` method to load the
 plugin.
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-80
+.. GENERATED FROM PYTHON SOURCE LINES 60-77
 
 .. code-block:: default
 
@@ -202,9 +201,7 @@ plugin.
     dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
     operator_server_file_path = dpf.upload_file_in_tmp_folder(operator_file_path)
-    dpf.load_library(
-        os.path.dirname(operator_server_file_path), "py_easy_statistics", "load_operators"
-    )
+    dpf.load_library(os.path.dirname(operator_server_file_path), "py_easy_statistics", "load_operators")
 
 
 
@@ -219,11 +216,11 @@ plugin.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-82
+.. GENERATED FROM PYTHON SOURCE LINES 78-79
 
 Instantiate the operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-85
+.. GENERATED FROM PYTHON SOURCE LINES 79-82
 
 .. code-block:: default
 
@@ -237,7 +234,7 @@ Instantiate the operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 86-92
+.. GENERATED FROM PYTHON SOURCE LINES 83-89
 
 Connect a workflow
 ------------------
@@ -246,7 +243,7 @@ Connect a workflow that computes the norm of the displacement to the
 are dynamically added because specifications for the operator are
 defined in the plugin.
 
-.. GENERATED FROM PYTHON SOURCE LINES 94-106
+.. GENERATED FROM PYTHON SOURCE LINES 91-103
 
 .. graphviz::
 
@@ -261,12 +258,12 @@ defined in the plugin.
       norm -> easy_statistics;
    }
 
-.. GENERATED FROM PYTHON SOURCE LINES 108-110
+.. GENERATED FROM PYTHON SOURCE LINES 105-107
 
 Use the operator
 ----------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 110-120
+.. GENERATED FROM PYTHON SOURCE LINES 107-117
 
 .. code-block:: default
 
@@ -299,7 +296,7 @@ Use the operator
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.830 seconds)
+   **Total running time of the script:** ( 0 minutes  3.991 seconds)
 
 
 .. _sphx_glr_download_examples_07-python-operators_00-wrapping_numpy_capabilities.py:

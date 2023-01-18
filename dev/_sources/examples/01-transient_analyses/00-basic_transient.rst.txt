@@ -439,7 +439,7 @@ to remap the field data to match the order of the nodes in the meshed region.
 Obtain the indices needed to get the data from ``field.data`` to match
 the order of nodes in the mesh:
 
-.. GENERATED FROM PYTHON SOURCE LINES 153-169
+.. GENERATED FROM PYTHON SOURCE LINES 153-167
 
 .. code-block:: default
 
@@ -448,9 +448,7 @@ the order of nodes in the mesh:
     ind, mask = nodes.map_scoping(field.scoping)
 
     # Show that the order of the remapped node scoping matches the field scoping.
-    print(
-        "Scoping matches:", np.allclose(np.array(nodes.scoping.ids)[ind], field.scoping.ids)
-    )
+    print("Scoping matches:", np.allclose(np.array(nodes.scoping.ids)[ind], field.scoping.ids))
 
     # Now plot the von Mises stress relative to the Z coordinates.
     z_coord = nodes.coordinates_field.data[ind, 2]
@@ -480,7 +478,7 @@ the order of nodes in the mesh:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.531 seconds)
+   **Total running time of the script:** ( 0 minutes  0.532 seconds)
 
 
 .. _sphx_glr_download_examples_01-transient_analyses_00-basic_transient.py:

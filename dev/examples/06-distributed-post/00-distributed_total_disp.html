@@ -820,12 +820,8 @@ connect to any existing servers on your network.</p>
 <span class="p">)</span>
 
 <span class="n">remote_servers</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span>
-        <span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span>
-    <span class="p">),</span>
-    <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span>
-        <span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span>
-    <span class="p">),</span>
+    <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span><span class="p">),</span>
+    <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">as_global</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span><span class="p">),</span>
 <span class="p">]</span>
 <span class="n">ips</span> <span class="o">=</span> <span class="p">[</span><span class="n">remote_server</span><span class="o">.</span><span class="n">ip</span> <span class="k">for</span> <span class="n">remote_server</span> <span class="ow">in</span> <span class="n">remote_servers</span><span class="p">]</span>
 <span class="n">ports</span> <span class="o">=</span> <span class="p">[</span><span class="n">remote_server</span><span class="o">.</span><span class="n">port</span> <span class="k">for</span> <span class="n">remote_server</span> <span class="ow">in</span> <span class="n">remote_servers</span><span class="p">]</span>
@@ -897,7 +893,7 @@ and one for norm computations. Define their data sources:</p>
 [10.03242272]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.250 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.188 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-06-distributed-post-00-distributed-total-disp-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/826ce0606fdddd811ecdb74529998ad7/00-distributed_total_disp.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-distributed_total_disp.py</span></code></a></p>

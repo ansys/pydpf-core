@@ -848,9 +848,7 @@ object with two elements, a polygon and a polyhedron.</p>
 <span class="n">elements_faces_f</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">element_index</span><span class="p">,</span> <span class="n">element_faces</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">element_faces</span><span class="p">):</span>
     <span class="n">elements_faces_f</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element_faces</span><span class="p">,</span> <span class="n">element_index</span><span class="p">)</span>
-<span class="n">mesh</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span>
-    <span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;elements_faces_connectivity&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">elements_faces_f</span>
-<span class="p">)</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span><span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;elements_faces_connectivity&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">elements_faces_f</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -860,7 +858,7 @@ object with two elements, a polygon and a polyhedron.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_00-create_polygons_and_polyhedrons_001.png" srcset="../../_images/sphx_glr_00-create_polygons_and_polyhedrons_001.png" alt="00 create polygons and polyhedrons" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.797 seconds)</p>
+<img src="../../_images/sphx_glr_00-create_polygons_and_polyhedrons_001.png" srcset="../../_images/sphx_glr_00-create_polygons_and_polyhedrons_001.png" alt="00 create polygons and polyhedrons" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.751 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-09-mesh-operations-00-create-polygons-and-polyhedrons-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/f6991e4799d46787855c460b85a88b9b/00-create_polygons_and_polyhedrons.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-create_polygons_and_polyhedrons.py</span></code></a></p>

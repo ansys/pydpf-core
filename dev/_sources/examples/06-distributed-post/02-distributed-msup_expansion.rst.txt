@@ -126,7 +126,7 @@ Consequently, it requires two remote processes.
 To make it easier, this example starts local servers. However, you can
 connect to any existing servers on your network.
 
-.. GENERATED FROM PYTHON SOURCE LINES 97-113
+.. GENERATED FROM PYTHON SOURCE LINES 97-109
 
 .. code-block:: default
 
@@ -136,12 +136,8 @@ connect to any existing servers on your network.
     )
 
     remote_servers = [
-        dpf.start_local_server(
-            as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
-        ),
-        dpf.start_local_server(
-            as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
-        ),
+        dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+        dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
     ]
     ips = [remote_server.ip for remote_server in remote_servers]
     ports = [remote_server.port for remote_server in remote_servers]
@@ -153,11 +149,11 @@ connect to any existing servers on your network.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 114-115
+.. GENERATED FROM PYTHON SOURCE LINES 110-111
 
 Print the IP addresses and ports.
 
-.. GENERATED FROM PYTHON SOURCE LINES 115-118
+.. GENERATED FROM PYTHON SOURCE LINES 111-114
 
 .. code-block:: default
 
@@ -178,11 +174,11 @@ Print the IP addresses and ports.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 119-120
+.. GENERATED FROM PYTHON SOURCE LINES 115-116
 
 Specify the file path.
 
-.. GENERATED FROM PYTHON SOURCE LINES 120-125
+.. GENERATED FROM PYTHON SOURCE LINES 116-121
 
 .. code-block:: default
 
@@ -198,7 +194,7 @@ Specify the file path.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 126-132
+.. GENERATED FROM PYTHON SOURCE LINES 122-128
 
 Create operators on each server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -207,7 +203,7 @@ and one for providing the mesh. Then, define their data sources. Both the
 displacement operator and mesh provider operator receive data from their
 respective data files on each server.
 
-.. GENERATED FROM PYTHON SOURCE LINES 132-145
+.. GENERATED FROM PYTHON SOURCE LINES 128-141
 
 .. code-block:: default
 
@@ -231,14 +227,14 @@ respective data files on each server.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 146-150
+.. GENERATED FROM PYTHON SOURCE LINES 142-146
 
 Create a local operator chain for expansion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The following series of operators merge the modal basis and the meshes, read
 the modal response, and expand the modal response with the modal basis.
 
-.. GENERATED FROM PYTHON SOURCE LINES 150-163
+.. GENERATED FROM PYTHON SOURCE LINES 146-157
 
 .. code-block:: default
 
@@ -250,9 +246,7 @@ the modal response, and expand the modal response with the modal basis.
     response = ops.result.displacement(data_sources=ds)
     response.inputs.mesh(merge_mesh.outputs.merges_mesh)
 
-    expansion = ops.math.modal_superposition(
-        solution_in_modal_space=response, modal_basis=merge_fields
-    )
+    expansion = ops.math.modal_superposition(solution_in_modal_space=response, modal_basis=merge_fields)
     component = ops.logic.component_selector_fc(expansion, 1)
 
 
@@ -262,12 +256,12 @@ the modal response, and expand the modal response with the modal basis.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 164-166
+.. GENERATED FROM PYTHON SOURCE LINES 158-160
 
 Connect the operator chains together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 166-176
+.. GENERATED FROM PYTHON SOURCE LINES 160-170
 
 .. code-block:: default
 
@@ -339,7 +333,7 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.566 seconds)
+   **Total running time of the script:** ( 0 minutes  3.476 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_02-distributed-msup_expansion.py:

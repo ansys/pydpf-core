@@ -18,9 +18,7 @@ print(model)
 
 # Use Scoping instances to adjust the region and the steps involved.
 # Create a scoping on all nodes
-mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(
-    model.metadata.meshed_region.nodes.scoping
-)
+mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(model.metadata.meshed_region.nodes.scoping)
 # Create a scoping on all time steps
 time_scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(model)
 

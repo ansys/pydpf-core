@@ -41,8 +41,7 @@ from ansys.dpf import core as dpf
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 GITHUB_SOURCE_URL = (
-    "https://github.com/pyansys/pydpf-core/"
-    "raw/examples/first_python_plugins/python_plugins"
+    "https://github.com/pyansys/pydpf-core/" "raw/examples/first_python_plugins/python_plugins"
 )
 EXAMPLE_FILE = GITHUB_SOURCE_URL + "/easy_statistics.py"
 operator_file_path = examples.downloads._retrieve_file(
@@ -73,9 +72,7 @@ from ansys.dpf.core import examples
 dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
 operator_server_file_path = dpf.upload_file_in_tmp_folder(operator_file_path)
-dpf.load_library(
-    os.path.dirname(operator_server_file_path), "py_easy_statistics", "load_operators"
-)
+dpf.load_library(os.path.dirname(operator_server_file_path), "py_easy_statistics", "load_operators")
 
 ###############################################################################
 # Instantiate the operator.

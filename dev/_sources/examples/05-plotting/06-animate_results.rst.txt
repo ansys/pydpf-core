@@ -26,7 +26,7 @@ Review of available animation commands
 This example lists the different commands available for creating animations of transient results,
 shown with the arguments available.
 
-.. GENERATED FROM PYTHON SOURCE LINES 11-117
+.. GENERATED FROM PYTHON SOURCE LINES 11-115
 
 
 
@@ -110,9 +110,7 @@ shown with the arguments available.
 
     # Use Scoping instances to adjust the region and the steps involved.
     # Create a scoping on all nodes
-    mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(
-        model.metadata.meshed_region.nodes.scoping
-    )
+    mesh_scoping = dpf.mesh_scoping_factory.nodal_scoping(model.metadata.meshed_region.nodes.scoping)
     # Create a scoping on all time steps
     time_scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(model)
 
@@ -210,7 +208,7 @@ shown with the arguments available.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  10.258 seconds)
+   **Total running time of the script:** ( 0 minutes  13.873 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_06-animate_results.py:

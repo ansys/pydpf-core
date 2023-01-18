@@ -181,13 +181,11 @@ the stress tensor.
 
 Add load cases.
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-63
+.. GENERATED FROM PYTHON SOURCE LINES 59-61
 
 .. code-block:: default
 
-    stress_tensor_combi = dpf.operators.math.add(
-        fieldA=field_lc1, fieldB=stress_tensor_lc2_sc
-    )
+    stress_tensor_combi = dpf.operators.math.add(fieldA=field_lc1, fieldB=stress_tensor_lc2_sc)
 
 
 
@@ -196,13 +194,13 @@ Add load cases.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-67
+.. GENERATED FROM PYTHON SOURCE LINES 62-65
 
 Principal stresses are the Eigenvalues of the stress tensor.
 Use principal invariants to get S1, S2, and S3.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-70
+.. GENERATED FROM PYTHON SOURCE LINES 65-68
 
 .. code-block:: default
 
@@ -216,12 +214,12 @@ Use principal invariants to get S1, S2, and S3.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-73
+.. GENERATED FROM PYTHON SOURCE LINES 69-71
 
 Print S1 (maximum principal stress).
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-75
+.. GENERATED FROM PYTHON SOURCE LINES 71-73
 
 .. code-block:: default
 
@@ -338,12 +336,12 @@ Print S1 (maximum principal stress).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-78
+.. GENERATED FROM PYTHON SOURCE LINES 74-76
 
 Get the meshed region.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-80
+.. GENERATED FROM PYTHON SOURCE LINES 76-78
 
 .. code-block:: default
 
@@ -356,14 +354,14 @@ Get the meshed region.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-85
+.. GENERATED FROM PYTHON SOURCE LINES 79-83
 
 Plot the results on the mesh.
 The ``label_text_size`` and ``label_point_size`` arguments control the font
 size of the label.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-92
+.. GENERATED FROM PYTHON SOURCE LINES 83-90
 
 .. code-block:: default
 
@@ -389,7 +387,7 @@ size of the label.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.954 seconds)
+   **Total running time of the script:** ( 0 minutes  0.922 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_02-solution_combination.py:

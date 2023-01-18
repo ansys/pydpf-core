@@ -26,7 +26,7 @@ Review of available plotting commands
 This example lists the different plotting commands available,
 shown with the arguments available.
 
-.. GENERATED FROM PYTHON SOURCE LINES 11-100
+.. GENERATED FROM PYTHON SOURCE LINES 11-96
 
 
 
@@ -122,9 +122,7 @@ shown with the arguments available.
     stress.inputs.requested_location.connect("Nodal")
     fc = stress.outputs.fields_container()
     field = fc[0]
-    field.plot(
-        notebook=False, shell_layers=None, show_axes=True, title="Field", text="Field plot"
-    )
+    field.plot(notebook=False, shell_layers=None, show_axes=True, title="Field", text="Field plot")
     # # Additional PyVista kwargs are supported, such as:
     field.plot(
         off_screen=True,
@@ -157,9 +155,7 @@ shown with the arguments available.
         title="Mesh with fields container",
         text="Mesh fc plot",
     )
-    mesh.plot(
-        field_or_fields_container=field, title="Mesh with field", text="Mesh field plot"
-    )
+    mesh.plot(field_or_fields_container=field, title="Mesh with field", text="Mesh field plot")
 
 
     # ##############################################################################################
@@ -188,7 +184,7 @@ shown with the arguments available.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  8.535 seconds)
+   **Total running time of the script:** ( 0 minutes  8.738 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_00-basic_plotting.py:

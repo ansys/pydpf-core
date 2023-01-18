@@ -35,9 +35,7 @@ stress = model.results.stress()
 stress.inputs.requested_location.connect("Nodal")
 fc = stress.outputs.fields_container()
 field = fc[0]
-field.plot(
-    notebook=False, shell_layers=None, show_axes=True, title="Field", text="Field plot"
-)
+field.plot(notebook=False, shell_layers=None, show_axes=True, title="Field", text="Field plot")
 # # Additional PyVista kwargs are supported, such as:
 field.plot(
     off_screen=True,
@@ -70,9 +68,7 @@ mesh.plot(
     title="Mesh with fields container",
     text="Mesh fc plot",
 )
-mesh.plot(
-    field_or_fields_container=field, title="Mesh with field", text="Mesh field plot"
-)
+mesh.plot(field_or_fields_container=field, title="Mesh with field", text="Mesh field plot")
 
 
 # ##############################################################################################

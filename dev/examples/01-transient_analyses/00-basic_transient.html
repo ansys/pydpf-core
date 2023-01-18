@@ -1010,9 +1010,7 @@ the order of nodes in the mesh:</p>
 <span class="n">ind</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">map_scoping</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="p">)</span>
 
 <span class="c1"># Show that the order of the remapped node scoping matches the field scoping.</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="s2">&quot;Scoping matches:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)[</span><span class="n">ind</span><span class="p">],</span> <span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
-<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scoping matches:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)[</span><span class="n">ind</span><span class="p">],</span> <span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">))</span>
 
 <span class="c1"># Now plot the von Mises stress relative to the Z coordinates.</span>
 <span class="n">z_coord</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">coordinates_field</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ind</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
@@ -1026,7 +1024,7 @@ the order of nodes in the mesh:</p>
 <img src="../../_images/sphx_glr_00-basic_transient_004.png" srcset="../../_images/sphx_glr_00-basic_transient_004.png" alt="00 basic transient" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Scoping matches: True
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.531 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.532 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-01-transient-analyses-00-basic-transient-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/4ad37cf1019f49627dfc7ac7bfa0864c/00-basic_transient.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-basic_transient.py</span></code></a></p>

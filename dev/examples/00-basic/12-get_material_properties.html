@@ -799,10 +799,15 @@ print the operator help.</p>
          properties_value [fields_container]
 </pre></div>
 </div>
-<p>Extract the Young’s modulus for element ID <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<p>To extract the Young’s modulus for element ID <code class="docutils literal notranslate"><span class="pre">1</span></code>, first we need to get the
+mat_id for EID <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mat_id</span> <span class="o">=</span> <span class="n">mats</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And then use the mat_id get the material property.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mat_prop</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">properties_name</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;EX&quot;</span><span class="p">)</span>
 <span class="n">mat_field</span> <span class="o">=</span> <span class="n">mat_prop</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">properties_value</span><span class="o">.</span><span class="n">get_data</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">mat_field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mat_field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="n">mat_id</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[2.e+11]
@@ -811,13 +816,13 @@ print the operator help.</p>
 <p>Extract Poisson’s ratio for element ID <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mat_prop</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">properties_name</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;NUXY&quot;</span><span class="p">)</span>
 <span class="n">mat_field</span> <span class="o">=</span> <span class="n">mat_prop</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">properties_value</span><span class="o">.</span><span class="n">get_data</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">mat_field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mat_field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="n">mat_id</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0.3]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.031 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.016 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-12-get-material-properties-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/e6c59776291d0af7a4f51f7fdf131b4b/12-get_material_properties.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">12-get_material_properties.py</span></code></a></p>

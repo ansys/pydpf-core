@@ -938,9 +938,7 @@ that contains the meshes of each of these time steps.</p>
 <span class="k">for</span> <span class="n">tset</span> <span class="ow">in</span> <span class="n">time_sets</span><span class="p">:</span>
     <span class="n">body</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">for</span> <span class="n">mesh_scop</span> <span class="ow">in</span> <span class="n">mesh_scop_cont</span><span class="p">:</span>
-        <span class="n">scop_cont</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">(</span>
-            <span class="n">scoping</span><span class="o">=</span><span class="n">mesh_scop</span><span class="p">,</span> <span class="n">label_space</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">body</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">tset</span><span class="p">)}</span>
-        <span class="p">)</span>
+        <span class="n">scop_cont</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">(</span><span class="n">scoping</span><span class="o">=</span><span class="n">mesh_scop</span><span class="p">,</span> <span class="n">label_space</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">body</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">tset</span><span class="p">)})</span>
         <span class="n">body</span> <span class="o">+=</span> <span class="mi">1</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">scop_cont</span><span class="p">)</span>
 </pre></div>
@@ -980,9 +978,7 @@ the meshes of the two bodies in the desired time step.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stress_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress_Z</span><span class="p">()</span>
 <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">time_set</span><span class="p">)</span>
-<span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
-    <span class="n">scopings</span>
-<span class="p">)</span>  <span class="c1"># This option deactivates averaging across bodies.</span>
+<span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">scopings</span><span class="p">)</span>  <span class="c1"># This option deactivates averaging across bodies.</span>
 <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
 <span class="n">stresses</span> <span class="o">=</span> <span class="n">stress_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">stresses</span><span class="p">)</span>
@@ -1023,9 +1019,7 @@ the meshes of the two bodies in the desired time step.</p>
     <span class="k">for</span> <span class="n">tset</span> <span class="ow">in</span> <span class="n">time_sets</span><span class="p">:</span>
         <span class="n">body</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">mesh_scop</span> <span class="ow">in</span> <span class="n">mesh_scop_cont</span><span class="p">:</span>
-            <span class="n">scop_cont</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">(</span>
-                <span class="n">scoping</span><span class="o">=</span><span class="n">mesh_scop</span><span class="p">,</span> <span class="n">label_space</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">body</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">tset</span><span class="p">)}</span>
-            <span class="p">)</span>
+            <span class="n">scop_cont</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">(</span><span class="n">scoping</span><span class="o">=</span><span class="n">mesh_scop</span><span class="p">,</span> <span class="n">label_space</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">body</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">tset</span><span class="p">)})</span>
             <span class="n">body</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="n">time_set</span> <span class="o">=</span> <span class="mi">3</span>
@@ -1070,14 +1064,8 @@ distribution when averaging across bodies is deactivated.</p>
 <li><img src="../../_images/sphx_glr_01-average_across_bodies_003.png" srcset="../../_images/sphx_glr_01-average_across_bodies_003.png" alt="01 average across bodies" class = "sphx-glr-multi-img"/></li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">max_avg_on</span> <span class="o">-</span> <span class="n">max_avg_off</span><span class="p">)</span> <span class="o">/</span> <span class="n">max_avg_off</span> <span class="o">*</span> <span class="mi">100</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="s2">&quot;Max stress when averaging across bodies is activated: </span><span class="si">{:.2f}</span><span class="s2"> Pa&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_avg_on</span><span class="p">)</span>
-<span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="s2">&quot;Max stress when averaging across bodies is deactivated: </span><span class="si">{:.2f}</span><span class="s2"> Pa&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">max_avg_off</span>
-    <span class="p">)</span>
-<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max stress when averaging across bodies is activated: </span><span class="si">{:.2f}</span><span class="s2"> Pa&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_avg_on</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max stress when averaging across bodies is deactivated: </span><span class="si">{:.2f}</span><span class="s2"> Pa&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_avg_off</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span>
     <span class="s2">&quot;The maximum stress value when averaging across bodies is ACTIVATED </span><span class="se">\</span>
 <span class="s2">is </span><span class="si">{:.2f}</span><span class="s2">% LOWER than when it is DEACTIVATED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -1091,7 +1079,7 @@ Max stress when averaging across bodies is deactivated: 6988756864.00 Pa
 The maximum stress value when averaging across bodies is ACTIVATED is 0.44% LOWER than when it is DEACTIVATED
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.394 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.551 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-08-averaging-01-average-across-bodies-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/2e83048bea6393f9b6a5eeb1dada3999/01-average_across_bodies.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-average_across_bodies.py</span></code></a></p>
