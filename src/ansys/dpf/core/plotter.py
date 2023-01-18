@@ -6,18 +6,25 @@ This module contains the DPF plotter class.
 Contains classes used to plot a mesh and a fields container using PyVista.
 """
 
+from __future__ import annotations
+
 import tempfile
 import os
 import sys
 import numpy as np
 import inspect
 import warnings
+from typing import TYPE_CHECKING, List, Union
 
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.common import locations, DefinitionLabels
 from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core import errors as dpf_errors
+
+if TYPE_CHECKING:
+    from ansys.dpf.core.nodes import Node
+    from ansys.dpf.core.meshed_region import MeshedRegion
 
 
 def _sort_supported_kwargs(bound_method, **kwargs):
@@ -385,21 +392,28 @@ class DpfPlotter:
         """
         return self._labels
 
-    def add_node_labels(self, nodes, meshed_region, labels=None, **kwargs):
+    def add_node_labels(
+        self,
+        nodes: List[Node],
+        meshed_region: MeshedRegion,
+        labels: Union[List[str], None] = None,
+        **kwargs,
+    ):
         """Add labels at the nodal locations for the last added field.
 
         Parameters
         ----------
-        nodes : list
+        nodes :
             Nodes where the labels should be added.
-        meshed_region: MeshedRegion
+        meshed_region:
             MeshedRegion to plot.
-        labels: : list of str or str, optional
+        labels:
             If label for grid point is not defined, scalar value at that point is shown.
-        kwargs: dict, optional
-                Keyword arguments controlling label properties.
-                See :func:`pyvista.Plotter.add_point_labels`.
+        kwargs:
+            Keyword arguments controlling label properties.
+            See :func:`pyvista.Plotter.add_point_labels`.
         """
+        self._internal_plotter.add_mesh(meshed_region=meshed_region)
         self._labels.append(
             self._internal_plotter.add_point_labels(
                 nodes=nodes, meshed_region=meshed_region, labels=labels, **kwargs
@@ -535,6 +549,12 @@ class DpfPlotter:
         >>> pl.show_figure()
 
         """
+        if "notebook" in kwargs.keys():
+            warnings.simplefilter("once")
+            warnings.warn(
+                "'notebook' is not a valid kwarg for show_figure(). "
+                "Please give this argument to the init of DpfPlotter."
+            )
         return self._internal_plotter.show_figure(**kwargs)
 
 
