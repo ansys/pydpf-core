@@ -49,13 +49,18 @@ mat_prop.inputs.materials.connect(mats)
 print(mat_prop)
 
 ###############################################################################
-# Extract the Young's modulus for element ID ``1``.
+# To extract the Young's modulus for element ID ``1``, first we need to get the
+# mat_id for EID ``1``.
+mat_id = mats.get_entity_data_by_id(1)
+
+###############################################################################
+# And then use the mat_id get the material property.
 mat_prop.inputs.properties_name.connect("EX")
 mat_field = mat_prop.outputs.properties_value.get_data()[0]
-print(mat_field.get_entity_data_by_id(1))
+print(mat_field.get_entity_data_by_id(mat_id[0]))
 
 ###############################################################################
 # Extract Poisson's ratio for element ID ``1``.
 mat_prop.inputs.properties_name.connect("NUXY")
 mat_field = mat_prop.outputs.properties_value.get_data()[0]
-print(mat_field.get_entity_data_by_id(1))
+print(mat_field.get_entity_data_by_id(mat_id[0]))
