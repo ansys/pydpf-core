@@ -7,9 +7,9 @@ Add nodal labels on plots
 You can add use label properties to add custom labels to specific nodes.
 If the label for a node is not defined or `None`, the nodal scalar value
 of the currently active field at that node is shown. If no field is active,
- the node ID is shown.
+the node ID is shown.
 """
-# sphinx_gallery_thumbnail_number = 2
+
 ###############################################################################
 # Import the ``dpf_core`` module, included examples files, and the ``DpfPlotter``
 # module.
@@ -44,7 +44,14 @@ plot = DpfPlotter()
 plot.add_node_labels(
     nodes=mesh_set.nodes.scoping.ids[:5], meshed_region=mesh_set, labels=["A", "B", None, "C"]
 )
-plot.show_figure()
+plot.show_figure(
+    cpos=[
+        (0.3533494514377904, 0.312496303079723, 1.1859368974825752),
+        (-0.07891143256220956, -0.11976458092027707, 0.7536760134825755),
+        (0.0, 0.0, 1.0),
+    ]
+)
+# sphinx_gallery_thumbnail_number = 2
 
 ###############################################################################
 # Get the stress tensor and ``connect`` time scoping.
