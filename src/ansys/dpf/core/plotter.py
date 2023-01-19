@@ -21,9 +21,9 @@ from ansys.dpf import core
 from ansys.dpf.core.common import locations, DefinitionLabels
 from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core.nodes import Node, Nodes
 
 if TYPE_CHECKING:
-    from ansys.dpf.core.nodes import Node
     from ansys.dpf.core.meshed_region import MeshedRegion
 
 
@@ -158,13 +158,18 @@ class _PyVistaPlotter:
 
     def add_point_labels(
         self,
-        nodes: List[Node],
+        nodes: Union[Nodes, List[Node], List[int]],
         meshed_region: MeshedRegion,
         labels: Union[List[str], None] = None,
         **kwargs,
     ) -> List:
         label_actors = []
-        node_indexes = [meshed_region.nodes.mapping_id_to_index.get(node.id) for node in nodes]
+        if isinstance(nodes, Nodes):
+            nodes = nodes.scoping.ids
+        elif isinstance(nodes, list):
+            if isinstance(nodes[0], Node):
+                nodes = [node.id for node in nodes]
+        node_indexes = [meshed_region.nodes.mapping_id_to_index.get(node_id) for node_id in nodes]
         grid_points = [meshed_region.grid.points[node_index] for node_index in node_indexes]
 
         def get_label_at_grid_point(index):
@@ -206,7 +211,7 @@ class _PyVistaPlotter:
                     value = f"{scalar_at_index:.2f}"
                 else:
                     # if no scalar field is present, print the node id
-                    value = nodes[index].id
+                    value = nodes[index]
                 label_actors.append(
                     self._plotter.add_point_labels(grid_point, [value], **kwargs_in)
                 )
@@ -407,7 +412,7 @@ class DpfPlotter:
 
     def add_node_labels(
         self,
-        nodes: List[Node],
+        nodes: Union[Nodes, List[Node], List[int]],
         meshed_region: MeshedRegion,
         labels: Union[List[str], None] = None,
         **kwargs,

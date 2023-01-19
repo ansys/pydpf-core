@@ -5,9 +5,11 @@ Add nodal labels on plots
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can add use label properties to add custom labels to specific nodes.
-If label for a node is missing, the nodal scalar value is shown by default.
+If the label for a node is not defined or `None`, the nodal scalar value
+of the currently active field at that node is shown. If no field is active,
+ the node ID is shown.
 """
-
+# sphinx_gallery_thumbnail_number = 2
 ###############################################################################
 # Import the ``dpf_core`` module, included examples files, and the ``DpfPlotter``
 # module.
@@ -32,6 +34,19 @@ model = dpf.Model(examples.find_msup_transient())
 print(model)
 
 ###############################################################################
+#  Get the meshed region.
+#
+mesh_set = model.metadata.meshed_region
+
+# One can plot the mesh with labels and/or node IDs shown
+# for the first five nodes of the mesh.
+plot = DpfPlotter()
+plot.add_node_labels(
+    nodes=mesh_set.nodes.scoping.ids[:5], meshed_region=mesh_set, labels=["A", "B", None, "C"]
+)
+plot.show_figure()
+
+###############################################################################
 # Get the stress tensor and ``connect`` time scoping.
 # Make sure that you define ``"Nodal"`` as the scoping location because
 # labels are supported only for nodal results.
@@ -54,10 +69,6 @@ disp.inputs.time_scoping.connect(time_scope)
 norm_op2.inputs.connect(disp.outputs)
 field_norm_disp = norm_op2.outputs.fields_container()[0]
 print(field_norm_disp)
-###############################################################################
-#  Get the meshed region.
-#
-mesh_set = model.metadata.meshed_region
 
 ###############################################################################
 # Plot the results on the mesh and show the minimum and maximum.
@@ -74,7 +85,8 @@ plot.add_field(
 
 
 # Use label properties to add custom labels to specific nodes.
-# If a label for a node is missing, the nodal value is shown by default.
+# If a label for a node is missing and a field is active,
+# the nodal value for this field is shown.
 
 my_nodes_1 = [mesh_set.nodes[0], mesh_set.nodes[10]]
 my_labels_1 = ["MyNode1", "MyNode2"]
