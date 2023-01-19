@@ -42,7 +42,10 @@ mesh_set = model.metadata.meshed_region
 # for the first five nodes of the mesh.
 plot = DpfPlotter()
 plot.add_node_labels(
-    nodes=mesh_set.nodes.scoping.ids[:5], meshed_region=mesh_set, labels=["A", "B", None, "C"]
+    nodes=mesh_set.nodes.scoping.ids[:5],
+    meshed_region=mesh_set,
+    labels=["A", "B", None, "C"],
+    font_size=50,
 )
 plot.show_figure(
     cpos=[
@@ -86,7 +89,7 @@ plot.add_field(
     meshed_region=mesh_set,
     show_max=True,
     show_min=True,
-    label_text_size=15,
+    label_text_size=30,
     label_point_size=5,
 )
 
