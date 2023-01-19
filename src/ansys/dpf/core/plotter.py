@@ -156,7 +156,13 @@ class _PyVistaPlotter:
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, **kwargs_in)
 
-    def add_point_labels(self, nodes, meshed_region, labels=None, **kwargs):
+    def add_point_labels(
+        self,
+        nodes: List[Node],
+        meshed_region: MeshedRegion,
+        labels: Union[List[str], None] = None,
+        **kwargs,
+    ) -> List:
         label_actors = []
         node_indexes = [meshed_region.nodes.mapping_id_to_index.get(node.id) for node in nodes]
         grid_points = [meshed_region.grid.points[node_index] for node_index in node_indexes]
@@ -175,12 +181,15 @@ class _PyVistaPlotter:
         # The scalar data used will be the one of the last field added.
         from packaging.version import parse
 
+        active_scalars = None
         if parse(pv.__version__) >= parse("0.35.2"):
             for data_set in self._plotter._datasets:
                 if type(data_set) is pv.core.pointset.UnstructuredGrid:
                     active_scalars = data_set.active_scalars
         else:
             active_scalars = meshed_region.grid.active_scalars
+        if active_scalars is None:
+            self.add_mesh(meshed_region=meshed_region)
         # For all grid_points given
         for index, grid_point in enumerate(grid_points):
             # Check for existing label at that point
@@ -413,7 +422,6 @@ class DpfPlotter:
             Keyword arguments controlling label properties.
             See :func:`pyvista.Plotter.add_point_labels`.
         """
-        self._internal_plotter.add_mesh(meshed_region=meshed_region)
         self._labels.append(
             self._internal_plotter.add_point_labels(
                 nodes=nodes, meshed_region=meshed_region, labels=labels, **kwargs
