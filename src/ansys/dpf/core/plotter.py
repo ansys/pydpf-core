@@ -23,7 +23,7 @@ from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.nodes import Node, Nodes
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.meshed_region import MeshedRegion
 
 
