@@ -1205,7 +1205,7 @@ def test_operator_specification_simple(server_type):
 
 
 def test_operator_specification_none(server_type):
-    op = dpf.core.Operator("mapdl::rst::MeshProvider", server=server_type)
+    op = dpf.core.Operator("mapdl::rst::thickness", server=server_type)
     assert op.specification.description == ""
     assert op.specification.inputs == {}
     assert op.specification.outputs == {}
