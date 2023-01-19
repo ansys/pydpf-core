@@ -200,11 +200,15 @@ class _PyVistaPlotter:
                     self._plotter.add_point_labels(grid_point, [labels[index]], **kwargs_in)
                 )
             else:
-                # Otherwise, get the value of the current scalar field
-                scalar_at_index = active_scalars[node_indexes[index]]
-                scalar_at_grid_point = f"{scalar_at_index:.2f}"
+                if active_scalars is not None:
+                    # get the value of the current scalar field if present
+                    scalar_at_index = active_scalars[node_indexes[index]]
+                    value = f"{scalar_at_index:.2f}"
+                else:
+                    # if no scalar field is present, print the node id
+                    value = nodes[index].id
                 label_actors.append(
-                    self._plotter.add_point_labels(grid_point, [scalar_at_grid_point], **kwargs_in)
+                    self._plotter.add_point_labels(grid_point, [value], **kwargs_in)
                 )
         return label_actors
 
@@ -408,7 +412,7 @@ class DpfPlotter:
         labels: Union[List[str], None] = None,
         **kwargs,
     ):
-        """Add labels at the nodal locations for the last added field.
+        """Add labels at nodal locations.
 
         Parameters
         ----------
@@ -417,7 +421,9 @@ class DpfPlotter:
         meshed_region:
             MeshedRegion to plot.
         labels:
-            If label for grid point is not defined, scalar value at that point is shown.
+            The labels to use. A node for which the label is not defined or `None`
+            will show the scalar value of the currently active field at that node,
+            or, if no field is active, its node ID.
         kwargs:
             Keyword arguments controlling label properties.
             See :func:`pyvista.Plotter.add_point_labels`.

@@ -587,6 +587,15 @@ def test_plot_node_labels(multishells):
     assert len(a) == 2
     pl.show_figure()
 
+    pl = DpfPlotter()
+    my_labels_1 = ["MyNode1"]
+    pl.add_node_labels(
+        my_nodes_1,
+        mesh_m,
+        my_labels_1,
+    )
+    pl.show_figure()
+
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_cpos_plot(multishells):
