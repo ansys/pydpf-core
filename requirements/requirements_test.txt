@@ -1,4 +1,4 @@
-ansys-platform-instancemanagement==1.0.2
+ansys-platform-instancemanagement==1.0.3
 coverage==7.0.5
 pytest==7.2.0
 pytest-cov==4.0.0
