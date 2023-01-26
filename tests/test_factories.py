@@ -95,9 +95,7 @@ def test_over_time_freq_complex_fields_container_1():
     f2 = fields_factory.create_scalar_field(31)
     f1_im = fields_factory.create_scalar_field(25)
     f2_im = fields_factory.create_scalar_field(31)
-    fc = fields_container_factory.over_time_freq_complex_fields_container(
-        [f1, f2], [f1_im, f2_im]
-    )
+    fc = fields_container_factory.over_time_freq_complex_fields_container([f1, f2], [f1_im, f2_im])
     labels = fc.labels
     assert labels == ["complex", "time"]
     assert len(fc) == 4

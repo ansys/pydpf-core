@@ -15,9 +15,9 @@ For a list of all operators, see :ref:`ref_dpf_operators_reference`.
 This example demonstrates how to work directly with operators and
 compares this method to a wrapped approach.
 
-Import the necessary modules:
 """
 
+# Import the necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 

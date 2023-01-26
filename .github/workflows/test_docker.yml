@@ -3,13 +3,44 @@ name: test_docker
 on:
 # Can be called by the CI
   workflow_call:
+    inputs:
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
+      custom-wheels:
+        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
+        required: false
+        type: string
+        default: ''
 # Can be called manually
   workflow_dispatch:
+    inputs:
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
+      custom-wheels:
+        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
+        required: false
+        type: string
+        default: ''
 
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  extra: "--find-links .github/"
   ANSYS_VERSION: 232
   ANSYS_DPF_ACCEPT_LA: Y
   ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
@@ -26,7 +57,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
       - name: "Build Docker Package"
         uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
         with:
@@ -36,8 +66,11 @@ jobs:
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
+          wheel: false
           wheelhouse: false
-          extra-pip-args: ${{ env.extra }}
+          extra-pip-args: ${{ inputs.custom-wheels && format('--find-links {0}', inputs.custom-wheels) || '' }}
+          standalone_suffix: ${{ inputs.standalone_suffix }}
+          custom-requirements: ${{ inputs.custom-requirements }}
 
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.3

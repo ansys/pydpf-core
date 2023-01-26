@@ -132,13 +132,8 @@ def test_result_displacement_model():
     assert results.displacement.on_last_time_freq.eval().get_label_scoping().ids == [45]
     assert len(results.displacement.split_by_body.eval()) == 32
     assert len(results.displacement.split_by_shape.eval()) == 4
-    assert (
-            len(results.displacement.on_named_selection("_FIXEDSU").eval()[0].scoping)
-            == 222
-    )
-    all_time_ns = results.displacement.on_named_selection(
-        "_FIXEDSU"
-    ).on_all_time_freqs.eval()
+    assert len(results.displacement.on_named_selection("_FIXEDSU").eval()[0].scoping) == 222
+    all_time_ns = results.displacement.on_named_selection("_FIXEDSU").on_all_time_freqs.eval()
     assert len(all_time_ns) == 45
     assert len(all_time_ns[0].scoping) == 222
     assert len(all_time_ns[19].scoping) == 222
@@ -170,11 +165,9 @@ def test_result_stress_location_model(plate_msup):
     model = dpf.core.Model(plate_msup)
     stress = model.results.stress
     fc = (
-        stress.on_mesh_scoping(
-            dpf.core.Scoping(ids=[1, 2], location=dpf.core.locations.elemental)
-        )
-            .on_location(dpf.core.locations.nodal)
-            .eval()
+        stress.on_mesh_scoping(dpf.core.Scoping(ids=[1, 2], location=dpf.core.locations.elemental))
+        .on_location(dpf.core.locations.nodal)
+        .eval()
     )
     assert fc[0].location == "Nodal"
 
@@ -186,9 +179,7 @@ def test_result_time_scoping(plate_msup):
     assert len(fc) == 4
     fc = stress.on_time_scoping([0.115, 0.125]).eval()
     assert len(fc) == 2
-    assert np.allclose(
-        fc.time_freq_support.time_frequencies.data, np.array([0.115, 0.125])
-    )
+    assert np.allclose(fc.time_freq_support.time_frequencies.data, np.array([0.115, 0.125]))
 
 
 def test_result_split_subset(allkindofcomplexity):
@@ -210,16 +201,16 @@ def test_result_not_dynamic(plate_msup):
     assert len(fc) == 4
     fc = stress.on_time_scoping([0.115, 0.125]).eval()
     assert len(fc) == 2
-    assert np.allclose(
-        fc.time_freq_support.time_frequencies.data, np.array([0.115, 0.125])
-    )
+    assert np.allclose(fc.time_freq_support.time_frequencies.data, np.array([0.115, 0.125]))
     assert fc[0].unit == "Pa"
     dis = model.results.displacement().eval()
     dpf.core.settings.set_dynamic_available_results_capability(True)
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                    reason='Requires server version higher than 4.0')
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    reason="Requires server version higher than 4.0",
+)
 def test_model_meshes_container(simple_bar):
     data_source = dpf.core.DataSources(simple_bar)
     model = dpf.core.Model(data_source)
@@ -227,14 +218,17 @@ def test_model_meshes_container(simple_bar):
     assert model.metadata.meshes_container[0].nodes.n_nodes == 3751
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-                    reason='Requires server version higher than 4.0')
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    reason="Requires server version higher than 4.0",
+)
 def test_model_meshes_provider(simple_bar):
     data_source = dpf.core.DataSources(simple_bar)
     model = dpf.core.Model(data_source)
     meshes = model.metadata.meshes_provider.eval()
     assert len(meshes) == 1
     assert meshes[0].nodes.n_nodes == 3751
+
 
 # @pytest.mark.skipif(NO_PLOTTING, reason="Requires system to support plotting")
 # def test_displacements_plot(static_model):

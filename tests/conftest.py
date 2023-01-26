@@ -31,9 +31,7 @@ local_test_repo = False
 
 def _get_test_files_directory():
     if local_test_repo is False:
-        test_path = os.path.join(
-            os.path.dirname(os.path.abspath(__file__))
-        )
+        test_path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
         return os.path.join(test_path, os.pardir, "tests", "testfiles")
     else:
         return os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
@@ -47,7 +45,7 @@ if os.name == "posix":
 if running_docker:
     ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes[
         _get_test_files_directory()
-    ] = '/tmp/test_files'
+    ] = "/tmp/test_files"
 
 
 @pytest.hookimpl()
@@ -76,10 +74,14 @@ def resolve_test_file(basename, additional_path="", is_in_examples=None):
         test_files_path = _get_test_files_directory()
         filename = os.path.join(test_files_path, additional_path, basename)
         if not os.path.isfile(filename):
-            raise FileNotFoundError(
-                f"Unable to locate {basename} at {test_files_path}"
-            )
+            raise FileNotFoundError(f"Unable to locate {basename} at {test_files_path}")
     return examples.find_files(filename)
+
+
+@pytest.fixture()
+def testfiles_dir():
+    """Return the path of the testfiles directory."""
+    return _get_test_files_directory()
 
 
 @pytest.fixture()
@@ -190,9 +192,7 @@ def binout_glstat():
 def engineering_data_sources():
     """Resolve the path of the "model_with_ns.rst" result file."""
     ds = core.DataSources(resolve_test_file("file.rst", "engineeringData"))
-    ds.add_file_path(
-        resolve_test_file("MatML.xml", "engineeringData"), "EngineeringData"
-    )
+    ds.add_file_path(resolve_test_file("MatML.xml", "engineeringData"), "EngineeringData")
     ds.add_file_path(resolve_test_file("ds.dat", "engineeringData"), "dat")
     return ds
 
@@ -235,10 +235,15 @@ def raises_for_servers_version_under(version):
 
     def decorator(func):
         @pytest.mark.xfail(
-            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 if version == "3.0" else
-            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 if version == "4.0" else
-            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0 if version == "5.0" else
-            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 if version == "6.0" else True,
+            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0
+            if version == "3.0"
+            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+            if version == "4.0"
+            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
+            if version == "5.0"
+            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0
+            if version == "6.0"
+            else True,
             reason=f"Requires server version greater than or equal to {version}",
             raises=core.errors.DpfVersionNotSupported,
         )
@@ -272,12 +277,14 @@ def remove_none_available_config(configs, config_names):
     return configs_out, config_names_out
 
 
-configsserver_type, config_namesserver_type = remove_none_available_config([
-    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-    ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False)
-],
-    ["ansys-grpc-dpf", "gRPC CLayer", "in Process CLayer"])
+configsserver_type, config_namesserver_type = remove_none_available_config(
+    [
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+        ServerConfig(protocol=CommunicationProtocols.InProcess, legacy=False),
+    ],
+    ["ansys-grpc-dpf", "gRPC CLayer", "in Process CLayer"],
+)
 
 
 @pytest.fixture(
@@ -292,13 +299,16 @@ def server_type(request):
     return server
 
 
-configs_server_type_remote_process, config_names_server_type_remote_process = \
-    remove_none_available_config(
-        [
-            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
-            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
-        ],
-        ["ansys-grpc-dpf", "gRPC CLayer"])
+(
+    configs_server_type_remote_process,
+    config_names_server_type_remote_process,
+) = remove_none_available_config(
+    [
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+    ],
+    ["ansys-grpc-dpf", "gRPC CLayer"],
+)
 
 
 @pytest.fixture(
@@ -331,12 +341,13 @@ def config_server_type(request):
     return request.param
 
 
-configs_server_type_legacy_grpc, config_names_server_type_legacy_grpc = \
-    remove_none_available_config(
-        [
-            ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
-        ],
-        ["ansys-grpc-dpf"])
+(
+    configs_server_type_legacy_grpc,
+    config_names_server_type_legacy_grpc,
+) = remove_none_available_config(
+    [ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)],
+    ["ansys-grpc-dpf"],
+)
 
 
 @pytest.fixture(
@@ -364,11 +375,13 @@ def server_clayer_remote_process(request):
     return server
 
 
-configs_server_clayer, config_names_server_clayer = remove_none_available_config([
-    ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
-    ServerConfig(protocol=None, legacy=False),
-],
-    ["gRPC CLayer", "in Process CLayer"])
+configs_server_clayer, config_names_server_clayer = remove_none_available_config(
+    [
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+        ServerConfig(protocol=None, legacy=False),
+    ],
+    ["gRPC CLayer", "in Process CLayer"],
+)
 
 
 @pytest.fixture(
@@ -385,12 +398,15 @@ def server_clayer(request):
 
 @pytest.fixture
 def server_in_process():
-    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 \
-            or ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker:
+    if (
+        not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+        or ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker
+    ):
         pytest.skip("InProcess unavailable for Ansys <222")
     else:
-        return core.start_local_server(config=core.AvailableServerConfigs.InProcessServer,
-                                       as_global=False)
+        return core.start_local_server(
+            config=core.AvailableServerConfigs.InProcessServer, as_global=False
+        )
 
 
 @pytest.fixture()
@@ -458,6 +474,30 @@ def count_servers(request):
         # assert num_dpf_exe == 1
 
     request.addfinalizer(count_servers)
+
+
+@pytest.fixture(autouse=False, scope="function")
+def set_context_back_to_premium(request):
+    """Count servers once we are finished."""
+
+    core.server.shutdown_all_session_servers()
+    init_val = os.environ.get("ANSYS_DPF_ACCEPT_LA", None)
+    try:
+        core.set_default_server_context(core.AvailableServerContexts.entry)
+    except core.errors.DpfVersionNotSupported:
+        pass
+
+    def revert():
+        if init_val:
+            os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
+        core.SERVER_CONFIGURATION = None
+        core.server.shutdown_all_session_servers()
+        try:
+            core.set_default_server_context(core.AvailableServerContexts.premium)
+        except core.errors.DpfVersionNotSupported:
+            pass
+
+    request.addfinalizer(revert)
 
 
 # to call at the end

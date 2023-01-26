@@ -3,6 +3,7 @@
 
 Review of available animation commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example lists the different commands available for creating animations of transient results,
 shown with the arguments available.
 
@@ -69,10 +70,12 @@ stress_fields = stress_op.eval()
 
 # Save the animation using "save_as" with a target path with the desired format as extension.
 # (accepts .gif, .avi or .mp4, see pyvista.Plotter.open_movie)
-camera_pos = displacement_fields.animate(scale_factor=10.,
-                                         save_as="06-animate_results.gif",
-                                         return_cpos=True,
-                                         show_axes=True)
+camera_pos = displacement_fields.animate(
+    scale_factor=10.0,
+    save_as="06-animate_results.gif",
+    return_cpos=True,
+    show_axes=True,
+)
 
 # Can be made off_screen for batch animation creation.
 # This accepts as kwargs arguments taken by pyvista.Plotter.open_movie such as the frame-rate and

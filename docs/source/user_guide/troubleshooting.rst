@@ -13,10 +13,10 @@ Start the DPF server
 ~~~~~~~~~~~~~~~~~~~~~
 When using PyDPF-Core to start the server with the
 :py:meth:`start_local_server() <ansys.dpf.core.server.start_local_server>` method
-or when starting the server manually with the ``Ans.Dpf.Grpc.sh``or ``Ans.Dpf.Grpc.bat``
+or when starting the server manually with the ``Ans.Dpf.Grpc.sh`` or ``Ans.Dpf.Grpc.bat``
 file, a Python error might occur: ``TimeoutError: Server did not start in 10 seconds``.
 This kind of error might mean that the server or its dependencies were not found. Ensure that
-the environment variable ``AWP_ROOT{VER}`` is set, where ``VER``is  the three-digit numeric
+the ``AWP_ROOT{VER}`` environment variable is set, where ``VER`` is the three-digit numeric
 format for the version, such as ``221`` or ``222``.
 
 Connect to the DPF server
@@ -34,7 +34,7 @@ Assume that you are importing the ``pydpf-core`` package:
 
     from ansys.dpf import core as dpf
 
-If an error lists missing modules, see :ref:`ref_ref_compatibility`.
+If an error lists missing modules, see :ref:`ref_compatibility`.
 The `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ module
 should always be synchronized with its server version.
 
@@ -65,6 +65,24 @@ Then, with result files reproducing this issue, you can prevent the warning from
 	
 However, the preceding code disables the reading and generation of the available results for the model.
 Any static results that are available for the model are used instead.
+
+Plotting issues
+---------------
+
+When trying to plot a result with DPF, the following error might be raised:
+
+.. code-block:: default
+
+    ModuleNotFoundError: No module named 'pyvista'
+
+In that case, simply install `PyVista <https://pyvista.org/>`_` with this command:
+
+.. code-block:: default
+
+    pip install pyvista
+
+Another option is to install PyVista along with PyDPF-Core. For more information, see 
+:ref:`Install with plotting capabilities<target_to_install_with_plotting_capabilities>`
 
 Performance issues
 ------------------

@@ -12,9 +12,26 @@ on:
         required: false
         type: string
         default: "232"
-    secrets:
-      DPF_PIPELINE:
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
+      custom-wheels:
+        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
+        required: false
+        type: string
+        default: ''
+      event_name:
+        description: "Name of event calling"
         required: true
+        type: string
+        default: ''
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -28,17 +45,37 @@ on:
         required: true
         type: string
         default: "232"
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
+      custom-wheels:
+        description: "extra pip --find-links argument to find custom dpf wheels"
+        required: false
+        type: string
+        default: ''
 
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  extra: "--find-links .github/"
 
 jobs:
+  doc-style:
+    name: "Check doc style"
+    uses: ./.github/workflows/docs-style.yml
+    with:
+      vale_reporter: ${{ (inputs.event_name == 'pull_request') && 'github-check' || 'local' }}
+    secrets: inherit
+
   docs:
     name: "Documentation"
     runs-on: windows-latest
-
     steps:
       - uses: actions/checkout@v3
 
@@ -67,7 +104,9 @@ jobs:
           install_extras: plotting
           wheel: false
           wheelhouse: false
-          extra-pip-args: ${{ env.extra }}
+          extra-pip-args: ${{ inputs.custom-wheels && format('--find-links {0}', inputs.custom-wheels) || '' }}
+          standalone_suffix: ${{ inputs.standalone_suffix }}
+          custom-requirements: ${{ inputs.custom-requirements }}
 
       - name: "Setup headless display"
         uses: pyvista/setup-headless-display-action@v1
@@ -145,3 +184,9 @@ jobs:
           name: HTML-doc-${{env.PACKAGE_NAME}}
           path: HTML-doc-${{env.PACKAGE_NAME}}.zip
         if: always()
+
+      - name: "Upload HTML Documentation"
+        uses: actions/upload-artifact@v3
+        with:
+          name: documentation-html
+          path: docs/build/html

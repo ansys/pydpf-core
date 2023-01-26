@@ -4,43 +4,11 @@ on:
   release:
     types: [published]
 
+env:
+  DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
+  PYTHON_MAIN_VERSION: '3.10'
+
 jobs:
-  Deploy_Documentation:
-    name: "Deploy live documentation"
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: "Get the version"
-        id: get_version
-        run: echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
-
-      - name: "Download Release Asset - HTML"
-        uses: dsaltares/fetch-gh-release-asset@1.0.0
-        with:
-          file: HTML-doc-ansys-dpf-core.zip
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: "Unzip the HMTL documentation"
-        uses: montudor/action-zip@v1
-        with:
-          args: unzip -qq HTML-doc-ansys-dpf-core.zip -d HTML-doc-ansys-dpf-core
-
-      - name: "Deploy to gh-pages"
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: HTML-doc-ansys-dpf-core/
-          token: ${{secrets.PYANSYS_CI_BOT_TOKEN}}
-          branch: gh-pages
-          git-config-name: pyansys-ci-bot
-          git-config-email: pyansys.github.bot@ansys.com
-          repository-name: pyansys/DPF-Core-docs
-          commit-message: Documentation generated for ${{ steps.get_version.outputs.VERSION }}
-          clean-exclude: "CNAME"
-          tag: doc-${{ steps.get_version.outputs.VERSION }}
 
   Publish_to_PyPI:
     name: Publish to PyPI
@@ -58,3 +26,16 @@ jobs:
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+
+  upload_docs_release:
+    name: "Upload stable documentation"
+    needs: [Publish_to_PyPI]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Deploy the stable documentation"
+        uses: pyansys/actions/doc-deploy-stable@v2
+        with:
+          cname: ${{ env.DOCUMENTATION_CNAME }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}

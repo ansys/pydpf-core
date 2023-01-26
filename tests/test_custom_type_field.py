@@ -24,7 +24,7 @@ def test_set_get_data_custom_type_field(server_type):
     field = dpf.core.CustomTypeField(np.byte, nentities=20, server=server_type)
     data = np.empty((20,), dtype=np.byte)
     for i in range(0, 20):
-        data[i] = np.byte(b'2')
+        data[i] = np.byte(b"2")
     field.data = data
     assert np.allclose(field.data, data)
     print(field.data)

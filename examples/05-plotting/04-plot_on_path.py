@@ -4,12 +4,13 @@
 
 Plot results on a specific path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to get a result mapped over a specific path
 and how to plot it.
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 
@@ -72,9 +73,7 @@ pl.show_figure(show_axes=True)
 ###############################################################################
 # Plot the solution along the specified line. Note that since the line is only
 # moving along the y-axis, the stresses are plotted with respect to the y coordinate.
-y_coords = [
-    mesh_m.nodes.coordinates_field.data[i][1] for i in range(mesh_m.nodes.n_nodes)
-]
+y_coords = [mesh_m.nodes.coordinates_field.data[i][1] for i in range(mesh_m.nodes.n_nodes)]
 plt.plot(y_coords, field_m.data, "r")
 plt.xlabel(f"y-coordinate [{mesh.unit}]")
 plt.ylabel(f"Stress [{field_m.unit}]")

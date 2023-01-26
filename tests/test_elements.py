@@ -37,18 +37,18 @@ def line_element_descriptor(model_elements):
 
 
 def check_element_attributes(
-        descriptor,
-        enum_id,
-        description,
-        name,
-        shape,
-        n_corner_nodes,
-        n_mid_nodes,
-        n_nodes,
-        is_solid,
-        is_shell,
-        is_beam,
-        is_quadratic,
+    descriptor,
+    enum_id,
+    description,
+    name,
+    shape,
+    n_corner_nodes,
+    n_mid_nodes,
+    n_nodes,
+    is_solid,
+    is_shell,
+    is_beam,
+    is_quadratic,
 ):
     assert isinstance(descriptor, dpf.ElementDescriptor)
     assert descriptor.enum_id.value == enum_id
@@ -139,9 +139,7 @@ def test_no_element_descriptor():
     print(descriptor)
     unknown_shape = "unknown_shape"
     assert descriptor.shape == unknown_shape
-    assert (
-            dpf.element_types.descriptor(dpf.element_types.General).shape == unknown_shape
-    )
+    assert dpf.element_types.descriptor(dpf.element_types.General).shape == unknown_shape
 
 
 def test_descriptor_with_int_value():
@@ -164,18 +162,18 @@ def test_descriptor_with_int_value():
 
 
 def check_from_enum_id(
-        hardcoded_id,
-        enum_id,
-        description,
-        name,
-        shape,
-        n_corner_nodes,
-        n_mid_nodes,
-        n_nodes,
-        is_solid,
-        is_shell,
-        is_beam,
-        is_quadratic,
+    hardcoded_id,
+    enum_id,
+    description,
+    name,
+    shape,
+    n_corner_nodes,
+    n_mid_nodes,
+    n_nodes,
+    is_solid,
+    is_shell,
+    is_beam,
+    is_quadratic,
 ):
     des = dpf.element_types.descriptor(enum_id)
     assert hardcoded_id == enum_id.value

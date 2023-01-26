@@ -3,6 +3,7 @@
 
 Create a plug-in package with multiple operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to create a plug-in package with multiple operators.
 The benefits of writing a package rather than simple scripts are:
 
@@ -17,7 +18,7 @@ For this example, the plug-in package contains two different operators:
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 
@@ -84,9 +85,7 @@ from ansys.dpf.core import examples
 dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
 tmp = dpf.make_tmp_dir_server()
-dpf.upload_files_in_folder(
-    dpf.path_utilities.join(tmp, "average_filter_plugin"), plugin_folder
-)
+dpf.upload_files_in_folder(dpf.path_utilities.join(tmp, "average_filter_plugin"), plugin_folder)
 dpf.load_library(
     os.path.join(dpf.path_utilities.join(tmp, "average_filter_plugin")),
     "py_average_filter",

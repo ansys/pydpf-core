@@ -3,6 +3,7 @@
 
 Create a custom workflow on distributed processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to read and postprocess distributed files on
 distributed processes. After remote postprocessing, results are merged
 on the local process. This example creates different operator
@@ -61,18 +62,18 @@ global_server = dpf.start_local_server(
 )
 
 remote_servers = [
-    dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
-    dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+    dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+    dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
 ]
 
 ###############################################################################
 # Send files to the temporary directory if they are not in shared memory.
 
 files = examples.download_distributed_files()
-server_file_paths = [dpf.upload_file_in_tmp_folder(files[0], server=remote_servers[0]),
-                     dpf.upload_file_in_tmp_folder(files[1], server=remote_servers[1])]
+server_file_paths = [
+    dpf.upload_file_in_tmp_folder(files[0], server=remote_servers[0]),
+    dpf.upload_file_in_tmp_folder(files[1], server=remote_servers[1]),
+]
 
 ###############################################################################
 # Create the first operator chain.

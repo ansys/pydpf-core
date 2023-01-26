@@ -3,13 +3,14 @@
 
 Solve harmonic problem (with damping) using matrix inverse
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to create a harmonic (over frequencies) fields
 container for an analysis with damping. This fields container is then used to
 solve the problem Ma+Dv+Ku=F by inverting the matrix
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 
@@ -42,7 +43,7 @@ reals = {}
 ims = {}
 for k, f in enumerate(freq):
     omega = 2.0 * math.pi * f
-    omega2 = omega ** 2
+    omega2 = omega**2
     real = fK0 + fM0 * omega2
     imag = fC0 * omega
     reals[f] = real.outputs.field()

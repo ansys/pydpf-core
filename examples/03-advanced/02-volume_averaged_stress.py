@@ -3,6 +3,7 @@
 
 Average elemental stress on a given volume
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to find the minimum list of surrounding
 elements for a given node to get a minimum volume.
 For each list of elements, the elemental stress equivalent is multiplied by the
@@ -11,7 +12,7 @@ total volume.
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 from ansys.dpf import core as dpf
@@ -63,36 +64,36 @@ node_index_to_found_volume = {}
 # data locally and to work only on the local process before sending the data
 # updates to the server as the end of the with statement
 # the performances are a lot better using this syntax
-with connectivity_field.as_local_field() as connectivity:
-    with nodal_connectivity_field.as_local_field() as nodal_connectivity:
-        with vol_field.as_local_field() as vol:
-            for i, node in enumerate(nodes_ids_to_compute):
+# fmt: off
+with connectivity_field.as_local_field() as connectivity, \
+    nodal_connectivity_field.as_local_field() as nodal_connectivity,\
+        vol_field.as_local_field() as vol:  # fmt: on
+    for i, node in enumerate(nodes_ids_to_compute):
 
-                current_node_indexes = [i]
-                volume = 0.0
-                # Loop through recursively selecting elements attached
-                # to nodes until specified volume is reached
-                while volume_check > volume:
-                    volume = 0.0
-                    elements_indexes = []
-                    # get elements attached to nodes
-                    for current_node_index in current_node_indexes:
-                        elements_indexes.extend(
-                            nodal_connectivity.get_entity_data(i).flatten()
-                        )
+        current_node_indexes = [i]
+        volume = 0.0
+        # Loop through recursively selecting elements attached
+        # to nodes until specified volume is reached
+        while volume_check > volume:
+            volume = 0.0
+            elements_indexes = []
 
-                    current_node_indexes = []
-                    for index in elements_indexes:
-                        # sum up the volume on those elements
-                        volume += vol.get_entity_data(index)[0]
+            # Get elements attached to nodes
+            for current_node_index in current_node_indexes:
+                elements_indexes.extend(nodal_connectivity.get_entity_data(i).flatten())
 
-                        # get all nodes of the current elements for next iteration
-                        current_node_indexes.extend(connectivity.get_entity_data(index))
-                node_index_to_el_ids[i] = dpf.Scoping(
-                    ids=[elements_ids[index] for index in elements_indexes],
-                    location=dpf.locations().elemental,
-                )
-                node_index_to_found_volume[i] = volume
+            current_node_indexes = []
+            for index in elements_indexes:
+                # Sum up the volume on those elements
+                volume += vol.get_entity_data(index)[0]
+                # Get all nodes of the current elements for next iteration
+                current_node_indexes.extend(connectivity.get_entity_data(index))
+
+        node_index_to_el_ids[i] = dpf.Scoping(
+            ids=[elements_ids[index] for index in elements_indexes],
+            location=dpf.locations().elemental,
+        )
+        node_index_to_found_volume[i] = volume
 
 ###############################################################################
 # Create workflow
@@ -122,8 +123,7 @@ with values_to_sum_field.as_local_field() as values_to_sum:
             ssum = 0.0
             for id in node_index_to_el_ids[key]:
                 ssum += (
-                        values_to_sum.get_entity_data_by_id(id)[0]
-                        * vol.get_entity_data_by_id(id)[0]
+                    values_to_sum.get_entity_data_by_id(id)[0] * vol.get_entity_data_by_id(id)[0]
                 )
             dataseqvsum.append(ssum)
             datavolsum.append(node_index_to_found_volume[key])
@@ -149,9 +149,7 @@ mesh.plot(divide.outputs.field())
 # ~~~~~~~~~~~~~~~~~~~~~~~~
 # An operator with the same algorithm has been implemented
 s_fc = s.outputs.fields_container()
-single_field_vol_fc = dpf.fields_container_factory.over_time_freq_fields_container(
-    [vol_field]
-)
+single_field_vol_fc = dpf.fields_container_factory.over_time_freq_fields_container([vol_field])
 
 single_field_fc = dpf.fields_container_factory.over_time_freq_fields_container(
     [values_to_sum_field]

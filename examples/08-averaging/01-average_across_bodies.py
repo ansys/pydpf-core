@@ -3,6 +3,7 @@
 
 Average across bodies
 ~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to activate and deactivate the DPF option for averaging
 across bodies. When a multi-body simulation calculates ``ElementalNodal`` fields,
 like stresses or strains, you can either activate or deactivate the averaging
@@ -11,7 +12,7 @@ likely changes the end results that are shown after postprocessing of the simula
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 ###############################################################################
@@ -156,9 +157,7 @@ scop_cont.add_label("time")
 for tset in time_sets:
     body = 1
     for mesh_scop in mesh_scop_cont:
-        scop_cont.add_scoping(
-            scoping=mesh_scop, label_space={"body": body, "time": int(tset)}
-        )
+        scop_cont.add_scoping(scoping=mesh_scop, label_space={"body": body, "time": int(tset)})
         body += 1
 print(scop_cont)
 
@@ -192,9 +191,7 @@ print(scopings)
 stress_op = ops.result.stress_Z()
 stress_op.inputs.connect(model)
 stress_op.inputs.time_scoping.connect(time_set)
-stress_op.inputs.mesh_scoping.connect(
-    scopings
-)  # This option deactivates averaging across bodies.
+stress_op.inputs.mesh_scoping.connect(scopings)  # This option deactivates averaging across bodies.
 stress_op.inputs.requested_location.connect(dpf.locations.nodal)
 stresses = stress_op.outputs.fields_container()
 print(stresses)
@@ -227,9 +224,7 @@ def not_average_across_bodies(analysis):
     for tset in time_sets:
         body = 1
         for mesh_scop in mesh_scop_cont:
-            scop_cont.add_scoping(
-                scoping=mesh_scop, label_space={"body": body, "time": int(tset)}
-            )
+            scop_cont.add_scoping(scoping=mesh_scop, label_space={"body": body, "time": int(tset)})
             body += 1
 
     time_set = 3
@@ -270,14 +265,8 @@ max_avg_off = not_average_across_bodies(analysis)
 
 ###############################################################################
 diff = abs(max_avg_on - max_avg_off) / max_avg_off * 100
-print(
-    "Max stress when averaging across bodies is activated: {:.2f} Pa".format(max_avg_on)
-)
-print(
-    "Max stress when averaging across bodies is deactivated: {:.2f} Pa".format(
-        max_avg_off
-    )
-)
+print("Max stress when averaging across bodies is activated: {:.2f} Pa".format(max_avg_on))
+print("Max stress when averaging across bodies is deactivated: {:.2f} Pa".format(max_avg_off))
 print(
     "The maximum stress value when averaging across bodies is ACTIVATED \
 is {:.2f}% LOWER than when it is DEACTIVATED".format(

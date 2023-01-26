@@ -17,6 +17,7 @@ def test_start_remote(monkeypatch):
     # Start a local DPF server and create a mock PyPIM pretending it is starting it
     from ansys.dpf import core
     from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     local_server = core.start_local_server(as_global=False, config=conf)
     server_address = f"{local_server.ip}:{local_server.port}"
@@ -52,9 +53,7 @@ def test_start_remote(monkeypatch):
     assert mock_connect.called
 
     # It created a remote instance through PyPIM
-    mock_client.create_instance.assert_called_with(
-        product_name="dpf", product_version=None
-    )
+    mock_client.create_instance.assert_called_with(product_name="dpf", product_version=None)
 
     # It waited for this instance to be ready
     assert mock_instance.wait_for_ready.called

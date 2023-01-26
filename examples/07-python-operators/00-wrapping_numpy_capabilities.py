@@ -3,6 +3,7 @@
 
 Create a basic operator plugin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to create a basic operator plugin, which is for
 a single custom operator. This custom operator, ``easy_statistics``,
 computes simple statistics quantities on a scalar field with the help of
@@ -13,7 +14,7 @@ be wrapped in Python plugins.
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 
@@ -39,8 +40,9 @@ from ansys.dpf import core as dpf
 
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
-GITHUB_SOURCE_URL = "https://github.com/pyansys/pydpf-core/" \
-                    "raw/examples/first_python_plugins/python_plugins"
+GITHUB_SOURCE_URL = (
+    "https://github.com/pyansys/pydpf-core/" "raw/examples/first_python_plugins/python_plugins"
+)
 EXAMPLE_FILE = GITHUB_SOURCE_URL + "/easy_statistics.py"
 operator_file_path = examples.downloads._retrieve_file(
     EXAMPLE_FILE, "easy_statistics.py", "python_plugins"
@@ -48,7 +50,7 @@ operator_file_path = examples.downloads._retrieve_file(
 
 with open(operator_file_path, "r") as f:
     for line in f.readlines():
-        print('\t\t\t' + line)
+        print("\t\t\t" + line)
 
 ###############################################################################
 # Load the plugin

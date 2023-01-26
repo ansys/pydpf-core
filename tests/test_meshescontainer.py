@@ -14,8 +14,8 @@ from ansys.dpf.core import MeshesContainer
 def dummy_mesh(server_type):
     """Returns a mesh"""
     mesh = dpf.core.MeshedRegion(server=server_type)
-    mesh.nodes.add_node(1, [0., 0., 0.])
-    mesh.nodes.add_node(2, [1., 1., 1.])
+    mesh.nodes.add_node(1, [0.0, 0.0, 0.0])
+    mesh.nodes.add_node(2, [1.0, 1.0, 1.0])
     mesh.elements.add_beam_element(1, [0, 1])
     return mesh
 
@@ -44,14 +44,16 @@ def test_empty_index():
 
 def test_createby_message_copy_meshes_container(server_type_legacy_grpc):
     mc = MeshesContainer(server=server_type_legacy_grpc)
-    meshes_container2 = MeshesContainer(meshes_container=mc._internal_obj,
-                                        server=server_type_legacy_grpc)
+    meshes_container2 = MeshesContainer(
+        meshes_container=mc._internal_obj, server=server_type_legacy_grpc
+    )
     assert mc._internal_obj == meshes_container2._internal_obj
 
 
-@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-                    reason='Connecting data from different servers is '
-                           'supported starting server version 3.0')
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
+    reason="Connecting data from different servers is " "supported starting server version 3.0",
+)
 def test_createbycopy_meshes_container(server_type):
     mc = MeshesContainer(server=server_type)
     meshes_container2 = MeshesContainer(meshes_container=mc)
@@ -106,6 +108,7 @@ def test_delete_meshes_container():
     ref = weakref.ref(mc)
     mc = None
     import gc
+
     gc.collect()
     assert ref() is None
 

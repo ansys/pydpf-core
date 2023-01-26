@@ -4,6 +4,7 @@
 
 Stress gradient normal to a defined node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This example shows how to plot a stress gradient normal to a selected node.
 Because the example is based on creating a path along the normal, the selected node
 must be on the surface of the geometry.
@@ -11,7 +12,7 @@ A path is created of a defined length.
 
 .. note::
     This example requires the Premium ServerContext.
-    For more information, see :ref:`_ref_getting_started_contexts`.
+    For more information, see :ref:`user_guide_server_context`.
 
 """
 
@@ -111,9 +112,7 @@ fz = lambda t: line_fp[2] + normal_vec_in[2] * t
 ###############################################################################
 # Create coordinates using 3D line equation.
 #
-coordinates = [
-    [fx(t * delta), fy(t * delta), fz(t * delta)] for t in range(int(depth / delta))
-]
+coordinates = [[fx(t * delta), fy(t * delta), fz(t * delta)] for t in range(int(depth / delta))]
 flat_coordinates = [entry for data in coordinates for entry in data]
 ###############################################################################
 # Create field for coordinates of the path.
