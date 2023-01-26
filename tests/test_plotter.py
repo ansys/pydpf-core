@@ -588,9 +588,9 @@ def test_plot_node_labels(multishells):
     pl.show_figure()
 
     pl = DpfPlotter()
-    my_labels_1 = ["MyNode1"]
+    my_labels_1 = ["MyNode1", None, "MyNode3"]
     pl.add_node_labels(
-        my_nodes_1,
+        mesh_m.nodes,
         mesh_m,
         my_labels_1,
     )
