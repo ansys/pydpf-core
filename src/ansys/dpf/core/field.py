@@ -118,7 +118,7 @@ class Field(_FieldBase):
     >>> fields_container = stress.outputs.fields_container()
     >>> field = fields_container[0]
     >>> field.scoping.ids
-    DPFArray([3, 2])
+    DPFArray([3, 2]...
     >>> field.data
     DPFArray([[  3755059.33333333,  -2398534.3515625 , -27519072.33333333,
                  2194748.65625   ,   8306637.58333333,   2018637.03125   ],
