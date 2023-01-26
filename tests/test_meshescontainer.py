@@ -52,8 +52,7 @@ def test_createby_message_copy_meshes_container(server_type_legacy_grpc):
 
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is "
-    "supported starting server version 3.0",
+    reason="Connecting data from different servers is " "supported starting server version 3.0",
 )
 def test_createbycopy_meshes_container(server_type):
     mc = MeshesContainer(server=server_type)
@@ -94,10 +93,7 @@ def test_set_get_mesh_meshes_container_new_label(elshape_body_mc, dummy_mesh):
         assert mc.get_mesh(i + 20)._internal_obj is not None
         assert mc[i]._internal_obj is not None
         assert mc.get_label_space(i + 20) == {"elshape": i + 1, "body": 0, "time": 1}
-        assert (
-            mc.get_mesh({"elshape": i + 1, "body": 0, "time": 1})._internal_obj
-            is not None
-        )
+        assert mc.get_mesh({"elshape": i + 1, "body": 0, "time": 1})._internal_obj is not None
         assert mc.get_mesh({"elshape": i + 1, "time": 1})._internal_obj is not None
 
 

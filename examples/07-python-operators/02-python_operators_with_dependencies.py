@@ -55,9 +55,7 @@ file_list = [
 ]
 plugin_path = None
 GITHUB_SOURCE_URL = (
-    "https://github.com/pyansys/pydpf-core/raw/"
-    ""
-    "examples/first_python_plugins/python_plugins"
+    "https://github.com/pyansys/pydpf-core/raw/" "" "examples/first_python_plugins/python_plugins"
 )
 
 for file in file_list:
@@ -196,12 +194,8 @@ from ansys.dpf.core import examples
 dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 
 tmp = dpf.make_tmp_dir_server()
-dpf.upload_files_in_folder(
-    dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"), plugin_path
-)
-dpf.upload_file(
-    plugin_path + ".xml", dpf.path_utilities.join(tmp, "plugins", "gltf_plugin.xml")
-)
+dpf.upload_files_in_folder(dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"), plugin_path)
+dpf.upload_file(plugin_path + ".xml", dpf.path_utilities.join(tmp, "plugins", "gltf_plugin.xml"))
 
 dpf.load_library(
     dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"),

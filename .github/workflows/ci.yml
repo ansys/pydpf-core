@@ -60,7 +60,7 @@ jobs:
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: requirements/requirements_dev.txt
-      dpf_wheels_directory: "--find-links ./dpf-standalone/v{0}/dist"
+      custom-wheels: './dpf-standalone/v232/dist'
     secrets: inherit
 
   docker_tests:
@@ -69,6 +69,7 @@ jobs:
     with:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: requirements/requirements_dev.txt
+      custom-wheels: './dpf-standalone/v232/dist'
     secrets: inherit
 
   docs:
@@ -77,7 +78,8 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ''
+      custom-requirements: requirements/requirements_dev.txt
+      custom-wheels: './dpf-standalone/v232/dist'
       event_name: ${{ github.event_name }}
     secrets: inherit
 
@@ -99,7 +101,8 @@ jobs:
       ANSYS_VERSION: "232"
       python_versions: '["3.8"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ''
+      custom-requirements: requirements/requirements_dev.txt
+      custom-wheels: './dpf-standalone/v232/dist'
     secrets: inherit
 
   retro_231:
@@ -110,7 +113,7 @@ jobs:
       ANSYS_VERSION: "231"
       python_versions: '["3.8"]'
       DOCSTRING: false
-      dpf_wheels_directory: '--find-links ./.github'
+      custom-wheels: './.github'
     secrets: inherit
 
   retro_222:
@@ -121,7 +124,7 @@ jobs:
       ANSYS_VERSION: "222"
       python_versions: '["3.8"]'
       DOCSTRING: false
-      dpf_wheels_directory: '--find-links ./.github'
+      custom-wheels: './.github'
     secrets: inherit
 
   retro_221:
@@ -132,7 +135,7 @@ jobs:
       ANSYS_VERSION: "221"
       python_versions: '["3.8"]'
       DOCSTRING: false
-      dpf_wheels_directory: '--find-links ./.github'
+      custom-wheels: './.github'
     secrets: inherit
 
   pydpf-post:
@@ -142,5 +145,6 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ''
+      custom-requirements: requirements/requirements_dev.txt
+      custom-wheels: './dpf-standalone/v232/dist'
     secrets: inherit

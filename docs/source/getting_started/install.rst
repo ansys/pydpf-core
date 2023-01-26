@@ -7,10 +7,10 @@ Installation
 Install using ``pip``
 ---------------------
 
-`pip <https://pypi.org/project/pip/>`_ is the package installer for Python.
+The standard package installer for Python is `pip <https://pypi.org/project/pip/>`_.
 
 To use PyDPF-Core with Ansys 2021 R2 or later, install the latest version
-with:
+with this command:
 
 .. code::
 
@@ -18,7 +18,7 @@ with:
 
 
 To use PyDPF-Core with Ansys 2021 R1, install the latest version
-with:
+with this command:
 
 .. code::
 
@@ -28,15 +28,15 @@ with:
 Install using a wheel file
 --------------------------
 
-If you are unable to install PyDPF-Post on the host machine due to
-network isolation, download the latest wheel file from `PyDPF-Post
-GitHub <https://github.com/pyansys/pydpf-post>`_ or
-`PyDPF-Post PyPI <https://pypi.org/project/ansys-dpf-post/>`_.
+If you are unable to install PyDPF-Core on the host machine due to
+network isolation, download the latest wheel file from `PyDPF-Core
+GitHub <https://github.com/pyansys/pydpf-core>`_ or
+`PyDPF-Core PyPI <https://pypi.org/project/ansys-dpf-core/>`_.
 
 Install for a quick tryout
 --------------------------
 
-For a quick tryout, use:
+For a quick tryout, install PyDPF-Core with this code:
 
 .. code::
 
@@ -61,11 +61,11 @@ development flag:
 Install with plotting capabilities
 ----------------------------------
 
-PyDPF-Core plotting capabilities are based on PyVista. That means that PyVista must be installed with PyDPF-Core. 
-To proceed, use:
+PyDPF-Core plotting capabilities are based on `PyVista <https://pyvista.org/>`_.
+This means that PyVista must be installed with PyDPF-Core. To proceed, use this command:
 
 .. code::
 
    pip install ansys-dpf-core[plotting]
 
-For more information about PyDPF-Core plotting capabilities, see :ref:`ref_plotter`.
+For more information about PyDPF-Core plotting capabilities, see :ref:`_user_guide_plotting`.

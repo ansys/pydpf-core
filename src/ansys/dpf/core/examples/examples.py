@@ -65,9 +65,7 @@ def find_files(local_path, should_upload=True, server=None, return_local_path=Fa
     return path_utilities.to_server_os(local_path, server)
 
 
-def find_simple_bar(
-    should_upload: bool = True, server=None, return_local_path=False
-) -> str:
+def find_simple_bar(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -99,9 +97,7 @@ def find_simple_bar(
     return find_files(simple_bar, should_upload, server, return_local_path)
 
 
-def find_static_rst(
-    should_upload: bool = True, server=None, return_local_path=False
-) -> str:
+def find_static_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -133,9 +129,7 @@ def find_static_rst(
     return find_files(static_rst, should_upload, server, return_local_path)
 
 
-def find_complex_rst(
-    should_upload: bool = True, server=None, return_local_path=False
-) -> str:
+def find_complex_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -167,9 +161,7 @@ def find_complex_rst(
     return find_files(complex_rst, should_upload, server, return_local_path)
 
 
-def find_multishells_rst(
-    should_upload: bool = True, server=None, return_local_path=False
-) -> str:
+def find_multishells_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -201,9 +193,7 @@ def find_multishells_rst(
     return find_files(multishells_rst, should_upload, server, return_local_path)
 
 
-def find_electric_therm(
-    should_upload: bool = True, server=None, return_local_path=False
-) -> str:
+def find_electric_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -235,9 +225,7 @@ def find_electric_therm(
     return find_files(electric_therm, should_upload, server, return_local_path)
 
 
-def find_steady_therm(
-    should_upload: bool = True, server=None, return_local_path=False
-) -> str:
+def find_steady_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -269,9 +257,7 @@ def find_steady_therm(
     return find_files(steady_therm, should_upload, server, return_local_path)
 
 
-def find_transient_therm(
-    should_upload: bool = True, server=None, return_local_path=False
-) -> str:
+def find_transient_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -303,9 +289,7 @@ def find_transient_therm(
     return find_files(transient_therm, should_upload, server, return_local_path)
 
 
-def find_msup_transient(
-    should_upload: bool = True, server=None, return_local_path=False
-) -> str:
+def find_msup_transient(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -337,9 +321,7 @@ def find_msup_transient(
     return find_files(msup_transient, should_upload, server, return_local_path)
 
 
-def find_simple_cyclic(
-    should_upload: bool = True, server=None, return_local_path=False
-) -> str:
+def find_simple_cyclic(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 

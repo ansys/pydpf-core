@@ -165,15 +165,9 @@ class Nodes:
         elif nodeid is None:
             nodeid = self._mesh._api.meshed_region_get_node_id(self._mesh, nodeindex)
         node_coordinates = [
-            self._mesh._api.meshed_region_get_node_coord(
-                self._mesh, index=nodeindex, coordinate=0
-            ),
-            self._mesh._api.meshed_region_get_node_coord(
-                self._mesh, index=nodeindex, coordinate=1
-            ),
-            self._mesh._api.meshed_region_get_node_coord(
-                self._mesh, index=nodeindex, coordinate=2
-            ),
+            self._mesh._api.meshed_region_get_node_coord(self._mesh, index=nodeindex, coordinate=0),
+            self._mesh._api.meshed_region_get_node_coord(self._mesh, index=nodeindex, coordinate=1),
+            self._mesh._api.meshed_region_get_node_coord(self._mesh, index=nodeindex, coordinate=2),
         ]
         return Node(self._mesh, nodeid, nodeindex, node_coordinates)
 

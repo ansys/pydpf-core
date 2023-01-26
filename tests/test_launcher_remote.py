@@ -53,9 +53,7 @@ def test_start_remote(monkeypatch):
     assert mock_connect.called
 
     # It created a remote instance through PyPIM
-    mock_client.create_instance.assert_called_with(
-        product_name="dpf", product_version=None
-    )
+    mock_client.create_instance.assert_called_with(product_name="dpf", product_version=None)
 
     # It waited for this instance to be ready
     assert mock_instance.wait_for_ready.called

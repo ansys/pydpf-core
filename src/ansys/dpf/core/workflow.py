@@ -80,9 +80,7 @@ class Workflow:
             self._internal_obj = workflow
         else:
             if self._server.has_client():
-                self._internal_obj = self._api.work_flow_new_on_client(
-                    self._server.client
-                )
+                self._internal_obj = self._api.work_flow_new_on_client(self._server.client)
             else:
                 self._internal_obj = self._api.work_flow_new()
 
@@ -151,9 +149,7 @@ class Workflow:
         elif isinstance(inpt, dpf_operator.Operator):
             self._api.work_flow_connect_operator_output(self, pin_name, inpt, pin_out)
         elif isinstance(inpt, dpf_operator.Output):
-            self._api.work_flow_connect_operator_output(
-                self, pin_name, inpt._operator, inpt._pin
-            )
+            self._api.work_flow_connect_operator_output(self, pin_name, inpt._operator, inpt._pin)
         elif isinstance(inpt, list):
             from ansys.dpf.core import collection
 
@@ -162,13 +158,9 @@ class Workflow:
                 self._api.work_flow_connect_collection_as_vector(self, pin_name, inpt)
             else:
                 if all(isinstance(x, int) for x in inpt):
-                    self._api.work_flow_connect_vector_int(
-                        self, pin_name, inpt, len(inpt)
-                    )
+                    self._api.work_flow_connect_vector_int(self, pin_name, inpt, len(inpt))
                 else:
-                    self._api.work_flow_connect_vector_double(
-                        self, pin_name, inpt, len(inpt)
-                    )
+                    self._api.work_flow_connect_vector_double(self, pin_name, inpt, len(inpt))
         elif isinstance(inpt, dict):
             from ansys.dpf.core import label_space
 
@@ -364,9 +356,7 @@ class Workflow:
                         out = type_tuple[2](type_tuple[1](self, pin_name))
                 if out is None:
                     try:
-                        out = output_type(
-                            type_tuple[1](self, pin_name), server=self._server
-                        )
+                        out = output_type(type_tuple[1](self, pin_name), server=self._server)
                     except TypeError:
                         self._progress_thread = None
                         out = output_type(type_tuple[1](self, pin_name))
@@ -551,9 +541,7 @@ class Workflow:
         """
         wf = Workflow(workflow="None", server=server)
         if wf._server.has_client():
-            wf._internal_obj = wf._api.work_flow_get_by_identifier_on_client(
-                id, wf._server.client
-            )
+            wf._internal_obj = wf._api.work_flow_get_by_identifier_on_client(id, wf._server.client)
         else:
             wf._internal_obj = wf._api.work_flow_get_by_identifier(id)
         if wf._internal_obj is None:
@@ -672,13 +660,10 @@ class Workflow:
                 )
             elif isinstance(output_input_names, dict):
                 for key in output_input_names:
-                    self._api.workflow_add_entry_connection_map(
-                        map, key, output_input_names[key]
-                    )
+                    self._api.workflow_add_entry_connection_map(map, key, output_input_names[key])
             else:
                 raise TypeError(
-                    "output_input_names argument is expect"
-                    "to be either a str tuple or a str dict"
+                    "output_input_names argument is expect" "to be either a str tuple or a str dict"
                 )
             self._api.work_flow_connect_with_specified_names(self, left_workflow, map)
         else:
@@ -753,9 +738,7 @@ class Workflow:
                 wf._internal_obj = wf._api.work_flow_create_from_text(text_stream)
             return wf
         elif address:
-            internal_obj = self._api.work_flow_get_copy_on_other_client(
-                self, address, "grpc"
-            )
+            internal_obj = self._api.work_flow_get_copy_on_other_client(self, address, "grpc")
             return Workflow(workflow=internal_obj, server=self._server)
         else:
             raise ValueError(
