@@ -3,4 +3,4 @@
 File manipulation and input-output examples
 ===========================================
 These examples show how to manipulate files,
-import or export from or to specific formats.
+as well as importing or exporting from or to specific formats.

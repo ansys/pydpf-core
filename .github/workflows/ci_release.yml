@@ -55,14 +55,14 @@ jobs:
       python_versions: '["3.7", "3.8", "3.9", "3.10"]'
       wheel: true
       wheelhouse: true
-      standalone_suffix: ""
+      standalone_suffix: ".pre0"
     secrets: inherit
 
   docs:
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: "232"
-      standalone_suffix: ""
+      standalone_suffix: ".pre0"
       event_name: ${{ github.event_name }}
     secrets: inherit
 
@@ -71,7 +71,7 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       python_versions: '["3.7", "3.8", "3.9", "3.10"]'
-      standalone_suffix: ""
+      standalone_suffix: ".pre0"
     secrets: inherit
 
   retro_231:
@@ -106,7 +106,7 @@ jobs:
     uses: ./.github/workflows/pydpf-post.yml
     with:
       ANSYS_VERSION: "232"
-      standalone_suffix: ""
+      standalone_suffix: ".pre0"
     secrets: inherit
 
   pydpf-post_231:
@@ -134,14 +134,14 @@ jobs:
     name: "gate"
     uses: ./.github/workflows/gate.yml
     with:
-      standalone_suffix: ""
+      standalone_suffix: ".pre0"
     secrets: inherit
 
   docker_tests:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
     with:
-      standalone_suffix: ""
+      standalone_suffix: ".pre0"
     secrets: inherit
 
   draft_release:

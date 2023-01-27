@@ -103,9 +103,7 @@ def create_line_from_vector(ini, end=None, n_points=100, server=None):
         if not len(ini) == 2:
             raise ValueError("Exactly two points must be passed to define the vector")
         if not len(ini[0]) == len(ini[1]) == 3:
-            raise ValueError(
-                "Each point must contain three coordinates 'x', 'y' and 'z'."
-            )
+            raise ValueError("Each point must contain three coordinates 'x', 'y' and 'z'.")
         vect = ini
     else:
         if not len(ini) == 3:
@@ -209,9 +207,7 @@ def create_plane_from_points(points, n_cells_x=20, n_cells_y=20, server=None):
             )
     else:
         if not len(points) == 3:
-            raise ValueError(
-                "Exactly three coordinates must be provided to create a plane."
-            )
+            raise ValueError("Exactly three coordinates must be provided to create a plane.")
         if not len(points[0]) == len(points[1]) == len(points[2]) == 3:
             raise ValueError("Each point must contain three coordinates.")
 
@@ -221,9 +217,7 @@ def create_plane_from_points(points, n_cells_x=20, n_cells_y=20, server=None):
 
     # Get width and height from points
     axes_plane = get_plane_local_axis(normal_dir)
-    points_local = [
-        get_local_coords_from_global(points[i], axes_plane, center) for i in range(3)
-    ]
+    points_local = [get_local_coords_from_global(points[i], axes_plane, center) for i in range(3)]
     x_coords = np.array(points_local)[:, 0]
     y_coords = np.array(points_local)[:, 1]
     width = float(x_coords.max() - x_coords.min())
@@ -338,9 +332,7 @@ def create_plane_from_point_and_line(
         if not len(line) == 2:
             raise ValueError("'line' must be of length = 2 containing two points.")
         if not len(line[0]) == len(line[1]) == 3:
-            raise ValueError(
-                "Each point in line must contain three coordinates 'x', 'y' and 'z'."
-            )
+            raise ValueError("Each point in line must contain three coordinates 'x', 'y' and 'z'.")
 
     # Get center and normal from point and vector
     coords = [line[0], line[1], point]
@@ -354,9 +346,7 @@ def get_center_from_coords(coords):
     """Get average coordinates from several points."""
     n_points = len(coords)
     n_coords = len(coords[0])
-    return [
-        sum(coords[i][j] for i in range(n_points)) / n_points for j in range(n_coords)
-    ]
+    return [sum(coords[i][j] for i in range(n_points)) / n_points for j in range(n_coords)]
 
 
 def get_normal_direction_from_coords(points):

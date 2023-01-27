@@ -148,9 +148,7 @@ def test_set_element_types_field_meshedregion(simple_bar_model):
 
     new_data[0] = 1
     field_element_types.data = new_data
-    mesh.set_property_field(
-        dpf.core.common.elemental_properties.element_type, field_element_types
-    )
+    mesh.set_property_field(dpf.core.common.elemental_properties.element_type, field_element_types)
     field_element_types = mesh.elements.element_types_field
     assert field_element_types.data[0] == 1
 
@@ -194,9 +192,7 @@ def test_get_connectivities_field_meshedregion(simple_bar_model):
         field_connect.get_entity_data(1),
         [1053, 1062, 1143, 1134, 2492, 2491, 2482, 2483],
     )
-    connectivity = mesh.property_field(
-        dpf.core.common.elemental_properties.connectivity
-    )
+    connectivity = mesh.property_field(dpf.core.common.elemental_properties.connectivity)
     assert np.allclose(connectivity.data, field_connect.data)
 
 
@@ -214,9 +210,7 @@ def test_set_connectivities_field_meshed_region(simple_bar_model):
 
     new_connectivity_data[0] = 1
     connectivity.data = new_connectivity_data
-    mesh.set_property_field(
-        dpf.core.common.elemental_properties.connectivity, connectivity
-    )
+    mesh.set_property_field(dpf.core.common.elemental_properties.connectivity, connectivity)
     connectivity = mesh.elements.connectivities_field
     assert connectivity.data[0] == 1
 
@@ -370,14 +364,10 @@ def test_connectivity_meshed_region(server_type):
     assert np.allclose(nodal_conne.get_entity_data_by_id(1), [0])
     assert np.allclose(mesh.nodes.node_by_id(1).nodal_connectivity, [0])
 
-    mesh_nodal = mesh.property_field(
-        dpf.core.common.nodal_properties.nodal_connectivity
-    )
+    mesh_nodal = mesh.property_field(dpf.core.common.nodal_properties.nodal_connectivity)
     assert np.allclose(mesh_nodal.data, nodal_conne.data)
 
-    mesh_nodal = mesh.property_field(
-        dpf.core.common.nodal_properties.nodal_connectivity
-    )
+    mesh_nodal = mesh.property_field(dpf.core.common.nodal_properties.nodal_connectivity)
     assert np.allclose(mesh_nodal.data, nodal_conne.data)
 
 
@@ -563,9 +553,7 @@ def test_mesh_deep_copy(allkindofcomplexity, server_type):
     assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
     assert np.allclose(copy.elements.scoping.ids, mesh.elements.scoping.ids)
     assert copy.unit == mesh.unit
-    assert np.allclose(
-        copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data
-    )
+    assert np.allclose(copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data)
     assert np.allclose(
         copy.elements.element_types_field.data, mesh.elements.element_types_field.data
     )
@@ -594,9 +582,7 @@ def test_mesh_deep_copy2(simple_bar_model, server_type):
     assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
     assert np.allclose(copy.elements.scoping.ids, mesh.elements.scoping.ids)
     assert copy.unit == mesh.unit
-    assert np.allclose(
-        copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data
-    )
+    assert np.allclose(copy.nodes.coordinates_field.data, mesh.nodes.coordinates_field.data)
     assert np.allclose(
         copy.elements.element_types_field.data, mesh.elements.element_types_field.data
     )
@@ -623,9 +609,7 @@ def test_mesh_deep_copy2(simple_bar_model, server_type):
     reason="Bug in server version lower than 4.0",
 )
 def test_semi_parabolic_meshed_region(server_type, allkindofcomplexity):
-    mesh = dpf.core.Model(
-        allkindofcomplexity, server=server_type
-    ).metadata.meshed_region
+    mesh = dpf.core.Model(allkindofcomplexity, server=server_type).metadata.meshed_region
     has_semi_par = False
     el = mesh.elements[0]
     assert dpf.core.element_types.descriptor(el.type).n_nodes != len(el.connectivity)

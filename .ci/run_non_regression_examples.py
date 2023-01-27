@@ -16,9 +16,7 @@ list_tests = [
     os.path.join(actual_path, os.path.pardir, "examples", "00-basic"),
     os.path.join(actual_path, os.path.pardir, "examples", "01-transient_analyses"),
     os.path.join(actual_path, os.path.pardir, "examples", "02-modal-harmonic"),
-    os.path.join(
-        actual_path, os.path.pardir, "examples", "05-plotting", "00-basic_plotting.py"
-    ),
+    os.path.join(actual_path, os.path.pardir, "examples", "05-plotting", "00-basic_plotting.py"),
     os.path.join(
         actual_path,
         os.path.pardir,

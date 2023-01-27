@@ -64,9 +64,7 @@ def test_animator_animate_raise_no_workflow():
 def test_animator_animate(displacement_fields):
     frequencies = displacement_fields.time_freq_support.time_frequencies
     loop_over = displacement_fields.get_time_scoping()
-    loop_over_field = dpf.fields_factory.field_from_array(
-        frequencies.data[loop_over.ids - 1]
-    )
+    loop_over_field = dpf.fields_factory.field_from_array(frequencies.data[loop_over.ids - 1])
     loop_over_field.scoping.ids = loop_over.ids
     loop_over_field.unit = frequencies.unit
 
@@ -82,9 +80,7 @@ def test_animator_animate(displacement_fields):
 def test_animator_animate_raise_wrong_scale_factor(remove_gifs, displacement_fields):
     frequencies = displacement_fields.time_freq_support.time_frequencies
     loop_over = displacement_fields.get_time_scoping()
-    loop_over_field = dpf.fields_factory.field_from_array(
-        frequencies.data[loop_over.ids - 1]
-    )
+    loop_over_field = dpf.fields_factory.field_from_array(frequencies.data[loop_over.ids - 1])
     loop_over_field.scoping.ids = loop_over.ids
     loop_over_field.unit = frequencies.unit
 
@@ -128,9 +124,7 @@ def test_animator_animate_fields_container_eqv_partial_scoping():
     displacement_result = model.results.displacement.on_time_scoping(time_scoping)
 
     stress_fields = stress_result.on_location(dpf.common.locations.nodal).eval()
-    stress_fields.animate(
-        deform_by=displacement_result, scale_factor=20.0, framerate=1.0
-    )
+    stress_fields.animate(deform_by=displacement_result, scale_factor=20.0, framerate=1.0)
 
 
 def test_animator_animate_fields_container_one_component(displacement_fields):
@@ -139,9 +133,7 @@ def test_animator_animate_fields_container_one_component(displacement_fields):
 
 def test_animator_animate_fields_container_deform_by_convert_unit(displacement_fields):
     new_displacement_fields = displacement_fields.deep_copy()
-    dpf.operators.math.unit_convert_fc(
-        fields_container=new_displacement_fields, unit_name="mm"
-    )
+    dpf.operators.math.unit_convert_fc(fields_container=new_displacement_fields, unit_name="mm")
     displacement_fields.animate(deform_by=new_displacement_fields)
 
 
@@ -201,9 +193,7 @@ def test_animator_animate_fields_container_scale_factor_raise_list_len(
 
 
 def test_animator_animate_fields_container_scale_factor_field(displacement_fields):
-    scale_factor_field = dpf.fields_factory.field_from_array(
-        displacement_fields[0].data
-    )
+    scale_factor_field = dpf.fields_factory.field_from_array(displacement_fields[0].data)
     with pytest.raises(NotImplementedError) as e:
         displacement_fields.animate(scale_factor=scale_factor_field)
         assert "Scaling by a Field is not yet implemented." in e
@@ -213,9 +203,7 @@ def test_animator_animate_fields_container_scale_factor_fc(displacement_fields):
     fields = []
     for f in displacement_fields:
         fields.append(dpf.fields_factory.field_from_array(f.data))
-    scale_factor_fc = dpf.fields_container_factory.over_time_freq_fields_container(
-        fields
-    )
+    scale_factor_fc = dpf.fields_container_factory.over_time_freq_fields_container(fields)
     scale_factor_fc.time_freq_support = displacement_fields.time_freq_support
     with pytest.raises(NotImplementedError) as e:
         displacement_fields.animate(scale_factor=scale_factor_fc)

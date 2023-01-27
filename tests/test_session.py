@@ -76,9 +76,7 @@ def test_logging_remote(tmpdir, server_type_remote_process):
     wf = core.Workflow(server=server_type_remote_process)
     model = core.Model(result_file, server=server_type_remote_process)
     stress = model.results.stress()
-    to_nodal = core.operators.averaging.to_nodal_fc(
-        stress, server=server_type_remote_process
-    )
+    to_nodal = core.operators.averaging.to_nodal_fc(stress, server=server_type_remote_process)
     wf.add_operators([stress, to_nodal])
     wf.set_output_name("out", to_nodal.outputs.fields_container)
 
@@ -94,9 +92,7 @@ def test_logging_remote(tmpdir, server_type_remote_process):
     wf = core.Workflow(server=server_type_remote_process)
     model = core.Model(result_file, server=server_type_remote_process)
     stress = model.results.stress()
-    to_nodal = core.operators.averaging.to_nodal_fc(
-        stress, server=server_type_remote_process
-    )
+    to_nodal = core.operators.averaging.to_nodal_fc(stress, server=server_type_remote_process)
     wf.add_operators([stress, to_nodal])
     wf.set_output_name("out", to_nodal.outputs.fields_container)
 

@@ -76,11 +76,7 @@ class Points:
     @property
     def n_points(self):
         """Total number of points."""
-        return (
-            self._coordinates.shape[0]
-            if isinstance(self._coordinates.shape, tuple)
-            else 1
-        )
+        return self._coordinates.shape[0] if isinstance(self._coordinates.shape, tuple) else 1
 
     @property
     def dimension(self):
@@ -91,9 +87,7 @@ class Points:
         """Visualize Points object. If provided, ``mesh`` will be also plotted."""
         cpos = kwargs.pop("cpos", None)
         pl = DpfPlotter(**kwargs)
-        pl.add_points(
-            self._coordinates.data, render_points_as_spheres=True, point_size=10
-        )
+        pl.add_points(self._coordinates.data, render_points_as_spheres=True, point_size=10)
         if mesh:
             pl.add_mesh(mesh, style="surface", show_edges=True, color="w", opacity=0.3)
         pl.show_figure(show_axes=True, cpos=cpos)
@@ -163,10 +157,7 @@ class Line:
         origin = self._coordinates.data[0]
         diff = self._coordinates.data[1] - self._coordinates.data[0]
         path_1D = np.linspace(0, self.length, self._n_points)
-        path_3D = [
-            origin + i_point * diff / self._n_points
-            for i_point in range(self._n_points)
-        ]
+        path_3D = [origin + i_point * diff / self._n_points for i_point in range(self._n_points)]
 
         # Create mesh for a line
         mesh = dpf.MeshedRegion(
@@ -211,9 +202,7 @@ class Line:
     @property
     def direction(self):
         """Normalized direction vector between the two points defining the line."""
-        diff = [
-            x - y for x, y in zip(self._coordinates.data[1], self._coordinates.data[0])
-        ]
+        diff = [x - y for x, y in zip(self._coordinates.data[1], self._coordinates.data[0])]
         return diff / np.linalg.norm(diff)
 
     def plot(self, mesh=None, **kwargs):
@@ -221,9 +210,7 @@ class Line:
         cpos = kwargs.pop("cpos", None)
         if not cpos:
             # Check if line is along the [1, 1, 1] direction to change camera position
-            if np.isclose(
-                np.abs(self.direction), normalize_vector(np.array([1, 1, 1]))
-            ).all():
+            if np.isclose(np.abs(self.direction), normalize_vector(np.array([1, 1, 1]))).all():
                 cpos = "xy"
             else:
                 cpos = None
@@ -278,9 +265,7 @@ class Plane:
 
     """
 
-    def __init__(
-        self, center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None
-    ):
+    def __init__(self, center, normal, width=1, height=1, n_cells_x=20, n_cells_y=20, server=None):
         """Initialize Plane object from its center and normal direction."""
         # Input check
         if not len(center) == 3:
@@ -390,16 +375,12 @@ class Plane:
         # Map coordinates from plane to global coordinates system
         global_coords = np.zeros([num_nodes, 3])
         for i in range(num_nodes):
-            node_coords = np.array(
-                [plane_coords[0][i], plane_coords[1][i], plane_coords[2][i]]
-            )
+            node_coords = np.array([plane_coords[0][i], plane_coords[1][i], plane_coords[2][i]])
             global_coords[i, :] = np.dot(node_coords, self._axes_plane) + self._center
 
         # Create mesh
         num_elems = self._n_cells_x * self._n_cells_y
-        mesh = dpf.MeshedRegion(
-            num_nodes=num_nodes, num_elements=num_elems, server=self._server
-        )
+        mesh = dpf.MeshedRegion(num_nodes=num_nodes, num_elements=num_elems, server=self._server)
         for i, node in enumerate(mesh.nodes.add_nodes(num_nodes)):
             node.id = i + 1
             node.coordinates = global_coords[i]

@@ -22,7 +22,7 @@ Data can come from two sources:
   defining where the result files are located.
 - **Manual input in DPF:** You can create fields of data in DPF.
 
-Once you have specify data sources or manually create fields in PDF,
+Once you specify data sources or manually create fields in DPF,
 you can create field containers (if applicable) and define scopings to
 identify the subset of data that you want to evaluate.
 
@@ -31,7 +31,7 @@ Specify the data source
 To evaluate the data in simulation result files, you specify the data source by defining
 where the results files are located.
 
-This example shows how to define the data source:
+This code shows how to define the data source:
  
 .. code-block:: python
 
@@ -42,7 +42,7 @@ This example shows how to define the data source:
    ['/tmp/file.rst']  
 
 To evaluate data files, they must be opened. To open data files, you
-define *streams*. A stream is an entity that contains the data sources.
+define **streams**. A stream is an entity that contains the data sources.
 Streams keep the data files open and keep some data cached to make the next
 evaluation faster. Streams are particularly convenient when using large
 data files. They save time when opening and closing data files. When a stream
@@ -50,7 +50,7 @@ is released, the data files are closed.
 
 Define fields
 ~~~~~~~~~~~~~
-A *field* is a container of simulation data. In numerical simulations,
+A **field** is a container of simulation data. In numerical simulations,
 result data is defined by values associated with entities:
 
 .. image:: ../images/drawings/values-entities.png
@@ -59,7 +59,7 @@ Therefore, a field of data might look something like this:
 
 .. image:: ../images/drawings/field.png
 
-This example shows how to define a field from scratch:
+This code shows how to define a field from scratch:
 
 .. code-block:: python
 
@@ -87,7 +87,7 @@ You specify the set of entities by defining a range of IDs:
 
 You must define a scoping prior to its use in the transformation data workflow.
 
-This example shows how to define a mesh scoping:
+This code shows how to define a mesh scoping:
 
 .. code-block:: python
 
@@ -105,7 +105,7 @@ This example shows how to define a mesh scoping:
 
 Define field containers
 ~~~~~~~~~~~~~~~~~~~~~~~
-A *field container* holds a set of fields. It is used mainly for
+A **field container** holds a set of fields. It is used mainly for
 transient, harmonic, modal, or multi-step analyses. This image
 explains its structure:
 
@@ -123,7 +123,7 @@ You can define a field container in multiple ways:
 - Create a field container from a CSV file.
 - Convert existing fields to a field container.
 
-This example shows how to define a field container from scratch:
+This code shows how to define a field container from scratch:
 
 .. code-block:: python
 
@@ -165,7 +165,8 @@ an output that it passes to a field or field container using an output pin.
 .. image:: ../images/drawings/circuit.png
 
 Comprehensive information on operators is available in :ref:`ref_dpf_operators_reference`.
-In the **Available Operators** area, you can either type a keyword in the **Search** option
+In the **Available Operators** area for either the **Entry** or **Premium** operators,
+you can either type a keyword in the **Search** option
 or browse by operator categories:
    
 .. image:: ../images/drawings/help-operators.png
@@ -186,7 +187,7 @@ language (IronPython, CPython, and C++).
 
 .. image:: ../images/drawings/operator-def.png
 
-This example shows how to define an operator from a model:
+This code shows how to define an operator from a model:
 
 .. code-block:: python
 
@@ -203,15 +204,15 @@ data transformation workflow, enabling you to perform all operations necessary
 to get the result that you want.
 
 In a workflow, the output pins of one operator can be connected to the input pins
-of another operator, allowing output data from one operator to be passed as
-input to another operator.
+of another operator, allowing the output from one operator to be passed as
+the input to another operator.
 
 This image shows how you would get the norm of a resulting vector from the
 dot product of two vectors:
 
 .. image:: ../images/drawings/connect-operators.png
 
-This example shows how to define a generic workflow that computes the minimum
+This code shows how to define a generic workflow that computes the minimum
 of displacement by chaining the ``U`` and ``min_max_fc`` operators:
 	
 .. code-block:: python
