@@ -73,6 +73,13 @@ def test_plotter_on_mesh(allkindofcomplexity):
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plotter_on_mesh_warning_notebook():
+    pl = DpfPlotter()
+    with pytest.warns(expected_warning=UserWarning, match="'notebook' is not a valid kwarg"):
+        pl.show_figure(notebook=False)
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
 def test_plotter_on_field(allkindofcomplexity):
     model = Model(allkindofcomplexity)
     stress = model.results.stress()
@@ -578,6 +585,15 @@ def test_plot_node_labels(multishells):
     )
     a = pl.labels[0]
     assert len(a) == 2
+    pl.show_figure()
+
+    pl = DpfPlotter()
+    my_labels_1 = ["MyNode1", None, "MyNode3"]
+    pl.add_node_labels(
+        mesh_m.nodes,
+        mesh_m,
+        my_labels_1,
+    )
     pl.show_figure()
 
 
