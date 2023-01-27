@@ -560,8 +560,6 @@ dimensionality, unit, and location.</p>
 <p>A field contains the metadata for the result it is associated with. The metadata
 includes the location (such as <code class="docutils literal notranslate"><span class="pre">Elemental</span></code>, <code class="docutils literal notranslate"><span class="pre">Nodal</span></code>, or
 <code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code>) and the IDs associated with the location.</p>
-<p>The field’s scoping defines the order of the data, for example: the first ID in the
-<code class="docutils literal notranslate"><span class="pre">scoping</span></code> identifies to which entity the first <code class="docutils literal notranslate"><span class="pre">entity</span> <span class="pre">data</span></code> in the data vector belongs.</p>
 <p>To access the scoping of the field, use the <code class="docutils literal notranslate"><span class="pre">scoping</span></code> attribute:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;field.scoping.ids:&#39;</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
@@ -629,8 +627,8 @@ when building your postprocessing workflows, the most efficient way of
 interacting with result data is to minimize the exchange of data between
 Python and DPF, either by using operators or by accessing only the data
 that is needed.</p>
-<p>The field’s <code class="docutils literal notranslate"><span class="pre">data</span></code> is ordered with respect to its <code class="docutils literal notranslate"><span class="pre">scoping</span> <span class="pre">ids</span></code> (see above).
-To access the entire array of data as a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array:</p>
+<p>If you need to access the entire array of data, request that the data
+be returned as a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">array</span>
 <span class="go">array([[ 4.01372930e+04,  3.85071930e+02, -1.40019130e+07,</span>
