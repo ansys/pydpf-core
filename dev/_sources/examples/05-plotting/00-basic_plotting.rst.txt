@@ -90,8 +90,21 @@ shown with the arguments available.
           :class: sphx-glr-multi-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    c:\hostedtoolcache\windows\python\3.8.10\x64\lib\site-packages\ansys\dpf\core\plotter.py:573: UserWarning: 'notebook' is not a valid kwarg for show_figure(). Please give this argument to the init of DpfPlotter.
+      warnings.warn(
+    c:\hostedtoolcache\windows\python\3.8.10\x64\lib\site-packages\ansys\dpf\core\plotter.py:573: UserWarning: 'notebook' is not a valid kwarg for show_figure(). Please give this argument to the init of DpfPlotter.
+      warnings.warn(
 
 
+
+
+
+
+|
 
 .. code-block:: default
 
@@ -184,7 +197,7 @@ shown with the arguments available.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  9.038 seconds)
+   **Total running time of the script:** ( 0 minutes  6.769 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_00-basic_plotting.py:

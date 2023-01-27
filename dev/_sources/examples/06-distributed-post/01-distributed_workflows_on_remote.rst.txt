@@ -229,7 +229,19 @@ Connect the operator chains together and get the output.
       Location: Nodal
       Unit: Pa
       432 entities 
-      Data:6 components and 432 elementary data 
+      Data: 6 components and 432 elementary data 
+
+      Nodal
+      IDs                   data (Pa)
+      ------------          ----------
+      24                    -1.931259e+11    4.889198e+11    9.893517e+10   -1.873750e+12    8.823901e+11    2.278725e+10
+                     
+      124                   -4.577267e+11   -4.345968e+10    1.408608e+11   -4.123077e+10    1.609307e+10    6.080418e+10
+                     
+      89                    -1.935788e+11   -3.031243e+11    1.267524e+11    5.413418e+10    3.645896e+10   -1.808178e+10
+                     
+      ...
+
 
 
 
@@ -238,7 +250,7 @@ Connect the operator chains together and get the output.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.111 seconds)
+   **Total running time of the script:** ( 0 minutes  1.892 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_01-distributed_workflows_on_remote.py:

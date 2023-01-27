@@ -709,7 +709,7 @@ These examples show how to use the :class:`ansys.dpf.core.plotter.DpfPlotter` cl
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="You can add use label properties to add custom labels to specific nodes. If label for a node is...">
+    <div class="sphx-glr-thumbcontainer" tooltip="You can add use label properties to add custom labels to specific nodes. If the label for a nod...">
 
 .. only:: html
 
@@ -997,7 +997,7 @@ These examples show how to use some of DPF's averaging operators.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to activate and deactivate the DPF option for averaging across bodies. W...">
+    <div class="sphx-glr-thumbcontainer" tooltip="In multibody simulations, some nodes may be shared by the bodies at their interfaces, but the v...">
 
 .. only:: html
 

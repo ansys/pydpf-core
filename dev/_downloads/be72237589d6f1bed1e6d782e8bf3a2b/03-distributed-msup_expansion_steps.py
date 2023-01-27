@@ -150,7 +150,7 @@ for i, server in enumerate(remote_servers):
 # the modal response, and expand the modal response with the modal basis.
 
 merge_fields = ops.utility.merge_fields_containers()
-merge_mesh = ops.mesh.merge_meshes()
+merge_mesh = ops.utility.merge_meshes()
 
 ds = dpf.DataSources(os.path.join(base_path, "file_load_1.rfrq"))
 response = ops.result.displacement(data_sources=ds)

@@ -902,7 +902,7 @@ respective data files on each server.</p>
 <p>The following series of operators merge the modal basis and the meshes, read
 the modal response, and expand the modal response with the modal basis.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">merge_fields</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">merge_fields_containers</span><span class="p">()</span>
-<span class="n">merge_mesh</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">merge_meshes</span><span class="p">()</span>
+<span class="n">merge_mesh</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">merge_meshes</span><span class="p">()</span>
 
 <span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">base_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/file_load_1.rfrq&quot;</span><span class="p">)</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds</span><span class="p">)</span>
@@ -958,7 +958,7 @@ the modal response, and expand the modal response with the modal basis.</p>
   - field 19 {complex:  1, time:  10} with Nodal location, 1 components and 1065 entities.
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.674 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.939 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-06-distributed-post-02-distributed-msup-expansion-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/da1eb8703910f110296ff8ca83dc5420/02-distributed-msup_expansion.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-distributed-msup_expansion.py</span></code></a></p>

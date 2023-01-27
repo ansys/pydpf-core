@@ -149,20 +149,44 @@ Create data on different servers
       Location: Nodal
       Unit: 
       2 entities 
-      Data:1 components and 2 elementary data 
-     <class 'ansys.dpf.core.server_types.InProcessServer'> DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 5016, 'server_version': '6.1', 'os': 'nt'}
+      Data: 1 components and 2 elementary data 
+
+      IDs                   data ()
+      ------------          ----------
+      1                      1.000000e+00
+                     
+      2                      2.000000e+00
+                     
+
+     <class 'ansys.dpf.core.server_types.InProcessServer'> DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 4652, 'server_version': '6.1', 'os': 'nt'}
     DPF  Field
       Location: Nodal
       Unit: 
       2 entities 
-      Data:1 components and 2 elementary data 
-     <class 'ansys.dpf.core.server_types.GrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50056, 'server_process_id': 2496, 'server_version': '6.1', 'os': 'nt'}
+      Data: 1 components and 2 elementary data 
+
+      IDs                   data ()
+      ------------          ----------
+      1                      1.000000e+00
+                     
+      2                      2.000000e+00
+                     
+
+     <class 'ansys.dpf.core.server_types.GrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50056, 'server_process_id': 3860, 'server_version': '6.1', 'os': 'nt'}
     DPF  Field
       Location: Nodal
       Unit: 
       2 entities 
-      Data:1 components and 2 elementary data 
-     <class 'ansys.dpf.core.server_types.LegacyGrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50054, 'server_process_id': 3468, 'server_version': '6.1', 'os': 'nt'}
+      Data: 1 components and 2 elementary data 
+
+      IDs                   data ()
+      ------------          ----------
+      1                      1.000000e+00
+                     
+      2                      2.000000e+00
+                     
+
+     <class 'ansys.dpf.core.server_types.LegacyGrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50054, 'server_process_id': 2672, 'server_version': '6.1', 'os': 'nt'}
 
 
 
@@ -201,8 +225,16 @@ automatically started when a DPF object is created:
       Location: Nodal
       Unit: 
       2 entities 
-      Data:1 components and 2 elementary data 
-     <class 'ansys.dpf.core.server_types.LegacyGrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 1484, 'server_version': '6.1', 'os': 'nt'}
+      Data: 1 components and 2 elementary data 
+
+      IDs                   data ()
+      ------------          ----------
+      1                      1.000000e+00
+                     
+      2                      2.000000e+00
+                     
+
+     <class 'ansys.dpf.core.server_types.LegacyGrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 920, 'server_version': '6.1', 'os': 'nt'}
 
 
 
@@ -210,7 +242,7 @@ automatically started when a DPF object is created:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.283 seconds)
+   **Total running time of the script:** ( 0 minutes  2.189 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_11-server_types.py:

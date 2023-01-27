@@ -835,9 +835,12 @@ displacement operator:</p>
          available time/freqs in result files.
 
      -   mesh_scoping : ScopingsContainer, Scoping, optional
-         Nodes or elements scoping required in output. the scoping&#39;s location
-         indicates whether nodes or elements are asked. using scopings
-         container enables to split the result fields container in domains
+         Nodes or elements scoping required in output. the output fields will
+         be scoped on these node or element ids. to figure out the ordering of
+         the fields data, look at their scoping ids as they might not be
+         ordered as the input scoping was. the scoping&#39;s location indicates
+         whether nodes or elements are asked for. using scopings container
+         allows you to split the result fields container into domains
 
      -   fields_container : FieldsContainer, optional
          Fields container already allocated modified inplace
@@ -894,7 +897,13 @@ then the maximum of the norm of the operator.</p>
   Location: Nodal
   Unit: m
   1 entities
-  Data:1 components and 1 elementary data
+  Data: 1 components and 1 elementary data
+
+  IDs                   data (m)
+  ------------          ----------
+  0                      1.481537e-08
+
+
 
 [1.48153706e-08]
 </pre></div>
@@ -946,7 +955,13 @@ Available results:
   Location: Nodal
   Unit: m
   1 entities
-  Data:1 components and 1 elementary data
+  Data: 1 components and 1 elementary data
+
+  IDs                   data (m)
+  ------------          ----------
+  0                      1.481537e-08
+
+
 
 [1.48153706e-08]
 </pre></div>
@@ -991,7 +1006,7 @@ scripting syntax.</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[1.48153706e-08]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.016 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.750 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-01-basic-operators-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/9aa372dff2fc2ef917214ce9663244c9/01-basic_operators.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-basic_operators.py</span></code></a></p>

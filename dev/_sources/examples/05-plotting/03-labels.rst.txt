@@ -24,14 +24,16 @@ Add nodal labels on plots
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can add use label properties to add custom labels to specific nodes.
-If label for a node is missing, the nodal scalar value is shown by default.
+If the label for a node is not defined or `None`, the nodal scalar value
+of the currently active field at that node is shown. If no field is active,
+the node ID is shown.
 
-.. GENERATED FROM PYTHON SOURCE LINES 12-14
+.. GENERATED FROM PYTHON SOURCE LINES 14-16
 
 Import the ``dpf_core`` module, included examples files, and the ``DpfPlotter``
 module.
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-18
+.. GENERATED FROM PYTHON SOURCE LINES 16-20
 
 .. code-block:: default
 
@@ -46,7 +48,7 @@ module.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-31
+.. GENERATED FROM PYTHON SOURCE LINES 21-33
 
 Open an example and print the ``Model`` object. The
 :class:`Model <ansys.dpf.core.model.Model>` class helps to organize access
@@ -61,7 +63,7 @@ Printing the model displays this metadata:
 - Number of results
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-34
+.. GENERATED FROM PYTHON SOURCE LINES 33-36
 
 .. code-block:: default
 
@@ -130,14 +132,55 @@ Printing the model displays this metadata:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-39
+.. GENERATED FROM PYTHON SOURCE LINES 37-39
+
+Get the meshed region.
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 39-59
+
+.. code-block:: default
+
+    mesh_set = model.metadata.meshed_region
+
+    # One can plot the mesh with labels and/or node IDs shown
+    # for the first five nodes of the mesh.
+    plot = DpfPlotter()
+    plot.add_node_labels(
+        nodes=mesh_set.nodes.scoping.ids[:5],
+        meshed_region=mesh_set,
+        labels=["A", "B", None, "C"],
+        font_size=50,
+    )
+    plot.show_figure(
+        cpos=[
+            (0.3533494514377904, 0.312496303079723, 1.1859368974825752),
+            (-0.07891143256220956, -0.11976458092027707, 0.7536760134825755),
+            (0.0, 0.0, 1.0),
+        ]
+    )
+    # sphinx_gallery_thumbnail_number = 2
+
+
+
+
+.. image-sg:: /examples/05-plotting/images/sphx_glr_03-labels_001.png
+   :alt: 03 labels
+   :srcset: /examples/05-plotting/images/sphx_glr_03-labels_001.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 60-64
 
 Get the stress tensor and ``connect`` time scoping.
 Make sure that you define ``"Nodal"`` as the scoping location because
 labels are supported only for nodal results.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-57
+.. GENERATED FROM PYTHON SOURCE LINES 64-83
 
 .. code-block:: default
 
@@ -163,6 +206,7 @@ labels are supported only for nodal results.
 
 
 
+
 .. rst-class:: sphx-glr-script-out
 
  .. code-block:: none
@@ -171,42 +215,48 @@ labels are supported only for nodal results.
       Location: Nodal
       Unit: Pa
       393 entities 
-      Data:1 components and 393 elementary data 
+      Data: 1 components and 393 elementary data 
+
+      Nodal
+      IDs                   data (Pa)
+      ------------          ----------
+      9                      1.400332e+07
+                     
+      96                     1.399264e+07
+                     
+      95                     1.171429e+07
+                     
+      ...
+
 
     DPF displacement_0.2s Field
       Location: Nodal
       Unit: m
       393 entities 
-      Data:1 components and 393 elementary data 
+      Data: 1 components and 393 elementary data 
 
-
-
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 58-60
-
-Get the meshed region.
-
-
-.. GENERATED FROM PYTHON SOURCE LINES 60-62
-
-.. code-block:: default
-
-    mesh_set = model.metadata.meshed_region
-
-
+      Nodal
+      IDs                   data (m)
+      ------------          ----------
+      9                      3.106681e-03
+                     
+      96                     3.101395e-03
+                     
+      95                     3.714017e-03
+                     
+      ...
 
 
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-65
+.. GENERATED FROM PYTHON SOURCE LINES 84-86
 
 Plot the results on the mesh and show the minimum and maximum.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-117
+.. GENERATED FROM PYTHON SOURCE LINES 86-139
 
 .. code-block:: default
 
@@ -216,13 +266,14 @@ Plot the results on the mesh and show the minimum and maximum.
         meshed_region=mesh_set,
         show_max=True,
         show_min=True,
-        label_text_size=15,
+        label_text_size=30,
         label_point_size=5,
     )
 
 
     # Use label properties to add custom labels to specific nodes.
-    # If a label for a node is missing, the nodal value is shown by default.
+    # If a label for a node is missing and a field is active,
+    # the nodal value for this field is shown.
 
     my_nodes_1 = [mesh_set.nodes[0], mesh_set.nodes[10]]
     my_labels_1 = ["MyNode1", "MyNode2"]
@@ -265,9 +316,9 @@ Plot the results on the mesh and show the minimum and maximum.
 
 
 
-.. image-sg:: /examples/05-plotting/images/sphx_glr_03-labels_001.png
+.. image-sg:: /examples/05-plotting/images/sphx_glr_03-labels_002.png
    :alt: 03 labels
-   :srcset: /examples/05-plotting/images/sphx_glr_03-labels_001.png
+   :srcset: /examples/05-plotting/images/sphx_glr_03-labels_002.png
    :class: sphx-glr-single-img
 
 
@@ -277,7 +328,7 @@ Plot the results on the mesh and show the minimum and maximum.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.299 seconds)
+   **Total running time of the script:** ( 0 minutes  1.408 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_03-labels.py:

@@ -174,7 +174,7 @@ PyDPF-Core is then used to post-process the .rst file to estimate the cycles to 
     DPF Model
     ------------------------------
     Static analysis
-    Unit system: SI: m, kg, s, V, A, K
+    Unit system: Undefined
     Physics Type: Mechanical
     Available results:
          -  displacement: Nodal Displacement
@@ -295,7 +295,7 @@ Generate a cycles_to_failure DPF Field
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.563 seconds)
+   **Total running time of the script:** ( 0 minutes  2.331 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_06-cycles_to_failure.py:

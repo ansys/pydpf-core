@@ -316,7 +316,18 @@ scoping to the entire time frequency support:
       Location: Nodal
       Unit: Pa
       35 entities 
-      Data:1 components and 35 elementary data 
+      Data: 1 components and 35 elementary data 
+
+      IDs                   data (Pa)
+      ------------          ----------
+      0                      0.000000e+00
+                     
+      1                      6.215362e+02
+                     
+      2                      1.017913e+03
+                     
+      ...
+
 
 
 
@@ -478,7 +489,7 @@ the order of nodes in the mesh:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.563 seconds)
+   **Total running time of the script:** ( 0 minutes  0.500 seconds)
 
 
 .. _sphx_glr_download_examples_01-transient_analyses_00-basic_transient.py:

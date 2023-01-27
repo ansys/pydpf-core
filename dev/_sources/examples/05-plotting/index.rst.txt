@@ -67,7 +67,7 @@ These examples show how to use the :class:`ansys.dpf.core.plotter.DpfPlotter` cl
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="You can add use label properties to add custom labels to specific nodes. If label for a node is...">
+    <div class="sphx-glr-thumbcontainer" tooltip="You can add use label properties to add custom labels to specific nodes. If the label for a nod...">
 
 .. only:: html
 

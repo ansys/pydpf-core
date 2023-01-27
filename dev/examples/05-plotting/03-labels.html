@@ -739,7 +739,9 @@ to download the full example code</p>
 <section class="sphx-glr-example-title" id="add-nodal-labels-on-plots">
 <span id="labels"></span><span id="sphx-glr-examples-05-plotting-03-labels-py"></span><h1>Add nodal labels on plots<a class="headerlink" href="#add-nodal-labels-on-plots" title="Permalink to this heading">#</a></h1>
 <p>You can add use label properties to add custom labels to specific nodes.
-If label for a node is missing, the nodal scalar value is shown by default.</p>
+If the label for a node is not defined or <cite>None</cite>, the nodal scalar value
+of the currently active field at that node is shown. If no field is active,
+the node ID is shown.</p>
 <p>Import the <code class="docutils literal notranslate"><span class="pre">dpf_core</span></code> module, included examples files, and the <code class="docutils literal notranslate"><span class="pre">DpfPlotter</span></code>
 module.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
@@ -813,7 +815,29 @@ Cumulative     Time (s)       LoadStep       Substep
 20             0.200000       1              20
 </pre></div>
 </div>
-<p>Get the stress tensor and <code class="docutils literal notranslate"><span class="pre">connect</span></code> time scoping.
+<p>Get the meshed region.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_set</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+
+<span class="c1"># One can plot the mesh with labels and/or node IDs shown</span>
+<span class="c1"># for the first five nodes of the mesh.</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">DpfPlotter</span><span class="p">()</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">add_node_labels</span><span class="p">(</span>
+    <span class="n">nodes</span><span class="o">=</span><span class="n">mesh_set</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span>
+    <span class="n">meshed_region</span><span class="o">=</span><span class="n">mesh_set</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">],</span>
+    <span class="n">font_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">show_figure</span><span class="p">(</span>
+    <span class="n">cpos</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="mf">0.3533494514377904</span><span class="p">,</span> <span class="mf">0.312496303079723</span><span class="p">,</span> <span class="mf">1.1859368974825752</span><span class="p">),</span>
+        <span class="p">(</span><span class="o">-</span><span class="mf">0.07891143256220956</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.11976458092027707</span><span class="p">,</span> <span class="mf">0.7536760134825755</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="c1"># sphinx_gallery_thumbnail_number = 2</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_03-labels_001.png" srcset="../../_images/sphx_glr_03-labels_001.png" alt="03 labels" class = "sphx-glr-single-img"/><p>Get the stress tensor and <code class="docutils literal notranslate"><span class="pre">connect</span></code> time scoping.
 Make sure that you define <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code> as the scoping location because
 labels are supported only for nodal results.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stress_tensor</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">()</span>
@@ -840,17 +864,36 @@ labels are supported only for nodal results.</p>
   Location: Nodal
   Unit: Pa
   393 entities
-  Data:1 components and 393 elementary data
+  Data: 1 components and 393 elementary data
+
+  Nodal
+  IDs                   data (Pa)
+  ------------          ----------
+  9                      1.400332e+07
+
+  96                     1.399264e+07
+
+  95                     1.171429e+07
+
+  ...
+
 
 DPF displacement_0.2s Field
   Location: Nodal
   Unit: m
   393 entities
-  Data:1 components and 393 elementary data
-</pre></div>
-</div>
-<p>Get the meshed region.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_set</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+  Data: 1 components and 393 elementary data
+
+  Nodal
+  IDs                   data (m)
+  ------------          ----------
+  9                      3.106681e-03
+
+  96                     3.101395e-03
+
+  95                     3.714017e-03
+
+  ...
 </pre></div>
 </div>
 <p>Plot the results on the mesh and show the minimum and maximum.</p>
@@ -860,13 +903,14 @@ DPF displacement_0.2s Field
     <span class="n">meshed_region</span><span class="o">=</span><span class="n">mesh_set</span><span class="p">,</span>
     <span class="n">show_max</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">show_min</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">label_text_size</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="n">label_text_size</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
     <span class="n">label_point_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
 <span class="p">)</span>
 
 
 <span class="c1"># Use label properties to add custom labels to specific nodes.</span>
-<span class="c1"># If a label for a node is missing, the nodal value is shown by default.</span>
+<span class="c1"># If a label for a node is missing and a field is active,</span>
+<span class="c1"># the nodal value for this field is shown.</span>
 
 <span class="n">my_nodes_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">mesh_set</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mesh_set</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">10</span><span class="p">]]</span>
 <span class="n">my_labels_1</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MyNode1&quot;</span><span class="p">,</span> <span class="s2">&quot;MyNode2&quot;</span><span class="p">]</span>
@@ -908,7 +952,7 @@ DPF displacement_0.2s Field
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_03-labels_001.png" srcset="../../_images/sphx_glr_03-labels_001.png" alt="03 labels" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.299 seconds)</p>
+<img src="../../_images/sphx_glr_03-labels_002.png" srcset="../../_images/sphx_glr_03-labels_002.png" alt="03 labels" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.408 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-05-plotting-03-labels-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/b66c0898bc7a3123c705adc64e07f5d1/03-labels.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">03-labels.py</span></code></a></p>

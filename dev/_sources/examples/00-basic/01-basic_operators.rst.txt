@@ -141,9 +141,12 @@ displacement operator:
              available time/freqs in result files.
                              
          -   mesh_scoping : ScopingsContainer, Scoping, optional
-             Nodes or elements scoping required in output. the scoping's location
-             indicates whether nodes or elements are asked. using scopings
-             container enables to split the result fields container in domains
+             Nodes or elements scoping required in output. the output fields will
+             be scoped on these node or element ids. to figure out the ordering of
+             the fields data, look at their scoping ids as they might not be
+             ordered as the input scoping was. the scoping's location indicates
+             whether nodes or elements are asked for. using scopings container
+             allows you to split the result fields container into domains
                              
          -   fields_container : FieldsContainer, optional
              Fields container already allocated modified inplace
@@ -217,7 +220,13 @@ then the maximum of the norm of the operator.
       Location: Nodal
       Unit: m
       1 entities 
-      Data:1 components and 1 elementary data 
+      Data: 1 components and 1 elementary data 
+
+      IDs                   data (m)
+      ------------          ----------
+      0                      1.481537e-08
+                     
+
 
     [1.48153706e-08]
 
@@ -301,7 +310,13 @@ Create the displacement operator directly from the ``results`` property:
       Location: Nodal
       Unit: m
       1 entities 
-      Data:1 components and 1 elementary data 
+      Data: 1 components and 1 elementary data 
+
+      IDs                   data (m)
+      ------------          ----------
+      0                      1.481537e-08
+                     
+
 
     [1.48153706e-08]
 
@@ -420,7 +435,7 @@ Get the output and print the result data:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.016 seconds)
+   **Total running time of the script:** ( 0 minutes  0.750 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_01-basic_operators.py:
