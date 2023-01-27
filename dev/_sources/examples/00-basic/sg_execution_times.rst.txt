@@ -5,24 +5,24 @@
 
 Computation times
 =================
-**00:37.652** total execution time for **examples_00-basic** files:
+**00:45.265** total execution time for **examples_00-basic** files:
 
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_00-basic_example.py` (``00-basic_example.py``)                         | 00:11.592 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_00-basic_example.py` (``00-basic_example.py``)                         | 00:13.138 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_09-results_over_space_subset.py` (``09-results_over_space_subset.py``) | 00:08.348 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_09-results_over_space_subset.py` (``09-results_over_space_subset.py``) | 00:10.647 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_03-create_entities.py` (``03-create_entities.py``)                     | 00:05.894 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_03-create_entities.py` (``03-create_entities.py``)                     | 00:06.770 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_07-use_result_helpers.py` (``07-use_result_helpers.py``)               | 00:04.815 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_07-use_result_helpers.py` (``07-use_result_helpers.py``)               | 00:06.190 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_05-use_local_data.py` (``05-use_local_data.py``)                       | 00:03.251 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_05-use_local_data.py` (``05-use_local_data.py``)                       | 00:04.206 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_11-server_types.py` (``11-server_types.py``)                           | 00:02.189 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_11-server_types.py` (``11-server_types.py``)                           | 00:02.267 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_08-results_over_time_subset.py` (``08-results_over_time_subset.py``)   | 00:00.750 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_01-basic_operators.py` (``01-basic_operators.py``)                     | 00:01.032 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_01-basic_operators.py` (``01-basic_operators.py``)                     | 00:00.750 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_08-results_over_time_subset.py` (``08-results_over_time_subset.py``)   | 00:00.954 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
 | :ref:`sphx_glr_examples_00-basic_02-basic_field_containers.py` (``02-basic_field_containers.py``)       | 00:00.047 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+

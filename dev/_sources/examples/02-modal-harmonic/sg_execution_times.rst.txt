@@ -5,20 +5,20 @@
 
 Computation times
 =================
-**00:33.489** total execution time for **examples_02-modal-harmonic** files:
+**00:41.309** total execution time for **examples_02-modal-harmonic** files:
 
 +------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_02-modal-harmonic_05-read_distributed_files.py` (``05-read_distributed_files.py``) | 00:09.349 | 0.0 MB |
+| :ref:`sphx_glr_examples_02-modal-harmonic_05-read_distributed_files.py` (``05-read_distributed_files.py``) | 00:12.088 | 0.0 MB |
 +------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_02-modal-harmonic_04-modal_superposition.py` (``04-modal_superposition.py``)       | 00:09.318 | 0.0 MB |
+| :ref:`sphx_glr_examples_02-modal-harmonic_04-modal_superposition.py` (``04-modal_superposition.py``)       | 00:10.727 | 0.0 MB |
 +------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_02-modal-harmonic_03-compare_modes.py` (``03-compare_modes.py``)                   | 00:08.127 | 0.0 MB |
+| :ref:`sphx_glr_examples_02-modal-harmonic_03-compare_modes.py` (``03-compare_modes.py``)                   | 00:10.478 | 0.0 MB |
 +------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_02-modal-harmonic_06-cycles_to_failure.py` (``06-cycles_to_failure.py``)           | 00:02.331 | 0.0 MB |
+| :ref:`sphx_glr_examples_02-modal-harmonic_06-cycles_to_failure.py` (``06-cycles_to_failure.py``)           | 00:02.730 | 0.0 MB |
 +------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_02-modal-harmonic_02-cyclic_multi_stage.py` (``02-cyclic_multi_stage.py``)         | 00:01.735 | 0.0 MB |
+| :ref:`sphx_glr_examples_02-modal-harmonic_02-cyclic_multi_stage.py` (``02-cyclic_multi_stage.py``)         | 00:02.252 | 0.0 MB |
 +------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_02-modal-harmonic_01-modal_cyclic.py` (``01-modal_cyclic.py``)                     | 00:01.423 | 0.0 MB |
+| :ref:`sphx_glr_examples_02-modal-harmonic_01-modal_cyclic.py` (``01-modal_cyclic.py``)                     | 00:01.860 | 0.0 MB |
 +------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_02-modal-harmonic_00-multi_harmonic.py` (``00-multi_harmonic.py``)                 | 00:01.207 | 0.0 MB |
+| :ref:`sphx_glr_examples_02-modal-harmonic_00-multi_harmonic.py` (``00-multi_harmonic.py``)                 | 00:01.173 | 0.0 MB |
 +------------------------------------------------------------------------------------------------------------+-----------+--------+
