@@ -83,9 +83,9 @@ jobs:
             docs/source/_static/dpf_entry.html
             docs/source/_static/dpf_premium.html
           commit-message: update operators
-          title: Update Operators for DPF ${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }}
+          title: Update Operators for DPF ${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }} on ${{ github.ref_name }}
           body: An update of operators has been triggered either manually or by an update in the dpf-standalone repository.
-          branch: maint/update_operators_${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }}
+          branch: maint/update_operators_for_${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
           labels: maintenance
 
       - name: "Kill all servers"
