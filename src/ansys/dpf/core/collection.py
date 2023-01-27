@@ -54,9 +54,7 @@ class Collection:
                     grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
                 )
                 core_api.init_data_processing_environment(self)
-                self._internal_obj = (
-                    core_api.data_processing_duplicate_object_reference(collection)
-                )
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(collection)
             else:
                 self._internal_obj = collection
         self.owned = False
@@ -156,9 +154,7 @@ class Collection:
 
         """
         if default_value is not None:
-            self._api.collection_add_label_with_default_value(
-                self, label, default_value
-            )
+            self._api.collection_add_label_with_default_value(self, label, default_value)
         else:
             self._api.collection_add_label(self, label)
 
@@ -223,9 +219,7 @@ class Collection:
             client_label_space = LabelSpace(
                 label_space=label_space_or_index, obj=self, server=self._server
             )
-            num = self._api.collection_get_num_obj_for_label_space(
-                self, client_label_space
-            )
+            num = self._api.collection_get_num_obj_for_label_space(self, client_label_space)
             out = []
             for i in range(0, num):
                 out.append(
@@ -318,9 +312,7 @@ class Collection:
         scoping: Scoping
             IDs scoped to the input label.
         """
-        scoping = Scoping(
-            self._api.collection_get_label_scoping(self, label), server=self._server
-        )
+        scoping = Scoping(self._api.collection_get_label_scoping(self, label), server=self._server)
         return scoping
 
     def __getitem__(self, index):
@@ -368,9 +360,7 @@ class Collection:
         entry : Field or Scoping
             DPF entry to add.
         """
-        client_label_space = LabelSpace(
-            label_space=label_space, obj=self, server=self._server
-        )
+        client_label_space = LabelSpace(label_space=label_space, obj=self, server=self._server)
         self._api.collection_add_entry(self, client_label_space, entry)
 
     def _get_time_freq_support(self):
@@ -500,9 +490,7 @@ class IntCollection(Collection):
         super().__init__(server=server, collection=collection)
         if self._internal_obj is None:
             if self._server.has_client():
-                self._internal_obj = self._api.collection_of_int_new_on_client(
-                    self._server.client
-                )
+                self._internal_obj = self._api.collection_of_int_new_on_client(self._server.client)
             else:
                 self._internal_obj = self._api.collection_of_int_new()
         if list is not None:

@@ -36,9 +36,7 @@ def progress_call_back(obj, nature, arg):
         elif nature == 1:
             handler.finished_operators += 1
             if handler.finished_operators > 0 and handler.bar:
-                handler.bar.update(
-                    handler.finished_operators / handler.started_operators * 100
-                )
+                handler.bar.update(handler.finished_operators / handler.started_operators * 100)
                 if handler.finished_operators == handler.started_operators:
                     handler.bar.finish()
         elif nature == 9:

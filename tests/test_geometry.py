@@ -147,9 +147,7 @@ def test_create_plane_from_center_and_normal(
     center, normal_arg, width, height, n_cells_x, n_cells_y
 ):
     normal = normal_arg() if callable(normal_arg) else normal_arg
-    plane = create_plane_from_center_and_normal(
-        center, normal, width, height, n_cells_x, n_cells_y
-    )
+    plane = create_plane_from_center_and_normal(center, normal, width, height, n_cells_x, n_cells_y)
     plane.plot()
     assert plane.center == center
     if len(normal) == 2:
@@ -167,9 +165,7 @@ def test_create_plane_from_center_and_normal(
 plane_data = [
     ([[0, 0, 0], [0, 1, 0], [1, 0, 0]]),
     lambda: (Points([[0, 0, 0], [0, 1, 0], [1, 0, 0]])),
-    pytest.param(
-        [[0, 0, 0], [0, 1, 0]], marks=pytest.mark.xfail(strict=True, raises=ValueError)
-    ),
+    pytest.param([[0, 0, 0], [0, 1, 0]], marks=pytest.mark.xfail(strict=True, raises=ValueError)),
     pytest.param(
         lambda: Points([[0, 0, 0], [0, 1, 0]]),
         marks=pytest.mark.xfail(strict=True, raises=ValueError),

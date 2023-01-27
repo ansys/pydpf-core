@@ -33,9 +33,7 @@ def test_scopingdata_property_field(server_type):
 
 
 def test_set_get_data_property_field(server_type):
-    field = dpf.core.PropertyField(
-        nentities=20, nature=natures.scalar, server=server_type
-    )
+    field = dpf.core.PropertyField(nentities=20, nature=natures.scalar, server=server_type)
     data = []
     for i in range(0, 20):
         data.append(i)
@@ -44,9 +42,7 @@ def test_set_get_data_property_field(server_type):
 
 
 def test_create_property_field_push_back(server_type):
-    f_vec = core.PropertyField(
-        1, core.natures.vector, core.locations.nodal, server=server_type
-    )
+    f_vec = core.PropertyField(1, core.natures.vector, core.locations.nodal, server=server_type)
     f_vec.append([1, 2, 4], 1)
     assert len(f_vec.data) == 3
     assert f_vec.data[0] == 1
@@ -55,9 +51,7 @@ def test_create_property_field_push_back(server_type):
     assert f_vec.scoping.ids == [1]
     assert len(f_vec.scoping.ids) == 1
 
-    f_scal = core.PropertyField(
-        1, core.natures.scalar, core.locations.nodal, server=server_type
-    )
+    f_scal = core.PropertyField(1, core.natures.scalar, core.locations.nodal, server=server_type)
     f_scal.append([2], 1)
     f_scal.append([5], 2)
     assert len(f_scal.data) == 2
@@ -121,9 +115,7 @@ def test_set_prop_field_from_prop_field(property_field):
 
 
 def test_connect_property_field_operator(server_type):
-    f_vec = dpf.core.PropertyField(
-        1, natures.vector, locations.nodal, server=server_type
-    )
+    f_vec = dpf.core.PropertyField(1, natures.vector, locations.nodal, server=server_type)
     f_vec.append([1, 2, 4], 1)
     op = dpf.core.operators.utility.forward(server=server_type)
     op.inputs.connect(f_vec)
@@ -166,9 +158,7 @@ def test_connect_property_field_workflow():
 
 def test_local_property_field():
     num_entities = 100
-    field_to_local = dpf.core.PropertyField(
-        num_entities, dpf.core.natures.scalar, locations.nodal
-    )
+    field_to_local = dpf.core.PropertyField(num_entities, dpf.core.natures.scalar, locations.nodal)
     data = []
     data_pointer = []
     scoping_ids = []
@@ -190,9 +180,7 @@ def test_local_property_field():
 
     assert np.allclose(field_to_local.data, data)
     assert np.allclose(field_to_local.scoping.ids, scoping_ids)
-    assert np.allclose(
-        field_to_local._data_pointer, data_pointer[0 : len(data_pointer)]
-    )
+    assert np.allclose(field_to_local._data_pointer, data_pointer[0 : len(data_pointer)])
 
     with field_to_local.as_local_field() as f:
         assert np.allclose(f.data, data)

@@ -100,12 +100,8 @@ global_server = dpf.start_local_server(
 )
 
 remote_servers = [
-    dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
-    ),
-    dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
-    ),
+    dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+    dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
 ]
 ips = [remote_server.ip for remote_server in remote_servers]
 ports = [remote_server.port for remote_server in remote_servers]
@@ -155,9 +151,7 @@ ds = dpf.DataSources(base_path + r"/file_load_1.rfrq")
 response = ops.result.displacement(data_sources=ds)
 response.inputs.mesh(merge_mesh.outputs.merges_mesh)
 
-expansion = ops.math.modal_superposition(
-    solution_in_modal_space=response, modal_basis=merge_fields
-)
+expansion = ops.math.modal_superposition(solution_in_modal_space=response, modal_basis=merge_fields)
 component = ops.logic.component_selector_fc(expansion, 1)
 
 ###############################################################################

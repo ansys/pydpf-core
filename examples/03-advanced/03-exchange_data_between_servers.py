@@ -33,12 +33,8 @@ dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 #
 # The ``as_global`` attributes allows you to choose whether a server is stored
 # by the module and used by default. This example sets the first server as the default.
-server1 = dpf.start_local_server(
-    as_global=True, config=dpf.AvailableServerConfigs.GrpcServer
-)
-server2 = dpf.start_local_server(
-    as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
-)
+server1 = dpf.start_local_server(as_global=True, config=dpf.AvailableServerConfigs.GrpcServer)
+server2 = dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer)
 
 # Check that the two servers are listening on different ports.
 print(

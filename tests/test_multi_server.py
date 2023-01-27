@@ -27,9 +27,7 @@ if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
 )
 def other_remote_server(request):
     server = dpf.start_local_server(config=request.param, as_global=False)
-    if request.param == ServerConfig(
-        protocol=CommunicationProtocols.gRPC, legacy=False
-    ):
+    if request.param == ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False):
         dpf.settings.get_runtime_client_config(server).cache_enabled = False
     return server
 
@@ -42,9 +40,7 @@ if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
 @pytest.fixture()
 def static_models(local_server, other_remote_server):
     try:
-        upload = dpf.upload_file_in_tmp_folder(
-            examples.static_rst, server=other_remote_server
-        )
+        upload = dpf.upload_file_in_tmp_folder(examples.static_rst, server=other_remote_server)
     except ServerTypeError:
         upload = examples.static_rst
     return (
@@ -56,32 +52,24 @@ def static_models(local_server, other_remote_server):
 @pytest.fixture()
 def transient_models(local_server, other_remote_server):
     try:
-        upload = dpf.upload_file_in_tmp_folder(
-            examples.msup_transient, server=other_remote_server
-        )
+        upload = dpf.upload_file_in_tmp_folder(examples.msup_transient, server=other_remote_server)
     except ServerTypeError:
         upload = examples.msup_transient
     return (
         dpf.Model(upload, server=other_remote_server),
-        dpf.Model(
-            examples.find_msup_transient(server=local_server), server=local_server
-        ),
+        dpf.Model(examples.find_msup_transient(server=local_server), server=local_server),
     )
 
 
 @pytest.fixture()
 def cyc_models(local_server, other_remote_server):
     try:
-        upload = dpf.upload_file_in_tmp_folder(
-            examples.simple_cyclic, server=other_remote_server
-        )
+        upload = dpf.upload_file_in_tmp_folder(examples.simple_cyclic, server=other_remote_server)
     except ServerTypeError:
         upload = examples.simple_cyclic
     return (
         dpf.Model(upload, server=other_remote_server),
-        dpf.Model(
-            examples.find_simple_cyclic(server=local_server), server=local_server
-        ),
+        dpf.Model(examples.find_simple_cyclic(server=local_server), server=local_server),
     )
 
 
@@ -97,9 +85,7 @@ def test_model_time_freq_multi_server(static_models):
     assert tf.time_frequencies.shape == tf2.time_frequencies.shape
     assert tf.time_frequencies.size == tf2.time_frequencies.size
     assert np.allclose(tf.time_frequencies.data, tf2.time_frequencies.data)
-    assert np.allclose(
-        tf.time_frequencies.scoping.ids, tf2.time_frequencies.scoping.ids
-    )
+    assert np.allclose(tf.time_frequencies.scoping.ids, tf2.time_frequencies.scoping.ids)
     assert tf.n_sets == tf2.n_sets
     assert tf.get_frequency(0, 0) == tf2.get_frequency(0, 0)
     assert tf.get_cumulative_index(0, 0) == tf2.get_cumulative_index(0, 0)
@@ -126,12 +112,8 @@ def test_model_mesh_multi_server(static_models):
     elements = mesh.elements
     elements2 = mesh2.elements
     assert np.allclose(elements.scoping.ids, elements2.scoping.ids)
-    assert np.allclose(
-        elements.element_types_field.data, elements2.element_types_field.data
-    )
-    assert np.allclose(
-        elements.connectivities_field.data, elements2.connectivities_field.data
-    )
+    assert np.allclose(elements.element_types_field.data, elements2.element_types_field.data)
+    assert np.allclose(elements.connectivities_field.data, elements2.connectivities_field.data)
     assert np.allclose(elements.materials_field.data, elements2.materials_field.data)
     assert elements.n_elements == elements2.n_elements
     assert elements.has_shell_elements == elements2.has_shell_elements
@@ -173,9 +155,7 @@ def test_model_cyc_support_multi_server(cyc_models):
     cyc_support2 = result_info2.cyclic_support
     assert cyc_support.num_stages == cyc_support2.num_stages
     assert cyc_support.num_sectors() == cyc_support2.num_sectors()
-    assert np.allclose(
-        cyc_support.base_nodes_scoping().ids, cyc_support2.base_nodes_scoping().ids
-    )
+    assert np.allclose(cyc_support.base_nodes_scoping().ids, cyc_support2.base_nodes_scoping().ids)
     assert np.allclose(
         cyc_support.base_elements_scoping().ids,
         cyc_support2.base_elements_scoping().ids,
@@ -184,12 +164,8 @@ def test_model_cyc_support_multi_server(cyc_models):
         cyc_support.sectors_set_for_expansion().ids,
         cyc_support2.sectors_set_for_expansion().ids,
     )
-    assert np.allclose(
-        cyc_support.expand_node_id(1).ids, cyc_support2.expand_node_id(1).ids
-    )
-    assert np.allclose(
-        cyc_support.expand_element_id(1).ids, cyc_support2.expand_element_id(1).ids
-    )
+    assert np.allclose(cyc_support.expand_node_id(1).ids, cyc_support2.expand_node_id(1).ids)
+    assert np.allclose(cyc_support.expand_element_id(1).ids, cyc_support2.expand_element_id(1).ids)
     assert np.allclose(
         cyc_support.expand_node_id(1, cyc_support.sectors_set_for_expansion()).ids,
         cyc_support2.expand_node_id(1, cyc_support2.sectors_set_for_expansion()).ids,
@@ -230,9 +206,7 @@ def check_fc(fc, fc2):
         assert np.allclose(f.scoping.ids, fc2[i].scoping.ids)
         assert np.allclose(f.data, ftocheck.data)
         assert np.allclose(f.scoping.ids, ftocheck.scoping.ids)
-    idenfc = dpf.operators.logic.identical_fc(
-        fc, fc2.deep_copy(server=f._server), server=f._server
-    )
+    idenfc = dpf.operators.logic.identical_fc(fc, fc2.deep_copy(server=f._server), server=f._server)
     assert idenfc.outputs.boolean()
 
 
@@ -246,7 +220,5 @@ def test_model_stress_multi_server(transient_models):
     fc = disp.outputs.fields_container()
     fc2 = disp2.outputs.fields_container()
     check_fc(fc, fc2)
-    idenfc = dpf.operators.logic.identical_fc(
-        fc.deep_copy(fc2._server), fc2, server=fc2._server
-    )
+    idenfc = dpf.operators.logic.identical_fc(fc.deep_copy(fc2._server), fc2, server=fc2._server)
     assert idenfc.outputs.boolean()

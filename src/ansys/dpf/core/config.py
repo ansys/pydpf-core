@@ -52,10 +52,8 @@ class Config:
         else:
             if self._server.has_client():
                 if operator_name:
-                    self._internal_obj = (
-                        self._api.operator_config_default_new_on_client(
-                            self._server.client, operator_name
-                        )
+                    self._internal_obj = self._api.operator_config_default_new_on_client(
+                        self._server.client, operator_name
                     )
                 else:
                     self._internal_obj = self._api.operator_config_empty_new_on_client(
@@ -63,9 +61,7 @@ class Config:
                     )
             else:
                 if operator_name:
-                    self._internal_obj = self._api.operator_config_default_new(
-                        operator_name
-                    )
+                    self._internal_obj = self._api.operator_config_default_new(operator_name)
                 else:
                     self._internal_obj = self._api.operator_config_empty_new()
 
@@ -95,9 +91,7 @@ class Config:
     @property
     def _spec(self):
         if self._spec_instance is None and self._operator_name is not None:
-            self._spec_instance = Specification(
-                self._operator_name, server=self._server
-            )
+            self._spec_instance = Specification(self._operator_name, server=self._server)
         return self._spec_instance
 
     @property
@@ -139,9 +133,7 @@ class Config:
         elif isinstance(config_value, float):
             self._api.operator_config_set_double(self, config_name, config_value)
         else:
-            raise TypeError(
-                "str, int, float are the accepted types for configuration options."
-            )
+            raise TypeError("str, int, float are the accepted types for configuration options.")
 
     def set_config_option(self, config_name, config_value):
         """Change the value of a configuration option.

@@ -38,9 +38,7 @@ dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 files = examples.download_distributed_files()
 
 config = dpf.ServerConfig(protocol=dpf.server.CommunicationProtocols.gRPC)
-remote_servers = [
-    dpf.start_local_server(as_global=False, config=config) for file in files
-]
+remote_servers = [dpf.start_local_server(as_global=False, config=config) for file in files]
 ips = [remote_server.ip for remote_server in remote_servers]
 ports = [remote_server.port for remote_server in remote_servers]
 

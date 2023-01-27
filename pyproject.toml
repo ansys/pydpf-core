@@ -1,0 +1,54 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+# Check https://flit.readthedocs.io/en/latest/pyproject_toml.html for all available sections
+name = "ansys-dpf-core"
+version = "0.7.3.dev0"
+description = "Data Processing Framework - Python Core "
+readme = "README.md"
+requires-python = ">=3.7, <3.11"
+license = {file = "LICENSE"}
+authors = [
+    {name = "ANSYS, Inc.", email = "ramdane.lagha@ansys.com"},
+]
+maintainers = [
+    {name = "PyAnsys developers", email = "pyansys.maintainers@ansys.com"},
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "importlib-metadata >=4.0",
+    "psutil",
+    "packaging",
+    "tqdm",
+    "numpy<1.24",
+    "ansys-dpf-gate>=0.3.*",
+]
+
+[project.optional-dependencies]
+plotting = ["pyvista>=0.32.0", "matplotlib>=3.2"]
+
+[tool.flit.module]
+name = "ansys.dpf.core"
+
+[project.urls]
+Homepage = "https://dpf.docs.pyansys.com/"
+Documentation = "https://dpf.docs.pyansys.com/"
+Source = "https://github.com/pyansys/pydpf-core"
+Tracker = "https://github.com/pyansys/pydpf-core/issues"
+
+[tool.black]
+line-length = 100
+
+[tool.coverage.run]
+source = ["ansys.dpf"]
+
+[tool.coverage.report]
+show_missing = true

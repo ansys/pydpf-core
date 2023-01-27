@@ -161,9 +161,7 @@ def scoping_by_step_and_substep_from_model(load_step_id, subset_id, model, serve
     -------
     scoping : Scoping
         Scoping based on a given step/substep of a model's time_freq_support."""
-    return scoping_by_step_and_substep(
-        load_step_id, subset_id, model.metadata.time_freq_support
-    )
+    return scoping_by_step_and_substep(load_step_id, subset_id, model.metadata.time_freq_support)
 
 
 def scoping_on_all_time_freqs(tf_support_or_model):

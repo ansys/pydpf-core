@@ -514,9 +514,7 @@ def test_plot_path_2(multishells):
     # to use outside of the window:
     # pl = DpfPlotter(notebook=False)
     pl.add_field(field_m, mesh_m, show_max=True, show_min=True)
-    pl.add_field(
-        field, mesh, style="wireframe", show_edges=True, color="w", opacity=0.3
-    )
+    pl.add_field(field, mesh, style="wireframe", show_edges=True, color="w", opacity=0.3)
     pl.show_figure()
 
 
@@ -530,9 +528,7 @@ def test_plot_path_3(multishells):
     # to use outside of the window:
     # pl = DpfPlotter(notebook=False)
     pl.add_field(field_m, mesh_m)
-    pl.add_field(
-        field, mesh, style="wireframe", show_edges=True, color="w", opacity=0.3
-    )
+    pl.add_field(field, mesh, style="wireframe", show_edges=True, color="w", opacity=0.3)
     pl.show_figure()
 
 

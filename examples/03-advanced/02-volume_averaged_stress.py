@@ -123,8 +123,7 @@ with values_to_sum_field.as_local_field() as values_to_sum:
             ssum = 0.0
             for id in node_index_to_el_ids[key]:
                 ssum += (
-                    values_to_sum.get_entity_data_by_id(id)[0]
-                    * vol.get_entity_data_by_id(id)[0]
+                    values_to_sum.get_entity_data_by_id(id)[0] * vol.get_entity_data_by_id(id)[0]
                 )
             dataseqvsum.append(ssum)
             datavolsum.append(node_index_to_found_volume[key])
@@ -150,9 +149,7 @@ mesh.plot(divide.outputs.field())
 # ~~~~~~~~~~~~~~~~~~~~~~~~
 # An operator with the same algorithm has been implemented
 s_fc = s.outputs.fields_container()
-single_field_vol_fc = dpf.fields_container_factory.over_time_freq_fields_container(
-    [vol_field]
-)
+single_field_vol_fc = dpf.fields_container_factory.over_time_freq_fields_container([vol_field])
 
 single_field_fc = dpf.fields_container_factory.over_time_freq_fields_container(
     [values_to_sum_field]

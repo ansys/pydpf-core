@@ -8,8 +8,7 @@ import pytest
 
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is "
-    "supported starting server version 3.0",
+    reason="Connecting data from different servers is " "supported starting server version 3.0",
 )
 def test_connect_remote_operators(simple_bar):
     data_sources1 = core.DataSources(simple_bar)
@@ -23,8 +22,7 @@ def test_connect_remote_operators(simple_bar):
 
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is "
-    "supported starting server version 3.0",
+    reason="Connecting data from different servers is " "supported starting server version 3.0",
 )
 def test_connect_3remote_operators(simple_bar):
     data_sources1 = core.DataSources(simple_bar)
@@ -38,8 +36,7 @@ def test_connect_3remote_operators(simple_bar):
 
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    reason="Connecting data from different servers is "
-    "supported starting server version 4.0",
+    reason="Connecting data from different servers is " "supported starting server version 4.0",
 )
 def test_connect_remote_data_to_operator(simple_bar):
     data_sources1 = core.DataSources(simple_bar)

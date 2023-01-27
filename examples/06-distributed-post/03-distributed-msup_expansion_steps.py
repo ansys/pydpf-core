@@ -104,12 +104,8 @@ global_server = dpf.start_local_server(
 )
 
 remote_servers = [
-    dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
-    ),
-    dpf.start_local_server(
-        as_global=False, config=dpf.AvailableServerConfigs.GrpcServer
-    ),
+    dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
+    dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
 ]
 
 ips = [remote_server.ip for remote_server in remote_servers]

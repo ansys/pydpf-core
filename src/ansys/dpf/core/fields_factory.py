@@ -39,8 +39,7 @@ def field_from_array(arr, server=None):
         raise TypeError("Array must be a numeric type")
 
     shp_err = ValueError(
-        "Array must be either contain 1 dimension or "
-        "2 dimensions with three components."
+        "Array must be either contain 1 dimension or " "2 dimensions with three components."
     )
     if arr.ndim == 1:
         nature = natures.scalar
@@ -64,9 +63,7 @@ def field_from_array(arr, server=None):
     return field
 
 
-def create_matrix_field(
-    num_entities, num_lines, num_col, location=locations.nodal, server=None
-):
+def create_matrix_field(num_entities, num_lines, num_col, location=locations.nodal, server=None):
     """Create a matrix :class:`ansys.dpf.core.Field`.
 
     This field contain entities that have a matrix format. This is a "reserve" mechanism,
@@ -274,14 +271,10 @@ def create_vector_field(num_entities, num_comp, location=locations.nodal, server
     >>> field = fields_factory.create_vector_field(3, 5)
 
     """
-    return _create_field(
-        server, natures.vector, num_entities, location, ncomp_n=num_comp
-    )
+    return _create_field(server, natures.vector, num_entities, location, ncomp_n=num_comp)
 
 
-def _create_field(
-    server, nature, nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0
-):
+def _create_field(server, nature, nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0):
     """Create a specific :class:`ansys.dpf.core.Field`.
 
     This is a "reserve" mechanism, not a resize one. This means that you
@@ -322,9 +315,7 @@ def _create_field(
     """
     if server is None:
         server = server_module.get_or_create_server(server)
-    api = server.get_api_for_type(
-        capi=field_capi.FieldCAPI, grpcapi=field_grpcapi.FieldGRPCAPI
-    )
+    api = server.get_api_for_type(capi=field_capi.FieldCAPI, grpcapi=field_grpcapi.FieldGRPCAPI)
     api.init_field_environment(server)
     internal_obj = Field._field_create_internal_obj(
         api=api,

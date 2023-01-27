@@ -153,10 +153,7 @@ class Outputs(_Outputs):
     def __init__(self, dict_outputs, operator):
         super().__init__(dict_outputs, operator)
         for pin in self._dict_outputs:
-            if (
-                len(self._dict_outputs[pin].type_names) == 1
-                and self._dict_outputs[pin] is not None
-            ):
+            if len(self._dict_outputs[pin].type_names) == 1 and self._dict_outputs[pin] is not None:
                 output_name = self._dict_outputs[pin].name
                 output = Output(self._dict_outputs[pin], pin, self._operator)
                 self._outputs.append(output)
@@ -166,19 +163,12 @@ class Outputs(_Outputs):
                     setattr(self, output_name, output)
             # generate 1 output by type name
             elif (
-                len(self._dict_outputs[pin].type_names) > 1
-                and self._dict_outputs[pin] is not None
+                len(self._dict_outputs[pin].type_names) > 1 and self._dict_outputs[pin] is not None
             ):
                 for type in self._dict_outputs[pin].type_names:
-                    output_name = (
-                        self._dict_outputs[pin].name
-                        + "_as_"
-                        + _make_printable_type(type)
-                    )
+                    output_name = self._dict_outputs[pin].name + "_as_" + _make_printable_type(type)
                     output = Output(
-                        _modify_output_spec_with_one_type(
-                            self._dict_outputs[pin], type
-                        ),
+                        _modify_output_spec_with_one_type(self._dict_outputs[pin], type),
                         pin,
                         self._operator,
                     )

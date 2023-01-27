@@ -38,9 +38,7 @@ class DataSourcesOrStreamsConnector:
         """Connect the data sources or the streams to the operator."""
         if self.streams_provider is not None and hasattr(op.inputs, "streams"):
             op.inputs.streams.connect(self.streams_provider.outputs)
-        elif self.streams_provider is not None and hasattr(
-            op.inputs, "streams_container"
-        ):
+        elif self.streams_provider is not None and hasattr(op.inputs, "streams_container"):
             op.inputs.streams_container.connect(self.streams_provider.outputs)
         elif self.data_sources is not None and hasattr(op.inputs, "data_sources"):
             op.inputs.data_sources.connect(self.data_sources)

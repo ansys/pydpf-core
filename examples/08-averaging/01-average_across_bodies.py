@@ -258,11 +258,7 @@ max_avg = max(min_max.outputs.field_max().data)
 
 diff = abs(max_avg - max_non_avg) / max_non_avg * 100
 print("Max stress when averaging across bodies is activated: {:.2f} Pa".format(max_avg))
-print(
-    "Max stress when averaging across bodies is deactivated: {:.2f} Pa".format(
-        max_non_avg
-    )
-)
+print("Max stress when averaging across bodies is deactivated: {:.2f} Pa".format(max_non_avg))
 print(
     "The maximum stress value when averaging across bodies is PERFORMED \
 is {:.2f}% LOWER than when it is NOT PERFORMED".format(
