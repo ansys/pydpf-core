@@ -37,7 +37,7 @@ class merge_meshes(Operator):
     >>> from ansys.dpf import core as dpf
 
     >>> # Instantiate operator
-    >>> op = dpf.operators.mesh.merge_meshes()
+    >>> op = dpf.operators.utility.merge_meshes()
 
     >>> # Make input connections
     >>> my_meshes1 = dpf.MeshedRegion()
@@ -52,7 +52,7 @@ class merge_meshes(Operator):
     >>> op.inputs.remove_duplicate_elements.connect(my_remove_duplicate_elements)
 
     >>> # Instantiate operator and connect inputs in one line
-    >>> op = dpf.operators.mesh.merge_meshes(
+    >>> op = dpf.operators.utility.merge_meshes(
     ...     meshes1=my_meshes1,
     ...     meshes2=my_meshes2,
     ...     merge_method=my_merge_method,
@@ -185,7 +185,7 @@ class InputsMergeMeshes(_Inputs):
     Examples
     --------
     >>> from ansys.dpf import core as dpf
-    >>> op = dpf.operators.mesh.merge_meshes()
+    >>> op = dpf.operators.utility.merge_meshes()
     >>> my_meshes1 = dpf.MeshedRegion()
     >>> op.inputs.meshes1.connect(my_meshes1)
     >>> my_meshes2 = dpf.MeshedRegion()
@@ -227,7 +227,7 @@ class InputsMergeMeshes(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.mesh.merge_meshes()
+        >>> op = dpf.operators.utility.merge_meshes()
         >>> op.inputs.meshes1.connect(my_meshes1)
         >>> # or
         >>> op.inputs.meshes1(my_meshes1)
@@ -248,7 +248,7 @@ class InputsMergeMeshes(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.mesh.merge_meshes()
+        >>> op = dpf.operators.utility.merge_meshes()
         >>> op.inputs.meshes2.connect(my_meshes2)
         >>> # or
         >>> op.inputs.meshes2(my_meshes2)
@@ -269,7 +269,7 @@ class InputsMergeMeshes(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.mesh.merge_meshes()
+        >>> op = dpf.operators.utility.merge_meshes()
         >>> op.inputs.merge_method.connect(my_merge_method)
         >>> # or
         >>> op.inputs.merge_method(my_merge_method)
@@ -290,7 +290,7 @@ class InputsMergeMeshes(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.mesh.merge_meshes()
+        >>> op = dpf.operators.utility.merge_meshes()
         >>> op.inputs.box_size.connect(my_box_size)
         >>> # or
         >>> op.inputs.box_size(my_box_size)
@@ -311,7 +311,7 @@ class InputsMergeMeshes(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.mesh.merge_meshes()
+        >>> op = dpf.operators.utility.merge_meshes()
         >>> op.inputs.remove_duplicate_elements.connect(my_remove_duplicate_elements)
         >>> # or
         >>> op.inputs.remove_duplicate_elements(my_remove_duplicate_elements)
@@ -326,7 +326,7 @@ class OutputsMergeMeshes(_Outputs):
     Examples
     --------
     >>> from ansys.dpf import core as dpf
-    >>> op = dpf.operators.mesh.merge_meshes()
+    >>> op = dpf.operators.utility.merge_meshes()
     >>> # Connect inputs : op.inputs. ...
     >>> result_merges_mesh = op.outputs.merges_mesh()
     """
@@ -347,7 +347,7 @@ class OutputsMergeMeshes(_Outputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.mesh.merge_meshes()
+        >>> op = dpf.operators.utility.merge_meshes()
         >>> # Connect inputs : op.inputs. ...
         >>> result_merges_mesh = op.outputs.merges_mesh()
         """  # noqa: E501
