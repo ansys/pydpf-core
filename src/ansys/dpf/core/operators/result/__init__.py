@@ -20,8 +20,10 @@ from .electric_flux_density import electric_flux_density
 from .plastic_strain_principal_2 import plastic_strain_principal_2 
 from .normal_contact_moment import normal_contact_moment 
 from .thermal_strain_XZ import thermal_strain_XZ 
+from .global_eroded_hourglass_energy import global_eroded_hourglass_energy 
 from .interface_contact_area import interface_contact_area 
 from .part_internal_energy import part_internal_energy 
+from .part_momentum import part_momentum 
 from .total_strain import total_strain 
 from .elastic_strain import elastic_strain 
 from .pressure import pressure 
@@ -61,6 +63,7 @@ from .plastic_strain_XY import plastic_strain_XY
 from .plastic_strain_YZ import plastic_strain_YZ 
 from .plastic_strain_XZ import plastic_strain_XZ 
 from .plastic_strain_principal_3 import plastic_strain_principal_3 
+from .plastic_strain_eqv import plastic_strain_eqv 
 from .incremental_energy import incremental_energy 
 from .stiffness_matrix_energy import stiffness_matrix_energy 
 from .thermal_strain import thermal_strain 
@@ -141,7 +144,6 @@ from .joint_relative_angular_acceleration import joint_relative_angular_accelera
 from .global_internal_energy import global_internal_energy 
 from .thermal_strains_eqv import thermal_strains_eqv 
 from .stress_von_mises import stress_von_mises 
-from .plastic_strain_eqv import plastic_strain_eqv 
 from .global_kinetic_energy import global_kinetic_energy 
 from .global_velocity import global_velocity 
 from .global_time_step import global_time_step 
@@ -151,7 +153,6 @@ from .beam_t_bending_moment import beam_t_bending_moment
 from .global_hourglass_energy import global_hourglass_energy 
 from .global_system_damping_energy import global_system_damping_energy 
 from .global_eroded_kinetic_energy import global_eroded_kinetic_energy 
-from .global_eroded_hourglass_energy import global_eroded_hourglass_energy 
 from .global_energy_ratio import global_energy_ratio 
 from .global_added_mass import global_added_mass 
 from .global_added_mass_pct import global_added_mass_pct 
@@ -167,7 +168,6 @@ from .part_eroded_kinetic_energy import part_eroded_kinetic_energy
 from .part_added_mass import part_added_mass 
 from .part_hourglass_energy import part_hourglass_energy 
 from .part_rigid_body_velocity import part_rigid_body_velocity 
-from .part_momentum import part_momentum 
 from .interface_contact_force import interface_contact_force 
 from .interface_resultant_contact_force import interface_resultant_contact_force 
 from .interface_contact_moment import interface_contact_moment 
@@ -175,10 +175,10 @@ from .members_in_compression_not_certified import members_in_compression_not_cer
 from .members_in_bending_not_certified import members_in_bending_not_certified 
 from .members_in_linear_compression_bending_not_certified import members_in_linear_compression_bending_not_certified 
 from .cyclic_expansion import cyclic_expansion 
-from .equivalent_radiated_power import equivalent_radiated_power 
 from .cyclic_analytic_usum_max import cyclic_analytic_usum_max 
 from .cyclic_analytic_seqv_max import cyclic_analytic_seqv_max 
 from .recombine_harmonic_indeces_cyclic import recombine_harmonic_indeces_cyclic 
+from .equivalent_radiated_power import equivalent_radiated_power 
 from .erp_accumulate_results import erp_accumulate_results 
 from .erp_radiation_efficiency import erp_radiation_efficiency 
 from .transient_rayleigh_integration import transient_rayleigh_integration 
@@ -216,6 +216,7 @@ from .cyclic_expanded_enf import cyclic_expanded_enf
 from .cms_subfile_info_provider import cms_subfile_info_provider 
 from .cyclic_volume import cyclic_volume 
 from .cyclic_strain_energy import cyclic_strain_energy 
+from .cyclic_kinetic_energy import cyclic_kinetic_energy 
 from .mapdl_section import mapdl_section 
 from .cms_dst_table_provider import cms_dst_table_provider 
 from .total_mass import total_mass 
@@ -245,3 +246,5 @@ from .compute_stress_XZ import compute_stress_XZ
 from .compute_stress_2 import compute_stress_2 
 from .compute_stress_3 import compute_stress_3 
 from .compute_stress_von_mises import compute_stress_von_mises 
+from .stress_eqv_as_mechanical import stress_eqv_as_mechanical 
+from .strain_eqv_as_mechanical import strain_eqv_as_mechanical 

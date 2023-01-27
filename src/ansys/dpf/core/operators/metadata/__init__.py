@@ -1,4 +1,5 @@
 from .mesh_support_provider import mesh_support_provider 
+from .mesh_property_provider import mesh_property_provider 
 from .result_info_provider import result_info_provider 
 from .time_freq_provider import time_freq_provider 
 from .material_provider import material_provider 

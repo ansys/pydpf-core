@@ -29,7 +29,7 @@ class elemental_nodal_to_nodal(Operator):
         Compute mid nodes (when available) by
         averaging neighbour primary nodes
     extend_weights_to_mid_nodes : bool, optional
-        Assigns weights = 2 to mid nodes (when
+        Extends weights to mid nodes (when
         available). default is false
     mesh : MeshedRegion, optional
 
@@ -136,7 +136,7 @@ class elemental_nodal_to_nodal(Operator):
                     name="extend_weights_to_mid_nodes",
                     type_names=["bool"],
                     optional=True,
-                    document="""Assigns weights = 2 to mid nodes (when
+                    document="""Extends weights to mid nodes (when
         available). default is false""",
                 ),
                 7: PinSpecification(
@@ -335,7 +335,7 @@ class InputsElementalNodalToNodal(_Inputs):
     def extend_weights_to_mid_nodes(self):
         """Allows to connect extend_weights_to_mid_nodes input to the operator.
 
-        Assigns weights = 2 to mid nodes (when
+        Extends weights to mid nodes (when
         available). default is false
 
         Parameters

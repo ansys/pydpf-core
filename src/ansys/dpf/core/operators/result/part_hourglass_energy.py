@@ -26,9 +26,10 @@ class part_hourglass_energy(Operator):
         Entity (part for matsum, interface for
         rcforc) where the result will be
         scoped
-    unit_system : int or str, optional
-        Unit system id (int) or semicolon-separated
-        list of base unit strings
+    unit_system : int or str or Class Dataprocessing::Unit::Cunitsystem, optional
+        Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance
 
 
     Examples
@@ -112,10 +113,15 @@ class part_hourglass_energy(Operator):
                 ),
                 50: PinSpecification(
                     name="unit_system",
-                    type_names=["int32", "string"],
+                    type_names=[
+                        "int32",
+                        "string",
+                        "class dataProcessing::unit::CUnitSystem",
+                    ],
                     optional=True,
-                    document="""Unit system id (int) or semicolon-separated
-        list of base unit strings""",
+                    document="""Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance""",
                 ),
             },
             map_output_pin_spec={
@@ -271,12 +277,13 @@ class InputsPartHourglassEnergy(_Inputs):
     def unit_system(self):
         """Allows to connect unit_system input to the operator.
 
-        Unit system id (int) or semicolon-separated
-        list of base unit strings
+        Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance
 
         Parameters
         ----------
-        my_unit_system : int or str
+        my_unit_system : int or str or Class Dataprocessing::Unit::Cunitsystem
 
         Examples
         --------

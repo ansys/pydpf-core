@@ -20,7 +20,7 @@ from .nodal_to_elemental import nodal_to_elemental
 from .nodal_to_elemental_fc import nodal_to_elemental_fc 
 from .to_elemental_nodal_fc import to_elemental_nodal_fc 
 from .elemental_fraction_fc import elemental_fraction_fc 
-from .elemental_difference import elemental_difference 
 from .elemental_difference_fc import elemental_difference_fc 
+from .elemental_difference import elemental_difference 
 from .extend_to_mid_nodes_fc import extend_to_mid_nodes_fc 
 from .extend_to_mid_nodes import extend_to_mid_nodes 

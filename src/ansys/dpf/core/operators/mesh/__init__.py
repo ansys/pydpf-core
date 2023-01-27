@@ -3,12 +3,12 @@ from .from_field import from_field
 from .mesh_provider import mesh_provider 
 from .meshes_provider import meshes_provider 
 from .beam_properties import beam_properties 
-from .merge_meshes import merge_meshes 
+from .get_attribute import get_attribute 
+from .points_from_coordinates import points_from_coordinates 
 from .change_cs import change_cs 
 from .from_scoping import from_scoping 
 from .split_fields import split_fields 
 from .split_mesh import split_mesh 
-from .points_from_coordinates import points_from_coordinates 
 from .mesh_clip import mesh_clip 
 from .make_sphere_levelset import make_sphere_levelset 
 from .tri_mesh_skin import tri_mesh_skin 

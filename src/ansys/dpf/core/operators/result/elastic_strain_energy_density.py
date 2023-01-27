@@ -36,11 +36,16 @@ class elastic_strain_energy_density(Operator):
         files.
     mesh_scoping : ScopingsContainer or Scoping, optional
         Nodes or elements scoping required in output.
-        the scoping's location indicates
-        whether nodes or elements are asked.
-        using scopings container enables to
-        split the result fields container in
-        domains
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains
     fields_container : FieldsContainer, optional
         Fields container already allocated modified
         inplace
@@ -197,11 +202,16 @@ class elastic_strain_energy_density(Operator):
                     type_names=["scopings_container", "scoping"],
                     optional=True,
                     document="""Nodes or elements scoping required in output.
-        the scoping's location indicates
-        whether nodes or elements are asked.
-        using scopings container enables to
-        split the result fields container in
-        domains""",
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains""",
                 ),
                 2: PinSpecification(
                     name="fields_container",
@@ -423,11 +433,16 @@ class InputsElasticStrainEnergyDensity(_Inputs):
         """Allows to connect mesh_scoping input to the operator.
 
         Nodes or elements scoping required in output.
-        the scoping's location indicates
-        whether nodes or elements are asked.
-        using scopings container enables to
-        split the result fields container in
-        domains
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains
 
         Parameters
         ----------

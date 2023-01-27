@@ -16,6 +16,7 @@ class acmo_mesh_provider(Operator):
     Parameters
     ----------
     assembly_mesh : AnsDispatchHolder or Struct Iansdispatch
+    unit : str, optional
 
 
     Examples
@@ -28,22 +29,27 @@ class acmo_mesh_provider(Operator):
     >>> # Make input connections
     >>> my_assembly_mesh = dpf.AnsDispatchHolder()
     >>> op.inputs.assembly_mesh.connect(my_assembly_mesh)
+    >>> my_unit = str()
+    >>> op.inputs.unit.connect(my_unit)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.acmo_mesh_provider(
     ...     assembly_mesh=my_assembly_mesh,
+    ...     unit=my_unit,
     ... )
 
     >>> # Get output data
     >>> result_meshes_container = op.outputs.meshes_container()
     """
 
-    def __init__(self, assembly_mesh=None, config=None, server=None):
+    def __init__(self, assembly_mesh=None, unit=None, config=None, server=None):
         super().__init__(name="acmo_mesh_provider", config=config, server=server)
         self._inputs = InputsAcmoMeshProvider(self)
         self._outputs = OutputsAcmoMeshProvider(self)
         if assembly_mesh is not None:
             self.inputs.assembly_mesh.connect(assembly_mesh)
+        if unit is not None:
+            self.inputs.unit.connect(unit)
 
     @staticmethod
     def _spec():
@@ -55,6 +61,12 @@ class acmo_mesh_provider(Operator):
                     name="assembly_mesh",
                     type_names=["ans_dispatch_holder", "struct IAnsDispatch"],
                     optional=False,
+                    document="""""",
+                ),
+                1: PinSpecification(
+                    name="unit",
+                    type_names=["string"],
+                    optional=True,
                     document="""""",
                 ),
             },
@@ -116,12 +128,16 @@ class InputsAcmoMeshProvider(_Inputs):
     >>> op = dpf.operators.mesh.acmo_mesh_provider()
     >>> my_assembly_mesh = dpf.AnsDispatchHolder()
     >>> op.inputs.assembly_mesh.connect(my_assembly_mesh)
+    >>> my_unit = str()
+    >>> op.inputs.unit.connect(my_unit)
     """
 
     def __init__(self, op: Operator):
         super().__init__(acmo_mesh_provider._spec().inputs, op)
         self._assembly_mesh = Input(acmo_mesh_provider._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._assembly_mesh)
+        self._unit = Input(acmo_mesh_provider._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._unit)
 
     @property
     def assembly_mesh(self):
@@ -140,6 +156,24 @@ class InputsAcmoMeshProvider(_Inputs):
         >>> op.inputs.assembly_mesh(my_assembly_mesh)
         """
         return self._assembly_mesh
+
+    @property
+    def unit(self):
+        """Allows to connect unit input to the operator.
+
+        Parameters
+        ----------
+        my_unit : str
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.acmo_mesh_provider()
+        >>> op.inputs.unit.connect(my_unit)
+        >>> # or
+        >>> op.inputs.unit(my_unit)
+        """
+        return self._unit
 
 
 class OutputsAcmoMeshProvider(_Outputs):

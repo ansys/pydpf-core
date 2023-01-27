@@ -23,6 +23,7 @@ if os.name == "posix":
         "libAns.Dpf.LivePost.so",
         "libans.dpf.pointcloudsearch.so",
         "libAns.Dpf.Vtk.so",
+        "libAns.Dpf.MechanicalResults.so",
     ]
     LIB_OPTIONAL_TO_GENERATE = [
         "libAns.Dpf.SystemCouplingMapping.so",
@@ -41,6 +42,7 @@ else:
         "Ans.Dpf.LivePost.dll",
         "Ans.Dpf.PointCloudSearch.dll",
         "Ans.Dpf.Vtk.dll",
+        "Ans.Dpf.MechanicalResults.dll",
     ]
     LIB_OPTIONAL_TO_GENERATE = [
         "Ans.Dpf.SystemCouplingMapping.dll",

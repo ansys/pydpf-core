@@ -31,6 +31,15 @@ class time_freq_interpolation(Operator):
         should be its scoping.
     interpolation_type : int, optional
         1 is ramped, 2 is stepped, default is 0.
+    force_new_time_freq_support : bool, optional
+        If set to true, the output fields container
+        will always have a new time freq
+        support rescoped to the output
+        time_freq_values (default is false).
+        if set to false, the time freq
+        support is only recreated when time
+        or frequency values are between
+        existing ones.
     time_freq_support : TimeFreqSupport, optional
 
 
@@ -50,6 +59,8 @@ class time_freq_interpolation(Operator):
     >>> op.inputs.step.connect(my_step)
     >>> my_interpolation_type = int()
     >>> op.inputs.interpolation_type.connect(my_interpolation_type)
+    >>> my_force_new_time_freq_support = bool()
+    >>> op.inputs.force_new_time_freq_support.connect(my_force_new_time_freq_support)
     >>> my_time_freq_support = dpf.TimeFreqSupport()
     >>> op.inputs.time_freq_support.connect(my_time_freq_support)
 
@@ -59,6 +70,7 @@ class time_freq_interpolation(Operator):
     ...     time_freq_values=my_time_freq_values,
     ...     step=my_step,
     ...     interpolation_type=my_interpolation_type,
+    ...     force_new_time_freq_support=my_force_new_time_freq_support,
     ...     time_freq_support=my_time_freq_support,
     ... )
 
@@ -72,6 +84,7 @@ class time_freq_interpolation(Operator):
         time_freq_values=None,
         step=None,
         interpolation_type=None,
+        force_new_time_freq_support=None,
         time_freq_support=None,
         config=None,
         server=None,
@@ -87,6 +100,8 @@ class time_freq_interpolation(Operator):
             self.inputs.step.connect(step)
         if interpolation_type is not None:
             self.inputs.interpolation_type.connect(interpolation_type)
+        if force_new_time_freq_support is not None:
+            self.inputs.force_new_time_freq_support.connect(force_new_time_freq_support)
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
 
@@ -129,6 +144,19 @@ class time_freq_interpolation(Operator):
                     type_names=["int32"],
                     optional=True,
                     document="""1 is ramped, 2 is stepped, default is 0.""",
+                ),
+                4: PinSpecification(
+                    name="force_new_time_freq_support",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If set to true, the output fields container
+        will always have a new time freq
+        support rescoped to the output
+        time_freq_values (default is false).
+        if set to false, the time freq
+        support is only recreated when time
+        or frequency values are between
+        existing ones.""",
                 ),
                 8: PinSpecification(
                     name="time_freq_support",
@@ -201,6 +229,8 @@ class InputsTimeFreqInterpolation(_Inputs):
     >>> op.inputs.step.connect(my_step)
     >>> my_interpolation_type = int()
     >>> op.inputs.interpolation_type.connect(my_interpolation_type)
+    >>> my_force_new_time_freq_support = bool()
+    >>> op.inputs.force_new_time_freq_support.connect(my_force_new_time_freq_support)
     >>> my_time_freq_support = dpf.TimeFreqSupport()
     >>> op.inputs.time_freq_support.connect(my_time_freq_support)
     """
@@ -221,6 +251,10 @@ class InputsTimeFreqInterpolation(_Inputs):
             time_freq_interpolation._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._interpolation_type)
+        self._force_new_time_freq_support = Input(
+            time_freq_interpolation._spec().input_pin(4), 4, op, -1
+        )
+        self._inputs.append(self._force_new_time_freq_support)
         self._time_freq_support = Input(
             time_freq_interpolation._spec().input_pin(8), 8, op, -1
         )
@@ -307,6 +341,33 @@ class InputsTimeFreqInterpolation(_Inputs):
         >>> op.inputs.interpolation_type(my_interpolation_type)
         """
         return self._interpolation_type
+
+    @property
+    def force_new_time_freq_support(self):
+        """Allows to connect force_new_time_freq_support input to the operator.
+
+        If set to true, the output fields container
+        will always have a new time freq
+        support rescoped to the output
+        time_freq_values (default is false).
+        if set to false, the time freq
+        support is only recreated when time
+        or frequency values are between
+        existing ones.
+
+        Parameters
+        ----------
+        my_force_new_time_freq_support : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.time_freq_interpolation()
+        >>> op.inputs.force_new_time_freq_support.connect(my_force_new_time_freq_support)
+        >>> # or
+        >>> op.inputs.force_new_time_freq_support(my_force_new_time_freq_support)
+        """
+        return self._force_new_time_freq_support
 
     @property
     def time_freq_support(self):
