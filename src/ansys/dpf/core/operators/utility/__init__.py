@@ -17,7 +17,9 @@ from .forward import forward
 from .txt_file_to_dpf import txt_file_to_dpf 
 from .bind_support_fc import bind_support_fc 
 from .assemble_scalars_to_vectors import assemble_scalars_to_vectors 
+from .assemble_scalars_to_vectors_fc import assemble_scalars_to_vectors_fc 
 from .assemble_scalars_to_matrices import assemble_scalars_to_matrices 
+from .assemble_scalars_to_matrices_fc import assemble_scalars_to_matrices_fc 
 from .default_value import default_value 
 from .extract_time_freq import extract_time_freq 
 from .extract_sub_fc import extract_sub_fc 
@@ -39,6 +41,7 @@ from .remote_operator_instantiate import remote_operator_instantiate
 from .merge_time_freq_supports import merge_time_freq_supports 
 from .overlap_fields import overlap_fields 
 from .extract_scoping import extract_scoping 
+from .merge_meshes import merge_meshes 
 from .merge_weighted_fields import merge_weighted_fields 
 from .merge_fields import merge_fields 
 from .merge_fields_by_label import merge_fields_by_label 

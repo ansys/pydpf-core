@@ -211,20 +211,14 @@ class Result:
         try:
             # create the operator to read its documentation
             # if the operator doesn't exist, the method will not be added
-            doc = Operator(
-                self._result_info.operator_name, server=self._server
-            ).__str__()
+            doc = Operator(self._result_info.operator_name, server=self._server).__str__()
             self.__doc__ = doc
-            if hasattr(operators, "result") and hasattr(
-                operators.result, self._result_info.name
-            ):
+            if hasattr(operators, "result") and hasattr(operators.result, self._result_info.name):
                 self._operator = getattr(operators.result, self._result_info.name)(
                     server=self._server
                 )
             else:
-                self._operator = Operator(
-                    self._result_info.operator_name, server=self._server
-                )
+                self._operator = Operator(self._result_info.operator_name, server=self._server)
             self._connector.__connect_op__(self._operator, self._mesh_by_default)
             self._operator._add_sub_res_operators(self._result_info.sub_results)
         except errors.DPFServerException:
@@ -271,13 +265,9 @@ class Result:
         """
         fc = self.__call__().outputs.fields_container()
         if self._specific_fc_type == "shape":
-            fc = ElShapeFieldsContainer(
-                fields_container=fc._get_ownership(), server=fc._server
-            )
+            fc = ElShapeFieldsContainer(fields_container=fc._get_ownership(), server=fc._server)
         elif self._specific_fc_type == "body":
-            fc = BodyFieldsContainer(
-                fields_container=fc._get_ownership(), server=fc._server
-            )
+            fc = BodyFieldsContainer(fields_container=fc._get_ownership(), server=fc._server)
         return fc
 
     @property
@@ -471,16 +461,12 @@ class Result:
         previous_mesh_scoping = self._mesh_scoping
         from ansys.dpf.core import operators
 
-        if hasattr(operators, "scoping") and hasattr(
-            operators.scoping, "split_on_property_type"
-        ):
+        if hasattr(operators, "scoping") and hasattr(operators.scoping, "split_on_property_type"):
             self._mesh_scoping = operators.scoping.split_on_property_type()
         else:
             self._mesh_scoping = Operator("scoping::by_property")
 
-        self._mesh_scoping.inputs.requested_location(
-            self._result_info.native_scoping_location
-        )
+        self._mesh_scoping.inputs.requested_location(self._result_info.native_scoping_location)
         self._mesh_scoping.inputs.mesh(self._connector.mesh_provider)
         self._mesh_scoping.inputs.label1(prop)
         if previous_mesh_scoping:

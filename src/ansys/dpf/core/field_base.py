@@ -50,9 +50,7 @@ class _FieldBase:
                     grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
                 )
                 core_api.init_data_processing_environment(self)
-                self._internal_obj = (
-                    core_api.data_processing_duplicate_object_reference(field)
-                )
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(field)
             else:
                 self._internal_obj = field
 
@@ -249,9 +247,7 @@ class _FieldBase:
         scoping : :class:`ansys.dpf.core.scoping.Scoping`
 
         """
-        return scoping.Scoping(
-            scoping=self._api.csfield_get_cscoping(self), server=self._server
-        )
+        return scoping.Scoping(scoping=self._api.csfield_get_cscoping(self), server=self._server)
 
     @property
     def scoping(self):
@@ -591,9 +587,7 @@ class _LocalFieldBase(_FieldBase):
             first_index = self._ncomp * index
             last_index = self._ncomp * (index + 1) - 1
         if self._is_property_field:
-            array = np.array(
-                self._data_copy[first_index : last_index + 1], dtype=np.int32
-            )
+            array = np.array(self._data_copy[first_index : last_index + 1], dtype=np.int32)
         else:
             array = np.array(self._data_copy[first_index : last_index + 1])
 
@@ -672,9 +666,7 @@ class _LocalFieldBase(_FieldBase):
                 data = np.array(data, dtype=np.int32)
             if not isinstance(data[0], int) and not isinstance(data[0], np.int32):
                 raise errors.InvalidTypeError("data", "list of int")
-        if (len(data) > 0 and isinstance(data, list)) or isinstance(
-            data, (np.ndarray, np.generic)
-        ):
+        if (len(data) > 0 and isinstance(data, list)) or isinstance(data, (np.ndarray, np.generic)):
             data = np.array(data).flatten().tolist()
 
         data_size = len(self._data_copy)
@@ -689,9 +681,7 @@ class _LocalFieldBase(_FieldBase):
             else:
                 data_size = len(data)
             if data_size > self._ncomp:
-                self._data_pointer_copy = [
-                    i * self._ncomp for i in range(0, self._num_entities)
-                ]
+                self._data_pointer_copy = [i * self._ncomp for i in range(0, self._num_entities)]
                 self._has_data_pointer = True
 
     def data_as_list(self):

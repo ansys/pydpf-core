@@ -60,9 +60,7 @@ def clean_up(request):
     request.addfinalizer(shutdown)
 
 
-@pytest.mark.parametrize(
-    "server_config", server_configs, ids=server_configs_names, scope="class"
-)
+@pytest.mark.parametrize("server_config", server_configs, ids=server_configs_names, scope="class")
 class TestServerConfigs:
     @pytest.fixture(scope="class", autouse=True)
     def cleanup(self, request):
@@ -138,12 +136,8 @@ def test_busy_port(remote_config_server_type):
     my_serv = start_local_server(config=remote_config_server_type)
     busy_port = my_serv.port
     with pytest.raises(errors.InvalidPortError):
-        server_types.launch_dpf(
-            ansys_path=dpf.core.misc.get_ansys_path(), port=busy_port
-        )
-    server = start_local_server(
-        as_global=False, port=busy_port, config=remote_config_server_type
-    )
+        server_types.launch_dpf(ansys_path=dpf.core.misc.get_ansys_path(), port=busy_port)
+    server = start_local_server(as_global=False, port=busy_port, config=remote_config_server_type)
     assert server.port != busy_port
 
 
@@ -158,9 +152,7 @@ def test_docker_busy_port(remote_config_server_type, clean_up):
         server_types.launch_dpf_on_docker(
             port=busy_port, running_docker_config=running_docker_config
         )
-    server = start_local_server(
-        as_global=False, port=busy_port, config=remote_config_server_type
-    )
+    server = start_local_server(as_global=False, port=busy_port, config=remote_config_server_type)
     assert server.external_port != busy_port
 
 
@@ -227,10 +219,7 @@ def test_eq_server_config():
         dpf.core.AvailableServerConfigs.InProcessServer
         == dpf.core.AvailableServerConfigs.InProcessServer
     )
-    assert (
-        dpf.core.AvailableServerConfigs.GrpcServer
-        == dpf.core.AvailableServerConfigs.GrpcServer
-    )
+    assert dpf.core.AvailableServerConfigs.GrpcServer == dpf.core.AvailableServerConfigs.GrpcServer
     assert (
         dpf.core.AvailableServerConfigs.LegacyGrpcServer
         == dpf.core.AvailableServerConfigs.LegacyGrpcServer
@@ -274,8 +263,6 @@ def test_connect_to_remote_server(remote_config_server_type):
 )
 def test_go_away_server():
     for _ in range(0, 5):
-        s = start_local_server(
-            config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False
-        )
+        s = start_local_server(config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False)
         field = dpf.core.Field(server=s)
         assert field._internal_obj is not None

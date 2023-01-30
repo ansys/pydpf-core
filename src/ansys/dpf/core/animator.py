@@ -60,9 +60,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             if save_as.endswith(".gif"):
                 self._plotter.open_gif(save_as)
             else:  # pragma: no cover
-                kwargs_in = _sort_supported_kwargs(
-                    bound_method=self._plotter.open_movie, **kwargs
-                )
+                kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.open_movie, **kwargs)
                 try:
                     self._plotter.open_movie(save_as, **kwargs_in)
                 except ImportError as e:
@@ -97,9 +95,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
                 scale_factor_legend=scale_factor[frame],
                 **kwargs,
             )
-            kwargs_in = _sort_supported_kwargs(
-                bound_method=self._plotter.add_text, **freq_kwargs
-            )
+            kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **freq_kwargs)
             self._plotter.add_text(
                 str_template.format(loop_over.data[frame], unit, freq_fmt), **kwargs_in
             )
@@ -126,10 +122,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
                         try:
                             render_frame(frame)
                         except AttributeError as e:  # pragma: no cover
-                            if (
-                                "'NoneType' object has no attribute 'interactor'"
-                                in e.args[0]
-                            ):
+                            if "'NoneType' object has no attribute 'interactor'" in e.args[0]:
                                 print("Animation canceled.")
                                 return result
                         if save_as:
@@ -288,9 +281,7 @@ class Animator:
 
 def scale_factor_to_fc(scale_factor, fc):
     def int_to_field(value, shape, scoping):
-        field = core.fields_factory.field_from_array(
-            np.full(shape=shape, fill_value=value)
-        )
+        field = core.fields_factory.field_from_array(np.full(shape=shape, fill_value=value))
         field.scoping = scoping
         return field
 
@@ -304,9 +295,7 @@ def scale_factor_to_fc(scale_factor, fc):
         #     fields.append(scale_factor)
         # scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
     elif scale_type == core.fields_container.FieldsContainer:
-        raise NotImplementedError(
-            "Scaling by a FieldsContainer is not yet implemented."
-        )
+        raise NotImplementedError("Scaling by a FieldsContainer is not yet implemented.")
         # if scale_factor.time_freq_support.n_sets != n_sets:
         #     raise ValueError(f"The scale_factor FieldsContainer does not contain the same "
         #                      f"number of fields as the fields_container being animated "
@@ -321,25 +310,17 @@ def scale_factor_to_fc(scale_factor, fc):
         fields = []
         for i in range(len(fc)):
             fields.append(
-                int_to_field(
-                    scale_factor[i], fc.get_field(0).shape, fc.get_field(0).scoping
-                )
+                int_to_field(scale_factor[i], fc.get_field(0).shape, fc.get_field(0).scoping)
             )
-        scale_factor = core.fields_container_factory.over_time_freq_fields_container(
-            fields
-        )
+        scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
     elif scale_type == int or scale_type == float:
         # Turn the float into a fields_container
         fields = []
         for i in range(n_sets):
             fields.append(
-                int_to_field(
-                    scale_factor, fc.get_field(0).shape, fc.get_field(0).scoping
-                )
+                int_to_field(scale_factor, fc.get_field(0).shape, fc.get_field(0).scoping)
             )
-        scale_factor = core.fields_container_factory.over_time_freq_fields_container(
-            fields
-        )
+        scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
     else:
         raise ValueError(
             "Argument scale_factor must be an int, a float, or a list of either, "

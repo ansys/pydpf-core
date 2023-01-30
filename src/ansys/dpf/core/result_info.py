@@ -336,9 +336,7 @@ class ResultInfo:
 
         name = self._api.result_info_get_result_name(self, numres)
         physic_name = self._api.result_info_get_result_physics_name(self, numres)
-        dimensionality = self._api.result_info_get_result_dimensionality_nature(
-            self, numres
-        )
+        dimensionality = self._api.result_info_get_result_dimensionality_nature(self, numres)
         n_comp = self._api.result_info_get_result_number_of_components(self, numres)
         unit_symbol = self._api.result_info_get_result_unit_symbol(self, numres)
         homogeneity = self._api.result_info_get_result_homogeneity(self, numres)
@@ -352,14 +350,10 @@ class ResultInfo:
             else:
                 loc_name = ""
         try:
-            scripting_name = self._api.result_info_get_result_scripting_name(
-                self, numres
-            )
+            scripting_name = self._api.result_info_get_result_scripting_name(self, numres)
         except AttributeError:
             if name in available_result._result_properties:
-                scripting_name = available_result._result_properties[name][
-                    "scripting_name"
-                ]
+                scripting_name = available_result._result_properties[name]["scripting_name"]
             else:
                 scripting_name = available_result._remove_spaces(physic_name)
         num_sub_res = self._api.result_info_get_number_of_sub_results(self, numres)
@@ -378,9 +372,7 @@ class ResultInfo:
         if self._server.meet_version("5.0"):
             qual_obj = object_handler.ObjHandler(
                 data_processing_api=self._data_processing_core_api,
-                internal_obj=self._api.result_info_get_qualifiers_for_result(
-                    self, numres
-                ),
+                internal_obj=self._api.result_info_get_qualifiers_for_result(self, numres),
             )
             label_space_api = self._server.get_api_for_type(
                 capi=label_space_capi.LabelSpaceCAPI,
@@ -390,9 +382,7 @@ class ResultInfo:
             for ires in range(num_qual_obj):
                 qualifiers.append(
                     LabelSpace(
-                        label_space=label_space_api.list_label_spaces_at(
-                            qual_obj, ires
-                        ),
+                        label_space=label_space_api.list_label_spaces_at(qual_obj, ires),
                         obj=self,
                         server=self._server,
                     )

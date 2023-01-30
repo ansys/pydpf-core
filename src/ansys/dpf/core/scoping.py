@@ -85,17 +85,13 @@ class Scoping:
                     grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
                 )
                 core_api.init_data_processing_environment(self)
-                self._internal_obj = (
-                    core_api.data_processing_duplicate_object_reference(scoping)
-                )
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(scoping)
             else:
                 # scoping is of type protobuf.message or DPFObject*
                 self._internal_obj = scoping
         else:
             if self._server.has_client():
-                self._internal_obj = self._api.scoping_new_on_client(
-                    self._server.client
-                )
+                self._internal_obj = self._api.scoping_new_on_client(self._server.client)
             else:
                 self._internal_obj = self._api.scoping_new()
 

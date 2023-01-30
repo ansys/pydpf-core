@@ -112,9 +112,7 @@ class Operator:
 
         # step4: if object exists: take instance, else create it (server)
         if self._server.has_client():
-            self._internal_obj = self._api.operator_new_on_client(
-                self.name, self._server.client
-            )
+            self._internal_obj = self._api.operator_new_on_client(self.name, self._server.client)
         else:
             self._internal_obj = self._api.operator_new(self.name)
 
@@ -234,9 +232,7 @@ class Operator:
         elif isinstance(inpt, Operator):
             self._api.operator_connect_operator_output(self, pin, inpt, pin_out)
         elif isinstance(inpt, Output):
-            self._api.operator_connect_operator_output(
-                self, pin, inpt._operator, inpt._pin
-            )
+            self._api.operator_connect_operator_output(self, pin, inpt._operator, inpt._pin)
         elif isinstance(inpt, list):
             from ansys.dpf.core import collection
 
@@ -464,9 +460,7 @@ class Operator:
                         out = type_tuple[2](type_tuple[1](self, pin))
                 if out is None:
                     try:
-                        return output_type(
-                            type_tuple[1](self, pin), server=self._server
-                        )
+                        return output_type(type_tuple[1](self, pin), server=self._server)
                     except TypeError:
                         self._progress_thread = None
                         return output_type(type_tuple[1](self, pin))
@@ -637,9 +631,7 @@ class Operator:
                 if output._pin == pin:
                     return output()
 
-    def _find_outputs_corresponding_pins(
-        self, type_names, inpt, pin, corresponding_pins
-    ):
+    def _find_outputs_corresponding_pins(self, type_names, inpt, pin, corresponding_pins):
         from ansys.dpf.core.results import Result
 
         for python_name in type_names:
@@ -655,9 +647,7 @@ class Operator:
                 if isinstance(inpt, Operator):
                     output_pin_available = inpt.outputs._get_given_output([python_name])
                 elif isinstance(inpt, Result):
-                    output_pin_available = inpt().outputs._get_given_output(
-                        [python_name]
-                    )
+                    output_pin_available = inpt().outputs._get_given_output([python_name])
                 else:
                     output_pin_available = inpt._get_given_output([python_name])
                 for outputpin in output_pin_available:
@@ -727,14 +717,10 @@ class Operator:
         """
         from ansys.dpf.core import dpf_operator, operators
 
-        if hasattr(operators, "math") and hasattr(
-            operators.math, "generalized_inner_product_fc"
-        ):
+        if hasattr(operators, "math") and hasattr(operators.math, "generalized_inner_product_fc"):
             op = operators.math.generalized_inner_product_fc(server=self._server)
         else:
-            op = dpf_operator.Operator(
-                "generalized_inner_product_fc", server=self._server
-            )
+            op = dpf_operator.Operator("generalized_inner_product_fc", server=self._server)
         op.connect(0, self)
         op.connect(1, value)
         return op
@@ -809,9 +795,7 @@ def available_operator_names(server=None):
     if server.has_client():
         coll_obj = object_handler.ObjHandler(
             data_processing_api=api,
-            internal_obj=api.data_processing_list_operators_as_collection_on_client(
-                server.client
-            ),
+            internal_obj=api.data_processing_list_operators_as_collection_on_client(server.client),
         )
     else:
         coll_obj = object_handler.ObjHandler(

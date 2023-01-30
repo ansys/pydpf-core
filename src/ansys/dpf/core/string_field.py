@@ -200,9 +200,7 @@ class StringField(_FieldBase):
 
     def append(self, data, scopingid):
         string_list = integral_types.MutableListString(data)
-        self._api.csstring_field_push_back(
-            self, scopingid, _get_size_of_list(data), string_list
-        )
+        self._api.csstring_field_push_back(self, scopingid, _get_size_of_list(data), string_list)
 
     def _get_data(self, np_array=True):
         try:
@@ -220,14 +218,11 @@ class StringField(_FieldBase):
             if (
                 0 != self.size
                 and self.component_count > 1
-                and data.size // self.component_count
-                != data.size / self.component_count
+                and data.size // self.component_count != data.size / self.component_count
             ):
                 raise ValueError(
                     f"An array of shape {self.shape} is expected and "
                     f"shape {data.shape} was input"
                 )
         string_list = integral_types.MutableListString(data)
-        return self._api.csstring_field_set_data(
-            self, _get_size_of_list(data), string_list
-        )
+        return self._api.csstring_field_set_data(self, _get_size_of_list(data), string_list)

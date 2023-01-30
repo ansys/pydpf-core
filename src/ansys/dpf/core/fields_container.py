@@ -23,6 +23,10 @@ class FieldsContainer(Collection):
     used in a harmonic analysis for example, allows real parts (``id=0``)
     to be separated from imaginary parts (``id=1``).
 
+    For more information, see the `Fields container and fields
+    <https://dpf.docs.pyansys.com/user_guide/fields_container.html#ref-user-guide-fields-container>
+    `_ documentation section.
+
     Parameters
     ----------
     fields_container : ansys.grpc.dpf.collection_pb2.Collection, ctypes.c_void_p,
@@ -239,9 +243,7 @@ class FieldsContainer(Collection):
             Fields corresponding to the request.
         """
         if not self.has_label("time"):
-            raise dpf_errors.DpfValueError(
-                "The fields container is not based on time scoping."
-            )
+            raise dpf_errors.DpfValueError("The fields container is not based on time scoping.")
 
         if self.has_label("complex"):
             label_space = self.__time_complex_label_space__(timeid, 0)
@@ -348,8 +350,7 @@ class FieldsContainer(Collection):
         """
         labels = self.labels
         if not self.has_label("time") and (
-            len(self.labels) == 0
-            or (len(self.labels) == 1 and self.has_label("complex"))
+            len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
         ):
             self.add_label("time")
         if len(self.labels) == 1:
@@ -372,21 +373,12 @@ class FieldsContainer(Collection):
             Time ID for the requested time set. The default is ``1``.
         """
         if not self.has_label("time") and (
-            len(self.labels) == 0
-            or (len(self.labels) == 1 and self.has_label("complex"))
+            len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
         ):
             self.add_label("time")
-        if (
-            not self.has_label("complex")
-            and len(self.labels) == 1
-            and self.has_label("time")
-        ):
+        if not self.has_label("complex") and len(self.labels) == 1 and self.has_label("time"):
             self.add_label("complex")
-        if (
-            self.has_label("time")
-            and self.has_label("complex")
-            and len(self.labels) == 2
-        ):
+        if self.has_label("time") and self.has_label("complex") and len(self.labels) == 2:
             super()._add_entry({"time": timeid, "complex": 1}, field)
         else:
             raise dpf_errors.DpfValueError(
@@ -532,9 +524,7 @@ class FieldsContainer(Collection):
 
         # TODO /!\ We should be using a mechanical::time_selector, however it is not wrapped.
 
-        wf.set_input_name(
-            "indices", extract_field_op.inputs.indices
-        )  # Have to do it this way
+        wf.set_input_name("indices", extract_field_op.inputs.indices)  # Have to do it this way
         wf.connect("indices", forward_index)  # Otherwise not accepted
         # Add the operators to the workflow
         wf.add_operators([extract_field_op, forward_index])
@@ -544,10 +534,7 @@ class FieldsContainer(Collection):
         if deform_by is not False:
             if deform_by is None or isinstance(deform_by, bool):
                 # By default, set deform_by as self if nodal 3D vector field
-                if (
-                    self[0].location == dpf.core.common.locations.nodal
-                    and n_components == 3
-                ):
+                if self[0].location == dpf.core.common.locations.nodal and n_components == 3:
                     deform_by = self
                 else:
                     deform = False
@@ -564,9 +551,7 @@ class FieldsContainer(Collection):
             deform = False
 
         if deform:
-            scale_factor_fc = dpf.core.animator.scale_factor_to_fc(
-                scale_factor, deform_by
-            )
+            scale_factor_fc = dpf.core.animator.scale_factor_to_fc(scale_factor, deform_by)
             scale_factor_invert = dpf.core.operators.math.invert_fc(scale_factor_fc)
             # Extraction of the field of interest based on index
             # time_selector = dpf.core.Operator("mechanical::time_selector")
@@ -574,9 +559,7 @@ class FieldsContainer(Collection):
             wf.set_input_name("indices", extract_field_op_2.inputs.indices)
             wf.connect("indices", forward_index)  # Otherwise not accepted
             # Scaling of the field based on scale_factor and index
-            extract_scale_factor_op = dpf.core.operators.utility.extract_field(
-                scale_factor_invert
-            )
+            extract_scale_factor_op = dpf.core.operators.utility.extract_field(scale_factor_invert)
             wf.set_input_name("indices", extract_scale_factor_op.inputs.indices)
             wf.connect("indices", forward_index)  # Otherwise not accepted
 
@@ -667,14 +650,10 @@ class FieldsContainer(Collection):
         from ansys.dpf.core import dpf_operator
         from ansys.dpf.core import operators
 
-        if hasattr(operators, "math") and hasattr(
-            operators.math, "generalized_inner_product_fc"
-        ):
+        if hasattr(operators, "math") and hasattr(operators.math, "generalized_inner_product_fc"):
             op = operators.math.generalized_inner_product_fc(server=self._server)
         else:
-            op = dpf_operator.Operator(
-                "generalized_inner_product_fc", server=self._server
-            )
+            op = dpf_operator.Operator("generalized_inner_product_fc", server=self._server)
         op.connect(0, self)
         op.connect(1, value)
         return op

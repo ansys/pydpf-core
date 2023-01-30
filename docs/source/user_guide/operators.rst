@@ -140,7 +140,7 @@ Because several other examples use the ``Model`` class, this example uses the
  
   DPF  DataSources: 
   Result files:
-     result key: rst and path: D:\ANSYSDev\dpf-python-core\ansys\dpf\core\examples\model_with_ns.rst 
+     result key: rst and path: path\...\ansys\dpf\core\examples\model_with_ns.rst
   Secondary files:
 
 This code shows how to connect the data source to the displacement operator:
@@ -234,7 +234,7 @@ displacement data on the client side to compute the maximum:
 
  .. code-block:: none
  
-    array([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
+    DPFArray([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
 
 On an industrial model, however, you should use code like this:
 
@@ -254,7 +254,7 @@ On an industrial model, however, you should use code like this:
 
  .. code-block:: none
  
-    array([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
+    DPFArray([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
     
 
 In the preceding example, only the maximum displacements in the X, Y, and Z
@@ -364,9 +364,9 @@ operators:
 
  .. code-block:: none
  
-     array([[ 2.,  4.,  6.],
-       [ 8., 10., 12.],
-       [14., 16., 18.]])
+     DPFArray([[ 2.,  4.,  6.],
+          [ 8., 10., 12.],
+          [14., 16., 18.]])
 
 
 .. code-block:: python
@@ -382,8 +382,8 @@ operators:
 
  .. code-block:: none
  
-     array([[4., 5., 6.],
-       [7., 8., 9.]])
+     DPFArray([[4., 5., 6.],
+          [7., 8., 9.]])
        
  
 ****************************
@@ -435,7 +435,7 @@ Python client is not on the same machine as the server:
 
  .. code-block:: none
  
-     C:\Users\cbellot\AppData\Local\Temp\dataProcessingTemp17168
+     C:\Users\user_name\AppData\Local\Temp\dataProcessingTemp17168
      Downloading...: 759 KB|
  
 

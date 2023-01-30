@@ -9,13 +9,9 @@ def test_set_get_generic_support(server_type):
     support.set_support_of_property("viscosity", field)
     field = dpf.StringField(server=server_type)
     support.set_support_of_property("names", field)
-    field = dpf.PropertyField(
-        location="phase", nature=dpf.natures.scalar, server=server_type
-    )
+    field = dpf.PropertyField(location="phase", nature=dpf.natures.scalar, server=server_type)
     support.set_support_of_property("type", field)
-    field = dpf.PropertyField(
-        location="phase", nature=dpf.natures.scalar, server=server_type
-    )
+    field = dpf.PropertyField(location="phase", nature=dpf.natures.scalar, server=server_type)
     support.set_support_of_property("miscibility", field)
     assert support.available_field_supported_properties() == ["viscosity"]
     assert support.available_string_field_supported_properties() == ["names"]

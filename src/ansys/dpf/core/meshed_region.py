@@ -28,9 +28,7 @@ def update_grid(func):
                 # When setting node coordinates
                 from ansys.dpf.core.vtk_helper import vtk_update_coordinates
 
-                vtk_update_coordinates(
-                    vtk_grid=mesh._full_grid, coordinates_array=args[1].data
-                )
+                vtk_update_coordinates(vtk_grid=mesh._full_grid, coordinates_array=args[1].data)
 
         return func(*args, **kwargs)
 
@@ -103,9 +101,7 @@ class MeshedRegion:
         else:
             # if no mesh object, create one
             if self._server.has_client():
-                self._internal_obj = self._api.meshed_region_new_on_client(
-                    self._server.client
-                )
+                self._internal_obj = self._api.meshed_region_new_on_client(self._server.client)
             else:
                 self._internal_obj = self._api.meshed_region_new()
 
@@ -257,9 +253,7 @@ class MeshedRegion:
         available_property_fields : list str
         """
         available_property_fields = []
-        n_property_field = self._api.meshed_region_get_num_available_property_field(
-            self
-        )
+        n_property_field = self._api.meshed_region_get_num_available_property_field(self)
         for index in range(n_property_field):
             available_property_fields.append(
                 self._api.meshed_region_get_property_field_name(self, index)
@@ -328,9 +322,7 @@ class MeshedRegion:
         named_selections = []
         n_selections = self._api.meshed_region_get_num_available_named_selection(self)
         for index in range(n_selections):
-            named_selections.append(
-                self._api.meshed_region_get_named_selection_name(self, index)
-            )
+            named_selections.append(self._api.meshed_region_get_named_selection_name(self, index))
         return named_selections
 
     def named_selection(self, named_selection):
@@ -347,9 +339,7 @@ class MeshedRegion:
         named_selection : Scoping
         """
         if server_meet_version("2.1", self._server):
-            out = self._api.meshed_region_get_named_selection_scoping(
-                self, named_selection
-            )
+            out = self._api.meshed_region_get_named_selection_scoping(self, named_selection)
             return scoping.Scoping(scoping=out, server=self._server)
         else:
             if hasattr(self, "_stream_provider"):
@@ -452,9 +442,7 @@ class MeshedRegion:
         if deform_by.unit != self.unit:
             unit_convert(deform_by, self.unit)
         scale_op = scale(field=deform_by, ponderation=scale_factor)
-        return add(
-            fieldA=self.nodes.coordinates_field, fieldB=scale_op.outputs.field
-        ).eval()
+        return add(fieldA=self.nodes.coordinates_field, fieldB=scale_op.outputs.field).eval()
 
     def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
@@ -615,9 +603,7 @@ class MeshedRegion:
             return MeshedRegion()
         node_ids = self.nodes.scoping.ids
         element_ids = self.elements.scoping.ids
-        mesh = MeshedRegion(
-            num_nodes=len(node_ids), num_elements=len(element_ids), server=server
-        )
+        mesh = MeshedRegion(num_nodes=len(node_ids), num_elements=len(element_ids), server=server)
         with self.nodes.coordinates_field.as_local_field() as coord:
             for i, node in enumerate(mesh.nodes.add_nodes(len(node_ids))):
                 node.id = node_ids[i]
@@ -661,9 +647,7 @@ class MeshedRegion:
         else:
             field_out = self._api.meshed_region_get_property_field(self, property_name)
             if isinstance(field_out, int):
-                res = property_field.PropertyField(
-                    server=self._server, property_field=field_out
-                )
+                res = property_field.PropertyField(server=self._server, property_field=field_out)
                 return res
             else:
                 if field_out.datatype == "int":

@@ -23,6 +23,11 @@ class run(Operator):
         resolution (default is 2)
     data_sources : DataSources
         Data sources containing the input file.
+    server_mode : bool, optional
+        Used when a user includes commands in the
+        input file allowing to launch dpf
+        server inside mapdl to interact with
+        mapdl using dpf client api
 
 
     Examples
@@ -41,6 +46,8 @@ class run(Operator):
     >>> op.inputs.number_of_processes.connect(my_number_of_processes)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_server_mode = bool()
+    >>> op.inputs.server_mode.connect(my_server_mode)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.run(
@@ -48,10 +55,13 @@ class run(Operator):
     ...     working_dir=my_working_dir,
     ...     number_of_processes=my_number_of_processes,
     ...     data_sources=my_data_sources,
+    ...     server_mode=my_server_mode,
     ... )
 
     >>> # Get output data
     >>> result_data_sources = op.outputs.data_sources()
+    >>> result_ip = op.outputs.ip()
+    >>> result_port = op.outputs.port()
     """
 
     def __init__(
@@ -60,6 +70,7 @@ class run(Operator):
         working_dir=None,
         number_of_processes=None,
         data_sources=None,
+        server_mode=None,
         config=None,
         server=None,
     ):
@@ -74,6 +85,8 @@ class run(Operator):
             self.inputs.number_of_processes.connect(number_of_processes)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
+        if server_mode is not None:
+            self.inputs.server_mode.connect(server_mode)
 
     @staticmethod
     def _spec():
@@ -107,13 +120,37 @@ class run(Operator):
                     optional=False,
                     document="""Data sources containing the input file.""",
                 ),
+                5: PinSpecification(
+                    name="server_mode",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Used when a user includes commands in the
+        input file allowing to launch dpf
+        server inside mapdl to interact with
+        mapdl using dpf client api""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document="""""",
+                    document="""Returns the data source if the server_mode
+        pin is not set to yes""",
+                ),
+                1: PinSpecification(
+                    name="ip",
+                    type_names=["string"],
+                    optional=False,
+                    document="""Returns the ip if the server_mode pin is set
+        to yes""",
+                ),
+                2: PinSpecification(
+                    name="port",
+                    type_names=["string"],
+                    optional=False,
+                    document="""Returns a port when the server mode pin is
+        set to yes""",
                 ),
             },
         )
@@ -172,6 +209,8 @@ class InputsRun(_Inputs):
     >>> op.inputs.number_of_processes.connect(my_number_of_processes)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_server_mode = bool()
+    >>> op.inputs.server_mode.connect(my_server_mode)
     """
 
     def __init__(self, op: Operator):
@@ -184,6 +223,8 @@ class InputsRun(_Inputs):
         self._inputs.append(self._number_of_processes)
         self._data_sources = Input(run._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
+        self._server_mode = Input(run._spec().input_pin(5), 5, op, -1)
+        self._inputs.append(self._server_mode)
 
     @property
     def mapdl_exe_path(self):
@@ -262,6 +303,29 @@ class InputsRun(_Inputs):
         """
         return self._data_sources
 
+    @property
+    def server_mode(self):
+        """Allows to connect server_mode input to the operator.
+
+        Used when a user includes commands in the
+        input file allowing to launch dpf
+        server inside mapdl to interact with
+        mapdl using dpf client api
+
+        Parameters
+        ----------
+        my_server_mode : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.run()
+        >>> op.inputs.server_mode.connect(my_server_mode)
+        >>> # or
+        >>> op.inputs.server_mode(my_server_mode)
+        """
+        return self._server_mode
+
 
 class OutputsRun(_Outputs):
     """Intermediate class used to get outputs from
@@ -273,12 +337,18 @@ class OutputsRun(_Outputs):
     >>> op = dpf.operators.result.run()
     >>> # Connect inputs : op.inputs. ...
     >>> result_data_sources = op.outputs.data_sources()
+    >>> result_ip = op.outputs.ip()
+    >>> result_port = op.outputs.port()
     """
 
     def __init__(self, op: Operator):
         super().__init__(run._spec().outputs, op)
         self._data_sources = Output(run._spec().output_pin(0), 0, op)
         self._outputs.append(self._data_sources)
+        self._ip = Output(run._spec().output_pin(1), 1, op)
+        self._outputs.append(self._ip)
+        self._port = Output(run._spec().output_pin(2), 2, op)
+        self._outputs.append(self._port)
 
     @property
     def data_sources(self):
@@ -296,3 +366,37 @@ class OutputsRun(_Outputs):
         >>> result_data_sources = op.outputs.data_sources()
         """  # noqa: E501
         return self._data_sources
+
+    @property
+    def ip(self):
+        """Allows to get ip output of the operator
+
+        Returns
+        ----------
+        my_ip : str
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.run()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_ip = op.outputs.ip()
+        """  # noqa: E501
+        return self._ip
+
+    @property
+    def port(self):
+        """Allows to get port output of the operator
+
+        Returns
+        ----------
+        my_port : str
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.run()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_port = op.outputs.port()
+        """  # noqa: E501
+        return self._port

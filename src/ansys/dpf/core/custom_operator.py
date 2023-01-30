@@ -165,9 +165,7 @@ class CustomOperatorBase:
         for type_tuple in _type_to_input_method:
             if type is type_tuple[0]:
                 if len(type_tuple) >= 3:
-                    parameters = {
-                        type_tuple[2]: type_tuple[1](self._operator_data, index)
-                    }
+                    parameters = {type_tuple[2]: type_tuple[1](self._operator_data, index)}
                     return type(**parameters)
                 return type(type_tuple[1](self._operator_data, index))
         if type == dpf_vector.DPFVectorInt:

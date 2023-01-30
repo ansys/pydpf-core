@@ -134,9 +134,7 @@ strainlimit = strainlimit_op.outputs.field()
 ###############################################################################
 # Strain limit condition (less than 1 pass the criteria)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-strainratio = dpf.operators.math.component_wise_divide(
-    fieldA=eppleqvave, fieldB=strainlimit
-)
+strainratio = dpf.operators.math.component_wise_divide(fieldA=eppleqvave, fieldB=strainlimit)
 strainratio = strainratio.outputs.field()
 
 ###############################################################################

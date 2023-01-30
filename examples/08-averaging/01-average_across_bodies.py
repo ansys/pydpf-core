@@ -4,19 +4,24 @@
 Average across bodies
 ~~~~~~~~~~~~~~~~~~~~~
 
-This example shows how to activate and deactivate the DPF option for averaging
-across bodies. When a multi-body simulation calculates ``ElementalNodal`` fields,
-like stresses or strains, you can either activate or deactivate the averaging
-of these fields across the different bodies when they share common nodes. This
-likely changes the end results that are shown after postprocessing of the simulation.
+In multibody simulations, some nodes may be shared by the bodies at their interfaces,
+but the values of the results (for example stresses or strains) calculated at these nodes
+may differ between the bodies. This can cause discontinuous plots, given that a single
+node will have multiple values for a variable. To avoid this, you can average these results
+across the bodies of the model.
+
+
+This example demonstrates how to average across bodies in DPF when
+dealing with ``Nodal`` variables. It also illustrates how the end results
+of a postprocessing workflow can be different when averaging and when not.
 
 .. note::
-    This example requires the Premium ServerContext.
+    This example requires the Premium Server Context.
     For more information, see :ref:`user_guide_server_context`.
 
 """
 ###############################################################################
-# Perform the required imports.
+# Import the necessary modules
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
@@ -33,9 +38,9 @@ model = dpf.Model(analysis)
 print(model)
 
 ###############################################################################
-# To take a look at the system to see how bodies are connected to each other,
-# extract the mesh of the model and then divide it into different meshes
-# using the ``split_mesh`` operator.
+# To visualize the model and see how the bodies are connected, extract their
+# individual meshes using the ``split_mesh`` operator with the ``mat`` (or "material")
+# property.
 
 mesh = model.metadata.meshed_region
 split_mesh_op = ops.mesh.split_mesh(mesh=mesh, property="mat")
@@ -44,17 +49,17 @@ meshes = split_mesh_op.outputs.meshes()
 meshes.plot(text="Body meshes")
 
 ###############################################################################
-# As you can see in the preceding image, even though the piston rod is one single part,
-# it is composed of two different bodies. Additionally, you can see that the region
-# where the two bodies are bonded together contains nodes that are common between them.
+# As can be seen in the preceding image, even though the piston rod is one single part,
+# it is composed of two different bodies. Additionally, their interface shares common nodes.
 
 ###############################################################################
 # Averaging across bodies with DPF
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# To take a look at how the option for averaging across bodies alters the results
-# of the simulation, define two workflows. The first workflow does averaging across
-# bodies, while the second workflow does not. The variable of interest is the stress
-# in the Z direction, which is obtained using the "stress_Z" operator.
+# # To compare the results of averaging across bodies and not averaging,
+# define two workflows.
+# The variable of interest is the Von Mises stress field, which is
+# calculated by applying the ``eqv_fc`` operator on the
+# stresses extracted from the model.
 
 # %%
 # .. graphviz::
@@ -65,23 +70,28 @@ meshes.plot(text="Body meshes")
 #       rankdir=LR;
 #       splines=line;
 #       node [fixedsize=true,width=2.5]
-#       stress01 [label="stress_Z"];
-#       stress02 [label="stress_Z"];
-#       scp01 [label="split_on_property_type"];
+#       ds [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
+#       stress [label="stress"];
+#       scp [label="split_on_property_type"];
+#       eln_to_n ["elemental_nodal_to_nodal_fc"];
+#       vm [label="eqv_fc"];
+#       avg [label="weighted_merge_fields_by_label"];
 #       subgraph cluster_1 {
-#           ds01 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-#           ds01 -> scp01 [style=dashed];
-#           scp01 -> stress01;
-#           label="Averaging across bodies = Off";
+#           ds -> scp [style=dashed];
+#           scp -> stress;
+#           stress -> eln_to_n;
+#           eln_to_n -> vm;
+#           label="Without averaging across bodies";
 #           style=filled;
 #           fillcolor=lightgrey;
 #       }
 #       subgraph cluster_2 {
-#           ds02 [label="data_src", shape=box, style=filled, fillcolor=cadetblue2];
-#           inv02 [style=invisible]
-#           ds02 -> stress02 [style=dashed];
-#           stress02 -> inv02 [style=invis]
-#           label="Averaging across bodies = On";
+#           ds -> scp [style=dashed];
+#           scp -> stress;
+#           stress -> eln_to_n;
+#           eln_to_n -> vm;
+#           vm -> avg;
+#           label="With averaging across bodies";
 #           style=filled;
 #           fillcolor=lightgrey;
 #       }
@@ -89,199 +99,189 @@ meshes.plot(text="Body meshes")
 
 
 ###############################################################################
-# Averaging across bodies activated
+# Workflow for not averaging across bodies
 # ---------------------------------
-# The extraction of the stresses in the Z direction applies averaging
-# across bodies by default. Thus, you can use a simple workflow.
+# Computing Von Mises stresses without averaging across the bodies of the
+# model requires the stresses to be extracted separately for each body.
+# To do this in DPF, pass a scopings container the stress operator that
+# contains the elements of each body in scopings, separated by the ``mat`` label
 
+split_scop_op = ops.scoping.split_on_property_type()
+split_scop_op.inputs.mesh.connect(mesh)
+split_scop_op.inputs.requested_location.connect(dpf.locations.elemental)
+split_scop_op.inputs.label1.connect("mat")
 
-def average_across_bodies(analysis):
-    # Extract the stresses in the Z direction (with the average
-    # across bodies property activated) and plot them.
-
-    # Create a model from the simulation results.
-    model = dpf.Model(analysis)
-    mesh = model.metadata.meshed_region
-
-    # Set the time set of interest to the last time set.
-    time_set = 3
-
-    # Extract the stresses in the Z direction. By default, DPF already applies
-    # averaging across bodies when extracting the stresses.
-    stress_op = ops.result.stress_Z()
-    stress_op.inputs.connect(model)
-    stress_op.inputs.time_scoping.connect(time_set)
-    stress_op.inputs.requested_location.connect(dpf.locations.nodal)
-    stresses = stress_op.outputs.fields_container()
-
-    # Find the maximum stress value.
-    min_max = dpf.operators.min_max.min_max_fc()
-    min_max.inputs.fields_container.connect(stresses)
-    max_val = min_max.outputs.field_max()
-
-    mesh.plot(stresses, text="Averaged across bodies")
-
-    return max(max_val.data)
-
+print(split_scop_op.outputs.mesh_scoping())
 
 ###############################################################################
-# Averaging across bodies deactivated
-# -----------------------------------
-# The workflow is more complicated for extracting the stresses without
-# averaging across the bodies of the simulated part. Instead of presenting
-# the workflow as a function, it is broken into various parts with explanations
-# of what is being done.
+# Set the time set of interest to the last time set:
 
-###############################################################################
-# Create a model from the simulation results and extract its mesh and
-# step information.
-model = dpf.Model(analysis)
-mesh = model.metadata.meshed_region
-time_freq = model.metadata.time_freq_support
-time_sets = time_freq.time_frequencies.data.tolist()
-
-###############################################################################
-# Split the meshes of the two bodies so that separate scopings can be
-# created for each one of them. The `'mat'`` label is used to split the mesh
-# by bodies.
-mesh_scop_op = ops.scoping.split_on_property_type(mesh=mesh, label1="mat")
-mesh_scop_cont = mesh_scop_op.outputs.mesh_scoping()
-
-###############################################################################
-# Given that there are three different time steps, create a scopings container
-# that contains the meshes of each of these time steps.
-
-scop_cont = dpf.ScopingsContainer()
-scop_cont.add_label("body")
-scop_cont.add_label("time")
-for tset in time_sets:
-    body = 1
-    for mesh_scop in mesh_scop_cont:
-        scop_cont.add_scoping(
-            scoping=mesh_scop, label_space={"body": body, "time": int(tset)}
-        )
-        body += 1
-print(scop_cont)
-
-###############################################################################
-# The scopings container has six different scopings, one for each body over
-# each of the three time steps.
-#
-# Set the time set of interest to the last time set.
 time_set = 3
-
 ###############################################################################
-# To retrieve the Z stresses without averaging across the two bodies, you must
-# pass a scopings container that contains their respective meshes as a parameter
-# to the ``stress_Z`` operator. To do this, create a scopings container that contains
-# the meshes of the two bodies in the desired time step.
+# Extracting the stresses for each body of the simulation:
 
-scop_list = scop_cont.get_scopings(label_space={"time": time_set})
-scopings = dpf.ScopingsContainer()
-scopings.add_label("body")
-body = 1
-for scop in scop_list:
-    scopings.add_scoping(label_space={"body": body}, scoping=scop)
-    body += 1
-print(scopings)
-###############################################################################
-# This contain has only two scopings, one for each body in the last time step.
-
-###############################################################################
-# Extract the stresses in the Z direction.
-
-stress_op = ops.result.stress_Z()
-stress_op.inputs.connect(model)
+stress_op = ops.result.stress()
 stress_op.inputs.time_scoping.connect(time_set)
-stress_op.inputs.mesh_scoping.connect(
-    scopings
-)  # This option deactivates averaging across bodies.
-stress_op.inputs.requested_location.connect(dpf.locations.nodal)
-stresses = stress_op.outputs.fields_container()
-print(stresses)
-###############################################################################
-# Find the maximum value of the stress field for comparison purposes.
+stress_op.inputs.data_sources.connect(model)
+stress_op.inputs.mesh_scoping.connect(split_scop_op)
+stress_op.inputs.requested_location.connect(dpf.locations.elemental_nodal)
 
-min_max = dpf.operators.min_max.min_max_fc()
-min_max.inputs.fields_container.connect(stresses)
-max_val = min_max.outputs.field_max()
 ###############################################################################
-# Define the preceding workflow as a function:
+# Proceeding with the workflow to obtain ``Nodal`` Von Mises stresses:
+
+eln_to_n_op = ops.averaging.elemental_nodal_to_nodal_fc()
+eln_to_n_op.inputs.fields_container.connect(stress_op)
+
+von_mises_op = ops.invariant.von_mises_eqv_fc()
+von_mises_op.inputs.fields_container.connect(eln_to_n_op)
+
+print(von_mises_op.outputs.fields_container())
+###############################################################################
+# As you can see, the final Von Mises stresses fields container has the ``mat``
+# label with two different entries, meaning that it holds data for two separate bodies.
+# Finally, define this workflow as a function for better organization and
+# ease of use:
 
 
 def not_average_across_bodies(analysis):
-    # This function extracts the stresses in the Z direction (with the average
-    # across bodies option deactivated) and plot them.
+    # This function extracts the ElementalNodal stress tensors of the simulation
+    # for each body involved, averages them to the nodes and computes Von Mises
 
     model = dpf.Model(analysis)
     mesh = model.metadata.meshed_region
 
-    time_freq = model.metadata.time_freq_support
-    time_sets = time_freq.time_frequencies.data.tolist()
+    time_set = 3
 
-    mesh_scop_op = ops.scoping.split_on_property_type(mesh=mesh, label1="mat")
-    mesh_scop_cont = mesh_scop_op.outputs.mesh_scoping()
+    split_scop_op = ops.scoping.split_on_property_type()
+    split_scop_op.inputs.mesh.connect(mesh)
+    split_scop_op.inputs.requested_location.connect(dpf.locations.elemental)
+    split_scop_op.inputs.label1.connect("mat")
 
-    scop_cont = dpf.ScopingsContainer()
-    scop_cont.add_label("body")
-    scop_cont.add_label("time")
-    for tset in time_sets:
-        body = 1
-        for mesh_scop in mesh_scop_cont:
-            scop_cont.add_scoping(
-                scoping=mesh_scop, label_space={"body": body, "time": int(tset)}
-            )
-            body += 1
+    stress_op = ops.result.stress()
+    stress_op.inputs.time_scoping.connect(time_set)
+    stress_op.inputs.data_sources.connect(model)
+    stress_op.inputs.mesh_scoping.connect(split_scop_op)
+    stress_op.inputs.requested_location.connect(dpf.locations.elemental_nodal)
+
+    eln_to_n_op = ops.averaging.elemental_nodal_to_nodal_fc()
+    eln_to_n_op.inputs.fields_container.connect(stress_op)
+
+    von_mises_op = ops.invariant.von_mises_eqv_fc()
+    von_mises_op.inputs.fields_container.connect(eln_to_n_op)
+
+    vm_stresses = von_mises_op.outputs.fields_container()
+
+    return vm_stresses
+
+
+###############################################################################
+# Workflow for averaging across bodies
+# -----------------------------------
+# The workflow for performing averaging across bodies in DPF is similar to to the
+# one shown above, with the extraction of stresses per body. The difference comes
+# in the end, where a weighted merge is done between the fields that contain different
+# values for the ``mat`` label to actually average the results across the bodies.
+# Define a function like the one above:
+
+
+def average_across_bodies(analysis):
+    # This function extracts the ElementalNodal stress tensors of the simulation
+    # for each body involved, averages them to the nodes and computes Von Mises
+
+    model = dpf.Model(analysis)
+    mesh = model.metadata.meshed_region
 
     time_set = 3
 
-    scop_list = scop_cont.get_scopings(label_space={"time": time_set})
-    scopings = dpf.ScopingsContainer()
-    scopings.add_label("body")
-    body = 1
-    for scop in scop_list:
-        scopings.add_scoping(label_space={"body": body}, scoping=scop)
-        body += 1
+    split_scop_op = ops.scoping.split_on_property_type()
+    split_scop_op.inputs.mesh.connect(mesh)
+    split_scop_op.inputs.requested_location.connect(dpf.locations.elemental)
+    split_scop_op.inputs.label1.connect("mat")
 
-    stress_op = ops.result.stress_Z()
-    stress_op.inputs.connect(model)
+    stress_op = ops.result.stress()
     stress_op.inputs.time_scoping.connect(time_set)
-    stress_op.inputs.mesh_scoping.connect(scopings)
-    stress_op.inputs.requested_location.connect(dpf.locations.nodal)
-    stresses = stress_op.outputs.fields_container()
+    stress_op.inputs.data_sources.connect(model)
+    stress_op.inputs.mesh_scoping.connect(split_scop_op)
+    stress_op.inputs.requested_location.connect(dpf.locations.elemental_nodal)
 
-    min_max = dpf.operators.min_max.min_max_fc()
-    min_max.inputs.fields_container.connect(stresses)
-    max_val = min_max.outputs.field_max()
+    eln_to_n_op = ops.averaging.elemental_nodal_to_nodal_fc()
+    eln_to_n_op.inputs.fields_container.connect(stress_op)
+    # Mid node weights needed for averaging across bodies
+    eln_to_n_op.inputs.extend_weights_to_mid_nodes.connect(True)
 
-    meshes.plot(stresses, text="Not averaged across bodies")
+    von_mises_op = ops.invariant.von_mises_eqv_fc()
+    von_mises_op.inputs.fields_container.connect(eln_to_n_op)
 
-    return max(max_val.data)
+    # Merging fields that represent different bodies
+    merge_op = ops.utility.weighted_merge_fields_by_label()
+    merge_op.inputs.fields_container.connect(von_mises_op)
+    merge_op.inputs.label.connect("mat")
+    # Connecting weights needed to perform the weighted average
+    merge_op.connect(1000, eln_to_n_op, 1)
 
+    vm_stresses = merge_op.outputs.fields_container()
+
+    return vm_stresses
+
+
+###############################################################################
+# In this case, we can see that the output fields container only has one field, indicating
+# that the results of the two different bodies were averaged successfully.
+
+print(average_across_bodies(analysis))
 
 ###############################################################################
 # Plot and compare the results
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Plot and compare the results. The first plot shows the stress distribution
-# when averaging across bodies is activated. The second plot shows the stress
-# distribution when averaging across bodies is deactivated.
+# The two different approaches can be compared. The first plot shows the
+# results when averaging across bodies is not performed, while the second illustrates
+# when it is.
 
-max_avg_on = average_across_bodies(analysis)
-max_avg_off = not_average_across_bodies(analysis)
+non_avg_stresses = not_average_across_bodies(analysis)
+avg_stresses = average_across_bodies(analysis)
 
+meshes.plot(non_avg_stresses)
+mesh.plot(avg_stresses)
 ###############################################################################
-diff = abs(max_avg_on - max_avg_off) / max_avg_off * 100
+# Finally, the maximum stresses for both cases can be compared:
+
+min_max = dpf.operators.min_max.min_max_fc()
+
+# Non averaged across bodies
+min_max.inputs.fields_container.connect(non_avg_stresses)
+max_non_avg = max(min_max.outputs.field_max().data)
+
+# Averaged across bodies
+min_max.inputs.fields_container.connect(avg_stresses)
+max_avg = max(min_max.outputs.field_max().data)
+
+
+diff = abs(max_avg - max_non_avg) / max_non_avg * 100
+print("Max stress when averaging across bodies is activated: {:.2f} Pa".format(max_avg))
+print("Max stress when averaging across bodies is deactivated: {:.2f} Pa".format(max_non_avg))
 print(
-    "Max stress when averaging across bodies is activated: {:.2f} Pa".format(max_avg_on)
-)
-print(
-    "Max stress when averaging across bodies is deactivated: {:.2f} Pa".format(
-        max_avg_off
-    )
-)
-print(
-    "The maximum stress value when averaging across bodies is ACTIVATED \
-is {:.2f}% LOWER than when it is DEACTIVATED".format(
+    "The maximum stress value when averaging across bodies is PERFORMED \
+is {:.2f}% LOWER than when it is NOT PERFORMED".format(
         diff
     )
 )
+
+###############################################################################
+# Dedicated Operator
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# .. note::
+#     The operator detailed below is available in Ansys 23R2 and later versions.
+#
+# Alternatively, those workflows can be automatically instantiated by calling the
+# ``stress_eqv_as_mechanical`` operator, which does exactly the same thing as described
+# in the functions above, depending on what is passed to the "average_across_bodies" input
+# pin:
+
+stress_op = ops.result.stress_eqv_as_mechanical()
+stress_op.inputs.time_scoping.connect([time_set])
+stress_op.inputs.data_sources.connect(model)
+stress_op.inputs.requested_location.connect("Nodal")
+stress_op.inputs.average_across_bodies.connect(False)
+
+print(stress_op.outputs.fields_container())

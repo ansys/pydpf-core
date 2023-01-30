@@ -44,9 +44,10 @@ class beam_tr_shear_stress(Operator):
         Integration point where the result will be
         read from. default value: 0 (first
         integration point).
-    unit_system : int or str, optional
-        Unit system id (int) or semicolon-separated
-        list of base unit strings
+    unit_system : int or str or Class Dataprocessing::Unit::Cunitsystem, optional
+        Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance
 
 
     Examples
@@ -175,10 +176,15 @@ class beam_tr_shear_stress(Operator):
                 ),
                 50: PinSpecification(
                     name="unit_system",
-                    type_names=["int32", "string"],
+                    type_names=[
+                        "int32",
+                        "string",
+                        "class dataProcessing::unit::CUnitSystem",
+                    ],
                     optional=True,
-                    document="""Unit system id (int) or semicolon-separated
-        list of base unit strings""",
+                    document="""Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance""",
                 ),
             },
             map_output_pin_spec={
@@ -394,12 +400,13 @@ class InputsBeamTrShearStress(_Inputs):
     def unit_system(self):
         """Allows to connect unit_system input to the operator.
 
-        Unit system id (int) or semicolon-separated
-        list of base unit strings
+        Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance
 
         Parameters
         ----------
-        my_unit_system : int or str
+        my_unit_system : int or str or Class Dataprocessing::Unit::Cunitsystem
 
         Examples
         --------

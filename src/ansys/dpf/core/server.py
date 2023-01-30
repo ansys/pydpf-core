@@ -193,9 +193,7 @@ def start_local_server(
         try:
             ver = int(str(ansys_path)[-3:])
             if ver < 211:
-                raise errors.InvalidANSYSVersionError(
-                    f"Ansys v{ver} does not support DPF"
-                )
+                raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
             if ver == 211 and is_ubuntu():
                 raise OSError("DPF on v211 does not support Ubuntu")
         except ValueError:

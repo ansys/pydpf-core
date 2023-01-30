@@ -150,9 +150,7 @@ def test_write_to_file_data_tree(tmpdir, server_type):
         to_fill.list_double = [1.5, 2.5]
         to_fill.list_string = ["hello", "bye"]
     data_tree.write_to_txt(os.path.join(tmpdir, "file.txt"))
-    data_tree = dpf.DataTree.read_from_txt(
-        os.path.join(tmpdir, "file.txt"), server=server_type
-    )
+    data_tree = dpf.DataTree.read_from_txt(os.path.join(tmpdir, "file.txt"), server=server_type)
     assert data_tree.has("int")
     assert data_tree.has("double")
     assert data_tree.has("string")
@@ -160,9 +158,7 @@ def test_write_to_file_data_tree(tmpdir, server_type):
     assert data_tree.has("list_double")
     assert data_tree.has("list_string")
     data_tree.write_to_json(os.path.join(tmpdir, "file.json"))
-    data_tree = dpf.DataTree.read_from_json(
-        os.path.join(tmpdir, "file.json"), server=server_type
-    )
+    data_tree = dpf.DataTree.read_from_json(os.path.join(tmpdir, "file.json"), server=server_type)
     assert data_tree.has("int")
     assert data_tree.has("double")
     assert data_tree.has("string")
@@ -251,9 +247,7 @@ def test_sub_data_tree():
 
 @conftest.raises_for_servers_version_under("4.0")
 def test_runtime_client_config(server_type_remote_process):
-    client_config = dpf.settings.get_runtime_client_config(
-        server=server_type_remote_process
-    )
+    client_config = dpf.settings.get_runtime_client_config(server=server_type_remote_process)
     use_cache_init = client_config.cache_enabled
     client_config.cache_enabled = False
     use_cache_set = client_config.cache_enabled
@@ -272,19 +266,12 @@ def test_runtime_client_config(server_type_remote_process):
     client_config.streaming_buffer_size = streaming_buffer_size_init
     assert client_config.streaming_buffer_size == streaming_buffer_size_init
 
-    stream_floats_instead_of_doubles_init = (
-        client_config.stream_floats_instead_of_doubles
-    )
+    stream_floats_instead_of_doubles_init = client_config.stream_floats_instead_of_doubles
     client_config.stream_floats_instead_of_doubles = True
     stream_floats_instead_of_doubles = client_config.stream_floats_instead_of_doubles
     assert stream_floats_instead_of_doubles == True
-    client_config.stream_floats_instead_of_doubles = (
-        stream_floats_instead_of_doubles_init
-    )
-    assert (
-        client_config.stream_floats_instead_of_doubles
-        == stream_floats_instead_of_doubles_init
-    )
+    client_config.stream_floats_instead_of_doubles = stream_floats_instead_of_doubles_init
+    assert client_config.stream_floats_instead_of_doubles == stream_floats_instead_of_doubles_init
 
 
 @conftest.raises_for_servers_version_under("4.0")

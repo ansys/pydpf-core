@@ -82,22 +82,16 @@ class PinSpecification:
             return
         elif isinstance(val, common.types):
             self._type_names = [
-                mapping_types.map_types_to_cpp[
-                    common.types_enum_to_types()[val].__name__
-                ]
+                mapping_types.map_types_to_cpp[common.types_enum_to_types()[val].__name__]
             ]
             return
         elif isinstance(val, list):
             if len(val) > 0 and isinstance(val[0], type):
-                self._type_names = [
-                    mapping_types.map_types_to_cpp[ival.__name__] for ival in val
-                ]
+                self._type_names = [mapping_types.map_types_to_cpp[ival.__name__] for ival in val]
                 return
             if len(val) > 0 and isinstance(val[0], common.types):
                 self._type_names = [
-                    mapping_types.map_types_to_cpp[
-                        common.types_enum_to_types()[ival].__name__
-                    ]
+                    mapping_types.map_types_to_cpp[common.types_enum_to_types()[ival].__name__]
                     for ival in val
                 ]
                 return
@@ -113,9 +107,7 @@ class PinSpecification:
         return "{class_name}({params})".format(
             class_name=self.__class__.__name__,
             params=", ".join(
-                "{param}={value}".format(
-                    param=k, value=f"'{v}'" if isinstance(v, str) else v
-                )
+                "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
                 for k, v in vars(self).items()
             ),
         )
@@ -177,9 +169,7 @@ class ConfigOptionSpec:
         return "{class_name}({params})".format(
             class_name=self.__class__.__name__,
             params=", ".join(
-                "{param}={value}".format(
-                    param=k, value=f"'{v}'" if isinstance(v, str) else v
-                )
+                "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
                 for k, v in vars(self).items()
             ),
         )
@@ -241,9 +231,7 @@ class Specification(SpecificationBase):
         )
 
         # step3: init environment
-        self._api.init_operator_specification_environment(
-            self
-        )  # creates stub when gRPC
+        self._api.init_operator_specification_environment(self)  # creates stub when gRPC
 
         # step4: if object exists: take instance, else create it (specification)
         if specification is not None:
@@ -255,9 +243,7 @@ class Specification(SpecificationBase):
                         self._server.client, operator_name
                     )
                 else:
-                    self._internal_obj = self._api.operator_specification_new(
-                        operator_name
-                    )
+                    self._internal_obj = self._api.operator_specification_new(operator_name)
             else:
                 if self._server.has_client():
                     raise NotImplementedError(
@@ -286,16 +272,12 @@ class Specification(SpecificationBase):
         if self._properties is None:
             temp_properties = dict()
             if self._internal_obj is not None:
-                num_properties = self._api.operator_specification_get_num_properties(
-                    self
-                )
+                num_properties = self._api.operator_specification_get_num_properties(self)
                 for i_property in range(num_properties):
                     property_key = self._api.operator_specification_get_property_key(
                         self, i_property
                     )
-                    prop = self._api.operator_specification_get_properties(
-                        self, property_key
-                    )
+                    prop = self._api.operator_specification_get_properties(self, property_key)
                     temp_properties[property_key] = prop
             # Reorder the properties for consistency
             self._properties = dict()
@@ -373,28 +355,18 @@ class Specification(SpecificationBase):
             pins = pins.tolist()
 
             for i_pin in pins:
-                pin_name = self._api.operator_specification_get_pin_name(
-                    self, binput, i_pin
-                )
-                pin_opt = self._api.operator_specification_is_pin_optional(
-                    self, binput, i_pin
-                )
-                pin_doc = self._api.operator_specification_get_pin_document(
-                    self, binput, i_pin
-                )
+                pin_name = self._api.operator_specification_get_pin_name(self, binput, i_pin)
+                pin_opt = self._api.operator_specification_is_pin_optional(self, binput, i_pin)
+                pin_doc = self._api.operator_specification_get_pin_document(self, binput, i_pin)
                 n_types = self._api.operator_specification_get_pin_num_type_names(
                     self, binput, i_pin
                 )
                 pin_type_names = [
-                    self._api.operator_specification_get_pin_type_name(
-                        self, binput, i_pin, i_type
-                    )
+                    self._api.operator_specification_get_pin_type_name(self, binput, i_pin, i_type)
                     for i_type in range(n_types)
                 ]
 
-                pin_ell = self._api.operator_specification_is_pin_ellipsis(
-                    self, binput, i_pin
-                )
+                pin_ell = self._api.operator_specification_is_pin_ellipsis(self, binput, i_pin)
                 to_fill[i_pin] = PinSpecification(
                     pin_name, pin_type_names, pin_doc, pin_opt, pin_ell
                 )
@@ -412,23 +384,15 @@ class Specification(SpecificationBase):
             num_options = self._api.operator_specification_get_num_config_options(self)
             for i in range(num_options):
                 option_name = self._api.operator_specification_get_config_name(self, i)
-                n_types = self._api.operator_specification_get_config_num_type_names(
-                    self, i
-                )
+                n_types = self._api.operator_specification_get_config_num_type_names(self, i)
                 option_type_names = [
-                    self._api.operator_specification_get_config_type_name(
-                        self, i, n_type
-                    )
+                    self._api.operator_specification_get_config_type_name(self, i, n_type)
                     for n_type in range(n_types)
                 ]
                 option_default_value = (
-                    self._api.operator_specification_get_config_printable_default_value(
-                        self, i
-                    )
+                    self._api.operator_specification_get_config_printable_default_value(self, i)
                 )
-                option_doc = self._api.operator_specification_get_config_description(
-                    self, i
-                )
+                option_doc = self._api.operator_specification_get_config_description(self, i)
                 self._config_specification[option_name] = ConfigOptionSpec(
                     name=option_name,
                     type_names=option_type_names,
@@ -523,9 +487,7 @@ class SpecificationProperties:
     def __setitem__(self, key, value):
         if self._spec is not None:
             if value is not None:
-                self._spec._api.operator_specification_set_property(
-                    self._spec, key, value
-                )
+                self._spec._api.operator_specification_set_property(self._spec, key, value)
                 self._spec._properties = None
         setattr(self, key, value)
 
