@@ -68,16 +68,13 @@ def test_unit_system_api():
     with pytest.raises(Exception) as e:
         dpf.UnitSystem("throw_2", ID=1, unit_names="m;kg;K;rad;C;s")
         assert (
-            "ID and unit_names are mutually exclusionary, but one of them should be provided."
-            in e
+            "ID and unit_names are mutually exclusionary, but one of them should be provided." in e
         )
 
     # incomplete unit system
     with pytest.raises(Exception) as e:
         dpf.UnitSystem("throw_3", unit_names="in;kg")
-        assert (
-            "Some of the basic Units are not present in the UnitSystem definition" in e
-        )
+        assert "Some of the basic Units are not present in the UnitSystem definition" in e
 
     # wrong separator in unit system
     with pytest.raises(Exception) as e:
