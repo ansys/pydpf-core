@@ -32,6 +32,14 @@ class Field(_FieldBase):
     associated to each value) and support (subset of the model where the
     data is), making the field a self-describing piece of data.
 
+    The field's scoping defines the order of the data, for example: the first ID in the
+    ``scoping`` identifies to which entity the first ``entity data`` belongs.
+
+    For more information, see the `Fields container and fields
+    <https://dpf.docs.pyansys.com/user_guide/fields_container.html#ref-user-guide-fields-container>
+    `_ documentation section.
+
+
     Parameters
     ----------
     nentities : int, optional
@@ -97,6 +105,31 @@ class Field(_FieldBase):
     >>> field = fields_container[0]
     >>> field.data[2]
     DPFArray([-0.00672665, -0.03213735,  0.00016716]...
+
+    Accessing data with a custom order.
+
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> transient = examples.download_transient_result()
+    >>> model = dpf.Model(transient)
+    >>> ids_order = [2,3]
+    >>> stress = model.results.stress(mesh_scoping=dpf.Scoping(
+    ...     ids=ids_order, location=dpf.locations.nodal))
+    >>> fields_container = stress.outputs.fields_container()
+    >>> field = fields_container[0]
+    >>> field.scoping.ids
+    DPFArray([3, 2]...
+    >>> field.data
+    DPFArray([[  3755059.33333333,  -2398534.3515625 , -27519072.33333333,
+                 2194748.65625   ,   8306637.58333333,   2018637.03125   ],
+              [  2796852.09375   ,   -992492.62304688,  22519752.625     ,
+                -1049027.46875   ,  10846776.1875    ,   4119072.3125    ]]...
+    >>> field.get_entity_data_by_id(2)
+    DPFArray([[ 2796852.09375   ,  -992492.62304688, 22519752.625     ,
+               -1049027.46875   , 10846776.1875    ,  4119072.3125    ]]...
+    >>> field.get_entity_data_by_id(3)
+    DPFArray([[  3755059.33333333,  -2398534.3515625 , -27519072.33333333,
+                 2194748.65625   ,   8306637.58333333,   2018637.03125   ]]...
 
     """
 
