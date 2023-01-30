@@ -44,7 +44,7 @@ class beam_rs_shear_stress(Operator):
         Integration point where the result will be
         read from. default value: 0 (first
         integration point).
-    unit_system : int or str or Class Dataprocessing::Unit::Cunitsystem, optional
+    unit_system : int or str or UnitSystem, optional
         Unit system id (int), semicolon-separated
         list of base unit strings (str) or
         unitsystem instance
@@ -406,7 +406,7 @@ class InputsBeamRsShearStress(_Inputs):
 
         Parameters
         ----------
-        my_unit_system : int or str or Class Dataprocessing::Unit::Cunitsystem
+        my_unit_system : int or str or UnitSystem
 
         Examples
         --------

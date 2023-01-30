@@ -26,7 +26,7 @@ class part_kinetic_energy(Operator):
         Entity (part for matsum, interface for
         rcforc) where the result will be
         scoped
-    unit_system : int or str or Class Dataprocessing::Unit::Cunitsystem, optional
+    unit_system : int or str or UnitSystem, optional
         Unit system id (int), semicolon-separated
         list of base unit strings (str) or
         unitsystem instance
@@ -279,7 +279,7 @@ class InputsPartKineticEnergy(_Inputs):
 
         Parameters
         ----------
-        my_unit_system : int or str or Class Dataprocessing::Unit::Cunitsystem
+        my_unit_system : int or str or UnitSystem
 
         Examples
         --------
