@@ -435,7 +435,7 @@ Python client is not on the same machine as the server:
 
  .. code-block:: none
  
-     C:\Users\cbellot\AppData\Local\Temp\dataProcessingTemp17168
+     C:\Users\user_name\AppData\Local\Temp\dataProcessingTemp17168
      Downloading...: 759 KB|
  
 
