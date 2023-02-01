@@ -499,7 +499,7 @@ results, you must provide paths for the result files.</p>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  DataSources:
 Result files:
-   result key: rst and path: D:\ANSYSDev\dpf-python-core\ansys\dpf\core\examples\model_with_ns.rst
+   result key: rst and path: path\...\ansys\dpf\core\examples\model_with_ns.rst
 Secondary files:
 </pre></div>
 </div>
@@ -567,7 +567,7 @@ displacement data on the client side to compute the maximum:</p>
 <span class="n">disp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>array([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
 </pre></div>
 </div>
 <p>On an industrial model, however, you should use code like this:</p>
@@ -581,7 +581,7 @@ displacement data on the client side to compute the maximum:</p>
 <span class="n">max_field</span><span class="o">.</span><span class="n">data</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>array([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
 </pre></div>
 </div>
 <p>In the preceding example, only the maximum displacements in the X, Y, and Z
@@ -665,9 +665,9 @@ operators:</p>
 <span class="n">out</span><span class="o">.</span><span class="n">data</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>array([[ 2.,  4.,  6.],
-  [ 8., 10., 12.],
-  [14., 16., 18.]])
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([[ 2.,  4.,  6.],
+     [ 8., 10., 12.],
+     [14., 16., 18.]])
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#example 2 filtering operator</span>
@@ -678,8 +678,8 @@ operators:</p>
 <span class="n">out</span><span class="o">.</span><span class="n">data</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>array([[4., 5., 6.],
-  [7., 8., 9.]])
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([[4., 5., 6.],
+     [7., 8., 9.]])
 </pre></div>
 </div>
 </section>
@@ -719,7 +719,7 @@ Python client is not on the same machine as the server:</p>
 <span class="n">dpf</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">server_dir</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">file.vtk&quot;</span><span class="p">,</span><span class="sa">r</span><span class="s2">&quot;c:/temp/file_downloaded.vtk&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\cbellot\AppData\Local\Temp\dataProcessingTemp17168
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\user_name\AppData\Local\Temp\dataProcessingTemp17168
 Downloading...: 759 KB|
 </pre></div>
 </div>

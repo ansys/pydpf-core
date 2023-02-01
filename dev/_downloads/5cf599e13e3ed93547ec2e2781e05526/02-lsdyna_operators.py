@@ -16,11 +16,16 @@ from ansys.dpf.core import examples
 # d3plot file results extraction
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create the model and print its contents. This LS-DYNA d3plot file contains
-# several individual results, each at different times.
+# several individual results, each at different times. The d3plot file does not
+# contain information related to Units. In this case, as the simulation was run
+# through Mechanical, a file.actunits file is produced. If this file is
+# supplemented in the data_sources, the units will be correctly fetched for all
+# resuls in the file as well as for the mesh.
 
 d3plot = examples.download_d3plot_beam()
 ds = dpf.DataSources()
 ds.set_result_file_path(d3plot[0], "d3plot")
+ds.add_file_path(d3plot[3], "actunits")
 model = dpf.Model(ds)
 print(model)
 
@@ -66,8 +71,8 @@ H = model.results.global_total_energy().eval()
 plt.plot(K.time_freq_support.time_frequencies.data, K[0].data, label="Kinetic")
 plt.plot(U.time_freq_support.time_frequencies.data, U[0].data, label="Internal")
 plt.plot(H.time_freq_support.time_frequencies.data, H[0].data, label="Total")
-plt.xlabel("Time")
-plt.ylabel("Energies")
+plt.xlabel("Time ({:s})".format(K.time_freq_support.time_frequencies.unit))
+plt.ylabel("Energies ({:s})".format(K[0].unit))
 plt.legend()
 plt.show()
 
@@ -84,10 +89,17 @@ model = dpf.Model(ds)
 print(model)
 
 ###############################################################################
+# In this case, the Unit System is not attached to the data_source, but it can
+# be directly assigned to the results. As we are employing the dpf.Model API, we
+# only need to assign the Unit System once (the Model will assign it for the
+# rest of the results).
+#
 # Results from the matsum branch of the binout file are a FieldsContainer on a
 # LabelSpace comprised by part IDs. Extract part kinetic energy for all parts:
 
-PKE = model.results.part_kinetic_energy().eval()
+PKE_op = model.results.part_kinetic_energy()
+PKE_op.inputs.unit_system.connect(dpf.unit_systems.solver_mks)
+PKE = PKE_op.eval()
 print(PKE)
 
 ###############################################################################
@@ -106,14 +118,15 @@ PIE = PIE_op.eval()
 rescope_op = dpf.operators.scoping.rescope()
 rescope_op.inputs.fields.connect(PKE.time_freq_support.time_frequencies)
 rescope_op.inputs.mesh_scoping.connect(PKE[0].scoping)
-t_vals = rescope_op.outputs.fields_as_field().data
+t_field = rescope_op.outputs.fields_as_field()
+t_vals = t_field.data
 
 plt.plot(t_vals, PKE.get_field({"part": 50}).data, label="Kinetic, Part 50")
 plt.plot(t_vals, PKE.get_field({"part": 1522}).data, label="Kinetic, Part 1522")
 plt.plot(t_vals, PIE.get_field({"part": 50}).data, label="Internal, Part 50")
 plt.plot(t_vals, PIE.get_field({"part": 1522}).data, label="Internal, Part 1522")
-plt.xlabel("Time")
-plt.ylabel("Energy")
+plt.xlabel("Time ({:s})".format(t_field.unit))
+plt.ylabel("Energy ({:s})".format(PIE.get_field({"part": 50}).unit))
 plt.legend()
 plt.show()
 
@@ -136,7 +149,8 @@ print(FC)
 rescope_op = dpf.operators.scoping.rescope()
 rescope_op.inputs.fields.connect(FC.time_freq_support.time_frequencies)
 rescope_op.inputs.mesh_scoping.connect(FC[0].scoping)
-t_vals = rescope_op.outputs.fields_as_field().data
+t_field = rescope_op.outputs.fields_as_field()
+t_vals = t_field.data
 
 FX = FC.select_component(0)
 FY = FC.select_component(1)
@@ -148,8 +162,8 @@ plt.plot(t_vals, FY.get_field({"interface": 19, "idtype": 0}).data, label="FY, s
 plt.plot(t_vals, FY.get_field({"interface": 19, "idtype": 1}).data, label="FY, master")
 plt.plot(t_vals, FZ.get_field({"interface": 19, "idtype": 0}).data, label="FZ, slave")
 plt.plot(t_vals, FZ.get_field({"interface": 19, "idtype": 1}).data, label="FZ, master")
-plt.xlabel("Time")
+plt.xlabel("Time ({:s})".format(t_field.unit))
 plt.xlim([0, 10])
-plt.ylabel("Contact Force")
+plt.ylabel("Contact Force ({:s})".format(FX.get_field({"interface": 19, "idtype": 0}).unit))
 plt.legend()
 plt.show()

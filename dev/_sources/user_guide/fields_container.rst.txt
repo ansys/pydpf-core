@@ -105,10 +105,27 @@ To access fields for more complex requests, you can use the
  .. code-block:: none
  
      DPF elastic_strain_0.01s Field
-      Location: ElementalNodal
-      Unit: 
-      40 entities 
-      Data:6 components and 320 elementary data 
+     Location: ElementalNodal
+     Unit:
+     40 entities
+     Data: 6 components and 320 elementary data
+     Elemental
+     IDs                   data ()
+     ------------         ----------
+     21                   -5.0964e-07   -5.8226e-07    1.8660e-06    8.3252e-09   -3.3062e-09   -7.7246e-08
+                          -5.7021e-07   -5.7104e-07    1.8996e-06   -9.9354e-10   -3.4486e-08   -7.4886e-08
+                          -6.0495e-07   -6.0408e-07    2.0172e-06    4.9817e-09   -5.5109e-09   -2.1038e-08
+                       ...
+     22                   -5.0964e-07   -5.8226e-07    1.8660e-06   -8.3252e-09   -3.3062e-09    7.7246e-08
+                          -5.6697e-07   -6.1112e-07    1.9950e-06    4.0239e-09    1.0457e-09    1.9740e-08
+                          -6.0495e-07   -6.0408e-07    2.0172e-06   -4.9817e-09   -5.5109e-09    2.1038e-08
+                       ...
+     23                   -3.7887e-07   -4.8075e-07    1.4980e-06    9.6495e-09   -1.1785e-08   -1.6389e-07
+                          -4.6401e-07   -4.6508e-07    1.5451e-06    1.6581e-09   -7.7990e-08   -1.5638e-07
+                          -5.7202e-07   -5.7104e-07    1.9081e-06    4.9200e-09   -3.3430e-08   -8.2869e-08
+                       ...
+     ...
+
       
 Here is a more real-word example:
 
@@ -128,16 +145,48 @@ Here is a more real-word example:
  .. code-block:: none
  
      DPF elastic_strain_1.s_elshape:0 Field
-      Location: ElementalNodal
-      Unit: 
-      203 entities 
-      Data:6 components and 2436 elementary data 
-      
+     Location: ElementalNodal
+     Unit:
+     203 entities
+     Data: 6 components and 2436 elementary data
+     Elemental
+     IDs                   data ()
+     ------------          ----------
+     10791                  9.961283e-05   -1.557876e-05   -6.798322e-05    4.423883e-20    7.823432e-21    4.348549e-06
+                            9.532236e-05   -1.426944e-05   -6.635107e-05    4.234001e-20    1.050099e-20    1.901931e-05
+                            8.607592e-05   -3.046389e-05   -2.422499e-05    3.823384e-20    1.776519e-20    1.917663e-05
+                        ...
+     10790                  9.829979e-05   -8.944115e-06   -8.014052e-05   -5.813971e-21    3.947791e-20    2.315096e-05
+                            9.230295e-05   -1.569666e-05   -6.043398e-05   -6.588927e-21    3.371362e-20    2.682668e-05
+                            1.068346e-04   -1.988030e-05   -6.647159e-05   -6.227784e-21    3.825956e-20    2.475124e-05
+                        ...
+     10785                  8.480231e-05   -1.470483e-05   -5.494706e-05    2.105046e-21    3.093755e-20   -9.940667e-06
+                            7.555470e-05   -2.958404e-05   -1.549013e-05    2.273083e-21    2.002334e-20   -1.064724e-05
+                            7.552039e-05   -2.970292e-05   -1.521445e-05    4.916594e-21    1.996089e-20   -2.255241e-05
+                        ...
+     ...
      DPF elastic_strain_1.s_elshape:1 Field
-      Location: ElementalNodal
-      Unit: 
-      9052 entities 
-      Data:6 components and 37580 elementary data 
+     Location: ElementalNodal
+     Unit:
+     9052 entities
+     Data: 6 components and 37580 elementary data
+     Elemental
+     IDs                   data ()
+     ------------          ----------
+     1                     -2.365747e-04    8.205943e-04   -2.195325e-04    4.799285e-04    2.372855e-04   -8.473678e-06
+                           -5.085632e-04    1.070203e-03   -2.770476e-04   -2.848311e-04    3.473931e-04    4.251066e-06
+                           -4.331823e-04    9.600782e-04   -4.320994e-04   -3.780877e-04   -3.978023e-04   -2.898742e-06
+                        ...
+     8                     -2.388557e-04    8.369775e-04   -2.127467e-04    4.718478e-04    1.823031e-04   -5.630592e-06
+                           -2.600095e-04    7.688167e-04   -1.320574e-04    5.460561e-04    8.167552e-05   -7.558865e-06
+                           -5.470272e-04    9.995268e-04   -1.715976e-04   -3.155533e-04    1.211339e-04   -1.600466e-06
+                        ...
+     15                    -2.588085e-04    7.750597e-04   -1.346239e-04    5.428307e-04    6.121315e-05   -6.311711e-06
+                           -2.671824e-04    7.798763e-04   -1.107667e-04    5.587949e-04   -2.850134e-05    1.501269e-06
+                           -5.611221e-04    1.008660e-03   -1.391484e-04   -3.172989e-04   -2.487912e-05    1.011503e-07
+                        ...
+     ...
+
  
 
 The following example references the available time frequency support to determine which
@@ -210,10 +259,27 @@ You can get an overview of a field's metadata by printing the field:
  .. code-block:: none
  
    DPF elastic_strain_0.01s Field
-      Location: ElementalNodal
-      Unit: 
-      40 entities 
-      Data:6 components and 320 elementary data 
+   Location: ElementalNodal
+   Unit:
+   40 entities
+   Data: 6 components and 320 elementary data
+   Elemental
+   IDs                   data ()
+   ------------          ----------
+   21                    -5.096470e-07   -5.822648e-07    1.866023e-06    8.325266e-09   -3.306256e-09   -7.724631e-08
+                         -5.702127e-07   -5.710485e-07    1.899680e-06   -9.935434e-10   -3.448644e-08   -7.488671e-08
+                         -6.049504e-07   -6.040822e-07    2.017216e-06    4.981728e-09   -5.510947e-09   -2.103890e-08
+                      ...
+   22                    -5.096470e-07   -5.822648e-07    1.866023e-06   -8.325266e-09   -3.306259e-09    7.724629e-08
+                         -5.669729e-07   -6.111289e-07    1.995080e-06    4.023948e-09    1.045763e-09    1.974096e-08
+                         -6.049504e-07   -6.040822e-07    2.017216e-06   -4.981728e-09   -5.510943e-09    2.103889e-08
+                      ...
+   23                    -3.788760e-07   -4.807594e-07    1.498000e-06    9.649583e-09   -1.178512e-08   -1.638991e-07
+                         -4.640120e-07   -4.650817e-07    1.545128e-06    1.658194e-09   -7.799093e-08   -1.563803e-07
+                         -5.720271e-07   -5.710485e-07    1.908120e-06    4.920075e-09   -3.343032e-08   -8.286970e-08
+                      ...
+   ...
+
 
 The next section provides an overview of the metadata associated with the field itself.
 
@@ -222,7 +288,10 @@ Field metadata
 --------------
 A field contains the metadata for the result it is associated with. The metadata 
 includes the location (such as ``Elemental``, ``Nodal``, or
-``ElementalNodal``) and the IDs associated with the location.  
+``ElementalNodal``) and the IDs associated with the location.
+
+The field's scoping defines the order of the data, for example: the first ID in the
+``scoping`` identifies to which entity the first ``entity data`` in the data vector belongs.
 
 To access the scoping of the field, use the ``scoping`` attribute:
 
@@ -306,32 +375,32 @@ interacting with result data is to minimize the exchange of data between
 Python and DPF, either by using operators or by accessing only the data 
 that is needed.
 
-If you need to access the entire array of data, request that the data
-be returned as a ``numpy`` array:
+The field's ``data`` is ordered with respect to its ``scoping ids`` (see above).
+To access the entire array of data as a ``numpy`` array:
 
 .. code::
 
     >>> array = field.data
     >>> array
-    array([[ 4.01372930e+04,  3.85071930e+02, -1.40019130e+07,
-         7.48472351e+02, -2.60259531e+04, -2.62856938e+05],
-       [-1.19228638e+03, -6.18210815e+02, -1.39912700e+07,
-         2.61468994e+03, -1.31871719e+05, -2.59527125e+05],
-       [ 9.02558960e+02,  5.63793152e+02, -1.17102740e+07,
-        -8.99381836e+02, -1.21302727e+05, -2.45666328e+05],
-       ...,
-       [-3.99694531e+04,  1.44622528e+02,  9.62343100e+06,
-        -7.09812073e+02, -2.26106621e+04, -2.23155891e+05],
-       [-4.31104401e+02, -2.67612732e+02,  9.60954800e+06,
-         1.93208755e+02, -1.11580734e+05, -2.24406062e+05],
-       [ 5.56899536e+02,  3.88515320e+02,  1.17119880e+07,
-        -1.68983887e+03, -1.21768023e+05, -2.41346125e+05]])
+    DPFArray([[ 4.01372930e+04,  3.85071930e+02, -1.40019130e+07,
+            7.48472351e+02, -2.60259531e+04, -2.62856938e+05],
+          [-1.19228638e+03, -6.18210815e+02, -1.39912700e+07,
+            2.61468994e+03, -1.31871719e+05, -2.59527125e+05],
+          [ 9.02558960e+02,  5.63793152e+02, -1.17102740e+07,
+           -8.99381836e+02, -1.21302727e+05, -2.45666328e+05],
+          ...,
+          [-3.99694531e+04,  1.44622528e+02,  9.62343100e+06,
+           -7.09812073e+02, -2.26106621e+04, -2.23155891e+05],
+          [-4.31104401e+02, -2.67612732e+02,  9.60954800e+06,
+            1.93208755e+02, -1.11580734e+05, -2.24406062e+05],
+          [ 5.56899536e+02,  3.88515320e+02,  1.17119880e+07,
+           -1.68983887e+03, -1.21768023e+05, -2.41346125e+05]])
 
     This array has 6 components by elementary data (symmetrical tensor XX,YY,ZZ,XY,YZ,XZ).
-    Note that this array is a genuine, local, numpy array.
+    Note that this array is a genuine, local, numpy array (overloaded by the DPFArray).
 
     >>> type(array)
-    numpy.ndarray
+    <class 'ansys.dpf.gate.dpf_array.DPFArray'>
 
 If you need to access an individual node or element, request it
 using either the ``get_entity_data()`` or ``get_entity_data_by_id()`` method:
@@ -341,26 +410,42 @@ using either the ``get_entity_data()`` or ``get_entity_data_by_id()`` method:
     Get the data from the first element in the field.
 
     >>> field.get_entity_data(0)
+    DPFArray([[ 4.01372930e+04,  3.85071930e+02, -1.40019130e+07,
+                7.48472351e+02, -2.60259531e+04, -2.62856938e+05],
+              [-1.19228638e+03, -6.18210815e+02, -1.39912700e+07,
+                2.61468994e+03, -1.31871719e+05, -2.59527125e+05],
+              [ 9.02558960e+02,  5.63793152e+02, -1.17102740e+07,
+               -8.99381836e+02, -1.21302727e+05, -2.45666328e+05],
+              [ 3.97351055e+04, -2.43928162e+02, -1.17250040e+07,
+                6.08324829e+02, -2.46618770e+04, -2.43019891e+05],
+              [-4.01372930e+04, -3.85071625e+02,  1.40019130e+07,
+                7.48472534e+02, -2.60259531e+04,  2.62856938e+05],
+              [ 1.19228601e+03,  6.18211121e+02,  1.39912700e+07,
+                2.61468970e+03, -1.31871719e+05,  2.59527125e+05],
+              [-9.02558777e+02, -5.63793701e+02,  1.17102740e+07,
+               -8.99382568e+02, -1.21302727e+05,  2.45666328e+05],
+              [-3.97351016e+04,  2.43927902e+02,  1.17250040e+07,
+                6.08326172e+02, -2.46618770e+04,  2.43019891e+05]])
 
     Get the data for the element with ID 10.
 
     >>> field.get_entity_data_by_id(10)
-    array([[ 4.99232031e+04,  1.93570602e+02, -3.08514075e+06,
-        -5.48255615e+02, -1.37476562e+04,  1.34827719e+05],
-       [ 5.23090469e+04, -1.87847885e+02, -1.98004588e+06,
-        -1.12942969e+03, -1.11147285e+04,  1.09223398e+05],
-       [-4.90510511e+00, -1.16425255e+02, -1.96296662e+06,
-        -5.48878540e+02, -5.48524844e+04,  1.09255164e+05],
-       [ 2.63994884e+01,  1.50431015e+02, -3.06906050e+06,
-        -1.17046680e+03, -6.76924219e+04,  1.34773391e+05],
-       [-4.99232031e+04, -1.93571167e+02,  3.08514075e+06,
-        -5.48256836e+02, -1.37476562e+04, -1.34827719e+05],
-       [-5.23090469e+04,  1.87848083e+02,  1.98004588e+06,
-        -1.12943201e+03, -1.11147295e+04, -1.09223398e+05],
-       [ 4.90471840e+00,  1.16423714e+02,  1.96296662e+06,
-        -5.48877380e+02, -5.48524844e+04, -1.09255164e+05],
-       [-2.63994102e+01, -1.50429443e+02,  3.06906050e+06,
-        -1.17046619e+03, -6.76924219e+04, -1.34773391e+05]])
+    DPFArray([[ 4.99232031e+04,  1.93570602e+02, -3.08514075e+06,
+           -5.48255615e+02, -1.37476562e+04,  1.34827719e+05],
+          [ 5.23090469e+04, -1.87847885e+02, -1.98004588e+06,
+           -1.12942969e+03, -1.11147285e+04,  1.09223398e+05],
+          [-4.90510511e+00, -1.16425255e+02, -1.96296662e+06,
+           -5.48878540e+02, -5.48524844e+04,  1.09255164e+05],
+          [ 2.63994884e+01,  1.50431015e+02, -3.06906050e+06,
+           -1.17046680e+03, -6.76924219e+04,  1.34773391e+05],
+          [-4.99232031e+04, -1.93571167e+02,  3.08514075e+06,
+           -5.48256836e+02, -1.37476562e+04, -1.34827719e+05],
+          [-5.23090469e+04,  1.87848083e+02,  1.98004588e+06,
+           -1.12943201e+03, -1.11147295e+04, -1.09223398e+05],
+          [ 4.90471840e+00,  1.16423714e+02,  1.96296662e+06,
+           -5.48877380e+02, -5.48524844e+04, -1.09255164e+05],
+          [-2.63994102e+01, -1.50429443e+02,  3.06906050e+06,
+           -1.17046619e+03, -6.76924219e+04, -1.34773391e+05]])
 
     Note that this would correspond to an index of 29 within the
     field. Be aware that scoping IDs are not sequential. You would
@@ -375,7 +460,7 @@ using either the ``get_entity_data()`` or ``get_entity_data_by_id()`` method:
     To get the displacement on node 3, you would use:
     >>> disp = model.results.displacement.eval()[0]
     >>> disp.get_entity_data_by_id(3)
-    array([[8.06571808e-14, 4.03580652e-04, 2.61804706e-05]])
+    DPFArray([[8.06571808e-14, 4.03580652e-04, 2.61804706e-05]])
     
     One 3D vector (X,Y,Z) displacement
 
@@ -410,13 +495,13 @@ the field while returning the field:
 
     >>> max_field = field.max()
     >>> max_field.data
-    array([0.12492393, 0.06738043, 0.05854268, 0.05807593, 0.08250141,
-       0.2068032 ])
+    DPFArray([22083762.  , 22406040.  , 52603044.  ,  1623704.25,  2443320.75,
+           5014283.5 ])
 
     Get the element or node ID of the maximum value.
 
     >>> max_field.scoping.ids
-    [369, 1073, 1031, 1040, 2909, 2909]
+    DPFArray([39, 39, 39, 40, 39, 39])
 
 
 This example uses the ``elemental_mean`` operator to compute the 

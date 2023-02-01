@@ -768,10 +768,15 @@ to download the full example code</p>
 <section id="d3plot-file-results-extraction">
 <h1>d3plot file results extraction<a class="headerlink" href="#d3plot-file-results-extraction" title="Permalink to this heading">#</a></h1>
 <p>Create the model and print its contents. This LS-DYNA d3plot file contains
-several individual results, each at different times.</p>
+several individual results, each at different times. The d3plot file does not
+contain information related to Units. In this case, as the simulation was run
+through Mechanical, a file.actunits file is produced. If this file is
+supplemented in the data_sources, the units will be correctly fetched for all
+resuls in the file as well as for the mesh.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">d3plot</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_d3plot_beam</span><span class="p">()</span>
 <span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
 <span class="n">ds</span><span class="o">.</span><span class="n">set_result_file_path</span><span class="p">(</span><span class="n">d3plot</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;d3plot&quot;</span><span class="p">)</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">add_file_path</span><span class="p">(</span><span class="n">d3plot</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;actunits&quot;</span><span class="p">)</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
@@ -779,7 +784,7 @@ several individual results, each at different times.</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
 ------------------------------
 Unknown analysis
-Unit system: Undefined
+Unit system: NMM: mm, ton, N, s, mA, degC
 Physics Type: Unknown
 Available results:
      -  global_kinetic_energy: TimeFreq_steps Global Kinetic Energy
@@ -811,12 +816,12 @@ Available results:
 DPF  Meshed Region:
   1940 nodes
   2056 elements
-  Unit:
+  Unit: mm
   With solid (3D) elements, beam (1D) elements
 ------------------------------
 DPF  Time/Freq Support:
   Number of sets: 12
-Cumulative     Frequency ()   LoadStep       Substep
+Cumulative     Time (s)       LoadStep       Substep
 1              0.000000       1              1
 2              0.997460       2              1
 3              1.997818       3              1
@@ -874,8 +879,8 @@ entity, but are global variables of the model.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Kinetic&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">H</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Total&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Energies&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (</span><span class="si">{:s}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Energies (</span><span class="si">{:s}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1947,9 +1952,15 @@ Cumulative     Frequency ()   LoadStep       Substep
 1010           99.999969      1010           1
 </pre></div>
 </div>
+<p>In this case, the Unit System is not attached to the data_source, but it can
+be directly assigned to the results. As we are employing the dpf.Model API, we
+only need to assign the Unit System once (the Model will assign it for the
+rest of the results).</p>
 <p>Results from the matsum branch of the binout file are a FieldsContainer on a
 LabelSpace comprised by part IDs. Extract part kinetic energy for all parts:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PKE</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">part_kinetic_energy</span><span class="p">()</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PKE_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">part_kinetic_energy</span><span class="p">()</span>
+<span class="n">PKE_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">unit_system</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">unit_systems</span><span class="o">.</span><span class="n">solver_mks</span><span class="p">)</span>
+<span class="n">PKE</span> <span class="o">=</span> <span class="n">PKE_op</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">PKE</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2102,14 +2113,15 @@ the binout file. Thus, a rescoping operation is needed:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rescope_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">rescope</span><span class="p">()</span>
 <span class="n">rescope_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">PKE</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="p">)</span>
 <span class="n">rescope_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">PKE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scoping</span><span class="p">)</span>
-<span class="n">t_vals</span> <span class="o">=</span> <span class="n">rescope_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_as_field</span><span class="p">()</span><span class="o">.</span><span class="n">data</span>
+<span class="n">t_field</span> <span class="o">=</span> <span class="n">rescope_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_as_field</span><span class="p">()</span>
+<span class="n">t_vals</span> <span class="o">=</span> <span class="n">t_field</span><span class="o">.</span><span class="n">data</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">PKE</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;part&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Kinetic, Part 50&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">PKE</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;part&quot;</span><span class="p">:</span> <span class="mi">1522</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Kinetic, Part 1522&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">PIE</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;part&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal, Part 50&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">PIE</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;part&quot;</span><span class="p">:</span> <span class="mi">1522</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal, Part 1522&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Energy&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (</span><span class="si">{:s}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t_field</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Energy (</span><span class="si">{:s}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PIE</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;part&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">})</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -2139,7 +2151,8 @@ the three components are available.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rescope_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">rescope</span><span class="p">()</span>
 <span class="n">rescope_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">FC</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="p">)</span>
 <span class="n">rescope_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">FC</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scoping</span><span class="p">)</span>
-<span class="n">t_vals</span> <span class="o">=</span> <span class="n">rescope_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_as_field</span><span class="p">()</span><span class="o">.</span><span class="n">data</span>
+<span class="n">t_field</span> <span class="o">=</span> <span class="n">rescope_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_as_field</span><span class="p">()</span>
+<span class="n">t_vals</span> <span class="o">=</span> <span class="n">t_field</span><span class="o">.</span><span class="n">data</span>
 
 <span class="n">FX</span> <span class="o">=</span> <span class="n">FC</span><span class="o">.</span><span class="n">select_component</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">FY</span> <span class="o">=</span> <span class="n">FC</span><span class="o">.</span><span class="n">select_component</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -2151,14 +2164,14 @@ the three components are available.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">FY</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;idtype&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;FY, master&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">FZ</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;idtype&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;FZ, slave&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">FZ</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;idtype&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;FZ, master&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (</span><span class="si">{:s}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t_field</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Contact Force&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Contact Force (</span><span class="si">{:s}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">FX</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;idtype&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_02-lsdyna_operators_005.png" srcset="../../_images/sphx_glr_02-lsdyna_operators_005.png" alt="02 lsdyna operators" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  11.131 seconds)</p>
+<img src="../../_images/sphx_glr_02-lsdyna_operators_005.png" srcset="../../_images/sphx_glr_02-lsdyna_operators_005.png" alt="02 lsdyna operators" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  11.695 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-01-transient-analyses-02-lsdyna-operators-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/5cf599e13e3ed93547ec2e2781e05526/02-lsdyna_operators.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-lsdyna_operators.py</span></code></a></p>
