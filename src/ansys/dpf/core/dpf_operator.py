@@ -20,6 +20,7 @@ from ansys.dpf.core.common import types_enum_to_types
 from ansys.dpf.core.outputs import Output, Outputs, _Outputs
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.operator_specification import Specification
+from ansys.dpf.core.unit_system import UnitSystem
 from ansys.dpf.gate import (
     operator_capi,
     operator_abstract_api,
@@ -250,6 +251,11 @@ class Operator:
                 label_space=inpt, obj=self, server=self._server
             )
             self._api.operator_connect_label_space(self, pin, label_space_to_con)
+        elif isinstance(inpt, UnitSystem):
+            if inpt.ID != -2:  # Ansys UnitSystem
+                self.connect(pin, inpt.ID)
+            else:  # Custom UnitSystem
+                self.connect(pin, inpt.unit_names)
         else:
             if isinstance(inpt, os.PathLike):
                 inpt = str(inpt)

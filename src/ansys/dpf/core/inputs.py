@@ -75,6 +75,11 @@ class Input:
             inpt = inpt.metadata.data_sources
         elif isinstance(inpt, Path):
             inpt = str(inpt)
+        elif isinstance(inpt, core.UnitSystem):
+            if inpt.ID != -2:  # Ansys UnitSystem
+                inpt = inpt.ID
+            else:  # Custom UnitSystem
+                inpt = inpt.unit_names
 
         input_type_name = type(inpt).__name__
         if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
