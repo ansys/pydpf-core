@@ -192,7 +192,7 @@ Get the phase and amplitude and then plot it over frequencies.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.172 seconds)
+   **Total running time of the script:** ( 0 minutes  0.203 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_01-solve_harmonic_problem.py:
