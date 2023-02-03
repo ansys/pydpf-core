@@ -153,7 +153,7 @@ Export the result fields container to a CSV file.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.017 seconds)
+   **Total running time of the script:** ( 0 minutes  0.751 seconds)
 
 
 .. _sphx_glr_download_examples_04-file-IO_01-reduced_matrices_export.py:
