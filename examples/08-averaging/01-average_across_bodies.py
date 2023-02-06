@@ -17,7 +17,7 @@ of a postprocessing workflow can be different when averaging and when not.
 
 .. note::
     This example requires DPF 6.1 or above.
-    For more information, see :ref:`_ref_compatibility`.
+    For more information, see :ref:`ref_compatibility`.
 
 .. note::
     This example requires the Premium Server Context.
