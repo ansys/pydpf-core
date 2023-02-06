@@ -47,11 +47,12 @@ class Field(_FieldBase):
     nature : :class:`ansys.dpf.core.common.natures`, optional
         Nature of the field.
     location : str, optional
-        Location of the field.  Options are:
+        Location of the field.  Options are in :class:`locations <ansys.dpf.core.common.locations>`
 
-        - ``dpf.locations.nodal``==``"Nodal"``
-        - ``dpf.locations.elemental``==``"Elemental"``
-        - ``dpf.locations.elemental_nodal``==``"ElementalNodal"``
+        - ``dpf.locations.nodal``
+        - ``dpf.locations.elemental``
+        - ``dpf.locations.elemental_nodal``
+        - ...
 
     field : Field, ansys.grpc.dpf.field_pb2.Field, ctypes.c_void_p, optional
         Field message generated from a gRPC stub, or returned by DPF's C clients.
@@ -248,8 +249,7 @@ class Field(_FieldBase):
         Returns
         -------
         str
-            Location string, which can be ``"Nodal"``, ``"Elemental"``,
-            ``"ElementalNodal"``... See :class:`ansys.dpf.core.common.locations`.
+            Location string, Options are in :class:`locations <ansys.dpf.core.common.locations>`.
 
         Examples
         --------
@@ -275,8 +275,7 @@ class Field(_FieldBase):
         Parameters
         -------
         location : str or locations
-            Location string, which can be ``"Nodal"``, ``"Elemental"``,
-            ``"ElementalNodal"``... See :class:`ansys.dpf.core.common.locations`.
+            Location string, Options are in :class:`locations <ansys.dpf.core.common.locations>`.
 
         Examples
         --------
