@@ -158,7 +158,7 @@ Create data on different servers
       2                      2.000000e+00
                      
 
-     <class 'ansys.dpf.core.server_types.InProcessServer'> DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 3412, 'server_version': '6.1', 'os': 'nt'}
+     <class 'ansys.dpf.core.server_types.InProcessServer'> DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 4500, 'server_version': '6.1', 'os': 'nt'}
     DPF  Field
       Location: Nodal
       Unit: 
@@ -172,7 +172,7 @@ Create data on different servers
       2                      2.000000e+00
                      
 
-     <class 'ansys.dpf.core.server_types.GrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50056, 'server_process_id': 1084, 'server_version': '6.1', 'os': 'nt'}
+     <class 'ansys.dpf.core.server_types.GrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50056, 'server_process_id': 1276, 'server_version': '6.1', 'os': 'nt'}
     DPF  Field
       Location: Nodal
       Unit: 
@@ -186,7 +186,7 @@ Create data on different servers
       2                      2.000000e+00
                      
 
-     <class 'ansys.dpf.core.server_types.LegacyGrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50054, 'server_process_id': 6624, 'server_version': '6.1', 'os': 'nt'}
+     <class 'ansys.dpf.core.server_types.LegacyGrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50054, 'server_process_id': 5632, 'server_version': '6.1', 'os': 'nt'}
 
 
 
@@ -234,7 +234,7 @@ automatically started when a DPF object is created:
       2                      2.000000e+00
                      
 
-     <class 'ansys.dpf.core.server_types.LegacyGrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 6372, 'server_version': '6.1', 'os': 'nt'}
+     <class 'ansys.dpf.core.server_types.LegacyGrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 1008, 'server_version': '6.1', 'os': 'nt'}
 
 
 
