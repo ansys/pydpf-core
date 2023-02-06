@@ -6,6 +6,7 @@ UnitSystem
 """
 from ansys.dpf import core as dpf
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core import server as server_module
 
 
 class UnitSystem:
@@ -41,6 +42,9 @@ class UnitSystem:
         >>> from ansys.dpf import core as dpf
         >>> my_unit_system = dpf.UnitSystem("my_mks", unit_names="m;kg;s;degF;C;rad")
         """
+        server = server_module.get_or_create_server(dpf.SERVER)
+        if not server.meet_version("6.1"):  # pragma: no cover
+            raise dpf_errors.DpfVersionNotSupported("6.1")
         if not isinstance(name, str):
             raise dpf_errors.InvalidTypeError("str", "name")
 
