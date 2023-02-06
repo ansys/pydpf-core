@@ -5,8 +5,9 @@ from ansys.dpf import core as dpf
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="LS-DYNA source operators where not supported before 0.6",
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1,
+    reason="LS-DYNA source operators where not supported before 6.0,"
+    " and unit systems where not supported before 6.1.",
 )
 def test_lsdyna_generic(d3plot_files):
     ds = dpf.DataSources()
@@ -139,8 +140,9 @@ def test_lsdyna_generic(d3plot_files):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="LS-DYNA source operators where not supported before 0.6",
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1,
+    reason="LS-DYNA source operators where not supported before 6.0,"
+    " and unit systems where not supported before 6.1.",
 )
 def test_lsdyna_beam(d3plot_beam):
     ds = dpf.DataSources()
@@ -313,8 +315,9 @@ def test_lsdyna_beam(d3plot_beam):
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="LS-DYNA source operators where not supported before 0.6",
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1,
+    reason="LS-DYNA source operators where not supported before 6.0,"
+    " and unit systems where not supported before 6.1.",
 )
 def test_lsdyna_matsum_rcforc(binout_matsum):
     ds = dpf.DataSources()
@@ -497,7 +500,7 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
 
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="LS-DYNA source operators where not supported before 0.6",
+    reason="LS-DYNA source operators where not supported before 6.0",
 )
 def test_lsdyna_glstat(binout_glstat):
     ds = dpf.DataSources()

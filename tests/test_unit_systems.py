@@ -5,8 +5,8 @@ from ansys.dpf.core import errors as dpf_errors
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="unit systems where not supported before 0.6",
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1,
+    reason="Unit systems where not supported before 6.1.",
 )
 def test_predefined_unit_systems():
     # Test IDs of the predefined ones
@@ -30,8 +30,8 @@ def test_predefined_unit_systems():
 
 
 @pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="unit systems where not supported before 0.6",
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1,
+    reason="Unit systems where not supported before 6.1.",
 )
 def test_unit_system_api():
     # Create custom units from ID
