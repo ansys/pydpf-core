@@ -210,6 +210,9 @@ def cyclic_multistage():
     return core.examples.download_multi_stage_cyclic_result()
 
 
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1 = meets_version(
+    get_server_version(core._global_server()), "6.1"
+)
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 = meets_version(
     get_server_version(core._global_server()), "6.0"
 )
