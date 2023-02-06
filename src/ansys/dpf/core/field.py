@@ -49,9 +49,9 @@ class Field(_FieldBase):
     location : str, optional
         Location of the field.  Options are:
 
-        - ``"Nodal"``
-        - ``"Elemental"``
-        - ``"ElementalNodal"``
+        - ``dpf.locations.nodal``==``"Nodal"``
+        - ``dpf.locations.elemental``==``"Elemental"``
+        - ``dpf.locations.elemental_nodal``==``"ElementalNodal"``
 
     field : Field, ansys.grpc.dpf.field_pb2.Field, ctypes.c_void_p, optional
         Field message generated from a gRPC stub, or returned by DPF's C clients.

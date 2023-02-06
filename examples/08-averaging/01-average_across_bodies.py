@@ -281,7 +281,7 @@ is {:.2f}% LOWER than when it is NOT PERFORMED".format(
 stress_op = ops.result.stress_eqv_as_mechanical()
 stress_op.inputs.time_scoping.connect([time_set])
 stress_op.inputs.data_sources.connect(model)
-stress_op.inputs.requested_location.connect("Nodal")
+stress_op.inputs.requested_location.connect(dpf.locations.nodal)
 stress_op.inputs.average_across_bodies.connect(False)
 
 print(stress_op.outputs.fields_container())

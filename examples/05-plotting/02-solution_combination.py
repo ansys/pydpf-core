@@ -11,7 +11,7 @@ And highlight min/max values in the plot.
 """
 
 ###############################################################################
-# Import the ``dpf_core`` module, included examples file, and the ``DpfPlotter``
+# Import the ``ansys.dpf.core`` module, included examples file, and the ``DpfPlotter``
 # module.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
@@ -35,21 +35,21 @@ print(model)
 
 ###############################################################################
 # Get the stress tensor and ``connect`` time scoping.
-# Make sure that you define ``"Nodal"`` as the scoping location because
+# Make sure that you define ``dpf.locations.nodal`` as the scoping location because
 # labels are supported only for nodal results.
 #
 stress_tensor = model.results.stress()
 time_scope = dpf.Scoping()
 time_scope.ids = [1, 2]
 stress_tensor.inputs.time_scoping.connect(time_scope)
-stress_tensor.inputs.requested_location.connect("Nodal")
+stress_tensor.inputs.requested_location.connect(dpf.locations.nodal)
 
 ###############################################################################
 # This code performs solution combination on two load cases, LC1 and LC2.
 # You can access individual load cases as the fields of a fields container for
 # the stress tensor.
-field_lc1 = stress_tensor.outputs.fields_container.get_data()[0]
-field_lc2 = stress_tensor.outputs.fields_container.get_data()[1]
+field_lc1 = stress_tensor.outputs.fields_container()[0]
+field_lc2 = stress_tensor.outputs.fields_container()[1]
 
 # Scale LC2 to -1.
 stress_tensor_lc2_sc = dpf.operators.math.scale(field=field_lc2, ponderation=-1.0)

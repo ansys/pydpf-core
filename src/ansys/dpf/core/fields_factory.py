@@ -80,9 +80,9 @@ def create_matrix_field(num_entities, num_lines, num_col, location=locations.nod
     location : str, optional
         Location of the field. The default is ``"Nodal"``. For example:
 
-        - :class:`ansys.dpf.core.natures.nodal` (``"Nodal"``)
-        - :class:`ansys.dpf.core.natures.elemental` (``"Elemental"``)
-        - :class:`ansys.dpf.core.natures.elemental_nodal` (``"ElementalNodal"``)
+        - :class:`ansys.dpf.core.locations.nodal` (``"Nodal"``)
+        - :class:`ansys.dpf.core.locations.elemental` (``"Elemental"``)
+        - :class:`ansys.dpf.core.locations.elemental_nodal` (``"ElementalNodal"``)
         - ...
 
     server : ansys.dpf.core.server, optional
