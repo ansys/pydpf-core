@@ -1,9 +1,10 @@
 import os
+from glob import glob
 from datetime import datetime
 
 import numpy as np
 import pyvista
-from ansys.dpf.core import __version__
+from ansys.dpf.core import __version__, server
 from ansys_sphinx_theme import pyansys_logo_black, ansys_favicon, get_version_match
 
 # Manage errors
@@ -36,6 +37,33 @@ version = __version__
 # The full version, including alpha/beta/rc tags
 release = __version__
 
+# -- Rename files to be ignored with the ignored pattern ---------------------
+
+# Get the DPF server version
+server = server.get_or_create_server(None)
+server_version = server.version
+server.shutdown()
+print(f"DPF version: {server_version}")
+ignored_pattern = r""
+for example in glob(r"../../examples/**/*.py"):
+    version_flag = "This example requires DPF"
+    example_name = example.split(os.path.sep)[-1]
+    with open(example, "r") as f:
+        minimum_version_str = 0
+        for line in f:
+            if version_flag in line:
+                minimum_version_str = line.strip(version_flag).split()[0]
+                break
+    if float(server_version) - float(minimum_version_str) < -0.05:
+        print(f"Example {example_name} skipped as it requires DPF {minimum_version_str}.")
+        if ignored_pattern == "":
+            ignored_pattern += r"("
+        else:
+            ignored_pattern += "|"
+        ignored_pattern += f"{example_name}"
+
+if ignored_pattern != "":
+    ignored_pattern += r")"
 
 # -- General configuration ---------------------------------------------------
 
@@ -120,7 +148,7 @@ def reset_servers(gallery_conf, fname, when):
                 nb_procs += 1
         except psutil.NoSuchProcess:
             pass
-    print(f"Counted {nb_procs} {proc_name} processes {when} the example.")
+    print(f"Counted {nb_procs} {proc_name} processes {when} example {fname}.")
 
 
 sphinx_gallery_conf = {
@@ -134,6 +162,8 @@ sphinx_gallery_conf = {
     "gallery_dirs": ["examples"],
     # Pattern to search for example files
     "filename_pattern": r"\.py",
+    # Pattern to search for example files to be ignored
+    "ignore_pattern": ignored_pattern,
     # Remove the "Download all examples" button from the top level gallery
     "download_all_examples": False,
     # Sort gallery example by file name instead of number of lines (default)
