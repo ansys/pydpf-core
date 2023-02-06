@@ -436,9 +436,9 @@ geometrical, and logical transformations. For more information on this library,
 which is progressively enhanced, see <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>.</p>
 <section id="create-operators">
 <h2>Create operators<a class="headerlink" href="#create-operators" title="Permalink to this heading">#</a></h2>
-<p>Each operator is of type <span class="xref std std-ref">ref_operator</span>. You can create an instance
+<p>Each operator is of type <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ref-operator"><span class="std std-ref">Operator</span></a>. You can create an instance
 in Python with any of the derived classes available in the
-package <span class="xref std std-ref">ref_operators_package</span> or directly with the <span class="xref std std-ref">ref_operator</span>
+package <span class="xref std std-ref">ref_operators_package</span> or directly with the <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ref-operator"><span class="std std-ref">Operator</span></a>
 class using the internal name string that indicates the operator type.
 For more information, see <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>.</p>
 <p>This example shows how to create the displacement operator:</p>
@@ -486,8 +486,8 @@ available results for your result files:</p>
 results, you must provide paths for the result files.</p>
 <p>You can create data sources in two ways:</p>
 <ul class="simple">
-<li><p>Use the <span class="xref std std-ref">ref_model</span> class.</p></li>
-<li><p>Use the <span class="xref std std-ref">ref_data_sources</span> class.</p></li>
+<li><p>Use the <a class="reference internal" href="../api/ansys.dpf.core.model.html#ref-model"><span class="std std-ref">Model</span></a> class.</p></li>
+<li><p>Use the <a class="reference internal" href="../api/ansys.dpf.core.data_sources.html#ref-data-sources"><span class="std std-ref">Data Sources</span></a> class.</p></li>
 </ul>
 <p>Because several other examples use the <code class="docutils literal notranslate"><span class="pre">Model</span></code> class, this example uses the
 <code class="docutils literal notranslate"><span class="pre">DataSources</span></code> class:</p>
@@ -508,7 +508,7 @@ Secondary files:
 </pre></div>
 </div>
 <p>You can connect other optional inputs to the displacement operator.
-The output from printing the operator shows that a <code class="docutils literal notranslate"><span class="pre">mesh_scoping</span></code> of type <span class="xref std std-ref">ref_scoping</span>
+The output from printing the operator shows that a <code class="docutils literal notranslate"><span class="pre">mesh_scoping</span></code> of type <a class="reference internal" href="../api/ansys.dpf.core.scoping.html#ref-scoping"><span class="std std-ref">Scoping</span></a>
 can be connected to work on a spatial subset. A <code class="docutils literal notranslate"><span class="pre">time_scoping</span></code> of a list of integers
 can also be connected to work on a temporal subset:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">mesh_scoping_factory</span><span class="o">.</span><span class="n">nodal_scoping</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
@@ -519,7 +519,7 @@ can also be connected to work on a temporal subset:</p>
 </section>
 <section id="evaluate-operators">
 <h2>Evaluate operators<a class="headerlink" href="#evaluate-operators" title="Permalink to this heading">#</a></h2>
-<p>With all the required inputs assigned, you can output the <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.fields_container</span></code>
+<p>With all the required inputs assigned, you can output the <a class="reference internal" href="../api/ansys.dpf.core.fields_container.html#module-ansys.dpf.core.fields_container" title="ansys.dpf.core.fields_container"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.fields_container</span></code></a>
 class from the operator:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">fc</span><span class="p">)</span>
@@ -597,7 +597,7 @@ the result to Python.</p>
 </pre></div>
 </div>
 <p>This automatically connects the matching <code class="docutils literal notranslate"><span class="pre">displacement</span></code> output with the
-matching <code class="docutils literal notranslate"><span class="pre">min_max</span></code> input. You can also use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">connect()</span></code> method to manually connect
+matching <code class="docutils literal notranslate"><span class="pre">min_max</span></code> input. You can also use the <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator.connect" title="ansys.dpf.core.dpf_operator.Operator.connect"><code class="xref py py-meth docutils literal notranslate"><span class="pre">connect()</span></code></a> method to manually connect
 the outputs of one operator to the inputs of another operator:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">min_max</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max</span><span class="p">()</span>
 <span class="n">min_max</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">displacement</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
@@ -729,7 +729,7 @@ Downloading...: 759 KB|
 <h2>API reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">#</a></h2>
 <p>For a list of all operators in DPF, see <a class="reference internal" href="../operator_reference.html#ref-dpf-operators-reference"><span class="std std-ref">Operators</span></a>
 or the package <span class="xref std std-ref">ref_operators_package</span>.  For more information about the
-class itself, see <span class="xref std std-ref">ref_operator</span>.</p>
+class itself, see <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ref-operator"><span class="std std-ref">Operator</span></a>.</p>
 </section>
 </section>
 

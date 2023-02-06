@@ -100,7 +100,7 @@ meshes.plot(text="Body meshes")
 
 ###############################################################################
 # Workflow for not averaging across bodies
-# ---------------------------------
+# ----------------------------------------
 # Computing Von Mises stresses without averaging across the bodies of the
 # model requires the stresses to be extracted separately for each body.
 # To do this in DPF, pass a scopings container the stress operator that
@@ -176,7 +176,7 @@ def not_average_across_bodies(analysis):
 
 ###############################################################################
 # Workflow for averaging across bodies
-# -----------------------------------
+# ------------------------------------
 # The workflow for performing averaging across bodies in DPF is similar to to the
 # one shown above, with the extraction of stresses per body. The difference comes
 # in the end, where a weighted merge is done between the fields that contain different
@@ -268,7 +268,7 @@ is {:.2f}% LOWER than when it is NOT PERFORMED".format(
 
 ###############################################################################
 # Dedicated Operator
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~
 #
 # .. note::
 #     The operator detailed below is available in Ansys 23R2 and later versions.

@@ -778,8 +778,8 @@ For more information, see <a class="reference internal" href="../../user_guide/s
 <h2>Create the operator<a class="headerlink" href="#create-the-operator" title="Permalink to this heading">#</a></h2>
 <p>Creating a basic operator plugin consists of writing a single Python script.
 An operator implementation derives from the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.CustomOperatorBase</span></code> class
-and a call to the <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.record_operator()</span></code>
+<a class="reference internal" href="../../api/ansys.dpf.core.custom_operator.html#ansys.dpf.core.custom_operator.CustomOperatorBase" title="ansys.dpf.core.custom_operator.CustomOperatorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.CustomOperatorBase</span></code></a> class
+and a call to the <a class="reference internal" href="../../api/ansys.dpf.core.custom_operator.html#ansys.dpf.core.custom_operator.record_operator" title="ansys.dpf.core.custom_operator.record_operator"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.record_operator()</span></code></a>
 method.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">easy_statistics</span></code> operator takes a field as an input and returns
 the first quartile, the median, the third quartile, and the variance.
@@ -897,7 +897,7 @@ def load_operators(*args):
 </section>
 <section id="load-the-plugin">
 <h2>Load the plugin<a class="headerlink" href="#load-the-plugin" title="Permalink to this heading">#</a></h2>
-<p>You use the <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code> method to load the
+<p>You use the <a class="reference internal" href="../../api/ansys.dpf.core.core.html#ansys.dpf.core.core.load_library" title="ansys.dpf.core.core.load_library"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code></a> method to load the
 plugin.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># - The first argument is the path to the directory where the plugin</span>
 <span class="c1">#   is located.</span>
@@ -960,7 +960,7 @@ third quartile is 1.4276663319275634e-08
 variance is 3.054190175494998e-17
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.909 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.066 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-07-python-operators-00-wrapping-numpy-capabilities-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/ed1907232d69ade0798fc5971e321e6c/00-wrapping_numpy_capabilities.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-wrapping_numpy_capabilities.py</span></code></a></p>

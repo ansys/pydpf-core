@@ -750,7 +750,7 @@ material properties of each element using PyDPF-Core.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_simple_bar</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>Get the <code class="xref py py-class docutils literal notranslate"><span class="pre">meshed_region</span></code>
+<p>Get the <a class="reference internal" href="../../api/ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">meshed_region</span></code></a>
 from model’s metadata.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
@@ -763,7 +763,7 @@ from model’s metadata.</p>
   With solid (3D) elements
 </pre></div>
 </div>
-<p>See available properties in the <code class="xref py py-class docutils literal notranslate"><span class="pre">meshed_region</span></code>.</p>
+<p>See available properties in the <a class="reference internal" href="../../api/ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion"><code class="xref py py-class docutils literal notranslate"><span class="pre">meshed_region</span></code></a>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">available_property_fields</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -774,7 +774,7 @@ from model’s metadata.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mats</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">property_field</span><span class="p">(</span><span class="s2">&quot;mat&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Use the DPF operator <code class="xref py py-class docutils literal notranslate"><span class="pre">mapdl_material_properties</span></code>
+<p>Use the DPF operator <a class="reference internal" href="../../api/ansys.dpf.core.operators.result.mapdl_material_properties.html#ansys.dpf.core.operators.result.mapdl_material_properties.mapdl_material_properties" title="ansys.dpf.core.operators.result.mapdl_material_properties.mapdl_material_properties"><code class="xref py py-class docutils literal notranslate"><span class="pre">mapdl_material_properties</span></code></a>
 to extract data for the # materials - <cite>mats</cite>. For the input
 <code class="docutils literal notranslate"><span class="pre">properties_name</span></code>, you need the correct material property string. To see
 which strings are supported, you can print the operator help.</p>

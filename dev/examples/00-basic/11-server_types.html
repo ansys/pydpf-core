@@ -765,24 +765,24 @@ to download the full example code</p>
 <span id="ref-server-types-example"></span><span id="sphx-glr-examples-00-basic-11-server-types-py"></span><h1>Communicate in process or via gRPC<a class="headerlink" href="#communicate-in-process-or-via-grpc" title="Permalink to this heading">#</a></h1>
 <p>Starting with Ansys 2022 R2, PyDPF can communicate either via In Process or via gRPC
 with DPF C++ core server (<code class="docutils literal notranslate"><span class="pre">Ans.Dpf.Grpc.exe</span></code>). To choose which type of
-<code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_types.BaseServer</span></code> (object defining the type of communication
+<a class="reference internal" href="../../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.BaseServer" title="ansys.dpf.core.server_types.BaseServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_types.BaseServer</span></code></a> (object defining the type of communication
 and the server instance to communicate with) to use, a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_factory.ServerConfig</span></code> class should be used.
+<a class="reference internal" href="../../api/ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.ServerConfig" title="ansys.dpf.core.server_factory.ServerConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_factory.ServerConfig</span></code></a> class should be used.
 Until Ansys 2022R1, only gRPC communication using python module <code class="docutils literal notranslate"><span class="pre">ansys.grpc.dpf</span></code> is supported
-(now called <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_types.LegacyGrpcServer</span></code>), starting with Ansys 2022 R2,
+(now called <a class="reference internal" href="../../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.LegacyGrpcServer" title="ansys.dpf.core.server_types.LegacyGrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_types.LegacyGrpcServer</span></code></a>), starting with Ansys 2022 R2,
 three types of servers are supported:</p>
 <ul class="simple">
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_types.InProcessServer</span></code> loading DPF in process.</p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_types.GrpcServer</span></code> using gRPC communication through the DPF
+<li><p><a class="reference internal" href="../../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.InProcessServer" title="ansys.dpf.core.server_types.InProcessServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_types.InProcessServer</span></code></a> loading DPF in process.</p></li>
+<li><p><a class="reference internal" href="../../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_types.GrpcServer</span></code></a> using gRPC communication through the DPF
 gRPC CLayer <code class="docutils literal notranslate"><span class="pre">Ans.Dpf.GrpcClient</span></code>.</p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_types.LegacyGrpcServer</span></code> using gRPC communication through the
+<li><p><a class="reference internal" href="../../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.LegacyGrpcServer" title="ansys.dpf.core.server_types.LegacyGrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_types.LegacyGrpcServer</span></code></a> using gRPC communication through the
 Python module <code class="docutils literal notranslate"><span class="pre">ansys.grpc.dpf</span></code>.</p></li>
 </ul>
 <p>To change the default type of server’s configuration used by DPF change:</p>
 <ul class="simple">
 <li><p>the global variable <code class="docutils literal notranslate"><span class="pre">SERVER_CONFIGURATION</span></code> at the beginning of the python script.</p></li>
 <li><p>the environment variable <code class="docutils literal notranslate"><span class="pre">DPF_SERVER_TYPE</span></code> before running the python executable, see
-<code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_factory.ServerConfig</span></code> for more information.</p></li>
+<a class="reference internal" href="../../api/ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.ServerConfig" title="ansys.dpf.core.server_factory.ServerConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.server_factory.ServerConfig</span></code></a> for more information.</p></li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 </pre></div>
@@ -844,7 +844,7 @@ Python module <code class="docutils literal notranslate"><span class="pre">ansys
   2                      2.000000e+00
 
 
- &lt;class &#39;ansys.dpf.core.server_types.InProcessServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;&#39;, &#39;server_port&#39;: None, &#39;server_process_id&#39;: 2552, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
+ &lt;class &#39;ansys.dpf.core.server_types.InProcessServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;&#39;, &#39;server_port&#39;: None, &#39;server_process_id&#39;: 3412, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
 DPF  Field
   Location: Nodal
   Unit:
@@ -858,7 +858,7 @@ DPF  Field
   2                      2.000000e+00
 
 
- &lt;class &#39;ansys.dpf.core.server_types.GrpcServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50056, &#39;server_process_id&#39;: 4656, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
+ &lt;class &#39;ansys.dpf.core.server_types.GrpcServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50056, &#39;server_process_id&#39;: 1084, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
 DPF  Field
   Location: Nodal
   Unit:
@@ -872,7 +872,7 @@ DPF  Field
   2                      2.000000e+00
 
 
- &lt;class &#39;ansys.dpf.core.server_types.LegacyGrpcServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50054, &#39;server_process_id&#39;: 2448, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
+ &lt;class &#39;ansys.dpf.core.server_types.LegacyGrpcServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50054, &#39;server_process_id&#39;: 6624, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
 </pre></div>
 </div>
 </section>
@@ -905,10 +905,10 @@ automatically started when a DPF object is created:</p>
   2                      2.000000e+00
 
 
- &lt;class &#39;ansys.dpf.core.server_types.LegacyGrpcServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50055, &#39;server_process_id&#39;: 72, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
+ &lt;class &#39;ansys.dpf.core.server_types.LegacyGrpcServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50055, &#39;server_process_id&#39;: 6372, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.258 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.235 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-11-server-types-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/7c9ba1e7af07b7f46a02d30c998186bb/11-server_types.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">11-server_types.py</span></code></a></p>

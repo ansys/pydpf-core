@@ -739,10 +739,10 @@ to download the full example code</p>
 <section class="sphx-glr-example-title" id="convert-nodal-coordinates-field-to-local-coordinate-system">
 <span id="ref-nodes-in-local-coordinate-system"></span><span id="sphx-glr-examples-09-mesh-operations-13-nodes-in-local-coordinate-system-py"></span><h1>Convert nodal coordinates field to local coordinate system<a class="headerlink" href="#convert-nodal-coordinates-field-to-local-coordinate-system" title="Permalink to this heading">#</a></h1>
 <p>Currently, there is no native operator to get nodal coordinates in an Local
-Coordinate System (LCS). The operator <code class="xref py py-class docutils literal notranslate"><span class="pre">rotate</span></code>
+Coordinate System (LCS). The operator <a class="reference internal" href="../../api/ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate" title="ansys.dpf.core.operators.geo.rotate.rotate"><code class="xref py py-class docutils literal notranslate"><span class="pre">rotate</span></code></a>
 rotates the input field in Global Coordinate System (GCS) as per the input rotation matrix.
 So, if the LCS is at the same origin as the GCS, only one operation using the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">rotate</span></code> operator give the desired output.
+<a class="reference internal" href="../../api/ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate" title="ansys.dpf.core.operators.geo.rotate.rotate"><code class="xref py py-class docutils literal notranslate"><span class="pre">rotate</span></code></a> operator give the desired output.
 However, if the aim is to obtain the LCS in a case where the LCS origin does not coincide with
 the GCS, a transformation is required after the rotation to get the correct coordinates in LCS.</p>
 <p>The script below demonstrates the methodology using PyDPF.</p>
@@ -763,7 +763,7 @@ For more information, see <a class="reference internal" href="../../user_guide/s
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">download_hemisphere</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>Get the property <code class="docutils literal notranslate"><span class="pre">coordinates_field</span></code> from <code class="xref py py-class docutils literal notranslate"><span class="pre">nodes</span></code>:</p>
+<p>Get the property <code class="docutils literal notranslate"><span class="pre">coordinates_field</span></code> from <a class="reference internal" href="../../api/ansys.dpf.core.nodes.html#module-ansys.dpf.core.nodes" title="ansys.dpf.core.nodes"><code class="xref py py-class docutils literal notranslate"><span class="pre">nodes</span></code></a>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ncoord_f</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">coordinates_field</span>
 </pre></div>
 </div>

@@ -447,7 +447,7 @@ function checkPageExistsAndRedirect(event) {
 <span id="user-guide-custom-operators"></span><h1>Custom operators<a class="headerlink" href="#custom-operators" title="Permalink to this heading">#</a></h1>
 <p>In Ansys 2022 R2 and later, you can create custom operators in CPython. Creating custom operators
 consists of wrapping Python routines in a DPF-compliant way so that you can access them in the same way
-as you access the native operators in the <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></code> class in
+as you access the native operators in the <a class="reference internal" href="../api/ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></code></a> class in
 PyDPF-Core or in any supported client API.</p>
 <p>With support for custom operators, PyDPF-Core becomes a development tool offering:</p>
 <ul class="simple">
@@ -504,8 +504,8 @@ with <code class="docutils literal notranslate"><span class="pre">Ansys</span> <
 <section id="basic-operator-plugin">
 <h3>Basic operator plugin<a class="headerlink" href="#basic-operator-plugin" title="Permalink to this heading">#</a></h3>
 <p>To create a basic operator plugin, you write a simple Python script. An operator implementation
-derives from the <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.CustomOperatorBase</span></code> class and a call to
-the <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.record_operator()</span></code> method.</p>
+derives from the <a class="reference internal" href="../api/ansys.dpf.core.custom_operator.html#ansys.dpf.core.custom_operator.CustomOperatorBase" title="ansys.dpf.core.custom_operator.CustomOperatorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.CustomOperatorBase</span></code></a> class and a call to
+the <a class="reference internal" href="../api/ansys.dpf.core.custom_operator.html#ansys.dpf.core.custom_operator.record_operator" title="ansys.dpf.core.custom_operator.record_operator"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.record_operator()</span></code></a> method.</p>
 <p>This example script shows how you create a basic operator plugin:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core.custom_operator</span> <span class="kn">import</span> <span class="n">CustomOperatorBase</span><span class="p">,</span> <span class="n">record_operator</span>  <span class="c1"># noqa: F401</span>
@@ -637,7 +637,7 @@ contain four files:</p>
 and reference a folder or ZIP file with the sites of the dependencies in an XML file
 located next to the folder for the plug-in package. The XML file must have the same
 name as the plug-in package plus an <code class="docutils literal notranslate"><span class="pre">.xml</span></code> extension.</p>
-<p>When the <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code> method is called, PDF-Core uses the
+<p>When the <a class="reference internal" href="../api/ansys.dpf.core.core.html#ansys.dpf.core.core.load_library" title="ansys.dpf.core.core.load_library"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code></a> method is called, PDF-Core uses the
 <code class="docutils literal notranslate"><span class="pre">site</span></code> Python module to add custom sites to the path for the Python interpreter.</p>
 <p>To create these custom sites, do the following:</p>
 <ol class="arabic simple">
@@ -789,7 +789,7 @@ A folder with this name would contain these files:</p>
 </section>
 <section id="use-custom-operators">
 <h2>Use custom operators<a class="headerlink" href="#use-custom-operators" title="Permalink to this heading">#</a></h2>
-<p>Once a custom operator is created, you can use the <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code> method to load it.
+<p>Once a custom operator is created, you can use the <a class="reference internal" href="../api/ansys.dpf.core.core.html#ansys.dpf.core.core.load_library" title="ansys.dpf.core.core.load_library"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code></a> method to load it.
 The first argument is the path to the directory with the plugin. The second argument is <code class="docutils literal notranslate"><span class="pre">py_</span></code> plus any name
 identifying the plugin. The last argument is the function name for recording operators.</p>
 <p>For a plugin that is a single script, the second argument should be <code class="docutils literal notranslate"><span class="pre">py_</span></code> plus the name of the Python file:</p>
@@ -813,7 +813,7 @@ identifying the plugin. The last argument is the function name for recording ope
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
-<p>For more information, see <span class="xref std std-ref">ref_custom_operator</span> in the <strong>API reference</strong>
+<p>For more information, see <a class="reference internal" href="../api/ansys.dpf.core.custom_operator.html#ref-custom-operator"><span class="std std-ref">Custom Operator Base</span></a> in the <strong>API reference</strong>
 and <a class="reference internal" href="../examples/07-python-operators/index.html#python-operators"><span class="std std-ref">Examples of creating custom operator plugins</span></a> in <strong>Examples</strong>.</p>
 </section>
 </section>

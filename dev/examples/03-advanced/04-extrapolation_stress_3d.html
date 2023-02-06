@@ -909,7 +909,7 @@ by applying the extrapolation method.</p>
 <h1>Compare stress results<a class="headerlink" href="#compare-stress-results" title="Permalink to this heading">#</a></h1>
 <p>Compare the stress result computed by extrapolation and the reference’s result.
 Check if the two fields container are identical using the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">identical_fc</span></code> operator.
+<a class="reference internal" href="../../api/ansys.dpf.core.operators.logic.identical_fc.html#module-ansys.dpf.core.operators.logic.identical_fc" title="ansys.dpf.core.operators.logic.identical_fc"><code class="xref py py-class docutils literal notranslate"><span class="pre">identical_fc</span></code></a> operator.
 The relative tolerance is set to 1.1e-6.
 The smallest value that is considered during the comparison step: all the
 <code class="docutils literal notranslate"><span class="pre">abs(values)</span></code> in field less than 1e-2 is considered as null.</p>
@@ -946,7 +946,7 @@ The absolute value is the order of 10, which is very small when compared to the
 magnitude of 1e8 of the displacements. This is reflected in the relative error
 plot, where the errors are found to be below 1.02e-6%. The result of these plots
 can be used to set the tolerances for the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">identical_fc</span></code> operator.</p>
+<a class="reference internal" href="../../api/ansys.dpf.core.operators.logic.identical_fc.html#module-ansys.dpf.core.operators.logic.identical_fc" title="ansys.dpf.core.operators.logic.identical_fc"><code class="xref py py-class docutils literal notranslate"><span class="pre">identical_fc</span></code></a> operator.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">abs_error</span><span class="o">.</span><span class="n">eval</span><span class="p">(),</span> <span class="n">scalar_bar_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Absolute error [mm]&quot;</span><span class="p">})</span>
 <span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rel_error</span><span class="o">.</span><span class="n">eval</span><span class="p">(),</span> <span class="n">scalar_bar_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Relative error [%]&quot;</span><span class="p">})</span>
 </pre></div>
@@ -955,7 +955,7 @@ can be used to set the tolerances for the
 <li><img src="../../_images/sphx_glr_04-extrapolation_stress_3d_004.png" srcset="../../_images/sphx_glr_04-extrapolation_stress_3d_004.png" alt="04 extrapolation stress 3d" class = "sphx-glr-multi-img"/></li>
 <li><img src="../../_images/sphx_glr_04-extrapolation_stress_3d_005.png" srcset="../../_images/sphx_glr_04-extrapolation_stress_3d_005.png" alt="04 extrapolation stress 3d" class = "sphx-glr-multi-img"/></li>
 </ul>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  6.065 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.791 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-03-advanced-04-extrapolation-stress-3d-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/c743cdddb222eb034113118cd4c58391/04-extrapolation_stress_3d.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">04-extrapolation_stress_3d.py</span></code></a></p>

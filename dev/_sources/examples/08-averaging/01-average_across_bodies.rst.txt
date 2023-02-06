@@ -202,7 +202,7 @@ stresses extracted from the model.
 .. GENERATED FROM PYTHON SOURCE LINES 102-108
 
 Workflow for not averaging across bodies
----------------------------------
+----------------------------------------
 Computing Von Mises stresses without averaging across the bodies of the
 model requires the stresses to be extracted separately for each body.
 To do this in DPF, pass a scopings container the stress operator that
@@ -366,7 +366,7 @@ ease of use:
 .. GENERATED FROM PYTHON SOURCE LINES 178-185
 
 Workflow for averaging across bodies
------------------------------------
+------------------------------------
 The workflow for performing averaging across bodies in DPF is similar to to the
 one shown above, with the extraction of stresses per body. The difference comes
 in the end, where a weighted merge is done between the fields that contain different
@@ -547,7 +547,7 @@ Finally, the maximum stresses for both cases can be compared:
 .. GENERATED FROM PYTHON SOURCE LINES 270-280
 
 Dedicated Operator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 .. note::
     The operator detailed below is available in Ansys 23R2 and later versions.
@@ -592,7 +592,7 @@ pin:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.098 seconds)
+   **Total running time of the script:** ( 0 minutes  5.084 seconds)
 
 
 .. _sphx_glr_download_examples_08-averaging_01-average_across_bodies.py:

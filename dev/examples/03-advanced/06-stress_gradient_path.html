@@ -761,7 +761,7 @@ included examples file and <code class="docutils literal notranslate"><span clas
 </pre></div>
 </div>
 <p>Open an example and print out the <code class="docutils literal notranslate"><span class="pre">Model</span></code> object. The
-<code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code> class helps to organize access
+<a class="reference internal" href="../../api/ansys.dpf.core.model.html#ansys.dpf.core.model.Model" title="ansys.dpf.core.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a> class helps to organize access
 methods for the result by keeping track of the operators and data sources
 used by the result file.</p>
 <p>Printing the model displays:</p>
@@ -837,18 +837,18 @@ While defining <code class="docutils literal notranslate"><span class="pre">dept
 </div>
 <p>Define Nodal scoping.
 Make sure to define <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code> as the requested location, important for the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">normals</span></code> operator.</p>
+<a class="reference internal" href="../../api/ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals" title="ansys.dpf.core.operators.geo.normals.normals"><code class="xref py py-class docutils literal notranslate"><span class="pre">normals</span></code></a> operator.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodal_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
 <span class="n">nodal_scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">node_id</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Get Skin Mesh because <code class="xref py py-class docutils literal notranslate"><span class="pre">normals</span></code>
+<p>Get Skin Mesh because <a class="reference internal" href="../../api/ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals" title="ansys.dpf.core.operators.geo.normals.normals"><code class="xref py py-class docutils literal notranslate"><span class="pre">normals</span></code></a>
 operator requires Shells as input.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">skin_mesh</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">skin</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">)</span>
 <span class="n">skin_meshed_region</span> <span class="o">=</span> <span class="n">skin_mesh</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Get normal at a node using <code class="xref py py-class docutils literal notranslate"><span class="pre">normals</span></code>
+<p>Get normal at a node using <a class="reference internal" href="../../api/ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals" title="ansys.dpf.core.operators.geo.normals.normals"><code class="xref py py-class docutils literal notranslate"><span class="pre">normals</span></code></a>
 operator.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">normal</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">geo</span><span class="o">.</span><span class="n">normals</span><span class="p">()</span>
 <span class="n">normal</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">skin_meshed_region</span><span class="p">)</span>
@@ -857,7 +857,7 @@ operator.</p>
 </pre></div>
 </div>
 <p>The normal vector is along the surface normal. You need to invert the vector
-using <code class="xref py py-class docutils literal notranslate"><span class="pre">scale</span></code> operator
+using <a class="reference internal" href="../../api/ansys.dpf.core.operators.math.scale.html#ansys.dpf.core.operators.math.scale.scale" title="ansys.dpf.core.operators.math.scale.scale"><code class="xref py py-class docutils literal notranslate"><span class="pre">scale</span></code></a> operator
 inwards in the geometry, to get the path direction.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">normal_vec_in_field</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">normal_vec_out_field</span><span class="p">,</span> <span class="n">ponderation</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="n">normal_vec_in</span> <span class="o">=</span> <span class="n">normal_vec_in_field</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -917,7 +917,7 @@ inwards in the geometry, to get the path direction.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_06-stress_gradient_path_002.png" srcset="../../_images/sphx_glr_06-stress_gradient_path_002.png" alt="06 stress gradient path" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.517 seconds)</p>
+<img src="../../_images/sphx_glr_06-stress_gradient_path_002.png" srcset="../../_images/sphx_glr_06-stress_gradient_path_002.png" alt="06 stress gradient path" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.306 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-03-advanced-06-stress-gradient-path-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/77fbe97971a36d47af03090e65c5af39/06-stress_gradient_path.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">06-stress_gradient_path.py</span></code></a></p>

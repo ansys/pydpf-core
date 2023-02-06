@@ -763,7 +763,7 @@ same plot so that you can compare results at different time steps.</p>
 </section>
 <section id="compare-two-results">
 <h1>Compare two results<a class="headerlink" href="#compare-two-results" title="Permalink to this heading">#</a></h1>
-<p>Use the <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.plotter.DpfPlotter</span></code> class to plot two different
+<p>Use the <a class="reference internal" href="../../api/ansys.dpf.core.plotter.html#ansys.dpf.core.plotter.DpfPlotter" title="ansys.dpf.core.plotter.DpfPlotter"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.plotter.DpfPlotter</span></code></a> class to plot two different
 results over the same mesh and compare them.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Here we create a Model and request its mesh</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_msup_transient</span><span class="p">())</span>
@@ -776,7 +776,7 @@ results over the same mesh and compare them.</p>
 <span class="n">displacement_set15</span> <span class="o">=</span> <span class="n">displacement_operator</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Use the <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.plotter.DpfPlotter</span></code> class to add plots for the
+<p>Use the <a class="reference internal" href="../../api/ansys.dpf.core.plotter.html#ansys.dpf.core.plotter.DpfPlotter" title="ansys.dpf.core.plotter.DpfPlotter"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.plotter.DpfPlotter</span></code></a> class to add plots for the
 first mesh and the first result.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">DpfPlotter</span><span class="p">()</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">displacement_set2</span><span class="p">,</span> <span class="n">mesh_set2</span><span class="p">)</span>
@@ -796,7 +796,7 @@ first mesh and the first result.</p>
 <span class="n">pl</span><span class="o">.</span><span class="n">show_figure</span><span class="p">(</span><span class="n">show_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_01-compare_results_001.png" srcset="../../_images/sphx_glr_01-compare_results_001.png" alt="01 compare results" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.032 seconds)</p>
+<img src="../../_images/sphx_glr_01-compare_results_001.png" srcset="../../_images/sphx_glr_01-compare_results_001.png" alt="01 compare results" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.985 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-05-plotting-01-compare-results-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/5361b862b67aa6a8cabdd194cb34975f/01-compare_results.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-compare_results.py</span></code></a></p>

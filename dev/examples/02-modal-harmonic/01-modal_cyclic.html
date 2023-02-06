@@ -841,7 +841,7 @@ Cumulative     Frequency (Hz) LoadStep       Substep        Harmonic index
 <h1>Expand displacement results<a class="headerlink" href="#expand-displacement-results" title="Permalink to this heading">#</a></h1>
 <p>This example expands displacement results, by default on all
 nodes and the first time step. Note that the displacements are expanded using
-the <code class="xref py py-func docutils literal notranslate"><span class="pre">read_cyclic</span></code>
+the <a class="reference internal" href="../../api/ansys.dpf.core.operators.mesh.mesh_provider.html#ansys.dpf.core.operators.mesh.mesh_provider.InputsMeshProvider.read_cyclic" title="ansys.dpf.core.operators.mesh.mesh_provider.InputsMeshProvider.read_cyclic"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_cyclic</span></code></a>
 prpoerty with 2 as an argument (1 would ignore the cyclic symmetry).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create displacement cyclic operator</span>
 <span class="n">u_cyc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">operator</span><span class="p">(</span><span class="s2">&quot;mapdl::rst::U_cyclic&quot;</span><span class="p">)</span>
@@ -945,7 +945,7 @@ prpoerty with 2 as an argument (1 would ignore the cyclic symmetry).</p>
 <span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_01-modal_cyclic_002.png" srcset="../../_images/sphx_glr_01-modal_cyclic_002.png" alt="01 modal cyclic" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.049 seconds)</p>
+<img src="../../_images/sphx_glr_01-modal_cyclic_002.png" srcset="../../_images/sphx_glr_01-modal_cyclic_002.png" alt="01 modal cyclic" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.970 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-02-modal-harmonic-01-modal-cyclic-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/0acc81f5457e0fcefb78474197d7139b/01-modal_cyclic.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-modal_cyclic.py</span></code></a></p>

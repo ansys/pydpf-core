@@ -392,8 +392,8 @@ that hold data.</p>
 <section id="access-a-fields-container-or-field">
 <h2>Access a fields container or field<a class="headerlink" href="#access-a-fields-container-or-field" title="Permalink to this heading">#</a></h2>
 <p>The outputs from operators can be either a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.fields_container.FieldsContainer</span></code> or
-<code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code> class.</p>
+<a class="reference internal" href="../api/ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.fields_container.FieldsContainer</span></code></a> or
+<a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> class.</p>
 <p>A fields container is the DPF equivalent of a list of fields. It holds a
 vector of fields.</p>
 <p>This example uses the <code class="docutils literal notranslate"><span class="pre">elastic_strain</span></code> operator to access a fields container:</p>
@@ -579,7 +579,7 @@ time-scoping set IDs.</p>
 </section>
 <section id="field-data">
 <h2>Field data<a class="headerlink" href="#field-data" title="Permalink to this heading">#</a></h2>
-<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code> class is the fundamental unit of data within DPF.
+<p>The <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> class is the fundamental unit of data within DPF.
 It contains the actual data and its metadata, which is results data defined by values
 associated with entities (scoping). These entities are a subset of a model (support).</p>
 <p>In DPF, field data is always associated with its scoping and support, making the field
@@ -684,7 +684,7 @@ units of the data:</p>
 </section>
 <section id="access-field-data">
 <h2>Access field data<a class="headerlink" href="#access-field-data" title="Permalink to this heading">#</a></h2>
-<p>When DPF-Core returns the <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code> class,
+<p>When DPF-Core returns the <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> class,
 what Python actually has is a client-side representation of the field,
 not the entirety of the field itself. This means that all the data of
 the field is stored within the DPF service. This is important because
@@ -829,8 +829,8 @@ Elemental
 </section>
 <section id="api-reference">
 <h2>API reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">#</a></h2>
-<p>For more information, see <span class="xref std std-ref">ref_fields_container</span> and
-<span class="xref std std-ref">ref_field</span> in the <strong>API reference</strong>.</p>
+<p>For more information, see <a class="reference internal" href="../api/ansys.dpf.core.fields_container.html#ref-fields-container"><span class="std std-ref">FieldsContainer</span></a> and
+<a class="reference internal" href="../api/ansys.dpf.core.field.html#ref-field"><span class="std std-ref">Field</span></a> in the <strong>API reference</strong>.</p>
 </section>
 </section>
 

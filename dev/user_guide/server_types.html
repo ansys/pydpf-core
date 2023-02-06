@@ -441,7 +441,7 @@ directly <strong>in the same process</strong> or through the network using <stro
 <section id="dpf-server-in-the-same-process">
 <h2>DPF Server in the same process<a class="headerlink" href="#dpf-server-in-the-same-process" title="Permalink to this heading">#</a></h2>
 <p>Default use of a PyDPF-Core client and a DPF Server is in the same process,
-using the <code class="xref py py-class docutils literal notranslate"><span class="pre">InProcess</span></code> class.</p>
+using the <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.InProcessServer" title="ansys.dpf.core.server_types.InProcessServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">InProcess</span></code></a> class.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="n">local_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">()</span>
 <span class="n">local_server</span>
@@ -462,7 +462,7 @@ using the <code class="xref py py-class docutils literal notranslate"><span clas
 </section>
 <section id="dpf-server-through-the-network-using-grpc">
 <h2>DPF Server through the network using gRPC<a class="headerlink" href="#dpf-server-through-the-network-using-grpc" title="Permalink to this heading">#</a></h2>
-<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code> class is used
+<p>The <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code></a> class is used
 to enable gRPC communication:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="n">grpc_server_config</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span>
@@ -498,7 +498,7 @@ For more information, see <a class="reference internal" href="../examples/06-dis
 <section id="dpf-server-startup-using-a-configuration">
 <h2>DPF Server startup using a configuration<a class="headerlink" href="#dpf-server-startup-using-a-configuration" title="Permalink to this heading">#</a></h2>
 <p>The different DPF server types can be started using one of the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">AvailableServerConfigs</span></code>
+<a class="reference internal" href="../api/ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.AvailableServerConfigs" title="ansys.dpf.core.server_factory.AvailableServerConfigs"><code class="xref py py-class docutils literal notranslate"><span class="pre">AvailableServerConfigs</span></code></a>
 configurations.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">in_process_config</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">InProcessServer</span>
 <span class="n">in_process_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">in_process_config</span><span class="p">)</span>
@@ -514,29 +514,29 @@ configurations.</p>
 <section id="advanced-concepts-and-release-history">
 <h2>Advanced concepts and release history<a class="headerlink" href="#advanced-concepts-and-release-history" title="Permalink to this heading">#</a></h2>
 <p>The communication logic with a DPF server is defined when starting it using
-an instance of the <code class="xref py py-class docutils literal notranslate"><span class="pre">ServerConfig</span></code> class.
+an instance of the <a class="reference internal" href="../api/ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.ServerConfig" title="ansys.dpf.core.server_factory.ServerConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ServerConfig</span></code></a> class.
 Different predefined server configurations are available in DPF,
 each answering a different use case. For more information, see the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">AvailableServerConfigs</span></code> class.</p>
+<a class="reference internal" href="../api/ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.AvailableServerConfigs" title="ansys.dpf.core.server_factory.AvailableServerConfigs"><code class="xref py py-class docutils literal notranslate"><span class="pre">AvailableServerConfigs</span></code></a> class.</p>
 <ul class="simple">
-<li><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code> configuration is available in
+<li><p>The <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code></a> configuration is available in
 server version 4.0 (Ansys 2022 R2) and later. It allows you to remotely connect to a DPF server
 across a network by telling the client to communicate with this server via the gRPC communication protocol.
 Although it can be used to communicate with a DPF server running on the same local machine, the next
 configuration is better for this option.</p></li>
-<li><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">InProcessServer</span></code> configuration is available
+<li><p>The <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.InProcessServer" title="ansys.dpf.core.server_types.InProcessServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">InProcessServer</span></code></a> configuration is available
 in server version 4.0 (Ansys 2022 R2) and later. It indicates to the client that a DPF server is
 installed on the local machine, enabling direct calls to the server binaries from within the client’s
 own Python process. This removes the need to copy and send data between the client and server, and it
 makes calls to the server functionalities much faster and uses less memory.</p></li>
-<li><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">LegacyGrpcServer</span></code> configuration is
+<li><p>The <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.LegacyGrpcServer" title="ansys.dpf.core.server_types.LegacyGrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">LegacyGrpcServer</span></code></a> configuration is
 the only one available for server versions 4.0 and earlier (Ansys 2022 R1, 2021 R2, and 2021 R1).
 The client communicates with a local or remote DPF server via the gRPC communication protocol.</p></li>
 </ul>
-<p>For DPF with Ansys 2023 R1 and later, <code class="xref py py-class docutils literal notranslate"><span class="pre">InProcessServer</span></code>
+<p>For DPF with Ansys 2023 R1 and later, <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.InProcessServer" title="ansys.dpf.core.server_types.InProcessServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">InProcessServer</span></code></a>
 is the default configuration, which means that servers are launched on the local machine.
 To launch a DPF server on a remote machine and communicate with it using gRPC, use
-the <code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code> configuration as shown in <a class="reference internal" href="../examples/00-basic/11-server_types.html#ref-server-types-example"><span class="std std-ref">Communicate in process or via gRPC</span></a>.</p>
+the <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code></a> configuration as shown in <a class="reference internal" href="../examples/00-basic/11-server_types.html#ref-server-types-example"><span class="std std-ref">Communicate in process or via gRPC</span></a>.</p>
 </section>
 </section>
 

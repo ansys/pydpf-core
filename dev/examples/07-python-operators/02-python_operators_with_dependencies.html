@@ -778,8 +778,8 @@ For more information, see <a class="reference internal" href="../../user_guide/s
 <section id="create-the-plug-in-package">
 <h2>Create the plug-in package<a class="headerlink" href="#create-the-plug-in-package" title="Permalink to this heading">#</a></h2>
 <p>Each operator implementation derives from the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.CustomOperatorBase</span></code> class
-and a call to the <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.record_operator()</span></code>
+<a class="reference internal" href="../../api/ansys.dpf.core.custom_operator.html#ansys.dpf.core.custom_operator.CustomOperatorBase" title="ansys.dpf.core.custom_operator.CustomOperatorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.CustomOperatorBase</span></code></a> class
+and a call to the <a class="reference internal" href="../../api/ansys.dpf.core.custom_operator.html#ansys.dpf.core.custom_operator.record_operator" title="ansys.dpf.core.custom_operator.record_operator"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.record_operator()</span></code></a>
 method, which records the operators of the plug-in package.</p>
 <p>Download the <code class="docutils literal notranslate"><span class="pre">gltf_plugin</span></code> plug-in package that has already been
 created for you.</p>
@@ -991,7 +991,7 @@ gltf_plugin.xml
 create and reference a folder or ZIP file with the sites of the dependencies
 in an XML file located next to the folder for the plug-in package. The XML
 file must have the same name as the plug-in package plus an <code class="docutils literal notranslate"><span class="pre">.xml</span></code> extension.</p>
-<p>When the <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code> method is called,
+<p>When the <a class="reference internal" href="../../api/ansys.dpf.core.core.html#ansys.dpf.core.core.load_library" title="ansys.dpf.core.core.load_library"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code></a> method is called,
 DPF-Core uses the <code class="docutils literal notranslate"><span class="pre">site</span></code> Python module to add custom to the path
 for the Python interpreter.</p>
 <p>To create these custom sites, requirements of the plug-in package should be
@@ -1097,7 +1097,7 @@ Installing pygltf in a virtual environment succeeded
 </section>
 <section id="load-the-plug-in-package">
 <h2>Load the plug-in package<a class="headerlink" href="#load-the-plug-in-package" title="Permalink to this heading">#</a></h2>
-<p>You use the function <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code> to load the
+<p>You use the function <a class="reference internal" href="../../api/ansys.dpf.core.core.html#ansys.dpf.core.core.load_library" title="ansys.dpf.core.core.load_library"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code></a> to load the
 plug-in package.</p>
 <ul class="simple">
 <li><p>The first argument is the path to the directory where the plug-in package
@@ -1134,9 +1134,9 @@ for the plug-in package that is used to record operators.</p></li>
 <p>This new <code class="docutils literal notranslate"><span class="pre">gltf_export</span></code> operator requires the following as inputs: a triangle
 surface mesh, a displacement field on this surface mesh, and a path to export
 the GLTF file to.</p>
-<p>To demonstrate this new operator, a <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.model.Model</span></code> class
+<p>To demonstrate this new operator, a <a class="reference internal" href="../../api/ansys.dpf.core.model.html#ansys.dpf.core.model.Model" title="ansys.dpf.core.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.model.Model</span></code></a> class
 is created on a simple file and the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.operators.mesh.tri_mesh_skin</span></code> operator is used
+<a class="reference internal" href="../../api/ansys.dpf.core.operators.mesh.tri_mesh_skin.html#module-ansys.dpf.core.operators.mesh.tri_mesh_skin" title="ansys.dpf.core.operators.mesh.tri_mesh_skin"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.operators.mesh.tri_mesh_skin</span></code></a> operator is used
 to extract the surface of the mesh in triangle elements.</p>
 <div class="graphviz"><img src="../../_images/graphviz-53b3756a06ca6f5dc8f854c282527ba53ff01090.png" alt="digraph workflow {
    graph [pad=&quot;0.5&quot;, nodesep=&quot;0.3&quot;, ranksep=&quot;0.3&quot;]
@@ -1178,7 +1178,7 @@ to extract the surface of the mesh in triangle elements.</p>
 </pre></div>
 </div>
 <p>You can download <code class="xref download docutils literal notranslate"><span class="pre">output</span></code> from the <code class="docutils literal notranslate"><span class="pre">gltf</span></code> operator.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  49.378 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  48.226 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-07-python-operators-02-python-operators-with-dependencies-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/06b0eeb470a2bbfc83c1c57bac64c214/02-python_operators_with_dependencies.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-python_operators_with_dependencies.py</span></code></a></p>
