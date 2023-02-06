@@ -33,6 +33,43 @@ simple_cyclic = os.path.join(_module_path, "file_cyclic.rst")
 distributed_msup_folder = os.path.join(_module_path, "msup_distributed")
 
 
+def get_example_required_minimum_dpf_version(file: str) -> str:
+    """Returns the minimal DPF server version required to run the example, as declared in a note.
+
+    Parameters
+    ----------
+    file:
+        Path to the example file in question.
+
+    Returns
+    -------
+    Returns the minimal DPF server version required.
+    """
+    # Read the minimal server version required for the example
+    header_flag = '"""'
+    note_flag = r".. note::"
+    version_flag = "This example requires DPF"
+    in_header = False
+    previous_line_is_note = False
+    minimum_version_str = 0
+    with open(file, "r") as f:
+        for line in f:
+            if line[:3] == header_flag:
+                if not in_header:
+                    in_header = True
+                    continue
+                else:
+                    break
+            if (version_flag in line) and previous_line_is_note and in_header:
+                minimum_version_str = line.strip(version_flag).split()[0]
+                break
+            if note_flag in line:
+                previous_line_is_note = True
+            else:
+                previous_line_is_note = False
+    return minimum_version_str
+
+
 def find_files(local_path, should_upload=True, server=None, return_local_path=False):
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.

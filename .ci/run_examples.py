@@ -5,6 +5,8 @@ import subprocess
 import sys
 
 import ansys.dpf.core as dpf
+from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
+
 
 os.environ["PYVISTA_OFF_SCREEN"] = "true"
 os.environ["MPLBACKEND"] = "Agg"
@@ -26,14 +28,7 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
                 continue
             print("\n--------------------------------------------------")
             print(file)
-            # Read the minimal server version required for the example
-            version_flag = "This example requires DPF"
-            with open(file, "r") as f:
-                minimum_version_str = 0
-                for line in f:
-                    if version_flag in line:
-                        minimum_version_str = line.strip(version_flag).split()[0]
-                        break
+            minimum_version_str = get_example_required_minimum_dpf_version(file)
             if float(server_version) - float(minimum_version_str) < -0.05:
                 print(f"Example skipped as it requires DPF {minimum_version_str}.")
                 continue
