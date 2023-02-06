@@ -33,7 +33,7 @@ simple_cyclic = os.path.join(_module_path, "file_cyclic.rst")
 distributed_msup_folder = os.path.join(_module_path, "msup_distributed")
 
 
-def get_example_required_minimum_dpf_version(file: str) -> str:
+def get_example_required_minimum_dpf_version(file: os.PathLike) -> str:
     """Returns the minimal DPF server version required to run the example, as declared in a note.
 
     Parameters
@@ -51,7 +51,7 @@ def get_example_required_minimum_dpf_version(file: str) -> str:
     version_flag = "This example requires DPF"
     in_header = False
     previous_line_is_note = False
-    minimum_version_str = 0
+    minimum_version_str = "0.0"
     with open(file, "r") as f:
         for line in f:
             if line[:3] == header_flag:
