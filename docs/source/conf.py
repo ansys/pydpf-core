@@ -4,7 +4,7 @@ from datetime import datetime
 
 import numpy as np
 import pyvista
-from ansys.dpf.core import __version__, server
+from ansys.dpf.core import __version__, server, server_factory
 from ansys_sphinx_theme import pyansys_logo_black, ansys_favicon, get_version_match
 
 # Manage errors
@@ -40,30 +40,43 @@ release = __version__
 # -- Rename files to be ignored with the ignored pattern ---------------------
 
 # Get the DPF server version
-server = server.get_or_create_server(None)
-server_version = server.version
-server.shutdown()
+server_instance = server.start_local_server(
+    as_global=False,
+    config=server_factory.AvailableServerConfigs.GrpcServer,
+)
+server_version = server_instance.version
+server.shutdown_all_session_servers()
 print(f"DPF version: {server_version}")
-ignored_pattern = r""
+
+# Build ignore pattern
+ignored_pattern = r"(ignore"
+header_flag = "\"\"\""
+note_flag = r".. note::"
 for example in glob(r"../../examples/**/*.py"):
     version_flag = "This example requires DPF"
     example_name = example.split(os.path.sep)[-1]
+    in_header = False
+    previous_line_is_note = False
     with open(example, "r") as f:
         minimum_version_str = 0
         for line in f:
-            if version_flag in line:
+            if line[:3] == header_flag:
+                if not in_header:
+                    in_header = True
+                    continue
+                else:
+                    break
+            if (version_flag in line) and previous_line_is_note and in_header:
                 minimum_version_str = line.strip(version_flag).split()[0]
                 break
+            if note_flag in line:
+                previous_line_is_note = True
+            else:
+                previous_line_is_note = False
     if float(server_version) - float(minimum_version_str) < -0.05:
         print(f"Example {example_name} skipped as it requires DPF {minimum_version_str}.")
-        if ignored_pattern == "":
-            ignored_pattern += r"("
-        else:
-            ignored_pattern += "|"
-        ignored_pattern += f"{example_name}"
-
-if ignored_pattern != "":
-    ignored_pattern += r")"
+        ignored_pattern += f"|{example_name}"
+ignored_pattern += r")"
 
 # -- General configuration ---------------------------------------------------
 
