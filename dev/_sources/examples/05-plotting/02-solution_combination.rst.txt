@@ -28,7 +28,7 @@ And highlight min/max values in the plot.
 
 .. GENERATED FROM PYTHON SOURCE LINES 14-16
 
-Import the ``dpf_core`` module, included examples file, and the ``DpfPlotter``
+Import the ``ansys.dpf.core`` module, included examples file, and the ``DpfPlotter``
 module.
 
 .. GENERATED FROM PYTHON SOURCE LINES 16-20
@@ -133,7 +133,7 @@ Printing the model displays this metadata:
 .. GENERATED FROM PYTHON SOURCE LINES 37-41
 
 Get the stress tensor and ``connect`` time scoping.
-Make sure that you define ``"Nodal"`` as the scoping location because
+Make sure that you define ``dpf.locations.nodal`` as the scoping location because
 labels are supported only for nodal results.
 
 
@@ -145,7 +145,7 @@ labels are supported only for nodal results.
     time_scope = dpf.Scoping()
     time_scope.ids = [1, 2]
     stress_tensor.inputs.time_scoping.connect(time_scope)
-    stress_tensor.inputs.requested_location.connect("Nodal")
+    stress_tensor.inputs.requested_location.connect(dpf.locations.nodal)
 
 
 
@@ -164,8 +164,8 @@ the stress tensor.
 
 .. code-block:: default
 
-    field_lc1 = stress_tensor.outputs.fields_container.get_data()[0]
-    field_lc2 = stress_tensor.outputs.fields_container.get_data()[1]
+    field_lc1 = stress_tensor.outputs.fields_container()[0]
+    field_lc2 = stress_tensor.outputs.fields_container()[1]
 
     # Scale LC2 to -1.
     stress_tensor_lc2_sc = dpf.operators.math.scale(field=field_lc2, ponderation=-1.0)
@@ -387,7 +387,7 @@ size of the label.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.969 seconds)
+   **Total running time of the script:** ( 0 minutes  1.235 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_02-solution_combination.py:

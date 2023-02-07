@@ -740,7 +740,7 @@ to download the full example code</p>
 <span id="solution-combination"></span><span id="sphx-glr-examples-05-plotting-02-solution-combination-py"></span><h1>Load case combination for principal stress<a class="headerlink" href="#load-case-combination-for-principal-stress" title="Permalink to this heading">#</a></h1>
 <p>This example shows how to get a principal stress load case combination using DPF
 And highlight min/max values in the plot.</p>
-<p>Import the <code class="docutils literal notranslate"><span class="pre">dpf_core</span></code> module, included examples file, and the <code class="docutils literal notranslate"><span class="pre">DpfPlotter</span></code>
+<p>Import the <code class="docutils literal notranslate"><span class="pre">ansys.dpf.core</span></code> module, included examples file, and the <code class="docutils literal notranslate"><span class="pre">DpfPlotter</span></code>
 module.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
@@ -814,20 +814,20 @@ Cumulative     Time (s)       LoadStep       Substep
 </pre></div>
 </div>
 <p>Get the stress tensor and <code class="docutils literal notranslate"><span class="pre">connect</span></code> time scoping.
-Make sure that you define <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code> as the scoping location because
+Make sure that you define <code class="docutils literal notranslate"><span class="pre">dpf.locations.nodal</span></code> as the scoping location because
 labels are supported only for nodal results.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stress_tensor</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">()</span>
 <span class="n">time_scope</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">()</span>
 <span class="n">time_scope</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
 <span class="n">stress_tensor</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">time_scope</span><span class="p">)</span>
-<span class="n">stress_tensor</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;Nodal&quot;</span><span class="p">)</span>
+<span class="n">stress_tensor</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This code performs solution combination on two load cases, LC1 and LC2.
 You can access individual load cases as the fields of a fields container for
 the stress tensor.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field_lc1</span> <span class="o">=</span> <span class="n">stress_tensor</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">get_data</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">field_lc2</span> <span class="o">=</span> <span class="n">stress_tensor</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">get_data</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field_lc1</span> <span class="o">=</span> <span class="n">stress_tensor</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">field_lc2</span> <span class="o">=</span> <span class="n">stress_tensor</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
 
 <span class="c1"># Scale LC2 to -1.</span>
 <span class="n">stress_tensor_lc2_sc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">field_lc2</span><span class="p">,</span> <span class="n">ponderation</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">)</span>
@@ -964,7 +964,7 @@ size of the label.</p>
 <span class="n">plot</span><span class="o">.</span><span class="n">show_figure</span><span class="p">(</span><span class="n">show_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_02-solution_combination_001.png" srcset="../../_images/sphx_glr_02-solution_combination_001.png" alt="02 solution combination" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.969 seconds)</p>
+<img src="../../_images/sphx_glr_02-solution_combination_001.png" srcset="../../_images/sphx_glr_02-solution_combination_001.png" alt="02 solution combination" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.235 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-05-plotting-02-solution-combination-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a68da510da61d4f517830d836ea69263/02-solution_combination.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-solution_combination.py</span></code></a></p>

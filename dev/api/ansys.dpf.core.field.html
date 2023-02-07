@@ -3952,11 +3952,12 @@ data is), making the field a self-describing piece of data.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>nentities</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of entities reserved. The default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
 <li><p><strong>nature</strong> (<a class="reference internal" href="ansys.dpf.core.common.html#ansys.dpf.core.common.natures" title="ansys.dpf.core.common.natures"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.common.natures</span></code></a>, optional) – Nature of the field.</p></li>
-<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Location of the field.  Options are:</p>
+<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Location of the field.  Options are in <a class="reference internal" href="ansys.dpf.core.common.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">locations</span></code></a></p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;Elemental&quot;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;ElementalNodal&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dpf.locations.nodal</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dpf.locations.elemental</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dpf.locations.elemental_nodal</span></code></p></li>
+<li><p>…</p></li>
 </ul>
 </p></li>
 <li><p><strong>field</strong> (<a class="reference internal" href="#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>, </em><em>ansys.grpc.dpf.field_pb2.Field</em><em>, </em><em>ctypes.c_void_p</em><em>, </em><em>optional</em>) – Field message generated from a gRPC stub, or returned by DPF’s C clients.</p></li>
@@ -4084,8 +4085,7 @@ the data will not be updated.</p>
 <dd><p>Field location.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Location string, which can be <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;Elemental&quot;</span></code>,
-<code class="docutils literal notranslate"><span class="pre">&quot;ElementalNodal&quot;</span></code>… See <a class="reference internal" href="ansys.dpf.core.common.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.common.locations</span></code></a>.</p>
+<dd class="field-odd"><p>Location string, Options are in <a class="reference internal" href="ansys.dpf.core.common.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">locations</span></code></a>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>

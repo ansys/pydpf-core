@@ -838,23 +838,21 @@ Cumulative     Time (s)       LoadStep       Substep
 </pre></div>
 </div>
 <img src="../../_images/sphx_glr_03-labels_001.png" srcset="../../_images/sphx_glr_03-labels_001.png" alt="03 labels" class = "sphx-glr-single-img"/><p>Get the stress tensor and <code class="docutils literal notranslate"><span class="pre">connect</span></code> time scoping.
-Make sure that you define <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code> as the scoping location because
+Make sure that you define <code class="docutils literal notranslate"><span class="pre">dpf.locations.nodal</span></code> as the scoping location because
 labels are supported only for nodal results.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stress_tensor</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">()</span>
-<span class="n">time_scope</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">()</span>
-<span class="n">time_scope</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">]</span>  <span class="c1"># [1, 2]</span>
-<span class="n">stress_tensor</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">time_scope</span><span class="p">)</span>
-<span class="n">stress_tensor</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;Nodal&quot;</span><span class="p">)</span>
+<span class="n">stress_tensor</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="p">([</span><span class="mi">20</span><span class="p">])</span>
+<span class="n">stress_tensor</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
 <span class="c1"># field = stress_tensor.outputs.fields_container.get_data()[0]</span>
 
-<span class="n">norm_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;norm_fc&quot;</span><span class="p">)</span>
-<span class="n">norm_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">stress_tensor</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
+<span class="n">norm_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">()</span>
+<span class="n">norm_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">stress_tensor</span><span class="p">)</span>
 <span class="n">field_norm_stress</span> <span class="o">=</span> <span class="n">norm_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">field_norm_stress</span><span class="p">)</span>
 
 <span class="n">norm_op2</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;norm_fc&quot;</span><span class="p">)</span>
 <span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
-<span class="n">disp</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">time_scope</span><span class="p">)</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span><span class="mi">20</span><span class="p">])</span>
 <span class="n">norm_op2</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">disp</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
 <span class="n">field_norm_disp</span> <span class="o">=</span> <span class="n">norm_op2</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">field_norm_disp</span><span class="p">)</span>
@@ -952,7 +950,7 @@ DPF displacement_0.2s Field
 <span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_03-labels_002.png" srcset="../../_images/sphx_glr_03-labels_002.png" alt="03 labels" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.860 seconds)</p>
+<img src="../../_images/sphx_glr_03-labels_002.png" srcset="../../_images/sphx_glr_03-labels_002.png" alt="03 labels" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.360 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-05-plotting-03-labels-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/b66c0898bc7a3123c705adc64e07f5d1/03-labels.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">03-labels.py</span></code></a></p>

@@ -28,12 +28,12 @@ print(model)
 # property with 2 as an argument (1 would ignore the cyclic symmetry).
 
 # Create displacement cyclic operator
-UCyc = model.results.displacement()
-UCyc.inputs.read_cyclic(2)
+u_cyc = model.results.displacement()
+u_cyc.inputs.read_cyclic(2)
 
 # expand the displacements and get a total deformation
-nrm = dpf.Operator("norm_fc")
-nrm.inputs.connect(UCyc.outputs)
+nrm = dpf.operators.math.norm_fc()
+nrm.inputs.connect(u_cyc.outputs)
 fields = nrm.outputs.fields_container()
 
 # # get the expanded mesh
@@ -54,11 +54,11 @@ SCyc.inputs.read_cyclic(2)
 SCyc.inputs.time_scoping.connect([3])
 
 # request the results averaged on the nodes
-SCyc.inputs.requested_location.connect("Nodal")
+SCyc.inputs.requested_location.connect(dpf.locations.nodal)
 
 # request equivalent von mises operator and connect it to stress
 # operator
-eqv = dpf.Operator("eqv_fc")
+eqv = dpf.operators.invariant.von_mises_eqv_fc()
 eqv.inputs.connect(SCyc.outputs)
 
 # expand the results and get stress eqv

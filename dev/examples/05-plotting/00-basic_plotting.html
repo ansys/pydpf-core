@@ -782,7 +782,7 @@ c:\hostedtoolcache\windows\python\3.8.10\x64\lib\site-packages\ansys\dpf\core\pl
 
 <span class="c1"># Plot a field on its supporting mesh (field location must be Elemental or Nodal)</span>
 <span class="n">stress</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span><span class="p">()</span>
-<span class="n">stress</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;Nodal&quot;</span><span class="p">)</span>
+<span class="n">stress</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
 <span class="n">fc</span> <span class="o">=</span> <span class="n">stress</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 <span class="n">field</span> <span class="o">=</span> <span class="n">fc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">field</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">notebook</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">shell_layers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Field&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Field plot&quot;</span><span class="p">)</span>
@@ -845,7 +845,7 @@ c:\hostedtoolcache\windows\python\3.8.10\x64\lib\site-packages\ansys\dpf\core\pl
 <span class="c1">#                  title=&#39;Meshes Container&#39;, text=&#39;Meshes Container plot&#39;)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  8.911 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  11.432 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-05-plotting-00-basic-plotting-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/4588d5df967c76beb9366e09b55b0940/00-basic_plotting.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-basic_plotting.py</span></code></a></p>

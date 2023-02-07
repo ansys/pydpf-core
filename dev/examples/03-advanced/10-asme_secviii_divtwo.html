@@ -786,11 +786,11 @@ that calculation is made according to latest ASME standard.</p>
 
 <span class="n">path</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_example_asme_result</span><span class="p">()</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-<span class="n">dataSource</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">data_sources</span>
+<span class="n">data_source</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">data_sources</span>
 
-<span class="n">timeScoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">()</span>
-<span class="n">timeScoping</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">time_freq</span>
-<span class="n">timeScoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">time_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">()</span>
+<span class="n">time_scoping</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">time_freq</span>
+<span class="n">time_scoping</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
 </pre></div>
 </div>
 <section id="parameters-input">
@@ -818,29 +818,29 @@ elemental nodal strains and apply von Mises invariant. This operator
 does not have an option for defining the effective Poisson’s ratio.
 Consequently, a correction factor is applied.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">seqv_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress_von_mises</span><span class="p">(</span>
-    <span class="n">time_scoping</span><span class="o">=</span><span class="n">timeScoping</span><span class="p">,</span> <span class="n">data_sources</span><span class="o">=</span><span class="n">dataSource</span><span class="p">,</span> <span class="n">requested_location</span><span class="o">=</span><span class="s2">&quot;Nodal&quot;</span>
+    <span class="n">time_scoping</span><span class="o">=</span><span class="n">time_scoping</span><span class="p">,</span> <span class="n">data_sources</span><span class="o">=</span><span class="n">data_source</span><span class="p">,</span> <span class="n">requested_location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span>
 <span class="p">)</span>
 <span class="n">seqv</span> <span class="o">=</span> <span class="n">seqv_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 
 <span class="n">s1_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress_principal_1</span><span class="p">(</span>
-    <span class="n">time_scoping</span><span class="o">=</span><span class="n">timeScoping</span><span class="p">,</span> <span class="n">data_sources</span><span class="o">=</span><span class="n">dataSource</span><span class="p">,</span> <span class="n">requested_location</span><span class="o">=</span><span class="s2">&quot;Nodal&quot;</span>
+    <span class="n">time_scoping</span><span class="o">=</span><span class="n">time_scoping</span><span class="p">,</span> <span class="n">data_sources</span><span class="o">=</span><span class="n">data_source</span><span class="p">,</span> <span class="n">requested_location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span>
 <span class="p">)</span>
 <span class="n">s1</span> <span class="o">=</span> <span class="n">s1_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 
 <span class="n">s2_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress_principal_2</span><span class="p">(</span>
-    <span class="n">time_scoping</span><span class="o">=</span><span class="n">timeScoping</span><span class="p">,</span> <span class="n">data_sources</span><span class="o">=</span><span class="n">dataSource</span><span class="p">,</span> <span class="n">requested_location</span><span class="o">=</span><span class="s2">&quot;Nodal&quot;</span>
+    <span class="n">time_scoping</span><span class="o">=</span><span class="n">time_scoping</span><span class="p">,</span> <span class="n">data_sources</span><span class="o">=</span><span class="n">data_source</span><span class="p">,</span> <span class="n">requested_location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span>
 <span class="p">)</span>
 <span class="n">s2</span> <span class="o">=</span> <span class="n">s2_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 
 <span class="n">s3_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress_principal_3</span><span class="p">(</span>
-    <span class="n">time_scoping</span><span class="o">=</span><span class="n">timeScoping</span><span class="p">,</span> <span class="n">data_sources</span><span class="o">=</span><span class="n">dataSource</span><span class="p">,</span> <span class="n">requested_location</span><span class="o">=</span><span class="s2">&quot;Nodal&quot;</span>
+    <span class="n">time_scoping</span><span class="o">=</span><span class="n">time_scoping</span><span class="p">,</span> <span class="n">data_sources</span><span class="o">=</span><span class="n">data_source</span><span class="p">,</span> <span class="n">requested_location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span>
 <span class="p">)</span>
 <span class="n">s3</span> <span class="o">=</span> <span class="n">s3_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 
 <span class="n">strain_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">plastic_strain</span><span class="p">(</span>
-    <span class="n">data_sources</span><span class="o">=</span><span class="n">dataSource</span><span class="p">,</span>
-    <span class="n">requested_location</span><span class="o">=</span><span class="s2">&quot;ElementalNodal&quot;</span><span class="p">,</span>
-    <span class="n">time_scoping</span><span class="o">=</span><span class="n">timeScoping</span><span class="p">,</span>
+    <span class="n">data_sources</span><span class="o">=</span><span class="n">data_source</span><span class="p">,</span>
+    <span class="n">requested_location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">elemental_nodal</span><span class="p">,</span>
+    <span class="n">time_scoping</span><span class="o">=</span><span class="n">time_scoping</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">pstrain</span> <span class="o">=</span> <span class="n">strain_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 
@@ -903,7 +903,7 @@ Consequently, a correction factor is applied.</p>
 <span class="n">dpf</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">shutdown_all_session_servers</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_10-asme_secviii_divtwo_001.png" srcset="../../_images/sphx_glr_10-asme_secviii_divtwo_001.png" alt="10 asme secviii divtwo" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.439 seconds)</p>
+<img src="../../_images/sphx_glr_10-asme_secviii_divtwo_001.png" srcset="../../_images/sphx_glr_10-asme_secviii_divtwo_001.png" alt="10 asme secviii divtwo" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.924 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-03-advanced-10-asme-secviii-divtwo-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/7246bf3f5a4da6631b207f22d4af1460/10-asme_secviii_divtwo.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">10-asme_secviii_divtwo.py</span></code></a></p>

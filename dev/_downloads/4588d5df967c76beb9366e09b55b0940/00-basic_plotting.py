@@ -32,7 +32,7 @@ model.plot(
 
 # Plot a field on its supporting mesh (field location must be Elemental or Nodal)
 stress = model.results.stress()
-stress.inputs.requested_location.connect("Nodal")
+stress.inputs.requested_location.connect(dpf.locations.nodal)
 fc = stress.outputs.fields_container()
 field = fc[0]
 field.plot(notebook=False, shell_layers=None, show_axes=True, title="Field", text="Field plot")

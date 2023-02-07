@@ -867,14 +867,14 @@ prpoerty with 2 as an argument (1 would ignore the cyclic symmetry).</p>
 <span class="n">scyc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span><span class="mi">8</span><span class="p">])</span>
 
 <span class="c1"># request the results averaged on the nodes</span>
-<span class="n">scyc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;Nodal&quot;</span><span class="p">)</span>
+<span class="n">scyc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
 
 <span class="c1"># connect the base mesh and the expanded mesh, to avoid rexpanding the mesh</span>
 <span class="n">scyc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sector_mesh</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="p">)</span>
 <span class="c1"># scyc_op.inputs.expanded_meshed_region.connect(mesh)</span>
 
 <span class="c1"># request equivalent von mises operator and connect it to stress operator</span>
-<span class="n">eqv</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;eqv_fc&quot;</span><span class="p">)</span>
+<span class="n">eqv</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">invariant</span><span class="o">.</span><span class="n">von_mises_eqv_fc</span><span class="p">()</span>
 <span class="n">eqv</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">scyc_op</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
 
 <span class="c1"># expand the results and get stress eqv</span>
@@ -893,7 +893,7 @@ prpoerty with 2 as an argument (1 would ignore the cyclic symmetry).</p>
 <span class="n">scyc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span><span class="mi">8</span><span class="p">])</span>
 
 <span class="c1"># request the results averaged on the nodes</span>
-<span class="n">scyc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;Nodal&quot;</span><span class="p">)</span>
+<span class="n">scyc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
 
 <span class="c1"># connect the base mesh and the expanded mesh, to avoid rexpanding the mesh</span>
 <span class="n">scyc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sector_mesh</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="p">)</span>
@@ -903,7 +903,7 @@ prpoerty with 2 as an argument (1 would ignore the cyclic symmetry).</p>
 <span class="n">scyc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">sectors_to_expand</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 
 <span class="c1"># extract Sy (use component selector and select the component 1)</span>
-<span class="n">comp_sel</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;component_selector_fc&quot;</span><span class="p">)</span>
+<span class="n">comp_sel</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">component_selector_fc</span><span class="p">()</span>
 <span class="n">comp_sel</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">scyc_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">)</span>
 <span class="n">comp_sel</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">component_number</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
@@ -930,11 +930,11 @@ prpoerty with 2 as an argument (1 would ignore the cyclic symmetry).</p>
 <span class="c1"># scyc_op.inputs.expanded_meshed_region.connect(mesh)</span>
 
 <span class="c1"># request to elemental averaging operator</span>
-<span class="n">to_elemental</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;to_elemental_fc&quot;</span><span class="p">)</span>
+<span class="n">to_elemental</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">averaging</span><span class="o">.</span><span class="n">to_elemental_fc</span><span class="p">()</span>
 <span class="n">to_elemental</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">scyc_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">)</span>
 
 <span class="c1"># extract Sy (use component selector and select the component 1)</span>
-<span class="n">comp_sel</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;component_selector_fc&quot;</span><span class="p">)</span>
+<span class="n">comp_sel</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">logic</span><span class="o">.</span><span class="n">component_selector_fc</span><span class="p">()</span>
 <span class="n">comp_sel</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">to_elemental</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">)</span>
 <span class="n">comp_sel</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">component_number</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
@@ -945,7 +945,7 @@ prpoerty with 2 as an argument (1 would ignore the cyclic symmetry).</p>
 <span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_01-modal_cyclic_002.png" srcset="../../_images/sphx_glr_01-modal_cyclic_002.png" alt="01 modal cyclic" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.939 seconds)</p>
+<img src="../../_images/sphx_glr_01-modal_cyclic_002.png" srcset="../../_images/sphx_glr_01-modal_cyclic_002.png" alt="01 modal cyclic" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.360 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-02-modal-harmonic-01-modal-cyclic-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/0acc81f5457e0fcefb78474197d7139b/01-modal_cyclic.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-modal_cyclic.py</span></code></a></p>

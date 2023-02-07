@@ -785,6 +785,11 @@ dealing with <code class="docutils literal notranslate"><span class="pre">Nodal<
 of a postprocessing workflow can be different when averaging and when not.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+<p>This example requires DPF 6.1 or above.
+For more information, see <a class="reference internal" href="../../getting_started/compatibility.html#ref-compatibility"><span class="std std-ref">Compatibility</span></a>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>This example requires the Premium Server Context.
 For more information, see <a class="reference internal" href="../../user_guide/server_context.html#user-guide-server-context"><span class="std std-ref">Server context</span></a>.</p>
 </div>
@@ -1062,7 +1067,7 @@ pin:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stress_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress_eqv_as_mechanical</span><span class="p">()</span>
 <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span><span class="n">time_set</span><span class="p">])</span>
 <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-<span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;Nodal&quot;</span><span class="p">)</span>
+<span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
 <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">average_across_bodies</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">stress_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">())</span>
@@ -1077,7 +1082,7 @@ pin:</p>
   - field 1 {mat:  2, time:  3} with Nodal location, 1 components and 17610 entities.
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.611 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.613 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-08-averaging-01-average-across-bodies-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/2e83048bea6393f9b6a5eeb1dada3999/01-average_across_bodies.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-average_across_bodies.py</span></code></a></p>

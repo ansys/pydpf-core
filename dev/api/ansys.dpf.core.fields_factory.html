@@ -3769,7 +3769,7 @@ global server.</p></li>
 <dt class="sig sig-object py" id="ansys.dpf.core.fields_factory.create_matrix_field">
 <span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.fields_factory.</span></span><span class="sig-name descname"><span class="pre">create_matrix_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_entities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Nodal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.fields_factory.create_matrix_field" title="Permalink to this definition">#</a></dt>
 <dd><p>Create a matrix <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.Field</span></code>.</p>
-<p>This field contain entities that have a matrix format. This is a “reserve” mechanism,
+<p>This field contains entities that have a matrix format. This is a “reserve” mechanism,
 not a resize one. This means that you need to append data to grow the size of your field.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -3777,14 +3777,8 @@ not a resize one. This means that you need to append data to grow the size of yo
 <li><p><strong>num_entities</strong> (<em>int</em>) – Number of entities to reserve.</p></li>
 <li><p><strong>num_lines</strong> (<em>int</em>) – Number of matrix line.</p></li>
 <li><p><strong>num_col</strong> (<em>int</em>) – Number of matrix columns.</p></li>
-<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Location of the field. The default is <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>. For example:</p>
-<ul>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.natures.nodal</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>)</p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.natures.elemental</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;Elemental&quot;</span></code>)</p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.natures.elemental_nodal</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;ElementalNodal&quot;</span></code>)</p></li>
-<li><p>…</p></li>
-</ul>
-</p></li>
+<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – Location of the field. Options are in <a class="reference internal" href="ansys.dpf.core.common.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">locations</span></code></a>.
+The default is <code class="docutils literal notranslate"><span class="pre">dpf.locations.nodal</span></code>.</p></li>
 <li><p><strong>server</strong> (<em>ansys.dpf.core.server</em><em>, </em><em>optional</em>) – Server with the channel connected to the remote or local instance.
 The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the
 global server.</p></li>
@@ -3816,14 +3810,8 @@ need to append data to grow the size of your field.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>num_entities</strong> (<em>int</em>) – Number of entities to reserve</p></li>
-<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Location of the field. The default is <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>. For example:</p>
-<ul>
-<li><p>ansys.dpf.core.natures.nodal (<code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>)</p></li>
-<li><p>ansys.dpf.core.natures.elemental (<code class="docutils literal notranslate"><span class="pre">&quot;Elemental&quot;</span></code>)</p></li>
-<li><p>ansys.dpf.core.natures.elemental_nodal (<code class="docutils literal notranslate"><span class="pre">&quot;ElementalNodal&quot;</span></code>)</p></li>
-<li><p>…</p></li>
-</ul>
-</p></li>
+<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – Location of the field. Options are in <a class="reference internal" href="ansys.dpf.core.common.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">locations</span></code></a>.
+The default is <code class="docutils literal notranslate"><span class="pre">dpf.locations.nodal</span></code>.</p></li>
 <li><p><strong>server</strong> (<em>ansys.dpf.core.server</em><em>, </em><em>optional</em>) – Server with the channel connected to the remote or local instance.
 The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the
 global server.</p></li>
@@ -3854,14 +3842,8 @@ need to append data to grow the size of your field.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>num_entities</strong> (<em>int</em>) – Number of entities to reserve.</p></li>
-<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Location of the field. The default is <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>. For example:</p>
-<ul>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.natures.nodal</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>)</p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.natures.elemental</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;Elemental&quot;</span></code>)</p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.natures.elemental_nodal</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;ElementalNodal&quot;</span></code>)</p></li>
-<li><p>…</p></li>
-</ul>
-</p></li>
+<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – Location of the field. Options are in <a class="reference internal" href="ansys.dpf.core.common.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">locations</span></code></a>.
+The default is <code class="docutils literal notranslate"><span class="pre">dpf.locations.nodal</span></code>.</p></li>
 <li><p><strong>server</strong> (<em>ansys.dpf.core.server</em><em>, </em><em>optional</em>) – Server with the channel connected to the remote or local instance.
 The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the
 global server.</p></li>
@@ -3892,14 +3874,8 @@ need to append data to grow the size of your field.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>num_entities</strong> (<em>int</em>) – Number of entities to reserve</p></li>
-<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Location of the field. The default is <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>. For example:</p>
-<ul>
-<li><p>ansys.dpf.core.natures.nodal (<code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>)</p></li>
-<li><p>ansys.dpf.core.natures.elemental (<code class="docutils literal notranslate"><span class="pre">&quot;Elemental&quot;</span></code>)</p></li>
-<li><p>ansys.dpf.core.natures.elemental_nodal (<code class="docutils literal notranslate"><span class="pre">&quot;ElementalNodal&quot;</span></code>)</p></li>
-<li><p>…</p></li>
-</ul>
-</p></li>
+<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – Location of the field. Options are in <a class="reference internal" href="ansys.dpf.core.common.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">locations</span></code></a>.
+The default is <code class="docutils literal notranslate"><span class="pre">dpf.locations.nodal</span></code>.</p></li>
 <li><p><strong>server</strong> (<em>ansys.dpf.core.server</em><em>, </em><em>optional</em>) – Server with the channel connected to the remote or local instance.
 The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the
 global server.</p></li>
@@ -3931,14 +3907,8 @@ need to append data to grow the size of your field.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>num_entities</strong> (<em>int</em>) – Number of entities to reserve.</p></li>
 <li><p><strong>num_comp</strong> (<em>int</em>) – Number of vector components.</p></li>
-<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Location of the field. The default is <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>. For example:</p>
-<ul>
-<li><p>ansys.dpf.core.natures.nodal (<code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>)</p></li>
-<li><p>ansys.dpf.core.natures.elemental (<code class="docutils literal notranslate"><span class="pre">&quot;Elemental&quot;</span></code>)</p></li>
-<li><p>ansys.dpf.core.natures.elemental_nodal (<code class="docutils literal notranslate"><span class="pre">&quot;ElementalNodal&quot;</span></code>)</p></li>
-<li><p>…</p></li>
-</ul>
-</p></li>
+<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – Location of the field. Options are in <a class="reference internal" href="ansys.dpf.core.common.html#ansys.dpf.core.common.locations" title="ansys.dpf.core.common.locations"><code class="xref py py-class docutils literal notranslate"><span class="pre">locations</span></code></a>.
+The default is <code class="docutils literal notranslate"><span class="pre">dpf.locations.nodal</span></code>.</p></li>
 <li><p><strong>server</strong> (<em>ansys.dpf.core.server</em><em>, </em><em>optional</em>) – Server with the channel connected to the remote or local instance.
 The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the
 global server.</p></li>

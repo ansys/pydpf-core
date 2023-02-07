@@ -132,7 +132,7 @@ shown with the arguments available.
 
     # Plot a field on its supporting mesh (field location must be Elemental or Nodal)
     stress = model.results.stress()
-    stress.inputs.requested_location.connect("Nodal")
+    stress.inputs.requested_location.connect(dpf.locations.nodal)
     fc = stress.outputs.fields_container()
     field = fc[0]
     field.plot(notebook=False, shell_layers=None, show_axes=True, title="Field", text="Field plot")
@@ -197,7 +197,7 @@ shown with the arguments available.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  8.911 seconds)
+   **Total running time of the script:** ( 0 minutes  11.432 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_00-basic_plotting.py:

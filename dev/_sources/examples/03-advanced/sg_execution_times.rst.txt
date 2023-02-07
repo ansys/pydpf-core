@@ -5,24 +5,24 @@
 
 Computation times
 =================
-**00:27.024** total execution time for **examples_03-advanced** files:
+**00:33.819** total execution time for **examples_03-advanced** files:
 
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_03-exchange_data_between_servers.py` (``03-exchange_data_between_servers.py``) | 00:06.809 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_03-exchange_data_between_servers.py` (``03-exchange_data_between_servers.py``) | 00:08.372 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_05-extrapolation_strain_2d.py` (``05-extrapolation_strain_2d.py``)             | 00:05.565 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_05-extrapolation_strain_2d.py` (``05-extrapolation_strain_2d.py``)             | 00:07.199 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_04-extrapolation_stress_3d.py` (``04-extrapolation_stress_3d.py``)             | 00:05.436 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_04-extrapolation_stress_3d.py` (``04-extrapolation_stress_3d.py``)             | 00:06.879 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_02-volume_averaged_stress.py` (``02-volume_averaged_stress.py``)               | 00:03.268 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_02-volume_averaged_stress.py` (``02-volume_averaged_stress.py``)               | 00:03.972 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_00-multistage_advanced_options.py` (``00-multistage_advanced_options.py``)     | 00:02.142 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_06-stress_gradient_path.py` (``06-stress_gradient_path.py``)                   | 00:02.612 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_06-stress_gradient_path.py` (``06-stress_gradient_path.py``)                   | 00:02.131 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_00-multistage_advanced_options.py` (``00-multistage_advanced_options.py``)     | 00:02.564 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_10-asme_secviii_divtwo.py` (``10-asme_secviii_divtwo.py``)                     | 00:01.439 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_10-asme_secviii_divtwo.py` (``10-asme_secviii_divtwo.py``)                     | 00:01.924 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_01-solve_harmonic_problem.py` (``01-solve_harmonic_problem.py``)               | 00:00.172 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_01-solve_harmonic_problem.py` (``01-solve_harmonic_problem.py``)               | 00:00.234 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_07-load_plugin.py` (``07-load_plugin.py``)                                     | 00:00.062 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_07-load_plugin.py` (``07-load_plugin.py``)                                     | 00:00.063 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+

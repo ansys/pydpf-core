@@ -3827,8 +3827,8 @@ function checkPageExistsAndRedirect(event) {
 <li><p><strong>nentities</strong> (<em>int</em>) – Number of entities that the property field is to contain. The
 default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
 <li><p><strong>nature</strong> (<em>core.natures</em>) – Nature of the property field, such as scalar or vector.</p></li>
-<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – Location of the property field. Options are <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;Elemental&quot;</span></code>.
-The default is <code class="docutils literal notranslate"><span class="pre">&quot;Nodal&quot;</span></code>.</p></li>
+<li><p><strong>location</strong> (<em>str</em><em>, </em><em>optional</em>) – Location of the property field. Options are in <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.locations</span></code>.
+The default is <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.locations.nodal</span></code>.</p></li>
 <li><p><strong>field</strong> (<em>property</em>) – Field message generated from a gRPC stub, or returned by DPF’s C clients.</p></li>
 <li><p><strong>server</strong> (<em>server.DPFServer</em><em>, </em><em>optional</em>) – Server with the channel connected to the remote or local instance. The
 default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case an attempt is made to use the global
@@ -3860,7 +3860,7 @@ server.</p></li>
 To update location, directly update the scoping location.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>location</strong> – Location string, can be found in <code class="docutils literal notranslate"><span class="pre">dpf.locations</span></code>: ie.
+<dd class="field-odd"><p><strong>location</strong> – Location string, can be found in <code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.locations</span></code>: ie.
 <code class="docutils literal notranslate"><span class="pre">dpf.locations.nodal</span></code> or <code class="docutils literal notranslate"><span class="pre">dpf.locations.elemental</span></code>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>

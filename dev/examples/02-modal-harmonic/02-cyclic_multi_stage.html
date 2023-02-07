@@ -806,12 +806,12 @@ nodes and the first time step. Note that the displacements are expanded using
 the <a class="reference internal" href="../../api/ansys.dpf.core.operators.mesh.mesh_provider.html#ansys.dpf.core.operators.mesh.mesh_provider.InputsMeshProvider.read_cyclic" title="ansys.dpf.core.operators.mesh.mesh_provider.InputsMeshProvider.read_cyclic"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_cyclic</span></code></a>
 property with 2 as an argument (1 would ignore the cyclic symmetry).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create displacement cyclic operator</span>
-<span class="n">UCyc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
-<span class="n">UCyc</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">u_cyc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="n">u_cyc</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="c1"># expand the displacements and get a total deformation</span>
-<span class="n">nrm</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;norm_fc&quot;</span><span class="p">)</span>
-<span class="n">nrm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">UCyc</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
+<span class="n">nrm</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">()</span>
+<span class="n">nrm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">u_cyc</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
 <span class="n">fields</span> <span class="o">=</span> <span class="n">nrm</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
 
 <span class="c1"># # get the expanded mesh</span>
@@ -832,11 +832,11 @@ property with 2 as an argument (1 would ignore the cyclic symmetry).</p>
 <span class="n">SCyc</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span><span class="mi">3</span><span class="p">])</span>
 
 <span class="c1"># request the results averaged on the nodes</span>
-<span class="n">SCyc</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;Nodal&quot;</span><span class="p">)</span>
+<span class="n">SCyc</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
 
 <span class="c1"># request equivalent von mises operator and connect it to stress</span>
 <span class="c1"># operator</span>
-<span class="n">eqv</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;eqv_fc&quot;</span><span class="p">)</span>
+<span class="n">eqv</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">invariant</span><span class="o">.</span><span class="n">von_mises_eqv_fc</span><span class="p">()</span>
 <span class="n">eqv</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">SCyc</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
 
 <span class="c1"># expand the results and get stress eqv</span>
@@ -846,7 +846,7 @@ property with 2 as an argument (1 would ignore the cyclic symmetry).</p>
 <span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_02-cyclic_multi_stage_002.png" srcset="../../_images/sphx_glr_02-cyclic_multi_stage_002.png" alt="02 cyclic multi stage" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.315 seconds)</p>
+<img src="../../_images/sphx_glr_02-cyclic_multi_stage_002.png" srcset="../../_images/sphx_glr_02-cyclic_multi_stage_002.png" alt="02 cyclic multi stage" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.847 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-02-modal-harmonic-02-cyclic-multi-stage-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/40440cb30b7dffc28cc6996867343e44/02-cyclic_multi_stage.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-cyclic_multi_stage.py</span></code></a></p>
