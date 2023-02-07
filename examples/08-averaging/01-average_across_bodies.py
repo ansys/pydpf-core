@@ -16,6 +16,10 @@ dealing with ``Nodal`` variables. It also illustrates how the end results
 of a postprocessing workflow can be different when averaging and when not.
 
 .. note::
+    This example requires DPF 6.1 or above.
+    For more information, see :ref:`ref_compatibility`.
+
+.. note::
     This example requires the Premium Server Context.
     For more information, see :ref:`user_guide_server_context`.
 
