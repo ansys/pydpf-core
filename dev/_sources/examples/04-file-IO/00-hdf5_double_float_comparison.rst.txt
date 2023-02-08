@@ -35,7 +35,7 @@ compare simple precision versus double precision.
 Import the ``dpf-core`` module and its examples files, and then create a
 temporary directory.
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-33
+.. GENERATED FROM PYTHON SOURCE LINES 20-32
 
 .. code-block:: default
 
@@ -46,7 +46,6 @@ temporary directory.
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
-
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -59,11 +58,11 @@ temporary directory.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-35
+.. GENERATED FROM PYTHON SOURCE LINES 33-34
 
 Create the model and get the stresses, displacements, and mesh.
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-43
+.. GENERATED FROM PYTHON SOURCE LINES 34-42
 
 .. code-block:: default
 
@@ -82,11 +81,11 @@ Create the model and get the stresses, displacements, and mesh.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-45
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 Create the HDF5 export operator. The HDF5 module should already be loaded.
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-49
+.. GENERATED FROM PYTHON SOURCE LINES 44-48
 
 .. code-block:: default
 
@@ -115,12 +114,12 @@ Create the HDF5 export operator. The HDF5 module should already be loaded.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-52
+.. GENERATED FROM PYTHON SOURCE LINES 49-51
 
 Connect the correct time scoping to the results operators (stress
 and displacement).
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-59
+.. GENERATED FROM PYTHON SOURCE LINES 51-58
 
 .. code-block:: default
 
@@ -138,11 +137,11 @@ and displacement).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-61
+.. GENERATED FROM PYTHON SOURCE LINES 59-60
 
 Connect inputs of the HDF5 export operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-66
+.. GENERATED FROM PYTHON SOURCE LINES 60-65
 
 .. code-block:: default
 
@@ -158,11 +157,11 @@ Connect inputs of the HDF5 export operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-68
+.. GENERATED FROM PYTHON SOURCE LINES 66-67
 
 Export with simple precision.
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-72
+.. GENERATED FROM PYTHON SOURCE LINES 67-71
 
 .. code-block:: default
 
@@ -177,11 +176,11 @@ Export with simple precision.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-74
+.. GENERATED FROM PYTHON SOURCE LINES 72-73
 
 Export with double precision.
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-79
+.. GENERATED FROM PYTHON SOURCE LINES 73-78
 
 .. code-block:: default
 
@@ -197,11 +196,11 @@ Export with double precision.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-81
+.. GENERATED FROM PYTHON SOURCE LINES 79-80
 
 Compare simple precision versus double precision.
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-87
+.. GENERATED FROM PYTHON SOURCE LINES 80-86
 
 .. code-block:: default
 
@@ -228,7 +227,7 @@ Compare simple precision versus double precision.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.516 seconds)
+   **Total running time of the script:** ( 0 minutes  0.235 seconds)
 
 
 .. _sphx_glr_download_examples_04-file-IO_00-hdf5_double_float_comparison.py:

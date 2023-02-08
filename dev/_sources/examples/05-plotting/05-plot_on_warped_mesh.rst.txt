@@ -30,7 +30,7 @@ enabling to plot on the deformed geometry.
     This example requires the Premium ServerContext.
     For more information, see :ref:`user_guide_server_context`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-89
+.. GENERATED FROM PYTHON SOURCE LINES 15-88
 
 
 
@@ -128,7 +128,6 @@ enabling to plot on the deformed geometry.
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
 
-
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
     # Get and show the initial model
@@ -202,7 +201,7 @@ enabling to plot on the deformed geometry.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  9.114 seconds)
+   **Total running time of the script:** ( 0 minutes  9.538 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_05-plot_on_warped_mesh.py:

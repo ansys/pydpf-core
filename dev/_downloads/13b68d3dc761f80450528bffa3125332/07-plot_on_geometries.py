@@ -18,15 +18,15 @@ objects such as points, lines and planes.
 # ~~~~~~~~~~~~~~~~~~~~~~
 # Import modules and set context as Premium.
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
+from ansys.dpf.core.fields_factory import field_from_array
 from ansys.dpf.core.geometry import Line, Plane, Points
 from ansys.dpf.core.plotter import DpfPlotter
-from ansys.dpf.core.fields_factory import field_from_array
 
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 

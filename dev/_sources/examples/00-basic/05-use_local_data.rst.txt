@@ -29,7 +29,7 @@ from the server to your local machine where you can work on it.
 When finished, you send the updated data back to the server
 in one transaction.
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-21
+.. GENERATED FROM PYTHON SOURCE LINES 14-20
 
 .. code-block:: default
 
@@ -46,13 +46,12 @@ in one transaction.
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 22-24
+.. GENERATED FROM PYTHON SOURCE LINES 21-23
 
 Create a model object to establish a connection with an
 example result file and then extract:
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-28
+.. GENERATED FROM PYTHON SOURCE LINES 23-27
 
 .. code-block:: default
 
@@ -99,16 +98,16 @@ example result file and then extract:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-31
+.. GENERATED FROM PYTHON SOURCE LINES 28-30
 
 Create the workflow
 ~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-34
+.. GENERATED FROM PYTHON SOURCE LINES 32-33
 
 Compute the stress principal invariants:
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-43
+.. GENERATED FROM PYTHON SOURCE LINES 33-42
 
 .. code-block:: default
 
@@ -128,18 +127,18 @@ Compute the stress principal invariants:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-46
+.. GENERATED FROM PYTHON SOURCE LINES 43-45
 
 Manipulate data locally
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-52
+.. GENERATED FROM PYTHON SOURCE LINES 48-51
 
 This example goes over the fields, keeping the largest invariant value
 by node if the averaged value of invariants is large enough.
 Exploring data allows you to customize it to meet your needs.
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-72
+.. GENERATED FROM PYTHON SOURCE LINES 51-71
 
 .. code-block:: default
 
@@ -170,16 +169,16 @@ Exploring data allows you to customize it to meet your needs.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-75
+.. GENERATED FROM PYTHON SOURCE LINES 72-74
 
 Plot result field
 ~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-79
+.. GENERATED FROM PYTHON SOURCE LINES 77-78
 
 Plot the result field on the skin mesh:
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-81
+.. GENERATED FROM PYTHON SOURCE LINES 78-80
 
 .. code-block:: default
 
@@ -197,16 +196,16 @@ Plot the result field on the skin mesh:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-84
+.. GENERATED FROM PYTHON SOURCE LINES 81-83
 
 Plot initial invariants
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 87-88
+.. GENERATED FROM PYTHON SOURCE LINES 86-87
 
 Plot the initial invariants:
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-92
+.. GENERATED FROM PYTHON SOURCE LINES 87-91
 
 .. code-block:: default
 
@@ -248,7 +247,7 @@ Plot the initial invariants:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.503 seconds)
+   **Total running time of the script:** ( 0 minutes  4.925 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_05-use_local_data.py:

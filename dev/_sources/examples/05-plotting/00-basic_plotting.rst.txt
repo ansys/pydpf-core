@@ -26,7 +26,7 @@ Review of available plotting commands
 This example lists the different plotting commands available,
 shown with the arguments available.
 
-.. GENERATED FROM PYTHON SOURCE LINES 11-96
+.. GENERATED FROM PYTHON SOURCE LINES 11-95
 
 
 
@@ -94,9 +94,9 @@ shown with the arguments available.
 
  .. code-block:: none
 
-    c:\hostedtoolcache\windows\python\3.8.10\x64\lib\site-packages\ansys\dpf\core\plotter.py:573: UserWarning: 'notebook' is not a valid kwarg for show_figure(). Please give this argument to the init of DpfPlotter.
+    c:\hostedtoolcache\windows\python\3.8.10\x64\lib\site-packages\ansys\dpf\core\plotter.py:571: UserWarning: 'notebook' is not a valid kwarg for show_figure(). Please give this argument to the init of DpfPlotter.
       warnings.warn(
-    c:\hostedtoolcache\windows\python\3.8.10\x64\lib\site-packages\ansys\dpf\core\plotter.py:573: UserWarning: 'notebook' is not a valid kwarg for show_figure(). Please give this argument to the init of DpfPlotter.
+    c:\hostedtoolcache\windows\python\3.8.10\x64\lib\site-packages\ansys\dpf\core\plotter.py:571: UserWarning: 'notebook' is not a valid kwarg for show_figure(). Please give this argument to the init of DpfPlotter.
       warnings.warn(
 
 
@@ -111,7 +111,6 @@ shown with the arguments available.
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
-
 
     # Plot the bare mesh of a model
     model = dpf.Model(examples.find_multishells_rst())
@@ -197,7 +196,7 @@ shown with the arguments available.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  8.957 seconds)
+   **Total running time of the script:** ( 0 minutes  9.287 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_00-basic_plotting.py:

@@ -36,14 +36,13 @@ exported to a CSV file.
 Load a model from the DPF-Core examples:
 ``ansys.dpf.core`` module.
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-31
+.. GENERATED FROM PYTHON SOURCE LINES 21-30
 
 .. code-block:: default
 
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
-
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -57,13 +56,13 @@ Load a model from the DPF-Core examples:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-35
+.. GENERATED FROM PYTHON SOURCE LINES 31-34
 
 Get and plot the fields container for the result
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Get the fields container for the result and plot it so you can compare it later:
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-40
+.. GENERATED FROM PYTHON SOURCE LINES 34-39
 
 .. code-block:: default
 
@@ -84,13 +83,13 @@ Get the fields container for the result and plot it so you can compare it later:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-44
+.. GENERATED FROM PYTHON SOURCE LINES 40-43
 
 Export result
 ~~~~~~~~~~~~~
 Get the fields container for the result and export it in the CSV format:
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-54
+.. GENERATED FROM PYTHON SOURCE LINES 43-53
 
 .. code-block:: default
 
@@ -111,7 +110,7 @@ Get the fields container for the result and export it in the CSV format:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-62
+.. GENERATED FROM PYTHON SOURCE LINES 54-61
 
 Upload CSV result file
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -121,7 +120,7 @@ it is assumed that the server machine architecture is unknown.
 However, when the server file path is known, :func:`upload_file`
 can be used.
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-70
+.. GENERATED FROM PYTHON SOURCE LINES 61-69
 
 .. code-block:: default
 
@@ -140,13 +139,13 @@ can be used.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-74
+.. GENERATED FROM PYTHON SOURCE LINES 70-73
 
 Download CSV result file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Download the file ``simple_bar_fc.csv``:
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-81
+.. GENERATED FROM PYTHON SOURCE LINES 73-80
 
 .. code-block:: default
 
@@ -164,13 +163,13 @@ Download the file ``simple_bar_fc.csv``:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-85
+.. GENERATED FROM PYTHON SOURCE LINES 81-84
 
 Load CSV result file as operator input
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Load the fields container contained in the CSV file as an operator input:
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-95
+.. GENERATED FROM PYTHON SOURCE LINES 84-94
 
 .. code-block:: default
 
@@ -196,13 +195,13 @@ Load the fields container contained in the CSV file as an operator input:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-99
+.. GENERATED FROM PYTHON SOURCE LINES 95-98
 
 Make operations over the imported fields container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Use this fields container to get the minimum displacement:
 
-.. GENERATED FROM PYTHON SOURCE LINES 99-105
+.. GENERATED FROM PYTHON SOURCE LINES 98-104
 
 .. code-block:: default
 
@@ -225,13 +224,13 @@ Use this fields container to get the minimum displacement:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-109
+.. GENERATED FROM PYTHON SOURCE LINES 105-108
 
 Compare the original and the downloaded fields container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Subtract the two fields and plot an error map:
 
-.. GENERATED FROM PYTHON SOURCE LINES 109-119
+.. GENERATED FROM PYTHON SOURCE LINES 108-118
 
 .. code-block:: default
 
@@ -252,7 +251,7 @@ Subtract the two fields and plot an error map:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 120-128
+.. GENERATED FROM PYTHON SOURCE LINES 119-127
 
 Plot both absolute and relative error fields
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -263,7 +262,7 @@ are dividing by the displacements ``fc_out``.
 Both plots show errors that can be understood as zero due to machine precision
 (1e-12 mm for the absolute error and 1e-5% for the relative error).
 
-.. GENERATED FROM PYTHON SOURCE LINES 128-130
+.. GENERATED FROM PYTHON SOURCE LINES 127-129
 
 .. code-block:: default
 
@@ -296,7 +295,7 @@ Both plots show errors that can be understood as zero due to machine precision
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.252 seconds)
+   **Total running time of the script:** ( 0 minutes  4.331 seconds)
 
 
 .. _sphx_glr_download_examples_04-file-IO_04-basic-load-file.py:

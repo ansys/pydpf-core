@@ -49,15 +49,15 @@ For this, we provide a short pyMAPDL script.
 The cycles to failure result is the (interpolated) negative of the stress result.
 The higher the stress result, the lower the number of cycles to failure.
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-38
+.. GENERATED FROM PYTHON SOURCE LINES 33-39
 
 .. code-block:: default
 
 
-    from ansys.dpf import core as dpf
-    from ansys.dpf.core import examples
     import numpy as np
 
+    from ansys.dpf import core as dpf
+    from ansys.dpf.core import examples
 
 
 
@@ -65,11 +65,12 @@ The higher the stress result, the lower the number of cycles to failure.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-40
+
+.. GENERATED FROM PYTHON SOURCE LINES 40-41
 
 The first step is to generate a simple model with high stress
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-60
+.. GENERATED FROM PYTHON SOURCE LINES 41-61
 
 .. code-block:: default
 
@@ -100,11 +101,11 @@ The first step is to generate a simple model with high stress
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-62
+.. GENERATED FROM PYTHON SOURCE LINES 62-63
 
 The .rst file used is already available, but can be obtained using the short pyMAPDL code below:
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-94
+.. GENERATED FROM PYTHON SOURCE LINES 63-95
 
 .. code-block:: default
 
@@ -147,11 +148,11 @@ The .rst file used is already available, but can be obtained using the short pyM
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-96
+.. GENERATED FROM PYTHON SOURCE LINES 96-97
 
 PyDPF-Core is then used to post-process the .rst file to estimate the cycles to failure.
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-104
+.. GENERATED FROM PYTHON SOURCE LINES 97-105
 
 .. code-block:: default
 
@@ -209,11 +210,11 @@ PyDPF-Core is then used to post-process the .rst file to estimate the cycles to 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 105-106
+.. GENERATED FROM PYTHON SOURCE LINES 106-107
 
 Get the von mises equivalent stress, requires an operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-111
+.. GENERATED FROM PYTHON SOURCE LINES 107-112
 
 .. code-block:: default
 
@@ -234,11 +235,11 @@ Get the von mises equivalent stress, requires an operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-113
+.. GENERATED FROM PYTHON SOURCE LINES 113-114
 
 Use NumPy to interpolate the results.
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-121
+.. GENERATED FROM PYTHON SOURCE LINES 114-122
 
 .. code-block:: default
 
@@ -257,11 +258,11 @@ Use NumPy to interpolate the results.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 122-123
+.. GENERATED FROM PYTHON SOURCE LINES 123-124
 
 Generate a cycles_to_failure DPF Field
 
-.. GENERATED FROM PYTHON SOURCE LINES 123-138
+.. GENERATED FROM PYTHON SOURCE LINES 124-139
 
 .. code-block:: default
 
@@ -295,7 +296,7 @@ Generate a cycles_to_failure DPF Field
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.643 seconds)
+   **Total running time of the script:** ( 0 minutes  2.599 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_06-cycles_to_failure.py:

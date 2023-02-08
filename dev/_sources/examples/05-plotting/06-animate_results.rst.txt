@@ -26,7 +26,7 @@ Review of available animation commands
 This example lists the different commands available for creating animations of transient results,
 shown with the arguments available.
 
-.. GENERATED FROM PYTHON SOURCE LINES 11-115
+.. GENERATED FROM PYTHON SOURCE LINES 11-114
 
 
 
@@ -102,7 +102,6 @@ shown with the arguments available.
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
-
 
     # Load the model
     model = dpf.Model(examples.find_msup_transient())
@@ -208,7 +207,7 @@ shown with the arguments available.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  14.069 seconds)
+   **Total running time of the script:** ( 0 minutes  16.072 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_06-animate_results.py:

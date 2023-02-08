@@ -28,9 +28,8 @@ of a postprocessing workflow can be different when averaging and when not.
 # Import the necessary modules
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import operators as ops
 from ansys.dpf.core import examples
-
+from ansys.dpf.core import operators as ops
 
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 

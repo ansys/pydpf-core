@@ -40,15 +40,15 @@ Import modules and set context as Premium.
 .. code-block:: default
 
 
-    import numpy as np
     import matplotlib.pyplot as plt
+    import numpy as np
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
+    from ansys.dpf.core.fields_factory import field_from_array
     from ansys.dpf.core.geometry import Line, Plane, Points
     from ansys.dpf.core.plotter import DpfPlotter
-    from ansys.dpf.core.fields_factory import field_from_array
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -475,7 +475,7 @@ Note that the plane is only displayed if some points are found inside the mesh:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.943 seconds)
+   **Total running time of the script:** ( 0 minutes  7.490 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_07-plot_on_geometries.py:

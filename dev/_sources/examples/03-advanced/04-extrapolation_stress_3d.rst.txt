@@ -52,14 +52,13 @@ Here are the steps for extrapolation:
     This example requires the Premium ServerContext.
     For more information, see :ref:`user_guide_server_context`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-45
+.. GENERATED FROM PYTHON SOURCE LINES 38-44
 
 .. code-block:: default
 
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
-
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -70,11 +69,11 @@ Here are the steps for extrapolation:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-47
+.. GENERATED FROM PYTHON SOURCE LINES 45-46
 
 Get the data source's analysis of integration points and analysis reference
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-67
+.. GENERATED FROM PYTHON SOURCE LINES 46-66
 
 .. code-block:: default
 
@@ -105,14 +104,14 @@ Get the data source's analysis of integration points and analysis reference
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-72
+.. GENERATED FROM PYTHON SOURCE LINES 67-71
 
 Extrapolate from integration points for stress result
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example uses the ``gauss_to_node_fc`` operator to compute the nodal
 component stress result from the stress result of integration points.
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-78
+.. GENERATED FROM PYTHON SOURCE LINES 71-77
 
 .. code-block:: default
 
@@ -129,7 +128,7 @@ component stress result from the stress result of integration points.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-88
+.. GENERATED FROM PYTHON SOURCE LINES 78-87
 
 Nodal stress result of integration points
 ##############################################################################
@@ -141,7 +140,7 @@ Nodal stress result of integration points
  of stresses at each node. The value shown at the node is the average of
  the stresses from the Gaussian points of each element that it belongs to.
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-94
+.. GENERATED FROM PYTHON SOURCE LINES 87-93
 
 .. code-block:: default
 
@@ -163,12 +162,12 @@ Nodal stress result of integration points
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-97
+.. GENERATED FROM PYTHON SOURCE LINES 94-96
 
 Create operator ``gauss_to_node_fc`` and compute nodal component stress
 by applying the extrapolation method.
 
-.. GENERATED FROM PYTHON SOURCE LINES 97-106
+.. GENERATED FROM PYTHON SOURCE LINES 96-105
 
 .. code-block:: default
 
@@ -188,12 +187,12 @@ by applying the extrapolation method.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 107-109
+.. GENERATED FROM PYTHON SOURCE LINES 106-108
 
 Stress result of reference Ansys Workbench
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 109-116
+.. GENERATED FROM PYTHON SOURCE LINES 108-115
 
 .. code-block:: default
 
@@ -211,13 +210,13 @@ Stress result of reference Ansys Workbench
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 117-120
+.. GENERATED FROM PYTHON SOURCE LINES 116-119
 
 Plot
 ~~~~~~~~~~
 Show plots of the extrapolation's stress result and the reference's stress result
 
-.. GENERATED FROM PYTHON SOURCE LINES 120-133
+.. GENERATED FROM PYTHON SOURCE LINES 119-132
 
 .. code-block:: default
 
@@ -258,7 +257,7 @@ Show plots of the extrapolation's stress result and the reference's stress resul
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 134-142
+.. GENERATED FROM PYTHON SOURCE LINES 133-141
 
 Compare stress results
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -269,7 +268,7 @@ The relative tolerance is set to 1.1e-6.
 The smallest value that is considered during the comparison step: all the
 ``abs(values)`` in field less than 1e-2 is considered as null.
 
-.. GENERATED FROM PYTHON SOURCE LINES 142-151
+.. GENERATED FROM PYTHON SOURCE LINES 141-150
 
 .. code-block:: default
 
@@ -295,11 +294,11 @@ The smallest value that is considered during the comparison step: all the
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 152-153
+.. GENERATED FROM PYTHON SOURCE LINES 151-152
 
 Compute absolute and relative errors
 
-.. GENERATED FROM PYTHON SOURCE LINES 153-167
+.. GENERATED FROM PYTHON SOURCE LINES 152-166
 
 .. code-block:: default
 
@@ -324,7 +323,7 @@ Compute absolute and relative errors
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 168-174
+.. GENERATED FROM PYTHON SOURCE LINES 167-173
 
 Plot absolute and relative errors.
 The absolute value is the order of 10, which is very small when compared to the
@@ -333,7 +332,7 @@ plot, where the errors are found to be below 1.02e-6%. The result of these plots
 can be used to set the tolerances for the
 :class:`identical_fc <ansys.dpf.core.operators.logic.identical_fc>` operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 174-176
+.. GENERATED FROM PYTHON SOURCE LINES 173-175
 
 .. code-block:: default
 
@@ -366,7 +365,7 @@ can be used to set the tolerances for the
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.471 seconds)
+   **Total running time of the script:** ( 0 minutes  12.575 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_04-extrapolation_stress_3d.py:

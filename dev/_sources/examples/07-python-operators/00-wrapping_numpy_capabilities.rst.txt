@@ -52,14 +52,13 @@ The Python operator and its recording are available in the
 
 Download and display the Python script.
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-55
+.. GENERATED FROM PYTHON SOURCE LINES 36-54
 
 .. code-block:: default
 
 
-    from ansys.dpf.core import examples
     from ansys.dpf import core as dpf
-
+    from ansys.dpf.core import examples
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -175,14 +174,14 @@ Download and display the Python script.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-60
+.. GENERATED FROM PYTHON SOURCE LINES 55-59
 
 Load the plugin
 ---------------
 You use the :py:func:`ansys.dpf.core.core.load_library` method to load the
 plugin.
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-77
+.. GENERATED FROM PYTHON SOURCE LINES 59-77
 
 .. code-block:: default
 
@@ -194,6 +193,7 @@ plugin.
     #
 
     import os
+
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
 
@@ -296,7 +296,7 @@ Use the operator
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.908 seconds)
+   **Total running time of the script:** ( 0 minutes  4.069 seconds)
 
 
 .. _sphx_glr_download_examples_07-python-operators_00-wrapping_numpy_capabilities.py:

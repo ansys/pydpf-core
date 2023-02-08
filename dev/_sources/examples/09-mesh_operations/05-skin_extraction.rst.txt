@@ -30,7 +30,7 @@ can be useful for specific results and for performance.
     This example requires the Premium ServerContext.
     For more information, see :ref:`user_guide_server_context`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 15-23
+.. GENERATED FROM PYTHON SOURCE LINES 15-22
 
 .. code-block:: default
 
@@ -38,7 +38,6 @@ can be useful for specific results and for performance.
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
-
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -49,12 +48,12 @@ can be useful for specific results and for performance.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-26
+.. GENERATED FROM PYTHON SOURCE LINES 23-25
 
 Create a model object to establish a connection with an
 example result file and then extract:
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-29
+.. GENERATED FROM PYTHON SOURCE LINES 25-28
 
 .. code-block:: default
 
@@ -100,14 +99,14 @@ example result file and then extract:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-34
+.. GENERATED FROM PYTHON SOURCE LINES 29-33
 
 Create the workflow
 ~~~~~~~~~~~~~~~~~~~~
 Maximum principal stress usually occurs on the skin of the
 model. Computing results only on this skin reduces the data size.
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-41
+.. GENERATED FROM PYTHON SOURCE LINES 33-40
 
 .. code-block:: default
 
@@ -125,11 +124,11 @@ model. Computing results only on this skin reduces the data size.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 41-42
 
 Plot the mesh skin:
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-45
+.. GENERATED FROM PYTHON SOURCE LINES 42-44
 
 .. code-block:: default
 
@@ -147,11 +146,11 @@ Plot the mesh skin:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-47
+.. GENERATED FROM PYTHON SOURCE LINES 45-46
 
 Compute the stress principal invariants on the skin nodes only:
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-56
+.. GENERATED FROM PYTHON SOURCE LINES 46-55
 
 .. code-block:: default
 
@@ -171,18 +170,18 @@ Compute the stress principal invariants on the skin nodes only:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-59
+.. GENERATED FROM PYTHON SOURCE LINES 56-58
 
 Manipulate data locally
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-65
+.. GENERATED FROM PYTHON SOURCE LINES 61-64
 
 This example goes over the fields, keeping the largest invariant value
 by node if the averaged value of invariants is large enough.
 Exploring data allows you to customize it to meet your needs.
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-85
+.. GENERATED FROM PYTHON SOURCE LINES 64-84
 
 .. code-block:: default
 
@@ -213,16 +212,16 @@ Exploring data allows you to customize it to meet your needs.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 86-88
+.. GENERATED FROM PYTHON SOURCE LINES 85-87
 
 Plot result field
 ~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 91-92
+.. GENERATED FROM PYTHON SOURCE LINES 90-91
 
 Plot the result field on the skin mesh:
 
-.. GENERATED FROM PYTHON SOURCE LINES 92-94
+.. GENERATED FROM PYTHON SOURCE LINES 91-93
 
 .. code-block:: default
 
@@ -240,16 +239,16 @@ Plot the result field on the skin mesh:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-97
+.. GENERATED FROM PYTHON SOURCE LINES 94-96
 
 Plot initial invariants
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-101
+.. GENERATED FROM PYTHON SOURCE LINES 99-100
 
 Plot the initial invariants on the skin mesh:
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-105
+.. GENERATED FROM PYTHON SOURCE LINES 100-104
 
 .. code-block:: default
 
@@ -291,7 +290,7 @@ Plot the initial invariants on the skin mesh:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.457 seconds)
+   **Total running time of the script:** ( 0 minutes  4.785 seconds)
 
 
 .. _sphx_glr_download_examples_09-mesh_operations_05-skin_extraction.py:

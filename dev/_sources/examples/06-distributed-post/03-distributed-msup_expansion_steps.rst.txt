@@ -96,7 +96,7 @@ chain that is used to compute the final result.
 
 Import the ``dpf-core`` module and its examples files.
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-89
+.. GENERATED FROM PYTHON SOURCE LINES 80-88
 
 .. code-block:: default
 
@@ -105,7 +105,6 @@ Import the ``dpf-core`` module and its examples files.
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
-
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -116,7 +115,7 @@ Import the ``dpf-core`` module and its examples files.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-101
+.. GENERATED FROM PYTHON SOURCE LINES 89-100
 
 Configure the servers
 ~~~~~~~~~~~~~~~~~~~~~
@@ -130,7 +129,7 @@ Consequently, it requires two remote processes.
 To make it easier, this example starts local servers. However, you can
 connect to any existing servers on your network.
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-114
+.. GENERATED FROM PYTHON SOURCE LINES 100-113
 
 .. code-block:: default
 
@@ -154,11 +153,11 @@ connect to any existing servers on your network.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 115-116
+.. GENERATED FROM PYTHON SOURCE LINES 114-115
 
 Print the IP addresses and ports.
 
-.. GENERATED FROM PYTHON SOURCE LINES 116-119
+.. GENERATED FROM PYTHON SOURCE LINES 115-118
 
 .. code-block:: default
 
@@ -179,11 +178,11 @@ Print the IP addresses and ports.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 120-121
+.. GENERATED FROM PYTHON SOURCE LINES 119-120
 
 Specify the file path.
 
-.. GENERATED FROM PYTHON SOURCE LINES 121-126
+.. GENERATED FROM PYTHON SOURCE LINES 120-125
 
 .. code-block:: default
 
@@ -199,7 +198,7 @@ Specify the file path.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 127-133
+.. GENERATED FROM PYTHON SOURCE LINES 126-132
 
 Create operators on each server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -208,7 +207,7 @@ and one for providing the mesh. Then, define their data sources. Both the
 displacement operator and mesh provider operator receive data from their
 respective data files on each server.
 
-.. GENERATED FROM PYTHON SOURCE LINES 133-146
+.. GENERATED FROM PYTHON SOURCE LINES 132-145
 
 .. code-block:: default
 
@@ -232,14 +231,14 @@ respective data files on each server.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 147-151
+.. GENERATED FROM PYTHON SOURCE LINES 146-150
 
 Create a local operator chain for expansion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The following series of operators merge the modal basis and the meshes, read
 the modal response, and expand the modal response with the modal basis.
 
-.. GENERATED FROM PYTHON SOURCE LINES 151-177
+.. GENERATED FROM PYTHON SOURCE LINES 150-176
 
 .. code-block:: default
 
@@ -254,7 +253,7 @@ the modal response, and expand the modal response with the modal basis.
     ds = dpf.DataSources(os.path.join(base_path, "file_load_2.rfrq"))
     from os import walk
 
-    for (dirpath, dirnames, filenames) in walk(base_path):
+    for dirpath, dirnames, filenames in walk(base_path):
         print(filenames)
     response2 = ops.result.displacement(data_sources=ds)
     response2fc = response2.outputs.fields_container()
@@ -282,12 +281,12 @@ the modal response, and expand the modal response with the modal basis.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 178-180
+.. GENERATED FROM PYTHON SOURCE LINES 177-179
 
 Connect the operator chains together and get the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 180-190
+.. GENERATED FROM PYTHON SOURCE LINES 179-189
 
 .. code-block:: default
 
@@ -379,7 +378,7 @@ Connect the operator chains together and get the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.450 seconds)
+   **Total running time of the script:** ( 0 minutes  3.634 seconds)
 
 
 .. _sphx_glr_download_examples_06-distributed-post_03-distributed-msup_expansion_steps.py:

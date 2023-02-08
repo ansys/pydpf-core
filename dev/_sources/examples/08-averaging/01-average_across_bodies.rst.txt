@@ -46,15 +46,14 @@ of a postprocessing workflow can be different when averaging and when not.
 
 Import the necessary modules
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-37
+.. GENERATED FROM PYTHON SOURCE LINES 29-36
 
 .. code-block:: default
 
 
     from ansys.dpf import core as dpf
-    from ansys.dpf.core import operators as ops
     from ansys.dpf.core import examples
-
+    from ansys.dpf.core import operators as ops
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -65,11 +64,11 @@ Import the necessary modules
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-39
+.. GENERATED FROM PYTHON SOURCE LINES 37-38
 
 Load the simulation results from an RST file and create a model of it.
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-44
+.. GENERATED FROM PYTHON SOURCE LINES 38-43
 
 .. code-block:: default
 
@@ -122,13 +121,13 @@ Load the simulation results from an RST file and create a model of it.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-48
+.. GENERATED FROM PYTHON SOURCE LINES 44-47
 
 To visualize the model and see how the bodies are connected, extract their
 individual meshes using the ``split_mesh`` operator with the ``mat`` (or "material")
 property.
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-55
+.. GENERATED FROM PYTHON SOURCE LINES 47-54
 
 .. code-block:: default
 
@@ -151,12 +150,12 @@ property.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-58
+.. GENERATED FROM PYTHON SOURCE LINES 55-57
 
 As can be seen in the preceding image, even though the piston rod is one single part,
 it is composed of two different bodies. Additionally, their interface shares common nodes.
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-67
+.. GENERATED FROM PYTHON SOURCE LINES 59-66
 
 Averaging across bodies with DPF
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -166,7 +165,7 @@ The variable of interest is the Von Mises stress field, which is
 calculated by applying the ``eqv_fc`` operator on the
 stresses extracted from the model.
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-103
+.. GENERATED FROM PYTHON SOURCE LINES 68-102
 
 .. graphviz::
 
@@ -203,7 +202,7 @@ stresses extracted from the model.
       }
   }
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-112
+.. GENERATED FROM PYTHON SOURCE LINES 105-111
 
 Workflow for not averaging across bodies
 ----------------------------------------
@@ -212,7 +211,7 @@ model requires the stresses to be extracted separately for each body.
 To do this in DPF, pass a scopings container the stress operator that
 contains the elements of each body in scopings, separated by the ``mat`` label
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-120
+.. GENERATED FROM PYTHON SOURCE LINES 111-119
 
 .. code-block:: default
 
@@ -241,11 +240,11 @@ contains the elements of each body in scopings, separated by the ``mat`` label
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 121-122
+.. GENERATED FROM PYTHON SOURCE LINES 120-121
 
 Set the time set of interest to the last time set:
 
-.. GENERATED FROM PYTHON SOURCE LINES 122-124
+.. GENERATED FROM PYTHON SOURCE LINES 121-123
 
 .. code-block:: default
 
@@ -258,11 +257,11 @@ Set the time set of interest to the last time set:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 125-126
+.. GENERATED FROM PYTHON SOURCE LINES 124-125
 
 Extracting the stresses for each body of the simulation:
 
-.. GENERATED FROM PYTHON SOURCE LINES 126-133
+.. GENERATED FROM PYTHON SOURCE LINES 125-132
 
 .. code-block:: default
 
@@ -280,11 +279,11 @@ Extracting the stresses for each body of the simulation:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 134-135
+.. GENERATED FROM PYTHON SOURCE LINES 133-134
 
 Proceeding with the workflow to obtain ``Nodal`` Von Mises stresses:
 
-.. GENERATED FROM PYTHON SOURCE LINES 135-143
+.. GENERATED FROM PYTHON SOURCE LINES 134-142
 
 .. code-block:: default
 
@@ -316,14 +315,14 @@ Proceeding with the workflow to obtain ``Nodal`` Von Mises stresses:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 144-148
+.. GENERATED FROM PYTHON SOURCE LINES 143-147
 
 As you can see, the final Von Mises stresses fields container has the ``mat``
 label with two different entries, meaning that it holds data for two separate bodies.
 Finally, define this workflow as a function for better organization and
 ease of use:
 
-.. GENERATED FROM PYTHON SOURCE LINES 148-181
+.. GENERATED FROM PYTHON SOURCE LINES 147-180
 
 .. code-block:: default
 
@@ -367,7 +366,7 @@ ease of use:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 182-189
+.. GENERATED FROM PYTHON SOURCE LINES 181-188
 
 Workflow for averaging across bodies
 ------------------------------------
@@ -377,7 +376,7 @@ in the end, where a weighted merge is done between the fields that contain diffe
 values for the ``mat`` label to actually average the results across the bodies.
 Define a function like the one above:
 
-.. GENERATED FROM PYTHON SOURCE LINES 189-231
+.. GENERATED FROM PYTHON SOURCE LINES 188-230
 
 .. code-block:: default
 
@@ -430,12 +429,12 @@ Define a function like the one above:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 232-234
+.. GENERATED FROM PYTHON SOURCE LINES 231-233
 
 In this case, we can see that the output fields container only has one field, indicating
 that the results of the two different bodies were averaged successfully.
 
-.. GENERATED FROM PYTHON SOURCE LINES 234-237
+.. GENERATED FROM PYTHON SOURCE LINES 233-236
 
 .. code-block:: default
 
@@ -461,7 +460,7 @@ that the results of the two different bodies were averaged successfully.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 238-243
+.. GENERATED FROM PYTHON SOURCE LINES 237-242
 
 Plot and compare the results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -469,7 +468,7 @@ The two different approaches can be compared. The first plot shows the
 results when averaging across bodies is not performed, while the second illustrates
 when it is.
 
-.. GENERATED FROM PYTHON SOURCE LINES 243-249
+.. GENERATED FROM PYTHON SOURCE LINES 242-248
 
 .. code-block:: default
 
@@ -503,11 +502,11 @@ when it is.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 250-251
+.. GENERATED FROM PYTHON SOURCE LINES 249-250
 
 Finally, the maximum stresses for both cases can be compared:
 
-.. GENERATED FROM PYTHON SOURCE LINES 251-273
+.. GENERATED FROM PYTHON SOURCE LINES 250-272
 
 .. code-block:: default
 
@@ -548,7 +547,7 @@ Finally, the maximum stresses for both cases can be compared:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 274-284
+.. GENERATED FROM PYTHON SOURCE LINES 273-283
 
 Dedicated Operator
 ~~~~~~~~~~~~~~~~~~
@@ -561,7 +560,7 @@ Alternatively, those workflows can be automatically instantiated by calling the
 in the functions above, depending on what is passed to the "average_across_bodies" input
 pin:
 
-.. GENERATED FROM PYTHON SOURCE LINES 284-292
+.. GENERATED FROM PYTHON SOURCE LINES 283-291
 
 .. code-block:: default
 
@@ -596,7 +595,7 @@ pin:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.456 seconds)
+   **Total running time of the script:** ( 0 minutes  5.073 seconds)
 
 
 .. _sphx_glr_download_examples_08-averaging_01-average_across_bodies.py:

@@ -32,7 +32,7 @@ without any more difficulties than working on a local computer.
     This example requires the Premium ServerContext.
     For more information, see :ref:`user_guide_server_context`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-26
+.. GENERATED FROM PYTHON SOURCE LINES 18-25
 
 .. code-block:: default
 
@@ -40,7 +40,6 @@ without any more difficulties than working on a local computer.
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
-
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -51,7 +50,7 @@ without any more difficulties than working on a local computer.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-36
+.. GENERATED FROM PYTHON SOURCE LINES 26-35
 
 Create two servers
 ~~~~~~~~~~~~~~~~~~
@@ -63,7 +62,7 @@ method to connect to any DPF server on your network.
 The ``as_global`` attributes allows you to choose whether a server is stored
 by the module and used by default. This example sets the first server as the default.
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-45
+.. GENERATED FROM PYTHON SOURCE LINES 35-44
 
 .. code-block:: default
 
@@ -89,7 +88,7 @@ by the module and used by default. This example sets the first server as the def
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-51
+.. GENERATED FROM PYTHON SOURCE LINES 45-50
 
 Send the result file
 ~~~~~~~~~~~~~~~~~~~~
@@ -97,7 +96,7 @@ The result file is sent to the temporary directory of the first server.
 This file upload is useless in this case because the two servers are local
 machines.
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-53
+.. GENERATED FROM PYTHON SOURCE LINES 50-52
 
 .. code-block:: default
 
@@ -110,13 +109,13 @@ machines.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-57
+.. GENERATED FROM PYTHON SOURCE LINES 53-56
 
 Create a workflow on the first server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Create the model
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-63
+.. GENERATED FROM PYTHON SOURCE LINES 56-62
 
 .. code-block:: default
 
@@ -133,12 +132,12 @@ Create the model
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-66
+.. GENERATED FROM PYTHON SOURCE LINES 63-65
 
 Create a workflow on the second server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-79
+.. GENERATED FROM PYTHON SOURCE LINES 65-78
 
 .. code-block:: default
 
@@ -162,12 +161,12 @@ Create a workflow on the second server
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-82
+.. GENERATED FROM PYTHON SOURCE LINES 79-81
 
 Pass data from one server to another
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-92
+.. GENERATED FROM PYTHON SOURCE LINES 81-91
 
 .. code-block:: default
 
@@ -188,12 +187,12 @@ Pass data from one server to another
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 93-95
+.. GENERATED FROM PYTHON SOURCE LINES 92-94
 
 Plot the output
 ~~~~~~~~~~~~~~~
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-102
+.. GENERATED FROM PYTHON SOURCE LINES 94-101
 
 .. code-block:: default
 
@@ -231,7 +230,7 @@ Plot the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.143 seconds)
+   **Total running time of the script:** ( 0 minutes  7.035 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_03-exchange_data_between_servers.py:
