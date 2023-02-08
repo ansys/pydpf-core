@@ -80,7 +80,7 @@ where ``###`` is the three-digit format for the installed version. For example,
 on Windows, the path for the root folder for Ansys 2022 R2 likely ends with
 ``\ANSYS Inc\v222``.
 
-The ``ANSYS_ROOT_FOLDER`` element defines a variable like an environment variable 
+The ``ANSYS_ROOT_FOLDER`` element defines a variable 
 that can be used in the other XML files. For example, you might use it to find required
 third-party software.
 
