@@ -93,7 +93,7 @@ location.
 If the ``ANSYS_ROOT_FOLDER`` element is still not defined, the root folder is 
 determined by reading the ``AWP_ROOT###`` environment variable specific to your 
 installed Ansys version. For example, if you are using Ansys 2022 R2, it looks 
-for ``AWP_ROOT222`` to find the root folder.
+for the ``AWP_ROOT222`` environment variable to find the root folder.
 
 ANSYS_ROOT_FOLDER is not an environment variable and can not be set accordingly.
 
