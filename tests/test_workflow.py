@@ -1,10 +1,11 @@
-import numpy as np
-import pytest
 import platform
 
+import numpy as np
+import pytest
+
+from ansys import dpf
 import ansys.dpf.core.operators as op
 import conftest
-from ansys import dpf
 
 
 def test_create_workflow(server_type):

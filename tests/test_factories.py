@@ -1,12 +1,14 @@
 import numpy as np
 import pytest
 
+from ansys.dpf.core import (
+    fields_container_factory,
+    fields_factory,
+    mesh_scoping_factory,
+    time_freq_scoping_factory,
+)
 from ansys.dpf.core import Model
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import fields_container_factory
-from ansys.dpf.core import fields_factory
-from ansys.dpf.core import mesh_scoping_factory
-from ansys.dpf.core import time_freq_scoping_factory
 from ansys.dpf.core.common import locations
 
 

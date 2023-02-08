@@ -3,19 +3,19 @@ StringField
 ===========
 """
 
-import numpy as np
-from ansys.dpf.core.common import natures, locations, _get_size_of_list
-from ansys.dpf.core import scoping
-from ansys.dpf.core import server as server_module
-from ansys.dpf.core import errors
-from ansys.dpf.core.field_base import _FieldBase
 from ansys.dpf.gate import (
+    dpf_vector,
+    integral_types,
     string_field_abstract_api,
     string_field_capi,
     string_field_grpcapi,
-    dpf_vector,
-    integral_types,
 )
+import numpy as np
+
+from ansys.dpf.core import errors, scoping
+from ansys.dpf.core import server as server_module
+from ansys.dpf.core.common import _get_size_of_list, locations, natures
+from ansys.dpf.core.field_base import _FieldBase
 
 
 class StringField(_FieldBase):

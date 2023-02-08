@@ -3,10 +3,9 @@ import os.path
 
 import pytest
 
-from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0
 from ansys.dpf import core as dpf
-from ansys.dpf.core import Model
-from ansys.dpf.core import examples
+from ansys.dpf.core import Model, examples
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0, running_docker
 
 
 def test_download_all_kinds_of_complexity_modal():

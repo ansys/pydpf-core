@@ -1,15 +1,14 @@
+import datetime
+from importlib import reload
 import os
+import pkgutil
+import platform
 
 import pytest
-import conftest
-import pkgutil
-import datetime
-import platform
-from importlib import reload
 
 from ansys import dpf
-from ansys.dpf.core import path_utilities
-from ansys.dpf.core import examples
+from ansys.dpf.core import examples, path_utilities
+import conftest
 from conftest import running_docker
 
 
@@ -277,7 +276,7 @@ def test_dpf_join(server_type):
     reason="GrpcServer class is " "supported starting server version 4.0",
 )
 def test_load_api_without_awp_root(restore_awp_root):
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
@@ -311,7 +310,7 @@ def test_load_api_without_awp_root(restore_awp_root):
 )
 def test_load_api_with_awp_root():
     # with awp_root
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     serv_2 = dpf.core.start_local_server(config=conf, as_global=False)
@@ -329,7 +328,7 @@ def test_load_api_with_awp_root():
     reason="GrpcServer class is " "supported starting server version 4.0",
 )
 def test_load_api_with_awp_root_2():
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
@@ -356,7 +355,7 @@ def test_load_api_with_awp_root_2():
     reason="GrpcServer class is " "supported starting server version 4.0",
 )
 def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)
@@ -387,7 +386,7 @@ def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
 )
 def test_load_api_with_awp_root_no_gatebin():
     # with awp_root
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
     serv_2 = dpf.core.start_local_server(config=conf, as_global=False)
@@ -409,7 +408,7 @@ def test_load_api_with_awp_root_no_gatebin():
     reason="GrpcServer class is " "supported starting server version 4.0",
 )
 def test_load_api_with_awp_root_2_no_gatebin():
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 
     legacy_conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     loc_serv = dpf.core.start_local_server(config=legacy_conf, as_global=False)

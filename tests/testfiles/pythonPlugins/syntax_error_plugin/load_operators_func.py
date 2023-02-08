@@ -1,5 +1,4 @@
-from ansys.dpf.core.custom_operator import record_operator
-from ansys.dpf.core.custom_operator import CustomOperatorBase
+from ansys.dpf.core.custom_operator import CustomOperatorBase, record_operator
 
 
 class SyntaxeError(CustomOperatorBase):

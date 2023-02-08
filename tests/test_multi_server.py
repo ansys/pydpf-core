@@ -1,11 +1,11 @@
 import numpy as np
 import pytest
-import conftest
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core import examples, server_types, server
+from ansys.dpf.core import examples, server, server_types
 from ansys.dpf.core.errors import ServerTypeError
-from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
+import conftest
 
 if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
     dpf.set_default_server_context(dpf.AvailableServerContexts.entry)

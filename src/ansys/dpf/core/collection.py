@@ -5,23 +5,23 @@ Contains classes associated with the DPF collection.
 
 """
 import abc
-import warnings
 import traceback
+import warnings
 
-import numpy as np
-
-from ansys.dpf.core.server_types import BaseServer
-from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core.label_space import LabelSpace
-from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
     collection_capi,
     collection_grpcapi,
     data_processing_capi,
     data_processing_grpcapi,
-    dpf_vector,
     dpf_array,
+    dpf_vector,
 )
+import numpy as np
+
+from ansys.dpf.core import server as server_module
+from ansys.dpf.core.label_space import LabelSpace
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.server_types import BaseServer
 
 
 class Collection:
@@ -370,14 +370,15 @@ class Collection:
         -------
         time_freq_support : TimeFreqSupport
         """
-        from ansys.dpf.core.time_freq_support import TimeFreqSupport
         from ansys.dpf.gate import (
-            support_capi,
-            support_grpcapi,
-            object_handler,
             data_processing_capi,
             data_processing_grpcapi,
+            object_handler,
+            support_capi,
+            support_grpcapi,
         )
+
+        from ansys.dpf.core.time_freq_support import TimeFreqSupport
 
         data_api = self._server.get_api_for_type(
             capi=data_processing_capi.DataProcessingCAPI,

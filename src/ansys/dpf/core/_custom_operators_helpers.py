@@ -1,23 +1,24 @@
-from ansys.dpf.gate import capi, external_operator_capi
 from enum import Enum
 
+from ansys.dpf.gate import capi, external_operator_capi
+
 from ansys.dpf.core import (
-    field,
-    property_field,
-    scoping,
     collection,
+    custom_type_field,
     data_sources,
-    meshed_region,
-    time_freq_support,
-    workflow,
     data_tree,
     dpf_operator,
+    field,
     fields_container,
-    scopings_container,
+    meshed_region,
     meshes_container,
+    property_field,
     result_info,
+    scoping,
+    scopings_container,
     string_field,
-    custom_type_field,
+    time_freq_support,
+    workflow,
 )
 
 external_operator_api = external_operator_capi.ExternalOperatorCAPI

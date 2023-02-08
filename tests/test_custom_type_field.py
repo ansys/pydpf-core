@@ -1,9 +1,8 @@
 import numpy as np
 
-import conftest
-
 from ansys import dpf
 from ansys.dpf import core
+import conftest
 
 
 @conftest.raises_for_servers_version_under("5.0")

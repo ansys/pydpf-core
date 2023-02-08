@@ -5,12 +5,14 @@ Elements
 ========
 """
 from enum import Enum
-import numpy as np
-from ansys.dpf.core import nodes, scoping
-from ansys.dpf.core.common import locations, elemental_properties
-from ansys.dpf.core.element_descriptor import ElementDescriptor
+
 from ansys.dpf.gate import integral_types
+import numpy as np
+
+from ansys.dpf.core import nodes, scoping
 from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.common import elemental_properties, locations
+from ansys.dpf.core.element_descriptor import ElementDescriptor
 
 
 class Element:

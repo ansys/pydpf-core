@@ -1,16 +1,16 @@
-from ansys.dpf.core.custom_operator import CustomOperatorBase
 from ansys.dpf.core import (
+    data_sources,
+    data_tree,
     field,
-    scoping,
     fields_container,
     meshes_container,
-    scopings_container,
     property_field,
-    data_sources,
+    scoping,
+    scopings_container,
     types,
     workflow,
-    data_tree,
 )
+from ansys.dpf.core.custom_operator import CustomOperatorBase
 
 
 class ForwardFieldOperator(CustomOperatorBase):

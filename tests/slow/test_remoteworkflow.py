@@ -4,7 +4,7 @@ import pytest
 from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
-from ansys.dpf.core.check_version import meets_version, get_server_version
+from ansys.dpf.core.check_version import get_server_version, meets_version
 from conftest import local_servers
 
 SERVER_VERSION_HIGHER_THAN_3_0 = meets_version(get_server_version(core._global_server()), "3.0")

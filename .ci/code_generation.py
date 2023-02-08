@@ -1,13 +1,13 @@
 # import subprocess
 
+import glob
+import os
+from pathlib import Path
+import shutil
+import time
+
 from ansys.dpf import core
 from ansys.dpf.core.operators import build
-import os
-import glob
-from pathlib import Path
-import time
-import shutil
-
 
 core.set_default_server_context(core.AvailableServerContexts.premium)
 

@@ -1,7 +1,8 @@
 import pytest
-import conftest
+
 from ansys.dpf import core as dpf
 from ansys.dpf.core import errors as dpf_errors
+import conftest
 
 
 @pytest.mark.skipif(

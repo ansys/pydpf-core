@@ -16,7 +16,7 @@ def test_start_remote(monkeypatch):
 
     # Start a local DPF server and create a mock PyPIM pretending it is starting it
     from ansys.dpf import core
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     local_server = core.start_local_server(as_global=False, config=conf)

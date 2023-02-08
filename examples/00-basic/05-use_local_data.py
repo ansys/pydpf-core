@@ -17,7 +17,6 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
-
 ###############################################################################
 # Create a model object to establish a connection with an
 # example result file and then extract:

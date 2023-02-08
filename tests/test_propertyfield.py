@@ -1,12 +1,13 @@
+import copy
+import gc
+
 import numpy as np
 import pytest
-import copy
-import conftest
-import gc
 
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.common import locations, natures
+import conftest
 
 
 @pytest.fixture()

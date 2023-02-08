@@ -1,5 +1,5 @@
-import conftest
 from ansys.dpf import core as dpf
+import conftest
 
 
 @conftest.raises_for_servers_version_under("5.0")

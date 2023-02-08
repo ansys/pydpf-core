@@ -83,7 +83,6 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
-
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
@@ -159,7 +158,7 @@ response.inputs.mesh(merge_mesh.outputs.merges_mesh)
 ds = dpf.DataSources(os.path.join(base_path, "file_load_2.rfrq"))
 from os import walk
 
-for (dirpath, dirnames, filenames) in walk(base_path):
+for dirpath, dirnames, filenames in walk(base_path):
     print(filenames)
 response2 = ops.result.displacement(data_sources=ds)
 response2fc = response2.outputs.fields_container()

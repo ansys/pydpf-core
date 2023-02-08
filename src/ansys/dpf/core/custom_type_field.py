@@ -6,20 +6,15 @@ CustomTypeField
 """
 import warnings
 
+from ansys.dpf.gate import dpf_array, dpf_vector, integral_types
 import numpy as np
 
+from ansys.dpf.core import errors, scoping
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core import errors
-from ansys.dpf.core import scoping
-from ansys.dpf.core.common import locations, _get_size_of_list
+from ansys.dpf.core.common import _get_size_of_list, locations
 from ansys.dpf.core.field_base import _FieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.core.support import Support
-from ansys.dpf.gate import (
-    dpf_array,
-    dpf_vector,
-    integral_types,
-)
 
 
 class dict_with_missing_numpy_type(dict):

@@ -1,16 +1,17 @@
+import io
 import os
-
-import pytest
-import psutil
 import subprocess
 import sys
-import io
+
+import psutil
+import pytest
+
 from ansys.dpf import core
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     DPF_SERVER_TYPE,
-    configsserver_type,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     config_namesserver_type,
+    configsserver_type,
     running_docker,
 )
 
@@ -195,8 +196,9 @@ class TestServerConfigs:
 
 @pytest.mark.skipif(running_docker, reason="Not made to work on docker")
 def test_start_local_failed_executable(remote_config_server_type):
-    from ansys.dpf.core.misc import get_ansys_path
     from pathlib import Path
+
+    from ansys.dpf.core.misc import get_ansys_path
 
     with pytest.raises(FileNotFoundError):
         path = Path(get_ansys_path()).parent.absolute()

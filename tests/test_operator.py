@@ -1,3 +1,4 @@
+import copy
 import gc
 import os
 import shutil
@@ -5,7 +6,6 @@ import weakref
 
 import numpy as np
 import pytest
-import copy
 
 from ansys import dpf
 from ansys.dpf.core import errors

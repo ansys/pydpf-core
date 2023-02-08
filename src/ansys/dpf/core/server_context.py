@@ -9,9 +9,9 @@ The default context can be overwritten using the ANSYS_DPF_SERVER_CONTEXT enviro
 variable.
 ANSYS_DPF_SERVER_CONTEXT=ENTRY and ANSYS_DPF_SERVER_CONTEXT=PREMIUM can be used.
 """
+from enum import Enum
 import os
 import warnings
-from enum import Enum
 
 
 class LicensingContextType(Enum):

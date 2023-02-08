@@ -8,7 +8,6 @@ from ansys.dpf.core import examples, misc
 from ansys.dpf.core.errors import ServerTypeError
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 
-
 NO_PLOTTING = True
 
 if misc.module_exists("pyvista"):

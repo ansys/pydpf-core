@@ -1,20 +1,15 @@
+from abc import abstractmethod
 import traceback
 import warnings
 
-from abc import abstractmethod
+from ansys.dpf.gate import data_processing_capi, data_processing_grpcapi
 from ansys.dpf.gate.generated import field_abstract_api
+import numpy as np
 
-from ansys.dpf.core import scoping
-from ansys.dpf.core.common import natures, locations
-from ansys.dpf.core import errors
+from ansys.dpf.core import errors, scoping
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.cache import _setter
-from ansys.dpf.gate import (
-    data_processing_capi,
-    data_processing_grpcapi,
-)
-
-import numpy as np
+from ansys.dpf.core.common import locations, natures
 
 
 class _FieldBase:

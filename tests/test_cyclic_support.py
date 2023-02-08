@@ -1,7 +1,7 @@
 import gc
 import weakref
-import numpy as np
 
+import numpy as np
 import pytest
 
 from ansys import dpf

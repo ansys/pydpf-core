@@ -1,11 +1,10 @@
-import numpy as np
-import pytest
 import weakref
 
+import numpy as np
+import pytest
+
 from ansys import dpf
-from ansys.dpf.core import TimeFreqSupport, Model
-from ansys.dpf.core import examples
-from ansys.dpf.core import fields_factory
+from ansys.dpf.core import Model, TimeFreqSupport, examples, fields_factory
 from ansys.dpf.core.common import locations
 import conftest
 
@@ -296,8 +295,9 @@ def test_workflow_connect_get_output_time_freq_support(velocity_acceleration):
 @pytest.mark.skipif(True, reason="used to check memory leaks")
 def test_timefreqsupport_memory_leaks():
     import gc
+
     from ansys.dpf.core import start_local_server
-    from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+    from ansys.dpf.core.server_factory import CommunicationProtocols, ServerConfig
 
     config = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
     # config = ServerConfig(protocol=CommunicationProtocols.gRPC)

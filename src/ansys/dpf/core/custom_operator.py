@@ -8,27 +8,28 @@ Contains utilities allowing you to implement and record custom Python operators.
 
 import abc
 import ctypes
-import numpy
 import traceback
+
+from ansys.dpf.gate import capi, dpf_vector, integral_types, object_handler
+import numpy
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import (
-    settings,
+    AvailableServerContexts,
+    collection,
+    dpf_operator,
+    operator_specification,
     server,
     server_factory,
-    operator_specification,
-    dpf_operator,
-    collection,
-    AvailableServerContexts,
+    settings,
 )
 from ansys.dpf.core._custom_operators_helpers import (
     __operator_main__,
-    functions_registry,
-    external_operator_api,
-    _type_to_output_method,
     _type_to_input_method,
+    _type_to_output_method,
+    external_operator_api,
+    functions_registry,
 )
-from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
 
 
 def record_operator(operator_type, *args) -> None:

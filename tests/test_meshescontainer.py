@@ -4,9 +4,9 @@ import weakref
 
 import pytest
 
-import conftest
 from ansys import dpf
 from ansys.dpf.core import MeshesContainer
+import conftest
 
 
 # TO DO: add server type

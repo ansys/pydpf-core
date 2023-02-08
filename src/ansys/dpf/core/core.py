@@ -2,28 +2,26 @@
 Core
 ====
 """
-import os
 import logging
+import os
 import warnings
 import weakref
+
+from ansys.dpf.gate import (
+    collection_capi,
+    collection_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
+    integral_types,
+    object_handler,
+    tmp_dir_capi,
+    tmp_dir_grpcapi,
+)
 
 from ansys.dpf.core import errors, misc
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.check_version import version_requires
-from ansys.dpf.core.runtime_config import (
-    RuntimeClientConfig,
-    RuntimeCoreConfig,
-)
-from ansys.dpf.gate import (
-    data_processing_capi,
-    data_processing_grpcapi,
-    tmp_dir_capi,
-    tmp_dir_grpcapi,
-    collection_capi,
-    collection_grpcapi,
-    integral_types,
-    object_handler,
-)
+from ansys.dpf.core.runtime_config import RuntimeClientConfig, RuntimeCoreConfig
 
 try:
     from grpc import _channel  # noqa: F401

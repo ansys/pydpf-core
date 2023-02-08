@@ -1,7 +1,7 @@
 import numpy as np
 
-from ansys.dpf.core import operators as ops
 from ansys import dpf
+from ansys.dpf.core import operators as ops
 
 
 def test_add_operator_server_field(local_server):

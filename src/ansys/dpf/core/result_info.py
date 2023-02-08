@@ -2,28 +2,28 @@
 ResultInfo
 ==========
 """
+from enum import Enum, unique
 import traceback
+from types import SimpleNamespace
 import warnings
 
-from enum import Enum, unique
-from types import SimpleNamespace
 from ansys.dpf.gate import (
-    result_info_capi,
-    result_info_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
     integral_types,
     label_space_capi,
     label_space_grpcapi,
     object_handler,
-    data_processing_grpcapi,
-    data_processing_capi,
+    result_info_capi,
+    result_info_grpcapi,
 )
 
-from ansys.dpf.core import collection
+from ansys.dpf.core import available_result, collection
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core import available_result, support
+from ansys.dpf.core import support
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.label_space import LabelSpace
-from ansys.dpf.core.check_version import version_requires
 
 
 @unique

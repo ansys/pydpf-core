@@ -1,12 +1,13 @@
+import copy
+
 import numpy as np
 import pytest
 
 from ansys import dpf
-import conftest
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0
-import copy
 from ansys.dpf.core import Scoping
 from ansys.dpf.core import errors as dpf_errors
+import conftest
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0
 
 
 def test_create_scoping():

@@ -1,8 +1,9 @@
+import weakref
+
 import pytest
 
 from ansys import dpf
 import conftest
-import weakref
 
 skip_always = pytest.mark.skipif(True, reason="Investigate why this is failing")
 

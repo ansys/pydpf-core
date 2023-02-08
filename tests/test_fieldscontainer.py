@@ -1,20 +1,19 @@
+import os
 import weakref
 
 import numpy as np
 import pytest
-import os
 
-import conftest
 from ansys.dpf import core as dpf
-from ansys.dpf.core import FieldsContainer, Field, TimeFreqSupport
+from ansys.dpf.core import Field, FieldsContainer, TimeFreqSupport
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import examples
-from ansys.dpf.core import fields_factory
+from ansys.dpf.core import examples, fields_factory
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.custom_fields_container import (
-    ElShapeFieldsContainer,
     BodyFieldsContainer,
+    ElShapeFieldsContainer,
 )
+import conftest
 
 
 @pytest.fixture()

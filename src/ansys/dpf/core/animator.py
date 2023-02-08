@@ -5,11 +5,12 @@ This module contains the DPF animator class.
 
 Contains classes used to animate results based on workflows using PyVista.
 """
+from typing import Sequence, Union
+
 import numpy as np
-from typing import Union, Sequence
 
 import ansys.dpf.core as core
-from ansys.dpf.core.plotter import _sort_supported_kwargs, _PyVistaPlotter
+from ansys.dpf.core.plotter import _PyVistaPlotter, _sort_supported_kwargs
 
 
 class _InternalAnimatorFactory:

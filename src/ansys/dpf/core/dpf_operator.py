@@ -5,33 +5,34 @@ Operator
 ========
 """
 
+from enum import Enum
 import logging
 import os
 import traceback
 import warnings
 
-from enum import Enum
-from ansys.dpf.core.check_version import version_requires, server_meet_version
+from ansys.dpf.gate import (
+    collection_capi,
+    collection_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
+    dpf_vector,
+    object_handler,
+    operator_abstract_api,
+    operator_capi,
+    operator_grpcapi,
+)
+
+from ansys.dpf.core import server as server_module
+from ansys.dpf.core.check_version import server_meet_version, version_requires
+from ansys.dpf.core.common import types_enum_to_types
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
 from ansys.dpf.core.mapping_types import types
-from ansys.dpf.core.common import types_enum_to_types
-from ansys.dpf.core.outputs import Output, Outputs, _Outputs
-from ansys.dpf.core import server as server_module
 from ansys.dpf.core.operator_specification import Specification
+from ansys.dpf.core.outputs import Output, Outputs, _Outputs
 from ansys.dpf.core.unit_system import UnitSystem
-from ansys.dpf.gate import (
-    operator_capi,
-    operator_abstract_api,
-    operator_grpcapi,
-    data_processing_capi,
-    data_processing_grpcapi,
-    collection_capi,
-    collection_grpcapi,
-    dpf_vector,
-    object_handler,
-)
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -270,23 +271,23 @@ class Operator:
     @property
     def _type_to_output_method(self):
         from ansys.dpf.core import (
+            collection,
+            custom_type_field,
             cyclic_support,
             data_sources,
+            data_tree,
             field,
             fields_container,
             meshed_region,
             meshes_container,
             property_field,
-            string_field,
-            custom_type_field,
             result_info,
             scoping,
             scopings_container,
-            time_freq_support,
-            data_tree,
-            workflow,
-            collection,
             streams_container,
+            string_field,
+            time_freq_support,
+            workflow,
         )
 
         return [
@@ -378,19 +379,19 @@ class Operator:
     @property
     def _type_to_input_method(self):
         from ansys.dpf.core import (
+            collection,
+            custom_type_field,
             cyclic_support,
             data_sources,
-            field,
-            collection,
-            meshed_region,
-            property_field,
-            string_field,
-            custom_type_field,
-            scoping,
-            time_freq_support,
             data_tree,
-            workflow,
+            field,
+            meshed_region,
             model,
+            property_field,
+            scoping,
+            string_field,
+            time_freq_support,
+            workflow,
         )
 
         return [

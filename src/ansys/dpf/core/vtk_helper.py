@@ -20,6 +20,7 @@ from vtk import (
     VTK_WEDGE,
     vtkVersion,
 )
+
 from ansys.dpf.core.elements import element_types
 
 VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
@@ -250,7 +251,6 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
         # visualization bug within VTK with quadratic surf cells
         ansquad8_mask = etypes == 6
         if np.any(ansquad8_mask):  # kAnsQuad8
-
             # simply copy the edge node indices to the midside points
             offset = compute_offset()
             cell_pos = offset[ansquad8_mask]

@@ -1,8 +1,8 @@
 import ansys.dpf.core as dpf
 from ansys.dpf.core.server_context import (
-    set_default_server_context,
-    AvailableServerContexts,
     SERVER_CONTEXT,
+    AvailableServerContexts,
+    set_default_server_context,
 )
 
 print(f"Server version: {dpf.global_server().version}")
