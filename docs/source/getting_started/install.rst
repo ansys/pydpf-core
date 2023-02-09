@@ -39,7 +39,7 @@ network isolation, download the wheelhouse corresponding to your platform and Py
 for the latest release of PyDPF-Core from the assets section of the `latest PyDPF-Core release on GitHub <https://github.com/pyansys/pydpf-core/releases/latest>`_. 
 
 The wheelhouse is a ZIP file containing Python wheels for all the packages PyDPF-Core requires to run.
-To install PyDPF-Core using the dowloaded wheelhouse, unzip the wheelhouse to a local directory,
+To install PyDPF-Core using the downloaded wheelhouse, unzip the wheelhouse to a local directory,
 then use the following command from within this local directory:
 .. code::
 
@@ -48,7 +48,7 @@ then use the following command from within this local directory:
 Beware that PyDPF-Core wheelhouses do not include the optional plotting dependencies.
 To allow for plotting capabilities, also download the wheels corresponding to your platform and Python interpreter version
 for `PyVista <https://pypi.org/project/pyvista/#files>`_ and 
-`Matplotlib <https://pypi.org/project/matplotlib/#files>`_, then place them in the same previous local directory and run the command above.
+`matplotlib <https://pypi.org/project/matplotlib/#files>`_, then place them in the same previous local directory and run the command above.
 
 
 Install for a quick tryout
