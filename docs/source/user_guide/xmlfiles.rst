@@ -106,7 +106,7 @@ in the child elements.
 The ``<native>`` element defines DPF native operators. The further subdividing of
 plugins into ``<Debug>`` or ``<Release>`` elements is optional. The ``<Debug>``
 element, for example, would only be used with a debug version of the
-``DataProcessingCore DLL/SO`` file.
+``DataProcessingCore`` DLL or SO file.
 
 The element names for plugins, such as ``<native>`` and ``<fem_utils>``, are used as 
 **keys** when loading plugins. Each plugin must have a unique key.
