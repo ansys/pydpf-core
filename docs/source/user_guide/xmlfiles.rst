@@ -95,7 +95,7 @@ determined by reading the ``AWP_ROOT###`` environment variable specific to your
 installed Ansys version. For example, if you are using Ansys 2022 R2, it looks 
 for the ``AWP_ROOT222`` environment variable to find the root folder.
 
-ANSYS_ROOT_FOLDER is not an environment variable and can not be set accordingly.
+ANSYS_ROOT_FOLDER is not an environment variable and cannot be set accordingly.
 
 ``<DefaultPlugin>`` element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
