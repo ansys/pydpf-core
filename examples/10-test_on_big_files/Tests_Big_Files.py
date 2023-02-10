@@ -13,7 +13,7 @@ dpf.load_library(r'Ans.Dpf.CFF.dll', "cff")
 
 #################----------------- Test Code Time performance and Mesh Quality #################-----------------
 
-def TestBigFile(path, inputs, key, my_Zone_Scoping):
+def TestBigFile(path, input_optional_value, key, my_Zone_Scoping):
     #############------------- mesh_provider operator #############-------------
 
     ########################
@@ -39,17 +39,17 @@ def TestBigFile(path, inputs, key, my_Zone_Scoping):
     -------"""
     ########################
 
-    for input_index, input_value in enumerate(inputs):
-        if input_value == 3:
-            op_stream_provider = dpf.operators.metadata.streams_provider(data_sources=ds_mesh_provider)
-            print("Specification for input ", input_value, "is ", op_mesh_provider.specification.inputs[input_value])
-            op_mesh_provider.connect(input_value, op_stream_provider)
-        elif input_value == 4:
-            print("Specification for input ", input_value, "is ", op_mesh_provider.specification.inputs[input_value])
-            op_mesh_provider.connect(input_value, ds_mesh_provider)
-        elif input_value == 7:
-            print("Specification for input ", input_value, "is ", op_mesh_provider.specification.inputs[input_value])
-            op_mesh_provider.connect(input_value, my_Zone_Scoping)
+    op_stream_provider = dpf.operators.metadata.streams_provider(data_sources=ds_mesh_provider)
+    print("Specification for input ", 3, "is ", op_mesh_provider.specification.inputs[3])
+    op_mesh_provider.connect(3, op_stream_provider)
+
+    if input_optional_value == 4:
+        print("Specification for input ", input_optional_value, "is ", op_mesh_provider.specification.inputs[input_optional_value])
+        op_mesh_provider.connect(input_optional_value, ds_mesh_provider)
+    elif input_optional_value == 7:
+        print("Specification for input ", input_optional_value, "is ", op_mesh_provider.specification.inputs[input_optional_value])
+        op_mesh_provider.connect(input_optional_value, my_Zone_Scoping)
+
 
     ########################
     """-------

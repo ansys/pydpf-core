@@ -32,10 +32,12 @@ Define the data source
 path = "C:/Users/mnale/OneDrive - ANSYS, Inc/Desktop/big_files_perf_tests/CFF_big/airline_all/airline.cas.h5"
 # path = "D:/Dependencies/builddeps/cff/Ans.Dpf.CFF/Ans.Dpf.CFFTest/test_models/fluent/3D/PyramidHex/PyramidHex.cas.h5"
 key = "cas"
-inputs = [3, 4, 7]
+input_optionnal_value = 7
 
 ds_mesh_provider = dpf.DataSources()
 ds_mesh_provider.set_result_file_path(path, key)
+
+my_Zone_Scoping = 0
 
 ########################
 """-------
@@ -43,17 +45,16 @@ Initialize the inputs
 -------"""
 ########################
 
-for input_index, input_value in enumerate(inputs):
-    if input_value == 3:
-        op_stream_provider = dpf.operators.metadata.streams_provider(data_sources=ds_mesh_provider)
-        print("Specification for input ", input_value, "is ", op_mesh_provider.specification.inputs[input_value])
-        op_mesh_provider.connect(input_value, op_stream_provider)
-    elif input_value == 4:
-        print("Specification for input ", input_value, "is ", op_mesh_provider.specification.inputs[input_value])
-        op_mesh_provider.connect(input_value, ds_mesh_provider)
-    elif input_value == 7:
-        print("Specification for input ", input_value, "is ", op_mesh_provider.specification.inputs[input_value])
-        op_mesh_provider.connect(input_value, """my_Zone_Scoping""")
+op_stream_provider = dpf.operators.metadata.streams_provider(data_sources=ds_mesh_provider)
+print("Specification for input ", 3, "is ", op_mesh_provider.specification.inputs[3])
+op_mesh_provider.connect(3, op_stream_provider)
+
+if input_optionnal_value == 4:
+    print("Specification for input ", input_optionnal_value, "is ", op_mesh_provider.specification.inputs[input_optionnal_value])
+    op_mesh_provider.connect(input_optionnal_value, ds_mesh_provider)
+elif input_optionnal_value == 7:
+    print("Specification for input ", input_optionnal_value, "is ", op_mesh_provider.specification.inputs[input_optionnal_value])
+    op_mesh_provider.connect(input_optionnal_value, """my_Zone_Scoping""")
 
 ########################
 """-------
