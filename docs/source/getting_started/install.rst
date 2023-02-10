@@ -43,7 +43,7 @@ To install PyDPF-Core using the downloaded wheelhouse, unzip the wheelhouse to a
 then use the following command from within this local directory:
 .. code::
 
-   pip install --no-index --find-links=. ansys-dpf-core`
+   pip install --no-index --find-links=. ansys-dpf-core
 
 Beware that PyDPF-Core wheelhouses do not include the optional plotting dependencies.
 To allow for plotting capabilities, also download the wheels corresponding to your platform and Python interpreter version
