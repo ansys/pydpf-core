@@ -14,12 +14,13 @@ object with two elements, a polygon and a polyhedron.
 # First import the required modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import mesh_scoping_factory
+
 #
 # # Set the premium server and the cff library
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 server = dpf.start_local_server()
 
-###############################################################################
+# ##############################################################################
 # Define the node coordinates
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Define the coordinates of the nodes of the polygon
@@ -93,14 +94,14 @@ polyhedron_faces_connectivity = [
 connectivity = [i for face in polyhedron_faces_connectivity for i in face]
 
 # Add the polyhedron element to the MeshedRegion
-mesh_SolidOnly.elements.add_solid_element(id=2, connectivity=connectivity)
+mesh_SolidOnly.elements.add_solid_element(id=1, connectivity=connectivity)
 
 ###############################################################################
 # Set property fields required for Polyhedron elements
 
 # Set the ``"faces_nodes_connectivity"``
 # :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
-faces_connectivity = polygon_faces_connectivity + polyhedron_faces_connectivity
+faces_connectivity = polygon_faces_connectivity
 connectivity_f = dpf.PropertyField()
 for face_index, face_connectivity in enumerate(faces_connectivity):
     connectivity_f.append(face_connectivity, face_index)
@@ -108,9 +109,8 @@ mesh_ShellOnly.set_property_field(property_name="faces_nodes_connectivity", valu
 
 # Set the ``"elements_faces_connectivity"``
 # :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
-polygon_faces = [[0]]
 polyhedron_faces = [[1, 2, 3, 4, 5, 6, 7]]
-element_faces = polygon_faces + polyhedron_faces
+element_faces = polyhedron_faces
 elements_faces_f = dpf.PropertyField()
 for element_index, element_faces in enumerate(element_faces):
     elements_faces_f.append(element_faces, element_index)
@@ -118,37 +118,39 @@ mesh_SolidOnly.set_property_field(property_name="elements_faces_connectivity", v
 
 # Set the ``"elements_faces_reversed_connectivity"``
 # :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
-polygon_faces = [[0]]
 polyhedron_faces = [[1, 2, 3, 4, 5, 6, 7]]
 for i in range(len(polyhedron_faces)):
     polyhedron_faces_reverse = list(reversed(polyhedron_faces[i]))
-element_faces_reverse = polygon_faces + polyhedron_faces
+element_faces_reverse = polyhedron_faces
 elements_faces_reverse_f = dpf.PropertyField()
 for element_index, element_faces in enumerate(element_faces):
     elements_faces_reverse_f.append(element_faces, element_index)
 mesh_SolidOnly.set_property_field(property_name="elements_faces_reversed", value=elements_faces_reverse_f)
 
-# Set the ``"cell_types"``
-# :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
-ET = [[dpf.element_types.Polyhedron.value]]
-els_types = dpf.PropertyField()
-for element_index, el_type in enumerate(ET):
-    els_types.append(el_type, element_index)
-els_types.scoping = mesh_scoping_factory.elemental_scoping([2])
-mesh_SolidOnly.set_property_field(property_name="eltype", value=els_types)
+# # Set the ``"faces_types"``
+# # :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
+# FT = [[dpf.element_types.Polygon.value]]
+# faces_types = dpf.PropertyField()
+# for face_index, fc_type in enumerate(FT):
+#     faces_types.append(fc_type, face_index)
+# faces_types.scoping = mesh_scoping_factory.elemental_scoping([1])
+# mesh_SolidOnly.set_property_field(property_name="fctype", value=faces_types)
+#
+# # Set the ``"cell_types"``
+# # :class:`PropertyField <ansys.dpf.core.property_field.PropertyField>`
+# ET = [[dpf.element_types.Polyhedron.value]]
+# els_types = dpf.PropertyField()
+# for element_index, el_type in enumerate(ET):
+#     els_types.append(el_type, element_index)
+# els_types.scoping = mesh_scoping_factory.elemental_scoping([1])
+# mesh_SolidOnly.set_property_field(property_name="eltype", value=els_types)
 
 ###############################################################################
 # Visualize mesh
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Plot the :class:`MeshedRegion <ansys.dpf.meshed_region.MeshedRegion>`
-mesh_ShellOnly.plot()
 
-mesh_SolidOnly.plot()
-
-#Il faut:
-"""~~~~~~~~ Spliter les face-nodes pour les polygons
-   ~~~~~~~~ Les elements-faces pour les polyhedrons
-   ~~~~~~~~ Faire attention aux scoping
-   ~~~~~~~~ Definir les cells type pour le polyhedron
-   ~~~~~~~~ Faire la doc
-   ~~~~~~~~ Voir comment faire pour les cells-nodes connectivity"""
+print("ShellOnly mesh:", "\n",
+      mesh_ShellOnly)
+print("SolidOnly mesh:", "\n",
+      mesh_SolidOnly)
