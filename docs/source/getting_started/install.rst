@@ -43,6 +43,7 @@ for the latest release of PyDPF-Core from the assets section of the `latest PyDP
 The wheelhouse is a ZIP file containing Python wheels for all the packages PyDPF-Core requires to run.
 To install PyDPF-Core using the downloaded wheelhouse, unzip the wheelhouse to a local directory,
 then use the following command from within this local directory:
+
 .. code::
 
    pip install --no-index --find-links=. ansys-dpf-core
