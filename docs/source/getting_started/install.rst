@@ -16,6 +16,14 @@ with this command:
 
    pip install ansys-dpf-core
 
+PyDPF-Core plotting capabilities require to have `PyVista <https://pyvista.org/>`_ installed.
+To install PyDPF-Core with its optional plotting functionalities, use:
+
+.. code::
+
+   pip install ansys-dpf-core[plotting]
+
+For more information about PyDPF-Core plotting capabilities, see :ref:`user_guide_plotting`.
 
 To use PyDPF-Core with Ansys 2021 R1, install the latest version
 with this command:
@@ -25,25 +33,25 @@ with this command:
    pip install ansys-dpf-core<0.3.0
 
 
-Install using a wheel file
---------------------------
+Install without internet
+------------------------
 
-If you are unable to install PyDPF-Core on the host machine due to
-network isolation, download the latest wheel file from `PyDPF-Core
-GitHub <https://github.com/pyansys/pydpf-core>`_ or
-`PyDPF-Core PyPI <https://pypi.org/project/ansys-dpf-core/>`_.
+If you are unable to install PyDPF-Core on the host machine using ``pip`` due to
+network isolation, download the wheelhouse corresponding to your platform and Python interpreter version
+for the latest release of PyDPF-Core from the assets section of the `latest PyDPF-Core release on GitHub <https://github.com/pyansys/pydpf-core/releases/latest>`_. 
 
-Install for a quick tryout
---------------------------
-
-For a quick tryout, install PyDPF-Core with this code:
+The wheelhouse is a ZIP file containing Python wheels for all the packages PyDPF-Core requires to run.
+To install PyDPF-Core using the downloaded wheelhouse, unzip the wheelhouse to a local directory,
+then use the following command from within this local directory:
 
 .. code::
 
-   from ansys.dpf.core import Model
-   from ansys.dpf.core import examples
-   model = Model(examples.find_simple_bar())
-   print(model)
+   pip install --no-index --find-links=. ansys-dpf-core
+
+Beware that PyDPF-Core wheelhouses do not include the optional plotting dependencies.
+To allow for plotting capabilities, also download the wheels corresponding to your platform and Python interpreter version
+for `PyVista <https://pypi.org/project/pyvista/#files>`_ and 
+`matplotlib <https://pypi.org/project/matplotlib/#files>`_, then place them in the same previous local directory and run the command above.
 
 
 Install in development mode
@@ -58,14 +66,15 @@ development flag:
 
 .. _target_to_install_with_plotting_capabilities:
 
-Install with plotting capabilities
-----------------------------------
 
-PyDPF-Core plotting capabilities are based on `PyVista <https://pyvista.org/>`_.
-This means that PyVista must be installed with PyDPF-Core. To proceed, use this command:
+Check the installation
+----------------------
+
+Run the following Python code to verify your PyDPF-Core installation:
 
 .. code::
 
-   pip install ansys-dpf-core[plotting]
-
-For more information about PyDPF-Core plotting capabilities, see :ref:`_user_guide_plotting`.
+   from ansys.dpf.core import Model
+   from ansys.dpf.core import examples
+   model = Model(examples.find_simple_bar())
+   print(model)

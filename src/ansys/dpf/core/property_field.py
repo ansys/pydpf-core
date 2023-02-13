@@ -29,8 +29,8 @@ class PropertyField(_FieldBase):
     nature: core.natures
         Nature of the property field, such as scalar or vector.
     location : str, optional
-        Location of the property field. Options are ``"Nodal"`` or ``"Elemental"``.
-        The default is ``"Nodal"``.
+        Location of the property field. Options are in :class:`ansys.dpf.core.locations`.
+        The default is :class:`ansys.dpf.core.locations.nodal`.
     property field : Field, ansys.grpc.dpf.field_pb2.Field, ctypes.c_void_p, optional
         Field message generated from a gRPC stub, or returned by DPF's C clients.
     server : server.DPFServer, optional
@@ -111,7 +111,7 @@ class PropertyField(_FieldBase):
         Returns
         -------
         location : str
-            Location string, can be found in ``dpf.locations``: ie.
+            Location string, can be found in :class:`ansys.dpf.core.locations`: ie.
             ``dpf.locations.nodal`` or ``dpf.locations.elemental``.
 
         Examples
@@ -140,7 +140,8 @@ class PropertyField(_FieldBase):
         Parameters
         ----------
         location : str or locations
-            Location string, which is either ``"Nodal"`` or ``"Elemental"``.
+            Location string, can be found in :class:`ansys.dpf.core.locations`: ie.
+            ``dpf.locations.nodal`` or ``dpf.locations.elemental``.
 
         Examples
         --------

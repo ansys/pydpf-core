@@ -58,24 +58,22 @@ plot.show_figure(
 
 ###############################################################################
 # Get the stress tensor and ``connect`` time scoping.
-# Make sure that you define ``"Nodal"`` as the scoping location because
+# Make sure that you define ``dpf.locations.nodal`` as the scoping location because
 # labels are supported only for nodal results.
 #
 stress_tensor = model.results.stress()
-time_scope = dpf.Scoping()
-time_scope.ids = [20]  # [1, 2]
-stress_tensor.inputs.time_scoping.connect(time_scope)
-stress_tensor.inputs.requested_location.connect("Nodal")
+stress_tensor.inputs.time_scoping([20])
+stress_tensor.inputs.requested_location(dpf.locations.nodal)
 # field = stress_tensor.outputs.fields_container.get_data()[0]
 
-norm_op = dpf.Operator("norm_fc")
-norm_op.inputs.connect(stress_tensor.outputs)
+norm_op = dpf.operators.math.norm_fc()
+norm_op.inputs.connect(stress_tensor)
 field_norm_stress = norm_op.outputs.fields_container()[0]
 print(field_norm_stress)
 
 norm_op2 = dpf.Operator("norm_fc")
 disp = model.results.displacement()
-disp.inputs.time_scoping.connect(time_scope)
+disp.inputs.time_scoping.connect([20])
 norm_op2.inputs.connect(disp.outputs)
 field_norm_disp = norm_op2.outputs.fields_container()[0]
 print(field_norm_disp)

@@ -116,3 +116,39 @@ def test_license_agr(set_context_back_to_premium):
     dpf.start_local_server(config=config, as_global=True)
     assert "static" in examples.find_static_rst()
     assert dpf.Operator("stream_provider") is not None
+
+
+def test_get_example_required_minimum_dpf_version(tmp_path):
+    # Check version is parsed
+    example_header = """
+\"\"\"
+.. _ref_average_across_bodies:
+
+Average across bodies
+~~~~~~~~~~~~~~~~~~~~~
+.. note::
+    This example requires DPF 6.1 or above.
+    For more information, see :ref:`ref_compatibility`.
+\"\"\"
+    """
+    p = tmp_path / "test_example_version_0.py"
+    p.write_text(example_header)
+    assert examples.get_example_required_minimum_dpf_version(p) == "6.1"
+    # Check default version is 0.0, and versions declared outside a note in a header do not work
+    example_header = """
+\"\"\"
+.. _ref_average_across_bodies:
+
+Average across bodies
+~~~~~~~~~~~~~~~~~~~~~
+.. note::
+    This example requires Premium
+
+This example requires DPF 1.2 or above.
+\"\"\"
+This example requires DPF 2.3 or above.
+from ansys.dpf import core as dpf
+    """
+    p = tmp_path / "test_example_version_1.py"
+    p.write_text(example_header)
+    assert examples.get_example_required_minimum_dpf_version(p) == "0.0"

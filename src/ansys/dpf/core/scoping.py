@@ -53,7 +53,7 @@ class Scoping:
     >>> my_nodal_scoping = mesh_scoping_factory.nodal_scoping([4, 6])
     >>> #2. using the classic API
     >>> my_scoping = dpf.Scoping()
-    >>> my_scoping.location = "Nodal" #optional
+    >>> my_scoping.location = dpf.locations.nodal #optional
     >>> my_scoping.ids = list(range(1,11))
 
     """

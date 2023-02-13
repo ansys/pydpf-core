@@ -27,6 +27,11 @@ class cyclic_volume(Operator):
     bool_rotate_to_global : bool, optional
         If true the field is rotated to global
         coordinate system (default true)
+    all_dofs : bool, optional
+        If this pin is set to true, all the dofs are
+        retrieved. by default this pin is set
+        to false and only the translational
+        dofs are retrieved.
     sector_mesh : MeshedRegion or MeshesContainer, optional
         Mesh of the base sector (can be a skin).
     read_cyclic : int, optional
@@ -60,6 +65,8 @@ class cyclic_volume(Operator):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_bool_rotate_to_global = bool()
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+    >>> my_all_dofs = bool()
+    >>> op.inputs.all_dofs.connect(my_all_dofs)
     >>> my_sector_mesh = dpf.MeshedRegion()
     >>> op.inputs.sector_mesh.connect(my_sector_mesh)
     >>> my_read_cyclic = int()
@@ -77,6 +84,7 @@ class cyclic_volume(Operator):
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
+    ...     all_dofs=my_all_dofs,
     ...     sector_mesh=my_sector_mesh,
     ...     read_cyclic=my_read_cyclic,
     ...     expanded_meshed_region=my_expanded_meshed_region,
@@ -96,6 +104,7 @@ class cyclic_volume(Operator):
         streams_container=None,
         data_sources=None,
         bool_rotate_to_global=None,
+        all_dofs=None,
         sector_mesh=None,
         read_cyclic=None,
         expanded_meshed_region=None,
@@ -120,6 +129,8 @@ class cyclic_volume(Operator):
             self.inputs.data_sources.connect(data_sources)
         if bool_rotate_to_global is not None:
             self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
+        if all_dofs is not None:
+            self.inputs.all_dofs.connect(all_dofs)
         if sector_mesh is not None:
             self.inputs.sector_mesh.connect(sector_mesh)
         if read_cyclic is not None:
@@ -172,6 +183,15 @@ class cyclic_volume(Operator):
                     optional=True,
                     document="""If true the field is rotated to global
         coordinate system (default true)""",
+                ),
+                6: PinSpecification(
+                    name="all_dofs",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If this pin is set to true, all the dofs are
+        retrieved. by default this pin is set
+        to false and only the translational
+        dofs are retrieved.""",
                 ),
                 7: PinSpecification(
                     name="sector_mesh",
@@ -276,6 +296,8 @@ class InputsCyclicVolume(_Inputs):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_bool_rotate_to_global = bool()
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+    >>> my_all_dofs = bool()
+    >>> op.inputs.all_dofs.connect(my_all_dofs)
     >>> my_sector_mesh = dpf.MeshedRegion()
     >>> op.inputs.sector_mesh.connect(my_sector_mesh)
     >>> my_read_cyclic = int()
@@ -302,6 +324,8 @@ class InputsCyclicVolume(_Inputs):
             cyclic_volume._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._bool_rotate_to_global)
+        self._all_dofs = Input(cyclic_volume._spec().input_pin(6), 6, op, -1)
+        self._inputs.append(self._all_dofs)
         self._sector_mesh = Input(cyclic_volume._spec().input_pin(7), 7, op, -1)
         self._inputs.append(self._sector_mesh)
         self._read_cyclic = Input(cyclic_volume._spec().input_pin(14), 14, op, -1)
@@ -430,6 +454,29 @@ class InputsCyclicVolume(_Inputs):
         >>> op.inputs.bool_rotate_to_global(my_bool_rotate_to_global)
         """
         return self._bool_rotate_to_global
+
+    @property
+    def all_dofs(self):
+        """Allows to connect all_dofs input to the operator.
+
+        If this pin is set to true, all the dofs are
+        retrieved. by default this pin is set
+        to false and only the translational
+        dofs are retrieved.
+
+        Parameters
+        ----------
+        my_all_dofs : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.cyclic_volume()
+        >>> op.inputs.all_dofs.connect(my_all_dofs)
+        >>> # or
+        >>> op.inputs.all_dofs(my_all_dofs)
+        """
+        return self._all_dofs
 
     @property
     def sector_mesh(self):

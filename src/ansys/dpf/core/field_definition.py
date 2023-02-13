@@ -59,8 +59,9 @@ class FieldDefinition:
         Returns
         -------
         str
-            Location string, such as ``"Nodal"``, ``"Elemental"``,
-            or ``"TimeFreq_sets"``.
+            Location string, such as :class:`ansys.dpf.core.locations.nodal`,
+            :class:`ansys.dpf.core.locations.elemental` or
+            :class:`ansys.dpf.core.locations.time_freq`.
         """
         location = integral_types.MutableString(256)
         size = integral_types.MutableInt32(0)

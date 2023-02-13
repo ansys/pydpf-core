@@ -27,6 +27,7 @@ dependencies = [
     "importlib-metadata >=4.0",
     "psutil",
     "packaging",
+    "setuptools",
     "tqdm",
     "numpy<1.24",
     "ansys-dpf-gate>=0.3.*",

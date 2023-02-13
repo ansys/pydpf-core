@@ -26,11 +26,11 @@ from ansys.dpf.core import examples
 
 path = examples.download_example_asme_result()
 model = dpf.Model(path)
-dataSource = model.metadata.data_sources
+data_source = model.metadata.data_sources
 
-timeScoping = dpf.Scoping()
-timeScoping.location = dpf.locations.time_freq
-timeScoping.ids = [4]
+time_scoping = dpf.Scoping()
+time_scoping.location = dpf.locations.time_freq
+time_scoping.ids = [4]
 
 
 ###############################################################################
@@ -61,29 +61,29 @@ m2 = 0.288
 # Consequently, a correction factor is applied.
 
 seqv_op = dpf.operators.result.stress_von_mises(
-    time_scoping=timeScoping, data_sources=dataSource, requested_location="Nodal"
+    time_scoping=time_scoping, data_sources=data_source, requested_location=dpf.locations.nodal
 )
 seqv = seqv_op.outputs.fields_container()
 
 s1_op = dpf.operators.result.stress_principal_1(
-    time_scoping=timeScoping, data_sources=dataSource, requested_location="Nodal"
+    time_scoping=time_scoping, data_sources=data_source, requested_location=dpf.locations.nodal
 )
 s1 = s1_op.outputs.fields_container()
 
 s2_op = dpf.operators.result.stress_principal_2(
-    time_scoping=timeScoping, data_sources=dataSource, requested_location="Nodal"
+    time_scoping=time_scoping, data_sources=data_source, requested_location=dpf.locations.nodal
 )
 s2 = s2_op.outputs.fields_container()
 
 s3_op = dpf.operators.result.stress_principal_3(
-    time_scoping=timeScoping, data_sources=dataSource, requested_location="Nodal"
+    time_scoping=time_scoping, data_sources=data_source, requested_location=dpf.locations.nodal
 )
 s3 = s3_op.outputs.fields_container()
 
 strain_op = dpf.operators.result.plastic_strain(
-    data_sources=dataSource,
-    requested_location="ElementalNodal",
-    time_scoping=timeScoping,
+    data_sources=data_source,
+    requested_location=dpf.locations.elemental_nodal,
+    time_scoping=time_scoping,
 )
 pstrain = strain_op.outputs.fields_container()
 

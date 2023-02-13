@@ -80,19 +80,22 @@ where ``###`` is the three-digit format for the installed version. For example,
 on Windows, the path for the root folder for Ansys 2022 R2 likely ends with
 ``\ANSYS Inc\v222``.
 
-The ``ANSYS_ROOT_FOLDER`` element is like an environment variable. You can use
-this element in other XML files. For example, you might use it to find required
+The ``ANSYS_ROOT_FOLDER`` element defines a variable 
+that can be used in the other XML files. For example, you might use it to find required
 third-party software.
 
 If the ``ANSYS_ROOT_FOLDER`` element is not defined in the ``DataProcessing.xml``
-file, the root folder is determined by reading the ``AWP_ROOT###`` environment
-variable specific to your installed Ansys version. For example, if you are
-using Ansys 2022 R2, it looks for ``AWP_ROOT222`` to find the root folder.
-
-If the ``ANSYS_ROOT_FOLDER`` element is still not defined, an attempt is made to
+file, an attempt is made to
 find the root folder relative to the ``DataProcessingCore`` DLL or SO file. This
 works only if the ``DataProcessingCore.xml`` file is located in its default
 location.
+
+If the ``ANSYS_ROOT_FOLDER`` element is still not defined, the root folder is 
+determined by reading the ``AWP_ROOT###`` environment variable specific to your 
+installed Ansys version. For example, if you are using Ansys 2022 R2, it looks 
+for the ``AWP_ROOT222`` environment variable to find the root folder.
+
+ANSYS_ROOT_FOLDER is not an environment variable and cannot be set accordingly.
 
 ``<DefaultPlugin>`` element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -103,7 +106,7 @@ in the child elements.
 The ``<native>`` element defines DPF native operators. The further subdividing of
 plugins into ``<Debug>`` or ``<Release>`` elements is optional. The ``<Debug>``
 element, for example, would only be used with a debug version of the
-``DataProcessingCore DLL/SO`` file.
+``DataProcessingCore`` DLL or SO file.
 
 The element names for plugins, such as ``<native>`` and ``<fem_utils>``, are used as 
 **keys** when loading plugins. Each plugin must have a unique key.
