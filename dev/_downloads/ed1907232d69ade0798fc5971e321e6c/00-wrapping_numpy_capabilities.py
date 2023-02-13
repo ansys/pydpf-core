@@ -34,8 +34,9 @@ be wrapped in Python plugins.
 #
 # Download and display the Python script.
 
-from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+from ansys.dpf import core as dpf
+
 
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -64,7 +65,6 @@ with open(operator_file_path, "r") as f:
 #
 
 import os
-
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 

@@ -19,6 +19,7 @@ import math
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 
+
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################

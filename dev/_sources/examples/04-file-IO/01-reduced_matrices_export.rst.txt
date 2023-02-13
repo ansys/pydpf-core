@@ -35,7 +35,7 @@ export them to HDF5 and CSV files.
 Import the ``dpf-core`` module and its examples files, and then create a
 temporary directory.
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-31
+.. GENERATED FROM PYTHON SOURCE LINES 19-32
 
 .. code-block:: default
 
@@ -46,6 +46,7 @@ temporary directory.
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
+
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -58,11 +59,11 @@ temporary directory.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-33
+.. GENERATED FROM PYTHON SOURCE LINES 33-34
 
 Create the operator and connect data sources.
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-39
+.. GENERATED FROM PYTHON SOURCE LINES 34-40
 
 .. code-block:: default
 
@@ -79,11 +80,11 @@ Create the operator and connect data sources.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-41
+.. GENERATED FROM PYTHON SOURCE LINES 41-42
 
 Get result fields container that contains the reduced matrices.
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-48
+.. GENERATED FROM PYTHON SOURCE LINES 42-49
 
 .. code-block:: default
 
@@ -108,11 +109,11 @@ Get result fields container that contains the reduced matrices.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-50
+.. GENERATED FROM PYTHON SOURCE LINES 50-51
 
 Export the result fields container to an HDF5 file.
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-56
+.. GENERATED FROM PYTHON SOURCE LINES 51-57
 
 .. code-block:: default
 
@@ -129,11 +130,11 @@ Export the result fields container to an HDF5 file.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-58
+.. GENERATED FROM PYTHON SOURCE LINES 58-59
 
 Export the result fields container to a CSV file.
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-63
+.. GENERATED FROM PYTHON SOURCE LINES 59-64
 
 .. code-block:: default
 
@@ -152,7 +153,7 @@ Export the result fields container to a CSV file.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.860 seconds)
+   **Total running time of the script:** ( 0 minutes  0.868 seconds)
 
 
 .. _sphx_glr_download_examples_04-file-IO_01-reduced_matrices_export.py:

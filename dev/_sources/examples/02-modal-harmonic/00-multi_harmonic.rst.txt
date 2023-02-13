@@ -30,7 +30,7 @@ using ``fft`` transformations.
     This example requires the Premium ServerContext.
     For more information, see :ref:`user_guide_server_context`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-24
+.. GENERATED FROM PYTHON SOURCE LINES 16-25
 
 .. code-block:: default
 
@@ -39,6 +39,7 @@ using ``fft`` transformations.
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
     from ansys.dpf.core import operators as ops
+
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -49,7 +50,7 @@ using ``fft`` transformations.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-32
+.. GENERATED FROM PYTHON SOURCE LINES 26-33
 
 Begin by downloading the example harmonic result. This result is
 not included in the core module by default to speed up the install.
@@ -59,7 +60,7 @@ Next, create the model and display the state of the result.
 This harmonic result file contains several RPMs, and
 each RPM has several frequencies.
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-38
+.. GENERATED FROM PYTHON SOURCE LINES 33-39
 
 .. code-block:: default
 
@@ -1102,11 +1103,11 @@ each RPM has several frequencies.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-40
+.. GENERATED FROM PYTHON SOURCE LINES 40-41
 
 Read the analysis domain support
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-43
+.. GENERATED FROM PYTHON SOURCE LINES 41-44
 
 .. code-block:: default
 
@@ -1126,14 +1127,14 @@ Read the analysis domain support
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 44-48
+.. GENERATED FROM PYTHON SOURCE LINES 45-49
 
 Compute multi-harmonic response
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example computes the Rz multi-harmonic responses based on
 selected nodes and a set of EOs (engine orders).
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-83
+.. GENERATED FROM PYTHON SOURCE LINES 49-84
 
 .. code-block:: default
 
@@ -1179,11 +1180,11 @@ selected nodes and a set of EOs (engine orders).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 84-85
+.. GENERATED FROM PYTHON SOURCE LINES 85-86
 
 Plot the minimum and maximum displacements over time.
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-92
+.. GENERATED FROM PYTHON SOURCE LINES 86-93
 
 .. code-block:: default
 
@@ -1209,7 +1210,7 @@ Plot the minimum and maximum displacements over time.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.392 seconds)
+   **Total running time of the script:** ( 0 minutes  1.657 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_00-multi_harmonic.py:

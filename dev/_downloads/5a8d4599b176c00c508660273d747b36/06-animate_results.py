@@ -11,6 +11,7 @@ shown with the arguments available.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
+
 # Load the model
 model = dpf.Model(examples.find_msup_transient())
 print(model)

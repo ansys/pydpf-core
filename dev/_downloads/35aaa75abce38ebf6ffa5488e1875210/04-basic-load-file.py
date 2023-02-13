@@ -22,6 +22,7 @@ exported to a CSV file.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
+
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 model = dpf.Model(examples.find_simple_bar())

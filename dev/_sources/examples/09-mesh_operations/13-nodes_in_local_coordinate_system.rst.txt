@@ -37,13 +37,14 @@ The script below demonstrates the methodology using PyDPF.
     This example requires the Premium ServerContext.
     For more information, see :ref:`user_guide_server_context`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-30
+.. GENERATED FROM PYTHON SOURCE LINES 24-31
 
 .. code-block:: default
 
     # Import necessary modules
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
+
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -54,11 +55,11 @@ The script below demonstrates the methodology using PyDPF.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-32
+.. GENERATED FROM PYTHON SOURCE LINES 32-33
 
 Create a model object to establish a connection with an example result file:
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-34
+.. GENERATED FROM PYTHON SOURCE LINES 33-35
 
 .. code-block:: default
 
@@ -71,11 +72,11 @@ Create a model object to establish a connection with an example result file:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-36
+.. GENERATED FROM PYTHON SOURCE LINES 36-37
 
 Get the property ``coordinates_field`` from :class:`nodes <ansys.dpf.core.nodes>`:
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-38
+.. GENERATED FROM PYTHON SOURCE LINES 37-39
 
 .. code-block:: default
 
@@ -88,12 +89,12 @@ Get the property ``coordinates_field`` from :class:`nodes <ansys.dpf.core.nodes>
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-41
+.. GENERATED FROM PYTHON SOURCE LINES 40-42
 
 Get the rotation matrix of the LCS ID 12.
 The first 9 values in the ``cs`` output is the rotation matrix.
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-45
+.. GENERATED FROM PYTHON SOURCE LINES 42-46
 
 .. code-block:: default
 
@@ -108,11 +109,11 @@ The first 9 values in the ``cs`` output is the rotation matrix.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-47
+.. GENERATED FROM PYTHON SOURCE LINES 47-48
 
 Create a 3x3 rotation matrix field ``rot_mat_f``:
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-50
+.. GENERATED FROM PYTHON SOURCE LINES 48-51
 
 .. code-block:: default
 
@@ -126,13 +127,13 @@ Create a 3x3 rotation matrix field ``rot_mat_f``:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-54
+.. GENERATED FROM PYTHON SOURCE LINES 52-55
 
 Create a 3D vector field for the position vector of the LCS's origin and
 rotate the origin as per the rotation matrix of the LCS.
 The last 3 entries of ``cs`` output is the LCS's origin in GCS.
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-58
+.. GENERATED FROM PYTHON SOURCE LINES 55-59
 
 .. code-block:: default
 
@@ -147,11 +148,11 @@ The last 3 entries of ``cs`` output is the LCS's origin in GCS.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-60
+.. GENERATED FROM PYTHON SOURCE LINES 60-61
 
 Get rotated nodal coordinates field:
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-62
+.. GENERATED FROM PYTHON SOURCE LINES 61-63
 
 .. code-block:: default
 
@@ -164,12 +165,12 @@ Get rotated nodal coordinates field:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-65
+.. GENERATED FROM PYTHON SOURCE LINES 64-66
 
 Transform rotated nodal coordinates field along rotated position vector
 ``pos_vec_rot``:
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-68
+.. GENERATED FROM PYTHON SOURCE LINES 66-69
 
 .. code-block:: default
 
@@ -183,11 +184,11 @@ Transform rotated nodal coordinates field along rotated position vector
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-70
+.. GENERATED FROM PYTHON SOURCE LINES 70-71
 
 Get the nodal coordinates field ``ncoord_lcs_f`` in LCS:
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-72
+.. GENERATED FROM PYTHON SOURCE LINES 71-73
 
 .. code-block:: default
 
@@ -200,11 +201,11 @@ Get the nodal coordinates field ``ncoord_lcs_f`` in LCS:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-74
+.. GENERATED FROM PYTHON SOURCE LINES 74-75
 
 Coordinates of NID 1 in GCS
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-76
+.. GENERATED FROM PYTHON SOURCE LINES 75-77
 
 .. code-block:: default
 
@@ -223,11 +224,11 @@ Coordinates of NID 1 in GCS
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-78
+.. GENERATED FROM PYTHON SOURCE LINES 78-79
 
 Coordinates of NID 1 in LCS
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-79
+.. GENERATED FROM PYTHON SOURCE LINES 79-80
 
 .. code-block:: default
 
@@ -248,7 +249,7 @@ Coordinates of NID 1 in LCS
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.031 seconds)
+   **Total running time of the script:** ( 0 minutes  0.047 seconds)
 
 
 .. _sphx_glr_download_examples_09-mesh_operations_13-nodes_in_local_coordinate_system.py:

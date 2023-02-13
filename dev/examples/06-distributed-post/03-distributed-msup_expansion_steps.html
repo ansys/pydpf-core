@@ -840,6 +840,7 @@ For more information, see <a class="reference internal" href="../../user_guide/s
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
 <span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
 
+
 <span class="n">dpf</span><span class="o">.</span><span class="n">set_default_server_context</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerContexts</span><span class="o">.</span><span class="n">premium</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -916,7 +917,7 @@ the modal response, and expand the modal response with the modal basis.</p>
 <span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;file_load_2.rfrq&quot;</span><span class="p">))</span>
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">walk</span>
 
-<span class="k">for</span> <span class="n">dirpath</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">walk</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span><span class="p">)</span> <span class="ow">in</span> <span class="n">walk</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
 <span class="n">response2</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds</span><span class="p">)</span>
 <span class="n">response2fc</span> <span class="o">=</span> <span class="n">response2</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
@@ -1001,7 +1002,7 @@ the modal response, and expand the modal response with the modal basis.</p>
   - field 39 {complex:  1, time:  20} with Nodal location, 1 components and 1065 entities.
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.634 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.377 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-06-distributed-post-03-distributed-msup-expansion-steps-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/be72237589d6f1bed1e6d782e8bf3a2b/03-distributed-msup_expansion_steps.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">03-distributed-msup_expansion_steps.py</span></code></a></p>

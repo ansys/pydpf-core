@@ -5,12 +5,12 @@
 
 Computation times
 =================
-**00:57.515** total execution time for **examples_07-python-operators** files:
+**01:12.412** total execution time for **examples_07-python-operators** files:
 
 +--------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_07-python-operators_02-python_operators_with_dependencies.py` (``02-python_operators_with_dependencies.py``) | 00:48.237 | 0.0 MB |
+| :ref:`sphx_glr_examples_07-python-operators_02-python_operators_with_dependencies.py` (``02-python_operators_with_dependencies.py``) | 01:01.567 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_07-python-operators_01-package_python_operators.py` (``01-package_python_operators.py``)                     | 00:05.209 | 0.0 MB |
+| :ref:`sphx_glr_examples_07-python-operators_01-package_python_operators.py` (``01-package_python_operators.py``)                     | 00:05.887 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_07-python-operators_00-wrapping_numpy_capabilities.py` (``00-wrapping_numpy_capabilities.py``)               | 00:04.069 | 0.0 MB |
+| :ref:`sphx_glr_examples_07-python-operators_00-wrapping_numpy_capabilities.py` (``00-wrapping_numpy_capabilities.py``)               | 00:04.959 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+

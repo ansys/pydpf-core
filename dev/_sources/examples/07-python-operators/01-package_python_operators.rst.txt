@@ -51,15 +51,16 @@ method, which records the operators of the plug-in package.
 Download the ``average_filter_plugin`` plug-in package that has already been
 created for you.
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-64
+.. GENERATED FROM PYTHON SOURCE LINES 35-65
 
 .. code-block:: default
 
 
     import os
 
-    from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
+    from ansys.dpf import core as dpf
+
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -279,7 +280,7 @@ created for you.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-77
+.. GENERATED FROM PYTHON SOURCE LINES 66-78
 
 Load the plug-in package
 ------------------------
@@ -294,7 +295,7 @@ plug-in package.
   for the plug-in package that is used to record operators.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-94
+.. GENERATED FROM PYTHON SOURCE LINES 78-95
 
 .. code-block:: default
 
@@ -328,11 +329,11 @@ plug-in package.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-96
+.. GENERATED FROM PYTHON SOURCE LINES 96-97
 
 Instantiate the operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-99
+.. GENERATED FROM PYTHON SOURCE LINES 97-100
 
 .. code-block:: default
 
@@ -346,7 +347,7 @@ Instantiate the operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-107
+.. GENERATED FROM PYTHON SOURCE LINES 101-108
 
 Connect a workflow
 ------------------
@@ -356,7 +357,7 @@ Methods of the ``ids_with_data_lower_than_average`` class are dynamically
 added because specifications for the operator are defined in the plug-in
 package.
 
-.. GENERATED FROM PYTHON SOURCE LINES 109-121
+.. GENERATED FROM PYTHON SOURCE LINES 110-122
 
 .. graphviz::
 
@@ -371,12 +372,12 @@ package.
       norm -> ids_with_data_lower_than_average;
    }
 
-.. GENERATED FROM PYTHON SOURCE LINES 123-125
+.. GENERATED FROM PYTHON SOURCE LINES 124-126
 
 Use the operator
 ----------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 125-136
+.. GENERATED FROM PYTHON SOURCE LINES 126-137
 
 .. code-block:: default
 
@@ -413,7 +414,7 @@ Use the operator
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.209 seconds)
+   **Total running time of the script:** ( 0 minutes  5.887 seconds)
 
 
 .. _sphx_glr_download_examples_07-python-operators_01-package_python_operators.py:

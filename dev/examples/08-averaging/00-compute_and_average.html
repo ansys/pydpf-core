@@ -825,6 +825,7 @@ to a <code class="docutils literal notranslate"><span class="pre">Nodal</span></
 stresses. To create it, define a function that computes the von Mises stresses
 in the crankshaft and then apply the averaging operator.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_von_mises_then_average</span><span class="p">(</span><span class="n">analysis</span><span class="p">):</span>
+
     <span class="c1"># Create a model from the results of the simulation and retrieve its mesh</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
     <span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
@@ -862,6 +863,7 @@ operator. To create this workflow, first apply the averaging operator to the
 stress field in the crankshaft and then calculate the von Mises stresses, which
 are already located on a <code class="docutils literal notranslate"><span class="pre">Nodal</span></code> position.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">average_then_compute_von_mises</span><span class="p">(</span><span class="n">analysis</span><span class="p">):</span>
+
     <span class="c1"># Creating the model from the results of the simulation</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
     <span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
@@ -925,7 +927,7 @@ The maximum Von Mises stress value is 5.35% higher when the averaging is done af
 <p>Even though both workflows apply the same steps to the same initial data,
 their final results are different because of the order in which the operators
 are applied.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.445 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.199 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-08-averaging-00-compute-and-average-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/e602e0eb596d57767cea69704c44994c/00-compute_and_average.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-compute_and_average.py</span></code></a></p>

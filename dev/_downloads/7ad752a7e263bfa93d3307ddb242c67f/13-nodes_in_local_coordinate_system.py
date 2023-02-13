@@ -25,6 +25,7 @@ The script below demonstrates the methodology using PyDPF.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
+
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################

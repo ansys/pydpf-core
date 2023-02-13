@@ -34,13 +34,14 @@ reduces the size of the result files.
     This example requires the Premium ServerContext.
     For more information, see :ref:`user_guide_server_context`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-25
+.. GENERATED FROM PYTHON SOURCE LINES 19-26
 
 .. code-block:: default
 
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
+
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -51,7 +52,7 @@ reduces the size of the result files.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-32
+.. GENERATED FROM PYTHON SOURCE LINES 27-33
 
 Create data sources
 ~~~~~~~~~~~~~~~~~~~
@@ -60,7 +61,7 @@ The expansion is recursive in DPF: first the modal response is read.
 Then, "upstream" mode shapes are found in the data sources, where they
 are read and expanded (mode shapes x modal response)
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-40
+.. GENERATED FROM PYTHON SOURCE LINES 33-41
 
 .. code-block:: default
 
@@ -79,7 +80,7 @@ are read and expanded (mode shapes x modal response)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-46
+.. GENERATED FROM PYTHON SOURCE LINES 42-47
 
 Compute displacements
 ~~~~~~~~~~~~~~~~~~~~~
@@ -87,7 +88,7 @@ Once the ``add_upstream()`` method puts the recursivity in the data sources,
 in a harmonic, transient, or modal analysis, computing displacements with
 or without expansion has the exact same syntax.
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-53
+.. GENERATED FROM PYTHON SOURCE LINES 47-54
 
 .. code-block:: default
 
@@ -181,7 +182,7 @@ or without expansion has the exact same syntax.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  11.936 seconds)
+   **Total running time of the script:** ( 0 minutes  14.672 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_04-modal_superposition.py:

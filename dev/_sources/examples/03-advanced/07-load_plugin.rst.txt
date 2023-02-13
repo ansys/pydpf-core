@@ -33,11 +33,12 @@ This example shows how to load a plugin that is not loaded automatically.
 
 Import DPF-Core:
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-23
+.. GENERATED FROM PYTHON SOURCE LINES 17-24
 
 .. code-block:: default
 
     from ansys.dpf import core as dpf
+
 
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
@@ -50,11 +51,11 @@ Import DPF-Core:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-25
+.. GENERATED FROM PYTHON SOURCE LINES 25-26
 
 Create a base service for loading a plugin:
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-30
+.. GENERATED FROM PYTHON SOURCE LINES 26-31
 
 .. code-block:: default
 
@@ -70,11 +71,11 @@ Create a base service for loading a plugin:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-32
+.. GENERATED FROM PYTHON SOURCE LINES 32-33
 
 Math operators are now loaded and accessible in ``ansys.dpf.core.operators``:
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-36
+.. GENERATED FROM PYTHON SOURCE LINES 33-37
 
 .. code-block:: default
 
@@ -92,7 +93,7 @@ Math operators are now loaded and accessible in ``ansys.dpf.core.operators``:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.063 seconds)
+   **Total running time of the script:** ( 0 minutes  0.078 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_07-load_plugin.py:

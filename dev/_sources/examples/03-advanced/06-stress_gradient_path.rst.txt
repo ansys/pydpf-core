@@ -38,7 +38,7 @@ Import the DPF-Core module as ``dpf`` and import the
 included examples file and ``DpfPlotter``.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-32
+.. GENERATED FROM PYTHON SOURCE LINES 23-33
 
 .. code-block:: default
 
@@ -49,6 +49,7 @@ included examples file and ``DpfPlotter``.
     from ansys.dpf.core import operators as ops
     from ansys.dpf.core.plotter import DpfPlotter
 
+
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 
@@ -58,7 +59,7 @@ included examples file and ``DpfPlotter``.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-46
+.. GENERATED FROM PYTHON SOURCE LINES 34-47
 
 Open an example and print out the ``Model`` object. The
 :class:`Model <ansys.dpf.core.model.Model>` class helps to organize access
@@ -74,7 +75,7 @@ Printing the model displays:
 - Unit
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-49
+.. GENERATED FROM PYTHON SOURCE LINES 47-50
 
 .. code-block:: default
 
@@ -123,12 +124,12 @@ Printing the model displays:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-52
+.. GENERATED FROM PYTHON SOURCE LINES 51-53
 
 Define the node ID normal to plot the a stress gradient
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-53
+.. GENERATED FROM PYTHON SOURCE LINES 53-54
 
 .. code-block:: default
 
@@ -140,12 +141,12 @@ Define the node ID normal to plot the a stress gradient
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-56
+.. GENERATED FROM PYTHON SOURCE LINES 55-57
 
 Print the mesh unit
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-58
+.. GENERATED FROM PYTHON SOURCE LINES 57-59
 
 .. code-block:: default
 
@@ -164,13 +165,13 @@ Print the mesh unit
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-62
+.. GENERATED FROM PYTHON SOURCE LINES 60-63
 
 ``depth`` defines the length/depth that the path penetrates to.
 While defining ``depth`` make sure you use the correct mesh unit.
 ``delta`` defines distance between consecutive points on the path.
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-64
+.. GENERATED FROM PYTHON SOURCE LINES 63-65
 
 .. code-block:: default
 
@@ -183,12 +184,12 @@ While defining ``depth`` make sure you use the correct mesh unit.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-67
+.. GENERATED FROM PYTHON SOURCE LINES 66-68
 
 Get the meshed region
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-68
+.. GENERATED FROM PYTHON SOURCE LINES 68-69
 
 .. code-block:: default
 
@@ -200,12 +201,12 @@ Get the meshed region
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-71
+.. GENERATED FROM PYTHON SOURCE LINES 70-72
 
 Get Equivalent stress fields container.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-72
+.. GENERATED FROM PYTHON SOURCE LINES 72-73
 
 .. code-block:: default
 
@@ -217,14 +218,14 @@ Get Equivalent stress fields container.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-77
+.. GENERATED FROM PYTHON SOURCE LINES 74-78
 
 Define Nodal scoping.
 Make sure to define ``"Nodal"`` as the requested location, important for the
 :class:`normals <ansys.dpf.core.operators.geo.normals.normals>` operator.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-79
+.. GENERATED FROM PYTHON SOURCE LINES 78-80
 
 .. code-block:: default
 
@@ -237,13 +238,13 @@ Make sure to define ``"Nodal"`` as the requested location, important for the
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-83
+.. GENERATED FROM PYTHON SOURCE LINES 81-84
 
 Get Skin Mesh because :class:`normals <ansys.dpf.core.operators.geo.normals.normals>`
 operator requires Shells as input.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-85
+.. GENERATED FROM PYTHON SOURCE LINES 84-86
 
 .. code-block:: default
 
@@ -256,13 +257,13 @@ operator requires Shells as input.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 86-89
+.. GENERATED FROM PYTHON SOURCE LINES 87-90
 
 Get normal at a node using :class:`normals <ansys.dpf.core.operators.geo.normals.normals>`
 operator.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-93
+.. GENERATED FROM PYTHON SOURCE LINES 90-94
 
 .. code-block:: default
 
@@ -277,14 +278,14 @@ operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 94-98
+.. GENERATED FROM PYTHON SOURCE LINES 95-99
 
 The normal vector is along the surface normal. You need to invert the vector
 using :class:`scale <ansys.dpf.core.operators.math.scale.scale>` operator
 inwards in the geometry, to get the path direction.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 98-100
+.. GENERATED FROM PYTHON SOURCE LINES 99-101
 
 .. code-block:: default
 
@@ -297,12 +298,12 @@ inwards in the geometry, to get the path direction.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-103
+.. GENERATED FROM PYTHON SOURCE LINES 102-104
 
 Get nodal coordinates, they serve as the first point on the line.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 103-105
+.. GENERATED FROM PYTHON SOURCE LINES 104-106
 
 .. code-block:: default
 
@@ -315,12 +316,12 @@ Get nodal coordinates, they serve as the first point on the line.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-108
+.. GENERATED FROM PYTHON SOURCE LINES 107-109
 
 Create 3D line equation.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 108-111
+.. GENERATED FROM PYTHON SOURCE LINES 109-112
 
 .. code-block:: default
 
@@ -334,12 +335,12 @@ Create 3D line equation.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-114
+.. GENERATED FROM PYTHON SOURCE LINES 113-115
 
 Create coordinates using 3D line equation.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 114-116
+.. GENERATED FROM PYTHON SOURCE LINES 115-117
 
 .. code-block:: default
 
@@ -352,12 +353,12 @@ Create coordinates using 3D line equation.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 117-119
+.. GENERATED FROM PYTHON SOURCE LINES 118-120
 
 Create field for coordinates of the path.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 119-122
+.. GENERATED FROM PYTHON SOURCE LINES 120-123
 
 .. code-block:: default
 
@@ -371,11 +372,11 @@ Create field for coordinates of the path.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 123-124
+.. GENERATED FROM PYTHON SOURCE LINES 124-125
 
 Map results on the path.
 
-.. GENERATED FROM PYTHON SOURCE LINES 124-128
+.. GENERATED FROM PYTHON SOURCE LINES 125-129
 
 .. code-block:: default
 
@@ -390,11 +391,11 @@ Map results on the path.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 129-130
+.. GENERATED FROM PYTHON SOURCE LINES 130-131
 
 Request the mapped field data and its mesh.
 
-.. GENERATED FROM PYTHON SOURCE LINES 130-132
+.. GENERATED FROM PYTHON SOURCE LINES 131-133
 
 .. code-block:: default
 
@@ -407,12 +408,12 @@ Request the mapped field data and its mesh.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 133-135
+.. GENERATED FROM PYTHON SOURCE LINES 134-136
 
 Create stress vs length chart.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 135-141
+.. GENERATED FROM PYTHON SOURCE LINES 136-142
 
 .. code-block:: default
 
@@ -434,12 +435,12 @@ Create stress vs length chart.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 142-144
+.. GENERATED FROM PYTHON SOURCE LINES 143-145
 
 Create a plot to add both meshes, ``mesh_m`` (the mapped mesh) and ``mesh``
 (the original mesh)
 
-.. GENERATED FROM PYTHON SOURCE LINES 144-151
+.. GENERATED FROM PYTHON SOURCE LINES 145-152
 
 .. code-block:: default
 
@@ -465,7 +466,7 @@ Create a plot to add both meshes, ``mesh_m`` (the mapped mesh) and ``mesh``
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.076 seconds)
+   **Total running time of the script:** ( 0 minutes  2.954 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_06-stress_gradient_path.py:

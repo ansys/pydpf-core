@@ -516,17 +516,19 @@ define the root folders for Ansys software installed on Linux and on Windows.</p
 where <code class="docutils literal notranslate"><span class="pre">###</span></code> is the three-digit format for the installed version. For example,
 on Windows, the path for the root folder for Ansys 2022 R2 likely ends with
 <code class="docutils literal notranslate"><span class="pre">\ANSYS</span> <span class="pre">Inc\v222</span></code>.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">ANSYS_ROOT_FOLDER</span></code> element is like an environment variable. You can use
-this element in other XML files. For example, you might use it to find required
+<p>The <code class="docutils literal notranslate"><span class="pre">ANSYS_ROOT_FOLDER</span></code> element defines a variable
+that can be used in the other XML files. For example, you might use it to find required
 third-party software.</p>
 <p>If the <code class="docutils literal notranslate"><span class="pre">ANSYS_ROOT_FOLDER</span></code> element is not defined in the <code class="docutils literal notranslate"><span class="pre">DataProcessing.xml</span></code>
-file, the root folder is determined by reading the <code class="docutils literal notranslate"><span class="pre">AWP_ROOT###</span></code> environment
-variable specific to your installed Ansys version. For example, if you are
-using Ansys 2022 R2, it looks for <code class="docutils literal notranslate"><span class="pre">AWP_ROOT222</span></code> to find the root folder.</p>
-<p>If the <code class="docutils literal notranslate"><span class="pre">ANSYS_ROOT_FOLDER</span></code> element is still not defined, an attempt is made to
+file, an attempt is made to
 find the root folder relative to the <code class="docutils literal notranslate"><span class="pre">DataProcessingCore</span></code> DLL or SO file. This
 works only if the <code class="docutils literal notranslate"><span class="pre">DataProcessingCore.xml</span></code> file is located in its default
 location.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">ANSYS_ROOT_FOLDER</span></code> element is still not defined, the root folder is
+determined by reading the <code class="docutils literal notranslate"><span class="pre">AWP_ROOT###</span></code> environment variable specific to your
+installed Ansys version. For example, if you are using Ansys 2022 R2, it looks
+for the <code class="docutils literal notranslate"><span class="pre">AWP_ROOT222</span></code> environment variable to find the root folder.</p>
+<p>ANSYS_ROOT_FOLDER is not an environment variable and cannot be set accordingly.</p>
 </section>
 <section id="defaultplugin-element">
 <h3><code class="docutils literal notranslate"><span class="pre">&lt;DefaultPlugin&gt;</span></code> element<a class="headerlink" href="#defaultplugin-element" title="Permalink to this heading">#</a></h3>
@@ -536,7 +538,7 @@ in the child elements.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">&lt;native&gt;</span></code> element defines DPF native operators. The further subdividing of
 plugins into <code class="docutils literal notranslate"><span class="pre">&lt;Debug&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;Release&gt;</span></code> elements is optional. The <code class="docutils literal notranslate"><span class="pre">&lt;Debug&gt;</span></code>
 element, for example, would only be used with a debug version of the
-<code class="docutils literal notranslate"><span class="pre">DataProcessingCore</span> <span class="pre">DLL/SO</span></code> file.</p>
+<code class="docutils literal notranslate"><span class="pre">DataProcessingCore</span></code> DLL or SO file.</p>
 <p>The element names for plugins, such as <code class="docutils literal notranslate"><span class="pre">&lt;native&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;fem_utils&gt;</span></code>, are used as
 <strong>keys</strong> when loading plugins. Each plugin must have a unique key.</p>
 <p>The element for each plug-in has child elements:</p>

@@ -12,6 +12,7 @@ shown with the arguments available.
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
+
 # Plot the bare mesh of a model
 model = dpf.Model(examples.find_multishells_rst())
 model.plot(color="w", show_edges=True, title="Model", text="Model plot")

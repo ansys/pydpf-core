@@ -118,13 +118,14 @@ The first workflow applies the averaging operator after computing the equivalent
 stresses. To create it, define a function that computes the von Mises stresses
 in the crankshaft and then apply the averaging operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-106
+.. GENERATED FROM PYTHON SOURCE LINES 74-107
 
 .. code-block:: default
 
 
 
     def compute_von_mises_then_average(analysis):
+
         # Create a model from the results of the simulation and retrieve its mesh
         model = dpf.Model(analysis)
         mesh = model.metadata.meshed_region
@@ -161,7 +162,7 @@ in the crankshaft and then apply the averaging operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 107-113
+.. GENERATED FROM PYTHON SOURCE LINES 108-114
 
 Create the second workflow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -170,13 +171,14 @@ operator. To create this workflow, first apply the averaging operator to the
 stress field in the crankshaft and then calculate the von Mises stresses, which
 are already located on a ``Nodal`` position.
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-145
+.. GENERATED FROM PYTHON SOURCE LINES 114-147
 
 .. code-block:: default
 
 
 
     def average_then_compute_von_mises(analysis):
+
         # Creating the model from the results of the simulation
         model = dpf.Model(analysis)
         mesh = model.metadata.meshed_region
@@ -213,7 +215,7 @@ are already located on a ``Nodal`` position.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 146-152
+.. GENERATED FROM PYTHON SOURCE LINES 148-154
 
 Plot the results
 ~~~~~~~~~~~~~~~~
@@ -222,7 +224,7 @@ Plot both von Mises stress fields side by side to compare them.
 - The second plot shows the results when the averaging is done first.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 152-156
+.. GENERATED FROM PYTHON SOURCE LINES 154-158
 
 .. code-block:: default
 
@@ -254,7 +256,7 @@ Plot both von Mises stress fields side by side to compare them.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 157-168
+.. GENERATED FROM PYTHON SOURCE LINES 159-170
 
 .. code-block:: default
 
@@ -284,7 +286,7 @@ Plot both von Mises stress fields side by side to compare them.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 169-172
+.. GENERATED FROM PYTHON SOURCE LINES 171-174
 
 Even though both workflows apply the same steps to the same initial data,
 their final results are different because of the order in which the operators
@@ -293,7 +295,7 @@ are applied.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.445 seconds)
+   **Total running time of the script:** ( 0 minutes  5.199 seconds)
 
 
 .. _sphx_glr_download_examples_08-averaging_00-compute_and_average.py:

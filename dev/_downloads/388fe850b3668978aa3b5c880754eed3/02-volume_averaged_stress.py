@@ -19,6 +19,7 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
+
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
@@ -68,6 +69,7 @@ with connectivity_field.as_local_field() as connectivity, \
     nodal_connectivity_field.as_local_field() as nodal_connectivity,\
         vol_field.as_local_field() as vol:  # fmt: on
     for i, node in enumerate(nodes_ids_to_compute):
+
         current_node_indexes = [i]
         volume = 0.0
         # Loop through recursively selecting elements attached

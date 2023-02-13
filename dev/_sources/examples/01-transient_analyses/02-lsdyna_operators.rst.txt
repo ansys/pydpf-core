@@ -25,13 +25,12 @@ Results extraction and analysis from LS-DYNA sources
 
 This example provides an overview of the LS-DYNA results providers.
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-16
+.. GENERATED FROM PYTHON SOURCE LINES 10-15
 
 .. code-block:: default
 
 
     import matplotlib.pyplot as plt
-
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
 
@@ -42,7 +41,7 @@ This example provides an overview of the LS-DYNA results providers.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-25
+.. GENERATED FROM PYTHON SOURCE LINES 16-24
 
 d3plot file results extraction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,7 +52,7 @@ through Mechanical, a file.actunits file is produced. If this file is
 supplemented in the data_sources, the units will be correctly fetched for all
 resuls in the file as well as for the mesh.
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-33
+.. GENERATED FROM PYTHON SOURCE LINES 24-32
 
 .. code-block:: default
 
@@ -131,7 +130,7 @@ resuls in the file as well as for the mesh.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-40
+.. GENERATED FROM PYTHON SOURCE LINES 33-39
 
 The model has solid (3D) elements and beam (1D) elements. Some of the results
 only apply to one type of elements (such as the stress tensor for solids, or
@@ -140,7 +139,7 @@ the axial force for beams, for example).
 Let's extract beam axial force for the last time step and plot it, deforming
 the mesh according to the displacement field at the same time step.
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-47
+.. GENERATED FROM PYTHON SOURCE LINES 39-46
 
 .. code-block:: default
 
@@ -163,7 +162,7 @@ the mesh according to the displacement field at the same time step.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-54
+.. GENERATED FROM PYTHON SOURCE LINES 47-53
 
 The axial force has only been computed for the beam elements (the bottom
 frame), whereas the top sphere, which is comprised by solid elements, has
@@ -172,7 +171,7 @@ only been deformed by the displacement field.
 PyDPF also allows you to animate the results in a FieldsContainer. Thus, if
 all time steps are extracted, an animation can be produced.
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-59
+.. GENERATED FROM PYTHON SOURCE LINES 53-58
 
 .. code-block:: default
 
@@ -193,12 +192,12 @@ all time steps are extracted, an animation can be produced.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-62
+.. GENERATED FROM PYTHON SOURCE LINES 59-61
 
 Some of the results are marked as global. They are not scoped over any mesh
 entity, but are global variables of the model.
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-66
+.. GENERATED FROM PYTHON SOURCE LINES 61-65
 
 .. code-block:: default
 
@@ -225,11 +224,11 @@ entity, but are global variables of the model.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 67-68
+.. GENERATED FROM PYTHON SOURCE LINES 66-67
 
 Energy plots over time (the sphere was released with some initial velocity).
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-80
+.. GENERATED FROM PYTHON SOURCE LINES 67-79
 
 .. code-block:: default
 
@@ -257,14 +256,14 @@ Energy plots over time (the sphere was released with some initial velocity).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-85
+.. GENERATED FROM PYTHON SOURCE LINES 80-84
 
 binout file results extraction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Create the model and dprint its contents. This LS-DYNA binout file contains
 several branches (glstat, matsum and rcforc).
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-92
+.. GENERATED FROM PYTHON SOURCE LINES 84-91
 
 .. code-block:: default
 
@@ -1341,7 +1340,7 @@ several branches (glstat, matsum and rcforc).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 93-100
+.. GENERATED FROM PYTHON SOURCE LINES 92-99
 
 In this case, the Unit System is not attached to the data_source, but it can
 be directly assigned to the results. As we are employing the dpf.Model API, we
@@ -1351,7 +1350,7 @@ rest of the results).
 Results from the matsum branch of the binout file are a FieldsContainer on a
 LabelSpace comprised by part IDs. Extract part kinetic energy for all parts:
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-106
+.. GENERATED FROM PYTHON SOURCE LINES 99-105
 
 .. code-block:: default
 
@@ -1508,11 +1507,11 @@ LabelSpace comprised by part IDs. Extract part kinetic energy for all parts:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 107-108
+.. GENERATED FROM PYTHON SOURCE LINES 106-107
 
 Extract part internal energy for only a selected number of parts.
 
-.. GENERATED FROM PYTHON SOURCE LINES 108-114
+.. GENERATED FROM PYTHON SOURCE LINES 107-113
 
 .. code-block:: default
 
@@ -1529,13 +1528,13 @@ Extract part internal energy for only a selected number of parts.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 115-118
+.. GENERATED FROM PYTHON SOURCE LINES 114-117
 
 Plot part kinetic and internal energy for a selection of parts. In this case,
 the TimeFreqSupport of the matsum branch does not have all the time steps in
 the binout file. Thus, a rescoping operation is needed:
 
-.. GENERATED FROM PYTHON SOURCE LINES 118-134
+.. GENERATED FROM PYTHON SOURCE LINES 117-133
 
 .. code-block:: default
 
@@ -1567,13 +1566,13 @@ the binout file. Thus, a rescoping operation is needed:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 135-138
+.. GENERATED FROM PYTHON SOURCE LINES 134-137
 
 Similarly, results from the rcforc branch of the binout file are a
 FieldsContainer on a LabelSpace comprised by interface IDs. Extract interface
 contact force for only one interface.
 
-.. GENERATED FROM PYTHON SOURCE LINES 138-145
+.. GENERATED FROM PYTHON SOURCE LINES 137-144
 
 .. code-block:: default
 
@@ -1604,13 +1603,13 @@ contact force for only one interface.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 146-149
+.. GENERATED FROM PYTHON SOURCE LINES 145-148
 
 In addition to interface, the FieldsContainer is scoped on idtype (0 for the
 master side of the interface, 1 for the slave). Contact force is a vector, and
 the three components are available.
 
-.. GENERATED FROM PYTHON SOURCE LINES 149-171
+.. GENERATED FROM PYTHON SOURCE LINES 148-170
 
 .. code-block:: default
 
@@ -1651,7 +1650,7 @@ the three components are available.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  12.766 seconds)
+   **Total running time of the script:** ( 0 minutes  14.214 seconds)
 
 
 .. _sphx_glr_download_examples_01-transient_analyses_02-lsdyna_operators.py:

@@ -30,7 +30,7 @@ and how to plot it.
     This example requires the Premium ServerContext.
     For more information, see :ref:`user_guide_server_context`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-26
+.. GENERATED FROM PYTHON SOURCE LINES 16-27
 
 .. code-block:: default
 
@@ -42,6 +42,7 @@ and how to plot it.
     from ansys.dpf.core import operators as ops
     from ansys.dpf.core.plotter import DpfPlotter
 
+
     dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 
@@ -51,14 +52,14 @@ and how to plot it.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-31
+.. GENERATED FROM PYTHON SOURCE LINES 28-32
 
 Plot path
 ~~~~~~~~~
 Use the :class:`ansys.dpf.core.plotter.DpfPlotter` class to plot a mapped
 result over a defined path of coordinates.
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-37
+.. GENERATED FROM PYTHON SOURCE LINES 32-38
 
 .. code-block:: default
 
@@ -75,11 +76,11 @@ result over a defined path of coordinates.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-39
+.. GENERATED FROM PYTHON SOURCE LINES 39-40
 
 Create a coordinates field to map on.
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-50
+.. GENERATED FROM PYTHON SOURCE LINES 40-51
 
 .. code-block:: default
 
@@ -101,11 +102,11 @@ Create a coordinates field to map on.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-52
+.. GENERATED FROM PYTHON SOURCE LINES 52-53
 
 Compute the mapped data using the mapping operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-57
+.. GENERATED FROM PYTHON SOURCE LINES 53-58
 
 .. code-block:: default
 
@@ -121,11 +122,11 @@ Compute the mapped data using the mapping operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-59
+.. GENERATED FROM PYTHON SOURCE LINES 59-60
 
 Request the mapped field data and its mesh.
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-62
+.. GENERATED FROM PYTHON SOURCE LINES 60-63
 
 .. code-block:: default
 
@@ -139,11 +140,11 @@ Request the mapped field data and its mesh.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-64
+.. GENERATED FROM PYTHON SOURCE LINES 64-65
 
 Create the plotter and add fields and meshes.
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-72
+.. GENERATED FROM PYTHON SOURCE LINES 65-73
 
 .. code-block:: default
 
@@ -167,12 +168,12 @@ Create the plotter and add fields and meshes.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-75
+.. GENERATED FROM PYTHON SOURCE LINES 74-76
 
 Plot the solution along the specified line. Note that since the line is only
 moving along the y-axis, the stresses are plotted with respect to the y coordinate.
 
-.. GENERATED FROM PYTHON SOURCE LINES 75-80
+.. GENERATED FROM PYTHON SOURCE LINES 76-81
 
 .. code-block:: default
 
@@ -196,7 +197,7 @@ moving along the y-axis, the stresses are plotted with respect to the y coordina
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.423 seconds)
+   **Total running time of the script:** ( 0 minutes  1.797 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_04-plot_on_path.py:
