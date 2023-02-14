@@ -48,8 +48,8 @@ class UnitSystem:
         >>> my_unit_system = dpf.UnitSystem("my_mks", unit_names="m;kg;s;degF;C;rad")
         """
         server = server_module.get_or_create_server(None)
-        if server and not server.meet_version("6.1"):  # pragma: no cover
-            raise dpf_errors.DpfVersionNotSupported("6.1")
+        if server and not server.meet_version("6.2"):  # pragma: no cover
+            raise dpf_errors.DpfVersionNotSupported("6.2")
         if not isinstance(name, str):
             raise dpf_errors.InvalidTypeError("str", "name")
 
@@ -95,30 +95,31 @@ class UnitSystem:
             return self._unit_names
 
 
-class unit_systems:
-    """Contains common Ansys predefined UnitSystems.
+try:
 
-    Attributes
-    -----------
-    solver_mks : Metric (m, kg, N, s, J, Pa, degC, C, rad)
+    class unit_systems:
+        """Contains common Ansys predefined UnitSystems.
 
-    solver_cgs : Metric (cm, g, dyne, s, erg, dyne*cm^-2, degC, C, rad)
+        Attributes
+        -----------
+        solver_mks : Metric (m, kg, N, s, J, Pa, degC, C, rad)
 
-    solver_nmm : Metric (mm, ton, N, s, mJ, MPa, degC, mC, rad)
+        solver_cgs : Metric (cm, g, dyne, s, erg, dyne*cm^-2, degC, C, rad)
 
-    solver_umks : Metric (um, kg, uN, s, pJ, MPa, degC, pC, rad)
+        solver_nmm : Metric (mm, ton, N, s, mJ, MPa, degC, mC, rad)
 
-    solver_knms : Metric (mm, kg, kN, ms, J, GPa, degC, mC, rad)
+        solver_umks : Metric (um, kg, uN, s, pJ, MPa, degC, pC, rad)
 
-    solver_bft : U.S. Customary (ft, slug, lbf, s, ft*lbf, lbf*ft^-2, degF, C, rad)
+        solver_knms : Metric (mm, kg, kN, ms, J, GPa, degC, mC, rad)
 
-    solver_bin : U.S. Customary (in, slinch, lbf, s, in*lbf, lbf*in^-2, degF, C, rad)
+        solver_bft : U.S. Customary (ft, slug, lbf, s, ft*lbf, lbf*ft^-2, degF, C, rad)
 
-    undefined : All units are dimensionless
+        solver_bin : U.S. Customary (in, slinch, lbf, s, in*lbf, lbf*in^-2, degF, C, rad)
 
-    """
+        undefined : All units are dimensionless
 
-    try:
+        """
+
         solver_mks = UnitSystem("solver_mks", ID=11)
         solver_cgs = UnitSystem("solver_cgs", ID=5)
         solver_nmm = UnitSystem("solver_nmm", ID=6)
@@ -127,5 +128,6 @@ class unit_systems:
         solver_bft = UnitSystem("solver_bft", ID=7)
         solver_bin = UnitSystem("solver_bin", ID=8)
         undefined = UnitSystem("undefined", ID=-1)
-    except dpf_errors.DpfVersionNotSupported as e:
-        pass
+
+except dpf_errors.DpfVersionNotSupported as e:
+    pass
