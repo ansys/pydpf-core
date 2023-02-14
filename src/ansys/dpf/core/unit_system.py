@@ -95,39 +95,34 @@ class UnitSystem:
             return self._unit_names
 
 
-try:
+class unit_systems:
+    """Contains common Ansys predefined UnitSystems.
 
-    class unit_systems:
-        """Contains common Ansys predefined UnitSystems.
+    Attributes
+    -----------
+    solver_mks : Metric (m, kg, N, s, J, Pa, degC, C, rad)
 
-        Attributes
-        -----------
-        solver_mks : Metric (m, kg, N, s, J, Pa, degC, C, rad)
+    solver_cgs : Metric (cm, g, dyne, s, erg, dyne*cm^-2, degC, C, rad)
 
-        solver_cgs : Metric (cm, g, dyne, s, erg, dyne*cm^-2, degC, C, rad)
+    solver_nmm : Metric (mm, ton, N, s, mJ, MPa, degC, mC, rad)
 
-        solver_nmm : Metric (mm, ton, N, s, mJ, MPa, degC, mC, rad)
+    solver_umks : Metric (um, kg, uN, s, pJ, MPa, degC, pC, rad)
 
-        solver_umks : Metric (um, kg, uN, s, pJ, MPa, degC, pC, rad)
+    solver_knms : Metric (mm, kg, kN, ms, J, GPa, degC, mC, rad)
 
-        solver_knms : Metric (mm, kg, kN, ms, J, GPa, degC, mC, rad)
+    solver_bft : U.S. Customary (ft, slug, lbf, s, ft*lbf, lbf*ft^-2, degF, C, rad)
 
-        solver_bft : U.S. Customary (ft, slug, lbf, s, ft*lbf, lbf*ft^-2, degF, C, rad)
+    solver_bin : U.S. Customary (in, slinch, lbf, s, in*lbf, lbf*in^-2, degF, C, rad)
 
-        solver_bin : U.S. Customary (in, slinch, lbf, s, in*lbf, lbf*in^-2, degF, C, rad)
+    undefined : All units are dimensionless
 
-        undefined : All units are dimensionless
+    """
 
-        """
-
-        solver_mks = UnitSystem("solver_mks", ID=11)
-        solver_cgs = UnitSystem("solver_cgs", ID=5)
-        solver_nmm = UnitSystem("solver_nmm", ID=6)
-        solver_umks = UnitSystem("solver_umks", ID=10)
-        solver_knms = UnitSystem("solver_knms", ID=16)
-        solver_bft = UnitSystem("solver_bft", ID=7)
-        solver_bin = UnitSystem("solver_bin", ID=8)
-        undefined = UnitSystem("undefined", ID=-1)
-
-except dpf_errors.DpfVersionNotSupported as e:
-    pass
+    solver_mks = UnitSystem("solver_mks", ID=11)
+    solver_cgs = UnitSystem("solver_cgs", ID=5)
+    solver_nmm = UnitSystem("solver_nmm", ID=6)
+    solver_umks = UnitSystem("solver_umks", ID=10)
+    solver_knms = UnitSystem("solver_knms", ID=16)
+    solver_bft = UnitSystem("solver_bft", ID=7)
+    solver_bin = UnitSystem("solver_bin", ID=8)
+    undefined = UnitSystem("undefined", ID=-1)
