@@ -118,11 +118,14 @@ class unit_systems:
 
     """
 
-    solver_mks = UnitSystem("solver_mks", ID=11)
-    solver_cgs = UnitSystem("solver_cgs", ID=5)
-    solver_nmm = UnitSystem("solver_nmm", ID=6)
-    solver_umks = UnitSystem("solver_umks", ID=10)
-    solver_knms = UnitSystem("solver_knms", ID=16)
-    solver_bft = UnitSystem("solver_bft", ID=7)
-    solver_bin = UnitSystem("solver_bin", ID=8)
-    undefined = UnitSystem("undefined", ID=-1)
+    try:
+        solver_mks = UnitSystem("solver_mks", ID=11)
+        solver_cgs = UnitSystem("solver_cgs", ID=5)
+        solver_nmm = UnitSystem("solver_nmm", ID=6)
+        solver_umks = UnitSystem("solver_umks", ID=10)
+        solver_knms = UnitSystem("solver_knms", ID=16)
+        solver_bft = UnitSystem("solver_bft", ID=7)
+        solver_bin = UnitSystem("solver_bin", ID=8)
+        undefined = UnitSystem("undefined", ID=-1)
+    except dpf_errors.DpfVersionNotSupported as e:
+        pass
