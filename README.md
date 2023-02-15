@@ -54,25 +54,25 @@ Compatibility between PyDPF-Core and Ansys is documented
 To use PyDPF-Core with ``ansys-dpf-server`` or Ansys 2021 R2 or later, 
 install the latest version with this command:
 
-.. code::
-
+```con
    pip install ansys-dpf-core
+```
 
 PyDPF-Core plotting capabilities require to have `PyVista <https://pyvista.org/>`_ installed.
 To install PyDPF-Core with its optional plotting functionalities, use:
 
-.. code::
-
+```con
    pip install ansys-dpf-core[plotting]
+```
 
 For more information about PyDPF-Core plotting capabilities, see [Plotting](https://dpf.docs.pyansys.com/user_guide/plotting.html).
 
 To use PyDPF-Core with Ansys 2021 R1, install the latest version
 with this command:
 
-.. code::
-
+```con
    pip install ansys-dpf-core<0.3.0
+```
 
 
 ### Brief Demo
