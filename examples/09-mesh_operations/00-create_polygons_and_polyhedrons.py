@@ -434,6 +434,7 @@ for element_nodes_index_solid, element_nodes_solid in enumerate(
 mesh_solid_only.set_property_field(property_name="connectivity", value=connectivity_e_n_solid)
 
 ###############################################################################
+# Plot
 
 c_pos = [(0.04, 0.03, 0.05), (0.0, 0.0, 0.0), (0.1, 0.2, 0.1)]
 
