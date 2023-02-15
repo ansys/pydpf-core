@@ -10,24 +10,32 @@
 [![cov](https://codecov.io/gh/pyansys/pydpf-core/branch/master/graph/badge.svg)](https://codecov.io/gh/pyansys/pydpf-core)
 [![codacy](https://app.codacy.com/project/badge/Grade/61b6a519aea64715ad1726b3955fcf98)](https://www.codacy.com/gh/pyansys/pydpf-core/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pyansys/pydpf-core&amp;utm_campaign=Badge_Grade)
 
-The Data Processing Framework (DPF) is designed to provide numerical
-simulation users/engineers with a toolbox for accessing and
-transforming simulation data. DPF can access data from solver result
-files as well as several neutral formats (csv, hdf5, vtk,
-etc.). Various operators are available allowing the manipulation and
-the transformation of this data.
+The Data Processing Framework (DPF) provides numerical simulation 
+users and engineers with a toolbox for accessing and transforming simulation 
+data. With DPF, you can perform complex preprocessing or postprocessing of
+large amounts of simulation data within a simulation workflow.
 
-DPF is a workflow-based framework which allows simple and/or complex
-evaluations by chaining operators. The data in DPF is defined based on
-physics agnostic mathematical quantities described in a
-self-sufficient entity called field. This allows DPF to be a modular
-and easy to use tool with a large range of capabilities. It's a
-product designed to handle large amount of data.
+DPF is an independent, physics-agnostic tool that you can plug into many 
+apps for both data input and data output, including visualization and 
+result plots. It can access data from solver result files and other neutral
+formats, such as CSV, HDF5, and VTK files.
 
-The Python ``ansys.dpf.core`` module provides a Python interface to
-the powerful DPF framework enabling rapid post-processing of a variety
-of Ansys file formats and physics solutions without ever leaving a
-Python environment.  
+Using the many DPF operators that are available, you can manipulate and
+transform this data. You can also chain operators together to create simple
+or complex data-processing workflows that you can reuse for repeated or
+future evaluations.
+
+The data in DPF is defined based on physics-agnostic mathematical quantities 
+described in self-sufficient entities called **fields**. This allows DPF to be 
+a modular and easy-to-use tool with a large range of capabilities. 
+
+.. image:: https://github.com/pyansys/pydpf-core/raw/main/docs/source/images/drawings/dpf-flow.png
+  :width: 670
+  :alt: DPF flow
+
+The ``ansys.dpf.core`` package provides a Python interface to DPF, enabling
+rapid postprocessing of a variety of Ansys file formats and physics solutions
+without ever leaving the Python environment.
 
 ## Documentation
 
@@ -38,43 +46,44 @@ detailed examples.
 
 ## Installation
 
-DPF requires an Ansys installation and must be compatible with it.
+PyDPF-Core requires DPF to be available, either thanks to a compatible Ansys installation or after installing the 
+standalone server package ``ansys-dpf-server`` (see [here](https://dpf.docs.pyansys.com/user_guide/getting_started_with_dpf_server.html)).
 Compatibility between PyDPF-Core and Ansys is documented 
 [here](https://dpfdocs.pyansys.com/getting_started/index.html#compatibility).
 
-Starting with Ansys 2021R2, install this package with:
+To use PyDPF-Core with ``ansys-dpf-server`` or Ansys 2021 R2 or later, 
+install the latest version with this command:
 
-```
-pip install ansys-dpf-core 
-```
+.. code::
 
-For use with Ansys 2021R1, install this package with:
+   pip install ansys-dpf-core
 
-```
-pip install ansys-dpf-core==0.2.1
-```
+PyDPF-Core plotting capabilities require to have `PyVista <https://pyvista.org/>`_ installed.
+To install PyDPF-Core with its optional plotting functionalities, use:
 
-You can also clone and install this repository with:
+.. code::
 
-```
-git clone https://github.com/pyansys/pydpf-core
-cd pydpf-core
-pip install -e .
-```
+   pip install ansys-dpf-core[plotting]
 
+For more information about PyDPF-Core plotting capabilities, see [Plotting](https://dpf.docs.pyansys.com/user_guide/plotting.html).
 
-## Running DPF
+To use PyDPF-Core with Ansys 2021 R1, install the latest version
+with this command:
 
-See the example scripts in the examples folder for some basic example.  More will be added later.
+.. code::
+
+   pip install ansys-dpf-core<0.3.0
+
 
 ### Brief Demo
 
-Provided you have ANSYS 2021R1 or higher installed, a DPF server will start
-automatically once you start using DPF.
+Provided you have DPF available, either thanks to an Ansys installation or after installing the 
+standalone server package ``ansys-dpf-server`` (see [here](https://dpf.docs.pyansys.com/user_guide/getting_started_with_dpf_server.html)), 
+a DPF server will start automatically once you start using PyDPF-Core.
 
 To open a result file and explore what's inside, do:
 
-```py
+```pycon
 >>> from ansys.dpf import core as dpf
 >>> from ansys.dpf.core import examples
 >>> model = dpf.Model(examples.find_simple_bar())
@@ -113,24 +122,24 @@ To open a result file and explore what's inside, do:
 
 Read a result with:
 
-```py
+```pycon
 >>> result = model.results.displacement.eval()
 ```
 
 Then start connecting operators with:
 
-```py
+```pycon
 >>> from ansys.dpf.core import operators as ops
 >>> norm = ops.math.norm(model.results.displacement())
 ```
 
 ### Starting the Service
 
-The `ansys.dpf.core` automatically starts a local instance of the DPF service in the
+The ``ansys.dpf.core`` library automatically starts a local instance of the DPF service in the
 background and connects to it.  If you need to connect to an existing
 remote or local DPF instance, use the ``connect_to_server`` function:
 
-```py
+```pycon
 >>> from ansys.dpf import core as dpf
 >>> dpf.connect_to_server(ip='10.0.0.22', port=50054)
 ```
