@@ -131,5 +131,5 @@ class unit_systems:
         solver_bft = UnitSystem("solver_bft", ID=7)
         solver_bin = UnitSystem("solver_bin", ID=8)
         undefined = UnitSystem("undefined", ID=-1)
-    except dpf_errors.DpfVersionNotSupported as e:
+    except dpf_errors.DpfVersionNotSupported as e:  # pragma: no cover
         pass
