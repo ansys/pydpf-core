@@ -5,7 +5,7 @@ Create and display a mesh with polygon and polyhedron elements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example shows how to manually create a
 :class:`MeshedRegion <ansys.dpf.meshed_region.MeshedRegion>`
-object with many elements, polygons and a polyhedrons.
+object with polygons and polyhedrons.
 
 .. note::
     Because the cell_faces connectivity and the faces_nodes connectivity give all the
