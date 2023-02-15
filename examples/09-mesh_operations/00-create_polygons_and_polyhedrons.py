@@ -23,11 +23,11 @@ from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Define manually the node coordinates of the polyhedrons and polygons
-# ~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Note on these two sets of nodes, there are two nodes at [0,0,0]
 # This anomaly has been taking into account for this example
 
-# Node coordinate of the polygons
+# Node coordinates of the polygons
 
 polygon_points = [
     [9.99999978e-03, 8.74136522e-20, 0.00000000e00],  # 0
@@ -75,9 +75,11 @@ polyhedron_points = [
 ]
 
 ###############################################################################
-# We use these coordinates to build meshed region
-# We define here a meshed region relative to the shell (nodes -> lines -> surfaces)
-# and one to the solid (nodes -> surfaces -> volumes)
+# We then use these coordinates to build meshed region
+# One meshed region will define shell elements and their connectivity
+# (nodes -> lines -> surfaces),
+# while the second will define solid elements and their own connectivity
+# (nodes -> surfaces -> volumes).
 
 ###############################################################################
 # Create a bare mesh with pre-reserved memory
@@ -101,10 +103,11 @@ for i, node_solid in enumerate(mesh_solid_only.nodes.add_nodes(num=len(polyhedro
     node_solid.coordinates = polyhedron_points[i]
 
 ###############################################################################
-# We define now all the connectivity for the two meshed regions
+# Create the connectivity tables
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ###############################################################################
-# face node connectivity
+# face-to-node connectivity
 
 # ShellOnly Line[nodes]
 
@@ -173,7 +176,7 @@ polyhedron_faces_node_connectivity = [
 ]
 
 ###############################################################################
-# cell_face connectivity
+# cell-to-face connectivity
 
 # ShellOnly Face[lines]
 
