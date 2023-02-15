@@ -5,22 +5,22 @@
 
 Computation times
 =================
-**00:58.101** total execution time for **examples_05-plotting** files:
+**00:43.162** total execution time for **examples_05-plotting** files:
 
 +--------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_05-plotting_06-animate_results.py` (``06-animate_results.py``)           | 00:19.591 | 0.0 MB |
+| :ref:`sphx_glr_examples_05-plotting_06-animate_results.py` (``06-animate_results.py``)           | 00:13.803 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_05-plotting_05-plot_on_warped_mesh.py` (``05-plot_on_warped_mesh.py``)   | 00:11.538 | 0.0 MB |
+| :ref:`sphx_glr_examples_05-plotting_00-basic_plotting.py` (``00-basic_plotting.py``)             | 00:08.769 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_05-plotting_00-basic_plotting.py` (``00-basic_plotting.py``)             | 00:11.102 | 0.0 MB |
+| :ref:`sphx_glr_examples_05-plotting_05-plot_on_warped_mesh.py` (``05-plot_on_warped_mesh.py``)   | 00:08.707 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_05-plotting_07-plot_on_geometries.py` (``07-plot_on_geometries.py``)     | 00:09.273 | 0.0 MB |
+| :ref:`sphx_glr_examples_05-plotting_07-plot_on_geometries.py` (``07-plot_on_geometries.py``)     | 00:06.692 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_05-plotting_03-labels.py` (``03-labels.py``)                             | 00:02.377 | 0.0 MB |
+| :ref:`sphx_glr_examples_05-plotting_03-labels.py` (``03-labels.py``)                             | 00:02.001 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_05-plotting_04-plot_on_path.py` (``04-plot_on_path.py``)                 | 00:01.797 | 0.0 MB |
+| :ref:`sphx_glr_examples_05-plotting_04-plot_on_path.py` (``04-plot_on_path.py``)                 | 00:01.313 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_05-plotting_01-compare_results.py` (``01-compare_results.py``)           | 00:01.235 | 0.0 MB |
+| :ref:`sphx_glr_examples_05-plotting_01-compare_results.py` (``01-compare_results.py``)           | 00:00.938 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_05-plotting_02-solution_combination.py` (``02-solution_combination.py``) | 00:01.188 | 0.0 MB |
+| :ref:`sphx_glr_examples_05-plotting_02-solution_combination.py` (``02-solution_combination.py``) | 00:00.938 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------+-----------+--------+

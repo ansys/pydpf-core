@@ -1030,7 +1030,7 @@ These examples show how to manipulate meshes.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to manually create a ansys.dpf.meshed_region.MeshedRegion object with tw...">
+    <div class="sphx-glr-thumbcontainer" tooltip="    In order to plot the mesh, we add at the end of this example the cell_node connectivity">
 
 .. only:: html
 

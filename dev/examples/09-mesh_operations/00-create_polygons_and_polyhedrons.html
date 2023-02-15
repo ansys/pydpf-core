@@ -723,13 +723,28 @@ function checkPageExistsAndRedirect(event) {
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#define-the-node-coordinates">
-   Define the node coordinates
+  <a class="reference internal nav-link" href="#define-manually-the-node-coordinates-of-the-polyhedrons-and-polygons">
+   Define manually the node coordinates of the polyhedrons and polygons
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#visualize-mesh">
-   Visualize mesh
+  <a class="reference internal nav-link" href="#create-the-connectivity-tables">
+   Create the connectivity tables
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#connectivity-set-in-property-fields">
+   Connectivity set in property fields
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#face-element-types-set-in-property-fields">
+   Face/Element types set in property fields
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-the-meshes">
+   Plot the meshes
   </a>
  </li>
 </ul>
@@ -760,105 +775,432 @@ to download the full example code</p>
 <span id="create-polygons-and-polyhedrons"></span><span id="sphx-glr-examples-09-mesh-operations-00-create-polygons-and-polyhedrons-py"></span><h1>Create and display a mesh with polygon and polyhedron elements<a class="headerlink" href="#create-and-display-a-mesh-with-polygon-and-polyhedron-elements" title="Permalink to this heading">#</a></h1>
 <p>This example shows how to manually create a
 <code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code>
-object with two elements, a polygon and a polyhedron.</p>
+object with polygons and polyhedrons.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Because the cell_faces connectivity and the faces_nodes connectivity give all the
+information concerning the mesh we decide to avoid the process of adding element
+by defining directly the PropertyField.</p>
+<p>In order to plot the mesh, we add at the end of this example the cell_node connectivity</p>
+</div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># First import the required modules</span>
+
 <span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">mesh_scoping_factory</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core.plotter</span> <span class="kn">import</span> <span class="n">DpfPlotter</span>
 </pre></div>
 </div>
 </section>
-<section id="define-the-node-coordinates">
-<h1>Define the node coordinates<a class="headerlink" href="#define-the-node-coordinates" title="Permalink to this heading">#</a></h1>
-<p>Define the coordinates of the nodes of the polygon</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">polygon_points</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.035</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+<section id="define-manually-the-node-coordinates-of-the-polyhedrons-and-polygons">
+<h1>Define manually the node coordinates of the polyhedrons and polygons<a class="headerlink" href="#define-manually-the-node-coordinates-of-the-polyhedrons-and-polygons" title="Permalink to this heading">#</a></h1>
+<p>Note on these two sets of nodes, there are two nodes at [0,0,0]
+This anomaly has been taking into account for this example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Node coordinates of the polygons</span>
+
+<span class="n">polygon_points</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mf">9.99999978e-03</span><span class="p">,</span> <span class="mf">8.74136522e-20</span><span class="p">,</span> <span class="mf">0.00000000e00</span><span class="p">],</span>  <span class="c1"># 0</span>
+    <span class="p">[</span><span class="mf">0.00000000e00</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.30139302e-19</span><span class="p">,</span> <span class="mf">9.99999978e-03</span><span class="p">],</span>  <span class="c1"># 1</span>
+    <span class="p">[</span><span class="mf">0.00525</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.00525</span><span class="p">],</span>  <span class="c1"># 2</span>
+    <span class="p">[</span><span class="mf">9.99999978e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.14418395e-20</span><span class="p">,</span> <span class="mf">9.99999978e-03</span><span class="p">],</span>  <span class="c1"># 3</span>
+    <span class="p">[</span><span class="mf">0.00000000e00</span><span class="p">,</span> <span class="mf">1.03134572e-19</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.99999978e-03</span><span class="p">],</span>  <span class="c1"># 4</span>
+    <span class="p">[</span><span class="mf">0.00525</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00475</span><span class="p">],</span>  <span class="c1"># 5</span>
+    <span class="p">[</span><span class="mf">9.99999978e-03</span><span class="p">,</span> <span class="mf">2.06269144e-19</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.99999978e-03</span><span class="p">],</span>  <span class="c1"># 6</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">9.99999978e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.14418382e-19</span><span class="p">,</span> <span class="mf">0.00000000e00</span><span class="p">],</span>  <span class="c1"># 7</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">0.00475</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00475</span><span class="p">],</span>  <span class="c1"># 8</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">9.99999978e-03</span><span class="p">,</span> <span class="mf">4.50853098e-34</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.99999978e-03</span><span class="p">],</span>  <span class="c1"># 9</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">0.00475</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.00525</span><span class="p">],</span>  <span class="c1"># 10</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">9.99999978e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.28836764e-19</span><span class="p">,</span> <span class="mf">9.99999978e-03</span><span class="p">],</span>  <span class="c1"># 11</span>
+    <span class="p">[</span><span class="mf">0.0005</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.0005</span><span class="p">],</span>  <span class="c1"># 12</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">7.24078460e-03</span><span class="p">,</span> <span class="mf">2.62782397e-03</span><span class="p">,</span> <span class="mf">8.26236179e-20</span><span class="p">],</span>  <span class="c1"># 13</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">7.10436800e-20</span><span class="p">,</span> <span class="mf">2.37844935e-03</span><span class="p">,</span> <span class="mf">7.74047290e-03</span><span class="p">],</span>  <span class="c1"># 14</span>
+    <span class="p">[</span><span class="mf">8.67361738e-19</span><span class="p">,</span> <span class="mf">2.62782397e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.24078460e-03</span><span class="p">],</span>  <span class="c1"># 15</span>
+    <span class="p">[</span><span class="mf">0.00774047</span><span class="p">,</span> <span class="mf">0.00237845</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># 16</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">9.39159748e-36</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.57209197e-20</span><span class="p">,</span> <span class="mf">1.73472348e-18</span><span class="p">],</span>  <span class="c1"># 17</span>
 <span class="p">]</span>
 
-<span class="c1"># Define the coordinates of the nodes of the polyhedron</span>
+<span class="c1"># Node coordinate of the polyhedrons</span>
+
 <span class="n">polyhedron_points</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.035</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.035</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">9.99999978e-03</span><span class="p">,</span> <span class="mf">8.74136522e-20</span><span class="p">,</span> <span class="mf">0.00000000e00</span><span class="p">],</span>  <span class="c1"># 0</span>
+    <span class="p">[</span><span class="mf">0.00000000e00</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.30139302e-19</span><span class="p">,</span> <span class="mf">9.99999978e-03</span><span class="p">],</span>  <span class="c1"># 1</span>
+    <span class="p">[</span><span class="mf">0.00525</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.00525</span><span class="p">],</span>  <span class="c1"># 2</span>
+    <span class="p">[</span><span class="mf">9.99999978e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.14418395e-20</span><span class="p">,</span> <span class="mf">9.99999978e-03</span><span class="p">],</span>  <span class="c1"># 3</span>
+    <span class="p">[</span><span class="mf">0.00000000e00</span><span class="p">,</span> <span class="mf">1.03134572e-19</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.99999978e-03</span><span class="p">],</span>  <span class="c1"># 4</span>
+    <span class="p">[</span><span class="mf">0.00525</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00475</span><span class="p">],</span>  <span class="c1"># 5</span>
+    <span class="p">[</span><span class="mf">9.99999978e-03</span><span class="p">,</span> <span class="mf">2.06269144e-19</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.99999978e-03</span><span class="p">],</span>  <span class="c1"># 6</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">9.99999978e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.14418382e-19</span><span class="p">,</span> <span class="mf">0.00000000e00</span><span class="p">],</span>  <span class="c1"># 7</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">0.00475</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00475</span><span class="p">],</span>  <span class="c1"># 8</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">9.99999978e-03</span><span class="p">,</span> <span class="mf">4.50853098e-34</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.99999978e-03</span><span class="p">],</span>  <span class="c1"># 9</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">0.00475</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.00525</span><span class="p">],</span>  <span class="c1"># 10</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">9.99999978e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.28836764e-19</span><span class="p">,</span> <span class="mf">9.99999978e-03</span><span class="p">],</span>  <span class="c1"># 11</span>
+    <span class="p">[</span><span class="mf">0.0005</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.0005</span><span class="p">],</span>  <span class="c1"># 12</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">7.24078460e-03</span><span class="p">,</span> <span class="mf">2.62782397e-03</span><span class="p">,</span> <span class="mf">8.26236179e-20</span><span class="p">],</span>  <span class="c1"># 13</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">7.10436800e-20</span><span class="p">,</span> <span class="mf">2.37844935e-03</span><span class="p">,</span> <span class="mf">7.74047290e-03</span><span class="p">],</span>  <span class="c1"># 14</span>
+    <span class="p">[</span><span class="mf">8.67361738e-19</span><span class="p">,</span> <span class="mf">2.62782397e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.24078460e-03</span><span class="p">],</span>  <span class="c1"># 15</span>
+    <span class="p">[</span><span class="mf">0.00774047</span><span class="p">,</span> <span class="mf">0.00237845</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># 16</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">9.39159748e-36</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.57209197e-20</span><span class="p">,</span> <span class="mf">1.73472348e-18</span><span class="p">],</span>  <span class="c1"># 17</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">0.00072653</span><span class="p">,</span> <span class="mf">0.00052606</span><span class="p">,</span> <span class="mf">0.00077884</span><span class="p">],</span>  <span class="c1"># 18</span>
 <span class="p">]</span>
-
-<span class="n">coordinates</span> <span class="o">=</span> <span class="n">polygon_points</span> <span class="o">+</span> <span class="n">polyhedron_points</span>
 </pre></div>
 </div>
+<p>We then use these coordinates to build meshed region
+One meshed region will define shell elements and their connectivity
+(nodes -&gt; lines -&gt; surfaces),
+while the second will define solid elements and their own connectivity
+(nodes -&gt; surfaces -&gt; volumes).</p>
 <p>Create a bare mesh with pre-reserved memory</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">MeshedRegion</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">coordinates</span><span class="p">),</span> <span class="n">num_elements</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="c1"># Add the nodes to the MeshedRegion</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">add_nodes</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">coordinates</span><span class="p">))):</span>
-    <span class="n">node</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-    <span class="n">node</span><span class="o">.</span><span class="n">coordinates</span> <span class="o">=</span> <span class="n">coordinates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_shell_only</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">MeshedRegion</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">polygon_points</span><span class="p">),</span> <span class="n">num_elements</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">mesh_solid_only</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">MeshedRegion</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">polyhedron_points</span><span class="p">),</span> <span class="n">num_elements</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Define the polygon’s connectivity using node indices (not IDs)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">connectivity</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<p>Add the nodes to the meshed regions</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ShellOnly</span>
 
-<span class="n">polygon_faces_connectivity</span> <span class="o">=</span> <span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node_shell</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mesh_shell_only</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">add_nodes</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">polygon_points</span><span class="p">))):</span>
+    <span class="n">node_shell</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">node_shell</span><span class="o">.</span><span class="n">coordinates</span> <span class="o">=</span> <span class="n">polygon_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
-<span class="c1"># Add the polygon element to the MeshedRegion</span>
-<span class="n">mesh</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">add_shell_element</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">connectivity</span><span class="o">=</span><span class="n">connectivity</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Define the polyhedron’s connectivity</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the faces connectivity</span>
-<span class="n">polyhedron_faces_connectivity</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span>
-<span class="p">]</span>
+<span class="c1"># SolidOnly</span>
 
-<span class="c1"># Build the polyhedron&#39;s nodal connectivity from faces connectivity</span>
-<span class="n">connectivity</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">face</span> <span class="ow">in</span> <span class="n">polyhedron_faces_connectivity</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">face</span><span class="p">]</span>
-
-<span class="c1"># Add the polyhedron element to the MeshedRegion</span>
-<span class="n">mesh</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">add_solid_element</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">connectivity</span><span class="o">=</span><span class="n">connectivity</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Set property fields required for Polyhedron elements</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the ``&quot;faces_nodes_connectivity&quot;``</span>
-<span class="c1"># :class:`PropertyField &lt;ansys.dpf.core.property_field.PropertyField&gt;`</span>
-<span class="n">faces_connectivity</span> <span class="o">=</span> <span class="n">polygon_faces_connectivity</span> <span class="o">+</span> <span class="n">polyhedron_faces_connectivity</span>
-<span class="n">connectivity_f</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">face_index</span><span class="p">,</span> <span class="n">face_connectivity</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">faces_connectivity</span><span class="p">):</span>
-    <span class="n">connectivity_f</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">face_connectivity</span><span class="p">,</span> <span class="n">face_index</span><span class="p">)</span>
-<span class="n">mesh</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span><span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;faces_nodes_connectivity&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">connectivity_f</span><span class="p">)</span>
-
-<span class="c1"># Set the ``&quot;elements_faces_connectivity&quot;``</span>
-<span class="c1"># :class:`PropertyField &lt;ansys.dpf.core.property_field.PropertyField&gt;`</span>
-<span class="n">polygon_faces</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]]</span>
-<span class="n">polyhedron_faces</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]]</span>
-<span class="n">element_faces</span> <span class="o">=</span> <span class="n">polygon_faces</span> <span class="o">+</span> <span class="n">polyhedron_faces</span>
-<span class="n">elements_faces_f</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">element_index</span><span class="p">,</span> <span class="n">element_faces</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">element_faces</span><span class="p">):</span>
-    <span class="n">elements_faces_f</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element_faces</span><span class="p">,</span> <span class="n">element_index</span><span class="p">)</span>
-<span class="n">mesh</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span><span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;elements_faces_connectivity&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">elements_faces_f</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node_solid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mesh_solid_only</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">add_nodes</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">polyhedron_points</span><span class="p">))):</span>
+    <span class="n">node_solid</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">node_solid</span><span class="o">.</span><span class="n">coordinates</span> <span class="o">=</span> <span class="n">polyhedron_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 </pre></div>
 </div>
 </section>
-<section id="visualize-mesh">
-<h1>Visualize mesh<a class="headerlink" href="#visualize-mesh" title="Permalink to this heading">#</a></h1>
-<p>Plot the <code class="xref py py-class docutils literal notranslate"><span class="pre">MeshedRegion</span></code></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<section id="create-the-connectivity-tables">
+<h1>Create the connectivity tables<a class="headerlink" href="#create-the-connectivity-tables" title="Permalink to this heading">#</a></h1>
+<p>face-to-node connectivity</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ShellOnly Line[nodes]</span>
+
+<span class="n">polygon_faces_node_connectivity</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span>  <span class="c1"># Line[Node] 0</span>
+    <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># Line[Node] 1</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>  <span class="c1"># Line[Node] 2</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>  <span class="c1"># Line[Node] 3</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># Line[Node] 4</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span>  <span class="c1"># Line[Node] 5</span>
+    <span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>  <span class="c1"># Line[Node] 6</span>
+    <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># Line[Node] 7</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">17</span><span class="p">],</span>  <span class="c1"># Line[Node] 8</span>
+    <span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>  <span class="c1"># Line[Node] 9</span>
+    <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>  <span class="c1"># Line[Node] 10</span>
+    <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># Line[Node] 11</span>
+    <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>  <span class="c1"># Line[Node] 12</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>  <span class="c1"># Line[Node] 13</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>  <span class="c1"># Line[Node] 14</span>
+    <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>  <span class="c1"># Line[Node] 15</span>
+    <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>  <span class="c1"># Line[Node] 16</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">17</span><span class="p">],</span>  <span class="c1"># Line[Node] 17</span>
+    <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>  <span class="c1"># Line[Node] 18</span>
+    <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>  <span class="c1"># Line[Node] 19</span>
+    <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>  <span class="c1"># Line[Node] 20</span>
+    <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span>  <span class="c1"># Line[Node] 21</span>
+    <span class="p">[</span><span class="mi">13</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>  <span class="c1"># Line[Node] 22</span>
+    <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>  <span class="c1"># Line[Node] 23</span>
+    <span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>  <span class="c1"># Line[Node] 24</span>
+    <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span>  <span class="c1"># Line[Node] 25</span>
+    <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>  <span class="c1"># Line[Node] 26</span>
+    <span class="p">[</span><span class="mi">13</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>  <span class="c1"># Line[Node] 27</span>
+    <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>  <span class="c1"># Line[Node] 28</span>
+    <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>  <span class="c1"># Line[Node] 29</span>
+    <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>  <span class="c1"># Line[Node] 30</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>  <span class="c1"># Line[Node] 31</span>
+<span class="p">]</span>
+
+<span class="c1"># SolidOnly Face[nodes]</span>
+
+<span class="n">polyhedron_faces_node_connectivity</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>  <span class="c1"># Face[Node] 0</span>
+    <span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>  <span class="c1"># Face[Node] 1</span>
+    <span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># Face[Node] 2</span>
+    <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>  <span class="c1"># Face[Node] 3</span>
+    <span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># Face[Node] 4</span>
+    <span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>  <span class="c1"># Face[Node] 5</span>
+    <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>  <span class="c1"># Face[Node] 6</span>
+    <span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>  <span class="c1"># Face[Node] 7</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>  <span class="c1"># Face[Node] 8</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>  <span class="c1"># Face[Node] 9</span>
+    <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>  <span class="c1"># Face[Node] 10</span>
+    <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>  <span class="c1"># Face[Node] 11</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>  <span class="c1"># Face[Node] 12</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># Face[Node] 13</span>
+    <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>  <span class="c1"># Face[Node] 14</span>
+    <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>  <span class="c1"># Face[Node] 15</span>
+    <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>  <span class="c1"># Face[Node] 16</span>
+    <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>  <span class="c1"># Face[Node] 17</span>
+    <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>  <span class="c1"># Face[Node] 18</span>
+    <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>  <span class="c1"># Face[Node] 19</span>
+    <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>  <span class="c1"># Face[Node] 20</span>
+    <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>  <span class="c1"># Face[Node] 21</span>
+    <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>  <span class="c1"># Face[Node] 22</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>  <span class="c1"># Face[Node] 23</span>
+<span class="p">]</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_00-create_polygons_and_polyhedrons_001.png" srcset="../../_images/sphx_glr_00-create_polygons_and_polyhedrons_001.png" alt="00 create polygons and polyhedrons" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.000 seconds)</p>
+<p>cell-to-face connectivity</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ShellOnly Face[lines]</span>
+
+<span class="n">polygon_element_faces_connectivity</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>  <span class="c1"># Face[Line] 0</span>
+    <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>  <span class="c1"># Face[Line] 1</span>
+    <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>  <span class="c1"># Face[Line] 2</span>
+    <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span>  <span class="c1"># Face[Line] 3</span>
+    <span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span>  <span class="c1"># Face[Line] 4</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>  <span class="c1"># Face[Line] 5</span>
+    <span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>  <span class="c1"># Face[Line] 6</span>
+    <span class="p">[</span><span class="mi">21</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>  <span class="c1"># Face[Line] 7</span>
+    <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">23</span><span class="p">],</span>  <span class="c1"># Face[Line] 8</span>
+    <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span>  <span class="c1"># Face[Line] 9</span>
+    <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span>  <span class="c1"># Face[Line] 10</span>
+    <span class="p">[</span><span class="mi">24</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span>  <span class="c1"># Face[Line] 11</span>
+    <span class="p">[</span><span class="mi">28</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">29</span><span class="p">],</span>  <span class="c1"># Face[Line] 12</span>
+    <span class="p">[</span><span class="mi">27</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">29</span><span class="p">],</span>  <span class="c1"># Face[Line] 13</span>
+    <span class="p">[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>  <span class="c1"># Face[Line] 14</span>
+    <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">31</span><span class="p">],</span>  <span class="c1"># Face[Line] 15</span>
+<span class="p">]</span>
+
+<span class="c1"># SolidOnly Volume[Face]</span>
+
+<span class="n">polyhedron_element_faces_connectivity</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>  <span class="c1"># Volume[Face] 0</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>  <span class="c1"># Volume[Face] 1</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># Volume[Face] 2</span>
+    <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>  <span class="c1"># Volume[Face] 3</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>  <span class="c1"># Volume[Face] 4</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Now also have to define a PropertyField relative the element_face reverse.
+It is necessary to define the orientation of the faces relative to the cells
+that they surround.
+A given face has its nodal connectivity defined in a certain order,
+which means that the two cells that it bounds are
+either at the positive or negative sides of the face. We indicate this with
+the elements_faces_reversed PropertyField,
+# whose values can be either 0 or 1.
+By convention, 0 means that the face-&gt;node connectivity implies that the given
+cell is at side 0 of the face, and 1 the opposite</p>
+<p>element_face reverse connectivity</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ShellOnly</span>
+
+<span class="n">data_reverse_field_shell</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="p">]</span>
+
+<span class="c1"># SolidOnly</span>
+
+<span class="n">data_reverse_field_solid</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="connectivity-set-in-property-fields">
+<h1>Connectivity set in property fields<a class="headerlink" href="#connectivity-set-in-property-fields" title="Permalink to this heading">#</a></h1>
+<p>We now set all of these information into a PropertyField regarding the meshed region</p>
+<p>face_node connectivity</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ShellOnly</span>
+
+<span class="n">connectivity_f_n_shell</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">face_nodes_index_shell</span><span class="p">,</span> <span class="n">face_nodes_shell</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">polygon_faces_node_connectivity</span><span class="p">):</span>
+    <span class="n">connectivity_f_n_shell</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">face_nodes_shell</span><span class="p">,</span> <span class="n">face_nodes_index_shell</span><span class="p">)</span>
+<span class="n">mesh_shell_only</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span>
+    <span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;faces_nodes_connectivity&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">connectivity_f_n_shell</span>
+<span class="p">)</span>
+
+<span class="c1"># SolidOnly</span>
+
+<span class="n">connectivity_f_n_solid</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">face_nodes_index_solid</span><span class="p">,</span> <span class="n">face_nodes_solid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">polyhedron_faces_node_connectivity</span><span class="p">):</span>
+    <span class="n">connectivity_f_n_solid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">face_nodes_solid</span><span class="p">,</span> <span class="n">face_nodes_index_solid</span><span class="p">)</span>
+<span class="n">mesh_solid_only</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span>
+    <span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;faces_nodes_connectivity&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">connectivity_f_n_solid</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>element_face connectivity</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ShellOnly</span>
+
+<span class="n">connectivity_e_f_shell</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
+<span class="n">reverse_connectivity_e_f_shell</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">element_faces_index_shell</span><span class="p">,</span> <span class="n">element_faces_shell</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">polygon_element_faces_connectivity</span><span class="p">):</span>
+    <span class="n">connectivity_e_f_shell</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element_faces_shell</span><span class="p">,</span> <span class="n">element_faces_index_shell</span><span class="p">)</span>
+    <span class="n">reverse_connectivity_e_f_shell</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">data_reverse_field_shell</span><span class="p">[</span><span class="n">element_faces_index_shell</span><span class="p">],</span> <span class="n">element_faces_index_shell</span>
+    <span class="p">)</span>
+<span class="n">mesh_shell_only</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span>
+    <span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;elements_faces_connectivity&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">connectivity_e_f_shell</span>
+<span class="p">)</span>
+<span class="n">mesh_shell_only</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span>
+    <span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;elements_faces_reversed&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">reverse_connectivity_e_f_shell</span>
+<span class="p">)</span>
+
+<span class="c1"># SolidOnly</span>
+
+<span class="n">connectivity_e_f_solid</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
+<span class="n">reverse_connectivity_e_f_solid</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">element_faces_index_solid</span><span class="p">,</span> <span class="n">element_faces_solid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+    <span class="n">polyhedron_element_faces_connectivity</span>
+<span class="p">):</span>
+    <span class="n">connectivity_e_f_solid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element_faces_solid</span><span class="p">,</span> <span class="n">element_faces_index_solid</span><span class="p">)</span>
+    <span class="n">reverse_connectivity_e_f_solid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">data_reverse_field_solid</span><span class="p">[</span><span class="n">element_faces_index_solid</span><span class="p">],</span> <span class="n">element_faces_index_solid</span>
+    <span class="p">)</span>
+<span class="n">mesh_solid_only</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span>
+    <span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;elements_faces_connectivity&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">connectivity_e_f_solid</span>
+<span class="p">)</span>
+<span class="n">mesh_solid_only</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span>
+    <span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;elements_faces_reversed&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">reverse_connectivity_e_f_solid</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="face-element-types-set-in-property-fields">
+<h1>Face/Element types set in property fields<a class="headerlink" href="#face-element-types-set-in-property-fields" title="Permalink to this heading">#</a></h1>
+<p>Set the element/face type for the meshed region
+For the ShellOnly the faces are lines and the elements are Quad
+For the SolidOnly the faces are Polygon, Quad and Tri and the elements are Polyhedrons</p>
+<p>face type</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ShellOnly</span>
+
+<span class="n">FT_shell_line</span> <span class="o">=</span> <span class="p">[[</span><span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="o">.</span><span class="n">Line2</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="o">*</span> <span class="mi">30</span><span class="p">]</span>
+
+<span class="n">fcs_types_shell</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">face_index_solid</span><span class="p">,</span> <span class="n">fctype_shell</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">FT_shell_line</span><span class="p">):</span>
+    <span class="n">fcs_types_shell</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fctype_shell</span><span class="p">,</span> <span class="n">face_index_solid</span><span class="p">)</span>
+<span class="n">fcs_types_shell</span><span class="o">.</span><span class="n">scoping</span> <span class="o">=</span> <span class="n">mesh_scoping_factory</span><span class="o">.</span><span class="n">elemental_scoping</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">)))</span>
+<span class="n">mesh_shell_only</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span><span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;faces_type&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">fcs_types_shell</span><span class="p">)</span>
+
+<span class="c1"># SolidOnly</span>
+
+<span class="n">FT_solid_tri</span> <span class="o">=</span> <span class="p">[</span><span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="o">.</span><span class="n">Tri3</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+<span class="n">FT_solid_quad</span> <span class="o">=</span> <span class="p">[</span><span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="o">.</span><span class="n">Quad4</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+<span class="n">FT_solid_polyg</span> <span class="o">=</span> <span class="p">[</span><span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="o">.</span><span class="n">Polygon</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+
+<span class="n">FT_tot</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">FT_solid_polyg</span> <span class="o">+</span> <span class="n">FT_solid_quad</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">FT_solid_polyg</span> <span class="o">+</span> <span class="n">FT_solid_tri</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">FT_solid_quad</span> <span class="o">*</span> <span class="mi">18</span>
+<span class="p">]</span>
+
+<span class="n">fcs_types_solid</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">face_index_shell</span><span class="p">,</span> <span class="n">fctype_solid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">FT_tot</span><span class="p">):</span>
+    <span class="n">fcs_types_solid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fctype_solid</span><span class="p">,</span> <span class="n">face_index_shell</span><span class="p">)</span>
+<span class="n">fcs_types_solid</span><span class="o">.</span><span class="n">scoping</span> <span class="o">=</span> <span class="n">mesh_scoping_factory</span><span class="o">.</span><span class="n">elemental_scoping</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">24</span><span class="p">)))</span>
+<span class="n">mesh_solid_only</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span><span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;faces_type&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">fcs_types_solid</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>element type</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ShellOnly</span>
+
+<span class="n">ET_shell_quad</span> <span class="o">=</span> <span class="p">[[</span><span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="o">.</span><span class="n">Quad4</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="o">*</span> <span class="mi">16</span><span class="p">]</span>
+
+<span class="n">els_types_shell</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">element_index_solid</span><span class="p">,</span> <span class="n">eltype_shell</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ET_shell_quad</span><span class="p">):</span>
+    <span class="n">els_types_shell</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eltype_shell</span><span class="p">,</span> <span class="n">element_index_solid</span><span class="p">)</span>
+<span class="n">els_types_shell</span><span class="o">.</span><span class="n">scoping</span> <span class="o">=</span> <span class="n">mesh_scoping_factory</span><span class="o">.</span><span class="n">elemental_scoping</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">)))</span>
+<span class="n">mesh_shell_only</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span><span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;eltype&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">els_types_shell</span><span class="p">)</span>
+
+<span class="c1"># SolidOnly</span>
+
+<span class="n">ET_solid_polyhedron</span> <span class="o">=</span> <span class="p">[</span><span class="n">dpf</span><span class="o">.</span><span class="n">element_types</span><span class="o">.</span><span class="n">Polyhedron</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span>
+
+<span class="n">els_types_solid</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">element_index_shell</span><span class="p">,</span> <span class="n">eltype_solid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ET_solid_polyhedron</span><span class="p">):</span>
+    <span class="n">els_types_solid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eltype_solid</span><span class="p">,</span> <span class="n">element_index_shell</span><span class="p">)</span>
+<span class="n">els_types_solid</span><span class="o">.</span><span class="n">scoping</span> <span class="o">=</span> <span class="n">mesh_scoping_factory</span><span class="o">.</span><span class="n">elemental_scoping</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)))</span>
+<span class="n">mesh_solid_only</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span><span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;eltype&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">els_types_solid</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="plot-the-meshes">
+<h1>Plot the meshes<a class="headerlink" href="#plot-the-meshes" title="Permalink to this heading">#</a></h1>
+<p>In order to plot the meshes, we have to set a cell_node connectivity PropertyField</p>
+<p>cell_node connectivity</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ShellOnly</span>
+
+<span class="n">polygon_element_node_connectivity</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>  <span class="c1"># Face[Node] 0</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>  <span class="c1"># Face[Node] 1</span>
+    <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>  <span class="c1"># Face[Node] 2</span>
+    <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>  <span class="c1"># Face[Node] 3</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>  <span class="c1"># Face[Node] 4</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># Face[Node] 5</span>
+    <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>  <span class="c1"># Face[Node] 6</span>
+    <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>  <span class="c1"># Face[Node] 7</span>
+    <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>  <span class="c1"># Face[Node] 8</span>
+    <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>  <span class="c1"># Face[Node] 9</span>
+    <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>  <span class="c1"># Face[Node] 10</span>
+    <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>  <span class="c1"># Face[Node] 11</span>
+    <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>  <span class="c1"># Face[Node] 12</span>
+    <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>  <span class="c1"># Face[Node] 13</span>
+    <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>  <span class="c1"># Face[Node] 14</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>  <span class="c1"># Face[Node] 15</span>
+<span class="p">]</span>
+
+<span class="c1"># SolidOnly</span>
+
+<span class="n">polyhedron_element_node_connectivity</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span>  <span class="c1"># Volume[Node] 0</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span>  <span class="c1"># Volume[Node] 1</span>
+    <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span>  <span class="c1"># Volume[Node] 2</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">],</span>  <span class="c1"># Volume[Node] 3</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span>  <span class="c1"># Volume[Node] 4</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Set the cell_node connectivity in PropertyField</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ShellOnly</span>
+
+<span class="n">connectivity_e_n_shell</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">element_nodes_index_shell</span><span class="p">,</span> <span class="n">element_nodes_shell</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">polygon_element_node_connectivity</span><span class="p">):</span>
+    <span class="n">connectivity_e_n_shell</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element_nodes_shell</span><span class="p">,</span> <span class="n">element_nodes_index_shell</span><span class="p">)</span>
+<span class="n">mesh_shell_only</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span><span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;connectivity&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">connectivity_e_n_shell</span><span class="p">)</span>
+
+<span class="c1"># SolidOnly</span>
+
+<span class="n">connectivity_e_n_solid</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">PropertyField</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">element_nodes_index_solid</span><span class="p">,</span> <span class="n">element_nodes_solid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+    <span class="n">polyhedron_element_node_connectivity</span>
+<span class="p">):</span>
+    <span class="n">connectivity_e_n_solid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element_nodes_solid</span><span class="p">,</span> <span class="n">element_nodes_index_solid</span><span class="p">)</span>
+<span class="n">mesh_solid_only</span><span class="o">.</span><span class="n">set_property_field</span><span class="p">(</span><span class="n">property_name</span><span class="o">=</span><span class="s2">&quot;connectivity&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">connectivity_e_n_solid</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Plot</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c_pos</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)]</span>
+
+<span class="n">pl</span> <span class="o">=</span> <span class="n">DpfPlotter</span><span class="p">()</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
+    <span class="n">mesh_solid_only</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;surface&quot;</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.3</span>
+<span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">show_figure</span><span class="p">(</span><span class="n">show_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cpos</span><span class="o">=</span><span class="n">c_pos</span><span class="p">,</span> <span class="n">return_cpos</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_00-create_polygons_and_polyhedrons_001.png" srcset="../../_images/sphx_glr_00-create_polygons_and_polyhedrons_001.png" alt="00 create polygons and polyhedrons" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[(0.04, 0.03, 0.05),
+ (0.0, 0.0, 0.0),
+ (0.408248290463863, 0.816496580927726, 0.408248290463863)]
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.922 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-09-mesh-operations-00-create-polygons-and-polyhedrons-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/f6991e4799d46787855c460b85a88b9b/00-create_polygons_and_polyhedrons.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-create_polygons_and_polyhedrons.py</span></code></a></p>
