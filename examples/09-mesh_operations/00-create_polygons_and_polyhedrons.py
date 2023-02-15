@@ -19,6 +19,7 @@ object with many elements, polygons and a polyhedrons.
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import mesh_scoping_factory
+from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Define manually the node coordinates of the polyhedrons and polygons
@@ -84,7 +85,6 @@ polyhedron_points = [
 mesh_shell_only = dpf.MeshedRegion(num_nodes=len(polygon_points), num_elements=16)
 mesh_solid_only = dpf.MeshedRegion(num_nodes=len(polyhedron_points), num_elements=5)
 
-
 ###############################################################################
 # Add the nodes to the meshed regions
 
@@ -99,7 +99,6 @@ for i, node_shell in enumerate(mesh_shell_only.nodes.add_nodes(num=len(polygon_p
 for i, node_solid in enumerate(mesh_solid_only.nodes.add_nodes(num=len(polyhedron_points))):
     node_solid.id = i + 1
     node_solid.coordinates = polyhedron_points[i]
-
 
 ###############################################################################
 # We define now all the connectivity for the two meshed regions
@@ -172,7 +171,6 @@ polyhedron_faces_node_connectivity = [
     [8, 15, 5, 12],  # Face[Node] 22
     [5, 16, 2, 12],  # Face[Node] 23
 ]
-
 
 ###############################################################################
 # cell_face connectivity
@@ -253,7 +251,6 @@ data_reverse_field_solid = [
     [0, 0, 0, 0, 0, 1],
     [0, 0, 0, 0, 1, 1],
 ]
-
 
 ###############################################################################
 # Connectivity set in property fields
@@ -377,7 +374,6 @@ for element_index_shell, eltype_solid in enumerate(ET_solid_polyhedron):
 els_types_solid.scoping = mesh_scoping_factory.elemental_scoping(list(range(5)))
 mesh_solid_only.set_property_field(property_name="eltype", value=els_types_solid)
 
-
 ###############################################################################
 # Plot the meshes
 # ~~~~~~~~~~~~~~~~~~~~
@@ -439,4 +435,10 @@ mesh_solid_only.set_property_field(property_name="connectivity", value=connectiv
 
 ###############################################################################
 
-mesh_solid_only.plot()
+c_pos = [(0.04, 0.03, 0.05), (0.0, 0.0, 0.0), (0.1, 0.2, 0.1)]
+
+pl = DpfPlotter()
+pl.add_mesh(
+    mesh_solid_only, style="surface", show_edges=True, show_axes=True, color="w", opacity=0.3
+)
+pl.show_figure(show_axes=True, cpos=c_pos, return_cpos=True)
