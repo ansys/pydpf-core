@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class merge_supports(Operator):
-    """Take a set of supports and assemble them in a unique one
+    """Assembles a set of supports into a unique one.
 
     Parameters
     ----------
@@ -57,7 +57,7 @@ class merge_supports(Operator):
 
     @staticmethod
     def _spec():
-        description = """Take a set of supports and assemble them in a unique one"""
+        description = """Assembles a set of supports into a unique one."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

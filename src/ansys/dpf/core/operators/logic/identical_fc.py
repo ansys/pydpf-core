@@ -11,22 +11,22 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class identical_fc(Operator):
-    """Check if two fields container are identical.
+    """Checks if two fields containers are identical.
 
     Parameters
     ----------
     fields_containerA : FieldsContainer
     fields_containerB : FieldsContainer
     small_value : float, optional
-        Double positive small value.smallest value
+        Double positive small value. smallest value
         which will be considered during the
-        comparison step : all the abs(values)
-        in field less than this value is
+        comparison step. all the abs(values)
+        in the field less than this value are
         considered as null, (default
         value:1.0e-14).
     tolerance : float, optional
         Double relative tolerance. maximum tolerance
-        gap between to compared values:
+        gap between two compared values.
         values within relative tolerance are
         considered identical (v1-v2)/v2 <
         relativetol (default is 0.001).
@@ -85,7 +85,7 @@ class identical_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Check if two fields container are identical."""
+        description = """Checks if two fields containers are identical."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -105,10 +105,10 @@ class identical_fc(Operator):
                     name="small_value",
                     type_names=["double"],
                     optional=True,
-                    document="""Double positive small value.smallest value
+                    document="""Double positive small value. smallest value
         which will be considered during the
-        comparison step : all the abs(values)
-        in field less than this value is
+        comparison step. all the abs(values)
+        in the field less than this value are
         considered as null, (default
         value:1.0e-14).""",
                 ),
@@ -117,7 +117,7 @@ class identical_fc(Operator):
                     type_names=["double"],
                     optional=True,
                     document="""Double relative tolerance. maximum tolerance
-        gap between to compared values:
+        gap between two compared values.
         values within relative tolerance are
         considered identical (v1-v2)/v2 <
         relativetol (default is 0.001).""",
@@ -246,10 +246,10 @@ class InputsIdenticalFc(_Inputs):
     def small_value(self):
         """Allows to connect small_value input to the operator.
 
-        Double positive small value.smallest value
+        Double positive small value. smallest value
         which will be considered during the
-        comparison step : all the abs(values)
-        in field less than this value is
+        comparison step. all the abs(values)
+        in the field less than this value are
         considered as null, (default
         value:1.0e-14).
 
@@ -272,7 +272,7 @@ class InputsIdenticalFc(_Inputs):
         """Allows to connect tolerance input to the operator.
 
         Double relative tolerance. maximum tolerance
-        gap between to compared values:
+        gap between two compared values.
         values within relative tolerance are
         considered identical (v1-v2)/v2 <
         relativetol (default is 0.001).

@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class unitary_field(Operator):
-    """Take a field and returns an other field of scalars on the same
-    location and scoping as the input field
+    """Takes a field and returns another field of scalars in the same
+    location and scoping as the input field.
 
     Parameters
     ----------
@@ -50,8 +50,8 @@ class unitary_field(Operator):
 
     @staticmethod
     def _spec():
-        description = """Take a field and returns an other field of scalars on the same
-            location and scoping as the input field"""
+        description = """Takes a field and returns another field of scalars in the same
+            location and scoping as the input field."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

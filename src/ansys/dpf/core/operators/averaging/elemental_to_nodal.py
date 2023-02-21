@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elemental_to_nodal(Operator):
-    """Transform ElementalNodal field to Nodal field, compute result on a
-    given node scoping.
+    """Transforms an Elemental Nodal field to a Nodal field. The result is
+    computed on a given node's scoping.
 
     Parameters
     ----------
@@ -23,7 +23,7 @@ class elemental_to_nodal(Operator):
     force_averaging : int, optional
         Averaging on nodes is used if this pin is set
         to 1 (default is 1 for integrated
-        results and 0 for discrete ones)
+        results and 0 for discrete ones).
 
 
     Examples
@@ -72,8 +72,8 @@ class elemental_to_nodal(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transform ElementalNodal field to Nodal field, compute result on a
-            given node scoping."""
+        description = """Transforms an Elemental Nodal field to a Nodal field. The result is
+            computed on a given node's scoping."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -96,7 +96,7 @@ class elemental_to_nodal(Operator):
                     optional=True,
                     document="""Averaging on nodes is used if this pin is set
         to 1 (default is 1 for integrated
-        results and 0 for discrete ones)""",
+        results and 0 for discrete ones).""",
                 ),
             },
             map_output_pin_spec={
@@ -219,7 +219,7 @@ class InputsElementalToNodal(_Inputs):
 
         Averaging on nodes is used if this pin is set
         to 1 (default is 1 for integrated
-        results and 0 for discrete ones)
+        results and 0 for discrete ones).
 
         Parameters
         ----------

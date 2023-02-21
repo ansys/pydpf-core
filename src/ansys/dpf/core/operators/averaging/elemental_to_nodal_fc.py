@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elemental_to_nodal_fc(Operator):
-    """Transform ElementalNodal fields to Nodal fields, compute result on a
-    given node scoping.
+    """Transforms Elemental Nodal fields to Nodal fields. The result is
+    computed on a given node's scoping.
 
     Parameters
     ----------
@@ -20,8 +20,8 @@ class elemental_to_nodal_fc(Operator):
     mesh : MeshedRegion or MeshesContainer, optional
     force_averaging : int, optional
         Averaging on nodes is used if this pin is set
-        to 1 (default is one for integrated
-        results and 0 for discrete ones)
+        to 1 (default is 1 for integrated
+        results and 0 for discrete ones).
     mesh_scoping : Scoping or ScopingsContainer, optional
 
 
@@ -77,8 +77,8 @@ class elemental_to_nodal_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transform ElementalNodal fields to Nodal fields, compute result on a
-            given node scoping."""
+        description = """Transforms Elemental Nodal fields to Nodal fields. The result is
+            computed on a given node's scoping."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -99,8 +99,8 @@ class elemental_to_nodal_fc(Operator):
                     type_names=["int32"],
                     optional=True,
                     document="""Averaging on nodes is used if this pin is set
-        to 1 (default is one for integrated
-        results and 0 for discrete ones)""",
+        to 1 (default is 1 for integrated
+        results and 0 for discrete ones).""",
                 ),
                 3: PinSpecification(
                     name="mesh_scoping",
@@ -233,8 +233,8 @@ class InputsElementalToNodalFc(_Inputs):
         """Allows to connect force_averaging input to the operator.
 
         Averaging on nodes is used if this pin is set
-        to 1 (default is one for integrated
-        results and 0 for discrete ones)
+        to 1 (default is 1 for integrated
+        results and 0 for discrete ones).
 
         Parameters
         ----------

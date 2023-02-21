@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class find_reduced_coordinates(Operator):
-    """Find the elements corresponding to the given coordinates in input and
-    compute their reduced coordinates in those elements.
+    """Finds the elements corresponding to the given coordinates in input and
+    computes their reduced coordinates in those elements.
 
     Parameters
     ----------
@@ -20,16 +20,16 @@ class find_reduced_coordinates(Operator):
     mesh : MeshedRegion or MeshesContainer, optional
         If the first field in input has no mesh in
         support, then the mesh in this pin is
-        expected (default is false), if a
+        expected (default is false). if a
         meshes container with several meshes
         is set, it should be on the same
         label spaces as the coordinates
-        fields container
+        fields container.
     use_quadratic_elements : bool
-        If this pin is set to true reduced
+        If this pin is set to true, reduced
         coordinates are computed on the
         quadratic element if the element is
-        quadratic (default is false)
+        quadratic (default is false).
 
 
     Examples
@@ -79,8 +79,8 @@ class find_reduced_coordinates(Operator):
 
     @staticmethod
     def _spec():
-        description = """Find the elements corresponding to the given coordinates in input and
-            compute their reduced coordinates in those elements."""
+        description = """Finds the elements corresponding to the given coordinates in input and
+            computes their reduced coordinates in those elements."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -101,20 +101,20 @@ class find_reduced_coordinates(Operator):
                     optional=True,
                     document="""If the first field in input has no mesh in
         support, then the mesh in this pin is
-        expected (default is false), if a
+        expected (default is false). if a
         meshes container with several meshes
         is set, it should be on the same
         label spaces as the coordinates
-        fields container""",
+        fields container.""",
                 ),
                 200: PinSpecification(
                     name="use_quadratic_elements",
                     type_names=["bool"],
                     optional=False,
-                    document="""If this pin is set to true reduced
+                    document="""If this pin is set to true, reduced
         coordinates are computed on the
         quadratic element if the element is
-        quadratic (default is false)""",
+        quadratic (default is false).""",
                 ),
             },
             map_output_pin_spec={
@@ -225,11 +225,11 @@ class InputsFindReducedCoordinates(_Inputs):
 
         If the first field in input has no mesh in
         support, then the mesh in this pin is
-        expected (default is false), if a
+        expected (default is false). if a
         meshes container with several meshes
         is set, it should be on the same
         label spaces as the coordinates
-        fields container
+        fields container.
 
         Parameters
         ----------
@@ -249,10 +249,10 @@ class InputsFindReducedCoordinates(_Inputs):
     def use_quadratic_elements(self):
         """Allows to connect use_quadratic_elements input to the operator.
 
-        If this pin is set to true reduced
+        If this pin is set to true, reduced
         coordinates are computed on the
         quadratic element if the element is
-        quadratic (default is false)
+        quadratic (default is false).
 
         Parameters
         ----------

@@ -7,33 +7,35 @@ from warnings import warn
 from ansys.dpf.core.dpf_operator import Operator
 from ansys.dpf.core.inputs import Input, _Inputs
 from ansys.dpf.core.outputs import Output, _Outputs
+from ansys.dpf.core.outputs import _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 
 
 class mesh_property_provider(Operator):
-    """Reads a property related to the mesh defined by its name by calling
-    the readers defined by the datasources. These properties can be
+    """Reads a property related to the mesh, defined by its name, by calling
+    the readers defined by the data sources. These properties can be
     used to fill in the mesh.
 
     Parameters
     ----------
     mesh_scoping : Scoping, optional
-        Can be used to get a property field on a
-        subset of elements or nodes.
+        Retrieves a property field on a subset of
+        elements or nodes.
     streams_container : StreamsContainer, optional
         Streams (result file container) (optional)
     data_sources : DataSources
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
     property_name : str
         Supported property names are: "mat",
         "named_selection",
+        "named_selection_names",
         "apdl_element_type", "section",
         "elprops", "keyopt_1" to "keyopt_18".
     property_identifier : int or str, optional
-        Can be used to get a property at a given
-        index, example: a named selection's
-        number or by name, example: a named
+        Retrieves a property at a given index or by
+        name. for example, a named
+        selection's number or a named
         selection's name.
 
 
@@ -66,7 +68,7 @@ class mesh_property_provider(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_abstract_field_support = op.outputs.abstract_field_support()
+    >>> result_property = op.outputs.property()
     """
 
     def __init__(
@@ -95,8 +97,8 @@ class mesh_property_provider(Operator):
 
     @staticmethod
     def _spec():
-        description = """Reads a property related to the mesh defined by its name by calling
-            the readers defined by the datasources. These properties
+        description = """Reads a property related to the mesh, defined by its name, by calling
+            the readers defined by the data sources. These properties
             can be used to fill in the mesh."""
         spec = Specification(
             description=description,
@@ -105,8 +107,8 @@ class mesh_property_provider(Operator):
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document="""Can be used to get a property field on a
-        subset of elements or nodes.""",
+                    document="""Retrieves a property field on a subset of
+        elements or nodes.""",
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -118,8 +120,8 @@ class mesh_property_provider(Operator):
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document="""If the stream is null then we need to get the
-        file path from the data sources""",
+                    document="""If the stream is null, retrieves the file
+        path from the data sources.""",
                 ),
                 13: PinSpecification(
                     name="property_name",
@@ -127,6 +129,7 @@ class mesh_property_provider(Operator):
                     optional=False,
                     document="""Supported property names are: "mat",
         "named_selection",
+        "named_selection_names",
         "apdl_element_type", "section",
         "elprops", "keyopt_1" to "keyopt_18".""",
                 ),
@@ -134,18 +137,25 @@ class mesh_property_provider(Operator):
                     name="property_identifier",
                     type_names=["int32", "string"],
                     optional=True,
-                    document="""Can be used to get a property at a given
-        index, example: a named selection's
-        number or by name, example: a named
+                    document="""Retrieves a property at a given index or by
+        name. for example, a named
+        selection's number or a named
         selection's name.""",
                 ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
-                    name="abstract_field_support",
-                    type_names=["abstract_field_support"],
+                    name="property",
+                    type_names=["scoping", "property_field", "string_field"],
                     optional=False,
-                    document="""""",
+                    document="""Returns a property field for properties:
+        "mat", "apdl_element_type",
+        "section", "elprops", "keyopt_1" to
+        "keyopt_18" (or any mesh's property
+        field), a scoping for
+        properties:"named_selection, a string
+        field for properties:
+        "named_selection_names".""",
                 ),
             },
         )
@@ -235,8 +245,8 @@ class InputsMeshPropertyProvider(_Inputs):
     def mesh_scoping(self):
         """Allows to connect mesh_scoping input to the operator.
 
-        Can be used to get a property field on a
-        subset of elements or nodes.
+        Retrieves a property field on a subset of
+        elements or nodes.
 
         Parameters
         ----------
@@ -276,8 +286,8 @@ class InputsMeshPropertyProvider(_Inputs):
     def data_sources(self):
         """Allows to connect data_sources input to the operator.
 
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
 
         Parameters
         ----------
@@ -299,6 +309,7 @@ class InputsMeshPropertyProvider(_Inputs):
 
         Supported property names are: "mat",
         "named_selection",
+        "named_selection_names",
         "apdl_element_type", "section",
         "elprops", "keyopt_1" to "keyopt_18".
 
@@ -320,9 +331,9 @@ class InputsMeshPropertyProvider(_Inputs):
     def property_identifier(self):
         """Allows to connect property_identifier input to the operator.
 
-        Can be used to get a property at a given
-        index, example: a named selection's
-        number or by name, example: a named
+        Retrieves a property at a given index or by
+        name. for example, a named
+        selection's number or a named
         selection's name.
 
         Parameters
@@ -349,29 +360,32 @@ class OutputsMeshPropertyProvider(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.metadata.mesh_property_provider()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_abstract_field_support = op.outputs.abstract_field_support()
+    >>> result_property = op.outputs.property()
     """
 
     def __init__(self, op: Operator):
         super().__init__(mesh_property_provider._spec().outputs, op)
-        self._abstract_field_support = Output(
-            mesh_property_provider._spec().output_pin(0), 0, op
+        self.property_as_scoping = Output(
+            _modify_output_spec_with_one_type(
+                mesh_property_provider._spec().output_pin(0), "scoping"
+            ),
+            0,
+            op,
         )
-        self._outputs.append(self._abstract_field_support)
-
-    @property
-    def abstract_field_support(self):
-        """Allows to get abstract_field_support output of the operator
-
-        Returns
-        ----------
-        my_abstract_field_support : AbstractFieldSupport
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.metadata.mesh_property_provider()
-        >>> # Connect inputs : op.inputs. ...
-        >>> result_abstract_field_support = op.outputs.abstract_field_support()
-        """  # noqa: E501
-        return self._abstract_field_support
+        self._outputs.append(self.property_as_scoping)
+        self.property_as_property_field = Output(
+            _modify_output_spec_with_one_type(
+                mesh_property_provider._spec().output_pin(0), "property_field"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_as_property_field)
+        self.property_as_string_field = Output(
+            _modify_output_spec_with_one_type(
+                mesh_property_provider._spec().output_pin(0), "string_field"
+            ),
+            0,
+            op,
+        )
+        self._outputs.append(self.property_as_string_field)

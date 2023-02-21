@@ -11,26 +11,27 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class nodal_fraction_fc(Operator):
-    """Transform ElementalNodal fields into Nodal fields. Each nodal value is
-    the fraction between the nodal difference and the nodal average.
-    Result is computed on a given node scoping.
+    """Transforms Elemental Nodal fields into Nodal fields. Each nodal value
+    is the fraction between the nodal difference and the nodal
+    average. The result is computed on a given node's scoping.
 
     Parameters
     ----------
     fields_container : FieldsContainer
     mesh : MeshedRegion, optional
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
     scoping : Scoping, optional
-        Average only on these nodes, if it is scoping
-        container, the label must correspond
-        to the one of the fields container
+        Average only on these nodes. if it is a
+        scoping container, the label must
+        correspond to the one of the fields
+        containers.
     denominator : FieldsContainer, optional
         If a fields container is set in this pin, it
         is used as the denominator of the
         fraction instead of
-        elemental_nodal_to_nodal_fc
+        elemental_nodal_to_nodal_fc.
 
 
     Examples
@@ -85,9 +86,9 @@ class nodal_fraction_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transform ElementalNodal fields into Nodal fields. Each nodal value is
-            the fraction between the nodal difference and the nodal
-            average. Result is computed on a given node scoping."""
+        description = """Transforms Elemental Nodal fields into Nodal fields. Each nodal value
+            is the fraction between the nodal difference and the nodal
+            average. The result is computed on a given node's scoping."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -102,16 +103,17 @@ class nodal_fraction_fc(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used""",
+        perform the averaging. it is used if
+        there is no fields support.""",
                 ),
                 3: PinSpecification(
                     name="scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document="""Average only on these nodes, if it is scoping
-        container, the label must correspond
-        to the one of the fields container""",
+                    document="""Average only on these nodes. if it is a
+        scoping container, the label must
+        correspond to the one of the fields
+        containers.""",
                 ),
                 6: PinSpecification(
                     name="denominator",
@@ -120,7 +122,7 @@ class nodal_fraction_fc(Operator):
                     document="""If a fields container is set in this pin, it
         is used as the denominator of the
         fraction instead of
-        elemental_nodal_to_nodal_fc""",
+        elemental_nodal_to_nodal_fc.""",
                 ),
             },
             map_output_pin_spec={
@@ -225,8 +227,8 @@ class InputsNodalFractionFc(_Inputs):
         """Allows to connect mesh input to the operator.
 
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
 
         Parameters
         ----------
@@ -246,9 +248,10 @@ class InputsNodalFractionFc(_Inputs):
     def scoping(self):
         """Allows to connect scoping input to the operator.
 
-        Average only on these nodes, if it is scoping
-        container, the label must correspond
-        to the one of the fields container
+        Average only on these nodes. if it is a
+        scoping container, the label must
+        correspond to the one of the fields
+        containers.
 
         Parameters
         ----------
@@ -271,7 +274,7 @@ class InputsNodalFractionFc(_Inputs):
         If a fields container is set in this pin, it
         is used as the denominator of the
         fraction instead of
-        elemental_nodal_to_nodal_fc
+        elemental_nodal_to_nodal_fc.
 
         Parameters
         ----------

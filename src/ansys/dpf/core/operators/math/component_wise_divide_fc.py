@@ -13,9 +13,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 class component_wise_divide_fc(Operator):
     """For every two fields with the same label space (from the two input
     fields containers), computes component-wise fraction between two
-    fields of same dimensionality. If one field's scoping has overall
-    location, then these field's values are applied on the entire
-    other field.
+    fields of same dimensionality. If one field's scoping has an
+    'overall' location, then this field's values are applied on the
+    other field entirely.
 
     Parameters
     ----------
@@ -62,8 +62,8 @@ class component_wise_divide_fc(Operator):
         description = """For every two fields with the same label space (from the two input
             fields containers), computes component-wise fraction
             between two fields of same dimensionality. If one field's
-            scoping has overall location, then these field's values
-            are applied on the entire other field."""
+            scoping has an 'overall' location, then this field's
+            values are applied on the other field entirely."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

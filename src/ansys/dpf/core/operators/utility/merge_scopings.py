@@ -11,13 +11,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class merge_scopings(Operator):
-    """Take a set of scoping and assemble them in a unique one
+    """Assembles a set of scopings into a unique one.
 
     Parameters
     ----------
     scopings : Scoping or ScopingsContainer
         Either a scopings container, a vector of
-        scopings to merge or scopings from
+        scopings to merge, or scopings from
         pin 0 to ...
 
 
@@ -50,7 +50,7 @@ class merge_scopings(Operator):
 
     @staticmethod
     def _spec():
-        description = """Take a set of scoping and assemble them in a unique one"""
+        description = """Assembles a set of scopings into a unique one."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -63,7 +63,7 @@ class merge_scopings(Operator):
                     ],
                     optional=False,
                     document="""Either a scopings container, a vector of
-        scopings to merge or scopings from
+        scopings to merge, or scopings from
         pin 0 to ...""",
                 ),
             },
@@ -137,7 +137,7 @@ class InputsMergeScopings(_Inputs):
         """Allows to connect scopings input to the operator.
 
         Either a scopings container, a vector of
-        scopings to merge or scopings from
+        scopings to merge, or scopings from
         pin 0 to ...
 
         Parameters

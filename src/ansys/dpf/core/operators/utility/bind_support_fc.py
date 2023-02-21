@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class bind_support_fc(Operator):
-    """Tie a support to a fields container.
+    """Ties a support to a fields container.
 
     Parameters
     ----------
@@ -54,7 +54,7 @@ class bind_support_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Tie a support to a fields container."""
+        description = """Ties a support to a fields container."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

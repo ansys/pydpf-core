@@ -138,7 +138,7 @@ class get_attribute(Operator):
         "elements_faces_connectivity" (or any
         mesh's property field), a field for
         property: "coordinates", a scoping
-        for properties:"named_selection,
+        for properties:"named_selection",
         "node_scoping", "element_scoping",
         ace_scoping", a string field for
         properties: "named_selection_names",

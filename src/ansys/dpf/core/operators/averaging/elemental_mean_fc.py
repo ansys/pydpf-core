@@ -14,26 +14,26 @@ class elemental_mean_fc(Operator):
     """Computes the average of a multi-entity container of fields,
     (ElementalNodal -> Elemental), (NodalElemental -> Nodal). If the
     input fields are mixed shell/solid and collapseShellLayers is not
-    asked, then the fields are split by element shape and the output
-    fields container has elshape label.
+    specified, then the fields are split by element shape and the
+    output fields container has an elshape label.
 
     Parameters
     ----------
     fields_container : FieldsContainer
     collapse_shell_layers : bool, optional
-        If true shell layers are averaged as well
-        (default is false)
+        If true, shell layers are averaged as well
+        (default is false).
     force_averaging : bool, optional
-        If true you average, if false you just sum
+        If true you average, if false you just sum.
     scoping : Scoping, optional
-        Average only on these elements, if it is
+        Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        container
+        containers.
     abstract_meshed_region : MeshedRegion, optional
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
 
 
     Examples
@@ -97,9 +97,9 @@ class elemental_mean_fc(Operator):
         description = """Computes the average of a multi-entity container of fields,
             (ElementalNodal -&gt; Elemental), (NodalElemental -&gt; Nodal).
             If the input fields are mixed shell/solid and
-            collapseShellLayers is not asked, then the fields are
+            collapseShellLayers is not specified, then the fields are
             split by element shape and the output fields container has
-            elshape label."""
+            an elshape label."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -113,31 +113,31 @@ class elemental_mean_fc(Operator):
                     name="collapse_shell_layers",
                     type_names=["bool"],
                     optional=True,
-                    document="""If true shell layers are averaged as well
-        (default is false)""",
+                    document="""If true, shell layers are averaged as well
+        (default is false).""",
                 ),
                 2: PinSpecification(
                     name="force_averaging",
                     type_names=["bool"],
                     optional=True,
-                    document="""If true you average, if false you just sum""",
+                    document="""If true you average, if false you just sum.""",
                 ),
                 3: PinSpecification(
                     name="scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document="""Average only on these elements, if it is
+                    document="""Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        container""",
+        containers.""",
                 ),
                 4: PinSpecification(
                     name="abstract_meshed_region",
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used""",
+        perform the averaging. it is used if
+        there is no fields support.""",
                 ),
             },
             map_output_pin_spec={
@@ -249,8 +249,8 @@ class InputsElementalMeanFc(_Inputs):
     def collapse_shell_layers(self):
         """Allows to connect collapse_shell_layers input to the operator.
 
-        If true shell layers are averaged as well
-        (default is false)
+        If true, shell layers are averaged as well
+        (default is false).
 
         Parameters
         ----------
@@ -270,7 +270,7 @@ class InputsElementalMeanFc(_Inputs):
     def force_averaging(self):
         """Allows to connect force_averaging input to the operator.
 
-        If true you average, if false you just sum
+        If true you average, if false you just sum.
 
         Parameters
         ----------
@@ -290,10 +290,10 @@ class InputsElementalMeanFc(_Inputs):
     def scoping(self):
         """Allows to connect scoping input to the operator.
 
-        Average only on these elements, if it is
+        Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        container
+        containers.
 
         Parameters
         ----------
@@ -314,8 +314,8 @@ class InputsElementalMeanFc(_Inputs):
         """Allows to connect abstract_meshed_region input to the operator.
 
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
 
         Parameters
         ----------

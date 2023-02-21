@@ -11,15 +11,15 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class scalars_to_field(Operator):
-    """take a double or a vector of double and transform it in a one entity
-    field of location 'numeric'.
+    """Takes a double or a vector of double and transforms it into a one
+    entity field of location 'numeric'.
 
     Parameters
     ----------
     double_or_vector_double : float
         Double or vector of double
     unit : str, optional
-        Unit symbole (m, hz, kg, ...)
+        Unit symbol (m, hz, kg, ...)
 
 
     Examples
@@ -58,8 +58,8 @@ class scalars_to_field(Operator):
 
     @staticmethod
     def _spec():
-        description = """take a double or a vector of double and transform it in a one entity
-            field of location &quot;numeric&quot;."""
+        description = """Takes a double or a vector of double and transforms it into a one
+            entity field of location &quot;numeric&quot;."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -73,7 +73,7 @@ class scalars_to_field(Operator):
                     name="unit",
                     type_names=["string"],
                     optional=True,
-                    document="""Unit symbole (m, hz, kg, ...)""",
+                    document="""Unit symbol (m, hz, kg, ...)""",
                 ),
             },
             map_output_pin_spec={
@@ -171,7 +171,7 @@ class InputsScalarsToField(_Inputs):
     def unit(self):
         """Allows to connect unit input to the operator.
 
-        Unit symbole (m, hz, kg, ...)
+        Unit symbol (m, hz, kg, ...)
 
         Parameters
         ----------

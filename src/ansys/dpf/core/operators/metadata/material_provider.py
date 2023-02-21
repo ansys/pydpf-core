@@ -11,16 +11,16 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class material_provider(Operator):
-    """Read available materials and properties from the results files
+    """Reads available materials and properties from the results files
     contained in the streams or data sources.
 
     Parameters
     ----------
     streams_container : StreamsContainer, optional
-        Streams (result file container)
+        Streams (result file container).
     data_sources : DataSources
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
 
 
     Examples
@@ -59,7 +59,7 @@ class material_provider(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read available materials and properties from the results files
+        description = """Reads available materials and properties from the results files
             contained in the streams or data sources."""
         spec = Specification(
             description=description,
@@ -68,14 +68,14 @@ class material_provider(Operator):
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=True,
-                    document="""Streams (result file container)""",
+                    document="""Streams (result file container).""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document="""If the stream is null then we need to get the
-        file path from the data sources""",
+                    document="""If the stream is null, retrieves the file
+        path from the data sources.""",
                 ),
             },
             map_output_pin_spec={
@@ -153,7 +153,7 @@ class InputsMaterialProvider(_Inputs):
     def streams_container(self):
         """Allows to connect streams_container input to the operator.
 
-        Streams (result file container)
+        Streams (result file container).
 
         Parameters
         ----------
@@ -173,8 +173,8 @@ class InputsMaterialProvider(_Inputs):
     def data_sources(self):
         """Allows to connect data_sources input to the operator.
 
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
 
         Parameters
         ----------

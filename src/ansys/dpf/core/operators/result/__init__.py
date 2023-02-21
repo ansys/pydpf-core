@@ -24,6 +24,7 @@ from .global_eroded_hourglass_energy import global_eroded_hourglass_energy
 from .interface_contact_area import interface_contact_area 
 from .part_internal_energy import part_internal_energy 
 from .part_momentum import part_momentum 
+from .acceleration_X import acceleration_X 
 from .total_strain import total_strain 
 from .elastic_strain import elastic_strain 
 from .pressure import pressure 
@@ -77,7 +78,6 @@ from .thermal_strain_principal_2 import thermal_strain_principal_2
 from .thermal_strain_principal_3 import thermal_strain_principal_3 
 from .global_external_work import global_external_work 
 from .acceleration import acceleration 
-from .acceleration_X import acceleration_X 
 from .acceleration_Y import acceleration_Y 
 from .element_centroids import element_centroids 
 from .acceleration_Z import acceleration_Z 
@@ -186,6 +186,8 @@ from .torque import torque
 from .euler_load_buckling import euler_load_buckling 
 from .poynting_vector import poynting_vector 
 from .poynting_vector_surface import poynting_vector_surface 
+from .workflow_energy_per_component import workflow_energy_per_component 
+from .workflow_energy_per_harmonic import workflow_energy_per_harmonic 
 from .add_rigid_body_motion import add_rigid_body_motion 
 from .nodal_to_global import nodal_to_global 
 from .run import run 
@@ -223,6 +225,8 @@ from .total_mass import total_mass
 from .mapdl_material_properties import mapdl_material_properties 
 from .rom_data_provider import rom_data_provider 
 from .write_cms_rbd_file import write_cms_rbd_file 
+from .compute_invariant_terms_motion import compute_invariant_terms_motion 
+from .write_motion_dfmf_file import write_motion_dfmf_file 
 from .cyclic_expanded_heat_flux import cyclic_expanded_heat_flux 
 from .migrate_to_h5dpf import migrate_to_h5dpf 
 from .compute_total_strain_YZ import compute_total_strain_YZ 

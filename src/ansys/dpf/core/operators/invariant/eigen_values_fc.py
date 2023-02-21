@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class eigen_values_fc(Operator):
-    """Computes the element-wise eigen values of all the tensor fields of a
+    """Computes the element-wise Eigen values of all the tensor fields of a
     fields container.
 
     Parameters
@@ -48,7 +48,7 @@ class eigen_values_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the element-wise eigen values of all the tensor fields of a
+        description = """Computes the element-wise Eigen values of all the tensor fields of a
             fields container."""
         spec = Specification(
             description=description,

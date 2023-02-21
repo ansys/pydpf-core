@@ -11,12 +11,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class rotate_in_cylindrical_cs_fc(Operator):
-    """Rotate all the fields of a fields container (not defined with a
+    """Rotates all the fields of a fields container (not defined with a
     cynlindrical coordinate system) to its corresponding values into
     the specified cylindrical coordinate system (corresponding to the
-    field position). If no coordinate system is set in the
-    coordinate_system pin, field is rotated on each node following the
-    local polar coordinate system.
+    field position). If a coordinate system is not set in the
+    coordinate_system pin, the field is rotated on each node following
+    the local polar coordinate system.
 
     Parameters
     ----------
@@ -73,13 +73,13 @@ class rotate_in_cylindrical_cs_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Rotate all the fields of a fields container (not defined with a
+        description = """Rotates all the fields of a fields container (not defined with a
             cynlindrical coordinate system) to its corresponding
             values into the specified cylindrical coordinate system
-            (corresponding to the field position). If no coordinate
-            system is set in the coordinate_system pin, field is
-            rotated on each node following the local polar coordinate
-            system."""
+            (corresponding to the field position). If a coordinate
+            system is not set in the coordinate_system pin, the field
+            is rotated on each node following the local polar
+            coordinate system."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

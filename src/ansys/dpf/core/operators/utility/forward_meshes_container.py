@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class forward_meshes_container(Operator):
-    """Return the input mesh or meshes container into a meshes container.
+    """Returns the input mesh or meshes container into a meshes container.
 
     Parameters
     ----------
@@ -57,7 +57,7 @@ class forward_meshes_container(Operator):
     @staticmethod
     def _spec():
         description = (
-            """Return the input mesh or meshes container into a meshes container."""
+            """Returns the input mesh or meshes container into a meshes container."""
         )
         spec = Specification(
             description=description,

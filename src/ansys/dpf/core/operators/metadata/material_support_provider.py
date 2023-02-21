@@ -11,15 +11,15 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class material_support_provider(Operator):
-    """Read the material support.
+    """Reads the material support.
 
     Parameters
     ----------
     streams_container : StreamsContainer, optional
-        Streams (result file container) (optional)
+        Streams result file container (optional).
     data_sources : DataSources
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, get the file path from
+        the data sources.
 
 
     Examples
@@ -58,7 +58,7 @@ class material_support_provider(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read the material support."""
+        description = """Reads the material support."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -66,14 +66,14 @@ class material_support_provider(Operator):
                     name="streams_container",
                     type_names=["streams_container"],
                     optional=True,
-                    document="""Streams (result file container) (optional)""",
+                    document="""Streams result file container (optional).""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document="""If the stream is null then we need to get the
-        file path from the data sources""",
+                    document="""If the stream is null, get the file path from
+        the data sources.""",
                 ),
             },
             map_output_pin_spec={
@@ -153,7 +153,7 @@ class InputsMaterialSupportProvider(_Inputs):
     def streams_container(self):
         """Allows to connect streams_container input to the operator.
 
-        Streams (result file container) (optional)
+        Streams result file container (optional).
 
         Parameters
         ----------
@@ -173,8 +173,8 @@ class InputsMaterialSupportProvider(_Inputs):
     def data_sources(self):
         """Allows to connect data_sources input to the operator.
 
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, get the file path from
+        the data sources.
 
         Parameters
         ----------

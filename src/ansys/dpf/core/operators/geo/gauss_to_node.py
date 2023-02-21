@@ -12,9 +12,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class gauss_to_node(Operator):
     """Extrapolating results available at Gauss or quadrature points to nodal
-    points for one field. The available elements are : Linear
-    quadrangle , parabolique quadrangle,Linear Hexagonal, quadratic
-    hexagonal , linear tetrahedral, quadratic tetrahedral
+    points for one field. The available elements are: Linear
+    quadrangle, parabolic quadrangle, linear hexagonal, quadratic
+    hexagonal, linear tetrahedral, and quadratic tetrahedral
 
     Parameters
     ----------
@@ -66,9 +66,9 @@ class gauss_to_node(Operator):
     @staticmethod
     def _spec():
         description = """Extrapolating results available at Gauss or quadrature points to nodal
-            points for one field. The available elements are : Linear
-            quadrangle , parabolique quadrangle,Linear Hexagonal,
-            quadratic hexagonal , linear tetrahedral, quadratic
+            points for one field. The available elements are: Linear
+            quadrangle, parabolic quadrangle, linear hexagonal,
+            quadratic hexagonal, linear tetrahedral, and quadratic
             tetrahedral"""
         spec = Specification(
             description=description,

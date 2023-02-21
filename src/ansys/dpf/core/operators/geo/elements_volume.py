@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elements_volume(Operator):
-    """Compute the volume of each element of a mesh, using default shape
+    """Compute the volume of each element of a mesh using default shape
     functions.
 
     Parameters
@@ -48,7 +48,7 @@ class elements_volume(Operator):
 
     @staticmethod
     def _spec():
-        description = """Compute the volume of each element of a mesh, using default shape
+        description = """Compute the volume of each element of a mesh using default shape
             functions."""
         spec = Specification(
             description=description,

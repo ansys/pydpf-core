@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class sweeping_phase_fc(Operator):
-    """Shift the phase of all the corresponding real and imaginary fields of
-    a fields container for a given angle (in 2) of unit (in 4).
+    """Shifts the phase of all the corresponding real and imaginary fields of
+    a fields container for a given angle (in 2) of a unit (in 4).
 
     Parameters
     ----------
@@ -75,8 +75,8 @@ class sweeping_phase_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Shift the phase of all the corresponding real and imaginary fields of
-            a fields container for a given angle (in 2) of unit (in
+        description = """Shifts the phase of all the corresponding real and imaginary fields of
+            a fields container for a given angle (in 2) of a unit (in
             4)."""
         spec = Specification(
             description=description,
