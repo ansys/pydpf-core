@@ -11,7 +11,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class make_overall(Operator):
-    """Extract a value from a field and make it overall scoping
+    """Extracts a value from a field and makes a new field containing only
+    this value, with the associated scoping's location set as
+    'overall'.
 
     Parameters
     ----------
@@ -53,7 +55,9 @@ class make_overall(Operator):
 
     @staticmethod
     def _spec():
-        description = """Extract a value from a field and make it overall scoping"""
+        description = """Extracts a value from a field and makes a new field containing only
+            this value, with the associated scoping's location set as
+            'overall'."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

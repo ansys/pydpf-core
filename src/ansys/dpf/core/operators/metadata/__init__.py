@@ -1,4 +1,5 @@
 from .mesh_support_provider import mesh_support_provider 
+from .mesh_property_provider import mesh_property_provider 
 from .result_info_provider import result_info_provider 
 from .time_freq_provider import time_freq_provider 
 from .material_provider import material_provider 
@@ -8,5 +9,7 @@ from .boundary_condition_provider import boundary_condition_provider
 from .is_cyclic import is_cyclic 
 from .material_support_provider import material_support_provider 
 from .property_field_provider_by_name import property_field_provider_by_name 
+from .get_attribute import get_attribute 
+from .integrate_over_time_freq import integrate_over_time_freq 
 from .cyclic_mesh_expansion import cyclic_mesh_expansion 
 from .cyclic_support_provider import cyclic_support_provider 

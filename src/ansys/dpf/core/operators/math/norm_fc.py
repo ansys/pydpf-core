@@ -12,7 +12,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class norm_fc(Operator):
     """Computes the element-wise L2 norm of the field elementary data. This
-    process is applied on eah field of the input fields container.
+    process is applied on each field of the input fields container.
 
     Parameters
     ----------
@@ -49,7 +49,7 @@ class norm_fc(Operator):
     @staticmethod
     def _spec():
         description = """Computes the element-wise L2 norm of the field elementary data. This
-            process is applied on eah field of the input fields
+            process is applied on each field of the input fields
             container."""
         spec = Specification(
             description=description,

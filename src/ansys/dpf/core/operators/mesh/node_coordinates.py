@@ -12,7 +12,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class node_coordinates(Operator):
-    """Returns the node coordinates of the mesh(es) in input
+    """Returns the node coordinates of the mesh(es) in input.
 
     Parameters
     ----------
@@ -48,7 +48,7 @@ class node_coordinates(Operator):
 
     @staticmethod
     def _spec():
-        description = """Returns the node coordinates of the mesh(es) in input"""
+        description = """Returns the node coordinates of the mesh(es) in input."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

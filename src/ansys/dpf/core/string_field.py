@@ -133,7 +133,7 @@ class StringField(_FieldBase):
         Parameters
         ----------
         location : str or locations
-            Location string, which is either ``"Nodal"`` or ``"Elemental"``.
+            Location string in :class:`ansys.dpf.core.locations`.
 
         Examples
         --------

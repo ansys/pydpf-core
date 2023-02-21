@@ -11,7 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class nodal_from_mesh(Operator):
-    """Get the nodes ids scoping of an input mesh.
+    """Retrieves the nodal scoping of a given input mesh, which contains the
+    node IDs.
 
     Parameters
     ----------
@@ -47,7 +48,8 @@ class nodal_from_mesh(Operator):
 
     @staticmethod
     def _spec():
-        description = """Get the nodes ids scoping of an input mesh."""
+        description = """Retrieves the nodal scoping of a given input mesh, which contains the
+            node IDs."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

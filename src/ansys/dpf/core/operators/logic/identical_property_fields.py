@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class identical_property_fields(Operator):
-    """Take two property fields and compare them.
+    """Takes two property fields and compares them.
 
     Parameters
     ----------
@@ -56,7 +56,7 @@ class identical_property_fields(Operator):
 
     @staticmethod
     def _spec():
-        description = """Take two property fields and compare them."""
+        description = """Takes two property fields and compares them."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

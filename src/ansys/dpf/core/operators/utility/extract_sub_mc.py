@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class extract_sub_mc(Operator):
-    """Create a new MeshesContainer with all the MeshedRegions corresponding
-    to the label space in input 1
+    """Creates a new meshes container with all the meshed regions
+    corresponding to the label space in input 1.
 
     Parameters
     ----------
@@ -56,8 +56,8 @@ class extract_sub_mc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Create a new MeshesContainer with all the MeshedRegions corresponding
-            to the label space in input 1"""
+        description = """Creates a new meshes container with all the meshed regions
+            corresponding to the label space in input 1."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

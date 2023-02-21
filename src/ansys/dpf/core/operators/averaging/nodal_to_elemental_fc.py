@@ -11,27 +11,27 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class nodal_to_elemental_fc(Operator):
-    """Transform Nodal fields into Elemental fields using an averaging
-    process, result is computed on a given elements scoping. If the
-    input fields are mixed shell/solid and the shells layers are not
-    asked to be collapsed, then the fields are split by element shape
-    and the output fields container has elshape label.
+    """Transforms Nodal fields into Elemental fields using an averaging
+    process. The result is computed on a given element's scoping. If
+    the input fields are mixed shell/solid, and the shell's layers are
+    not specified as collapsed, then the fields are split by element
+    shape and the output fields container has an elshape label.
 
     Parameters
     ----------
     fields_container : FieldsContainer
     mesh : MeshedRegion or MeshesContainer, optional
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
     scoping : Scoping or ScopingsContainer, optional
-        Average only on these elements, if it is
+        Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        container
+        containers.
     collapse_shell_layers : bool, optional
-        If true shell layers are averaged as well
-        (default is false)
+        If true, shell layers are averaged as well
+        (default is false).
 
 
     Examples
@@ -86,12 +86,12 @@ class nodal_to_elemental_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transform Nodal fields into Elemental fields using an averaging
-            process, result is computed on a given elements scoping.
-            If the input fields are mixed shell/solid and the shells
-            layers are not asked to be collapsed, then the fields are
-            split by element shape and the output fields container has
-            elshape label."""
+        description = """Transforms Nodal fields into Elemental fields using an averaging
+            process. The result is computed on a given element's
+            scoping. If the input fields are mixed shell/solid, and
+            the shell's layers are not specified as collapsed, then
+            the fields are split by element shape and the output
+            fields container has an elshape label."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -106,24 +106,24 @@ class nodal_to_elemental_fc(Operator):
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
                     document="""The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used""",
+        perform the averaging. it is used if
+        there is no fields support.""",
                 ),
                 3: PinSpecification(
                     name="scoping",
                     type_names=["scoping", "scopings_container"],
                     optional=True,
-                    document="""Average only on these elements, if it is
+                    document="""Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        container""",
+        containers.""",
                 ),
                 10: PinSpecification(
                     name="collapse_shell_layers",
                     type_names=["bool"],
                     optional=True,
-                    document="""If true shell layers are averaged as well
-        (default is false)""",
+                    document="""If true, shell layers are averaged as well
+        (default is false).""",
                 ),
             },
             map_output_pin_spec={
@@ -230,8 +230,8 @@ class InputsNodalToElementalFc(_Inputs):
         """Allows to connect mesh input to the operator.
 
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
 
         Parameters
         ----------
@@ -251,10 +251,10 @@ class InputsNodalToElementalFc(_Inputs):
     def scoping(self):
         """Allows to connect scoping input to the operator.
 
-        Average only on these elements, if it is
+        Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        container
+        containers.
 
         Parameters
         ----------
@@ -274,8 +274,8 @@ class InputsNodalToElementalFc(_Inputs):
     def collapse_shell_layers(self):
         """Allows to connect collapse_shell_layers input to the operator.
 
-        If true shell layers are averaged as well
-        (default is false)
+        If true, shell layers are averaged as well
+        (default is false).
 
         Parameters
         ----------

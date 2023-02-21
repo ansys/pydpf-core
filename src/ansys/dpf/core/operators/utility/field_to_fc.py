@@ -11,13 +11,15 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class field_to_fc(Operator):
-    """Create a field container containing the field provided on pin 0.
+    """Creates a field container containing the field provided on pin 0.
 
     Parameters
     ----------
     field : Field or FieldsContainer
         If a fields container is set in input, it is
         passed on as an output.
+    label : LabelSpace
+        Sets a label space.
 
 
     Examples
@@ -30,27 +32,32 @@ class field_to_fc(Operator):
     >>> # Make input connections
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
+    >>> my_label = dpf.LabelSpace()
+    >>> op.inputs.label.connect(my_label)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.field_to_fc(
     ...     field=my_field,
+    ...     label=my_label,
     ... )
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    def __init__(self, field=None, config=None, server=None):
+    def __init__(self, field=None, label=None, config=None, server=None):
         super().__init__(name="InjectToFieldContainer", config=config, server=server)
         self._inputs = InputsFieldToFc(self)
         self._outputs = OutputsFieldToFc(self)
         if field is not None:
             self.inputs.field.connect(field)
+        if label is not None:
+            self.inputs.label.connect(label)
 
     @staticmethod
     def _spec():
         description = (
-            """Create a field container containing the field provided on pin 0."""
+            """Creates a field container containing the field provided on pin 0."""
         )
         spec = Specification(
             description=description,
@@ -61,6 +68,12 @@ class field_to_fc(Operator):
                     optional=False,
                     document="""If a fields container is set in input, it is
         passed on as an output.""",
+                ),
+                1: PinSpecification(
+                    name="label",
+                    type_names=["label_space"],
+                    optional=False,
+                    document="""Sets a label space.""",
                 ),
             },
             map_output_pin_spec={
@@ -121,12 +134,16 @@ class InputsFieldToFc(_Inputs):
     >>> op = dpf.operators.utility.field_to_fc()
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
+    >>> my_label = dpf.LabelSpace()
+    >>> op.inputs.label.connect(my_label)
     """
 
     def __init__(self, op: Operator):
         super().__init__(field_to_fc._spec().inputs, op)
         self._field = Input(field_to_fc._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field)
+        self._label = Input(field_to_fc._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._label)
 
     @property
     def field(self):
@@ -148,6 +165,26 @@ class InputsFieldToFc(_Inputs):
         >>> op.inputs.field(my_field)
         """
         return self._field
+
+    @property
+    def label(self):
+        """Allows to connect label input to the operator.
+
+        Sets a label space.
+
+        Parameters
+        ----------
+        my_label : LabelSpace
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.field_to_fc()
+        >>> op.inputs.label.connect(my_label)
+        >>> # or
+        >>> op.inputs.label(my_label)
+        """
+        return self._label
 
 
 class OutputsFieldToFc(_Outputs):

@@ -803,13 +803,15 @@ def download_d3plot_beam(should_upload: bool = True, server=None, return_local_p
     >>> paths
     ['C:/Users/user/AppData/local/temp/d3plot',
      'C:/Users/user/AppData/local/temp/d3plot01',
-     'C:/Users/user/AppData/local/temp/d3plot02']
+     'C:/Users/user/AppData/local/temp/d3plot02'
+     'C:/Users/user/AppData/local/temp/file.actunits']
 
     """
     return [
         _download_file("d3plot_beam", "d3plot", should_upload, server, return_local_path),
         _download_file("d3plot_beam", "d3plot01", should_upload, server, return_local_path),
         _download_file("d3plot_beam", "d3plot02", should_upload, server, return_local_path),
+        _download_file("d3plot_beam", "file.actunits", should_upload, server, return_local_path),
     ]
 
 

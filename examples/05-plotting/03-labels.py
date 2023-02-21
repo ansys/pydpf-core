@@ -5,7 +5,9 @@ Add nodal labels on plots
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can add use label properties to add custom labels to specific nodes.
-If label for a node is missing, the nodal scalar value is shown by default.
+If the label for a node is not defined or `None`, the nodal scalar value
+of the currently active field at that node is shown. If no field is active,
+the node ID is shown.
 """
 
 ###############################################################################
@@ -32,32 +34,49 @@ model = dpf.Model(examples.find_msup_transient())
 print(model)
 
 ###############################################################################
+#  Get the meshed region.
+#
+mesh_set = model.metadata.meshed_region
+
+# One can plot the mesh with labels and/or node IDs shown
+# for the first five nodes of the mesh.
+plot = DpfPlotter()
+plot.add_node_labels(
+    nodes=mesh_set.nodes.scoping.ids[:5],
+    meshed_region=mesh_set,
+    labels=["A", "B", None, "C"],
+    font_size=50,
+)
+plot.show_figure(
+    cpos=[
+        (0.3533494514377904, 0.312496303079723, 1.1859368974825752),
+        (-0.07891143256220956, -0.11976458092027707, 0.7536760134825755),
+        (0.0, 0.0, 1.0),
+    ]
+)
+# sphinx_gallery_thumbnail_number = 2
+
+###############################################################################
 # Get the stress tensor and ``connect`` time scoping.
-# Make sure that you define ``"Nodal"`` as the scoping location because
+# Make sure that you define ``dpf.locations.nodal`` as the scoping location because
 # labels are supported only for nodal results.
 #
 stress_tensor = model.results.stress()
-time_scope = dpf.Scoping()
-time_scope.ids = [20]  # [1, 2]
-stress_tensor.inputs.time_scoping.connect(time_scope)
-stress_tensor.inputs.requested_location.connect("Nodal")
+stress_tensor.inputs.time_scoping([20])
+stress_tensor.inputs.requested_location(dpf.locations.nodal)
 # field = stress_tensor.outputs.fields_container.get_data()[0]
 
-norm_op = dpf.Operator("norm_fc")
-norm_op.inputs.connect(stress_tensor.outputs)
+norm_op = dpf.operators.math.norm_fc()
+norm_op.inputs.connect(stress_tensor)
 field_norm_stress = norm_op.outputs.fields_container()[0]
 print(field_norm_stress)
 
 norm_op2 = dpf.Operator("norm_fc")
 disp = model.results.displacement()
-disp.inputs.time_scoping.connect(time_scope)
+disp.inputs.time_scoping.connect([20])
 norm_op2.inputs.connect(disp.outputs)
 field_norm_disp = norm_op2.outputs.fields_container()[0]
 print(field_norm_disp)
-###############################################################################
-#  Get the meshed region.
-#
-mesh_set = model.metadata.meshed_region
 
 ###############################################################################
 # Plot the results on the mesh and show the minimum and maximum.
@@ -68,13 +87,14 @@ plot.add_field(
     meshed_region=mesh_set,
     show_max=True,
     show_min=True,
-    label_text_size=15,
+    label_text_size=30,
     label_point_size=5,
 )
 
 
 # Use label properties to add custom labels to specific nodes.
-# If a label for a node is missing, the nodal value is shown by default.
+# If a label for a node is missing and a field is active,
+# the nodal value for this field is shown.
 
 my_nodes_1 = [mesh_set.nodes[0], mesh_set.nodes[10]]
 my_labels_1 = ["MyNode1", "MyNode2"]

@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class compute_time_scoping(Operator):
-    """Computes the time freq scoping (made of set ids) necessary to
+    """Computes the time frequency scoping (made of set IDs) necessary to
     interpolate on a list of time or frequencies.
 
     Parameters
@@ -72,7 +72,7 @@ class compute_time_scoping(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the time freq scoping (made of set ids) necessary to
+        description = """Computes the time frequency scoping (made of set IDs) necessary to
             interpolate on a list of time or frequencies."""
         spec = Specification(
             description=description,

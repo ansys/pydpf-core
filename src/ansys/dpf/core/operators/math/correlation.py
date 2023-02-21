@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class correlation(Operator):
-    """take two fields and a weighting and compute their correlation:
-    aMb/(||aMa||.||bMb||)
+    """Takes two fields and a weighting and computes their correlation:
+    aMb/(||aMa||.||bMb||).
 
     Parameters
     ----------
@@ -63,8 +63,8 @@ class correlation(Operator):
 
     @staticmethod
     def _spec():
-        description = """take two fields and a weighting and compute their correlation:
-            aMb/(||aMa||.||bMb||)"""
+        description = """Takes two fields and a weighting and computes their correlation:
+            aMb/(||aMa||.||bMb||)."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

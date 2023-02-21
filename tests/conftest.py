@@ -165,9 +165,12 @@ def cff_data_sources():
 
 
 @pytest.fixture()
-def d3plot():
+def d3plot_files():
     """Resolve the path of the "d3plot/d3plot" result file."""
-    return resolve_test_file("d3plot", "d3plot")
+    return [
+        resolve_test_file("d3plot", "d3plot"),
+        resolve_test_file("file.actunits", "d3plot"),
+    ]
 
 
 @pytest.fixture()
@@ -207,6 +210,9 @@ def cyclic_multistage():
     return core.examples.download_multi_stage_cyclic_result()
 
 
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1 = meets_version(
+    get_server_version(core._global_server()), "6.1"
+)
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 = meets_version(
     get_server_version(core._global_server()), "6.0"
 )

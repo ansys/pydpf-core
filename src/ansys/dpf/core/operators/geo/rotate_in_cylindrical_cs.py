@@ -11,11 +11,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class rotate_in_cylindrical_cs(Operator):
-    """Rotate a field to its corresponding values into the specified
+    """Rotates a field to its corresponding values into the specified
     cylindrical coordinate system (corresponding to the field
-    position). If no coordinate system is set in the coordinate_system
-    pin, field is rotated on each node following the local polar
-    coordinate system.
+    position). If a coordinate system is not set in the
+    coordinate_system pin, the field is rotated on each node following
+    the local polar coordinate system.
 
     Parameters
     ----------
@@ -27,7 +27,7 @@ class rotate_in_cylindrical_cs(Operator):
         must be set here to define a
         coordinate system.
     mesh : MeshedRegion, optional
-        Mesh support of the input field
+        Mesh support of the input field.
 
 
     Examples
@@ -71,10 +71,10 @@ class rotate_in_cylindrical_cs(Operator):
 
     @staticmethod
     def _spec():
-        description = """Rotate a field to its corresponding values into the specified
+        description = """Rotates a field to its corresponding values into the specified
             cylindrical coordinate system (corresponding to the field
-            position). If no coordinate system is set in the
-            coordinate_system pin, field is rotated on each node
+            position). If a coordinate system is not set in the
+            coordinate_system pin, the field is rotated on each node
             following the local polar coordinate system."""
         spec = Specification(
             description=description,
@@ -98,7 +98,7 @@ class rotate_in_cylindrical_cs(Operator):
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=True,
-                    document="""Mesh support of the input field""",
+                    document="""Mesh support of the input field.""",
                 ),
             },
             map_output_pin_spec={
@@ -223,7 +223,7 @@ class InputsRotateInCylindricalCs(_Inputs):
     def mesh(self):
         """Allows to connect mesh input to the operator.
 
-        Mesh support of the input field
+        Mesh support of the input field.
 
         Parameters
         ----------

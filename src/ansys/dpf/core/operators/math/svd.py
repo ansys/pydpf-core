@@ -11,7 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class svd(Operator):
-    """computes the complex matrix svd at a given fields container.
+    """Computes the complex matrix singular value decomposition (SVD) for
+    each field in the given fields container.
 
     Parameters
     ----------
@@ -48,7 +49,8 @@ class svd(Operator):
 
     @staticmethod
     def _spec():
-        description = """computes the complex matrix svd at a given fields container."""
+        description = """Computes the complex matrix singular value decomposition (SVD) for
+            each field in the given fields container."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

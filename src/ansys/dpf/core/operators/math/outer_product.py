@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class outer_product(Operator):
-    """Computes the outer product of two vector fields
+    """Computes the outer product of two vector fields.
 
     Parameters
     ----------
@@ -57,7 +57,7 @@ class outer_product(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the outer product of two vector fields"""
+        description = """Computes the outer product of two vector fields."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

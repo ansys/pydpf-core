@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class field_high_pass(Operator):
-    """The high pass filter returns all the values strictly superior to the
-    threshold value in input.
+    """The high pass filter returns all the values above (but not equal to)
+    the threshold value in input.
 
     Parameters
     ----------
@@ -21,12 +21,12 @@ class field_high_pass(Operator):
         is expected
     threshold : float or Field
         A threshold scalar or a field containing one
-        value is expected
+        value is expected.
     both : bool, optional
-        Bool(optional, default false) if set to true,
-        the complement of the filtered fields
-        container is returned on output pin
-        #1
+        Bool(optional, the default is false). if set
+        to true, the complement of the
+        filtered fields container is returned
+        on output pin 1.
 
 
     Examples
@@ -68,8 +68,8 @@ class field_high_pass(Operator):
 
     @staticmethod
     def _spec():
-        description = """The high pass filter returns all the values strictly superior to the
-            threshold value in input."""
+        description = """The high pass filter returns all the values above (but not equal to)
+            the threshold value in input."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -85,16 +85,16 @@ class field_high_pass(Operator):
                     type_names=["double", "field"],
                     optional=False,
                     document="""A threshold scalar or a field containing one
-        value is expected""",
+        value is expected.""",
                 ),
                 2: PinSpecification(
                     name="both",
                     type_names=["bool"],
                     optional=True,
-                    document="""Bool(optional, default false) if set to true,
-        the complement of the filtered fields
-        container is returned on output pin
-        #1""",
+                    document="""Bool(optional, the default is false). if set
+        to true, the complement of the
+        filtered fields container is returned
+        on output pin 1.""",
                 ),
             },
             map_output_pin_spec={
@@ -196,7 +196,7 @@ class InputsFieldHighPass(_Inputs):
         """Allows to connect threshold input to the operator.
 
         A threshold scalar or a field containing one
-        value is expected
+        value is expected.
 
         Parameters
         ----------
@@ -216,10 +216,10 @@ class InputsFieldHighPass(_Inputs):
     def both(self):
         """Allows to connect both input to the operator.
 
-        Bool(optional, default false) if set to true,
-        the complement of the filtered fields
-        container is returned on output pin
-        #1
+        Bool(optional, the default is false). if set
+        to true, the complement of the
+        filtered fields container is returned
+        on output pin 1.
 
         Parameters
         ----------

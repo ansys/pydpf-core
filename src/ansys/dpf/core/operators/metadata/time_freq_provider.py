@@ -11,16 +11,16 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class time_freq_provider(Operator):
-    """Read the time freq support from the results files contained in the
-    streams or data sources.
+    """Reads the time/frequency support from the results files contained in
+    the streams or data sources.
 
     Parameters
     ----------
     streams_container : StreamsContainer, optional
         Streams (result file container) (optional)
     data_sources : DataSources
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
 
 
     Examples
@@ -61,8 +61,8 @@ class time_freq_provider(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read the time freq support from the results files contained in the
-            streams or data sources."""
+        description = """Reads the time/frequency support from the results files contained in
+            the streams or data sources."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -76,8 +76,8 @@ class time_freq_provider(Operator):
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document="""If the stream is null then we need to get the
-        file path from the data sources""",
+                    document="""If the stream is null, retrieves the file
+        path from the data sources.""",
                 ),
             },
             map_output_pin_spec={
@@ -175,8 +175,8 @@ class InputsTimeFreqProvider(_Inputs):
     def data_sources(self):
         """Allows to connect data_sources input to the operator.
 
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
 
         Parameters
         ----------

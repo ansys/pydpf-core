@@ -12,10 +12,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class component_wise_divide(Operator):
     """Computes component-wise fraction between two fields of same
-    dimensionality. If one field's scoping has overall location, then
-    these field's values are applied on the entire other field.When
-    using a constant or 'work_by_index', it's possible to use
-    'inplace' to reuse one of the fields.
+    dimensionality. If one field's scoping has an 'overall' location,
+    then this field's values are applied on the other field entirely.
+    When using a constant or 'work_by_index', you can use 'inplace' to
+    reuse one of the fields.
 
     Parameters
     ----------
@@ -62,11 +62,11 @@ class component_wise_divide(Operator):
     @staticmethod
     def _spec():
         description = """Computes component-wise fraction between two fields of same
-            dimensionality. If one field's scoping has overall
-            location, then these field's values are applied on the
-            entire other field.When using a constant or
-            'work_by_index', it's possible to use 'inplace' to reuse
-            one of the fields."""
+            dimensionality. If one field's scoping has an 'overall'
+            location, then this field's values are applied on the
+            other field entirely. When using a constant or
+            'work_by_index', you can use 'inplace' to reuse one of the
+            fields."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

@@ -22,9 +22,10 @@ class global_eroded_kinetic_energy(Operator):
     data_sources : DataSources
         Result file path container, used if no
         streams are set
-    unit_system : int or str, optional
-        Unit system id (int) or semicolon-separated
-        list of base unit strings
+    unit_system : int or str or UnitSystem, optional
+        Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance
 
 
     Examples
@@ -94,10 +95,15 @@ class global_eroded_kinetic_energy(Operator):
                 ),
                 50: PinSpecification(
                     name="unit_system",
-                    type_names=["int32", "string"],
+                    type_names=[
+                        "int32",
+                        "string",
+                        "class dataProcessing::unit::CUnitSystem",
+                    ],
                     optional=True,
-                    document="""Unit system id (int) or semicolon-separated
-        list of base unit strings""",
+                    document="""Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance""",
                 ),
             },
             map_output_pin_spec={
@@ -225,12 +231,13 @@ class InputsGlobalErodedKineticEnergy(_Inputs):
     def unit_system(self):
         """Allows to connect unit_system input to the operator.
 
-        Unit system id (int) or semicolon-separated
-        list of base unit strings
+        Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance
 
         Parameters
         ----------
-        my_unit_system : int or str
+        my_unit_system : int or str or UnitSystem
 
         Examples
         --------

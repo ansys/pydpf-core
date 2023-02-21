@@ -11,32 +11,35 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elemental_nodal_to_nodal_fc(Operator):
-    """Transform ElementalNodal fields into Nodal fields using an averaging
-    process, result is computed on a given node scoping. If the input
-    fields are mixed shell/solid, then the fields are split by element
-    shape and the output fields container has elshape label.
+    """Transforms Elemental Nodal fields into Nodal fields using an averaging
+    process. The result is computed on a given node's scoping. If the
+    input fields are mixed shell/solid, then the fields are split by
+    element shape and the output fields container has an elshape
+    label.
 
     Parameters
     ----------
     fields_container : FieldsContainer
     mesh : MeshedRegion or MeshesContainer, optional
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
     should_average : bool, optional
         Each nodal value is divided by the number of
         elements linked to this node (default
-        is true for discrete quantities)
+        is true for discrete quantities).
     scoping : Scoping or ScopingsContainer, optional
-        Average only on these nodes, if it is scoping
-        container, the label must correspond
-        to the one of the fields container
+        Average only on these nodes. if it is a
+        scoping container, the label must
+        correspond to the one of the fields
+        containers.
     extend_to_mid_nodes : bool, optional
         Compute mid nodes (when available) by
-        averaging neighbour primary nodes
+        averaging the neighbour primary
+        nodes.
     extend_weights_to_mid_nodes : bool, optional
         Extends weights to mid nodes (when
-        available). default is false
+        available). default is false.
 
 
     Examples
@@ -106,11 +109,11 @@ class elemental_nodal_to_nodal_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transform ElementalNodal fields into Nodal fields using an averaging
-            process, result is computed on a given node scoping. If
-            the input fields are mixed shell/solid, then the fields
+        description = """Transforms Elemental Nodal fields into Nodal fields using an averaging
+            process. The result is computed on a given node's scoping.
+            If the input fields are mixed shell/solid, then the fields
             are split by element shape and the output fields container
-            has elshape label."""
+            has an elshape label."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -125,8 +128,8 @@ class elemental_nodal_to_nodal_fc(Operator):
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
                     document="""The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used""",
+        perform the averaging. it is used if
+        there is no fields support.""",
                 ),
                 2: PinSpecification(
                     name="should_average",
@@ -134,29 +137,31 @@ class elemental_nodal_to_nodal_fc(Operator):
                     optional=True,
                     document="""Each nodal value is divided by the number of
         elements linked to this node (default
-        is true for discrete quantities)""",
+        is true for discrete quantities).""",
                 ),
                 3: PinSpecification(
                     name="scoping",
                     type_names=["scoping", "scopings_container"],
                     optional=True,
-                    document="""Average only on these nodes, if it is scoping
-        container, the label must correspond
-        to the one of the fields container""",
+                    document="""Average only on these nodes. if it is a
+        scoping container, the label must
+        correspond to the one of the fields
+        containers.""",
                 ),
                 4: PinSpecification(
                     name="extend_to_mid_nodes",
                     type_names=["bool"],
                     optional=True,
                     document="""Compute mid nodes (when available) by
-        averaging neighbour primary nodes""",
+        averaging the neighbour primary
+        nodes.""",
                 ),
                 5: PinSpecification(
                     name="extend_weights_to_mid_nodes",
                     type_names=["bool"],
                     optional=True,
                     document="""Extends weights to mid nodes (when
-        available). default is false""",
+        available). default is false.""",
                 ),
             },
             map_output_pin_spec={
@@ -289,8 +294,8 @@ class InputsElementalNodalToNodalFc(_Inputs):
         """Allows to connect mesh input to the operator.
 
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
 
         Parameters
         ----------
@@ -312,7 +317,7 @@ class InputsElementalNodalToNodalFc(_Inputs):
 
         Each nodal value is divided by the number of
         elements linked to this node (default
-        is true for discrete quantities)
+        is true for discrete quantities).
 
         Parameters
         ----------
@@ -332,9 +337,10 @@ class InputsElementalNodalToNodalFc(_Inputs):
     def scoping(self):
         """Allows to connect scoping input to the operator.
 
-        Average only on these nodes, if it is scoping
-        container, the label must correspond
-        to the one of the fields container
+        Average only on these nodes. if it is a
+        scoping container, the label must
+        correspond to the one of the fields
+        containers.
 
         Parameters
         ----------
@@ -355,7 +361,8 @@ class InputsElementalNodalToNodalFc(_Inputs):
         """Allows to connect extend_to_mid_nodes input to the operator.
 
         Compute mid nodes (when available) by
-        averaging neighbour primary nodes
+        averaging the neighbour primary
+        nodes.
 
         Parameters
         ----------
@@ -376,7 +383,7 @@ class InputsElementalNodalToNodalFc(_Inputs):
         """Allows to connect extend_weights_to_mid_nodes input to the operator.
 
         Extends weights to mid nodes (when
-        available). default is false
+        available). default is false.
 
         Parameters
         ----------

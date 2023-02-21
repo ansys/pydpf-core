@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class change_fc(Operator):
-    """Rescope / split a fields container to correspond to a scopings
-    container
+    """Rescopes/splits a fields container to correspond to a scopings
+    container.
 
     Parameters
     ----------
@@ -60,8 +60,8 @@ class change_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Rescope / split a fields container to correspond to a scopings
-            container"""
+        description = """Rescopes/splits a fields container to correspond to a scopings
+            container."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

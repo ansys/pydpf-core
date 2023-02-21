@@ -68,6 +68,7 @@ from .make_one_on_comp import make_one_on_comp
 from .correlation import correlation 
 from .entity_extractor import entity_extractor 
 from .modal_superposition import modal_superposition 
+from .accumulation_per_scoping import accumulation_per_scoping 
 from .matrix_inverse import matrix_inverse 
 from .fft_eval import fft_eval 
 from .qr_solve import qr_solve 

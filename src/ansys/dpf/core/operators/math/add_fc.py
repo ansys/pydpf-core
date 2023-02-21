@@ -11,9 +11,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class add_fc(Operator):
-    """Select all fields having the same label space in the input fields
-    container, and add those together. If fields, doubles, or vectors
-    of doubles are put in input, they are added to all the fields.
+    """Selects all fields with the same label space in the input fields
+    container and add those together. If fields, doubles, or vectors
+    of doubles, are put in input they are added to all the fields.
 
     Parameters
     ----------
@@ -57,9 +57,9 @@ class add_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Select all fields having the same label space in the input fields
-            container, and add those together. If fields, doubles, or
-            vectors of doubles are put in input, they are added to all
+        description = """Selects all fields with the same label space in the input fields
+            container and add those together. If fields, doubles, or
+            vectors of doubles, are put in input they are added to all
             the fields."""
         spec = Specification(
             description=description,

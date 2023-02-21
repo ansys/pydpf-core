@@ -17,10 +17,10 @@ def try_load_lsdyna_operators():
         return False
 
 
-def test_lsdyna(d3plot, try_load_lsdyna_operators):
+def test_lsdyna(d3plot_files, try_load_lsdyna_operators):
     dpf.load_library("Ans.Dpf.LSDYNA.dll", "lsdyna")
     ds = dpf.DataSources()
-    ds.set_result_file_path(d3plot, "d3plot")
+    ds.set_result_file_path(d3plot_files[0], "d3plot")
     streams = dpf.operators.metadata.streams_provider(ds)
     u = dpf.operators.result.displacement()
     u.inputs.streams_container(streams)
@@ -63,9 +63,9 @@ def test_eng(engineering_data_sources, try_load_composites_operators):
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     reason="Requires server version higher than 5.0",
 )
-def test_lsdynahgp(d3plot, server_type):
+def test_lsdynahgp(d3plot_files, server_type):
     ds = dpf.DataSources(server=server_type)
-    ds.set_result_file_path(d3plot, "d3plot")
+    ds.set_result_file_path(d3plot_files[0], "d3plot")
     streams = dpf.operators.metadata.streams_provider(ds, server=server_type)
     u = dpf.operators.result.displacement(server=server_type)
     u.inputs.streams_container(streams)

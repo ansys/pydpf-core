@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class component_selector(Operator):
-    """Create a scalar/vector field based on the selected component.
+    """Creates a scalar/vector field based on the selected component.
 
     Parameters
     ----------
@@ -21,7 +21,7 @@ class component_selector(Operator):
         extracted from the initial field.
     default_value : float, optional
         Set a default value for components that do
-        not exist
+        not exist.
 
 
     Examples
@@ -71,7 +71,7 @@ class component_selector(Operator):
     @staticmethod
     def _spec():
         description = (
-            """Create a scalar/vector field based on the selected component."""
+            """Creates a scalar/vector field based on the selected component."""
         )
         spec = Specification(
             description=description,
@@ -94,7 +94,7 @@ class component_selector(Operator):
                     type_names=["double"],
                     optional=True,
                     document="""Set a default value for components that do
-        not exist""",
+        not exist.""",
                 ),
             },
             map_output_pin_spec={
@@ -216,7 +216,7 @@ class InputsComponentSelector(_Inputs):
         """Allows to connect default_value input to the operator.
 
         Set a default value for components that do
-        not exist
+        not exist.
 
         Parameters
         ----------

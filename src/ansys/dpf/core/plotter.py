@@ -6,18 +6,25 @@ This module contains the DPF plotter class.
 Contains classes used to plot a mesh and a fields container using PyVista.
 """
 
+from __future__ import annotations
+
 import tempfile
 import os
 import sys
 import numpy as np
 import inspect
 import warnings
+from typing import TYPE_CHECKING, List, Union
 
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.common import locations, DefinitionLabels
 from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core.nodes import Node, Nodes
+
+if TYPE_CHECKING:  # pragma: no cover
+    from ansys.dpf.core.meshed_region import MeshedRegion
 
 
 def _sort_supported_kwargs(bound_method, **kwargs):
@@ -149,9 +156,20 @@ class _PyVistaPlotter:
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, **kwargs_in)
 
-    def add_point_labels(self, nodes, meshed_region, labels=None, **kwargs):
+    def add_point_labels(
+        self,
+        nodes: Union[Nodes, List[Node], List[int]],
+        meshed_region: MeshedRegion,
+        labels: Union[List[str], None] = None,
+        **kwargs,
+    ) -> List:
         label_actors = []
-        node_indexes = [meshed_region.nodes.mapping_id_to_index.get(node.id) for node in nodes]
+        if isinstance(nodes, Nodes):
+            nodes = nodes.scoping.ids
+        elif isinstance(nodes, list):
+            if isinstance(nodes[0], Node):
+                nodes = [node.id for node in nodes]
+        node_indexes = [meshed_region.nodes.mapping_id_to_index.get(node_id) for node_id in nodes]
         grid_points = [meshed_region.grid.points[node_index] for node_index in node_indexes]
 
         def get_label_at_grid_point(index):
@@ -168,12 +186,15 @@ class _PyVistaPlotter:
         # The scalar data used will be the one of the last field added.
         from packaging.version import parse
 
+        active_scalars = None
         if parse(pv.__version__) >= parse("0.35.2"):
             for data_set in self._plotter._datasets:
                 if type(data_set) is pv.core.pointset.UnstructuredGrid:
                     active_scalars = data_set.active_scalars
         else:
             active_scalars = meshed_region.grid.active_scalars
+        if active_scalars is None:
+            self.add_mesh(meshed_region=meshed_region)
         # For all grid_points given
         for index, grid_point in enumerate(grid_points):
             # Check for existing label at that point
@@ -184,11 +205,15 @@ class _PyVistaPlotter:
                     self._plotter.add_point_labels(grid_point, [labels[index]], **kwargs_in)
                 )
             else:
-                # Otherwise, get the value of the current scalar field
-                scalar_at_index = active_scalars[node_indexes[index]]
-                scalar_at_grid_point = f"{scalar_at_index:.2f}"
+                if active_scalars is not None:
+                    # get the value of the current scalar field if present
+                    scalar_at_index = active_scalars[node_indexes[index]]
+                    value = f"{scalar_at_index:.2f}"
+                else:
+                    # if no scalar field is present, print the node id
+                    value = nodes[index]
                 label_actors.append(
-                    self._plotter.add_point_labels(grid_point, [scalar_at_grid_point], **kwargs_in)
+                    self._plotter.add_point_labels(grid_point, [value], **kwargs_in)
                 )
         return label_actors
 
@@ -385,20 +410,28 @@ class DpfPlotter:
         """
         return self._labels
 
-    def add_node_labels(self, nodes, meshed_region, labels=None, **kwargs):
-        """Add labels at the nodal locations for the last added field.
+    def add_node_labels(
+        self,
+        nodes: Union[Nodes, List[Node], List[int]],
+        meshed_region: MeshedRegion,
+        labels: Union[List[str], None] = None,
+        **kwargs,
+    ):
+        """Add labels at nodal locations.
 
         Parameters
         ----------
-        nodes : list
+        nodes :
             Nodes where the labels should be added.
-        meshed_region: MeshedRegion
+        meshed_region:
             MeshedRegion to plot.
-        labels: : list of str or str, optional
-            If label for grid point is not defined, scalar value at that point is shown.
-        kwargs: dict, optional
-                Keyword arguments controlling label properties.
-                See :func:`pyvista.Plotter.add_point_labels`.
+        labels:
+            The labels to use. A node for which the label is not defined or `None`
+            will show the scalar value of the currently active field at that node,
+            or, if no field is active, its node ID.
+        kwargs:
+            Keyword arguments controlling label properties.
+            See :func:`pyvista.Plotter.add_point_labels`.
         """
         self._labels.append(
             self._internal_plotter.add_point_labels(
@@ -535,6 +568,12 @@ class DpfPlotter:
         >>> pl.show_figure()
 
         """
+        if "notebook" in kwargs.keys():
+            warnings.simplefilter("once")
+            warnings.warn(
+                "'notebook' is not a valid kwarg for show_figure(). "
+                "Please give this argument to the init of DpfPlotter."
+            )
         return self._internal_plotter.show_figure(**kwargs)
 
 

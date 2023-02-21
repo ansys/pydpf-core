@@ -11,13 +11,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class mesh_provider(Operator):
-    """Read a mesh from result files
+    """Reads a mesh from result files.
 
     Parameters
     ----------
     time_scoping : int, optional
-        Optional time/freq set id of the mesh,
-        supported for adaptative meshes
+        Optional time/frequency set id of the mesh,
+        supported for adaptative meshes.
     streams_container : StreamsContainer, optional
         Result file container allowed to be kept open
         to cache data
@@ -25,8 +25,27 @@ class mesh_provider(Operator):
         Result file path container, used if no
         streams are set
     read_cyclic : int, optional
-        If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)
+        If 1, cyclic symmetry is ignored. if 2,
+        cyclic expansion is done (default is
+        1).
+    laziness : DataTree, optional
+        Configurate whether lazy evaluation can be
+        performed and to what extent.
+        supported attributes are:  -
+        "num_named_selections"->num named
+        selection to read (-1 is all, int32,
+        default si -1), careful: the other
+        named selections will not be
+        available, use mesh_property_provider
+        operator to read them. - all mesh
+        property fields "mat",
+        "named_selection",
+        "apdl_element_type", "section"-> if
+        set to 1 these properties will not be
+        read and a workflow will be bounded
+        to the properties to be evaluated on
+        demand, with 0 they are read (default
+        is 0).
 
 
     Examples
@@ -45,6 +64,8 @@ class mesh_provider(Operator):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_laziness = dpf.DataTree()
+    >>> op.inputs.laziness.connect(my_laziness)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.mesh_provider(
@@ -52,6 +73,7 @@ class mesh_provider(Operator):
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ...     read_cyclic=my_read_cyclic,
+    ...     laziness=my_laziness,
     ... )
 
     >>> # Get output data
@@ -64,6 +86,7 @@ class mesh_provider(Operator):
         streams_container=None,
         data_sources=None,
         read_cyclic=None,
+        laziness=None,
         config=None,
         server=None,
     ):
@@ -78,10 +101,12 @@ class mesh_provider(Operator):
             self.inputs.data_sources.connect(data_sources)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
+        if laziness is not None:
+            self.inputs.laziness.connect(laziness)
 
     @staticmethod
     def _spec():
-        description = """Read a mesh from result files"""
+        description = """Reads a mesh from result files."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -89,8 +114,8 @@ class mesh_provider(Operator):
                     name="time_scoping",
                     type_names=["int32"],
                     optional=True,
-                    document="""Optional time/freq set id of the mesh,
-        supported for adaptative meshes""",
+                    document="""Optional time/frequency set id of the mesh,
+        supported for adaptative meshes.""",
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -110,8 +135,31 @@ class mesh_provider(Operator):
                     name="read_cyclic",
                     type_names=["enum dataProcessing::ECyclicReading", "int32"],
                     optional=True,
-                    document="""If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)""",
+                    document="""If 1, cyclic symmetry is ignored. if 2,
+        cyclic expansion is done (default is
+        1).""",
+                ),
+                200: PinSpecification(
+                    name="laziness",
+                    type_names=["abstract_data_tree"],
+                    optional=True,
+                    document="""Configurate whether lazy evaluation can be
+        performed and to what extent.
+        supported attributes are:  -
+        "num_named_selections"->num named
+        selection to read (-1 is all, int32,
+        default si -1), careful: the other
+        named selections will not be
+        available, use mesh_property_provider
+        operator to read them. - all mesh
+        property fields "mat",
+        "named_selection",
+        "apdl_element_type", "section"-> if
+        set to 1 these properties will not be
+        read and a workflow will be bounded
+        to the properties to be evaluated on
+        demand, with 0 they are read (default
+        is 0).""",
                 ),
             },
             map_output_pin_spec={
@@ -178,6 +226,8 @@ class InputsMeshProvider(_Inputs):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_laziness = dpf.DataTree()
+    >>> op.inputs.laziness.connect(my_laziness)
     """
 
     def __init__(self, op: Operator):
@@ -190,13 +240,15 @@ class InputsMeshProvider(_Inputs):
         self._inputs.append(self._data_sources)
         self._read_cyclic = Input(mesh_provider._spec().input_pin(14), 14, op, -1)
         self._inputs.append(self._read_cyclic)
+        self._laziness = Input(mesh_provider._spec().input_pin(200), 200, op, -1)
+        self._inputs.append(self._laziness)
 
     @property
     def time_scoping(self):
         """Allows to connect time_scoping input to the operator.
 
-        Optional time/freq set id of the mesh,
-        supported for adaptative meshes
+        Optional time/frequency set id of the mesh,
+        supported for adaptative meshes.
 
         Parameters
         ----------
@@ -258,8 +310,9 @@ class InputsMeshProvider(_Inputs):
     def read_cyclic(self):
         """Allows to connect read_cyclic input to the operator.
 
-        If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)
+        If 1, cyclic symmetry is ignored. if 2,
+        cyclic expansion is done (default is
+        1).
 
         Parameters
         ----------
@@ -274,6 +327,42 @@ class InputsMeshProvider(_Inputs):
         >>> op.inputs.read_cyclic(my_read_cyclic)
         """
         return self._read_cyclic
+
+    @property
+    def laziness(self):
+        """Allows to connect laziness input to the operator.
+
+        Configurate whether lazy evaluation can be
+        performed and to what extent.
+        supported attributes are:  -
+        "num_named_selections"->num named
+        selection to read (-1 is all, int32,
+        default si -1), careful: the other
+        named selections will not be
+        available, use mesh_property_provider
+        operator to read them. - all mesh
+        property fields "mat",
+        "named_selection",
+        "apdl_element_type", "section"-> if
+        set to 1 these properties will not be
+        read and a workflow will be bounded
+        to the properties to be evaluated on
+        demand, with 0 they are read (default
+        is 0).
+
+        Parameters
+        ----------
+        my_laziness : DataTree
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.mesh_provider()
+        >>> op.inputs.laziness.connect(my_laziness)
+        >>> # or
+        >>> op.inputs.laziness(my_laziness)
+        """
+        return self._laziness
 
 
 class OutputsMeshProvider(_Outputs):

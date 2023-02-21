@@ -12,7 +12,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class boundary_condition_provider(Operator):
-    """Read boundary conditions from the results files contained in the
+    """Reads boundary conditions from the results files contained in the
     streams or data sources.
 
     Parameters
@@ -57,7 +57,7 @@ class boundary_condition_provider(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read boundary conditions from the results files contained in the
+        description = """Reads boundary conditions from the results files contained in the
             streams or data sources."""
         spec = Specification(
             description=description,

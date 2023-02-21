@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elemental_to_elemental_nodal(Operator):
-    """Transform Elemental field to Elemental Nodal field.
+    """Transforms an Elemental field to an Elemental Nodal field.
 
     Parameters
     ----------
@@ -66,7 +66,7 @@ class elemental_to_elemental_nodal(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transform Elemental field to Elemental Nodal field."""
+        description = """Transforms an Elemental field to an Elemental Nodal field."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

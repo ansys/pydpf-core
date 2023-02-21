@@ -12,8 +12,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class extract_scoping(Operator):
-    """Take a field or a fields container and extract is scoping or scopings
-    container.
+    """Takes a field or a fields container and extracts its scoping or
+    scopings container.
 
     Parameters
     ----------
@@ -49,8 +49,8 @@ class extract_scoping(Operator):
 
     @staticmethod
     def _spec():
-        description = """Take a field or a fields container and extract is scoping or scopings
-            container."""
+        description = """Takes a field or a fields container and extracts its scoping or
+            scopings container."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

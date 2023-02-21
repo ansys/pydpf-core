@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class combine_levelset(Operator):
-    """Takes two levelsets and compute their binary union.
+    """Takes two level sets and computes their binary union.
 
     Parameters
     ----------
@@ -53,7 +53,7 @@ class combine_levelset(Operator):
 
     @staticmethod
     def _spec():
-        description = """Takes two levelsets and compute their binary union."""
+        description = """Takes two level sets and computes their binary union."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

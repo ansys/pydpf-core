@@ -1,10 +1,10 @@
 set SPHINX_APIDOC_OPTIONS=inherited-members
-call sphinx-apidoc -o ../docs/source/api ../ansys ../ansys/dpf/core/log.py ^
-../ansys/dpf/core/help.py ../ansys/dpf/core/mapping_types.py ../ansys/dpf/core/ipconfig.py ^
-../ansys/dpf/core/field_base.py ../ansys/dpf/core/cache.py ../ansys/dpf/core/misc.py ^
-../ansys/dpf/core/check_version.py ../ansys/dpf/core/operators/build.py ../ansys/dpf/core/operators/specification.py ^
-../ansys/dpf/core/vtk_helper.py ../ansys/dpf/core/label_space.py ../ansys/dpf/core/examples/python_plugins/* ^
-../ansys/dpf/core/examples/examples.py ^
+call sphinx-apidoc -o ../docs/source/api ../src/ansys ../src/ansys/dpf/core/log.py ^
+../src/ansys/dpf/core/help.py ../src/ansys/dpf/core/mapping_types.py ../src/ansys/dpf/core/ipconfig.py ^
+../src/ansys/dpf/core/field_base.py ../src/ansys/dpf/core/cache.py ../src/ansys/dpf/core/misc.py ^
+../src/ansys/dpf/core/check_version.py ../src/ansys/dpf/core/operators/build.py ../src/ansys/dpf/core/operators/specification.py ^
+../src/ansys/dpf/core/vtk_helper.py ../src/ansys/dpf/core/label_space.py ../src/ansys/dpf/core/examples/python_plugins/* ^
+../src/ansys/dpf/core/examples/examples.py ^
  -f --implicit-namespaces --separate  --no-headings
 pushd .
 cd ../docs/

@@ -11,16 +11,16 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class extend_to_mid_nodes_fc(Operator):
-    """Extends ElementalNodal or Nodal fields defined on corner nodes to
-    ElementalNodal fields defined also on the mid nodes.
+    """Extends Elemental Nodal or Nodal fields defined on corner nodes to
+    Elemental Nodal fields defined also on the mid nodes.
 
     Parameters
     ----------
     fields_container : FieldsContainer
     mesh : MeshedRegion, optional
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
 
 
     Examples
@@ -57,8 +57,8 @@ class extend_to_mid_nodes_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Extends ElementalNodal or Nodal fields defined on corner nodes to
-            ElementalNodal fields defined also on the mid nodes."""
+        description = """Extends Elemental Nodal or Nodal fields defined on corner nodes to
+            Elemental Nodal fields defined also on the mid nodes."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -73,8 +73,8 @@ class extend_to_mid_nodes_fc(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used""",
+        perform the averaging. it is used if
+        there is no fields support.""",
                 ),
             },
             map_output_pin_spec={
@@ -171,8 +171,8 @@ class InputsExtendToMidNodesFc(_Inputs):
         """Allows to connect mesh input to the operator.
 
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
 
         Parameters
         ----------

@@ -23,6 +23,10 @@ class FieldsContainer(Collection):
     used in a harmonic analysis for example, allows real parts (``id=0``)
     to be separated from imaginary parts (``id=1``).
 
+    For more information, see the `Fields container and fields
+    <https://dpf.docs.pyansys.com/user_guide/fields_container.html#ref-user-guide-fields-container>
+    `_ documentation section.
+
     Parameters
     ----------
     fields_container : ansys.grpc.dpf.collection_pb2.Collection, ctypes.c_void_p,
