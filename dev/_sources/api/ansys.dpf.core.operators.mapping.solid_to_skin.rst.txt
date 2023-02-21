@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.mapping.solid_to_skin
-   :inherited-members:

@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.acceleration_Z
-   :inherited-members:

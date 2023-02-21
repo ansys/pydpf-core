@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.utility.extract_sub_sc
-   :inherited-members:

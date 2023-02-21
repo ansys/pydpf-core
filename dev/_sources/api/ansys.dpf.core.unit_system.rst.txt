@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.unit_system
-   :inherited-members:

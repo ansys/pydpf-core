@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.utility.make_for_each_range
-   :inherited-members:

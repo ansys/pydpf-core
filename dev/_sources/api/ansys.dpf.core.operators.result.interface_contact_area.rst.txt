@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.interface_contact_area
-   :inherited-members:

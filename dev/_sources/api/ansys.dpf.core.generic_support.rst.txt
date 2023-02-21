@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.generic_support
-   :inherited-members:

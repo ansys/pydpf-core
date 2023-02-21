@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.mesh_scoping_factory
-   :inherited-members:

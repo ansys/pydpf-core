@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.beam_t_shear_force
-   :inherited-members:

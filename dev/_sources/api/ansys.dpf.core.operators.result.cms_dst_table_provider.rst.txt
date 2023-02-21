@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.cms_dst_table_provider
-   :inherited-members:

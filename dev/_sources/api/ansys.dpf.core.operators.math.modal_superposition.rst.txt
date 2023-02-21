@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.math.modal_superposition
-   :inherited-members:

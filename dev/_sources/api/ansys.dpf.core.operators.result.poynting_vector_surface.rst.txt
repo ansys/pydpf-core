@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.poynting_vector_surface
-   :inherited-members:

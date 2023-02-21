@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.erp_radiation_efficiency
-   :inherited-members:

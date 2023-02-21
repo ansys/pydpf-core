@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.metadata.time_freq_provider
-   :inherited-members:

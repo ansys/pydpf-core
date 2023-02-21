@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.metadata.material_support_provider
-   :inherited-members:

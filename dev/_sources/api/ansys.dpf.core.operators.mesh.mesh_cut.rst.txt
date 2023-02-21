@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.mesh.mesh_cut
-   :inherited-members:

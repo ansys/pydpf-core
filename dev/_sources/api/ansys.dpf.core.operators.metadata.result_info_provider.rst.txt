@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.metadata.result_info_provider
-   :inherited-members:

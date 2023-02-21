@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.equivalent_radiated_power
-   :inherited-members:

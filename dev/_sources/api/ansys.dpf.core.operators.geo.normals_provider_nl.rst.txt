@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.geo.normals_provider_nl
-   :inherited-members:

@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.electric_field
-   :inherited-members:

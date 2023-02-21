@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.euler_load_buckling
-   :inherited-members:

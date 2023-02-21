@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.element_nodal_forces
-   :inherited-members:

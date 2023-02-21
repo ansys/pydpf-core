@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.fields_container
-   :inherited-members:

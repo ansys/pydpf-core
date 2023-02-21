@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.serialization.export_symbolic_workflow
-   :inherited-members:

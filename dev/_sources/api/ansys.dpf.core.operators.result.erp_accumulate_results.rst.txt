@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.erp_accumulate_results
-   :inherited-members:

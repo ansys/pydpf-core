@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.global_rigid_body_stopper_energy
-   :inherited-members:

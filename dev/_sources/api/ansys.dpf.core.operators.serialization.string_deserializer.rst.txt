@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.serialization.string_deserializer
-   :inherited-members:

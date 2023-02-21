@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.averaging.elemental_to_elemental_nodal
-   :inherited-members:

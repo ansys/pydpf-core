@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.math.average_over_label_fc
-   :inherited-members:

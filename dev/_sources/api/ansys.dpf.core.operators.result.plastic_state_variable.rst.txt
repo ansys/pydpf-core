@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.plastic_state_variable
-   :inherited-members:

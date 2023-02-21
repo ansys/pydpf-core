@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.math.outer_product
-   :inherited-members:

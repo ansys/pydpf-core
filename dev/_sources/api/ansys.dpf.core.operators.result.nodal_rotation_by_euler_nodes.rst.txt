@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.nodal_rotation_by_euler_nodes
-   :inherited-members:

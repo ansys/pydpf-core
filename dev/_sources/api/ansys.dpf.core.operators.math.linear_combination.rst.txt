@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.math.linear_combination
-   :inherited-members:

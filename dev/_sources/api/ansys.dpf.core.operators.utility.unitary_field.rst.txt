@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.utility.unitary_field
-   :inherited-members:

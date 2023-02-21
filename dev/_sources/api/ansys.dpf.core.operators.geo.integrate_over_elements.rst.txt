@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.geo.integrate_over_elements
-   :inherited-members:

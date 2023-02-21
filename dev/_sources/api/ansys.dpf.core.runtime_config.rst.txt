@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.runtime_config
-   :inherited-members:

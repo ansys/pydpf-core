@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.global_velocity
-   :inherited-members:

@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.metadata.streams_provider
-   :inherited-members:

@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.geo.rotate_fc
-   :inherited-members:

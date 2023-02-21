@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.joint_force_reaction
-   :inherited-members:

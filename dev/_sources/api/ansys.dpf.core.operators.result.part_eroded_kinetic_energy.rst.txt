@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.part_eroded_kinetic_energy
-   :inherited-members:

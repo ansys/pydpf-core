@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.scoping.intersect
-   :inherited-members:

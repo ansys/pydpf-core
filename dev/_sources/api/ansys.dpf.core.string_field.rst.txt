@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.string_field
-   :inherited-members:

@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.averaging.gauss_to_node_fc
-   :inherited-members:

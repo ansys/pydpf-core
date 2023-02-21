@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.scoping.split_on_property_type
-   :inherited-members:

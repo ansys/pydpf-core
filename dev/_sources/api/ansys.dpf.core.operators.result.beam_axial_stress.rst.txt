@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.beam_axial_stress
-   :inherited-members:

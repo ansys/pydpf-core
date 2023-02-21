@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.geo.gauss_to_node
-   :inherited-members:

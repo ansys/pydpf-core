@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.element_descriptor
-   :inherited-members:

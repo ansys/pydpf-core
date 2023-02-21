@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.min_max.min_max_by_entity
-   :inherited-members:

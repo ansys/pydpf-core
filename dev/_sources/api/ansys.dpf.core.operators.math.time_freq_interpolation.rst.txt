@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.math.time_freq_interpolation
-   :inherited-members:

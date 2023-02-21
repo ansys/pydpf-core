@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.operators.result.total_contact_moment
-   :inherited-members:

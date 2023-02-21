@@ -1,2 +1,0 @@
-.. automodule:: ansys.dpf.core.animator
-   :inherited-members:
