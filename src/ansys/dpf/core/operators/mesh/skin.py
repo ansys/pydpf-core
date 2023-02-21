@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class skin(Operator):
-    """Extracts a skin of the mesh in a new meshed region. Material id of
+    """Extracts a skin of the mesh in a new meshed region. The material ID of
     initial elements are propagated to their facets.
 
     Parameters
@@ -58,7 +58,7 @@ class skin(Operator):
 
     @staticmethod
     def _spec():
-        description = """Extracts a skin of the mesh in a new meshed region. Material id of
+        description = """Extracts a skin of the mesh in a new meshed region. The material ID of
             initial elements are propagated to their facets."""
         spec = Specification(
             description=description,
@@ -82,7 +82,7 @@ class skin(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=False,
                     document="""Skin meshed region with facets and
-        facets_to_ele property fields""",
+        facets_to_ele property fields.""",
                 ),
                 1: PinSpecification(
                     name="nodes_mesh_scoping",
@@ -100,8 +100,8 @@ class skin(Operator):
                     name="property_field_new_elements_to_old",
                     type_names=["property_field"],
                     optional=False,
-                    document="""This property field gives, for each new face
-        element id (in the scoping) the
+                    document="""This property field provides, for each new
+        face element id (in the scoping), the
         corresponding 3d volume element index
         (in the data) it has been extracted
         from. the 3d volume element id can be
@@ -112,8 +112,8 @@ class skin(Operator):
                     name="facet_indices",
                     type_names=["property_field"],
                     optional=False,
-                    document="""This property field fives, for each new face
-        element id (in the scoping) the
+                    document="""This property field gives, for each new face
+        element id (in the scoping), the
         corresponding face index on the
         source 3d volume element. the 3d
         volume element can be extracted from

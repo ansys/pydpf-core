@@ -11,22 +11,22 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class merge_fields(Operator):
-    """Take a set of fields and assemble them in a unique one
+    """Assembles a set of fields into a unique one.
 
     Parameters
     ----------
     sum_merge : bool, optional
-        Default is false. if true redundant
+        Default is false. if true, redundant
         quantities are summed instead of
         being ignored.
     merged_support : AbstractFieldSupport, optional
         Already merged field support.
     fields1 : Field or FieldsContainer
         Either a fields container, a vector of fields
-        to merge or fields from pin 0 to ...
+        to merge, or fields from pin 0 to ...
     fields2 : Field or FieldsContainer
         Either a fields container, a vector of fields
-        to merge or fields from pin 0 to ...
+        to merge, or fields from pin 0 to ...
 
 
     Examples
@@ -81,7 +81,7 @@ class merge_fields(Operator):
 
     @staticmethod
     def _spec():
-        description = """Take a set of fields and assemble them in a unique one"""
+        description = """Assembles a set of fields into a unique one."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -89,7 +89,7 @@ class merge_fields(Operator):
                     name="sum_merge",
                     type_names=["bool"],
                     optional=True,
-                    document="""Default is false. if true redundant
+                    document="""Default is false. if true, redundant
         quantities are summed instead of
         being ignored.""",
                 ),
@@ -104,14 +104,14 @@ class merge_fields(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""Either a fields container, a vector of fields
-        to merge or fields from pin 0 to ...""",
+        to merge, or fields from pin 0 to ...""",
                 ),
                 1: PinSpecification(
                     name="fields",
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""Either a fields container, a vector of fields
-        to merge or fields from pin 0 to ...""",
+        to merge, or fields from pin 0 to ...""",
                 ),
             },
             map_output_pin_spec={
@@ -195,7 +195,7 @@ class InputsMergeFields(_Inputs):
     def sum_merge(self):
         """Allows to connect sum_merge input to the operator.
 
-        Default is false. if true redundant
+        Default is false. if true, redundant
         quantities are summed instead of
         being ignored.
 
@@ -238,7 +238,7 @@ class InputsMergeFields(_Inputs):
         """Allows to connect fields1 input to the operator.
 
         Either a fields container, a vector of fields
-        to merge or fields from pin 0 to ...
+        to merge, or fields from pin 0 to ...
 
         Parameters
         ----------
@@ -259,7 +259,7 @@ class InputsMergeFields(_Inputs):
         """Allows to connect fields2 input to the operator.
 
         Either a fields container, a vector of fields
-        to merge or fields from pin 0 to ...
+        to merge, or fields from pin 0 to ...
 
         Parameters
         ----------

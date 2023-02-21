@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class mesh_cut(Operator):
-    """Extracts a skin of the mesh in triangles in a new meshed region
+    """Extracts a skin of the mesh in triangles in a new meshed region.
 
     Parameters
     ----------
@@ -23,16 +23,16 @@ class mesh_cut(Operator):
     iso_value : float
         Iso value
     closed_surface : int
-        1: closed surface, 0:iso surface
+        1: closed surface, 0: iso surface.
     mesh : MeshedRegion, optional
         Mesh to compute the iso-surface from. used
         when not given through the support of
         the field in pin 0.
     slice_surfaces : bool
         True: slicing will also take into account
-        shell and skin elements, false:
+        shell and skin elements. false:
         slicing will ignore shell and skin
-        elements. default is true
+        elements. the default is true.
 
 
     Examples
@@ -94,7 +94,7 @@ class mesh_cut(Operator):
     @staticmethod
     def _spec():
         description = (
-            """Extracts a skin of the mesh in triangles in a new meshed region"""
+            """Extracts a skin of the mesh in triangles in a new meshed region."""
         )
         spec = Specification(
             description=description,
@@ -118,7 +118,7 @@ class mesh_cut(Operator):
                     name="closed_surface",
                     type_names=["int32"],
                     optional=False,
-                    document="""1: closed surface, 0:iso surface""",
+                    document="""1: closed surface, 0: iso surface.""",
                 ),
                 3: PinSpecification(
                     name="mesh",
@@ -133,9 +133,9 @@ class mesh_cut(Operator):
                     type_names=["bool"],
                     optional=False,
                     document="""True: slicing will also take into account
-        shell and skin elements, false:
+        shell and skin elements. false:
         slicing will ignore shell and skin
-        elements. default is true""",
+        elements. the default is true.""",
                 ),
             },
             map_output_pin_spec={
@@ -266,7 +266,7 @@ class InputsMeshCut(_Inputs):
     def closed_surface(self):
         """Allows to connect closed_surface input to the operator.
 
-        1: closed surface, 0:iso surface
+        1: closed surface, 0: iso surface.
 
         Parameters
         ----------
@@ -309,9 +309,9 @@ class InputsMeshCut(_Inputs):
         """Allows to connect slice_surfaces input to the operator.
 
         True: slicing will also take into account
-        shell and skin elements, false:
+        shell and skin elements. false:
         slicing will ignore shell and skin
-        elements. default is true
+        elements. the default is true.
 
         Parameters
         ----------

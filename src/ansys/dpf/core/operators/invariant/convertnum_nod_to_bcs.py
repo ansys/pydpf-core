@@ -11,14 +11,14 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class convertnum_nod_to_bcs(Operator):
-    """Converts fields container from NOD to BCS ordering
+    """Converts a fields container from NOD to BCS ordering.
 
     Parameters
     ----------
     fields_container : FieldsContainer
         Fields_container
     data_sources : DataSources
-        Data_sources (must contain the fullfile).
+        Data_sources (must contain the full file).
 
 
     Examples
@@ -57,7 +57,7 @@ class convertnum_nod_to_bcs(Operator):
 
     @staticmethod
     def _spec():
-        description = """Converts fields container from NOD to BCS ordering"""
+        description = """Converts a fields container from NOD to BCS ordering."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -71,7 +71,7 @@ class convertnum_nod_to_bcs(Operator):
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document="""Data_sources (must contain the fullfile).""",
+                    document="""Data_sources (must contain the full file).""",
                 ),
             },
             map_output_pin_spec={
@@ -171,7 +171,7 @@ class InputsConvertnumNodToBcs(_Inputs):
     def data_sources(self):
         """Allows to connect data_sources input to the operator.
 
-        Data_sources (must contain the fullfile).
+        Data_sources (must contain the full file).
 
         Parameters
         ----------

@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class extract_sub_fc(Operator):
-    """Create a new FieldsContainer with all the Fields corresponding to the
-    label space in input 1
+    """Creates a new fields container with all the fields corresponding to
+    the label space in input 1.
 
     Parameters
     ----------
@@ -58,8 +58,8 @@ class extract_sub_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Create a new FieldsContainer with all the Fields corresponding to the
-            label space in input 1"""
+        description = """Creates a new fields container with all the fields corresponding to
+            the label space in input 1."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

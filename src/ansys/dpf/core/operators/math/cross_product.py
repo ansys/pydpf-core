@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class cross_product(Operator):
-    """Computes the cross product of two vector fields. Fields could have the
-    same location or Elemental-Nodal and Nodal.
+    """Computes the cross product of two vector fields. Fields can have the
+    same location or Elemental Nodal and Nodal locations.
 
     Parameters
     ----------
@@ -58,8 +58,8 @@ class cross_product(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the cross product of two vector fields. Fields could have the
-            same location or Elemental-Nodal and Nodal."""
+        description = """Computes the cross product of two vector fields. Fields can have the
+            same location or Elemental Nodal and Nodal locations."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

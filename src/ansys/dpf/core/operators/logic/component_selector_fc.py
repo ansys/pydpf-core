@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class component_selector_fc(Operator):
-    """Create a scalar fields container based on the selected component for
+    """Creates a scalar fields container based on the selected component for
     each field.
 
     Parameters
@@ -58,7 +58,7 @@ class component_selector_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Create a scalar fields container based on the selected component for
+        description = """Creates a scalar fields container based on the selected component for
             each field."""
         spec = Specification(
             description=description,

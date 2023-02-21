@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class material_property_of_element(Operator):
-    """Load the appropriate operator based on the data sources and get
-    material properties
+    """Loads the appropriate operator based on the data sources and retrieves
+    material properties.
 
     Parameters
     ----------
@@ -56,8 +56,8 @@ class material_property_of_element(Operator):
 
     @staticmethod
     def _spec():
-        description = """ Load the appropriate operator based on the data sources and get
-            material properties"""
+        description = """Loads the appropriate operator based on the data sources and retrieves
+            material properties."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

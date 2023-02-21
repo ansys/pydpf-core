@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class amplitude_fc(Operator):
-    """Computes amplitude of a real and an imaginary fields.
+    """Computes the amplitude of a real and an imaginary field.
 
     Parameters
     ----------
@@ -47,7 +47,7 @@ class amplitude_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes amplitude of a real and an imaginary fields."""
+        description = """Computes the amplitude of a real and an imaginary field."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class accumulate(Operator):
-    """Sum all the elementary data of a field to get one elementary data at
-    the end.
+    """Sums all the elementary data of a field to produce one elementary data
+    point.
 
     Parameters
     ----------
@@ -21,6 +21,8 @@ class accumulate(Operator):
         is expected
     ponderation : Field
         Field
+    time_scoping : Scoping
+        Time_scoping
 
 
     Examples
@@ -35,18 +37,23 @@ class accumulate(Operator):
     >>> op.inputs.fieldA.connect(my_fieldA)
     >>> my_ponderation = dpf.Field()
     >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_time_scoping = dpf.Scoping()
+    >>> op.inputs.time_scoping.connect(my_time_scoping)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.accumulate(
     ...     fieldA=my_fieldA,
     ...     ponderation=my_ponderation,
+    ...     time_scoping=my_time_scoping,
     ... )
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, fieldA=None, ponderation=None, config=None, server=None):
+    def __init__(
+        self, fieldA=None, ponderation=None, time_scoping=None, config=None, server=None
+    ):
         super().__init__(name="accumulate", config=config, server=server)
         self._inputs = InputsAccumulate(self)
         self._outputs = OutputsAccumulate(self)
@@ -54,11 +61,13 @@ class accumulate(Operator):
             self.inputs.fieldA.connect(fieldA)
         if ponderation is not None:
             self.inputs.ponderation.connect(ponderation)
+        if time_scoping is not None:
+            self.inputs.time_scoping.connect(time_scoping)
 
     @staticmethod
     def _spec():
-        description = """Sum all the elementary data of a field to get one elementary data at
-            the end."""
+        description = """Sums all the elementary data of a field to produce one elementary data
+            point."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -74,6 +83,12 @@ class accumulate(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""Field""",
+                ),
+                2: PinSpecification(
+                    name="time_scoping",
+                    type_names=["scoping"],
+                    optional=False,
+                    document="""Time_scoping""",
                 ),
             },
             map_output_pin_spec={
@@ -136,6 +151,8 @@ class InputsAccumulate(_Inputs):
     >>> op.inputs.fieldA.connect(my_fieldA)
     >>> my_ponderation = dpf.Field()
     >>> op.inputs.ponderation.connect(my_ponderation)
+    >>> my_time_scoping = dpf.Scoping()
+    >>> op.inputs.time_scoping.connect(my_time_scoping)
     """
 
     def __init__(self, op: Operator):
@@ -144,6 +161,8 @@ class InputsAccumulate(_Inputs):
         self._inputs.append(self._fieldA)
         self._ponderation = Input(accumulate._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._ponderation)
+        self._time_scoping = Input(accumulate._spec().input_pin(2), 2, op, -1)
+        self._inputs.append(self._time_scoping)
 
     @property
     def fieldA(self):
@@ -185,6 +204,26 @@ class InputsAccumulate(_Inputs):
         >>> op.inputs.ponderation(my_ponderation)
         """
         return self._ponderation
+
+    @property
+    def time_scoping(self):
+        """Allows to connect time_scoping input to the operator.
+
+        Time_scoping
+
+        Parameters
+        ----------
+        my_time_scoping : Scoping
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.accumulate()
+        >>> op.inputs.time_scoping.connect(my_time_scoping)
+        >>> # or
+        >>> op.inputs.time_scoping(my_time_scoping)
+        """
+        return self._time_scoping
 
 
 class OutputsAccumulate(_Outputs):

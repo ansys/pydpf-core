@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class cplx_derive(Operator):
-    """Derive field containers containing complex fields.
+    """Derives field containers containing complex fields.
 
     Parameters
     ----------
@@ -47,7 +47,7 @@ class cplx_derive(Operator):
 
     @staticmethod
     def _spec():
-        description = """Derive field containers containing complex fields."""
+        description = """Derives field containers containing complex fields."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

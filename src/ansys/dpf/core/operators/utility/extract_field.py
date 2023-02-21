@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class extract_field(Operator):
-    """Extract the fields at the indices defined in the vector (in 1) from
+    """Extracts the fields at the indices defined in the vector (in 1) from
     the fields container (in 0).
 
     Parameters
@@ -57,7 +57,7 @@ class extract_field(Operator):
 
     @staticmethod
     def _spec():
-        description = """Extract the fields at the indices defined in the vector (in 1) from
+        description = """Extracts the fields at the indices defined in the vector (in 1) from
             the fields container (in 0)."""
         spec = Specification(
             description=description,

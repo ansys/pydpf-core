@@ -12,7 +12,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class rescope(Operator):
-    """Rescope a field on the given scoping. If an ID does not exist in the
+    """Rescopes a field on the given scoping. If an ID does not exist in the
     original field, the default value (in 2) is used when defined.
 
     Parameters
@@ -71,7 +71,7 @@ class rescope(Operator):
 
     @staticmethod
     def _spec():
-        description = """Rescope a field on the given scoping. If an ID does not exist in the
+        description = """Rescopes a field on the given scoping. If an ID does not exist in the
             original field, the default value (in 2) is used when
             defined."""
         spec = Specification(

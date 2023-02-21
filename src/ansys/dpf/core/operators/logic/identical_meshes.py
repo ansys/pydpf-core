@@ -11,9 +11,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class identical_meshes(Operator):
-    """Take two meshes and compare them. Note: When comparing mesh properties
-    the current behaviour is to verify that the properties in the
-    first mesh (pin 0) are included in the second mesh (pin 1).
+    """Takes two meshes and compares them. Note: When comparing mesh
+    properties, the current behaviour is to verify that the properties
+    in the first mesh (pin 0) are included in the second mesh (pin 1).
 
     Parameters
     ----------
@@ -89,10 +89,10 @@ class identical_meshes(Operator):
 
     @staticmethod
     def _spec():
-        description = """Take two meshes and compare them. Note: When comparing mesh properties
-            the current behaviour is to verify that the properties in
-            the first mesh (pin 0) are included in the second mesh
-            (pin 1)."""
+        description = """Takes two meshes and compares them. Note: When comparing mesh
+            properties, the current behaviour is to verify that the
+            properties in the first mesh (pin 0) are included in the
+            second mesh (pin 1)."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

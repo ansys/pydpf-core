@@ -11,16 +11,18 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class merge_time_freq_supports(Operator):
-    """Take a set of time/freq support and assemble them in a unique one
+    """Assembles a set of time/frequency supports into a unique one.
 
     Parameters
     ----------
     time_freq_supports1 : TimeFreqSupport
-        A vector of time/freq supports to merge or
-        time/freq supports from pin 0 to ...
+        A vector of time/frequency supports to merge
+        or time/frequency supports from pin 0
+        to ...
     time_freq_supports2 : TimeFreqSupport
-        A vector of time/freq supports to merge or
-        time/freq supports from pin 0 to ...
+        A vector of time/frequency supports to merge
+        or time/frequency supports from pin 0
+        to ...
 
 
     Examples
@@ -64,7 +66,7 @@ class merge_time_freq_supports(Operator):
     @staticmethod
     def _spec():
         description = (
-            """Take a set of time/freq support and assemble them in a unique one"""
+            """Assembles a set of time/frequency supports into a unique one."""
         )
         spec = Specification(
             description=description,
@@ -73,15 +75,17 @@ class merge_time_freq_supports(Operator):
                     name="time_freq_supports",
                     type_names=["time_freq_support"],
                     optional=False,
-                    document="""A vector of time/freq supports to merge or
-        time/freq supports from pin 0 to ...""",
+                    document="""A vector of time/frequency supports to merge
+        or time/frequency supports from pin 0
+        to ...""",
                 ),
                 1: PinSpecification(
                     name="time_freq_supports",
                     type_names=["time_freq_support"],
                     optional=False,
-                    document="""A vector of time/freq supports to merge or
-        time/freq supports from pin 0 to ...""",
+                    document="""A vector of time/frequency supports to merge
+        or time/frequency supports from pin 0
+        to ...""",
                 ),
             },
             map_output_pin_spec={
@@ -161,8 +165,9 @@ class InputsMergeTimeFreqSupports(_Inputs):
     def time_freq_supports1(self):
         """Allows to connect time_freq_supports1 input to the operator.
 
-        A vector of time/freq supports to merge or
-        time/freq supports from pin 0 to ...
+        A vector of time/frequency supports to merge
+        or time/frequency supports from pin 0
+        to ...
 
         Parameters
         ----------
@@ -182,8 +187,9 @@ class InputsMergeTimeFreqSupports(_Inputs):
     def time_freq_supports2(self):
         """Allows to connect time_freq_supports2 input to the operator.
 
-        A vector of time/freq supports to merge or
-        time/freq supports from pin 0 to ...
+        A vector of time/frequency supports to merge
+        or time/frequency supports from pin 0
+        to ...
 
         Parameters
         ----------

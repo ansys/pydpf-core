@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class rotate(Operator):
-    """Apply a transformation (rotation) matrix on field.
+    """Applies a transformation (rotation) matrix on a field.
 
     Parameters
     ----------
@@ -58,7 +58,7 @@ class rotate(Operator):
 
     @staticmethod
     def _spec():
-        description = """Apply a transformation (rotation) matrix on field."""
+        description = """Applies a transformation (rotation) matrix on a field."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

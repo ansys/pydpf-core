@@ -11,14 +11,14 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class remove_unnecessary_labels(Operator):
-    """Takes a fields container and removes the desired label.
+    """Removes the selected label from a fields container.
 
     Parameters
     ----------
     permissive : bool, optional
-        If true, the operator won't throw an error if
-        the label to be removed has more than
-        one entry.
+        If true, the operator does not throw an error
+        if the label to be removed has more
+        than one entry.
     fields_container : FieldsContainer
         Fields container with the label to be
         removed.
@@ -73,7 +73,7 @@ class remove_unnecessary_labels(Operator):
 
     @staticmethod
     def _spec():
-        description = """Takes a fields container and removes the desired label."""
+        description = """Removes the selected label from a fields container."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -81,9 +81,9 @@ class remove_unnecessary_labels(Operator):
                     name="permissive",
                     type_names=["bool"],
                     optional=True,
-                    document="""If true, the operator won't throw an error if
-        the label to be removed has more than
-        one entry.""",
+                    document="""If true, the operator does not throw an error
+        if the label to be removed has more
+        than one entry.""",
                 ),
                 0: PinSpecification(
                     name="fields_container",
@@ -183,9 +183,9 @@ class InputsRemoveUnnecessaryLabels(_Inputs):
     def permissive(self):
         """Allows to connect permissive input to the operator.
 
-        If true, the operator won't throw an error if
-        the label to be removed has more than
-        one entry.
+        If true, the operator does not throw an error
+        if the label to be removed has more
+        than one entry.
 
         Parameters
         ----------

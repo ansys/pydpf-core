@@ -11,22 +11,12 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class meshes_provider(Operator):
-    """Read meshes from result files. Meshes can be spatially or temporally
-    varying.
+    """Converts an Assembly Mesh into a DPF Meshes container
 
     Parameters
     ----------
-    time_scoping : Scoping or int, optional
-        Time/freq set ids required in output
-    streams_container : StreamsContainer, optional
-        Result file container allowed to be kept open
-        to cache data
-    data_sources : DataSources
-        Result file path container, used if no
-        streams are set
-    read_cyclic : int, optional
-        If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)
+    assembly_mesh : AnsDispatchHolder or Struct Iansdispatch
+    unit : str, optional
 
 
     Examples
@@ -37,86 +27,54 @@ class meshes_provider(Operator):
     >>> op = dpf.operators.mesh.meshes_provider()
 
     >>> # Make input connections
-    >>> my_time_scoping = dpf.Scoping()
-    >>> op.inputs.time_scoping.connect(my_time_scoping)
-    >>> my_streams_container = dpf.StreamsContainer()
-    >>> op.inputs.streams_container.connect(my_streams_container)
-    >>> my_data_sources = dpf.DataSources()
-    >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_assembly_mesh = dpf.AnsDispatchHolder()
+    >>> op.inputs.assembly_mesh.connect(my_assembly_mesh)
+    >>> my_unit = str()
+    >>> op.inputs.unit.connect(my_unit)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.meshes_provider(
-    ...     time_scoping=my_time_scoping,
-    ...     streams_container=my_streams_container,
-    ...     data_sources=my_data_sources,
-    ...     read_cyclic=my_read_cyclic,
+    ...     assembly_mesh=my_assembly_mesh,
+    ...     unit=my_unit,
     ... )
 
     >>> # Get output data
-    >>> result_meshes = op.outputs.meshes()
+    >>> result_meshes_container = op.outputs.meshes_container()
     """
 
-    def __init__(
-        self,
-        time_scoping=None,
-        streams_container=None,
-        data_sources=None,
-        read_cyclic=None,
-        config=None,
-        server=None,
-    ):
-        super().__init__(name="meshes_provider", config=config, server=server)
+    def __init__(self, assembly_mesh=None, unit=None, config=None, server=None):
+        super().__init__(
+            name="acmo::acmo_live::meshes_provider", config=config, server=server
+        )
         self._inputs = InputsMeshesProvider(self)
         self._outputs = OutputsMeshesProvider(self)
-        if time_scoping is not None:
-            self.inputs.time_scoping.connect(time_scoping)
-        if streams_container is not None:
-            self.inputs.streams_container.connect(streams_container)
-        if data_sources is not None:
-            self.inputs.data_sources.connect(data_sources)
-        if read_cyclic is not None:
-            self.inputs.read_cyclic.connect(read_cyclic)
+        if assembly_mesh is not None:
+            self.inputs.assembly_mesh.connect(assembly_mesh)
+        if unit is not None:
+            self.inputs.unit.connect(unit)
 
     @staticmethod
     def _spec():
-        description = """Read meshes from result files. Meshes can be spatially or temporally
-            varying."""
+        description = """Converts an Assembly Mesh into a DPF Meshes container"""
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="time_scoping",
-                    type_names=["scoping", "vector<int32>", "int32"],
-                    optional=True,
-                    document="""Time/freq set ids required in output""",
-                ),
-                3: PinSpecification(
-                    name="streams_container",
-                    type_names=["streams_container"],
-                    optional=True,
-                    document="""Result file container allowed to be kept open
-        to cache data""",
-                ),
-                4: PinSpecification(
-                    name="data_sources",
-                    type_names=["data_sources"],
+                    name="assembly_mesh",
+                    type_names=["ans_dispatch_holder", "struct IAnsDispatch"],
                     optional=False,
-                    document="""Result file path container, used if no
-        streams are set""",
+                    document="""""",
                 ),
-                14: PinSpecification(
-                    name="read_cyclic",
-                    type_names=["enum dataProcessing::ECyclicReading", "int32"],
+                1: PinSpecification(
+                    name="unit",
+                    type_names=["string"],
                     optional=True,
-                    document="""If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)""",
+                    document="""""",
                 ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
-                    name="meshes",
+                    name="meshes_container",
                     type_names=["meshes_container"],
                     optional=False,
                     document="""""",
@@ -139,7 +97,9 @@ class meshes_provider(Operator):
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the global server.
         """
-        return Operator.default_config(name="meshes_provider", server=server)
+        return Operator.default_config(
+            name="acmo::acmo_live::meshes_provider", server=server
+        )
 
     @property
     def inputs(self):
@@ -170,109 +130,54 @@ class InputsMeshesProvider(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.mesh.meshes_provider()
-    >>> my_time_scoping = dpf.Scoping()
-    >>> op.inputs.time_scoping.connect(my_time_scoping)
-    >>> my_streams_container = dpf.StreamsContainer()
-    >>> op.inputs.streams_container.connect(my_streams_container)
-    >>> my_data_sources = dpf.DataSources()
-    >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_read_cyclic = int()
-    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_assembly_mesh = dpf.AnsDispatchHolder()
+    >>> op.inputs.assembly_mesh.connect(my_assembly_mesh)
+    >>> my_unit = str()
+    >>> op.inputs.unit.connect(my_unit)
     """
 
     def __init__(self, op: Operator):
         super().__init__(meshes_provider._spec().inputs, op)
-        self._time_scoping = Input(meshes_provider._spec().input_pin(0), 0, op, -1)
-        self._inputs.append(self._time_scoping)
-        self._streams_container = Input(meshes_provider._spec().input_pin(3), 3, op, -1)
-        self._inputs.append(self._streams_container)
-        self._data_sources = Input(meshes_provider._spec().input_pin(4), 4, op, -1)
-        self._inputs.append(self._data_sources)
-        self._read_cyclic = Input(meshes_provider._spec().input_pin(14), 14, op, -1)
-        self._inputs.append(self._read_cyclic)
+        self._assembly_mesh = Input(meshes_provider._spec().input_pin(0), 0, op, -1)
+        self._inputs.append(self._assembly_mesh)
+        self._unit = Input(meshes_provider._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._unit)
 
     @property
-    def time_scoping(self):
-        """Allows to connect time_scoping input to the operator.
-
-        Time/freq set ids required in output
+    def assembly_mesh(self):
+        """Allows to connect assembly_mesh input to the operator.
 
         Parameters
         ----------
-        my_time_scoping : Scoping or int
+        my_assembly_mesh : AnsDispatchHolder or Struct Iansdispatch
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.mesh.meshes_provider()
-        >>> op.inputs.time_scoping.connect(my_time_scoping)
+        >>> op.inputs.assembly_mesh.connect(my_assembly_mesh)
         >>> # or
-        >>> op.inputs.time_scoping(my_time_scoping)
+        >>> op.inputs.assembly_mesh(my_assembly_mesh)
         """
-        return self._time_scoping
+        return self._assembly_mesh
 
     @property
-    def streams_container(self):
-        """Allows to connect streams_container input to the operator.
-
-        Result file container allowed to be kept open
-        to cache data
+    def unit(self):
+        """Allows to connect unit input to the operator.
 
         Parameters
         ----------
-        my_streams_container : StreamsContainer
+        my_unit : str
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.mesh.meshes_provider()
-        >>> op.inputs.streams_container.connect(my_streams_container)
+        >>> op.inputs.unit.connect(my_unit)
         >>> # or
-        >>> op.inputs.streams_container(my_streams_container)
+        >>> op.inputs.unit(my_unit)
         """
-        return self._streams_container
-
-    @property
-    def data_sources(self):
-        """Allows to connect data_sources input to the operator.
-
-        Result file path container, used if no
-        streams are set
-
-        Parameters
-        ----------
-        my_data_sources : DataSources
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.mesh.meshes_provider()
-        >>> op.inputs.data_sources.connect(my_data_sources)
-        >>> # or
-        >>> op.inputs.data_sources(my_data_sources)
-        """
-        return self._data_sources
-
-    @property
-    def read_cyclic(self):
-        """Allows to connect read_cyclic input to the operator.
-
-        If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)
-
-        Parameters
-        ----------
-        my_read_cyclic : int
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.mesh.meshes_provider()
-        >>> op.inputs.read_cyclic.connect(my_read_cyclic)
-        >>> # or
-        >>> op.inputs.read_cyclic(my_read_cyclic)
-        """
-        return self._read_cyclic
+        return self._unit
 
 
 class OutputsMeshesProvider(_Outputs):
@@ -284,27 +189,27 @@ class OutputsMeshesProvider(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.mesh.meshes_provider()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_meshes = op.outputs.meshes()
+    >>> result_meshes_container = op.outputs.meshes_container()
     """
 
     def __init__(self, op: Operator):
         super().__init__(meshes_provider._spec().outputs, op)
-        self._meshes = Output(meshes_provider._spec().output_pin(0), 0, op)
-        self._outputs.append(self._meshes)
+        self._meshes_container = Output(meshes_provider._spec().output_pin(0), 0, op)
+        self._outputs.append(self._meshes_container)
 
     @property
-    def meshes(self):
-        """Allows to get meshes output of the operator
+    def meshes_container(self):
+        """Allows to get meshes_container output of the operator
 
         Returns
         ----------
-        my_meshes : MeshesContainer
+        my_meshes_container : MeshesContainer
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.mesh.meshes_provider()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_meshes = op.outputs.meshes()
+        >>> result_meshes_container = op.outputs.meshes_container()
         """  # noqa: E501
-        return self._meshes
+        return self._meshes_container

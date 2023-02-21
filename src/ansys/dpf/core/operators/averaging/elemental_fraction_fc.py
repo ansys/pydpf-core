@@ -11,31 +11,33 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elemental_fraction_fc(Operator):
-    """Transform ElementalNodal fields into Elemental fields. Each elemental
-    value is the fraction between the elemental difference and the
-    entity average. Result is computed on a given elements scoping.
+    """Transforms Elemental Nodal fields into Elemental fields. Each
+    elemental value is the fraction between the elemental difference
+    and the entity average. The result is computed on a given
+    element's scoping.
 
     Parameters
     ----------
     fields_container : FieldsContainer
     mesh : MeshedRegion, optional
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
     scoping : Scoping, optional
-        Average only on these elements, if it is
+        Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        container
+        containers.
     denominator : FieldsContainer, optional
         If a fields container is set in this pin, it
         is used as the denominator of the
-        fraction instead of entity_average_fc
+        fraction instead of
+        entity_average_fc.
     collapse_shell_layers : bool, optional
         The elemental difference and the entity
         average are taken through the
         different shell layers if true
-        (default is false)
+        (default is false).
 
 
     Examples
@@ -96,10 +98,10 @@ class elemental_fraction_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transform ElementalNodal fields into Elemental fields. Each elemental
-            value is the fraction between the elemental difference and
-            the entity average. Result is computed on a given elements
-            scoping."""
+        description = """Transforms Elemental Nodal fields into Elemental fields. Each
+            elemental value is the fraction between the elemental
+            difference and the entity average. The result is computed
+            on a given element's scoping."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -114,17 +116,17 @@ class elemental_fraction_fc(Operator):
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used""",
+        perform the averaging. it is used if
+        there is no fields support.""",
                 ),
                 3: PinSpecification(
                     name="scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document="""Average only on these elements, if it is
+                    document="""Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        container""",
+        containers.""",
                 ),
                 6: PinSpecification(
                     name="denominator",
@@ -132,7 +134,8 @@ class elemental_fraction_fc(Operator):
                     optional=True,
                     document="""If a fields container is set in this pin, it
         is used as the denominator of the
-        fraction instead of entity_average_fc""",
+        fraction instead of
+        entity_average_fc.""",
                 ),
                 10: PinSpecification(
                     name="collapse_shell_layers",
@@ -141,7 +144,7 @@ class elemental_fraction_fc(Operator):
                     document="""The elemental difference and the entity
         average are taken through the
         different shell layers if true
-        (default is false)""",
+        (default is false).""",
                 ),
             },
             map_output_pin_spec={
@@ -252,8 +255,8 @@ class InputsElementalFractionFc(_Inputs):
         """Allows to connect mesh input to the operator.
 
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
 
         Parameters
         ----------
@@ -273,10 +276,10 @@ class InputsElementalFractionFc(_Inputs):
     def scoping(self):
         """Allows to connect scoping input to the operator.
 
-        Average only on these elements, if it is
+        Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        container
+        containers.
 
         Parameters
         ----------
@@ -298,7 +301,8 @@ class InputsElementalFractionFc(_Inputs):
 
         If a fields container is set in this pin, it
         is used as the denominator of the
-        fraction instead of entity_average_fc
+        fraction instead of
+        entity_average_fc.
 
         Parameters
         ----------
@@ -321,7 +325,7 @@ class InputsElementalFractionFc(_Inputs):
         The elemental difference and the entity
         average are taken through the
         different shell layers if true
-        (default is false)
+        (default is false).
 
         Parameters
         ----------

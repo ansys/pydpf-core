@@ -11,16 +11,16 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class tri_mesh_skin(Operator):
-    """Extracts a skin of the mesh in triangles in a new meshed region
+    """Extracts a skin of the mesh in triangles in a new meshed region.
 
     Parameters
     ----------
     mesh : MeshedRegion
     include_surfaces : bool, optional
         True: meshing will also take into account
-        shell and skin elements, false:
+        shell and skin elements. false:
         meshing will ignore shell and skin
-        elements. default is false
+        elements. the default is false.
 
 
     Examples
@@ -61,7 +61,7 @@ class tri_mesh_skin(Operator):
     @staticmethod
     def _spec():
         description = (
-            """Extracts a skin of the mesh in triangles in a new meshed region"""
+            """Extracts a skin of the mesh in triangles in a new meshed region."""
         )
         spec = Specification(
             description=description,
@@ -77,9 +77,9 @@ class tri_mesh_skin(Operator):
                     type_names=["bool"],
                     optional=True,
                     document="""True: meshing will also take into account
-        shell and skin elements, false:
+        shell and skin elements. false:
         meshing will ignore shell and skin
-        elements. default is false""",
+        elements. the default is false.""",
                 ),
             },
             map_output_pin_spec={
@@ -182,9 +182,9 @@ class InputsTriMeshSkin(_Inputs):
         """Allows to connect include_surfaces input to the operator.
 
         True: meshing will also take into account
-        shell and skin elements, false:
+        shell and skin elements. false:
         meshing will ignore shell and skin
-        elements. default is false
+        elements. the default is false.
 
         Parameters
         ----------

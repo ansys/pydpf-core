@@ -11,7 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elemental_from_mesh(Operator):
-    """Get the elements ids scoping of a given input mesh.
+    """Retrieves the elemental scoping of a given input mesh, which contains
+    the element IDs.
 
     Parameters
     ----------
@@ -47,7 +48,8 @@ class elemental_from_mesh(Operator):
 
     @staticmethod
     def _spec():
-        description = """Get the elements ids scoping of a given input mesh."""
+        description = """Retrieves the elemental scoping of a given input mesh, which contains
+            the element IDs."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

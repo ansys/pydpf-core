@@ -11,13 +11,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class mesh_plan_clip(Operator):
-    """Clip a volume mesh along a plane, and keep one side.
+    """Clips a volume mesh along a plane and keeps one side.
 
     Parameters
     ----------
     mesh_or_field : MeshedRegion or Field
     normal : Field
-        An overall 3d vector that gives normal
+        An overall 3d vector that gives the normal
         direction of the plane.
     origin : Field
         An overall 3d vector that gives a point of
@@ -66,7 +66,7 @@ class mesh_plan_clip(Operator):
 
     @staticmethod
     def _spec():
-        description = """Clip a volume mesh along a plane, and keep one side."""
+        description = """Clips a volume mesh along a plane and keeps one side."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -80,7 +80,7 @@ class mesh_plan_clip(Operator):
                     name="normal",
                     type_names=["field"],
                     optional=False,
-                    document="""An overall 3d vector that gives normal
+                    document="""An overall 3d vector that gives the normal
         direction of the plane.""",
                 ),
                 2: PinSpecification(
@@ -192,7 +192,7 @@ class InputsMeshPlanClip(_Inputs):
     def normal(self):
         """Allows to connect normal input to the operator.
 
-        An overall 3d vector that gives normal
+        An overall 3d vector that gives the normal
         direction of the plane.
 
         Parameters

@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class default_value(Operator):
-    """default return value from input pin 1 to output pin 0 if there is
+    """Default return value from input pin 1 to output pin 0 if there is
     nothing on input pin 0.
 
     Parameters
@@ -54,7 +54,7 @@ class default_value(Operator):
 
     @staticmethod
     def _spec():
-        description = """default return value from input pin 1 to output pin 0 if there is
+        description = """Default return value from input pin 1 to output pin 0 if there is
             nothing on input pin 0."""
         spec = Specification(
             description=description,

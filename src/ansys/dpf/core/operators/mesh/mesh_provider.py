@@ -11,13 +11,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class mesh_provider(Operator):
-    """Read a mesh from result files
+    """Reads a mesh from result files.
 
     Parameters
     ----------
     time_scoping : int, optional
-        Optional time/freq set id of the mesh,
-        supported for adaptative meshes
+        Optional time/frequency set id of the mesh,
+        supported for adaptative meshes.
     streams_container : StreamsContainer, optional
         Result file container allowed to be kept open
         to cache data
@@ -25,15 +25,16 @@ class mesh_provider(Operator):
         Result file path container, used if no
         streams are set
     read_cyclic : int, optional
-        If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)
+        If 1, cyclic symmetry is ignored. if 2,
+        cyclic expansion is done (default is
+        1).
     laziness : DataTree, optional
         Configurate whether lazy evaluation can be
         performed and to what extent.
         supported attributes are:  -
         "num_named_selections"->num named
         selection to read (-1 is all, int32,
-        default si -1), carefull: the other
+        default si -1), careful: the other
         named selections will not be
         available, use mesh_property_provider
         operator to read them. - all mesh
@@ -105,7 +106,7 @@ class mesh_provider(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read a mesh from result files"""
+        description = """Reads a mesh from result files."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -113,8 +114,8 @@ class mesh_provider(Operator):
                     name="time_scoping",
                     type_names=["int32"],
                     optional=True,
-                    document="""Optional time/freq set id of the mesh,
-        supported for adaptative meshes""",
+                    document="""Optional time/frequency set id of the mesh,
+        supported for adaptative meshes.""",
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -134,8 +135,9 @@ class mesh_provider(Operator):
                     name="read_cyclic",
                     type_names=["enum dataProcessing::ECyclicReading", "int32"],
                     optional=True,
-                    document="""If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)""",
+                    document="""If 1, cyclic symmetry is ignored. if 2,
+        cyclic expansion is done (default is
+        1).""",
                 ),
                 200: PinSpecification(
                     name="laziness",
@@ -146,7 +148,7 @@ class mesh_provider(Operator):
         supported attributes are:  -
         "num_named_selections"->num named
         selection to read (-1 is all, int32,
-        default si -1), carefull: the other
+        default si -1), careful: the other
         named selections will not be
         available, use mesh_property_provider
         operator to read them. - all mesh
@@ -245,8 +247,8 @@ class InputsMeshProvider(_Inputs):
     def time_scoping(self):
         """Allows to connect time_scoping input to the operator.
 
-        Optional time/freq set id of the mesh,
-        supported for adaptative meshes
+        Optional time/frequency set id of the mesh,
+        supported for adaptative meshes.
 
         Parameters
         ----------
@@ -308,8 +310,9 @@ class InputsMeshProvider(_Inputs):
     def read_cyclic(self):
         """Allows to connect read_cyclic input to the operator.
 
-        If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)
+        If 1, cyclic symmetry is ignored. if 2,
+        cyclic expansion is done (default is
+        1).
 
         Parameters
         ----------
@@ -334,7 +337,7 @@ class InputsMeshProvider(_Inputs):
         supported attributes are:  -
         "num_named_selections"->num named
         selection to read (-1 is all, int32,
-        default si -1), carefull: the other
+        default si -1), careful: the other
         named selections will not be
         available, use mesh_property_provider
         operator to read them. - all mesh

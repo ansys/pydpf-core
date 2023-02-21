@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class overall_dot(Operator):
-    """Compute a dot product between two fields (fields are seen like a
-    single large vector) and return a scalar.
+    """Computes a dot product between two fields (fields are seen like a
+    single large vector) and returns a scalar.
 
     Parameters
     ----------
@@ -54,8 +54,8 @@ class overall_dot(Operator):
 
     @staticmethod
     def _spec():
-        description = """Compute a dot product between two fields (fields are seen like a
-            single large vector) and return a scalar."""
+        description = """Computes a dot product between two fields (fields are seen like a
+            single large vector) and returns a scalar."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
