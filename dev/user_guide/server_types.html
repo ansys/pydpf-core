@@ -1,0 +1,575 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Client-server communication &#8212; PyDPF-Core</title>
+    
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    
+        <link href="../_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Server context" href="server_context.html" />
+    <link rel="prev" title="Getting started with DPF Server" href="getting_started_with_dpf_server.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../getting_started/index.html">
+  Getting started
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../concepts/index.html">
+  Concepts
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../api/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../examples/index.html">
+  Examples
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../contributing.html">
+  Contribute
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        dev  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables user_guide/server_types and {'json_url': 'https://nocname.com/release/versions.json', 'version_match': 'dev'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "user_guide/server_types.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://nocname.com/release/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "user_guide/server_types.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 0.7.3.dev0 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "dev") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/pydpf-core" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+     
+<div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+
+    
+        <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="../index.html">PyDPF-Core</a> » </li>
+    
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">User guide</a> » </li>
+        <li class="nav-item nav-item-this"><a href="">Client-server communication</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="model.html">
+   DPF model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="operators.html">
+   Operators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="fields_container.html">
+   Fields container and fields
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="plotting.html">
+   Plot
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="custom_operators.html">
+   Custom operators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started_with_dpf_server.html">
+   Getting started with DPF Server
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Client-server communication
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="server_context.html">
+   Server context
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="xmlfiles.html">
+   DPF XML files
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="troubleshooting.html">
+   Troubleshooting
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#terminology">
+   Terminology
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dpf-server-in-the-same-process">
+   DPF Server in the same process
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dpf-server-through-the-network-using-grpc">
+   DPF Server through the network using gRPC
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dpf-server-startup-using-a-configuration">
+   DPF Server startup using a configuration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#advanced-concepts-and-release-history">
+   Advanced concepts and release history
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="client-server-communication">
+<span id="user-guide-server-types"></span><h1>Client-server communication<a class="headerlink" href="#client-server-communication" title="Permalink to this heading">#</a></h1>
+<section id="terminology">
+<h2>Terminology<a class="headerlink" href="#terminology" title="Permalink to this heading">#</a></h2>
+<p>DPF is based on a <strong>client-server</strong> architecture.</p>
+<p>A DPF Server is a set of files that enables DPF capabilities.</p>
+<p>PyDPF-Core is a Python client API communicating with a DPF Server, either
+directly <strong>in the same process</strong> or through the network using <strong>gRPC</strong>.</p>
+</section>
+<section id="dpf-server-in-the-same-process">
+<h2>DPF Server in the same process<a class="headerlink" href="#dpf-server-in-the-same-process" title="Permalink to this heading">#</a></h2>
+<p>Default use of a PyDPF-Core client and a DPF Server is in the same process,
+using the <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.InProcessServer" title="ansys.dpf.core.server_types.InProcessServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">InProcess</span></code></a> class.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="n">local_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">()</span>
+<span class="n">local_server</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;ansys.dpf.core.server_types.InProcessServer object at ...&gt;
+</pre></div>
+</div>
+<p>This DPF Server can now be used to instantiate models, operators, and more.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># instantiate an operator</span>
+<span class="n">local_operator</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">local_server</span><span class="p">)</span>
+
+<span class="c1"># instantiate a model</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="n">local_model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_simple_bar</span><span class="p">(),</span> <span class="n">server</span><span class="o">=</span><span class="n">local_server</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="dpf-server-through-the-network-using-grpc">
+<h2>DPF Server through the network using gRPC<a class="headerlink" href="#dpf-server-through-the-network-using-grpc" title="Permalink to this heading">#</a></h2>
+<p>The <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code></a> class is used
+to enable gRPC communication:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="n">grpc_server_config</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span>
+<span class="n">grpc_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">grpc_server_config</span><span class="p">)</span>
+<span class="n">grpc_server</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;ansys.dpf.core.server_types.GrpcServer object at ...&gt;
+</pre></div>
+</div>
+<p>You can obtain the server port and IP address:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">grpc_server</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50052, &#39;server_process_id&#39;: 9999, &#39;server_version&#39;: &#39;6.0&#39;, &#39;os&#39;: &#39;nt&#39;}
+</pre></div>
+</div>
+<p>From another machine, you can connect remotely to this DPF Server and instantiate models, operators, and more:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="n">grpc_remote_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">connect_to_server</span><span class="p">(</span><span class="n">ip</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">50052</span><span class="p">)</span>
+
+<span class="c1"># instantiate an operator</span>
+<span class="n">remote_operator</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">server</span><span class="o">=</span><span class="n">grpc_remote_server</span><span class="p">)</span>
+
+<span class="c1"># instantiate a model</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="n">remote_model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_simple_bar</span><span class="p">(),</span> <span class="n">server</span><span class="o">=</span><span class="n">grpc_remote_server</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Through the network using gRPC, a DPF sever enables distributed computation capabilities.
+For more information, see <a class="reference internal" href="../examples/06-distributed-post/index.html#distributed-post"><span class="std std-ref">Examples for postprocessing on distributed processes</span></a>.</p>
+</section>
+<section id="dpf-server-startup-using-a-configuration">
+<h2>DPF Server startup using a configuration<a class="headerlink" href="#dpf-server-startup-using-a-configuration" title="Permalink to this heading">#</a></h2>
+<p>The different DPF server types can be started using one of the
+<a class="reference internal" href="../api/ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.AvailableServerConfigs" title="ansys.dpf.core.server_factory.AvailableServerConfigs"><code class="xref py py-class docutils literal notranslate"><span class="pre">AvailableServerConfigs</span></code></a>
+configurations.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">in_process_config</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">InProcessServer</span>
+<span class="n">in_process_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">in_process_config</span><span class="p">)</span>
+
+<span class="n">grpc_config</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span>
+<span class="n">grpc_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">grpc_config</span><span class="p">)</span>
+
+<span class="n">legacy_grpc_config</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">LegacyGrpcServer</span>
+<span class="n">legacy_grpc_server</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">legacy_grpc_config</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="advanced-concepts-and-release-history">
+<h2>Advanced concepts and release history<a class="headerlink" href="#advanced-concepts-and-release-history" title="Permalink to this heading">#</a></h2>
+<p>The communication logic with a DPF server is defined when starting it using
+an instance of the <a class="reference internal" href="../api/ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.ServerConfig" title="ansys.dpf.core.server_factory.ServerConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ServerConfig</span></code></a> class.
+Different predefined server configurations are available in DPF,
+each answering a different use case. For more information, see the
+<a class="reference internal" href="../api/ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.AvailableServerConfigs" title="ansys.dpf.core.server_factory.AvailableServerConfigs"><code class="xref py py-class docutils literal notranslate"><span class="pre">AvailableServerConfigs</span></code></a> class.</p>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code></a> configuration is available in
+server version 4.0 (Ansys 2022 R2) and later. It allows you to remotely connect to a DPF server
+across a network by telling the client to communicate with this server via the gRPC communication protocol.
+Although it can be used to communicate with a DPF server running on the same local machine, the next
+configuration is better for this option.</p></li>
+<li><p>The <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.InProcessServer" title="ansys.dpf.core.server_types.InProcessServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">InProcessServer</span></code></a> configuration is available
+in server version 4.0 (Ansys 2022 R2) and later. It indicates to the client that a DPF server is
+installed on the local machine, enabling direct calls to the server binaries from within the client’s
+own Python process. This removes the need to copy and send data between the client and server, and it
+makes calls to the server functionalities much faster and uses less memory.</p></li>
+<li><p>The <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.LegacyGrpcServer" title="ansys.dpf.core.server_types.LegacyGrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">LegacyGrpcServer</span></code></a> configuration is
+the only one available for server versions 4.0 and earlier (Ansys 2022 R1, 2021 R2, and 2021 R1).
+The client communicates with a local or remote DPF server via the gRPC communication protocol.</p></li>
+</ul>
+<p>For DPF with Ansys 2023 R1 and later, <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.InProcessServer" title="ansys.dpf.core.server_types.InProcessServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">InProcessServer</span></code></a>
+is the default configuration, which means that servers are launched on the local machine.
+To launch a DPF server on a remote machine and communicate with it using gRPC, use
+the <a class="reference internal" href="../api/ansys.dpf.core.server_types.html#ansys.dpf.core.server_types.GrpcServer" title="ansys.dpf.core.server_types.GrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">GrpcServer</span></code></a> configuration as shown in <a class="reference internal" href="../examples/00-basic/11-server_types.html#ref-server-types-example"><span class="std std-ref">Communicate in process or via gRPC</span></a>.</p>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

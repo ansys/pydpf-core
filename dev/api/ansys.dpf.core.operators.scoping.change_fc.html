@@ -1,0 +1,4267 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>change_fc &#8212; PyDPF-Core</title>
+    
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    
+        <link href="../_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="connectivity_ids" href="ansys.dpf.core.operators.scoping.connectivity_ids.html" />
+    <link rel="prev" title="ansys.dpf.core.operators.scoping package" href="ansys.dpf.core.operators.scoping.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../getting_started/index.html">
+  Getting started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../user_guide/index.html">
+  User guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../concepts/index.html">
+  Concepts
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../examples/index.html">
+  Examples
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../contributing.html">
+  Contribute
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        dev  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables api/ansys.dpf.core.operators.scoping.change_fc and {'json_url': 'https://nocname.com/release/versions.json', 'version_match': 'dev'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "api/ansys.dpf.core.operators.scoping.change_fc.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://nocname.com/release/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "api/ansys.dpf.core.operators.scoping.change_fc.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 0.7.3.dev0 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "dev") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/pydpf-core" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+     
+<div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+
+    
+        <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="../index.html">PyDPF-Core</a> » </li>
+    
+
+          <li class="nav-item nav-item-1"><a href="index.html" >API reference</a> » </li>
+          <li class="nav-item nav-item-2"><a href="ansys.dpf.core.html" >ansys.dpf.core package</a> » </li>
+          <li class="nav-item nav-item-3"><a href="ansys.dpf.core.operators.html" >ansys.dpf.core.operators package</a> » </li>
+          <li class="nav-item nav-item-4"><a href="ansys.dpf.core.operators.scoping.html" accesskey="U">ansys.dpf.core.operators.scoping package</a> » </li>
+        <li class="nav-item nav-item-this"><a href="">change_fc</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  API reference
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="ansys.dpf.core.html">
+   ansys.dpf.core package
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="ansys.dpf.core.examples.html">
+     ansys.dpf.core.examples package
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="ansys.dpf.core.examples.downloads.html">
+       Downloads
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="ansys.dpf.core.operators.html">
+     ansys.dpf.core.operators package
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.averaging.html">
+       ansys.dpf.core.operators.averaging package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+      <label for="toctree-checkbox-4">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_difference.html">
+         elemental_difference
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_difference_fc.html">
+         elemental_difference_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_fraction_fc.html">
+         elemental_fraction_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_mean.html">
+         elemental_mean
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_mean_fc.html">
+         elemental_mean_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal.html">
+         elemental_nodal_to_nodal
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal_elemental.html">
+         elemental_nodal_to_nodal_elemental
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal_elemental_fc.html">
+         elemental_nodal_to_nodal_elemental_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal_fc.html">
+         elemental_nodal_to_nodal_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_to_elemental_nodal.html">
+         elemental_to_elemental_nodal
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_to_elemental_nodal_fc.html">
+         elemental_to_elemental_nodal_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_to_nodal.html">
+         elemental_to_nodal
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_to_nodal_fc.html">
+         elemental_to_nodal_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.extend_to_mid_nodes.html">
+         extend_to_mid_nodes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.extend_to_mid_nodes_fc.html">
+         extend_to_mid_nodes_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.gauss_to_node_fc.html">
+         gauss_to_node_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.nodal_difference.html">
+         nodal_difference
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.nodal_difference_fc.html">
+         nodal_difference_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.nodal_extend_to_mid_nodes.html">
+         nodal_extend_to_mid_nodes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.nodal_fraction_fc.html">
+         nodal_fraction_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.nodal_to_elemental.html">
+         nodal_to_elemental
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.nodal_to_elemental_fc.html">
+         nodal_to_elemental_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.to_elemental_fc.html">
+         to_elemental_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.to_elemental_nodal_fc.html">
+         to_elemental_nodal_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.to_nodal.html">
+         to_nodal
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.averaging.to_nodal_fc.html">
+         to_nodal_fc
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.filter.html">
+       ansys.dpf.core.operators.filter package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+      <label for="toctree-checkbox-5">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.filter.abc_weightings.html">
+         abc_weightings
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.filter.field_band_pass.html">
+         field_band_pass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.filter.field_band_pass_fc.html">
+         field_band_pass_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.filter.field_high_pass.html">
+         field_high_pass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.filter.field_high_pass_fc.html">
+         field_high_pass_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.filter.field_low_pass.html">
+         field_low_pass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.filter.field_low_pass_fc.html">
+         field_low_pass_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.filter.field_signed_high_pass.html">
+         field_signed_high_pass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.filter.scoping_band_pass.html">
+         scoping_band_pass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.filter.scoping_high_pass.html">
+         scoping_high_pass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.filter.scoping_low_pass.html">
+         scoping_low_pass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.filter.signed_scoping_high_pass.html">
+         signed_scoping_high_pass
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.geo.html">
+       ansys.dpf.core.operators.geo package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+      <label for="toctree-checkbox-6">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html">
+         element_nodal_contribution
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html">
+         elements_facets_surfaces_over_time
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html">
+         elements_volume
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html">
+         elements_volumes_over_time
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html">
+         gauss_to_node
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html">
+         integrate_over_elements
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html">
+         normals
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html">
+         normals_provider_nl
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html">
+         rotate
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html">
+         rotate_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html">
+         rotate_in_cylindrical_cs
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html">
+         rotate_in_cylindrical_cs_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html">
+         to_polar_coordinates
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.invariant.html">
+       ansys.dpf.core.operators.invariant package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+      <label for="toctree-checkbox-7">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.convertnum_bcs_to_nod.html">
+         convertnum_bcs_to_nod
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.convertnum_nod_to_bcs.html">
+         convertnum_nod_to_bcs
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.eigen_values.html">
+         eigen_values
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.eigen_values_fc.html">
+         eigen_values_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.eigen_vectors.html">
+         eigen_vectors
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.eigen_vectors_fc.html">
+         eigen_vectors_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.invariants.html">
+         invariants
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.invariants_fc.html">
+         invariants_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.principal_invariants.html">
+         principal_invariants
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.principal_invariants_fc.html">
+         principal_invariants_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.segalman_von_mises_eqv.html">
+         segalman_von_mises_eqv
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.segalman_von_mises_eqv_fc.html">
+         segalman_von_mises_eqv_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.von_mises_eqv.html">
+         von_mises_eqv
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.invariant.von_mises_eqv_fc.html">
+         von_mises_eqv_fc
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.logic.html">
+       ansys.dpf.core.operators.logic package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+      <label for="toctree-checkbox-8">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort.html">
+         ascending_sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort_fc.html">
+         ascending_sort_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector.html">
+         component_selector
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector_fc.html">
+         component_selector_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">
+         descending_sort
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort_fc.html">
+         descending_sort_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.enrich_materials.html">
+         enrich_materials
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.identical_fc.html">
+         identical_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.identical_fields.html">
+         identical_fields
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.identical_meshes.html">
+         identical_meshes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.identical_property_fields.html">
+         identical_property_fields
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.included_fields.html">
+         included_fields
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.logic.solid_shell_fields.html">
+         solid_shell_fields
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.mapping.html">
+       ansys.dpf.core.operators.mapping package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+      <label for="toctree-checkbox-9">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.find_reduced_coordinates.html">
+         find_reduced_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.on_coordinates.html">
+         on_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.on_reduced_coordinates.html">
+         on_reduced_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.prepare_mapping_workflow.html">
+         prepare_mapping_workflow
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.scoping_on_coordinates.html">
+         scoping_on_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mapping.solid_to_skin.html">
+         solid_to_skin
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.math.html">
+       ansys.dpf.core.operators.math package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+      <label for="toctree-checkbox-10">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.accumulate.html">
+         accumulate
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.accumulate_fc.html">
+         accumulate_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.accumulate_level_over_label_fc.html">
+         accumulate_level_over_label_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.accumulate_min_over_label_fc.html">
+         accumulate_min_over_label_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.accumulate_over_label_fc.html">
+         accumulate_over_label_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.accumulation_per_scoping.html">
+         accumulation_per_scoping
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.add.html">
+         add
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.add_constant.html">
+         add_constant
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.add_constant_fc.html">
+         add_constant_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.add_fc.html">
+         add_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.amplitude.html">
+         amplitude
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.amplitude_fc.html">
+         amplitude_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.average_over_label_fc.html">
+         average_over_label_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.centroid.html">
+         centroid
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.centroid_fc.html">
+         centroid_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.component_wise_divide.html">
+         component_wise_divide
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.component_wise_divide_fc.html">
+         component_wise_divide_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.conjugate.html">
+         conjugate
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.correlation.html">
+         correlation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.cos.html">
+         cos
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.cos_fc.html">
+         cos_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.cplx_derive.html">
+         cplx_derive
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.cplx_divide.html">
+         cplx_divide
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.cplx_dot.html">
+         cplx_dot
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.cplx_multiply.html">
+         cplx_multiply
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.cross_product.html">
+         cross_product
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.cross_product_fc.html">
+         cross_product_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.dot.html">
+         dot
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.dot_tensor.html">
+         dot_tensor
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.entity_extractor.html">
+         entity_extractor
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.exponential.html">
+         exponential
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.exponential_fc.html">
+         exponential_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.fft_approx.html">
+         fft_approx
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.fft_eval.html">
+         fft_eval
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.fft_gradient_eval.html">
+         fft_gradient_eval
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.fft_multi_harmonic_minmax.html">
+         fft_multi_harmonic_minmax
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.generalized_inner_product.html">
+         generalized_inner_product
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.generalized_inner_product_fc.html">
+         generalized_inner_product_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.img_part.html">
+         img_part
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.invert.html">
+         invert
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.invert_fc.html">
+         invert_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.kronecker_prod.html">
+         kronecker_prod
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.linear_combination.html">
+         linear_combination
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.ln.html">
+         ln
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.ln_fc.html">
+         ln_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.make_one_on_comp.html">
+         make_one_on_comp
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.matrix_inverse.html">
+         matrix_inverse
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.min_max_over_time.html">
+         min_max_over_time
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.minus.html">
+         minus
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.minus_fc.html">
+         minus_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.modal_superposition.html">
+         modal_superposition
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.modulus.html">
+         modulus
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.norm.html">
+         norm
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.norm_fc.html">
+         norm_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.outer_product.html">
+         outer_product
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.overall_dot.html">
+         overall_dot
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.phase.html">
+         phase
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.phase_fc.html">
+         phase_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.polar_to_cplx.html">
+         polar_to_cplx
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.pow.html">
+         pow
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.pow_fc.html">
+         pow_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.qr_solve.html">
+         qr_solve
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.real_part.html">
+         real_part
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.scale.html">
+         scale
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.scale_by_field.html">
+         scale_by_field
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.scale_by_field_fc.html">
+         scale_by_field_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.scale_fc.html">
+         scale_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.sin.html">
+         sin
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.sin_fc.html">
+         sin_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.sqr.html">
+         sqr
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.sqr_fc.html">
+         sqr_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.sqrt.html">
+         sqrt
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.sqrt_fc.html">
+         sqrt_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.svd.html">
+         svd
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.sweeping_phase.html">
+         sweeping_phase
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.sweeping_phase_fc.html">
+         sweeping_phase_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.time_freq_interpolation.html">
+         time_freq_interpolation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.unit_convert.html">
+         unit_convert
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.math.unit_convert_fc.html">
+         unit_convert_fc
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.mesh.html">
+       ansys.dpf.core.operators.mesh package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+      <label for="toctree-checkbox-11">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.acmo_mesh_provider.html">
+         acmo_mesh_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.beam_properties.html">
+         beam_properties
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.change_cs.html">
+         change_cs
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.combine_levelset.html">
+         combine_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.decimate_mesh.html">
+         decimate_mesh
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.exclude_levelset.html">
+         exclude_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.external_layer.html">
+         external_layer
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.from_field.html">
+         from_field
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.from_scoping.html">
+         from_scoping
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.get_attribute.html">
+         get_attribute
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.make_plane_levelset.html">
+         make_plane_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.make_sphere_levelset.html">
+         make_sphere_levelset
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_clip.html">
+         mesh_clip
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_cut.html">
+         mesh_cut
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_extraction.html">
+         mesh_extraction
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_plan_clip.html">
+         mesh_plan_clip
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_provider.html">
+         mesh_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_to_graphics.html">
+         mesh_to_graphics
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_to_graphics_edges.html">
+         mesh_to_graphics_edges
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.meshes_provider.html">
+         meshes_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.node_coordinates.html">
+         node_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.points_from_coordinates.html">
+         points_from_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.skin.html">
+         skin
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.split_fields.html">
+         split_fields
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.split_mesh.html">
+         split_mesh
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.stl_export.html">
+         stl_export
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.tri_mesh_skin.html">
+         tri_mesh_skin
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.mesh.wireframe.html">
+         wireframe
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.metadata.html">
+       ansys.dpf.core.operators.metadata package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+      <label for="toctree-checkbox-12">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.boundary_condition_provider.html">
+         boundary_condition_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.cyclic_mesh_expansion.html">
+         cyclic_mesh_expansion
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.cyclic_support_provider.html">
+         cyclic_support_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.get_attribute.html">
+         get_attribute
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.integrate_over_time_freq.html">
+         integrate_over_time_freq
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.is_cyclic.html">
+         is_cyclic
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.material_provider.html">
+         material_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.material_support_provider.html">
+         material_support_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.mesh_property_provider.html">
+         mesh_property_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.mesh_selection_manager_provider.html">
+         mesh_selection_manager_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.mesh_support_provider.html">
+         mesh_support_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.property_field_provider_by_name.html">
+         property_field_provider_by_name
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.result_info_provider.html">
+         result_info_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.streams_provider.html">
+         streams_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.metadata.time_freq_provider.html">
+         time_freq_provider
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.min_max.html">
+       ansys.dpf.core.operators.min_max package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+      <label for="toctree-checkbox-13">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html">
+         max_by_component
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html">
+         max_over_phase
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html">
+         max_over_time_by_entity
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html">
+         min_by_component
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html">
+         min_max
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html">
+         min_max_by_entity
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html">
+         min_max_by_time
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html">
+         min_max_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html">
+         min_max_fc_inc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html">
+         min_max_inc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html">
+         min_max_over_label_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html">
+         min_max_over_time_by_entity
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html">
+         min_over_time_by_entity
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html">
+         phase_of_max
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html">
+         time_of_max_by_entity
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html">
+         time_of_min_by_entity
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.result.html">
+       ansys.dpf.core.operators.result package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/>
+      <label for="toctree-checkbox-14">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.acceleration.html">
+         acceleration
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.acceleration_X.html">
+         acceleration_X
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.acceleration_Y.html">
+         acceleration_Y
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.acceleration_Z.html">
+         acceleration_Z
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.accu_eqv_creep_strain.html">
+         accu_eqv_creep_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.accu_eqv_plastic_strain.html">
+         accu_eqv_plastic_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.add_rigid_body_motion.html">
+         add_rigid_body_motion
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.add_rigid_body_motion_fc.html">
+         add_rigid_body_motion_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.artificial_hourglass_energy.html">
+         artificial_hourglass_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.beam_axial_force.html">
+         beam_axial_force
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.beam_axial_plastic_strain.html">
+         beam_axial_plastic_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.beam_axial_stress.html">
+         beam_axial_stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.beam_axial_total_strain.html">
+         beam_axial_total_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.beam_rs_shear_stress.html">
+         beam_rs_shear_stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.beam_s_bending_moment.html">
+         beam_s_bending_moment
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.beam_s_shear_force.html">
+         beam_s_shear_force
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.beam_t_bending_moment.html">
+         beam_t_bending_moment
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.beam_t_shear_force.html">
+         beam_t_shear_force
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.beam_torsional_moment.html">
+         beam_torsional_moment
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.beam_tr_shear_stress.html">
+         beam_tr_shear_stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cms_dst_table_provider.html">
+         cms_dst_table_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cms_matrices_provider.html">
+         cms_matrices_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cms_subfile_info_provider.html">
+         cms_subfile_info_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.co_energy.html">
+         co_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_invariant_terms_motion.html">
+         compute_invariant_terms_motion
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_invariant_terms_rbd.html">
+         compute_invariant_terms_rbd
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress.html">
+         compute_stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_1.html">
+         compute_stress_1
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_2.html">
+         compute_stress_2
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_3.html">
+         compute_stress_3
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_X.html">
+         compute_stress_X
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_XY.html">
+         compute_stress_XY
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_XZ.html">
+         compute_stress_XZ
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_Y.html">
+         compute_stress_Y
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_YZ.html">
+         compute_stress_YZ
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_Z.html">
+         compute_stress_Z
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_von_mises.html">
+         compute_stress_von_mises
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain.html">
+         compute_total_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_1.html">
+         compute_total_strain_1
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_2.html">
+         compute_total_strain_2
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_3.html">
+         compute_total_strain_3
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_X.html">
+         compute_total_strain_X
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_XY.html">
+         compute_total_strain_XY
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_XZ.html">
+         compute_total_strain_XZ
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_Y.html">
+         compute_total_strain_Y
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_YZ.html">
+         compute_total_strain_YZ
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_Z.html">
+         compute_total_strain_Z
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.contact_fluid_penetration_pressure.html">
+         contact_fluid_penetration_pressure
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.contact_friction_stress.html">
+         contact_friction_stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.contact_gap_distance.html">
+         contact_gap_distance
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.contact_penetration.html">
+         contact_penetration
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.contact_pressure.html">
+         contact_pressure
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.contact_sliding_distance.html">
+         contact_sliding_distance
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.contact_status.html">
+         contact_status
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.contact_surface_heat_flux.html">
+         contact_surface_heat_flux
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.contact_total_stress.html">
+         contact_total_stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.coordinate_system.html">
+         coordinate_system
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.coordinates.html">
+         coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.creep_strain_energy_density.html">
+         creep_strain_energy_density
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.current_density.html">
+         current_density
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.custom.html">
+         custom
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_analytic_seqv_max.html">
+         cyclic_analytic_seqv_max
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_analytic_usum_max.html">
+         cyclic_analytic_usum_max
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_acceleration.html">
+         cyclic_expanded_acceleration
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_displacement.html">
+         cyclic_expanded_displacement
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_el_strain.html">
+         cyclic_expanded_el_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_enf.html">
+         cyclic_expanded_enf
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_heat_flux.html">
+         cyclic_expanded_heat_flux
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_stress.html">
+         cyclic_expanded_stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_temperature.html">
+         cyclic_expanded_temperature
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_velocity.html">
+         cyclic_expanded_velocity
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expansion.html">
+         cyclic_expansion
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_kinetic_energy.html">
+         cyclic_kinetic_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_strain_energy.html">
+         cyclic_strain_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_volume.html">
+         cyclic_volume
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.displacement.html">
+         displacement
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.displacement_X.html">
+         displacement_X
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.displacement_Y.html">
+         displacement_Y
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.displacement_Z.html">
+         displacement_Z
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain.html">
+         elastic_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_X.html">
+         elastic_strain_X
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_XY.html">
+         elastic_strain_XY
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_XZ.html">
+         elastic_strain_XZ
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_Y.html">
+         elastic_strain_Y
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_YZ.html">
+         elastic_strain_YZ
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_Z.html">
+         elastic_strain_Z
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_energy_density.html">
+         elastic_strain_energy_density
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_eqv.html">
+         elastic_strain_eqv
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_principal_1.html">
+         elastic_strain_principal_1
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_principal_2.html">
+         elastic_strain_principal_2
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_principal_3.html">
+         elastic_strain_principal_3
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_rotation_by_euler_nodes.html">
+         elastic_strain_rotation_by_euler_nodes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.electric_field.html">
+         electric_field
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.electric_flux_density.html">
+         electric_flux_density
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.electric_potential.html">
+         electric_potential
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.element_centroids.html">
+         element_centroids
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.element_nodal_forces.html">
+         element_nodal_forces
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.element_orientations.html">
+         element_orientations
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elemental_heat_generation.html">
+         elemental_heat_generation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elemental_mass.html">
+         elemental_mass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.elemental_volume.html">
+         elemental_volume
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.enf_rotation_by_euler_nodes.html">
+         enf_rotation_by_euler_nodes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.equivalent_mass.html">
+         equivalent_mass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.equivalent_radiated_power.html">
+         equivalent_radiated_power
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.eqv_stress_parameter.html">
+         eqv_stress_parameter
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.erp_accumulate_results.html">
+         erp_accumulate_results
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.erp_radiation_efficiency.html">
+         erp_radiation_efficiency
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.euler_load_buckling.html">
+         euler_load_buckling
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.euler_nodes.html">
+         euler_nodes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_added_mass.html">
+         global_added_mass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_added_mass_pct.html">
+         global_added_mass_pct
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_center_mass.html">
+         global_center_mass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_energy_ratio.html">
+         global_energy_ratio
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_energy_ratio_wo_eroded.html">
+         global_energy_ratio_wo_eroded
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_eroded_hourglass_energy.html">
+         global_eroded_hourglass_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_eroded_internal_energy.html">
+         global_eroded_internal_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_eroded_kinetic_energy.html">
+         global_eroded_kinetic_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_external_work.html">
+         global_external_work
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_hourglass_energy.html">
+         global_hourglass_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_internal_energy.html">
+         global_internal_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_joint_internal_energy.html">
+         global_joint_internal_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_kinetic_energy.html">
+         global_kinetic_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_rigid_body_stopper_energy.html">
+         global_rigid_body_stopper_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_sliding_interface_energy.html">
+         global_sliding_interface_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_spring_damper_energy.html">
+         global_spring_damper_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_system_damping_energy.html">
+         global_system_damping_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_time_step.html">
+         global_time_step
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_to_nodal.html">
+         global_to_nodal
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_total_energy.html">
+         global_total_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_total_mass.html">
+         global_total_mass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.global_velocity.html">
+         global_velocity
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.heat_flux.html">
+         heat_flux
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.heat_flux_X.html">
+         heat_flux_X
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.heat_flux_Y.html">
+         heat_flux_Y
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.heat_flux_Z.html">
+         heat_flux_Z
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.hydrostatic_pressure.html">
+         hydrostatic_pressure
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.incremental_energy.html">
+         incremental_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.initial_coordinates.html">
+         initial_coordinates
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.interface_contact_area.html">
+         interface_contact_area
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.interface_contact_force.html">
+         interface_contact_force
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.interface_contact_mass.html">
+         interface_contact_mass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.interface_contact_moment.html">
+         interface_contact_moment
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.interface_resultant_contact_force.html">
+         interface_resultant_contact_force
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.joint_force_reaction.html">
+         joint_force_reaction
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.joint_moment_reaction.html">
+         joint_moment_reaction
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.joint_relative_acceleration.html">
+         joint_relative_acceleration
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.joint_relative_angular_acceleration.html">
+         joint_relative_angular_acceleration
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.joint_relative_angular_velocity.html">
+         joint_relative_angular_velocity
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.joint_relative_displacement.html">
+         joint_relative_displacement
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.joint_relative_rotation.html">
+         joint_relative_rotation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.joint_relative_velocity.html">
+         joint_relative_velocity
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.kinetic_energy.html">
+         kinetic_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_material_properties.html">
+         mapdl_material_properties
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_section.html">
+         mapdl_section
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.material_property_of_element.html">
+         material_property_of_element
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.members_in_bending_not_certified.html">
+         members_in_bending_not_certified
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.members_in_compression_not_certified.html">
+         members_in_compression_not_certified
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.members_in_linear_compression_bending_not_certified.html">
+         members_in_linear_compression_bending_not_certified
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.migrate_to_h5dpf.html">
+         migrate_to_h5dpf
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.modal_basis.html">
+         modal_basis
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.nmisc.html">
+         nmisc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_force.html">
+         nodal_force
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_moment.html">
+         nodal_moment
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_rotation_by_euler_nodes.html">
+         nodal_rotation_by_euler_nodes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.nodal_to_global.html">
+         nodal_to_global
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.normal_contact_force.html">
+         normal_contact_force
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.normal_contact_moment.html">
+         normal_contact_moment
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.num_surface_status_changes.html">
+         num_surface_status_changes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.part_added_mass.html">
+         part_added_mass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.part_eroded_internal_energy.html">
+         part_eroded_internal_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.part_eroded_kinetic_energy.html">
+         part_eroded_kinetic_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.part_hourglass_energy.html">
+         part_hourglass_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.part_internal_energy.html">
+         part_internal_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.part_kinetic_energy.html">
+         part_kinetic_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.part_momentum.html">
+         part_momentum
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.part_rigid_body_velocity.html">
+         part_rigid_body_velocity
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_state_variable.html">
+         plastic_state_variable
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain.html">
+         plastic_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_X.html">
+         plastic_strain_X
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_XY.html">
+         plastic_strain_XY
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_XZ.html">
+         plastic_strain_XZ
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_Y.html">
+         plastic_strain_Y
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_YZ.html">
+         plastic_strain_YZ
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_Z.html">
+         plastic_strain_Z
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_energy_density.html">
+         plastic_strain_energy_density
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_eqv.html">
+         plastic_strain_eqv
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_principal_1.html">
+         plastic_strain_principal_1
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_principal_2.html">
+         plastic_strain_principal_2
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_principal_3.html">
+         plastic_strain_principal_3
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_rotation_by_euler_nodes.html">
+         plastic_strain_rotation_by_euler_nodes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.poynting_vector.html">
+         poynting_vector
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.poynting_vector_surface.html">
+         poynting_vector_surface
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.pres_to_field.html">
+         pres_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.pressure.html">
+         pressure
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.prns_to_field.html">
+         prns_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.raw_displacement.html">
+         raw_displacement
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.raw_reaction_force.html">
+         raw_reaction_force
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.reaction_force.html">
+         reaction_force
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.recombine_harmonic_indeces_cyclic.html">
+         recombine_harmonic_indeces_cyclic
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.remove_rigid_body_motion.html">
+         remove_rigid_body_motion
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.remove_rigid_body_motion_fc.html">
+         remove_rigid_body_motion_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.result_provider.html">
+         result_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.rigid_transformation.html">
+         rigid_transformation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.rom_data_provider.html">
+         rom_data_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.run.html">
+         run
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.smisc.html">
+         smisc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stiffness_matrix_energy.html">
+         stiffness_matrix_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.strain_eqv_as_mechanical.html">
+         strain_eqv_as_mechanical
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress.html">
+         stress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress_X.html">
+         stress_X
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress_XY.html">
+         stress_XY
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress_XZ.html">
+         stress_XZ
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress_Y.html">
+         stress_Y
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress_YZ.html">
+         stress_YZ
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress_Z.html">
+         stress_Z
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress_eqv_as_mechanical.html">
+         stress_eqv_as_mechanical
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress_principal_1.html">
+         stress_principal_1
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress_principal_2.html">
+         stress_principal_2
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress_principal_3.html">
+         stress_principal_3
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress_ratio.html">
+         stress_ratio
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress_rotation_by_euler_nodes.html">
+         stress_rotation_by_euler_nodes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.stress_von_mises.html">
+         stress_von_mises
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.structural_temperature.html">
+         structural_temperature
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.swelling_strains.html">
+         swelling_strains
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.tangential_contact_force.html">
+         tangential_contact_force
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.tangential_contact_moment.html">
+         tangential_contact_moment
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.temperature.html">
+         temperature
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.temperature_grad.html">
+         temperature_grad
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_dissipation_energy.html">
+         thermal_dissipation_energy
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain.html">
+         thermal_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_X.html">
+         thermal_strain_X
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_XY.html">
+         thermal_strain_XY
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_XZ.html">
+         thermal_strain_XZ
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_Y.html">
+         thermal_strain_Y
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_YZ.html">
+         thermal_strain_YZ
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_Z.html">
+         thermal_strain_Z
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_principal_1.html">
+         thermal_strain_principal_1
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_principal_2.html">
+         thermal_strain_principal_2
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_principal_3.html">
+         thermal_strain_principal_3
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strains_eqv.html">
+         thermal_strains_eqv
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.thickness.html">
+         thickness
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.torque.html">
+         torque
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.total_contact_force.html">
+         total_contact_force
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.total_contact_moment.html">
+         total_contact_moment
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.total_mass.html">
+         total_mass
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.total_strain.html">
+         total_strain
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.transient_rayleigh_integration.html">
+         transient_rayleigh_integration
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.velocity.html">
+         velocity
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.velocity_X.html">
+         velocity_X
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.velocity_Y.html">
+         velocity_Y
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.velocity_Z.html">
+         velocity_Z
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.workflow_energy_per_component.html">
+         workflow_energy_per_component
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.workflow_energy_per_harmonic.html">
+         workflow_energy_per_harmonic
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.write_cms_rbd_file.html">
+         write_cms_rbd_file
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.write_motion_dfmf_file.html">
+         write_motion_dfmf_file
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.result.zone_pressure_spectrum.html">
+         zone_pressure_spectrum
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 current active has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.scoping.html">
+       ansys.dpf.core.operators.scoping package
+      </a>
+      <input checked="" class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/>
+      <label for="toctree-checkbox-15">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul class="current">
+       <li class="toctree-l4 current active">
+        <a class="current reference internal" href="#">
+         change_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.scoping.connectivity_ids.html">
+         connectivity_ids
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.scoping.elemental_from_mesh.html">
+         elemental_from_mesh
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.scoping.from_mesh.html">
+         from_mesh
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.scoping.get_attribute.html">
+         get_attribute
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.scoping.intersect.html">
+         intersect
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.scoping.nodal_from_mesh.html">
+         nodal_from_mesh
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.scoping.on_mesh_property.html">
+         on_mesh_property
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.scoping.on_named_selection.html">
+         on_named_selection
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.scoping.on_property.html">
+         on_property
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.scoping.rescope.html">
+         rescope
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.scoping.rescope_fc.html">
+         rescope_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.scoping.split_on_property_type.html">
+         split_on_property_type
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.scoping.transpose.html">
+         transpose
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.serialization.html">
+       ansys.dpf.core.operators.serialization package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/>
+      <label for="toctree-checkbox-16">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html">
+         csv_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html">
+         data_tree_to_json
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html">
+         data_tree_to_txt
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html">
+         deserializer
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html">
+         export_symbolic_workflow
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html">
+         field_to_csv
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html">
+         import_symbolic_workflow
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html">
+         json_to_data_tree
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html">
+         mechanical_csv_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html">
+         migrate_file_to_vtk
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html">
+         migrate_to_vtu
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html">
+         serialize_to_hdf5
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html">
+         serializer
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html">
+         serializer_to_string
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html">
+         string_deserializer
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html">
+         txt_to_data_tree
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html">
+         vtk_export
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html">
+         vtk_to_fields
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html">
+         vtu_export
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html">
+         workflow_export_json
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html">
+         workflow_import_json
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.server.html">
+       ansys.dpf.core.operators.server namespace
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/>
+      <label for="toctree-checkbox-17">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.server.grpc_shutdown_server.html">
+         grpc_shutdown_server
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.server.grpc_start_server.html">
+         grpc_start_server
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="ansys.dpf.core.operators.utility.html">
+       ansys.dpf.core.operators.utility package
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/>
+      <label for="toctree-checkbox-18">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.assemble_scalars_to_matrices.html">
+         assemble_scalars_to_matrices
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.assemble_scalars_to_matrices_fc.html">
+         assemble_scalars_to_matrices_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.assemble_scalars_to_vectors.html">
+         assemble_scalars_to_vectors
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.assemble_scalars_to_vectors_fc.html">
+         assemble_scalars_to_vectors_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.bind_support.html">
+         bind_support
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.bind_support_fc.html">
+         bind_support_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.change_location.html">
+         change_location
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.change_shell_layers.html">
+         change_shell_layers
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.compute_time_scoping.html">
+         compute_time_scoping
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.default_value.html">
+         default_value
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.extract_field.html">
+         extract_field
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.extract_scoping.html">
+         extract_scoping
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.extract_sub_fc.html">
+         extract_sub_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.extract_sub_mc.html">
+         extract_sub_mc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.extract_sub_sc.html">
+         extract_sub_sc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.extract_time_freq.html">
+         extract_time_freq
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.field_to_fc.html">
+         field_to_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.for_each.html">
+         for_each
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.forward.html">
+         forward
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.forward_field.html">
+         forward_field
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.forward_fields_container.html">
+         forward_fields_container
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.forward_meshes_container.html">
+         forward_meshes_container
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.get_attribute.html">
+         get_attribute
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.hdf5dpf_custom_read.html">
+         hdf5dpf_custom_read
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.hdf5dpf_workglow_provider.html">
+         hdf5dpf_workglow_provider
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.html_doc.html">
+         html_doc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.incremental_concatenate_as_fc.html">
+         incremental_concatenate_as_fc
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.ints_to_scoping.html">
+         ints_to_scoping
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.make_for_each_range.html">
+         make_for_each_range
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.make_label_space.html">
+         make_label_space
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.make_overall.html">
+         make_overall
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_fields.html">
+         merge_fields
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_fields_by_label.html">
+         merge_fields_by_label
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_fields_containers.html">
+         merge_fields_containers
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_materials.html">
+         merge_materials
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_meshes.html">
+         merge_meshes
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_meshes_containers.html">
+         merge_meshes_containers
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_property_fields.html">
+         merge_property_fields
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_result_infos.html">
+         merge_result_infos
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_scopings.html">
+         merge_scopings
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_scopings_containers.html">
+         merge_scopings_containers
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_supports.html">
+         merge_supports
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_time_freq_supports.html">
+         merge_time_freq_supports
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_weighted_fields.html">
+         merge_weighted_fields
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.merge_weighted_fields_containers.html">
+         merge_weighted_fields_containers
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.overlap_fields.html">
+         overlap_fields
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.python_generator.html">
+         python_generator
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.python_script_exec.html">
+         python_script_exec
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.remote_operator_instantiate.html">
+         remote_operator_instantiate
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.remote_workflow_instantiate.html">
+         remote_workflow_instantiate
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.remove_unnecessary_labels.html">
+         remove_unnecessary_labels
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.scalars_to_field.html">
+         scalars_to_field
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.set_property.html">
+         set_property
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.split_in_for_each_range.html">
+         split_in_for_each_range
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.strain_from_voigt.html">
+         strain_from_voigt
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.txt_file_to_dpf.html">
+         txt_file_to_dpf
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.unitary_field.html">
+         unitary_field
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="ansys.dpf.core.operators.utility.weighted_merge_fields_by_label.html">
+         weighted_merge_fields_by_label
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.animator.html">
+     Animator
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.available_result.html">
+     AvailableResult
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.collection.html">
+     Collection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.common.html">
+     Common
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.config.html">
+     Operator Configuration
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.core.html">
+     Core
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.custom_fields_container.html">
+     Custom Fields Containers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.custom_operator.html">
+     Custom Operator Base
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.custom_type_field.html">
+     CustomTypeField
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.cyclic_support.html">
+     Cyclic Support
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.data_sources.html">
+     Data Sources
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.data_tree.html">
+     DataTree
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.dimensionality.html">
+     Dimensionality
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.dpf_array.html">
+     DPFArray
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.dpf_operator.html">
+     Operator
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.element_descriptor.html">
+     Element Descriptor
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.elements.html">
+     Elements
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.errors.html">
+     Errors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.field.html">
+     Field
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.field_definition.html">
+     FieldDefinition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.fields_container.html">
+     FieldsContainer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.fields_container_factory.html">
+     fields_container_factory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.fields_factory.html">
+     fields_factory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.generic_support.html">
+     GenericSupport
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.geometry.html">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       normalize_vector()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.geometry_factory.html">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       create_points()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.inputs.html">
+     Inputs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.mesh_scoping_factory.html">
+     mesh_scoping_factory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.meshed_region.html">
+     MeshedRegion
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.meshes_container.html">
+     MeshesContainer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.model.html">
+     Model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.nodes.html">
+     Nodes
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.operator_specification.html">
+     Operator Specification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.outputs.html">
+     Outputs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.path_utilities.html">
+     path_utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.plotter.html">
+     Plotter
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.property_field.html">
+     PropertyField
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.result_info.html">
+     ResultInfo
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.results.html">
+     Results
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.runtime_config.html">
+     RuntimeConfig
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.scoping.html">
+     Scoping
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.scopings_container.html">
+     ScopingsContainer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server.html">
+     Server
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server_context.html">
+     ServerContext
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server_factory.html">
+     Server factory, server configuration and communication protocols
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.server_types.html">
+     Server types
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.session.html">
+     Session
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.settings.html">
+     settings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.streams_container.html">
+     StreamsContainer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.string_field.html">
+     StringField
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.support.html">
+     Support
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">
+     time_freq_scoping_factory
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.time_freq_support.html">
+     TimeFreqSupport
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.unit_system.html">
+     UnitSystem
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ansys.dpf.core.workflow.html">
+     Workflow
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   change_fc
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     change_fc
+    </span>
+   </code>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.default_config">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       change_fc.default_config()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.inputs">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       change_fc.inputs
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.outputs">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       change_fc.outputs
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.config">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       change_fc.config
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.connect">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       change_fc.connect()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.eval">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       change_fc.eval()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.get_output">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       change_fc.get_output()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.operator_specification">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       change_fc.operator_specification()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.progress_bar">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       change_fc.progress_bar
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.run">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       change_fc.run()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.specification">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       change_fc.specification
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     InputsChangeFc
+    </span>
+   </code>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc.field_or_fields_container">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InputsChangeFc.field_or_fields_container
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc.scopings_container">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InputsChangeFc.scopings_container
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc.connect">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InputsChangeFc.connect()
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.OutputsChangeFc">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     OutputsChangeFc
+    </span>
+   </code>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.scoping.change_fc.OutputsChangeFc.fields_container">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       OutputsChangeFc.fields_container
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <span class="target" id="module-ansys.dpf.core.operators.scoping.change_fc"></span><section id="change-fc">
+<h1>change_fc<a class="headerlink" href="#change-fc" title="Permalink to this heading">#</a></h1>
+<p>Autogenerated DPF operator classes.</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.change_fc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.scoping.change_fc.</span></span><span class="sig-name descname"><span class="pre">change_fc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_or_fields_container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scopings_container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc" title="Permalink to this definition">#</a></dt>
+<dd><p>Rescopes/splits a fields container to correspond to a scopings
+container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field_or_fields_container</strong> (<a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><em>FieldsContainer</em></a><em> or </em><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a>) – </p></li>
+<li><p><strong>scopings_container</strong> (<a class="reference internal" href="ansys.dpf.core.scopings_container.html#ansys.dpf.core.scopings_container.ScopingsContainer" title="ansys.dpf.core.scopings_container.ScopingsContainer"><em>ScopingsContainer</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Instantiate operator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">change_fc</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Make input connections</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_field_or_fields_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">FieldsContainer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field_or_fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_field_or_fields_container</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_scopings_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">ScopingsContainer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">scopings_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_scopings_container</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Instantiate operator and connect inputs in one line</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">change_fc</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">field_or_fields_container</span><span class="o">=</span><span class="n">my_field_or_fields_container</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">scopings_container</span><span class="o">=</span><span class="n">my_scopings_container</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get output data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_fields_container</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.change_fc.default_config">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.default_config" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the default config of the operator.</p>
+<p>This config can then be changed to the user needs and be used to
+instantiate the operator. The Configuration allows to customize
+how the operation will be processed by the operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>server</strong> (<em>server.DPFServer</em><em>, </em><em>optional</em>) – Server with channel connected to the remote or local instance. When
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, attempts to use the global server.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.change_fc.inputs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.inputs" title="Permalink to this definition">#</a></dt>
+<dd><p>Enables to connect inputs to the operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>inputs</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc" title="ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc">InputsChangeFc</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.change_fc.outputs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">outputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.outputs" title="Permalink to this definition">#</a></dt>
+<dd><p>Enables to get outputs of the operator by evaluationg it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>outputs</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.scoping.change_fc.OutputsChangeFc" title="ansys.dpf.core.operators.scoping.change_fc.OutputsChangeFc">OutputsChangeFc</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.change_fc.config">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.config" title="Permalink to this definition">#</a></dt>
+<dd><p>Copy of the operator’s current configuration.</p>
+<p>You can modify the copy of the configuration and then use <code class="docutils literal notranslate"><span class="pre">operator.config</span> <span class="pre">=</span> <span class="pre">new_config</span></code>
+or create an operator with the new configuration as a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Copy of the operator’s current configuration.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.config.html#ansys.dpf.core.config.Config" title="ansys.dpf.core.config.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.config.Config</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.change_fc.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.connect" title="Permalink to this definition">#</a></dt>
+<dd><p>Connect an input on the operator using a pin number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pin</strong> (<em>int</em>) – Number of the input pin.</p></li>
+<li><p><strong>inpt</strong> (<em>str</em><em>, </em><em>int</em><em>, </em><em>double</em><em>, </em><em>bool</em><em>, </em><em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><em>FieldsContainer</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><em>Scoping</em></a><em>,</em>) – </p></li>
+<li><p><strong>ScopingsContainer</strong> – Operator, os.PathLike Object to connect to.</p></li>
+<li><p><strong>MeshedRegion</strong> – Operator, os.PathLike Object to connect to.</p></li>
+<li><p><strong>MeshesContainer</strong> – Operator, os.PathLike Object to connect to.</p></li>
+<li><p><strong>DataSources</strong> – Operator, os.PathLike Object to connect to.</p></li>
+<li><p><strong>CyclicSupport</strong> – Operator, os.PathLike Object to connect to.</p></li>
+<li><p><strong>Outputs</strong> – Operator, os.PathLike Object to connect to.</p></li>
+<li><p><strong>pin_out</strong> (<em>int</em><em>, </em><em>optional</em>) – If the input is an operator, the output pin of the input operator. The default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Compute the minimum of displacement by chaining the <code class="docutils literal notranslate"><span class="pre">&quot;U&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;min_max_fc&quot;</span></code> operators.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data_src</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_multishells_rst</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">(</span><span class="n">data_src</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_fc_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_fc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_field</span> <span class="o">=</span> <span class="n">max_fc_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_field</span><span class="o">.</span><span class="n">data</span>
+<span class="go">DPFArray([[0.59428386, 0.00201751, 0.0006032 ]]...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.change_fc.eval">
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.eval" title="Permalink to this definition">#</a></dt>
+<dd><p>Evaluate this operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pin</strong> (<em>int</em>) – Number of the output pin. The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>output</strong> – Returns the first output of the operator by default and the output of a
+given pin when specified. Or, it only evaluates the operator without output.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer">FieldsContainer</a>, <a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a>, <a class="reference internal" href="ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion">MeshedRegion</a>, <a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping">Scoping</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">eval</span></code> method.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ansys.dpf.core.operators.math</span> <span class="k">as</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data_src</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_multishells_rst</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">(</span><span class="n">data_src</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normfc</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">(</span><span class="n">disp_op</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.change_fc.get_output">
+<span class="sig-name descname"><span class="pre">get_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.get_output" title="Permalink to this definition">#</a></dt>
+<dd><p>Retrieve the output of the operator on the pin number.</p>
+<p>To activate the progress bar for server version higher or equal to 3.0,
+use <code class="docutils literal notranslate"><span class="pre">my_op.progress_bar=True</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pin</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of the output pin. The default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>output_type</strong> (<a class="reference internal" href="ansys.dpf.core.common.html#ansys.dpf.core.common.types" title="ansys.dpf.core.common.types"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.common.types</span></code></a>, type,  optional) – Requested type of the output. The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output of the operator.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.change_fc.operator_specification">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">operator_specification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.operator_specification" title="Permalink to this definition">#</a></dt>
+<dd><p>Documents an Operator with its description (what the Operator does),
+its inputs and outputs and some properties</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.change_fc.progress_bar">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">progress_bar</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.progress_bar" title="Permalink to this definition">#</a></dt>
+<dd><p>With this property, the user can choose to print a progress bar when
+the operator’s output is requested, default is False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.change_fc.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.run" title="Permalink to this definition">#</a></dt>
+<dd><p>Evaluate this operator.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.change_fc.specification">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">specification</span></span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.change_fc.specification" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the Specification (or documentation) of this Operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.operator_specification.html#ansys.dpf.core.operator_specification.Specification" title="ansys.dpf.core.operator_specification.Specification">Specification</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.scoping.change_fc.</span></span><span class="sig-name descname"><span class="pre">InputsChangeFc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc" title="Permalink to this definition">#</a></dt>
+<dd><p>Intermediate class used to connect user inputs to
+change_fc operator.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">change_fc</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_field_or_fields_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">FieldsContainer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field_or_fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_field_or_fields_container</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_scopings_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">ScopingsContainer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">scopings_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_scopings_container</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc.field_or_fields_container">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">field_or_fields_container</span></span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc.field_or_fields_container" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to connect field_or_fields_container input to the operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>my_field_or_fields_container</strong> (<a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><em>FieldsContainer</em></a><em> or </em><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a>) – </p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">change_fc</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field_or_fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_field_or_fields_container</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field_or_fields_container</span><span class="p">(</span><span class="n">my_field_or_fields_container</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc.scopings_container">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scopings_container</span></span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc.scopings_container" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to connect scopings_container input to the operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>my_scopings_container</strong> (<a class="reference internal" href="ansys.dpf.core.scopings_container.html#ansys.dpf.core.scopings_container.ScopingsContainer" title="ansys.dpf.core.scopings_container.ScopingsContainer"><em>ScopingsContainer</em></a>) – </p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">change_fc</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">scopings_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_scopings_container</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">scopings_container</span><span class="p">(</span><span class="n">my_scopings_container</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.InputsChangeFc.connect" title="Permalink to this definition">#</a></dt>
+<dd><p>Connect any input (an entity or an operator output) to any input pin of this operator.
+Searches for the input type corresponding to the output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inpt</strong> (<em>str</em><em>, </em><em>int</em><em>, </em><em>double</em><em>, </em><em>bool</em><em>, </em><em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><em>FieldsContainer</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><em>Scoping</em></a><em>,</em>) – </p></li>
+<li><p><strong>ScopingsContainer</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>MeshedRegion</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>MeshesContainer</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>DataSources</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>CyclicSupport</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>Outputs</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>noqa</strong> (<em>os.PathLike  #</em>) – Input of the operator.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.OutputsChangeFc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.scoping.change_fc.</span></span><span class="sig-name descname"><span class="pre">OutputsChangeFc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.OutputsChangeFc" title="Permalink to this definition">#</a></dt>
+<dd><p>Intermediate class used to get outputs from
+change_fc operator.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">change_fc</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_fields_container</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.scoping.change_fc.OutputsChangeFc.fields_container">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fields_container</span></span><a class="headerlink" href="#ansys.dpf.core.operators.scoping.change_fc.OutputsChangeFc.fields_container" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to get fields_container output of the operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>my_fields_container</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer">FieldsContainer</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">change_fc</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_fields_container</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+
+
+              </article>
+              
+
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

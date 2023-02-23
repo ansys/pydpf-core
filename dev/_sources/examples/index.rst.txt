@@ -1,0 +1,1108 @@
+:orphan:
+
+.. _gallery:
+
+========
+Examples
+========
+These examples demonstrate the behavior and usage of DPF-Core.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    </div>
+
+
+Basic DPF examples
+==================
+These examples explain the basic concepts of DPF.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to open a result file and do some basic postprocessing.">
+
+.. only:: html
+
+  .. image:: /examples/00-basic/images/thumb/sphx_glr_00-basic_example_thumb.png
+    :alt: Basic DPF-Core usage
+
+  :ref:`sphx_glr_examples_00-basic_00-basic_example.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Basic DPF-Core usage</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In DPF, operators provide the primary method for interacting with and extracting results. Withi...">
+
+.. only:: html
+
+  .. image:: /examples/00-basic/images/thumb/sphx_glr_01-basic_operators_thumb.png
+    :alt: Operators overview
+
+  :ref:`sphx_glr_examples_00-basic_01-basic_operators.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Operators overview</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In DPF, the field is the main simulation data container. During a numerical simulation, the res...">
+
+.. only:: html
+
+  .. image:: /examples/00-basic/images/thumb/sphx_glr_02-basic_field_containers_thumb.png
+    :alt: Field and field containers overview
+
+  :ref:`sphx_glr_examples_00-basic_02-basic_field_containers.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Field and field containers overview</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="You can create your field, fields container, or meshed region to use DPF operators with your ow...">
+
+.. only:: html
+
+  .. image:: /examples/00-basic/images/thumb/sphx_glr_03-create_entities_thumb.png
+    :alt: Create your own entities using DPF operators
+
+  :ref:`sphx_glr_examples_00-basic_03-create_entities.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Create your own entities using DPF operators</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Reducing the number of calls to the server is key to improving performance. Using the as_local_...">
+
+.. only:: html
+
+  .. image:: /examples/00-basic/images/thumb/sphx_glr_05-use_local_data_thumb.png
+    :alt: Bring a field's data locally to improve performance
+
+  :ref:`sphx_glr_examples_00-basic_05-use_local_data.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Bring a field's data locally to improve performance</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The ansys.dpf.core.results.Result class, which is an instance created by the ansys.dpf.core.mod...">
+
+.. only:: html
+
+  .. image:: /examples/00-basic/images/thumb/sphx_glr_07-use_result_helpers_thumb.png
+    :alt: Use result helpers to load custom data
+
+  :ref:`sphx_glr_examples_00-basic_07-use_result_helpers.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Use result helpers to load custom data</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The ansys.dpf.core.results.Result class, which are instances created by the ansys.dpf.core.mode...">
+
+.. only:: html
+
+  .. image:: /examples/00-basic/images/thumb/sphx_glr_08-results_over_time_subset_thumb.png
+    :alt: Scope results over custom time domains
+
+  :ref:`sphx_glr_examples_00-basic_08-results_over_time_subset.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Scope results over custom time domains</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The ansys.dpf.core.results.Result class, which are instances created by the ansys.dpf.core.mode...">
+
+.. only:: html
+
+  .. image:: /examples/00-basic/images/thumb/sphx_glr_09-results_over_space_subset_thumb.png
+    :alt: Scope results over custom space domains
+
+  :ref:`sphx_glr_examples_00-basic_09-results_over_space_subset.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Scope results over custom space domains</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Starting with Ansys 2022 R2, PyDPF can communicate either via In Process or via gRPC with DPF C...">
+
+.. only:: html
+
+  .. image:: /examples/00-basic/images/thumb/sphx_glr_11-server_types_thumb.png
+    :alt: Communicate in process or via gRPC
+
+  :ref:`sphx_glr_examples_00-basic_11-server_types.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Communicate in process or via gRPC</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Material properties are assigned to each element in APDL and by default they are written out in...">
+
+.. only:: html
+
+  .. image:: /examples/00-basic/images/thumb/sphx_glr_12-get_material_properties_thumb.png
+    :alt: Get material properties from the result file
+
+  :ref:`sphx_glr_examples_00-basic_12-get_material_properties.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Get material properties from the result file</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+Transient analysis examples
+===========================
+These examples show how to use DPF to extract and plot displacements,
+stresses, and strains for a transient result.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to postprocess a transient result and visualize the outputs.">
+
+.. only:: html
+
+  .. image:: /examples/01-transient_analyses/images/thumb/sphx_glr_00-basic_transient_thumb.png
+    :alt: Transient analysis result example
+
+  :ref:`sphx_glr_examples_01-transient_analyses_00-basic_transient.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Transient analysis result example</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use a model&#x27;s result to choose a time scoping.">
+
+.. only:: html
+
+  .. image:: /examples/01-transient_analyses/images/thumb/sphx_glr_01-transient_easy_time_scoping_thumb.png
+    :alt: Choose a time scoping for a transient analysis
+
+  :ref:`sphx_glr_examples_01-transient_analyses_01-transient_easy_time_scoping.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Choose a time scoping for a transient analysis</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example provides an overview of the LS-DYNA results providers.">
+
+.. only:: html
+
+  .. image:: /examples/01-transient_analyses/images/thumb/sphx_glr_02-lsdyna_operators_thumb.png
+    :alt: Results extraction and analysis from LS-DYNA sources
+
+  :ref:`sphx_glr_examples_01-transient_analyses_02-lsdyna_operators.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Results extraction and analysis from LS-DYNA sources</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+Harmonic analysis examples
+===========================
+These examples show how to use DPF to extract and manipulate
+results from harmonic or modal analyses.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to compute a multi-harmonic response using fft transformations.">
+
+.. only:: html
+
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_00-multi_harmonic_thumb.png
+    :alt: Multi-harmonic response example
+
+  :ref:`sphx_glr_examples_02-modal-harmonic_00-multi_harmonic.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Multi-harmonic response example</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand a cyclic mesh and its results.">
+
+.. only:: html
+
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_01-modal_cyclic_thumb.png
+    :alt: Modal cyclic symmetry example
+
+  :ref:`sphx_glr_examples_02-modal-harmonic_01-modal_cyclic.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Modal cyclic symmetry example</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand the mesh and results from a multi-stage cyclic analysis.">
+
+.. only:: html
+
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_02-cyclic_multi_stage_thumb.png
+    :alt: Multi-stage cyclic symmetry example
+
+  :ref:`sphx_glr_examples_02-modal-harmonic_02-cyclic_multi_stage.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Multi-stage cyclic symmetry example</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The ansys.dpf.core.results.Result class which instances are created by the ansys.dpf.core.model...">
+
+.. only:: html
+
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_03-compare_modes_thumb.png
+    :alt: Use Result Helpers to compare mode shapes for solids and then shells
+
+  :ref:`sphx_glr_examples_02-modal-harmonic_03-compare_modes.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Use Result Helpers to compare mode shapes for solids and then shells</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Different types of linear dynamics expansions are implemented in DPF. With modal superposition ...">
+
+.. only:: html
+
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_04-modal_superposition_thumb.png
+    :alt: Expand harmonic modal superposition with DPF
+
+  :ref:`sphx_glr_examples_02-modal-harmonic_04-modal_superposition.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Expand harmonic modal superposition with DPF</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Solvers usually solve analysis with distributed architecture. In this case, one file is written...">
+
+.. only:: html
+
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_05-read_distributed_files_thumb.png
+    :alt: Read results from distributed files
+
+  :ref:`sphx_glr_examples_02-modal-harmonic_05-read_distributed_files.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Read results from distributed files</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to generate and use a result file to calculate the cycles to failure res...">
+
+.. only:: html
+
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_06-cycles_to_failure_thumb.png
+    :alt: Calculate the number of cycles to fatigue failure
+
+  :ref:`sphx_glr_examples_02-modal-harmonic_06-cycles_to_failure.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Calculate the number of cycles to fatigue failure</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+Advanced and miscellaneous examples
+===================================
+These examples show advanced use cases to demonstrate the high level of workflow customization.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand on selected sectors the mesh and results from a multi-stage cy...">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_00-multistage_advanced_options_thumb.png
+    :alt: Multi-stage cyclic symmetry using advanced customization
+
+  :ref:`sphx_glr_examples_03-advanced_00-multistage_advanced_options.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Multi-stage cyclic symmetry using advanced customization</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a harmonic (over frequencies) fields container for an analysis...">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_01-solve_harmonic_problem_thumb.png
+    :alt: Solve harmonic problem (with damping) using matrix inverse
+
+  :ref:`sphx_glr_examples_03-advanced_01-solve_harmonic_problem.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Solve harmonic problem (with damping) using matrix inverse</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to find the minimum list of surrounding elements for a given node to get...">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_02-volume_averaged_stress_thumb.png
+    :alt: Average elemental stress on a given volume
+
+  :ref:`sphx_glr_examples_03-advanced_02-volume_averaged_stress.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Average elemental stress on a given volume</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, two DPF servers are started, and a workflow is created with a part on both ser...">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_03-exchange_data_between_servers_thumb.png
+    :alt: Exchange data between servers
+
+  :ref:`sphx_glr_examples_03-advanced_03-exchange_data_between_servers.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Exchange data between servers</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to compute the stress nodal components from Gaussian points (integration...">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_04-extrapolation_stress_3d_thumb.png
+    :alt: Extrapolation method for stress result of a 3D element
+
+  :ref:`sphx_glr_examples_03-advanced_04-extrapolation_stress_3d.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Extrapolation method for stress result of a 3D element</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to compute the stress nodal components from Gaussian points (integration...">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_05-extrapolation_strain_2d_thumb.png
+    :alt: Extrapolation method for strain result of a 2D element
+
+  :ref:`sphx_glr_examples_03-advanced_05-extrapolation_strain_2d.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Extrapolation method for strain result of a 2D element</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to plot a stress gradient normal to a selected node. Because the example...">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_06-stress_gradient_path_thumb.png
+    :alt: Stress gradient normal to a defined node
+
+  :ref:`sphx_glr_examples_03-advanced_06-stress_gradient_path.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Stress gradient normal to a defined node</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a plugin that is not loaded automatically.">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_07-load_plugin_thumb.png
+    :alt: Load plugin
+
+  :ref:`sphx_glr_examples_03-advanced_07-load_plugin.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Load plugin</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how you can use PyDPF to postprocess a Mechanical model according to ...">
+
+.. only:: html
+
+  .. image:: /examples/03-advanced/images/thumb/sphx_glr_10-asme_secviii_divtwo_thumb.png
+    :alt: Pressure vessel analysis according to an ASME standard
+
+  :ref:`sphx_glr_examples_03-advanced_10-asme_secviii_divtwo.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Pressure vessel analysis according to an ASME standard</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+File manipulation and input-output examples
+===========================================
+These examples show how to manipulate files,
+as well as importing or exporting from or to specific formats.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use HDF5 format to export and compare simple precision versus double ...">
+
+.. only:: html
+
+  .. image:: /examples/04-file-IO/images/thumb/sphx_glr_00-hdf5_double_float_comparison_thumb.png
+    :alt: HDF5 export and compare precision
+
+  :ref:`sphx_glr_examples_04-file-IO_00-hdf5_double_float_comparison.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">HDF5 export and compare precision</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to get reduced matrices and export them to HDF5 and CSV files.">
+
+.. only:: html
+
+  .. image:: /examples/04-file-IO/images/thumb/sphx_glr_01-reduced_matrices_export_thumb.png
+    :alt: Get reduced matrices and make export
+
+  :ref:`sphx_glr_examples_04-file-IO_01-reduced_matrices_export.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Get reduced matrices and make export</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to write and upload files on the server machine and then download them b...">
+
+.. only:: html
+
+  .. image:: /examples/04-file-IO/images/thumb/sphx_glr_04-basic-load-file_thumb.png
+    :alt: Working with a result file
+
+  :ref:`sphx_glr_examples_04-file-IO_04-basic-load-file.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Working with a result file</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+Plotting examples
+=================
+These examples show how to use the :class:`ansys.dpf.core.plotter.DpfPlotter` class.
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example lists the different plotting commands available, shown with the arguments availabl...">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_00-basic_plotting_thumb.png
+    :alt: Review of available plotting commands
+
+  :ref:`sphx_glr_examples_05-plotting_00-basic_plotting.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Review of available plotting commands</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to plot several mesh/result combinations on the same plot so that you ca...">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_01-compare_results_thumb.png
+    :alt: Compare results using the plotter
+
+  :ref:`sphx_glr_examples_05-plotting_01-compare_results.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Compare results using the plotter</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to get a principal stress load case combination using DPF And highlight ...">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_02-solution_combination_thumb.png
+    :alt: Load case combination for principal stress
+
+  :ref:`sphx_glr_examples_05-plotting_02-solution_combination.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Load case combination for principal stress</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="You can add use label properties to add custom labels to specific nodes. If the label for a nod...">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_03-labels_thumb.png
+    :alt: Add nodal labels on plots
+
+  :ref:`sphx_glr_examples_05-plotting_03-labels.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Add nodal labels on plots</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to get a result mapped over a specific path and how to plot it.">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_04-plot_on_path_thumb.png
+    :alt: Plot results on a specific path
+
+  :ref:`sphx_glr_examples_05-plotting_04-plot_on_path.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot results on a specific path</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to warp the mesh by a vector field, enabling to plot on the deformed geo...">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_05-plot_on_warped_mesh_thumb.png
+    :alt: Warp the mesh by a field for plotting
+
+  :ref:`sphx_glr_examples_05-plotting_05-plot_on_warped_mesh.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Warp the mesh by a field for plotting</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example lists the different commands available for creating animations of transient result...">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_06-animate_results_thumb.png
+    :alt: Review of available animation commands
+
+  :ref:`sphx_glr_examples_05-plotting_06-animate_results.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Review of available animation commands</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot on geometry elements">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_07-plot_on_geometries_thumb.png
+    :alt: Plot on geometry elements
+
+  :ref:`sphx_glr_examples_05-plotting_07-plot_on_geometries.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot on geometry elements</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+Examples for postprocessing on distributed processes
+====================================================
+These examples show how to create workflows on different processes (possibly on
+different machines) and connect them.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This diagram helps you to understand this example. It shows the operator chain that is used to ...">
+
+.. only:: html
+
+  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_00-distributed_total_disp_thumb.png
+    :alt: Postprocessing of displacement on distributed processes
+
+  :ref:`sphx_glr_examples_06-distributed-post_00-distributed_total_disp.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Postprocessing of displacement on distributed processes</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to read and postprocess distributed files on distributed processes. Afte...">
+
+.. only:: html
+
+  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_01-distributed_workflows_on_remote_thumb.png
+    :alt: Create a custom workflow on distributed processes
+
+  :ref:`sphx_glr_examples_06-distributed-post_01-distributed_workflows_on_remote.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Create a custom workflow on distributed processes</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to read and expand distributed files on distributed processes. The modal...">
+
+.. only:: html
+
+  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_02-distributed-msup_expansion_thumb.png
+    :alt: Distributed mode superposition (MSUP)
+
+  :ref:`sphx_glr_examples_06-distributed-post_02-distributed-msup_expansion.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Distributed mode superposition (MSUP)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to read and expand distributed files on distributed processes. The modal...">
+
+.. only:: html
+
+  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_03-distributed-msup_expansion_steps_thumb.png
+    :alt: Distributed MSUP distributed modal response
+
+  :ref:`sphx_glr_examples_06-distributed-post_03-distributed-msup_expansion_steps.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Distributed MSUP distributed modal response</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how stress can be read from distributed files and averaged from elemental no...">
+
+.. only:: html
+
+  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_06-distributed_stress_averaging_thumb.png
+    :alt: Average Stress in distributed Workflows
+
+  :ref:`sphx_glr_examples_06-distributed-post_06-distributed_stress_averaging.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Average Stress in distributed Workflows</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+Examples of creating custom operator plugins
+============================================
+These examples show how to create a basic operator plugin or plug-in
+packages with multiple operators. Plugins wrap your custom operators
+so that you can use them like native DPF operators.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a basic operator plugin, which is for a single custom operator...">
+
+.. only:: html
+
+  .. image:: /examples/07-python-operators/images/thumb/sphx_glr_00-wrapping_numpy_capabilities_thumb.png
+    :alt: Create a basic operator plugin
+
+  :ref:`sphx_glr_examples_07-python-operators_00-wrapping_numpy_capabilities.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Create a basic operator plugin</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a plug-in package with multiple operators. The benefits of wri...">
+
+.. only:: html
+
+  .. image:: /examples/07-python-operators/images/thumb/sphx_glr_01-package_python_operators_thumb.png
+    :alt: Create a plug-in package with multiple operators
+
+  :ref:`sphx_glr_examples_07-python-operators_01-package_python_operators.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Create a plug-in package with multiple operators</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a Python plug-in package with third-party dependencies. You sh...">
+
+.. only:: html
+
+  .. image:: /examples/07-python-operators/images/thumb/sphx_glr_02-python_operators_with_dependencies_thumb.png
+    :alt: Create a plug-in package that has third-party dependencies
+
+  :ref:`sphx_glr_examples_07-python-operators_02-python_operators_with_dependencies.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Create a plug-in package that has third-party dependencies</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+Averaging examples
+==================
+These examples show how to use some of DPF's averaging operators.
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example compares two different workflows that accomplish the same task to show how the ord...">
+
+.. only:: html
+
+  .. image:: /examples/08-averaging/images/thumb/sphx_glr_00-compute_and_average_thumb.png
+    :alt: Averaging order
+
+  :ref:`sphx_glr_examples_08-averaging_00-compute_and_average.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Averaging order</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In multibody simulations, some nodes may be shared by the bodies at their interfaces, but the v...">
+
+.. only:: html
+
+  .. image:: /examples/08-averaging/images/thumb/sphx_glr_01-average_across_bodies_thumb.png
+    :alt: Average across bodies
+
+  :ref:`sphx_glr_examples_08-averaging_01-average_across_bodies.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Average across bodies</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+Mesh operations examples
+===========================================
+These examples show how to manipulate meshes.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="    In order to plot the mesh, we add at the end of this example the cell_node connectivity">
+
+.. only:: html
+
+  .. image:: /examples/09-mesh_operations/images/thumb/sphx_glr_00-create_polygons_and_polyhedrons_thumb.png
+    :alt: Create and display a mesh with polygon and polyhedron elements
+
+  :ref:`sphx_glr_examples_09-mesh_operations_00-create_polygons_and_polyhedrons.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Create and display a mesh with polygon and polyhedron elements</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Extracting the skin of a mesh to reduce the amount of data to operate on can be useful for spec...">
+
+.. only:: html
+
+  .. image:: /examples/09-mesh_operations/images/thumb/sphx_glr_05-skin_extraction_thumb.png
+    :alt: Extract the skin from a mesh
+
+  :ref:`sphx_glr_examples_09-mesh_operations_05-skin_extraction.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Extract the skin from a mesh</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Currently, there is no native operator to get nodal coordinates in an Local Coordinate System (...">
+
+.. only:: html
+
+  .. image:: /examples/09-mesh_operations/images/thumb/sphx_glr_13-nodes_in_local_coordinate_system_thumb.png
+    :alt: Convert nodal coordinates field to local coordinate system
+
+  :ref:`sphx_glr_examples_09-mesh_operations_13-nodes_in_local_coordinate_system.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Convert nodal coordinates field to local coordinate system</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+   :includehidden:
+
+   /examples/00-basic/index.rst
+   /examples/01-transient_analyses/index.rst
+   /examples/02-modal-harmonic/index.rst
+   /examples/03-advanced/index.rst
+   /examples/04-file-IO/index.rst
+   /examples/05-plotting/index.rst
+   /examples/06-distributed-post/index.rst
+   /examples/07-python-operators/index.rst
+   /examples/08-averaging/index.rst
+   /examples/09-mesh_operations/index.rst
+
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_
