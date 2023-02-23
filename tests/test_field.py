@@ -25,7 +25,7 @@ def test_create_field(server_type):
 
 def test_empty_field(server_type):
     field = dpf.core.Field(server=server_type)
-    assert np.allclose(field.data, np.empty((0,), dtype=np.float))
+    assert np.allclose(field.data, np.empty((0,), dtype=np.float64))
     field = dpf.core.PropertyField(server=server_type)
     assert np.allclose(field.data, np.empty((0,), dtype=np.int32))
 
@@ -925,7 +925,7 @@ def get_simple_field(server_clayer):
     scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_clayer)
     field.scoping = scop
 
-    data = np.empty((24,), dtype=np.float)
+    data = np.empty((24,), dtype=np.float64)
     for i in range(0, 24):
         data[i] = i
     field.data = data
@@ -995,7 +995,7 @@ def test_mutable_entity_data_contiguous_field(server_clayer):
     scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_clayer)
     field.scoping = scop
 
-    data = np.empty((24,), dtype=np.float)
+    data = np.empty((24,), dtype=np.float64)
     for i in range(0, 24):
         data[i] = i
     field.data = data

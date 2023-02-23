@@ -54,14 +54,14 @@ def test_create_custom_type_field_push_back(server_type):
 
 @conftest.raises_for_servers_version_under("5.0")
 def test_set_get_data_pointer_custom_type_field(server_type):
-    field = dpf.core.CustomTypeField(np.float, nentities=20, server=server_type)
+    field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_type)
     field_def = dpf.core.FieldDefinition(server=server_type)
     field_def.dimensionality = dpf.core.Dimensionality({3}, dpf.core.natures.vector)
     field.field_definition = field_def
     scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_type)
     field.scoping = scop
 
-    data = np.empty((24,), dtype=np.float)
+    data = np.empty((24,), dtype=np.float64)
     for i in range(0, 24):
         data[i] = i
     field.data = data
@@ -85,7 +85,7 @@ def test_set_get_data_pointer_custom_type_field(server_type):
 
 @conftest.raises_for_servers_version_under("5.0")
 def test_set_get_field_def_custom_type_field(server_type):
-    field = dpf.core.CustomTypeField(np.float, nentities=20, server=server_type)
+    field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_type)
     field_def = dpf.core.FieldDefinition(server=server_type)
     field_def.dimensionality = dpf.core.Dimensionality([3], dpf.core.natures.vector)
     field_def.location = core.locations.elemental
@@ -116,14 +116,14 @@ def test_set_get_field_def_custom_type_field(server_type):
 
 @conftest.raises_for_servers_version_under("5.0")
 def test_mutable_data_custom_type_field(server_clayer):
-    field = dpf.core.CustomTypeField(np.float, nentities=20, server=server_clayer)
+    field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_clayer)
     field_def = dpf.core.FieldDefinition(server=server_clayer)
     field_def.dimensionality = dpf.core.Dimensionality({3}, dpf.core.natures.vector)
     field.field_definition = field_def
     scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_clayer)
     field.scoping = scop
 
-    data = np.empty((24,), dtype=np.float)
+    data = np.empty((24,), dtype=np.float64)
     for i in range(0, 24):
         data[i] = i
     field.data = data
@@ -153,14 +153,14 @@ def test_mutable_data_custom_type_field(server_clayer):
 
 @conftest.raises_for_servers_version_under("5.0")
 def test_mutable_data_contiguous_custom_type_field(server_clayer):
-    field = dpf.core.CustomTypeField(np.float, nentities=20, server=server_clayer)
+    field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_clayer)
     field_def = dpf.core.FieldDefinition(server=server_clayer)
     field_def.dimensionality = dpf.core.Dimensionality([6], dpf.core.natures.vector)
     field.field_definition = field_def
     scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_clayer)
     field.scoping = scop
 
-    data = np.empty((24,), dtype=np.float)
+    data = np.empty((24,), dtype=np.float64)
     for i in range(0, 24):
         data[i] = i
     field.data = data
@@ -189,15 +189,14 @@ def test_mutable_data_contiguous_custom_type_field(server_clayer):
 
 # not using a fixture on purpose: the instance of simple field SHOULD be owned by each test
 def get_float_field(server_clayer):
-    field = dpf.core.CustomTypeField(np.float32, nentities=20, server=server_clayer)
-    field = dpf.core.CustomTypeField(np.float, nentities=20, server=server_clayer)
+    field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_clayer)
     field_def = dpf.core.FieldDefinition(server=server_clayer)
     field_def.dimensionality = dpf.core.Dimensionality({3}, dpf.core.natures.vector)
     field.field_definition = field_def
     scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_clayer)
     field.scoping = scop
 
-    data = np.empty((24,), dtype=np.float)
+    data = np.empty((24,), dtype=np.float64)
     for i in range(0, 24):
         data[i] = i
     field.data = data

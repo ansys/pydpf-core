@@ -71,7 +71,7 @@ def test_lists(server_type_remote_process, testfiles_dir):
     op = dpf.Operator("custom_set_out_vec_double", server=server_type_remote_process)
     assert np.allclose(op.get_output(0, dpf.types.vec_double), [1.0, 2.0, 3.0])
     op = dpf.Operator("custom_set_out_np_int", server=server_type_remote_process)
-    assert np.allclose(op.get_output(0, dpf.types.vec_int), np.ones((200), dtype=np.int))
+    assert np.allclose(op.get_output(0, dpf.types.vec_int), np.ones((200), dtype=np.int32))
     op = dpf.Operator("custom_set_out_np_double", server=server_type_remote_process)
     assert np.allclose(op.get_output(0, dpf.types.vec_double), np.ones((200)))
 
@@ -79,10 +79,10 @@ def test_lists(server_type_remote_process, testfiles_dir):
 def test_field(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.fields_factory.create_3d_vector_field(3, "Elemental", server=server_type_remote_process)
-    f.data = np.ones((3, 3), dtype=np.float)
+    f.data = np.ones((3, 3), dtype=np.float64)
     op = dpf.Operator("custom_forward_field", server=server_type_remote_process)
     op.connect(0, f)
-    assert np.allclose(op.get_output(0, dpf.types.field).data, np.ones((3, 3), dtype=np.float))
+    assert np.allclose(op.get_output(0, dpf.types.field).data, np.ones((3, 3), dtype=np.float64))
     assert op.get_output(0, dpf.types.field).location == "Elemental"
 
 
@@ -132,7 +132,7 @@ def test_scoping(server_type_remote_process, testfiles_dir):
 def test_fields_container(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.fields_factory.create_3d_vector_field(3, "Elemental", server=server_type_remote_process)
-    f.data = np.ones((3, 3), dtype=np.float)
+    f.data = np.ones((3, 3), dtype=np.float64)
     fc = dpf.fields_container_factory.over_time_freq_fields_container(
         [f], server=server_type_remote_process
     )
@@ -140,7 +140,7 @@ def test_fields_container(server_type_remote_process, testfiles_dir):
     op.connect(0, fc)
     assert np.allclose(
         op.get_output(0, dpf.types.fields_container)[0].data,
-        np.ones((3, 3), dtype=np.float),
+        np.ones((3, 3), dtype=np.float64),
     )
     assert op.get_output(0, dpf.types.fields_container)[0].location == "Elemental"
 
@@ -292,16 +292,16 @@ def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
     assert "Field on which float value is added" in str(op.inputs)
     assert "Field on which the float value is added" in str(op.outputs.field)
     f = dpf.fields_factory.create_3d_vector_field(3, "Elemental", server=server_type_remote_process)
-    f.data = np.ones((3, 3), dtype=np.float)
+    f.data = np.ones((3, 3), dtype=np.float64)
     op.inputs.field(f)
     op.inputs.to_add(3.0)
     outf = op.outputs.field()
-    expected = np.ones((3, 3), dtype=np.float) + 3.0
+    expected = np.ones((3, 3), dtype=np.float64) + 3.0
     assert np.allclose(outf.data, expected)
     op = dpf.Operator("custom_add_to_field", server=server_type_remote_process)
     op.inputs.connect(f)
     op.inputs.to_add(4.0)
-    f.data = np.ones((3, 3), dtype=np.float)
+    f.data = np.ones((3, 3), dtype=np.float64)
     outf = op.outputs.field()
-    expected = np.ones((3, 3), dtype=np.float) + 4.0
+    expected = np.ones((3, 3), dtype=np.float64) + 4.0
     assert np.allclose(outf.data, expected)

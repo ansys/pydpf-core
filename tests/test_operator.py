@@ -112,7 +112,7 @@ def test_connect_get_out_all_types_operator(server_type):
             dpf.core.Workflow(server=server_type),
             dpf.core.DataTree(server=server_type),
             dpf.core.StringField(server=server_type),
-            dpf.core.CustomTypeField(np.float, server=server_type),
+            dpf.core.CustomTypeField(np.float64, server=server_type),
         ]
         if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
         else [

@@ -656,15 +656,13 @@ class Elements:
         >>> vol = model.results.elemental_volume()
         >>> field = vol.outputs.fields_container()[0]
         >>> ind, mask = elements.map_scoping(field.scoping)
-        >>> ind
-        array([0, 1, 2, 3, 4, 5, 6, 7])
 
         """
         if external_scope.location in ["Nodal", "NodalElemental"]:
             raise ValueError('Input scope location must be "Nodal"')
         arr = np.array(list(map(self.mapping_id_to_index.get, external_scope.ids)))
         mask = arr != None
-        ind = arr[mask].astype(np.int)
+        ind = arr[mask].astype(np.int32)
         return ind, mask
 
     @property

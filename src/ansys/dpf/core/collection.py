@@ -105,7 +105,7 @@ class Collection:
             inpt = inpt.flatten()
         if all(isinstance(x, (int, np.int32)) for x in inpt):
             return IntCollection(inpt, server=server)
-        if all(isinstance(x, (float, np.float)) for x in inpt):
+        if all(isinstance(x, (float, np.float64)) for x in inpt):
             return FloatCollection(inpt, server=server)
         else:
             raise NotImplementedError(
@@ -556,7 +556,7 @@ class FloatCollection(Collection):
         return float(obj_by_copy)
 
     def _set_integral_entries(self, input):
-        dtype = np.float
+        dtype = np.float64
         if isinstance(input, range):
             input = np.array(list(input), dtype=dtype)
         elif not isinstance(input, (np.ndarray, np.generic)):

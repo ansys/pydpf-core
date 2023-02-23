@@ -113,6 +113,7 @@ jobs:
       ANSYS_VERSION: "231"
       python_versions: '["3.8"]'
       DOCSTRING: false
+      custom-wheels: './.github'
     secrets: inherit
 
   retro_222:
@@ -123,6 +124,7 @@ jobs:
       ANSYS_VERSION: "222"
       python_versions: '["3.8"]'
       DOCSTRING: false
+      custom-wheels: './.github'
     secrets: inherit
 
   retro_221:
@@ -133,6 +135,7 @@ jobs:
       ANSYS_VERSION: "221"
       python_versions: '["3.8"]'
       DOCSTRING: false
+      custom-wheels: './.github'
     secrets: inherit
 
   pydpf-post:

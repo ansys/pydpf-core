@@ -34,16 +34,16 @@ def test_create_points():
 
 
 points_data = [
-    ([[0.4, 0.1, 0], [0.1, 0, 0.5]]),
+    ([[0.4, 0.1, 0.0], [0.1, 0.0, 0.5]]),
     ([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
-    lambda: (Points([[0.4, 0.1, 0], [0.1, 0, 0.5]])),
+    lambda: (Points([[0.4, 0.1, 0], [0.1, 0.0, 0.5]])),
     pytest.param(
-        [[0.4, 0.1, 0], [0.1, 0, 0.5], [0.1, 0, 0.5]],
+        [[0.4, 0.1, 0.0], [0.1, 0, 0.5], [0.1, 0.0, 0.5]],
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
-        [[0.4, 0.1, 0], [0.1, 0, 0.5, 0]],
-        marks=pytest.mark.xfail(strict=True, raises=TypeError),
+        [[0.4, 0.1, 0.0], [0.1, 0.0, 0.5, 0.0]],
+        marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
 
@@ -65,26 +65,26 @@ def test_create_line_from_points(points_param):
 
 
 vects_data = [
-    ([[0.4, 0.1, 0], [0.1, 0, 0.5]], None),
-    ([0.4, 0.1, 0], [0.1, 0, 0.5]),
+    ([[0.4, 0.1, 0.0], [0.1, 0.0, 0.5]], None),
+    ([0.4, 0.1, 0.0], [0.1, 0.0, 0.5]),
     pytest.param(
-        [[0.4, 0.1, 0], [0.1, 0, 0.5, 0], [0, 0, 0]],
+        [[0.4, 0.1, 0.0], [0.1, 0.0, 0.5, 0.0], [0.0, 0.0, 0.0]],
         None,
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
-        [[0.4, 0.1, 0], [0.1, 0, 0.5, 0, 0]],
+        [[0.4, 0.1, 0.0], [0.1, 0.0, 0.5, 0.0, 0.0]],
         None,
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
-        [0.4, 0.1, 0, 0],
-        [0.1, 0, 0.5],
+        [0.4, 0.1, 0.0, 0.0],
+        [0.1, 0.0, 0.5],
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
-        [0.4, 0.1, 0],
-        [0.1, 0, 0.5, 0],
+        [0.4, 0.1, 0.0],
+        [0.1, 0.0, 0.5, 0.0],
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
@@ -97,13 +97,13 @@ def test_create_line_from_vectors(ini, end):
 
 
 planes_data = [
-    ([0, 0, 0], [[0, 0, 0], [0, 0, 1]], 1, 1, 20, 20),
-    ([0, 0, 0], [0, 0, 1], 1, 1, 20, 20),
-    ([1, 1, 1], [1, -1, 0], 1, 1, 20, 20),
-    ([0, 0, 0], lambda: Line([[0, 0, 0], [0, 0, 1]]), 1, 1, 20, 20),
+    ([0.0, 0.0, 0.0], [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]], 1, 1, 20, 20),
+    ([0.0, 0.0, 0.0], [0.0, 0.0, 1.0], 1, 1, 20, 20),
+    ([1.0, 1.0, 1.0], [1.0, -1.0, 0.0], 1, 1, 20, 20),
+    ([0.0, 0.0, 0.0], lambda: Line([[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]]), 1, 1, 20, 20),
     pytest.param(
-        [0, 0],
-        [0, 0, 1],
+        [0.0, 0.0],
+        [0.0, 0.0, 1.0],
         1,
         1,
         20,
@@ -111,8 +111,8 @@ planes_data = [
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
-        [0, 0, 0],
-        [[0, 0], [0, 0, 1]],
+        [0.0, 0.0, 0.0],
+        [[0.0, 0.0], [0.0, 0.0, 1.0]],
         1,
         1,
         20,
@@ -120,8 +120,8 @@ planes_data = [
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
-        [0, 0, 0],
-        [[0, 0, 0], [0, 0, 1]],
+        [0.0, 0.0, 0.0],
+        [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]],
         1,
         1.5,
         5.5,
@@ -129,8 +129,8 @@ planes_data = [
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
-        [0, 0, 0],
-        [[0, 0, 0], [0, 0, 1]],
+        [0.0, 0.0, 0.0],
+        [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]],
         "testing",
         1.5,
         20,
@@ -155,7 +155,7 @@ def test_create_plane_from_center_and_normal(
         diff = np.array(normal[1]) - np.array(normal[0])
         normal_dir = normalize_vector(diff)
     else:
-        normal_vect = [np.array([0, 0, 0]), normalize_vector(np.array(normal))]
+        normal_vect = [np.array([0.0, 0.0, 0.0]), normalize_vector(np.array(normal))]
         normal_dir = normalize_vector(np.array(normal))
     assert (plane.normal_vect[0] == normal_vect[0]).all()
     assert (plane.normal_vect[1] == normal_vect[1]).all()
@@ -163,15 +163,17 @@ def test_create_plane_from_center_and_normal(
 
 
 plane_data = [
-    ([[0, 0, 0], [0, 1, 0], [1, 0, 0]]),
-    lambda: (Points([[0, 0, 0], [0, 1, 0], [1, 0, 0]])),
-    pytest.param([[0, 0, 0], [0, 1, 0]], marks=pytest.mark.xfail(strict=True, raises=ValueError)),
+    ([[0.0, 0.0, 0.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0]]),
+    lambda: (Points([[0.0, 0.0, 0.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0]])),
     pytest.param(
-        lambda: Points([[0, 0, 0], [0, 1, 0]]),
+        [[0.0, 0.0, 0.0], [0.0, 1.0, 0.0]], marks=pytest.mark.xfail(strict=True, raises=ValueError)
+    ),
+    pytest.param(
+        lambda: Points([[0.0, 0.0, 0.0], [0.0, 1.0, 0.0]]),
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
-        [[0, 0], [0, 1, 0], [0, 0, 1]],
+        [[0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
@@ -184,16 +186,19 @@ def test_create_plane_from_points(points):
 
 
 plane_lines_data = [
-    ([[0, 0, 0], [1, 0, 0]], [[2, 1, 0], [0, 1, 0]]),
-    (lambda: Line([[0, 0, 0], [1, 0, 0]]), lambda: Line([[2, 1, 0], [0, 1, 0]])),
+    ([[0.0, 0.0, 0.0], [1.0, 0.0, 0.0]], [[2.0, 1.0, 0.0], [0.0, 1.0, 0.0]]),
+    (
+        lambda: Line([[0.0, 0.0, 0.0], [1.0, 0.0, 0.0]]),
+        lambda: Line([[2.0, 1.0, 0.0], [0.0, 1.0, 0.0]]),
+    ),
     pytest.param(
-        [[0, 0, 0], [0, 1, 0], [0, 1, 0]],
-        [[0, 0, 0], [0, 0, 1]],
+        [[0.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 1.0, 0.0]],
+        [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]],
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
-        [[0, 0, 0], [0, 1, 0]],
-        [[0, 0, 0], [0, 0]],
+        [[0.0, 0.0, 0.0], [0.0, 1.0, 0.0]],
+        [[0.0, 0.0, 0.0], [0.0, 0.0]],
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
@@ -208,27 +213,27 @@ def test_create_plane_from_lines(line1, line2):
 
 
 plane_point_line_data = [
-    ([0, 0, 0], [[0, 0, 0], [0, 0, 1]]),
-    (lambda: Points([0, 0, 0]), [[0, 0, 0], [0, 0, 1]]),
-    ([0, 0, 0], lambda: Line([[0, 0, 0], [0, 0, 1]])),
+    ([0.0, 0.0, 0.0], [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]]),
+    (lambda: Points([0.0, 0.0, 0.0]), [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]]),
+    ([0.0, 0.0, 0.0], lambda: Line([[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]])),
     pytest.param(
-        lambda: Points([[0, 0, 0], [1, 1, 1]]),
-        [[0, 0, 0], [0, 0, 1]],
+        lambda: Points([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
+        [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]],
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
-        [0, 0, 0, 0],
-        [[0, 0, 0], [0, 0, 1]],
+        [0.0, 0.0, 0.0, 0.0],
+        [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0]],
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
-        [0, 0, 0],
-        [[0, 0, 0], [0, 0, 1], [0, 1, 0]],
+        [0.0, 0.0, 0.0],
+        [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0], [0.0, 1.0, 0.0]],
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
     pytest.param(
-        [0, 0, 0],
-        [[0, 0, 0, 0], [0, 0, 1]],
+        [0.0, 0.0, 0.0],
+        [[0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 1.0]],
         marks=pytest.mark.xfail(strict=True, raises=ValueError),
     ),
 ]
@@ -243,8 +248,8 @@ def test_create_plane_from_point_and_line(point, line):
 
 
 coords_data = [
-    ([[0, 0, 0], [0, 0, 1], [1, 0, 0]], [1 / 3, 0, 1 / 3]),
-    ([[0, 0], [1, 0], [0, 1]], [1 / 3, 1 / 3]),
+    ([[0.0, 0.0, 0.0], [0.0, 0.0, 1.0], [1.0, 0.0, 0.0]], [1.0 / 3.0, 0.0, 1.0 / 3.0]),
+    ([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0]], [1.0 / 3.0, 1.0 / 3.0]),
 ]
 
 
@@ -255,11 +260,11 @@ def test_get_center_from_coords(coords, expected):
 
 
 def test_line_discretization():
-    line = Line([[0, 0, 0], [1, 1, 1]])
+    line = Line([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])
     assert line.mesh.nodes.n_nodes == 100
     assert line.mesh.elements.n_elements == 99
 
-    line = Line([[0, 0, 0], [1, 1, 1]], n_points=1200)
+    line = Line([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]], n_points=1200)
     assert line.mesh.nodes.n_nodes == 1200
     assert line.mesh.elements.n_elements == 1199
 
@@ -296,10 +301,10 @@ def test_plane_discretization(component):
 
 
 plane_mapping_data = [
-    ([0, 0, 0], [0, 1, 0], [[1, 0, 1], [0.5, 0, 0.5], [2, 0, 1]]),
-    ([0.2, -0.6, 2], [0, 1, 0], [[1, 0, 1], [0.5, 0, 0.5], [2, 0, 1]]),
-    ([0, 0, 0], [0, 0, 1], [[1, 1, 0], [2, 1, 0], [-2, -1, 0]]),
-    ([0.3, 0.5, -1], [1, 0, 0], [[0, 1, 1], [0, -1, 1], [0, 4, -2]]),
+    ([0.0, 0.0, 0.0], [0.0, 1.0, 0.0], [[1.0, 0.0, 1.0], [0.5, 0.0, 0.5], [2.0, 0.0, 1.0]]),
+    ([0.2, -0.6, 2.0], [0.0, 1.0, 0.0], [[1.0, 0.0, 1.0], [0.5, 0.0, 0.5], [2.0, 0.0, 1.0]]),
+    ([0.0, 0.0, 0.0], [0.0, 0.0, 1.0], [[1.0, 1.0, 0.0], [2.0, 1.0, 0.0], [-2.0, -1.0, 0.0]]),
+    ([0.3, 0.5, -1.0], [1.0, 0.0, 0.0], [[0.0, 1.0, 1.0], [0.0, -1.0, 1.0], [0.0, 4.0, -2.0]]),
 ]
 
 
@@ -321,11 +326,11 @@ def test_plotting_with_mesh():
     model = dpf.Model(examples.find_static_rst())
     mesh = model.metadata.meshed_region
 
-    points = Points([[0.03, 0.06, 0.03], [0.03, 0.03, 0], [0, 0, 0]])
+    points = Points([[0.03, 0.06, 0.03], [0.03, 0.03, 0.0], [0.0, 0.0, 0.0]])
     points.plot(mesh)
 
     line = Line([[0.03, 0.03, 0.05], [0.0, 0.06, 0.0]])
     line.plot(mesh)
 
-    plane = Plane([0.015, 0.045, 0.015], [1, 1, 0])
+    plane = Plane([0.015, 0.045, 0.015], [1.0, 1.0, 0.0])
     plane.plot(mesh)
