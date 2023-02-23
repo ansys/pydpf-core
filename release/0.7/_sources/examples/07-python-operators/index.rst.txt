@@ -1,0 +1,82 @@
+
+
+.. _sphx_glr_examples_07-python-operators:
+
+.. _python_operators:
+
+Examples of creating custom operator plugins
+============================================
+These examples show how to create a basic operator plugin or plug-in
+packages with multiple operators. Plugins wrap your custom operators
+so that you can use them like native DPF operators.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a basic operator plugin, which is for a single custom operator...">
+
+.. only:: html
+
+  .. image:: /examples/07-python-operators/images/thumb/sphx_glr_00-wrapping_numpy_capabilities_thumb.png
+    :alt: Create a basic operator plugin
+
+  :ref:`sphx_glr_examples_07-python-operators_00-wrapping_numpy_capabilities.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Create a basic operator plugin</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a plug-in package with multiple operators. The benefits of wri...">
+
+.. only:: html
+
+  .. image:: /examples/07-python-operators/images/thumb/sphx_glr_01-package_python_operators_thumb.png
+    :alt: Create a plug-in package with multiple operators
+
+  :ref:`sphx_glr_examples_07-python-operators_01-package_python_operators.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Create a plug-in package with multiple operators</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a Python plug-in package with third-party dependencies. You sh...">
+
+.. only:: html
+
+  .. image:: /examples/07-python-operators/images/thumb/sphx_glr_02-python_operators_with_dependencies_thumb.png
+    :alt: Create a plug-in package that has third-party dependencies
+
+  :ref:`sphx_glr_examples_07-python-operators_02-python_operators_with_dependencies.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Create a plug-in package that has third-party dependencies</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/07-python-operators/00-wrapping_numpy_capabilities
+   /examples/07-python-operators/01-package_python_operators
+   /examples/07-python-operators/02-python_operators_with_dependencies
+
