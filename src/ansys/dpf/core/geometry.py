@@ -126,7 +126,7 @@ class Line:
     def __init__(self, coordinates, n_points=100, server=None):
         """Initialize line object from two 3D points and discretize."""
         if not isinstance(coordinates, Field):
-            coordinates = np.array(coordinates, dtype=np.number)
+            coordinates = np.asarray(coordinates, dtype=np.number)
             coordinates = field_from_array(coordinates)
         if not len(coordinates.data) == 2:
             raise ValueError("Only two points must be introduced to define a line")
