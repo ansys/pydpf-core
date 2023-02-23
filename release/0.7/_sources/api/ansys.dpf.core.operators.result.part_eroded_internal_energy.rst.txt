@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.part_eroded_internal_energy
+   :inherited-members:

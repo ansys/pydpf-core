@@ -2,5 +2,9 @@
     {
         "version": "dev",
         "url": "https://dpf.docs.pyansys.com/dev"
+    },
+    {
+        "version": "0.7 (stable)",
+        "url": "https://dpf.docs.pyansys.com/release/0.7"
     }
 ]
