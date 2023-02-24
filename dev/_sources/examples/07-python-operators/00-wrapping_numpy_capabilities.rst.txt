@@ -32,10 +32,14 @@ The objective of this simple example is to show how routines for DPF can
 be wrapped in Python plugins.
 
 .. note::
+    This example requires DPF 4.0 (Ansys 2022R2) or above.
+    For more information, see :ref:`ref_compatibility`.
+
+.. note::
     This example requires the Premium ServerContext.
     For more information, see :ref:`user_guide_server_context`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-36
+.. GENERATED FROM PYTHON SOURCE LINES 26-40
 
 Create the operator
 -------------------
@@ -52,7 +56,7 @@ The Python operator and its recording are available in the
 
 Download and display the Python script.
 
-.. GENERATED FROM PYTHON SOURCE LINES 36-55
+.. GENERATED FROM PYTHON SOURCE LINES 40-59
 
 .. code-block:: default
 
@@ -175,14 +179,14 @@ Download and display the Python script.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-60
+.. GENERATED FROM PYTHON SOURCE LINES 60-64
 
 Load the plugin
 ---------------
 You use the :py:func:`ansys.dpf.core.core.load_library` method to load the
 plugin.
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-77
+.. GENERATED FROM PYTHON SOURCE LINES 64-81
 
 .. code-block:: default
 
@@ -216,11 +220,11 @@ plugin.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-79
+.. GENERATED FROM PYTHON SOURCE LINES 82-83
 
 Instantiate the operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-82
+.. GENERATED FROM PYTHON SOURCE LINES 83-86
 
 .. code-block:: default
 
@@ -234,7 +238,7 @@ Instantiate the operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-89
+.. GENERATED FROM PYTHON SOURCE LINES 87-93
 
 Connect a workflow
 ------------------
@@ -243,7 +247,7 @@ Connect a workflow that computes the norm of the displacement to the
 are dynamically added because specifications for the operator are
 defined in the plugin.
 
-.. GENERATED FROM PYTHON SOURCE LINES 91-103
+.. GENERATED FROM PYTHON SOURCE LINES 95-107
 
 .. graphviz::
 
@@ -258,12 +262,12 @@ defined in the plugin.
       norm -> easy_statistics;
    }
 
-.. GENERATED FROM PYTHON SOURCE LINES 105-107
+.. GENERATED FROM PYTHON SOURCE LINES 109-111
 
 Use the operator
 ----------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 107-117
+.. GENERATED FROM PYTHON SOURCE LINES 111-121
 
 .. code-block:: default
 
@@ -296,7 +300,7 @@ Use the operator
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.164 seconds)
+   **Total running time of the script:** ( 0 minutes  5.659 seconds)
 
 
 .. _sphx_glr_download_examples_07-python-operators_00-wrapping_numpy_capabilities.py:

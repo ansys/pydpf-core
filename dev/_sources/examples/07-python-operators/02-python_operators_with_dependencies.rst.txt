@@ -37,10 +37,14 @@ and then exports the mesh and the norm of the 3D vector field to a GLTF
 file at the given path.
 
 .. note::
+    This example requires DPF 4.0 (Ansys 2022R2) or above.
+    For more information, see :ref:`ref_compatibility`.
+
+.. note::
     This example requires the Premium ServerContext.
     For more information, see :ref:`user_guide_server_context`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-37
+.. GENERATED FROM PYTHON SOURCE LINES 32-41
 
 Create the plug-in package
 --------------------------
@@ -52,7 +56,7 @@ method, which records the operators of the plug-in package.
 Download the ``gltf_plugin`` plug-in package that has already been
 created for you.
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-78
+.. GENERATED FROM PYTHON SOURCE LINES 41-82
 
 .. code-block:: default
 
@@ -273,7 +277,7 @@ created for you.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-96
+.. GENERATED FROM PYTHON SOURCE LINES 83-100
 
 To add third-party modules as dependencies to a plug-in package, you must
 create and reference a folder or ZIP file with the sites of the dependencies
@@ -293,7 +297,7 @@ the XML as shown in the preceding code.
 To simplify this step, you can add a requirements file in the plug-in package:
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-102
+.. GENERATED FROM PYTHON SOURCE LINES 100-106
 
 .. code-block:: default
 
@@ -321,7 +325,7 @@ To simplify this step, you can add a requirements file in the plug-in package:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 103-130
+.. GENERATED FROM PYTHON SOURCE LINES 107-134
 
 Download the script for your operating system.
 
@@ -351,7 +355,7 @@ Run the command for your operating system.
 
    create_sites_for_python_operators.sh -pluginpath /path/to/plugin -zippath /path/to/plugin/assets/linx64.zip # noqa: E501
 
-.. GENERATED FROM PYTHON SOURCE LINES 130-177
+.. GENERATED FROM PYTHON SOURCE LINES 134-181
 
 .. code-block:: default
 
@@ -416,7 +420,7 @@ Run the command for your operating system.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 178-189
+.. GENERATED FROM PYTHON SOURCE LINES 182-193
 
 Load the plug-in package
 ------------------------
@@ -430,7 +434,7 @@ plug-in package.
 - The third argument is the name of the function exposed in the ``__init__`` file
   for the plug-in package that is used to record operators.
 
-.. GENERATED FROM PYTHON SOURCE LINES 189-206
+.. GENERATED FROM PYTHON SOURCE LINES 193-210
 
 .. code-block:: default
 
@@ -464,11 +468,11 @@ plug-in package.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 207-208
+.. GENERATED FROM PYTHON SOURCE LINES 211-212
 
 Instantiate the operator.
 
-.. GENERATED FROM PYTHON SOURCE LINES 208-211
+.. GENERATED FROM PYTHON SOURCE LINES 212-215
 
 .. code-block:: default
 
@@ -482,7 +486,7 @@ Instantiate the operator.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 212-220
+.. GENERATED FROM PYTHON SOURCE LINES 216-224
 
 This new ``gltf_export`` operator requires the following as inputs: a triangle
 surface mesh, a displacement field on this surface mesh, and a path to export
@@ -493,7 +497,7 @@ is created on a simple file and the
 :class:`ansys.dpf.core.operators.mesh.tri_mesh_skin` operator is used
 to extract the surface of the mesh in triangle elements.
 
-.. GENERATED FROM PYTHON SOURCE LINES 222-237
+.. GENERATED FROM PYTHON SOURCE LINES 226-241
 
 .. graphviz::
 
@@ -511,12 +515,12 @@ to extract the surface of the mesh in triangle elements.
       displacement -> gltf_export [splines=ortho];
    }
 
-.. GENERATED FROM PYTHON SOURCE LINES 239-241
+.. GENERATED FROM PYTHON SOURCE LINES 243-245
 
 Use the custom operator
 -----------------------
 
-.. GENERATED FROM PYTHON SOURCE LINES 241-261
+.. GENERATED FROM PYTHON SOURCE LINES 245-265
 
 .. code-block:: default
 
@@ -553,14 +557,14 @@ Use the custom operator
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 262-263
+.. GENERATED FROM PYTHON SOURCE LINES 266-267
 
 You can download :download:`output <images/thumb/out02.glb>` from the ``gltf`` operator.
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  1.654 seconds)
+   **Total running time of the script:** ( 0 minutes  55.324 seconds)
 
 
 .. _sphx_glr_download_examples_07-python-operators_02-python_operators_with_dependencies.py:

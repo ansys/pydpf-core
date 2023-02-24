@@ -5,24 +5,24 @@
 
 Computation times
 =================
-**00:36.993** total execution time for **examples_03-advanced** files:
+**00:38.806** total execution time for **examples_03-advanced** files:
 
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_03-exchange_data_between_servers.py` (``03-exchange_data_between_servers.py``) | 00:09.145 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_03-exchange_data_between_servers.py` (``03-exchange_data_between_servers.py``) | 00:08.697 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_05-extrapolation_strain_2d.py` (``05-extrapolation_strain_2d.py``)             | 00:07.654 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_05-extrapolation_strain_2d.py` (``05-extrapolation_strain_2d.py``)             | 00:08.396 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_04-extrapolation_stress_3d.py` (``04-extrapolation_stress_3d.py``)             | 00:07.537 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_04-extrapolation_stress_3d.py` (``04-extrapolation_stress_3d.py``)             | 00:07.382 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_02-volume_averaged_stress.py` (``02-volume_averaged_stress.py``)               | 00:04.237 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_02-volume_averaged_stress.py` (``02-volume_averaged_stress.py``)               | 00:05.644 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_06-stress_gradient_path.py` (``06-stress_gradient_path.py``)                   | 00:03.104 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_06-stress_gradient_path.py` (``06-stress_gradient_path.py``)                   | 00:03.230 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_00-multistage_advanced_options.py` (``00-multistage_advanced_options.py``)     | 00:02.736 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_00-multistage_advanced_options.py` (``00-multistage_advanced_options.py``)     | 00:02.580 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_10-asme_secviii_divtwo.py` (``10-asme_secviii_divtwo.py``)                     | 00:02.220 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_10-asme_secviii_divtwo.py` (``10-asme_secviii_divtwo.py``)                     | 00:02.517 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_03-advanced_01-solve_harmonic_problem.py` (``01-solve_harmonic_problem.py``)               | 00:00.281 | 0.0 MB |
+| :ref:`sphx_glr_examples_03-advanced_01-solve_harmonic_problem.py` (``01-solve_harmonic_problem.py``)               | 00:00.282 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
 | :ref:`sphx_glr_examples_03-advanced_07-load_plugin.py` (``07-load_plugin.py``)                                     | 00:00.078 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------+-----------+--------+
