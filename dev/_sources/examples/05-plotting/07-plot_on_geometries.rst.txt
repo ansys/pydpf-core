@@ -475,7 +475,7 @@ Note that the plane is only displayed if some points are found inside the mesh:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  8.239 seconds)
+   **Total running time of the script:** ( 0 minutes  8.303 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_07-plot_on_geometries.py:
