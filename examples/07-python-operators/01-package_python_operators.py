@@ -17,6 +17,10 @@ For this example, the plug-in package contains two different operators:
 - One that returns all scoping IDs having data lower than the average
 
 .. note::
+    This example requires DPF 4.0 (Ansys 2022R2) or above.
+    For more information, see :ref:`ref_compatibility`.
+
+.. note::
     This example requires the Premium ServerContext.
     For more information, see :ref:`user_guide_server_context`.
 
