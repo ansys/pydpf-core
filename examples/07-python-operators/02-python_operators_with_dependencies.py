@@ -19,6 +19,10 @@ and then exports the mesh and the norm of the 3D vector field to a GLTF
 file at the given path.
 
 .. note::
+    This example requires DPF 4.0 (Ansys 2022R2) or above.
+    For more information, see :ref:`ref_compatibility`.
+
+.. note::
     This example requires the Premium ServerContext.
     For more information, see :ref:`user_guide_server_context`.
 
