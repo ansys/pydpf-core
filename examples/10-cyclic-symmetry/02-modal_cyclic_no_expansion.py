@@ -2,7 +2,7 @@
 """
 .. _ref_basic_cyclic:
 
-Get base and duplicate sectors (real and imaginary) result for modal cyclic symmetry
+Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This example shows how to extract results from a modal cyclic symmetry model.
@@ -20,7 +20,7 @@ print(model)
 ###############################################################################
 # Get base and duplicate sectors displacement results
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# By default, the result providers (stress, displacement...) will return results for
+# By default, the result providers (stress, displacement, and so on) will return results for
 # base and duplicate sectors for a cyclic symmetry model.
 
 # Create displacement operator

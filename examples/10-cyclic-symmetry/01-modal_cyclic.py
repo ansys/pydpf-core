@@ -24,7 +24,7 @@ print(model)
 # nodes and the first time step. Note that the displacements are expanded using
 # the :func:`read_cyclic
 # <ansys.dpf.core.operators.mesh.mesh_provider.InputsMeshProvider.read_cyclic>`
-# property with 2 as an argument (1 would not perform expansion of the cyclic symmetry).
+# property with 2 as an argument (1 does not perform expansion of the cyclic symmetry).
 
 # Create displacement cyclic operator
 u_cyc = model.results.displacement()
