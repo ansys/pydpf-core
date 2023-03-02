@@ -111,7 +111,7 @@ first mesh and the first result.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.173 seconds)
+   **Total running time of the script:** ( 0 minutes  1.236 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_01-compare_results.py:

@@ -177,7 +177,7 @@ Expand stresses at a given time step
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.673 seconds)
+   **Total running time of the script:** ( 0 minutes  2.798 seconds)
 
 
 .. _sphx_glr_download_examples_10-cyclic-symmetry_03-cyclic_multi_stage.py:

@@ -295,7 +295,7 @@ Generate a cycles_to_failure DPF Field
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.328 seconds)
+   **Total running time of the script:** ( 0 minutes  3.305 seconds)
 
 
 .. _sphx_glr_download_examples_02-modal-harmonic_04-cycles_to_failure.py:
