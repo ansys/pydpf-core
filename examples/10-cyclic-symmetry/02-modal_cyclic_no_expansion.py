@@ -116,3 +116,20 @@ to_elemental = dpf.operators.averaging.to_elemental_fc(s_cyc)
 s_7_45 = to_elemental.outputs.fields_container()
 print(s_7_45)
 mesh.plot(s_7_45[0])
+
+###############################################################################
+# Get nodal stress results expanded
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+s_cyc = dpf.operators.result.cyclic_expanded_stress(
+    streams_container=model.metadata.streams_provider,
+    time_scoping=[7],
+    requested_location=dpf.locations.nodal,
+)
+
+mesh_provider = model.metadata.mesh_provider
+mesh_provider.inputs.read_cyclic(2)  # read_cyclic=2 allows to expand cyclic result
+mesh = mesh_provider.outputs.mesh()
+s = s_cyc.outputs.fields_container()
+
+mesh.plot(s[0])
