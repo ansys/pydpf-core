@@ -39,6 +39,16 @@ def test_download_cycles_to_failure():
     assert isinstance(Model(path), Model)
 
 
+def test_download_modal_frame():
+    path = examples.download_modal_frame()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_harmonic_clamped_pipe():
+    path = examples.download_harmonic_clamped_pipe()
+    assert isinstance(Model(path), Model)
+
+
 list_examples = [
     "simple_bar",
     "static_rst",

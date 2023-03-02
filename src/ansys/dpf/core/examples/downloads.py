@@ -931,3 +931,77 @@ def download_cycles_to_failure(
     return _download_file(
         "cyclic", "cyclic_to_failure.rst", should_upload, server, return_local_path
     )
+
+
+def download_modal_frame(should_upload: bool = True, server=None, return_local_path=False) -> str:
+    """Download an example result file from a modal analysis on a frame and
+    return the download path.
+    If the server is remote (or doesn't share memory), the file is uploaded or made available
+    on the server side.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.download_modal_frame()
+
+    """
+    return _download_file("modal", "frame.rst", should_upload, server, return_local_path)
+
+
+def download_harmonic_clamped_pipe(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
+    """Download an example result file from a harmonic analysis on a clamped pipe and
+    return the download path.
+    If the server is remote (or doesn't share memory), the file is uploaded or made available
+    on the server side.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.download_modal_frame()
+
+    """
+    return _download_file("harmonic", "clamped_pipe.rst", should_upload, server, return_local_path)
