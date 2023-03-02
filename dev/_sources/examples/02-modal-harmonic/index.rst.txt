@@ -35,48 +35,14 @@ results from harmonic or modal analyses.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand a cyclic mesh and its results.">
-
-.. only:: html
-
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_01-modal_cyclic_thumb.png
-    :alt: Modal cyclic symmetry example
-
-  :ref:`sphx_glr_examples_02-modal-harmonic_01-modal_cyclic.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Modal cyclic symmetry example</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand the mesh and results from a multi-stage cyclic analysis.">
-
-.. only:: html
-
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_02-cyclic_multi_stage_thumb.png
-    :alt: Multi-stage cyclic symmetry example
-
-  :ref:`sphx_glr_examples_02-modal-harmonic_02-cyclic_multi_stage.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Multi-stage cyclic symmetry example</div>
-    </div>
-
-
-.. raw:: html
-
     <div class="sphx-glr-thumbcontainer" tooltip="The ansys.dpf.core.results.Result class which instances are created by the ansys.dpf.core.model...">
 
 .. only:: html
 
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_03-compare_modes_thumb.png
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_01-compare_modes_thumb.png
     :alt: Use Result Helpers to compare mode shapes for solids and then shells
 
-  :ref:`sphx_glr_examples_02-modal-harmonic_03-compare_modes.py`
+  :ref:`sphx_glr_examples_02-modal-harmonic_01-compare_modes.py`
 
 .. raw:: html
 
@@ -90,10 +56,10 @@ results from harmonic or modal analyses.
 
 .. only:: html
 
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_04-modal_superposition_thumb.png
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_02-modal_superposition_thumb.png
     :alt: Expand harmonic modal superposition with DPF
 
-  :ref:`sphx_glr_examples_02-modal-harmonic_04-modal_superposition.py`
+  :ref:`sphx_glr_examples_02-modal-harmonic_02-modal_superposition.py`
 
 .. raw:: html
 
@@ -107,10 +73,10 @@ results from harmonic or modal analyses.
 
 .. only:: html
 
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_05-read_distributed_files_thumb.png
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_03-read_distributed_files_thumb.png
     :alt: Read results from distributed files
 
-  :ref:`sphx_glr_examples_02-modal-harmonic_05-read_distributed_files.py`
+  :ref:`sphx_glr_examples_02-modal-harmonic_03-read_distributed_files.py`
 
 .. raw:: html
 
@@ -124,10 +90,10 @@ results from harmonic or modal analyses.
 
 .. only:: html
 
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_06-cycles_to_failure_thumb.png
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_04-cycles_to_failure_thumb.png
     :alt: Calculate the number of cycles to fatigue failure
 
-  :ref:`sphx_glr_examples_02-modal-harmonic_06-cycles_to_failure.py`
+  :ref:`sphx_glr_examples_02-modal-harmonic_04-cycles_to_failure.py`
 
 .. raw:: html
 
@@ -144,10 +110,8 @@ results from harmonic or modal analyses.
    :hidden:
 
    /examples/02-modal-harmonic/00-multi_harmonic
-   /examples/02-modal-harmonic/01-modal_cyclic
-   /examples/02-modal-harmonic/02-cyclic_multi_stage
-   /examples/02-modal-harmonic/03-compare_modes
-   /examples/02-modal-harmonic/04-modal_superposition
-   /examples/02-modal-harmonic/05-read_distributed_files
-   /examples/02-modal-harmonic/06-cycles_to_failure
+   /examples/02-modal-harmonic/01-compare_modes
+   /examples/02-modal-harmonic/02-modal_superposition
+   /examples/02-modal-harmonic/03-read_distributed_files
+   /examples/02-modal-harmonic/04-cycles_to_failure
 

@@ -84,7 +84,7 @@ by the module and used by default. This example sets the first server as the def
 
  .. code-block:: none
 
-    50073 50074
+    50054 50055
 
 
 
@@ -231,7 +231,7 @@ Plot the output
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.925 seconds)
+   **Total running time of the script:** ( 0 minutes  7.958 seconds)
 
 
 .. _sphx_glr_download_examples_03-advanced_03-exchange_data_between_servers.py:

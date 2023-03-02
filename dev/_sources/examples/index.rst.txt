@@ -304,48 +304,14 @@ results from harmonic or modal analyses.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand a cyclic mesh and its results.">
-
-.. only:: html
-
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_01-modal_cyclic_thumb.png
-    :alt: Modal cyclic symmetry example
-
-  :ref:`sphx_glr_examples_02-modal-harmonic_01-modal_cyclic.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Modal cyclic symmetry example</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand the mesh and results from a multi-stage cyclic analysis.">
-
-.. only:: html
-
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_02-cyclic_multi_stage_thumb.png
-    :alt: Multi-stage cyclic symmetry example
-
-  :ref:`sphx_glr_examples_02-modal-harmonic_02-cyclic_multi_stage.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Multi-stage cyclic symmetry example</div>
-    </div>
-
-
-.. raw:: html
-
     <div class="sphx-glr-thumbcontainer" tooltip="The ansys.dpf.core.results.Result class which instances are created by the ansys.dpf.core.model...">
 
 .. only:: html
 
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_03-compare_modes_thumb.png
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_01-compare_modes_thumb.png
     :alt: Use Result Helpers to compare mode shapes for solids and then shells
 
-  :ref:`sphx_glr_examples_02-modal-harmonic_03-compare_modes.py`
+  :ref:`sphx_glr_examples_02-modal-harmonic_01-compare_modes.py`
 
 .. raw:: html
 
@@ -359,10 +325,10 @@ results from harmonic or modal analyses.
 
 .. only:: html
 
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_04-modal_superposition_thumb.png
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_02-modal_superposition_thumb.png
     :alt: Expand harmonic modal superposition with DPF
 
-  :ref:`sphx_glr_examples_02-modal-harmonic_04-modal_superposition.py`
+  :ref:`sphx_glr_examples_02-modal-harmonic_02-modal_superposition.py`
 
 .. raw:: html
 
@@ -376,10 +342,10 @@ results from harmonic or modal analyses.
 
 .. only:: html
 
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_05-read_distributed_files_thumb.png
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_03-read_distributed_files_thumb.png
     :alt: Read results from distributed files
 
-  :ref:`sphx_glr_examples_02-modal-harmonic_05-read_distributed_files.py`
+  :ref:`sphx_glr_examples_02-modal-harmonic_03-read_distributed_files.py`
 
 .. raw:: html
 
@@ -393,10 +359,10 @@ results from harmonic or modal analyses.
 
 .. only:: html
 
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_06-cycles_to_failure_thumb.png
+  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_04-cycles_to_failure_thumb.png
     :alt: Calculate the number of cycles to fatigue failure
 
-  :ref:`sphx_glr_examples_02-modal-harmonic_06-cycles_to_failure.py`
+  :ref:`sphx_glr_examples_02-modal-harmonic_04-cycles_to_failure.py`
 
 .. raw:: html
 
@@ -1084,6 +1050,73 @@ These examples show how to manipulate meshes.
     </div>
 
 
+Cyclic symmetry examples
+========================
+These examples show how to post-process cyclic symmetry models.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows a modal cyclic symmetry model with mesh and results expansions.">
+
+.. only:: html
+
+  .. image:: /examples/10-cyclic-symmetry/images/thumb/sphx_glr_01-modal_cyclic_thumb.png
+    :alt: Expand mesh and results for modal cyclic symmetry
+
+  :ref:`sphx_glr_examples_10-cyclic-symmetry_01-modal_cyclic.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Expand mesh and results for modal cyclic symmetry</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to extract results from a modal cyclic symmetry model.">
+
+.. only:: html
+
+  .. image:: /examples/10-cyclic-symmetry/images/thumb/sphx_glr_02-modal_cyclic_no_expansion_thumb.png
+    :alt: Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry
+
+  :ref:`sphx_glr_examples_10-cyclic-symmetry_02-modal_cyclic_no_expansion.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand the mesh and results from a multi-stage cyclic analysis.">
+
+.. only:: html
+
+  .. image:: /examples/10-cyclic-symmetry/images/thumb/sphx_glr_03-cyclic_multi_stage_thumb.png
+    :alt: Multi-stage cyclic symmetry example
+
+  :ref:`sphx_glr_examples_10-cyclic-symmetry_03-cyclic_multi_stage.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Multi-stage cyclic symmetry example</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
 .. toctree::
    :hidden:
    :includehidden:
@@ -1098,6 +1131,7 @@ These examples show how to manipulate meshes.
    /examples/07-python-operators/index.rst
    /examples/08-averaging/index.rst
    /examples/09-mesh_operations/index.rst
+   /examples/10-cyclic-symmetry/index.rst
 
 
 

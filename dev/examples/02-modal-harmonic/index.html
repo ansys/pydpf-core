@@ -412,32 +412,22 @@ function checkPageExistsAndRedirect(event) {
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="01-modal_cyclic.html">
-     Modal cyclic symmetry example
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="02-cyclic_multi_stage.html">
-     Multi-stage cyclic symmetry example
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="03-compare_modes.html">
+    <a class="reference internal" href="01-compare_modes.html">
      Use Result Helpers to compare mode shapes for solids and then shells
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="04-modal_superposition.html">
+    <a class="reference internal" href="02-modal_superposition.html">
      Expand harmonic modal superposition with DPF
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="05-read_distributed_files.html">
+    <a class="reference internal" href="03-read_distributed_files.html">
      Read results from distributed files
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="06-cycles_to_failure.html">
+    <a class="reference internal" href="04-cycles_to_failure.html">
      Calculate the number of cycles to fatigue failure
     </a>
    </li>
@@ -692,6 +682,33 @@ function checkPageExistsAndRedirect(event) {
    </li>
   </ul>
  </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-cyclic-symmetry/index.html">
+   Cyclic symmetry examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-cyclic-symmetry/01-modal_cyclic.html">
+     Expand mesh and results for modal cyclic symmetry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-cyclic-symmetry/02-modal_cyclic_no_expansion.html">
+     Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-cyclic-symmetry/03-cyclic_multi_stage.html">
+     Multi-stage cyclic symmetry example
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
   </div>
@@ -737,23 +754,17 @@ results from harmonic or modal analyses.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to compute a multi-harmonic response using fft transformations."><img alt="Multi-harmonic response example" src="../../_images/sphx_glr_00-multi_harmonic_thumb.png" />
 <p><a class="reference internal" href="00-multi_harmonic.html#sphx-glr-examples-02-modal-harmonic-00-multi-harmonic-py"><span class="std std-ref">Multi-harmonic response example</span></a></p>
   <div class="sphx-glr-thumbnail-title">Multi-harmonic response example</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand a cyclic mesh and its results."><img alt="Modal cyclic symmetry example" src="../../_images/sphx_glr_01-modal_cyclic_thumb.png" />
-<p><a class="reference internal" href="01-modal_cyclic.html#sphx-glr-examples-02-modal-harmonic-01-modal-cyclic-py"><span class="std std-ref">Modal cyclic symmetry example</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Modal cyclic symmetry example</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand the mesh and results from a multi-stage cyclic analysis."><img alt="Multi-stage cyclic symmetry example" src="../../_images/sphx_glr_02-cyclic_multi_stage_thumb.png" />
-<p><a class="reference internal" href="02-cyclic_multi_stage.html#sphx-glr-examples-02-modal-harmonic-02-cyclic-multi-stage-py"><span class="std std-ref">Multi-stage cyclic symmetry example</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Multi-stage cyclic symmetry example</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="The ansys.dpf.core.results.Result class which instances are created by the ansys.dpf.core.model..."><img alt="Use Result Helpers to compare mode shapes for solids and then shells" src="../../_images/sphx_glr_03-compare_modes_thumb.png" />
-<p><a class="reference internal" href="03-compare_modes.html#sphx-glr-examples-02-modal-harmonic-03-compare-modes-py"><span class="std std-ref">Use Result Helpers to compare mode shapes for solids and then shells</span></a></p>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The ansys.dpf.core.results.Result class which instances are created by the ansys.dpf.core.model..."><img alt="Use Result Helpers to compare mode shapes for solids and then shells" src="../../_images/sphx_glr_01-compare_modes_thumb.png" />
+<p><a class="reference internal" href="01-compare_modes.html#sphx-glr-examples-02-modal-harmonic-01-compare-modes-py"><span class="std std-ref">Use Result Helpers to compare mode shapes for solids and then shells</span></a></p>
   <div class="sphx-glr-thumbnail-title">Use Result Helpers to compare mode shapes for solids and then shells</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Different types of linear dynamics expansions are implemented in DPF. With modal superposition ..."><img alt="Expand harmonic modal superposition with DPF" src="../../_images/sphx_glr_04-modal_superposition_thumb.png" />
-<p><a class="reference internal" href="04-modal_superposition.html#sphx-glr-examples-02-modal-harmonic-04-modal-superposition-py"><span class="std std-ref">Expand harmonic modal superposition with DPF</span></a></p>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Different types of linear dynamics expansions are implemented in DPF. With modal superposition ..."><img alt="Expand harmonic modal superposition with DPF" src="../../_images/sphx_glr_02-modal_superposition_thumb.png" />
+<p><a class="reference internal" href="02-modal_superposition.html#sphx-glr-examples-02-modal-harmonic-02-modal-superposition-py"><span class="std std-ref">Expand harmonic modal superposition with DPF</span></a></p>
   <div class="sphx-glr-thumbnail-title">Expand harmonic modal superposition with DPF</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Solvers usually solve analysis with distributed architecture. In this case, one file is written..."><img alt="Read results from distributed files" src="../../_images/sphx_glr_05-read_distributed_files_thumb.png" />
-<p><a class="reference internal" href="05-read_distributed_files.html#sphx-glr-examples-02-modal-harmonic-05-read-distributed-files-py"><span class="std std-ref">Read results from distributed files</span></a></p>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Solvers usually solve analysis with distributed architecture. In this case, one file is written..."><img alt="Read results from distributed files" src="../../_images/sphx_glr_03-read_distributed_files_thumb.png" />
+<p><a class="reference internal" href="03-read_distributed_files.html#sphx-glr-examples-02-modal-harmonic-03-read-distributed-files-py"><span class="std std-ref">Read results from distributed files</span></a></p>
   <div class="sphx-glr-thumbnail-title">Read results from distributed files</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to generate and use a result file to calculate the cycles to failure res..."><img alt="Calculate the number of cycles to fatigue failure" src="../../_images/sphx_glr_06-cycles_to_failure_thumb.png" />
-<p><a class="reference internal" href="06-cycles_to_failure.html#sphx-glr-examples-02-modal-harmonic-06-cycles-to-failure-py"><span class="std std-ref">Calculate the number of cycles to fatigue failure</span></a></p>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to generate and use a result file to calculate the cycles to failure res..."><img alt="Calculate the number of cycles to fatigue failure" src="../../_images/sphx_glr_04-cycles_to_failure_thumb.png" />
+<p><a class="reference internal" href="04-cycles_to_failure.html#sphx-glr-examples-02-modal-harmonic-04-cycles-to-failure-py"><span class="std std-ref">Calculate the number of cycles to fatigue failure</span></a></p>
   <div class="sphx-glr-thumbnail-title">Calculate the number of cycles to fatigue failure</div>
 </div></div><div class="toctree-wrapper compound">
 </div>

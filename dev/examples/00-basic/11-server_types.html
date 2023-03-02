@@ -413,32 +413,22 @@ function checkPageExistsAndRedirect(event) {
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../02-modal-harmonic/01-modal_cyclic.html">
-     Modal cyclic symmetry example
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../02-modal-harmonic/02-cyclic_multi_stage.html">
-     Multi-stage cyclic symmetry example
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../02-modal-harmonic/03-compare_modes.html">
+    <a class="reference internal" href="../02-modal-harmonic/01-compare_modes.html">
      Use Result Helpers to compare mode shapes for solids and then shells
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../02-modal-harmonic/04-modal_superposition.html">
+    <a class="reference internal" href="../02-modal-harmonic/02-modal_superposition.html">
      Expand harmonic modal superposition with DPF
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../02-modal-harmonic/05-read_distributed_files.html">
+    <a class="reference internal" href="../02-modal-harmonic/03-read_distributed_files.html">
      Read results from distributed files
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../02-modal-harmonic/06-cycles_to_failure.html">
+    <a class="reference internal" href="../02-modal-harmonic/04-cycles_to_failure.html">
      Calculate the number of cycles to fatigue failure
     </a>
    </li>
@@ -693,6 +683,33 @@ function checkPageExistsAndRedirect(event) {
    </li>
   </ul>
  </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-cyclic-symmetry/index.html">
+   Cyclic symmetry examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-cyclic-symmetry/01-modal_cyclic.html">
+     Expand mesh and results for modal cyclic symmetry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-cyclic-symmetry/02-modal_cyclic_no_expansion.html">
+     Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-cyclic-symmetry/03-cyclic_multi_stage.html">
+     Multi-stage cyclic symmetry example
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
   </div>
@@ -844,7 +861,7 @@ Python module <code class="docutils literal notranslate"><span class="pre">ansys
   2                      2.000000e+00
 
 
- &lt;class &#39;ansys.dpf.core.server_types.InProcessServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;&#39;, &#39;server_port&#39;: None, &#39;server_process_id&#39;: 5732, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
+ &lt;class &#39;ansys.dpf.core.server_types.InProcessServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;&#39;, &#39;server_port&#39;: None, &#39;server_process_id&#39;: 7088, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
 DPF  Field
   Location: Nodal
   Unit:
@@ -858,7 +875,7 @@ DPF  Field
   2                      2.000000e+00
 
 
- &lt;class &#39;ansys.dpf.core.server_types.GrpcServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50075, &#39;server_process_id&#39;: 2592, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
+ &lt;class &#39;ansys.dpf.core.server_types.GrpcServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50056, &#39;server_process_id&#39;: 4656, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
 DPF  Field
   Location: Nodal
   Unit:
@@ -872,7 +889,7 @@ DPF  Field
   2                      2.000000e+00
 
 
- &lt;class &#39;ansys.dpf.core.server_types.LegacyGrpcServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50073, &#39;server_process_id&#39;: 3176, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
+ &lt;class &#39;ansys.dpf.core.server_types.LegacyGrpcServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50054, &#39;server_process_id&#39;: 5428, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
 </pre></div>
 </div>
 </section>
@@ -905,10 +922,10 @@ automatically started when a DPF object is created:</p>
   2                      2.000000e+00
 
 
- &lt;class &#39;ansys.dpf.core.server_types.LegacyGrpcServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50074, &#39;server_process_id&#39;: 2472, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
+ &lt;class &#39;ansys.dpf.core.server_types.LegacyGrpcServer&#39;&gt; DPF Server: {&#39;server_ip&#39;: &#39;127.0.0.1&#39;, &#39;server_port&#39;: 50055, &#39;server_process_id&#39;: 692, &#39;server_version&#39;: &#39;6.1&#39;, &#39;os&#39;: &#39;nt&#39;}
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.282 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.485 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-00-basic-11-server-types-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/7c9ba1e7af07b7f46a02d30c998186bb/11-server_types.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">11-server_types.py</span></code></a></p>

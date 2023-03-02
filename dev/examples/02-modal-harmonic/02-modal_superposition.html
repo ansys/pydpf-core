@@ -1,0 +1,881 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Expand harmonic modal superposition with DPF &#8212; PyDPF-Core</title>
+    
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    
+        <link href="../../_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Read results from distributed files" href="03-read_distributed_files.html" />
+    <link rel="prev" title="Use Result Helpers to compare mode shapes for solids and then shells" href="01-compare_modes.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../getting_started/index.html">
+  Getting started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user_guide/index.html">
+  User guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../concepts/index.html">
+  Concepts
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../api/index.html">
+  API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../operator_reference.html">
+  Operators
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  Examples
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../contributing.html">
+  Contribute
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <div class="dropdown" id="version_switcher">
+    <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+        dev  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+
+<!-- NOTE: this JS must live here (not in our global JS file) because it relies
+     on being processed by Jinja before it is run (specifically for replacing
+     variables examples/02-modal-harmonic/02-modal_superposition and {'json_url': 'https://nocname.com/release/versions.json', 'version_match': 'dev'}.
+-->
+
+<script type="text/javascript">
+// Check if corresponding page path exists in other version of docs
+// and, if so, go there instead of the homepage of the other docs version
+function checkPageExistsAndRedirect(event) {
+    const currentFilePath = "examples/02-modal-harmonic/02-modal_superposition.html",
+          tryUrl = event.target.getAttribute("href");
+    let otherDocsHomepage = tryUrl.replace(currentFilePath, "");
+    $.ajax({
+        type: 'HEAD',
+        url: tryUrl,
+        // if the page exists, go there
+        success: function() {
+            location.href = tryUrl;
+        }
+    }).fail(function() {
+        location.href = otherDocsHomepage;
+    });
+    // this prevents the browser from following the href of the clicked node
+    // (which is fine because this function takes care of redirecting)
+    return false;
+}
+
+// Populate the version switcher from the JSON config file
+(function () {
+    $.getJSON("https://nocname.com/release/versions.json", function(data, textStatus, jqXHR) {
+        const currentFilePath = "examples/02-modal-harmonic/02-modal_superposition.html";
+        let btn = document.getElementById("version_switcher_button");
+        // Set empty strings by default so that these attributes exist and can be used in CSS selectors
+        btn.dataset["activeVersionName"] = "";
+        btn.dataset["activeVersion"] = "";
+        // create links to the corresponding page in the other docs versions
+        $.each(data, function(index, entry) {
+            // if no custom name specified (e.g., "latest"), use version string
+            if (!("name" in entry)) {
+                entry.name = entry.version;
+            }
+            // create the node
+            const node = document.createElement("a");
+            node.setAttribute("class", "list-group-item list-group-item-action py-1");
+            node.textContent = `${entry.name}`;
+            node.setAttribute("href", `${entry.url}${currentFilePath}`);
+            // on click, AJAX calls will check if the linked page exists before
+            // trying to redirect, and if not, will redirect to the homepage
+            // for that version of the docs.
+            node.onclick = checkPageExistsAndRedirect;
+            // Add dataset values for the version and name in case people want
+            // to apply CSS styling based on this information.
+            node.dataset["versionName"] = entry.name;
+            node.dataset["version"] = entry.version;
+
+            $("#version_switcher_menu").append(node);
+            // replace dropdown button text with the preferred display name of
+            // this version, rather than using sphinx's 0.7.3.dev0 variable.
+            // also highlight the dropdown entry for the currently-viewed
+            // version's entry
+            if (entry.version == "dev") {
+                node.classList.add("active");
+                btn.innerText = btn.dataset["activeVersionName"] = entry.name;
+                btn.dataset["activeVersion"] = entry.version;
+            }
+        });
+    });
+})();
+</script>
+      </div>
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/pyansys/pydpf-core" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+     
+<div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+
+    
+        <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyDPF-Core</a> » </li>
+    
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Examples</a> » </li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Harmonic analysis examples</a> » </li>
+        <li class="nav-item nav-item-this"><a href="">Expand harmonic modal superposition with DPF</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../00-basic/index.html">
+   Basic DPF examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-basic/00-basic_example.html">
+     Basic DPF-Core usage
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-basic/01-basic_operators.html">
+     Operators overview
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-basic/02-basic_field_containers.html">
+     Field and field containers overview
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-basic/03-create_entities.html">
+     Create your own entities using DPF operators
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-basic/05-use_local_data.html">
+     Bring a field’s data locally to improve performance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-basic/07-use_result_helpers.html">
+     Use result helpers to load custom data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-basic/08-results_over_time_subset.html">
+     Scope results over custom time domains
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-basic/09-results_over_space_subset.html">
+     Scope results over custom space domains
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-basic/11-server_types.html">
+     Communicate in process or via gRPC
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../00-basic/12-get_material_properties.html">
+     Get material properties from the result file
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../01-transient_analyses/index.html">
+   Transient analysis examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-transient_analyses/00-basic_transient.html">
+     Transient analysis result example
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-transient_analyses/01-transient_easy_time_scoping.html">
+     Choose a time scoping for a transient analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../01-transient_analyses/02-lsdyna_operators.html">
+     Results extraction and analysis from LS-DYNA sources
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="index.html">
+   Harmonic analysis examples
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="00-multi_harmonic.html">
+     Multi-harmonic response example
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="01-compare_modes.html">
+     Use Result Helpers to compare mode shapes for solids and then shells
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Expand harmonic modal superposition with DPF
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="03-read_distributed_files.html">
+     Read results from distributed files
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="04-cycles_to_failure.html">
+     Calculate the number of cycles to fatigue failure
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../03-advanced/index.html">
+   Advanced and miscellaneous examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-advanced/00-multistage_advanced_options.html">
+     Multi-stage cyclic symmetry using advanced customization
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-advanced/01-solve_harmonic_problem.html">
+     Solve harmonic problem (with damping) using matrix inverse
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-advanced/02-volume_averaged_stress.html">
+     Average elemental stress on a given volume
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-advanced/03-exchange_data_between_servers.html">
+     Exchange data between servers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-advanced/04-extrapolation_stress_3d.html">
+     Extrapolation method for stress result of a 3D element
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-advanced/05-extrapolation_strain_2d.html">
+     Extrapolation method for strain result of a 2D element
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-advanced/06-stress_gradient_path.html">
+     Stress gradient normal to a defined node
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-advanced/07-load_plugin.html">
+     Load plugin
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../03-advanced/10-asme_secviii_divtwo.html">
+     Pressure vessel analysis according to an ASME standard
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../04-file-IO/index.html">
+   File manipulation and input-output examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-file-IO/00-hdf5_double_float_comparison.html">
+     HDF5 export and compare precision
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-file-IO/01-reduced_matrices_export.html">
+     Get reduced matrices and make export
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-file-IO/04-basic-load-file.html">
+     Working with a result file
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../05-plotting/index.html">
+   Plotting examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-plotting/00-basic_plotting.html">
+     Review of available plotting commands
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-plotting/01-compare_results.html">
+     Compare results using the plotter
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-plotting/02-solution_combination.html">
+     Load case combination for principal stress
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-plotting/03-labels.html">
+     Add nodal labels on plots
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-plotting/04-plot_on_path.html">
+     Plot results on a specific path
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-plotting/05-plot_on_warped_mesh.html">
+     Warp the mesh by a field for plotting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-plotting/06-animate_results.html">
+     Review of available animation commands
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../05-plotting/07-plot_on_geometries.html">
+     Plot on geometry elements
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../06-distributed-post/index.html">
+   Examples for postprocessing on distributed processes
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-distributed-post/00-distributed_total_disp.html">
+     Postprocessing of displacement on distributed processes
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-distributed-post/01-distributed_workflows_on_remote.html">
+     Create a custom workflow on distributed processes
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-distributed-post/02-distributed-msup_expansion.html">
+     Distributed mode superposition (MSUP)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-distributed-post/03-distributed-msup_expansion_steps.html">
+     Distributed MSUP distributed modal response
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-distributed-post/06-distributed_stress_averaging.html">
+     Average Stress in distributed Workflows
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../07-python-operators/index.html">
+   Examples of creating custom operator plugins
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-python-operators/00-wrapping_numpy_capabilities.html">
+     Create a basic operator plugin
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-python-operators/01-package_python_operators.html">
+     Create a plug-in package with multiple operators
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-python-operators/02-python_operators_with_dependencies.html">
+     Create a plug-in package that has third-party dependencies
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../08-averaging/index.html">
+   Averaging examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-averaging/00-compute_and_average.html">
+     Averaging order
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-averaging/01-average_across_bodies.html">
+     Average across bodies
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../09-mesh_operations/index.html">
+   Mesh operations examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-mesh_operations/00-create_polygons_and_polyhedrons.html">
+     Create and display a mesh with polygon and polyhedron elements
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-mesh_operations/05-skin_extraction.html">
+     Extract the skin from a mesh
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../09-mesh_operations/13-nodes_in_local_coordinate_system.html">
+     Convert nodal coordinates field to local coordinate system
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-cyclic-symmetry/index.html">
+   Cyclic symmetry examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-cyclic-symmetry/01-modal_cyclic.html">
+     Expand mesh and results for modal cyclic symmetry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-cyclic-symmetry/02-modal_cyclic_no_expansion.html">
+     Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-cyclic-symmetry/03-cyclic_multi_stage.html">
+     Multi-stage cyclic symmetry example
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Expand harmonic modal superposition with DPF
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-data-sources">
+   Create data sources
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compute-displacements">
+   Compute displacements
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-02-modal-harmonic-02-modal-superposition-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="expand-harmonic-modal-superposition-with-dpf">
+<span id="ref-msup"></span><span id="sphx-glr-examples-02-modal-harmonic-02-modal-superposition-py"></span><h1>Expand harmonic modal superposition with DPF<a class="headerlink" href="#expand-harmonic-modal-superposition-with-dpf" title="Permalink to this heading">#</a></h1>
+<p>Different types of linear dynamics expansions are implemented in DPF.
+With modal superposition used in harmonic analysis, modal coefficients
+are multiplied by mode shapes (of a previous modal analysis) to analyse
+a structure under given boundary conditions in a range of frequencies.
+Doing this expansion “on demand” in DPF instead of in the solver
+reduces the size of the result files.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example requires the Premium ServerContext.
+For more information, see <a class="reference internal" href="../../user_guide/server_context.html#user-guide-server-context"><span class="std std-ref">Server context</span></a>.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+
+
+<span class="n">dpf</span><span class="o">.</span><span class="n">set_default_server_context</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerContexts</span><span class="o">.</span><span class="n">premium</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="create-data-sources">
+<h1>Create data sources<a class="headerlink" href="#create-data-sources" title="Permalink to this heading">#</a></h1>
+<p>Create data sources with the mode shapes and the modal response.
+The expansion is recursive in DPF: first the modal response is read.
+Then, “upstream” mode shapes are found in the data sources, where they
+are read and expanded (mode shapes x modal response)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">msup_files</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_msup_files_to_dict</span><span class="p">()</span>
+<span class="n">data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">msup_files</span><span class="p">[</span><span class="s2">&quot;rfrq&quot;</span><span class="p">])</span>
+<span class="n">up_stream_data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">msup_files</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">])</span>
+<span class="n">up_stream_data_sources</span><span class="o">.</span><span class="n">add_file_path</span><span class="p">(</span><span class="n">msup_files</span><span class="p">[</span><span class="s2">&quot;rst&quot;</span><span class="p">])</span>
+
+<span class="n">data_sources</span><span class="o">.</span><span class="n">add_upstream</span><span class="p">(</span><span class="n">up_stream_data_sources</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="compute-displacements">
+<h1>Compute displacements<a class="headerlink" href="#compute-displacements" title="Permalink to this heading">#</a></h1>
+<p>Once the <code class="docutils literal notranslate"><span class="pre">add_upstream()</span></code> method puts the recursivity in the data sources,
+in a harmonic, transient, or modal analysis, computing displacements with
+or without expansion has the exact same syntax.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="p">)</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="n">freq_scoping</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">get_time_scoping</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">freq_set</span> <span class="ow">in</span> <span class="n">freq_scoping</span><span class="p">:</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">disp</span><span class="o">.</span><span class="n">get_field_by_time_complex_ids</span><span class="p">(</span><span class="n">freq_set</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../../_images/sphx_glr_02-modal_superposition_001.png" srcset="../../_images/sphx_glr_02-modal_superposition_001.png" alt="02 modal superposition" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-modal_superposition_002.png" srcset="../../_images/sphx_glr_02-modal_superposition_002.png" alt="02 modal superposition" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-modal_superposition_003.png" srcset="../../_images/sphx_glr_02-modal_superposition_003.png" alt="02 modal superposition" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-modal_superposition_004.png" srcset="../../_images/sphx_glr_02-modal_superposition_004.png" alt="02 modal superposition" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-modal_superposition_005.png" srcset="../../_images/sphx_glr_02-modal_superposition_005.png" alt="02 modal superposition" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-modal_superposition_006.png" srcset="../../_images/sphx_glr_02-modal_superposition_006.png" alt="02 modal superposition" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-modal_superposition_007.png" srcset="../../_images/sphx_glr_02-modal_superposition_007.png" alt="02 modal superposition" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-modal_superposition_008.png" srcset="../../_images/sphx_glr_02-modal_superposition_008.png" alt="02 modal superposition" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-modal_superposition_009.png" srcset="../../_images/sphx_glr_02-modal_superposition_009.png" alt="02 modal superposition" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-modal_superposition_010.png" srcset="../../_images/sphx_glr_02-modal_superposition_010.png" alt="02 modal superposition" class = "sphx-glr-multi-img"/></li>
+</ul>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  12.513 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-02-modal-harmonic-02-modal-superposition-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/93ce006a2e9beff207688ac7c591dc63/02-modal_superposition.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-modal_superposition.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/fd1c487f0cf6192a9a5750e01ad60b97/02-modal_superposition.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">02-modal_superposition.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+              </article>
+              
+
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>
