@@ -197,7 +197,7 @@ moving along the y-axis, the stresses are plotted with respect to the y coordina
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.673 seconds)
+   **Total running time of the script:** ( 0 minutes  1.376 seconds)
 
 
 .. _sphx_glr_download_examples_05-plotting_04-plot_on_path.py:
