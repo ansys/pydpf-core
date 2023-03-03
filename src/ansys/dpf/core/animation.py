@@ -2,13 +2,7 @@ from ansys import dpf
 
 
 def animate_mode(
-    field_container,
-    mode_number,
-    save_as=None,
-    deform_by=None,
-    frame_number=21,
-    scale_factor=1.0,
-    **kwargs
+    field_container, mode_number=1, save_as=None, frame_number=21, scale_factor=1.0, **kwargs
 ):
     """Creates an animation based on the Fields contained in the FieldsContainer.
 
@@ -17,16 +11,29 @@ def animate_mode(
 
     Parameters
     ----------
+    field_container: Field container containing the modal results.
+    mode_number : Mode number of the results to animation.
     save_as : Path of file to save the animation to. Defaults to None. Can be of any format
         supported by pyvista.Plotter.write_frame (.gif, .mp4, ...).
-    deform_by : FieldsContainer, Result, Operator, optional
-        Used to deform the plotted mesh. Must return a FieldsContainer of the same length as
-        field_container, containing 3D vector Fields of distances.
-        Defaults to None, which takes field_container if possible. Set as False to force static
-        animation.
     scale_factor : float, list, optional
         Scale factor to apply when warping the mesh. Defaults to 1.0. Can be a list to make
         scaling frequency-dependent.
+
+    Examples
+    --------
+    Import a modal result from a model.
+
+    >>> import ansys.dpf.core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> model = dpf.Model(examples.download_modal_frame())
+    >>> disp = model.results.displacement.on_all_time_freqs.eval()
+
+    Creates an animation from a modal result.
+
+    >>> from ansys.dpf.core import animation
+    >>> animation.animate_mode(disp, mode_number=1, save_as="tmp.gif")
+
+
     """
     from ansys.dpf.core.animator import Animator
 
