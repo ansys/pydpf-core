@@ -5,12 +5,12 @@
 
 Computation times
 =================
-**00:05.989** total execution time for **examples_04-file-IO** files:
+**00:04.269** total execution time for **examples_04-file-IO** files:
 
 +-----------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_04-file-IO_04-basic-load-file.py` (``04-basic-load-file.py``)                           | 00:05.113 | 0.0 MB |
+| :ref:`sphx_glr_examples_04-file-IO_04-basic-load-file.py` (``04-basic-load-file.py``)                           | 00:03.159 | 0.0 MB |
 +-----------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_04-file-IO_01-reduced_matrices_export.py` (``01-reduced_matrices_export.py``)           | 00:00.610 | 0.0 MB |
+| :ref:`sphx_glr_examples_04-file-IO_01-reduced_matrices_export.py` (``01-reduced_matrices_export.py``)           | 00:00.609 | 0.0 MB |
 +-----------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_04-file-IO_00-hdf5_double_float_comparison.py` (``00-hdf5_double_float_comparison.py``) | 00:00.266 | 0.0 MB |
+| :ref:`sphx_glr_examples_04-file-IO_00-hdf5_double_float_comparison.py` (``00-hdf5_double_float_comparison.py``) | 00:00.501 | 0.0 MB |
 +-----------------------------------------------------------------------------------------------------------------+-----------+--------+

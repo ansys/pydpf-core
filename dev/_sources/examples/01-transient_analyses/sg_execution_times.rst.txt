@@ -5,12 +5,12 @@
 
 Computation times
 =================
-**00:15.384** total execution time for **examples_01-transient_analyses** files:
+**00:08.230** total execution time for **examples_01-transient_analyses** files:
 
 +--------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_01-transient_analyses_02-lsdyna_operators.py` (``02-lsdyna_operators.py``)                       | 00:14.211 | 0.0 MB |
+| :ref:`sphx_glr_examples_01-transient_analyses_02-lsdyna_operators.py` (``02-lsdyna_operators.py``)                       | 00:07.636 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_01-transient_analyses_00-basic_transient.py` (``00-basic_transient.py``)                         | 00:00.845 | 0.0 MB |
+| :ref:`sphx_glr_examples_01-transient_analyses_00-basic_transient.py` (``00-basic_transient.py``)                         | 00:00.422 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_01-transient_analyses_01-transient_easy_time_scoping.py` (``01-transient_easy_time_scoping.py``) | 00:00.328 | 0.0 MB |
+| :ref:`sphx_glr_examples_01-transient_analyses_01-transient_easy_time_scoping.py` (``01-transient_easy_time_scoping.py``) | 00:00.172 | 0.0 MB |
 +--------------------------------------------------------------------------------------------------------------------------+-----------+--------+
