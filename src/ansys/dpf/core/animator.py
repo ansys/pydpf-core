@@ -152,7 +152,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
         self._plotter.close()
         return result
 
-    def animate_workflow_mod(
+    def animate_modal_workflow(
         self,
         loop_over,
         mode_number,
@@ -192,7 +192,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
         workflow.connect(input_name, [mode_number])
 
         initial_field = workflow.get_output(output_name, core.types.field)
-        max = float(initial_field.data.max)
+        max_ = float(np.max(initial_field.data))
 
         def render_frame(frame):
             self._plotter.clear()
@@ -211,7 +211,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             )
             field_ponderated = op.outputs.field()
 
-            clim = [0, max]
+            clim = [0, max_]
 
             self.add_field(
                 field_ponderated,
@@ -451,7 +451,7 @@ class Animator:
             freq_kwargs = {"font_size": 12, "fmt": ".3e"}
         if self.workflow is None:
             raise ValueError("Cannot animate without self.workflow.")
-        return self._internal_animator.animate_workflow_mod(
+        return self._internal_animator.animate_modal_workflow(
             loop_over=loop_over,
             mode_number=mode_number,
             workflow=self.workflow,
