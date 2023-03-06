@@ -219,7 +219,7 @@ function checkPageExistsAndRedirect(event) {
 
             $("#version_switcher_menu").append(node);
             // replace dropdown button text with the preferred display name of
-            // this version, rather than using sphinx's 0.7.3 variable.
+            // this version, rather than using sphinx's 0.7.4 variable.
             // also highlight the dropdown entry for the currently-viewed
             // version's entry
             if (entry.version == "0.7") {
@@ -3833,19 +3833,37 @@ function checkPageExistsAndRedirect(event) {
   </a>
   <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.assembly_mesh">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.time_scoping">
      <code class="docutils literal notranslate">
       <span class="pre">
-       InputsMeshesProvider.assembly_mesh
+       InputsMeshesProvider.time_scoping
       </span>
      </code>
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.unit">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.streams_container">
      <code class="docutils literal notranslate">
       <span class="pre">
-       InputsMeshesProvider.unit
+       InputsMeshesProvider.streams_container
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.data_sources">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InputsMeshesProvider.data_sources
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.read_cyclic">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InputsMeshesProvider.read_cyclic
       </span>
      </code>
     </a>
@@ -3871,10 +3889,10 @@ function checkPageExistsAndRedirect(event) {
   </a>
   <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.mesh.meshes_provider.OutputsMeshesProvider.meshes_container">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.operators.mesh.meshes_provider.OutputsMeshesProvider.meshes">
      <code class="docutils literal notranslate">
       <span class="pre">
-       OutputsMeshesProvider.meshes_container
+       OutputsMeshesProvider.meshes
       </span>
      </code>
     </a>
@@ -3906,13 +3924,19 @@ function checkPageExistsAndRedirect(event) {
 </section>
 <dl class="py class">
 <dt class="sig sig-object py" id="ansys.dpf.core.operators.mesh.meshes_provider.meshes_provider">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.mesh.meshes_provider.</span></span><span class="sig-name descname"><span class="pre">meshes_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">assembly_mesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.mesh.meshes_provider.meshes_provider" title="Permalink to this definition">#</a></dt>
-<dd><p>Converts an Assembly Mesh into a DPF Meshes container</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.mesh.meshes_provider.</span></span><span class="sig-name descname"><span class="pre">meshes_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_scoping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">streams_container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_sources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_cyclic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.mesh.meshes_provider.meshes_provider" title="Permalink to this definition">#</a></dt>
+<dd><p>Read meshes from result files. Meshes can be spatially or temporally
+varying.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>assembly_mesh</strong> (<em>AnsDispatchHolder</em><em> or </em><em>Struct Iansdispatch</em>) – </p></li>
-<li><p><strong>unit</strong> (<em>str</em><em>, </em><em>optional</em>) – </p></li>
+<li><p><strong>time_scoping</strong> (<a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><em>Scoping</em></a><em> or </em><em>int</em><em>, </em><em>optional</em>) – Time/freq set ids required in output</p></li>
+<li><p><strong>streams_container</strong> (<a class="reference internal" href="ansys.dpf.core.streams_container.html#ansys.dpf.core.streams_container.StreamsContainer" title="ansys.dpf.core.streams_container.StreamsContainer"><em>StreamsContainer</em></a><em>, </em><em>optional</em>) – Result file container allowed to be kept open
+to cache data</p></li>
+<li><p><strong>data_sources</strong> (<a class="reference internal" href="ansys.dpf.core.data_sources.html#ansys.dpf.core.data_sources.DataSources" title="ansys.dpf.core.data_sources.DataSources"><em>DataSources</em></a>) – Result file path container, used if no
+streams are set</p></li>
+<li><p><strong>read_cyclic</strong> (<em>int</em><em>, </em><em>optional</em>) – If 1 cyclic symmetry is ignored, if 2 cyclic
+expansion is done (default is 1)</p></li>
 </ul>
 </dd>
 </dl>
@@ -3925,21 +3949,27 @@ function checkPageExistsAndRedirect(event) {
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Make input connections</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">my_assembly_mesh</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">AnsDispatchHolder</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">assembly_mesh</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_assembly_mesh</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">my_unit</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_unit</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_time_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_time_scoping</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_streams_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">StreamsContainer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_streams_container</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_read_cyclic</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_read_cyclic</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Instantiate operator and connect inputs in one line</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">meshes_provider</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">assembly_mesh</span><span class="o">=</span><span class="n">my_assembly_mesh</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">unit</span><span class="o">=</span><span class="n">my_unit</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">time_scoping</span><span class="o">=</span><span class="n">my_time_scoping</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">streams_container</span><span class="o">=</span><span class="n">my_streams_container</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">data_sources</span><span class="o">=</span><span class="n">my_data_sources</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">read_cyclic</span><span class="o">=</span><span class="n">my_read_cyclic</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get output data</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_meshes_container</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">meshes_container</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_meshes</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">meshes</span><span class="p">()</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -4128,46 +4158,95 @@ meshes_provider operator.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">meshes_provider</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">my_assembly_mesh</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">AnsDispatchHolder</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">assembly_mesh</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_assembly_mesh</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">my_unit</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_unit</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_time_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_time_scoping</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_streams_container</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">StreamsContainer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_streams_container</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_data_sources</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_read_cyclic</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_read_cyclic</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.assembly_mesh">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">assembly_mesh</span></span><a class="headerlink" href="#ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.assembly_mesh" title="Permalink to this definition">#</a></dt>
-<dd><p>Allows to connect assembly_mesh input to the operator.</p>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.time_scoping">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time_scoping</span></span><a class="headerlink" href="#ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.time_scoping" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to connect time_scoping input to the operator.</p>
+<p>Time/freq set ids required in output</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>my_assembly_mesh</strong> (<em>AnsDispatchHolder</em><em> or </em><em>Struct Iansdispatch</em>) – </p>
+<dd class="field-odd"><p><strong>my_time_scoping</strong> (<a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><em>Scoping</em></a><em> or </em><em>int</em>) – </p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">meshes_provider</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">assembly_mesh</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_assembly_mesh</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_time_scoping</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># or</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">assembly_mesh</span><span class="p">(</span><span class="n">my_assembly_mesh</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="p">(</span><span class="n">my_time_scoping</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.unit">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unit</span></span><a class="headerlink" href="#ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.unit" title="Permalink to this definition">#</a></dt>
-<dd><p>Allows to connect unit input to the operator.</p>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.streams_container">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">streams_container</span></span><a class="headerlink" href="#ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.streams_container" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to connect streams_container input to the operator.</p>
+<p>Result file container allowed to be kept open
+to cache data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>my_unit</strong> (<em>str</em>) – </p>
+<dd class="field-odd"><p><strong>my_streams_container</strong> (<a class="reference internal" href="ansys.dpf.core.streams_container.html#ansys.dpf.core.streams_container.StreamsContainer" title="ansys.dpf.core.streams_container.StreamsContainer"><em>StreamsContainer</em></a>) – </p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">meshes_provider</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_unit</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_streams_container</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># or</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">unit</span><span class="p">(</span><span class="n">my_unit</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="p">(</span><span class="n">my_streams_container</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.data_sources">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_sources</span></span><a class="headerlink" href="#ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.data_sources" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to connect data_sources input to the operator.</p>
+<p>Result file path container, used if no
+streams are set</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>my_data_sources</strong> (<a class="reference internal" href="ansys.dpf.core.data_sources.html#ansys.dpf.core.data_sources.DataSources" title="ansys.dpf.core.data_sources.DataSources"><em>DataSources</em></a>) – </p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">meshes_provider</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">(</span><span class="n">my_data_sources</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.read_cyclic">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_cyclic</span></span><a class="headerlink" href="#ansys.dpf.core.operators.mesh.meshes_provider.InputsMeshesProvider.read_cyclic" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to connect read_cyclic input to the operator.</p>
+<p>If 1 cyclic symmetry is ignored, if 2 cyclic
+expansion is done (default is 1)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>my_read_cyclic</strong> (<em>int</em>) – </p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">meshes_provider</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_read_cyclic</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="p">(</span><span class="n">my_read_cyclic</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -4204,16 +4283,16 @@ meshes_provider operator.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">meshes_provider</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_meshes_container</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">meshes_container</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_meshes</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">meshes</span><span class="p">()</span>
 </pre></div>
 </div>
 <dl class="py property">
-<dt class="sig sig-object py" id="ansys.dpf.core.operators.mesh.meshes_provider.OutputsMeshesProvider.meshes_container">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">meshes_container</span></span><a class="headerlink" href="#ansys.dpf.core.operators.mesh.meshes_provider.OutputsMeshesProvider.meshes_container" title="Permalink to this definition">#</a></dt>
-<dd><p>Allows to get meshes_container output of the operator</p>
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.mesh.meshes_provider.OutputsMeshesProvider.meshes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">meshes</span></span><a class="headerlink" href="#ansys.dpf.core.operators.mesh.meshes_provider.OutputsMeshesProvider.meshes" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to get meshes output of the operator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>my_meshes_container</strong></p>
+<dd class="field-odd"><p><strong>my_meshes</strong></p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.meshes_container.html#ansys.dpf.core.meshes_container.MeshesContainer" title="ansys.dpf.core.meshes_container.MeshesContainer">MeshesContainer</a></p>
@@ -4223,7 +4302,7 @@ meshes_provider operator.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">meshes_provider</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_meshes_container</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">meshes_container</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_meshes</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">meshes</span><span class="p">()</span>
 </pre></div>
 </div>
 </dd></dl>

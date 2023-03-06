@@ -5,26 +5,26 @@
 
 Computation times
 =================
-**00:51.572** total execution time for **examples_00-basic** files:
+**00:54.456** total execution time for **examples_00-basic** files:
 
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_09-results_over_space_subset.py` (``09-results_over_space_subset.py``) | 00:14.494 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_00-basic_example.py` (``00-basic_example.py``)                         | 00:13.907 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_00-basic_example.py` (``00-basic_example.py``)                         | 00:11.539 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_09-results_over_space_subset.py` (``09-results_over_space_subset.py``) | 00:13.587 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_03-create_entities.py` (``03-create_entities.py``)                     | 00:08.520 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_03-create_entities.py` (``03-create_entities.py``)                     | 00:09.381 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_07-use_result_helpers.py` (``07-use_result_helpers.py``)               | 00:07.667 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_07-use_result_helpers.py` (``07-use_result_helpers.py``)               | 00:07.802 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_05-use_local_data.py` (``05-use_local_data.py``)                       | 00:04.972 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_05-use_local_data.py` (``05-use_local_data.py``)                       | 00:05.239 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_11-server_types.py` (``11-server_types.py``)                           | 00:02.411 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_11-server_types.py` (``11-server_types.py``)                           | 00:02.330 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_01-basic_operators.py` (``01-basic_operators.py``)                     | 00:01.219 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_01-basic_operators.py` (``01-basic_operators.py``)                     | 00:01.314 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_08-results_over_time_subset.py` (``08-results_over_time_subset.py``)   | 00:00.673 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_08-results_over_time_subset.py` (``08-results_over_time_subset.py``)   | 00:00.818 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_02-basic_field_containers.py` (``02-basic_field_containers.py``)       | 00:00.047 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_02-basic_field_containers.py` (``02-basic_field_containers.py``)       | 00:00.049 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_examples_00-basic_12-get_material_properties.py` (``12-get_material_properties.py``)     | 00:00.031 | 0.0 MB |
+| :ref:`sphx_glr_examples_00-basic_12-get_material_properties.py` (``12-get_material_properties.py``)     | 00:00.030 | 0.0 MB |
 +---------------------------------------------------------------------------------------------------------+-----------+--------+

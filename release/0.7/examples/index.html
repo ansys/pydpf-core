@@ -219,7 +219,7 @@ function checkPageExistsAndRedirect(event) {
 
             $("#version_switcher_menu").append(node);
             // replace dropdown button text with the preferred display name of
-            // this version, rather than using sphinx's 0.7.3 variable.
+            // this version, rather than using sphinx's 0.7.4 variable.
             // also highlight the dropdown entry for the currently-viewed
             // version's entry
             if (entry.version == "0.7") {
@@ -396,8 +396,8 @@ function checkPageExistsAndRedirect(event) {
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="02-modal-harmonic/index.html">
-   Harmonic analysis examples
+  <a class="reference internal" href="02-modal_analyses/index.html">
+   Modal analysis examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
@@ -406,45 +406,15 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="02-modal-harmonic/00-multi_harmonic.html">
-     Multi-harmonic response example
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="02-modal-harmonic/01-modal_cyclic.html">
-     Modal cyclic symmetry example
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="02-modal-harmonic/02-cyclic_multi_stage.html">
-     Multi-stage cyclic symmetry example
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="02-modal-harmonic/03-compare_modes.html">
+    <a class="reference internal" href="02-modal_analyses/00-compare_modes.html">
      Use Result Helpers to compare mode shapes for solids and then shells
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="02-modal-harmonic/04-modal_superposition.html">
-     Expand harmonic modal superposition with DPF
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="02-modal-harmonic/05-read_distributed_files.html">
-     Read results from distributed files
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="02-modal-harmonic/06-cycles_to_failure.html">
-     Calculate the number of cycles to fatigue failure
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="03-advanced/index.html">
-   Advanced and miscellaneous examples
+  <a class="reference internal" href="03-harmonic_analyses/index.html">
+   Harmonic analysis examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
   <label for="toctree-checkbox-4">
@@ -453,55 +423,20 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="03-advanced/00-multistage_advanced_options.html">
-     Multi-stage cyclic symmetry using advanced customization
+    <a class="reference internal" href="03-harmonic_analyses/00-multi_harmonic.html">
+     Multi-harmonic response example
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="03-advanced/01-solve_harmonic_problem.html">
-     Solve harmonic problem (with damping) using matrix inverse
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="03-advanced/02-volume_averaged_stress.html">
-     Average elemental stress on a given volume
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="03-advanced/03-exchange_data_between_servers.html">
-     Exchange data between servers
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="03-advanced/04-extrapolation_stress_3d.html">
-     Extrapolation method for stress result of a 3D element
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="03-advanced/05-extrapolation_strain_2d.html">
-     Extrapolation method for strain result of a 2D element
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="03-advanced/06-stress_gradient_path.html">
-     Stress gradient normal to a defined node
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="03-advanced/07-load_plugin.html">
-     Load plugin
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="03-advanced/10-asme_secviii_divtwo.html">
-     Pressure vessel analysis according to an ASME standard
+    <a class="reference internal" href="03-harmonic_analyses/01-modal_superposition.html">
+     Expand harmonic modal superposition with DPF
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="04-file-IO/index.html">
-   File manipulation and input-output examples
+  <a class="reference internal" href="04-advanced/index.html">
+   Advanced and miscellaneous examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
   <label for="toctree-checkbox-5">
@@ -510,25 +445,65 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="04-file-IO/00-hdf5_double_float_comparison.html">
-     HDF5 export and compare precision
+    <a class="reference internal" href="04-advanced/00-multistage_advanced_options.html">
+     Multi-stage cyclic symmetry using advanced customization
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="04-file-IO/01-reduced_matrices_export.html">
-     Get reduced matrices and make export
+    <a class="reference internal" href="04-advanced/01-solve_harmonic_problem.html">
+     Solve harmonic problem (with damping) using matrix inverse
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="04-file-IO/04-basic-load-file.html">
-     Working with a result file
+    <a class="reference internal" href="04-advanced/02-volume_averaged_stress.html">
+     Average elemental stress on a given volume
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="04-advanced/03-exchange_data_between_servers.html">
+     Exchange data between servers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="04-advanced/04-extrapolation_stress_3d.html">
+     Extrapolation method for stress result of a 3D element
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="04-advanced/05-extrapolation_strain_2d.html">
+     Extrapolation method for strain result of a 2D element
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="04-advanced/06-stress_gradient_path.html">
+     Stress gradient normal to a defined node
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="04-advanced/07-load_plugin.html">
+     Load plugin
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="04-advanced/10-asme_secviii_divtwo.html">
+     Pressure vessel analysis according to an ASME standard
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="04-advanced/11-cycles_to_failure.html">
+     Calculate the number of cycles to fatigue failure
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="04-advanced/12-read_distributed_files.html">
+     Read results from distributed files
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="05-plotting/index.html">
-   Plotting examples
+  <a class="reference internal" href="05-file-IO/index.html">
+   File manipulation and input-output examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
   <label for="toctree-checkbox-6">
@@ -537,50 +512,25 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="05-plotting/00-basic_plotting.html">
-     Review of available plotting commands
+    <a class="reference internal" href="05-file-IO/00-hdf5_double_float_comparison.html">
+     HDF5 export and compare precision
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="05-plotting/01-compare_results.html">
-     Compare results using the plotter
+    <a class="reference internal" href="05-file-IO/01-reduced_matrices_export.html">
+     Get reduced matrices and make export
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="05-plotting/02-solution_combination.html">
-     Load case combination for principal stress
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="05-plotting/03-labels.html">
-     Add nodal labels on plots
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="05-plotting/04-plot_on_path.html">
-     Plot results on a specific path
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="05-plotting/05-plot_on_warped_mesh.html">
-     Warp the mesh by a field for plotting
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="05-plotting/06-animate_results.html">
-     Review of available animation commands
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="05-plotting/07-plot_on_geometries.html">
-     Plot on geometry elements
+    <a class="reference internal" href="05-file-IO/04-basic-load-file.html">
+     Working with a result file
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="06-distributed-post/index.html">
-   Examples for postprocessing on distributed processes
+  <a class="reference internal" href="06-plotting/index.html">
+   Plotting examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
   <label for="toctree-checkbox-7">
@@ -589,35 +539,50 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="06-distributed-post/00-distributed_total_disp.html">
-     Postprocessing of displacement on distributed processes
+    <a class="reference internal" href="06-plotting/00-basic_plotting.html">
+     Review of available plotting commands
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="06-distributed-post/01-distributed_workflows_on_remote.html">
-     Create a custom workflow on distributed processes
+    <a class="reference internal" href="06-plotting/01-compare_results.html">
+     Compare results using the plotter
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="06-distributed-post/02-distributed-msup_expansion.html">
-     Distributed mode superposition (MSUP)
+    <a class="reference internal" href="06-plotting/02-solution_combination.html">
+     Load case combination for principal stress
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="06-distributed-post/03-distributed-msup_expansion_steps.html">
-     Distributed MSUP distributed modal response
+    <a class="reference internal" href="06-plotting/03-labels.html">
+     Add nodal labels on plots
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="06-distributed-post/06-distributed_stress_averaging.html">
-     Average Stress in distributed Workflows
+    <a class="reference internal" href="06-plotting/04-plot_on_path.html">
+     Plot results on a specific path
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="06-plotting/05-plot_on_warped_mesh.html">
+     Warp the mesh by a field for plotting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="06-plotting/06-animate_results.html">
+     Review of available animation commands
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="06-plotting/07-plot_on_geometries.html">
+     Plot on geometry elements
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="07-python-operators/index.html">
-   Examples of creating custom operator plugins
+  <a class="reference internal" href="07-distributed-post/index.html">
+   Examples for postprocessing on distributed processes
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
   <label for="toctree-checkbox-8">
@@ -626,25 +591,35 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="07-python-operators/00-wrapping_numpy_capabilities.html">
-     Create a basic operator plugin
+    <a class="reference internal" href="07-distributed-post/00-distributed_total_disp.html">
+     Postprocessing of displacement on distributed processes
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="07-python-operators/01-package_python_operators.html">
-     Create a plug-in package with multiple operators
+    <a class="reference internal" href="07-distributed-post/01-distributed_workflows_on_remote.html">
+     Create a custom workflow on distributed processes
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="07-python-operators/02-python_operators_with_dependencies.html">
-     Create a plug-in package that has third-party dependencies
+    <a class="reference internal" href="07-distributed-post/02-distributed-msup_expansion.html">
+     Distributed mode superposition (MSUP)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="07-distributed-post/03-distributed-msup_expansion_steps.html">
+     Distributed MSUP distributed modal response
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="07-distributed-post/06-distributed_stress_averaging.html">
+     Average Stress in distributed Workflows
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="08-averaging/index.html">
-   Averaging examples
+  <a class="reference internal" href="08-python-operators/index.html">
+   Examples of creating custom operator plugins
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
   <label for="toctree-checkbox-9">
@@ -653,15 +628,25 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="08-averaging/00-compute_and_average.html">
-     Averaging order
+    <a class="reference internal" href="08-python-operators/00-wrapping_numpy_capabilities.html">
+     Create a basic operator plugin
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="08-python-operators/01-package_python_operators.html">
+     Create a plug-in package with multiple operators
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="08-python-operators/02-python_operators_with_dependencies.html">
+     Create a plug-in package that has third-party dependencies
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="09-mesh_operations/index.html">
-   Mesh operations examples
+  <a class="reference internal" href="09-averaging/index.html">
+   Averaging examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
   <label for="toctree-checkbox-10">
@@ -670,18 +655,62 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="09-mesh_operations/00-create_polygons_and_polyhedrons.html">
+    <a class="reference internal" href="09-averaging/00-compute_and_average.html">
+     Averaging order
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="10-mesh_operations/index.html">
+   Mesh operations examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="10-mesh_operations/00-create_polygons_and_polyhedrons.html">
      Create and display a mesh with polygon and polyhedron elements
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="09-mesh_operations/05-skin_extraction.html">
+    <a class="reference internal" href="10-mesh_operations/05-skin_extraction.html">
      Extract the skin from a mesh
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="09-mesh_operations/13-nodes_in_local_coordinate_system.html">
+    <a class="reference internal" href="10-mesh_operations/13-nodes_in_local_coordinate_system.html">
      Convert nodal coordinates field to local coordinate system
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="11-cyclic-symmetry/index.html">
+   Cyclic symmetry examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+  <label for="toctree-checkbox-12">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-cyclic-symmetry/01-modal_cyclic.html">
+     Expand mesh and results for modal cyclic symmetry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-cyclic-symmetry/02-modal_cyclic_no_expansion.html">
+     Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-cyclic-symmetry/03-cyclic_multi_stage.html">
+     Multi-stage cyclic symmetry example
     </a>
    </li>
   </ul>
@@ -718,6 +747,11 @@ function checkPageExistsAndRedirect(event) {
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#transient-analysis-examples">
    Transient analysis examples
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modal-analysis-examples">
+   Modal analysis examples
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -758,6 +792,11 @@ function checkPageExistsAndRedirect(event) {
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#mesh-operations-examples">
    Mesh operations examples
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cyclic-symmetry-examples">
+   Cyclic symmetry examples
   </a>
  </li>
 </ul>
@@ -830,103 +869,102 @@ stresses, and strains for a transient result.</p>
 <p><a class="reference internal" href="01-transient_analyses/02-lsdyna_operators.html#sphx-glr-examples-01-transient-analyses-02-lsdyna-operators-py"><span class="std std-ref">Results extraction and analysis from LS-DYNA sources</span></a></p>
   <div class="sphx-glr-thumbnail-title">Results extraction and analysis from LS-DYNA sources</div>
 </div></div></section>
+<section id="modal-analysis-examples">
+<h2>Modal analysis examples<a class="headerlink" href="#modal-analysis-examples" title="Permalink to this heading">#</a></h2>
+<p>These examples show how to use DPF to extract and manipulate
+results from modal analyses.</p>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="The ansys.dpf.core.results.Result class which instances are created by the ansys.dpf.core.model..."><img alt="Use Result Helpers to compare mode shapes for solids and then shells" src="../_images/sphx_glr_00-compare_modes_thumb.png" />
+<p><a class="reference internal" href="02-modal_analyses/00-compare_modes.html#sphx-glr-examples-02-modal-analyses-00-compare-modes-py"><span class="std std-ref">Use Result Helpers to compare mode shapes for solids and then shells</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Use Result Helpers to compare mode shapes for solids and then shells</div>
+</div></div></section>
 <section id="harmonic-analysis-examples">
 <h2>Harmonic analysis examples<a class="headerlink" href="#harmonic-analysis-examples" title="Permalink to this heading">#</a></h2>
 <p>These examples show how to use DPF to extract and manipulate
-results from harmonic or modal analyses.</p>
+results from harmonic analyses.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to compute a multi-harmonic response using fft transformations."><img alt="Multi-harmonic response example" src="../_images/sphx_glr_00-multi_harmonic_thumb.png" />
-<p><a class="reference internal" href="02-modal-harmonic/00-multi_harmonic.html#sphx-glr-examples-02-modal-harmonic-00-multi-harmonic-py"><span class="std std-ref">Multi-harmonic response example</span></a></p>
+<p><a class="reference internal" href="03-harmonic_analyses/00-multi_harmonic.html#sphx-glr-examples-03-harmonic-analyses-00-multi-harmonic-py"><span class="std std-ref">Multi-harmonic response example</span></a></p>
   <div class="sphx-glr-thumbnail-title">Multi-harmonic response example</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand a cyclic mesh and its results."><img alt="Modal cyclic symmetry example" src="../_images/sphx_glr_01-modal_cyclic_thumb.png" />
-<p><a class="reference internal" href="02-modal-harmonic/01-modal_cyclic.html#sphx-glr-examples-02-modal-harmonic-01-modal-cyclic-py"><span class="std std-ref">Modal cyclic symmetry example</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Modal cyclic symmetry example</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand the mesh and results from a multi-stage cyclic analysis."><img alt="Multi-stage cyclic symmetry example" src="../_images/sphx_glr_02-cyclic_multi_stage_thumb.png" />
-<p><a class="reference internal" href="02-modal-harmonic/02-cyclic_multi_stage.html#sphx-glr-examples-02-modal-harmonic-02-cyclic-multi-stage-py"><span class="std std-ref">Multi-stage cyclic symmetry example</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Multi-stage cyclic symmetry example</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="The ansys.dpf.core.results.Result class which instances are created by the ansys.dpf.core.model..."><img alt="Use Result Helpers to compare mode shapes for solids and then shells" src="../_images/sphx_glr_03-compare_modes_thumb.png" />
-<p><a class="reference internal" href="02-modal-harmonic/03-compare_modes.html#sphx-glr-examples-02-modal-harmonic-03-compare-modes-py"><span class="std std-ref">Use Result Helpers to compare mode shapes for solids and then shells</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Use Result Helpers to compare mode shapes for solids and then shells</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Different types of linear dynamics expansions are implemented in DPF. With modal superposition ..."><img alt="Expand harmonic modal superposition with DPF" src="../_images/sphx_glr_04-modal_superposition_thumb.png" />
-<p><a class="reference internal" href="02-modal-harmonic/04-modal_superposition.html#sphx-glr-examples-02-modal-harmonic-04-modal-superposition-py"><span class="std std-ref">Expand harmonic modal superposition with DPF</span></a></p>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Different types of linear dynamics expansions are implemented in DPF. With modal superposition ..."><img alt="Expand harmonic modal superposition with DPF" src="../_images/sphx_glr_01-modal_superposition_thumb.png" />
+<p><a class="reference internal" href="03-harmonic_analyses/01-modal_superposition.html#sphx-glr-examples-03-harmonic-analyses-01-modal-superposition-py"><span class="std std-ref">Expand harmonic modal superposition with DPF</span></a></p>
   <div class="sphx-glr-thumbnail-title">Expand harmonic modal superposition with DPF</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Solvers usually solve analysis with distributed architecture. In this case, one file is written..."><img alt="Read results from distributed files" src="../_images/sphx_glr_05-read_distributed_files_thumb.png" />
-<p><a class="reference internal" href="02-modal-harmonic/05-read_distributed_files.html#sphx-glr-examples-02-modal-harmonic-05-read-distributed-files-py"><span class="std std-ref">Read results from distributed files</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Read results from distributed files</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to generate and use a result file to calculate the cycles to failure res..."><img alt="Calculate the number of cycles to fatigue failure" src="../_images/sphx_glr_06-cycles_to_failure_thumb.png" />
-<p><a class="reference internal" href="02-modal-harmonic/06-cycles_to_failure.html#sphx-glr-examples-02-modal-harmonic-06-cycles-to-failure-py"><span class="std std-ref">Calculate the number of cycles to fatigue failure</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Calculate the number of cycles to fatigue failure</div>
 </div></div></section>
 <section id="advanced-and-miscellaneous-examples">
 <h2>Advanced and miscellaneous examples<a class="headerlink" href="#advanced-and-miscellaneous-examples" title="Permalink to this heading">#</a></h2>
 <p>These examples show advanced use cases to demonstrate the high level of workflow customization.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand on selected sectors the mesh and results from a multi-stage cy..."><img alt="Multi-stage cyclic symmetry using advanced customization" src="../_images/sphx_glr_00-multistage_advanced_options_thumb.png" />
-<p><a class="reference internal" href="03-advanced/00-multistage_advanced_options.html#sphx-glr-examples-03-advanced-00-multistage-advanced-options-py"><span class="std std-ref">Multi-stage cyclic symmetry using advanced customization</span></a></p>
+<p><a class="reference internal" href="04-advanced/00-multistage_advanced_options.html#sphx-glr-examples-04-advanced-00-multistage-advanced-options-py"><span class="std std-ref">Multi-stage cyclic symmetry using advanced customization</span></a></p>
   <div class="sphx-glr-thumbnail-title">Multi-stage cyclic symmetry using advanced customization</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a harmonic (over frequencies) fields container for an analysis..."><img alt="Solve harmonic problem (with damping) using matrix inverse" src="../_images/sphx_glr_01-solve_harmonic_problem_thumb.png" />
-<p><a class="reference internal" href="03-advanced/01-solve_harmonic_problem.html#sphx-glr-examples-03-advanced-01-solve-harmonic-problem-py"><span class="std std-ref">Solve harmonic problem (with damping) using matrix inverse</span></a></p>
+<p><a class="reference internal" href="04-advanced/01-solve_harmonic_problem.html#sphx-glr-examples-04-advanced-01-solve-harmonic-problem-py"><span class="std std-ref">Solve harmonic problem (with damping) using matrix inverse</span></a></p>
   <div class="sphx-glr-thumbnail-title">Solve harmonic problem (with damping) using matrix inverse</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to find the minimum list of surrounding elements for a given node to get..."><img alt="Average elemental stress on a given volume" src="../_images/sphx_glr_02-volume_averaged_stress_thumb.png" />
-<p><a class="reference internal" href="03-advanced/02-volume_averaged_stress.html#sphx-glr-examples-03-advanced-02-volume-averaged-stress-py"><span class="std std-ref">Average elemental stress on a given volume</span></a></p>
+<p><a class="reference internal" href="04-advanced/02-volume_averaged_stress.html#sphx-glr-examples-04-advanced-02-volume-averaged-stress-py"><span class="std std-ref">Average elemental stress on a given volume</span></a></p>
   <div class="sphx-glr-thumbnail-title">Average elemental stress on a given volume</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="In this example, two DPF servers are started, and a workflow is created with a part on both ser..."><img alt="Exchange data between servers" src="../_images/sphx_glr_03-exchange_data_between_servers_thumb.png" />
-<p><a class="reference internal" href="03-advanced/03-exchange_data_between_servers.html#sphx-glr-examples-03-advanced-03-exchange-data-between-servers-py"><span class="std std-ref">Exchange data between servers</span></a></p>
+<p><a class="reference internal" href="04-advanced/03-exchange_data_between_servers.html#sphx-glr-examples-04-advanced-03-exchange-data-between-servers-py"><span class="std std-ref">Exchange data between servers</span></a></p>
   <div class="sphx-glr-thumbnail-title">Exchange data between servers</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to compute the stress nodal components from Gaussian points (integration..."><img alt="Extrapolation method for stress result of a 3D element" src="../_images/sphx_glr_04-extrapolation_stress_3d_thumb.png" />
-<p><a class="reference internal" href="03-advanced/04-extrapolation_stress_3d.html#sphx-glr-examples-03-advanced-04-extrapolation-stress-3d-py"><span class="std std-ref">Extrapolation method for stress result of a 3D element</span></a></p>
+<p><a class="reference internal" href="04-advanced/04-extrapolation_stress_3d.html#sphx-glr-examples-04-advanced-04-extrapolation-stress-3d-py"><span class="std std-ref">Extrapolation method for stress result of a 3D element</span></a></p>
   <div class="sphx-glr-thumbnail-title">Extrapolation method for stress result of a 3D element</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to compute the stress nodal components from Gaussian points (integration..."><img alt="Extrapolation method for strain result of a 2D element" src="../_images/sphx_glr_05-extrapolation_strain_2d_thumb.png" />
-<p><a class="reference internal" href="03-advanced/05-extrapolation_strain_2d.html#sphx-glr-examples-03-advanced-05-extrapolation-strain-2d-py"><span class="std std-ref">Extrapolation method for strain result of a 2D element</span></a></p>
+<p><a class="reference internal" href="04-advanced/05-extrapolation_strain_2d.html#sphx-glr-examples-04-advanced-05-extrapolation-strain-2d-py"><span class="std std-ref">Extrapolation method for strain result of a 2D element</span></a></p>
   <div class="sphx-glr-thumbnail-title">Extrapolation method for strain result of a 2D element</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to plot a stress gradient normal to a selected node. Because the example..."><img alt="Stress gradient normal to a defined node" src="../_images/sphx_glr_06-stress_gradient_path_thumb.png" />
-<p><a class="reference internal" href="03-advanced/06-stress_gradient_path.html#sphx-glr-examples-03-advanced-06-stress-gradient-path-py"><span class="std std-ref">Stress gradient normal to a defined node</span></a></p>
+<p><a class="reference internal" href="04-advanced/06-stress_gradient_path.html#sphx-glr-examples-04-advanced-06-stress-gradient-path-py"><span class="std std-ref">Stress gradient normal to a defined node</span></a></p>
   <div class="sphx-glr-thumbnail-title">Stress gradient normal to a defined node</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a plugin that is not loaded automatically."><img alt="Load plugin" src="../_images/sphx_glr_07-load_plugin_thumb.png" />
-<p><a class="reference internal" href="03-advanced/07-load_plugin.html#sphx-glr-examples-03-advanced-07-load-plugin-py"><span class="std std-ref">Load plugin</span></a></p>
+<p><a class="reference internal" href="04-advanced/07-load_plugin.html#sphx-glr-examples-04-advanced-07-load-plugin-py"><span class="std std-ref">Load plugin</span></a></p>
   <div class="sphx-glr-thumbnail-title">Load plugin</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how you can use PyDPF to postprocess a Mechanical model according to ..."><img alt="Pressure vessel analysis according to an ASME standard" src="../_images/sphx_glr_10-asme_secviii_divtwo_thumb.png" />
-<p><a class="reference internal" href="03-advanced/10-asme_secviii_divtwo.html#sphx-glr-examples-03-advanced-10-asme-secviii-divtwo-py"><span class="std std-ref">Pressure vessel analysis according to an ASME standard</span></a></p>
+<p><a class="reference internal" href="04-advanced/10-asme_secviii_divtwo.html#sphx-glr-examples-04-advanced-10-asme-secviii-divtwo-py"><span class="std std-ref">Pressure vessel analysis according to an ASME standard</span></a></p>
   <div class="sphx-glr-thumbnail-title">Pressure vessel analysis according to an ASME standard</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to generate and use a result file to calculate the cycles to failure res..."><img alt="Calculate the number of cycles to fatigue failure" src="../_images/sphx_glr_11-cycles_to_failure_thumb.png" />
+<p><a class="reference internal" href="04-advanced/11-cycles_to_failure.html#sphx-glr-examples-04-advanced-11-cycles-to-failure-py"><span class="std std-ref">Calculate the number of cycles to fatigue failure</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Calculate the number of cycles to fatigue failure</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Solvers usually solve analysis with distributed architecture. In this case, one file is written..."><img alt="Read results from distributed files" src="../_images/sphx_glr_12-read_distributed_files_thumb.png" />
+<p><a class="reference internal" href="04-advanced/12-read_distributed_files.html#sphx-glr-examples-04-advanced-12-read-distributed-files-py"><span class="std std-ref">Read results from distributed files</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Read results from distributed files</div>
 </div></div></section>
 <section id="file-manipulation-and-input-output-examples">
 <h2>File manipulation and input-output examples<a class="headerlink" href="#file-manipulation-and-input-output-examples" title="Permalink to this heading">#</a></h2>
 <p>These examples show how to manipulate files,
 as well as importing or exporting from or to specific formats.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use HDF5 format to export and compare simple precision versus double ..."><img alt="HDF5 export and compare precision" src="../_images/sphx_glr_00-hdf5_double_float_comparison_thumb.png" />
-<p><a class="reference internal" href="04-file-IO/00-hdf5_double_float_comparison.html#sphx-glr-examples-04-file-io-00-hdf5-double-float-comparison-py"><span class="std std-ref">HDF5 export and compare precision</span></a></p>
+<p><a class="reference internal" href="05-file-IO/00-hdf5_double_float_comparison.html#sphx-glr-examples-05-file-io-00-hdf5-double-float-comparison-py"><span class="std std-ref">HDF5 export and compare precision</span></a></p>
   <div class="sphx-glr-thumbnail-title">HDF5 export and compare precision</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to get reduced matrices and export them to HDF5 and CSV files."><img alt="Get reduced matrices and make export" src="../_images/sphx_glr_01-reduced_matrices_export_thumb.png" />
-<p><a class="reference internal" href="04-file-IO/01-reduced_matrices_export.html#sphx-glr-examples-04-file-io-01-reduced-matrices-export-py"><span class="std std-ref">Get reduced matrices and make export</span></a></p>
+<p><a class="reference internal" href="05-file-IO/01-reduced_matrices_export.html#sphx-glr-examples-05-file-io-01-reduced-matrices-export-py"><span class="std std-ref">Get reduced matrices and make export</span></a></p>
   <div class="sphx-glr-thumbnail-title">Get reduced matrices and make export</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to write and upload files on the server machine and then download them b..."><img alt="Working with a result file" src="../_images/sphx_glr_04-basic-load-file_thumb.png" />
-<p><a class="reference internal" href="04-file-IO/04-basic-load-file.html#sphx-glr-examples-04-file-io-04-basic-load-file-py"><span class="std std-ref">Working with a result file</span></a></p>
+<p><a class="reference internal" href="05-file-IO/04-basic-load-file.html#sphx-glr-examples-05-file-io-04-basic-load-file-py"><span class="std std-ref">Working with a result file</span></a></p>
   <div class="sphx-glr-thumbnail-title">Working with a result file</div>
 </div></div></section>
 <section id="plotting-examples">
 <h2>Plotting examples<a class="headerlink" href="#plotting-examples" title="Permalink to this heading">#</a></h2>
 <p>These examples show how to use the <a class="reference internal" href="../api/ansys.dpf.core.plotter.html#ansys.dpf.core.plotter.DpfPlotter" title="ansys.dpf.core.plotter.DpfPlotter"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.plotter.DpfPlotter</span></code></a> class.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example lists the different plotting commands available, shown with the arguments availabl..."><img alt="Review of available plotting commands" src="../_images/sphx_glr_00-basic_plotting_thumb.png" />
-<p><a class="reference internal" href="05-plotting/00-basic_plotting.html#sphx-glr-examples-05-plotting-00-basic-plotting-py"><span class="std std-ref">Review of available plotting commands</span></a></p>
+<p><a class="reference internal" href="06-plotting/00-basic_plotting.html#sphx-glr-examples-06-plotting-00-basic-plotting-py"><span class="std std-ref">Review of available plotting commands</span></a></p>
   <div class="sphx-glr-thumbnail-title">Review of available plotting commands</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to plot several mesh/result combinations on the same plot so that you ca..."><img alt="Compare results using the plotter" src="../_images/sphx_glr_01-compare_results_thumb.png" />
-<p><a class="reference internal" href="05-plotting/01-compare_results.html#sphx-glr-examples-05-plotting-01-compare-results-py"><span class="std std-ref">Compare results using the plotter</span></a></p>
+<p><a class="reference internal" href="06-plotting/01-compare_results.html#sphx-glr-examples-06-plotting-01-compare-results-py"><span class="std std-ref">Compare results using the plotter</span></a></p>
   <div class="sphx-glr-thumbnail-title">Compare results using the plotter</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to get a principal stress load case combination using DPF And highlight ..."><img alt="Load case combination for principal stress" src="../_images/sphx_glr_02-solution_combination_thumb.png" />
-<p><a class="reference internal" href="05-plotting/02-solution_combination.html#sphx-glr-examples-05-plotting-02-solution-combination-py"><span class="std std-ref">Load case combination for principal stress</span></a></p>
+<p><a class="reference internal" href="06-plotting/02-solution_combination.html#sphx-glr-examples-06-plotting-02-solution-combination-py"><span class="std std-ref">Load case combination for principal stress</span></a></p>
   <div class="sphx-glr-thumbnail-title">Load case combination for principal stress</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="You can add use label properties to add custom labels to specific nodes. If the label for a nod..."><img alt="Add nodal labels on plots" src="../_images/sphx_glr_03-labels_thumb.png" />
-<p><a class="reference internal" href="05-plotting/03-labels.html#sphx-glr-examples-05-plotting-03-labels-py"><span class="std std-ref">Add nodal labels on plots</span></a></p>
+<p><a class="reference internal" href="06-plotting/03-labels.html#sphx-glr-examples-06-plotting-03-labels-py"><span class="std std-ref">Add nodal labels on plots</span></a></p>
   <div class="sphx-glr-thumbnail-title">Add nodal labels on plots</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to get a result mapped over a specific path and how to plot it."><img alt="Plot results on a specific path" src="../_images/sphx_glr_04-plot_on_path_thumb.png" />
-<p><a class="reference internal" href="05-plotting/04-plot_on_path.html#sphx-glr-examples-05-plotting-04-plot-on-path-py"><span class="std std-ref">Plot results on a specific path</span></a></p>
+<p><a class="reference internal" href="06-plotting/04-plot_on_path.html#sphx-glr-examples-06-plotting-04-plot-on-path-py"><span class="std std-ref">Plot results on a specific path</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot results on a specific path</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to warp the mesh by a vector field, enabling to plot on the deformed geo..."><img alt="Warp the mesh by a field for plotting" src="../_images/sphx_glr_05-plot_on_warped_mesh_thumb.png" />
-<p><a class="reference internal" href="05-plotting/05-plot_on_warped_mesh.html#sphx-glr-examples-05-plotting-05-plot-on-warped-mesh-py"><span class="std std-ref">Warp the mesh by a field for plotting</span></a></p>
+<p><a class="reference internal" href="06-plotting/05-plot_on_warped_mesh.html#sphx-glr-examples-06-plotting-05-plot-on-warped-mesh-py"><span class="std std-ref">Warp the mesh by a field for plotting</span></a></p>
   <div class="sphx-glr-thumbnail-title">Warp the mesh by a field for plotting</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example lists the different commands available for creating animations of transient result..."><img alt="Review of available animation commands" src="../_images/sphx_glr_06-animate_results_thumb.png" />
-<p><a class="reference internal" href="05-plotting/06-animate_results.html#sphx-glr-examples-05-plotting-06-animate-results-py"><span class="std std-ref">Review of available animation commands</span></a></p>
+<p><a class="reference internal" href="06-plotting/06-animate_results.html#sphx-glr-examples-06-plotting-06-animate-results-py"><span class="std std-ref">Review of available animation commands</span></a></p>
   <div class="sphx-glr-thumbnail-title">Review of available animation commands</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plot on geometry elements"><img alt="Plot on geometry elements" src="../_images/sphx_glr_07-plot_on_geometries_thumb.png" />
-<p><a class="reference internal" href="05-plotting/07-plot_on_geometries.html#sphx-glr-examples-05-plotting-07-plot-on-geometries-py"><span class="std std-ref">Plot on geometry elements</span></a></p>
+<p><a class="reference internal" href="06-plotting/07-plot_on_geometries.html#sphx-glr-examples-06-plotting-07-plot-on-geometries-py"><span class="std std-ref">Plot on geometry elements</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot on geometry elements</div>
 </div></div></section>
 <section id="examples-for-postprocessing-on-distributed-processes">
@@ -934,19 +972,19 @@ as well as importing or exporting from or to specific formats.</p>
 <p>These examples show how to create workflows on different processes (possibly on
 different machines) and connect them.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This diagram helps you to understand this example. It shows the operator chain that is used to ..."><img alt="Postprocessing of displacement on distributed processes" src="../_images/sphx_glr_00-distributed_total_disp_thumb.png" />
-<p><a class="reference internal" href="06-distributed-post/00-distributed_total_disp.html#sphx-glr-examples-06-distributed-post-00-distributed-total-disp-py"><span class="std std-ref">Postprocessing of displacement on distributed processes</span></a></p>
+<p><a class="reference internal" href="07-distributed-post/00-distributed_total_disp.html#sphx-glr-examples-07-distributed-post-00-distributed-total-disp-py"><span class="std std-ref">Postprocessing of displacement on distributed processes</span></a></p>
   <div class="sphx-glr-thumbnail-title">Postprocessing of displacement on distributed processes</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to read and postprocess distributed files on distributed processes. Afte..."><img alt="Create a custom workflow on distributed processes" src="../_images/sphx_glr_01-distributed_workflows_on_remote_thumb.png" />
-<p><a class="reference internal" href="06-distributed-post/01-distributed_workflows_on_remote.html#sphx-glr-examples-06-distributed-post-01-distributed-workflows-on-remote-py"><span class="std std-ref">Create a custom workflow on distributed processes</span></a></p>
+<p><a class="reference internal" href="07-distributed-post/01-distributed_workflows_on_remote.html#sphx-glr-examples-07-distributed-post-01-distributed-workflows-on-remote-py"><span class="std std-ref">Create a custom workflow on distributed processes</span></a></p>
   <div class="sphx-glr-thumbnail-title">Create a custom workflow on distributed processes</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to read and expand distributed files on distributed processes. The modal..."><img alt="Distributed mode superposition (MSUP)" src="../_images/sphx_glr_02-distributed-msup_expansion_thumb.png" />
-<p><a class="reference internal" href="06-distributed-post/02-distributed-msup_expansion.html#sphx-glr-examples-06-distributed-post-02-distributed-msup-expansion-py"><span class="std std-ref">Distributed mode superposition (MSUP)</span></a></p>
+<p><a class="reference internal" href="07-distributed-post/02-distributed-msup_expansion.html#sphx-glr-examples-07-distributed-post-02-distributed-msup-expansion-py"><span class="std std-ref">Distributed mode superposition (MSUP)</span></a></p>
   <div class="sphx-glr-thumbnail-title">Distributed mode superposition (MSUP)</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to read and expand distributed files on distributed processes. The modal..."><img alt="Distributed MSUP distributed modal response" src="../_images/sphx_glr_03-distributed-msup_expansion_steps_thumb.png" />
-<p><a class="reference internal" href="06-distributed-post/03-distributed-msup_expansion_steps.html#sphx-glr-examples-06-distributed-post-03-distributed-msup-expansion-steps-py"><span class="std std-ref">Distributed MSUP distributed modal response</span></a></p>
+<p><a class="reference internal" href="07-distributed-post/03-distributed-msup_expansion_steps.html#sphx-glr-examples-07-distributed-post-03-distributed-msup-expansion-steps-py"><span class="std std-ref">Distributed MSUP distributed modal response</span></a></p>
   <div class="sphx-glr-thumbnail-title">Distributed MSUP distributed modal response</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how stress can be read from distributed files and averaged from elemental no..."><img alt="Average Stress in distributed Workflows" src="../_images/sphx_glr_06-distributed_stress_averaging_thumb.png" />
-<p><a class="reference internal" href="06-distributed-post/06-distributed_stress_averaging.html#sphx-glr-examples-06-distributed-post-06-distributed-stress-averaging-py"><span class="std std-ref">Average Stress in distributed Workflows</span></a></p>
+<p><a class="reference internal" href="07-distributed-post/06-distributed_stress_averaging.html#sphx-glr-examples-07-distributed-post-06-distributed-stress-averaging-py"><span class="std std-ref">Average Stress in distributed Workflows</span></a></p>
   <div class="sphx-glr-thumbnail-title">Average Stress in distributed Workflows</div>
 </div></div></section>
 <section id="examples-of-creating-custom-operator-plugins">
@@ -955,34 +993,47 @@ different machines) and connect them.</p>
 packages with multiple operators. Plugins wrap your custom operators
 so that you can use them like native DPF operators.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a basic operator plugin, which is for a single custom operator..."><img alt="Create a basic operator plugin" src="../_images/sphx_glr_00-wrapping_numpy_capabilities_thumb.png" />
-<p><a class="reference internal" href="07-python-operators/00-wrapping_numpy_capabilities.html#sphx-glr-examples-07-python-operators-00-wrapping-numpy-capabilities-py"><span class="std std-ref">Create a basic operator plugin</span></a></p>
+<p><a class="reference internal" href="08-python-operators/00-wrapping_numpy_capabilities.html#sphx-glr-examples-08-python-operators-00-wrapping-numpy-capabilities-py"><span class="std std-ref">Create a basic operator plugin</span></a></p>
   <div class="sphx-glr-thumbnail-title">Create a basic operator plugin</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a plug-in package with multiple operators. The benefits of wri..."><img alt="Create a plug-in package with multiple operators" src="../_images/sphx_glr_01-package_python_operators_thumb.png" />
-<p><a class="reference internal" href="07-python-operators/01-package_python_operators.html#sphx-glr-examples-07-python-operators-01-package-python-operators-py"><span class="std std-ref">Create a plug-in package with multiple operators</span></a></p>
+<p><a class="reference internal" href="08-python-operators/01-package_python_operators.html#sphx-glr-examples-08-python-operators-01-package-python-operators-py"><span class="std std-ref">Create a plug-in package with multiple operators</span></a></p>
   <div class="sphx-glr-thumbnail-title">Create a plug-in package with multiple operators</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to create a Python plug-in package with third-party dependencies. You sh..."><img alt="Create a plug-in package that has third-party dependencies" src="../_images/sphx_glr_02-python_operators_with_dependencies_thumb.png" />
-<p><a class="reference internal" href="07-python-operators/02-python_operators_with_dependencies.html#sphx-glr-examples-07-python-operators-02-python-operators-with-dependencies-py"><span class="std std-ref">Create a plug-in package that has third-party dependencies</span></a></p>
+<p><a class="reference internal" href="08-python-operators/02-python_operators_with_dependencies.html#sphx-glr-examples-08-python-operators-02-python-operators-with-dependencies-py"><span class="std std-ref">Create a plug-in package that has third-party dependencies</span></a></p>
   <div class="sphx-glr-thumbnail-title">Create a plug-in package that has third-party dependencies</div>
 </div></div></section>
 <section id="averaging-examples">
 <h2>Averaging examples<a class="headerlink" href="#averaging-examples" title="Permalink to this heading">#</a></h2>
 <p>These examples show how to use some of DPF’s averaging operators.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example compares two different workflows that accomplish the same task to show how the ord..."><img alt="Averaging order" src="../_images/sphx_glr_00-compute_and_average_thumb.png" />
-<p><a class="reference internal" href="08-averaging/00-compute_and_average.html#sphx-glr-examples-08-averaging-00-compute-and-average-py"><span class="std std-ref">Averaging order</span></a></p>
+<p><a class="reference internal" href="09-averaging/00-compute_and_average.html#sphx-glr-examples-09-averaging-00-compute-and-average-py"><span class="std std-ref">Averaging order</span></a></p>
   <div class="sphx-glr-thumbnail-title">Averaging order</div>
 </div></div></section>
 <section id="mesh-operations-examples">
 <h2>Mesh operations examples<a class="headerlink" href="#mesh-operations-examples" title="Permalink to this heading">#</a></h2>
 <p>These examples show how to manipulate meshes.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="    In order to plot the mesh, we add at the end of this example the cell_node connectivity"><img alt="Create and display a mesh with polygon and polyhedron elements" src="../_images/sphx_glr_00-create_polygons_and_polyhedrons_thumb.png" />
-<p><a class="reference internal" href="09-mesh_operations/00-create_polygons_and_polyhedrons.html#sphx-glr-examples-09-mesh-operations-00-create-polygons-and-polyhedrons-py"><span class="std std-ref">Create and display a mesh with polygon and polyhedron elements</span></a></p>
+<p><a class="reference internal" href="10-mesh_operations/00-create_polygons_and_polyhedrons.html#sphx-glr-examples-10-mesh-operations-00-create-polygons-and-polyhedrons-py"><span class="std std-ref">Create and display a mesh with polygon and polyhedron elements</span></a></p>
   <div class="sphx-glr-thumbnail-title">Create and display a mesh with polygon and polyhedron elements</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Extracting the skin of a mesh to reduce the amount of data to operate on can be useful for spec..."><img alt="Extract the skin from a mesh" src="../_images/sphx_glr_05-skin_extraction_thumb.png" />
-<p><a class="reference internal" href="09-mesh_operations/05-skin_extraction.html#sphx-glr-examples-09-mesh-operations-05-skin-extraction-py"><span class="std std-ref">Extract the skin from a mesh</span></a></p>
+<p><a class="reference internal" href="10-mesh_operations/05-skin_extraction.html#sphx-glr-examples-10-mesh-operations-05-skin-extraction-py"><span class="std std-ref">Extract the skin from a mesh</span></a></p>
   <div class="sphx-glr-thumbnail-title">Extract the skin from a mesh</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Currently, there is no native operator to get nodal coordinates in an Local Coordinate System (..."><img alt="Convert nodal coordinates field to local coordinate system" src="../_images/sphx_glr_13-nodes_in_local_coordinate_system_thumb.png" />
-<p><a class="reference internal" href="09-mesh_operations/13-nodes_in_local_coordinate_system.html#sphx-glr-examples-09-mesh-operations-13-nodes-in-local-coordinate-system-py"><span class="std std-ref">Convert nodal coordinates field to local coordinate system</span></a></p>
+<p><a class="reference internal" href="10-mesh_operations/13-nodes_in_local_coordinate_system.html#sphx-glr-examples-10-mesh-operations-13-nodes-in-local-coordinate-system-py"><span class="std std-ref">Convert nodal coordinates field to local coordinate system</span></a></p>
   <div class="sphx-glr-thumbnail-title">Convert nodal coordinates field to local coordinate system</div>
+</div></div></section>
+<section id="cyclic-symmetry-examples">
+<h2>Cyclic symmetry examples<a class="headerlink" href="#cyclic-symmetry-examples" title="Permalink to this heading">#</a></h2>
+<p>These examples show how to post-process cyclic symmetry models.</p>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows a modal cyclic symmetry model with mesh and results expansions."><img alt="Expand mesh and results for modal cyclic symmetry" src="../_images/sphx_glr_01-modal_cyclic_thumb.png" />
+<p><a class="reference internal" href="11-cyclic-symmetry/01-modal_cyclic.html#sphx-glr-examples-11-cyclic-symmetry-01-modal-cyclic-py"><span class="std std-ref">Expand mesh and results for modal cyclic symmetry</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Expand mesh and results for modal cyclic symmetry</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to extract results from a modal cyclic symmetry model."><img alt="Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry" src="../_images/sphx_glr_02-modal_cyclic_no_expansion_thumb.png" />
+<p><a class="reference internal" href="11-cyclic-symmetry/02-modal_cyclic_no_expansion.html#sphx-glr-examples-11-cyclic-symmetry-02-modal-cyclic-no-expansion-py"><span class="std std-ref">Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand the mesh and results from a multi-stage cyclic analysis."><img alt="Multi-stage cyclic symmetry example" src="../_images/sphx_glr_03-cyclic_multi_stage_thumb.png" />
+<p><a class="reference internal" href="11-cyclic-symmetry/03-cyclic_multi_stage.html#sphx-glr-examples-11-cyclic-symmetry-03-cyclic-multi-stage-py"><span class="std std-ref">Multi-stage cyclic symmetry example</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Multi-stage cyclic symmetry example</div>
 </div></div><div class="toctree-wrapper compound">
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>

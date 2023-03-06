@@ -219,7 +219,7 @@ function checkPageExistsAndRedirect(event) {
 
             $("#version_switcher_menu").append(node);
             // replace dropdown button text with the preferred display name of
-            // this version, rather than using sphinx's 0.7.3 variable.
+            // this version, rather than using sphinx's 0.7.4 variable.
             // also highlight the dropdown entry for the currently-viewed
             // version's entry
             if (entry.version == "0.7") {
@@ -398,8 +398,8 @@ function checkPageExistsAndRedirect(event) {
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../02-modal-harmonic/index.html">
-   Harmonic analysis examples
+  <a class="reference internal" href="../02-modal_analyses/index.html">
+   Modal analysis examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
@@ -408,45 +408,15 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../02-modal-harmonic/00-multi_harmonic.html">
-     Multi-harmonic response example
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../02-modal-harmonic/01-modal_cyclic.html">
-     Modal cyclic symmetry example
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../02-modal-harmonic/02-cyclic_multi_stage.html">
-     Multi-stage cyclic symmetry example
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../02-modal-harmonic/03-compare_modes.html">
+    <a class="reference internal" href="../02-modal_analyses/00-compare_modes.html">
      Use Result Helpers to compare mode shapes for solids and then shells
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../02-modal-harmonic/04-modal_superposition.html">
-     Expand harmonic modal superposition with DPF
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../02-modal-harmonic/05-read_distributed_files.html">
-     Read results from distributed files
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../02-modal-harmonic/06-cycles_to_failure.html">
-     Calculate the number of cycles to fatigue failure
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../03-advanced/index.html">
-   Advanced and miscellaneous examples
+  <a class="reference internal" href="../03-harmonic_analyses/index.html">
+   Harmonic analysis examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
   <label for="toctree-checkbox-4">
@@ -455,55 +425,20 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../03-advanced/00-multistage_advanced_options.html">
-     Multi-stage cyclic symmetry using advanced customization
+    <a class="reference internal" href="../03-harmonic_analyses/00-multi_harmonic.html">
+     Multi-harmonic response example
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../03-advanced/01-solve_harmonic_problem.html">
-     Solve harmonic problem (with damping) using matrix inverse
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../03-advanced/02-volume_averaged_stress.html">
-     Average elemental stress on a given volume
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../03-advanced/03-exchange_data_between_servers.html">
-     Exchange data between servers
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../03-advanced/04-extrapolation_stress_3d.html">
-     Extrapolation method for stress result of a 3D element
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../03-advanced/05-extrapolation_strain_2d.html">
-     Extrapolation method for strain result of a 2D element
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../03-advanced/06-stress_gradient_path.html">
-     Stress gradient normal to a defined node
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../03-advanced/07-load_plugin.html">
-     Load plugin
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../03-advanced/10-asme_secviii_divtwo.html">
-     Pressure vessel analysis according to an ASME standard
+    <a class="reference internal" href="../03-harmonic_analyses/01-modal_superposition.html">
+     Expand harmonic modal superposition with DPF
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../04-file-IO/index.html">
-   File manipulation and input-output examples
+  <a class="reference internal" href="../04-advanced/index.html">
+   Advanced and miscellaneous examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
   <label for="toctree-checkbox-5">
@@ -512,25 +447,65 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../04-file-IO/00-hdf5_double_float_comparison.html">
-     HDF5 export and compare precision
+    <a class="reference internal" href="../04-advanced/00-multistage_advanced_options.html">
+     Multi-stage cyclic symmetry using advanced customization
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../04-file-IO/01-reduced_matrices_export.html">
-     Get reduced matrices and make export
+    <a class="reference internal" href="../04-advanced/01-solve_harmonic_problem.html">
+     Solve harmonic problem (with damping) using matrix inverse
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../04-file-IO/04-basic-load-file.html">
-     Working with a result file
+    <a class="reference internal" href="../04-advanced/02-volume_averaged_stress.html">
+     Average elemental stress on a given volume
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-advanced/03-exchange_data_between_servers.html">
+     Exchange data between servers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-advanced/04-extrapolation_stress_3d.html">
+     Extrapolation method for stress result of a 3D element
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-advanced/05-extrapolation_strain_2d.html">
+     Extrapolation method for strain result of a 2D element
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-advanced/06-stress_gradient_path.html">
+     Stress gradient normal to a defined node
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-advanced/07-load_plugin.html">
+     Load plugin
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-advanced/10-asme_secviii_divtwo.html">
+     Pressure vessel analysis according to an ASME standard
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-advanced/11-cycles_to_failure.html">
+     Calculate the number of cycles to fatigue failure
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../04-advanced/12-read_distributed_files.html">
+     Read results from distributed files
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../05-plotting/index.html">
-   Plotting examples
+  <a class="reference internal" href="../05-file-IO/index.html">
+   File manipulation and input-output examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
   <label for="toctree-checkbox-6">
@@ -539,50 +514,25 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../05-plotting/00-basic_plotting.html">
-     Review of available plotting commands
+    <a class="reference internal" href="../05-file-IO/00-hdf5_double_float_comparison.html">
+     HDF5 export and compare precision
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../05-plotting/01-compare_results.html">
-     Compare results using the plotter
+    <a class="reference internal" href="../05-file-IO/01-reduced_matrices_export.html">
+     Get reduced matrices and make export
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../05-plotting/02-solution_combination.html">
-     Load case combination for principal stress
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../05-plotting/03-labels.html">
-     Add nodal labels on plots
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../05-plotting/04-plot_on_path.html">
-     Plot results on a specific path
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../05-plotting/05-plot_on_warped_mesh.html">
-     Warp the mesh by a field for plotting
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../05-plotting/06-animate_results.html">
-     Review of available animation commands
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../05-plotting/07-plot_on_geometries.html">
-     Plot on geometry elements
+    <a class="reference internal" href="../05-file-IO/04-basic-load-file.html">
+     Working with a result file
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../06-distributed-post/index.html">
-   Examples for postprocessing on distributed processes
+  <a class="reference internal" href="../06-plotting/index.html">
+   Plotting examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
   <label for="toctree-checkbox-7">
@@ -591,35 +541,50 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../06-distributed-post/00-distributed_total_disp.html">
-     Postprocessing of displacement on distributed processes
+    <a class="reference internal" href="../06-plotting/00-basic_plotting.html">
+     Review of available plotting commands
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../06-distributed-post/01-distributed_workflows_on_remote.html">
-     Create a custom workflow on distributed processes
+    <a class="reference internal" href="../06-plotting/01-compare_results.html">
+     Compare results using the plotter
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../06-distributed-post/02-distributed-msup_expansion.html">
-     Distributed mode superposition (MSUP)
+    <a class="reference internal" href="../06-plotting/02-solution_combination.html">
+     Load case combination for principal stress
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../06-distributed-post/03-distributed-msup_expansion_steps.html">
-     Distributed MSUP distributed modal response
+    <a class="reference internal" href="../06-plotting/03-labels.html">
+     Add nodal labels on plots
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../06-distributed-post/06-distributed_stress_averaging.html">
-     Average Stress in distributed Workflows
+    <a class="reference internal" href="../06-plotting/04-plot_on_path.html">
+     Plot results on a specific path
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-plotting/05-plot_on_warped_mesh.html">
+     Warp the mesh by a field for plotting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-plotting/06-animate_results.html">
+     Review of available animation commands
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../06-plotting/07-plot_on_geometries.html">
+     Plot on geometry elements
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../07-python-operators/index.html">
-   Examples of creating custom operator plugins
+  <a class="reference internal" href="../07-distributed-post/index.html">
+   Examples for postprocessing on distributed processes
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
   <label for="toctree-checkbox-8">
@@ -628,25 +593,35 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../07-python-operators/00-wrapping_numpy_capabilities.html">
-     Create a basic operator plugin
+    <a class="reference internal" href="../07-distributed-post/00-distributed_total_disp.html">
+     Postprocessing of displacement on distributed processes
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../07-python-operators/01-package_python_operators.html">
-     Create a plug-in package with multiple operators
+    <a class="reference internal" href="../07-distributed-post/01-distributed_workflows_on_remote.html">
+     Create a custom workflow on distributed processes
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../07-python-operators/02-python_operators_with_dependencies.html">
-     Create a plug-in package that has third-party dependencies
+    <a class="reference internal" href="../07-distributed-post/02-distributed-msup_expansion.html">
+     Distributed mode superposition (MSUP)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-distributed-post/03-distributed-msup_expansion_steps.html">
+     Distributed MSUP distributed modal response
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../07-distributed-post/06-distributed_stress_averaging.html">
+     Average Stress in distributed Workflows
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../08-averaging/index.html">
-   Averaging examples
+  <a class="reference internal" href="../08-python-operators/index.html">
+   Examples of creating custom operator plugins
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
   <label for="toctree-checkbox-9">
@@ -655,15 +630,25 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../08-averaging/00-compute_and_average.html">
-     Averaging order
+    <a class="reference internal" href="../08-python-operators/00-wrapping_numpy_capabilities.html">
+     Create a basic operator plugin
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-python-operators/01-package_python_operators.html">
+     Create a plug-in package with multiple operators
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../08-python-operators/02-python_operators_with_dependencies.html">
+     Create a plug-in package that has third-party dependencies
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../09-mesh_operations/index.html">
-   Mesh operations examples
+  <a class="reference internal" href="../09-averaging/index.html">
+   Averaging examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
   <label for="toctree-checkbox-10">
@@ -672,18 +657,62 @@ function checkPageExistsAndRedirect(event) {
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../09-mesh_operations/00-create_polygons_and_polyhedrons.html">
+    <a class="reference internal" href="../09-averaging/00-compute_and_average.html">
+     Averaging order
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../10-mesh_operations/index.html">
+   Mesh operations examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../10-mesh_operations/00-create_polygons_and_polyhedrons.html">
      Create and display a mesh with polygon and polyhedron elements
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../09-mesh_operations/05-skin_extraction.html">
+    <a class="reference internal" href="../10-mesh_operations/05-skin_extraction.html">
      Extract the skin from a mesh
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../09-mesh_operations/13-nodes_in_local_coordinate_system.html">
+    <a class="reference internal" href="../10-mesh_operations/13-nodes_in_local_coordinate_system.html">
      Convert nodal coordinates field to local coordinate system
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../11-cyclic-symmetry/index.html">
+   Cyclic symmetry examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+  <label for="toctree-checkbox-12">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../11-cyclic-symmetry/01-modal_cyclic.html">
+     Expand mesh and results for modal cyclic symmetry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../11-cyclic-symmetry/02-modal_cyclic_no_expansion.html">
+     Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../11-cyclic-symmetry/03-cyclic_multi_stage.html">
+     Multi-stage cyclic symmetry example
     </a>
    </li>
   </ul>

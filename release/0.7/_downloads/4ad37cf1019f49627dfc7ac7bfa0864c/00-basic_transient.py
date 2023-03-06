@@ -155,9 +155,7 @@ nodes = meshed_region.nodes
 ind, mask = nodes.map_scoping(field.scoping)
 
 # Show that the order of the remapped node scoping matches the field scoping.
-print(
-    "Scoping matches:", np.allclose(np.array(nodes.scoping.ids)[ind], field.scoping.ids)
-)
+print("Scoping matches:", np.allclose(np.array(nodes.scoping.ids)[ind], field.scoping.ids))
 
 # Now plot the von Mises stress relative to the Z coordinates.
 z_coord = nodes.coordinates_field.data[ind, 2]

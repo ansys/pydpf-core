@@ -273,10 +273,44 @@ stresses, and strains for a transient result.
     </div>
 
 
+Modal analysis examples
+=======================
+These examples show how to use DPF to extract and manipulate
+results from modal analyses.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The ansys.dpf.core.results.Result class which instances are created by the ansys.dpf.core.model...">
+
+.. only:: html
+
+  .. image:: /examples/02-modal_analyses/images/thumb/sphx_glr_00-compare_modes_thumb.png
+    :alt: Use Result Helpers to compare mode shapes for solids and then shells
+
+  :ref:`sphx_glr_examples_02-modal_analyses_00-compare_modes.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Use Result Helpers to compare mode shapes for solids and then shells</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
 Harmonic analysis examples
 ===========================
 These examples show how to use DPF to extract and manipulate
-results from harmonic or modal analyses.
+results from harmonic analyses.
 
 
 
@@ -291,10 +325,10 @@ results from harmonic or modal analyses.
 
 .. only:: html
 
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_00-multi_harmonic_thumb.png
+  .. image:: /examples/03-harmonic_analyses/images/thumb/sphx_glr_00-multi_harmonic_thumb.png
     :alt: Multi-harmonic response example
 
-  :ref:`sphx_glr_examples_02-modal-harmonic_00-multi_harmonic.py`
+  :ref:`sphx_glr_examples_03-harmonic_analyses_00-multi_harmonic.py`
 
 .. raw:: html
 
@@ -304,103 +338,18 @@ results from harmonic or modal analyses.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand a cyclic mesh and its results.">
-
-.. only:: html
-
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_01-modal_cyclic_thumb.png
-    :alt: Modal cyclic symmetry example
-
-  :ref:`sphx_glr_examples_02-modal-harmonic_01-modal_cyclic.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Modal cyclic symmetry example</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand the mesh and results from a multi-stage cyclic analysis.">
-
-.. only:: html
-
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_02-cyclic_multi_stage_thumb.png
-    :alt: Multi-stage cyclic symmetry example
-
-  :ref:`sphx_glr_examples_02-modal-harmonic_02-cyclic_multi_stage.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Multi-stage cyclic symmetry example</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="The ansys.dpf.core.results.Result class which instances are created by the ansys.dpf.core.model...">
-
-.. only:: html
-
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_03-compare_modes_thumb.png
-    :alt: Use Result Helpers to compare mode shapes for solids and then shells
-
-  :ref:`sphx_glr_examples_02-modal-harmonic_03-compare_modes.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Use Result Helpers to compare mode shapes for solids and then shells</div>
-    </div>
-
-
-.. raw:: html
-
     <div class="sphx-glr-thumbcontainer" tooltip="Different types of linear dynamics expansions are implemented in DPF. With modal superposition ...">
 
 .. only:: html
 
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_04-modal_superposition_thumb.png
+  .. image:: /examples/03-harmonic_analyses/images/thumb/sphx_glr_01-modal_superposition_thumb.png
     :alt: Expand harmonic modal superposition with DPF
 
-  :ref:`sphx_glr_examples_02-modal-harmonic_04-modal_superposition.py`
+  :ref:`sphx_glr_examples_03-harmonic_analyses_01-modal_superposition.py`
 
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Expand harmonic modal superposition with DPF</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Solvers usually solve analysis with distributed architecture. In this case, one file is written...">
-
-.. only:: html
-
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_05-read_distributed_files_thumb.png
-    :alt: Read results from distributed files
-
-  :ref:`sphx_glr_examples_02-modal-harmonic_05-read_distributed_files.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Read results from distributed files</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to generate and use a result file to calculate the cycles to failure res...">
-
-.. only:: html
-
-  .. image:: /examples/02-modal-harmonic/images/thumb/sphx_glr_06-cycles_to_failure_thumb.png
-    :alt: Calculate the number of cycles to fatigue failure
-
-  :ref:`sphx_glr_examples_02-modal-harmonic_06-cycles_to_failure.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Calculate the number of cycles to fatigue failure</div>
     </div>
 
 
@@ -426,10 +375,10 @@ These examples show advanced use cases to demonstrate the high level of workflow
 
 .. only:: html
 
-  .. image:: /examples/03-advanced/images/thumb/sphx_glr_00-multistage_advanced_options_thumb.png
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_00-multistage_advanced_options_thumb.png
     :alt: Multi-stage cyclic symmetry using advanced customization
 
-  :ref:`sphx_glr_examples_03-advanced_00-multistage_advanced_options.py`
+  :ref:`sphx_glr_examples_04-advanced_00-multistage_advanced_options.py`
 
 .. raw:: html
 
@@ -443,10 +392,10 @@ These examples show advanced use cases to demonstrate the high level of workflow
 
 .. only:: html
 
-  .. image:: /examples/03-advanced/images/thumb/sphx_glr_01-solve_harmonic_problem_thumb.png
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_01-solve_harmonic_problem_thumb.png
     :alt: Solve harmonic problem (with damping) using matrix inverse
 
-  :ref:`sphx_glr_examples_03-advanced_01-solve_harmonic_problem.py`
+  :ref:`sphx_glr_examples_04-advanced_01-solve_harmonic_problem.py`
 
 .. raw:: html
 
@@ -460,10 +409,10 @@ These examples show advanced use cases to demonstrate the high level of workflow
 
 .. only:: html
 
-  .. image:: /examples/03-advanced/images/thumb/sphx_glr_02-volume_averaged_stress_thumb.png
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_02-volume_averaged_stress_thumb.png
     :alt: Average elemental stress on a given volume
 
-  :ref:`sphx_glr_examples_03-advanced_02-volume_averaged_stress.py`
+  :ref:`sphx_glr_examples_04-advanced_02-volume_averaged_stress.py`
 
 .. raw:: html
 
@@ -477,10 +426,10 @@ These examples show advanced use cases to demonstrate the high level of workflow
 
 .. only:: html
 
-  .. image:: /examples/03-advanced/images/thumb/sphx_glr_03-exchange_data_between_servers_thumb.png
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_03-exchange_data_between_servers_thumb.png
     :alt: Exchange data between servers
 
-  :ref:`sphx_glr_examples_03-advanced_03-exchange_data_between_servers.py`
+  :ref:`sphx_glr_examples_04-advanced_03-exchange_data_between_servers.py`
 
 .. raw:: html
 
@@ -494,10 +443,10 @@ These examples show advanced use cases to demonstrate the high level of workflow
 
 .. only:: html
 
-  .. image:: /examples/03-advanced/images/thumb/sphx_glr_04-extrapolation_stress_3d_thumb.png
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_04-extrapolation_stress_3d_thumb.png
     :alt: Extrapolation method for stress result of a 3D element
 
-  :ref:`sphx_glr_examples_03-advanced_04-extrapolation_stress_3d.py`
+  :ref:`sphx_glr_examples_04-advanced_04-extrapolation_stress_3d.py`
 
 .. raw:: html
 
@@ -511,10 +460,10 @@ These examples show advanced use cases to demonstrate the high level of workflow
 
 .. only:: html
 
-  .. image:: /examples/03-advanced/images/thumb/sphx_glr_05-extrapolation_strain_2d_thumb.png
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_05-extrapolation_strain_2d_thumb.png
     :alt: Extrapolation method for strain result of a 2D element
 
-  :ref:`sphx_glr_examples_03-advanced_05-extrapolation_strain_2d.py`
+  :ref:`sphx_glr_examples_04-advanced_05-extrapolation_strain_2d.py`
 
 .. raw:: html
 
@@ -528,10 +477,10 @@ These examples show advanced use cases to demonstrate the high level of workflow
 
 .. only:: html
 
-  .. image:: /examples/03-advanced/images/thumb/sphx_glr_06-stress_gradient_path_thumb.png
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_06-stress_gradient_path_thumb.png
     :alt: Stress gradient normal to a defined node
 
-  :ref:`sphx_glr_examples_03-advanced_06-stress_gradient_path.py`
+  :ref:`sphx_glr_examples_04-advanced_06-stress_gradient_path.py`
 
 .. raw:: html
 
@@ -545,10 +494,10 @@ These examples show advanced use cases to demonstrate the high level of workflow
 
 .. only:: html
 
-  .. image:: /examples/03-advanced/images/thumb/sphx_glr_07-load_plugin_thumb.png
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_07-load_plugin_thumb.png
     :alt: Load plugin
 
-  :ref:`sphx_glr_examples_03-advanced_07-load_plugin.py`
+  :ref:`sphx_glr_examples_04-advanced_07-load_plugin.py`
 
 .. raw:: html
 
@@ -562,14 +511,48 @@ These examples show advanced use cases to demonstrate the high level of workflow
 
 .. only:: html
 
-  .. image:: /examples/03-advanced/images/thumb/sphx_glr_10-asme_secviii_divtwo_thumb.png
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_10-asme_secviii_divtwo_thumb.png
     :alt: Pressure vessel analysis according to an ASME standard
 
-  :ref:`sphx_glr_examples_03-advanced_10-asme_secviii_divtwo.py`
+  :ref:`sphx_glr_examples_04-advanced_10-asme_secviii_divtwo.py`
 
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Pressure vessel analysis according to an ASME standard</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to generate and use a result file to calculate the cycles to failure res...">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_11-cycles_to_failure_thumb.png
+    :alt: Calculate the number of cycles to fatigue failure
+
+  :ref:`sphx_glr_examples_04-advanced_11-cycles_to_failure.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Calculate the number of cycles to fatigue failure</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Solvers usually solve analysis with distributed architecture. In this case, one file is written...">
+
+.. only:: html
+
+  .. image:: /examples/04-advanced/images/thumb/sphx_glr_12-read_distributed_files_thumb.png
+    :alt: Read results from distributed files
+
+  :ref:`sphx_glr_examples_04-advanced_12-read_distributed_files.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Read results from distributed files</div>
     </div>
 
 
@@ -596,10 +579,10 @@ as well as importing or exporting from or to specific formats.
 
 .. only:: html
 
-  .. image:: /examples/04-file-IO/images/thumb/sphx_glr_00-hdf5_double_float_comparison_thumb.png
+  .. image:: /examples/05-file-IO/images/thumb/sphx_glr_00-hdf5_double_float_comparison_thumb.png
     :alt: HDF5 export and compare precision
 
-  :ref:`sphx_glr_examples_04-file-IO_00-hdf5_double_float_comparison.py`
+  :ref:`sphx_glr_examples_05-file-IO_00-hdf5_double_float_comparison.py`
 
 .. raw:: html
 
@@ -613,10 +596,10 @@ as well as importing or exporting from or to specific formats.
 
 .. only:: html
 
-  .. image:: /examples/04-file-IO/images/thumb/sphx_glr_01-reduced_matrices_export_thumb.png
+  .. image:: /examples/05-file-IO/images/thumb/sphx_glr_01-reduced_matrices_export_thumb.png
     :alt: Get reduced matrices and make export
 
-  :ref:`sphx_glr_examples_04-file-IO_01-reduced_matrices_export.py`
+  :ref:`sphx_glr_examples_05-file-IO_01-reduced_matrices_export.py`
 
 .. raw:: html
 
@@ -630,10 +613,10 @@ as well as importing or exporting from or to specific formats.
 
 .. only:: html
 
-  .. image:: /examples/04-file-IO/images/thumb/sphx_glr_04-basic-load-file_thumb.png
+  .. image:: /examples/05-file-IO/images/thumb/sphx_glr_04-basic-load-file_thumb.png
     :alt: Working with a result file
 
-  :ref:`sphx_glr_examples_04-file-IO_04-basic-load-file.py`
+  :ref:`sphx_glr_examples_05-file-IO_04-basic-load-file.py`
 
 .. raw:: html
 
@@ -662,10 +645,10 @@ These examples show how to use the :class:`ansys.dpf.core.plotter.DpfPlotter` cl
 
 .. only:: html
 
-  .. image:: /examples/05-plotting/images/thumb/sphx_glr_00-basic_plotting_thumb.png
+  .. image:: /examples/06-plotting/images/thumb/sphx_glr_00-basic_plotting_thumb.png
     :alt: Review of available plotting commands
 
-  :ref:`sphx_glr_examples_05-plotting_00-basic_plotting.py`
+  :ref:`sphx_glr_examples_06-plotting_00-basic_plotting.py`
 
 .. raw:: html
 
@@ -679,10 +662,10 @@ These examples show how to use the :class:`ansys.dpf.core.plotter.DpfPlotter` cl
 
 .. only:: html
 
-  .. image:: /examples/05-plotting/images/thumb/sphx_glr_01-compare_results_thumb.png
+  .. image:: /examples/06-plotting/images/thumb/sphx_glr_01-compare_results_thumb.png
     :alt: Compare results using the plotter
 
-  :ref:`sphx_glr_examples_05-plotting_01-compare_results.py`
+  :ref:`sphx_glr_examples_06-plotting_01-compare_results.py`
 
 .. raw:: html
 
@@ -696,10 +679,10 @@ These examples show how to use the :class:`ansys.dpf.core.plotter.DpfPlotter` cl
 
 .. only:: html
 
-  .. image:: /examples/05-plotting/images/thumb/sphx_glr_02-solution_combination_thumb.png
+  .. image:: /examples/06-plotting/images/thumb/sphx_glr_02-solution_combination_thumb.png
     :alt: Load case combination for principal stress
 
-  :ref:`sphx_glr_examples_05-plotting_02-solution_combination.py`
+  :ref:`sphx_glr_examples_06-plotting_02-solution_combination.py`
 
 .. raw:: html
 
@@ -713,10 +696,10 @@ These examples show how to use the :class:`ansys.dpf.core.plotter.DpfPlotter` cl
 
 .. only:: html
 
-  .. image:: /examples/05-plotting/images/thumb/sphx_glr_03-labels_thumb.png
+  .. image:: /examples/06-plotting/images/thumb/sphx_glr_03-labels_thumb.png
     :alt: Add nodal labels on plots
 
-  :ref:`sphx_glr_examples_05-plotting_03-labels.py`
+  :ref:`sphx_glr_examples_06-plotting_03-labels.py`
 
 .. raw:: html
 
@@ -730,10 +713,10 @@ These examples show how to use the :class:`ansys.dpf.core.plotter.DpfPlotter` cl
 
 .. only:: html
 
-  .. image:: /examples/05-plotting/images/thumb/sphx_glr_04-plot_on_path_thumb.png
+  .. image:: /examples/06-plotting/images/thumb/sphx_glr_04-plot_on_path_thumb.png
     :alt: Plot results on a specific path
 
-  :ref:`sphx_glr_examples_05-plotting_04-plot_on_path.py`
+  :ref:`sphx_glr_examples_06-plotting_04-plot_on_path.py`
 
 .. raw:: html
 
@@ -747,10 +730,10 @@ These examples show how to use the :class:`ansys.dpf.core.plotter.DpfPlotter` cl
 
 .. only:: html
 
-  .. image:: /examples/05-plotting/images/thumb/sphx_glr_05-plot_on_warped_mesh_thumb.png
+  .. image:: /examples/06-plotting/images/thumb/sphx_glr_05-plot_on_warped_mesh_thumb.png
     :alt: Warp the mesh by a field for plotting
 
-  :ref:`sphx_glr_examples_05-plotting_05-plot_on_warped_mesh.py`
+  :ref:`sphx_glr_examples_06-plotting_05-plot_on_warped_mesh.py`
 
 .. raw:: html
 
@@ -764,10 +747,10 @@ These examples show how to use the :class:`ansys.dpf.core.plotter.DpfPlotter` cl
 
 .. only:: html
 
-  .. image:: /examples/05-plotting/images/thumb/sphx_glr_06-animate_results_thumb.png
+  .. image:: /examples/06-plotting/images/thumb/sphx_glr_06-animate_results_thumb.png
     :alt: Review of available animation commands
 
-  :ref:`sphx_glr_examples_05-plotting_06-animate_results.py`
+  :ref:`sphx_glr_examples_06-plotting_06-animate_results.py`
 
 .. raw:: html
 
@@ -781,10 +764,10 @@ These examples show how to use the :class:`ansys.dpf.core.plotter.DpfPlotter` cl
 
 .. only:: html
 
-  .. image:: /examples/05-plotting/images/thumb/sphx_glr_07-plot_on_geometries_thumb.png
+  .. image:: /examples/06-plotting/images/thumb/sphx_glr_07-plot_on_geometries_thumb.png
     :alt: Plot on geometry elements
 
-  :ref:`sphx_glr_examples_05-plotting_07-plot_on_geometries.py`
+  :ref:`sphx_glr_examples_06-plotting_07-plot_on_geometries.py`
 
 .. raw:: html
 
@@ -815,10 +798,10 @@ different machines) and connect them.
 
 .. only:: html
 
-  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_00-distributed_total_disp_thumb.png
+  .. image:: /examples/07-distributed-post/images/thumb/sphx_glr_00-distributed_total_disp_thumb.png
     :alt: Postprocessing of displacement on distributed processes
 
-  :ref:`sphx_glr_examples_06-distributed-post_00-distributed_total_disp.py`
+  :ref:`sphx_glr_examples_07-distributed-post_00-distributed_total_disp.py`
 
 .. raw:: html
 
@@ -832,10 +815,10 @@ different machines) and connect them.
 
 .. only:: html
 
-  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_01-distributed_workflows_on_remote_thumb.png
+  .. image:: /examples/07-distributed-post/images/thumb/sphx_glr_01-distributed_workflows_on_remote_thumb.png
     :alt: Create a custom workflow on distributed processes
 
-  :ref:`sphx_glr_examples_06-distributed-post_01-distributed_workflows_on_remote.py`
+  :ref:`sphx_glr_examples_07-distributed-post_01-distributed_workflows_on_remote.py`
 
 .. raw:: html
 
@@ -849,10 +832,10 @@ different machines) and connect them.
 
 .. only:: html
 
-  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_02-distributed-msup_expansion_thumb.png
+  .. image:: /examples/07-distributed-post/images/thumb/sphx_glr_02-distributed-msup_expansion_thumb.png
     :alt: Distributed mode superposition (MSUP)
 
-  :ref:`sphx_glr_examples_06-distributed-post_02-distributed-msup_expansion.py`
+  :ref:`sphx_glr_examples_07-distributed-post_02-distributed-msup_expansion.py`
 
 .. raw:: html
 
@@ -866,10 +849,10 @@ different machines) and connect them.
 
 .. only:: html
 
-  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_03-distributed-msup_expansion_steps_thumb.png
+  .. image:: /examples/07-distributed-post/images/thumb/sphx_glr_03-distributed-msup_expansion_steps_thumb.png
     :alt: Distributed MSUP distributed modal response
 
-  :ref:`sphx_glr_examples_06-distributed-post_03-distributed-msup_expansion_steps.py`
+  :ref:`sphx_glr_examples_07-distributed-post_03-distributed-msup_expansion_steps.py`
 
 .. raw:: html
 
@@ -883,10 +866,10 @@ different machines) and connect them.
 
 .. only:: html
 
-  .. image:: /examples/06-distributed-post/images/thumb/sphx_glr_06-distributed_stress_averaging_thumb.png
+  .. image:: /examples/07-distributed-post/images/thumb/sphx_glr_06-distributed_stress_averaging_thumb.png
     :alt: Average Stress in distributed Workflows
 
-  :ref:`sphx_glr_examples_06-distributed-post_06-distributed_stress_averaging.py`
+  :ref:`sphx_glr_examples_07-distributed-post_06-distributed_stress_averaging.py`
 
 .. raw:: html
 
@@ -918,10 +901,10 @@ so that you can use them like native DPF operators.
 
 .. only:: html
 
-  .. image:: /examples/07-python-operators/images/thumb/sphx_glr_00-wrapping_numpy_capabilities_thumb.png
+  .. image:: /examples/08-python-operators/images/thumb/sphx_glr_00-wrapping_numpy_capabilities_thumb.png
     :alt: Create a basic operator plugin
 
-  :ref:`sphx_glr_examples_07-python-operators_00-wrapping_numpy_capabilities.py`
+  :ref:`sphx_glr_examples_08-python-operators_00-wrapping_numpy_capabilities.py`
 
 .. raw:: html
 
@@ -935,10 +918,10 @@ so that you can use them like native DPF operators.
 
 .. only:: html
 
-  .. image:: /examples/07-python-operators/images/thumb/sphx_glr_01-package_python_operators_thumb.png
+  .. image:: /examples/08-python-operators/images/thumb/sphx_glr_01-package_python_operators_thumb.png
     :alt: Create a plug-in package with multiple operators
 
-  :ref:`sphx_glr_examples_07-python-operators_01-package_python_operators.py`
+  :ref:`sphx_glr_examples_08-python-operators_01-package_python_operators.py`
 
 .. raw:: html
 
@@ -952,10 +935,10 @@ so that you can use them like native DPF operators.
 
 .. only:: html
 
-  .. image:: /examples/07-python-operators/images/thumb/sphx_glr_02-python_operators_with_dependencies_thumb.png
+  .. image:: /examples/08-python-operators/images/thumb/sphx_glr_02-python_operators_with_dependencies_thumb.png
     :alt: Create a plug-in package that has third-party dependencies
 
-  :ref:`sphx_glr_examples_07-python-operators_02-python_operators_with_dependencies.py`
+  :ref:`sphx_glr_examples_08-python-operators_02-python_operators_with_dependencies.py`
 
 .. raw:: html
 
@@ -984,10 +967,10 @@ These examples show how to use some of DPF's averaging operators.
 
 .. only:: html
 
-  .. image:: /examples/08-averaging/images/thumb/sphx_glr_00-compute_and_average_thumb.png
+  .. image:: /examples/09-averaging/images/thumb/sphx_glr_00-compute_and_average_thumb.png
     :alt: Averaging order
 
-  :ref:`sphx_glr_examples_08-averaging_00-compute_and_average.py`
+  :ref:`sphx_glr_examples_09-averaging_00-compute_and_average.py`
 
 .. raw:: html
 
@@ -1017,10 +1000,10 @@ These examples show how to manipulate meshes.
 
 .. only:: html
 
-  .. image:: /examples/09-mesh_operations/images/thumb/sphx_glr_00-create_polygons_and_polyhedrons_thumb.png
+  .. image:: /examples/10-mesh_operations/images/thumb/sphx_glr_00-create_polygons_and_polyhedrons_thumb.png
     :alt: Create and display a mesh with polygon and polyhedron elements
 
-  :ref:`sphx_glr_examples_09-mesh_operations_00-create_polygons_and_polyhedrons.py`
+  :ref:`sphx_glr_examples_10-mesh_operations_00-create_polygons_and_polyhedrons.py`
 
 .. raw:: html
 
@@ -1034,10 +1017,10 @@ These examples show how to manipulate meshes.
 
 .. only:: html
 
-  .. image:: /examples/09-mesh_operations/images/thumb/sphx_glr_05-skin_extraction_thumb.png
+  .. image:: /examples/10-mesh_operations/images/thumb/sphx_glr_05-skin_extraction_thumb.png
     :alt: Extract the skin from a mesh
 
-  :ref:`sphx_glr_examples_09-mesh_operations_05-skin_extraction.py`
+  :ref:`sphx_glr_examples_10-mesh_operations_05-skin_extraction.py`
 
 .. raw:: html
 
@@ -1051,14 +1034,81 @@ These examples show how to manipulate meshes.
 
 .. only:: html
 
-  .. image:: /examples/09-mesh_operations/images/thumb/sphx_glr_13-nodes_in_local_coordinate_system_thumb.png
+  .. image:: /examples/10-mesh_operations/images/thumb/sphx_glr_13-nodes_in_local_coordinate_system_thumb.png
     :alt: Convert nodal coordinates field to local coordinate system
 
-  :ref:`sphx_glr_examples_09-mesh_operations_13-nodes_in_local_coordinate_system.py`
+  :ref:`sphx_glr_examples_10-mesh_operations_13-nodes_in_local_coordinate_system.py`
 
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Convert nodal coordinates field to local coordinate system</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+Cyclic symmetry examples
+========================
+These examples show how to post-process cyclic symmetry models.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows a modal cyclic symmetry model with mesh and results expansions.">
+
+.. only:: html
+
+  .. image:: /examples/11-cyclic-symmetry/images/thumb/sphx_glr_01-modal_cyclic_thumb.png
+    :alt: Expand mesh and results for modal cyclic symmetry
+
+  :ref:`sphx_glr_examples_11-cyclic-symmetry_01-modal_cyclic.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Expand mesh and results for modal cyclic symmetry</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to extract results from a modal cyclic symmetry model.">
+
+.. only:: html
+
+  .. image:: /examples/11-cyclic-symmetry/images/thumb/sphx_glr_02-modal_cyclic_no_expansion_thumb.png
+    :alt: Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry
+
+  :ref:`sphx_glr_examples_11-cyclic-symmetry_02-modal_cyclic_no_expansion.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to expand the mesh and results from a multi-stage cyclic analysis.">
+
+.. only:: html
+
+  .. image:: /examples/11-cyclic-symmetry/images/thumb/sphx_glr_03-cyclic_multi_stage_thumb.png
+    :alt: Multi-stage cyclic symmetry example
+
+  :ref:`sphx_glr_examples_11-cyclic-symmetry_03-cyclic_multi_stage.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Multi-stage cyclic symmetry example</div>
     </div>
 
 
@@ -1073,14 +1123,16 @@ These examples show how to manipulate meshes.
 
    /examples/00-basic/index.rst
    /examples/01-transient_analyses/index.rst
-   /examples/02-modal-harmonic/index.rst
-   /examples/03-advanced/index.rst
-   /examples/04-file-IO/index.rst
-   /examples/05-plotting/index.rst
-   /examples/06-distributed-post/index.rst
-   /examples/07-python-operators/index.rst
-   /examples/08-averaging/index.rst
-   /examples/09-mesh_operations/index.rst
+   /examples/02-modal_analyses/index.rst
+   /examples/03-harmonic_analyses/index.rst
+   /examples/04-advanced/index.rst
+   /examples/05-file-IO/index.rst
+   /examples/06-plotting/index.rst
+   /examples/07-distributed-post/index.rst
+   /examples/08-python-operators/index.rst
+   /examples/09-averaging/index.rst
+   /examples/10-mesh_operations/index.rst
+   /examples/11-cyclic-symmetry/index.rst
 
 
 

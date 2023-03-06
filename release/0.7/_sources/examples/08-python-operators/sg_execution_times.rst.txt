@@ -1,0 +1,16 @@
+
+:orphan:
+
+.. _sphx_glr_examples_08-python-operators_sg_execution_times:
+
+Computation times
+=================
+**01:06.167** total execution time for **examples_08-python-operators** files:
+
++--------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_08-python-operators_02-python_operators_with_dependencies.py` (``02-python_operators_with_dependencies.py``) | 00:56.425 | 0.0 MB |
++--------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_08-python-operators_01-package_python_operators.py` (``01-package_python_operators.py``)                     | 00:05.247 | 0.0 MB |
++--------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_08-python-operators_00-wrapping_numpy_capabilities.py` (``00-wrapping_numpy_capabilities.py``)               | 00:04.495 | 0.0 MB |
++--------------------------------------------------------------------------------------------------------------------------------------+-----------+--------+

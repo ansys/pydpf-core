@@ -164,8 +164,6 @@ plt.plot(t_vals, FZ.get_field({"interface": 19, "idtype": 0}).data, label="FZ, s
 plt.plot(t_vals, FZ.get_field({"interface": 19, "idtype": 1}).data, label="FZ, master")
 plt.xlabel("Time ({:s})".format(t_field.unit))
 plt.xlim([0, 10])
-plt.ylabel(
-    "Contact Force ({:s})".format(FX.get_field({"interface": 19, "idtype": 0}).unit)
-)
+plt.ylabel("Contact Force ({:s})".format(FX.get_field({"interface": 19, "idtype": 0}).unit))
 plt.legend()
 plt.show()
