@@ -1,0 +1,12 @@
+
+:orphan:
+
+.. _sphx_glr_examples_02-modal_analyses_sg_execution_times:
+
+Computation times
+=================
+**00:12.914** total execution time for **examples_02-modal_analyses** files:
+
++------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_02-modal_analyses_00-compare_modes.py` (``00-compare_modes.py``) | 00:12.914 | 0.0 MB |
++------------------------------------------------------------------------------------------+-----------+--------+

@@ -158,7 +158,7 @@ Create data on different servers
       2                      2.000000e+00
                      
 
-     <class 'ansys.dpf.core.server_types.InProcessServer'> DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 4556, 'server_version': '6.1', 'os': 'nt'}
+     <class 'ansys.dpf.core.server_types.InProcessServer'> DPF Server: {'server_ip': '', 'server_port': None, 'server_process_id': 6164, 'server_version': '6.1', 'os': 'nt'}
     DPF  Field
       Location: Nodal
       Unit: 
@@ -172,7 +172,7 @@ Create data on different servers
       2                      2.000000e+00
                      
 
-     <class 'ansys.dpf.core.server_types.GrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50056, 'server_process_id': 5808, 'server_version': '6.1', 'os': 'nt'}
+     <class 'ansys.dpf.core.server_types.GrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50056, 'server_process_id': 2344, 'server_version': '6.1', 'os': 'nt'}
     DPF  Field
       Location: Nodal
       Unit: 
@@ -186,7 +186,7 @@ Create data on different servers
       2                      2.000000e+00
                      
 
-     <class 'ansys.dpf.core.server_types.LegacyGrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50054, 'server_process_id': 4280, 'server_version': '6.1', 'os': 'nt'}
+     <class 'ansys.dpf.core.server_types.LegacyGrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50054, 'server_process_id': 5224, 'server_version': '6.1', 'os': 'nt'}
 
 
 
@@ -234,7 +234,7 @@ automatically started when a DPF object is created:
       2                      2.000000e+00
                      
 
-     <class 'ansys.dpf.core.server_types.LegacyGrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 3552, 'server_version': '6.1', 'os': 'nt'}
+     <class 'ansys.dpf.core.server_types.LegacyGrpcServer'> DPF Server: {'server_ip': '127.0.0.1', 'server_port': 50055, 'server_process_id': 4172, 'server_version': '6.1', 'os': 'nt'}
 
 
 
@@ -242,7 +242,7 @@ automatically started when a DPF object is created:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.203 seconds)
+   **Total running time of the script:** ( 0 minutes  2.673 seconds)
 
 
 .. _sphx_glr_download_examples_00-basic_11-server_types.py:
