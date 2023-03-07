@@ -96,9 +96,9 @@ class Scoping:
                 self._internal_obj = self._api.scoping_new()
 
         # step5: handle specific calls to set attributes
-        if ids:
+        if ids is not None:
             self.ids = ids
-        if location:
+        if location is not None:
             self.location = location
 
     def _count(self):

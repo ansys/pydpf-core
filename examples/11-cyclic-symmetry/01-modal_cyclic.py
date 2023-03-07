@@ -2,10 +2,10 @@
 """
 .. _ref_basic_cyclic:
 
-Modal cyclic symmetry example
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Expand mesh and results for modal cyclic symmetry
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This example shows how to expand a cyclic mesh and its results.
+This example shows a modal cyclic symmetry model with mesh and results expansions.
 
 """
 
@@ -24,10 +24,11 @@ print(model)
 # nodes and the first time step. Note that the displacements are expanded using
 # the :func:`read_cyclic
 # <ansys.dpf.core.operators.mesh.mesh_provider.InputsMeshProvider.read_cyclic>`
-# prpoerty with 2 as an argument (1 would ignore the cyclic symmetry).
+# property with 2 as an argument (1 does not perform expansion of the cyclic symmetry).
 
 # Create displacement cyclic operator
-u_cyc = model.operator("mapdl::rst::U_cyclic")
+u_cyc = model.results.displacement()
+u_cyc.inputs.read_cyclic(2)
 
 # expand the displacements
 fields = u_cyc.outputs.fields_container()
@@ -45,20 +46,15 @@ mesh.plot(fields[0])
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # define stress expansion operator and request stresses at time set = 8
-scyc_op = model.operator("mapdl::rst::S_cyclic")
+scyc_op = model.results.stress()
 scyc_op.inputs.read_cyclic(2)
 scyc_op.inputs.time_scoping.connect([8])
 
 # request the results averaged on the nodes
 scyc_op.inputs.requested_location.connect(dpf.locations.nodal)
 
-# connect the base mesh and the expanded mesh, to avoid rexpanding the mesh
-scyc_op.inputs.sector_mesh.connect(model.metadata.meshed_region)
-# scyc_op.inputs.expanded_meshed_region.connect(mesh)
-
 # request equivalent von mises operator and connect it to stress operator
-eqv = dpf.operators.invariant.von_mises_eqv_fc()
-eqv.inputs.connect(scyc_op.outputs)
+eqv = dpf.operators.invariant.von_mises_eqv_fc(scyc_op)
 
 # expand the results and get stress eqv
 fields = eqv.outputs.fields_container()
@@ -72,24 +68,17 @@ fields = eqv.outputs.fields_container()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # define stress expansion operator and request stresses at time set = 8
-scyc_op = model.operator("mapdl::rst::S_cyclic")
-scyc_op.inputs.read_cyclic(2)
-scyc_op.inputs.time_scoping.connect([8])
-
 # request the results averaged on the nodes
-scyc_op.inputs.requested_location.connect(dpf.locations.nodal)
-
-# connect the base mesh and the expanded mesh, to avoid rexpanding the mesh
-scyc_op.inputs.sector_mesh.connect(model.metadata.meshed_region)
-# scyc_op.inputs.expanded_meshed_region.connect(mesh)
-
 # request results on sectors 1, 3 and 5
-scyc_op.inputs.sectors_to_expand.connect([1, 3, 5])
+scyc_op = dpf.operators.result.cyclic_expanded_stress(
+    streams_container=model.metadata.streams_provider,
+    time_scoping=[8],
+    requested_location=dpf.locations.nodal,
+    sectors_to_expand=[1, 3, 5],
+)
 
-# extract Sy (use component selector and select the component 1)
-comp_sel = dpf.operators.logic.component_selector_fc()
-comp_sel.inputs.fields_container.connect(scyc_op.outputs.fields_container)
-comp_sel.inputs.component_number.connect(0)
+# extract Sx (use component selector and select the first component)
+comp_sel = dpf.operators.logic.component_selector_fc(scyc_op, 0)
 
 # expand the displacements and get the resuls
 fields = comp_sel.outputs.fields_container()
@@ -103,25 +92,18 @@ fields = comp_sel.outputs.fields_container()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # define stress expansion operator and request stresses at time set = 8
-scyc_op = model.operator("mapdl::rst::S_cyclic")
-scyc_op.inputs.read_cyclic(2)
-scyc_op.inputs.time_scoping.connect([8])
-
-# request the results in the solver
-scyc_op.inputs.bool_rotate_to_global.connect(False)
-
-# connect the base mesh and the expanded mesh, to avoid rexpanding the mesh
-scyc_op.inputs.sector_mesh.connect(model.metadata.meshed_region)
-# scyc_op.inputs.expanded_meshed_region.connect(mesh)
+scyc_op = dpf.operators.result.cyclic_expanded_stress(
+    streams_container=model.metadata.streams_provider,
+    time_scoping=[8],
+    sectors_to_expand=[1, 3, 5],
+    bool_rotate_to_global=False,
+)
 
 # request to elemental averaging operator
-to_elemental = dpf.operators.averaging.to_elemental_fc()
-to_elemental.inputs.fields_container.connect(scyc_op.outputs.fields_container)
+to_elemental = dpf.operators.averaging.to_elemental_fc(scyc_op)
 
 # extract Sy (use component selector and select the component 1)
-comp_sel = dpf.operators.logic.component_selector_fc()
-comp_sel.inputs.fields_container.connect(to_elemental.outputs.fields_container)
-comp_sel.inputs.component_number.connect(1)
+comp_sel = dpf.operators.logic.component_selector_fc(to_elemental, 1)
 
 # expand the displacements and get the resuls
 fields = comp_sel.outputs.fields_container()

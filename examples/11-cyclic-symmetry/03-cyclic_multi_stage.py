@@ -49,17 +49,16 @@ mesh.plot(fields)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # define stress expansion operator and request stresses at time set = 3
-SCyc = model.results.stress()
-SCyc.inputs.read_cyclic(2)
-SCyc.inputs.time_scoping.connect([3])
+s_cyc = model.results.stress()
+s_cyc.inputs.read_cyclic(2)
+s_cyc.inputs.time_scoping.connect([3])
 
 # request the results averaged on the nodes
-SCyc.inputs.requested_location.connect(dpf.locations.nodal)
+s_cyc.inputs.requested_location.connect(dpf.locations.nodal)
 
 # request equivalent von mises operator and connect it to stress
 # operator
-eqv = dpf.operators.invariant.von_mises_eqv_fc()
-eqv.inputs.connect(SCyc.outputs)
+eqv = dpf.operators.invariant.von_mises_eqv_fc(s_cyc)
 
 # expand the results and get stress eqv
 fields = eqv.outputs.fields_container()
