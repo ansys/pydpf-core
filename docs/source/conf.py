@@ -30,7 +30,7 @@ pyvista.global_theme.lighting = False
 project = "PyDPF-Core"
 copyright = f"(c) {datetime.now().year} ANSYS, Inc. All rights reserved"
 author = "ANSYS Inc."
-cname = os.getenv("DOCUMENTATION_CNAME", "https://dpf.docs.pyansys.com")
+cname = os.getenv("DOCUMENTATION_CNAME", "dpf.docs.pyansys.com")
 
 # The short X.Y version
 version = __version__
