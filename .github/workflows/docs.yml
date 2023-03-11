@@ -1,0 +1,180 @@
+name: docs
+
+on:
+# Can be called by the CI
+  workflow_call:
+    inputs:
+      python_version:
+        required: false
+        type: string
+        default: "3.8"
+      ANSYS_VERSION:
+        required: false
+        type: string
+        default: "231"
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
+      custom-wheels:
+        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
+        required: false
+        type: string
+        default: ''
+      event_name:
+        description: "Name of event calling"
+        required: true
+        type: string
+        default: ''
+# Can be called manually
+  workflow_dispatch:
+    inputs:
+      python_version:
+        description: "Python interpreter"
+        required: true
+        type: string
+        default: "3.8"
+      ANSYS_VERSION:
+        description: "ANSYS version"
+        required: true
+        type: string
+        default: "231"
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
+      custom-wheels:
+        description: "extra pip --find-links argument to find custom dpf wheels"
+        required: false
+        type: string
+        default: ''
+
+env:
+  PACKAGE_NAME: ansys-dpf-core
+  MODULE: core
+
+jobs:
+
+  docs:
+    name: "Documentation"
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Set licensing if necessary"
+        if: inputs.ANSYS_VERSION > 231
+        shell: bash
+        run: |
+          echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
+          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
+          echo "ANSYS_DPF_SERVER_CONTEXT=PREMIUM" >> $GITHUB_ENV
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.2.0
+        with:
+          python-version: ${{ inputs.python_version }}
+
+      - name: "Build Package"
+        id: build-package
+        uses: pyansys/pydpf-actions/build_package@v2.3
+        with:
+          python-version: ${{ inputs.python_version }}
+          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+          wheel: false
+          wheelhouse: false
+          extra-pip-args: ${{ inputs.custom-wheels && format('--find-links {0}', inputs.custom-wheels) || '' }}
+          standalone_suffix: ${{ inputs.standalone_suffix }}
+          custom-requirements: ${{ inputs.custom-requirements }}
+
+      - name: "Setup headless display"
+        uses: pyvista/setup-headless-display-action@v1
+
+      - name: "Setup Graphviz"
+        uses: ts-graphviz/setup-graphviz@v1
+
+      - name: "Install OS packages"
+        run: |
+          choco install pandoc
+
+      - name: "Install documentation packages for Python"
+        run: |
+          pip install -r requirements/requirements_docs.txt
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+
+      - name: "List installed packages"
+        shell: bash
+        run: pip list
+
+      - name: "Build HTML Documentation"
+        shell: cmd
+        working-directory: .ci
+        run: |
+          build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
+        timeout-minutes: 60
+
+      - name: "Check for success"
+        shell: bash
+        working-directory: docs
+        run: |
+          case `tail -n 5 log.txt | grep -F "build succeeded" >/dev/null; echo $?` in
+          0)
+            echo "Build succeeded!"
+            exit 0;;
+          1)
+            echo "Documentation generation failed, please check previous step!"
+            exit 1;;
+          *)
+            echo "An error occurred while checking success of the previous step!"
+            exit 1;;
+          esac
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+        if: always()
+
+      - name: "Retrieve package version"
+        shell: bash
+        run: |
+          echo "VERSION=$(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")" >> GITHUB_OUTPUT
+          echo "${{env.PACKAGE_NAME}} version is: $(python -c "from ansys.dpf.${{env.MODULE}} import __version__; print(__version__)")"
+        id: version
+        if: always()
+
+      - name: "Upload Documentation Build log"
+        uses: actions/upload-artifact@v3
+        with:
+          name: doc-${{env.PACKAGE_NAME}}-log
+          path: docs/*.txt
+        if: always()
+
+      - name: "Zip HTML Documentation"
+        uses: vimtor/action-zip@v1
+        with:
+          files: docs/build/html
+          dest: HTML-doc-${{env.PACKAGE_NAME}}.zip
+        if: always()
+
+      - name: "Upload HTML Documentation"
+        uses: actions/upload-artifact@v3
+        with:
+          name: HTML-doc-${{env.PACKAGE_NAME}}
+          path: HTML-doc-${{env.PACKAGE_NAME}}.zip
+        if: always()
