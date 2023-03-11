@@ -4,7 +4,7 @@ from datetime import datetime
 import numpy as np
 import pyvista
 from ansys.dpf.core import __version__
-from ansys_sphinx_theme import pyansys_logo_black
+from ansys_sphinx_theme import pyansys_logo_black, ansys_favicon, get_version_match
 
 # Manage errors
 pyvista.set_error_output_file("errors.txt")
@@ -26,6 +26,7 @@ pyvista.BUILDING_GALLERY = True
 project = "PyDPF-Core"
 copyright = f"(c) {datetime.now().year} ANSYS, Inc. All rights reserved"
 author = "ANSYS Inc."
+cname = os.getenv("DOCUMENTATION_CNAME", "dpf.docs.pyansys.com")
 
 # The short X.Y version
 version = __version__
@@ -82,7 +83,7 @@ master_doc = "index"
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -121,12 +122,22 @@ autodoc_member_order = "bysource"
 
 
 # -- Options for HTML output -------------------------------------------------
+html_short_title = html_title = "PyDPF-Core"
 html_theme = "ansys_sphinx_theme"
 html_logo = pyansys_logo_black
+html_favicon = ansys_favicon
 html_theme_options = {
-    "github_url": "https://github.com/pyansys/DPF-Core",
+    "github_url": "https://github.com/pyansys/pydpf-core",
     "show_prev_next": False,
-    "logo_link": "https://dpfdocs.pyansys.com/"  # navigate to the main page
+    "show_breadcrumbs": True,
+    "additional_breadcrumbs": [
+        ("PyAnsys", "https://docs.pyansys.com/"),
+    ],
+    "switcher": {
+        "json_url": f"https://{cname}/versions.json",
+        "version_match": get_version_match(__version__),
+    },
+    "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
 }
 
 
