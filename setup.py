@@ -5,7 +5,7 @@ from io import open as io_open
 
 from setuptools import setup
 
-install_requires = ["packaging", "psutil", "tqdm", "numpy", "ansys-dpf-gate>=0.2.*"]
+install_requires = ["packaging", "psutil", "tqdm", "numpy", "ansys-dpf-gate>=0.2.0"]
 
 # Get version from version info
 filepath = os.path.dirname(__file__)
