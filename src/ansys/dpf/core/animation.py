@@ -11,7 +11,7 @@ def animate_mode(
 
     Parameters
     ----------
-    field_container : 
+    field_container :
         Field container containing the modal results.
     mode_number : int, optional
         Mode number of the results to animation. The default is ``1``.
