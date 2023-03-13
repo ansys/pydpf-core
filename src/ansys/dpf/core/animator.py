@@ -426,12 +426,12 @@ class Animator:
             The unit of the Field will be displayed if present.
         output_name : str, optional
             Name of the workflow output to use as Field for each frame's contour.
-            Defaults to "to_render".
+            Defaults to ``"to_render"``.
         input_name : str, optional
             Name of the workflow input to feed loop_over values into.
             Defaults to "loop_over".
         save_as : str, optional
-            Path of file to save the animation to. Defaults to None. Can be of any format supported
+            Path of the file to save the animation to. Defaults to None. Can be of any format supported
             by pyvista.Plotter.write_frame (.gif, .mp4, ...).
         frame_number : int, optional
             Number of frames to be rendered.

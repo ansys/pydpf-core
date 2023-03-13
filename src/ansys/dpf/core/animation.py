@@ -4,15 +4,17 @@ from ansys import dpf
 def animate_mode(
     field_container, mode_number=1, save_as=None, frame_number=21, scale_factor=1.0, **kwargs
 ):
-    """Creates an animation based on the Fields contained in the FieldsContainer.
+    """Creates an animation based on the ``Fields`` contained in the ``FieldsContainer``.
 
-    This method creates a movie or a gif based on the time ids of a FieldsContainer.
+    This method creates a movie or a gif based on the time ids of a ``FieldsContainer``.
     For kwargs see pyvista.Plotter.open_movie/add_text/show.
 
     Parameters
     ----------
-    field_container: Field container containing the modal results.
-    mode_number : Mode number of the results to animation.
+    field_container : 
+        Field container containing the modal results.
+    mode_number : int, optional
+        Mode number of the results to animation. The default is ``1``.
     save_as : Path of file to save the animation to. Defaults to None. Can be of any format
         supported by pyvista.Plotter.write_frame (.gif, .mp4, ...).
     scale_factor : float, list, optional
