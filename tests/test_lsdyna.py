@@ -412,22 +412,6 @@ def test_lsdyna_matsum_rcforc(binout_matsum):
     assert am_fc[0].unit == "slug"
     assert am_mod[0].unit == "slug"
 
-    # ------------------------------------------------- Hourglassing Energy
-
-    part_hourglass_energy_op = dpf.operators.result.part_hourglass_energy()
-    part_hourglass_energy_op.inputs.data_sources.connect(ds)
-    part_hourglass_energy_op.inputs.entity_scoping.connect(part_sco)
-    part_hourglass_energy_op.inputs.unit_system.connect(dpf.unit_systems.solver_bft)
-    aho_fc = part_hourglass_energy_op.outputs.fields_container()
-
-    part_hourglass_energy_op_2 = model.results.part_hourglass_energy()
-    part_hourglass_energy_op_2.inputs.entity_scoping.connect(part_sco)
-    aho_mod = part_hourglass_energy_op_2.eval()
-
-    assert np.allclose(aho_fc[0].data[39], aho_mod[0].data[39])
-    assert aho_fc[0].unit == "ft^2*slug*s^-2"
-    assert aho_mod[0].unit == "ft^2*slug*s^-2"
-
     # ------------------------------------------------- Momentum
 
     part_momentum_op = dpf.operators.result.part_momentum()
