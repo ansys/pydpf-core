@@ -66,8 +66,9 @@ class DockerConfig:
     ):
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
 
+        LOCAL_DOWNLOADED_EXAMPLES_PATH_UPDATED=(LOCAL_DOWNLOADED_EXAMPLES_PATH.replace(':','')).replace('\\','/')
         if mounted_volumes is None:
-            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
+            mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH_UPDATED: "/tmp/downloaded_examples"}
 
         self._use_docker = use_docker
         self._docker_name = docker_name
