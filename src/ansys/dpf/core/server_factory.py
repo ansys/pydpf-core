@@ -65,11 +65,12 @@ class DockerConfig:
         extra_args: str = "",
     ):
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
-
+        print("Before update: " + LOCAL_DOWNLOADED_EXAMPLES_PATH)
         LOCAL_DOWNLOADED_EXAMPLES_PATH_UPDATED=(LOCAL_DOWNLOADED_EXAMPLES_PATH.replace(':','')).replace('\\','/')
         if mounted_volumes is None:
             mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH_UPDATED: "/tmp/downloaded_examples"}
 
+        print("After update: " + LOCAL_DOWNLOADED_EXAMPLES_PATH_UPDATED)
         self._use_docker = use_docker
         self._docker_name = docker_name
         self._mounted_volumes = mounted_volumes
