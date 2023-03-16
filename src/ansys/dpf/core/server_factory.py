@@ -66,8 +66,11 @@ class DockerConfig:
     ):
         from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH
 
-        if LOCAL_DOWNLOADED_EXAMPLES_PATH.__contains__(':'):
-            LOCAL_DOWNLOADED_EXAMPLES_PATH=(LOCAL_DOWNLOADED_EXAMPLES_PATH.replace(':','')).replace('\\','/')
+        if LOCAL_DOWNLOADED_EXAMPLES_PATH is not None:
+            if ':' in LOCAL_DOWNLOADED_EXAMPLES_PATH:
+                LOCAL_DOWNLOADED_EXAMPLES_PATH=(LOCAL_DOWNLOADED_EXAMPLES_PATH.replace(':','')).replace('\\','/')
+                
+        print("val: " + LOCAL_DOWNLOADED_EXAMPLES_PATH)
         if mounted_volumes is None:
             mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
 
