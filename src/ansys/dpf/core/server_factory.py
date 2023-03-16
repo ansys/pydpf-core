@@ -71,7 +71,6 @@ class DockerConfig:
         if mounted_volumes is None:
             mounted_volumes = {LOCAL_DOWNLOADED_EXAMPLES_PATH: "/tmp/downloaded_examples"}
 
-        print("After update: " + LOCAL_DOWNLOADED_EXAMPLES_PATH)
         self._use_docker = use_docker
         self._docker_name = docker_name
         self._mounted_volumes = mounted_volumes
