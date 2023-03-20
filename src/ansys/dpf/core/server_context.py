@@ -108,7 +108,7 @@ class LicenseContextManager:
 
         self._server = server_module.get_or_create_server(server)
         if not self._server.meet_version("6.1"):
-            raise errors.DpfVersionNotSupported("5.0")
+            raise errors.DpfVersionNotSupported("6.1")
         self._license_checkout_operator = dpf_operator.Operator(
             "license_checkout", server=self._server
         )
