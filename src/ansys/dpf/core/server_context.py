@@ -41,23 +41,23 @@ class LicensingContextType(Enum):
 
 
 class LicenseContextManager:
-    """Can be optionally used to pre checkout a licence before using licensed DPF Operators.
-    Improves performances if many Operators requiring licensing are used afterwards.
+    """Can optionally be used to check out a license before using licensed DPF Operators.
+    Improves performance if you are using multiple Operators that require licensing.
     It can also be used to force checkout before running a script when few
-    ANSYS license increments are available.
-    Check in the license when the object is deleted.
+    Ansys license increments are available.
+    The license is checked in when the the object is deleted.
 
     Parameters
     ----------
     increment_name: str, optional
-         License increment to check out. To improve a script efficiency, this license increment
+         License increment to check out. To improve script efficiency, this license increment
          should be consistent with the increments required by the following Operators. If ``None``,
          the first available increment of this
          `list <https://dpf.docs.pyansys.com/version/dev/user_guide/getting_started_with_dpf_server.
          html#ansys-licensing>`_
          is checked out.
     license_timeout_in_seconds: float, optional
-         If no increment is available until then, check out fails. Defaults is:
+         If an increment is not available by the maximum time set here, check out fails. Default is:
          :py:func:`ansys.dpf.core.runtime_config.RuntimeCoreConfig.license_timeout_in_seconds`
     server : server.DPFServer, optional
         Server with the channel connected to the remote or local instance. The
@@ -146,7 +146,7 @@ class LicenseContextManager:
 
 
 class ServerContext:
-    """The context allows to choose which capabilities are available server side.
+    """The context allows you to choose which capabilities are available server side.
     xml_path argument won't be taken into account if using LicensingContextType.entry.
 
     Parameters
