@@ -159,8 +159,17 @@ class DockerConfig:
         str
         """
         mounted_volumes_args = "-v " + " -v ".join(
-            key + ":" + val for key, val in self.mounted_volumes.items()
+                key + ":" + val for key, val in self.mounted_volumes.items()
         )
+
+        if os.name == "nt":
+            updated_volume_args=""
+            for i in  mounted_volumes_args.split(' '):
+                if ':' in i:
+                    i='/'+((i.replace('\\','/')).replace(':', '', 1))
+                updated_volume_args=updated_volume_args+" "+i
+
+        mounted_volumes_args=updated_volume_args
 
         print("Printing value of mounted_volumes_args: " + mounted_volumes_args)
         licensing_options = self.licensing_args
