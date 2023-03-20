@@ -92,8 +92,7 @@ class LicenseContextManager:
     >>> op.inputs.field(field)
     >>> op.inputs.threshold(0.0)
     >>> with dpf.LicenseContextManager(
-    ...    increment_name="preppost", license_timeout_in_seconds=1.)
-    ...    as lic:
+    ...    increment_name="preppost", license_timeout_in_seconds=1.) as lic:
     ...    out = op.outputs.field()
 
     Notes
