@@ -629,5 +629,40 @@ def test_release_dpf(server_type):
         dpf.core.Operator("expansion::modal_superposition", server=server_type)
 
 
+@conftest.raises_for_servers_version_under("6.1")
+def test_license_context_manager_as_context():
+    field = dpf.core.Field()
+    field.append([0.0, 0.0, 0.0], 1)
+    op = dpf.core.operators.filter.field_high_pass()
+    op.inputs.field(field)
+    op.inputs.threshold(0.0)
+    with dpf.core.LicenseContextManager() as lic:
+        out = op.outputs.field()
+        st = lic.status
+
+    assert len(st) != 0
+    new_st = lic.status
+    assert new_st == ""
+    lic = dpf.core.LicenseContextManager()
+    op.inputs.field(field)
+    op.inputs.threshold(0.0)
+    out = op.outputs.field()
+    new_st = lic.status
+    assert str(new_st) == str(st)
+    lic = None
+
+    op = dpf.core.operators.filter.field_high_pass()
+    op.inputs.field(field)
+    op.inputs.threshold(0.0)
+    with dpf.core.LicenseContextManager(
+        increment_name="ansys", license_timeout_in_seconds=1.0
+    ) as lic:
+        out = op.outputs.field()
+        st = lic.status
+        assert "ansys" in st
+    st = lic.status
+    assert "ansys" not in st
+
+
 if __name__ == "__main__":
     test_load_api_with_awp_root()
