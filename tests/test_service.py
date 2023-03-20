@@ -489,7 +489,7 @@ def test_context_environment_variable(reset_context_environment_variable):
 @pytest.mark.order(1)
 @pytest.mark.skipif(
     running_docker
-    or os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
+    or os.environ.get("ANSYS_DPF_ACCEPT_LA", "") is ""
     or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
     reason="Tests ANSYS_DPF_ACCEPT_LA",
 )
@@ -509,7 +509,7 @@ def test_license_agr(set_context_back_to_premium):
 
 @pytest.mark.order(2)
 @pytest.mark.skipif(
-    os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
+    os.environ.get("ANSYS_DPF_ACCEPT_LA", "") is ""
     or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
     reason="Tests ANSYS_DPF_ACCEPT_LA",
 )
