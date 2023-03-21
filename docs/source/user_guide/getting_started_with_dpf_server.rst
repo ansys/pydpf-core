@@ -174,6 +174,7 @@ The following Ansys licensing increments provide rights to use DPF Server:
 - ``cfd_solve_level3`` available in the ``Ansys CFD Enterprise`` product
 - ``fluent_meshing`` available in the ``Ansys CFD Enterprise`` product
 - ``avrxp_snd_level1`` available in the ``Ansys Sound Enterprise`` product
+- ``sherlock`` available in the ``Ansys Sherlock`` product
 
 Each increment may be available in other products. On the Ansys Customer Portal,
 the `Licensing section <https://download.ansys.com/Installation%20and%20Licensing%20Help%20and%20Tutorials>`_
