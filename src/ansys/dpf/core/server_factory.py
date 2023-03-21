@@ -166,7 +166,9 @@ class DockerConfig:
             updated_volume_args=""
             for i in  mounted_volumes_args.split(' '):
                 if ':' in i:
-                    i='/mnt/'+((i.replace('\\','/')).replace(':', '', 1))
+                    i='/mnt/'+((''.join([i[0].lower(),(i[1:])]).replace('\\','/')).replace(':', '', 1))
+                    if "lib" in i:
+                        i= i[:i.index("lib")] + i[i.index("lib")].upper() + i[i.index("lib") +1:]
                 updated_volume_args=updated_volume_args+" "+i
             mounted_volumes_args=updated_volume_args
 
