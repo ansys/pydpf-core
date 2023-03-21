@@ -58,7 +58,7 @@ jobs:
       python_versions: '["3.8"]'
       wheel: true
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test' }}
       custom-requirements: requirements/requirements_dev.txt
       custom-wheels: './dpf-standalone/v232/dist'
     secrets: inherit
@@ -67,7 +67,7 @@ jobs:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
     with:
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test' }}
       custom-requirements: requirements/requirements_dev.txt
       custom-wheels: 'dpf-standalone/dist'
     secrets: inherit
@@ -100,7 +100,7 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       python_versions: '["3.8"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test' }}
       custom-requirements: requirements/requirements_dev.txt
       custom-wheels: './dpf-standalone/v232/dist'
     secrets: inherit

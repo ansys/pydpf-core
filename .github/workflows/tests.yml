@@ -28,7 +28,7 @@ on:
         description: "Suffix of the branch on standalone"
         required: false
         type: string
-        default: '_test'
+        default: ''
       custom-requirements:
         description: "Path to requirements.txt file to install"
         required: false
