@@ -77,7 +77,7 @@ jobs:
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: "232"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test' }}
       custom-requirements: requirements/requirements_dev.txt
       custom-wheels: './dpf-standalone/v232/dist'
       event_name: ${{ github.event_name }}
