@@ -17,8 +17,6 @@ This example shows how to load a plugin that is not loaded automatically.
 from ansys.dpf import core as dpf
 
 
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
-
 server = dpf.global_server()
 
 ###############################################################################

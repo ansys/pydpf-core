@@ -28,7 +28,6 @@ from ansys.dpf.core.geometry import Line, Plane, Points
 from ansys.dpf.core.plotter import DpfPlotter
 from ansys.dpf.core.fields_factory import field_from_array
 
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Load model from examples and print information:

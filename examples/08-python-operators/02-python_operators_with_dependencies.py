@@ -45,8 +45,6 @@ from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
 
 
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
-
 print("\033[1m gltf_plugin")
 file_list = [
     "gltf_plugin/__init__.py",

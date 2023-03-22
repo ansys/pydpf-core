@@ -18,8 +18,6 @@ from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
 
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
-
 ###############################################################################
 # Create a model object to establish a connection with an
 # example result file and then extract:
