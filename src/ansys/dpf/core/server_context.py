@@ -234,7 +234,7 @@ if DPF_SERVER_CONTEXT_ENV in os.environ.keys():
         )
 
 
-def set_default_server_context(context=AvailableServerContexts.entry) -> None:
+def set_default_server_context(context=AvailableServerContexts.premium) -> None:
     """This context will be applied by default to any new server as well as
     the global server, if it's running.
 
