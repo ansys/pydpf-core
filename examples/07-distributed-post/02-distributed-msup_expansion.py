@@ -66,10 +66,6 @@ chain that is used to compute the final result.
         "expansion" -> "component";
     }
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 ###############################################################################

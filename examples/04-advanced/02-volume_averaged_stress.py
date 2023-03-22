@@ -10,10 +10,6 @@ For each list of elements, the elemental stress equivalent is multiplied by the
 volume of each element. This result is then accumulated to divide it by the
 total volume.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples

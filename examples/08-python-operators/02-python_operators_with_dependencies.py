@@ -22,10 +22,6 @@ file at the given path.
     This example requires DPF 4.0 (Ansys 2022R2) or above.
     For more information, see :ref:`ref_compatibility`.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 ###############################################################################

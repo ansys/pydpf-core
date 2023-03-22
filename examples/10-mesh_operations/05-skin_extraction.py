@@ -7,10 +7,6 @@ Extract the skin from a mesh
 Extracting the skin of a mesh to reduce the amount of data to operate on
 can be useful for specific results and for performance.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 # Import necessary modules
 from ansys.dpf import core as dpf

@@ -6,10 +6,6 @@ Plot on geometry elements
 This example shows how to plot a certain field in different geometric
 objects such as points, lines and planes.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 
