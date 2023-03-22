@@ -20,8 +20,6 @@ from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
 
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
-
 ###############################################################################
 # Begin by downloading the example harmonic result. This result is
 # not included in the core module by default to speed up the install.
