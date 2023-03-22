@@ -22,8 +22,6 @@ from ansys.dpf.core import operators as ops
 from ansys.dpf.core.plotter import DpfPlotter
 
 
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
-
 ###############################################################################
 # Plot path
 # ~~~~~~~~~

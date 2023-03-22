@@ -26,8 +26,6 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
 
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
-
 ###############################################################################
 # Create a model object to establish a connection with an example result file:
 model = dpf.Model(examples.download_hemisphere())
