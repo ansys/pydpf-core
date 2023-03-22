@@ -12,6 +12,8 @@ ANSYS_DPF_SERVER_CONTEXT=ENTRY and ANSYS_DPF_SERVER_CONTEXT=PREMIUM can be used.
 import os
 import warnings
 from enum import Enum
+from ansys.dpf.core import dpf_operator
+from ansys.dpf.core import errors
 
 
 class LicensingContextType(Enum):
@@ -38,8 +40,112 @@ class LicensingContextType(Enum):
         return True
 
 
+class LicenseContextManager:
+    """Can optionally be used to check out a license before using licensed DPF Operators.
+    Improves performance if you are using multiple Operators that require licensing.
+    It can also be used to force checkout before running a script when few
+    Ansys license increments are available.
+    The license is checked in when the the object is deleted.
+
+    Parameters
+    ----------
+    increment_name: str, optional
+         License increment to check out. To improve script efficiency, this license increment
+         should be consistent with the increments required by the following Operators. If ``None``,
+         the first available increment of this
+         `list <https://dpf.docs.pyansys.com/version/dev/user_guide/getting_started_with_dpf_server.
+         html#ansys-licensing>`_
+         is checked out.
+    license_timeout_in_seconds: float, optional
+         If an increment is not available by the maximum time set here, check out fails. Default is:
+         :py:func:`ansys.dpf.core.runtime_config.RuntimeCoreConfig.license_timeout_in_seconds`
+    server : server.DPFServer, optional
+        Server with the channel connected to the remote or local instance. The
+        default is ``None``, in which case an attempt is made to use the global
+        server.
+
+    Examples
+    --------
+    Using a context manager
+    >>> from ansys.dpf import core as dpf
+    >>> dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
+    >>> field = dpf.Field()
+    >>> field.append([0., 0., 0.], 1)
+    >>> op = dpf.operators.filter.field_high_pass()
+    >>> op.inputs.field(field)
+    >>> op.inputs.threshold(0.0)
+    >>> with dpf.LicenseContextManager() as lic:
+    ...    out = op.outputs.field()
+
+    Using an instance
+    >>> lic = dpf.LicenseContextManager()
+    >>> op.inputs.field(field)
+    >>> op.inputs.threshold(0.0)
+    >>> out = op.outputs.field()
+    >>> lic = None
+
+    Using a context manager and choosing license options
+    >>> op.inputs.field(field)
+    >>> op.inputs.threshold(0.0)
+    >>> out = op.outputs.field()
+    >>> op = dpf.operators.filter.field_high_pass()
+    >>> op.inputs.field(field)
+    >>> op.inputs.threshold(0.0)
+    >>> with dpf.LicenseContextManager(
+    ...    increment_name="preppost", license_timeout_in_seconds=1.) as lic:
+    ...    out = op.outputs.field()
+
+    Notes
+    -----
+    Available from 6.1 server version.
+    """
+
+    def __init__(
+        self, increment_name: str = None, license_timeout_in_seconds: float = None, server=None
+    ):
+        from ansys.dpf.core import server as server_module
+
+        self._server = server_module.get_or_create_server(server)
+        if not self._server.meet_version("6.1"):
+            raise errors.DpfVersionNotSupported("6.1")
+        self._license_checkout_operator = dpf_operator.Operator(
+            "license_checkout", server=self._server
+        )
+        if increment_name is not None:
+            self._license_checkout_operator.connect(0, increment_name)
+        if license_timeout_in_seconds is not None:
+            self._license_checkout_operator.connect(1, license_timeout_in_seconds)
+        self._license_checkout_operator.run()
+
+    def release_data(self):
+        """Release the data."""
+        self._license_checkout_operator = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        if tb is None:
+            self.release_data()
+
+    def __del__(self):
+        self.release_data()
+        pass
+
+    @property
+    def status(self):
+        """Returns a string with the list of checked out increments
+
+        Returns
+        -------
+        str
+        """
+        status_operator = dpf_operator.Operator("license_status", server=self._server)
+        return status_operator.eval()
+
+
 class ServerContext:
-    """The context allows to choose which capabilities are available server side.
+    """The context allows you to choose which capabilities are available server side.
     xml_path argument won't be taken into account if using LicensingContextType.entry.
 
     Parameters
