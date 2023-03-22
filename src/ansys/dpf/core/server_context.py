@@ -236,7 +236,7 @@ if DPF_SERVER_CONTEXT_ENV in os.environ.keys():
 
 def set_default_server_context(context=AvailableServerContexts.premium) -> None:
     """This context will be applied by default to any new server as well as
-    the global server, if it's running.
+    the global server, if it's running as Entry and requested context is Premium.
 
     The context allows to choose which capabilities are available server side.
 
@@ -254,5 +254,5 @@ def set_default_server_context(context=AvailableServerContexts.premium) -> None:
 
     global SERVER_CONTEXT
     SERVER_CONTEXT = context
-    if SERVER is not None:
+    if SERVER is not None and context == AvailableServerContexts.premium:
         SERVER.apply_context(context)
