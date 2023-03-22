@@ -8,10 +8,6 @@ This example shows how stress can be read from distributed files and
 averaged from elemental nodal to nodal in parallel with a distributed workflow.
 After remote post-processing, results are merged on the local process.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 ###############################################################################

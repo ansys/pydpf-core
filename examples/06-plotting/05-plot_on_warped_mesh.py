@@ -7,10 +7,6 @@ Warp the mesh by a field for plotting
 This example shows how to warp the mesh by a vector field,
 enabling to plot on the deformed geometry.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 from ansys.dpf import core as dpf

@@ -8,10 +8,6 @@ Plot results on a specific path
 This example shows how to get a result mapped over a specific path
 and how to plot it.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 import matplotlib.pyplot as plt

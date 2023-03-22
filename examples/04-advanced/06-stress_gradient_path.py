@@ -10,10 +10,6 @@ Because the example is based on creating a path along the normal, the selected n
 must be on the surface of the geometry.
 A path is created of a defined length.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 ###############################################################################

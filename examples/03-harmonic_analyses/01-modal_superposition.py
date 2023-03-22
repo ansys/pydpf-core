@@ -11,10 +11,6 @@ a structure under given boundary conditions in a range of frequencies.
 Doing this expansion "on demand" in DPF instead of in the solver
 reduces the size of the result files.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 from ansys.dpf import core as dpf

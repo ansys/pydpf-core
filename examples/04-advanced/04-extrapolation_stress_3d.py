@@ -30,10 +30,6 @@ Here are the steps for extrapolation:
 #. Compare the result for nodal stress from the data source
    and the nodal stress computed by the extrapolation method.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 from ansys.dpf import core as dpf
