@@ -284,8 +284,10 @@ jobs:
         if: always()
 
       - name: "Test API Entry"
-        working-directory: tests/entry
+        shell: bash
+        working-directory: tests
         run: |
+          cd entry
           pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=junit/test-results10.xml  .
         if: always()
 
