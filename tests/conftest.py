@@ -32,7 +32,7 @@ local_test_repo = False
 def _get_test_files_directory():
     if local_test_repo is False:
         test_path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-        return os.path.join(test_path, os.pardir, os.pardir, "tests", "testfiles")
+        return os.path.join(test_path, os.pardir, "tests", "testfiles")
     else:
         return os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
 
