@@ -12,7 +12,7 @@ from conftest import running_docker
 @pytest.mark.order(1)
 @pytest.mark.skipif(
     running_docker
-    or os.environ.get("ANSYS_DPF_ACCEPT_LA", "") is ""
+    or os.environ.get("ANSYS_DPF_ACCEPT_LA", "") == ""
     or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
     reason="Tests ANSYS_DPF_ACCEPT_LA",
 )
@@ -32,7 +32,7 @@ def test_license_agr(restore_accept_la_env):
 
 @pytest.mark.order(2)
 @pytest.mark.skipif(
-    os.environ.get("ANSYS_DPF_ACCEPT_LA", "") is ""
+    os.environ.get("ANSYS_DPF_ACCEPT_LA", "") == ""
     or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
     reason="Tests ANSYS_DPF_ACCEPT_LA",
 )
