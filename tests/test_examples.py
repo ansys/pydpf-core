@@ -110,7 +110,7 @@ def test_delete_downloaded_files():
 @pytest.mark.order(1)
 @pytest.mark.skipif(
     running_docker
-    or os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
+    or os.environ.get("ANSYS_DPF_ACCEPT_LA", "") == ""
     or not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
     reason="Tests ANSYS_DPF_ACCEPT_LA",
 )
