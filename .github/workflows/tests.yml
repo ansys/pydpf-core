@@ -284,9 +284,9 @@ jobs:
         if: always()
 
       - name: "Test API Entry"
-        working-directory: tests
+        working-directory: tests/entry
         run: |
-          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=junit/test-results10.xml  entry/.
+          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=junit/test-results10.xml  .
         if: always()
 
       - name: "Kill all servers"
