@@ -284,13 +284,10 @@ jobs:
         if: always()
 
       - name: "Test API Entry"
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 2
-          max_attempts: 2
-          shell: bash
-          command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=tests/junit/test-results10.xml entry/.
+        working-directory: tests
+        run: |
+          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=junit/test-results10.xml  entry/.
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
