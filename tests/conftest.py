@@ -480,27 +480,3 @@ def count_servers(request):
         # assert num_dpf_exe == 1
 
     request.addfinalizer(count_servers)
-
-
-@pytest.fixture(autouse=False, scope="function")
-def set_context_back_to_premium(request):
-    """Count servers once we are finished."""
-
-    core.server.shutdown_all_session_servers()
-    init_val = os.environ.get("ANSYS_DPF_ACCEPT_LA", None)
-    try:
-        core.set_default_server_context(core.AvailableServerContexts.entry)
-    except core.errors.DpfVersionNotSupported:
-        pass
-
-    def revert():
-        if init_val:
-            os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
-        core.SERVER_CONFIGURATION = None
-        core.server.shutdown_all_session_servers()
-        try:
-            core.set_default_server_context(core.AvailableServerContexts.premium)
-        except core.errors.DpfVersionNotSupported:
-            pass
-
-    request.addfinalizer(revert)
