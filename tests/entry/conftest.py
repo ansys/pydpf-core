@@ -16,9 +16,8 @@ from ansys.dpf import core
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 from ansys.dpf.core.check_version import meets_version, get_server_version
 
-core.set_default_server_context(core.AvailableServerContexts.entry)
 
-ACCEPTABLE_FAILURE_RATE = 0
+core.set_default_server_context(core.AvailableServerContexts.entry)  # MANDATORY
 
 core.settings.disable_off_screen_rendering()
 os.environ["PYVISTA_OFF_SCREEN"] = "true"
@@ -47,19 +46,6 @@ if running_docker:
     ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes[
         _get_test_files_directory()
     ] = "/tmp/test_files"
-
-
-@pytest.hookimpl()
-def pytest_sessionfinish(session, exitstatus):
-    if os.name == "posix":
-        # accept ACCEPTABLE_FAILURE_RATE percent of failure on Linux
-        if exitstatus != pytest.ExitCode.TESTS_FAILED:
-            return
-        failure_rate = (100.0 * session.testsfailed) / session.testscollected
-        if failure_rate <= ACCEPTABLE_FAILURE_RATE:
-            session.exitstatus = 0
-    else:
-        return exitstatus
 
 
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1 = meets_version(
