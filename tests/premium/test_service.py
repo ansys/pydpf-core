@@ -445,10 +445,6 @@ def reset_context_environment_variable(request):
         else:
             del os.environ[key]
         reload(s_c)
-        try:
-            dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.premium)
-        except dpf.core.errors.DpfVersionNotSupported:
-            pass
 
     request.addfinalizer(revert)
 
@@ -470,7 +466,7 @@ def test_context_environment_variable(reset_context_environment_variable):
         match="which is not recognized as an available " "DPF ServerContext type.",
     ):
         reload(s_c)
-    assert s_c.SERVER_CONTEXT == s_c.AvailableServerContexts.entry
+    assert s_c.SERVER_CONTEXT == s_c.AvailableServerContexts.premium
 
     # Test each possible value is correctly understood and sets SERVER_CONTEXT
     for context in s_c.LicensingContextType:
