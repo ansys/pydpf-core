@@ -436,12 +436,8 @@ def reset_context_environment_variable(request):
     """Reset ANSYS_DPF_SERVER_CONTEXT."""
     from ansys.dpf.core import server_context as s_c
 
-    environment = os.environ
     key = s_c.DPF_SERVER_CONTEXT_ENV
-    if key in environment.keys():
-        init_context = environment[key]
-    else:
-        init_context = None
+    init_context = os.environ.get(key, None)
 
     def revert():
         if init_context:
