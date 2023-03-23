@@ -227,7 +227,7 @@ def test_server_ip(server_type_remote_process):
 
 
 @pytest.mark.skipif(
-    os.environ.get("DPF_SERVER_TYPE", None) is not None,
+    os.environ.get("DPF_SERVER_TYPE", None) is None,
     reason="This test is for a run with default server type",
 )
 def test_start_with_dpf_server_type_env():
