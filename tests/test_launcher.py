@@ -8,7 +8,6 @@ import io
 from ansys.dpf import core
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
-    DPF_SERVER_TYPE,
     configsserver_type,
     config_namesserver_type,
     running_docker,
@@ -228,7 +227,7 @@ def test_server_ip(server_type_remote_process):
 
 
 @pytest.mark.skipif(
-    DPF_SERVER_TYPE is not None,
+    os.environ.get("DPF_SERVER_TYPE", None) is not None,
     reason="This test is for a run with default server type",
 )
 def test_start_with_dpf_server_type_env():
