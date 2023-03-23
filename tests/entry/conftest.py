@@ -1,0 +1,152 @@
+"""This runs at the init of the pytest session for Entry tests.
+
+Must be run separately from the other tests.
+
+Launch or connect to a persistent local Entry DPF server to be shared in
+pytest as a session fixture
+"""
+import os
+import functools
+
+import pytest
+
+import ansys.dpf.core.server_types
+from ansys.dpf import core
+from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
+from ansys.dpf.core.check_version import meets_version, get_server_version
+
+core.set_default_server_context(core.server_context.AvailableServerContexts.entry)
+
+ACCEPTABLE_FAILURE_RATE = 0
+
+core.settings.disable_off_screen_rendering()
+os.environ["PYVISTA_OFF_SCREEN"] = "true"
+core.settings.bypass_pv_opengl_osmesa_crash()
+os.environ["MPLBACKEND"] = "Agg"
+# currently running dpf on docker.  Used for testing on CI
+DPF_SERVER_TYPE = os.environ.get("DPF_SERVER_TYPE", None)
+running_docker = ansys.dpf.core.server_types.RUNNING_DOCKER.use_docker
+local_test_repo = False
+
+
+def _get_test_files_directory():
+    if local_test_repo is False:
+        test_path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        return os.path.join(test_path, os.pardir, "tests", "testfiles")
+    else:
+        return os.path.join(os.environ["AWP_UNIT_TEST_FILES"], "python")
+
+
+if os.name == "posix":
+    import ssl
+
+    ssl._create_default_https_context = ssl._create_unverified_context
+
+if running_docker:
+    ansys.dpf.core.server_types.RUNNING_DOCKER.mounted_volumes[
+        _get_test_files_directory()
+    ] = "/tmp/test_files"
+
+
+@pytest.hookimpl()
+def pytest_sessionfinish(session, exitstatus):
+    if os.name == "posix":
+        # accept ACCEPTABLE_FAILURE_RATE percent of failure on Linux
+        if exitstatus != pytest.ExitCode.TESTS_FAILED:
+            return
+        failure_rate = (100.0 * session.testsfailed) / session.testscollected
+        if failure_rate <= ACCEPTABLE_FAILURE_RATE:
+            session.exitstatus = 0
+    else:
+        return exitstatus
+
+
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1 = meets_version(
+    get_server_version(core._global_server()), "6.1"
+)
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 = meets_version(
+    get_server_version(core._global_server()), "6.0"
+)
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0 = meets_version(
+    get_server_version(core._global_server()), "5.0"
+)
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0 = meets_version(
+    get_server_version(core._global_server()), "4.0"
+)
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0 = meets_version(
+    get_server_version(core._global_server()), "3.0"
+)
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_2_0 = meets_version(
+    get_server_version(core._global_server()), "2.1"
+)
+
+
+def raises_for_servers_version_under(version):
+    """Launch the test normally if the server version is equal or higher than the "version"
+    parameter. Else it makes sure that the test fails by raising a "DpfVersionNotSupported"
+    error.
+    """
+
+    def decorator(func):
+        @pytest.mark.xfail(
+            not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0
+            if version == "3.0"
+            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
+            if version == "4.0"
+            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
+            if version == "5.0"
+            else not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0
+            if version == "6.0"
+            else True,
+            reason=f"Requires server version greater than or equal to {version}",
+            raises=core.errors.DpfVersionNotSupported,
+        )
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
+
+
+def remove_none_available_config(configs, config_names):
+    configs_out = []
+    config_names_out = []
+    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
+        for conf, conf_name in zip(configs, config_names):
+            if conf == core.AvailableServerConfigs.LegacyGrpcServer:
+                configs_out.append(conf)
+                config_names_out.append(conf_name)
+    elif running_docker:
+        for conf, conf_name in zip(configs, config_names):
+            if conf != core.AvailableServerConfigs.InProcessServer:
+                configs_out.append(conf)
+                config_names_out.append(conf_name)
+
+    else:
+        configs_out = configs
+        config_names_out = config_names
+
+    return configs_out, config_names_out
+
+
+(
+    configs_server_type_remote_process,
+    config_names_server_type_remote_process,
+) = remove_none_available_config(
+    [
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True),
+        ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False),
+    ],
+    ["ansys-grpc-dpf", "gRPC CLayer"],
+)
+
+
+@pytest.fixture(
+    scope="package",
+    params=configs_server_type_remote_process,
+    ids=config_names_server_type_remote_process,
+)
+def remote_config_server_type(request):
+    return request.param
