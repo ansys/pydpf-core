@@ -7,15 +7,16 @@ pytest as a session fixture
 """
 import os
 import functools
-
 import pytest
+
+os.environ["ANSYS_DPF_SERVER_CONTEXT"] = "ENTRY"  # MANDATORY
 
 import ansys.dpf.core.server_types
 from ansys.dpf import core
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 from ansys.dpf.core.check_version import meets_version, get_server_version
 
-core.set_default_server_context(core.server_context.AvailableServerContexts.entry)
+core.set_default_server_context(core.AvailableServerContexts.entry)
 
 ACCEPTABLE_FAILURE_RATE = 0
 
@@ -150,3 +151,16 @@ def remove_none_available_config(configs, config_names):
 )
 def remote_config_server_type(request):
     return request.param
+
+
+@pytest.fixture(autouse=False, scope="function")
+def restore_accept_la_env(request):
+    """Restores env ANSYS_DPF_ACCEPT_LA."""
+
+    init_val = os.environ.get("ANSYS_DPF_ACCEPT_LA", None)
+
+    def revert():
+        if init_val:
+            os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
+
+    request.addfinalizer(revert)
