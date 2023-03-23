@@ -765,19 +765,22 @@ class GrpcServer(CServer):
         self._shutdown_func = (api.data_processing_release_server, self.client)
 
     def shutdown(self):
-        if self._remote_instance:
-            self._remote_instance.delete()
-        try:
-            if hasattr(self, "_preparing_shutdown_func"):
-                self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
-        except Exception as e:
-            warnings.warn("couldn't prepare shutdown: " + str(e.args))
-        try:
-            if hasattr(self, "_shutdown_func"):
-                self._shutdown_func[0](self._shutdown_func[1])
-        except Exception as e:
-            warnings.warn("couldn't shutdown server: " + str(e.args))
-        self._docker_config.remove_docker_image()
+        if self.live:
+            if self._remote_instance:
+                self._remote_instance.delete()
+            try:
+                if hasattr(self, "_preparing_shutdown_func"):
+                    self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
+            except Exception as e:
+                warnings.warn("couldn't prepare shutdown: " + str(e.args))
+            try:
+                if hasattr(self, "_shutdown_func"):
+                    self._shutdown_func[0](self._shutdown_func[1])
+            except Exception as e:
+                warnings.warn("couldn't shutdown server: " + str(e.args))
+            
+            self._docker_config.remove_docker_image()
+            self.live = False
 
     def __eq__(self, other_server):
         """Return true, if ***** are equals"""
