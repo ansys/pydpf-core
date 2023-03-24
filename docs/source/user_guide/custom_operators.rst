@@ -87,7 +87,8 @@ In the various properties for the class, you specify the following:
   number *x* to infinity)
 - List for operator properties, including name to use in the documentation and code generation and the
   operator category. The optional ``license`` property allows to define a required license to check out
-  when running the operator.
+  when running the operator. Set it equal to ``any_dpf_supported_increments`` to allow any license
+  currently accepted by DPF (see :ref:`target_to_ansys_license_increments_list`)
 
 For comprehensive examples on writing operator plugins, see :ref:`python_operators`.
 
