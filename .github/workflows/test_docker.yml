@@ -181,10 +181,6 @@ jobs:
           pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=junit/test-results10.xml  .
         if: always()
 
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
-        if: always()
-
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v3
         with:
