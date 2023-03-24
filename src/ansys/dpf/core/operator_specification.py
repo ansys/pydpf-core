@@ -476,6 +476,9 @@ class SpecificationProperties:
         spec=None,
         **kwargs,
     ):
+        if license is not None:
+            kwargs["license"] = license
+
         self._spec = spec
         self.__dict__.update(
             user_name=user_name,
@@ -483,7 +486,6 @@ class SpecificationProperties:
             exposure=exposure,
             scripting_name=scripting_name,
             plugin=plugin,
-            license=license,
             **kwargs,
         )
 
