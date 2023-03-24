@@ -232,7 +232,7 @@ if DPF_SERVER_CONTEXT_ENV in os.environ.keys():
                 f"{DPF_SERVER_CONTEXT_ENV} is set to {default_context}, which is not "
                 f"recognized as an available DPF ServerContext type. \n"
                 f"Accepted values are: {[t.name.upper() for t in LicensingContextType]}.\n"
-                f"Using {AvailableServerContexts.premium.upper()} "
+                f"Using {LicensingContextType.premium.upper()} "
                 f"as the default ServerContext type."
             )
         )
