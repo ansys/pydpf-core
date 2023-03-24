@@ -81,6 +81,14 @@ with this code:
  
     Server Context of type LicensingContextType.entry with no xml path
 
+.. warning::
+    As starting an ``InProcess`` server means linking the DPF binaries to your current python
+    process, you cannot start a new ``InProcess`` server. Thus, if your local ``InProcess`` server
+    is already **Premium**, you cannot set it back as **Entry**.
+    ``InProcess`` being the default server type, the proper commands to work as **Entry** should be
+    set right at the beginning of your script.
+
+
 
 Release history
 ---------------
