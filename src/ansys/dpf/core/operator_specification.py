@@ -257,6 +257,9 @@ class Specification(SpecificationBase):
         self._properties = None
         self._config_specification = None
 
+    def __str__(self):
+        return "Description:\n" + str(self.description) + "\nProperties:\n" + str(self.properties)
+
     @property
     def properties(self):
         """Returns some additional properties of the Operator, like the category, the exposure,
@@ -457,6 +460,9 @@ class SpecificationProperties:
     plugin : str
         Snake case name of the plugin it belongs to.
 
+    license: str
+        Optional license name to check out to run the operator.
+
     """
 
     def __init__(
@@ -466,6 +472,7 @@ class SpecificationProperties:
         scripting_name: str = None,
         exposure: Exposures = Exposures.public,
         plugin: str = None,
+        license: str = None,
         spec=None,
         **kwargs,
     ):
@@ -476,6 +483,7 @@ class SpecificationProperties:
             exposure=exposure,
             scripting_name=scripting_name,
             plugin=plugin,
+            license=license,
             **kwargs,
         )
 
