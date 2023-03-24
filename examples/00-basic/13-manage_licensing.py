@@ -17,6 +17,9 @@ with the **Entry** context.
     set right at the beginning of your script.
 
 """
+import os
+
+os.environ["ANSYS_DPF_SERVER_CONTEXT"] = "ENTRY"
 
 # Import necessary modules
 from ansys.dpf import core as dpf
