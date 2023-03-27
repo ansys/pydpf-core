@@ -224,7 +224,6 @@ DPF_SERVER_CONTEXT_ENV = "ANSYS_DPF_SERVER_CONTEXT"
 SERVER_CONTEXT = AvailableServerContexts.premium
 if DPF_SERVER_CONTEXT_ENV in os.environ.keys():
     default_context = os.getenv(DPF_SERVER_CONTEXT_ENV)
-    print(f"Applying new default server context: {default_context}")
     try:
         SERVER_CONTEXT = getattr(AvailableServerContexts, default_context.lower())
     except AttributeError:

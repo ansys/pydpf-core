@@ -21,18 +21,17 @@ with the **Entry** context.
     For more information, see :ref:`ref_compatibility`.
 
 """
-import os
-
-os.environ["ANSYS_DPF_SERVER_CONTEXT"] = "ENTRY"
-
 # Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core.core import errors
 
 #######################################################################################
 # Start a server as Entry to prevent using licensed operators
-print(f"{dpf.SERVER=}")
-server = dpf.start_local_server(context=dpf.AvailableServerContexts.entry)
+server = dpf.start_local_server(
+    context=dpf.AvailableServerContexts.entry,
+    config=dpf.AvailableServerConfigs.GrpcServer,
+    as_global=False,
+)
 # The context is shown as Entry
 print(server.context)
 
@@ -41,15 +40,15 @@ print(server.context)
 
 #######################################################################################
 # Create a dummy Field
-field = dpf.Field()
+field = dpf.Field(server=server)
 field.append([0.0, 0.0, 0.0], 1)
 print(field)
 
 # Instantiate an Entry (not licensed) DPF operator
-op_entry = dpf.operators.math.add_constant(field=field, ponderation=2.0)
+op_entry = dpf.operators.math.add_constant(field=field, ponderation=2.0, server=server)
 
 # Instantiate a Premium (licensed) DPF operator
-op_premium = dpf.operators.filter.field_high_pass(field=field, threshold=0.0)
+op_premium = dpf.operators.filter.field_high_pass(field=field, threshold=0.0, server=server)
 
 #######################################################################################
 # Operators with the Entry context
@@ -67,9 +66,9 @@ except errors.DPFServerException as e:
 #######################################################################################
 # Operators with the Premium context
 
-# Set the default server context as Premium
+# Set the default server context as Premium for new servers
 dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
-# or apply the Premium context to the current server
+# or in our case, apply the Premium context to the current server
 server.apply_context(dpf.AvailableServerContexts.premium)
 
 # Licensed operators can now check a license out and run
