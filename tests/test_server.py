@@ -267,17 +267,22 @@ def test_go_away_server():
         field = dpf.core.Field(server=s)
         assert field._internal_obj is not None
 
+
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="Not existing in version lower than 4.0",
 )
 def test_start_after_shutting_down_server():
-    remote_server = start_local_server(config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False)
+    remote_server = start_local_server(
+        config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False
+    )
     shutdown_all_session_servers()
 
     time.sleep(2.0)
 
-    remote_server = start_local_server(config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False)
+    remote_server = start_local_server(
+        config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False
+    )
     info = remote_server.info
     shutdown_all_session_servers()
     assert info is not None

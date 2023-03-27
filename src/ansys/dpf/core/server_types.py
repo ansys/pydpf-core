@@ -778,7 +778,7 @@ class GrpcServer(CServer):
                     self._shutdown_func[0](self._shutdown_func[1])
             except Exception as e:
                 warnings.warn("couldn't shutdown server: " + str(e.args))
-            
+
             self._docker_config.remove_docker_image()
             self.live = False
 
