@@ -3,8 +3,12 @@ ServerContext
 =============
 
 Gives the ability to choose the context with which the server should be started.
-The context allows to choose which capabilities are available.
-By default, an **Entry** type of :class:`ServerContext` is used.
+The context allows to choose the licensing logic for operators.
+For every context, DPF always checks if an Ansys license is available.
+By default, a **Premium** type of :class:`ServerContext` is used,
+meaning that any operator requiring a license check-out can do so.
+The **Entry** context instead does not allow operators to check a license out,
+which will result in failure of operators requiring it.
 The default context can be overwritten using the ANSYS_DPF_SERVER_CONTEXT environment
 variable.
 ANSYS_DPF_SERVER_CONTEXT=ENTRY and ANSYS_DPF_SERVER_CONTEXT=PREMIUM can be used.
@@ -18,11 +22,11 @@ from ansys.dpf.core import errors
 
 class LicensingContextType(Enum):
     premium = 1
-    """Loads the entry and the premium capabilities that require a license checkout.
-    Blocks an increment."""
+    """Checks if at least one license increment exists
+    and allows operators to block an increment."""
     entry = 4
-    """Loads the minimum number of plugins for basic use. Checks if at least one
-    increment exists. This increment won't be blocked."""
+    """Checks if at least one license increment exists
+    and does not allow operators to block an increment."""
 
     def __int__(self):
         return self.value
@@ -45,7 +49,7 @@ class LicenseContextManager:
     Improves performance if you are using multiple Operators that require licensing.
     It can also be used to force checkout before running a script when few
     Ansys license increments are available.
-    The license is checked in when the the object is deleted.
+    The license is checked in when the object is deleted.
 
     Parameters
     ----------
@@ -134,7 +138,7 @@ class LicenseContextManager:
 
     @property
     def status(self):
-        """Returns a string with the list of checked out increments
+        """Returns a string with the list of checked out increments.
 
         Returns
         -------
@@ -145,7 +149,7 @@ class LicenseContextManager:
 
 
 class ServerContext:
-    """The context allows you to choose which capabilities are available server side.
+    """The context defines whether DPF capabilities requiring a license checkout are allowed.
     xml_path argument won't be taken into account if using LicensingContextType.entry.
 
     Parameters
@@ -217,7 +221,7 @@ class AvailableServerContexts:
 
 DPF_SERVER_CONTEXT_ENV = "ANSYS_DPF_SERVER_CONTEXT"
 
-SERVER_CONTEXT = AvailableServerContexts.entry
+SERVER_CONTEXT = AvailableServerContexts.premium
 if DPF_SERVER_CONTEXT_ENV in os.environ.keys():
     default_context = os.getenv(DPF_SERVER_CONTEXT_ENV)
     try:
@@ -228,17 +232,17 @@ if DPF_SERVER_CONTEXT_ENV in os.environ.keys():
                 f"{DPF_SERVER_CONTEXT_ENV} is set to {default_context}, which is not "
                 f"recognized as an available DPF ServerContext type. \n"
                 f"Accepted values are: {[t.name.upper() for t in LicensingContextType]}.\n"
-                f"Using {LicensingContextType.entry.name.upper()} "
+                f"Using {LicensingContextType.premium.name.upper()} "
                 f"as the default ServerContext type."
             )
         )
 
 
-def set_default_server_context(context=AvailableServerContexts.entry) -> None:
-    """This context will be applied by default to any new server as well as
-    the global server, if it's running.
+def set_default_server_context(context=AvailableServerContexts.premium) -> None:
+    """Sets this context as default for any new server. Also applies it to
+    the global server if it is running as Entry and requested context is Premium.
 
-    The context allows to choose which capabilities are available server side.
+    The context enables to choose whether DPF capabilities requiring a license checkout are allowed.
 
     Parameters
     ----------
@@ -254,5 +258,5 @@ def set_default_server_context(context=AvailableServerContexts.entry) -> None:
 
     global SERVER_CONTEXT
     SERVER_CONTEXT = context
-    if SERVER is not None:
+    if SERVER is not None and context == AvailableServerContexts.premium:
         SERVER.apply_context(context)

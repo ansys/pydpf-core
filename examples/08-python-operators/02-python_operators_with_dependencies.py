@@ -22,10 +22,6 @@ file at the given path.
     This example requires DPF 4.0 (Ansys 2022R2) or above.
     For more information, see :ref:`ref_compatibility`.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 ###############################################################################
@@ -44,8 +40,6 @@ import os
 from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
 
-
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 print("\033[1m gltf_plugin")
 file_list = [

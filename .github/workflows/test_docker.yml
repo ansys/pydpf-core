@@ -173,6 +173,14 @@ jobs:
           command: |
             pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results9.xml test_service/.
 
+      - name: "Test API Entry"
+        shell: bash
+        working-directory: tests
+        run: |
+          cd entry
+          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=junit/test-results10.xml  .
+        if: always()
+
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v3
         with:
