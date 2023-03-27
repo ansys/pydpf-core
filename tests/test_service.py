@@ -568,26 +568,43 @@ def test_apply_context(set_context_back_to_premium):
 def test_apply_context_remote(remote_config_server_type, set_context_back_to_premium):
     dpf.core.server.shutdown_all_session_servers()
     dpf.core.SERVER_CONFIGURATION = remote_config_server_type
+    field = dpf.core.Field()
+    field.append([0.0], 1)
     if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
-        with pytest.raises(dpf.core.errors.DPFServerException):
-            dpf.core.Operator("core::field::high_pass")
-        with pytest.raises(dpf.core.errors.DPFServerException):
-            if dpf.core.SERVER.os == "nt":
-                dpf.core.load_library("Ans.Dpf.Math.dll", "math_operators")
-            else:
-                dpf.core.load_library("libAns.Dpf.Math.so", "math_operators")
-
-            assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.entry
+        if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1:
+            with pytest.raises(dpf.core.errors.DPFServerException):
+                op = dpf.core.Operator("core::field::high_pass")
+                op.connect(0, field)
+                op.connect(1, 0.0)
+                op.eval()
+        else:
+            with pytest.raises(dpf.core.errors.DPFServerException):
+                op = dpf.core.Operator("core::field::high_pass")
+            with pytest.raises(dpf.core.errors.DPFServerException):
+                if dpf.core.SERVER.os == "nt":
+                    dpf.core.load_library("Ans.Dpf.Math.dll", "math_operators")
+                else:
+                    dpf.core.load_library("libAns.Dpf.Math.so", "math_operators")
+        assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.entry
     else:
         dpf.core.start_local_server()
 
     dpf.core.SERVER.apply_context(dpf.core.AvailableServerContexts.premium)
-    dpf.core.Operator("core::field::high_pass")
+    op = dpf.core.Operator("core::field::high_pass")
+    op.connect(0, field)
+    op.connect(1, 0.0)
+    op.eval()
     assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.premium
-
     dpf.core.server.shutdown_all_session_servers()
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.Operator("core::field::high_pass")
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1:
+        with pytest.raises(dpf.core.errors.DPFServerException):
+            op = dpf.core.Operator("core::field::high_pass")
+            op.connect(0, field)
+            op.connect(1, 0.0)
+            op.eval()
+    elif conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+        with pytest.raises(dpf.core.errors.DPFServerException):
+            op = dpf.core.Operator("core::field::high_pass")
     dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.premium)
     dpf.core.Operator("core::field::high_pass")
     with pytest.raises(dpf.core.errors.DPFServerException):
