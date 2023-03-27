@@ -31,6 +31,7 @@ from ansys.dpf.core.core import errors
 
 #######################################################################################
 # Start a server as Entry to prevent using licensed operators
+print(f"{dpf.SERVER=}")
 server = dpf.start_local_server(context=dpf.AvailableServerContexts.entry)
 # The context is shown as Entry
 print(server.context)
