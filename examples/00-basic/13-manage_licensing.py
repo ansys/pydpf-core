@@ -16,6 +16,10 @@ with the **Entry** context.
     ``InProcess`` being the default server type, the proper commands to work as **Entry** should be
     set right at the beginning of your script.
 
+.. note::
+    This example requires DPF 6.1 (Ansys 2023R2) or above.
+    For more information, see :ref:`ref_compatibility`.
+
 """
 import os
 
