@@ -17,6 +17,10 @@ class write_motion_dfmf_file(Operator):
     ----------
     model_data : PropertyField
         Data describing the finite element model
+    mode_shapes : FieldsContainer
+        Fieldscontainers containing the mode shapes,
+        which are cst and nor for the cms
+        method
     lumped_mass : FieldsContainer
         Fieldscontainers containing the lumped mass
     field_coordinates : Field
@@ -49,6 +53,8 @@ class write_motion_dfmf_file(Operator):
     >>> # Make input connections
     >>> my_model_data = dpf.PropertyField()
     >>> op.inputs.model_data.connect(my_model_data)
+    >>> my_mode_shapes = dpf.FieldsContainer()
+    >>> op.inputs.mode_shapes.connect(my_mode_shapes)
     >>> my_lumped_mass = dpf.FieldsContainer()
     >>> op.inputs.lumped_mass.connect(my_lumped_mass)
     >>> my_field_coordinates = dpf.Field()
@@ -85,6 +91,7 @@ class write_motion_dfmf_file(Operator):
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.write_motion_dfmf_file(
     ...     model_data=my_model_data,
+    ...     mode_shapes=my_mode_shapes,
     ...     lumped_mass=my_lumped_mass,
     ...     field_coordinates=my_field_coordinates,
     ...     nod=my_nod,
@@ -108,6 +115,7 @@ class write_motion_dfmf_file(Operator):
     def __init__(
         self,
         model_data=None,
+        mode_shapes=None,
         lumped_mass=None,
         field_coordinates=None,
         nod=None,
@@ -132,6 +140,8 @@ class write_motion_dfmf_file(Operator):
         self._outputs = OutputsWriteMotionDfmfFile(self)
         if model_data is not None:
             self.inputs.model_data.connect(model_data)
+        if mode_shapes is not None:
+            self.inputs.mode_shapes.connect(mode_shapes)
         if lumped_mass is not None:
             self.inputs.lumped_mass.connect(lumped_mass)
         if field_coordinates is not None:
@@ -180,96 +190,104 @@ class write_motion_dfmf_file(Operator):
                     document="""Data describing the finite element model""",
                 ),
                 1: PinSpecification(
+                    name="mode_shapes",
+                    type_names=["fields_container"],
+                    optional=False,
+                    document="""Fieldscontainers containing the mode shapes,
+        which are cst and nor for the cms
+        method""",
+                ),
+                2: PinSpecification(
                     name="lumped_mass",
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fieldscontainers containing the lumped mass""",
                 ),
-                2: PinSpecification(
+                3: PinSpecification(
                     name="field_coordinates",
                     type_names=["field"],
                     optional=False,
                     document="""Coordinates of all nodes""",
                 ),
-                3: PinSpecification(
+                4: PinSpecification(
                     name="nod",
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""""",
                 ),
-                4: PinSpecification(
+                5: PinSpecification(
                     name="used_node_index",
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""""",
                 ),
-                5: PinSpecification(
+                6: PinSpecification(
                     name="eigenvalue",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                6: PinSpecification(
+                7: PinSpecification(
                     name="translational_mode_shape",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                7: PinSpecification(
+                8: PinSpecification(
                     name="rotational_mode_shape",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                8: PinSpecification(
+                9: PinSpecification(
                     name="invrt_1",
                     type_names=["double"],
                     optional=False,
                     document="""""",
                 ),
-                9: PinSpecification(
+                10: PinSpecification(
                     name="invrt_2",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                10: PinSpecification(
+                11: PinSpecification(
                     name="invrt_3",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                11: PinSpecification(
+                12: PinSpecification(
                     name="invrt_4",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                12: PinSpecification(
+                13: PinSpecification(
                     name="invrt_5",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                13: PinSpecification(
+                14: PinSpecification(
                     name="invrt_6",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                14: PinSpecification(
+                15: PinSpecification(
                     name="invrt_7",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                15: PinSpecification(
+                16: PinSpecification(
                     name="invrt_8",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                16: PinSpecification(
+                17: PinSpecification(
                     name="file_path",
                     type_names=["string"],
                     optional=False,
@@ -328,6 +346,8 @@ class InputsWriteMotionDfmfFile(_Inputs):
     >>> op = dpf.operators.result.write_motion_dfmf_file()
     >>> my_model_data = dpf.PropertyField()
     >>> op.inputs.model_data.connect(my_model_data)
+    >>> my_mode_shapes = dpf.FieldsContainer()
+    >>> op.inputs.mode_shapes.connect(my_mode_shapes)
     >>> my_lumped_mass = dpf.FieldsContainer()
     >>> op.inputs.lumped_mass.connect(my_lumped_mass)
     >>> my_field_coordinates = dpf.Field()
@@ -366,48 +386,52 @@ class InputsWriteMotionDfmfFile(_Inputs):
         super().__init__(write_motion_dfmf_file._spec().inputs, op)
         self._model_data = Input(write_motion_dfmf_file._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._model_data)
-        self._lumped_mass = Input(
+        self._mode_shapes = Input(
             write_motion_dfmf_file._spec().input_pin(1), 1, op, -1
+        )
+        self._inputs.append(self._mode_shapes)
+        self._lumped_mass = Input(
+            write_motion_dfmf_file._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._lumped_mass)
         self._field_coordinates = Input(
-            write_motion_dfmf_file._spec().input_pin(2), 2, op, -1
+            write_motion_dfmf_file._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._field_coordinates)
-        self._nod = Input(write_motion_dfmf_file._spec().input_pin(3), 3, op, -1)
+        self._nod = Input(write_motion_dfmf_file._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._nod)
         self._used_node_index = Input(
-            write_motion_dfmf_file._spec().input_pin(4), 4, op, -1
+            write_motion_dfmf_file._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._used_node_index)
-        self._eigenvalue = Input(write_motion_dfmf_file._spec().input_pin(5), 5, op, -1)
+        self._eigenvalue = Input(write_motion_dfmf_file._spec().input_pin(6), 6, op, -1)
         self._inputs.append(self._eigenvalue)
         self._translational_mode_shape = Input(
-            write_motion_dfmf_file._spec().input_pin(6), 6, op, -1
+            write_motion_dfmf_file._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._translational_mode_shape)
         self._rotational_mode_shape = Input(
-            write_motion_dfmf_file._spec().input_pin(7), 7, op, -1
+            write_motion_dfmf_file._spec().input_pin(8), 8, op, -1
         )
         self._inputs.append(self._rotational_mode_shape)
-        self._invrt_1 = Input(write_motion_dfmf_file._spec().input_pin(8), 8, op, -1)
+        self._invrt_1 = Input(write_motion_dfmf_file._spec().input_pin(9), 9, op, -1)
         self._inputs.append(self._invrt_1)
-        self._invrt_2 = Input(write_motion_dfmf_file._spec().input_pin(9), 9, op, -1)
+        self._invrt_2 = Input(write_motion_dfmf_file._spec().input_pin(10), 10, op, -1)
         self._inputs.append(self._invrt_2)
-        self._invrt_3 = Input(write_motion_dfmf_file._spec().input_pin(10), 10, op, -1)
+        self._invrt_3 = Input(write_motion_dfmf_file._spec().input_pin(11), 11, op, -1)
         self._inputs.append(self._invrt_3)
-        self._invrt_4 = Input(write_motion_dfmf_file._spec().input_pin(11), 11, op, -1)
+        self._invrt_4 = Input(write_motion_dfmf_file._spec().input_pin(12), 12, op, -1)
         self._inputs.append(self._invrt_4)
-        self._invrt_5 = Input(write_motion_dfmf_file._spec().input_pin(12), 12, op, -1)
+        self._invrt_5 = Input(write_motion_dfmf_file._spec().input_pin(13), 13, op, -1)
         self._inputs.append(self._invrt_5)
-        self._invrt_6 = Input(write_motion_dfmf_file._spec().input_pin(13), 13, op, -1)
+        self._invrt_6 = Input(write_motion_dfmf_file._spec().input_pin(14), 14, op, -1)
         self._inputs.append(self._invrt_6)
-        self._invrt_7 = Input(write_motion_dfmf_file._spec().input_pin(14), 14, op, -1)
+        self._invrt_7 = Input(write_motion_dfmf_file._spec().input_pin(15), 15, op, -1)
         self._inputs.append(self._invrt_7)
-        self._invrt_8 = Input(write_motion_dfmf_file._spec().input_pin(15), 15, op, -1)
+        self._invrt_8 = Input(write_motion_dfmf_file._spec().input_pin(16), 16, op, -1)
         self._inputs.append(self._invrt_8)
         self._file_path = Input(
-            write_motion_dfmf_file._spec().input_pin(16), 16, op, -1
+            write_motion_dfmf_file._spec().input_pin(17), 17, op, -1
         )
         self._inputs.append(self._file_path)
 
@@ -430,6 +454,28 @@ class InputsWriteMotionDfmfFile(_Inputs):
         >>> op.inputs.model_data(my_model_data)
         """
         return self._model_data
+
+    @property
+    def mode_shapes(self):
+        """Allows to connect mode_shapes input to the operator.
+
+        Fieldscontainers containing the mode shapes,
+        which are cst and nor for the cms
+        method
+
+        Parameters
+        ----------
+        my_mode_shapes : FieldsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.write_motion_dfmf_file()
+        >>> op.inputs.mode_shapes.connect(my_mode_shapes)
+        >>> # or
+        >>> op.inputs.mode_shapes(my_mode_shapes)
+        """
+        return self._mode_shapes
 
     @property
     def lumped_mass(self):

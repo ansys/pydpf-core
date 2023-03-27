@@ -6,10 +6,6 @@ Plot on geometry elements
 This example shows how to plot a certain field in different geometric
 objects such as points, lines and planes.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 
@@ -28,7 +24,6 @@ from ansys.dpf.core.geometry import Line, Plane, Points
 from ansys.dpf.core.plotter import DpfPlotter
 from ansys.dpf.core.fields_factory import field_from_array
 
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Load model from examples and print information:

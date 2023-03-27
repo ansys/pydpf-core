@@ -155,8 +155,6 @@ jobs:
           MODULE: ${{env.MODULE}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
           working-directory: src
-        env:
-          ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
       - name: "Separate long Core tests"
         shell: pwsh
@@ -280,6 +278,18 @@ jobs:
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
+
+      - name: "Kill all servers"
+        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Test API Entry"
+        shell: bash
+        working-directory: tests
+        run: |
+          cd entry
+          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=junit/test-results10.xml  .
+        if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2

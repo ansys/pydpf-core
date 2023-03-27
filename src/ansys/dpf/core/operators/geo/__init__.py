@@ -3,6 +3,10 @@ from .rotate_in_cylindrical_cs import rotate_in_cylindrical_cs
 from .rotate import rotate 
 from .rotate_fc import rotate_fc 
 from .to_polar_coordinates import to_polar_coordinates 
+from .spherical_to_cartesian_fc import spherical_to_cartesian_fc 
+from .spherical_to_cartesian import spherical_to_cartesian 
+from .cartesian_to_spherical_fc import cartesian_to_spherical_fc 
+from .cartesian_to_spherical import cartesian_to_spherical 
 from .normals_provider_nl import normals_provider_nl 
 from .elements_volumes_over_time import elements_volumes_over_time 
 from .elements_facets_surfaces_over_time import elements_facets_surfaces_over_time 

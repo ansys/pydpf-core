@@ -20,10 +20,6 @@ For this example, the plug-in package contains two different operators:
     This example requires DPF 4.0 (Ansys 2022R2) or above.
     For more information, see :ref:`ref_compatibility`.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 ###############################################################################
@@ -42,8 +38,6 @@ import os
 from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
 
-
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 print("\033[1m average_filter_plugin")
 file_list = ["__init__.py", "operators.py", "operators_loader.py", "common.py"]
