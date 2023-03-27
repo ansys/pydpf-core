@@ -21,7 +21,7 @@ Two main licensing context type capabilities are available:
 - **Premium:** This context, which is the default, allows DPF to perform license checkouts,
   making licensed DPF operators available.
 - **Entry:** This context does not allow DPF to perform any license checkout,
-  meaning that licensed DPF operators will fail.
+  meaning that licensed DPF operators fail.
 
 For the operator list for each licensing context type, see :ref:`ref_dpf_operators_reference`.
 The **Premium** operators reference includes licensed DPF operators.

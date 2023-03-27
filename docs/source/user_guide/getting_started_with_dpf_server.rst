@@ -136,7 +136,7 @@ DPF capabilities are available through the following main contexts:
 - **Premium:** This context, which is the default, allows DPF to perform license checkouts,
   making licensed DPF operators available.
 - **Entry:** This context does not allow DPF to perform any license checkout,
-  meaning that licensed DPF operators will fail.
+  meaning that licensed DPF operators fail.
 
 To update the context, apply a new server context:
 
