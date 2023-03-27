@@ -31,6 +31,7 @@ dependencies = [
     "tqdm",
     "numpy",
     "ansys-dpf-gate>=0.3.*",
+    "grpcio<=1.49"
 ]
 
 [project.optional-dependencies]
