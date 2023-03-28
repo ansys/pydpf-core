@@ -58,7 +58,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: "Build Docker Package"
-        uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
+        uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@dpf_server_23_2_pre1/test
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{env.ANSYS_VERSION}}
