@@ -20,27 +20,19 @@ import ansys.dpf.core as dpf
 # ~~~~~~~~
 
 # Initialize Fields
-field1 = dpf.Field(nentities=3)
-field2 = dpf.Field(nentities=3)
+num_entities=2
+field1 = dpf.Field(nentities=2)
+field2 = dpf.Field(nentities=2)
 
 # By default Fields contain 3d vectors
 # So with 3 entities we need 9 values
-field1.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
-field2.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
+field1.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+field2.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
 
-###############################################################################
-# Next, we need to provide information about the scoping.
-# DPF needs to know what are the IDs of the data we just provided so that it can apply an operator on a subset of the original data.
-
-# Here by providing these integers we only select the data with an ID in common,
-# thus we are selecting the third elementary data of the first field, and the first elementary data of the second field,
-# Other elementary data won't be taken into account when using an operator which needs 2 operands
-field1.scoping.ids = [1, 2, 3]
-field2.scoping.ids = [3, 4, 5]
-
+field1.scoping.ids = range(num_entities)
+field2.scoping.ids = range(num_entities)
 ###############################################################################
 # Once the fields are ready we can instanciate an operator
-
 add_op = dpf.operators.math.add(field1, field2)
 # Alternatively:
 # add_op = dpf.Operator("add")
@@ -51,20 +43,16 @@ add_op = dpf.operators.math.add(field1, field2)
 # Finally we use eval() to compute and retrieve the result
 field3 = add_op.eval()
 
-# [7.   8.  9.  ]
-#       +
-# [1.   2.  3.  ]
-# =
-# [8.   10. 12. ]
-print(field3.get_entity_data_by_id(3))
+# = [[2. 4. 6.] [8. 10. 12.]]
+print(field3.data)
 
 ###############################################################################
 # Dot product
 # ~~~~~~~~~~~
 dot_op = dpf.operators.math.generalized_inner_product(field1, field2)
 
-# (7. * 1.) + (8. * 2.) + (9. * 3.) = 50.
-# [0. 0. 50. 0. 0.]
+# (1. * 1.) + (2. * 2.) + (3. * 3.) = 14.
+# (4. * 4.) + (5. * 5.) + (6. * 6.) = 77.
 field3 = dot_op.eval()
 print(field3.data)
 
@@ -72,6 +60,7 @@ print(field3.data)
 ###############################################################################
 # Power
 # ~~~~~
+field = dpf.Field(nentities=1)
 field1.data         = [ 1.0, 2.0, 3.0]
 field1.scoping.ids  = [ 1 ]
 
@@ -126,3 +115,36 @@ output_field = acc.outputs.field()
 # (2.0  * 0.5) + (0.5  * 2.0) + (3.0 * 0.5)  = 3.5
 # (4.0  * 0.5) + (1.0  * 2.0) + (-3.0 * 0.5) = 2.5
 print(output_field.data)
+
+###############################################################################
+# With scoping 
+# ~~~~~~~
+field1.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
+field2.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
+
+###############################################################################
+# Next, we need to provide information about the scoping.
+# DPF needs to know what are the IDs of the data we just provided so that it can apply an operator on a subset of the original data.
+
+# Here by providing these integers we only select the data with an ID in common,
+# thus we are selecting the third elementary data of the first field, and the first elementary data of the second field,
+# Other elementary data won't be taken into account when using an operator which needs 2 operands
+field1.scoping.ids = [1, 2, 3]
+field2.scoping.ids = [3, 4, 5]
+
+add_op = dpf.operators.math.add(field1, field2)
+field3 = add_op.eval()
+
+# only the third entity was changed, because it is the only operator for which 2 operands were provided
+print(field3.data)
+# [[8. 10. 12.]]
+print(field3.get_entity_data_by_id(3))
+
+
+dot_op = dpf.operators.math.generalized_inner_product(field1, field2)
+
+# We obtain zeros for IDs where there could not be 2 operands
+# (7. * 1.) + (8. * 2.) + (9. * 3.) = 50.
+# [0. 0. 50. 0. 0.]
+field3 = dot_op.eval()
+print(field3.data)
