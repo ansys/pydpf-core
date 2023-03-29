@@ -3,7 +3,7 @@ import os.path
 
 import pytest
 
-from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0
+from conftest import running_docker
 from ansys.dpf import core as dpf
 from ansys.dpf.core import Model
 from ansys.dpf.core import examples
@@ -103,29 +103,6 @@ def test_delete_downloaded_files():
     assert os.path.exists(examples.static_rst)
     assert os.path.exists(examples.complex_rst)
     assert os.path.exists(examples.distributed_msup_folder)
-
-
-# Duplicated from test_service to certify ADO pipelines
-# It's making sure that the first server is started as entry
-@pytest.mark.order(1)
-@pytest.mark.skipif(
-    running_docker
-    or os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
-    or not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="Tests ANSYS_DPF_ACCEPT_LA",
-)
-def test_license_agr(set_context_back_to_premium):
-    config = dpf.AvailableServerConfigs.InProcessServer
-    init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
-    del os.environ["ANSYS_DPF_ACCEPT_LA"]
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.start_local_server(config=config, as_global=True)
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.Operator("stream_provider")
-    os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
-    dpf.start_local_server(config=config, as_global=True)
-    assert "static" in examples.find_static_rst()
-    assert dpf.Operator("stream_provider") is not None
 
 
 def test_get_example_required_minimum_dpf_version(tmp_path):

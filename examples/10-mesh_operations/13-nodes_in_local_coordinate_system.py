@@ -15,18 +15,11 @@ the GCS, a transformation is required after the rotation to get the correct coor
 
 The script below demonstrates the methodology using PyDPF.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
-
 """
 # Import necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 
-
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Create a model object to establish a connection with an example result file:

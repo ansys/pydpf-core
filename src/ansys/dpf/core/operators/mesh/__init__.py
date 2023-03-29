@@ -3,7 +3,7 @@ from .from_field import from_field
 from .mesh_provider import mesh_provider 
 from .meshes_provider import meshes_provider 
 from .beam_properties import beam_properties 
-from .get_attribute import get_attribute 
+from .mesh_get_attribute import mesh_get_attribute 
 from .points_from_coordinates import points_from_coordinates 
 from .change_cs import change_cs 
 from .from_scoping import from_scoping 

@@ -16,8 +16,8 @@ When using PyDPF-Core to start the server with the
 or when starting the server manually with the ``Ans.Dpf.Grpc.sh`` or ``Ans.Dpf.Grpc.bat``
 file, a Python error might occur: ``TimeoutError: Server did not start in 10 seconds``.
 This kind of error might mean that the server or its dependencies were not found. Ensure that
-the ``AWP_ROOT{VER}`` environment variable is set, where ``VER`` is the three-digit numeric
-format for the version, such as ``221`` or ``222``.
+the ``AWP_ROOT{VER}`` environment variable is set when using DPF from an Ansys unified install,
+where ``VER`` is the three-digit numeric format for the version, such as ``221`` or ``222``.
 
 Connect to the DPF server
 ~~~~~~~~~~~~~~~~~~~~~~~~~

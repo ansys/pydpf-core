@@ -182,3 +182,18 @@ class RuntimeCoreConfig(_RuntimeConfig):
     @num_threads.setter
     def num_threads(self, value):
         self._data_tree.add(num_threads=int(value))
+
+    @property
+    def license_timeout_in_seconds(self):
+        """Sets the default number of threads to use for all operators,
+        default is omp_get_num_threads.
+
+        Returns
+        -------
+        float
+        """
+        return self._data_tree.get_as("license_timeout_in_seconds", types.double)
+
+    @license_timeout_in_seconds.setter
+    def license_timeout_in_seconds(self, value):
+        self._data_tree.add(license_timeout_in_seconds=float(value))
