@@ -1,15 +1,15 @@
 :orphan:
 
-=================
-Operators (Entry)
-=================
+=========
+Operators
+=========
 
 Loading operators.
 
 .. raw:: html
 
     <iframe
-      src="_static/dpf_entry.html#CPython"
+      src="_static/dpf_operators.html#CPython"
       style="
         position: fixed;
         top: 36px;
