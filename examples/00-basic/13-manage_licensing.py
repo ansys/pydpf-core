@@ -1,20 +1,20 @@
 """
 .. _ref_manage_licensing:
 
-Manage the DPF licensing logic via the server context
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Manage the DPF licensing logic using the server context
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This examples shows how to manage the licensing logic of a DPF server using a `ServerContext`.
+This example shows how to manage the licensing logic of a DPF server using a `ServerContext`.
 
-Preventing DPF from checking licenses out and blocking increments is possible
-with the **Entry** context.
+You can prevent DPF from checking licenses out and blocking increments by using the
+**Entry** context.
 
 .. warning::
-    As starting an ``InProcess`` server means linking the DPF binaries to your current python
-    process, you cannot start a new ``InProcess`` server. Thus, if your local ``InProcess`` server
-    is already **Premium**, you cannot set it back as **Entry**.
-    ``InProcess`` being the default server type, the proper commands to work as **Entry** should be
-    set right at the beginning of your script.
+    You cannot start a new ``InProcess`` server, as starting an ``InProcess`` server means linking
+    the DPF binaries to your current Python process. If your local ``InProcess`` server is already
+    set to **Premium**, you cannot set it back to **Entry**.
+    Since ``InProcess`` is the default server type, put the commands to set the **Entry** server
+    context at the start of your script.
 
 .. note::
     This example requires DPF 6.1 (Ansys 2023R2) or above.
@@ -35,7 +35,7 @@ server = dpf.start_local_server(
 # The context is shown as Entry
 print(server.context)
 
-# A server of type InProcess being linked to the current python process,
+# A server of type InProcess being linked to the current Python process,
 # if an InProcess server already exists as Premium, you cannot set it back as Entry.
 
 #######################################################################################
@@ -75,8 +75,8 @@ server.apply_context(dpf.AvailableServerContexts.premium)
 out = op_premium.eval()
 print(out)
 
-###############################################################################################
-# When Premium, using a LicenseContextManaged allows to control your interaction with a license
+###################################################################################################
+# When Premium, using a LicenseContextManaged allows you to control your interaction with a license
 
 # Use the LicenseContextManager to block a specific increment for a limited duration
 with dpf.LicenseContextManager(increment_name="preppost", license_timeout_in_seconds=1.0) as lic:
