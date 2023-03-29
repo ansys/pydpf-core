@@ -77,6 +77,8 @@ print(out)
 
 ###################################################################################################
 # When Premium, using a LicenseContextManaged allows you to control your interaction with a license
+# It gives direct control over when the license check-out and checked-in occur, as well as which
+# license increment is used, and for what maximum duration.
 
 # Use the LicenseContextManager to block a specific increment for a limited duration
 with dpf.LicenseContextManager(increment_name="preppost", license_timeout_in_seconds=1.0) as lic:
