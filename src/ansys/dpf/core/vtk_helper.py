@@ -1,6 +1,7 @@
 import numpy as np
 import pyvista as pv
 import ansys.dpf.core as dpf
+from ansys.dpf.core import errors
 from vtk import (
     VTK_HEXAHEDRON,
     VTK_LINE,
@@ -160,7 +161,7 @@ def dpf_mesh_to_vtk(mesh, nodes=None, as_linear=True):
             offsets_pv = mesh_to_pyvista.outputs.offsets()
             return pv.UnstructuredGrid(offsets_pv, cells_pv, celltypes_pv, nodes_pv)
 
-    except (AttributeError, KeyError) as e:
+    except (AttributeError, KeyError, errors.DPFServerException) as e:
 
         # If the operator is not available (past server versions)
 
