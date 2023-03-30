@@ -298,6 +298,12 @@ def test_runtime_core_config(server_type):
     assert num_threads == 4
     core_config.num_threads = num_threads_init
     assert core_config.num_threads == num_threads_init
+    timeout_init = core_config.license_timeout_in_seconds
+    core_config.license_timeout_in_seconds = 4.0
+    license_timeout_in_seconds = core_config.license_timeout_in_seconds
+    assert license_timeout_in_seconds == 4.0
+    core_config.license_timeout_in_seconds = timeout_init
+    assert core_config.license_timeout_in_seconds == timeout_init
 
 
 @conftest.raises_for_servers_version_under("4.0")
