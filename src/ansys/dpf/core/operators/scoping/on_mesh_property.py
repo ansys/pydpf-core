@@ -119,7 +119,7 @@ class on_mesh_property(Operator):
                 ),
                 2: PinSpecification(
                     name="property_id",
-                    type_names=["int32", "vector<int32>"],
+                    type_names=["vector<int32>", "int32"],
                     optional=True,
                     document="""""",
                 ),
