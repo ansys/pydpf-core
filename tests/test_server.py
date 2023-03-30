@@ -276,7 +276,7 @@ def test_start_after_shutting_down_server():
     remote_server = start_local_server(
         config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False
     )
-    shutdown_all_session_servers()
+    remote_server.shutdown()
 
     time.sleep(2.0)
 
@@ -284,5 +284,5 @@ def test_start_after_shutting_down_server():
         config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False
     )
     info = remote_server.info
-    shutdown_all_session_servers()
+    remote_server.shutdown()
     assert info is not None
