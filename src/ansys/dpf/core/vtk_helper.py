@@ -160,7 +160,7 @@ def dpf_mesh_to_vtk(mesh, nodes=None, as_linear=True):
             offsets_pv = mesh_to_pyvista.outputs.offsets()
             return pv.UnstructuredGrid(offsets_pv, cells_pv, celltypes_pv, nodes_pv)
 
-    except AttributeError:
+    except (AttributeError, KeyError) as e:
 
         # If the operator is not available (past server versions)
 
