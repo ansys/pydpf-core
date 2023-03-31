@@ -461,7 +461,7 @@ class SpecificationProperties:
         Snake case name of the plugin it belongs to.
 
     license: str
-        Optional license name to check out to run the operator.
+        Optional license name to check out that is used to run the operator.
         The value "any_dpf_supported_increments" tells DPF than any DPF-accepted license
         is accepted by this operator (see `here
         <https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html#ansys-licensing>`_).  # noqa
