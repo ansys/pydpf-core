@@ -155,6 +155,8 @@ jobs:
           MODULE: ${{env.MODULE}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
           working-directory: src
+        env:
+          ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
       - name: "Separate long Core tests"
         shell: pwsh
@@ -174,6 +176,8 @@ jobs:
         run: |
           pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results.xml  .
         if: always()
+        env:
+          ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
@@ -187,6 +191,8 @@ jobs:
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results2.xml test_launcher/.
+        env:
+          ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
@@ -201,6 +207,8 @@ jobs:
           command: |
             pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results3.xml test_server/.
         if: always()
+        env:
+          ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
@@ -214,6 +222,8 @@ jobs:
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results4.xml test_local_server/.
+        env:
+          ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
@@ -227,6 +237,8 @@ jobs:
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results5.xml test_multi_server/.
+        env:
+          ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
@@ -240,6 +252,8 @@ jobs:
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results6.xml test_remote_workflow/.
+        env:
+          ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
@@ -250,6 +264,8 @@ jobs:
         working-directory: test_remote_operator
         run: |
           pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results7.xml .
+        env:
+          ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
@@ -265,6 +281,8 @@ jobs:
           command: |
             pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results8.xml test_workflow/.
         if: always()
+        env:
+          ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
@@ -278,6 +296,8 @@ jobs:
           shell: bash
           command: |
             pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
+        env:
+          ANSYS_DPF_SERVER_CONTEXT: PREMIUM
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
@@ -290,6 +310,8 @@ jobs:
           cd entry
           pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=junit/test-results10.xml  .
         if: always()
+        env:
+          ANSYS_DPF_SERVER_CONTEXT: ENTRY
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
