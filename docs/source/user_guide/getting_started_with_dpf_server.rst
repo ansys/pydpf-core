@@ -28,7 +28,7 @@ Install DPF Server
 
 #. Download the ``ansys_dpf_server_win_v2023.2.pre0.zip`` or ``ansys_dpf_server_lin_v2023.2.pre0.zip`` file as appropriate.
 #. Unzip the package.
-#. Optional: download any other plugin ZIP file and unzip the package. For example, to access ``composites`` plugin for Linux, 
+#. Optional: download any other plugin ZIP file as appropriate and unzip the package. For example, to access ``composites`` plugin for Linux, 
    download ``ansys_dpf_composites_lin_v2023.2.pre0.zip`` and unzip the package next to ``ansys_dpf_server_lin_v2023.2.pre0.zip``.
 #. Change to the root folder (``ansys_dpf_server_win_v2023.2.pre0``) of the unzipped package. 
 #. In a Python environment, run this command:
@@ -81,7 +81,7 @@ DPF server can be run in a Docker container.
 
 #. Along with the ``ansys_dpf_server_lin_v2023.2.pre0.zip`` file mentioned earlier
    in :ref:`Install DPF Server <target_installing_server>`, download the ``Dockerfile`` file.
-#. Optional: download any other plugin ZIP file. For example, to access ``composites`` plugin for Linux, 
+#. Optional: download any other plugin ZIP file as appropriate. For example, to access ``composites`` plugin for Linux, 
    download ``ansys_dpf_composites_lin_v2023.2.pre0.zip``.
 #. Copy all the ZIP files and ``Dockerfile`` file in a folder and navigate into that folder.
 #. To build the DPF Docker container, run the following command:
