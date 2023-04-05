@@ -5,8 +5,8 @@
 Mathematical Operations
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-DPF provides operators implementing mathematical operations,
-ranging from addition and multiplication to FFT and QR solving
+DPF provides operators for implementing mathematical operations,
+ranging from addition and multiplication to FFT and QR solving.
 
 For a complete list, see :ref:`ref_dpf_operators_reference`, under the math section.
 
@@ -24,15 +24,15 @@ num_entities = 2
 field1 = dpf.Field(nentities=2)
 field2 = dpf.Field(nentities=2)
 
-# By default Fields contain 3d vectors
-# So with 3 entities we need 9 values
+# By default, Fields contain 3d vectors.
+# So with three entities we need nine values.
 field1.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
 field2.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
 
 field1.scoping.ids = range(num_entities)
 field2.scoping.ids = range(num_entities)
 ###############################################################################
-# Once the fields are ready we can instantiate an operator
+# Once the fields are ready, we can instantiate an operator.
 add_op = dpf.operators.math.add(field1, field2)
 # Alternatively:
 # add_op = dpf.Operator("add")
@@ -40,7 +40,7 @@ add_op = dpf.operators.math.add(field1, field2)
 # add_op.connect(1, field2)
 
 ###############################################################################
-# Finally we use eval() to compute and retrieve the result
+# Finally, we use eval() to compute and retrieve the result.
 field3 = add_op.eval()
 
 # = [[2. 4. 6.] [8. 10. 12.]]
@@ -85,10 +85,10 @@ print(field3.data)
 ###############################################################################
 # Accumulate
 # ~~~~~~~~~~
-# First we define fields, by default fields represent 3d vectors,
-# so one elementary data is a 3d vector
-# but the optional ponderation field is a field which takes one value per entity,
-# so we need to change its dimensionality (1d)
+# First we define fields. By default, fields represent 3D vectors
+# so one elementary data is a 3D vector.
+# The optional ponderation field is a field which takes one value per entity,
+# so we need to change its dimensionality (1D).
 num_entities = 3
 input_field = dpf.Field(nentities=num_entities)
 ponderation_field = dpf.Field(num_entities)
@@ -98,15 +98,15 @@ input_field.scoping.ids = range(num_entities)
 ponderation_field.scoping.ids = range(num_entities)
 
 ###############################################################################
-# Fill fields with data
-# 9 values because there are 3 entities
+# Fill fields with data.
+# Add nine values because there are three entities.
 input_field.data = [-2.0, 2.0, 4.0, -5.0, 0.5, 1.0, 7.0, 3.0, -3.0]
 ###############################################################################
-# 3 weights, one per entity
+# Three weights, one per entity.
 ponderation_field.data = [0.5, 2.0, 0.5]
 
 ###############################################################################
-# Retrieve the result
+# Retrieve the result.
 acc = dpf.operators.math.accumulate(fieldA=input_field, ponderation=ponderation_field)
 output_field = acc.outputs.field()
 
@@ -123,21 +123,21 @@ field2.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
 
 ###############################################################################
 # Next, we need to provide information about the scoping.
-# DPF needs to know what are the IDs of the data we just provided,
+# DPF needs to know the IDs of the data we just provided,
 # so that it can apply an operator on a subset of the original data.
 #
-# Here by providing these integers we only select the data with an ID in common,
-# thus we are selecting the third elementary data of the first field,
+# By providing these integers we only select the data with an ID in common.
+# Here we are selecting the third elementary data of the first field,
 # and the first elementary data of the second field,
-# Other elementary data won't be taken into account when using an operator which needs 2 operands
+# Other elementary data is not taken into account when using an operator that needs two operands.
 field1.scoping.ids = [1, 2, 3]
 field2.scoping.ids = [3, 4, 5]
 
 add_op = dpf.operators.math.add(field1, field2)
 field3 = add_op.eval()
 
-# only the third entity was changed,
-# because it is the only operator for which 2 operands were provided
+# Only the third entity was changed
+# because it is the only operator where two operands were provided.
 print(field3.data)
 # [[8. 10. 12.]]
 print(field3.get_entity_data_by_id(3))
@@ -147,7 +147,7 @@ print(field3.get_entity_data_by_id(3))
 
 dot_op = dpf.operators.math.generalized_inner_product(field1, field2)
 
-# We obtain zeros for IDs where there could not be 2 operands
+# We obtain zeros for IDs where there could not be two operands.
 # (7. * 1.) + (8. * 2.) + (9. * 3.) = 50.
 # [0. 0. 50. 0. 0.]
 field3 = dot_op.eval()
