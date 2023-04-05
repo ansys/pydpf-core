@@ -61,7 +61,6 @@ class _PyVistaAnimator(_PyVistaPlotter):
                     IsPos = True
                 i += 1
             clim[0] = 0
-        print(indices)
 
         if scale_factor is None:
             scale_factor = [False] * len(indices)
@@ -110,11 +109,9 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
             else:
                 workflow.connect(input_name[0], loop_over[frame])
-                print(indices[frame])
                 workflow.connect(input_name[1], indices[frame])
 
             field = workflow.get_output(output_name, core.types.field)
-            print(field.data)
             deform = None
             if "deform_by" in workflow.output_names:
                 deform = workflow.get_output("deform_by", core.types.field)

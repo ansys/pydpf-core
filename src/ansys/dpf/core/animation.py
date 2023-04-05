@@ -63,12 +63,12 @@ def animate_mode(
         scale_factor_per_frame = 2 * list(
             abs(np.linspace(-1, 1, int(frame_number / 2), dtype=np.double))
         )
-        print(len(scale_factor_per_frame))
     else:
-        raise ValueError(f"The type_mode {type_mode} is not accepted.")
+        raise ValueError(
+            f"The type_mode {type_mode} is not accepted. "
+            + "Please select one in 'positive_disp' and 'full_disp'."
+        )
 
-    # time_freq_support = list(np.arange(1, len(scale_factor_per_frame)+1))
-    # print("time_freq_support : ", time_freq_support)
     fake_frq = dpf.TimeFreqSupport()
     fake_frq.append_step(1, scale_factor_per_frame)
 
@@ -84,11 +84,11 @@ def animate_mode(
     else:
         field_mode = fields_mode[0]
 
-    max = float(np.max(field_mode.data))
+    max_data = float(np.max(field_mode.data))
     if type_mode == "positive_disp":
-        min = 0
+        min_data = 0
     elif type_mode == "full_disp":
-        min = -max
+        min_data = -max_data
 
     list_field = [field_mode for i in range(frame_number)]
     new_field_mode = dpf.fields_container_factory.over_time_freq_fields_container(
@@ -115,6 +115,6 @@ def animate_mode(
         output_name="field_out",
         save_as=save_as,
         mode_number=mode_number,
-        clim=[min, max],
+        clim=[min_data, max_data],
         **kwargs,
     )
