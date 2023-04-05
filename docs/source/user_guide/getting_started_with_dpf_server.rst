@@ -87,7 +87,7 @@ DPF server can be run in a Docker container.
 #. To build the DPF Docker container, run the following command:
 
 .. code::
- 
+
     docker build . -t dpf-core:v2023_2_pre1 --build-arg DPF_VERSION=232
 
 4. To run the DPF Docker container, license it. For more information, see'
