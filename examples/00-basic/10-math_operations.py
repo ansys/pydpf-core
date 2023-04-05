@@ -34,10 +34,6 @@ field2.scoping.ids = range(num_entities)
 ###############################################################################
 # Once the fields are ready, we can instantiate an operator.
 add_op = dpf.operators.math.add(field1, field2)
-# Alternatively:
-# add_op = dpf.Operator("add")
-# add_op.connect(0, field1)
-# add_op.connect(1, field2)
 
 ###############################################################################
 # Finally, we use eval() to compute and retrieve the result.
@@ -117,7 +113,7 @@ print(output_field.data)
 
 ###############################################################################
 # With scoping
-# ~~~~~~~
+# ~~~~~~~~~~~~
 field1.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
 field2.data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
 
