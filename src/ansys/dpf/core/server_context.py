@@ -3,7 +3,7 @@ ServerContext
 =============
 
 Gives the ability to choose the context with which the server should be started.
-The context allows to choose the licensing logic for operators.
+The context allows you to choose the licensing logic for operators.
 For every context, DPF always checks if an Ansys license is available.
 By default, a **Premium** type of :class:`ServerContext` is used,
 meaning that any operator requiring a license check-out can do so.
