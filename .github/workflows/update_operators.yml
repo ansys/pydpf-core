@@ -66,7 +66,7 @@ jobs:
         shell: bash
         working-directory: .ci
         run: |
-          python operator_doc_per_context.py
+          python build_operators_doc.py
         timeout-minutes: 5
 
       - name: "Show changes"
@@ -80,8 +80,7 @@ jobs:
           delete-branch: true
           add-paths: |
             src/ansys/dpf/core/operators/*
-            docs/source/_static/dpf_entry.html
-            docs/source/_static/dpf_premium.html
+            docs/source/_static/dpf_operators.html
           commit-message: update operators
           title: Update Operators for DPF ${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }} on ${{ github.ref_name }}
           body: An update of operators has been triggered either manually or by an update in the dpf-standalone repository.
