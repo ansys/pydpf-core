@@ -99,6 +99,9 @@ def animate_mode(
     # Create workflow
     wf = dpf.Workflow()
 
+    progress_bar = kwargs.pop("progress_bar", False)
+    wf.progress_bar = progress_bar
+
     # Add scaling operator
     scaling_op = dpf.operators.math.scale()
     wf.add_operators(scaling_op)

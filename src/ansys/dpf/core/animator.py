@@ -155,7 +155,6 @@ class _PyVistaAnimator(_PyVistaPlotter):
                     for frame in range(1, len(indices)):
                         try:
                             render_frame(frame)
-
                         except AttributeError as e:  # pragma: no cover
                             if "'NoneType' object has no attribute 'interactor'" in e.args[0]:
                                 print("Animation canceled.")
