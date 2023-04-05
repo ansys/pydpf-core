@@ -32,15 +32,29 @@ class _PyVistaAnimator(_PyVistaPlotter):
         loop_over,
         workflow,
         output_name,
-        input_name="loop_over",
+        input_name=["loop_over"],
         save_as="",
+        mode_number=None,
         scale_factor=1.0,
         **kwargs,
     ):
         # Extract useful information from the given frequencies Field
+        indices = loop_over.time_freq_support.time_frequencies.data
+        unit = loop_over.time_freq_support.time_frequencies.unit
 
-        unit = loop_over.unit
-        indices = loop_over.scoping.ids
+        # Modification of data
+        clim = kwargs.get("clim", None)
+        if clim is not None and clim[0] < 0:
+            n_frame = len(indices)
+            i = 0
+            while indices[i] < 0 and i < n_frame:
+                indices[i] *= -1
+                i += 1
+
+        print(indices)
+
+        # unit = loop_over.unit
+        # indices = loop_over.scoping.ids
         if scale_factor is None:
             scale_factor = [False] * len(indices)
         type_scale = type(scale_factor)
@@ -79,12 +93,17 @@ class _PyVistaAnimator(_PyVistaPlotter):
         if cpos:
             if isinstance(cpos[0][0], float):
                 cpos = [cpos] * len(indices)
-        str_template = "t={0:{2}} {1}"
 
         def render_frame(frame):
             self._plotter.clear()
-            # print(f"render frame {frame} for input {indices[frame]}")
-            workflow.connect(input_name, [frame])
+
+            if mode_number is None:
+                workflow.connect(input_name[0], [frame])
+
+            else:
+                workflow.connect(input_name[0], loop_over[frame])
+                workflow.connect(input_name[1], indices[frame])
+
             field = workflow.get_output(output_name, core.types.field)
             deform = None
             if "deform_by" in workflow.output_names:
@@ -96,9 +115,17 @@ class _PyVistaAnimator(_PyVistaPlotter):
                 **kwargs,
             )
             kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **freq_kwargs)
-            self._plotter.add_text(
-                str_template.format(loop_over.data[frame], unit, freq_fmt), **kwargs_in
-            )
+            if mode_number is None:
+                str_template = "t={0:{2}} {1}"
+                self._plotter.add_text(
+                    str_template.format(indices[frame], unit, freq_fmt), **kwargs_in
+                )
+            else:
+                str_template = "frq={0:{2}} {1}"
+                self._plotter.add_text(
+                    str_template.format(mode_number, unit, freq_fmt), **kwargs_in
+                )
+
             if cpos:
                 self._plotter.camera_position = cpos[frame]
 
@@ -121,6 +148,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
                     for frame in range(1, len(indices)):
                         try:
                             render_frame(frame)
+
                         except AttributeError as e:  # pragma: no cover
                             if "'NoneType' object has no attribute 'interactor'" in e.args[0]:
                                 print("Animation canceled.")
@@ -130,130 +158,6 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
             # Write initial frame
             render_frame(0)
-            # If not off_screen, enable the user to choose the camera position
-            off_screen = kwargs.pop("off_screen", None)
-            if off_screen is None:
-                import pyvista as pv
-
-                off_screen = pv.OFF_SCREEN
-
-            if not off_screen:
-                self._plotter.add_key_event("a", animation)
-                print('Orient the view, then press "a" to produce an animation')
-            else:
-                animation()
-            # Show is necessary even when off_screen to initiate the renderer
-            result = self._plotter.show(interactive=True)
-            # result = self.show_figure(auto_close=False, **kwargs)
-            # result = self._plotter.show()
-        except Exception as e:  # pragma: no cover
-            print(e)
-            raise
-        self._plotter.close()
-        return result
-
-    def animate_modal_workflow(
-        self,
-        loop_over,
-        mode_number,
-        workflow,
-        output_name,
-        input_name="loop_over",
-        save_as="",
-        frame_number=21,
-        **kwargs,
-    ):
-
-        indices = list(np.abs(np.linspace(-1, 1, frame_number)))
-        if save_as:
-            if save_as.endswith(".gif"):
-                self._plotter.open_gif(save_as)
-            else:  # pragma: no cover
-                kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.open_movie, **kwargs)
-                try:
-                    self._plotter.open_movie(save_as, **kwargs_in)
-                except ImportError as e:
-                    if "imageio ffmpeg plugin you need" in e.msg:
-                        raise ImportError(
-                            "The imageio-ffmpeg library is required to save "
-                            "animations. Please install it first with the command "
-                            "'pip install imageio-ffmpeg'"
-                        )
-                    else:
-                        raise e
-        freq_kwargs = kwargs.pop("freq_kwargs", {})
-
-        # Camera position
-        cpos = kwargs.pop("cpos", None)
-        if cpos:
-            if isinstance(cpos[0][0], float):
-                cpos = [cpos] * len(indices)
-
-        workflow.connect(input_name, [mode_number])
-
-        initial_field = workflow.get_output(output_name, core.types.field)
-        max_ = float(np.max(initial_field.data))
-
-        def render_frame(frame):
-            self._plotter.clear()
-
-            field = workflow.get_output(output_name, core.types.field)
-
-            # TODO: deform_by is not accepted for niw
-            # deform = None
-            # if "deform_by" in workflow.output_names:
-            #     deform = workflow.get_output("deform_by", core.types.field)
-
-            ponderation = float(indices[frame])
-            op = core.operators.math.scale(
-                field=field,
-                ponderation=ponderation,
-            )
-            field_ponderated = op.outputs.field()
-
-            clim = [0, max_]
-
-            self.add_field(
-                field_ponderated,
-                # deform_by=deform,
-                clim=clim,
-                **kwargs,
-            )
-            kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **freq_kwargs)
-            # print(type(f"Mode number {mode_number}"))
-            self._plotter.add_text(f"Mode number {mode_number}\nt={float(frame)}s", **kwargs_in)
-            if cpos:
-                self._plotter.camera_position = cpos[frame]
-
-        try:
-
-            def animation():
-                if save_as:
-                    try:
-                        self._plotter.write_frame()
-                    except AttributeError as e:  # pragma: no cover
-                        if (
-                            "To retrieve an image after the render window has been closed"
-                            in e.args[0]
-                        ):
-                            print("Animation canceled.")
-                            print(e)
-                            return result
-                # For each additional frame requested
-                if len(indices) > 1:
-                    for frame in range(1, len(indices)):
-                        try:
-                            render_frame(frame)
-                        except AttributeError as e:  # pragma: no cover
-                            if "'NoneType' object has no attribute 'interactor'" in e.args[0]:
-                                print("Animation canceled.")
-                                return result
-                        if save_as:
-                            self._plotter.write_frame()
-
-            # Write initial frame
-            for i in range(len(indices)):
-                render_frame(i)
             # If not off_screen, enable the user to choose the camera position
             off_screen = kwargs.pop("off_screen", None)
             if off_screen is None:
@@ -348,7 +252,7 @@ class Animator:
         self,
         loop_over: core.Field,
         output_name: str = "to_render",
-        input_name: str = "loop_over",
+        input_name: str = ["loop_over"],
         save_as: str = None,
         scale_factor: Union[float, Sequence[float]] = 1.0,
         freq_kwargs: dict = None,
@@ -366,9 +270,9 @@ class Animator:
         output_name : str, optional
             Name of the workflow output to use as Field for each frame's contour.
             Defaults to "to_render".
-        input_name : str, optional
-            Name of the workflow input to feed loop_over values into.
-            Defaults to "loop_over".
+        input_name : list of str, optional
+            Name of the workflow inputs to feed loop_over values into.
+            Defaults to ["loop_over"].
         save_as : str, optional
             Path of file to save the animation to. Defaults to None. Can be of any format supported
             by pyvista.Plotter.write_frame (.gif, .mp4, ...).
@@ -398,67 +302,6 @@ class Animator:
             input_name=input_name,
             save_as=save_as,
             scale_factor=scale_factor,
-            freq_kwargs=freq_kwargs,
-            **kwargs,
-        )
-
-    def animate_modal(
-        self,
-        mode_number: int,
-        loop_over: core.Field,
-        output_name: str = "to_render",
-        input_name: str = "loop_over",
-        save_as: str = None,
-        frame_number: int = 21,
-        freq_kwargs: dict = None,
-        **kwargs,
-    ):
-        """
-        Animate the workflow of the Animator, using inputs
-
-        Parameters
-        ----------
-        mode_number : int
-            Number of the mode to render.
-        loop_over : Field
-            Field of values to loop over.
-            Can for example be a subset of sets of TimeFreqSupport.time_frequencies.
-            The unit of the Field will be displayed if present.
-        output_name : str, optional
-            Name of the workflow output to use as Field for each frame's contour.
-            Defaults to ``"to_render"``.
-        input_name : str, optional
-            Name of the workflow input to feed loop_over values into.
-            Defaults to "loop_over".
-        save_as : str, optional
-            Path of the file to save the animation to. Defaults to None. Can be of any format supported
-            by pyvista.Plotter.write_frame (.gif, .mp4, ...).
-        frame_number : int, optional
-            Number of frames to be rendered.
-        freq_kwargs : dict, optional
-            Dictionary of kwargs given to the :func:`pyvista.Plotter.add_text` method, used to
-            format the frequency information. Can also contain a "fmt" key,
-            defining the format for the frequency displayed with a string such as ".3e".
-        **kwargs : optional
-            Additional keyword arguments for the animator.
-            Used by :func:`pyvista.Plotter` (off_screen, cpos, ...),
-            or by :func:`pyvista.Plotter.open_movie`
-            (framerate, quality, ...)
-
-
-        """
-        if freq_kwargs is None:
-            freq_kwargs = {"font_size": 12, "fmt": ".3e"}
-        if self.workflow is None:
-            raise ValueError("Cannot animate without self.workflow.")
-        return self._internal_animator.animate_modal_workflow(
-            loop_over=loop_over,
-            mode_number=mode_number,
-            workflow=self.workflow,
-            output_name=output_name,
-            input_name=input_name,
-            save_as=save_as,
-            frame_number=frame_number,
             freq_kwargs=freq_kwargs,
             **kwargs,
         )
