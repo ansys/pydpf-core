@@ -41,15 +41,15 @@ without ever leaving the Python environment.
 
 Visit the [DPF-Core Documentation](https://dpfdocs.pyansys.com) for a
 detailed description of the library, or see the [Examples
-Gallery](https://dpfdocs.pyansys.com/examples/index.html) for more
+Gallery](https://dpfdocs.pyansys.com/version/stable/examples/index.html) for more
 detailed examples.
 
 ## Installation
 
 PyDPF-Core requires DPF to be available, either thanks to a compatible Ansys installation or after installing the 
-standalone server package ``ansys-dpf-server`` (see [here](https://dpf.docs.pyansys.com/user_guide/getting_started_with_dpf_server.html)).
+standalone server package ``ansys-dpf-server`` (see [here](https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html)).
 Compatibility between PyDPF-Core and Ansys is documented 
-[here](https://dpfdocs.pyansys.com/getting_started/index.html#compatibility).
+[here](https://dpfdocs.pyansys.com/version/stable/getting_started/index.html#compatibility).
 
 To use PyDPF-Core with ``ansys-dpf-server`` or Ansys 2021 R2 or later, 
 install the latest version with this command:
@@ -65,7 +65,7 @@ To install PyDPF-Core with its optional plotting functionalities, use:
    pip install ansys-dpf-core[plotting]
 ```
 
-For more information about PyDPF-Core plotting capabilities, see [Plotting](https://dpf.docs.pyansys.com/user_guide/plotting.html).
+For more information about PyDPF-Core plotting capabilities, see [Plotting](https://dpf.docs.pyansys.com/version/stable/user_guide/plotting.html).
 
 To use PyDPF-Core with Ansys 2021 R1, install the latest version
 with this command:
@@ -78,7 +78,7 @@ with this command:
 ### Brief Demo
 
 Provided you have DPF available, either thanks to an Ansys installation or after installing the 
-standalone server package ``ansys-dpf-server`` (see [here](https://dpf.docs.pyansys.com/user_guide/getting_started_with_dpf_server.html)), 
+standalone server package ``ansys-dpf-server`` (see [here](https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html)), 
 a DPF server will start automatically once you start using PyDPF-Core.
 
 To open a result file and explore what's inside, do:
