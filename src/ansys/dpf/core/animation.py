@@ -6,10 +6,10 @@ def animate_mode(
     fields_container,
     mode_number=1,
     type_mode="positive_disp",
-    frame_number=21,
+    frame_number=None,
     save_as="",
     deform_scale_factor=1.0,
-    **kwargs
+    **kwargs,
 ):
     # other option: instead of `type` use `min_factor` and `max_factor`.
 
@@ -54,13 +54,18 @@ def animate_mode(
     # Animation type
 
     if type_mode == "positive_disp":
+        if frame_number is None:
+            frame_number = 21
         scale_factor_per_frame = list(abs(np.linspace(-1, 1, frame_number, dtype=np.double)))
-
     elif type_mode == "full_disp":
-        scale_factor_per_frame = list(np.linspace(-1, 1, frame_number, dtype=np.double))
-
+        if frame_number is None:
+            frame_number = 42
+        scale_factor_per_frame = 2 * list(
+            abs(np.linspace(-1, 1, int(frame_number / 2), dtype=np.double))
+        )
+        print(len(scale_factor_per_frame))
     else:
-        raise ValueError("The type_mode parameter is not well defined.")
+        raise ValueError(f"The type_mode {type_mode} is not accepted.")
 
     # time_freq_support = list(np.arange(1, len(scale_factor_per_frame)+1))
     # print("time_freq_support : ", time_freq_support)
@@ -84,8 +89,6 @@ def animate_mode(
         min = 0
     elif type_mode == "full_disp":
         min = -max
-
-    print("min : ", min)
 
     list_field = [field_mode for i in range(frame_number)]
     new_field_mode = dpf.fields_container_factory.over_time_freq_fields_container(

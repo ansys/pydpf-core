@@ -39,22 +39,30 @@ class _PyVistaAnimator(_PyVistaPlotter):
         **kwargs,
     ):
         # Extract useful information from the given frequencies Field
-        indices = loop_over.time_freq_support.time_frequencies.data
-        unit = loop_over.time_freq_support.time_frequencies.unit
+
+        if mode_number is not None:
+            indices = loop_over.time_freq_support.time_frequencies.data
+            unit = loop_over.time_freq_support.time_frequencies.unit
+
+        else:
+            unit = loop_over.unit
+            indices = loop_over.scoping.ids
 
         # Modification of data
         clim = kwargs.get("clim", None)
         if clim is not None and clim[0] < 0:
             n_frame = len(indices)
             i = 0
-            while indices[i] < 0 and i < n_frame:
-                indices[i] *= -1
+            IsPos = False
+            while (indices[i] > 1e-12 or IsPos is False) and i < n_frame:
+                if IsPos is True:
+                    indices[i] *= -1
+                if indices[i] < 1e-12:
+                    IsPos = True
                 i += 1
-
+            clim[0] = 0
         print(indices)
 
-        # unit = loop_over.unit
-        # indices = loop_over.scoping.ids
         if scale_factor is None:
             scale_factor = [False] * len(indices)
         type_scale = type(scale_factor)
@@ -102,9 +110,11 @@ class _PyVistaAnimator(_PyVistaPlotter):
 
             else:
                 workflow.connect(input_name[0], loop_over[frame])
+                print(indices[frame])
                 workflow.connect(input_name[1], indices[frame])
 
             field = workflow.get_output(output_name, core.types.field)
+            print(field.data)
             deform = None
             if "deform_by" in workflow.output_names:
                 deform = workflow.get_output("deform_by", core.types.field)
