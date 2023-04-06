@@ -24,7 +24,7 @@ def animate_mode(
         Field container containing the modal results.
     mode_number : int, optional
         Mode number of the results to animation. The default is ``1``.
-    type : str, optional
+    type_mode :
         Whether it is "full_disp" or "positive_disp".
         If "full_disp", the norm of the displacements will be scaled between -1 and 1.
         If "positive_disp", the norm of the displacements will be scaled between 0 and 1.
