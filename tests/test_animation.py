@@ -38,8 +38,8 @@ def test_animate_mode(displacement_fields):
     animation.animate_mode(displacement_fields, mode_number=10)
 
 
-def test_animate_mode_full_disp(displacement_fields):
-    animation.animate_mode(displacement_fields, mode_number=3, type_mode="full_disp")
+def test_animate_mode_positive_disp(displacement_fields):
+    animation.animate_mode(displacement_fields, mode_number=3, type_mode=1)
 
 
 def test_animator_animate_mode_fields_container_one_component(displacement_fields):

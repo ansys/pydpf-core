@@ -5,7 +5,7 @@ import numpy as np
 def animate_mode(
     fields_container,
     mode_number=1,
-    type_mode="positive_disp",
+    type_mode=0,
     frame_number=None,
     save_as="",
     deform_scale_factor=1.0,
@@ -13,7 +13,7 @@ def animate_mode(
 ):
     # other option: instead of `type` use `min_factor` and `max_factor`.
 
-    """Creates an animation based on the ``Fields`` contained in the ``FieldsContainer``.
+    """Creates a modal animation based on Fields contained in the FieldsContainer.
 
     This method creates a movie or a gif based on the time ids of a ``FieldsContainer``.
     For kwargs see pyvista.Plotter.open_movie/add_text/show.
@@ -24,10 +24,10 @@ def animate_mode(
         Field container containing the modal results.
     mode_number : int, optional
         Mode number of the results to animation. The default is ``1``.
-    type_mode :
-        Whether it is "full_disp" or "positive_disp".
-        If "full_disp", the norm of the displacements will be scaled between -1 and 1.
-        If "positive_disp", the norm of the displacements will be scaled between 0 and 1.
+    type_mode : int, optional
+        Whether it is 0 or 1. Default to 0.
+        If 0, the norm of the displacements will be scaled from 1 to -1 to 1.
+        If 1, the norm of the displacements will be scaled between -1 and 1.
     save_as : Path of file to save the animation to. Defaults to None. Can be of any format
         supported by pyvista.Plotter.write_frame (.gif, .mp4, ...).
     deform_scale_factor : float, optional
@@ -53,24 +53,22 @@ def animate_mode(
 
     # Animation type
 
-    if type_mode == "positive_disp":
+    if type_mode == 1:
         if frame_number is None:
             frame_number = 21
         scale_factor_per_frame = list(abs(np.linspace(-1, 1, frame_number, dtype=np.double)))
-    elif type_mode == "full_disp":
+    elif type_mode == 0:
         if frame_number is None:
-            frame_number = 42
-        scale_factor_per_frame = 2 * list(
-            abs(np.linspace(-1, 1, int(frame_number / 2), dtype=np.double))
-        )
+            frame_number = 41
+        elif frame_number % 2 == 0:
+            frame_number -= 1
+        half_scale = np.linspace(-1, 1, int((frame_number + 1) / 2), dtype=np.double)
+        scale_factor_per_frame = np.concatenate([np.flip(half_scale), half_scale[1:]])
     else:
         raise ValueError(
             f"The type_mode {type_mode} is not accepted. "
             + "Please select one in 'positive_disp' and 'full_disp'."
         )
-
-    fake_frq = dpf.TimeFreqSupport()
-    fake_frq.append_step(1, scale_factor_per_frame)
 
     # Get fields
     fields_mode = fields_container.get_fields({"time": mode_number})
@@ -85,39 +83,28 @@ def animate_mode(
         field_mode = fields_mode[0]
 
     max_data = float(np.max(field_mode.data))
-    if type_mode == "positive_disp":
-        min_data = 0
-    elif type_mode == "full_disp":
-        min_data = -max_data
-
-    list_field = [field_mode for i in range(frame_number)]
-    new_field_mode = dpf.fields_container_factory.over_time_freq_fields_container(
-        list_field, time_freq_unit="Hz"
-    )
-    new_field_mode._set_time_freq_support(time_freq_support=fake_frq)
+    loop_over = dpf.fields_factory.field_from_array(scale_factor_per_frame)
 
     # Create workflow
     wf = dpf.Workflow()
-
-    progress_bar = kwargs.pop("progress_bar", False)
-    wf.progress_bar = progress_bar
+    wf.progress_bar = False
 
     # Add scaling operator
     scaling_op = dpf.operators.math.scale()
-    wf.add_operators(scaling_op)
+    scaling_op.inputs.field.connect(field_mode)
+    wf.add_operators([scaling_op])
 
-    wf.set_input_name("field_in", scaling_op.inputs.field)
     wf.set_input_name("ponderation", scaling_op.inputs.ponderation)
-    wf.set_output_name("field_out", scaling_op.outputs.field)
+    wf.set_output_name("field", scaling_op.outputs.field)
 
     anim = Animator(workflow=wf, **kwargs)
 
     return anim.animate(
-        loop_over=new_field_mode,
-        input_name=["field_in", "ponderation"],
-        output_name="field_out",
+        loop_over=loop_over,
+        input_name="ponderation",
+        output_name="field",
         save_as=save_as,
         mode_number=mode_number,
-        clim=[min_data, max_data],
+        clim=[0, max_data],
         **kwargs,
     )

@@ -32,35 +32,15 @@ class _PyVistaAnimator(_PyVistaPlotter):
         loop_over,
         workflow,
         output_name,
-        input_name=["loop_over"],
+        input_name="loop_over",
         save_as="",
         mode_number=None,
         scale_factor=1.0,
         **kwargs,
     ):
-        # Extract useful information from the given frequencies Field
 
-        if mode_number is not None:
-            indices = loop_over.time_freq_support.time_frequencies.data
-            unit = loop_over.time_freq_support.time_frequencies.unit
-
-        else:
-            unit = loop_over.unit
-            indices = loop_over.scoping.ids
-
-        # Modification of data
-        clim = kwargs.get("clim", None)
-        if clim is not None and clim[0] < 0:
-            n_frame = len(indices)
-            i = 0
-            IsPos = False
-            while (indices[i] > 1e-12 or IsPos is False) and i < n_frame:
-                if IsPos is True:
-                    indices[i] *= -1
-                if indices[i] < 1e-12:
-                    IsPos = True
-                i += 1
-            clim[0] = 0
+        unit = loop_over.unit
+        indices = loop_over.scoping.ids
 
         if scale_factor is None:
             scale_factor = [False] * len(indices)
@@ -105,11 +85,10 @@ class _PyVistaAnimator(_PyVistaPlotter):
             self._plotter.clear()
 
             if mode_number is None:
-                workflow.connect(input_name[0], [frame])
+                workflow.connect(input_name, [frame])
 
             else:
-                workflow.connect(input_name[0], loop_over[frame])
-                workflow.connect(input_name[1], indices[frame])
+                workflow.connect(input_name, loop_over.data[frame])
 
             field = workflow.get_output(output_name, core.types.field)
             deform = None
@@ -258,7 +237,7 @@ class Animator:
         self,
         loop_over: core.Field,
         output_name: str = "to_render",
-        input_name: str = ["loop_over"],
+        input_name: str = "loop_over",
         save_as: str = None,
         scale_factor: Union[float, Sequence[float]] = 1.0,
         freq_kwargs: dict = None,
@@ -278,7 +257,7 @@ class Animator:
             Defaults to "to_render".
         input_name : list of str, optional
             Name of the workflow inputs to feed loop_over values into.
-            Defaults to ["loop_over"].
+            Defaults to "loop_over".
         save_as : str, optional
             Path of file to save the animation to. Defaults to None. Can be of any format supported
             by pyvista.Plotter.write_frame (.gif, .mp4, ...).
