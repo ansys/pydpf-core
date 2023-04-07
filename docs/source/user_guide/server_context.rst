@@ -18,7 +18,7 @@ class and :ref:`user_guide_xmlfiles`.
 
 Two main licensing context type capabilities are available: 
 
-- **Premium:** This context, which is the default, allows DPF to perform license checkouts,
+- **Premium:** This default context allows DPF to perform license checkouts,
   making licensed DPF operators available.
 - **Entry:** This context does not allow DPF to perform any license checkout,
   meaning that licensed DPF operators fail.
@@ -82,11 +82,11 @@ with this code:
     Server Context of type LicensingContextType.entry with no xml path
 
 .. warning::
-    As starting an ``InProcess`` server means linking the DPF binaries to your current python
+    As starting an ``InProcess`` server means linking the DPF binaries to your current Python
     process, you cannot start a new ``InProcess`` server. Thus, if your local ``InProcess`` server
     is already **Premium**, you cannot set it back as **Entry**.
     ``InProcess`` being the default server type, the proper commands to work as **Entry** should be
-    set right at the beginning of your script.
+    set at the start of your script.
 
 
 
