@@ -286,6 +286,9 @@ class DataSources:
                         response.append(path)
             return response
 
+    def register_namespace(self, result_key, namespace):
+        self._api.data_sources_register_namespace(self, result_key, namespace)
+
     def __str__(self):
         """Describe the entity.
 
