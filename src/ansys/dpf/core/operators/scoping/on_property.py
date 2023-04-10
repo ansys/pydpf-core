@@ -23,8 +23,8 @@ class on_property(Operator):
         "mapdl_element_type_id",
         "apdl_type_index", "mapdl_type_id",
         "material", "apdl_section_id",
-        "apdl_real_id", "shell_axi",
-        "volume_axi"...
+        "apdl_real_id", "apdl_esys_id",
+        "shell_axi", "volume_axi"...
     property_id : int
     streams_container : StreamsContainer, optional
     data_sources : DataSources
@@ -121,8 +121,8 @@ class on_property(Operator):
         "mapdl_element_type_id",
         "apdl_type_index", "mapdl_type_id",
         "material", "apdl_section_id",
-        "apdl_real_id", "shell_axi",
-        "volume_axi"...""",
+        "apdl_real_id", "apdl_esys_id",
+        "shell_axi", "volume_axi"...""",
                 ),
                 2: PinSpecification(
                     name="property_id",
@@ -268,8 +268,8 @@ class InputsOnProperty(_Inputs):
         "mapdl_element_type_id",
         "apdl_type_index", "mapdl_type_id",
         "material", "apdl_section_id",
-        "apdl_real_id", "shell_axi",
-        "volume_axi"...
+        "apdl_real_id", "apdl_esys_id",
+        "shell_axi", "volume_axi"...
 
         Parameters
         ----------

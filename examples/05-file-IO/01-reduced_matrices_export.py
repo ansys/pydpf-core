@@ -7,10 +7,6 @@ Get reduced matrices and make export
 This example shows how to get reduced matrices and
 export them to HDF5 and CSV files.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 ###############################################################################
@@ -24,8 +20,6 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
-
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 tmpdir = tempfile.mkdtemp()
 

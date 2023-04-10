@@ -11,13 +11,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class meshes_provider(Operator):
-    """Read meshes from result files. Meshes can be spatially or temporally
+    """Reads meshes from result files. Meshes can be spatially or temporally
     varying.
 
     Parameters
     ----------
     time_scoping : Scoping or int, optional
-        Time/freq set ids required in output
+        Time/frequency set ids required in output.
     streams_container : StreamsContainer, optional
         Result file container allowed to be kept open
         to cache data
@@ -25,8 +25,9 @@ class meshes_provider(Operator):
         Result file path container, used if no
         streams are set
     read_cyclic : int, optional
-        If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)
+        If 1, cyclic symmetry is ignored. if 2,
+        cyclic expansion is done (default is
+        1).
 
 
     Examples
@@ -81,7 +82,7 @@ class meshes_provider(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read meshes from result files. Meshes can be spatially or temporally
+        description = """Reads meshes from result files. Meshes can be spatially or temporally
             varying."""
         spec = Specification(
             description=description,
@@ -90,7 +91,7 @@ class meshes_provider(Operator):
                     name="time_scoping",
                     type_names=["scoping", "vector<int32>", "int32"],
                     optional=True,
-                    document="""Time/freq set ids required in output""",
+                    document="""Time/frequency set ids required in output.""",
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -110,8 +111,9 @@ class meshes_provider(Operator):
                     name="read_cyclic",
                     type_names=["enum dataProcessing::ECyclicReading", "int32"],
                     optional=True,
-                    document="""If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)""",
+                    document="""If 1, cyclic symmetry is ignored. if 2,
+        cyclic expansion is done (default is
+        1).""",
                 ),
             },
             map_output_pin_spec={
@@ -195,7 +197,7 @@ class InputsMeshesProvider(_Inputs):
     def time_scoping(self):
         """Allows to connect time_scoping input to the operator.
 
-        Time/freq set ids required in output
+        Time/frequency set ids required in output.
 
         Parameters
         ----------
@@ -257,8 +259,9 @@ class InputsMeshesProvider(_Inputs):
     def read_cyclic(self):
         """Allows to connect read_cyclic input to the operator.
 
-        If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)
+        If 1, cyclic symmetry is ignored. if 2,
+        cyclic expansion is done (default is
+        1).
 
         Parameters
         ----------

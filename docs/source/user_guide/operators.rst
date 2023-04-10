@@ -48,6 +48,10 @@ displacement of a result entirely within the DPF service, without
 transferring any data from DPF to Python until DPF arrives at the
 solution data that you want.
 
+A DPF operator can be licensed, meaning it requires a license checkout to run.
+The license type can be specific, or amongst a given list, and is defined at the operator level.
+For more information about the DPF licensing logic, see :ref:`user_guide_server_context`.
+
 The library of DPF operators is large and includes file readers and mathematical,
 geometrical, and logical transformations. For more information on this library,
 which is progressively enhanced, see :ref:`ref_dpf_operators_reference`.

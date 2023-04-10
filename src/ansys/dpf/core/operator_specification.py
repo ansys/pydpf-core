@@ -257,6 +257,9 @@ class Specification(SpecificationBase):
         self._properties = None
         self._config_specification = None
 
+    def __str__(self):
+        return "Description:\n" + str(self.description) + "\nProperties:\n" + str(self.properties)
+
     @property
     def properties(self):
         """Returns some additional properties of the Operator, like the category, the exposure,
@@ -457,6 +460,12 @@ class SpecificationProperties:
     plugin : str
         Snake case name of the plugin it belongs to.
 
+    license: str
+        Optional license name to check out that is used to run the operator.
+        The value "any_dpf_supported_increments" tells DPF than any DPF-accepted license
+        is accepted by this operator (see `here
+        <https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html#ansys-licensing>`_).  # noqa
+
     """
 
     def __init__(
@@ -466,9 +475,13 @@ class SpecificationProperties:
         scripting_name: str = None,
         exposure: Exposures = Exposures.public,
         plugin: str = None,
+        license: str = None,
         spec=None,
         **kwargs,
     ):
+        if license is not None:
+            kwargs["license"] = license
+
         self._spec = spec
         self.__dict__.update(
             user_name=user_name,

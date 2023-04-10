@@ -65,8 +65,9 @@ class compute_invariant_terms_motion(Operator):
 
     >>> # Get output data
     >>> result_model_data = op.outputs.model_data()
+    >>> result_mode_shapes = op.outputs.mode_shapes()
     >>> result_lumped_mass = op.outputs.lumped_mass()
-    >>> result_field_coordinates = op.outputs.field_coordinates()
+    >>> result_field_coordinates_and_euler_angles = op.outputs.field_coordinates_and_euler_angles()
     >>> result_nod = op.outputs.nod()
     >>> result_used_node_index = op.outputs.used_node_index()
     >>> result_eigenvalue = op.outputs.eigenvalue()
@@ -166,90 +167,98 @@ class compute_invariant_terms_motion(Operator):
                     document="""Data describing the finite element model""",
                 ),
                 1: PinSpecification(
+                    name="mode_shapes",
+                    type_names=["fields_container"],
+                    optional=False,
+                    document="""Fieldscontainers containing the mode shapes,
+        which are cst and nor for the cms
+        method""",
+                ),
+                2: PinSpecification(
                     name="lumped_mass",
                     type_names=["fields_container"],
                     optional=False,
                     document="""Fieldscontainers containing the lumped mass""",
                 ),
-                2: PinSpecification(
-                    name="field_coordinates",
+                3: PinSpecification(
+                    name="field_coordinates_and_euler_angles",
                     type_names=["fields_container"],
                     optional=False,
-                    document="""Coordinates of all nodes""",
+                    document="""Coordinates and euler angles of all nodes""",
                 ),
-                3: PinSpecification(
+                4: PinSpecification(
                     name="nod",
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""""",
                 ),
-                4: PinSpecification(
+                5: PinSpecification(
                     name="used_node_index",
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""""",
                 ),
-                5: PinSpecification(
+                6: PinSpecification(
                     name="eigenvalue",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                6: PinSpecification(
+                7: PinSpecification(
                     name="translational_mode_shape",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                7: PinSpecification(
+                8: PinSpecification(
                     name="rotational_mode_shape",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                8: PinSpecification(
+                9: PinSpecification(
                     name="invrt_1",
                     type_names=["double"],
                     optional=False,
                     document="""""",
                 ),
-                9: PinSpecification(
+                10: PinSpecification(
                     name="invrt_2",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                10: PinSpecification(
+                11: PinSpecification(
                     name="invrt_3",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                11: PinSpecification(
+                12: PinSpecification(
                     name="invrt_4",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                12: PinSpecification(
+                13: PinSpecification(
                     name="invrt_5",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                13: PinSpecification(
+                14: PinSpecification(
                     name="invrt_6",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                14: PinSpecification(
+                15: PinSpecification(
                     name="invrt_7",
                     type_names=["vector<double>"],
                     optional=False,
                     document="""""",
                 ),
-                15: PinSpecification(
+                16: PinSpecification(
                     name="invrt_8",
                     type_names=["vector<double>"],
                     optional=False,
@@ -479,8 +488,9 @@ class OutputsComputeInvariantTermsMotion(_Outputs):
     >>> op = dpf.operators.result.compute_invariant_terms_motion()
     >>> # Connect inputs : op.inputs. ...
     >>> result_model_data = op.outputs.model_data()
+    >>> result_mode_shapes = op.outputs.mode_shapes()
     >>> result_lumped_mass = op.outputs.lumped_mass()
-    >>> result_field_coordinates = op.outputs.field_coordinates()
+    >>> result_field_coordinates_and_euler_angles = op.outputs.field_coordinates_and_euler_angles()
     >>> result_nod = op.outputs.nod()
     >>> result_used_node_index = op.outputs.used_node_index()
     >>> result_eigenvalue = op.outputs.eigenvalue()
@@ -502,62 +512,66 @@ class OutputsComputeInvariantTermsMotion(_Outputs):
             compute_invariant_terms_motion._spec().output_pin(0), 0, op
         )
         self._outputs.append(self._model_data)
-        self._lumped_mass = Output(
+        self._mode_shapes = Output(
             compute_invariant_terms_motion._spec().output_pin(1), 1, op
         )
-        self._outputs.append(self._lumped_mass)
-        self._field_coordinates = Output(
+        self._outputs.append(self._mode_shapes)
+        self._lumped_mass = Output(
             compute_invariant_terms_motion._spec().output_pin(2), 2, op
         )
-        self._outputs.append(self._field_coordinates)
-        self._nod = Output(compute_invariant_terms_motion._spec().output_pin(3), 3, op)
+        self._outputs.append(self._lumped_mass)
+        self._field_coordinates_and_euler_angles = Output(
+            compute_invariant_terms_motion._spec().output_pin(3), 3, op
+        )
+        self._outputs.append(self._field_coordinates_and_euler_angles)
+        self._nod = Output(compute_invariant_terms_motion._spec().output_pin(4), 4, op)
         self._outputs.append(self._nod)
         self._used_node_index = Output(
-            compute_invariant_terms_motion._spec().output_pin(4), 4, op
+            compute_invariant_terms_motion._spec().output_pin(5), 5, op
         )
         self._outputs.append(self._used_node_index)
         self._eigenvalue = Output(
-            compute_invariant_terms_motion._spec().output_pin(5), 5, op
+            compute_invariant_terms_motion._spec().output_pin(6), 6, op
         )
         self._outputs.append(self._eigenvalue)
         self._translational_mode_shape = Output(
-            compute_invariant_terms_motion._spec().output_pin(6), 6, op
+            compute_invariant_terms_motion._spec().output_pin(7), 7, op
         )
         self._outputs.append(self._translational_mode_shape)
         self._rotational_mode_shape = Output(
-            compute_invariant_terms_motion._spec().output_pin(7), 7, op
+            compute_invariant_terms_motion._spec().output_pin(8), 8, op
         )
         self._outputs.append(self._rotational_mode_shape)
         self._invrt_1 = Output(
-            compute_invariant_terms_motion._spec().output_pin(8), 8, op
+            compute_invariant_terms_motion._spec().output_pin(9), 9, op
         )
         self._outputs.append(self._invrt_1)
         self._invrt_2 = Output(
-            compute_invariant_terms_motion._spec().output_pin(9), 9, op
+            compute_invariant_terms_motion._spec().output_pin(10), 10, op
         )
         self._outputs.append(self._invrt_2)
         self._invrt_3 = Output(
-            compute_invariant_terms_motion._spec().output_pin(10), 10, op
+            compute_invariant_terms_motion._spec().output_pin(11), 11, op
         )
         self._outputs.append(self._invrt_3)
         self._invrt_4 = Output(
-            compute_invariant_terms_motion._spec().output_pin(11), 11, op
+            compute_invariant_terms_motion._spec().output_pin(12), 12, op
         )
         self._outputs.append(self._invrt_4)
         self._invrt_5 = Output(
-            compute_invariant_terms_motion._spec().output_pin(12), 12, op
+            compute_invariant_terms_motion._spec().output_pin(13), 13, op
         )
         self._outputs.append(self._invrt_5)
         self._invrt_6 = Output(
-            compute_invariant_terms_motion._spec().output_pin(13), 13, op
+            compute_invariant_terms_motion._spec().output_pin(14), 14, op
         )
         self._outputs.append(self._invrt_6)
         self._invrt_7 = Output(
-            compute_invariant_terms_motion._spec().output_pin(14), 14, op
+            compute_invariant_terms_motion._spec().output_pin(15), 15, op
         )
         self._outputs.append(self._invrt_7)
         self._invrt_8 = Output(
-            compute_invariant_terms_motion._spec().output_pin(15), 15, op
+            compute_invariant_terms_motion._spec().output_pin(16), 16, op
         )
         self._outputs.append(self._invrt_8)
 
@@ -579,6 +593,23 @@ class OutputsComputeInvariantTermsMotion(_Outputs):
         return self._model_data
 
     @property
+    def mode_shapes(self):
+        """Allows to get mode_shapes output of the operator
+
+        Returns
+        ----------
+        my_mode_shapes : FieldsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.compute_invariant_terms_motion()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_mode_shapes = op.outputs.mode_shapes()
+        """  # noqa: E501
+        return self._mode_shapes
+
+    @property
     def lumped_mass(self):
         """Allows to get lumped_mass output of the operator
 
@@ -596,21 +627,21 @@ class OutputsComputeInvariantTermsMotion(_Outputs):
         return self._lumped_mass
 
     @property
-    def field_coordinates(self):
-        """Allows to get field_coordinates output of the operator
+    def field_coordinates_and_euler_angles(self):
+        """Allows to get field_coordinates_and_euler_angles output of the operator
 
         Returns
         ----------
-        my_field_coordinates : FieldsContainer
+        my_field_coordinates_and_euler_angles : FieldsContainer
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.result.compute_invariant_terms_motion()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_field_coordinates = op.outputs.field_coordinates()
+        >>> result_field_coordinates_and_euler_angles = op.outputs.field_coordinates_and_euler_angles()
         """  # noqa: E501
-        return self._field_coordinates
+        return self._field_coordinates_and_euler_angles
 
     @property
     def nod(self):
