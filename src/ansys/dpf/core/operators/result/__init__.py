@@ -15,9 +15,11 @@ from .nodal_moment import nodal_moment
 from .elemental_mass import elemental_mass 
 from .heat_flux import heat_flux 
 from .co_energy import co_energy 
+from .velocity_Y import velocity_Y 
 from .beam_axial_total_strain import beam_axial_total_strain 
 from .electric_flux_density import electric_flux_density 
 from .plastic_strain_principal_2 import plastic_strain_principal_2 
+from .acceleration_Y import acceleration_Y 
 from .normal_contact_moment import normal_contact_moment 
 from .thermal_strain_XZ import thermal_strain_XZ 
 from .global_eroded_hourglass_energy import global_eroded_hourglass_energy 
@@ -78,13 +80,11 @@ from .thermal_strain_principal_2 import thermal_strain_principal_2
 from .thermal_strain_principal_3 import thermal_strain_principal_3 
 from .global_external_work import global_external_work 
 from .acceleration import acceleration 
-from .acceleration_Y import acceleration_Y 
 from .element_centroids import element_centroids 
 from .acceleration_Z import acceleration_Z 
 from .reaction_force import reaction_force 
 from .velocity import velocity 
 from .velocity_X import velocity_X 
-from .velocity_Y import velocity_Y 
 from .displacement import displacement 
 from .displacement_X import displacement_X 
 from .displacement_Y import displacement_Y 
@@ -171,8 +171,8 @@ from .part_rigid_body_velocity import part_rigid_body_velocity
 from .interface_contact_force import interface_contact_force 
 from .interface_resultant_contact_force import interface_resultant_contact_force 
 from .interface_contact_moment import interface_contact_moment 
-from .members_in_compression_not_certified import members_in_compression_not_certified 
 from .members_in_bending_not_certified import members_in_bending_not_certified 
+from .members_in_compression_not_certified import members_in_compression_not_certified 
 from .members_in_linear_compression_bending_not_certified import members_in_linear_compression_bending_not_certified 
 from .cyclic_expansion import cyclic_expansion 
 from .cyclic_analytic_usum_max import cyclic_analytic_usum_max 

@@ -55,6 +55,7 @@ from .accumulate_fc import accumulate_fc
 from .generalized_inner_product import generalized_inner_product 
 from .outer_product import outer_product 
 from .overall_dot import overall_dot 
+from .relative_error import relative_error 
 from .dot import dot 
 from .scale_by_field_fc import scale_by_field_fc 
 from .invert_fc import invert_fc 
@@ -68,6 +69,7 @@ from .make_one_on_comp import make_one_on_comp
 from .correlation import correlation 
 from .entity_extractor import entity_extractor 
 from .modal_superposition import modal_superposition 
+from .modal_participation import modal_participation 
 from .accumulation_per_scoping import accumulation_per_scoping 
 from .matrix_inverse import matrix_inverse 
 from .fft_eval import fft_eval 

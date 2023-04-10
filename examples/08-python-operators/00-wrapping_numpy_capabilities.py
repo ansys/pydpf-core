@@ -16,10 +16,6 @@ be wrapped in Python plugins.
     This example requires DPF 4.0 (Ansys 2022R2) or above.
     For more information, see :ref:`ref_compatibility`.
 
-.. note::
-    This example requires the Premium ServerContext.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 
 ###############################################################################
@@ -41,8 +37,6 @@ be wrapped in Python plugins.
 from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
 
-
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 GITHUB_SOURCE_URL = (
     "https://github.com/pyansys/pydpf-core/" "raw/examples/first_python_plugins/python_plugins"

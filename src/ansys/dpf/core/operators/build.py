@@ -175,10 +175,6 @@ def build_operators():
     succeeded = 0
     done = 0
     for operator_name in available_operators:
-        if "cgns::pressure" in operator_name.lower():
-            print(f"Skipping {operator_name} operator due to bug.")
-            succeeded += 1
-            continue
         if succeeded == done + 100:
             done += 100
             print(f"{done} operators done...")

@@ -19,10 +19,6 @@ of a postprocessing workflow can be different when averaging and when not.
     This example requires DPF 6.1 or above.
     For more information, see :ref:`ref_compatibility`.
 
-.. note::
-    This example requires the Premium Server Context.
-    For more information, see :ref:`user_guide_server_context`.
-
 """
 ###############################################################################
 # Import the necessary modules
@@ -31,8 +27,6 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core import examples
 
-
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
 
 ###############################################################################
 # Load the simulation results from an RST file and create a model of it.

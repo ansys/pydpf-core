@@ -17,6 +17,8 @@ class erp_accumulate_results(Operator):
     Parameters
     ----------
     fields_container : FieldsContainer
+        The input field container expects
+        displacements fields
     mesh : MeshedRegion or MeshesContainer
         The meshes region in this pin has to be
         boundary or skin mesh
@@ -130,7 +132,8 @@ class erp_accumulate_results(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document="""""",
+                    document="""The input field container expects
+        displacements fields""",
                 ),
                 1: PinSpecification(
                     name="mesh",
@@ -291,6 +294,9 @@ class InputsErpAccumulateResults(_Inputs):
     @property
     def fields_container(self):
         """Allows to connect fields_container input to the operator.
+
+        The input field container expects
+        displacements fields
 
         Parameters
         ----------
