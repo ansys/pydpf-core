@@ -144,7 +144,7 @@ def dpf_mesh_to_vtk_op(mesh, nodes, as_linear):
     grid : pyvista.UnstructuredGrid
         Unstructured grid of the DPF mesh.
     """
-    mesh_to_pyvista = dpf.operators.mesh.mesh_to_pyvista()
+    mesh_to_pyvista = dpf.operators.mesh.mesh_to_pyvista(server=mesh._server)
     mesh_to_pyvista.inputs.mesh.connect(mesh)
     mesh_to_pyvista.inputs.as_linear.connect(as_linear)
     mesh_to_pyvista.inputs.vtk_updated.connect(VTK9)
