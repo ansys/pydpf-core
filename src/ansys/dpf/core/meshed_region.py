@@ -446,14 +446,6 @@ class MeshedRegion:
 
     def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
-        if coordinates is None:
-            coordinates_field = self.nodes.coordinates_field
-            coordinates = self.nodes.coordinates_field.data
-        else:
-            coordinates_field = coordinates
-            coordinates = coordinates.data
-        etypes = self.elements.element_types_field.data
-        conn = self.elements.connectivities_field
         try:
             from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
         except ModuleNotFoundError:
@@ -461,7 +453,7 @@ class MeshedRegion:
                 "To use plotting capabilities, please install pyvista "
                 "with :\n pip install pyvista>=0.24.0"
             )
-        grid = dpf_mesh_to_vtk(coordinates, etypes, conn, as_linear, self)
+        grid = dpf_mesh_to_vtk(self, coordinates, as_linear)
 
         # consider adding this when scoping request is faster
         if include_ids:
@@ -472,6 +464,12 @@ class MeshedRegion:
 
         # Quick fix required to hold onto the data as PyVista does not make a copy.
         # All of those now return DPFArrays
+        if coordinates is None:
+            coordinates_field = self.nodes.coordinates_field
+            coordinates = self.nodes.coordinates_field.data
+        else:
+            coordinates_field = coordinates
+            coordinates = coordinates.data
         setattr(grid, "_dpf_cache", [coordinates, coordinates_field])
 
         return grid
