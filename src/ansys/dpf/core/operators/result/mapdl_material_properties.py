@@ -12,16 +12,16 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class mapdl_material_properties(Operator):
     """Read the values of the properties of a material for a given materials
-    property field(property field that contains materials information
+    property field (property field that contains materials information
     for each element of a mesh).It returns a fields container
     containing a field for each material property, with only one value
-    per material.The following keys can be used: Young's modulus
+    per material. The following keys can be used: Young's modulus
     (keys: EX, EY, EZ), Poisson's ratio (keys: NUXY, NUYZ, NUXZ),
-    Shear Modulus (keys: GXY, GYZ, GXZ),Coefficient of Thermal
+    Shear Modulus (keys: GXY, GYZ, GXZ), Coefficient of Thermal
     Expansion (keys: ALPX, ALPY, ALPZ), Volumic Mass (key: DENS),
-    second Lame's coefficient (key: MU),Damping coefficient (key:
+    second Lame's coefficient (key: MU), Damping coefficient (key:
     DAMP), thermal Conductivity (keys: KXX, KYY, KZZ), Resistivity
-    (keys: RSVX, RSVY, RSVZ),Specific heat in constant volume (key:
+    (keys: RSVX, RSVY, RSVZ), Specific heat in constant volume (key:
     C), Film coefficient (key: HF), Viscosity (key: VISC), Emissivity
     (key: EMIS).
 
@@ -88,17 +88,17 @@ class mapdl_material_properties(Operator):
     @staticmethod
     def _spec():
         description = """Read the values of the properties of a material for a given materials
-            property field(property field that contains materials
+            property field (property field that contains materials
             information for each element of a mesh).It returns a
             fields container containing a field for each material
-            property, with only one value per material.The following
+            property, with only one value per material. The following
             keys can be used: Young's modulus (keys: EX, EY, EZ),
             Poisson's ratio (keys: NUXY, NUYZ, NUXZ), Shear Modulus
-            (keys: GXY, GYZ, GXZ),Coefficient of Thermal Expansion
+            (keys: GXY, GYZ, GXZ), Coefficient of Thermal Expansion
             (keys: ALPX, ALPY, ALPZ), Volumic Mass (key: DENS), second
-            Lame's coefficient (key: MU),Damping coefficient (key:
+            Lame's coefficient (key: MU), Damping coefficient (key:
             DAMP), thermal Conductivity (keys: KXX, KYY, KZZ),
-            Resistivity (keys: RSVX, RSVY, RSVZ),Specific heat in
+            Resistivity (keys: RSVX, RSVY, RSVZ), Specific heat in
             constant volume (key: C), Film coefficient (key: HF),
             Viscosity (key: VISC), Emissivity (key: EMIS)."""
         spec = Specification(

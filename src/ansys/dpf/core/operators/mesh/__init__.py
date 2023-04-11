@@ -25,3 +25,4 @@ from .exclude_levelset import exclude_levelset
 from .mesh_extraction import mesh_extraction 
 from .wireframe import wireframe 
 from .decimate_mesh import decimate_mesh 
+from .mesh_to_pyvista import mesh_to_pyvista 
