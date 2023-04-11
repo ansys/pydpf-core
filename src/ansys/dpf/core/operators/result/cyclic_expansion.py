@@ -23,7 +23,16 @@ class cyclic_expansion(Operator):
         sectors
     bool_rotate_to_global : bool, optional
         Default is true
+    map_size_scoping_out : optional
+        Map provider by scoping adapter
+    merge_stages : bool, optional
     cyclic_support : CyclicSupport
+    sectors_to_expand : Scoping or ScopingsContainer, optional
+        Sectors to expand (start at 0), for
+        multistage: use scopings container
+        with 'stage' label.
+    phi : float, optional
+        Angle phi in degrees (default value 0.0)
 
 
     Examples
@@ -42,8 +51,16 @@ class cyclic_expansion(Operator):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_bool_rotate_to_global = bool()
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+    >>> my_map_size_scoping_out = dpf.()
+    >>> op.inputs.map_size_scoping_out.connect(my_map_size_scoping_out)
+    >>> my_merge_stages = bool()
+    >>> op.inputs.merge_stages.connect(my_merge_stages)
     >>> my_cyclic_support = dpf.CyclicSupport()
     >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+    >>> my_sectors_to_expand = dpf.Scoping()
+    >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+    >>> my_phi = float()
+    >>> op.inputs.phi.connect(my_phi)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.cyclic_expansion(
@@ -51,7 +68,11 @@ class cyclic_expansion(Operator):
     ...     mesh_scoping=my_mesh_scoping,
     ...     fields_container=my_fields_container,
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
+    ...     map_size_scoping_out=my_map_size_scoping_out,
+    ...     merge_stages=my_merge_stages,
     ...     cyclic_support=my_cyclic_support,
+    ...     sectors_to_expand=my_sectors_to_expand,
+    ...     phi=my_phi,
     ... )
 
     >>> # Get output data
@@ -64,7 +85,11 @@ class cyclic_expansion(Operator):
         mesh_scoping=None,
         fields_container=None,
         bool_rotate_to_global=None,
+        map_size_scoping_out=None,
+        merge_stages=None,
         cyclic_support=None,
+        sectors_to_expand=None,
+        phi=None,
         config=None,
         server=None,
     ):
@@ -79,8 +104,16 @@ class cyclic_expansion(Operator):
             self.inputs.fields_container.connect(fields_container)
         if bool_rotate_to_global is not None:
             self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
+        if map_size_scoping_out is not None:
+            self.inputs.map_size_scoping_out.connect(map_size_scoping_out)
+        if merge_stages is not None:
+            self.inputs.merge_stages.connect(merge_stages)
         if cyclic_support is not None:
             self.inputs.cyclic_support.connect(cyclic_support)
+        if sectors_to_expand is not None:
+            self.inputs.sectors_to_expand.connect(sectors_to_expand)
+        if phi is not None:
+            self.inputs.phi.connect(phi)
 
     @staticmethod
     def _spec():
@@ -114,11 +147,37 @@ class cyclic_expansion(Operator):
                     optional=True,
                     document="""Default is true""",
                 ),
+                6: PinSpecification(
+                    name="map_size_scoping_out",
+                    type_names=["umap<int32,int32>"],
+                    optional=True,
+                    document="""Map provider by scoping adapter""",
+                ),
+                14: PinSpecification(
+                    name="merge_stages",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""""",
+                ),
                 16: PinSpecification(
                     name="cyclic_support",
                     type_names=["cyclic_support"],
                     optional=False,
                     document="""""",
+                ),
+                18: PinSpecification(
+                    name="sectors_to_expand",
+                    type_names=["vector<int32>", "scoping", "scopings_container"],
+                    optional=True,
+                    document="""Sectors to expand (start at 0), for
+        multistage: use scopings container
+        with 'stage' label.""",
+                ),
+                19: PinSpecification(
+                    name="phi",
+                    type_names=["double"],
+                    optional=True,
+                    document="""Angle phi in degrees (default value 0.0)""",
                 ),
             },
             map_output_pin_spec={
@@ -185,8 +244,16 @@ class InputsCyclicExpansion(_Inputs):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_bool_rotate_to_global = bool()
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+    >>> my_map_size_scoping_out = dpf.()
+    >>> op.inputs.map_size_scoping_out.connect(my_map_size_scoping_out)
+    >>> my_merge_stages = bool()
+    >>> op.inputs.merge_stages.connect(my_merge_stages)
     >>> my_cyclic_support = dpf.CyclicSupport()
     >>> op.inputs.cyclic_support.connect(my_cyclic_support)
+    >>> my_sectors_to_expand = dpf.Scoping()
+    >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+    >>> my_phi = float()
+    >>> op.inputs.phi.connect(my_phi)
     """
 
     def __init__(self, op: Operator):
@@ -201,8 +268,20 @@ class InputsCyclicExpansion(_Inputs):
             cyclic_expansion._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._bool_rotate_to_global)
+        self._map_size_scoping_out = Input(
+            cyclic_expansion._spec().input_pin(6), 6, op, -1
+        )
+        self._inputs.append(self._map_size_scoping_out)
+        self._merge_stages = Input(cyclic_expansion._spec().input_pin(14), 14, op, -1)
+        self._inputs.append(self._merge_stages)
         self._cyclic_support = Input(cyclic_expansion._spec().input_pin(16), 16, op, -1)
         self._inputs.append(self._cyclic_support)
+        self._sectors_to_expand = Input(
+            cyclic_expansion._spec().input_pin(18), 18, op, -1
+        )
+        self._inputs.append(self._sectors_to_expand)
+        self._phi = Input(cyclic_expansion._spec().input_pin(19), 19, op, -1)
+        self._inputs.append(self._phi)
 
     @property
     def time_scoping(self):
@@ -282,6 +361,44 @@ class InputsCyclicExpansion(_Inputs):
         return self._bool_rotate_to_global
 
     @property
+    def map_size_scoping_out(self):
+        """Allows to connect map_size_scoping_out input to the operator.
+
+        Map provider by scoping adapter
+
+        Parameters
+        ----------
+        my_map_size_scoping_out :
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.cyclic_expansion()
+        >>> op.inputs.map_size_scoping_out.connect(my_map_size_scoping_out)
+        >>> # or
+        >>> op.inputs.map_size_scoping_out(my_map_size_scoping_out)
+        """
+        return self._map_size_scoping_out
+
+    @property
+    def merge_stages(self):
+        """Allows to connect merge_stages input to the operator.
+
+        Parameters
+        ----------
+        my_merge_stages : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.cyclic_expansion()
+        >>> op.inputs.merge_stages.connect(my_merge_stages)
+        >>> # or
+        >>> op.inputs.merge_stages(my_merge_stages)
+        """
+        return self._merge_stages
+
+    @property
     def cyclic_support(self):
         """Allows to connect cyclic_support input to the operator.
 
@@ -298,6 +415,48 @@ class InputsCyclicExpansion(_Inputs):
         >>> op.inputs.cyclic_support(my_cyclic_support)
         """
         return self._cyclic_support
+
+    @property
+    def sectors_to_expand(self):
+        """Allows to connect sectors_to_expand input to the operator.
+
+        Sectors to expand (start at 0), for
+        multistage: use scopings container
+        with 'stage' label.
+
+        Parameters
+        ----------
+        my_sectors_to_expand : Scoping or ScopingsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.cyclic_expansion()
+        >>> op.inputs.sectors_to_expand.connect(my_sectors_to_expand)
+        >>> # or
+        >>> op.inputs.sectors_to_expand(my_sectors_to_expand)
+        """
+        return self._sectors_to_expand
+
+    @property
+    def phi(self):
+        """Allows to connect phi input to the operator.
+
+        Angle phi in degrees (default value 0.0)
+
+        Parameters
+        ----------
+        my_phi : float
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.cyclic_expansion()
+        >>> op.inputs.phi.connect(my_phi)
+        >>> # or
+        >>> op.inputs.phi(my_phi)
+        """
+        return self._phi
 
 
 class OutputsCyclicExpansion(_Outputs):
