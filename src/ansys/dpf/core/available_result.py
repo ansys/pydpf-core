@@ -74,6 +74,7 @@ class Homogeneity(Enum):
     volume_flow_rate = 121
     mass_flow_rate = 122
     specific_energy = 123
+    specific_entropy = 124
 
 
 class AvailableResult:
