@@ -41,7 +41,7 @@ class Homogeneity(Enum):
     magnetic_flux_density = 29
     mass = 30
     moment = 31
-    moment_intertia = 32  # TODO typo
+    moment_inertia = 32
     permeability = 33
     permittivity = 34
     poisson = 35
@@ -67,8 +67,13 @@ class Homogeneity(Enum):
     stress_intensity_factor = 92
     thermal_gradient = 95
     resistance = 1000
-    unknown = 111
     dimensionless = 117
+    dynamic_viscosity = 118
+    dissipation_rate = 119
+    momentum = 120
+    volume_flow_rate = 121
+    mass_flow_rate = 122
+    specific_energy = 123
 
 
 class AvailableResult:
