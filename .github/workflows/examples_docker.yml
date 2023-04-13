@@ -1,4 +1,4 @@
-name: examples
+name: examples_docker
 
 on:
 # Can be called by the CI
@@ -23,7 +23,7 @@ on:
         type: string
         default: ''
       custom-wheels:
-        description: "extra pip --find-links argument to find custom dpf wheels"
+        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
         required: false
         type: string
         default: ''
@@ -51,7 +51,7 @@ on:
         type: string
         default: ''
       custom-wheels:
-        description: "extra pip --find-links argument to find custom dpf wheels"
+        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
         required: false
         type: string
         default: ''
@@ -59,6 +59,8 @@ on:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
+  ANSYS_DPF_ACCEPT_LA: Y
+  ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
 
 jobs:
   setup:
@@ -84,29 +86,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: "Set licensing if necessary"
-        if: inputs.ANSYS_VERSION > 231
-        shell: bash
-        run: |
-          echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
-          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
-
       - name: Setup Python
         uses: actions/setup-python@v4.2.0
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.3
+      - name: "Build Docker Package"
+        uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{ env.PACKAGE_NAME }}
-          MODULE: ${{ env.MODULE }}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           install_extras: plotting
-          wheelhouse: false
           wheel: false
+          wheelhouse: false
           extra-pip-args: ${{ inputs.custom-wheels && format('--find-links {0}', inputs.custom-wheels) || '' }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           custom-requirements: ${{ inputs.custom-requirements }}
@@ -126,7 +121,3 @@ jobs:
         run: |
           echo on
           python run_examples.py
-
-      - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
-        if: always()

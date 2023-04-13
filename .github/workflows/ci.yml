@@ -87,6 +87,17 @@ jobs:
       custom-wheels: ${{ github.event.inputs.custom-wheels-docker || './dpf-standalone/dist' }}
     secrets: inherit
 
+  docker_examples:
+    name: "Run examples on Docker"
+    uses: ./.github/workflows/examples_docker.yml
+    with:
+      ANSYS_VERSION: "232"
+      python_versions: '["3.8"]'
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
+      custom-wheels: ${{ github.event.inputs.custom-wheels-docker || './dpf-standalone/dist' }}
+    secrets: inherit
+
   docs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/docs.yml
