@@ -20,9 +20,6 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
-
-tmpdir = tempfile.mkdtemp()
-
 ###############################################################################
 # Create the operator and connect data sources.
 
@@ -39,6 +36,13 @@ fields = matrices_provider.outputs.fields_container()
 len(fields)
 
 fields[0].data
+
+###############################################################################
+# Define a temporary folder for outputs
+if dpf.SERVER.local_server:
+    tmpdir = tempfile.mkdtemp()
+else:
+    tmpdir = dpf.core.make_tmp_dir_server()
 
 ###############################################################################
 # Export the result fields container to an HDF5 file.

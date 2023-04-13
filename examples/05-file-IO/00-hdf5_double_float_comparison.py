@@ -21,9 +21,6 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
-
-tmpdir = tempfile.mkdtemp()
-
 ###############################################################################
 # Create the model and get the stresses, displacements, and mesh.
 
@@ -56,6 +53,13 @@ displacement.inputs.time_scoping.connect(timeIds)
 h5op.inputs.data1.connect(stress.outputs)
 h5op.inputs.data2.connect(displacement.outputs)
 h5op.inputs.data3.connect(mesh)
+
+###############################################################################
+# Define a temporary folder for outputs
+if dpf.SERVER.local_server:
+    tmpdir = tempfile.mkdtemp()
+else:
+    tmpdir = dpf.core.make_tmp_dir_server()
 
 ###############################################################################
 # Export with simple precision.
