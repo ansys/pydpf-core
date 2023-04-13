@@ -103,18 +103,12 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' }}
     needs: [docs]
     steps:
-      - name: "Unzip HTML Documentation"
-        shell: bash
-        run: |
-          unzip HTML-doc-ansys-dpf-core.zip -d documentation-html
-          chmod -R 777 documentation-html
-        if: always()
-
       - name: "Upload development documentation"
         uses: pyansys/actions/doc-deploy-dev@v4
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
 
   examples:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
