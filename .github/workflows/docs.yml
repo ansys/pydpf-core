@@ -179,6 +179,6 @@ jobs:
       - name: "Upload HTML Documentation"
         uses: actions/upload-artifact@v3
         with:
-          name: HTML-doc-${{env.PACKAGE_NAME}}
-          path: HTML-doc-${{env.PACKAGE_NAME}}.zip
+          name: HTML-doc-${{env.PACKAGE_NAME}}.zip
+          path: docs/build/html
         if: always()
