@@ -34,32 +34,19 @@ mesh.plot(fc_out)
 ###############################################################################
 # Export result
 # ~~~~~~~~~~~~~
-# Get the fields container for the result and export it in the CSV format:
+# Export the fields container in the CSV format:
 
 import os
 
-file_path = os.getcwd() + "\\simple_bar_fc.csv"
+# Define an output path for the resulting .csv file server-side
+tmp_dir_path = dpf.make_tmp_dir_server()
+server_file_path = dpf.path_utilities.join(tmp_dir_path, "simple_bar_fc.csv")
 
+# Perform the export to csv on the server side
 export_csv_operator = dpf.operators.serialization.field_to_csv()
 export_csv_operator.inputs.field_or_fields_container.connect(fc_out)
-export_csv_operator.inputs.file_path.connect(file_path)
+export_csv_operator.inputs.file_path.connect(server_file_path)
 export_csv_operator.run()
-
-###############################################################################
-# Upload CSV result file
-# ~~~~~~~~~~~~~~~~~~~~~~~
-# Upload the file ``simple_bar_fc.csv`` on the server side.
-# Here, :func:`upload_file_in_tmp_folder` is used because
-# it is assumed that the server machine architecture is unknown.
-# However, when the server file path is known, :func:`upload_file`
-# can be used.
-
-if not dpf.SERVER.local_server:
-    server_file_path = dpf.upload_file_in_tmp_folder(file_path)
-    print(server_file_path)
-
-    # Remove file to avoid polluting.
-    os.remove(file_path)
 
 ###############################################################################
 # Download CSV result file
@@ -67,43 +54,43 @@ if not dpf.SERVER.local_server:
 # Download the file ``simple_bar_fc.csv``:
 
 if not dpf.SERVER.local_server:
-    downloaded_client_file_path = os.getcwd() + "\\simple_bar_fc_downloaded.csv"
+    downloaded_client_file_path = os.path.join(os.getcwd(), "simple_bar_fc_downloaded.csv")
     dpf.download_file(server_file_path, downloaded_client_file_path)
 else:
-    downloaded_client_file_path = file_path
+    downloaded_client_file_path = server_file_path
 
 ###############################################################################
 # Load CSV result file as operator input
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Load the fields container contained in the CSV file as an operator input:
 
-my_data_sources = dpf.DataSources(downloaded_client_file_path)
+my_data_sources = dpf.DataSources(server_file_path)
 import_csv_operator = dpf.operators.serialization.csv_to_field()
 import_csv_operator.inputs.data_sources.connect(my_data_sources)
-downloaded_fc_out = import_csv_operator.outputs.fields_container()
-mesh.plot(downloaded_fc_out)
+server_fc_out = import_csv_operator.outputs.fields_container()
+mesh.plot(server_fc_out)
 
 # Remove file to avoid polluting.
 os.remove(downloaded_client_file_path)
 
 ###############################################################################
-# Make operations over the imported fields container
+# Make operations over the fields container
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Use this fields container to get the minimum displacement:
 
 min_max_op = dpf.operators.min_max.min_max_fc()
-min_max_op.inputs.fields_container.connect(downloaded_fc_out)
+min_max_op.inputs.fields_container.connect(server_fc_out)
 min_field = min_max_op.outputs.field_min()
 min_field.data
 
 ###############################################################################
-# Compare the original and the downloaded fields container
+# Compare the original and the new fields container
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Subtract the two fields and plot an error map:
-abs_error = (fc_out - downloaded_fc_out).eval()
+abs_error = (fc_out - server_fc_out).eval()
 
 divide = dpf.operators.math.component_wise_divide()
-divide.inputs.fieldA.connect(fc_out - downloaded_fc_out)
+divide.inputs.fieldA.connect(fc_out - server_fc_out)
 divide.inputs.fieldB.connect(fc_out)
 scale = dpf.operators.math.scale()
 scale.inputs.field.connect(divide)
