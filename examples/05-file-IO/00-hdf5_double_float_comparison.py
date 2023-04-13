@@ -64,20 +64,20 @@ else:
 ###############################################################################
 # Export with simple precision.
 
-h5op.inputs.file_path.connect(os.path.join(tmpdir, "dpf_float.h5"))
+h5op.inputs.file_path.connect(dpf.path_utilities.join(tmpdir, "dpf_float.h5"))
 h5op.run()
 
 ###############################################################################
 # Export with double precision.
 
 h5op.inputs.export_floats.connect(False)
-h5op.inputs.file_path.connect(os.path.join(tmpdir, "dpf_double.h5"))
+h5op.inputs.file_path.connect(dpf.path_utilities.join(tmpdir, "dpf_double.h5"))
 h5op.run()
 
 ###############################################################################
 # Compare simple precision versus double precision.
-float_precision = os.stat(os.path.join(tmpdir, "dpf_float.h5")).st_size
-double_precision = os.stat(os.path.join(tmpdir, "dpf_double.h5")).st_size
+float_precision = os.stat(dpf.path_utilities.join(tmpdir, "dpf_float.h5")).st_size
+double_precision = os.stat(dpf.path_utilities.join(tmpdir, "dpf_double.h5")).st_size
 print(
     f"size with float precision: {float_precision}\n"
     f"size with double precision: {double_precision}"

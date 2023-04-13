@@ -13,7 +13,6 @@ export them to HDF5 and CSV files.
 # Import the ``dpf-core`` module and its examples files, and then create a
 # temporary directory.
 
-import os
 import tempfile
 
 from ansys.dpf import core as dpf
@@ -49,7 +48,7 @@ else:
 
 h5_op = ops.serialization.serialize_to_hdf5()
 h5_op.inputs.data1.connect(matrices_provider.outputs)
-h5_op.inputs.file_path.connect(os.path.join(tmpdir, "matrices.h5"))
+h5_op.inputs.file_path.connect(dpf.path_utilities.join(tmpdir, "matrices.h5"))
 h5_op.run()
 
 ###############################################################################
@@ -57,5 +56,5 @@ h5_op.run()
 
 csv_op = ops.serialization.field_to_csv()
 csv_op.inputs.field_or_fields_container.connect(matrices_provider.outputs)
-csv_op.inputs.file_path.connect(os.path.join(tmpdir, "matrices.csv"))
+csv_op.inputs.file_path.connect(dpf.path_utilities.join(tmpdir, "matrices.csv"))
 csv_op.run()
