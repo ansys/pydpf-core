@@ -170,10 +170,15 @@ jobs:
           path: docs/*.txt
         if: always()
 
+      - name: "Zip HTML Documentation"
+        shell: bash
+        run: |
+          zip -9 -r HTML-doc-${{env.PACKAGE_NAME}}.zip docs/build/html/
+        if: always()
+
       - name: "Upload HTML Documentation"
         uses: actions/upload-artifact@v3
         with:
           name: HTML-doc-${{env.PACKAGE_NAME}}
-          path: |
-            docs/build/html/
+          path: HTML-doc-${{env.PACKAGE_NAME}}.zip
         if: always()
