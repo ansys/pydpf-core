@@ -17,6 +17,8 @@ from ansys.dpf.gate import (
     data_processing_grpcapi,
 )
 
+from ansys.dpf.core.check_version import version_requires
+
 
 class DataSources:
     """Contains files with analysis results.
@@ -286,7 +288,16 @@ class DataSources:
                         response.append(path)
             return response
 
-    def register_namespace(self, result_key, namespace):
+    @version_requires("6.2")
+    def register_namespace(self, result_key: str, namespace: str):
+        """Adds a link from this ``result_key`` to this ``namespace`` in the DataSources.
+        This ``result_key`` to ``namespace`` mapping is used by source operators
+        to find internal operators to call.
+
+        Notes
+        -----
+        Available with server's version starting at 6.2.
+        """
         self._api.data_sources_register_namespace(self, result_key, namespace)
 
     def __str__(self):
