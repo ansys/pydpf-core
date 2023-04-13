@@ -182,3 +182,8 @@ ansys/dpf/core/examples/_cache/
 
 # dpf-standalone repository when installed locally
 dpf-standalone/
+
+
+# to be deleted
+
+search/

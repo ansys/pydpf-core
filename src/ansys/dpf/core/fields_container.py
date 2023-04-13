@@ -517,11 +517,6 @@ class FieldsContainer(Collection):
         if frequencies is None:
             raise ValueError("The fields_container has no time_frequencies.")
 
-        loop_over = self.get_time_scoping()
-        frequencies = self.time_freq_support.time_frequencies
-        if frequencies is None:
-            raise ValueError("The fields_container has no time_frequencies.")
-
         # TODO /!\ We should be using a mechanical::time_selector, however it is not wrapped.
 
         wf.set_input_name("indices", extract_field_op.inputs.indices)  # Have to do it this way
