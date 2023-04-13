@@ -171,9 +171,9 @@ jobs:
         if: always()
 
       - name: "Zip HTML Documentation"
-        shell: bash
+        shell: pwsh
         run: |
-          zip -9 -r HTML-doc-${{env.PACKAGE_NAME}}.zip docs/build/html/
+          Compress-Archive -Path docs/build/html/* -Destination HTML-doc-${{env.PACKAGE_NAME}}.zip
         if: always()
 
       - name: "Upload HTML Documentation"
