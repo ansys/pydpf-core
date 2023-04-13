@@ -44,5 +44,5 @@ jobs:
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          doc-artifact-name: HTML-doc-ansys-dpf-core
+          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
           decompress-artifact: true
