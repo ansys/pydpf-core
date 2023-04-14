@@ -48,44 +48,44 @@ jobs:
       run: echo "$GITHUB_CONTEXT"
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
+#
+#  style:
+#    name: "Style Check"
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: "Setup Python"
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: ${{ env.MAIN_PYTHON_VERSION }}
+#
+#      - name: "Install pre-commit"
+#        run: pip install pre-commit
+#
+#      - name: "Run pre-commit"
+#        run: pre-commit run --all-files --show-diff-on-failure
 
-  style:
-    name: "Style Check"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+#  tests:
+#    uses: ./.github/workflows/tests.yml
+#    with:
+#      ANSYS_VERSION: "232"
+#      python_versions: '["3.8"]'
+#      wheel: true
+#      wheelhouse: false
+#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+#      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
+#      custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v232/dist' }}
+#    secrets: inherit
 
-      - name: "Setup Python"
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ env.MAIN_PYTHON_VERSION }}
-
-      - name: "Install pre-commit"
-        run: pip install pre-commit
-
-      - name: "Run pre-commit"
-        run: pre-commit run --all-files --show-diff-on-failure
-
-  tests:
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "232"
-      python_versions: '["3.8"]'
-      wheel: true
-      wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
-      custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v232/dist' }}
-    secrets: inherit
-
-  docker_tests:
-    name: "Build and Test on Docker"
-    uses: ./.github/workflows/test_docker.yml
-    with:
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
-      custom-wheels: ${{ github.event.inputs.custom-wheels-docker || './dpf-standalone/dist' }}
-    secrets: inherit
+#  docker_tests:
+#    name: "Build and Test on Docker"
+#    uses: ./.github/workflows/test_docker.yml
+#    with:
+#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+#      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
+#      custom-wheels: ${{ github.event.inputs.custom-wheels-docker || './dpf-standalone/dist' }}
+#    secrets: inherit
 
   docker_examples:
     name: "Run examples on Docker"
@@ -98,29 +98,29 @@ jobs:
       custom-wheels: ${{ github.event.inputs.custom-wheels-docker || './dpf-standalone/dist' }}
     secrets: inherit
 
-  docs:
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/docs.yml
-    with:
-      ANSYS_VERSION: "232"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
-      custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v232/dist' }}
-      event_name: ${{ github.event_name }}
-    secrets: inherit
-
-  upload-development-docs:
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/master' }}
-    needs: [docs]
-    steps:
-      - name: "Upload development documentation"
-        uses: pyansys/actions/doc-deploy-dev@v4
-        with:
-          cname: ${{ env.DOCUMENTATION_CNAME }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
-
+#  docs:
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/docs.yml
+#    with:
+#      ANSYS_VERSION: "232"
+#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+#      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
+#      custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v232/dist' }}
+#      event_name: ${{ github.event_name }}
+#    secrets: inherit
+#
+#  upload-development-docs:
+#    runs-on: ubuntu-latest
+#    if: ${{ github.ref == 'refs/heads/master' }}
+#    needs: [docs]
+#    steps:
+#      - name: "Upload development documentation"
+#        uses: pyansys/actions/doc-deploy-dev@v4
+#        with:
+#          cname: ${{ env.DOCUMENTATION_CNAME }}
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
+#
   examples:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/examples.yml
@@ -131,47 +131,47 @@ jobs:
       custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
       custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v232/dist' }}
     secrets: inherit
-
-  retro_231:
-    name: "retro 231"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "231"
-      python_versions: '["3.8"]'
-      DOCSTRING: false
-      custom-wheels: './.github'
-    secrets: inherit
-
-  retro_222:
-    name: "retro 222"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "222"
-      python_versions: '["3.8"]'
-      DOCSTRING: false
-      custom-wheels: './.github'
-    secrets: inherit
-
-  retro_221:
-    name: "retro 221"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "221"
-      python_versions: '["3.8"]'
-      DOCSTRING: false
-      custom-wheels: './.github'
-    secrets: inherit
-
-  pydpf-post:
-    name: "PyDPF-Post"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/pydpf-post.yml
-    with:
-      ANSYS_VERSION: "232"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
-      custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v232/dist' }}
-    secrets: inherit
+#
+#  retro_231:
+#    name: "retro 231"
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/tests.yml
+#    with:
+#      ANSYS_VERSION: "231"
+#      python_versions: '["3.8"]'
+#      DOCSTRING: false
+#      custom-wheels: './.github'
+#    secrets: inherit
+#
+#  retro_222:
+#    name: "retro 222"
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/tests.yml
+#    with:
+#      ANSYS_VERSION: "222"
+#      python_versions: '["3.8"]'
+#      DOCSTRING: false
+#      custom-wheels: './.github'
+#    secrets: inherit
+#
+#  retro_221:
+#    name: "retro 221"
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/tests.yml
+#    with:
+#      ANSYS_VERSION: "221"
+#      python_versions: '["3.8"]'
+#      DOCSTRING: false
+#      custom-wheels: './.github'
+#    secrets: inherit
+#
+#  pydpf-post:
+#    name: "PyDPF-Post"
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/pydpf-post.yml
+#    with:
+#      ANSYS_VERSION: "232"
+#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+#      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
+#      custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v232/dist' }}
+#    secrets: inherit

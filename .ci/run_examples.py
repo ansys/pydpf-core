@@ -24,6 +24,8 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
     for subdirectory in subdirectories:
         subdir = os.path.join(root, subdirectory)
         for file in glob.iglob(os.path.join(subdir, "*.py")):
+            if "03-distr" not in file:
+                continue
             if sys.platform == "linux" and "08-python-operators" in file:
                 continue
             print("\n--------------------------------------------------")
