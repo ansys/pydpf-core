@@ -42,7 +42,8 @@ csv_file_name = "simple_bar_fc.csv"
 # Define an output path for the resulting .csv file
 if not dpf.SERVER.local_server:
     # Define it server-side if using a remote server
-    tmp_dir_path = dpf.make_tmp_dir_server()
+    # tmp_dir_path = dpf.make_tmp_dir_server()
+    tmp_dir_path = "/tmp/"
     server_file_path = dpf.path_utilities.join(tmp_dir_path, csv_file_name)
 else:
     server_file_path = os.path.join(os.getcwd(), csv_file_name)
