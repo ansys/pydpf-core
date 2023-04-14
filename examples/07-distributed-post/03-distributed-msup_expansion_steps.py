@@ -115,8 +115,8 @@ print("ports:", ports)
 ###############################################################################
 # Specify the file path.
 
-base_path = examples.find_distributed_msup_folder(return_local_path=False)
-print(base_path)
+base_path = examples.find_distributed_msup_folder()
+
 files = [
     dpf.path_utilities.join(base_path, "file0.mode"),
     dpf.path_utilities.join(base_path, "file1.mode"),
@@ -129,8 +129,6 @@ files_rfrq = [
     dpf.path_utilities.join(base_path, "file_load_1.rfrq"),
     dpf.path_utilities.join(base_path, "file_load_2.rfrq"),
 ]
-# base_path = examples.find_distributed_msup_folder(return_local_path=True)
-# print(base_path)
 
 ###############################################################################
 # Create operators on each server
@@ -151,19 +149,12 @@ for i, server in enumerate(remote_servers):
     ds.add_file_path(files_aux[i])
     displacement.inputs.data_sources(ds)
     mesh.inputs.data_sources(ds)
-    fc = displacement.outputs.fields_container
 
 ###############################################################################
 # Create a local operator chain for expansion
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # The following series of operators merge the modal basis and the meshes, read
 # the modal response, and expand the modal response with the modal basis.
-
-from os import walk
-
-for (dirpath, dirnames, filenames) in walk(base_path):
-    print(dirpath)
-    print(filenames)
 
 merge_fields = ops.utility.merge_fields_containers()
 merge_mesh = ops.utility.merge_meshes()

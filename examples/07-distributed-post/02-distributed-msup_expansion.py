@@ -111,8 +111,8 @@ print("ports:", ports)
 ###############################################################################
 # Specify the file path.
 
-base_path = examples.find_distributed_msup_folder(return_local_path=True)
-print(base_path)
+base_path = examples.find_distributed_msup_folder()
+
 files = [
     dpf.path_utilities.join(base_path, "file0.mode"),
     dpf.path_utilities.join(base_path, "file1.mode"),
@@ -124,12 +124,6 @@ files_aux = [
 files_rfrq = [
     dpf.path_utilities.join(base_path, "file_load_1.rfrq"),
 ]
-
-from os import walk
-
-for (dirpath, dirnames, filenames) in walk(base_path):
-    print(dirpath)
-    print(filenames)
 
 ###############################################################################
 # Create operators on each server
