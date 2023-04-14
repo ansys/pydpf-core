@@ -59,7 +59,7 @@ h5op.inputs.data3.connect(mesh)
 if dpf.SERVER.local_server:
     tmpdir = tempfile.mkdtemp()
 else:
-    tmpdir = dpf.core.make_tmp_dir_server()
+    tmpdir = "/tmp/"
 
 ###############################################################################
 # Export with simple precision.

@@ -41,7 +41,7 @@ fields[0].data
 if dpf.SERVER.local_server:
     tmpdir = tempfile.mkdtemp()
 else:
-    tmpdir = dpf.core.make_tmp_dir_server()
+    tmpdir = "/tmp/"
 
 ###############################################################################
 # Export the result fields container to an HDF5 file.
