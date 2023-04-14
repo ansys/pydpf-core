@@ -39,33 +39,36 @@ without ever leaving the Python environment.
 
 ## Documentation
 
-Visit the [DPF-Core Documentation](https://dpfdocs.pyansys.com) for a
-detailed description of the library, or see the [Examples
-Gallery](https://dpfdocs.pyansys.com/version/stable/examples/index.html) for more
-detailed examples.
+Visit the [DPF-Core Documentation](https://dpfdocs.pyansys.com) for
+comprehensive information on this library. See the
+[Examples](https://dpfdocs.pyansys.com/version/stable/examples/index.html)
+for how-to information.
 
 ## Installation
 
-PyDPF-Core requires DPF to be available, either thanks to a compatible Ansys installation or after installing the 
-standalone server package ``ansys-dpf-server`` (see [here](https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html)).
-Compatibility between PyDPF-Core and Ansys is documented 
-[here](https://dpfdocs.pyansys.com/version/stable/getting_started/index.html#compatibility).
+PyDPF-Core requires DPF to be available. You can either have a compatible Ansys version installed
+or install the standalone ``ansys-dpf-server`` server package. For more information, see
+[Getting Started with DPF Server](https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html) in the PyDPF-Core documentation.
 
-To use PyDPF-Core with ``ansys-dpf-server`` or Ansys 2021 R2 or later, 
+For the compatibility between PyDPF-Core and Ansys, see
+[Compatibility](https://dpf.docs.pyansys.com/version/stable/getting_started/compatibility.html) in
+the PyDPF-Core documentation.
+
+To use PyDPF-Core with the ``ansys-dpf-server`` server package or with Ansys 2021 R2 or later, 
 install the latest version with this command:
 
 ```con
    pip install ansys-dpf-core
 ```
 
-PyDPF-Core plotting capabilities require to have `PyVista <https://pyvista.org/>`_ installed.
-To install PyDPF-Core with its optional plotting functionalities, use:
+PyDPF-Core plotting capabilities require `PyVista <https://pyvista.org/>`_ to be installed.
+To install PyDPF-Core with its optional plotting functionalities, use this command:
 
 ```con
    pip install ansys-dpf-core[plotting]
 ```
 
-For more information about PyDPF-Core plotting capabilities, see [Plotting](https://dpf.docs.pyansys.com/version/stable/user_guide/plotting.html).
+For more information on PyDPF-Core plotting capabilities, see [Plot](https://dpf.docs.pyansys.com/version/stable/user_guide/plotting.html) in the PyDPF-Core documentation.
 
 To use PyDPF-Core with Ansys 2021 R1, install the latest version
 with this command:
@@ -75,13 +78,11 @@ with this command:
 ```
 
 
-### Brief Demo
+### Brief demo
 
-Provided you have DPF available, either thanks to an Ansys installation or after installing the 
-standalone server package ``ansys-dpf-server`` (see [here](https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html)), 
-a DPF server will start automatically once you start using PyDPF-Core.
+Provided you have DPF available, a DPF server automatically starts once you start using PyDPF-Core.
 
-To open a result file and explore what's inside, do:
+To open a result file and explore what's inside, use this code:
 
 ```pycon
 >>> from ansys.dpf import core as dpf
@@ -120,31 +121,30 @@ To open a result file and explore what's inside, do:
 
 ```
 
-Read a result with:
+Read a result with this command:
 
 ```pycon
 >>> result = model.results.displacement.eval()
 ```
 
-Then start connecting operators with:
+Then, start connecting operators with this code:
 
 ```pycon
 >>> from ansys.dpf.core import operators as ops
 >>> norm = ops.math.norm(model.results.displacement())
 ```
 
-### Starting the Service
+### Starting the service
 
 The ``ansys.dpf.core`` library automatically starts a local instance of the DPF service in the
 background and connects to it.  If you need to connect to an existing
-remote or local DPF instance, use the ``connect_to_server`` function:
+remote or local DPF instance, use the ``connect_to_server`` method:
 
 ```pycon
 >>> from ansys.dpf import core as dpf
 >>> dpf.connect_to_server(ip='10.0.0.22', port=50054)
 ```
 
-Once connected, this connection will remain for the duration of the
-module until you exit python or connect to a different server.
+Once connected, this connection remains for the duration of the
+module. It closes when you exit Python or connect to a different server.
 
-     
