@@ -87,7 +87,7 @@ print("ports:", ports)
 
 ###############################################################################
 # Send files to the temporary directory if they are not in shared memory.
-files = examples.download_distributed_files()
+files = examples.download_distributed_files(return_local_path=True)
 server_file_paths = [
     dpf.upload_file_in_tmp_folder(files[0], server=remote_servers[0]),
     dpf.upload_file_in_tmp_folder(files[1], server=remote_servers[1]),
