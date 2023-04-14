@@ -115,6 +115,8 @@ print("ports:", ports)
 ###############################################################################
 # Specify the file path.
 
+base_path = examples.find_distributed_msup_folder(return_local_path=False)
+print(base_path)
 base_path = examples.find_distributed_msup_folder(return_local_path=True)
 print(base_path)
 files = [
@@ -149,6 +151,7 @@ for i, server in enumerate(remote_servers):
     ds.add_file_path(files_aux[i])
     displacement.inputs.data_sources(ds)
     mesh.inputs.data_sources(ds)
+    fc = displacement.outputs.fields_container
 
 ###############################################################################
 # Create a local operator chain for expansion
