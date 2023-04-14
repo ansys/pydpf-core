@@ -71,6 +71,7 @@ chain that is used to compute the final result.
 ###############################################################################
 # Import the ``dpf-core`` module and its examples files.
 
+import os
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
@@ -89,9 +90,11 @@ from ansys.dpf.core import operators as ops
 # To make it easier, this example starts local servers. However, you can
 # connect to any existing servers on your network.
 
-global_server = dpf.start_local_server(
-    as_global=True, config=dpf.AvailableServerConfigs.InProcessServer
-)
+config = dpf.AvailableServerConfigs.InProcessServer
+if "DPF_DOCKER" in os.environ.keys():
+    # If running DPF on Docker, you cannot start an InProcessServer
+    config = dpf.AvailableServerConfigs.GrpcServer
+global_server = dpf.start_local_server(as_global=True, config=config)
 
 remote_servers = [
     dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
@@ -108,7 +111,7 @@ print("ports:", ports)
 ###############################################################################
 # Specify the file path.
 
-base_path = examples.find_distributed_msup_folder()
+base_path = examples.find_distributed_msup_folder(return_local_path=True)
 files = [base_path + r"/file0.mode", base_path + r"/file1.mode"]
 files_aux = [base_path + r"/file0.rst", base_path + r"/file1.rst"]
 
