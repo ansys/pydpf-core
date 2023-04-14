@@ -112,8 +112,24 @@ print("ports:", ports)
 # Specify the file path.
 
 base_path = examples.find_distributed_msup_folder(return_local_path=True)
-files = [base_path + r"/file0.mode", base_path + r"/file1.mode"]
-files_aux = [base_path + r"/file0.rst", base_path + r"/file1.rst"]
+print(base_path)
+files = [
+    dpf.path_utilities.join(base_path, "file0.mode"),
+    dpf.path_utilities.join(base_path, "file1.mode"),
+]
+files_aux = [
+    dpf.path_utilities.join(base_path, "file0.rst"),
+    dpf.path_utilities.join(base_path, "file1.rst"),
+]
+files_rfrq = [
+    dpf.path_utilities.join(base_path, "file_load_1.rfrq"),
+]
+
+from os import walk
+
+for (dirpath, dirnames, filenames) in walk(base_path):
+    print(dirpath)
+    print(filenames)
 
 ###############################################################################
 # Create operators on each server
@@ -144,7 +160,7 @@ for i, server in enumerate(remote_servers):
 merge_fields = ops.utility.merge_fields_containers()
 merge_mesh = ops.utility.merge_meshes()
 
-ds = dpf.DataSources(base_path + r"/file_load_1.rfrq")
+ds = dpf.DataSources(files_rfrq[0])
 response = ops.result.displacement(data_sources=ds)
 response.inputs.mesh(merge_mesh.outputs.merges_mesh)
 

@@ -116,8 +116,19 @@ print("ports:", ports)
 # Specify the file path.
 
 base_path = examples.find_distributed_msup_folder(return_local_path=True)
-files = [os.path.join(base_path, "file0.mode"), os.path.join(base_path, "file1.mode")]
-files_aux = [os.path.join(base_path, "file0.rst"), os.path.join(base_path, "file1.rst")]
+print(base_path)
+files = [
+    dpf.path_utilities.join(base_path, "file0.mode"),
+    dpf.path_utilities.join(base_path, "file1.mode"),
+]
+files_aux = [
+    dpf.path_utilities.join(base_path, "file0.rst"),
+    dpf.path_utilities.join(base_path, "file1.rst"),
+]
+files_rfrq = [
+    dpf.path_utilities.join(base_path, "file_load_1.rfrq"),
+    dpf.path_utilities.join(base_path, "file_load_2.rfrq"),
+]
 
 ###############################################################################
 # Create operators on each server
@@ -145,18 +156,20 @@ for i, server in enumerate(remote_servers):
 # The following series of operators merge the modal basis and the meshes, read
 # the modal response, and expand the modal response with the modal basis.
 
-merge_fields = ops.utility.merge_fields_containers()
-merge_mesh = ops.utility.merge_meshes()
-
-ds = dpf.DataSources(os.path.join(base_path, "file_load_1.rfrq"))
-response = ops.result.displacement(data_sources=ds)
-response.inputs.mesh(merge_mesh.outputs.merges_mesh)
-
-ds = dpf.DataSources(os.path.join(base_path, "file_load_2.rfrq"))
 from os import walk
 
 for (dirpath, dirnames, filenames) in walk(base_path):
+    print(dirpath)
     print(filenames)
+
+merge_fields = ops.utility.merge_fields_containers()
+merge_mesh = ops.utility.merge_meshes()
+
+ds = dpf.DataSources(files_rfrq[0])
+response = ops.result.displacement(data_sources=ds)
+response.inputs.mesh(merge_mesh.outputs.merges_mesh)
+
+ds = dpf.DataSources(files_rfrq[1])
 response2 = ops.result.displacement(data_sources=ds)
 response2fc = response2.outputs.fields_container()
 response2fc.time_freq_support.time_frequencies.scoping.set_id(0, 2)
