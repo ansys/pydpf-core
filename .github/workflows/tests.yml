@@ -290,6 +290,7 @@ jobs:
           cd entry
           pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=junit/test-results10.xml  .
         if: always()
+        timeout-minutes: 30
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
