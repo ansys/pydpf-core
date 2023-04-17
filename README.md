@@ -77,7 +77,6 @@ with this command:
    pip install ansys-dpf-core<0.3.0
 ```
 
-
 ### Brief demo
 
 Provided you have DPF available, a DPF server automatically starts once you start using PyDPF-Core.
@@ -147,4 +146,3 @@ remote or local DPF instance, use the ``connect_to_server`` method:
 
 Once connected, this connection remains for the duration of the
 module. It closes when you exit Python or connect to a different server.
-
