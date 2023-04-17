@@ -43,10 +43,10 @@ Install DPF Server
 
 .. card::
 
-    * Download the ``ansys_dpf_server_win_v2023.2.pre0.zip`` or ``ansys_dpf_server_lin_v2023.2.pre0.zip``
+    * Download the ``ansys_dpf_server_win_v2023.2.pre1.zip`` or ``ansys_dpf_server_lin_v2023.2.pre1.zip``
       file as appropriate.
-    * Unzip the package and go to its root folder (``ansys_dpf_server_win_v2023.2.pre0`` or
-       ``ansys_dpf_server_lin_v2023.2.pre0``).
+    * Unzip the package and go to its root folder (``ansys_dpf_server_win_v2023.2.pre1`` or
+       ``ansys_dpf_server_lin_v2023.2.pre1``).
     * In a Python environment, run this command:
 
     .. code::
