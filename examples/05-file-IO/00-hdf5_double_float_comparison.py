@@ -21,9 +21,6 @@ from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
 
-
-tmpdir = tempfile.mkdtemp()
-
 ###############################################################################
 # Create the model and get the stresses, displacements, and mesh.
 
@@ -58,22 +55,45 @@ h5op.inputs.data2.connect(displacement.outputs)
 h5op.inputs.data3.connect(mesh)
 
 ###############################################################################
+# Define a temporary folder for outputs
+if dpf.SERVER.local_server:
+    tmpdir = tempfile.mkdtemp()
+else:
+    tmpdir = "/tmp"
+files = [
+    dpf.path_utilities.join(tmpdir, "dpf_float.h5"),
+    dpf.path_utilities.join(tmpdir, "dpf_double.h5"),
+]
+###############################################################################
 # Export with simple precision.
 
-h5op.inputs.file_path.connect(os.path.join(tmpdir, "dpf_float.h5"))
+h5op.inputs.file_path.connect(files[0])
 h5op.run()
 
 ###############################################################################
 # Export with double precision.
 
 h5op.inputs.export_floats.connect(False)
-h5op.inputs.file_path.connect(os.path.join(tmpdir, "dpf_double.h5"))
+h5op.inputs.file_path.connect(files[1])
 h5op.run()
 
 ###############################################################################
+# Download the resulting .h5 files if necessary
+
+if not dpf.SERVER.local_server:
+    float_file_path = os.path.join(os.getcwd(), "dpf_float.h5")
+    double_file_path = os.path.join(os.getcwd(), "dpf_double.h5")
+    dpf.download_file(files[0], float_file_path)
+    dpf.download_file(files[1], double_file_path)
+else:
+    float_file_path = files[0]
+    double_file_path = files[1]
+
+
+###############################################################################
 # Compare simple precision versus double precision.
-float_precision = os.stat(os.path.join(tmpdir, "dpf_float.h5")).st_size
-double_precision = os.stat(os.path.join(tmpdir, "dpf_double.h5")).st_size
+float_precision = os.stat(float_file_path).st_size
+double_precision = os.stat(double_file_path).st_size
 print(
     f"size with float precision: {float_precision}\n"
     f"size with double precision: {double_precision}"
