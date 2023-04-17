@@ -156,7 +156,7 @@ class DockerConfig:
             key + ":" + val for key, val in self.mounted_volumes.items()
         )
 
-        if os.name == "nt" and os.environ.get("to_run_on_wsl"):
+        if os.name == "nt" and os.environ.get("TO_RUN_ON_WSL"):
             updated_volume_args = ""
             for i in mounted_volumes_args.split(" "):
                 if ":" in i:
