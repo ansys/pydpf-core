@@ -17,6 +17,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
 )
 
 # Check for ANSYS installation env var
@@ -1233,7 +1234,12 @@ def test_operator_config_specification_simple(server_type):
     spec = Specification(operator_name="add", server=server_type)
     conf_spec = spec.config_specification
     if server_type.os != "posix":
-        assert "enum dataProcessing::EBinaryOperation" in conf_spec["binary_operation"].type_names
+        assert (
+            "enum dataProcessing::EBinaryOperation"
+            or "binary_operation_enum" in conf_spec["binary_operation"].type_names
+        )
+    elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
+        assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
     assert conf_spec["binary_operation"].default_value_str == "1"
     assert "Intersection" in conf_spec["binary_operation"].document
     assert "run_in_parallel" in conf_spec
@@ -1246,7 +1252,12 @@ def test_generated_operator_config_specification_simple(server_type):
     spec = op.specification
     conf_spec = spec.config_specification
     if server_type.os != "posix":
-        assert "enum dataProcessing::EBinaryOperation" in conf_spec["binary_operation"].type_names
+        assert (
+            "enum dataProcessing::EBinaryOperation"
+            or "binary_operation_enum" in conf_spec["binary_operation"].type_names
+        )
+    elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
+        assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
     assert conf_spec["binary_operation"].default_value_str == "1"
     assert "Intersection" in conf_spec["binary_operation"].document
     assert "run_in_parallel" in conf_spec
