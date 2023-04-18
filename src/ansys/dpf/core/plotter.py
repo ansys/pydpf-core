@@ -125,7 +125,7 @@ class _PyVistaPlotter:
             plane[f"{field.name}"] = field.data
         self._plotter.add_mesh(plane_plot, **kwargs)
 
-    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
+    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, as_linear=True, **kwargs):
 
         kwargs = self._set_scalar_bar_title(kwargs)
 
@@ -144,9 +144,17 @@ class _PyVistaPlotter:
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
         if not deform_by:
-            grid = meshed_region.grid
+            if as_linear != meshed_region.as_linear:
+                grid = meshed_region._as_vtk(
+                    meshed_region.nodes.coordinates_field, as_linear=as_linear
+                )
+                meshed_region.as_linear = as_linear
+            else:
+                grid = meshed_region.grid
         else:
-            grid = meshed_region._as_vtk(meshed_region.deform_by(deform_by, scale_factor))
+            grid = meshed_region._as_vtk(
+                meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
+            )
 
         # show axes
         show_axes = kwargs.pop("show_axes", None)
@@ -228,6 +236,7 @@ class _PyVistaPlotter:
         deform_by=None,
         scale_factor=1.0,
         scale_factor_legend=None,
+        as_linear=True,
         **kwargs,
     ):
         # Get the field name
@@ -276,7 +285,9 @@ class _PyVistaPlotter:
         if not deform_by:
             grid = meshed_region.grid
         else:
-            grid = meshed_region._as_vtk(meshed_region.deform_by(deform_by, scale_factor))
+            grid = meshed_region._as_vtk(
+                meshed_region.deform_by(deform_by, scale_factor, as_linear)
+            )
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
@@ -448,7 +459,7 @@ class DpfPlotter:
     def add_plane(self, plane, field=None, **kwargs):
         self._internal_plotter.add_plane(plane, field, **kwargs)
 
-    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
+    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, as_linear=True, **kwargs):
         """Add a mesh to plot.
 
         Parameters
@@ -460,6 +471,9 @@ class DpfPlotter:
             Defaults to None.
         scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
+        as_linear : bool, optional
+            Whether to show quadratic elements as their linear equivalents (for faster rendering).
+            Defaults to ``True``.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :func:`pyvista.plot`.
@@ -481,6 +495,7 @@ class DpfPlotter:
             meshed_region=meshed_region,
             deform_by=deform_by,
             scale_factor=scale_factor,
+            as_linear=as_linear,
             **kwargs,
         )
 
@@ -494,6 +509,7 @@ class DpfPlotter:
         label_point_size=20,
         deform_by=None,
         scale_factor=1.0,
+        as_linear=True,
         **kwargs,
     ):
         """Add a field containing data to the plotter.
@@ -518,6 +534,9 @@ class DpfPlotter:
             Defaults to None.
         scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
+        as_linear : bool, optional
+            Whether to show quadratic elements as their linear equivalents (for faster rendering).
+            Defaults to ``True``.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :func:`pyvista.plot`.
@@ -543,6 +562,7 @@ class DpfPlotter:
             label_point_size=label_point_size,
             deform_by=deform_by,
             scale_factor=scale_factor,
+            as_linear=as_linear,
             **kwargs,
         )
 

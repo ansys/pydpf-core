@@ -108,6 +108,7 @@ class MeshedRegion:
         self._full_grid = None
         self._elements = None
         self._nodes = None
+        self.as_linear = None
 
     def _get_scoping(self, loc=locations.nodal):
         """

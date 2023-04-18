@@ -204,16 +204,10 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
 
     # Handle semiparabolic elements
     nullmask = connectivity.data == -1
-    # connectivity.data[nullmask] = 0
-    # if nullmask.any():
-    #     nodes[0] = np.nan
     if nullmask.any():
         repeated_data_pointers = connectivity._data_pointer.repeat(repeats=elem_size)
         connectivity.data[nullmask] = connectivity.data[repeated_data_pointers[nullmask]]
 
-    # For each polyhedron, cell = [nCellFaces, nFace0pts, i, j, k, ..., nFace1pts, i, j, k, ...]
-    # polys_ind = insert_ind[polyhedron_mask]
-    # cells = np.take(cells, sorted(set(insert_ind)-set(polys_ind)))
     # partition cells in vtk format
     cells = np.insert(connectivity.data, insert_ind, elem_size)
 
@@ -252,7 +246,6 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
 
     # convert kAns to VTK cell type
     offset = None
-    as_linear = True
     if as_linear:
         # Map the vtk_cell_type to linear versions of the initial elements types
         vtk_cell_type = VTK_LINEAR_MAPPING[etypes]
@@ -273,23 +266,21 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
             mask[insert_ind_quad8 + 4] = True
             cells[insert_ind_quad8] //= 2
 
-        anstri6_mask = etypes == 4  # kAnsTri6 = 4
-        if np.any(anstri6_mask):
-            if offset is None:
-                offset = compute_offset()
-            cell_pos = offset[anstri6_mask]
-            cells[cell_pos + 4] = cells[cell_pos + 1]
-            cells[cell_pos + 5] = cells[cell_pos + 2]
-            cells[cell_pos + 6] = cells[cell_pos + 3]
+        tri6_mask = etypes == 4  # kAnsTri6 = 4
+        if np.any(tri6_mask):
+            insert_ind_tri6 = insert_ind[tri6_mask]
+            insert_ind_tri6 += np.arange(insert_ind_tri6.size)
+            mask[insert_ind_tri6 + 1] = True
+            mask[insert_ind_tri6 + 2] = True
+            mask[insert_ind_tri6 + 3] = True
+            cells[insert_ind_tri6] //= 2
 
         cells = cells[mask]
+        insert_ind_mask = quad8_mask + tri6_mask
+        insert_ind = insert_ind[insert_ind_mask]
 
     else:
         vtk_cell_type = VTK_MAPPING[etypes]
-        # visualization bug within VTK with quadratic surf cells
-        ansquad8_mask = etypes == 6
-        if np.any(ansquad8_mask):  # kAnsQuad8
-            pass
 
     # different treatment depending on the version of vtk
     if VTK9:
