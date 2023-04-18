@@ -252,21 +252,26 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
 
     # convert kAns to VTK cell type
     offset = None
-    as_linear = False
+    as_linear = True
     if as_linear:
+        # Map the vtk_cell_type to linear versions of the initial elements types
         vtk_cell_type = VTK_LINEAR_MAPPING[etypes]
 
-        # visualization bug within VTK with quadratic surf cells
-        ansquad8_mask = etypes == 6
-        if np.any(ansquad8_mask):  # kAnsQuad8
-
-            # simply copy the edge node indices to the mid-side points
-            offset = compute_offset()
-            cell_pos = offset[ansquad8_mask]
-            cells[cell_pos + 5] = cells[cell_pos + 1]
-            cells[cell_pos + 6] = cells[cell_pos + 2]
-            cells[cell_pos + 7] = cells[cell_pos + 3]
-            cells[cell_pos + 8] = cells[cell_pos + 4]
+        # Create a global mask of connectivity values to take
+        mask = np.full(cells.shape, False)
+        mask[compute_offset()] = True
+        # Get a mask of quad8 elements in etypes
+        quad8_mask = etypes == 6
+        # If any quad8
+        if np.any(quad8_mask):  # kAnsQuad8
+            # Get the starting indices of quad8 elements in cells
+            insert_ind_quad8 = insert_ind[quad8_mask]
+            insert_ind_quad8 += np.arange(insert_ind_quad8.size)
+            mask[insert_ind_quad8 + 1] = True
+            mask[insert_ind_quad8 + 2] = True
+            mask[insert_ind_quad8 + 3] = True
+            mask[insert_ind_quad8 + 4] = True
+            cells[insert_ind_quad8] //= 2
 
         anstri6_mask = etypes == 4  # kAnsTri6 = 4
         if np.any(anstri6_mask):
@@ -276,6 +281,8 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
             cells[cell_pos + 4] = cells[cell_pos + 1]
             cells[cell_pos + 5] = cells[cell_pos + 2]
             cells[cell_pos + 6] = cells[cell_pos + 3]
+
+        cells = cells[mask]
 
     else:
         vtk_cell_type = VTK_MAPPING[etypes]
