@@ -202,11 +202,13 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
     insert_ind = np.cumsum(elem_size)
     insert_ind = np.hstack(([0], insert_ind))[:-1]
 
-    # Handle semiparabolic elements
-    nullmask = connectivity.data == -1
-    if nullmask.any():
-        repeated_data_pointers = connectivity._data_pointer.repeat(repeats=elem_size)
-        connectivity.data[nullmask] = connectivity.data[repeated_data_pointers[nullmask]]
+    # if not as_linear:
+    #     # Pre-handle semi-parabolic elements
+    #     semi_mask = connectivity.data == -1
+    #     if semi_mask.any():
+    #         # Modify -1 connectivity values
+    #         repeated_data_pointers = connectivity._data_pointer.repeat(repeats=elem_size)
+    #         connectivity.data[semi_mask] = connectivity.data[repeated_data_pointers[semi_mask]]
 
     # partition cells in vtk format
     cells = np.insert(connectivity.data, insert_ind, elem_size)
@@ -253,6 +255,7 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
         # Create a global mask of connectivity values to take
         mask = np.full(cells.shape, False)
         mask[compute_offset()] = True
+
         # Get a mask of quad8 elements in etypes
         quad8_mask = etypes == 6
         # If any quad8
@@ -274,13 +277,40 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
             mask[insert_ind_tri6 + 2] = True
             mask[insert_ind_tri6 + 3] = True
             cells[insert_ind_tri6] //= 2
-
         cells = cells[mask]
-        insert_ind_mask = quad8_mask + tri6_mask
-        insert_ind = insert_ind[insert_ind_mask]
 
     else:
         vtk_cell_type = VTK_MAPPING[etypes]
+
+        # Handle semi-parabolic elements
+        semi_mask = cells == -1
+        if semi_mask.any():
+            cells_insert_ind = compute_offset()
+            # Create a global mask of connectivity values to take
+            mask = np.full(cells.shape, True)
+            # Build a map of size cells with repeated element beginning index
+            repeated_insert_ind = cells_insert_ind.repeat(repeats=elem_size + 1)
+            # Apply the semi-mask to get a unique set of indices of semi-parabolic elements in cells
+            semi_indices_in_cells = np.array(list(set(repeated_insert_ind[semi_mask])))
+            semi_sizes = cells[semi_indices_in_cells]
+            semi_quad8 = semi_sizes == 8
+            if semi_quad8.any():
+                mask[semi_indices_in_cells[semi_quad8] + 5] = False
+                mask[semi_indices_in_cells[semi_quad8] + 6] = False
+                mask[semi_indices_in_cells[semi_quad8] + 7] = False
+                mask[semi_indices_in_cells[semi_quad8] + 8] = False
+                cells[semi_indices_in_cells[semi_quad8]] //= 2
+
+                vtk_cell_type[cells[cells_insert_ind[etypes == 6]] == 4] = VTK_LINEAR_MAPPING[6]
+            semi_tri6 = semi_sizes == 6
+            if semi_tri6.any():
+                mask[semi_indices_in_cells[semi_tri6] + 4] = False
+                mask[semi_indices_in_cells[semi_tri6] + 5] = False
+                mask[semi_indices_in_cells[semi_tri6] + 6] = False
+                cells[semi_indices_in_cells[semi_tri6]] //= 2
+                vtk_cell_type[cells[cells_insert_ind[etypes == 4]] == 3] = VTK_LINEAR_MAPPING[4]
+            # Update cells with the mask
+            cells = cells[mask]
 
     # different treatment depending on the version of vtk
     if VTK9:
