@@ -746,6 +746,7 @@ class Plotter:
         meshed_region=None,
         deform_by=None,
         scale_factor=1.0,
+        as_linear=True,
         **kwargs,
     ):
         """Plot the contour result on its mesh support.
@@ -765,6 +766,9 @@ class Plotter:
             Defaults to None.
         scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
+        as_linear : bool, optional
+            Whether to show quadratic elements as their linear equivalents (for faster rendering).
+            Defaults to ``True``.
         **kwargs : optional
             Additional keyword arguments for the plotter. For more information,
             see ``help(pyvista.plot)``.
@@ -880,10 +884,14 @@ class Plotter:
             bound_method=self._internal_plotter._plotter.add_mesh, **kwargs
         )
         if deform_by:
-            grid = mesh._as_vtk(mesh.deform_by(deform_by, scale_factor))
+            grid = mesh._as_vtk(mesh.deform_by(deform_by, scale_factor), as_linear=as_linear)
             self._internal_plotter.add_scale_factor_legend(scale_factor, **kwargs)
         else:
-            grid = mesh.grid
+            if as_linear != mesh.as_linear:
+                grid = mesh._as_vtk(mesh.nodes.coordinates_field, as_linear=as_linear)
+                mesh.as_linear = as_linear
+            else:
+                grid = mesh.grid
         grid.clear_data()
         self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
