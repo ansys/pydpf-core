@@ -4,6 +4,7 @@ select = W191, W391, E115, E117, E122, E124, E125, E301, W291, W293, E225, E231,
 per-file-ignores =
     __init__.py:F401,F403
     src/ansys/dpf/gate/*:E501,F401
+    src/ansys/grpc/dpf/*:E501,F401
 count = True
 max-complexity = 10
 max-line-length = 100
