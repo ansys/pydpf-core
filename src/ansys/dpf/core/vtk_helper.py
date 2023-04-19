@@ -246,6 +246,7 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
         """Return the starting point of a cell in the cells array"""
         return insert_ind + np.arange(insert_ind.size)
 
+    cells_insert_ind = compute_offset()
     # convert kAns to VTK cell type
     offset = None
     if as_linear:
@@ -253,29 +254,28 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
         vtk_cell_type = VTK_LINEAR_MAPPING[etypes]
 
         # Create a global mask of connectivity values to take
-        mask = np.full(cells.shape, False)
-        mask[compute_offset()] = True
+        mask = np.full(cells.shape, True)
 
         # Get a mask of quad8 elements in etypes
         quad8_mask = etypes == 6
         # If any quad8
         if np.any(quad8_mask):  # kAnsQuad8
             # Get the starting indices of quad8 elements in cells
-            insert_ind_quad8 = insert_ind[quad8_mask]
-            insert_ind_quad8 += np.arange(insert_ind_quad8.size)
-            mask[insert_ind_quad8 + 1] = True
-            mask[insert_ind_quad8 + 2] = True
-            mask[insert_ind_quad8 + 3] = True
-            mask[insert_ind_quad8 + 4] = True
+            insert_ind_quad8 = cells_insert_ind[quad8_mask]
+            # insert_ind_quad8 += np.arange(insert_ind_quad8.size)
+            mask[insert_ind_quad8 + 5] = False
+            mask[insert_ind_quad8 + 6] = False
+            mask[insert_ind_quad8 + 7] = False
+            mask[insert_ind_quad8 + 8] = False
             cells[insert_ind_quad8] //= 2
 
         tri6_mask = etypes == 4  # kAnsTri6 = 4
         if np.any(tri6_mask):
-            insert_ind_tri6 = insert_ind[tri6_mask]
-            insert_ind_tri6 += np.arange(insert_ind_tri6.size)
-            mask[insert_ind_tri6 + 1] = True
-            mask[insert_ind_tri6 + 2] = True
-            mask[insert_ind_tri6 + 3] = True
+            insert_ind_tri6 = cells_insert_ind[tri6_mask]
+            # insert_ind_tri6 += np.arange(insert_ind_tri6.size)
+            mask[insert_ind_tri6 + 4] = False
+            mask[insert_ind_tri6 + 5] = False
+            mask[insert_ind_tri6 + 6] = False
             cells[insert_ind_tri6] //= 2
         cells = cells[mask]
 
