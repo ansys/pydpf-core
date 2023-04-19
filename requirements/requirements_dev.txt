@@ -1,3 +1,2 @@
-ansys-dpf-gate==0.3.2.dev0
 ansys-dpf-gatebin==0.3.2.dev0
 ansys-grpc-dpf==0.7.2.dev0
