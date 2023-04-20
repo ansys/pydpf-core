@@ -4,7 +4,7 @@ call sphinx-apidoc -o ../docs/source/api ../src/ansys ../src/ansys/dpf/core/log.
 ../src/ansys/dpf/core/field_base.py ../src/ansys/dpf/core/cache.py ../src/ansys/dpf/core/misc.py ^
 ../src/ansys/dpf/core/check_version.py ../src/ansys/dpf/core/operators/build.py ../src/ansys/dpf/core/operators/specification.py ^
 ../src/ansys/dpf/core/vtk_helper.py ../src/ansys/dpf/core/label_space.py ../src/ansys/dpf/core/examples/python_plugins/* ^
-../src/ansys/dpf/core/examples/examples.py ^
+../src/ansys/dpf/core/examples/examples.py ../src/ansys/dpf/gate/* ../src/ansys/dpf/gatebin/* ../src/ansys/dpf/grpc/* ^
  -f --implicit-namespaces --separate  --no-headings
 pushd .
 cd ../docs/
