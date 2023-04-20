@@ -205,8 +205,8 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
     # Handle semiparabolic elements
     nullmask = connectivity.data == -1
     connectivity.data[nullmask] = 0
-    if nullmask.any():
-        nodes[0] = np.nan
+    # if nullmask.any():
+    #     nodes[0] = np.nan
 
     # For each polyhedron, cell = [nCellFaces, nFace0pts, i, j, k, ..., nFace1pts, i, j, k, ...]
     # polys_ind = insert_ind[polyhedron_mask]
