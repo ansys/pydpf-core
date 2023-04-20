@@ -187,3 +187,8 @@ dpf-standalone/
 # to be deleted
 
 search/
+
+# ansys-dpf-gate, ansys-grpc-dpf and ansys-dpg-gatebin
+src/ansys/dpf/gate/
+src/ansys/dpf/gatebin/
+src/ansys/grpc/
