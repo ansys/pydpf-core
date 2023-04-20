@@ -301,14 +301,19 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
                 mask[semi_indices_in_cells[semi_quad8] + 8] = False
                 cells[semi_indices_in_cells[semi_quad8]] //= 2
 
-                vtk_cell_type[cells[cells_insert_ind[etypes == 6]] == 4] = VTK_LINEAR_MAPPING[6]
+                quad8_mask = etypes == 6
+                semi_quad8_mask = (cells[cells_insert_ind] == 4) & quad8_mask
+                vtk_cell_type[semi_quad8_mask] = VTK_LINEAR_MAPPING[6]
             semi_tri6 = semi_sizes == 6
             if semi_tri6.any():
                 mask[semi_indices_in_cells[semi_tri6] + 4] = False
                 mask[semi_indices_in_cells[semi_tri6] + 5] = False
                 mask[semi_indices_in_cells[semi_tri6] + 6] = False
                 cells[semi_indices_in_cells[semi_tri6]] //= 2
-                vtk_cell_type[cells[cells_insert_ind[etypes == 4]] == 3] = VTK_LINEAR_MAPPING[4]
+
+                tri6_mask = etypes == 4
+                semi_tri6_mask = (cells[cells_insert_ind] == 3) & tri6_mask
+                vtk_cell_type[semi_tri6_mask] = VTK_LINEAR_MAPPING[4]
             # Update cells with the mask
             cells = cells[mask]
 
