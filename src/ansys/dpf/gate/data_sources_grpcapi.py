@@ -16,7 +16,7 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
     @staticmethod
     def init_data_sources_environment(obj):
-        from ansys.grpc.dpf import data_sources_pb2_grpc
+        from ansys.dpf.grpc import data_sources_pb2_grpc
 
         obj._server.create_stub_if_necessary(
             DataSourcesGRPCAPI.STUBNAME, data_sources_pb2_grpc.DataSourcesServiceStub
@@ -25,7 +25,7 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
     @staticmethod
     def data_sources_new_on_client(server):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         request = base_pb2.Empty()
         return _get_stub(server).Create(request)
@@ -36,7 +36,7 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
     @staticmethod
     def data_sources_set_result_file_path_utf8(dataSources, name):
-        from ansys.grpc.dpf import data_sources_pb2
+        from ansys.dpf.grpc import data_sources_pb2
 
         request = data_sources_pb2.UpdateRequest()
         request.result_path = True
@@ -46,7 +46,7 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
     @staticmethod
     def data_sources_set_result_file_path_with_key_utf8(dataSources, name, sKey):
-        from ansys.grpc.dpf import data_sources_pb2
+        from ansys.dpf.grpc import data_sources_pb2
 
         request = data_sources_pb2.UpdateRequest()
         request.result_path = True
@@ -57,7 +57,7 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
     @staticmethod
     def data_sources_set_domain_result_file_path_utf8(dataSources, name, id):
-        from ansys.grpc.dpf import data_sources_pb2
+        from ansys.dpf.grpc import data_sources_pb2
 
         request = data_sources_pb2.UpdateRequest()
         request.result_path = True
@@ -69,7 +69,7 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
     @staticmethod
     def data_sources_add_file_path_utf8(dataSources, name):
-        from ansys.grpc.dpf import data_sources_pb2
+        from ansys.dpf.grpc import data_sources_pb2
 
         request = data_sources_pb2.UpdateRequest()
         request.path = name
@@ -78,7 +78,7 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
     @staticmethod
     def data_sources_add_file_path_with_key_utf8(dataSources, name, sKey):
-        from ansys.grpc.dpf import data_sources_pb2
+        from ansys.dpf.grpc import data_sources_pb2
 
         request = data_sources_pb2.UpdateRequest()
         request.key = sKey
@@ -88,7 +88,7 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
     @staticmethod
     def data_sources_add_domain_file_path_with_key_utf8(dataSources, name, sKey, id):
-        from ansys.grpc.dpf import data_sources_pb2
+        from ansys.dpf.grpc import data_sources_pb2
 
         request = data_sources_pb2.UpdateRequest()
         request.key = sKey
@@ -100,7 +100,7 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
     @staticmethod
     def data_sources_add_file_path_for_specified_result_utf8(dataSources, name, sKey, sResultKey):
-        from ansys.grpc.dpf import data_sources_pb2
+        from ansys.dpf.grpc import data_sources_pb2
 
         request = data_sources_pb2.UpdateRequest()
         request.key = sKey
@@ -111,7 +111,7 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
     @staticmethod
     def data_sources_add_upstream_data_sources(dataSources, upstreamDataSources):
-        from ansys.grpc.dpf import data_sources_pb2
+        from ansys.dpf.grpc import data_sources_pb2
 
         request = data_sources_pb2.UpdateUpstreamRequest()
         request.upstream_data_sources.CopyFrom(upstreamDataSources._internal_obj)
@@ -122,7 +122,7 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
     def data_sources_add_upstream_data_sources_for_specified_result(
         dataSources, upstreamDataSources, sResultKey
     ):
-        from ansys.grpc.dpf import data_sources_pb2
+        from ansys.dpf.grpc import data_sources_pb2
 
         request = data_sources_pb2.UpdateUpstreamRequest()
         request.upstream_data_sources.CopyFrom(upstreamDataSources._internal_obj)
@@ -132,7 +132,7 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
     @staticmethod
     def data_sources_add_upstream_domain_data_sources(dataSources, upstreamDataSources, id):
-        from ansys.grpc.dpf import data_sources_pb2
+        from ansys.dpf.grpc import data_sources_pb2
 
         request = data_sources_pb2.UpdateUpstreamRequest()
         request.upstream_data_sources.CopyFrom(upstreamDataSources._internal_obj)

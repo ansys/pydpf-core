@@ -7,7 +7,7 @@ from ansys.dpf.gate import errors
 
 
 def _get_stub(server):
-    from ansys.grpc.dpf import operator_pb2_grpc
+    from ansys.dpf.grpc import operator_pb2_grpc
 
     server.create_stub_if_necessary(OperatorGRPCAPI.STUBNAME, operator_pb2_grpc.OperatorServiceStub)
     return server.get_stub(OperatorGRPCAPI.STUBNAME)
@@ -19,7 +19,7 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
 
     @staticmethod
     def init_operator_environment(obj):
-        from ansys.grpc.dpf import operator_pb2_grpc
+        from ansys.dpf.grpc import operator_pb2_grpc
 
         obj._server.create_stub_if_necessary(
             OperatorGRPCAPI.STUBNAME, operator_pb2_grpc.OperatorServiceStub
@@ -28,7 +28,7 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
 
     @staticmethod
     def operator_new_on_client(operatorName, client):
-        from ansys.grpc.dpf import operator_pb2
+        from ansys.dpf.grpc import operator_pb2
 
         request = operator_pb2.CreateOperatorRequest()
         request.name = operatorName
@@ -36,7 +36,7 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
 
     @staticmethod
     def operator_set_config(op, config):
-        from ansys.grpc.dpf import operator_pb2
+        from ansys.dpf.grpc import operator_pb2
 
         request = operator_pb2.UpdateConfigRequest()
         request.op.CopyFrom(op._internal_obj)
@@ -53,7 +53,7 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
 
     @staticmethod
     def update_init(op, pin):
-        from ansys.grpc.dpf import operator_pb2
+        from ansys.dpf.grpc import operator_pb2
 
         request = operator_pb2.UpdateRequest()
         request.op.CopyFrom(op._internal_obj)
@@ -189,7 +189,7 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
 
     @staticmethod
     def get_output_init(op, iOutput):
-        from ansys.grpc.dpf import operator_pb2
+        from ansys.dpf.grpc import operator_pb2
 
         request = operator_pb2.OperatorEvaluationRequest()
         request.op.CopyFrom(op._internal_obj)
@@ -198,7 +198,7 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
 
     @staticmethod
     def get_output_finish(op, request, stype, subtype):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         request.type = base_pb2.Type.Value(stype.upper())
         if subtype != "":
@@ -412,7 +412,7 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
 
     @staticmethod
     def operator_run(op):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         request = OperatorGRPCAPI.get_output_init(op, 0)
         request.type = base_pb2.Type.Value("RUN")

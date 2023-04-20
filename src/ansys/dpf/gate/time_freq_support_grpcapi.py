@@ -18,7 +18,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def _cumulative_index_request(bIsComplex, timeFreq, freq):
-        from ansys.grpc.dpf import time_freq_support_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2
 
         request = time_freq_support_pb2.GetRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
@@ -29,7 +29,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def _copy_into(request, time_freq_support):
-        from ansys.grpc.dpf import time_freq_support_pb2, support_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2, support_pb2
 
         if isinstance(time_freq_support, time_freq_support_pb2.TimeFreqSupport):
             message = time_freq_support
@@ -43,7 +43,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def init_time_freq_support_environment(obj):
-        from ansys.grpc.dpf import time_freq_support_pb2_grpc
+        from ansys.dpf.grpc import time_freq_support_pb2_grpc
 
         obj._server.create_stub_if_necessary(
             TimeFreqSupportGRPCAPI.STUBNAME, time_freq_support_pb2_grpc.TimeFreqSupportServiceStub
@@ -52,7 +52,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def time_freq_support_new_on_client(client):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         request = base_pb2.Empty()
         return _get_stub(client).Create(request)
@@ -60,7 +60,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
     @staticmethod
     def list(support, stage_num=None):
         from types import SimpleNamespace
-        from ansys.grpc.dpf import time_freq_support_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2
 
         server = support._server
         api = DataProcessingGRPCAPI
@@ -96,7 +96,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def time_freq_support_get_number_sets(timeFreq):
-        from ansys.grpc.dpf import time_freq_support_pb2, base_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2, base_pb2
 
         request = time_freq_support_pb2.CountRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
@@ -105,7 +105,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def time_freq_support_set_shared_time_freqs(timeFreq, frequencies):
-        from ansys.grpc.dpf import time_freq_support_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2
 
         request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
@@ -114,7 +114,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def time_freq_support_set_shared_imaginary_freqs(timeFreq, complex_frequencies):
-        from ansys.grpc.dpf import time_freq_support_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2
 
         request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
@@ -123,7 +123,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def time_freq_support_set_shared_rpms(timeFreq, rpms):
-        from ansys.grpc.dpf import time_freq_support_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2
 
         request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
@@ -132,7 +132,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def time_freq_support_set_harmonic_indices(timeFreq, field, stageNum):
-        from ansys.grpc.dpf import time_freq_support_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2
 
         request = time_freq_support_pb2.TimeFreqSupportUpdateRequest()
         cyclic_data = time_freq_support_pb2.CyclicHarmonicData()
@@ -172,7 +172,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
     def time_freq_support_get_time_freq_cummulative_index_by_value_and_load_step(
         timeFreq, step, substep, freq, cplx
     ):
-        from ansys.grpc.dpf import time_freq_support_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2
 
         request = time_freq_support_pb2.GetRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
@@ -187,7 +187,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def time_freq_support_get_time_freq_cummulative_index_by_step(timeFreq, step, subStep):
-        from ansys.grpc.dpf import time_freq_support_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2
 
         request = time_freq_support_pb2.GetRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
@@ -198,7 +198,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def time_freq_support_get_time_freq_by_step(timeFreq, stepIndex, subStepIndex):
-        from ansys.grpc.dpf import time_freq_support_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2
 
         request = time_freq_support_pb2.GetRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
@@ -209,7 +209,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def time_freq_support_get_imaginary_freq_by_step(timeFreq, stepIndex, subStepIndex):
-        from ansys.grpc.dpf import time_freq_support_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2
 
         request = time_freq_support_pb2.GetRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
@@ -220,7 +220,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def time_freq_support_get_time_freq_by_cumul_index(timeFreq, iCumulativeIndex):
-        from ansys.grpc.dpf import time_freq_support_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2
 
         request = time_freq_support_pb2.GetRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)
@@ -230,7 +230,7 @@ class TimeFreqSupportGRPCAPI(time_freq_support_abstract_api.TimeFreqSupportAbstr
 
     @staticmethod
     def time_freq_support_get_imaginary_freq_by_cumul_index(timeFreq, iCumulativeIndex):
-        from ansys.grpc.dpf import time_freq_support_pb2
+        from ansys.dpf.grpc import time_freq_support_pb2
 
         request = time_freq_support_pb2.GetRequest()
         TimeFreqSupportGRPCAPI._copy_into(request.time_freq_support, timeFreq._internal_obj)

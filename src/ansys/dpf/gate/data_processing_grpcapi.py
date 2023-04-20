@@ -12,14 +12,14 @@ from ansys.dpf.gate import errors, object_handler, misc
 
 
 def _get_stub(server):
-    from ansys.grpc.dpf import base_pb2_grpc
+    from ansys.dpf.grpc import base_pb2_grpc
 
     server.create_stub_if_necessary(DataProcessingGRPCAPI.STUBNAME, base_pb2_grpc.BaseServiceStub)
     return server.get_stub(DataProcessingGRPCAPI.STUBNAME)
 
 
 def _get_server_info_response(client):
-    from ansys.grpc.dpf import base_pb2
+    from ansys.dpf.grpc import base_pb2
 
     request = base_pb2.ServerInfoRequest()
     try:
@@ -34,7 +34,7 @@ class DataProcessingYielderHelper:
     @staticmethod
     def file_chunk_yielder(file_path, to_server_file_path, use_tmp_dir=False):
         import os
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         request = base_pb2.UploadFileRequest()
         request.server_file_path = to_server_file_path
@@ -74,7 +74,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
 
     @staticmethod
     def init_data_processing_environment(object):
-        from ansys.grpc.dpf import base_pb2_grpc
+        from ansys.dpf.grpc import base_pb2_grpc
 
         if not hasattr(object, "_server"):
             object.create_stub_if_necessary(
@@ -91,7 +91,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
 
     @staticmethod
     def bind_delete_server_func(object):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         object._preparing_shutdown_func = (_get_stub(object).PrepareShutdown, base_pb2.Empty())
         if hasattr(_get_stub(object), "ReleaseServer"):
@@ -107,7 +107,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
     def data_processing_delete_shared_object(data):
         if not data._server.meet_version("4.0"):
             # using the scoping API (same backend call than base_pb2.DeleteRequest())
-            from ansys.grpc.dpf import scoping_pb2
+            from ansys.dpf.grpc import scoping_pb2
             from ansys.dpf.gate import scoping_grpcapi
 
             request = scoping_pb2.Scoping()
@@ -118,7 +118,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
             scoping_grpcapi.ScopingGRPCAPI.init_scoping_environment(data)
             scoping_grpcapi._get_stub(data._server).Delete(request)
         else:
-            from ansys.grpc.dpf import base_pb2
+            from ansys.dpf.grpc import base_pb2
 
             request = base_pb2.DeleteRequest()
             if isinstance(data, list):
@@ -131,7 +131,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
 
     @staticmethod
     def data_processing_duplicate_object_reference(base):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         if not hasattr(base_pb2, "DuplicateRefRequest"):
             if isinstance(base, object_handler.ObjHandler):
@@ -147,7 +147,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
     def data_processing_initialize_with_context_on_client(
         client, context, dataProcessingCore_xml_path
     ):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         request = base_pb2.InitializationRequest()
         request.context = context
@@ -157,7 +157,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
 
     @staticmethod
     def data_processing_apply_context_on_client(client, context, dataProcessingCore_xml_path):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         request = base_pb2.InitializationRequest()
         request.context = context
@@ -169,7 +169,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
 
     @staticmethod
     def data_processing_release_on_client(client, context):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         request = base_pb2.InitializationRequest()
         request.context = -context
@@ -177,7 +177,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
 
     @staticmethod
     def data_processing_load_library_on_client(sLibraryKey, sDllPath, sloader_symbol, client):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         request = base_pb2.PluginRequest()
         request.name = sLibraryKey
@@ -220,7 +220,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
     def data_processing_description_string(data):
         try:
             data_obj = data._internal_obj
-            from ansys.grpc.dpf import base_pb2, collection_pb2
+            from ansys.dpf.grpc import base_pb2, collection_pb2
 
             request = base_pb2.DescribeRequest()
             if isinstance(data_obj.id, int):
@@ -263,19 +263,19 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
 
     @staticmethod
     def data_processing_release_server(client):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         _get_stub(client).ReleaseServer(base_pb2.Empty())
 
     @staticmethod
     def data_processing_prepare_shutdown(client):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         _get_stub(client).PrepareShutdown(base_pb2.Empty())
 
     @staticmethod
     def data_processing_list_operators_as_collection_on_client(client):
-        from ansys.grpc.dpf import operator_pb2
+        from ansys.dpf.grpc import operator_pb2
         from ansys.dpf.gate import operator_grpcapi
 
         service = operator_grpcapi._get_stub(client).ListAllOperators(
@@ -288,7 +288,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
 
     @staticmethod
     def data_processing_get_global_config_as_data_tree_on_client(client):
-        from ansys.grpc.dpf import base_pb2, data_tree_pb2
+        from ansys.dpf.grpc import base_pb2, data_tree_pb2
 
         id = _get_stub(client).GetConfig(base_pb2.Empty()).runtime_core_config_data_tree_id
         out = data_tree_pb2.DataTree()
@@ -301,7 +301,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
 
     @staticmethod
     def data_processing_download_file(client, server_file_path, to_client_file_path):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
         import sys
 
         request = base_pb2.DownloadFileRequest()
@@ -339,7 +339,7 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
     def data_processing_download_files(
         client, server_file_path, to_client_file_path, specific_extension
     ):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
         import os
         import pathlib
 

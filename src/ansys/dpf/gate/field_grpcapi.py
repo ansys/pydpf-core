@@ -18,7 +18,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def init_field_environment(object):
-        from ansys.grpc.dpf import field_pb2_grpc
+        from ansys.dpf.grpc import field_pb2_grpc
 
         if hasattr(object, "_server"):
             server = object._server
@@ -31,7 +31,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
     def field_new_with1_ddimensionnality_on_client(
         client, fieldDimensionality, numComp, numEntitiesToReserve, location
     ):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.FieldRequest()
         request.nature = fieldDimensionality
@@ -44,7 +44,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
     def field_new_with2_ddimensionnality_on_client(
         client, fieldDimensionality, numCompN, numCompM, numEntitiesToReserve, location
     ):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.FieldRequest()
         request.nature = fieldDimensionality
@@ -56,7 +56,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_get_number_elementary_data(field):
-        from ansys.grpc.dpf import base_pb2, field_pb2
+        from ansys.dpf.grpc import base_pb2, field_pb2
 
         request = field_pb2.CountRequest()
         request.entity = base_pb2.NUM_ELEMENTARY_DATA
@@ -65,7 +65,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_get_number_of_components(field):
-        from ansys.grpc.dpf import base_pb2, field_pb2
+        from ansys.dpf.grpc import base_pb2, field_pb2
 
         request = field_pb2.CountRequest()
         request.entity = base_pb2.NUM_COMPONENT
@@ -74,7 +74,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_get_data_size(field):
-        from ansys.grpc.dpf import base_pb2, field_pb2
+        from ansys.dpf.grpc import base_pb2, field_pb2
 
         if field._server.meet_version("4.0"):
             request = field_pb2.CountRequest()
@@ -88,7 +88,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_set_cscoping(field, scoping):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.UpdateScopingRequest()
         request.scoping.CopyFrom(scoping._internal_obj)
@@ -97,7 +97,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_get_cscoping(field):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.GetRequest()
         request.field.CopyFrom(field._internal_obj)
@@ -105,7 +105,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_get_entity_data(field, EntityIndex):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.GetElementaryDataRequest()
         request.field.CopyFrom(field._internal_obj)
@@ -127,7 +127,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_push_back(field, EntityId, size, data):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         if isinstance(data, (np.ndarray, np.generic)):
             data = data.reshape(data.size)
@@ -155,7 +155,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_get_data_pointer(field, np_array):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.ListRequest()
         request.field.CopyFrom(field._internal_obj)
@@ -165,7 +165,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_set_data_pointer(field, size, data):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         if isinstance(data, (np.ndarray, np.generic)):
             data = np.array(data.reshape(data.size), dtype=np.int32)
@@ -182,7 +182,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_get_data(field, np_array):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.ListRequest()
         request.field.CopyFrom(field._internal_obj)
@@ -200,7 +200,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_raw_set_data(field, data, metadata):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.UpdateDataRequest()
         request.field.CopyFrom(field._internal_obj)
@@ -210,7 +210,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_set_data(field, size, data):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         if isinstance(data, (np.ndarray, np.generic)):
             data = np.array(data.reshape(data.size), dtype=float)
@@ -221,7 +221,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_resize(field, dataSize, scopingSize):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.UpdateSizeRequest()
         request.field.CopyFrom(field._internal_obj)
@@ -231,7 +231,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_get_shared_field_definition(field):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.GetRequest()
         request.field.CopyFrom(field._internal_obj)
@@ -239,7 +239,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_set_field_definition(field, field_definition):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.UpdateFieldDefinitionRequest()
         request.field_def.CopyFrom(field_definition._internal_obj)
@@ -248,7 +248,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_get_support_as_meshed_region(field):
-        from ansys.grpc.dpf import field_pb2, base_pb2, meshed_region_pb2
+        from ansys.dpf.grpc import field_pb2, base_pb2, meshed_region_pb2
 
         request = field_pb2.SupportRequest()
         request.field.CopyFrom(field._internal_obj)
@@ -268,7 +268,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_get_support(field):
-        from ansys.grpc.dpf import field_pb2, base_pb2
+        from ansys.dpf.grpc import field_pb2, base_pb2
 
         request = field_pb2.SupportRequest()
         request.field.CopyFrom(field._internal_obj)
@@ -281,7 +281,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_get_support_as_time_freq_support(field):
-        from ansys.grpc.dpf import field_pb2, base_pb2
+        from ansys.dpf.grpc import field_pb2, base_pb2
 
         request = field_pb2.SupportRequest()
         request.field.CopyFrom(field._internal_obj)
@@ -294,7 +294,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_set_meshed_region_as_support(field, support):
-        from ansys.grpc.dpf import field_pb2, base_pb2
+        from ansys.dpf.grpc import field_pb2, base_pb2
 
         request = field_pb2.SetSupportRequest()
         request.field.CopyFrom(field._internal_obj)
@@ -307,7 +307,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_set_support(field, support):
-        from ansys.grpc.dpf import field_pb2, base_pb2
+        from ansys.dpf.grpc import field_pb2, base_pb2
 
         request = field_pb2.SetSupportRequest()
         request.field.CopyFrom(field._internal_obj)
@@ -320,7 +320,7 @@ class FieldGRPCAPI(field_abstract_api.FieldAbstractAPI):
 
     @staticmethod
     def csfield_get_name(field):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
         from ansys.dpf.gate import data_processing_grpcapi
 
         request = field_pb2.GetRequest()

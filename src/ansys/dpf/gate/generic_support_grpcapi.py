@@ -16,7 +16,7 @@ class GenericSupportGRPCAPI(generic_support_abstract_api.GenericSupportAbstractA
 
     @staticmethod
     def init_generic_support_environment(object):
-        from ansys.grpc.dpf import generic_support_pb2_grpc
+        from ansys.dpf.grpc import generic_support_pb2_grpc
 
         object._server.create_stub_if_necessary(
             GenericSupportGRPCAPI.STUBNAME, generic_support_pb2_grpc.GenericSupportServiceStub
@@ -29,7 +29,7 @@ class GenericSupportGRPCAPI(generic_support_abstract_api.GenericSupportAbstractA
 
     @staticmethod
     def _generic_support_set_field_support_of_property(support, name, field):
-        from ansys.grpc.dpf import generic_support_pb2
+        from ansys.dpf.grpc import generic_support_pb2
 
         request = generic_support_pb2.UpdateRequest()
         request.support.CopyFrom(support._internal_obj)
@@ -56,7 +56,7 @@ class GenericSupportGRPCAPI(generic_support_abstract_api.GenericSupportAbstractA
 
     @staticmethod
     def generic_support_new_on_client(client, name):
-        from ansys.grpc.dpf import generic_support_pb2
+        from ansys.dpf.grpc import generic_support_pb2
 
         request = generic_support_pb2.CreateRequest()
         request.location = name

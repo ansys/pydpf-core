@@ -16,7 +16,7 @@ class SessionGRPCAPI(session_abstract_api.SessionAbstractAPI):
 
     @staticmethod
     def init_session_environment(object):
-        from ansys.grpc.dpf import session_pb2_grpc
+        from ansys.dpf.grpc import session_pb2_grpc
 
         object._server.create_stub_if_necessary(
             SessionGRPCAPI.STUBNAME, session_pb2_grpc.SessionServiceStub
@@ -25,7 +25,7 @@ class SessionGRPCAPI(session_abstract_api.SessionAbstractAPI):
 
     @staticmethod
     def session_new_on_client(client):
-        from ansys.grpc.dpf import session_pb2
+        from ansys.dpf.grpc import session_pb2
 
         request = session_pb2.CreateSessionRequest()
         return _get_stub(client).Create(request)
@@ -36,7 +36,7 @@ class SessionGRPCAPI(session_abstract_api.SessionAbstractAPI):
 
     @staticmethod
     def add_workflow(session, workflow_identifier, workflow):
-        from ansys.grpc.dpf import session_pb2
+        from ansys.dpf.grpc import session_pb2
 
         request = session_pb2.AddRequest()
         request.session.CopyFrom(session._internal_obj)
@@ -46,7 +46,7 @@ class SessionGRPCAPI(session_abstract_api.SessionAbstractAPI):
 
     @staticmethod
     def add_operator(session, identifier, operator, pin):
-        from ansys.grpc.dpf import session_pb2
+        from ansys.dpf.grpc import session_pb2
 
         request = session_pb2.AddRequest()
         request.session.CopyFrom(session._internal_obj)
@@ -78,7 +78,7 @@ class SessionGRPCAPI(session_abstract_api.SessionAbstractAPI):
 
     @staticmethod
     def add_event_handler_type(session, type, datatree):
-        from ansys.grpc.dpf import session_pb2
+        from ansys.dpf.grpc import session_pb2
 
         request = session_pb2.AddRequest()
         request.session.CopyFrom(session._internal_obj)
@@ -89,7 +89,7 @@ class SessionGRPCAPI(session_abstract_api.SessionAbstractAPI):
 
     @staticmethod
     def add_signal_emitter_type(session, type, identifier, datatree):
-        from ansys.grpc.dpf import session_pb2
+        from ansys.dpf.grpc import session_pb2
 
         request = session_pb2.AddRequest()
         request.session.CopyFrom(session._internal_obj)

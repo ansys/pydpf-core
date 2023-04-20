@@ -36,7 +36,7 @@ dependencies = [
 plotting = ["pyvista>=0.32.0", "matplotlib>=3.2"]
 
 [tool.flit.module]
-name = "ansys.dpf.core"
+name = "ansys.dpf"
 
 [project.urls]
 Homepage = "https://dpf.docs.pyansys.com/"

@@ -16,7 +16,7 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
 
     @staticmethod
     def init_support_environment(object):
-        from ansys.grpc.dpf import support_service_pb2_grpc
+        from ansys.dpf.grpc import support_service_pb2_grpc
 
         object._server.create_stub_if_necessary(
             SupportGRPCAPI.STUBNAME, support_service_pb2_grpc.SupportServiceStub
@@ -38,7 +38,7 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
 
     @staticmethod
     def support_get_as_time_freq_support(support):
-        from ansys.grpc.dpf import support_pb2, time_freq_support_pb2
+        from ansys.dpf.grpc import support_pb2, time_freq_support_pb2
 
         internal_obj = support.get_ownership()
         if isinstance(internal_obj, time_freq_support_pb2.TimeFreqSupport):
@@ -55,7 +55,7 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
 
     @staticmethod
     def support_get_as_meshed_support(support):
-        from ansys.grpc.dpf import support_pb2, meshed_region_pb2
+        from ansys.dpf.grpc import support_pb2, meshed_region_pb2
 
         internal_obj = support.get_ownership()
         if isinstance(internal_obj, meshed_region_pb2.MeshedRegion):
@@ -72,7 +72,7 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
 
     @staticmethod
     def support_get_field_support_by_property(support, prop_name):
-        from ansys.grpc.dpf import support_service_pb2
+        from ansys.dpf.grpc import support_service_pb2
 
         request = support_service_pb2.ListRequest()
         request.support.id.CopyFrom(support._internal_obj.id)
@@ -83,7 +83,7 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
 
     @staticmethod
     def support_get_property_field_support_by_property(support, prop_name):
-        from ansys.grpc.dpf import support_service_pb2
+        from ansys.dpf.grpc import support_service_pb2
 
         request = support_service_pb2.ListRequest()
         request.support.id.CopyFrom(support._internal_obj.id)
@@ -94,7 +94,7 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
 
     @staticmethod
     def support_get_string_field_support_by_property(support, prop_name):
-        from ansys.grpc.dpf import support_service_pb2
+        from ansys.dpf.grpc import support_service_pb2
 
         request = support_service_pb2.ListRequest()
         request.support.id.CopyFrom(support._internal_obj.id)
@@ -105,7 +105,7 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
 
     @staticmethod
     def support_get_property_names_as_string_coll_for_fields(support):
-        from ansys.grpc.dpf import support_service_pb2
+        from ansys.dpf.grpc import support_service_pb2
 
         request = support_service_pb2.ListRequest()
         request.support.id.CopyFrom(support._internal_obj.id)
@@ -119,7 +119,7 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
 
     @staticmethod
     def support_get_property_names_as_string_coll_for_property_fields(support):
-        from ansys.grpc.dpf import support_service_pb2
+        from ansys.dpf.grpc import support_service_pb2
 
         request = support_service_pb2.ListRequest()
         request.support.id.CopyFrom(support._internal_obj.id)
@@ -133,7 +133,7 @@ class SupportGRPCAPI(support_abstract_api.SupportAbstractAPI):
 
     @staticmethod
     def support_get_property_names_as_string_coll_for_string_fields(support):
-        from ansys.grpc.dpf import support_service_pb2
+        from ansys.dpf.grpc import support_service_pb2
 
         request = support_service_pb2.ListRequest()
         request.support.id.CopyFrom(support._internal_obj.id)

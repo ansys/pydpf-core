@@ -40,7 +40,7 @@ class StringFieldGRPCAPI(string_field_abstract_api.StringFieldAbstractAPI):
 
     @staticmethod
     def csstring_field_new_on_client(client, numEntities, data_size):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.FieldRequest()
         request.size.scoping_size = numEntities
@@ -54,7 +54,7 @@ class StringFieldGRPCAPI(string_field_abstract_api.StringFieldAbstractAPI):
 
     @staticmethod
     def csstring_field_get_data(field, np_array):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.ListRequest()
         request.field.CopyFrom(field._internal_obj)
@@ -63,7 +63,7 @@ class StringFieldGRPCAPI(string_field_abstract_api.StringFieldAbstractAPI):
 
     @staticmethod
     def csstring_field_set_data(field, size, data):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         metadata = [("size_tot", f"{size}")]
         request = field_pb2.UpdateDataRequest()

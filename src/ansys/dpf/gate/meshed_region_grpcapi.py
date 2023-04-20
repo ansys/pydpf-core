@@ -16,7 +16,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def init_meshed_region_environment(obj):
-        from ansys.grpc.dpf import meshed_region_pb2_grpc
+        from ansys.dpf.grpc import meshed_region_pb2_grpc
 
         obj._server.create_stub_if_necessary(
             MeshedRegionGRPCAPI.STUBNAME, meshed_region_pb2_grpc.MeshedRegionServiceStub
@@ -25,14 +25,14 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_new_on_client(client):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.CreateRequest()
         return _get_stub(client).Create(request)
 
     @staticmethod
     def meshed_region_reserve(meshedRegion, numNodes, numElements):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.CreateRequest()
         if numNodes:
@@ -51,7 +51,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_shared_nodes_scoping(meshedRegion):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
         from ansys.dpf.gate.common import locations
 
         request = meshed_region_pb2.GetScopingRequest(mesh=meshedRegion._internal_obj)
@@ -60,7 +60,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_shared_elements_scoping(meshedRegion):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
         from ansys.dpf.gate.common import locations
 
         request = meshed_region_pb2.GetScopingRequest(mesh=meshedRegion._internal_obj)
@@ -69,7 +69,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_shared_faces_scoping(meshedRegion):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
         from ansys.dpf.gate.common import locations
 
         request = meshed_region_pb2.GetScopingRequest(mesh=meshedRegion._internal_obj)
@@ -102,7 +102,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_node_id(meshedRegion, index):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.GetRequest()
         request.mesh.CopyFrom(meshedRegion._internal_obj)
@@ -111,7 +111,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_node_index(meshedRegion, id):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.GetRequest()
         request.mesh.CopyFrom(meshedRegion._internal_obj)
@@ -120,7 +120,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_element_id(meshedRegion, index):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.GetRequest()
         request.mesh.CopyFrom(meshedRegion._internal_obj)
@@ -129,7 +129,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_element_index(meshedRegion, id):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.GetRequest()
         request.mesh.CopyFrom(meshedRegion._internal_obj)
@@ -138,7 +138,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_num_nodes_of_element(meshedRegion, index):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.GetRequest()
         request.mesh.CopyFrom(meshedRegion._internal_obj)
@@ -148,7 +148,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_node_id_of_element(meshedRegion, eidx, nidx):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.GetRequest()
         request.mesh.CopyFrom(meshedRegion._internal_obj)
@@ -158,7 +158,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_node_coord(meshedRegion, index, coordinate):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.GetRequest()
         request.mesh.CopyFrom(meshedRegion._internal_obj)
@@ -168,7 +168,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_element_type(meshedRegion, id, type, index):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
         from ansys.dpf.gate.common import elemental_property_type_dict
 
         request = meshed_region_pb2.ElementalPropertyRequest()
@@ -189,7 +189,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_element_shape(meshedRegion, id, shape, index):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.ElementalPropertyRequest()
         request.mesh.CopyFrom(meshedRegion._internal_obj)
@@ -214,7 +214,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_set_unit(meshedRegion, unit):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.UpdateMeshedRegionRequest()
         request.meshed_region.CopyFrom(meshedRegion._internal_obj)
@@ -223,7 +223,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def get_named_selections(meshedRegion):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         if hasattr(_get_stub(meshedRegion._server), "ListNamedSelections"):
             request = meshed_region_pb2.ListNamedSelectionsRequest()
@@ -243,7 +243,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_named_selection_scoping(meshedRegion, name):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.GetScopingRequest(mesh=meshedRegion._internal_obj)
         request.named_selection = name
@@ -251,7 +251,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_set_named_selection_scoping(meshedRegion, name, scoping):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.SetNamedSelectionRequest()
         request.mesh.CopyFrom(meshedRegion._internal_obj)
@@ -261,7 +261,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_add_node(meshedRegion, xyz, id):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.AddRequest(mesh=meshedRegion._internal_obj)
         node_request = meshed_region_pb2.NodeRequest(id=id)
@@ -271,7 +271,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_add_element_by_shape(meshedRegion, id, size, conn, shape):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.AddRequest(mesh=meshedRegion._internal_obj)
         element_request = meshed_region_pb2.ElementRequest(id=id)
@@ -282,7 +282,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_get_property_field(meshedRegion, property_type):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.ListPropertyRequest()
         request.mesh.CopyFrom(meshedRegion._internal_obj)
@@ -318,7 +318,7 @@ class MeshedRegionGRPCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 
     @staticmethod
     def meshed_region_set_property_field(meshedRegion, name, prop_field):
-        from ansys.grpc.dpf import meshed_region_pb2
+        from ansys.dpf.grpc import meshed_region_pb2
 
         request = meshed_region_pb2.SetFieldRequest()
         request.mesh.CopyFrom(meshedRegion._internal_obj)

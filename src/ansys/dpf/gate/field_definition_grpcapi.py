@@ -16,7 +16,7 @@ class FieldDefinitionGRPCAPI(field_definition_abstract_api.FieldDefinitionAbstra
 
     @staticmethod
     def init_field_definition_environment(object):
-        from ansys.grpc.dpf import field_definition_pb2_grpc
+        from ansys.dpf.grpc import field_definition_pb2_grpc
 
         object._server.create_stub_if_necessary(
             FieldDefinitionGRPCAPI.STUBNAME, field_definition_pb2_grpc.FieldDefinitionServiceStub
@@ -72,7 +72,7 @@ class FieldDefinitionGRPCAPI(field_definition_abstract_api.FieldDefinitionAbstra
 
     @staticmethod
     def field_definition_new_on_client(client):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         request = base_pb2.Empty()
         return _get_stub(client).Create(request)
@@ -81,7 +81,7 @@ class FieldDefinitionGRPCAPI(field_definition_abstract_api.FieldDefinitionAbstra
     def _modify_field_def(
         fieldDef, unit=None, location=None, dimensionality=None, shell_layer=None, name=None
     ):
-        from ansys.grpc.dpf import field_definition_pb2
+        from ansys.dpf.grpc import field_definition_pb2
 
         request = field_definition_pb2.FieldDefinitionUpdateRequest()
         request.field_definition.CopyFrom(fieldDef._internal_obj)

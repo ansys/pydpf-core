@@ -18,7 +18,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
 
     @staticmethod
     def init_result_info_environment(result_info):
-        from ansys.grpc.dpf import result_info_pb2_grpc
+        from ansys.dpf.grpc import result_info_pb2_grpc
 
         result_info._server.create_stub_if_necessary(
             ResultInfoGRPCAPI.STUBNAME, result_info_pb2_grpc.ResultInfoServiceStub
@@ -63,7 +63,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
 
     @staticmethod
     def list_result(result_info, idx):
-        from ansys.grpc.dpf import result_info_pb2
+        from ansys.dpf.grpc import result_info_pb2
 
         request = result_info_pb2.AvailableResultRequest()
         request.result_info.CopyFrom(result_info._internal_obj)
@@ -80,7 +80,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
 
     @staticmethod
     def result_info_get_analysis_type_name(result_info):
-        from ansys.grpc.dpf import result_info_pb2
+        from ansys.dpf.grpc import result_info_pb2
 
         if result_info._server.meet_version("3.0"):
             return ResultInfoGRPCAPI.result_info_get_string_property(result_info, "analysis_type")
@@ -89,7 +89,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
 
     @staticmethod
     def result_info_get_physics_type_name(result_info):
-        from ansys.grpc.dpf import result_info_pb2
+        from ansys.dpf.grpc import result_info_pb2
 
         if result_info._server.meet_version("3.0"):
             return ResultInfoGRPCAPI.result_info_get_string_property(result_info, "physics_type")
@@ -232,7 +232,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
 
     @staticmethod
     def result_info_get_string_property(result_info, property_name):
-        from ansys.grpc.dpf import result_info_pb2
+        from ansys.dpf.grpc import result_info_pb2
 
         request = result_info_pb2.GetStringPropertiesRequest()
         request.result_info.CopyFrom(result_info._internal_obj)
@@ -241,7 +241,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
 
     @staticmethod
     def result_info_get_int_property(result_info, property_name):
-        from ansys.grpc.dpf import result_info_pb2
+        from ansys.dpf.grpc import result_info_pb2
 
         request = result_info_pb2.GetStringPropertiesRequest()
         request.result_info.CopyFrom(result_info._internal_obj)
@@ -251,7 +251,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
 
     @staticmethod
     def result_info_get_qualifier_label_support(resultInfo, qualifier):
-        from ansys.grpc.dpf import result_info_pb2
+        from ansys.dpf.grpc import result_info_pb2
 
         request = result_info_pb2.ListQualifiersLabelsRequest()
         request.result_info.CopyFrom(result_info._internal_obj)
@@ -268,7 +268,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
 
     @staticmethod
     def result_info_get_available_qualifier_labels_as_string_coll(resultInfo):
-        from ansys.grpc.dpf import result_info_pb2
+        from ansys.dpf.grpc import result_info_pb2
 
         request = result_info_pb2.ListQualifiersLabelsRequest()
         request.result_info.CopyFrom(result_info._internal_obj)

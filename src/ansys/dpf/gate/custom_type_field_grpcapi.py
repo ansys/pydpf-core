@@ -100,7 +100,7 @@ class CustomTypeFieldGRPCAPI(custom_type_field_abstract_api.CustomTypeFieldAbstr
 
     @staticmethod
     def cscustom_type_field_new_on_client(client, type, unitarySize, numEntities, numUnitaryData):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.FieldRequest()
         request.size.scoping_size = numEntities

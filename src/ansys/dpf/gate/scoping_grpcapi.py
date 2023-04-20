@@ -17,7 +17,7 @@ class ScopingGRPCAPI(scoping_abstract_api.ScopingAbstractAPI):
 
     @staticmethod
     def init_scoping_environment(object):
-        from ansys.grpc.dpf import scoping_pb2_grpc
+        from ansys.dpf.grpc import scoping_pb2_grpc
 
         object._server.create_stub_if_necessary(
             ScopingGRPCAPI.STUBNAME, scoping_pb2_grpc.ScopingServiceStub
@@ -26,14 +26,14 @@ class ScopingGRPCAPI(scoping_abstract_api.ScopingAbstractAPI):
 
     @staticmethod
     def scoping_new_on_client(server):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         request = base_pb2.Empty()
         return _get_stub(server).Create(request)
 
     @staticmethod
     def scoping_set_ids(scoping, ids, size):
-        from ansys.grpc.dpf import scoping_pb2
+        from ansys.dpf.grpc import scoping_pb2
 
         # must convert to a list for gRPC
         if isinstance(ids, range):
@@ -74,7 +74,7 @@ class ScopingGRPCAPI(scoping_abstract_api.ScopingAbstractAPI):
 
     @staticmethod
     def scoping_get_size(scoping):
-        from ansys.grpc.dpf import scoping_pb2, base_pb2
+        from ansys.dpf.grpc import scoping_pb2, base_pb2
 
         request = scoping_pb2.CountRequest()
         request.entity = base_pb2.NUM_ELEMENTARY_DATA
@@ -87,7 +87,7 @@ class ScopingGRPCAPI(scoping_abstract_api.ScopingAbstractAPI):
 
     @staticmethod
     def scoping_set_location(scoping, location):
-        from ansys.grpc.dpf import scoping_pb2
+        from ansys.dpf.grpc import scoping_pb2
 
         request = scoping_pb2.UpdateRequest()
         request.location.location = location
@@ -96,7 +96,7 @@ class ScopingGRPCAPI(scoping_abstract_api.ScopingAbstractAPI):
 
     @staticmethod
     def scoping_set_entity(scoping, id, index):
-        from ansys.grpc.dpf import scoping_pb2
+        from ansys.dpf.grpc import scoping_pb2
 
         request = scoping_pb2.UpdateRequest()
         request.index_id.id = id
@@ -106,7 +106,7 @@ class ScopingGRPCAPI(scoping_abstract_api.ScopingAbstractAPI):
 
     @staticmethod
     def scoping_id_by_index(scoping, index):
-        from ansys.grpc.dpf import scoping_pb2
+        from ansys.dpf.grpc import scoping_pb2
 
         request = scoping_pb2.GetRequest()
         request.index = index
@@ -115,7 +115,7 @@ class ScopingGRPCAPI(scoping_abstract_api.ScopingAbstractAPI):
 
     @staticmethod
     def scoping_index_by_id(scoping, id):
-        from ansys.grpc.dpf import scoping_pb2
+        from ansys.dpf.grpc import scoping_pb2
 
         request = scoping_pb2.GetRequest()
         request.id = id

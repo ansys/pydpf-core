@@ -12,11 +12,11 @@ class LabelSpaceGRPCAPI(label_space_abstract_api.LabelSpaceAbstractAPI):
 
     @staticmethod
     def label_space_new_for_object(object):
-        from ansys.grpc.dpf import collection_pb2
+        from ansys.dpf.grpc import collection_pb2
 
         if hasattr(collection_pb2, "LabelSpace"):
             return collection_pb2.LabelSpace()
-        from ansys.grpc.dpf import label_space_pb2
+        from ansys.dpf.grpc import label_space_pb2
 
         return label_space_pb2.LabelSpace()
 

@@ -333,7 +333,7 @@ def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_mod
 
 
 def check_ansys_grpc_dpf_version(server, timeout):
-    import ansys.grpc.dpf
+    import ansys.dpf.grpc
     import grpc
 
     state = grpc.channel_ready_future(server.channel)
@@ -350,7 +350,7 @@ def check_ansys_grpc_dpf_version(server, timeout):
         f"https://dpf.docs.pyansys.com/getting_started/" f"index.html#client-server-compatibility"
     )
     LOG.debug("Established connection to DPF gRPC")
-    grpc_module_version = ansys.grpc.dpf.__version__
+    grpc_module_version = ansys.dpf.grpc.__version__
     server_version = server.version
     right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
     if right_grpc_module_version is None:  # pragma: no cover
@@ -1000,7 +1000,7 @@ class LegacyGrpcServer(BaseServer):
         context=server_context.SERVER_CONTEXT,
     ):
         """Start the DPF server."""
-        # Use ansys.grpc.dpf
+        # Use ansys.dpf.grpc
         from ansys.dpf.core.misc import is_pypim_configured
 
         super().__init__()

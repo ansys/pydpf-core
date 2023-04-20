@@ -18,7 +18,7 @@ class CyclicSupportGRPCAPI(cyclic_support_abstract_api.CyclicSupportAbstractAPI)
 
     @staticmethod
     def init_cyclic_support_environment(support):
-        from ansys.grpc.dpf import cyclic_support_pb2_grpc
+        from ansys.dpf.grpc import cyclic_support_pb2_grpc
 
         support._server.create_stub_if_necessary(
             CyclicSupportGRPCAPI.STUBNAME, cyclic_support_pb2_grpc.CyclicSupportServiceStub
@@ -95,7 +95,7 @@ class CyclicSupportGRPCAPI(cyclic_support_abstract_api.CyclicSupportAbstractAPI)
 
     @staticmethod
     def init_get_expanded_ids(support, i_stage, sectorsScoping):
-        from ansys.grpc.dpf import cyclic_support_pb2
+        from ansys.dpf.grpc import cyclic_support_pb2
 
         request = cyclic_support_pb2.GetExpandedIdsRequest()
         request.support.CopyFrom(support._internal_obj)

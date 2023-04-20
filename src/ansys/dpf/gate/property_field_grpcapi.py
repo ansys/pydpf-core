@@ -18,7 +18,7 @@ class PropertyFieldGRPCAPI(property_field_abstract_api.PropertyFieldAbstractAPI)
 
     @staticmethod
     def csproperty_field_new_on_client(client, numEntities, data_size):
-        from ansys.grpc.dpf import field_pb2
+        from ansys.dpf.grpc import field_pb2
 
         request = field_pb2.FieldRequest()
         request.size.scoping_size = numEntities

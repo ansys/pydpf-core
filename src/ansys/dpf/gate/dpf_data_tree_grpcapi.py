@@ -17,7 +17,7 @@ class DpfDataTreeGRPCAPI(dpf_data_tree_abstract_api.DpfDataTreeAbstractAPI):
 
     @staticmethod
     def init_dpf_data_tree_environment(object):
-        from ansys.grpc.dpf import data_tree_pb2_grpc
+        from ansys.dpf.grpc import data_tree_pb2_grpc
 
         object._server.create_stub_if_necessary(
             DpfDataTreeGRPCAPI.STUBNAME, data_tree_pb2_grpc.DataTreeServiceStub
@@ -31,7 +31,7 @@ class DpfDataTreeGRPCAPI(dpf_data_tree_abstract_api.DpfDataTreeAbstractAPI):
 
     @staticmethod
     def dpf_data_tree_new_on_client(client):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         return _get_stub(client).Create(base_pb2.Empty())
 
@@ -40,7 +40,7 @@ class DpfDataTreeGRPCAPI(dpf_data_tree_abstract_api.DpfDataTreeAbstractAPI):
         if isinstance(data_tree._internal_obj, dict):
             value.set(data_tree._internal_obj[attribute_name])
             return
-        from ansys.grpc.dpf import data_tree_pb2, base_pb2
+        from ansys.dpf.grpc import data_tree_pb2, base_pb2
 
         request = data_tree_pb2.GetRequest()
         request.data_tree.CopyFrom(data_tree._internal_obj)
@@ -87,7 +87,7 @@ class DpfDataTreeGRPCAPI(dpf_data_tree_abstract_api.DpfDataTreeAbstractAPI):
 
     @staticmethod
     def dpf_data_tree_get_string_collection_attribute(data_tree, attribute_name):
-        from ansys.grpc.dpf import data_tree_pb2, base_pb2
+        from ansys.dpf.grpc import data_tree_pb2, base_pb2
 
         request = data_tree_pb2.GetRequest()
         request.data_tree.CopyFrom(data_tree._internal_obj)
@@ -99,7 +99,7 @@ class DpfDataTreeGRPCAPI(dpf_data_tree_abstract_api.DpfDataTreeAbstractAPI):
 
     @staticmethod
     def dpf_data_tree_get_sub_tree(data_tree, sub_tree_name):
-        from ansys.grpc.dpf import data_tree_pb2, base_pb2
+        from ansys.dpf.grpc import data_tree_pb2, base_pb2
 
         request = data_tree_pb2.GetRequest()
         request.data_tree.CopyFrom(data_tree._internal_obj)
@@ -118,7 +118,7 @@ class DpfDataTreeGRPCAPI(dpf_data_tree_abstract_api.DpfDataTreeAbstractAPI):
             )
             data = types.SimpleNamespace()
         else:
-            from ansys.grpc.dpf import data_tree_pb2
+            from ansys.dpf.grpc import data_tree_pb2
 
             request = data_tree_pb2.UpdateRequest()
             request.data_tree.CopyFrom(data_tree._internal_obj)
@@ -183,7 +183,7 @@ class DpfDataTreeGRPCAPI(dpf_data_tree_abstract_api.DpfDataTreeAbstractAPI):
     def dpf_data_tree_has_attribute(data_tree, attribute_name):
         if isinstance(data_tree._internal_obj, dict):
             return attribute_name in data_tree._internal_obj
-        from ansys.grpc.dpf import data_tree_pb2
+        from ansys.dpf.grpc import data_tree_pb2
 
         request = data_tree_pb2.HasRequest()
         request.data_tree.CopyFrom(data_tree._internal_obj)

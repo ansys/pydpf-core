@@ -16,7 +16,7 @@ class OperatorConfigGRPCAPI(operator_config_abstract_api.OperatorConfigAbstractA
 
     @staticmethod
     def init_operator_config_environment(obj):
-        from ansys.grpc.dpf import operator_config_pb2_grpc
+        from ansys.dpf.grpc import operator_config_pb2_grpc
 
         obj._server.create_stub_if_necessary(
             OperatorConfigGRPCAPI.STUBNAME, operator_config_pb2_grpc.OperatorConfigServiceStub
@@ -25,7 +25,7 @@ class OperatorConfigGRPCAPI(operator_config_abstract_api.OperatorConfigAbstractA
 
     @staticmethod
     def operator_config_default_new_on_client(client, operator_name):
-        from ansys.grpc.dpf import operator_config_pb2
+        from ansys.dpf.grpc import operator_config_pb2
 
         request = operator_config_pb2.CreateRequest()
         request.operator_name.operator_name = operator_name
@@ -33,7 +33,7 @@ class OperatorConfigGRPCAPI(operator_config_abstract_api.OperatorConfigAbstractA
 
     @staticmethod
     def operator_config_empty_new_on_client(client):
-        from ansys.grpc.dpf import operator_config_pb2
+        from ansys.dpf.grpc import operator_config_pb2
 
         request = operator_config_pb2.CreateRequest()
         return _get_stub(client).Create(request)
@@ -55,7 +55,7 @@ class OperatorConfigGRPCAPI(operator_config_abstract_api.OperatorConfigAbstractA
 
     @staticmethod
     def update_init(config, option_name):
-        from ansys.grpc.dpf import operator_config_pb2
+        from ansys.dpf.grpc import operator_config_pb2
 
         request = operator_config_pb2.UpdateRequest()
         request.config.CopyFrom(config._internal_obj)

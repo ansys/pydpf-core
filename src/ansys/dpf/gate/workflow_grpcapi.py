@@ -17,7 +17,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def init_workflow_environment(object):
-        from ansys.grpc.dpf import workflow_pb2_grpc
+        from ansys.dpf.grpc import workflow_pb2_grpc
 
         object._server.create_stub_if_necessary(
             WorkflowGRPCAPI.STUBNAME, workflow_pb2_grpc.WorkflowServiceStub
@@ -26,7 +26,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def work_flow_new_on_client(client):
-        from ansys.grpc.dpf import base_pb2, workflow_pb2
+        from ansys.dpf.grpc import base_pb2, workflow_pb2
 
         request = base_pb2.Empty()
         if hasattr(workflow_pb2, "CreateRequest"):
@@ -36,7 +36,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
     @staticmethod
     # TO DO: add @version_requires("3.0")
     def work_flow_get_copy_on_other_client(wf, address, protocol):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         request = workflow_pb2.RemoteCopyRequest()
         request.wf.CopyFrom(wf._internal_obj)
@@ -47,7 +47,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def _connect_init(wf, pin_name):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         request = workflow_pb2.UpdateConnectionRequest()
         request.wf.CopyFrom(wf._internal_obj)
@@ -177,7 +177,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def get_output_init(wf, pin_name):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         request = workflow_pb2.WorkflowEvaluationRequest()
         request.wf.CopyFrom(wf._internal_obj)
@@ -186,7 +186,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def get_output_finish(wf, request, stype, subtype=""):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         request.type = base_pb2.Type.Value(stype.upper())
         if subtype != "":
@@ -338,7 +338,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def work_flow_set_name_input_pin(wf, op, pin, pin_name):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         request = workflow_pb2.UpdatePinNamesRequest()
         request.wf.CopyFrom(wf._internal_obj)
@@ -351,7 +351,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def work_flow_set_name_output_pin(wf, op, pin, pin_name):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         request = workflow_pb2.UpdatePinNamesRequest()
         request.wf.CopyFrom(wf._internal_obj)
@@ -364,7 +364,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def work_flow_add_operator(wf, op):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         request = workflow_pb2.AddOperatorsRequest()
         request.wf.CopyFrom(wf._internal_obj)
@@ -373,7 +373,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def work_flow_record_instance(wf, user_name, transfer_ownership):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         request = workflow_pb2.RecordInInternalRegistryRequest()
         request.wf.CopyFrom(wf._internal_obj)
@@ -384,7 +384,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def work_flow_get_by_identifier_on_client(identifier, client):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         request = workflow_pb2.WorkflowFromInternalRegistryRequest()
         request.registry_id = identifier
@@ -435,7 +435,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def work_flow_connect_with(wf_right, wf2_left):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         request = workflow_pb2.ConnectRequest()
         request.right_wf.CopyFrom(wf_right._internal_obj)
@@ -444,7 +444,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def work_flow_connect_with_specified_names(wf_right, wf2_left, map):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         request = workflow_pb2.ConnectRequest()
         request.right_wf.CopyFrom(wf_right._internal_obj)
@@ -458,7 +458,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def workflow_add_entry_connection_map(map, out, in_):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         map._internal_obj.append(
             workflow_pb2.InputToOutputChainRequest(output_name=out, input_name=in_)
@@ -466,7 +466,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def work_flow_create_from_text_on_client(text, client):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         if isinstance(text, str):
             save_text = text
@@ -480,7 +480,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def work_flow_rename_input_pin(wf, pin_name, new_pin_name):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         request = workflow_pb2.UpdatePinNamesRequest()
         request.wf.CopyFrom(wf._internal_obj)
@@ -492,7 +492,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 
     @staticmethod
     def work_flow_rename_output_pin(wf, pin_name, new_pin_name):
-        from ansys.grpc.dpf import workflow_pb2
+        from ansys.dpf.grpc import workflow_pb2
 
         request = workflow_pb2.UpdatePinNamesRequest()
         request.wf.CopyFrom(wf._internal_obj)

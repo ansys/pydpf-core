@@ -18,7 +18,7 @@ class OperatorSpecificationGRPCAPI(
 
     @staticmethod
     def init_operator_specification_environment(obj):
-        from ansys.grpc.dpf import base_pb2_grpc
+        from ansys.dpf.grpc import base_pb2_grpc
 
         obj._server.create_stub_if_necessary(
             OperatorSpecificationGRPCAPI.STUBNAME, base_pb2_grpc.BaseServiceStub
@@ -27,7 +27,7 @@ class OperatorSpecificationGRPCAPI(
     @staticmethod
     def operator_specification_new_on_client(client, op_name):
         from ansys.dpf.gate.operator_grpcapi import _get_stub as _get_operator_stub
-        from ansys.grpc.dpf import operator_pb2
+        from ansys.dpf.grpc import operator_pb2
 
         request = operator_pb2.Operator()
         if hasattr(op_name, "_internal_obj"):

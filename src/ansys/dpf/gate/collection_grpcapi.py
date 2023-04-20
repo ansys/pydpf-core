@@ -20,7 +20,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def init_collection_environment(object):
-        from ansys.grpc.dpf import collection_pb2, collection_pb2_grpc
+        from ansys.dpf.grpc import collection_pb2, collection_pb2_grpc
 
         if not hasattr(object, "_server"):
             server = object
@@ -39,19 +39,19 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def collection_of_scoping_new_on_client(client):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         return CollectionGRPCAPI.collection_new_on_client(client, base_pb2.Type.Value("SCOPING"))
 
     @staticmethod
     def collection_of_field_new_on_client(client):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         return CollectionGRPCAPI.collection_new_on_client(client, base_pb2.Type.Value("FIELD"))
 
     @staticmethod
     def collection_of_mesh_new_on_client(client):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         return CollectionGRPCAPI.collection_new_on_client(
             client, base_pb2.Type.Value("MESHED_REGION")
@@ -59,25 +59,25 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def collection_of_int_new_on_client(client):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         return CollectionGRPCAPI.collection_new_on_client(client, base_pb2.Type.Value("INT"))
 
     @staticmethod
     def collection_of_double_new_on_client(client):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         return CollectionGRPCAPI.collection_new_on_client(client, base_pb2.Type.Value("DOUBLE"))
 
     @staticmethod
     def collection_of_string_new_on_client(client):
-        from ansys.grpc.dpf import base_pb2
+        from ansys.dpf.grpc import base_pb2
 
         return CollectionGRPCAPI.collection_new_on_client(client, base_pb2.Type.Value("STRING"))
 
     @staticmethod
     def collection_new_on_client(client, type):
-        from ansys.grpc.dpf import collection_pb2
+        from ansys.dpf.grpc import collection_pb2
 
         request = collection_pb2.CollectionRequest()
         request.type = type
@@ -85,7 +85,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def collection_add_label(collection, label):
-        from ansys.grpc.dpf import collection_pb2
+        from ansys.dpf.grpc import collection_pb2
 
         request = collection_pb2.UpdateLabelsRequest()
         request.collection.CopyFrom(collection._internal_obj)
@@ -95,7 +95,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def collection_add_label_with_default_value(collection, label, value):
-        from ansys.grpc.dpf import collection_pb2
+        from ansys.dpf.grpc import collection_pb2
 
         request = collection_pb2.UpdateLabelsRequest()
         request.collection.CopyFrom(collection._internal_obj)
@@ -145,7 +145,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def _collection_get_entries(collection, label_space_or_index):
-        from ansys.grpc.dpf import (
+        from ansys.dpf.grpc import (
             collection_pb2,
             scoping_pb2,
             field_pb2,
@@ -190,7 +190,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def collection_get_label_scoping(collection, label):
-        from ansys.grpc.dpf import collection_pb2
+        from ansys.dpf.grpc import collection_pb2
 
         request = collection_pb2.LabelScopingRequest()
         request.collection.CopyFrom(collection._internal_obj)
@@ -200,7 +200,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def collection_add_entry(collection, labelspace, obj):
-        from ansys.grpc.dpf import collection_pb2
+        from ansys.dpf.grpc import collection_pb2
 
         request = collection_pb2.UpdateRequest()
         request.collection.CopyFrom(collection._internal_obj)
@@ -214,7 +214,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def _collection_set_data_as_integral_type(collection, data, size):
-        from ansys.grpc.dpf import collection_pb2
+        from ansys.dpf.grpc import collection_pb2
 
         metadata = [("size_bytes", f"{size * data.itemsize}")]
         request = collection_pb2.UpdateAllDataRequest()
@@ -233,7 +233,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def collection_set_support(collection, label, support):
-        from ansys.grpc.dpf import collection_pb2
+        from ansys.dpf.grpc import collection_pb2
 
         request = collection_pb2.UpdateSupportRequest()
         request.collection.CopyFrom(collection._internal_obj)
@@ -243,7 +243,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def collection_get_support(collection, label):
-        from ansys.grpc.dpf import collection_pb2, base_pb2
+        from ansys.dpf.grpc import collection_pb2, base_pb2
 
         request = collection_pb2.SupportRequest()
         request.collection.CopyFrom(collection._internal_obj)
@@ -255,7 +255,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
     def collection_get_data_as_int(collection, size):
         if not collection._server.meet_version("3.0"):
             raise errors.DpfVersionNotSupported("3.0")
-        from ansys.grpc.dpf import collection_pb2
+        from ansys.dpf.grpc import collection_pb2
 
         request = collection_pb2.GetAllDataRequest()
         request.collection.CopyFrom(collection._internal_obj)
@@ -270,7 +270,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
     def collection_get_data_as_double(collection, size):
         if not collection._server.meet_version("3.0"):
             raise errors.DpfVersionNotSupported("3.0")
-        from ansys.grpc.dpf import collection_pb2
+        from ansys.dpf.grpc import collection_pb2
 
         request = collection_pb2.GetAllDataRequest()
         request.collection.CopyFrom(collection._internal_obj)
@@ -285,7 +285,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
     def collection_get_string_entry(collection, index):
         if isinstance(collection._internal_obj, list):
             return collection._internal_obj[index]
-        from ansys.grpc.dpf import collection_pb2
+        from ansys.dpf.grpc import collection_pb2
 
         request = collection_pb2.EntryRequest()
         request.collection.CopyFrom(collection._internal_obj)
