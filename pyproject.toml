@@ -30,6 +30,7 @@ dependencies = [
     "setuptools",
     "tqdm",
     "numpy",
+    "grpcio",
 ]
 
 [project.optional-dependencies]
