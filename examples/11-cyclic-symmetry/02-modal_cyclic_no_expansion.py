@@ -3,7 +3,7 @@
 .. _ref_basic_cyclic:
 
 Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This example shows how to extract results from a modal cyclic symmetry model.
 

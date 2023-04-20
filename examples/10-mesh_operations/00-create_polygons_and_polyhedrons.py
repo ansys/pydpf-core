@@ -23,7 +23,7 @@ from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Define manually the node coordinates of the polyhedrons and polygons
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Note on these two sets of nodes, there are two nodes at [0,0,0]
 # This anomaly has been taking into account for this example
 
@@ -257,7 +257,7 @@ data_reverse_field_solid = [
 
 ###############################################################################
 # Connectivity set in property fields
-# ~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # We now set all of these information into a PropertyField regarding the meshed region
 
 ###############################################################################
@@ -320,7 +320,7 @@ mesh_solid_only.set_property_field(
 
 ###############################################################################
 # Face/Element types set in property fields
-# ~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Set the element/face type for the meshed region
 # For the ShellOnly the faces are lines and the elements are Quad
 # For the SolidOnly the faces are Polygon, Quad and Tri and the elements are Polyhedrons
@@ -379,7 +379,7 @@ mesh_solid_only.set_property_field(property_name="eltype", value=els_types_solid
 
 ###############################################################################
 # Plot the meshes
-# ~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~
 # In order to plot the meshes, we have to set a cell_node connectivity PropertyField
 
 ###############################################################################
