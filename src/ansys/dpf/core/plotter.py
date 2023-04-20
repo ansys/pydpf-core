@@ -286,7 +286,7 @@ class _PyVistaPlotter:
             grid = meshed_region.grid
         else:
             grid = meshed_region._as_vtk(
-                meshed_region.deform_by(deform_by, scale_factor, as_linear)
+                meshed_region.deform_by(deform_by, scale_factor), as_linear
             )
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
