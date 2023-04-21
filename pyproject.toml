@@ -38,7 +38,7 @@ dependencies = [
 plotting = ["pyvista>=0.32.0", "matplotlib>=3.2"]
 
 [tool.flit.module]
-name = "ansys.dpf"
+name = "ansys.dpf.core"
 
 [project.urls]
 Homepage = "https://dpf.docs.pyansys.com/"
@@ -50,7 +50,7 @@ Tracker = "https://github.com/pyansys/pydpf-core/issues"
 line-length = 100
 
 [tool.coverage.run]
-source = ["ansys.dpf"]
+source = ["ansys.dpf.core"]
 
 [tool.coverage.report]
 show_missing = true

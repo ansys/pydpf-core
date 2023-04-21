@@ -5,9 +5,9 @@ exclude: |
         examples_notebooks/|
         src/ansys/dpf/core/__init__.py|
         docs/styles/|
-        src/ansys/dpf/gate/|
-        src/ansys/dpf/gatebin/|
-        src/ansys/dpf/grpc/|
+        src/ansys/dpf/core/gate/|
+        src/ansys/dpf/core/gatebin/|
+        src/ansys/dpf/core/grpc/|
     )
 repos:
 
