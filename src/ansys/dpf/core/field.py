@@ -576,7 +576,7 @@ class Field(_FieldBase):
     def name(self):
         """Name of the field."""
         # return self._api.csfield_get_name(self)
-        from ansys.dpf.gate import integral_types
+        from ansys.dpf.core.gate import integral_types
 
         size = integral_types.MutableInt32()
         name = integral_types.MutableString(256)

@@ -676,7 +676,7 @@ class BaseService:
             specific_extension=specific_extension,
         )
         if not isinstance(client_paths_ptr, list):
-            from ansys.dpf.gate import object_handler
+            from ansys.dpf.core.gate import object_handler
 
             # collection of string
             client_paths = object_handler.ObjHandler(

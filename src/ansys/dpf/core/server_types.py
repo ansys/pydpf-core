@@ -643,7 +643,7 @@ class CServer(BaseServer, ABC):
 
 class GrpcClient:
     def __init__(self, address=None):
-        from ansys.dpf.gate import client_capi
+        from ansys.dpf.core.gate import client_capi
 
         self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
         client_capi.ClientCAPI.init_client_environment(self)
@@ -738,7 +738,7 @@ class GrpcServer(CServer):
 
     @property
     def version(self):
-        from ansys.dpf.gate import data_processing_capi, integral_types
+        from ansys.dpf.core.gate import data_processing_capi, integral_types
 
         api = data_processing_capi.DataProcessingCAPI
         major = integral_types.MutableInt32()
@@ -749,13 +749,13 @@ class GrpcServer(CServer):
 
     @property
     def os(self):
-        from ansys.dpf.gate import data_processing_capi
+        from ansys.dpf.core.gate import data_processing_capi
 
         api = data_processing_capi.DataProcessingCAPI
         return api.data_processing_get_os_on_client(self.client)
 
     def _create_shutdown_funcs(self):
-        from ansys.dpf.gate import data_processing_capi
+        from ansys.dpf.core.gate import data_processing_capi
 
         api = data_processing_capi.DataProcessingCAPI
         self._preparing_shutdown_func = (
@@ -888,7 +888,7 @@ class InProcessServer(CServer):
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load DataProcessingCore
-        from ansys.dpf.gate.utils import data_processing_core_load_api
+        from ansys.dpf.core.gate.utils import data_processing_core_load_api
 
         name = "DataProcessingCore"
         path = _get_dll_path(name, ansys_path)
@@ -913,7 +913,7 @@ class InProcessServer(CServer):
 
     @property
     def version(self):
-        from ansys.dpf.gate import data_processing_capi, integral_types
+        from ansys.dpf.core.gate import data_processing_capi, integral_types
 
         api = data_processing_capi.DataProcessingCAPI
         major = integral_types.MutableInt32()
@@ -1000,7 +1000,7 @@ class LegacyGrpcServer(BaseServer):
         context=server_context.SERVER_CONTEXT,
     ):
         """Start the DPF server."""
-        # Use ansys.dpf.grpc
+        # Use ansys.dpf.core.grpc.dpf
         from ansys.dpf.core.misc import is_pypim_configured
 
         super().__init__()
