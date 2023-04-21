@@ -38,7 +38,7 @@ from ansys.dpf.core import examples
 
 ###############################################################################
 # Get the data source's analysis of integration points and analysis reference
-datafile = examples.download_extrapolation_3d_result()
+datafile = examples.download_extrapolation_3d_result(return_local_path=True)
 
 # Get integration points (Gaussian points)
 data_integration_points = datafile["file_integrated"]
