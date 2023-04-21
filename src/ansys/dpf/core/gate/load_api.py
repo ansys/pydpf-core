@@ -78,7 +78,7 @@ def _get_api_path_from_installer_or_package(ansys_path: str, is_posix: bool):
 
 def _try_use_gatebin():
     try:
-        from ansys.dpf import gatebin
+        from ansys.dpf.core import gatebin
 
         gatebin.__doc__
 
