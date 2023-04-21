@@ -52,6 +52,7 @@ def test_mesh_bare_plot(multishells):
     model = core.Model(multishells)
     mesh = model.metadata.meshed_region
     mesh.plot()
+    mesh.plot(as_linear=False)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
