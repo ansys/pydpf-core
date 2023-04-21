@@ -53,7 +53,7 @@ def _get_api_path_from_installer_or_package(ansys_path: str, is_posix: bool):
     dpf_client_found = False
     if gatebin_found and not is_ansys_version_old:
         # should work from the gatebin package
-        from ansys.dpf import gatebin
+        from ansys.dpf.core import gatebin
 
         path = os.path.abspath(gatebin.__path__._path[0])
         dpf_client_found = True
