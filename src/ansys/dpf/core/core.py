@@ -14,7 +14,7 @@ from ansys.dpf.core.runtime_config import (
     RuntimeClientConfig,
     RuntimeCoreConfig,
 )
-from ansys.dpf.gate import (
+from ansys.dpf.core.gate import (
     data_processing_capi,
     data_processing_grpcapi,
     tmp_dir_capi,

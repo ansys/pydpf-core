@@ -3,7 +3,7 @@ import os
 import copy
 import tempfile
 
-import ansys.dpf.grpc
+import ansys.dpf.core.grpc.dpf
 import numpy as np
 
 import ansys.dpf.core.operators as op

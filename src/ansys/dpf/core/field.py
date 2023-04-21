@@ -13,7 +13,7 @@ from ansys.dpf.core.common import locations, natures, types, _get_size_of_list
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.core.plotter import Plotter
-from ansys.dpf.gate import (
+from ansys.dpf.core.gate import (
     field_abstract_api,
     field_capi,
     field_grpcapi,

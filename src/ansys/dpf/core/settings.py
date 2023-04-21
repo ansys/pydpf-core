@@ -89,7 +89,7 @@ def set_dynamic_available_results_capability(value) -> None:
 
 
 def _forward_to_gate():
-    from ansys.dpf.gate import settings
+    from ansys.dpf.core.gate import settings
     from ansys.dpf.core.misc import DEFAULT_FILE_CHUNK_SIZE
     from ansys.dpf.core.common import _common_progress_bar, _progress_bar_is_available
 

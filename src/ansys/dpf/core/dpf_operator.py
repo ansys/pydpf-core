@@ -21,7 +21,7 @@ from ansys.dpf.core.outputs import Output, Outputs, _Outputs
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.operator_specification import Specification
 from ansys.dpf.core.unit_system import UnitSystem
-from ansys.dpf.gate import (
+from ansys.dpf.core.gate import (
     operator_capi,
     operator_abstract_api,
     operator_grpcapi,

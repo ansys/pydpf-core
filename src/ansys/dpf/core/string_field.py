@@ -9,7 +9,7 @@ from ansys.dpf.core import scoping
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
 from ansys.dpf.core.field_base import _FieldBase
-from ansys.dpf.gate import (
+from ansys.dpf.core.gate import (
     string_field_abstract_api,
     string_field_capi,
     string_field_grpcapi,

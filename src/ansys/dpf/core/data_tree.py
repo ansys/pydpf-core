@@ -13,7 +13,7 @@ from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import collection
 from ansys.dpf.core import errors
-from ansys.dpf.gate import (
+from ansys.dpf.core.gate import (
     dpf_data_tree_abstract_api,
     dpf_data_tree_capi,
     dpf_data_tree_grpcapi,

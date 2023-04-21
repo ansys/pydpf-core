@@ -4,7 +4,7 @@
 TimeFreqSupport
 ===============
 """
-from ansys.dpf.gate import time_freq_support_capi, time_freq_support_grpcapi
+from ansys.dpf.core.gate import time_freq_support_capi, time_freq_support_grpcapi
 
 from ansys import dpf
 from ansys.dpf import core
@@ -323,7 +323,7 @@ class TimeFreqSupport(Support):
             else:
                 raise NotImplementedError("get_cumulative_index is not implemented for cplx=False")
         else:
-            from ansys.dpf.gate import integral_types
+            from ansys.dpf.core.gate import integral_types
 
             i1 = integral_types.MutableInt32()
             i2 = integral_types.MutableInt32()

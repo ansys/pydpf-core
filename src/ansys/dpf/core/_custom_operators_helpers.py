@@ -1,4 +1,4 @@
-from ansys.dpf.gate import capi, external_operator_capi
+from ansys.dpf.core.gate import capi, external_operator_capi
 from enum import Enum
 
 from ansys.dpf.core import (

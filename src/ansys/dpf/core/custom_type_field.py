@@ -15,7 +15,7 @@ from ansys.dpf.core.common import locations, _get_size_of_list
 from ansys.dpf.core.field_base import _FieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.core.support import Support
-from ansys.dpf.gate import (
+from ansys.dpf.core.gate import (
     dpf_array,
     dpf_vector,
     integral_types,
@@ -124,7 +124,7 @@ class CustomTypeField(_FieldBase):
 
     @property
     def _api(self):
-        from ansys.dpf.gate import custom_type_field_capi, custom_type_field_grpcapi
+        from ansys.dpf.core.gate import custom_type_field_capi, custom_type_field_grpcapi
 
         if not self._api_instance:
             self._api_instance = self._server.get_api_for_type(

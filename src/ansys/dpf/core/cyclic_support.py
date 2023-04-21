@@ -6,7 +6,7 @@ Cyclic Support
 import traceback
 import warnings
 
-from ansys.dpf.gate import cyclic_support_capi, cyclic_support_grpcapi
+from ansys.dpf.core.gate import cyclic_support_capi, cyclic_support_grpcapi
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.scoping import Scoping

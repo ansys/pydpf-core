@@ -28,7 +28,7 @@ from ansys.dpf.core._custom_operators_helpers import (
     _type_to_output_method,
     _type_to_input_method,
 )
-from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
+from ansys.dpf.core.gate import object_handler, capi, dpf_vector, integral_types
 
 
 def record_operator(operator_type, *args) -> None:

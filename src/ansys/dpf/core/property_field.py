@@ -7,7 +7,7 @@ import numpy as np
 from ansys.dpf.core.common import natures, locations, _get_size_of_list
 from ansys.dpf.core import scoping, dimensionality
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
-from ansys.dpf.gate import (
+from ansys.dpf.core.gate import (
     property_field_abstract_api,
     property_field_capi,
     property_field_grpcapi,

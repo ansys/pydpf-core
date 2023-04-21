@@ -4,7 +4,7 @@ from ansys.dpf.core import Model
 from ansys.dpf.core import check_version
 from ansys.dpf.core import errors as dpf_errors
 
-from ansys.dpf.gate.load_api import _find_outdated_ansys_version
+from ansys.dpf.core.gate.load_api import _find_outdated_ansys_version
 
 
 def test_get_server_version(multishells):

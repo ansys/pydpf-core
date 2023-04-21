@@ -14,7 +14,7 @@ from ansys.dpf import core
 from ansys.dpf.core import examples
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 from ansys.dpf.core.check_version import meets_version, get_server_version
-from ansys.dpf.gate.load_api import _try_use_gatebin
+from ansys.dpf.core.gate.load_api import _try_use_gatebin
 import warnings
 
 ACCEPTABLE_FAILURE_RATE = 0

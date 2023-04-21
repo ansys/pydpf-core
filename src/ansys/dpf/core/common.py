@@ -11,8 +11,8 @@ import sys
 from enum import Enum
 
 from ansys.dpf.core.misc import module_exists
-from ansys.dpf.gate.common import locations, ProgressBarBase  # noqa: F401
-from ansys.dpf.gate.dpf_vector import (  # noqa: F401
+from ansys.dpf.core.gate.common import locations, ProgressBarBase  # noqa: F401
+from ansys.dpf.core.gate.dpf_vector import (  # noqa: F401
     get_size_of_list as _get_size_of_list,
 )
 
@@ -120,7 +120,7 @@ def types_enum_to_types():
         workflow,
         streams_container,
     )
-    from ansys.dpf.gate import dpf_vector
+    from ansys.dpf.core.gate import dpf_vector
 
     return {
         types.string: str,

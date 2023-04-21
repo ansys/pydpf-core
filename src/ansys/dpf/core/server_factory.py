@@ -11,7 +11,7 @@ import subprocess
 import time
 import io
 
-from ansys.dpf.gate.load_api import (
+from ansys.dpf.core.gate.load_api import (
     _get_path_in_install,
     _find_outdated_ansys_version,
 )
