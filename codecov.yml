@@ -21,4 +21,4 @@ coverage:
     - "src/ansys/dpf/core/operators"  # ignore folder and all its contents
     - "src/ansys/dpf/gate"  # ignore folder and all its contents
     - "src/ansys/dpf/gatebin"  # ignore folder and all its contents
-    - "src/ansys/dpf/grpc"  # ignore folder and all its contents
+    - "src/ansys/grpc/dpf"  # ignore folder and all its contents
