@@ -29,6 +29,7 @@ setup(
     packages=[
         "ansys.dpf.core",
         "ansys.dpf.gate",
+        "ansys.dpf.gate.generated",
         "ansys.dpf.gatebin",
         "ansys.grpc.dpf",
     ],
