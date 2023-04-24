@@ -512,7 +512,6 @@ class MeshedRegion:
         shell_layers=None,
         deform_by=None,
         scale_factor=1.0,
-        as_linear=True,
         **kwargs,
     ):
         """
@@ -529,9 +528,6 @@ class MeshedRegion:
             Defaults to None.
         scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
-        as_linear : bool, optional
-            Whether to show quadratic elements as their linear equivalents (for faster rendering).
-            Defaults to ``True``.
         **kwargs : optional
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
@@ -556,7 +552,7 @@ class MeshedRegion:
                 show_axes=kwargs.pop("show_axes", True),
                 deform_by=deform_by,
                 scale_factor=scale_factor,
-                as_linear=as_linear,
+                as_linear=True,
                 **kwargs,
             )
 
@@ -567,7 +563,7 @@ class MeshedRegion:
             deform_by=deform_by,
             scale_factor=scale_factor,
             show_axes=kwargs.pop("show_axes", True),
-            as_linear=as_linear,
+            as_linear=True,
             **kwargs,
         )
         return pl.show_figure(**kwargs)

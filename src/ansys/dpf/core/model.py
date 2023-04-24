@@ -206,7 +206,7 @@ class Model:
         txt += str(self.metadata.time_freq_support)
         return txt
 
-    def plot(self, color="w", show_edges=True, as_linear=True, **kwargs):
+    def plot(self, color="w", show_edges=True, **kwargs):
         """Plot the mesh of the model.
 
         Parameters
@@ -215,9 +215,6 @@ class Model:
             color of the mesh faces in PyVista format. The default is white with ``"w"``.
         show_edges : bool
             Whether to show the mesh edges. The default is ``True``.
-        as_linear : bool, optional
-            Whether to show quadratic elements as their linear equivalents (for faster rendering).
-            Defaults to ``True``.
         **kwargs : optional
             Additional keyword arguments for the plotter. For additional keyword
             arguments, see ``help(pyvista.plot)``.
@@ -241,7 +238,7 @@ class Model:
         pl.add_mesh(
             self.metadata.meshed_region,
             show_axes=kwargs.pop("show_axes", True),
-            as_linear=as_linear,
+            as_linear=True,
             **kwargs
         )
         return pl.show_figure(**kwargs)

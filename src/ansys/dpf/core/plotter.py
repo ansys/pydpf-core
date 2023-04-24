@@ -459,7 +459,7 @@ class DpfPlotter:
     def add_plane(self, plane, field=None, **kwargs):
         self._internal_plotter.add_plane(plane, field, **kwargs)
 
-    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, as_linear=True, **kwargs):
+    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
         """Add a mesh to plot.
 
         Parameters
@@ -471,9 +471,6 @@ class DpfPlotter:
             Defaults to None.
         scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
-        as_linear : bool, optional
-            Whether to show quadratic elements as their linear equivalents (for faster rendering).
-            Defaults to ``True``.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :func:`pyvista.plot`.
@@ -495,7 +492,7 @@ class DpfPlotter:
             meshed_region=meshed_region,
             deform_by=deform_by,
             scale_factor=scale_factor,
-            as_linear=as_linear,
+            as_linear=True,
             **kwargs,
         )
 
@@ -509,7 +506,6 @@ class DpfPlotter:
         label_point_size=20,
         deform_by=None,
         scale_factor=1.0,
-        as_linear=True,
         **kwargs,
     ):
         """Add a field containing data to the plotter.
@@ -534,9 +530,6 @@ class DpfPlotter:
             Defaults to None.
         scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
-        as_linear : bool, optional
-            Whether to show quadratic elements as their linear equivalents (for faster rendering).
-            Defaults to ``True``.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :func:`pyvista.plot`.
@@ -562,7 +555,7 @@ class DpfPlotter:
             label_point_size=label_point_size,
             deform_by=deform_by,
             scale_factor=scale_factor,
-            as_linear=as_linear,
+            as_linear=True,
             **kwargs,
         )
 
@@ -746,7 +739,6 @@ class Plotter:
         meshed_region=None,
         deform_by=None,
         scale_factor=1.0,
-        as_linear=True,
         **kwargs,
     ):
         """Plot the contour result on its mesh support.
@@ -766,9 +758,6 @@ class Plotter:
             Defaults to None.
         scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
-        as_linear : bool, optional
-            Whether to show quadratic elements as their linear equivalents (for faster rendering).
-            Defaults to ``True``.
         **kwargs : optional
             Additional keyword arguments for the plotter. For more information,
             see ``help(pyvista.plot)``.
@@ -883,6 +872,7 @@ class Plotter:
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._internal_plotter._plotter.add_mesh, **kwargs
         )
+        as_linear = True
         if deform_by:
             grid = mesh._as_vtk(mesh.deform_by(deform_by, scale_factor), as_linear=as_linear)
             self._internal_plotter.add_scale_factor_legend(scale_factor, **kwargs)
