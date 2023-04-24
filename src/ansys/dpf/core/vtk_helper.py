@@ -148,10 +148,8 @@ def dpf_mesh_to_vtk_op(mesh, nodes, as_linear):
     mesh_to_pyvista.inputs.mesh.connect(mesh)
     mesh_to_pyvista.inputs.as_linear.connect(as_linear)
     mesh_to_pyvista.inputs.vtk_updated.connect(VTK9)
-    if nodes is not None:
-        mesh_to_pyvista.inputs.coordinates.connect(nodes)
 
-    nodes_pv = mesh_to_pyvista.outputs.nodes()
+    nodes_pv = nodes.data
     cells_pv = mesh_to_pyvista.outputs.cells()
     celltypes_pv = mesh_to_pyvista.outputs.cell_types()
     if VTK9:
