@@ -8,7 +8,7 @@ import warnings
 import traceback
 
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core.gate import (
+from ansys.dpf.gate import (
     operator_config_capi,
     operator_config_grpcapi,
     operator_config_abstract_api,

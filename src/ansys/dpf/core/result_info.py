@@ -7,7 +7,7 @@ import warnings
 
 from enum import Enum, unique
 from types import SimpleNamespace
-from ansys.dpf.core.gate import (
+from ansys.dpf.gate import (
     result_info_capi,
     result_info_grpcapi,
     integral_types,

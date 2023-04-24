@@ -13,7 +13,7 @@ from ansys.dpf.core.common import locations, natures, types, _get_size_of_list
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.core.plotter import Plotter
-from ansys.dpf.core.gate import (
+from ansys.dpf.gate import (
     field_abstract_api,
     field_capi,
     field_grpcapi,
@@ -576,7 +576,7 @@ class Field(_FieldBase):
     def name(self):
         """Name of the field."""
         # return self._api.csfield_get_name(self)
-        from ansys.dpf.core.gate import integral_types
+        from ansys.dpf.gate import integral_types
 
         size = integral_types.MutableInt32()
         name = integral_types.MutableString(256)

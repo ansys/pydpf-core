@@ -14,7 +14,7 @@ from ansys.dpf.core.runtime_config import (
     RuntimeClientConfig,
     RuntimeCoreConfig,
 )
-from ansys.dpf.core.gate import (
+from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
     tmp_dir_capi,
@@ -676,7 +676,7 @@ class BaseService:
             specific_extension=specific_extension,
         )
         if not isinstance(client_paths_ptr, list):
-            from ansys.dpf.core.gate import object_handler
+            from ansys.dpf.gate import object_handler
 
             # collection of string
             client_paths = object_handler.ObjHandler(

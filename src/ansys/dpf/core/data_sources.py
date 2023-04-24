@@ -9,7 +9,7 @@ import warnings
 import traceback
 
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core.gate import (
+from ansys.dpf.gate import (
     data_sources_capi,
     data_sources_grpcapi,
     integral_types,

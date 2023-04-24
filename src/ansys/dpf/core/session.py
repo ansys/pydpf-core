@@ -10,7 +10,7 @@ import traceback
 import warnings
 import weakref
 
-from ansys.dpf.core.gate import session_capi, session_grpcapi, capi
+from ansys.dpf.gate import session_capi, session_grpcapi, capi
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import server_types, errors

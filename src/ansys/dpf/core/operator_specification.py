@@ -8,7 +8,7 @@ The OperatorSpecification Provides a documentation for each Operator
 
 import abc
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core.gate import (
+from ansys.dpf.gate import (
     operator_specification_capi,
     operator_specification_grpcapi,
     integral_types,

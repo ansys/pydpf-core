@@ -26,7 +26,7 @@ from ansys.dpf.core._version import (
 )
 from ansys.dpf.core.misc import __ansys_version__
 from ansys.dpf.core import server_context
-from ansys.dpf.core.gate import load_api, data_processing_grpcapi
+from ansys.dpf.gate import load_api, data_processing_grpcapi
 
 import logging
 
@@ -333,7 +333,7 @@ def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_mod
 
 
 def check_ansys_grpc_dpf_version(server, timeout):
-    import ansys.dpf.core.grpc.dpf
+    import ansys.grpc.dpf
     import grpc
 
     state = grpc.channel_ready_future(server.channel)
@@ -350,7 +350,7 @@ def check_ansys_grpc_dpf_version(server, timeout):
         f"https://dpf.docs.pyansys.com/getting_started/" f"index.html#client-server-compatibility"
     )
     LOG.debug("Established connection to DPF gRPC")
-    grpc_module_version = ansys.dpf.core.grpc.dpf.__version__
+    grpc_module_version = ansys.grpc.dpf.__version__
     server_version = server.version
     right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
     if right_grpc_module_version is None:  # pragma: no cover
@@ -643,7 +643,7 @@ class CServer(BaseServer, ABC):
 
 class GrpcClient:
     def __init__(self, address=None):
-        from ansys.dpf.core.gate import client_capi
+        from ansys.dpf.gate import client_capi
 
         self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
         client_capi.ClientCAPI.init_client_environment(self)
@@ -738,7 +738,7 @@ class GrpcServer(CServer):
 
     @property
     def version(self):
-        from ansys.dpf.core.gate import data_processing_capi, integral_types
+        from ansys.dpf.gate import data_processing_capi, integral_types
 
         api = data_processing_capi.DataProcessingCAPI
         major = integral_types.MutableInt32()
@@ -749,13 +749,13 @@ class GrpcServer(CServer):
 
     @property
     def os(self):
-        from ansys.dpf.core.gate import data_processing_capi
+        from ansys.dpf.gate import data_processing_capi
 
         api = data_processing_capi.DataProcessingCAPI
         return api.data_processing_get_os_on_client(self.client)
 
     def _create_shutdown_funcs(self):
-        from ansys.dpf.core.gate import data_processing_capi
+        from ansys.dpf.gate import data_processing_capi
 
         api = data_processing_capi.DataProcessingCAPI
         self._preparing_shutdown_func = (
@@ -888,7 +888,7 @@ class InProcessServer(CServer):
         # Load DPFClientAPI
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load DataProcessingCore
-        from ansys.dpf.core.gate.utils import data_processing_core_load_api
+        from ansys.dpf.gate.utils import data_processing_core_load_api
 
         name = "DataProcessingCore"
         path = _get_dll_path(name, ansys_path)
@@ -913,7 +913,7 @@ class InProcessServer(CServer):
 
     @property
     def version(self):
-        from ansys.dpf.core.gate import data_processing_capi, integral_types
+        from ansys.dpf.gate import data_processing_capi, integral_types
 
         api = data_processing_capi.DataProcessingCAPI
         major = integral_types.MutableInt32()
@@ -1000,7 +1000,7 @@ class LegacyGrpcServer(BaseServer):
         context=server_context.SERVER_CONTEXT,
     ):
         """Start the DPF server."""
-        # Use ansys.dpf.core.grpc.dpf
+        # Use ansys.grpc.dpf
         from ansys.dpf.core.misc import is_pypim_configured
 
         super().__init__()

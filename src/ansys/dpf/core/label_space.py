@@ -3,7 +3,7 @@ Internal Usage
 """
 import warnings
 import traceback
-from ansys.dpf.core.gate import (
+from ansys.dpf.gate import (
     label_space_capi,
     label_space_grpcapi,
     data_processing_capi,

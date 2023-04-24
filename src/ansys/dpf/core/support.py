@@ -6,7 +6,7 @@ Support
 """
 import traceback
 import warnings
-from ansys.dpf.core.gate import support_capi, support_grpcapi
+from ansys.dpf.gate import support_capi, support_grpcapi
 from ansys.dpf.core.check_version import version_requires
 
 from ansys.dpf.core import server as server_module

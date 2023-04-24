@@ -14,7 +14,7 @@ from ansys.dpf.core.server_types import BaseServer
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core.gate import (
+from ansys.dpf.gate import (
     collection_capi,
     collection_grpcapi,
     data_processing_capi,
@@ -371,7 +371,7 @@ class Collection:
         time_freq_support : TimeFreqSupport
         """
         from ansys.dpf.core.time_freq_support import TimeFreqSupport
-        from ansys.dpf.core.gate import (
+        from ansys.dpf.gate import (
             support_capi,
             support_grpcapi,
             object_handler,

@@ -16,7 +16,7 @@ from ansys.dpf.core.common import locations
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import server_types
 from ansys.dpf.core.cache import _setter
-from ansys.dpf.core.gate import (
+from ansys.dpf.gate import (
     scoping_capi,
     scoping_grpcapi,
     data_processing_capi,

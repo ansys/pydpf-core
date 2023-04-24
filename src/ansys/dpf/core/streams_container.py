@@ -9,7 +9,7 @@ import traceback
 
 from ansys.dpf.core.server_types import BaseServer
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core.gate import (
+from ansys.dpf.gate import (
     streams_capi,
     data_processing_capi,
     data_processing_grpcapi,

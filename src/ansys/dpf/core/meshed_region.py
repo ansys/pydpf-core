@@ -15,7 +15,7 @@ from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.plotter import DpfPlotter, Plotter
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core.gate import meshed_region_capi, meshed_region_grpcapi
+from ansys.dpf.gate import meshed_region_capi, meshed_region_grpcapi
 
 
 def update_grid(func):

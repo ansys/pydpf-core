@@ -19,6 +19,6 @@ coverage:
     - "docker"  # ignore folder and all its contents
     - "tests"  # ignore folder and all its contents
     - "src/ansys/dpf/core/operators"  # ignore folder and all its contents
-    - "src/ansys/dpf/core/gate"  # ignore folder and all its contents
-    - "src/ansys/dpf/core/gatebin"  # ignore folder and all its contents
-    - "src/ansys/dpf/core/grpc"  # ignore folder and all its contents
+    - "src/ansys/dpf/gate"  # ignore folder and all its contents
+    - "src/ansys/dpf/gatebin"  # ignore folder and all its contents
+    - "src/ansys/dpf/grpc"  # ignore folder and all its contents

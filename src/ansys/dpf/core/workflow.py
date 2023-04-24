@@ -13,7 +13,7 @@ from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
 from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core.gate import (
+from ansys.dpf.gate import (
     workflow_abstract_api,
     workflow_grpcapi,
     workflow_capi,

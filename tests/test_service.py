@@ -299,7 +299,7 @@ def test_load_api_without_awp_root(restore_awp_root):
 
     assert serv._client_api_path is not None
     assert serv._grpc_client_path is not None
-    dpf_inner_path = os.path.join("ansys", "dpf", "core", "gatebin")
+    dpf_inner_path = os.path.join("ansys", "dpf", "gatebin")
     assert dpf_inner_path in serv._client_api_path
     assert dpf_inner_path in serv._grpc_client_path
 
@@ -318,7 +318,7 @@ def test_load_api_with_awp_root():
 
     assert serv_2._client_api_path is not None
     assert serv_2._grpc_client_path is not None
-    dpf_inner_path = os.path.join("ansys", "dpf", "core", "gatebin")
+    dpf_inner_path = os.path.join("ansys", "dpf", "gatebin")
     assert dpf_inner_path in serv_2._client_api_path
     assert dpf_inner_path in serv_2._grpc_client_path
 
@@ -345,7 +345,7 @@ def test_load_api_with_awp_root_2():
 
     assert serv._client_api_path is not None
     assert serv._grpc_client_path is not None
-    dpf_inner_path = os.path.join("ansys", "dpf", "core", "gatebin")
+    dpf_inner_path = os.path.join("ansys", "dpf", "gatebin")
     assert dpf_inner_path in serv._client_api_path
     assert dpf_inner_path in serv._grpc_client_path
 

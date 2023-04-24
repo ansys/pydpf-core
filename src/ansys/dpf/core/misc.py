@@ -7,7 +7,7 @@ import packaging.version
 import pkg_resources
 import importlib
 from pkgutil import iter_modules
-from ansys.dpf.core.gate._version import __ansys_version__
+from ansys.dpf.gate._version import __ansys_version__
 
 DEFAULT_FILE_CHUNK_SIZE = 524288
 DYNAMIC_RESULTS = True
