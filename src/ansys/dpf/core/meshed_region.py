@@ -552,7 +552,6 @@ class MeshedRegion:
                 show_axes=kwargs.pop("show_axes", True),
                 deform_by=deform_by,
                 scale_factor=scale_factor,
-                as_linear=True,
                 **kwargs,
             )
 
@@ -563,7 +562,6 @@ class MeshedRegion:
             deform_by=deform_by,
             scale_factor=scale_factor,
             show_axes=kwargs.pop("show_axes", True),
-            as_linear=True,
             **kwargs,
         )
         return pl.show_figure(**kwargs)
