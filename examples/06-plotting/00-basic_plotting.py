@@ -54,19 +54,6 @@ mesh.plot(
     title="Mesh fc None",
     text="Mesh plot",
 )
-
-# The plotter transforms quadratic elements into their linear equivalents by default
-# for improved performance. This can be changed using the "as_linear=False" argument.
-# Note: semi-parabolic elements are always changed to their linear equivalents.
-mesh.plot(
-    as_linear=False,
-    field_or_fields_container=None,
-    shell_layers=None,
-    show_axes=True,
-    title="Mesh fc None",
-    text="Mesh plot as_linear=False",
-)
-
 # Additional PyVista kwargs are supported, such as:
 mesh.plot(
     off_screen=True,
