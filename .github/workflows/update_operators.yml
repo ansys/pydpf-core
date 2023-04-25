@@ -47,7 +47,7 @@ jobs:
         run: |
           files=( ansys_grpc_dpf* )
           wheel_file="${files[0]}"
-          wheel_path='./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist/$wheel_file'
+          wheel_path='./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist/"${wheel_file}"'
           unzip $wheel_path "ansys/*" -d src/ansys/
           chmod -R 777 src/ansys/grpc
 
