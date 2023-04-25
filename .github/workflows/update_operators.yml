@@ -37,11 +37,8 @@ jobs:
       - name: "Update ansys-grpc-dpf"
         shell: bash
         run: |
-          cd "./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist/"
-          files=( ansys_grpc_dpf* )
-          wheel_file="${files[0]}"
+          wheel_file=$(find ./ -name "./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist/ansys_grpc_dpf*"  -type f)
           echo $wheel_file
-          cd ../../../
           wheel_path="./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist/$wheel_file"
           unzip $wheel_path "ansys/*" -d src/ansys/
           chmod -R 777 src/ansys/grpc
