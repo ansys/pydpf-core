@@ -47,8 +47,7 @@ jobs:
         run: |
           wheel_file=$(find ./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist -name "ansys_grpc_dpf*"  -type f)
           echo $wheel_file
-          wheel_path="./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist/$wheel_file"
-          unzip $wheel_path "ansys/*" -d src/ansys/
+          unzip $wheel_file "ansys/*" -d src/ansys/
           chmod -R 777 src/ansys/grpc
 
       - name: "Install local package as editable"
