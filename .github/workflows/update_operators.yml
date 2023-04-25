@@ -34,6 +34,14 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: "Install DPF"
+        id: set-server-path
+        uses: pyansys/pydpf-actions/install-dpf-server@v2.3
+        with:
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+          ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '232' }}
+
       - name: "Update ansys-grpc-dpf"
         shell: bash
         run: |
@@ -42,14 +50,6 @@ jobs:
           wheel_path="./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist/$wheel_file"
           unzip $wheel_path "ansys/*" -d src/ansys/
           chmod -R 777 src/ansys/grpc
-
-      - name: "Install DPF"
-        id: set-server-path
-        uses: pyansys/pydpf-actions/install-dpf-server@v2.3
-        with:
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-          ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '232' }}
 
       - name: "Install local package as editable"
         shell: bash
