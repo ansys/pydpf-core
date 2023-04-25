@@ -1,4 +1,4 @@
-name: update_operators
+name: Update generated code
 
 on:
 # Can be called manually or remotely
@@ -22,8 +22,8 @@ env:
   ANSYS_DPF_ACCEPT_LA: Y
 
 jobs:
-  update_operators:
-    name: "Update operators"
+  update_generated:
+    name: "Update Generated Code"
     runs-on: windows-latest
 
     steps:
@@ -41,6 +41,15 @@ jobs:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
           ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '232' }}
+
+      - name: "Update ansys-grpc-dpf"
+        shell: bash
+        run: |
+          files=( ansys_grpc_dpf* )
+          wheel_file="${files[0]}"
+          wheel_path='./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist/$wheel_file'
+          unzip $wheel_path "ansys/*" -d src/ansys/
+          chmod -R 777 src/ansys/grpc
 
       - name: "Install local package as editable"
         shell: bash
@@ -79,6 +88,9 @@ jobs:
         with:
           delete-branch: true
           add-paths: |
+            src/ansys/dpf/gate/*
+            src/ansys/dpf/gatebin/*
+            src/ansys/grpc/*
             src/ansys/dpf/core/operators/*
             docs/source/_static/dpf_operators.html
           commit-message: update operators
