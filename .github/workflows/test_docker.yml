@@ -180,6 +180,7 @@ jobs:
           cd entry
           pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=junit/test-results10.xml  .
         if: always()
+        timeout-minutes: 10
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v3
