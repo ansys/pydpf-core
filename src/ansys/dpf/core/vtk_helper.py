@@ -1,5 +1,7 @@
 import numpy as np
 import pyvista as pv
+import ansys.dpf.core as dpf
+from ansys.dpf.core import errors
 from vtk import (
     VTK_HEXAHEDRON,
     VTK_LINE,
@@ -23,47 +25,6 @@ from vtk import (
 from ansys.dpf.core.elements import element_types
 
 VTK9 = vtkVersion().GetVTKMajorVersion() >= 9
-
-# Maps dpf cell sizes (based on array order) to the number of nodes per cell
-SIZE_MAPPING = np.array(
-    [
-        10,  # kAnsTet10
-        20,  # kAnsHex20
-        15,  # kAnsWedge15
-        13,  # kAnsPyramid13
-        6,  # kAnsTri6
-        6,  # kAnsTriShell6
-        8,  # kAnsQuad8
-        8,  # kAnsQuadShell8
-        3,  # kAnsLine3
-        1,  # kAnsPoint1
-        4,  # kAnsTet4
-        8,  # kAnsHex8
-        6,  # kAnsWedge6
-        5,  # kAnsPyramid5
-        3,  # kAnsTri3
-        3,  # kAnsTriShell3
-        4,  # kAnsQuad4
-        4,  # kAnsQuadShell4
-        2,  # kAnsLine2
-        0,  # kAnsNumElementTypes
-        0,  # kAnsUnknown
-        0,  # kAnsEMagLine
-        0,  # kAnsEMagArc
-        0,  # kAnsEMagCircle
-        3,  # kAnsSurface3
-        4,  # kAnsSurface4
-        6,  # kAnsSurface6
-        8,  # kAnsSurface8
-        2,  # kAnsEdge2
-        3,  # kAnsEdge3
-        3,  # kAnsBeam3
-        4,  # kAnsBeam4
-        0,  # kAnsGeneralPlaceholder
-        -1,  # kAnsPolygon
-        -2,  # kAnsPolyhedron
-    ]
-)  # kAnsBeam4
 
 
 # DPF --> VTK mapping
@@ -163,26 +124,70 @@ class PyVistaImportError(ModuleNotFoundError):
         ModuleNotFoundError.__init__(self, msg)
 
 
-def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
+def dpf_mesh_to_vtk_op(mesh, nodes, as_linear):
     """Return a pyvista unstructured grid given DPF node and element
-    definitions.
+    definitions from operators (server > 6.2)
 
     Parameters
     ----------
-    nodes : np.ndarray
-        Numpy array containing the nodes of the mesh.
+    mesh : dpf.MeshedRegion
+        Meshed Region to export to pyVista format
 
-    etypes : np.ndarray
-        ANSYS DPF element types.
+    nodes : dpf.Field
+        Field containing the nodes of the mesh.
 
-    connectivity : np.ndarray
-        Array containing the nodes used by each element.
+    as_linear : bool
+        Export quadratic surface elements as linear.
 
     Returns
     -------
     grid : pyvista.UnstructuredGrid
         Unstructured grid of the DPF mesh.
     """
+    mesh_to_pyvista = dpf.operators.mesh.mesh_to_pyvista(server=mesh._server)
+    mesh_to_pyvista.inputs.mesh.connect(mesh)
+    mesh_to_pyvista.inputs.as_linear.connect(as_linear)
+    mesh_to_pyvista.inputs.vtk_updated.connect(VTK9)
+    if nodes is not None:
+        mesh_to_pyvista.inputs.coordinates.connect(nodes)
+
+    nodes_pv = mesh_to_pyvista.outputs.nodes()
+    cells_pv = mesh_to_pyvista.outputs.cells()
+    celltypes_pv = mesh_to_pyvista.outputs.cell_types()
+    if VTK9:
+        return pv.UnstructuredGrid(cells_pv, celltypes_pv, nodes_pv)
+    else:
+        offsets_pv = mesh_to_pyvista.outputs.offsets()
+        return pv.UnstructuredGrid(offsets_pv, cells_pv, celltypes_pv, nodes_pv)
+
+
+def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
+    """Return a pyvista unstructured grid given DPF node and element
+    definitions in pure Python (server <= 6.2)
+
+    Parameters
+    ----------
+    mesh : dpf.MeshedRegion
+        Meshed Region to export to pyVista format
+
+    nodes : dpf.Field
+        Field containing the nodes of the mesh.
+
+    as_linear : bool
+        Export quadratic surface elements as linear.
+
+    Returns
+    -------
+    grid : pyvista.UnstructuredGrid
+        Unstructured grid of the DPF mesh.
+    """
+    etypes = mesh.elements.element_types_field.data
+    connectivity = mesh.elements.connectivities_field
+    if nodes is None:
+        nodes = mesh.nodes.coordinates_field.data
+    else:
+        nodes = nodes.data
+
     elem_size = np.ediff1d(np.append(connectivity._data_pointer, connectivity.shape))
 
     faces_nodes_connectivity = mesh.property_field("faces_nodes_connectivity")
@@ -197,7 +202,7 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
     insert_ind = np.cumsum(elem_size)
     insert_ind = np.hstack(([0], insert_ind))[:-1]
 
-    # TODO: Investigate why connectivity can be -1
+    # Handle semiparabolic elements
     nullmask = connectivity.data == -1
     connectivity.data[nullmask] = 0
     if nullmask.any():
@@ -281,6 +286,32 @@ def dpf_mesh_to_vtk(nodes, etypes, connectivity, as_linear=True, mesh=None):
         offset = compute_offset()
 
     return pv.UnstructuredGrid(offset, cells, vtk_cell_type, nodes)
+
+
+def dpf_mesh_to_vtk(mesh, nodes=None, as_linear=True):
+    """Return a pyvista unstructured grid given DPF node and element
+    definitions.
+
+    Parameters
+    ----------
+    mesh : dpf.MeshedRegion
+        Meshed Region to export to pyVista format
+
+    nodes : dpf.Field, optional
+        Field containing the nodes of the mesh.
+
+    as_linear : bool, optional
+        Export quadratic surface elements as linear.
+
+    Returns
+    -------
+    grid : pyvista.UnstructuredGrid
+        Unstructured grid of the DPF mesh.
+    """
+    try:
+        return dpf_mesh_to_vtk_op(mesh, nodes, as_linear)
+    except (AttributeError, KeyError, errors.DPFServerException):
+        return dpf_mesh_to_vtk_py(mesh, nodes, as_linear)
 
 
 def vtk_update_coordinates(vtk_grid, coordinates_array):

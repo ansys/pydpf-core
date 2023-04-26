@@ -51,6 +51,10 @@ class Output:
             type_output = types.meshes_container
         elif type_output == "streams_container":
             type_output = types.streams_container
+        elif type_output == "vector<double>":
+            type_output = types.vec_double
+        elif type_output == "vector<int32>":
+            type_output = types.vec_int
 
         return self._operator.get_output(self._pin, type_output)
 
