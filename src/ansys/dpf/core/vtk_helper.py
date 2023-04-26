@@ -155,10 +155,14 @@ def dpf_mesh_to_vtk_op(mesh, nodes, as_linear):
     cells_pv = mesh_to_pyvista.outputs.cells()
     celltypes_pv = mesh_to_pyvista.outputs.cell_types()
     if VTK9:
-        return pv.UnstructuredGrid(cells_pv, celltypes_pv, nodes_pv)
+        grid = pv.UnstructuredGrid(cells_pv, celltypes_pv, nodes_pv)
+        setattr(grid, "_dpf_cache_op", [cells_pv, celltypes_pv, nodes_pv])
+        return grid
     else:
         offsets_pv = mesh_to_pyvista.outputs.offsets()
-        return pv.UnstructuredGrid(offsets_pv, cells_pv, celltypes_pv, nodes_pv)
+        grid = pv.UnstructuredGrid(offsets_pv, cells_pv, celltypes_pv, nodes_pv)
+        setattr(grid, "_dpf_cache_op", [cells_pv, celltypes_pv, nodes_pv, offsets_pv])
+        return grid
 
 
 def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
