@@ -109,7 +109,7 @@ jobs:
         shell: bash
         run: |
           REPO="https://github.com/pyansys/pydpf-post.git"
-          in=""
+          in=${{ github.event.inputs.PyDPF-Post_branch }}
           if ["$in" = ""];
           then
               BranchName=$(git ls-remote --tags --refs $REPO | tail -n1 | cut -d/ -f3)
