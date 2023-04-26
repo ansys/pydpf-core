@@ -109,7 +109,7 @@ jobs:
         shell: bash
         run: |
           REPO="https://github.com/pyansys/pydpf-post.git"
-          in=${{ github.event.inputs.PyDPF-Post_branch || "" }}
+          in=${{ github.event.inputs.PyDPF-Post_branch || '' }}
           echo $in
           if ["$in" = ""];
           then
