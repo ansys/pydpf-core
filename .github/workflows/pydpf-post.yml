@@ -4,7 +4,7 @@ on:
 # Can be called by the CI
   workflow_call:
     inputs:
-      PyDPF-Post_branch:
+      post_branch:
         default: ''
         type: string
       ANSYS_VERSION:
@@ -29,7 +29,7 @@ on:
 # Can be called manually
   workflow_dispatch:
     inputs:
-      PyDPF-Post_branch:
+      post_branch:
         description: 'PyDPF-Post branch or tag to test. Leave empty to get latest tagged version'
         default: ''
         type: string
@@ -109,7 +109,7 @@ jobs:
         shell: bash
         run: |
           REPO="https://github.com/pyansys/pydpf-post.git"
-          BranchName=${{ github.event.inputs.PyDPF-Post_branch }}
+          BranchName=${{ github.event.inputs.post_branch }}
           echo branch="$BranchName"
           if [ "$BranchName" = '' ];
           then
