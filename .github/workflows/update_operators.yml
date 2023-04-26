@@ -47,22 +47,27 @@ jobs:
         run: |
           wheel_file=$(find ./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist -name "ansys_grpc_dpf-*"  -type f)
           echo $wheel_file
+          rm -r src/ansys/grpc
           unzip -o $wheel_file "ansys/**/*" -d src/
           chmod -R 777 src/ansys/grpc
+          git add -f src/ansys/grpc
 
       - name: "Update ansys-dpf-gate"
         shell: bash
         run: |
           wheel_file=$(find ./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist -name "ansys_dpf_gate-*"  -type f)
           echo $wheel_file
+          rm -r src/ansys/dpf/gate
           unzip -o $wheel_file "ansys/**/*" -d src/
           chmod -R 777 src/ansys/dpf/gate
+          git add -f src/ansys/dpf/gate
 
       - name: "Update ansys-dpf-gatebin lin"
         shell: bash
         run: |
           wheel_file=$(find ./dpf-standalone/v${{ github.event.inputs.ANSYS_VERSION }}/dist -name "ansys_dpf_gatebin-*linux1*"  -type f)
           echo $wheel_file
+          rm -r src/ansys/dpf/gatebin
           unzip -o $wheel_file "ansys/**/*" -d src/
           chmod -R 777 src/ansys/dpf/gatebin
 
@@ -73,6 +78,7 @@ jobs:
           echo $wheel_file
           unzip -o $wheel_file "ansys/**/*" -d src/
           chmod -R 777 src/ansys/dpf/gatebin
+          git add -f src/ansys/dpf/gatebin
 
       - name: "Install local package as editable"
         shell: bash
