@@ -48,7 +48,7 @@ vol_field = vol_op.outputs.fields_container()[0]
 # Find the minimum list of elements by node to get the volume check
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# get the connectivity and inverse connectivity fields
+# get the connectivy and inverse connecitivity fields
 connectivity_field = mesh.elements.connectivities_field
 nodal_connectivity_field = mesh.nodes.nodal_connectivity_field
 
@@ -83,7 +83,10 @@ with connectivity_field.as_local_field() as connectivity, \
                 # Get all nodes of the current elements for next iteration
                 current_node_indexes.extend(connectivity.get_entity_data(index))
 
-        node_index_to_el_ids[i] = [elements_ids[index] for index in elements_indexes]
+        node_index_to_el_ids[i] = dpf.Scoping(
+            ids=[elements_ids[index] for index in elements_indexes],
+            location=dpf.locations().elemental,
+        )
         node_index_to_found_volume[i] = volume
 
 ###############################################################################
@@ -125,7 +128,7 @@ seqvsum.scoping.ids = nodes_ids_to_compute
 volsum.data = datavolsum
 volsum.scoping.ids = nodes_ids_to_compute
 
-# use component wise divide to average the stress by the volume
+# use component wise divide to averaged the stress by the volume
 divide = ops.math.component_wise_divide(seqvsum, volsum)
 divide.run()
 
