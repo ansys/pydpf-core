@@ -110,8 +110,8 @@ jobs:
         run: |
           REPO="https://github.com/pyansys/pydpf-post.git"
           BranchName=${{ github.event.inputs.PyDPF-Post_branch }}
-          echo branch=$BranchName
-          if ["$BranchName" = ''];
+          echo branch="$BranchName"
+          if [ "$BranchName" = '' ];
           then
               BranchName=$(git ls-remote --tags --refs $REPO | tail -n1 | cut -d/ -f3)
           fi
