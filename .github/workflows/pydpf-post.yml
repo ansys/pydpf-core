@@ -110,12 +110,14 @@ jobs:
         run: |
           REPO="https://github.com/pyansys/pydpf-post.git"
           in=${{ github.event.inputs.PyDPF-Post_branch }}
+          echo $in
           if ["$in" = ""];
           then
               BranchName=$(git ls-remote --tags --refs $REPO | tail -n1 | cut -d/ -f3)
           else
               BranchName=$in
           fi
+          echo $BranchName
           git clone $REPO --single-branch --branch "$BranchName"
 
       - name: "Install PyDPF-Post"
