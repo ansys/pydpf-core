@@ -173,7 +173,9 @@ class elemental_nodal_to_nodal_fc(Operator):
                 ),
                 1: PinSpecification(
                     name="weights",
-                    type_names=["class dataProcessing::CPropertyFieldsContainer"],
+                    type_names=[
+                        "class dataProcessing::DpfTypeCollection<class dataProcessing::CPropertyField>"
+                    ],
                     optional=False,
                     document="""Gives for each node, the number of times it
         was found in the elemental nodal
