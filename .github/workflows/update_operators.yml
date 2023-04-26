@@ -39,7 +39,7 @@ jobs:
         uses: pyansys/pydpf-actions/install-dpf-server@v2.3
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+          standalone_suffix: ${{ github.event.inputs.standalone_suffix || '' }}
           ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '232' }}
 
       - name: "Update ansys-grpc-dpf"
