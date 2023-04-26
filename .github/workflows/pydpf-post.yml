@@ -116,7 +116,7 @@ jobs:
           else
               BranchName=$in
           fi
-          git clone $REPO --single-branch --branch $BranchName
+          git clone $REPO --single-branch --branch "$BranchName"
 
       - name: "Install PyDPF-Post"
         shell: bash
