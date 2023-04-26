@@ -40,6 +40,10 @@ class ResultInfoAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def result_info_get_custom_unit_system_strings(resultInfo):
+		raise NotImplementedError
+
+	@staticmethod
 	def result_info_get_unit_system_name(resultInfo):
 		raise NotImplementedError
 
@@ -145,6 +149,10 @@ class ResultInfoAbstractAPI:
 
 	@staticmethod
 	def result_info_set_unit_system(resultInfo, unit_system):
+		raise NotImplementedError
+
+	@staticmethod
+	def result_info_set_custom_unit_system(resultInfo, unit_strings):
 		raise NotImplementedError
 
 	@staticmethod

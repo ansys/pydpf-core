@@ -85,6 +85,17 @@ class ResultInfoCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
 		return res
 
 	@staticmethod
+	def result_info_get_custom_unit_system_strings(resultInfo):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ResultInfo_GetCustomUnitSystemStrings(resultInfo._internal_obj if resultInfo is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		newres = ctypes.cast(res, ctypes.c_char_p).value.decode("utf-8") if res else None
+		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
+		return newres
+
+	@staticmethod
 	def result_info_get_unit_system_name(resultInfo):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -349,6 +360,15 @@ class ResultInfoCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.ResultInfo_SetUnitSystem(resultInfo._internal_obj if resultInfo is not None else None, utils.to_int32(unit_system), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def result_info_set_custom_unit_system(resultInfo, unit_strings):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ResultInfo_SetCustomUnitSystem(resultInfo._internal_obj if resultInfo is not None else None, utils.to_char_ptr(unit_strings), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
