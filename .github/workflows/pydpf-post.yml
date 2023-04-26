@@ -4,7 +4,7 @@ on:
 # Can be called by the CI
   workflow_call:
     inputs:
-      PyDPF-Post_branch:
+      post_branch:
         default: ''
         type: string
       ANSYS_VERSION:
@@ -29,7 +29,7 @@ on:
 # Can be called manually
   workflow_dispatch:
     inputs:
-      PyDPF-Post_branch:
+      post_branch:
         description: 'PyDPF-Post branch or tag to test. Leave empty to get latest tagged version'
         default: ''
         type: string
@@ -109,14 +109,14 @@ jobs:
         shell: bash
         run: |
           REPO="https://github.com/pyansys/pydpf-post.git"
-          in=""
-          if ["$in" = ""];
+          BranchName=${{ inputs.post_branch }}
+          echo branch="$BranchName"
+          if [ "$BranchName" = '' ];
           then
               BranchName=$(git ls-remote --tags --refs $REPO | tail -n1 | cut -d/ -f3)
-          else
-              BranchName=$in
           fi
-          git clone $REPO --single-branch --branch $BranchName
+          echo branch=$BranchName
+          git clone --single-branch --branch "$BranchName" $REPO
 
       - name: "Install PyDPF-Post"
         shell: bash
