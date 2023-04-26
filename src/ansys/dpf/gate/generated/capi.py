@@ -3081,6 +3081,10 @@ def load_api(path):
 		dll.ResultInfo_GetAnsysUnitSystemEnum.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ResultInfo_GetAnsysUnitSystemEnum.restype = ctypes.c_int32
 
+	if hasattr(dll, "ResultInfo_GetCustomUnitSystemStrings"):
+		dll.ResultInfo_GetCustomUnitSystemStrings.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ResultInfo_GetCustomUnitSystemStrings.restype = ctypes.POINTER(ctypes.c_char)
+
 	if hasattr(dll, "ResultInfo_GetUnitSystemName"):
 		dll.ResultInfo_GetUnitSystemName.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ResultInfo_GetUnitSystemName.restype = ctypes.POINTER(ctypes.c_char)
@@ -3188,6 +3192,10 @@ def load_api(path):
 	if hasattr(dll, "ResultInfo_SetUnitSystem"):
 		dll.ResultInfo_SetUnitSystem.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ResultInfo_SetUnitSystem.restype = None
+
+	if hasattr(dll, "ResultInfo_SetCustomUnitSystem"):
+		dll.ResultInfo_SetCustomUnitSystem.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ResultInfo_SetCustomUnitSystem.restype = None
 
 	if hasattr(dll, "ResultInfo_AddResult"):
 		dll.ResultInfo_AddResult.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.c_int32, ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
