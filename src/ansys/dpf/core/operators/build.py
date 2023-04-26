@@ -193,10 +193,6 @@ def build_operators():
         if not os.path.exists(category_path):
             os.mkdir(category_path)
 
-        if "sweeping_phase" in operator_name:
-            succeeded += 1
-            continue
-
         # Clean up scripting name
         if scripting_name == "":
             scripting_name = operator_name
