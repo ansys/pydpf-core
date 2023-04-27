@@ -99,7 +99,8 @@ def compute_von_mises_then_average(analysis):
     min_max.inputs.field.connect(avg_von_mises)
     max_val = min_max.outputs.field_max()
 
-    mesh.plot()
+    _ = mesh.grid
+    # mesh.plot()
 
     return max_val.data[0]
 
