@@ -63,7 +63,7 @@ from ansys.dpf.core import examples
 ###############################################################################
 # Load the simulation results from an RST file.
 
-analysis = examples.download_crankshaft()
+analysis = examples.download_crankshaft(return_local_path=True)
 
 ###############################################################################
 # Create the first workflow
@@ -156,16 +156,16 @@ max1 = compute_von_mises_then_average(analysis)
 max2 = average_then_compute_von_mises(analysis)
 
 ###############################################################################
-# diff = (max1 - max2) / max2 * 100
+diff = (max1 - max2) / max2 * 100
 
 print("Max stress when Von Mises is computed first: {:.2f} Pa".format(max1))
 print("Max stress when the stress averaging is done first: {:.2f} Pa".format(max2))
-# print(
-#     "The maximum Von Mises stress value is {:.2f}% higher when \
-# the averaging is done after the calculations.".format(
-#         diff
-#     )
-# )
+print(
+    "The maximum Von Mises stress value is {:.2f}% higher when \
+the averaging is done after the calculations.".format(
+        diff
+    )
+)
 
 ###############################################################################
 # Even though both workflows apply the same steps to the same initial data,
