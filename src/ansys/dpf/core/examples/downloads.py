@@ -1005,3 +1005,39 @@ def download_harmonic_clamped_pipe(
 
     """
     return _download_file("harmonic", "clamped_pipe.rst", should_upload, server, return_local_path)
+
+
+def download_modal_cyclic(should_upload: bool = True, server=None, return_local_path=False) -> str:
+    """Download an example result file from a cyclic modal analysis and
+    return the download path.
+    If the server is remote (or doesn't share memory), the file is uploaded or made available
+    on the server side.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.download_modal_cyclic()
+
+    """
+    return _download_file("cyclic", "modal_cyclic.rst", should_upload, server, return_local_path)
