@@ -460,8 +460,8 @@ class MeshedRegion:
         if include_ids:
             self._nodeids = self.elements.scoping.ids
             self._elementids = self.nodes.scoping.ids
-            grid["node_ids"] = self._elementids
-            grid["element_ids"] = self._nodeids
+            grid["node_ids"] = self._nodeids
+            grid["element_ids"] = self._elementids
 
         # Quick fix required to hold onto the data as PyVista does not make a copy.
         # All of those now return DPFArrays
