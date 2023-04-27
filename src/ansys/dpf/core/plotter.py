@@ -865,7 +865,7 @@ class Plotter:
         else:
             grid = mesh.grid
         grid.clear_data()
-        # self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
+        self._internal_plotter._plotter.add_mesh(grid, **kwargs_in)  # scalars=overall_data,
 
         background = kwargs.pop("background", None)
         if background is not None:
