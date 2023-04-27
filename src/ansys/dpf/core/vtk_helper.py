@@ -191,6 +191,11 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
     if nodes is None:
         node_coordinates = mesh.nodes.coordinates_field.data
     else:
+        nodes = dpf.operators.scoping.rescope(
+            fields=nodes,
+            mesh_scoping=mesh.nodes.scoping,
+            server=mesh._server,
+        ).outputs.fields_as_field()
         node_coordinates = nodes.data
 
     elem_size = np.ediff1d(np.append(connectivity._data_pointer, connectivity.shape))
