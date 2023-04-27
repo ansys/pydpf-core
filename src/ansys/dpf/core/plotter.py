@@ -824,8 +824,6 @@ class Plotter:
                 fields_container = changeOp.get_output(0, core.types.fields_container)
                 break
 
-        exit()
-
         # Merge field data into a single array
         if component_count > 1:
             overall_data = np.full((len(mesh_location), component_count), np.nan)
@@ -881,6 +879,8 @@ class Plotter:
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._internal_plotter._plotter.show, **kwargs
         )
+
+        exit()
         return self._internal_plotter._plotter.show(**kwargs_in)
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
