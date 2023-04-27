@@ -830,9 +830,9 @@ class Plotter:
         else:
             overall_data = np.full(len(mesh_location), np.nan)
 
-        for field in fields_container:
-            ind, mask = mesh_location.map_scoping(field.scoping)
-            overall_data[ind] = field.data[mask]
+        # for field in fields_container:
+        #     ind, mask = mesh_location.map_scoping(field.scoping)
+        #     overall_data[ind] = field.data[mask]
 
         # create the plotter and add the meshes
 
@@ -879,8 +879,6 @@ class Plotter:
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._internal_plotter._plotter.show, **kwargs
         )
-
-        exit()
         return self._internal_plotter._plotter.show(**kwargs_in)
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
