@@ -189,8 +189,10 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
     etypes = mesh.elements.element_types_field.data
     connectivity = mesh.elements.connectivities_field
     if nodes is None:
-        node_coordinates = mesh.nodes.coordinates_field.data
+        coordinates_field = mesh.nodes.coordinates_field
+        node_coordinates = coordinates_field.data
     else:
+        coordinates_field = nodes
         node_coordinates = nodes.data
 
     elem_size = np.ediff1d(np.append(connectivity._data_pointer, connectivity.shape))
@@ -326,6 +328,11 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
     if VTK9:
         # compute offset array when < VTK v9
         grid = pv.UnstructuredGrid(cells, vtk_cell_type, node_coordinates)
+
+        # Quick fix required to hold onto the data as PyVista does not make a copy.
+        # All of those now return DPFArrays
+        setattr(grid, "_dpf_cache", [node_coordinates, coordinates_field])
+
         return grid
 
     # might be computed when checking for VTK quadratic bug

@@ -463,16 +463,6 @@ class MeshedRegion:
             grid["node_ids"] = self._nodeids
             grid["element_ids"] = self._elementids
 
-        # Quick fix required to hold onto the data as PyVista does not make a copy.
-        # All of those now return DPFArrays
-        if coordinates is None:
-            coordinates_field = self.nodes.coordinates_field
-            coordinates = self.nodes.coordinates_field.data
-        else:
-            coordinates_field = coordinates
-            coordinates = coordinates.data
-        setattr(grid, "_dpf_cache", [coordinates, coordinates_field])
-
         return grid
 
     @property
