@@ -824,6 +824,8 @@ class Plotter:
                 fields_container = changeOp.get_output(0, core.types.fields_container)
                 break
 
+        exit()
+
         # Merge field data into a single array
         if component_count > 1:
             overall_data = np.full((len(mesh_location), component_count), np.nan)
@@ -833,8 +835,6 @@ class Plotter:
         for field in fields_container:
             ind, mask = mesh_location.map_scoping(field.scoping)
             overall_data[ind] = field.data[mask]
-
-        exit()
 
         # create the plotter and add the meshes
 
