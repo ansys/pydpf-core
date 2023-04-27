@@ -458,8 +458,8 @@ class MeshedRegion:
 
         # consider adding this when scoping request is faster
         if include_ids:
-            self._nodeids = self.elements.scoping.ids
-            self._elementids = self.nodes.scoping.ids
+            self._nodeids = self.nodes.scoping.ids
+            self._elementids = self.elements.scoping.ids
             grid["node_ids"] = self._nodeids
             grid["element_ids"] = self._elementids
 
