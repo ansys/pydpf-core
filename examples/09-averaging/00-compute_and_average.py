@@ -81,7 +81,7 @@ def compute_von_mises_then_average(analysis):
 
     # Apply the stress operator to obtain the stresses in the body
     stress_op = dpf.operators.result.stress()
-    stress_op.inputs.connect(model)
+    stress_op.inputs.data_sources.connect(model)
     stresses = stress_op.outputs.fields_container()
 
     # Compute the von Mises stresses
@@ -121,7 +121,7 @@ def average_then_compute_von_mises(analysis):
 
     # Retrieving the stresses
     stress_op = dpf.operators.result.stress()
-    stress_op.inputs.connect(model)
+    stress_op.inputs.data_sources.connect(model)
     stresses = stress_op.outputs.fields_container()
 
     # Averaging the stresses to a Nodal position
