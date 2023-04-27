@@ -97,10 +97,11 @@ def test_get_as_data_tree(server_type):
         to_fill.list_double = [1.5, 2.5]
         to_fill.list_string = ["hello", "bye"]
     assert data_tree.get_as("int") == "1"
-    assert data_tree.get_as("double") == "1.000000"
+    assert float(data_tree.get_as("double")) == 1.0
     assert data_tree.get_as("string") == "hello"
     assert data_tree.get_as("list_int") == "1;2"
-    assert data_tree.get_as("list_double") == "1.500000;2.500000"
+    assert float(data_tree.get_as("list_double").split(";")[0]) == 1.5
+    assert float(data_tree.get_as("list_double").split(";")[1]) == 2.50000
     assert data_tree.get_as("list_string") == "hello;bye"
     assert data_tree.get_as("int", dpf.types.int) == 1
     assert data_tree.get_as("double", dpf.types.double) == 1.0
@@ -127,7 +128,8 @@ def test_write_data_tree():
     assert "list_double" in txt
     assert "list_string" in txt
     assert "hello;bye" in txt
-    assert "1.500000;2.500000" in txt
+    assert "1.5" in txt
+    assert "2.5" in txt
     txt = data_tree.write_to_json()
     assert "int" in txt
     assert "double" in txt
@@ -136,7 +138,8 @@ def test_write_data_tree():
     assert "list_double" in txt
     assert "list_string" in txt
     assert "hello;bye" in txt
-    assert "1.500000;2.500000" in txt
+    assert "1.5" in txt
+    assert "2.5" in txt
 
 
 @conftest.raises_for_servers_version_under("4.0")

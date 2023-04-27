@@ -1,0 +1,123 @@
+name: examples_docker
+
+on:
+# Can be called by the CI
+  workflow_call:
+    inputs:
+      python_versions:
+        required: false
+        type: string
+        default: '["3.8"]'
+      ANSYS_VERSION:
+        required: false
+        type: string
+        default: "232"
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
+      custom-wheels:
+        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
+        required: false
+        type: string
+        default: ''
+# Can be called manually
+  workflow_dispatch:
+    inputs:
+      python_versions:
+        description: "Python interpreters to test."
+        required: true
+        type: string
+        default: '["3.8"]'
+      ANSYS_VERSION:
+        description: "ANSYS version to run."
+        required: true
+        type: string
+        default: "232"
+      standalone_suffix:
+        description: "Suffix of the branch on standalone"
+        required: false
+        type: string
+        default: ''
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
+      custom-wheels:
+        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
+        required: false
+        type: string
+        default: ''
+
+env:
+  PACKAGE_NAME: ansys-dpf-core
+  MODULE: core
+  ANSYS_DPF_ACCEPT_LA: Y
+  ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
+
+jobs:
+  setup:
+    name: "Setup"
+    runs-on: ubuntu-latest
+    outputs:
+      python_versions: ${{ steps.set_array.outputs.python_versions }}
+    steps:
+      - id: set_array
+        run: |
+          echo "python_versions=${{ toJSON(inputs.python_versions) }}" >> $GITHUB_OUTPUT
+
+  examples:
+    name: "Run Examples"
+    needs: setup
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ${{ fromJSON(needs.setup.outputs.python_versions) }}
+        os: ["ubuntu-latest"]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.2.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: "Build Docker Package"
+        uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
+        with:
+          python-version: ${{ matrix.python-version }}
+          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          MODULE: ${{env.MODULE}}
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          install_extras: plotting
+          wheel: false
+          wheelhouse: false
+          extra-pip-args: ${{ inputs.custom-wheels && format('--find-links {0}', inputs.custom-wheels) || '' }}
+          standalone_suffix: ${{ inputs.standalone_suffix }}
+          custom-requirements: ${{ inputs.custom-requirements }}
+
+      - name: "Prepare Testing Environment"
+        uses: pyansys/pydpf-actions/prepare_tests@v2.3
+        with:
+          DEBUG: true
+
+      - name: "List installed packages"
+        shell: bash
+        run: pip list
+
+      - name: "Run examples"
+        shell: bash
+        working-directory: .ci
+        run: |
+          echo on
+          python run_examples.py

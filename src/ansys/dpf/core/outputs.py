@@ -156,7 +156,8 @@ class Outputs(_Outputs):
 
     def __init__(self, dict_outputs, operator):
         super().__init__(dict_outputs, operator)
-        for pin in self._dict_outputs:
+        # order the dict before looping
+        for pin in sorted(list(self._dict_outputs.keys())):
             if len(self._dict_outputs[pin].type_names) == 1 and self._dict_outputs[pin] is not None:
                 output_name = self._dict_outputs[pin].name
                 output = Output(self._dict_outputs[pin], pin, self._operator)
