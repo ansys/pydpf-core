@@ -63,7 +63,7 @@ from ansys.dpf.core import examples
 ###############################################################################
 # Load the simulation results from an RST file.
 
-analysis = examples.download_crankshaft(return_local_path=True)
+analysis = examples.download_crankshaft()
 
 ###############################################################################
 # Create the first workflow
