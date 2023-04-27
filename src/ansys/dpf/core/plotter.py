@@ -783,8 +783,6 @@ class Plotter:
         else:
             mesh = self._mesh
 
-        exit()
-
         # get mesh scoping
         location = None
         component_count = None
@@ -835,6 +833,8 @@ class Plotter:
         for field in fields_container:
             ind, mask = mesh_location.map_scoping(field.scoping)
             overall_data[ind] = field.data[mask]
+
+        exit()
 
         # create the plotter and add the meshes
 
