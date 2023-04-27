@@ -783,6 +783,8 @@ class Plotter:
         else:
             mesh = self._mesh
 
+        exit()
+
         # get mesh scoping
         location = None
         component_count = None
