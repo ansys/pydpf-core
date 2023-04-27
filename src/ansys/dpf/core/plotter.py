@@ -865,7 +865,7 @@ class Plotter:
         else:
             grid = mesh.grid
         grid.clear_data()
-        self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
+        # self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
         background = kwargs.pop("background", None)
         if background is not None:
@@ -879,8 +879,6 @@ class Plotter:
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._internal_plotter._plotter.show, **kwargs
         )
-
-        exit()
         return self._internal_plotter._plotter.show(**kwargs_in)
 
     def _plot_contour_using_vtk_file(self, fields_container, notebook=None):
