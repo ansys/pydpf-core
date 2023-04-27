@@ -81,25 +81,28 @@ def compute_von_mises_then_average(analysis):
 
     # Apply the stress operator to obtain the stresses in the body
     stress_op = dpf.operators.result.stress()
-    stress_op.inputs.connect(model)
-    stresses = stress_op.outputs.fields_container()
+    stress_op.inputs.data_sources.connect(model)
+    # stresses = stress_op.outputs.fields_container()
 
     # Compute the von Mises stresses
     vm_op = dpf.operators.invariant.von_mises_eqv()
-    vm_op.inputs.field.connect(stresses)
-    von_mises = vm_op.outputs.field()
+    # vm_op.inputs.field.connect(stresses)
+    vm_op.inputs.field.connect(stress_op.outputs.fields_container)
+    # von_mises = vm_op.outputs.field()
 
     # Apply the averaging operator to the von Mises stresses
     avg_op = dpf.operators.averaging.elemental_nodal_to_nodal()
-    avg_op.inputs.connect(von_mises)
+    # avg_op.inputs.connect(von_mises)
+    avg_op.inputs.connect(vm_op.outputs.field)
     avg_von_mises = avg_op.outputs.field()
 
     # Find the maximum value of the von Mises stress field
     min_max = dpf.operators.min_max.min_max()
-    min_max.inputs.field.connect(avg_von_mises)
+    # min_max.inputs.field.connect(avg_von_mises)
+    min_max.inputs.field.connect(avg_op.outputs.field)
     max_val = min_max.outputs.field_max()
 
-    mesh.plot()
+    mesh.plot(avg_von_mises)
 
     return max_val.data[0]
 
