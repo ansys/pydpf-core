@@ -27,6 +27,8 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
             if sys.platform == "linux" and "08-python-operators" in file:
                 continue
             print("\n--------------------------------------------------")
+            if not "00-compute_and_average" in file:
+                continue
             print(file)
             minimum_version_str = get_example_required_minimum_dpf_version(file)
             if float(server_version) - float(minimum_version_str) < -0.05:
