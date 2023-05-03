@@ -16,7 +16,7 @@ body:
       label: Before submitting the issue
       description: Please, make sure the following conditions are met
       options:
-      - label: I have checked for [Compatibility](https://dpf.docs.pyansys.com/getting_started/compatibility.html#id1) issues
+      - label: I have checked for [Compatibility](https://dpf.docs.pyansys.com/version/stable/getting_started/compatibility.html#id1) issues
         required: true
       - label: I have searched among the existing issues
         required: true
