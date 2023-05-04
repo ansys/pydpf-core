@@ -260,6 +260,14 @@ def test_connect_operator_output_operator(server_type):
     assert len(fOut.data) == 3
 
 
+def test_connect_generic_data_container_operator(server_type):
+    op = dpf.core.Operator("forward", server=server_type)
+    inpt = dpf.core.GenericDataContainer(server=server_type)
+    op.connect(0, inpt)
+    output = op.get_output(0, dpf.core.types.generic_data_container)
+    assert output is not None
+
+
 def test_eval_operator(server_type):
     op = dpf.core.Operator("min_max", server=server_type)
     inpt = dpf.core.Field(nentities=3, server=server_type)

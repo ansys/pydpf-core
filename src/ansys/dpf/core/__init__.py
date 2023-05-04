@@ -87,6 +87,7 @@ from ansys.dpf.core.server_context import (
     LicenseContextManager
 )
 from ansys.dpf.core.unit_system import UnitSystem, unit_systems
+from ansys.dpf.core.generic_data_container import GenericDataContainer
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."

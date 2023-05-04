@@ -40,14 +40,26 @@ class GenericDataContainer:
             raise errors.DpfVersionNotSupported("6.2")
 
         # step 2: get api
-        self._api_instance = None  # see property self._api
+        self._api_instance = self._server.get_api_for_type(
+            capi=generic_data_container_capi.GenericDataContainerCAPI,
+            grpcapi=generic_data_container_grpcapi.GenericDataContainerGRPCAPI,
+        )
 
         # step3: init environment
         self._api.init_generic_data_container_environment(self)  # creates stub when gRPC
 
         # step4: if object exists, take the instance, else create it
 
-        self._internal_obj = generic_data_container
+        # self._internal_obj = generic_data_container
+        if generic_data_container is not None:
+            self._internal_obj = generic_data_container
+        else:
+            if self._server.has_client():
+                self._internal_obj = self._api.generic_data_container_new_on_client(
+                    self._server.client
+                )
+            else:
+                self._internal_obj = self._api.generic_data_container_new()
 
     @property
     def _api(self) -> generic_data_container_abstract_api.GenericDataContainerAbstractAPI:
