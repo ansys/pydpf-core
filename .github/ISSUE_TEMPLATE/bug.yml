@@ -46,8 +46,8 @@ body:
   - type: dropdown
     id: os-name
     attributes:
-      label: Which Operating System are you using?
-      multiple: false
+      label: Which Operating System causes the issue?
+      multiple: true
       options:
        - 'Windows'
        - 'MacOS'
@@ -61,7 +61,8 @@ body:
       label: Which DPF/Ansys version are you using?
       multiple: false
       options:
-       - 'DPF Server as standalone'
+       - 'DPF Server 2023.2.pre1'
+       - 'DPF Server 2023.2.pre0'
        - 'Ansys 2023 R1'
        - 'Ansys 2022 R2'
        - 'Ansys 2022 R1'
@@ -73,14 +74,15 @@ body:
   - type: dropdown
     id: python-version
     attributes:
-      label: Which Python version are you using?
+      label: Which Python version causes the issue?
       description: Run `python --version` to verify your Python version
-      multiple: false
+      multiple: true
       options:
        - '3.7'
        - '3.8'
        - '3.9'
        - '3.10'
+       - '3.11'
     validations:
       required: true
 
