@@ -267,6 +267,18 @@ class Operator:
             errormsg = f"input type {inpt.__class__} cannot be connected"
             raise TypeError(errormsg)
 
+    @version_requires("6.0")
+    def connect_operator_as_input(self, pin, op):
+        """Connects an operator as an input on a pin.
+        Parameters
+        ----------
+        pin : int
+            Number of the output pin. The default is ``0``.
+        op : :class:`ansys.dpf.core.dpf_operator.Operator`
+            Requested type of the output. The default is ``None``.
+        """
+        self._api.operator_connect_operator_as_input(self, pin, op)
+
     @property
     def _type_to_output_method(self):
         from ansys.dpf.core import (
