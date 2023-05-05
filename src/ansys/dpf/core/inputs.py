@@ -82,10 +82,7 @@ class Input:
                 inpt = inpt.unit_names
 
         input_type_name = type(inpt).__name__
-        if not (
-            (input_type_name in self._python_expected_types)
-            or (input_type_name in ["Outputs", "Output", "Any"])
-        ):
+        if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
             for types in self._python_expected_types:
                 print(types, end=" ")
             print("types are expected for", self._spec.name, "pin")
