@@ -15,7 +15,6 @@ compare simple precision versus double precision.
 # temporary directory.
 
 import os
-import tempfile
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
@@ -42,7 +41,6 @@ print(h5op)
 # and displacement).
 
 timeIds = list(range(1, model.metadata.time_freq_support.n_sets + 1))
-timeIds
 
 stress.inputs.time_scoping.connect(timeIds)
 displacement.inputs.time_scoping.connect(timeIds)
@@ -56,10 +54,7 @@ h5op.inputs.data3.connect(mesh)
 
 ###############################################################################
 # Define a temporary folder for outputs
-if dpf.SERVER.local_server:
-    tmpdir = tempfile.mkdtemp()
-else:
-    tmpdir = "/tmp"
+tmpdir = dpf.core.make_tmp_dir_server(dpf.SERVER)
 files = [
     dpf.path_utilities.join(tmpdir, "dpf_float.h5"),
     dpf.path_utilities.join(tmpdir, "dpf_double.h5"),
