@@ -14,7 +14,7 @@ from ansys.dpf.gate import (
     generic_data_container_capi,
     generic_data_container_grpcapi,
 )
-
+from ansys.dpf.core.any import Any
 
 class GenericDataContainer:
     """Maps properties to their DPF supported Data Types.
@@ -81,6 +81,11 @@ class GenericDataContainer:
         from ansys.dpf.core.core import _description
 
         return _description(self._internal_obj, self._server)
+
+    def get_property(self, property_name, output_type):
+        any_ptr = self._api.generic_data_container_get_property_any(self, property_name)
+        any = Any(any_ptr, self._server)
+        return any.cast(output_type)
 
     def __del__(self):
         try:
