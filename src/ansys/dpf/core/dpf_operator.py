@@ -267,7 +267,7 @@ class Operator:
             errormsg = f"input type {inpt.__class__} cannot be connected"
             raise TypeError(errormsg)
 
-    @version_requires("6.0")
+    @version_requires("6.2")
     def connect_operator_as_input(self, pin, op):
         """Connects an operator as an input on a pin.
         Parameters

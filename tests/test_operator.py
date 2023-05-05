@@ -260,6 +260,10 @@ def test_connect_operator_output_operator(server_type):
     assert len(fOut.data) == 3
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
+    reason="Connect an operator as an input is supported starting server version 6.2",
+)
 def test_connect_operator_as_input(server_type):
     op_for_each = dpf.core.Operator("for_each", server=server_type)
     fieldify = dpf.core.Operator("fieldify", server=server_type)
