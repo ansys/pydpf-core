@@ -5,7 +5,7 @@ imageio-ffmpeg==0.4.7
 nbsphinx==0.9.1
 pypandoc==1.10
 pytest-sphinx==0.5.0
-pyvista==0.36.1
+pyvista==0.39.0
 sphinx==5.3.0
 sphinx-autobuild==2021.3.14
 sphinx-copybutton==0.5.0
