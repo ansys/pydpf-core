@@ -415,9 +415,7 @@ class ResultInfo:
         Available with server's version starting at 5.0.
         """
         coll_obj = collection.StringCollection(
-            collection=self._support_api.result_info_get_available_qualifier_labels_as_string_coll(
-                self
-            ),
+            collection=self._api.result_info_get_available_qualifier_labels_as_string_coll(self),
             server=self._server,
         )
         return coll_obj.get_integral_entries()
