@@ -24,13 +24,14 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
+    "ansys-dpf-gate>=0.3.*",
+    "imageio < 2.28.1",
     "importlib-metadata >=4.0",
-    "psutil",
+    "numpy",
     "packaging",
+    "psutil",
     "setuptools",
     "tqdm",
-    "numpy",
-    "ansys-dpf-gate>=0.3.*",
 ]
 
 [project.optional-dependencies]
