@@ -99,7 +99,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results.xml tests/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results.xml tests/.
 
       - name: "Test API test_launcher"
         uses: nick-fields/retry@v2
@@ -108,7 +108,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results2.xml test_launcher/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results2.xml test_launcher/.
 
       - name: "Test API test_server"
         uses: nick-fields/retry@v2
@@ -117,7 +117,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results3.xml test_server/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results3.xml test_server/.
 
       - name: "Test API test_local_server"
         uses: nick-fields/retry@v2
@@ -126,7 +126,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results4.xml test_local_server/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results4.xml test_local_server/.
 
       - name: "Test API test_multi_server"
         uses: nick-fields/retry@v2
@@ -135,7 +135,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results5.xml test_multi_server/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results5.xml test_multi_server/.
 
       - name: "Test API test_remote_workflow"
         uses: nick-fields/retry@v2
@@ -144,7 +144,7 @@ jobs:
           max_attempts: 3
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results6.xml test_remote_workflow/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results6.xml test_remote_workflow/.
 
       - name: "Test API test_remote_operator"
         uses: nick-fields/retry@v2
@@ -153,7 +153,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results7.xml test_remote_operator/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results7.xml test_remote_operator/.
 
       - name: "Test API test_workflow"
         uses: nick-fields/retry@v2
@@ -162,7 +162,7 @@ jobs:
           max_attempts: 3
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results8.xml test_workflow/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results8.xml test_workflow/.
 
       - name: "Test API test_service"
         uses: nick-fields/retry@v2
@@ -171,14 +171,14 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results9.xml test_service/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
 
       - name: "Test API Entry"
         shell: bash
         working-directory: tests
         run: |
           cd entry
-          pytest $DEBUG $COVERAGE $RERUNS --junitxml=../junit/test-results10.xml  .
+          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results10.xml  .
         if: always()
         timeout-minutes: 10
 
