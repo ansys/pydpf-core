@@ -16,6 +16,7 @@ from ansys.dpf.gate import (
 )
 from ansys.dpf.core.any import Any
 
+
 class GenericDataContainer:
     """Maps properties to their DPF supported Data Types.
 
@@ -83,10 +84,33 @@ class GenericDataContainer:
         return _description(self._internal_obj, self._server)
 
     def set_property(self, property_name, prop):
+        """ Register given property with the given name.
+
+        Parameters
+        ----------
+        property_name : str
+            Property name.
+        prop : type
+            object instance.
+        """
+
         any = Any.new_from(prop)
         self._api.generic_data_container_set_property_any(self, property_name, any)
 
     def get_property(self, property_name, output_type):
+        """ Get property with given name.
+
+        Parameters
+        ----------
+        property_name : str
+            Property name.
+        output_type :  :class:`ansys.dpf.core.common.types`
+
+        Returns
+        -------
+        type
+            Property object instance.
+        """
         any_ptr = self._api.generic_data_container_get_property_any(self, property_name)
         any = Any(any_ptr, self._server)
         return any.cast(output_type)

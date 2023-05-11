@@ -59,7 +59,6 @@ class Any:
 
     @staticmethod
     def _type_to_new_from_get_as_method(any):
-        """TODO: document"""
         from ansys.dpf.core import (
             field,
             property_field,
@@ -77,7 +76,18 @@ class Any:
 
     @staticmethod
     def new_from(obj):
-        """TODO: document"""
+        """Return an Any instance from the given object.
+
+        Parameters
+        ----------
+        obj : Object wrap as an Any
+
+        Returns
+        -------
+        any : Any
+            Wrapped any type.
+        """
+
         any = Any(server=obj._server)
         for type_tuple in Any._type_to_new_from_get_as_method(any):
             if isinstance(obj, type_tuple[0]):
@@ -88,7 +98,8 @@ class Any:
                 any._get_as_method = type_tuple[2]
 
                 return any
-        # TODO: check match
+
+        raise TypeError(f"{obj.__class__} is not currently supported by the Any class.")
 
     @property
     def _api(self) -> any_abstract_api.AnyAbstractAPI:
@@ -112,7 +123,19 @@ class Any:
         return _description(self._internal_obj, self._server)
 
     def cast(self, output_type=None):
-        """TODO: document"""
+        """Cast the Any back to its original type.
+
+        Parameters
+        ----------
+        output_type: output_type, optional
+            Used when the Any instance was retrieved from the server.
+            Not necessary when the instance was created using the :func:`ansys.dpf.core.Any.new_from`
+
+        Returns
+        -------
+        type
+            Original object instance
+        """
 
         self._internal_type = output_type if output_type is not None else self._internal_type
 
@@ -129,7 +152,7 @@ class Any:
 
                 return obj
 
-        # TODO: check match
+        raise TypeError(f"{output_type} is not currently supported by the Any class.")
 
     def __del__(self):
         try:
