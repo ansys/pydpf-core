@@ -82,6 +82,10 @@ class GenericDataContainer:
 
         return _description(self._internal_obj, self._server)
 
+    def set_property(self, property_name, prop):
+        any = Any.new_from(prop)
+        self._api.generic_data_container_set_property_any(self, property_name, any)
+
     def get_property(self, property_name, output_type):
         any_ptr = self._api.generic_data_container_get_property_any(self, property_name)
         any = Any(any_ptr, self._server)

@@ -53,13 +53,42 @@ class Any:
         # self._internal_obj = generic_data_container
         if any is not None:
             self._internal_obj = any
-        # else:
-        #     if self._server.has_client():
-        #         self._internal_obj = self._api.generic_data_container_new_on_client(
-        #             self._server.client
-        #         )
-        #     else:
-        #         self._internal_obj = self._api.generic_data_container_new()
+
+        self._internal_type = None
+        self._get_as_method = None
+
+    @staticmethod
+    def _type_to_new_from_get_as_method(any):
+        """TODO: document"""
+        from ansys.dpf.core import (
+            field,
+            property_field,
+            generic_data_container,
+            string_field
+        )
+
+        return [
+            #(str, any._api.any_wrapped_type_string),
+            (field.Field, any._api.any_new_from_field, any._api.any_get_as_field),
+            (property_field.PropertyField, any._api.any_new_from_property_field, any._api.any_get_as_property_field),
+            (string_field.StringField, any._api.any_new_from_string_field, any._api.any_get_as_string_field),
+            (generic_data_container.GenericDataContainer, any._api.any_new_from_generic_data_container, any._api.any_get_as_generic_data_container)
+        ]
+
+    @staticmethod
+    def new_from(obj):
+        """TODO: document"""
+        any = Any(server=obj._server)
+        for type_tuple in Any._type_to_new_from_get_as_method(any):
+            if isinstance(obj, type_tuple[0]):
+                # call respective new_from function
+                any._internal_obj = type_tuple[1](obj)
+                # store get_as & type for casting back to original type
+                any._internal_type = type_tuple[0]
+                any._get_as_method = type_tuple[2]
+
+                return any
+        # TODO: check match
 
     @property
     def _api(self) -> any_abstract_api.AnyAbstractAPI:
@@ -82,27 +111,25 @@ class Any:
 
         return _description(self._internal_obj, self._server)
 
-    def cast(self, output_type):
+    def cast(self, output_type=None):
         """TODO: document"""
-        for type_tuple in self._type_to_get_as_method:
-            if isinstance(output_type, type_tuple):
-                return type_tuple[1](self)
 
-    def _type_to_get_as_method(self):
-        """TODO: document"""
-        from ansys.dpf.core import (
-            field,
-            property_field,
-            generic_data_container,
-            string_field
-        )
+        self._internal_type = output_type if output_type is not None else self._internal_type
 
-        return [(str, self._api.any_wrapped_type_string),
-                (field.Field, self._api.any_get_as_field),
-                (property_field.PropertyField, self._api.any_get_as_property_field),
-                (string_field.StringField, self._api.any_get_as_string_field),
-                (generic_data_container.GenericDataContainer, self._api.any_get_as_generic_data_container)
-                ]
+        for type_tuple in Any._type_to_new_from_get_as_method(self):
+            if self._internal_type == type_tuple[0]:
+                # call the get_as function for the appropriate type
+                internal_obj = type_tuple[2](self)
+                # get the current type's constructors' variable keyword for passing the internal_obj
+                internal_obj_keyword = type_tuple[0].__init__.__code__.co_varnames[-2]
+                # wrap parameters in a dictionary for keyword parameters expansion when calling constructor
+                keyword_args = {internal_obj_keyword: internal_obj, "server": self._server}
+                # call constructor
+                obj = type_tuple[0](**keyword_args)
+
+                return obj
+
+        # TODO: check match
 
     def __del__(self):
         try:
