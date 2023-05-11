@@ -79,7 +79,7 @@ jobs:
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
       - name: "Setup Python"
-        uses: actions/setup-python@v2.1.4
+        uses: actions/setup-python@v4.6.0
         with:
           python-version: "3.8"
 
@@ -146,14 +146,8 @@ jobs:
         shell: bash
         working-directory: pydpf-post/tests
         run: |
-          pytest $DEBUG --cov=ansys.dpf.post --cov-report=xml --cov-report=html --log-level=ERROR --junitxml=junit/test-results-post.xml --reruns 2 .
+          pytest $DEBUG --reruns 2 .
         if: always()
 
       - name: "Kill all servers"
         uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
-
-      - name: "Upload Test Results"
-        uses: actions/upload-artifact@v2
-        with:
-          name: ansys-dpf-post_pytest
-          path: pydpf-post/tests/junit/test-results-post.xml
