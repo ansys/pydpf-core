@@ -88,7 +88,7 @@ class Splitter:
     #
     def split(
         self, chunk_size: int, end_input_pin: int = 0, rescope: bool = False
-    ) -> Tuple[core.Operator, core.Operator]:
+    ) -> core.Operator:
         # enables incremental evaluation:
         # using for_each, chunk_in_for_each_range and incremental version of the last op
         # by returning two operators with remapped inputs and outputs to other operators
