@@ -11,10 +11,15 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class compute_total_strain(Operator):
-    """Computes the strain from a displacement field. Only some 3-D elements
-    and integration schemes are supported (only hexa, tetra, pyramid
-    and wedge). Layered elements are not supported. All coordinates
-    are global coordinates. Not all strain formulations are supported.
+    """Computes the strain from a displacement field. Only SOLID185 (B-Bar,
+    Simplified Enhanced Strain, Enhanced Strain formulations),
+    SOLID186 (Full Integration) & SOLID187 elements are supported.
+    Layered elements are not supported. Thermal strains are not
+    supported. Only one value of material properties are allowed per
+    element for isotropic and orthotropic elasticity. Material
+    nonlinearity is not supported Only linear analysis are supported
+    without On Demand Expansion. All coordinates are global
+    coordinates. Euler Angles need to be included in the database.
 
     Parameters
     ----------
@@ -44,7 +49,7 @@ class compute_total_strain(Operator):
         been connected. required if no
         displacement input have been
         connected.
-    data_sources : DataSources, optional
+    data_sources : DataSources
         Optional if a mesh or a streams_container
         have been connected, or if the
         displacement's field has a mesh
@@ -155,11 +160,16 @@ class compute_total_strain(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the strain from a displacement field. Only some 3-D elements
-            and integration schemes are supported (only hexa, tetra,
-            pyramid and wedge). Layered elements are not supported.
-            All coordinates are global coordinates. Not all strain
-            formulations are supported."""
+        description = """Computes the strain from a displacement field. Only SOLID185 (B-Bar,
+            Simplified Enhanced Strain, Enhanced Strain formulations),
+            SOLID186 (Full Integration) &amp; SOLID187 elements are
+            supported. Layered elements are not supported. Thermal
+            strains are not supported. Only one value of material
+            properties are allowed per element for isotropic and
+            orthotropic elasticity. Material nonlinearity is not
+            supported Only linear analysis are supported without On
+            Demand Expansion. All coordinates are global coordinates.
+            Euler Angles need to be included in the database."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -211,7 +221,7 @@ class compute_total_strain(Operator):
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
-                    optional=True,
+                    optional=False,
                     document="""Optional if a mesh or a streams_container
         have been connected, or if the
         displacement's field has a mesh
