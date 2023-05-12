@@ -9,6 +9,12 @@ from ansys.dpf.core import Scoping
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.common import locations
 from ansys.dpf.core.model import Model
+from ansys.dpf.core.time_freq_support import TimeFreqSupport
+from ansys.dpf.core.data_sources import DataSources
+from ansys.dpf.core.operators.metadata import time_freq_provider
+
+from ansys.dpf.core import types
+from typing import Union
 
 
 def scoping_by_load_step(load_step: int, server=None):
@@ -164,7 +170,7 @@ def scoping_by_step_and_substep_from_model(load_step_id, subset_id, model, serve
     return scoping_by_step_and_substep(load_step_id, subset_id, model.metadata.time_freq_support)
 
 
-def scoping_on_all_time_freqs(tf_support_or_model):
+def scoping_on_all_time_freqs(obj: Union[TimeFreqSupport, Model, DataSources]):
     """Create a specific :class:`ansys.dpf.core.Scoping` with all time or
     frequency sets of a :class:`ansys.dpf.core.TimeFreqSupport` or a class:`ansys.dpf.core.Model`
 
@@ -177,10 +183,22 @@ def scoping_on_all_time_freqs(tf_support_or_model):
     scoping : Scoping
         Scoping with all time or frequency sets IDs.
     """
-    if isinstance(tf_support_or_model, Model):
-        tf_support_or_model = tf_support_or_model.metadata.time_freq_support
+    tf_support = None
+    if isinstance(obj, TimeFreqSupport):
+        tf_support = obj
+    elif isinstance(obj, Model):
+        tf_support = obj.metadata.time_freq_support
+    elif isinstance(obj, DataSources):
+        tf_provider = time_freq_provider(data_sources=obj, server=obj._server)
+        tf_support = tf_provider.get_output(output_type=types.time_freq_support)
+
+    if tf_support == None:
+        raise TypeError(
+            f"Given type was {type(obj)} while accepted types are {TimeFreqSupport}, {Model}, {DataSources}"
+        )
+
     return Scoping(
-        ids=range(1, len(tf_support_or_model.time_frequencies) + 1),
+        ids=range(1, len(tf_support.time_frequencies) + 1),
         location=locations.time_freq,
-        server=tf_support_or_model._server,
+        server=tf_support._server,
     )
