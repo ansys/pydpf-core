@@ -162,6 +162,17 @@ class Config:
             Value to give to a configuration option.
         config_name : str
             Name of the configuration option.
+
+        Examples
+        --------
+        Modify the copy of an operator's configuration and set it back.
+
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.add()
+        >>> config_add = op.config
+        >>> config_add.set_config_option(config_name="work_by_index", config_value=True)
+        >>> op.config = config_add
+
         """
         return self.__set_config_option__(config_value, config_name)
 
