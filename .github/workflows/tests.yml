@@ -133,12 +133,6 @@ jobs:
           standalone_suffix: ${{ inputs.standalone_suffix }}
           custom-requirements: ${{ inputs.custom-requirements }}
 
-      - name: "Install ansys-grpc-dpf==0.4.0"
-        if: inputs.ANSYS_VERSION == 221
-        shell: pwsh
-        run: |
-          pip install ansys-grpc-dpf==0.4.0
-
       - name: "Prepare Testing Environment"
         uses: pyansys/pydpf-actions/prepare_tests@v2.3
         with:

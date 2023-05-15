@@ -98,13 +98,6 @@ jobs:
           standalone_suffix: ${{ inputs.standalone_suffix }}
           custom-requirements: ${{ inputs.custom-requirements }}
 
-      - name: "Install ansys-grpc-dpf==0.4.0"
-        if: inputs.ANSYS_VERSION == 221
-        shell: bash
-        run: |
-          pip install ansys-grpc-dpf==0.4.0
-          pip install protobuf==3.20.*
-
       - name: "Clone PyDPF-Post"
         shell: bash
         run: |
