@@ -89,3 +89,15 @@ def test_delete_auto_data_sources(server_type):
 
     gc.collect()
     assert ref() is None
+
+
+@conftest.raises_for_servers_version_under("6.2")
+def test_register_namespace(allkindofcomplexity, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_result_file_path(allkindofcomplexity)
+    op = dpf.core.operators.result.displacement(data_sources=data_sources, server=server_type)
+    assert op.eval() is not None
+    data_sources.register_namespace("rst", "notmapdl")
+    with pytest.raises(Exception):
+        op = dpf.core.operators.result.displacement(data_sources=data_sources, server=server_type)
+        assert op.eval() is not None
