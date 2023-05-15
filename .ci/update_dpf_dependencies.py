@@ -1,5 +1,9 @@
 """Script to update ansys-dpf-gate, ansys-dpf-gatebin and ansys-grpc-dpf based on repositories
 
+This script should only be used to quickly test changes to any of these dependencies.
+Actual commit of updated code should not occur.
+The GitHub pipelines take care of the actual update in ansys-dpf-core.
+
 Define environment variables to know where to get the code from:
 - "ANSYS_DPF_GRPC_ROOT" defines where ansys-grpc-dpf resides (DPF/proto/).
   Will unzip the latest wheel built in DPF/proto/dist/.
