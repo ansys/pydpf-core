@@ -1,6 +1,6 @@
 from .rotate_in_cylindrical_cs_fc import rotate_in_cylindrical_cs_fc 
-from .rotate_in_cylindrical_cs import rotate_in_cylindrical_cs 
 from .rotate import rotate 
+from .rotate_in_cylindrical_cs import rotate_in_cylindrical_cs 
 from .rotate_fc import rotate_fc 
 from .to_polar_coordinates import to_polar_coordinates 
 from .spherical_to_cartesian_fc import spherical_to_cartesian_fc 
