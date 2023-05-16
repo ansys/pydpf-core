@@ -1,13 +1,13 @@
 """
 Downloads
 =========
-Download example datasets from https://github.com/pyansys/example-data"""
+Download example datasets from https://github.com/ansys/example-data"""
 import os
 import urllib.request
 import warnings
 from ansys.dpf.core.examples.examples import find_files
 
-EXAMPLE_REPO = "https://github.com/pyansys/example-data/raw/master/result_files/"
+EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/master/result_files/"
 
 
 def delete_downloads():
