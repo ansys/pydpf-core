@@ -4,7 +4,7 @@ import math
 from typing import Dict, Any, Tuple
 
 
-class Splitter:
+class IncrementalHelper:
     def __init__(
         self,
         start_op: core.Operator,
@@ -133,8 +133,8 @@ class Splitter:
         inc_operators = [
             "accumulate_level_over_label_fc",
             "accumulate_min_over_label_fc",
-            "accumulate over label",
-            "average over label",
+            "accumulate_over_label_fc",
+            "average_over_label_fc",
             "min_max_inc",
             "min_max_fc_inc",
             "max_over_time_by_entity",
@@ -153,6 +153,9 @@ class Splitter:
                 print(
                     f"An operator named {map_to_inc[end_op.name]} supports incremental evaluation"
                 )
+        
+        if 'incremental' in end_op.config.available_config_options:
+            end_op.config.set_config_option('incremental', True)
 
         return end_op
 
@@ -185,7 +188,7 @@ def split_workflow_in_chunks(
     scoping_pin: int = None,
     end_input_pin: int = 0,
 ):
-    splitter = Splitter(start_op, end_op, scoping, scoping_pin)
+    splitter = IncrementalHelper(start_op, end_op, scoping, scoping_pin)
 
     if chunk_size == None:
         print(f"Estimating chunk_size with max_bytes: {max_bytes}")

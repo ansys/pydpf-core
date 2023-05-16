@@ -87,7 +87,7 @@ from ansys.dpf.core.server_context import (
     LicenseContextManager
 )
 from ansys.dpf.core.unit_system import UnitSystem, unit_systems
-from ansys.dpf.core.splitter import Splitter, split_workflow_in_chunks
+from ansys.dpf.core.incremental import IncrementalHelper, split_workflow_in_chunks
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."
