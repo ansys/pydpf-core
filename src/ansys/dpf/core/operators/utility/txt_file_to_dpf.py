@@ -105,7 +105,7 @@ class txt_file_to_dpf(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
