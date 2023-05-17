@@ -92,7 +92,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: "Build Docker Package"
-        uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
+        uses: ansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
@@ -107,7 +107,7 @@ jobs:
           custom-requirements: ${{ inputs.custom-requirements }}
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.3
+        uses: ansys/pydpf-actions/prepare_tests@v2.3
         with:
           DEBUG: true
 

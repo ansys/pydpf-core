@@ -157,8 +157,6 @@ jobs:
       ANSYS_VERSION: "232"
       python_versions: '["3.8", "3.9", "3.10"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
-      custom-wheels: ${{ github.event.inputs.custom-wheels-docker || './dpf-standalone/dist' }}
     secrets: inherit
 
   draft_release:
