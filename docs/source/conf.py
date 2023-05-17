@@ -58,7 +58,7 @@ for example in glob(r"../../examples/**/*.py"):
     if float(server_version) - float(minimum_version_str) < -0.05:
         example_name = example.split(os.path.sep)[-1]
         print(f"Example {example_name} skipped as it requires DPF {minimum_version_str}.")
-    ignored_pattern += f"|{example_name}"
+        ignored_pattern += f"|{example_name}"
 ignored_pattern += r")"
 
 # -- General configuration ---------------------------------------------------
