@@ -19,7 +19,7 @@ Here are descriptions for key DPF terms:
 - **Location:** Type of topology associated with the data container. DPF
   uses three different spatial locations for finite element data: ``Nodal``,
   ``Elemental``, and ``ElementalNodal``.
-- **Operators:** Objects that are used to create and transform the data.
+- **Operators:** Objects that are used to create, transform and stream the data.
   An operator is composed of a **core** and **pins**. The core handles the
   calculation, and the pins provide input data to and output data from
   the operator.
@@ -69,7 +69,7 @@ This image summarizes the preceding concepts:
 
 Operators
 ---------
-You use :ref:`ref_dpf_operators_reference` to create and transform the data. An
+You use :ref:`ref_dpf_operators_reference` to create, transform and stream the data. An
 *operator* is composed of a core and input and output pins.
 
 - The core handles the calculation.
