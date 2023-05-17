@@ -108,8 +108,15 @@ class IncrementalHelper:
         for_each.connect(2, end_input_pin)
 
         # connect inputs
+        dict_outputs = core.Operator.operator_specification(
+            op_name=self._end_op.name, server=_server
+        ).outputs
+        if not dict_outputs:
+            # temporary patch for incremental:: operators
+            dict_outputs = {0: None}
+
         fe_pin_idx = 3  # see doc of for_each
-        for pin_idx in self._end_op.outputs._dict_outputs.keys():
+        for pin_idx in dict_outputs.keys():
             # connect end_op to for_each
             for_each.connect(fe_pin_idx, self._end_op, pin_idx)
             # remap
@@ -120,7 +127,7 @@ class IncrementalHelper:
 
         if rescope:
             new_forward = core.Operator("forward")
-            for pin_idx in self._end_op.outputs._dict_outputs.keys():
+            for pin_idx in dict_outputs.keys():
                 rescope = core.Operator("Rescope")
                 rescope.connect(0, forward, pin_idx)
                 rescope.connect(1, self._scoping)
@@ -143,6 +150,10 @@ class IncrementalHelper:
             "min_over_time_by_entity",
             "time_of_max_by_entity",
             "time_of_min_by_entity",
+            "incremental::merge::property_field",
+            "incremental::merge::mesh",
+            "incremental::merge::field",
+            "incremental::merge::fields_container",
         ]
 
         map_to_inc = {"min_max": "min_max_inc", "min_max_fc": "min_max_fc_inc"}
@@ -153,9 +164,9 @@ class IncrementalHelper:
                 print(
                     f"An operator named {map_to_inc[end_op.name]} supports incremental evaluation"
                 )
-        
-        if 'incremental' in end_op.config.available_config_options:
-            end_op.config.set_config_option('incremental', True)
+
+        if "incremental" in end_op.config.available_config_options:
+            end_op.config.set_config_option("incremental", True)
 
         return end_op
 
