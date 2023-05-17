@@ -719,12 +719,12 @@ module, clone the repository and install it using pip with the ``-e`` developmen
     If you want to set a server with a specific ID and port to connect to it from a different machine, use the following code:
 </p>
 <simple-scripts id="script_PackageCPythonInstall" python=" pip install ansys-dpf-core
- pip install ansys-dpf-post"></apis-scripts><simple-scripts id="script_PackageCPythonOpenSourceDev" python=" git clone https://github.com/pyansys/DPF-Core
- cd DPF-Core
+ pip install ansys-dpf-post"></apis-scripts><simple-scripts id="script_PackageCPythonOpenSourceDev" python=" git clone https://github.com/ansys/pydpf-core
+ cd pydpf-core
  pip install -e .
 
- git clone https://github.com/pyansys/DPF-Post
- cd DPF-Post
+ git clone https://github.com/ansys/pydpf-post
+ cd pydpf-post
  pip install -e ."></apis-scripts><simple-scripts id="script_CPythonConnectServer" python="# start a specified server<br># please note that without attribute, this function <br># will start a server with default id and port <br>from ansys.dpf import core as dpf<br>dpf.start_local_server(ip = my_ip, port = my_port)<br><br># Connect to an existing DPF server<br>from ansys.dpf import core as dpf<br>server = dpf.connect_to_server(ip = my_ip, port = my_port)<br>"></apis-scripts></div></div><div class="main_text" id="howToUseIPython"><h1>How to use the IPython package</h1><div><h2 class="h2-main">Use ACT Console</h2>
 <h3 class="h3-main">Open the ACT console scripting in Mechanical</h3>
 <p class="p-main" id="des_PackageOpenACT">Open the ACT console by clicking the <b>Automation</b> or <b>Scripting</b> menus in Mechanical.</p>
