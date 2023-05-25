@@ -34,13 +34,14 @@ class _PyVistaAnimator(_PyVistaPlotter):
         output_name,
         input_name="loop_over",
         save_as="",
+        mode_number=None,
         scale_factor=1.0,
         **kwargs,
     ):
-        # Extract useful information from the given frequencies Field
 
         unit = loop_over.unit
         indices = loop_over.scoping.ids
+
         if scale_factor is None:
             scale_factor = [False] * len(indices)
         type_scale = type(scale_factor)
@@ -79,12 +80,16 @@ class _PyVistaAnimator(_PyVistaPlotter):
         if cpos:
             if isinstance(cpos[0][0], float):
                 cpos = [cpos] * len(indices)
-        str_template = "t={0:{2}} {1}"
 
         def render_frame(frame):
             self._plotter.clear()
-            # print(f"render frame {frame} for input {indices[frame]}")
-            workflow.connect(input_name, [frame])
+
+            if mode_number is None:
+                workflow.connect(input_name, [frame])
+
+            else:
+                workflow.connect(input_name, loop_over.data[frame])
+
             field = workflow.get_output(output_name, core.types.field)
             deform = None
             if "deform_by" in workflow.output_names:
@@ -96,9 +101,17 @@ class _PyVistaAnimator(_PyVistaPlotter):
                 **kwargs,
             )
             kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **freq_kwargs)
-            self._plotter.add_text(
-                str_template.format(loop_over.data[frame], unit, freq_fmt), **kwargs_in
-            )
+            if mode_number is None:
+                str_template = "t={0:{2}} {1}"
+                self._plotter.add_text(
+                    str_template.format(indices[frame], unit, freq_fmt), **kwargs_in
+                )
+            else:
+                str_template = "frq={0:{2}} {1}"
+                self._plotter.add_text(
+                    str_template.format(mode_number, unit, freq_fmt), **kwargs_in
+                )
+
             if cpos:
                 self._plotter.camera_position = cpos[frame]
 
@@ -242,8 +255,8 @@ class Animator:
         output_name : str, optional
             Name of the workflow output to use as Field for each frame's contour.
             Defaults to "to_render".
-        input_name : str, optional
-            Name of the workflow input to feed loop_over values into.
+        input_name : list of str, optional
+            Name of the workflow inputs to feed loop_over values into.
             Defaults to "loop_over".
         save_as : str, optional
             Path of file to save the animation to. Defaults to None. Can be of any format supported

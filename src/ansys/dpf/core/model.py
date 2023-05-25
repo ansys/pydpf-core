@@ -416,7 +416,7 @@ class Metadata:
             result_info = op.get_output(0, types.result_info)
         except Exception as e:
             # give the user a more helpful error
-            if "results file is not defined in the Data sources" in e.args():
+            if "results file is not defined in the Data sources" in e.args:
                 raise RuntimeError("Unable to open result file") from None
             else:
                 raise e

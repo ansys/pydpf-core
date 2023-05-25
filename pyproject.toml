@@ -5,7 +5,7 @@ build-backend = "flit_core.buildapi"
 [project]
 # Check https://flit.readthedocs.io/en/latest/pyproject_toml.html for all available sections
 name = "ansys-dpf-core"
-version = "0.7.5.dev0"
+version = "0.8.2.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
 requires-python = ">=3.7, <4"
@@ -24,13 +24,14 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
+    "ansys-dpf-gate>=0.3.*",
+    "imageio < 2.28.1",
     "importlib-metadata >=4.0",
-    "psutil",
+    "numpy",
     "packaging",
+    "psutil",
     "setuptools",
     "tqdm",
-    "numpy",
-    "ansys-dpf-gate>=0.3.*",
 ]
 
 [project.optional-dependencies]
@@ -42,8 +43,8 @@ name = "ansys.dpf.core"
 [project.urls]
 Homepage = "https://dpf.docs.pyansys.com/"
 Documentation = "https://dpf.docs.pyansys.com/"
-Source = "https://github.com/pyansys/pydpf-core"
-Tracker = "https://github.com/pyansys/pydpf-core/issues"
+Source = "https://github.com/ansys/pydpf-core"
+Tracker = "https://github.com/ansys/pydpf-core/issues"
 
 [tool.black]
 line-length = 100

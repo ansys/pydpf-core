@@ -49,7 +49,7 @@ class cyclic_expanded_temperature(Operator):
         multistage: use scopings container
         with 'stage' label.
     phi : float, optional
-        Angle phi (default value 0.0)
+        Angle phi in degrees (default value 0.0)
 
 
     Examples
@@ -263,7 +263,7 @@ class cyclic_expanded_temperature(Operator):
                     name="phi",
                     type_names=["double"],
                     optional=True,
-                    document="""Angle phi (default value 0.0)""",
+                    document="""Angle phi in degrees (default value 0.0)""",
                 ),
             },
             map_output_pin_spec={
@@ -311,7 +311,7 @@ class cyclic_expanded_temperature(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -683,7 +683,7 @@ class InputsCyclicExpandedTemperature(_Inputs):
     def phi(self):
         """Allows to connect phi input to the operator.
 
-        Angle phi (default value 0.0)
+        Angle phi in degrees (default value 0.0)
 
         Parameters
         ----------
