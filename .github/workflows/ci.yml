@@ -56,7 +56,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: "Setup Python"
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v4.6.0
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
 
@@ -87,6 +87,17 @@ jobs:
       custom-wheels: ${{ github.event.inputs.custom-wheels-docker || './dpf-standalone/dist' }}
     secrets: inherit
 
+  docker_examples:
+    name: "Run examples on Docker"
+    uses: ./.github/workflows/examples_docker.yml
+    with:
+      ANSYS_VERSION: "232"
+      python_versions: '["3.8"]'
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
+      custom-wheels: ${{ github.event.inputs.custom-wheels-docker || './dpf-standalone/dist' }}
+    secrets: inherit
+
   docs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/docs.yml
@@ -104,11 +115,11 @@ jobs:
     needs: [docs]
     steps:
       - name: "Upload development documentation"
-        uses: pyansys/actions/doc-deploy-dev@v4
+        uses: ansys/actions/doc-deploy-dev@v4
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          doc-artifact-name: HTML-doc-ansys-dpf-core
+          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
 
   examples:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
@@ -160,6 +171,7 @@ jobs:
     uses: ./.github/workflows/pydpf-post.yml
     with:
       ANSYS_VERSION: "232"
+      post_branch: "master"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
       custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v232/dist' }}

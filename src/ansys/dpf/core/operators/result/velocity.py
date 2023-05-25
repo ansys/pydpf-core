@@ -65,6 +65,18 @@ class velocity(Operator):
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)
+    zone_scoping : Scoping or int, optional
+        (for fluid results only) zone id (integer) or
+        vector of zone ids (vector) or zone
+        scoping (scoping)
+    qualifiers1 : LabelSpace, optional
+        (for fluid results only) labelspace with
+        combination of zone, phases or
+        species ids
+    qualifiers2 : LabelSpace, optional
+        (for fluid results only) labelspace with
+        combination of zone, phases or
+        species ids
 
 
     Examples
@@ -91,6 +103,12 @@ class velocity(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_zone_scoping = dpf.Scoping()
+    >>> op.inputs.zone_scoping.connect(my_zone_scoping)
+    >>> my_qualifiers1 = dpf.LabelSpace()
+    >>> op.inputs.qualifiers1.connect(my_qualifiers1)
+    >>> my_qualifiers2 = dpf.LabelSpace()
+    >>> op.inputs.qualifiers2.connect(my_qualifiers2)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.velocity(
@@ -102,6 +120,9 @@ class velocity(Operator):
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
     ...     read_cyclic=my_read_cyclic,
+    ...     zone_scoping=my_zone_scoping,
+    ...     qualifiers1=my_qualifiers1,
+    ...     qualifiers2=my_qualifiers2,
     ... )
 
     >>> # Get output data
@@ -118,6 +139,9 @@ class velocity(Operator):
         bool_rotate_to_global=None,
         mesh=None,
         read_cyclic=None,
+        zone_scoping=None,
+        qualifiers1=None,
+        qualifiers2=None,
         config=None,
         server=None,
     ):
@@ -140,6 +164,12 @@ class velocity(Operator):
             self.inputs.mesh.connect(mesh)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
+        if zone_scoping is not None:
+            self.inputs.zone_scoping.connect(zone_scoping)
+        if qualifiers1 is not None:
+            self.inputs.qualifiers1.connect(qualifiers1)
+        if qualifiers2 is not None:
+            self.inputs.qualifiers2.connect(qualifiers2)
 
     @staticmethod
     def _spec():
@@ -236,6 +266,30 @@ class velocity(Operator):
         done and stages are merged (default
         is 1)""",
                 ),
+                25: PinSpecification(
+                    name="zone_scoping",
+                    type_names=["scoping", "int32", "vector<int32>"],
+                    optional=True,
+                    document="""(for fluid results only) zone id (integer) or
+        vector of zone ids (vector) or zone
+        scoping (scoping)""",
+                ),
+                1000: PinSpecification(
+                    name="qualifiers",
+                    type_names=["label_space"],
+                    optional=True,
+                    document="""(for fluid results only) labelspace with
+        combination of zone, phases or
+        species ids""",
+                ),
+                1001: PinSpecification(
+                    name="qualifiers",
+                    type_names=["label_space"],
+                    optional=True,
+                    document="""(for fluid results only) labelspace with
+        combination of zone, phases or
+        species ids""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -276,7 +330,7 @@ class velocity(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -309,6 +363,12 @@ class InputsVelocity(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_zone_scoping = dpf.Scoping()
+    >>> op.inputs.zone_scoping.connect(my_zone_scoping)
+    >>> my_qualifiers1 = dpf.LabelSpace()
+    >>> op.inputs.qualifiers1.connect(my_qualifiers1)
+    >>> my_qualifiers2 = dpf.LabelSpace()
+    >>> op.inputs.qualifiers2.connect(my_qualifiers2)
     """
 
     def __init__(self, op: Operator):
@@ -329,6 +389,12 @@ class InputsVelocity(_Inputs):
         self._inputs.append(self._mesh)
         self._read_cyclic = Input(velocity._spec().input_pin(14), 14, op, -1)
         self._inputs.append(self._read_cyclic)
+        self._zone_scoping = Input(velocity._spec().input_pin(25), 25, op, -1)
+        self._inputs.append(self._zone_scoping)
+        self._qualifiers1 = Input(velocity._spec().input_pin(1000), 1000, op, 0)
+        self._inputs.append(self._qualifiers1)
+        self._qualifiers2 = Input(velocity._spec().input_pin(1001), 1001, op, 1)
+        self._inputs.append(self._qualifiers2)
 
     @property
     def time_scoping(self):
@@ -522,6 +588,72 @@ class InputsVelocity(_Inputs):
         >>> op.inputs.read_cyclic(my_read_cyclic)
         """
         return self._read_cyclic
+
+    @property
+    def zone_scoping(self):
+        """Allows to connect zone_scoping input to the operator.
+
+        (for fluid results only) zone id (integer) or
+        vector of zone ids (vector) or zone
+        scoping (scoping)
+
+        Parameters
+        ----------
+        my_zone_scoping : Scoping or int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.velocity()
+        >>> op.inputs.zone_scoping.connect(my_zone_scoping)
+        >>> # or
+        >>> op.inputs.zone_scoping(my_zone_scoping)
+        """
+        return self._zone_scoping
+
+    @property
+    def qualifiers1(self):
+        """Allows to connect qualifiers1 input to the operator.
+
+        (for fluid results only) labelspace with
+        combination of zone, phases or
+        species ids
+
+        Parameters
+        ----------
+        my_qualifiers1 : LabelSpace
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.velocity()
+        >>> op.inputs.qualifiers1.connect(my_qualifiers1)
+        >>> # or
+        >>> op.inputs.qualifiers1(my_qualifiers1)
+        """
+        return self._qualifiers1
+
+    @property
+    def qualifiers2(self):
+        """Allows to connect qualifiers2 input to the operator.
+
+        (for fluid results only) labelspace with
+        combination of zone, phases or
+        species ids
+
+        Parameters
+        ----------
+        my_qualifiers2 : LabelSpace
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.velocity()
+        >>> op.inputs.qualifiers2.connect(my_qualifiers2)
+        >>> # or
+        >>> op.inputs.qualifiers2(my_qualifiers2)
+        """
+        return self._qualifiers2
 
 
 class OutputsVelocity(_Outputs):

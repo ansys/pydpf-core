@@ -53,7 +53,7 @@ file_list = [
 ]
 plugin_path = None
 GITHUB_SOURCE_URL = (
-    "https://github.com/pyansys/pydpf-core/raw/" "" "examples/first_python_plugins/python_plugins"
+    "https://github.com/ansys/pydpf-core/raw/" "" "examples/first_python_plugins/python_plugins"
 )
 
 for file in file_list:

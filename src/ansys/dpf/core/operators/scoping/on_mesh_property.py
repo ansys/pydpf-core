@@ -25,13 +25,17 @@ class on_mesh_property(Operator):
         "point_elements"...
     property_id : int, optional
     inclusive : int, optional
-        If element scoping is requested on a nodal
-        named selection, if inclusive == 1
-        then all the elements adjacent to the
-        nodes ids in input are added, if
-        inclusive == 0, only the elements
-        which have all their nodes in the
-        scoping are included
+        Default is 1 (inclusive is true). only used
+        if 'shape_values' property is
+        requested. if inclusive is set to 1
+        and 'elprops' property field is
+        available, it will select all
+        elements that are set on the
+        corresponding property. if inclusive
+        is set to 0 (exclusive) and 'elprops'
+        property field is available, it will
+        select the elements that are only set
+        on this property.
     mesh : MeshedRegion
 
 
@@ -119,7 +123,7 @@ class on_mesh_property(Operator):
                 ),
                 2: PinSpecification(
                     name="property_id",
-                    type_names=["int32", "vector<int32>"],
+                    type_names=["vector<int32>", "int32"],
                     optional=True,
                     document="""""",
                 ),
@@ -127,13 +131,17 @@ class on_mesh_property(Operator):
                     name="inclusive",
                     type_names=["int32"],
                     optional=True,
-                    document="""If element scoping is requested on a nodal
-        named selection, if inclusive == 1
-        then all the elements adjacent to the
-        nodes ids in input are added, if
-        inclusive == 0, only the elements
-        which have all their nodes in the
-        scoping are included""",
+                    document="""Default is 1 (inclusive is true). only used
+        if 'shape_values' property is
+        requested. if inclusive is set to 1
+        and 'elprops' property field is
+        available, it will select all
+        elements that are set on the
+        corresponding property. if inclusive
+        is set to 0 (exclusive) and 'elprops'
+        property field is available, it will
+        select the elements that are only set
+        on this property.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -183,7 +191,7 @@ class on_mesh_property(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -293,13 +301,17 @@ class InputsOnMeshProperty(_Inputs):
     def inclusive(self):
         """Allows to connect inclusive input to the operator.
 
-        If element scoping is requested on a nodal
-        named selection, if inclusive == 1
-        then all the elements adjacent to the
-        nodes ids in input are added, if
-        inclusive == 0, only the elements
-        which have all their nodes in the
-        scoping are included
+        Default is 1 (inclusive is true). only used
+        if 'shape_values' property is
+        requested. if inclusive is set to 1
+        and 'elprops' property field is
+        available, it will select all
+        elements that are set on the
+        corresponding property. if inclusive
+        is set to 0 (exclusive) and 'elprops'
+        property field is available, it will
+        select the elements that are only set
+        on this property.
 
         Parameters
         ----------

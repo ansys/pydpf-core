@@ -49,6 +49,11 @@ def test_download_harmonic_clamped_pipe():
     assert isinstance(Model(path), Model)
 
 
+def test_download_modal_cyclic():
+    path = examples.download_modal_cyclic()
+    assert isinstance(Model(path), Model)
+
+
 list_examples = [
     "simple_bar",
     "static_rst",

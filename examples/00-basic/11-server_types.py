@@ -14,7 +14,7 @@ Until Ansys 2022R1, only gRPC communication using python module ``ansys.grpc.dpf
 (now called :class:`ansys.dpf.core.server_types.LegacyGrpcServer`), starting with Ansys 2022 R2,
 three types of servers are supported:
 
-- :class:`ansys.dpf.core.server_types.InProcessServer` loading DPF in process.
+- :class:`ansys.dpf.core.server_types.InProcessServer` loading DPF in process. Cannot run on Docker.
 
 - :class:`ansys.dpf.core.server_types.GrpcServer` using gRPC communication through the DPF
   gRPC CLayer ``Ans.Dpf.GrpcClient``.
@@ -30,6 +30,7 @@ To change the default type of server's configuration used by DPF change:
 
 """
 
+import os
 from ansys.dpf import core as dpf
 
 ###############################################################################
@@ -40,7 +41,8 @@ in_process_config = dpf.AvailableServerConfigs.InProcessServer
 grpc_config = dpf.AvailableServerConfigs.GrpcServer
 legacy_grpc_config = dpf.AvailableServerConfigs.LegacyGrpcServer
 
-in_process_server = dpf.start_local_server(config=in_process_config)
+if "DPF_DOCKER" not in os.environ.keys():
+    in_process_server = dpf.start_local_server(config=in_process_config)
 grpc_server = dpf.start_local_server(config=grpc_config)
 legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config)
 
@@ -55,7 +57,8 @@ legacy_grpc_config = dpf.ServerConfig(
     protocol=dpf.server_factory.CommunicationProtocols.gRPC, legacy=True
 )
 
-in_process_server = dpf.start_local_server(config=in_process_config, as_global=False)
+if "DPF_DOCKER" not in os.environ.keys():
+    in_process_server = dpf.start_local_server(config=in_process_config, as_global=False)
 grpc_server = dpf.start_local_server(config=grpc_config, as_global=False)
 legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config, as_global=False)
 
@@ -63,9 +66,10 @@ legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config, as_global
 # Create data on different servers
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-in_process_field = dpf.fields_factory.create_scalar_field(2, server=in_process_server)
-in_process_field.append([1.0], 1)
-in_process_field.append([2.0], 2)
+if "DPF_DOCKER" not in os.environ.keys():
+    in_process_field = dpf.fields_factory.create_scalar_field(2, server=in_process_server)
+    in_process_field.append([1.0], 1)
+    in_process_field.append([2.0], 2)
 grpc_field = dpf.fields_factory.create_scalar_field(2, server=grpc_server)
 grpc_field.append([1.0], 1)
 grpc_field.append([2.0], 2)
@@ -73,7 +77,8 @@ legacy_grpc_field = dpf.fields_factory.create_scalar_field(2, server=legacy_grpc
 legacy_grpc_field.append([1.0], 1)
 legacy_grpc_field.append([2.0], 2)
 
-print(in_process_field, type(in_process_field._server), in_process_field._server)
+if "DPF_DOCKER" not in os.environ.keys():
+    print(in_process_field, type(in_process_field._server), in_process_field._server)
 print(grpc_field, type(grpc_field._server), grpc_field._server)
 print(legacy_grpc_field, type(legacy_grpc_field._server), legacy_grpc_field._server)
 

@@ -19,9 +19,10 @@ class accumulate_fc(Operator):
     fields_container : FieldsContainer
         Field or fields container with only one field
         is expected
-    ponderation : Field
-        Field
-    time_scoping : Scoping
+    ponderation : Field, optional
+        Field containing weights, one weight per
+        entity
+    time_scoping : Scoping, optional
         Time_scoping
 
 
@@ -86,13 +87,14 @@ class accumulate_fc(Operator):
                 1: PinSpecification(
                     name="ponderation",
                     type_names=["field"],
-                    optional=False,
-                    document="""Field""",
+                    optional=True,
+                    document="""Field containing weights, one weight per
+        entity""",
                 ),
                 2: PinSpecification(
                     name="time_scoping",
                     type_names=["scoping"],
-                    optional=False,
+                    optional=True,
                     document="""Time_scoping""",
                 ),
             },
@@ -101,7 +103,8 @@ class accumulate_fc(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document="""""",
+                    document="""Field containing the (weighted) sum for each
+        component in an elementary data""",
                 ),
             },
         )
@@ -135,7 +138,7 @@ class accumulate_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -194,7 +197,8 @@ class InputsAccumulateFc(_Inputs):
     def ponderation(self):
         """Allows to connect ponderation input to the operator.
 
-        Field
+        Field containing weights, one weight per
+        entity
 
         Parameters
         ----------
