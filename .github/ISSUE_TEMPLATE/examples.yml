@@ -21,7 +21,7 @@ body:
       label: '📁 Files needed for running the example'
       placeholder: >
         Drag and drop the files used in your example, together with the script employed.
-        Make sure that it runs on your machine, at the very least.
+        Test the example files before uploading to ensure they at least run on your machine.
         Add any additional comments/explanations that maintainers may need for running the example.
         If you have issues uploading your files because of the file extension/type, upload them
         as a .zip file.
