@@ -476,7 +476,7 @@ class Operator:
         You can modify the copy of the configuration and then use ``operator.config = new_config``
         or instantiate an operator with the new configuration as a parameter.
 
-        Refer to a specific operator's documentation to know about its options.
+        For information on an operator's options, see the documentation for that operator.
 
         Returns
         ----------
