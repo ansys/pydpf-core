@@ -45,7 +45,7 @@ class Config:
     >>> op = dpf.operators.math.add(config=config_add)
 
     Modify the copy of an operator's configuration and set it as current config
-    for the operator.
+    of the operator.
 
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.math.add()
@@ -167,7 +167,7 @@ class Config:
         Examples
         --------
         Modify the copy of an operator's configuration and set it as current config
-        for the operator.
+        of the operator.
 
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.math.add()
