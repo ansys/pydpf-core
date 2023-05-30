@@ -44,7 +44,8 @@ class Config:
     >>> config_add.set_work_by_index_option(True)
     >>> op = dpf.operators.math.add(config=config_add)
 
-    Modify the copy of an operator's configuration and set it back.
+    Modify the copy of an operator's configuration and set it as current config
+    for the operator.
 
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.math.add()
@@ -165,7 +166,8 @@ class Config:
 
         Examples
         --------
-        Modify the copy of an operator's configuration and set it back.
+        Modify the copy of an operator's configuration and set it as current config
+        for the operator.
 
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.math.add()
