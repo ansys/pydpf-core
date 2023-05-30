@@ -80,9 +80,7 @@ def get_ansys_path(ansys_path=None):
     # First check the environment variable for a custom path
     if ansys_path is None:
         ansys_path = os.environ.get("ANSYS_DPF_PATH")
-    # Then check for usual installation folders with AWP_ROOT and find_ansys
-    if ansys_path is None:
-        ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__)
+    # Then check among installed packages, AWP_ROOT variables, and usual installation folders
     if ansys_path is None:
         ansys_path = find_ansys()
     # If still no install has been found, throw an exception
@@ -117,8 +115,13 @@ def _find_latest_ansys_versions():
             installed_packages_list[
                 packaging.version.parse(_pythonize_awp_version(awp_version))
             ] = ansys_path
+    if len(installed_packages_list) > 0:
+        return installed_packages_list[sorted(installed_packages_list)[-1]]
 
+
+def _find_latest_ansys_dpf_server():
     installed_packages = pkg_resources.working_set
+    installed_packages_list = {}
     for i in installed_packages:
         if "ansys-dpf-server" in i.key:
             file_name = pkg_resources.to_filename(i.project_name.replace("ansys-dpf-", ""))
@@ -136,17 +139,19 @@ def _find_latest_ansys_versions():
 
 
 def find_ansys():
-    """Search for a standard ANSYS environment variable (AWP_ROOTXXX) or a standard installation
-    location to find the path to the latest Ansys installation.
+    """Search among installed packages for ansys-dpf-server, then among environment variables
+    for a path (AWP_ROOTXXX) to an Ansys installation, and then among standard installation
+    locations.
 
     Returns
     -------
     ansys_path : str
-        Full path to the latest version of the Ansys installation.
+        Full path to the latest version of ansys-dpf-server if installed,
+        or to the latest Ansys installation.
 
     Examples
     --------
-    Return path of latest Ansys version on Windows.
+    Return path of ansys-dpf-server or of latest Ansys version on Windows.
 
     >>> from ansys.dpf.core.misc import find_ansys
     >>> path = find_ansys()
@@ -156,6 +161,9 @@ def find_ansys():
     >>> path = find_ansys()
 
     """
+    latest_server = _find_latest_ansys_dpf_server()
+    if latest_server:
+        return latest_server
     latest_install = _find_latest_ansys_versions()
     if latest_install:
         return latest_install
