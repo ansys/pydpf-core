@@ -485,7 +485,8 @@ class Operator:
 
         Examples
         --------
-        Modify the copy of an operator's configuration and set it back.
+        Modify the copy of an operator's configuration and set it as current config
+        for the operator.
 
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.math.add()
