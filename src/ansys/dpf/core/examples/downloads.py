@@ -7,7 +7,7 @@ import urllib.request
 import warnings
 from ansys.dpf.core.examples.examples import find_files
 
-EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/master/result_files/"
+EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/master/"
 
 
 def delete_downloads():
@@ -121,7 +121,9 @@ def download_transient_result(
     'C:/Users/user/AppData/local/temp/transient.rst'
 
     """
-    return _download_file("transient", "transient.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/transient", "transient.rst", should_upload, server, return_local_path
+    )
 
 
 def download_all_kinds_of_complexity(
@@ -162,7 +164,7 @@ def download_all_kinds_of_complexity(
 
     """
     return _download_file(
-        "testing", "allKindOfComplexity.rst", should_upload, server, return_local_path
+        "result_files/testing", "allKindOfComplexity.rst", should_upload, server, return_local_path
     )
 
 
@@ -204,7 +206,7 @@ def download_all_kinds_of_complexity_modal(
 
     """
     return _download_file(
-        "testing",
+        "result_files/testing",
         "modal_allKindOfComplexity.rst",
         should_upload,
         server,
@@ -247,7 +249,9 @@ def download_pontoon(should_upload: bool = True, server=None, return_local_path=
     'C:/Users/user/AppData/local/temp/pontoon.rst'
 
     """
-    return _download_file("docs", "pontoon.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/docs", "pontoon.rst", should_upload, server, return_local_path
+    )
 
 
 def download_multi_harmonic_result(
@@ -287,7 +291,7 @@ def download_multi_harmonic_result(
     'C:/Users/user/AppData/local/temp/file_harmonic_5rpms.rst'
     """
     return _download_file(
-        "harmonic", "file_harmonic_5rpms.rst", should_upload, server, return_local_path
+        "result_files/harmonic", "file_harmonic_5rpms.rst", should_upload, server, return_local_path
     )
 
 
@@ -328,7 +332,9 @@ def download_multi_stage_cyclic_result(
     'C:/Users/user/AppData/local/temp/multistage.rst'
 
     """
-    return _download_file("multistage", "multistage.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/multistage", "multistage.rst", should_upload, server, return_local_path
+    )
 
 
 def download_sub_file(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -366,7 +372,7 @@ def download_sub_file(should_upload: bool = True, server=None, return_local_path
     'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\sub\\cp56.sub'
 
     """
-    return _download_file("sub", "cp56.sub", should_upload, server, return_local_path)
+    return _download_file("result_files/sub", "cp56.sub", should_upload, server, return_local_path)
 
 
 def download_msup_files_to_dict(
@@ -409,9 +415,15 @@ def download_msup_files_to_dict(
 
     """
     return {
-        "rfrq": _download_file("msup", "file.rfrq", should_upload, server, return_local_path),
-        "mode": _download_file("msup", "file.mode", should_upload, server, return_local_path),
-        "rst": _download_file("msup", "file.rst", should_upload, server, return_local_path),
+        "rfrq": _download_file(
+            "result_files/msup", "file.rfrq", should_upload, server, return_local_path
+        ),
+        "mode": _download_file(
+            "result_files/msup", "file.mode", should_upload, server, return_local_path
+        ),
+        "rst": _download_file(
+            "result_files/msup", "file.rst", should_upload, server, return_local_path
+        ),
     }
 
 
@@ -454,16 +466,20 @@ def download_distributed_files(
 
     """
     return {
-        0: _download_file("distributed", "file0.rst", should_upload, server, return_local_path),
-        1: _download_file("distributed", "file1.rst", should_upload, server, return_local_path),
+        0: _download_file(
+            "result_files/distributed", "file0.rst", should_upload, server, return_local_path
+        ),
+        1: _download_file(
+            "result_files/distributed", "file1.rst", should_upload, server, return_local_path
+        ),
     }
 
 
 def download_fluent_multi_species(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
-    """Download the cas and dat file of a fluent analysis and return the
-    download paths into a dictionary extension->path.
+    """Download the cas and dat file of a fluent analysis with multiple species
+    and return the download paths into a dictionary extension->path.
     If the server is remote (or doesn't share memory), the file is uploaded or made available
     on the server side.
 
@@ -499,14 +515,14 @@ def download_fluent_multi_species(
     """
     return {
         "cas": _download_file(
-            "fluent-multi_species",
+            "result_files/fluent-multi_species",
             "FFF.cas.h5",
             should_upload,
             server,
             return_local_path,
         ),
         "dat": _download_file(
-            "fluent-multi_species",
+            "result_files/fluent-multi_species",
             "FFF.dat.h5",
             should_upload,
             server,
@@ -558,10 +574,10 @@ def download_extrapolation_3d_result(
     """
     path_dict = {
         "file_ref": _download_file(
-            "extrapolate", "file_ref.rst", should_upload, server, return_local_path
+            "result_files/extrapolate", "file_ref.rst", should_upload, server, return_local_path
         ),
         "file_integrated": _download_file(
-            "extrapolate", "file.rst", should_upload, server, return_local_path
+            "result_files/extrapolate", "file.rst", should_upload, server, return_local_path
         ),
     }
 
@@ -611,14 +627,14 @@ def download_extrapolation_2d_result(
     """
     path_dict = {
         "file_ref": _download_file(
-            "extrapolate",
+            "result_files/extrapolate",
             "extrapolate_2d_ref.rst",
             should_upload,
             server,
             return_local_path,
         ),
         "file_integrated": _download_file(
-            "extrapolate",
+            "result_files/extrapolate",
             "extrapolate_2d.rst",
             should_upload,
             server,
@@ -664,7 +680,9 @@ def download_hemisphere(should_upload: bool = True, server=None, return_local_pa
     'C:/Users/user/AppData/local/temp/hemisphere.rst'
 
     """
-    return _download_file("hemisphere", "hemisphere.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/hemisphere", "hemisphere.rst", should_upload, server, return_local_path
+    )
 
 
 def download_example_asme_result(
@@ -703,7 +721,7 @@ def download_example_asme_result(
     'C:/Users/user/AppData/local/temp/asme_example.rst'
     """
     return _download_file(
-        "postprocessing", "asme_example.rst", should_upload, server, return_local_path
+        "result_files/postprocessing", "asme_example.rst", should_upload, server, return_local_path
     )
 
 
@@ -742,7 +760,9 @@ def download_crankshaft(should_upload: bool = True, server=None, return_local_pa
     'C:/Users/user/AppData/local/temp/crankshaft.rst'
 
     """
-    return _download_file("crankshaft", "crankshaft.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/crankshaft", "crankshaft.rst", should_upload, server, return_local_path
+    )
 
 
 def download_piston_rod(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -780,7 +800,9 @@ def download_piston_rod(should_upload: bool = True, server=None, return_local_pa
     'C:/Users/user/AppData/local/temp/piston_rod.rst'
 
     """
-    return _download_file("piston_rod", "piston_rod.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/piston_rod", "piston_rod.rst", should_upload, server, return_local_path
+    )
 
 
 def download_d3plot_beam(should_upload: bool = True, server=None, return_local_path=False) -> list:
@@ -822,10 +844,18 @@ def download_d3plot_beam(should_upload: bool = True, server=None, return_local_p
 
     """
     return [
-        _download_file("d3plot_beam", "d3plot", should_upload, server, return_local_path),
-        _download_file("d3plot_beam", "d3plot01", should_upload, server, return_local_path),
-        _download_file("d3plot_beam", "d3plot02", should_upload, server, return_local_path),
-        _download_file("d3plot_beam", "file.actunits", should_upload, server, return_local_path),
+        _download_file(
+            "result_files/d3plot_beam", "d3plot", should_upload, server, return_local_path
+        ),
+        _download_file(
+            "result_files/d3plot_beam", "d3plot01", should_upload, server, return_local_path
+        ),
+        _download_file(
+            "result_files/d3plot_beam", "d3plot02", should_upload, server, return_local_path
+        ),
+        _download_file(
+            "result_files/d3plot_beam", "file.actunits", should_upload, server, return_local_path
+        ),
     ]
 
 
@@ -864,7 +894,9 @@ def download_binout_matsum(should_upload: bool = True, server=None, return_local
     'C:/Users/user/AppData/local/temp/binout_matsum'
 
     """
-    return _download_file("binout", "binout_matsum", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/binout", "binout_matsum", should_upload, server, return_local_path
+    )
 
 
 def download_binout_glstat(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -902,7 +934,9 @@ def download_binout_glstat(should_upload: bool = True, server=None, return_local
     'C:/Users/user/AppData/local/temp/binout_glstat'
 
     """
-    return _download_file("binout", "binout_glstat", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/binout", "binout_glstat", should_upload, server, return_local_path
+    )
 
 
 def download_cycles_to_failure(
@@ -943,7 +977,7 @@ def download_cycles_to_failure(
 
     """
     return _download_file(
-        "cyclic", "cyclic_to_failure.rst", should_upload, server, return_local_path
+        "result_files/cyclic", "cyclic_to_failure.rst", should_upload, server, return_local_path
     )
 
 
@@ -980,7 +1014,9 @@ def download_modal_frame(should_upload: bool = True, server=None, return_local_p
     >>> path = examples.download_modal_frame()
 
     """
-    return _download_file("modal", "frame.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/modal", "frame.rst", should_upload, server, return_local_path
+    )
 
 
 def download_harmonic_clamped_pipe(
@@ -1018,7 +1054,9 @@ def download_harmonic_clamped_pipe(
     >>> path = examples.download_modal_frame()
 
     """
-    return _download_file("harmonic", "clamped_pipe.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/harmonic", "clamped_pipe.rst", should_upload, server, return_local_path
+    )
 
 
 def download_modal_cyclic(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -1054,7 +1092,9 @@ def download_modal_cyclic(should_upload: bool = True, server=None, return_local_
     >>> path = examples.download_modal_cyclic()
 
     """
-    return _download_file("cyclic", "modal_cyclic.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/cyclic", "modal_cyclic.rst", should_upload, server, return_local_path
+    )
 
 
 def download_fluent_axial_comp(
@@ -1106,7 +1146,7 @@ def download_fluent_axial_comp(
     """
     return {
         "flprj": _download_file(
-            "fluent-axial_comp",
+            "result_files/fluent-axial_comp",
             "axial_comp_reduced.flprj",
             should_upload,
             server,
@@ -1114,21 +1154,21 @@ def download_fluent_axial_comp(
         ),
         "cas": [
             _download_file(
-                "fluent-axial_comp",
+                "result_files/fluent-axial_comp",
                 "axial_comp-1-01438.cas.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-axial_comp",
+                "result_files/fluent-axial_comp",
                 "axial_comp-1-01439.cas.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-axial_comp",
+                "result_files/fluent-axial_comp",
                 "axial_comp-1-01440.cas.h5",
                 should_upload,
                 server,
@@ -1137,21 +1177,21 @@ def download_fluent_axial_comp(
         ],
         "dat": [
             _download_file(
-                "fluent-axial_comp",
+                "result_files/fluent-axial_comp",
                 "axial_comp-1-01438.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-axial_comp",
+                "result_files/fluent-axial_comp",
                 "axial_comp-1-01439.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-axial_comp",
+                "result_files/fluent-axial_comp",
                 "axial_comp-1-01440.dat.h5",
                 should_upload,
                 server,
@@ -1215,7 +1255,7 @@ def download_fluent_mixing_elbow_steady_state(
     """
     return {
         "flprj": _download_file(
-            "fluent-mixing_elbow_steady-state",
+            "result_files/fluent-mixing_elbow_steady-state",
             "elbow.flprj",
             should_upload,
             server,
@@ -1223,7 +1263,7 @@ def download_fluent_mixing_elbow_steady_state(
         ),
         "cas": [
             _download_file(
-                "fluent-mixing_elbow_steady-state",
+                "result_files/fluent-mixing_elbow_steady-state",
                 "elbow-2.cas.h5",
                 should_upload,
                 server,
@@ -1232,70 +1272,70 @@ def download_fluent_mixing_elbow_steady_state(
         ],
         "dat": [
             _download_file(
-                "fluent-mixing_elbow_steady-state",
+                "result_files/fluent-mixing_elbow_steady-state",
                 "elbow-2-00005.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-mixing_elbow_steady-state",
+                "result_files/fluent-mixing_elbow_steady-state",
                 "elbow-2-00010.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-mixing_elbow_steady-state",
+                "result_files/fluent-mixing_elbow_steady-state",
                 "elbow-2-00015.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-mixing_elbow_steady-state",
+                "result_files/fluent-mixing_elbow_steady-state",
                 "elbow-2-00020.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-mixing_elbow_steady-state",
+                "result_files/fluent-mixing_elbow_steady-state",
                 "elbow-2-00025.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-mixing_elbow_steady-state",
+                "result_files/fluent-mixing_elbow_steady-state",
                 "elbow-2-00030.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-mixing_elbow_steady-state",
+                "result_files/fluent-mixing_elbow_steady-state",
                 "elbow-2-00035.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-mixing_elbow_steady-state",
+                "result_files/fluent-mixing_elbow_steady-state",
                 "elbow-2-00040.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-mixing_elbow_steady-state",
+                "result_files/fluent-mixing_elbow_steady-state",
                 "elbow-2-00045.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-mixing_elbow_steady-state",
+                "result_files/fluent-mixing_elbow_steady-state",
                 "elbow-2-00050.dat.h5",
                 should_upload,
                 server,
@@ -1354,7 +1394,7 @@ def download_fluent_mixing_elbow_transient(
     """
     return {
         "flprj": _download_file(
-            "fluent-mixing_elbow_transient",
+            "result_files/fluent-mixing_elbow_transient",
             "elbow.flprj",
             should_upload,
             server,
@@ -1362,7 +1402,7 @@ def download_fluent_mixing_elbow_transient(
         ),
         "cas": [
             _download_file(
-                "fluent-mixing_elbow_transient",
+                "result_files/fluent-mixing_elbow_transient",
                 "elbow-2.cas.h5",
                 should_upload,
                 server,
@@ -1371,35 +1411,35 @@ def download_fluent_mixing_elbow_transient(
         ],
         "dat": [
             _download_file(
-                "fluent-mixing_elbow_transient",
+                "result_files/fluent-mixing_elbow_transient",
                 "elbow-2-00001.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-mixing_elbow_transient",
+                "result_files/fluent-mixing_elbow_transient",
                 "elbow-2-00002.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-mixing_elbow_transient",
+                "result_files/fluent-mixing_elbow_transient",
                 "elbow-2-00003.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-mixing_elbow_transient",
+                "result_files/fluent-mixing_elbow_transient",
                 "elbow-2-00004.dat.h5",
                 should_upload,
                 server,
                 return_local_path,
             ),
             _download_file(
-                "fluent-mixing_elbow_transient",
+                "result_files/fluent-mixing_elbow_transient",
                 "elbow-2-00005.dat.h5",
                 should_upload,
                 server,
@@ -1448,7 +1488,7 @@ def download_cfx_heating_coil(
 
     """
     file = _download_file(
-        "cfx-heating_coil",
+        "result_files/cfx-heating_coil",
         "HeatingCoil.res",
         should_upload,
         server,
@@ -1496,7 +1536,7 @@ def download_cfx_mixing_elbow(
 
     """
     file = _download_file(
-        "cfx-mixing_elbow",
+        "result_files/cfx-mixing_elbow",
         "InjectMixer.res",
         should_upload,
         server,
