@@ -1447,3 +1447,51 @@ def download_fluent_mixing_elbow_transient(
             ),
         ],
     }
+
+
+def download_cfx_heating_coil(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> dict:
+    """Download the flprj, cas and dat files of a CFX analysis of a heating coil
+    and return the download paths into a dictionary extension->path.
+    If the server is remote (or doesn't share memory), the file is uploaded or made available
+    on the server side.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    dict[str:str]
+        Path to the example files.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> paths = examples.download_cfx_heating_coil()
+    >>> paths
+    {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-heating_coil\\HeatingCoil.res',
+     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-heating_coil\\HeatingCoil.res'} # noqa: E501
+
+    """
+    file = _download_file(
+        "result_files/cfx-heating_coil",
+        "HeatingCoil.res",
+        should_upload,
+        server,
+        return_local_path,
+    )
+    return {"cas": file, "dat": file}
