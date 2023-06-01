@@ -166,6 +166,8 @@ def download_file(server_file_path, to_client_file_path, server=None):
     --------
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
+    >>> server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer,
+    ... as_global=False)
 
     Notes
     -----
