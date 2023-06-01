@@ -168,6 +168,7 @@ def download_file(server_file_path, to_client_file_path, server=None):
     >>> from ansys.dpf.core import examples
     >>> server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer,
     ... as_global=False)
+    >>> file_path = dpf.upload_file_in_tmp_folder(examples.find_static_rst(), server=server)
 
     Notes
     -----
