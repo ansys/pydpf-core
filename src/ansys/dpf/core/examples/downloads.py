@@ -509,16 +509,24 @@ def download_fluent_multi_species_files(
     >>> from ansys.dpf.core import examples
     >>> paths = examples.download_fluent_multi_species_files()
     >>> paths
-    {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent\\FFF.cas.h5',
-     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent\\FFF.dat.h5'} # noqa: E501
+    {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-multi_species\\FFF.cas.h5',
+     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-multi_species\\FFF.dat.h5'} # noqa: E501
 
     """
     return {
         "cas": _download_file(
-            "result_files/fluent", "FFF.cas.h5", should_upload, server, return_local_path
+            "result_files/fluent-multi_species",
+            "FFF.cas.h5",
+            should_upload,
+            server,
+            return_local_path,
         ),
         "dat": _download_file(
-            "result_files/fluent", "FFF.dat.h5", should_upload, server, return_local_path
+            "result_files/fluent-multi_species",
+            "FFF.dat.h5",
+            should_upload,
+            server,
+            return_local_path,
         ),
     }
 
