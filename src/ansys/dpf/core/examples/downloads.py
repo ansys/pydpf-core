@@ -475,7 +475,7 @@ def download_distributed_files(
     }
 
 
-def download_fluent_multi_species_files(
+def download_fluent_multi_species(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
     """Download the cas and dat file of a fluent analysis with multiple species
@@ -507,7 +507,7 @@ def download_fluent_multi_species_files(
     Download an example result file and return the path of the file
 
     >>> from ansys.dpf.core import examples
-    >>> paths = examples.download_fluent_multi_species_files()
+    >>> paths = examples.download_fluent_multi_species()
     >>> paths
     {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-multi_species\\FFF.cas.h5',
      'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-multi_species\\FFF.dat.h5'} # noqa: E501
