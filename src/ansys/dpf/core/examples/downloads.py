@@ -1095,3 +1095,107 @@ def download_modal_cyclic(should_upload: bool = True, server=None, return_local_
     return _download_file(
         "result_files/cyclic", "modal_cyclic.rst", should_upload, server, return_local_path
     )
+
+
+def download_fluent_axial_comp(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> dict:
+    """Download the flprj, cas and dat files of a fluent analysis of an axial compressor sector
+    and return the download paths into a dictionary extension->path.
+    If the server is remote (or doesn't share memory), the file is uploaded or made available
+    on the server side.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    dict[str:str]
+        Path to the example files.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> paths = examples.download_fluent_axial_comp()
+    >>> paths
+    {'flprj': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-axial_comp\\axial_comp_reduced.flprj',
+     'cas': [
+       'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-axial_comp\\axial_comp-1-01438.cas.h5',
+       'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-axial_comp\\axial_comp-1-01439.cas.h5',
+       'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-axial_comp\\axial_comp-1-01440.cas.h5',
+     ],
+     'dat': [
+       'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-axial_comp\\axial_comp-1-01438.dat.h5',
+       'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-axial_comp\\axial_comp-1-01439.dat.h5',
+       'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-axial_comp\\axial_comp-1-01440.dat.h5',
+     ]} # noqa: E501
+
+    """
+    return {
+        "flprj": _download_file(
+            "result_files/fluent-axial_comp",
+            "axial_comp_reduced.flprj",
+            should_upload,
+            server,
+            return_local_path,
+        ),
+        "cas": [
+            _download_file(
+                "result_files/fluent-axial_comp",
+                "axial_comp-1-01438.cas.h5",
+                should_upload,
+                server,
+                return_local_path,
+            ),
+            _download_file(
+                "result_files/fluent-axial_comp",
+                "axial_comp-1-01439.cas.h5",
+                should_upload,
+                server,
+                return_local_path,
+            ),
+            _download_file(
+                "result_files/fluent-axial_comp",
+                "axial_comp-1-01440.cas.h5",
+                should_upload,
+                server,
+                return_local_path,
+            ),
+        ],
+        "dat": [
+            _download_file(
+                "result_files/fluent-axial_comp",
+                "axial_comp-1-01438.dat.h5",
+                should_upload,
+                server,
+                return_local_path,
+            ),
+            _download_file(
+                "result_files/fluent-axial_comp",
+                "axial_comp-1-01439.dat.h5",
+                should_upload,
+                server,
+                return_local_path,
+            ),
+            _download_file(
+                "result_files/fluent-axial_comp",
+                "axial_comp-1-01440.dat.h5",
+                should_upload,
+                server,
+                return_local_path,
+            ),
+        ],
+    }
