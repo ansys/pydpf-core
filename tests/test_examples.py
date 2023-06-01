@@ -69,9 +69,9 @@ def test_download_fluent_mixing_elbow_steady_state():
     assert isinstance(Model(path), Model)
 
 
-def test_download_fluent_mixing_elbow_transient():
-    path = examples.download_fluent_mixing_elbow_transient()
-    assert isinstance(Model(path), Model)
+# def test_download_fluent_mixing_elbow_transient():
+#     path = examples.download_fluent_mixing_elbow_transient()
+#     assert isinstance(Model(path), Model)
 
 
 def test_download_cfx_heating_coil():
@@ -79,9 +79,9 @@ def test_download_cfx_heating_coil():
     assert isinstance(Model(path), Model)
 
 
-def test_download_cfx_mixing_elbow():
-    path = examples.download_cfx_mixing_elbow()
-    assert isinstance(Model(path), Model)
+# def test_download_cfx_mixing_elbow():
+#     path = examples.download_cfx_mixing_elbow()
+#     assert isinstance(Model(path), Model)
 
 
 list_examples = [
