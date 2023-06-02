@@ -595,16 +595,16 @@ class ServerFactory:
             # If no SERVER_CONFIGURATION is yet defined, set one with default values
             is_server_old = False
             if ansys_path is not None:
-                if not "ansys_dpf_server" in ansys_path:
+                if "ansys_dpf_server" not in ansys_path:
                     is_server_old = _find_outdated_ansys_version(ansys_path)
             config = get_default_server_config(is_server_old, docker_config)
         if config.protocol == CommunicationProtocols.gRPC and config.legacy:
             return LegacyGrpcServer
         elif config.protocol == CommunicationProtocols.gRPC and not config.legacy:
-            from ansys.dpf.core.misc import __ansys_version__
-
             if ansys_path is None:
-                ansys_path = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
+                from ansys.dpf.core.misc import get_ansys_path
+
+                ansys_path = get_ansys_path()
             if ansys_path is not None:
                 sub_folders = os.path.join(ansys_path, _get_path_in_install())
                 os.environ["PATH"] += sub_folders
