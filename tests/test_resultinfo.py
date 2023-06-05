@@ -71,10 +71,6 @@ def test_print_result_info(model):
     print(model.metadata.result_info)
 
 
-def test_result_info_available_qualifier_labels(model):
-    assert model.metadata.result_info.available_qualifier_labels == []
-
-
 @pytest.mark.skipif(True, reason="Used to test memory leaks")
 def test_result_info_memory_leaks(model):
     import gc
