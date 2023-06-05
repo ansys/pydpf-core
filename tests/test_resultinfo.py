@@ -4,7 +4,6 @@ from ansys import dpf
 from ansys.dpf.core import Model
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
 
-
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
     mechanical = "mechanical"
 else:
