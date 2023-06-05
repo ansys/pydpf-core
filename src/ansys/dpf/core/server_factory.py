@@ -602,9 +602,9 @@ class ServerFactory:
             return LegacyGrpcServer
         elif config.protocol == CommunicationProtocols.gRPC and not config.legacy:
             if ansys_path is None:
-                from ansys.dpf.core.misc import get_ansys_path
+                from ansys.dpf.core.misc import __ansys_version__
 
-                ansys_path = get_ansys_path()
+                ansys_path = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
             if ansys_path is not None:
                 sub_folders = os.path.join(ansys_path, _get_path_in_install())
                 os.environ["PATH"] += sub_folders
