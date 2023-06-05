@@ -158,7 +158,7 @@ def model_with_ns():
 def cff_data_sources():
     """Create a data sources with a cas and a dat file of fluent"""
     ds = core.DataSources()
-    files = examples.download_fluent_files()
+    files = examples.download_fluent_multi_species_files()
     ds.set_result_file_path(files["cas"], "cas")
     ds.add_file_path(files["dat"], "dat")
     return ds
