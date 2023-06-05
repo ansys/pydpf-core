@@ -474,12 +474,26 @@ class Operator:
         """Copy of the operator's current configuration.
 
         You can modify the copy of the configuration and then use ``operator.config = new_config``
-        or create an operator with the new configuration as a parameter.
+        or instantiate an operator with the new configuration as a parameter.
+
+        For information on an operator's options, see the documentation for that operator.
 
         Returns
         ----------
         :class:`ansys.dpf.core.config.Config`
             Copy of the operator's current configuration.
+
+        Examples
+        --------
+        Modify the copy of an operator's configuration and set it as current config
+        of the operator.
+
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.add()
+        >>> config_add = op.config
+        >>> config_add.set_work_by_index_option(True)
+        >>> op.config = config_add
+
         """
         config = self._api.operator_get_config(self)
         return Config(config=config, server=self._server, spec=self._spec)
