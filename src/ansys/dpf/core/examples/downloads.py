@@ -1345,6 +1345,110 @@ def download_fluent_mixing_elbow_steady_state(
     }
 
 
+def download_fluent_mixing_elbow_transient(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> dict:
+    """Download the flprj, cas and dat files of a transient fluent analysis of a mixing elbow
+    and return the download paths into a dictionary extension->path.
+    If the server is remote (or doesn't share memory), the file is uploaded or made available
+    on the server side.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    dict[str:str]
+        Path to the example files.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> paths = examples.download_fluent_mixing_elbow_transient()
+    >>> paths
+    {'flprj': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-mixing_elbow_transient\\elbow.flprj',
+     'cas': [
+       'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-mixing_elbow_transient\\elbow-2.cas.h5',
+     ],
+     'dat': [
+       'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-mixing_elbow_transient\\elbow-2-00001.dat.h5',
+       'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-mixing_elbow_transient\\elbow-2-00002.dat.h5',
+       'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-mixing_elbow_transient\\elbow-2-00003.dat.h5',
+       'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-mixing_elbow_transient\\elbow-2-00004.dat.h5',
+       'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-mixing_elbow_transient\\elbow-2-00005.dat.h5',
+     ]} # noqa: E501
+
+    """
+    return {
+        "flprj": _download_file(
+            "result_files/fluent-mixing_elbow_transient",
+            "elbow.flprj",
+            should_upload,
+            server,
+            return_local_path,
+        ),
+        "cas": [
+            _download_file(
+                "result_files/fluent-mixing_elbow_transient",
+                "elbow-2.cas.h5",
+                should_upload,
+                server,
+                return_local_path,
+            ),
+        ],
+        "dat": [
+            _download_file(
+                "result_files/fluent-mixing_elbow_transient",
+                "elbow-2-00001.dat.h5",
+                should_upload,
+                server,
+                return_local_path,
+            ),
+            _download_file(
+                "result_files/fluent-mixing_elbow_transient",
+                "elbow-2-00002.dat.h5",
+                should_upload,
+                server,
+                return_local_path,
+            ),
+            _download_file(
+                "result_files/fluent-mixing_elbow_transient",
+                "elbow-2-00003.dat.h5",
+                should_upload,
+                server,
+                return_local_path,
+            ),
+            _download_file(
+                "result_files/fluent-mixing_elbow_transient",
+                "elbow-2-00004.dat.h5",
+                should_upload,
+                server,
+                return_local_path,
+            ),
+            _download_file(
+                "result_files/fluent-mixing_elbow_transient",
+                "elbow-2-00005.dat.h5",
+                should_upload,
+                server,
+                return_local_path,
+            ),
+        ],
+    }
+
+
 def download_cfx_heating_coil(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
@@ -1386,6 +1490,54 @@ def download_cfx_heating_coil(
     file = _download_file(
         "result_files/cfx-heating_coil",
         "HeatingCoil.res",
+        should_upload,
+        server,
+        return_local_path,
+    )
+    return {"cas": file, "dat": file}
+
+
+def download_cfx_mixing_elbow(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> dict:
+    """Download the flprj, cas and dat files of a CFX analysis of a mixing elbow
+    and return the download paths into a dictionary extension->path.
+    If the server is remote (or doesn't share memory), the file is uploaded or made available
+    on the server side.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    dict[str:str]
+        Path to the example files.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> paths = examples.download_cfx_mixing_elbow()
+    >>> paths
+    {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-mixing_elbow\\InjectMixer.res',
+     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-mixing_elbow\\InjectMixer.res'} # noqa: E501
+
+    """
+    file = _download_file(
+        "result_files/cfx-mixing_elbow",
+        "InjectMixer.res",
         should_upload,
         server,
         return_local_path,
