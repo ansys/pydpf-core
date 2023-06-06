@@ -135,6 +135,8 @@ class AvailableResult:
         )
         if self.unit:
             txt += "Units: %s\n" % self.unit
+        if self.native_location:
+            txt += "Location: %s\n" % self.native_location
         if self.qualifiers:
             txt += "Available qualifier labels:\n"
             for label in self.qualifier_labels:
