@@ -336,6 +336,53 @@ class _PyVistaPlotter:
             src = source._as_pyvista_data_set()
             self._plotter.add_mesh(src, **kwargs_in)
 
+    def add_volume(
+        self,
+        field,
+        meshed_region=None,
+        # deform_by=None,
+        # scale_factor=1.0,
+        # scale_factor_legend=None,
+        # as_linear=True,
+        **kwargs,
+    ):
+        # Get the field name
+        name = field.name.split("_")[0]
+        unit = field.unit
+        kwargs.setdefault("stitle", f"{name} ({unit})")
+
+        kwargs = self._set_scalar_bar_title(kwargs)
+        # get the meshed region location
+        if meshed_region is None:
+            meshed_region = field.meshed_region
+        # if not deform_by:
+        grid = meshed_region.grid
+        # else:
+        #     grid = meshed_region._as_vtk(
+        #         meshed_region.deform_by(deform_by, scale_factor), as_linear
+        #     )
+
+        location = field.location
+        if location == locations.nodal:
+            mesh_location = meshed_region.nodes
+        elif location == locations.elemental:
+            mesh_location = meshed_region.elements
+        else:
+            raise ValueError("Only elemental or nodal location are supported for plotting.")
+
+        component_count = field.component_count
+        if component_count > 1:
+            overall_data = np.full((len(mesh_location), component_count), np.nan)
+        else:
+            overall_data = np.full(len(mesh_location), np.nan)
+        ind, mask = mesh_location.map_scoping(field.scoping)
+        overall_data[ind] = field.data[mask]
+
+        # Filter kwargs for add_volume
+        kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_volume, **kwargs)
+        grid["scalars"] = overall_data
+        self._plotter.add_volume(grid, **kwargs_in)
+
     def show_figure(self, **kwargs):
 
         text = kwargs.pop("text", None)
@@ -632,6 +679,31 @@ class DpfPlotter:
             deform_by=deform_by,
             scale_factor=scale_factor,
             as_linear=True,
+            **kwargs,
+        )
+
+    def add_volume(self, field, meshed_region=None, **kwargs):
+        """Add a field containing data to the plotter using volume rendering.
+
+        A meshed_region to plot on can be added.
+        If no ``meshed_region`` is specified, the field
+        support will be used. Ensure that the field
+        support is a ``meshed_region``.
+
+        Parameters
+        ----------
+        field : Field
+            Field data to plot
+        meshed_region : MeshedRegion, optional
+            ``MeshedRegion`` to plot the field on.
+        **kwargs : optional
+            Additional keyword arguments for the function. More information
+            is available at :func:`pyvista.Plotter.add_volume`.
+
+        """
+        self._internal_plotter.add_volume(
+            field,
+            meshed_region,
             **kwargs,
         )
 
