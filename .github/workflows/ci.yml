@@ -165,6 +165,17 @@ jobs:
       custom-wheels: './.github'
     secrets: inherit
 
+  retro_221:
+    name: "retro 221"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "221"
+      python_versions: '["3.8"]'
+      DOCSTRING: false
+      custom-wheels: './.github'
+    secrets: inherit
+
   pydpf-post:
     name: "PyDPF-Post"
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
