@@ -2,7 +2,10 @@ import pytest
 
 from ansys import dpf
 from ansys.dpf.core import Model
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+)
 
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
     mechanical = "mechanical"
@@ -69,6 +72,14 @@ def test_get_result_resultinfo_from_index(model):
 
 def test_print_result_info(model):
     print(model.metadata.result_info)
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
+)
+def test_print_available_result_with_qualifiers(cfx_heating_coil):
+    model = Model(cfx_heating_coil)
+    print(model.metadata.result_info.available_results[0])
 
 
 @pytest.mark.skipif(True, reason="Used to test memory leaks")
