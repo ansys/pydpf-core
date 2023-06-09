@@ -18,8 +18,9 @@ class sweeping_phase_fc(Operator):
     ----------
     fields_container : FieldsContainer
     angle : float
-    unit_name : str
-        String unit
+    unit_name : str, optional
+        String unit. supported values: "deg" or
+        "rad". default: "rad".
     abs_value : bool
 
 
@@ -96,8 +97,9 @@ class sweeping_phase_fc(Operator):
                 3: PinSpecification(
                     name="unit_name",
                     type_names=["string"],
-                    optional=False,
-                    document="""String unit""",
+                    optional=True,
+                    document="""String unit. supported values: "deg" or
+        "rad". default: "rad".""",
                 ),
                 4: PinSpecification(
                     name="abs_value",
@@ -145,7 +147,7 @@ class sweeping_phase_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -225,7 +227,8 @@ class InputsSweepingPhaseFc(_Inputs):
     def unit_name(self):
         """Allows to connect unit_name input to the operator.
 
-        String unit
+        String unit. supported values: "deg" or
+        "rad". default: "rad".
 
         Parameters
         ----------

@@ -8,7 +8,7 @@ on:
         description: "ANSYS version"
         required: false
         type: string
-        default: "232"
+        default: "241"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -30,17 +30,17 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Setup Python
-        uses: actions/setup-python@v4.2.0
+        uses: actions/setup-python@v4.6.0
         with:
           python-version: "3.10"
 
       - name: "Install DPF"
         id: set-server-path
-        uses: pyansys/pydpf-actions/install-dpf-server@v2.3
+        uses: ansys/pydpf-actions/install-dpf-server@v2.3
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-          ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '232' }}
+          ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '241' }}
 
       - name: "Install local package as editable"
         shell: bash
@@ -82,11 +82,11 @@ jobs:
             src/ansys/dpf/core/operators/*
             docs/source/_static/dpf_operators.html
           commit-message: update operators
-          title: Update Operators for DPF ${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }} on ${{ github.ref_name }}
+          title: Update Operators for DPF ${{ github.event.inputs.ANSYS_VERSION || '241' }}${{ github.event.inputs.standalone_branch_suffix || '' }} on ${{ github.ref_name }}
           body: An update of operators has been triggered either manually or by an update in the dpf-standalone repository.
-          branch: maint/update_operators_for_${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
+          branch: maint/update_operators_for_${{ github.event.inputs.ANSYS_VERSION || '241' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
           labels: maintenance
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()

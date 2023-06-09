@@ -108,6 +108,7 @@ class MeshedRegion:
         self._full_grid = None
         self._elements = None
         self._nodes = None
+        self.as_linear = None
 
     def _get_scoping(self, loc=locations.nodal):
         """
@@ -457,20 +458,10 @@ class MeshedRegion:
 
         # consider adding this when scoping request is faster
         if include_ids:
-            self._nodeids = self.elements.scoping.ids
-            self._elementids = self.nodes.scoping.ids
-            grid["node_ids"] = self._elementids
-            grid["element_ids"] = self._nodeids
-
-        # Quick fix required to hold onto the data as PyVista does not make a copy.
-        # All of those now return DPFArrays
-        if coordinates is None:
-            coordinates_field = self.nodes.coordinates_field
-            coordinates = self.nodes.coordinates_field.data
-        else:
-            coordinates_field = coordinates
-            coordinates = coordinates.data
-        setattr(grid, "_dpf_cache", [coordinates, coordinates_field])
+            self._nodeids = self.nodes.scoping.ids
+            self._elementids = self.elements.scoping.ids
+            grid["node_ids"] = self._nodeids
+            grid["element_ids"] = self._elementids
 
         return grid
 
