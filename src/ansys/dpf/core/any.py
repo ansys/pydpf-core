@@ -7,6 +7,7 @@ Any
 import traceback
 import warnings
 
+import ansys.dpf.core.server_types
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
 from ansys.dpf.gate import (
@@ -67,7 +68,9 @@ class Any:
         )
 
         return [
-            #(str, any._api.any_wrapped_type_string),
+            (int, any._api.any_new_from_int, any._api.any_get_as_int, any._api.any_new_from_int_on_client),
+            (str, any._api.any_new_from_string, any._api.any_get_as_string, any._api.any_new_from_string_on_client),
+            (float, any._api.any_new_from_double, any._api.any_get_as_double, any._api.any_new_from_double_on_client),
             (field.Field, any._api.any_new_from_field, any._api.any_get_as_field),
             (property_field.PropertyField, any._api.any_new_from_property_field, any._api.any_get_as_property_field),
             (string_field.StringField, any._api.any_new_from_string_field, any._api.any_get_as_string_field),
@@ -75,7 +78,7 @@ class Any:
         ]
 
     @staticmethod
-    def new_from(obj):
+    def new_from(obj, server=None):
         """Return an Any instance from the given object.
 
         Parameters
@@ -88,11 +91,16 @@ class Any:
             Wrapped any type.
         """
 
-        any = Any(server=obj._server)
+        innerServer = server if server is not None else obj._server
+        any = Any(server=innerServer)
         for type_tuple in Any._type_to_new_from_get_as_method(any):
             if isinstance(obj, type_tuple[0]):
                 # call respective new_from function
-                any._internal_obj = type_tuple[1](obj)
+                if isinstance(server, ansys.dpf.core.server_types.InProcessServer) or\
+                        not (isinstance(obj, int) or isinstance(obj, str) or isinstance(obj, float)):
+                    any._internal_obj = type_tuple[1](obj)
+                else:
+                    any._internal_obj = type_tuple[3](innerServer.client, obj)
                 # store get_as & type for casting back to original type
                 any._internal_type = type_tuple[0]
                 any._get_as_method = type_tuple[2]
@@ -143,12 +151,15 @@ class Any:
             if self._internal_type == type_tuple[0]:
                 # call the get_as function for the appropriate type
                 internal_obj = type_tuple[2](self)
-                # get the current type's constructors' variable keyword for passing the internal_obj
-                internal_obj_keyword = type_tuple[0].__init__.__code__.co_varnames[-2]
-                # wrap parameters in a dictionary for keyword parameters expansion when calling constructor
-                keyword_args = {internal_obj_keyword: internal_obj, "server": self._server}
-                # call constructor
-                obj = type_tuple[0](**keyword_args)
+                if self._internal_type is int or self._internal_type is str or self._internal_type is float:
+                    obj = internal_obj
+                else:
+                    # get the current type's constructors' variable keyword for passing the internal_obj
+                    internal_obj_keyword = type_tuple[0].__init__.__code__.co_varnames[-2]
+                    # wrap parameters in a dictionary for keyword parameters expansion when calling constructor
+                    keyword_args = {internal_obj_keyword: internal_obj, "server": self._server}
+                    # call constructor
+                    obj = type_tuple[0](**keyword_args)
 
                 return obj
 

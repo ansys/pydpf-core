@@ -15,6 +15,7 @@ from ansys.dpf.gate import (
     generic_data_container_grpcapi,
 )
 from ansys.dpf.core.any import Any
+from ansys.dpf.core import collection
 
 
 class GenericDataContainer:
@@ -94,7 +95,7 @@ class GenericDataContainer:
             object instance.
         """
 
-        any = Any.new_from(prop)
+        any = Any.new_from(prop, self._server)
         self._api.generic_data_container_set_property_any(self, property_name, any)
 
     def get_property(self, property_name, output_type):
@@ -114,6 +115,28 @@ class GenericDataContainer:
         any_ptr = self._api.generic_data_container_get_property_any(self, property_name)
         any = Any(any_ptr, self._server)
         return any.cast(output_type)
+
+    def get_property_description(self):
+        """
+        TODO
+        Returns
+        -------
+
+        """
+
+        coll_obj = collection.StringCollection(
+            collection=self._api.generic_data_container_get_property_names(self),
+            server=self._server,
+        )
+        property_names = coll_obj.get_integral_entries()
+
+        coll_obj = collection.StringCollection(
+            collection=self._api.generic_data_container_get_property_types(self),
+            server=self._server,
+        )
+        property_types = coll_obj.get_integral_entries()
+
+        return dict(zip(property_names, property_types))
 
     def __del__(self):
         try:
