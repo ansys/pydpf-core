@@ -117,11 +117,12 @@ class GenericDataContainer:
         return any.cast(output_type)
 
     def get_property_description(self):
-        """
-        TODO
+        """ Get a dictionary description of properties by name and data type
+
         Returns
         -------
-
+        description: dict
+            Description of the GenericDataContainer's contents
         """
 
         coll_obj = collection.StringCollection(
