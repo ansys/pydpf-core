@@ -1,3 +1,4 @@
+import platform
 import pytest
 
 from ansys import dpf
@@ -74,6 +75,7 @@ def test_print_result_info(model):
     print(model.metadata.result_info)
 
 
+@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
 )
