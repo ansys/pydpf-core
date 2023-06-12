@@ -141,7 +141,7 @@ jobs:
       python_versions: '["3.8"]'
       DOCSTRING: false
       standalone_suffix: ''
-      custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v232/dist --pre' }}
+      custom-wheels: './dpf-standalone/v232/dist --pre'
     secrets: inherit
 
   retro_231:
