@@ -24,6 +24,7 @@ on:
 #* * * * *
 
 env:
+  ANSYS_VERSION: 232
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
   MAIN_PYTHON_VERSION: '3.8'
 
@@ -56,7 +57,7 @@ jobs:
   tests:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: "241"
+      ANSYS_VERSION: "232"
       python_versions: '["3.7", "3.8", "3.9", "3.10"]'
       wheel: true
       wheelhouse: true
@@ -66,7 +67,7 @@ jobs:
   docs:
     uses: ./.github/workflows/docs.yml
     with:
-      ANSYS_VERSION: "241"
+      ANSYS_VERSION: "232"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
       event_name: ${{ github.event_name }}
     secrets: inherit
@@ -74,18 +75,9 @@ jobs:
   examples:
     uses: ./.github/workflows/examples.yml
     with:
-      ANSYS_VERSION: "241"
+      ANSYS_VERSION: "232"
       python_versions: '["3.7", "3.8", "3.9", "3.10"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
-    secrets: inherit
-
-  retro_232:
-    name: "retro 232"
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "232"
-      python_versions: '["3.8"]'
-      DOCSTRING: false
     secrets: inherit
 
   retro_231:
@@ -113,14 +105,6 @@ jobs:
       ANSYS_VERSION: "221"
       python_versions: '["3.8"]'
       DOCSTRING: false
-    secrets: inherit
-
-  pydpf-post_241:
-    name: "PyDPF-Post with 241"
-    uses: ./.github/workflows/pydpf-post.yml
-    with:
-      ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   pydpf-post_232:
