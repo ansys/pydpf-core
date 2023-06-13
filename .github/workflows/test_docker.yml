@@ -9,6 +9,10 @@ on:
         required: false
         type: string
         default: ''
+      ANSYS_VERSION:
+        required: false
+        type: string
+        default: "241"
       custom-requirements:
         description: "Path to requirements.txt file to install"
         required: false
@@ -27,6 +31,11 @@ on:
         required: false
         type: string
         default: ''
+      ANSYS_VERSION:
+        description: "ANSYS version to run."
+        required: true
+        type: string
+        default: "241"
       custom-requirements:
         description: "Path to requirements.txt file to install"
         required: false
@@ -41,7 +50,6 @@ on:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  ANSYS_VERSION: 232
   ANSYS_DPF_ACCEPT_LA: Y
   ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
 
@@ -61,7 +69,7 @@ jobs:
         uses: ansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
         with:
           python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
@@ -185,7 +193,7 @@ jobs:
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ env.ANSYS_VERSION }}_docker
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}_docker
           path: tests/junit/test-results.xml
         timeout-minutes: 5
 
