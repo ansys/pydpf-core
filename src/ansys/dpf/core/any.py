@@ -30,7 +30,7 @@ class Any:
 
     Notes
     -----
-    Class available with server's version starting at 6.2 (Ansys 2023R2).
+    Class available with server's version starting at 6.2 (Ansys 2024R1).
     """
 
     def __init__(self, any=None, server=None):
