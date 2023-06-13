@@ -6,8 +6,8 @@ from . import scoping
 from . import filter
 from . import logic
 from . import metadata
-from . import mesh
 from . import serialization
+from . import mesh
 from . import averaging
 from . import geo
 from . import invariant

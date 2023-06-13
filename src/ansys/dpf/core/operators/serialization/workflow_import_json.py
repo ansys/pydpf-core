@@ -69,7 +69,7 @@ class workflow_import_json(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluating it
+        """Enables to get outputs of the operator by evaluationg it
 
         Returns
         --------
