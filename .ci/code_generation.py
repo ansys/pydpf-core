@@ -96,7 +96,7 @@ for lib in LIB_OPTIONAL_TO_GENERATE:
         print(f"Could not generate operators for optional library {lib}:\n{str(e)}")
 
 # Reorder imports alphabetically in __init__.py files to reduce changes raised
-for init_file_path in glob.glob(os.path.join(TARGET_PATH, "**/__init__.py")):
+for init_file_path in glob.glob(os.path.join(TARGET_PATH, "**/__init__.py"), recursive=True):
     with open(init_file_path, "r") as init_file:
         lines = init_file.readlines()
     with open(init_file_path, "w") as init_file:
