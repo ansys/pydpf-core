@@ -154,7 +154,8 @@ class Any:
         ----------
         output_type: output_type, optional
             Used when the Any instance was retrieved from the server.
-            Not necessary when the instance was created using the :func:`ansys.dpf.core.Any.new_from`
+            Not necessary when the instance was created using the
+            :func:`ansys.dpf.core.Any.new_from`
 
         Returns
         -------
@@ -175,9 +176,10 @@ class Any:
                 ):
                     obj = internal_obj
                 else:
-                    # get the current type's constructors' variable keyword for passing the internal_obj
+                    # get current type's constructors' variable keyword for passing the internal_obj
                     internal_obj_keyword = type_tuple[0].__init__.__code__.co_varnames[-2]
-                    # wrap parameters in a dictionary for keyword parameters expansion when calling constructor
+                    # wrap parameters in a dictionary for parameters expansion when calling
+                    # constructor
                     keyword_args = {internal_obj_keyword: internal_obj, "server": self._server}
                     # call constructor
                     obj = type_tuple[0](**keyword_args)
