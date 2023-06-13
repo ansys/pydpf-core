@@ -6,11 +6,13 @@ def test_create_any(server_type):
     any = dpf.Any.new_from(field)
     assert any._internal_obj is not None
 
+
 def test_cast_int_any(server_type):
     entity = 42
     any = dpf.Any.new_from(entity, server_type)
     new_entity = any.cast()
     assert 42 == new_entity
+
 
 def test_cast_string_any(server_type):
     entity = "hello world"
@@ -18,11 +20,13 @@ def test_cast_string_any(server_type):
     new_entity = any.cast()
     assert "hello world" == new_entity
 
+
 def test_cast_float_any(server_type):
     entity = 4.2
     any = dpf.Any.new_from(entity, server_type)
     new_entity = any.cast()
     assert 4.2 == new_entity
+
 
 def test_cast_field_any(server_type):
     entity = dpf.Field(location="phase", nature=dpf.natures.scalar, server=server_type)

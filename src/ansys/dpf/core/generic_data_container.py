@@ -86,7 +86,7 @@ class GenericDataContainer:
         return _description(self._internal_obj, self._server)
 
     def set_property(self, property_name, prop):
-        """ Register given property with the given name.
+        """Register given property with the given name.
 
         Parameters
         ----------
@@ -100,7 +100,7 @@ class GenericDataContainer:
         self._api.generic_data_container_set_property_any(self, property_name, any)
 
     def get_property(self, property_name, output_type):
-        """ Get property with given name.
+        """Get property with given name.
 
         Parameters
         ----------
@@ -118,7 +118,7 @@ class GenericDataContainer:
         return any.cast(output_type)
 
     def get_property_description(self):
-        """ Get a dictionary description of properties by name and data type
+        """Get a dictionary description of properties by name and data type
 
         Returns
         -------

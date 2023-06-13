@@ -10,11 +10,7 @@ import warnings
 import ansys.dpf.core.server_types
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
-from ansys.dpf.gate import (
-    any_abstract_api,
-    any_capi,
-    any_grpcapi
-)
+from ansys.dpf.gate import any_abstract_api, any_capi, any_grpcapi
 
 
 class Any:
@@ -42,8 +38,7 @@ class Any:
 
         # step 2: get api
         self._api_instance = self._server.get_api_for_type(
-            capi=any_capi.AnyCAPI,
-            grpcapi=any_grpcapi.AnyGRPCAPI
+            capi=any_capi.AnyCAPI, grpcapi=any_grpcapi.AnyGRPCAPI
         )
 
         # step3: init environment
@@ -60,21 +55,43 @@ class Any:
 
     @staticmethod
     def _type_to_new_from_get_as_method(any):
-        from ansys.dpf.core import (
-            field,
-            property_field,
-            generic_data_container,
-            string_field
-        )
+        from ansys.dpf.core import field, property_field, generic_data_container, string_field
 
         return [
-            (int, any._api.any_new_from_int, any._api.any_get_as_int, any._api.any_new_from_int_on_client),
-            (str, any._api.any_new_from_string, any._api.any_get_as_string, any._api.any_new_from_string_on_client),
-            (float, any._api.any_new_from_double, any._api.any_get_as_double, any._api.any_new_from_double_on_client),
+            (
+                int,
+                any._api.any_new_from_int,
+                any._api.any_get_as_int,
+                any._api.any_new_from_int_on_client,
+            ),
+            (
+                str,
+                any._api.any_new_from_string,
+                any._api.any_get_as_string,
+                any._api.any_new_from_string_on_client,
+            ),
+            (
+                float,
+                any._api.any_new_from_double,
+                any._api.any_get_as_double,
+                any._api.any_new_from_double_on_client,
+            ),
             (field.Field, any._api.any_new_from_field, any._api.any_get_as_field),
-            (property_field.PropertyField, any._api.any_new_from_property_field, any._api.any_get_as_property_field),
-            (string_field.StringField, any._api.any_new_from_string_field, any._api.any_get_as_string_field),
-            (generic_data_container.GenericDataContainer, any._api.any_new_from_generic_data_container, any._api.any_get_as_generic_data_container)
+            (
+                property_field.PropertyField,
+                any._api.any_new_from_property_field,
+                any._api.any_get_as_property_field,
+            ),
+            (
+                string_field.StringField,
+                any._api.any_new_from_string_field,
+                any._api.any_get_as_string_field,
+            ),
+            (
+                generic_data_container.GenericDataContainer,
+                any._api.any_new_from_generic_data_container,
+                any._api.any_get_as_generic_data_container,
+            ),
         ]
 
     @staticmethod
@@ -96,8 +113,9 @@ class Any:
         for type_tuple in Any._type_to_new_from_get_as_method(any):
             if isinstance(obj, type_tuple[0]):
                 # call respective new_from function
-                if isinstance(server, ansys.dpf.core.server_types.InProcessServer) or\
-                        not (isinstance(obj, int) or isinstance(obj, str) or isinstance(obj, float)):
+                if isinstance(server, ansys.dpf.core.server_types.InProcessServer) or not (
+                    isinstance(obj, int) or isinstance(obj, str) or isinstance(obj, float)
+                ):
                     any._internal_obj = type_tuple[1](obj)
                 else:
                     any._internal_obj = type_tuple[3](innerServer.client, obj)
@@ -113,8 +131,7 @@ class Any:
     def _api(self) -> any_abstract_api.AnyAbstractAPI:
         if not self._api_instance:
             self._api_instance = self._server.get_api_for_type(
-                capi=any_capi.AnyCAPI,
-                grpcapi=any_grpcapi.AnyGRPCAPI
+                capi=any_capi.AnyCAPI, grpcapi=any_grpcapi.AnyGRPCAPI
             )
         return self._api_instance
 
@@ -151,7 +168,11 @@ class Any:
             if self._internal_type == type_tuple[0]:
                 # call the get_as function for the appropriate type
                 internal_obj = type_tuple[2](self)
-                if self._internal_type is int or self._internal_type is str or self._internal_type is float:
+                if (
+                    self._internal_type is int
+                    or self._internal_type is str
+                    or self._internal_type is float
+                ):
                     obj = internal_obj
                 else:
                     # get the current type's constructors' variable keyword for passing the internal_obj
@@ -171,4 +192,3 @@ class Any:
         except Exception as e:
             print(str(e.args), str(self._deleter_func[0]))
             warnings.warn(traceback.format_exc())
-

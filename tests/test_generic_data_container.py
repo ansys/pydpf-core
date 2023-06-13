@@ -37,4 +37,9 @@ def test_get_property_description_generic_data_container(server_type):
     property_description = gdc.get_property_description()
 
     assert 4 == len(property_description)
-    assert property_description == {"my-float":"float", "my-int":"int", "my-string":"str", "my-field": "Field"}
+    assert property_description == {
+        "my-float": "float",
+        "my-int": "int",
+        "my-string": "str",
+        "my-field": "Field",
+    }
