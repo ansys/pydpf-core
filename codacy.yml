@@ -1,3 +1,4 @@
 ---
 exclude_paths:
-  - "./ansys/dpf/core/operators/**/*"
+  - "./src/ansys/dpf/core/operators/**/*"
+  - "./ci/**/*"
