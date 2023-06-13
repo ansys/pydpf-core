@@ -121,10 +121,12 @@ class AvailableResult:
         }
         self._sub_res = availableresult.sub_res
         self._qualifiers = availableresult.qualifiers
+        self._qualifier_labels = availableresult.qualifier_labels
 
     def __str__(self):
         txt = (
-            self.name
+            "DPF Result\n----------\n"
+            + self.name
             + "\n"
             + 'Operator name: "%s"\n' % self.operator_name
             + "Number of components: %d\n" % self.n_components
@@ -133,6 +135,15 @@ class AvailableResult:
         )
         if self.unit:
             txt += "Units: %s\n" % self.unit
+        if self.native_location:
+            txt += "Location: %s\n" % self.native_location
+        if self.qualifiers:
+            txt += "Available qualifier labels:\n"
+            for label in self.qualifier_labels:
+                txt += f"  - {label}: {', '.join(map(str, self.qualifier_labels[label]))}\n"
+            txt += "Available qualifier combinations:\n"
+            for qualifier in self.qualifiers:
+                txt += f"  {qualifier.__dict__()}\n"
         return txt
 
     @property
@@ -231,6 +242,11 @@ class AvailableResult:
         """
         return self._qualifiers
 
+    @property
+    def qualifier_labels(self) -> dict:
+        """Returns a dictionary of available labels for each available qualifier."""
+        return self._qualifier_labels
+
 
 _result_properties = {
     "S": {"location": "ElementalNodal", "scripting_name": "stress"},
@@ -281,6 +297,7 @@ def available_result_from_name(name) -> AvailableResult:
                 sub_res={},
                 properties={"loc_name": item["location"], "scripting_name": name},
                 qualifiers=[],
+                qualifier_labels={},
             )
 
             return AvailableResult(availableresult)
