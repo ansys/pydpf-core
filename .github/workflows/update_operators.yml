@@ -18,12 +18,12 @@ on:
         description: "Args given to pip install command"
         required: false
         type: string
-        default: ""
+        default: './dpf-standalone/v241/dist'
       custom-requirements:
         description: "Path to requirements.txt file to install"
         required: false
         type: string
-        default: ''
+        default: 'requirements/requirements_dev.txt'
 
 env:
   PACKAGE_NAME: ansys-dpf-core
