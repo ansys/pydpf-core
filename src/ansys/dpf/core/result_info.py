@@ -369,6 +369,7 @@ class ResultInfo:
             sub_res[sub_res_name] = [ssub_res_rec_name, descr]
 
         qualifiers = []
+        qualifier_labels = {}
         if self._server.meet_version("5.0"):
             qual_obj = object_handler.ObjHandler(
                 data_processing_api=self._data_processing_core_api,
@@ -380,13 +381,25 @@ class ResultInfo:
             )
             num_qual_obj = label_space_api.list_label_spaces_size(qual_obj)
             for ires in range(num_qual_obj):
-                qualifiers.append(
-                    LabelSpace(
-                        label_space=label_space_api.list_label_spaces_at(qual_obj, ires),
-                        obj=self,
-                        server=self._server,
-                    )
+                label_space = LabelSpace(
+                    label_space=label_space_api.list_label_spaces_at(qual_obj, ires),
+                    obj=self,
+                    server=self._server,
                 )
+                qualifiers.append(label_space)
+                label_space_dict = label_space.__dict__()
+                for key in label_space_dict:
+                    value = label_space_dict[key]
+                    label_support = self.qualifier_label_support(key)
+                    names_field = label_support.string_field_support_by_property("names")
+                    label_value = names_field.data_as_list[
+                        names_field.scoping.ids.tolist().index(value)
+                    ]
+                    label_value = label_value + f" ({value})"
+                    if key in qualifier_labels.keys() and label_value not in qualifier_labels[key]:
+                        qualifier_labels[key].append(label_value)
+                    else:
+                        qualifier_labels[key] = [label_value]
 
         availableresult = SimpleNamespace(
             name=name,
@@ -398,6 +411,7 @@ class ResultInfo:
             sub_res=sub_res,
             properties={"loc_name": loc_name, "scripting_name": scripting_name},
             qualifiers=qualifiers,
+            qualifier_labels=qualifier_labels,
         )
         return available_result.AvailableResult(availableresult)
 
@@ -415,9 +429,7 @@ class ResultInfo:
         Available with server's version starting at 5.0.
         """
         coll_obj = collection.StringCollection(
-            collection=self._support_api.result_info_get_available_qualifier_labels_as_string_coll(
-                self
-            ),
+            collection=self._api.result_info_get_available_qualifier_labels_as_string_coll(self),
             server=self._server,
         )
         return coll_obj.get_integral_entries()

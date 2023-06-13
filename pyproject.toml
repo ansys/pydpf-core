@@ -50,8 +50,8 @@ name = "ansys.dpf.core"
 [project.urls]
 Homepage = "https://dpf.docs.pyansys.com/"
 Documentation = "https://dpf.docs.pyansys.com/"
-Source = "https://github.com/pyansys/pydpf-core"
-Tracker = "https://github.com/pyansys/pydpf-core/issues"
+Source = "https://github.com/ansys/pydpf-core"
+Tracker = "https://github.com/ansys/pydpf-core/issues"
 
 [tool.black]
 line-length = 100
