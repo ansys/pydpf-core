@@ -10,7 +10,6 @@ import warnings
 import ansys.dpf.core.server_types
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
-from ansys.dpf.gate import any_abstract_api, any_capi, any_grpcapi
 
 
 class Any:
@@ -36,17 +35,11 @@ class Any:
         if not self._server.meet_version("6.2"):
             raise errors.DpfVersionNotSupported("6.2")
 
-        # step 2: get api
-        self._api_instance = self._server.get_api_for_type(
-            capi=any_capi.AnyCAPI, grpcapi=any_grpcapi.AnyGRPCAPI
-        )
+        self._api_instance = None
 
-        # step3: init environment
-        self._api.init_any_environment(self)  # creates stub when gRPC
+        # step 2: init environment
 
-        # step4: if object exists, take the instance, else create it
-
-        # self._internal_obj = generic_data_container
+        # step 3: if object exists, take the instance, else create it
         if any is not None:
             self._internal_obj = any
 
@@ -128,11 +121,15 @@ class Any:
         raise TypeError(f"{obj.__class__} is not currently supported by the Any class.")
 
     @property
-    def _api(self) -> any_abstract_api.AnyAbstractAPI:
+    def _api(self):
+        from ansys.dpf.gate import any_abstract_api, any_capi, any_grpcapi
+
         if not self._api_instance:
             self._api_instance = self._server.get_api_for_type(
                 capi=any_capi.AnyCAPI, grpcapi=any_grpcapi.AnyGRPCAPI
             )
+            self._api.init_any_environment(self)  # creates stub when gRPC
+
         return self._api_instance
 
     def __str__(self):

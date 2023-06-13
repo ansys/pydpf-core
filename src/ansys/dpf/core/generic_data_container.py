@@ -9,11 +9,6 @@ import warnings
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
-from ansys.dpf.gate import (
-    generic_data_container_abstract_api,
-    generic_data_container_capi,
-    generic_data_container_grpcapi,
-)
 from ansys.dpf.core.any import Any
 from ansys.dpf.core import collection
 from ansys.dpf.core.mapping_types import map_types_to_python
@@ -39,21 +34,15 @@ class GenericDataContainer:
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
-        if not self._server.meet_version("6.2"):
-            raise errors.DpfVersionNotSupported("6.2")
+        if not self._server.meet_version("7.0"):
+            raise errors.DpfVersionNotSupported("7.0")
 
-        # step 2: get api
-        self._api_instance = self._server.get_api_for_type(
-            capi=generic_data_container_capi.GenericDataContainerCAPI,
-            grpcapi=generic_data_container_grpcapi.GenericDataContainerGRPCAPI,
-        )
+        # # step 2: init environment
+        # self._api.init_generic_data_container_environment(self)  # creates stub when gRPC
 
-        # step3: init environment
-        self._api.init_generic_data_container_environment(self)  # creates stub when gRPC
+        # step 3: if object exists, take the instance, else create it
+        self._api_instance = None
 
-        # step4: if object exists, take the instance, else create it
-
-        # self._internal_obj = generic_data_container
         if generic_data_container is not None:
             self._internal_obj = generic_data_container
         else:
@@ -65,12 +54,21 @@ class GenericDataContainer:
                 self._internal_obj = self._api.generic_data_container_new()
 
     @property
-    def _api(self) -> generic_data_container_abstract_api.GenericDataContainerAbstractAPI:
+    def _api(self):
+        from ansys.dpf.gate import (
+            generic_data_container_abstract_api,
+            generic_data_container_capi,
+            generic_data_container_grpcapi,
+        )
+
         if not self._api_instance:
             self._api_instance = self._server.get_api_for_type(
                 capi=generic_data_container_capi.GenericDataContainerCAPI,
                 grpcapi=generic_data_container_grpcapi.GenericDataContainerGRPCAPI,
             )
+            self._api.init_generic_data_container_environment(self)  # creates stub when gRPC
+
+
         return self._api_instance
 
     def __str__(self):
