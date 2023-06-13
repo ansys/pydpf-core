@@ -1,11 +1,22 @@
 from ansys.dpf import core as dpf
+import conftest
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+)
+import pytest
 
 
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
 def test_create_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)
     assert gdc._internal_obj is not None
 
 
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
 def test_set_get_property_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)
     entity = dpf.Field(location="phase", nature=dpf.natures.scalar, server=server_type)
@@ -14,6 +25,9 @@ def test_set_get_property_generic_data_container(server_type):
     assert entity.location == new_entity.location
 
 
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
 def test_get_property_description_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)
     entity = 42
