@@ -31,7 +31,10 @@ def test_get_property_description_generic_data_container(server_type):
     new_entity = gdc.get_property("my-string", str)
     assert "hello world" == new_entity
 
+    entity = dpf.Field(location="phase", nature=dpf.natures.scalar, server=server_type)
+    gdc.set_property("my-field", entity)
+
     property_description = gdc.get_property_description()
 
-    assert 3 == len(property_description)
-    assert property_description == {"my-float":"double", "my-int":"int32", "my-string":"string"}
+    assert 4 == len(property_description)
+    assert property_description == {"my-float":"float", "my-int":"int", "my-string":"str", "my-field": "Field"}

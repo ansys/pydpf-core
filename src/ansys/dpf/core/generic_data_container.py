@@ -16,6 +16,7 @@ from ansys.dpf.gate import (
 )
 from ansys.dpf.core.any import Any
 from ansys.dpf.core import collection
+from ansys.dpf.core.mapping_types import map_types_to_python
 
 
 class GenericDataContainer:
@@ -137,7 +138,11 @@ class GenericDataContainer:
         )
         property_types = coll_obj.get_integral_entries()
 
-        return dict(zip(property_names, property_types))
+        python_property_types = []
+        for i in range(len(property_types)):
+            python_property_types.append(map_types_to_python[property_types[i]])
+
+        return dict(zip(property_names, python_property_types))
 
     def __del__(self):
         try:
