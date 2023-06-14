@@ -1,7 +1,13 @@
+"""
+.. _ref_incremental:
+
+Incremental
+========
+"""
+
 from ansys.dpf import core
 
-import math
-from typing import Dict, Any, Tuple
+from typing import Dict, Any
 
 
 class IncrementalHelper:
@@ -12,7 +18,14 @@ class IncrementalHelper:
         scoping: core.Scoping,
         scoping_pin: int = None,
     ):
-        """"""
+        """
+        Given the first and the last operator of a workflow, as well as the scoping.
+
+        This class can be used to simplify the use of incremental operators, and automatically
+        enable to incrementally evaluate a workflow.
+
+        Under the constraint that the end_op supports incremental evaluation.
+        """
         # input operator should accept a scoping
         # last operator should support incremental evaluation
         #     but it should be permissive too (bad doc/spec whatever)
@@ -23,7 +36,13 @@ class IncrementalHelper:
         self._scoping_pin = self._find_scoping_pin(scoping_pin)
 
     def estimate_size(self, max_bytes: int, _dict_inputs: Dict[int, Any]) -> int:
-        """"""
+        """
+        Estimation is based on the size of the output for one id of the given time_scoping.
+        Thus it will run the operator for only "one" iteration.
+
+        It only supports Field and FieldContainer.
+        For other types, you should specify chunk_size argument in the split() method.
+        """
         # evaluate for the first element to try to guess memory consumption
         # best to use with a lot of elements
         first_id = self._scoping.ids[0]
@@ -75,20 +94,23 @@ class IncrementalHelper:
     #
     #           +----------+    +---------------+    +---------+
     # scoping ->| start_op | -> | middle ops... | -> | end_op  |
-    #    \      +----------+    +---------------+    +---------+ \
-    #     \           \                                           \
-    #      \           \   +-------------------------+             \                    (pins remaps)
-    #       \           \> | chunk_in_for_each_range |              \    +----------+    +--------------+
-    #        \ scop_pin -> |                         |               +-> |          | -> | forward      | -> (end_op outputs)
-    #         +----------> |                         |                   |          |    | (new end_op) |
-    #        chunk_size -> |                         |  ---iterables-->  | for_each |    +--------------+
-    #                      +-------------------------+                   |          |
-    #                                                  end_input_pin-->  |          |
-    #                                                                    +----------+
-    #
+    #   \       +----------+    +---------------+    +---------+
+    #    \           \                                  |
+    #     \           \   +------------------+          |                    (pins remaps)
+    #      \           \> |                  |          |   +----------+    +-----------+
+    #       \ scop_pin -> | chunk_in         |          +-> |          | -> | forward   | -> final
+    #        +----------> |   for_each_range |  iterables   |          |    | (new end) |    outputs
+    #       chunk_size -> |                  | -----------> | for_each |    +-----------+
+    #                     +------------------+              |          |
+    #                                     end_input_pin-->  |          |
+    #                                                       +----------+
     def split(
         self, chunk_size: int, end_input_pin: int = 0, rescope: bool = False
     ) -> core.Operator:
+        """
+        Given a chunk size (multiple of given scoping), it will give a new operator to retrieve
+        outputs from, and enable incremental evaluation, notably reducing peak memory usage.
+        """
         # enables incremental evaluation:
         # using for_each, chunk_in_for_each_range and incremental version of the last op
         # by returning two operators with remapped inputs and outputs to other operators
@@ -199,6 +221,12 @@ def split_workflow_in_chunks(
     scoping_pin: int = None,
     end_input_pin: int = 0,
 ):
+    """
+    This method helps transforming a workflow into an incrementally evaluating one.
+
+    It wraps in one method the functionality of the IncrementalHelper class as well
+    as the estimation of the chunk size.
+    """
     splitter = IncrementalHelper(start_op, end_op, scoping, scoping_pin)
 
     if chunk_size == None:
