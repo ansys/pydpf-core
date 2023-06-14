@@ -19,6 +19,7 @@ from .mesh_to_graphics_edges import mesh_to_graphics_edges
 from .mesh_to_pyvista import mesh_to_pyvista 
 from .meshes_provider import meshes_provider 
 from .node_coordinates import node_coordinates 
+from .point_cloud_search import point_cloud_search 
 from .points_from_coordinates import points_from_coordinates 
 from .skin import skin 
 from .split_fields import split_fields 
