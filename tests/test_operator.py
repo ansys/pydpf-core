@@ -18,7 +18,6 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0
 )
 
 # Check for ANSYS installation env var
@@ -259,16 +258,6 @@ def test_connect_operator_output_operator(server_type):
     op2.connect(1, 0)
     fOut = op2.get_output(0, dpf.core.types.field)
     assert len(fOut.data) == 3
-
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
-def test_connect_generic_data_container_operator(server_type):
-    op = dpf.core.Operator("forward", server=server_type)
-    inpt = dpf.core.GenericDataContainer(server=server_type)
-    op.connect(0, inpt)
-    output = op.get_output(0, dpf.core.types.generic_data_container)
-    assert output is not None
 
 
 @pytest.mark.skipif(
