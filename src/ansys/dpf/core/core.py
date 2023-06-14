@@ -97,14 +97,6 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
       server_file_path : str
            path generated server side
 
-    Examples
-    --------
-    >>> from ansys.dpf import core as dpf
-    >>> from ansys.dpf.core import examples
-    >>> server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer,
-    ... as_global=False)
-    >>> file_path = dpf.upload_file_in_tmp_folder(examples.find_static_rst(), server=server)
-
     Notes
     -----
     Is not implemented for usage with type(server)=
@@ -161,17 +153,6 @@ def download_file(server_file_path, to_client_file_path, server=None):
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
-
-    Examples
-    --------
-    >>> from ansys.dpf import core as dpf
-    >>> from ansys.dpf.core import examples
-    >>> server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer,
-    ... as_global=False)
-    >>> file_path = dpf.upload_file_in_tmp_folder(examples.find_static_rst(), server=server)
-    >>> dpf.download_file(file_path, examples.find_static_rst(),  server=server)
-    <BLANKLINE>
-    ...
 
     Notes
     -----

@@ -11,7 +11,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "232"
+        default: "241"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -39,7 +39,7 @@ on:
         description: "ANSYS version to run."
         required: true
         type: string
-        default: "232"
+        default: "241"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -77,6 +77,7 @@ jobs:
     name: "Run Examples"
     needs: setup
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
     strategy:
       fail-fast: false
       matrix:
@@ -92,7 +93,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: "Build Docker Package"
-        uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
+        uses: ansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
@@ -107,7 +108,7 @@ jobs:
           custom-requirements: ${{ inputs.custom-requirements }}
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.3
+        uses: ansys/pydpf-actions/prepare_tests@v2.3
         with:
           DEBUG: true
 

@@ -43,7 +43,7 @@ print("\033[1m average_filter_plugin")
 file_list = ["__init__.py", "operators.py", "operators_loader.py", "common.py"]
 plugin_folder = None
 GITHUB_SOURCE_URL = (
-    "https://github.com/pyansys/pydpf-core/raw/"
+    "https://github.com/ansys/pydpf-core/raw/"
     "examples/first_python_plugins/python_plugins/average_filter_plugin"
 )
 
