@@ -8,12 +8,22 @@ on:
         description: "ANSYS version"
         required: false
         type: string
-        default: "232"
+        default: "241"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
         type: string
         default: ''
+      extra-pip-args:
+        description: "Args given to pip install command"
+        required: false
+        type: string
+        default: './dpf-standalone/v241/dist'
+      custom-requirements:
+        description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: 'requirements/requirements_dev.txt'
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -40,7 +50,14 @@ jobs:
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
           standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-          ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '232' }}
+          ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '241' }}
+
+      - name: "Install custom requirements"
+        uses: ansys/pydpf-actions/install-custom-requirements@v2.3
+        if: inputs.custom-requirements != ''
+        with:
+          extra-pip-args: ${{ inputs.extra-pip-args && format('--find-links {0}', inputs.extra-pip-args) }}
+          custom-requirements: ${{ inputs.custom-requirements }}
 
       - name: "Install local package as editable"
         shell: bash
@@ -82,9 +99,9 @@ jobs:
             src/ansys/dpf/core/operators/*
             docs/source/_static/dpf_operators.html
           commit-message: update operators
-          title: Update Operators for DPF ${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }} on ${{ github.ref_name }}
+          title: Update Operators for DPF ${{ github.event.inputs.ANSYS_VERSION || '241' }}${{ github.event.inputs.standalone_branch_suffix || '' }} on ${{ github.ref_name }}
           body: An update of operators has been triggered either manually or by an update in the dpf-standalone repository.
-          branch: maint/update_operators_for_${{ github.event.inputs.ANSYS_VERSION || '232' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
+          branch: maint/update_operators_for_${{ github.event.inputs.ANSYS_VERSION || '241' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
           labels: maintenance
 
       - name: "Kill all servers"
