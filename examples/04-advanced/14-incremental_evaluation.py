@@ -13,13 +13,18 @@ from ansys.dpf.core import examples
 
 
 #######################################################################################
-# Retrieve an example to instanciate a DataSources object
+# Retrieve an example to instantiate a DataSources object
 path = examples.download_transient_result()
 ds = dpf.DataSources(path)
 
 # From the DataSources object we can retrieve the scoping
 # In this example we want to compute the min/max for all the time sets
-scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)
+tf_provider = dpf.operators.metadata.time_freq_provider(data_sources=ds)
+tf_support = tf_provider.get_output(output_type=dpf.types.time_freq_support)
+scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(tf_support)
+
+# if you don't need to reuse TimeFreqSupport you could also use the DataSources
+# scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)
 
 #######################################################################################
 # Defining the workflow to exploit
@@ -46,3 +51,14 @@ new_end_op = dpf.split_workflow_in_chunks(result_op, final_op, scoping)
 # Obtain results on the same pin numbers
 min = new_end_op.get_output(0, dpf.types.field)
 max = new_end_op.get_output(1, dpf.types.field)
+
+# Plot results
+import matplotlib.pyplot as plt
+
+x = tf_support.time_frequencies.data
+plt.plot(x, min.data, "b", label="Min")
+plt.plot(x, max.data, "r", label="Max")
+plt.xlabel("Time")
+plt.ylabel("Stress")
+plt.legend()
+plt.show()
