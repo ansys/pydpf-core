@@ -37,10 +37,7 @@ class GenericDataContainer:
         if not self._server.meet_version("7.0"):
             raise errors.DpfVersionNotSupported("7.0")
 
-        # # step 2: init environment
-        # self._api.init_generic_data_container_environment(self)  # creates stub when gRPC
-
-        # step 3: if object exists, take the instance, else create it
+        # step 2: if object exists, take the instance, else create it
         self._api_instance = None
 
         if generic_data_container is not None:
@@ -67,7 +64,6 @@ class GenericDataContainer:
                 grpcapi=generic_data_container_grpcapi.GenericDataContainerGRPCAPI,
             )
             self._api.init_generic_data_container_environment(self)  # creates stub when gRPC
-
 
         return self._api_instance
 
@@ -143,8 +139,9 @@ class GenericDataContainer:
         return dict(zip(property_names, python_property_types))
 
     def __del__(self):
-        try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except Exception as e:
-            print(str(e.args), str(self._deleter_func[0]))
-            warnings.warn(traceback.format_exc())
+        if self._api_instance is not None:
+            try:
+                self._deleter_func[0](self._deleter_func[1](self))
+            except Exception as e:
+                print(str(e.args), str(self._deleter_func[0]))
+                warnings.warn(traceback.format_exc())

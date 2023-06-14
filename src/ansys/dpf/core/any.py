@@ -37,9 +37,7 @@ class Any:
 
         self._api_instance = None
 
-        # step 2: init environment
-
-        # step 3: if object exists, take the instance, else create it
+        # step 2: if object exists, take the instance, else create it
         if any is not None:
             self._internal_obj = any
 
@@ -107,7 +105,7 @@ class Any:
             if isinstance(obj, type_tuple[0]):
                 # call respective new_from function
                 if isinstance(server, ansys.dpf.core.server_types.InProcessServer) or not (
-                    isinstance(obj, int) or isinstance(obj, str) or isinstance(obj, float)
+                        isinstance(obj, int) or isinstance(obj, str) or isinstance(obj, float)
                 ):
                     any._internal_obj = type_tuple[1](obj)
                 else:
@@ -167,9 +165,9 @@ class Any:
                 # call the get_as function for the appropriate type
                 internal_obj = type_tuple[2](self)
                 if (
-                    self._internal_type is int
-                    or self._internal_type is str
-                    or self._internal_type is float
+                        self._internal_type is int
+                        or self._internal_type is str
+                        or self._internal_type is float
                 ):
                     obj = internal_obj
                 else:
@@ -186,8 +184,9 @@ class Any:
         raise TypeError(f"{output_type} is not currently supported by the Any class.")
 
     def __del__(self):
-        try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except Exception as e:
-            print(str(e.args), str(self._deleter_func[0]))
-            warnings.warn(traceback.format_exc())
+        if self._api_instance is not None:
+            try:
+                self._deleter_func[0](self._deleter_func[1](self))
+            except Exception as e:
+                print(str(e.args), str(self._deleter_func[0]))
+                warnings.warn(traceback.format_exc())
