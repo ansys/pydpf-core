@@ -383,7 +383,7 @@ class Operator:
                 "generic_data_container",
             ))
 
-        return types_to_functins
+        return types_to_functions
 
     @property
     def _type_to_input_method(self):
