@@ -193,9 +193,8 @@ def scoping_on_all_time_freqs(obj: Union[TimeFreqSupport, Model, DataSources]):
         tf_support = tf_provider.get_output(output_type=types.time_freq_support)
 
     if tf_support == None:
-        raise TypeError(
-            f"Given type was {type(obj)} while accepted types are {TimeFreqSupport}, {Model}, {DataSources}"
-        )
+        supported_types = f"{TimeFreqSupport}, {Model}, {DataSources}"
+        raise TypeError(f"Given type was {type(obj)} while accepted types are {supported_types}")
 
     return Scoping(
         ids=range(1, len(tf_support.time_frequencies) + 1),
