@@ -139,7 +139,7 @@ class GenericDataContainer:
         return dict(zip(property_names, python_property_types))
 
     def __del__(self):
-        if self._api_instance is not None:
+        if self._internal_obj is not None:
             try:
                 self._deleter_func[0](self._deleter_func[1](self))
             except Exception as e:
