@@ -260,25 +260,6 @@ def test_connect_operator_output_operator(server_type):
     assert len(fOut.data) == 3
 
 
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
-    reason="Connect an operator as an input is supported starting server version 6.2",
-)
-def test_connect_operator_as_input(server_type):
-    op_for_each = dpf.core.Operator("for_each", server=server_type)
-    fieldify = dpf.core.Operator("fieldify", server=server_type)
-    op_merge = dpf.core.Operator("incremental::merge::field", server=server_type)
-
-    op_for_each.connect_operator_as_input(0, fieldify)
-    op_for_each.connect(1, [1.0, 2.0, 3.0, 4.0])
-    op_for_each.connect(3, op_merge, 0)
-    op_merge.connect(0, fieldify, 0)
-    op_merge.connect(-2, True)
-
-    op_for_each.run()
-    assert op_for_each.get_output(3, dpf.core.types.field).get_entity_data(0) == 10.0
-
-
 def test_eval_operator(server_type):
     op = dpf.core.Operator("min_max", server=server_type)
     inpt = dpf.core.Field(nentities=3, server=server_type)

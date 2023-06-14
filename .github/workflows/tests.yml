@@ -11,7 +11,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "241"
+        default: "232"
       wheel:
         required: false
         type: string

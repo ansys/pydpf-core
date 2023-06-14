@@ -62,8 +62,8 @@ def is_ubuntu():
 
 
 def get_ansys_path(ansys_path=None):
-    """Give input path back if given, else look for ANSYS_DPF_PATH,
-    then among AWP_ROOT and installed ansys-dpf-server modules to take the latest available.
+    """Give input path back if given, else look for ANSYS_DPF_PATH, then AWP_ROOT+__ansys_version__,
+    then calls for find_ansys as a last resort.
 
     Parameters
     ----------
@@ -80,7 +80,9 @@ def get_ansys_path(ansys_path=None):
     # First check the environment variable for a custom path
     if ansys_path is None:
         ansys_path = os.environ.get("ANSYS_DPF_PATH")
-    # Then check for usual installation folders with AWP_ROOT and installed modules
+    # Then check for usual installation folders with AWP_ROOT and find_ansys
+    if ansys_path is None:
+        ansys_path = os.environ.get("AWP_ROOT" + __ansys_version__)
     if ansys_path is None:
         ansys_path = find_ansys()
     # If still no install has been found, throw an exception

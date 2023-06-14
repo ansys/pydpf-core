@@ -19,13 +19,6 @@ class html_doc(Operator):
     output_path : str, optional
         Default is {working
         directory}/dataprocessingdoc.html
-    exposure_level : int, optional
-        Generate the documentation depending on
-        exposure level : 0 (default) for
-        public operators, 1 includes hidden
-        operator, 2 includes private
-        operator, 3 includes operator without
-        specifications.
 
 
     Examples
@@ -38,25 +31,20 @@ class html_doc(Operator):
     >>> # Make input connections
     >>> my_output_path = str()
     >>> op.inputs.output_path.connect(my_output_path)
-    >>> my_exposure_level = int()
-    >>> op.inputs.exposure_level.connect(my_exposure_level)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.html_doc(
     ...     output_path=my_output_path,
-    ...     exposure_level=my_exposure_level,
     ... )
 
     """
 
-    def __init__(self, output_path=None, exposure_level=None, config=None, server=None):
+    def __init__(self, output_path=None, config=None, server=None):
         super().__init__(name="html_doc", config=config, server=server)
         self._inputs = InputsHtmlDoc(self)
         self._outputs = OutputsHtmlDoc(self)
         if output_path is not None:
             self.inputs.output_path.connect(output_path)
-        if exposure_level is not None:
-            self.inputs.exposure_level.connect(exposure_level)
 
     @staticmethod
     def _spec():
@@ -71,17 +59,6 @@ class html_doc(Operator):
                     optional=True,
                     document="""Default is {working
         directory}/dataprocessingdoc.html""",
-                ),
-                1: PinSpecification(
-                    name="exposure_level",
-                    type_names=["int32"],
-                    optional=True,
-                    document="""Generate the documentation depending on
-        exposure level : 0 (default) for
-        public operators, 1 includes hidden
-        operator, 2 includes private
-        operator, 3 includes operator without
-        specifications.""",
                 ),
             },
             map_output_pin_spec={},
@@ -135,16 +112,12 @@ class InputsHtmlDoc(_Inputs):
     >>> op = dpf.operators.utility.html_doc()
     >>> my_output_path = str()
     >>> op.inputs.output_path.connect(my_output_path)
-    >>> my_exposure_level = int()
-    >>> op.inputs.exposure_level.connect(my_exposure_level)
     """
 
     def __init__(self, op: Operator):
         super().__init__(html_doc._spec().inputs, op)
         self._output_path = Input(html_doc._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._output_path)
-        self._exposure_level = Input(html_doc._spec().input_pin(1), 1, op, -1)
-        self._inputs.append(self._exposure_level)
 
     @property
     def output_path(self):
@@ -166,31 +139,6 @@ class InputsHtmlDoc(_Inputs):
         >>> op.inputs.output_path(my_output_path)
         """
         return self._output_path
-
-    @property
-    def exposure_level(self):
-        """Allows to connect exposure_level input to the operator.
-
-        Generate the documentation depending on
-        exposure level : 0 (default) for
-        public operators, 1 includes hidden
-        operator, 2 includes private
-        operator, 3 includes operator without
-        specifications.
-
-        Parameters
-        ----------
-        my_exposure_level : int
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.html_doc()
-        >>> op.inputs.exposure_level.connect(my_exposure_level)
-        >>> # or
-        >>> op.inputs.exposure_level(my_exposure_level)
-        """
-        return self._exposure_level
 
 
 class OutputsHtmlDoc(_Outputs):
