@@ -290,7 +290,7 @@ class Operator:
             generic_data_container,
         )
 
-        return [
+        types_to_functions = [
             (bool, self._api.operator_getoutput_bool),
             (int, self._api.operator_getoutput_int),
             (str, self._api.operator_getoutput_string),
@@ -361,11 +361,6 @@ class Operator:
             (data_tree.DataTree, self._api.operator_getoutput_data_tree, "data_tree"),
             (Operator, self._api.operator_getoutput_operator, "operator"),
             (
-                generic_data_container.GenericDataContainer,
-                self._api.operator_getoutput_generic_data_container,
-                "generic_data_container",
-            ),
-            (
                 dpf_vector.DPFVectorInt,
                 self._api.operator_getoutput_int_collection,
                 lambda obj: collection.IntCollection(
@@ -380,6 +375,15 @@ class Operator:
                 ).get_integral_entries(),
             ),
         ]
+
+        if self._server.meet_version("7.0"):
+            types_to_functions.append((
+                generic_data_container.GenericDataContainer,
+                self._api.operator_getoutput_generic_data_container,
+                "generic_data_container",
+            ))
+
+        return types_to_functins
 
     @property
     def _type_to_input_method(self):
