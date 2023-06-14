@@ -400,7 +400,7 @@ class Operator:
             generic_data_container,
         )
 
-        return [
+        types_to_functions = [
             (bool, self._api.operator_connect_bool),
             ((int, Enum), self._api.operator_connect_int),
             (str, self._api.operator_connect_string),
@@ -429,12 +429,16 @@ class Operator:
             ),
             (workflow.Workflow, self._api.operator_connect_workflow),
             (data_tree.DataTree, self._api.operator_connect_data_tree),
-            (Operator, self._api.operator_connect_operator_as_input),
-            (
+            (Operator, self._api.operator_connect_operator_as_input)
+        ]
+
+        if self._server.meet_version("7.0"):
+            types_to_functions.append((
                 generic_data_container.GenericDataContainer,
                 self._api.operator_connect_generic_data_container,
-            ),
-        ]
+            ))
+
+        return types_to_functions
 
     def get_output(self, pin=0, output_type=None):
         """Retrieve the output of the operator on the pin number.
