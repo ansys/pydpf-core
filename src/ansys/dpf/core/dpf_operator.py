@@ -299,6 +299,7 @@ class Operator:
             workflow,
             collection,
             streams_container,
+            mesh_info,
         )
 
         return [
@@ -384,6 +385,11 @@ class Operator:
                 lambda obj: collection.FloatCollection(
                     server=self._server, collection=obj
                 ).get_integral_entries(),
+            ),
+            (
+                mesh_info.MeshInfo,
+                self._api.operator_getoutput_generic_data_container,
+                "mesh_info",
             ),
         ]
 

@@ -3,10 +3,12 @@ MeshInfo
 ==========
 """
 import traceback
+import warnings
 
 import ansys.dpf.core
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import generic_data_container
+from ansys.dpf.core import errors
 
 
 class MeshInfo:
@@ -31,12 +33,8 @@ class MeshInfo:
     >>> from ansys.dpf.core import examples
     >>> fluent = examples.download_fluent_axial_comp()
     >>> model = dpf.Model(fluent)
-    >>> mesh_info = model.metadata.mesh_info # printable mesh_info
+    >>> mesh_info = model.metadata.mesh_info_provider # printable mesh_info
 
-    >>> mesh_info._get_num_nodes
-    '1345'
-    >>> mesh_info.get_num_elements
-    '16541'
 
     """
 
@@ -46,11 +44,15 @@ class MeshInfo:
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
+        if not self._server.meet_version("7.0"):
+            raise errors.DpfVersionNotSupported("7.0")
+
+
         # step 2: we instanciate the mesh_info by forwarding a generic_data_container
         if mesh_info is not None:
+            self._internal_obj = mesh_info
+        else:
             self._internal_obj = generic_data_container
-        elif mesh_info is None:
-            raise Exception("Mesh_info given is None")
 
     # def __str__(self):
     #     try:
@@ -159,3 +161,11 @@ class MeshInfo:
         """ Available element types """
 
         return self.set_property(self, "avalaible_elem_type", available_elem_types)
+
+    def __del__(self):
+        if self._internal_obj is not None:
+            try:
+                self._deleter_func[0](self._deleter_func[1](self))
+            except Exception as e:
+                print(str(e.args), str(self._deleter_func[0]))
+                warnings.warn(traceback.format_exc())

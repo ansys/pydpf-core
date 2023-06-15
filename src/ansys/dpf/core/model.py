@@ -470,6 +470,28 @@ class Metadata:
         return self._mesh_provider_cached_instance
 
     @property
+    def mesh_info_provider(self):
+        """Mesh info provider operator.
+
+        This operator gives the information of a mesh from the result file. The underlying
+        operator symbol is the class:`ansys.dpf.core.operators.metadata.mesh_info_provider`
+        operator.
+
+        Returns
+        -------
+        mesh_info_provider : :class:`ansys.dpf.core.operators.metadata.mesh_info_provider`
+            Mesh info provider operator.
+
+        """
+        mesh_info_provider = Operator("MeshInfoProvider", server=self._server)
+        if self._stream_provider:
+            mesh_info_provider.inputs.connect(self._stream_provider.outputs)
+        else:
+            mesh_info_provider.inputs.connect(self.data_sources)
+        return mesh_info_provider
+
+
+    @property
     @protect_source_op_not_found
     def result_info(self):
         """Result Info instance.
