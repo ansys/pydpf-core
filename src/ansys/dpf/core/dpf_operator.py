@@ -388,20 +388,16 @@ class Operator:
                 ).get_integral_entries(),
             ),
             (
+                generic_data_container.GenericDataContainer,
+                self._api.operator_getoutput_generic_data_container,
+                "generic_data_container",
+            ),
+            (
                 mesh_info.MeshInfo,
                 self._api.operator_getoutput_generic_data_container,
                 "mesh_info",
             ),
         ]
-
-        if self._server.meet_version("7.0"):
-            types_to_functions.append((
-                generic_data_container.GenericDataContainer,
-                self._api.operator_getoutput_generic_data_container,
-                "generic_data_container",
-            ))
-
-        return types_to_functions
 
     @property
     def _type_to_input_method(self):
@@ -451,14 +447,12 @@ class Operator:
             ),
             (workflow.Workflow, self._api.operator_connect_workflow),
             (data_tree.DataTree, self._api.operator_connect_data_tree),
-            (Operator, self._api.operator_connect_operator_as_input)
-        ]
-
-        if self._server.meet_version("7.0"):
-            types_to_functions.append((
+            (Operator, self._api.operator_connect_operator_as_input),
+            (
                 generic_data_container.GenericDataContainer,
                 self._api.operator_connect_generic_data_container,
-            ))
+            )
+        ]
 
         return types_to_functions
 
