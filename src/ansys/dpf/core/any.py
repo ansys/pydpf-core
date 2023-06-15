@@ -184,9 +184,8 @@ class Any:
         raise TypeError(f"{output_type} is not currently supported by the Any class.")
 
     def __del__(self):
-        if self._internal_obj is not None:
-            try:
+        try:
+            if self._internal_obj is not None:
                 self._deleter_func[0](self._deleter_func[1](self))
-            except Exception as e:
-                print(str(e.args), str(self._deleter_func[0]))
-                warnings.warn(traceback.format_exc())
+        except:
+            warnings.warn(traceback.format_exc())
