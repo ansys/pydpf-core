@@ -47,8 +47,7 @@ class MeshInfo:
         if not self._server.meet_version("7.0"):
             raise errors.DpfVersionNotSupported("7.0")
 
-
-        # step 2: we instanciate the mesh_info by forwarding a generic_data_container
+        # step 2: we instantiate the mesh_info by forwarding a generic_data_container
         if mesh_info is not None:
             self._internal_obj = mesh_info
         else:
@@ -80,7 +79,6 @@ class MeshInfo:
 
         return self.get_property(self, property_name, output_type)
 
-
     def set_property(self, property_name, prop):
         """Register given property with the given name.
 
@@ -97,7 +95,6 @@ class MeshInfo:
         """
 
         return self.set_property(self, property_name, prop)
-
 
     def get_number_nodes(self):
         """
@@ -119,7 +116,6 @@ class MeshInfo:
 
         return self.get_property(self, "num_elements", int)
 
-
     def get_splittable_by(self):
         """
         Returns
@@ -129,7 +125,6 @@ class MeshInfo:
         """
 
         return self.get_property(self, "splittable_by", ansys.dpf.core.StringField)
-
 
     def get_available_elem_type(self):
         """
@@ -141,24 +136,23 @@ class MeshInfo:
 
         return self.get_property(self, "avalaible_elem_type", ansys.dpf.core.Scoping)
 
-
     def set_number_nodes(self, number_of_nodes):
         """Number of nodes"""
 
         return self.set_property(self, "num_nodes", number_of_nodes)
 
     def set_number_elements(self, number_of_elements):
-        """ Number of elements """
+        """Number of elements"""
 
         return self.set_property(self, "num_elements", number_of_elements)
 
     def set_splittable_by(self, split):
-        """ Splittable by """
+        """Splittable by"""
 
         return self.set_property(self, "splittable_by", split)
 
     def set_available_elem_types(self, available_elem_types):
-        """ Available element types """
+        """Available element types"""
 
         return self.set_property(self, "avalaible_elem_type", available_elem_types)
 

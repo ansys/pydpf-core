@@ -451,7 +451,7 @@ class Operator:
             (
                 generic_data_container.GenericDataContainer,
                 self._api.operator_connect_generic_data_container,
-            )
+            ),
         ]
 
         return types_to_functions

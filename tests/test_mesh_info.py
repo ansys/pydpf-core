@@ -16,9 +16,8 @@ def test_create_mesh_info(server_type):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-
 def test_set_get_num_of(server_type):
-    """ Number of nodes """
+    """Number of nodes"""
     mesh_info = dpf.MeshInfo(server=server_type)
     num_nodes = 189
     mesh_info.set_number_nodes(189)
@@ -28,8 +27,9 @@ def test_set_get_num_of(server_type):
     mesh_info.set_number_elements(2)
     assert mesh_info.get_number_elements() == num_elements
 
+
 def test_set_get_property_mesh_info(server_type):
-    """ Scoping """
+    """Scoping"""
     mesh_info = dpf.MeshInfo(server=server_type)
     entity_scoping = dpf.Scoping()
     expected_ids = {3, 2, 1}
@@ -48,6 +48,7 @@ def test_set_get_property_mesh_info(server_type):
     result_meshedregion = mesh_info.get_property("my-property02", dpf.MeshedRegion)
     assert result_meshedregion.elements == entity_meshedregion.elements
 
+
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
@@ -60,6 +61,7 @@ def test_set_get_splittable_by_mesh_info(server_type):
     result_splittable = mesh_info.get_splittable_by()
     for i, strings in enumerate(expected_splittable):
         assert result_splittable.get_entity_data_by_id(i) == expected_splittable[i]
+
 
 def test_set_get_splittable_by_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)

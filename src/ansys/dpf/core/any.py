@@ -105,7 +105,7 @@ class Any:
             if isinstance(obj, type_tuple[0]):
                 # call respective new_from function
                 if isinstance(server, ansys.dpf.core.server_types.InProcessServer) or not (
-                        isinstance(obj, int) or isinstance(obj, str) or isinstance(obj, float)
+                    isinstance(obj, int) or isinstance(obj, str) or isinstance(obj, float)
                 ):
                     any._internal_obj = type_tuple[1](obj)
                 else:
@@ -120,7 +120,7 @@ class Any:
 
     @property
     def _api(self):
-        from ansys.dpf.gate import any_abstract_api, any_capi, any_grpcapi
+        from ansys.dpf.gate import any_capi, any_grpcapi
 
         if not self._api_instance:
             self._api_instance = self._server.get_api_for_type(
@@ -165,9 +165,9 @@ class Any:
                 # call the get_as function for the appropriate type
                 internal_obj = type_tuple[2](self)
                 if (
-                        self._internal_type is int
-                        or self._internal_type is str
-                        or self._internal_type is float
+                    self._internal_type is int
+                    or self._internal_type is str
+                    or self._internal_type is float
                 ):
                     obj = internal_obj
                 else:

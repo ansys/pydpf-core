@@ -490,7 +490,6 @@ class Metadata:
             mesh_info_provider.inputs.connect(self.data_sources)
         return mesh_info_provider
 
-
     @property
     @protect_source_op_not_found
     def result_info(self):
