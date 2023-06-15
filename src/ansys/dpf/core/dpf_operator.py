@@ -299,6 +299,7 @@ class Operator:
             workflow,
             collection,
             streams_container,
+            generic_data_container,
             mesh_info,
         )
 
@@ -393,6 +394,15 @@ class Operator:
             ),
         ]
 
+        if self._server.meet_version("7.0"):
+            types_to_functions.append((
+                generic_data_container.GenericDataContainer,
+                self._api.operator_getoutput_generic_data_container,
+                "generic_data_container",
+            ))
+
+        return types_to_functions
+
     @property
     def _type_to_input_method(self):
         from ansys.dpf.core import (
@@ -409,6 +419,7 @@ class Operator:
             data_tree,
             workflow,
             model,
+            generic_data_container,
         )
 
         return [
@@ -440,8 +451,16 @@ class Operator:
             ),
             (workflow.Workflow, self._api.operator_connect_workflow),
             (data_tree.DataTree, self._api.operator_connect_data_tree),
-            (Operator, self._api.operator_connect_operator_as_input),
+            (Operator, self._api.operator_connect_operator_as_input)
         ]
+
+        if self._server.meet_version("7.0"):
+            types_to_functions.append((
+                generic_data_container.GenericDataContainer,
+                self._api.operator_connect_generic_data_container,
+            ))
+
+        return types_to_functions
 
     def get_output(self, pin=0, output_type=None):
         """Retrieve the output of the operator on the pin number.
