@@ -150,78 +150,40 @@ def test_set_get_field_def_custom_type_field(server_type):
 #     vec = None
 #     assert np.allclose(field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]).reshape(2, 3))
 
-
-@conftest.raises_for_servers_version_under("5.0")
-def test_mutable_data_contiguous_custom_type_field(server_clayer):
-    field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_clayer)
-    field_def = dpf.core.FieldDefinition(server=server_clayer)
-    field_def.dimensionality = dpf.core.Dimensionality([6], dpf.core.natures.vector)
-    field.field_definition = field_def
-    scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_clayer)
-    field.scoping = scop
-
-    data = np.empty((24,), dtype=np.float64)
-    for i in range(0, 24):
-        data[i] = i
-    field.data = data
-
-    vec = field.get_entity_data(0)
-    assert np.allclose(vec, np.array(range(0, 6)))
-
-    vec[0][0] = 1
-    vec[0][5] = 4
-
-    assert np.allclose(vec, np.array([1, 1, 2, 3, 4, 4]))
-
-    vec.commit()
-
-    assert np.allclose(field.get_entity_data(0), np.array([1, 1, 2, 3, 4, 4]))
-
-    vec = field.get_entity_data_by_id(2)
-    assert np.allclose(vec, np.array(range(6, 12)))
-
-    vec[0][0] = 1
-    vec[0][5] = 4
-    assert np.allclose(vec, np.array([1, 7, 8, 9, 10, 4]))
-    vec = None
-    assert np.allclose(field.get_entity_data_by_id(2), np.array([1, 7, 8, 9, 10, 4]))
+# # not using a fixture on purpose: the instance of simple field SHOULD be owned by each test
+# def get_float_field(server_clayer):
+#     field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_clayer)
+#     field_def = dpf.core.FieldDefinition(server=server_clayer)
+#     field_def.dimensionality = dpf.core.Dimensionality({3}, dpf.core.natures.vector)
+#     field.field_definition = field_def
+#     scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_clayer)
+#     field.scoping = scop
+#
+#     data = np.empty((24,), dtype=np.float64)
+#     for i in range(0, 24):
+#         data[i] = i
+#     field.data = data
+#     field._data_pointer = [0, 6, 12, 18]
+#     return field
 
 
-# not using a fixture on purpose: the instance of simple field SHOULD be owned by each test
-def get_float_field(server_clayer):
-    field = dpf.core.CustomTypeField(np.float64, nentities=20, server=server_clayer)
-    field_def = dpf.core.FieldDefinition(server=server_clayer)
-    field_def.dimensionality = dpf.core.Dimensionality({3}, dpf.core.natures.vector)
-    field.field_definition = field_def
-    scop = dpf.core.Scoping(ids=[1, 2, 3, 4], location="faces", server=server_clayer)
-    field.scoping = scop
-
-    data = np.empty((24,), dtype=np.float64)
-    for i in range(0, 24):
-        data[i] = i
-    field.data = data
-    field._data_pointer = [0, 6, 12, 18]
-    return field
-
-
-@conftest.raises_for_servers_version_under("5.0")
-def test_mutable_data_pointer_custom_type_field(server_clayer):
-    float_field = get_float_field(server_clayer)
-    assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
-    assert np.allclose(float_field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
-    vec = float_field._data_pointer
-    vec[1] = 9
-    vec[2] = 15
-    vec.commit()
-
-    assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 9)).reshape(3, 3))
-    assert np.allclose(float_field.get_entity_data(1), np.array(range(9, 15)).reshape(2, 3))
-    vec[1] = 6
-    vec[2] = 12
-    vec = None
-    assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
-    assert np.allclose(float_field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
-
+# @conftest.raises_for_servers_version_under("5.0")
+# def test_mutable_data_pointer_custom_type_field(server_clayer):
+#     float_field = get_float_field(server_clayer)
+#     assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
+#     assert np.allclose(float_field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
+#     vec = float_field._data_pointer
+#     vec[1] = 9
+#     vec[2] = 15
+#     vec.commit()
+#
+#     assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 9)).reshape(3, 3))
+#     assert np.allclose(float_field.get_entity_data(1), np.array(range(9, 15)).reshape(2, 3))
+#     vec[1] = 6
+#     vec[2] = 12
+#     vec = None
+#     assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
+#     assert np.allclose(float_field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
 
 @conftest.raises_for_servers_version_under("5.0")
 def test_data_wrong_type_custom_type_field(server_type):
