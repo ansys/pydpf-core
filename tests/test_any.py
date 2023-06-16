@@ -3,15 +3,16 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0
 )
 import pytest
-import time
-# @pytest.mark.skipif(
-#     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-# )
-# def test_create_any(server_type):
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_create_any(server_type):
     # field = dpf.Field(location="phase", nature=dpf.natures.scalar, server=server_type)
     # any = dpf.Any.new_from(field)
     #
     # assert any._internal_obj is not None
+    pass
 
 # @pytest.mark.skipif(
 #     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
