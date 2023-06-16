@@ -102,7 +102,14 @@ class Any:
         """
 
         innerServer = server if server is not None else obj._server
+
+        if not innerServer.meet_version("7.0"):
+            raise errors.DpfVersionNotSupported("7.0")
+
         any = Any(server=innerServer)
+
+        # any._init_api_env()
+
         for type_tuple in Any._type_to_new_from_get_as_method(any):
             if isinstance(obj, type_tuple[0]):
                 # call respective new_from function
@@ -187,6 +194,8 @@ class Any:
     def __del__(self):
         try:
             if hasattr(self, "_deleter_func"):
-                self._deleter_func[0](self._deleter_func[1](self))
+                obj = self._deleter_func[1](self)
+                if obj is not None:
+                    self._deleter_func[0](obj)
         except:
             warnings.warn(traceback.format_exc())
