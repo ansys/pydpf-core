@@ -32,14 +32,16 @@ class Any:
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
-        if not self._server.meet_version("6.2"):
-            raise errors.DpfVersionNotSupported("6.2")
+        if any is None and not self._server.meet_version("7.0"):
+            raise errors.DpfVersionNotSupported("7.0")
 
         self._api_instance = None
 
         # step 2: if object exists, take the instance, else create it
         if any is not None:
             self._internal_obj = any
+
+        self._api.init_any_environment(self)  # creates stub when gRPC
 
         self._internal_type = None
         self._get_as_method = None
@@ -126,7 +128,6 @@ class Any:
             self._api_instance = self._server.get_api_for_type(
                 capi=any_capi.AnyCAPI, grpcapi=any_grpcapi.AnyGRPCAPI
             )
-            self._api.init_any_environment(self)  # creates stub when gRPC
 
         return self._api_instance
 
@@ -184,9 +185,8 @@ class Any:
         raise TypeError(f"{output_type} is not currently supported by the Any class.")
 
     def __del__(self):
-        print("nothing")
-        # try:
-        #     if self._internal_obj is not None:
-        #         self._deleter_func[0](self._deleter_func[1](self))
-        # except:
-        #     warnings.warn(traceback.format_exc())
+        try:
+            if hasattr(self, "_deleter_func"):
+                self._deleter_func[0](self._deleter_func[1](self))
+        except:
+            warnings.warn(traceback.format_exc())

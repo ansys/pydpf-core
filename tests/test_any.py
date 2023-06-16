@@ -4,7 +4,6 @@ from conftest import (
 )
 import pytest
 
-
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
