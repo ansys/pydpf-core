@@ -391,6 +391,9 @@ class Collection:
         support_api = self._server.get_api_for_type(
             capi=support_capi.SupportCAPI, grpcapi=support_grpcapi.SupportGRPCAPI
         )
+        if not support._internal_obj:
+            return None
+
         time_freq = support_api.support_get_as_time_freq_support(support)
         res = TimeFreqSupport(time_freq_support=time_freq, server=self._server)
         return res
