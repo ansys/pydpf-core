@@ -58,7 +58,7 @@ class python_script_exec(Operator):
 
     @property
     def inputs(self):
-        """Enables to connect inputs to the operator
+        """Enables to connect inputs to the operator.
 
         Returns
         --------
@@ -69,7 +69,7 @@ class python_script_exec(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluating it
+        """Enables to get outputs of the operator by evaluating it.
 
         Returns
         --------
