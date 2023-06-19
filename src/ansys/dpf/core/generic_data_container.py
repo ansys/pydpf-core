@@ -89,8 +89,8 @@ class GenericDataContainer:
             object instance.
         """
 
-        any = Any.new_from(prop, self._server)
-        self._api.generic_data_container_set_property_any(self, property_name, any)
+        any_dpf = Any.new_from(prop, self._server)
+        self._api.generic_data_container_set_property_any(self, property_name, any_dpf)
 
     def get_property(self, property_name, output_type):
         """Get property with given name.
@@ -107,8 +107,8 @@ class GenericDataContainer:
             Property object instance.
         """
         any_ptr = self._api.generic_data_container_get_property_any(self, property_name)
-        any = Any(any_ptr, self._server)
-        return any.cast(output_type)
+        any_dpf = Any(any_ptr, self._server)
+        return any_dpf.cast(output_type)
 
     def get_property_description(self):
         """Get a dictionary description of properties by name and data type
@@ -132,8 +132,8 @@ class GenericDataContainer:
         property_types = coll_obj.get_integral_entries()
 
         python_property_types = []
-        for i in range(len(property_types)):
-            python_property_types.append(map_types_to_python[property_types[i]])
+        for _, type in enumerate(property_types):
+            python_property_types.append(map_types_to_python[type])
 
         return dict(zip(property_names, python_property_types))
 

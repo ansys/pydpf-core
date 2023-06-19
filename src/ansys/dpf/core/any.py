@@ -29,18 +29,18 @@ class Any:
     Class available with server's version starting at 6.2 (Ansys 2024R1).
     """
 
-    def __init__(self, any=None, server=None):
+    def __init__(self, any_dpf=None, server=None):
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
-        if any is None and not self._server.meet_version("7.0"):
+        if any_dpf is None and not self._server.meet_version("7.0"):
             raise errors.DpfVersionNotSupported("7.0")
 
         self._api_instance = None
 
         # step 2: if object exists, take the instance, else create it
-        if any is not None:
-            self._internal_obj = any
+        if any_dpf is not None:
+            self._internal_obj = any_dpf
 
         self._api.init_any_environment(self)  # creates stub when gRPC
 
@@ -48,7 +48,7 @@ class Any:
         self._get_as_method = None
 
     @staticmethod
-    def _type_to_new_from_get_as_method(any):
+    def _type_to_new_from_get_as_method(any_dpf):
         from ansys.dpf.core import (
             field,
             property_field,
@@ -60,42 +60,42 @@ class Any:
         return [
             (
                 int,
-                any._api.any_new_from_int,
-                any._api.any_get_as_int,
-                any._api.any_new_from_int_on_client,
+                any_dpf._api.any_new_from_int,
+                any_dpf._api.any_get_as_int,
+                any_dpf._api.any_new_from_int_on_client,
             ),
             (
                 str,
-                any._api.any_new_from_string,
-                any._api.any_get_as_string,
-                any._api.any_new_from_string_on_client,
+                any_dpf._api.any_new_from_string,
+                any_dpf._api.any_get_as_string,
+                any_dpf._api.any_new_from_string_on_client,
             ),
             (
                 float,
-                any._api.any_new_from_double,
-                any._api.any_get_as_double,
-                any._api.any_new_from_double_on_client,
+                any_dpf._api.any_new_from_double,
+                any_dpf._api.any_get_as_double,
+                any_dpf._api.any_new_from_double_on_client,
             ),
-            (field.Field, any._api.any_new_from_field, any._api.any_get_as_field),
+            (field.Field, any_dpf._api.any_new_from_field, any_dpf._api.any_get_as_field),
             (
                 property_field.PropertyField,
-                any._api.any_new_from_property_field,
-                any._api.any_get_as_property_field,
+                any_dpf._api.any_new_from_property_field,
+                any_dpf._api.any_get_as_property_field,
             ),
             (
                 string_field.StringField,
-                any._api.any_new_from_string_field,
-                any._api.any_get_as_string_field,
+                any_dpf._api.any_new_from_string_field,
+                any_dpf._api.any_get_as_string_field,
             ),
             (
                 generic_data_container.GenericDataContainer,
-                any._api.any_new_from_generic_data_container,
-                any._api.any_get_as_generic_data_container,
+                any_dpf._api.any_new_from_generic_data_container,
+                any_dpf._api.any_get_as_generic_data_container,
             ),
             (
                 scoping.Scoping,
-                any._api.any_new_from_scoping,
-                any._api.any_get_as_scoping,
+                any_dpf._api.any_new_from_scoping,
+                any_dpf._api.any_get_as_scoping,
             ),
         ]
 
@@ -118,22 +118,22 @@ class Any:
         if not innerServer.meet_version("7.0"):
             raise errors.DpfVersionNotSupported("7.0")
 
-        any = Any(server=innerServer)
+        any_dpf = Any(server=innerServer)
 
-        for type_tuple in Any._type_to_new_from_get_as_method(any):
+        for type_tuple in Any._type_to_new_from_get_as_method(any_dpf):
             if isinstance(obj, type_tuple[0]):
                 # call respective new_from function
                 if isinstance(server, ansys.dpf.core.server_types.InProcessServer) or not (
                     isinstance(obj, int) or isinstance(obj, str) or isinstance(obj, float)
                 ):
-                    any._internal_obj = type_tuple[1](obj)
+                    any_dpf._internal_obj = type_tuple[1](obj)
                 else:
-                    any._internal_obj = type_tuple[3](innerServer.client, obj)
+                    any_dpf._internal_obj = type_tuple[3](innerServer.client, obj)
                 # store get_as & type for casting back to original type
-                any._internal_type = type_tuple[0]
-                any._get_as_method = type_tuple[2]
+                any_dpf._internal_type = type_tuple[0]
+                any_dpf._get_as_method = type_tuple[2]
 
-                return any
+                return any_dpf
 
         raise TypeError(f"{obj.__class__} is not currently supported by the Any class.")
 
@@ -208,5 +208,5 @@ class Any:
                 obj = self._deleter_func[1](self)
                 if obj is not None:
                     self._deleter_func[0](obj)
-        except:
+        except Exception:
             warnings.warn(traceback.format_exc())
