@@ -10,7 +10,7 @@ import warnings
 import ansys.dpf.core.server_types
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
-
+from ansys.dpf.core.common import type_to_internal_object_keyword
 
 class Any:
     """Common wrapper representing any supported DPF Data Types.
@@ -48,7 +48,8 @@ class Any:
 
     @staticmethod
     def _type_to_new_from_get_as_method(any):
-        from ansys.dpf.core import field, property_field, generic_data_container, string_field
+        from ansys.dpf.core import field, property_field, generic_data_container, string_field, \
+            scoping
 
         return [
             (
@@ -85,6 +86,11 @@ class Any:
                 any._api.any_new_from_generic_data_container,
                 any._api.any_get_as_generic_data_container,
             ),
+            (
+                scoping.Scoping,
+                any._api.any_new_from_scoping,
+                any._api.any_get_as_scoping,
+            )
         ]
 
     @staticmethod
@@ -107,8 +113,6 @@ class Any:
             raise errors.DpfVersionNotSupported("7.0")
 
         any = Any(server=innerServer)
-
-        # any._init_api_env()
 
         for type_tuple in Any._type_to_new_from_get_as_method(any):
             if isinstance(obj, type_tuple[0]):
@@ -180,7 +184,8 @@ class Any:
                     obj = internal_obj
                 else:
                     # get current type's constructors' variable keyword for passing the internal_obj
-                    internal_obj_keyword = type_tuple[0].__init__.__code__.co_varnames[-2]
+                    internal_obj_keyword = type_to_internal_object_keyword()[type_tuple[0]]
+
                     # wrap parameters in a dictionary for parameters expansion when calling
                     # constructor
                     keyword_args = {internal_obj_keyword: internal_obj, "server": self._server}
