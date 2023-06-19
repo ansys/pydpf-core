@@ -49,32 +49,28 @@ def over_time_freq_fields_container(fields, time_freq_unit=None, server=None):
     if not isinstance(fields, dict) and not isinstance(fields, list):
         raise dpf_errors.InvalidTypeError("dictionary/list", "fields")
     fc = FieldsContainer(server=server)
-    time_freq_support = TimeFreqSupport(server=server)
     fc.labels = {"time"}
     i = 0
-    time_freq = []
     # dict case
     if isinstance(fields, dict):
-
+        time_freq = []
         for field_key in fields:
             fc.add_field({"time": i + 1}, fields[field_key])
             time_freq.append(field_key)
             i += 1
+        time_freq_field = fields_factory.create_scalar_field(
+            len(fields), location=locations.time_freq, server=server
+        )
+        time_freq_field.append(time_freq, 1)
+        time_freq_field.unit = time_freq_unit
+        time_freq_support = TimeFreqSupport(server=server)
+        time_freq_support.time_frequencies = time_freq_field
+        fc.time_freq_support = time_freq_support
     # list case
     elif isinstance(fields, list):
         for field in fields:
             fc.add_field({"time": i + 1}, field)
-            time_freq.append(i)
             i += 1
-
-    time_freq_field = fields_factory.create_scalar_field(
-        len(fields), location=locations.time_freq, server=server
-    )
-    time_freq_field.append(time_freq, 1)
-    if time_freq_unit:
-        time_freq_field.unit = time_freq_unit
-    time_freq_support.time_frequencies = time_freq_field
-    fc.time_freq_support = time_freq_support
     return fc
 
 
