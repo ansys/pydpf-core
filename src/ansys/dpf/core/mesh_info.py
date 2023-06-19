@@ -3,15 +3,13 @@ MeshInfo
 ==========
 """
 import traceback
-import warnings
 
 import ansys.dpf.core
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core import generic_data_container
-from ansys.dpf.core import errors
 
+import warnings
 
-class MeshInfo:
+class MeshInfo():
     """Represents the mesh information.
 
     This class describes the available mesh information.
@@ -35,32 +33,43 @@ class MeshInfo:
     >>> model = dpf.Model(fluent)
     >>> mesh_info = model.metadata.mesh_info_provider # printable mesh_info
 
-
     """
 
-    def __init__(self, mesh_info=None, server=None):
+    def __init__(self, gdc=None, mesh_info=None, server=None):
         """Initialize with a MeshInfo message"""
         # ############################
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
-        if not self._server.meet_version("7.0"):
-            raise errors.DpfVersionNotSupported("7.0")
-
-        # step 2: we instantiate the mesh_info by forwarding a generic_data_container
-        if mesh_info is not None:
-            self._internal_obj = mesh_info
+        if gdc is None:
+            self._gdc = ansys.dpf.core.generic_data_container.GenericDataContainer()
         else:
-            self._internal_obj = generic_data_container
+            self._gdc = gdc
 
-    # def __str__(self):
-    #     try:
-    #         txt = ()
-    #     return txt
-    #     except Exception as e:
-    #         from ansys.dpf.core.core import _description
-    #
-    #         return _description(self._internal_obj, self._server)
+        if mesh_info is None:
+            self.mesh_info = self._gdc
+        else:
+            self.mesh_info = mesh_info
+
+    def deep_copy(self, server=None):
+        """Create a deep copy of the scoping's data on a given server.
+
+        This method is useful for passiong data from one server instance to another.
+
+        Parameters
+        ----------
+        server : ansys.dpf.core.server, optional
+            Server with the channel connected to the remote or local instance.
+            The default is ``None``, in which case an attempt is made to use the
+            global server.
+
+        Returns
+        -------
+        scoping_copy : Scoping
+        """
+        mesh_info = MeshInfo(server=server)
+        mesh_info._gdc = self._gdc
+        return mesh_info
 
     def get_property(self, property_name, output_type):
         """Get property with given name.
@@ -77,7 +86,8 @@ class MeshInfo:
             Property object instance.
         """
 
-        return self.get_property(self, property_name, output_type)
+        return self._gdc.get_property(property_name, output_type)
+
 
     def set_property(self, property_name, prop):
         """Register given property with the given name.
@@ -94,7 +104,8 @@ class MeshInfo:
             Property object instance.
         """
 
-        return self.set_property(self, property_name, prop)
+        return self._gdc.set_property(property_name, prop)
+
 
     def get_number_nodes(self):
         """
@@ -104,7 +115,7 @@ class MeshInfo:
             Number of nodes of the mesh.
         """
 
-        return self.get_property(self, "num_nodes", int)
+        return self._gdc.get_property("num_nodes", int)
 
     def get_number_elements(self):
         """
@@ -114,7 +125,8 @@ class MeshInfo:
             Number of elements of the mesh.
         """
 
-        return self.get_property(self, "num_elements", int)
+        return self._gdc.get_property("num_elements", int)
+
 
     def get_splittable_by(self):
         """
@@ -124,9 +136,10 @@ class MeshInfo:
             Number of elements of the mesh.
         """
 
-        return self.get_property(self, "splittable_by", ansys.dpf.core.StringField)
+        return self._gdc.get_property("splittable_by", ansys.dpf.core.StringField)
 
-    def get_available_elem_type(self):
+
+    def get_available_elem_types(self):
         """
         Returns
         -------
@@ -134,32 +147,32 @@ class MeshInfo:
             element type available for the mesh.
         """
 
-        return self.get_property(self, "avalaible_elem_type", ansys.dpf.core.Scoping)
+        return self._gdc.get_property("avalaible_elem_type", ansys.dpf.core.Scoping)
+
 
     def set_number_nodes(self, number_of_nodes):
         """Number of nodes"""
 
-        return self.set_property(self, "num_nodes", number_of_nodes)
+        return self._gdc.set_property("num_nodes", number_of_nodes)
 
     def set_number_elements(self, number_of_elements):
-        """Number of elements"""
+        """ Number of elements """
 
-        return self.set_property(self, "num_elements", number_of_elements)
+        return self._gdc.set_property("num_elements", number_of_elements)
 
     def set_splittable_by(self, split):
-        """Splittable by"""
+        """ Splittable by """
 
-        return self.set_property(self, "splittable_by", split)
+        return self._gdc.set_property("splittable_by", split)
 
     def set_available_elem_types(self, available_elem_types):
-        """Available element types"""
+        """ Available element types """
 
-        return self.set_property(self, "avalaible_elem_type", available_elem_types)
+        return self._gdc.set_property("avalaible_elem_type", available_elem_types)
 
     def __del__(self):
-        if self._internal_obj is not None:
-            try:
-                self._deleter_func[0](self._deleter_func[1](self))
-            except Exception as e:
-                print(str(e.args), str(self._deleter_func[0]))
-                warnings.warn(traceback.format_exc())
+        try:
+            self._deleter_func[0](self._deleter_func[1](self))
+        except Exception as e:
+            print(str(e.args), str(self._deleter_func[0]))
+            warnings.warn(traceback.format_exc())

@@ -12,7 +12,12 @@ from ansys.dpf.core import errors
 from ansys.dpf.core.any import Any
 from ansys.dpf.core import collection
 from ansys.dpf.core.mapping_types import map_types_to_python
-
+from ansys.dpf.gate import (
+    generic_data_container_capi,
+    generic_data_container_grpcapi,
+    data_processing_capi,
+    data_processing_grpcapi,
+)
 
 class GenericDataContainer:
     """Maps properties to their DPF supported Data Types.
@@ -33,6 +38,10 @@ class GenericDataContainer:
     def __init__(self, generic_data_container=None, server=None):
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
+        self._api = self._server.get_api_for_type(
+            capi=generic_data_container_capi.GenericDataContainerCAPI,
+            grpcapi=generic_data_container_grpcapi.GenericDataContainerGRPCAPI,
+        )
 
         if not self._server.meet_version("7.0"):
             raise errors.DpfVersionNotSupported("7.0")
@@ -40,8 +49,26 @@ class GenericDataContainer:
         # step 2: if object exists, take the instance, else create it
         self._api_instance = None
 
+        # step3: init environment
+        self._api.init_generic_data_container_environment(self)  # creates stub when gRPC
+
         if generic_data_container is not None:
-            self._internal_obj = generic_data_container
+            if isinstance(generic_data_container, GenericDataContainer):
+                self._server = generic_data_container._server
+                self._api = self._server.get_api_for_type(
+                    capi=generic_data_container_capi.GenericDataContainerCAPI,
+                    grpcapi=generic_data_container_grpcapi.GenericDataContainerGRPCAPI,
+                )
+                # step3: init environment
+                self._api.init_generic_data_container_environment(self)  # creates stub when gRPC
+                core_api = self._server.get_api_for_type(
+                    capi=data_processing_capi.DataProcessingCAPI,
+                    grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+                )
+                core_api.init_data_processing_environment(self)
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(generic_data_container)
+            else:
+                self._internal_obj = generic_data_container
         else:
             if self._server.has_client():
                 self._internal_obj = self._api.generic_data_container_new_on_client(
@@ -49,22 +76,6 @@ class GenericDataContainer:
                 )
             else:
                 self._internal_obj = self._api.generic_data_container_new()
-
-    @property
-    def _api(self):
-        from ansys.dpf.gate import (
-            generic_data_container_capi,
-            generic_data_container_grpcapi,
-        )
-
-        if not self._api_instance:
-            self._api_instance = self._server.get_api_for_type(
-                capi=generic_data_container_capi.GenericDataContainerCAPI,
-                grpcapi=generic_data_container_grpcapi.GenericDataContainerGRPCAPI,
-            )
-            self._api.init_generic_data_container_environment(self)  # creates stub when gRPC
-
-        return self._api_instance
 
     def __str__(self):
         """Describe the entity.

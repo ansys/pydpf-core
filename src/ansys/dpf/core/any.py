@@ -46,7 +46,7 @@ class Any:
 
     @staticmethod
     def _type_to_new_from_get_as_method(any):
-        from ansys.dpf.core import field, property_field, generic_data_container, string_field
+        from ansys.dpf.core import field, property_field, generic_data_container, string_field, scoping, meshed_region
 
         return [
             (
@@ -67,7 +67,10 @@ class Any:
                 any._api.any_get_as_double,
                 any._api.any_new_from_double_on_client,
             ),
-            (field.Field, any._api.any_new_from_field, any._api.any_get_as_field),
+            (
+                field.Field,
+                any._api.any_new_from_field,
+                any._api.any_get_as_field),
             (
                 property_field.PropertyField,
                 any._api.any_new_from_property_field,
@@ -77,6 +80,17 @@ class Any:
                 string_field.StringField,
                 any._api.any_new_from_string_field,
                 any._api.any_get_as_string_field,
+            ),
+            (
+                scoping.Scoping,
+                any._api.any_new_from_scoping,
+                any._api.any_get_as_scoping,
+            ),
+
+            (
+                meshed_region.MeshedRegion,
+                any._api.any_new_from_meshed_region,
+                any._api.any_get_as_meshed_region,
             ),
             (
                 generic_data_container.GenericDataContainer,
@@ -173,6 +187,8 @@ class Any:
                 else:
                     # get current type's constructors' variable keyword for passing the internal_obj
                     internal_obj_keyword = type_tuple[0].__init__.__code__.co_varnames[-2]
+                    if self._internal_type == ansys.dpf.core.Scoping:
+                        internal_obj_keyword = 'scoping'
                     # wrap parameters in a dictionary for parameters expansion when calling
                     # constructor
                     keyword_args = {internal_obj_keyword: internal_obj, "server": self._server}
