@@ -185,6 +185,7 @@ def test_set_get_field_def_custom_type_field(server_type):
 #     assert np.allclose(float_field.get_entity_data(0), np.array(range(0, 6)).reshape(2, 3))
 #     assert np.allclose(float_field.get_entity_data(1), np.array(range(6, 12)).reshape(2, 3))
 
+
 @conftest.raises_for_servers_version_under("5.0")
 def test_data_wrong_type_custom_type_field(server_type):
     pfield = core.CustomTypeField(np.uint64, server=server_type)

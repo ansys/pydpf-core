@@ -1,7 +1,5 @@
 from ansys.dpf import core as dpf
-from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0
-)
+from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0
 import pytest
 
 

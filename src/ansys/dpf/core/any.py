@@ -12,6 +12,7 @@ from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
 from ansys.dpf.core.common import type_to_internal_object_keyword
 
+
 class Any:
     """Common wrapper representing any supported DPF Data Types.
 
@@ -48,8 +49,13 @@ class Any:
 
     @staticmethod
     def _type_to_new_from_get_as_method(any):
-        from ansys.dpf.core import field, property_field, generic_data_container, string_field, \
-            scoping
+        from ansys.dpf.core import (
+            field,
+            property_field,
+            generic_data_container,
+            string_field,
+            scoping,
+        )
 
         return [
             (
@@ -90,7 +96,7 @@ class Any:
                 scoping.Scoping,
                 any._api.any_new_from_scoping,
                 any._api.any_get_as_scoping,
-            )
+            ),
         ]
 
     @staticmethod
@@ -118,7 +124,7 @@ class Any:
             if isinstance(obj, type_tuple[0]):
                 # call respective new_from function
                 if isinstance(server, ansys.dpf.core.server_types.InProcessServer) or not (
-                        isinstance(obj, int) or isinstance(obj, str) or isinstance(obj, float)
+                    isinstance(obj, int) or isinstance(obj, str) or isinstance(obj, float)
                 ):
                     any._internal_obj = type_tuple[1](obj)
                 else:
@@ -177,9 +183,9 @@ class Any:
                 # call the get_as function for the appropriate type
                 internal_obj = type_tuple[2](self)
                 if (
-                        self._internal_type is int
-                        or self._internal_type is str
-                        or self._internal_type is float
+                    self._internal_type is int
+                    or self._internal_type is str
+                    or self._internal_type is float
                 ):
                     obj = internal_obj
                 else:
