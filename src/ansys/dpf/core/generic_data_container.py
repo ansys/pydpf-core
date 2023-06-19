@@ -53,7 +53,6 @@ class GenericDataContainer:
     @property
     def _api(self):
         from ansys.dpf.gate import (
-            generic_data_container_abstract_api,
             generic_data_container_capi,
             generic_data_container_grpcapi,
         )

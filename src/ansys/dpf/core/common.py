@@ -297,7 +297,6 @@ def type_to_internal_object_keyword():
         data_sources,
         field,
         fields_container,
-        collection,
         meshed_region,
         meshes_container,
         property_field,

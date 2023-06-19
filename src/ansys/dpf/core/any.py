@@ -133,7 +133,7 @@ class Any:
 
     @property
     def _api(self):
-        from ansys.dpf.gate import any_abstract_api, any_capi, any_grpcapi
+        from ansys.dpf.gate import any_capi, any_grpcapi
 
         if not self._api_instance:
             self._api_instance = self._server.get_api_for_type(
