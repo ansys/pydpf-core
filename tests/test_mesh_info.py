@@ -74,7 +74,7 @@ def test_set_get_available_elem_types_mesh_info(server_type):
     for x in range(len(expected_available)):
         assert result_available.id(x) == entity_available.id(x)
 
-def test_output_mesh_info_provider():
+def test_output_mesh_info_provider_fluent():
     dpf.load_library(r"C:\Program Files\ANSYS Inc\v241\dpf\plugins\dpf_cff\Ans.Dpf.CFF.dll", "cff")
 
     ds = dpf.DataSources()
@@ -109,6 +109,22 @@ def test_output_mesh_info_provider():
 
     assert body_scoping.size == 1
     assert body_scoping[0] == 1
+
+    """************ Topology ************"""
+    body_cell_topology = mesh_info_out.get_property("body_cell_topology", dpf.PropertyField)
+    body_face_topology = mesh_info_out.get_property("body_face_topology", dpf.PropertyField)
+
+    body_cell_topology_scoping = body_cell_topology._get_scoping()
+    body_face_topology_scoping = body_face_topology._get_scoping()
+    body_cell_topology_value = body_cell_topology._get_data()
+    body_face_topology_value = body_face_topology._get_data()
+
+    assert body_cell_topology_scoping.size == 1
+    assert body_face_topology_scoping.size == 5
+    assert body_cell_topology_scoping[0] == 1
+    assert body_face_topology_scoping[0] == 1
+    assert body_cell_topology_value[0] == 1
+    assert body_face_topology_value[0] == 3
 
     """************************ ZONES ************************"""
 
@@ -205,3 +221,172 @@ def test_output_mesh_info_provider():
     assert face_zone_elements_value[2] == 21
     assert face_zone_elements_value[3] == 70
     assert face_zone_elements_value[4] == 15
+
+def test_output_mesh_info_provider_flprj():
+    dpf.load_library(r"C:\Program Files\ANSYS Inc\v241\dpf\plugins\dpf_cff\Ans.Dpf.CFF.dll", "cff")
+
+    ds = dpf.DataSources()
+    ds.set_result_file_path(r"D:\AnsysDev\plugins\Ans.Dpf.CFF\source\Ans.Dpf.CFFTest\test_models\FLPRJ\axial_comp\axial_comp_reduced.flprj", "flprj")
+
+    mesh_info = dpf.operators.metadata.mesh_info_provider()
+    mesh_info.inputs.data_sources(ds)
+    mesh_info.inputs.time_scoping(1)
+    mesh_info_out = mesh_info.outputs.generic_data_container()
+
+    """************************ NUMBER OF CELLS/FACES/ZONES ************************"""
+
+    num_cells = mesh_info_out.get_property("num_cells", int)
+    num_faces = mesh_info_out.get_property("num_faces", int)
+    num_nodes = mesh_info_out.get_property("num_nodes", int)
+
+    assert num_cells == 13856
+    assert num_faces == 45391
+    assert num_nodes == 16660
+
+    """************************ BODIES ************************"""
+
+    """************ Name ************"""
+    body_names = mesh_info_out.get_property("body_name", dpf.StringField)
+
+    body_names_value = body_names._get_data()
+
+    assert len(body_names_value) == 2
+    assert body_names_value[0] == "fluid-rotor"
+    assert body_names_value[1] == "fluid-stator"
+
+    """************ Scoping ************"""
+    body_scoping = mesh_info_out.get_property("body_scoping", dpf.Scoping)
+
+    assert body_scoping.size == 2
+    assert body_scoping[0] == 13
+    assert body_scoping[1] == 28
+
+    """************ Topology ************"""
+    body_cell_topology = mesh_info_out.get_property("body_cell_topology", dpf.PropertyField)
+    body_face_topology = mesh_info_out.get_property("body_face_topology", dpf.PropertyField)
+
+    body_cell_topology_scoping = body_cell_topology._get_scoping()
+    body_face_topology_scoping = body_face_topology._get_scoping()
+    body_cell_topology_value = body_cell_topology._get_data()
+    body_face_topology_value = body_face_topology._get_data()
+
+    assert body_cell_topology_scoping.size == 2
+    assert body_face_topology_scoping.size == 24
+    assert body_cell_topology_scoping[0] == 13
+    assert body_face_topology_scoping[0] == 13
+    assert body_cell_topology_value[0] == 13
+    assert body_face_topology_value[0] == 2
+
+    """************************ ZONES ************************"""
+
+    """************ Name ************"""
+    zone_names = mesh_info_out.get_property("zone_name", dpf.StringField)
+
+    zone_names_value = zone_names._get_data()
+
+    assert zone_names_value.size == 26
+    assert zone_names_value[0] == "fluid-rotor"
+    assert zone_names_value[4] == "rotor-inlet"
+    assert zone_names_value[8] == "rotor-per-1-shadow"
+    assert zone_names_value[12] == "fluid-stator"
+    assert zone_names_value[15] == "stator-shroud"
+    assert zone_names_value[18] == "stator-blade-1"
+    assert zone_names_value[22] == "stator-per-2"
+    assert zone_names_value[25] == "stator-per-1-shadow"
+
+    """************ Scoping ************"""
+    zone_scoping = mesh_info_out.get_property("zone_scoping", dpf.Scoping)
+
+    assert zone_scoping.size == 26
+    assert zone_scoping[0] == 13
+    assert zone_scoping[4] == 5
+    assert zone_scoping[8] == 9
+    assert zone_scoping[12] == 28
+    assert zone_scoping[15] == 17
+    assert zone_scoping[18] == 20
+    assert zone_scoping[22] == 24
+    assert zone_scoping[25] == 27
+
+    """************ Element ************"""
+    zone_elements = mesh_info_out.get_property("num_elem_zone", dpf.PropertyField)
+
+    number_of_element_in_zone_value = zone_elements._get_data()
+
+    assert number_of_element_in_zone_value.size == 26
+    assert number_of_element_in_zone_value[0] == 6080
+    assert number_of_element_in_zone_value[4] == 160
+    assert number_of_element_in_zone_value[8] == 176
+    assert number_of_element_in_zone_value[12] == 7776
+    assert number_of_element_in_zone_value[15] == 486
+    assert number_of_element_in_zone_value[18] == 320
+    assert number_of_element_in_zone_value[22] == 48
+    assert number_of_element_in_zone_value[25] == 64
+
+    """************ CELL ZONES ************"""
+
+    """************ Name ************"""
+    cell_zone_name = mesh_info_out.get_property("cell_zone_names", dpf.StringField)
+
+    cell_zone_name_value = cell_zone_name._get_data()
+
+    assert cell_zone_name_value.size == 2
+    assert cell_zone_name_value[0] == "fluid-rotor"
+    assert cell_zone_name_value[1] == "fluid-stator"
+
+    """************ Scoping ************"""
+    cell_zone_scoping = mesh_info_out.get_property("cell_zone_scoping", dpf.Scoping)
+
+    assert cell_zone_scoping.size == 2
+    assert cell_zone_scoping[0] == 13
+    assert cell_zone_scoping[1] == 28
+
+    """************ Element ************"""
+    cell_zone_elements = mesh_info_out.get_property("cell_zone_elements", dpf.PropertyField)
+
+    cell_zone_elements_value = cell_zone_elements._get_data()
+
+    assert cell_zone_elements_value.size == 2
+    assert cell_zone_elements_value[0] == 6080
+    assert cell_zone_elements_value[1] == 7776
+
+    """************ FACE ZONES ************"""
+
+    """************ Name ************"""
+    face_zone_names = mesh_info_out.get_property("face_zone_names", dpf.StringField)
+
+    face_zone_names_value = face_zone_names._get_data()
+
+    assert face_zone_names_value.size == 24
+    assert face_zone_names_value[0] == "default-interior:0"
+    assert face_zone_names_value[1] == "rotor-hub"
+    assert face_zone_names_value[5] == "rotor-blade-1"
+    assert face_zone_names_value[10] == "rotor-per-2"
+    assert face_zone_names_value[15] == "stator-outlet"
+    assert face_zone_names_value[20] == "stator-per-2"
+    assert face_zone_names_value[23] == "stator-per-1-shadow"
+
+    """************ Scoping ************"""
+    face_zone_scoping = mesh_info_out.get_property("face_zone_scoping", dpf.Scoping)
+
+    assert face_zone_scoping.size == 24
+    assert face_zone_scoping[0] == 2
+    assert face_zone_scoping[1] == 3
+    assert face_zone_scoping[5] == 7
+    assert face_zone_scoping[10] == 12
+    assert face_zone_scoping[15] == 19
+    assert face_zone_scoping[20] == 24
+    assert face_zone_scoping[23] == 27
+
+    """************ Element ************"""
+    face_zone_elements = mesh_info_out.get_property("face_zone_elements", dpf.PropertyField)
+
+    face_zone_elements_value = face_zone_elements._get_data()
+
+    assert face_zone_elements_value.size == 24
+    assert face_zone_elements_value[0] == 17092
+    assert face_zone_elements_value[1] == 380
+    assert face_zone_elements_value[5] == 384
+    assert face_zone_elements_value[10] == 48
+    assert face_zone_elements_value[15] == 288
+    assert face_zone_elements_value[20] == 48
+    assert face_zone_elements_value[23] == 64
