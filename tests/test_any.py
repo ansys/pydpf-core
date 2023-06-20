@@ -68,11 +68,15 @@ def test_cast_property_field_any(server_type):
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
 def test_cast_string_field_any(server_type):
+    list_ids = [1, 2]
+    scop = dpf.Scoping(ids=list_ids, server=server_type)
     entity = dpf.StringField(server=server_type)
+    entity.scoping = scop
     entity.data = ["hello", "world"]
     any_dpf = dpf.Any.new_from(entity)
     new_entity = any_dpf.cast()
-    assert entity.get_entity_data(0)[0] == "hello"
+
+    assert entity.data == new_entity.data
 
 
 @pytest.mark.skipif(

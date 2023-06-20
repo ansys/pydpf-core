@@ -132,8 +132,8 @@ class GenericDataContainer:
         property_types = coll_obj.get_integral_entries()
 
         python_property_types = []
-        for _, type in enumerate(property_types):
-            python_property_types.append(map_types_to_python[type])
+        for _, property_type in enumerate(property_types):
+            python_property_types.append(map_types_to_python[property_type])
 
         return dict(zip(property_names, python_property_types))
 
