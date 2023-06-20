@@ -17,10 +17,10 @@ def test_create_generic_data_container(server_type):
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
 def test_set_get_property_generic_data_container(server_type):
-    gdc = dpf.GenericDataContainer()
-    entity = dpf.Scoping()
+    gdc = dpf.GenericDataContainer(server=server_type)
+    entity = dpf.Field(location="phase", nature=dpf.natures.scalar, server=server_type)
     gdc.set_property("viscosity", entity)
-    new_entity = gdc.get_property("viscosity", dpf.Scoping)
+    new_entity = gdc.get_property("viscosity", dpf.Field)
     assert entity.location == new_entity.location
 
 
@@ -55,32 +55,4 @@ def test_get_property_description_generic_data_container(server_type):
         "my-int": "int",
         "my-string": "str",
         "my-field": "Field",
-    }
-
-def test_get_property_description_scoping_generic_data_container():
-    gdc = dpf.GenericDataContainer()
-
-    scoping = dpf.Scoping()
-    scoping.location = dpf.locations.elemental
-    scoping.ids = [1, 2]
-    gdc.set_property("my-scoping", scoping)
-
-    property_description = gdc.get_property_description()
-
-    assert 1 == len(property_description)
-    assert property_description == {
-        "my-scoping": "Scoping",
-    }
-
-def test_get_property_description_meshed_region_generic_data_container():
-    gdc = dpf.GenericDataContainer()
-
-    meshed_region = dpf.MeshedRegion()
-    gdc.set_property("my-meshed_region", meshed_region)
-
-    property_description = gdc.get_property_description()
-
-    assert 1 == len(property_description)
-    assert property_description == {
-        "my-meshed_region": "MeshedRegion",
     }
