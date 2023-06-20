@@ -18,6 +18,8 @@ class mesh_info_provider(Operator):
 
     Parameters
     ----------
+    time_scoping : int, optional
+        Optional time/frequency set id of the mesh.
     streams_container : StreamsContainer, optional
         Streams (mesh file container) (optional)
     data_sources : DataSources
@@ -33,6 +35,8 @@ class mesh_info_provider(Operator):
     >>> op = dpf.operators.metadata.mesh_info_provider()
 
     >>> # Make input connections
+    >>> my_time_scoping = int()
+    >>> op.inputs.time_scoping.connect(my_time_scoping)
     >>> my_streams_container = dpf.StreamsContainer()
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
@@ -40,6 +44,7 @@ class mesh_info_provider(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.metadata.mesh_info_provider(
+    ...     time_scoping=my_time_scoping,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ... )
@@ -49,11 +54,18 @@ class mesh_info_provider(Operator):
     """
 
     def __init__(
-        self, streams_container=None, data_sources=None, config=None, server=None
+        self,
+        time_scoping=None,
+        streams_container=None,
+        data_sources=None,
+        config=None,
+        server=None,
     ):
         super().__init__(name="mesh_info_provider", config=config, server=server)
         self._inputs = InputsMeshInfoProvider(self)
         self._outputs = OutputsMeshInfoProvider(self)
+        if time_scoping is not None:
+            self.inputs.time_scoping.connect(time_scoping)
         if streams_container is not None:
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
@@ -68,6 +80,12 @@ class mesh_info_provider(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                0: PinSpecification(
+                    name="time_scoping",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""Optional time/frequency set id of the mesh.""",
+                ),
                 3: PinSpecification(
                     name="streams_container",
                     type_names=["streams_container"],
@@ -138,6 +156,8 @@ class InputsMeshInfoProvider(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.metadata.mesh_info_provider()
+    >>> my_time_scoping = int()
+    >>> op.inputs.time_scoping.connect(my_time_scoping)
     >>> my_streams_container = dpf.StreamsContainer()
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
@@ -146,12 +166,34 @@ class InputsMeshInfoProvider(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(mesh_info_provider._spec().inputs, op)
+        self._time_scoping = Input(mesh_info_provider._spec().input_pin(0), 0, op, -1)
+        self._inputs.append(self._time_scoping)
         self._streams_container = Input(
             mesh_info_provider._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._streams_container)
         self._data_sources = Input(mesh_info_provider._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
+
+    @property
+    def time_scoping(self):
+        """Allows to connect time_scoping input to the operator.
+
+        Optional time/frequency set id of the mesh.
+
+        Parameters
+        ----------
+        my_time_scoping : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.metadata.mesh_info_provider()
+        >>> op.inputs.time_scoping.connect(my_time_scoping)
+        >>> # or
+        >>> op.inputs.time_scoping(my_time_scoping)
+        """
+        return self._time_scoping
 
     @property
     def streams_container(self):
