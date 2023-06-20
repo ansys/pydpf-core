@@ -84,6 +84,8 @@ def test_output_mesh_info_provider():
     mesh_info.inputs.data_sources(ds)
     mesh_info_out = mesh_info.outputs.generic_data_container()
 
+    """************************ NUMBER OF CELLS/FACES/ZONES ************************"""
+
     num_cells = mesh_info_out.get_property("num_cells", int)
     num_faces = mesh_info_out.get_property("num_faces", int)
     num_nodes = mesh_info_out.get_property("num_nodes", int)
@@ -91,3 +93,115 @@ def test_output_mesh_info_provider():
     assert num_cells == 1344
     assert num_faces == 2773
     assert num_nodes == 1430
+
+    """************************ BODIES ************************"""
+
+    """************ Name ************"""
+    body_names = mesh_info_out.get_property("body_name", dpf.StringField)
+
+    body_names_value = body_names._get_data()
+
+    assert len(body_names_value) == 1
+    assert body_names_value[0] == "fluid-1"
+
+    """************ Scoping ************"""
+    body_scoping = mesh_info_out.get_property("body_scoping", dpf.Scoping)
+
+    assert body_scoping.size == 1
+    assert body_scoping[0] == 1
+
+    """************************ ZONES ************************"""
+
+    """************ Name ************"""
+    zone_names = mesh_info_out.get_property("zone_name", dpf.StringField)
+
+    zone_names_value = zone_names._get_data()
+
+    assert zone_names_value.size == 6
+    assert zone_names_value[0] == "fluid-1"
+    assert zone_names_value[1] == "interior-3"
+    assert zone_names_value[2] == "symmetry-4"
+    assert zone_names_value[3] == "pressure-outlet-5"
+    assert zone_names_value[5] == "velocity-inlet-7"
+
+    """************ Scoping ************"""
+    zone_scoping = mesh_info_out.get_property("zone_scoping", dpf.Scoping)
+
+    assert zone_scoping.size == 6
+    assert zone_scoping[0] == 1
+    assert zone_scoping[1] == 3
+    assert zone_scoping[2] == 4
+    assert zone_scoping[3] == 5
+    assert zone_scoping[5] == 7
+
+    """************ Element ************"""
+    zone_elements = mesh_info_out.get_property("num_elem_zone", dpf.PropertyField)
+
+    number_of_element_in_zone_value = zone_elements._get_data()
+
+    assert number_of_element_in_zone_value.size == 6
+    assert number_of_element_in_zone_value[0] == 1344
+    assert number_of_element_in_zone_value[1] == 2603
+    assert number_of_element_in_zone_value[2] == 64
+    assert number_of_element_in_zone_value[3] == 21
+    assert number_of_element_in_zone_value[5] == 15
+
+    """************ CELL ZONES ************"""
+
+    """************ Name ************"""
+    cell_zone_name = mesh_info_out.get_property("cell_zone_names", dpf.StringField)
+
+    cell_zone_name_value = cell_zone_name._get_data()
+
+    assert cell_zone_name_value.size == 1
+    assert cell_zone_name_value[0] == "fluid-1"
+
+    """************ Scoping ************"""
+    cell_zone_scoping = mesh_info_out.get_property("cell_zone_scoping", dpf.Scoping)
+
+    assert cell_zone_scoping.size == 1
+    assert cell_zone_scoping[0] == 1
+
+    """************ Element ************"""
+    cell_zone_elements = mesh_info_out.get_property("cell_zone_elements", dpf.PropertyField)
+
+    cell_zone_elements_value = cell_zone_elements._get_data()
+
+    assert cell_zone_elements_value.size == 1
+    assert cell_zone_elements_value[0] == 1344
+
+    """************ FACE ZONES ************"""
+
+    """************ Name ************"""
+    face_zone_names = mesh_info_out.get_property("face_zone_names", dpf.StringField)
+
+    face_zone_names_value = face_zone_names._get_data()
+
+    assert face_zone_names_value.size == 5
+    assert face_zone_names_value[0] == "interior-3"
+    assert face_zone_names_value[1] == "symmetry-4"
+    assert face_zone_names_value[2] == "pressure-outlet-5"
+    assert face_zone_names_value[3] == "wall-6"
+    assert face_zone_names_value[4] == "velocity-inlet-7"
+
+    """************ Scoping ************"""
+    face_zone_scoping = mesh_info_out.get_property("face_zone_scoping", dpf.Scoping)
+
+    assert face_zone_scoping.size == 5
+    assert face_zone_scoping[0] == 3
+    assert face_zone_scoping[1] == 4
+    assert face_zone_scoping[2] == 5
+    assert face_zone_scoping[3] == 6
+    assert face_zone_scoping[4] == 7
+
+    """************ Element ************"""
+    face_zone_elements = mesh_info_out.get_property("face_zone_elements", dpf.PropertyField)
+
+    face_zone_elements_value = face_zone_elements._get_data()
+
+    assert face_zone_elements_value.size == 5
+    assert face_zone_elements_value[0] == 2603
+    assert face_zone_elements_value[1] == 64
+    assert face_zone_elements_value[2] == 21
+    assert face_zone_elements_value[3] == 70
+    assert face_zone_elements_value[4] == 15
