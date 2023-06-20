@@ -154,7 +154,6 @@ class natures(Enum):
     """The ``'natures'`` enum contains the dimensionality types.
     It can be used to create a field of a given dimensionality.
     """
-    
 
     scalar = 0
     vector = 1
