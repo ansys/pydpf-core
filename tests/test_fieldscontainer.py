@@ -503,9 +503,27 @@ def test_dot_operator_fields_container():
     assert np.allclose(out[0].data, -field.data)
 
 
+def test_fields_container_factory_with_dict():
+    field1 = dpf.Field()
+    field1.data = [1, 2, 3]
+    field2 = dpf.Field()
+    field2.data = [2, 3, 4]
+    fields_container = dpf.fields_container_factory.over_time_freq_fields_container(
+        fields={0.1: field1, 0.2: field2}
+    )
+
+    assert fields_container[0].unit == ""
+
+
 def test_fields_container_get_time_scoping(server_type, disp_fc):
     freq_scoping = disp_fc.get_time_scoping()
     assert freq_scoping.size == 1
+
+
+def test_fields_container_empty_tf_support():
+    fields_container = dpf.FieldsContainer()
+
+    assert fields_container.time_freq_support == None
 
 
 if __name__ == "__main__":
