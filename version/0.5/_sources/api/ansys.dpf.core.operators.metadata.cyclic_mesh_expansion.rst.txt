@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.metadata.cyclic_mesh_expansion
+   :inherited-members:

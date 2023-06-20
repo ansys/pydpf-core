@@ -1,0 +1,151 @@
+
+
+.. _sphx_glr_examples_05-plotting:
+
+.. _plotting_examples:
+
+Plotting examples
+=================
+These examples show how to use the ``DpfPlotter`` module.
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Review of available plotting commands">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_00-basic_plotting_thumb.png
+    :alt: Review of available plotting commands
+
+  :ref:`sphx_glr_examples_05-plotting_00-basic_plotting.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Review of available plotting commands</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Compare results using the plotter">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_01-compare_results_thumb.png
+    :alt: Compare results using the plotter
+
+  :ref:`sphx_glr_examples_05-plotting_01-compare_results.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Compare results using the plotter</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Load case combination for principal stress">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_02-solution_combination_thumb.png
+    :alt: Load case combination for principal stress
+
+  :ref:`sphx_glr_examples_05-plotting_02-solution_combination.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Load case combination for principal stress</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Add nodal labels on plots">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_03-labels_thumb.png
+    :alt: Add nodal labels on plots
+
+  :ref:`sphx_glr_examples_05-plotting_03-labels.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Add nodal labels on plots</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot results on a specific path">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_04-plot_on_path_thumb.png
+    :alt: Plot results on a specific path
+
+  :ref:`sphx_glr_examples_05-plotting_04-plot_on_path.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Plot results on a specific path</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Warp the mesh by a field for plotting">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_05-plot_on_warped_mesh_thumb.png
+    :alt: Warp the mesh by a field for plotting
+
+  :ref:`sphx_glr_examples_05-plotting_05-plot_on_warped_mesh.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Warp the mesh by a field for plotting</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Review of available animation commands">
+
+.. only:: html
+
+  .. image:: /examples/05-plotting/images/thumb/sphx_glr_06-animate_results_thumb.png
+    :alt: Review of available animation commands
+
+  :ref:`sphx_glr_examples_05-plotting_06-animate_results.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Review of available animation commands</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/05-plotting/00-basic_plotting
+   /examples/05-plotting/01-compare_results
+   /examples/05-plotting/02-solution_combination
+   /examples/05-plotting/03-labels
+   /examples/05-plotting/04-plot_on_path
+   /examples/05-plotting/05-plot_on_warped_mesh
+   /examples/05-plotting/06-animate_results
+

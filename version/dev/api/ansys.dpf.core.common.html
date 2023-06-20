@@ -1,0 +1,1604 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Common &#8212; PyDPF-Core</title>
+    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    
+        <link href="../_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys.dpf.core.common';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        </script>
+    <link rel="shortcut icon" href="../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Operator Configuration" href="ansys.dpf.core.config.html" />
+    <link rel="prev" title="Collection" href="ansys.dpf.core.collection.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+    
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        dev  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+    
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+    
+
+    
+    <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="../index.html">PyDPF-Core</a> » </li>
+    
+
+          <li class="nav-item nav-item-1"><a href="index.html" >API reference</a> » </li>
+          <li class="nav-item nav-item-2"><a href="ansys.dpf.core.html" accesskey="U">ansys.dpf.core package</a> » </li>
+        <li class="nav-item nav-item-this"><a href="">Common</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        dev  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">
+    Section Navigation
+  </p>
+  <div class="bd-toc-item navbar-nav">
+    <p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="ansys.dpf.core.html">ansys.dpf.core package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.examples.html">ansys.dpf.core.examples package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.html">ansys.dpf.core.operators package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.animation.html"><code class="docutils literal notranslate"><span class="pre">animate_mode()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.animator.html">Animator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.available_result.html">AvailableResult</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.collection.html">Collection</a></li>
+
+
+
+
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Common</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.config.html">Operator Configuration</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.core.html">Core</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_fields_container.html">Custom Fields Containers</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_operator.html">Custom Operator Base</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_type_field.html">CustomTypeField</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.cyclic_support.html">Cyclic Support</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_sources.html">Data Sources</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_tree.html">DataTree</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dimensionality.html">Dimensionality</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_array.html">DPFArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html">Operator</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.element_descriptor.html">Element Descriptor</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.elements.html">Elements</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.errors.html">Errors</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field.html">Field</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field_definition.html">FieldDefinition</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container.html">FieldsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container_factory.html">fields_container_factory</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_factory.html">fields_factory</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.generic_support.html">GenericSupport</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.geometry.html"><code class="docutils literal notranslate"><span class="pre">normalize_vector()</span></code></a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.geometry_factory.html"><code class="docutils literal notranslate"><span class="pre">create_points()</span></code></a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.inputs.html">Inputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.mesh_scoping_factory.html">mesh_scoping_factory</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshed_region.html">MeshedRegion</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshes_container.html">MeshesContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.model.html">Model</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.nodes.html">Nodes</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operator_specification.html">Operator Specification</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.outputs.html">Outputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.path_utilities.html">path_utilities</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.plotter.html">Plotter</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.property_field.html">PropertyField</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.result_info.html">ResultInfo</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.results.html">Results</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.runtime_config.html">RuntimeConfig</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scoping.html">Scoping</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scopings_container.html">ScopingsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server.html">Server</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_context.html">ServerContext</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_factory.html">Server factory, server configuration and communication protocols</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_types.html">Server types</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.session.html">Session</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.settings.html">settings</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.streams_container.html">StreamsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.string_field.html">StringField</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.support.html">Support</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">time_freq_scoping_factory</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_support.html">TimeFreqSupport</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.unit_system.html">UnitSystem</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.workflow.html">Workflow</a></li>
+
+</ul>
+</li>
+</ul>
+
+  </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <span class="target" id="module-ansys.dpf.core.common"></span><section id="common">
+<h1>Common<a class="headerlink" href="#common" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.locations">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.common.</span></span><span class="sig-name descname"><span class="pre">locations</span></span><a class="headerlink" href="#ansys.dpf.core.common.locations" title="Permalink to this definition">#</a></dt>
+<dd><p>Contains strings for scoping and field locations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">none</span> <span class="pre">=</span> <span class="pre">&quot;none&quot;</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">elemental</span> <span class="pre">=</span> <span class="pre">&quot;Elemental&quot;</span></span></dt>
+<dd><p>data is one per element</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">elemental_nodal</span> <span class="pre">=</span> <span class="pre">&quot;ElementalNodal&quot;</span></span></dt>
+<dd><p>one per node per element</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">nodal</span> <span class="pre">=</span> <span class="pre">&quot;Nodal&quot;</span></span></dt>
+<dd><p>one per node</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">time_freq</span> <span class="pre">=</span> <span class="pre">&quot;TimeFreq_sets&quot;</span></span></dt>
+<dd><p>one per time set</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">overall</span> <span class="pre">=</span> <span class="pre">&quot;overall&quot;</span></span></dt>
+<dd><p>applies everywhere</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">time_freq_step</span> <span class="pre">=</span> <span class="pre">&quot;TimeFreq_steps&quot;</span></span></dt>
+<dd><p>one per time step</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<dl class="py class enum">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types">
+<em class="property"><span class="pre">enum</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.common.</span></span><span class="sig-name descname"><span class="pre">types</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.common.types" title="Permalink to this definition">#</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">'types'</span></code> enum contains the available types passed through operators
+and workflows to DPF.</p>
+<p>Valid values are as follows:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.string">
+<span class="sig-name descname"><span class="pre">string</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.string:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.string" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.int">
+<span class="sig-name descname"><span class="pre">int</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.int:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.int" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.double">
+<span class="sig-name descname"><span class="pre">double</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.double:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.double" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.bool">
+<span class="sig-name descname"><span class="pre">bool</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.bool:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.bool" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.field">
+<span class="sig-name descname"><span class="pre">field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.field:</span> <span class="pre">4&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.field" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.collection">
+<span class="sig-name descname"><span class="pre">collection</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.collection:</span> <span class="pre">5&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.collection" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.scoping">
+<span class="sig-name descname"><span class="pre">scoping</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.scoping:</span> <span class="pre">6&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.scoping" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.data_sources">
+<span class="sig-name descname"><span class="pre">data_sources</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.data_sources:</span> <span class="pre">7&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.data_sources" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.meshed_region">
+<span class="sig-name descname"><span class="pre">meshed_region</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.meshed_region:</span> <span class="pre">8&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.meshed_region" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.time_freq_support">
+<span class="sig-name descname"><span class="pre">time_freq_support</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.time_freq_support:</span> <span class="pre">9&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.time_freq_support" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.result_info">
+<span class="sig-name descname"><span class="pre">result_info</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.result_info:</span> <span class="pre">10&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.result_info" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.cyclic_support">
+<span class="sig-name descname"><span class="pre">cyclic_support</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.cyclic_support:</span> <span class="pre">11&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.cyclic_support" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.property_field">
+<span class="sig-name descname"><span class="pre">property_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.property_field:</span> <span class="pre">12&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.property_field" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.workflow">
+<span class="sig-name descname"><span class="pre">workflow</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.workflow:</span> <span class="pre">13&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.workflow" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.run">
+<span class="sig-name descname"><span class="pre">run</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.run:</span> <span class="pre">14&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.any">
+<span class="sig-name descname"><span class="pre">any</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.any:</span> <span class="pre">15&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.any" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.vec_int">
+<span class="sig-name descname"><span class="pre">vec_int</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.vec_int:</span> <span class="pre">16&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.vec_int" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.vec_double">
+<span class="sig-name descname"><span class="pre">vec_double</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.vec_double:</span> <span class="pre">17&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.vec_double" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.support">
+<span class="sig-name descname"><span class="pre">support</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.support:</span> <span class="pre">18&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.support" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.operator">
+<span class="sig-name descname"><span class="pre">operator</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.operator:</span> <span class="pre">19&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.operator" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.data_tree">
+<span class="sig-name descname"><span class="pre">data_tree</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.data_tree:</span> <span class="pre">20&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.data_tree" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.vec_string">
+<span class="sig-name descname"><span class="pre">vec_string</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.vec_string:</span> <span class="pre">21&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.vec_string" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.string_field">
+<span class="sig-name descname"><span class="pre">string_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.string_field:</span> <span class="pre">22&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.string_field" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.custom_type_field">
+<span class="sig-name descname"><span class="pre">custom_type_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.custom_type_field:</span> <span class="pre">23&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.custom_type_field" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.fields_container">
+<span class="sig-name descname"><span class="pre">fields_container</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.fields_container:</span> <span class="pre">-1&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.fields_container" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.scopings_container">
+<span class="sig-name descname"><span class="pre">scopings_container</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.scopings_container:</span> <span class="pre">-2&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.scopings_container" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.meshes_container">
+<span class="sig-name descname"><span class="pre">meshes_container</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.meshes_container:</span> <span class="pre">-3&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.meshes_container" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.types.streams_container">
+<span class="sig-name descname"><span class="pre">streams_container</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;types.streams_container:</span> <span class="pre">-4&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.types.streams_container" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class enum">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.natures">
+<em class="property"><span class="pre">enum</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.common.</span></span><span class="sig-name descname"><span class="pre">natures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.common.natures" title="Permalink to this definition">#</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">'natures'</span></code> enum contains the dimensionality types.
+It can be used to create a field of a given dimensionality.</p>
+<p>Valid values are as follows:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.natures.scalar">
+<span class="sig-name descname"><span class="pre">scalar</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;natures.scalar:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.natures.scalar" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.natures.vector">
+<span class="sig-name descname"><span class="pre">vector</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;natures.vector:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.natures.vector" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.natures.matrix">
+<span class="sig-name descname"><span class="pre">matrix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;natures.matrix:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.natures.matrix" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.natures.symmatrix">
+<span class="sig-name descname"><span class="pre">symmatrix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;natures.symmatrix:</span> <span class="pre">5&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.natures.symmatrix" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class enum">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.shell_layers">
+<em class="property"><span class="pre">enum</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.common.</span></span><span class="sig-name descname"><span class="pre">shell_layers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.common.shell_layers" title="Permalink to this definition">#</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">'shell_layers'</span></code> enum contains the available order of
+shell layers (or lack of shell layers) that defines how the
+field’s data is ordered.</p>
+<p>Valid values are as follows:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.shell_layers.notset">
+<span class="sig-name descname"><span class="pre">notset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;shell_layers.notset:</span> <span class="pre">-1&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.shell_layers.notset" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.shell_layers.top">
+<span class="sig-name descname"><span class="pre">top</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;shell_layers.top:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.shell_layers.top" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.shell_layers.bottom">
+<span class="sig-name descname"><span class="pre">bottom</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;shell_layers.bottom:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.shell_layers.bottom" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.shell_layers.topbottom">
+<span class="sig-name descname"><span class="pre">topbottom</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;shell_layers.topbottom:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.shell_layers.topbottom" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.shell_layers.mid">
+<span class="sig-name descname"><span class="pre">mid</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;shell_layers.mid:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.shell_layers.mid" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.shell_layers.topbottommid">
+<span class="sig-name descname"><span class="pre">topbottommid</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;shell_layers.topbottommid:</span> <span class="pre">4&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.shell_layers.topbottommid" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.shell_layers.nonelayer">
+<span class="sig-name descname"><span class="pre">nonelayer</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;shell_layers.nonelayer:</span> <span class="pre">5&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.shell_layers.nonelayer" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.shell_layers.layerindependent">
+<span class="sig-name descname"><span class="pre">layerindependent</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;shell_layers.layerindependent:</span> <span class="pre">6&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.common.shell_layers.layerindependent" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.elemental_properties">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.common.</span></span><span class="sig-name descname"><span class="pre">elemental_properties</span></span><a class="headerlink" href="#ansys.dpf.core.common.elemental_properties" title="Permalink to this definition">#</a></dt>
+<dd><p>Contains strings to define elemental property fields.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">element_shape</span> <span class="pre">=</span> <span class="pre">&quot;elshape&quot;</span></span></dt>
+<dd><p>element shape property data is provided</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">element_type</span> <span class="pre">=</span> <span class="pre">&quot;eltype&quot;</span></span></dt>
+<dd><p>element type property data is provided</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">connectivity</span> <span class="pre">=</span> <span class="pre">&quot;connectivity&quot;</span></span></dt>
+<dd><p>connectivity property data is provided</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">material</span> <span class="pre">=</span> <span class="pre">&quot;mat&quot;</span></span></dt>
+<dd><p>material property data is provided</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">element_properties</span> <span class="pre">=</span> <span class="pre">&quot;elprops&quot;</span></span></dt>
+<dd><p>element properties data is provided</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">apdl_element_type</span> <span class="pre">=</span> <span class="pre">&quot;apdl_element_type&quot;</span></span></dt>
+<dd><p>apdl element type property data is provided</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.nodal_properties">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.common.</span></span><span class="sig-name descname"><span class="pre">nodal_properties</span></span><a class="headerlink" href="#ansys.dpf.core.common.nodal_properties" title="Permalink to this definition">#</a></dt>
+<dd><p>Contains strings to define nodal property fields.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">coordinates</span> <span class="pre">=</span> <span class="pre">&quot;coordinates&quot;</span></span></dt>
+<dd><p>coordinates data is provided</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">nodal_connectivity</span> <span class="pre">=</span> <span class="pre">&quot;reverse_connectivity&quot;</span></span></dt>
+<dd><p>nodal connectivity property data is provided</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.config_options">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.common.</span></span><span class="sig-name descname"><span class="pre">config_options</span></span><a class="headerlink" href="#ansys.dpf.core.common.config_options" title="Permalink to this definition">#</a></dt>
+<dd><p>Contains strings to define configuration options.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">num_thread</span> <span class="pre">=</span> <span class="pre">&quot;num_threads&quot;</span></span></dt>
+<dd><p>number of threads</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">use_cache</span> <span class="pre">=</span> <span class="pre">&quot;use_cache&quot;</span></span></dt>
+<dd><p>usage of cache if a server with gRPC communication
+protocol is used.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.common.DefinitionLabels">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.common.</span></span><span class="sig-name descname"><span class="pre">DefinitionLabels</span></span><a class="headerlink" href="#ansys.dpf.core.common.DefinitionLabels" title="Permalink to this definition">#</a></dt>
+<dd><p>Contains Python definition labels.</p>
+</dd></dl>
+
+
+
+            </article>
+            
+            
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Common
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.locations">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       locations
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.common.types">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     types
+    </span>
+   </code>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.string">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.string
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.int">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.int
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.double">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.double
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.bool">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.bool
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.field">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.field
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.collection">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.collection
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.scoping">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.scoping
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.data_sources">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.data_sources
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.meshed_region">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.meshed_region
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.time_freq_support">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.time_freq_support
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.result_info">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.result_info
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.cyclic_support">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.cyclic_support
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.property_field">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.property_field
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.workflow">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.workflow
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.run">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.run
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.any">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.any
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.vec_int">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.vec_int
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.vec_double">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.vec_double
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.support">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.support
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.operator">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.operator
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.data_tree">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.data_tree
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.vec_string">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.vec_string
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.string_field">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.string_field
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.custom_type_field">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.custom_type_field
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.fields_container">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.fields_container
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.scopings_container">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.scopings_container
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.meshes_container">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.meshes_container
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.types.streams_container">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       types.streams_container
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.common.natures">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     natures
+    </span>
+   </code>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.natures.scalar">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       natures.scalar
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.natures.vector">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       natures.vector
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.natures.matrix">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       natures.matrix
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.natures.symmatrix">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       natures.symmatrix
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.common.shell_layers">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     shell_layers
+    </span>
+   </code>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.shell_layers.notset">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       shell_layers.notset
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.shell_layers.top">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       shell_layers.top
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.shell_layers.bottom">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       shell_layers.bottom
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.shell_layers.topbottom">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       shell_layers.topbottom
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.shell_layers.mid">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       shell_layers.mid
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.shell_layers.topbottommid">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       shell_layers.topbottommid
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.shell_layers.nonelayer">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       shell_layers.nonelayer
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.common.shell_layers.layerindependent">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       shell_layers.layerindependent
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.common.elemental_properties">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     elemental_properties
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.common.nodal_properties">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     nodal_properties
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.common.config_options">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     config_options
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.common.DefinitionLabels">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     DefinitionLabels
+    </span>
+   </code>
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+<div class="tocsection sourcelink">
+    <a href="../_sources/api/ansys.dpf.core.common.rst.txt">
+        <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+</div>
+
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

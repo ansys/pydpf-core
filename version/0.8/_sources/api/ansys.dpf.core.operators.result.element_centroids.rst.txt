@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.element_centroids
+   :inherited-members:

@@ -1,0 +1,81 @@
+
+
+.. _sphx_glr_examples_07-python-operators:
+
+.. _python_operators:
+
+Examples of custom python plugins of Operators
+==============================================
+These demos show how to create your own DPF plugin using pyDPF API. These plugins hold custom
+Operators enabling to wrap your custom capabilities and to use them as any native DPF's Operator.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Write user defined Operator">
+
+.. only:: html
+
+  .. image:: /examples/07-python-operators/images/thumb/sphx_glr_00-wrapping_numpy_capabilities_thumb.png
+    :alt: Write user defined Operator
+
+  :ref:`sphx_glr_examples_07-python-operators_00-wrapping_numpy_capabilities.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Write user defined Operator</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This plugin will hold 2 different Operators:   - One returning all the scoping ids having data ...">
+
+.. only:: html
+
+  .. image:: /examples/07-python-operators/images/thumb/sphx_glr_01-package_python_operators_thumb.png
+    :alt: Write user defined Operators as a package
+
+  :ref:`sphx_glr_examples_07-python-operators_01-package_python_operators.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Write user defined Operators as a package</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This plugin will hold an Operator which implementation depends on a third party python module n...">
+
+.. only:: html
+
+  .. image:: /examples/07-python-operators/images/thumb/sphx_glr_02-python_operators_with_dependencies_thumb.png
+    :alt: Write user defined Operators having third party dependencies
+
+  :ref:`sphx_glr_examples_07-python-operators_02-python_operators_with_dependencies.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Write user defined Operators having third party dependencies</div>
+    </div>
+
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/07-python-operators/00-wrapping_numpy_capabilities
+   /examples/07-python-operators/01-package_python_operators
+   /examples/07-python-operators/02-python_operators_with_dependencies
+

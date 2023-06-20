@@ -1,0 +1,20 @@
+
+:orphan:
+
+.. _sphx_glr_examples_07-distributed-post_sg_execution_times:
+
+Computation times
+=================
+**00:48.779** total execution time for **examples_07-distributed-post** files:
+
++----------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_07-distributed-post_02-distributed-msup_expansion.py` (``02-distributed-msup_expansion.py``)             | 00:12.010 | 0.0 MB |
++----------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_07-distributed-post_03-distributed-msup_expansion_steps.py` (``03-distributed-msup_expansion_steps.py``) | 00:11.910 | 0.0 MB |
++----------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_07-distributed-post_06-distributed_stress_averaging.py` (``06-distributed_stress_averaging.py``)         | 00:11.697 | 0.0 MB |
++----------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_07-distributed-post_01-distributed_workflows_on_remote.py` (``01-distributed_workflows_on_remote.py``)   | 00:07.082 | 0.0 MB |
++----------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_07-distributed-post_00-distributed_total_disp.py` (``00-distributed_total_disp.py``)                     | 00:06.081 | 0.0 MB |
++----------------------------------------------------------------------------------------------------------------------------------+-----------+--------+

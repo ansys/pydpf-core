@@ -1,0 +1,939 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Average across bodies &#8212; PyDPF-Core</title>
+    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    
+        <link href="../../_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/08-averaging/01-average_across_bodies';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.6';
+        </script>
+    <link rel="shortcut icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Contribute" href="../../contributing.html" />
+    <link rel="prev" title="Averaging order" href="00-compute_and_average.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+    
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.6  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+    
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+    
+
+    
+    <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyDPF-Core</a> » </li>
+    
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Examples</a> » </li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Averaging examples</a> » </li>
+        <li class="nav-item nav-item-this"><a href="">Average across bodies</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.6  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">
+    Section Navigation
+  </p>
+  <div class="bd-toc-item navbar-nav">
+    <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-basic/index.html">Basic DPF examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-static-transient/index.html">Transient analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-modal-harmonic/index.html">Harmonic analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-advanced/index.html">Advanced and miscellaneous examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-specific-requests/index.html">Target-specific request examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-plotting/index.html">Plotting examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-distributed-post/index.html">Examples for postprocessing on distributed processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-python-operators/index.html">Examples of creating custom operator plugins</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Averaging examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="00-compute_and_average.html">Averaging order</a></li>
+
+
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Average across bodies</a></li>
+
+
+</ul>
+</li>
+</ul>
+
+  </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-08-averaging-01-average-across-bodies-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="average-across-bodies">
+<span id="ref-average-across-bodies"></span><span id="sphx-glr-examples-08-averaging-01-average-across-bodies-py"></span><h1>Average across bodies<a class="headerlink" href="#average-across-bodies" title="Permalink to this heading">#</a></h1>
+<p>This example shows how to activate and deactivate the DPF option for averaging
+across bodies. When a multi-body simulation calculates <code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code> fields,
+like stresses or strains, you can either activate or deactivate the averaging
+of theses fields across the different bodies when they share common nodes. This
+likely changes the end results that are shown after postprocessing of the simulation.</p>
+<p>Perform the required imports.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+</pre></div>
+</div>
+<p>Load the simulation results from an RST file and create a model of it.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_piston_rod</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+Static analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mechanical
+Available results:
+     -  displacement: Nodal Displacement
+     -  reaction_force: Nodal Force
+     -  stress: ElementalNodal Stress
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  elastic_strain: ElementalNodal Strain
+     -  structural_temperature: ElementalNodal Temperature
+------------------------------
+DPF  Meshed Region:
+  33337 nodes
+  18235 elements
+  Unit: m
+  With solid (3D) elements
+------------------------------
+DPF  Time/Freq Support:
+  Number of sets: 3
+Cumulative     Time (s)       LoadStep       Substep
+1              1.000000       1              1
+2              2.000000       2              1
+3              3.000000       3              1
+</pre></div>
+</div>
+<p>To take a look at the system to see how bodies are connected to each other,
+extract the mesh of the model and then divide it into different meshes
+using the <code class="docutils literal notranslate"><span class="pre">split_mesh</span></code> operator.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+<span class="n">split_mesh_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">split_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="nb">property</span><span class="o">=</span><span class="s2">&quot;mat&quot;</span><span class="p">)</span>
+<span class="n">meshes</span> <span class="o">=</span> <span class="n">split_mesh_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">meshes</span><span class="p">()</span>
+
+<span class="n">meshes</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Body meshes&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_01-average_across_bodies_001.png" srcset="../../_images/sphx_glr_01-average_across_bodies_001.png" alt="01 average across bodies" class = "sphx-glr-single-img"/><p>As you can see in the preceding image, even though the piston rod is one single part,
+it is composed of two different bodies. Additionally, you can see that the region
+where the two bodies are bonded together contains nodes that are common between them.</p>
+</section>
+<section id="averaging-across-bodies-with-dpf">
+<h1>Averaging across bodies with DPF<a class="headerlink" href="#averaging-across-bodies-with-dpf" title="Permalink to this heading">#</a></h1>
+<p>To take a look at how the option for averaging across bodies alters the results
+of the simulation, define two workflows. The first workflow does averaging across
+bodies, while the second workflow does not. The variable of interest is the stress
+in the Z direction, which is obtained using the “stress_Z” operator.</p>
+<div class="graphviz"><img src="../../_images/graphviz-f9b2ff0f61f7f8ab5e13bab492015c7a21d63a54.png" alt="digraph foo {
+    graph [pad=&quot;0&quot;, nodesep=&quot;0.3&quot;, ranksep=&quot;0.3&quot;]
+    node [shape=box, style=filled, fillcolor=&quot;#ffcc0&quot;, margin=&quot;0&quot;];
+    rankdir=LR;
+    splines=line;
+    node [fixedsize=true,width=2.5]
+    stress01 [label=&quot;stress_Z&quot;];
+    stress02 [label=&quot;stress_Z&quot;];
+    scp01 [label=&quot;split_on_property_type&quot;];
+    subgraph cluster_1 {
+        ds01 [label=&quot;data_src&quot;, shape=box, style=filled, fillcolor=cadetblue2];
+        ds01 -&gt; scp01 [style=dashed];
+        scp01 -&gt; stress01;
+        label=&quot;Averaging across bodies = Off&quot;;
+        style=filled;
+        fillcolor=lightgrey;
+    }
+    subgraph cluster_2 {
+        ds02 [label=&quot;data_src&quot;, shape=box, style=filled, fillcolor=cadetblue2];
+        inv02 [style=invisible]
+        ds02 -&gt; stress02 [style=dashed];
+        stress02 -&gt; inv02 [style=invis]
+        label=&quot;Averaging across bodies = On&quot;;
+        style=filled;
+        fillcolor=lightgrey;
+    }
+}" class="graphviz" /></div>
+<section id="averaging-across-bodies-activated">
+<h2>Averaging across bodies activated<a class="headerlink" href="#averaging-across-bodies-activated" title="Permalink to this heading">#</a></h2>
+<p>The extraction of the stresses in the Z direction applies averaging
+across bodies by default. Thus, you can use a simple workflow.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">average_across_bodies</span><span class="p">(</span><span class="n">analysis</span><span class="p">):</span>
+    <span class="c1"># Extract the stresses in the Z direction (with the average</span>
+    <span class="c1"># across bodies property activated) and plot them.</span>
+
+    <span class="c1"># Create a model from the simulation results.</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+
+    <span class="c1"># Set the time set of interest to the last time set.</span>
+    <span class="n">time_set</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># Extract the stresses in the Z direction. By default, DPF already applies</span>
+    <span class="c1"># averaging across bodies when extracting the stresses.</span>
+    <span class="n">stress_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress_Z</span><span class="p">()</span>
+    <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">time_set</span><span class="p">)</span>
+    <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
+    <span class="n">stresses</span> <span class="o">=</span> <span class="n">stress_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+
+    <span class="c1"># Find the maximum stress value.</span>
+    <span class="n">min_max</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">()</span>
+    <span class="n">min_max</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">stresses</span><span class="p">)</span>
+    <span class="n">max_val</span> <span class="o">=</span> <span class="n">min_max</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+
+    <span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stresses</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Averaged across bodies&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_val</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="averaging-across-bodies-deactivated">
+<h2>Averaging across bodies deactivated<a class="headerlink" href="#averaging-across-bodies-deactivated" title="Permalink to this heading">#</a></h2>
+<p>The workflow is more complicated for extracting the stresses without
+averaging across the bodies of the simulated part. Instead of presenting
+the workflow as a function, it is broken into various parts with explanations
+of what is being done.</p>
+<p>Create a model from the simulation results and extract its mesh and
+step information.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+<span class="n">time_freq</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span>
+<span class="n">time_sets</span> <span class="o">=</span> <span class="n">time_freq</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Split the meshes of the two bodies so that separate scopings can be
+created for each one of them. The <cite>‘mat’`</cite> label is used to split the mesh
+by bodies.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_scop_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">split_on_property_type</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">label1</span><span class="o">=</span><span class="s2">&quot;mat&quot;</span><span class="p">)</span>
+<span class="n">mesh_scop_cont</span> <span class="o">=</span> <span class="n">mesh_scop_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Given that there are three different time steps, create a scopings container
+that contains the meshes of each of these time steps.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scop_cont</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">ScopingsContainer</span><span class="p">()</span>
+<span class="n">scop_cont</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">)</span>
+<span class="n">scop_cont</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">tset</span> <span class="ow">in</span> <span class="n">time_sets</span><span class="p">:</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">mesh_scop</span> <span class="ow">in</span> <span class="n">mesh_scop_cont</span><span class="p">:</span>
+        <span class="n">scop_cont</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">(</span>
+            <span class="n">scoping</span><span class="o">=</span><span class="n">mesh_scop</span><span class="p">,</span> <span class="n">label_space</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">body</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">tset</span><span class="p">)}</span>
+        <span class="p">)</span>
+        <span class="n">body</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">scop_cont</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Scopings Container with
+        6 scoping(s)
+        defined on labels [&#39;body&#39;, &#39;time&#39;]
+</pre></div>
+</div>
+<p>The scopings container has six different scopings, one for each body over
+each of the three time steps.</p>
+<p>Set the time set of interest to the last time set.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">time_set</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>To retrieve the Z stresses without averaging across the two bodies, you must
+pass a scopings container that contains their respective meshes as a parameter
+to the <code class="docutils literal notranslate"><span class="pre">stress_Z</span></code> operator. To do this, create a scopings container that contains
+the meshes of the two bodies in the desired time step.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scop_list</span> <span class="o">=</span> <span class="n">scop_cont</span><span class="o">.</span><span class="n">get_scopings</span><span class="p">(</span><span class="n">label_space</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">time_set</span><span class="p">})</span>
+<span class="n">scopings</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">ScopingsContainer</span><span class="p">()</span>
+<span class="n">scopings</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">)</span>
+<span class="n">body</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">scop</span> <span class="ow">in</span> <span class="n">scop_list</span><span class="p">:</span>
+    <span class="n">scopings</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">(</span><span class="n">label_space</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">body</span><span class="p">},</span> <span class="n">scoping</span><span class="o">=</span><span class="n">scop</span><span class="p">)</span>
+    <span class="n">body</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">scopings</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Scopings Container with
+        2 scoping(s)
+        defined on labels [&#39;body&#39;]
+</pre></div>
+</div>
+<p>This contain has only two scopings, one for each body in the last time step.</p>
+<p>Extract the stresses in the Z direction.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stress_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress_Z</span><span class="p">()</span>
+<span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">time_set</span><span class="p">)</span>
+<span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+    <span class="n">scopings</span>
+<span class="p">)</span>  <span class="c1"># This option deactivates averaging across bodies.</span>
+<span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
+<span class="n">stresses</span> <span class="o">=</span> <span class="n">stress_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stresses</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF stress(s)Fields Container
+  with 2 field(s)
+  defined on labels: body time
+
+  with:
+  - field 0 {body:  1, time:  3} with Nodal location, 1 components and 17281 entities.
+  - field 1 {body:  2, time:  3} with Nodal location, 1 components and 17610 entities.
+</pre></div>
+</div>
+<p>Find the maximum value of the stress field for comparison purposes.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">min_max</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">()</span>
+<span class="n">min_max</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">stresses</span><span class="p">)</span>
+<span class="n">max_val</span> <span class="o">=</span> <span class="n">min_max</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Define the preceding workflow as a function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">not_average_across_bodies</span><span class="p">(</span><span class="n">analysis</span><span class="p">):</span>
+    <span class="c1"># This function extracts the stresses in the Z direction (with the average</span>
+    <span class="c1"># across bodies option deactivated) and plot them.</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+
+    <span class="n">time_freq</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span>
+    <span class="n">time_sets</span> <span class="o">=</span> <span class="n">time_freq</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+    <span class="n">mesh_scop_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">split_on_property_type</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">label1</span><span class="o">=</span><span class="s2">&quot;mat&quot;</span><span class="p">)</span>
+    <span class="n">mesh_scop_cont</span> <span class="o">=</span> <span class="n">mesh_scop_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="p">()</span>
+
+    <span class="n">scop_cont</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">ScopingsContainer</span><span class="p">()</span>
+    <span class="n">scop_cont</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">)</span>
+    <span class="n">scop_cont</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">tset</span> <span class="ow">in</span> <span class="n">time_sets</span><span class="p">:</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">mesh_scop</span> <span class="ow">in</span> <span class="n">mesh_scop_cont</span><span class="p">:</span>
+            <span class="n">scop_cont</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">(</span>
+                <span class="n">scoping</span><span class="o">=</span><span class="n">mesh_scop</span><span class="p">,</span> <span class="n">label_space</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">body</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">tset</span><span class="p">)}</span>
+            <span class="p">)</span>
+            <span class="n">body</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">time_set</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="n">scop_list</span> <span class="o">=</span> <span class="n">scop_cont</span><span class="o">.</span><span class="n">get_scopings</span><span class="p">(</span><span class="n">label_space</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">time_set</span><span class="p">})</span>
+    <span class="n">scopings</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">ScopingsContainer</span><span class="p">()</span>
+    <span class="n">scopings</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">)</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">scop</span> <span class="ow">in</span> <span class="n">scop_list</span><span class="p">:</span>
+        <span class="n">scopings</span><span class="o">.</span><span class="n">add_scoping</span><span class="p">(</span><span class="n">label_space</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">body</span><span class="p">},</span> <span class="n">scoping</span><span class="o">=</span><span class="n">scop</span><span class="p">)</span>
+        <span class="n">body</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">stress_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress_Z</span><span class="p">()</span>
+    <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">time_set</span><span class="p">)</span>
+    <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">scopings</span><span class="p">)</span>
+    <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">requested_location</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">)</span>
+    <span class="n">stresses</span> <span class="o">=</span> <span class="n">stress_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+
+    <span class="n">min_max</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">()</span>
+    <span class="n">min_max</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">stresses</span><span class="p">)</span>
+    <span class="n">max_val</span> <span class="o">=</span> <span class="n">min_max</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+
+    <span class="n">meshes</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stresses</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Not averaged across bodies&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_val</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="plot-and-compare-the-results">
+<h1>Plot and compare the results<a class="headerlink" href="#plot-and-compare-the-results" title="Permalink to this heading">#</a></h1>
+<p>Plot and compare the results. The first plot shows the stress distribution
+when averaging across bodies is activated. The second plot shows the stress
+distribution when averaging across bodies is deactivated.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">max_avg_on</span> <span class="o">=</span> <span class="n">average_across_bodies</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
+<span class="n">max_avg_off</span> <span class="o">=</span> <span class="n">not_average_across_bodies</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../../_images/sphx_glr_01-average_across_bodies_002.png" srcset="../../_images/sphx_glr_01-average_across_bodies_002.png" alt="01 average across bodies" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_01-average_across_bodies_003.png" srcset="../../_images/sphx_glr_01-average_across_bodies_003.png" alt="01 average across bodies" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">max_avg_on</span> <span class="o">-</span> <span class="n">max_avg_off</span><span class="p">)</span> <span class="o">/</span> <span class="n">max_avg_off</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Max stress when averaging across bodies is activated: </span><span class="si">{:.2f}</span><span class="s2"> Pa&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_avg_on</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Max stress when averaging across bodies is deactivated: </span><span class="si">{:.2f}</span><span class="s2"> Pa&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">max_avg_off</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;The maximum stress value when averaging across bodies is ACTIVATED </span><span class="se">\</span>
+<span class="s2">is </span><span class="si">{:.2f}</span><span class="s2">% LOWER than when it is DEACTIVATED&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">diff</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Max stress when averaging across bodies is activated: 6958243299.56 Pa
+Max stress when averaging across bodies is deactivated: 6988756864.00 Pa
+The maximum stress value when averaging across bodies is ACTIVATED is 0.44% LOWER than when it is DEACTIVATED
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  5.816 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-08-averaging-01-average-across-bodies-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/2e83048bea6393f9b6a5eeb1dada3999/01-average_across_bodies.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">01-average_across_bodies.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/b7318139122dda9abe6a578f3d6c1b83/01-average_across_bodies.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">01-average_across_bodies.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+            </article>
+            
+            
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Average across bodies
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#averaging-across-bodies-with-dpf">
+   Averaging across bodies with DPF
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#averaging-across-bodies-activated">
+     Averaging across bodies activated
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#averaging-across-bodies-deactivated">
+     Averaging across bodies deactivated
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-and-compare-the-results">
+   Plot and compare the results
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+<div class="tocsection sourcelink">
+    <a href="../../_sources/examples/08-averaging/01-average_across_bodies.rst.txt">
+        <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+</div>
+
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

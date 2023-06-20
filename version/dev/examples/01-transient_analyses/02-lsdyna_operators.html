@@ -1,0 +1,2052 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Results extraction and analysis from LS-DYNA sources &#8212; PyDPF-Core</title>
+    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    
+        <link href="../../_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/01-transient_analyses/02-lsdyna_operators';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        </script>
+    <link rel="shortcut icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Modal analysis examples" href="../02-modal_analyses/index.html" />
+    <link rel="prev" title="Choose a time scoping for a transient analysis" href="01-transient_easy_time_scoping.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+    
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        dev  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+    
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+    
+
+    
+    <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyDPF-Core</a> » </li>
+    
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Examples</a> » </li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Transient analysis examples</a> » </li>
+        <li class="nav-item nav-item-this"><a href="">Results extraction and analysis from LS-DYNA sources</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        dev  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">
+    Section Navigation
+  </p>
+  <div class="bd-toc-item navbar-nav">
+    <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-basic/index.html">Basic DPF examples</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Transient analysis examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="00-basic_transient.html">Transient analysis result example</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="01-transient_easy_time_scoping.html">Choose a time scoping for a transient analysis</a></li>
+
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Results extraction and analysis from LS-DYNA sources</a></li>
+
+
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../02-modal_analyses/index.html">Modal analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-harmonic_analyses/index.html">Harmonic analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-advanced/index.html">Advanced and miscellaneous examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-file-IO/index.html">File manipulation and input-output examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-plotting/index.html">Plotting examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-distributed-post/index.html">Examples for postprocessing on distributed processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-python-operators/index.html">Examples of creating custom operator plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-averaging/index.html">Averaging examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10-mesh_operations/index.html">Mesh operations examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../11-cyclic-symmetry/index.html">Cyclic symmetry examples</a></li>
+</ul>
+
+  </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-01-transient-analyses-02-lsdyna-operators-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="results-extraction-and-analysis-from-ls-dyna-sources">
+<span id="lsdyna-operators"></span><span id="sphx-glr-examples-01-transient-analyses-02-lsdyna-operators-py"></span><h1>Results extraction and analysis from LS-DYNA sources<a class="headerlink" href="#results-extraction-and-analysis-from-ls-dyna-sources" title="Permalink to this heading">#</a></h1>
+<p>This example provides an overview of the LS-DYNA results providers.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example requires DPF 6.1 (ansys-dpf-server-2023-2-pre0) or above.
+For more information, see <a class="reference internal" href="../../getting_started/compatibility.html#ref-compatibility"><span class="std std-ref">Compatibility</span></a>.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+</pre></div>
+</div>
+</section>
+<section id="d3plot-file-results-extraction">
+<h1>d3plot file results extraction<a class="headerlink" href="#d3plot-file-results-extraction" title="Permalink to this heading">#</a></h1>
+<p>Create the model and print its contents. This LS-DYNA d3plot file contains
+several individual results, each at different times. The d3plot file does not
+contain information related to Units. In this case, as the simulation was run
+through Mechanical, a file.actunits file is produced. If this file is
+supplemented in the data_sources, the units will be correctly fetched for all
+resuls in the file as well as for the mesh.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">d3plot</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_d3plot_beam</span><span class="p">()</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">set_result_file_path</span><span class="p">(</span><span class="n">d3plot</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;d3plot&quot;</span><span class="p">)</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">add_file_path</span><span class="p">(</span><span class="n">d3plot</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;actunits&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+Unknown analysis
+Unit system: NMM: mm, ton, N, s, mA, degC
+Physics Type: Unknown
+Available results:
+     -  global_kinetic_energy: TimeFreq_steps Global Kinetic Energy
+     -  global_internal_energy: TimeFreq_steps Global Internal Energy
+     -  global_total_energy: TimeFreq_steps Global Total Energy
+     -  global_velocity: TimeFreq_steps Global Velocity
+     -  initial_coordinates: Nodal Initial Coordinates
+     -  coordinates: Nodal Coordinates
+     -  velocity: Nodal Velocity
+     -  acceleration: Nodal Acceleration
+     -  stress: Elemental Stress
+     -  stress_von_mises: Elemental Stress Von Mises
+     -  plastic_strain_eqv: Elemental Plastic Strain Eqv
+     -  total_strain: Elemental Total Strain
+     -  beam_axial_force: Elemental Beam Axial Force
+     -  beam_s_shear_force: Elemental Beam S Shear Force
+     -  beam_t_shear_force: Elemental Beam T Shear Force
+     -  beam_s_bending_moment: Elemental Beam S Bending Moment
+     -  beam_t_bending_moment: Elemental Beam T Bending Moment
+     -  beam_torsional_moment: Elemental Beam Torsional Moment
+     -  beam_axial_stress: Elemental Beam Axial Stress
+     -  beam_rs_shear_stress: Elemental Beam Rs Shear Stress
+     -  beam_tr_shear_stress: Elemental Beam Tr Shear Stress
+     -  beam_axial_plastic_strain: Elemental Beam Axial Plastic Strain
+     -  beam_axial_total_strain: Elemental Beam Axial Total Strain
+     -  history_variablesihv__[1__10]: Elemental History Variables(ihv: [1, 10])
+     -  displacement: Nodal Displacement
+------------------------------
+DPF  Meshed Region:
+  1940 nodes
+  2056 elements
+  Unit: mm
+  With solid (3D) elements, beam (1D) elements
+------------------------------
+DPF  Time/Freq Support:
+  Number of sets: 12
+Cumulative     Time (s)       LoadStep       Substep
+1              0.000000       1              1
+2              0.997460       2              1
+3              1.997818       3              1
+4              2.998237       4              1
+5              3.998657       5              1
+6              4.999076       6              1
+7              5.999496       7              1
+8              6.999915       8              1
+9              7.997509       9              1
+10             8.997929       10             1
+11             9.998348       11             1
+12             10.001174      12             1
+</pre></div>
+</div>
+<p>The model has solid (3D) elements and beam (1D) elements. Some of the results
+only apply to one type of elements (such as the stress tensor for solids, or
+the axial force for beams, for example).</p>
+<p>Let’s extract beam axial force for the last time step and plot it, deforming
+the mesh according to the displacement field at the same time step.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">beam_axial_force</span><span class="p">(</span><span class="n">time_scoping</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">])</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">(</span><span class="n">time_scoping</span><span class="o">=</span><span class="p">[</span><span class="mi">12</span><span class="p">])</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="n">sargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%.2e</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">title_font_size</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">label_font_size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">N</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">deform_by</span><span class="o">=</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scalar_bar_args</span><span class="o">=</span><span class="n">sargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_02-lsdyna_operators_001.png" srcset="../../_images/sphx_glr_02-lsdyna_operators_001.png" alt="02 lsdyna operators" class = "sphx-glr-single-img"/><p>The axial force has only been computed for the beam elements (the bottom
+frame), whereas the top sphere, which is comprised by solid elements, has
+only been deformed by the displacement field.</p>
+<p>PyDPF also allows you to animate the results in a FieldsContainer. Thus, if
+all time steps are extracted, an animation can be produced.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">N_all</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">beam_axial_force</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">u_all</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">N_all</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">deform_by</span><span class="o">=</span><span class="n">u_all</span><span class="p">,</span> <span class="n">save_as</span><span class="o">=</span><span class="s2">&quot;falling_ball.gif&quot;</span><span class="p">,</span> <span class="n">scalar_bar_args</span><span class="o">=</span><span class="n">sargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_02-lsdyna_operators_002.png" srcset="../../_images/sphx_glr_02-lsdyna_operators_002.png" alt="02 lsdyna operators" class = "sphx-glr-single-img"/><p>Some of the results are marked as global. They are not scoped over any mesh
+entity, but are global variables of the model.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">global_kinetic_energy</span><span class="p">()</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Fields Container
+  with 1 field(s)
+  defined on labels:
+
+  with:
+  - field 0 {} with TimeFreq_steps location, 1 components and 12 entities.
+</pre></div>
+</div>
+<p>Energy plots over time (the sphere was released with some initial velocity).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">U</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">global_internal_energy</span><span class="p">()</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">global_total_energy</span><span class="p">()</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Kinetic&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">H</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Total&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (</span><span class="si">{:s}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Energies (</span><span class="si">{:s}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_02-lsdyna_operators_003.png" srcset="../../_images/sphx_glr_02-lsdyna_operators_003.png" alt="02 lsdyna operators" class = "sphx-glr-single-img"/></section>
+<section id="binout-file-results-extraction">
+<h1>binout file results extraction<a class="headerlink" href="#binout-file-results-extraction" title="Permalink to this heading">#</a></h1>
+<p>Create the model and dprint its contents. This LS-DYNA binout file contains
+several branches (glstat, matsum and rcforc).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">binout</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_binout_matsum</span><span class="p">()</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">set_result_file_path</span><span class="p">(</span><span class="n">binout</span><span class="p">,</span> <span class="s2">&quot;binout&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+Unknown analysis
+Unit system: Undefined
+Physics Type: Unknown
+Available results:
+     -  displacement: Nodal Displacement
+     -  global_time_step: TimeFreq_steps Global Time Step
+     -  global_kinetic_energy: TimeFreq_steps Global Kinetic Energy
+     -  global_internal_energy: TimeFreq_steps Global Internal Energy
+     -  global_spring_damper_energy: TimeFreq_steps Global Spring Damper Energy
+     -  global_joint_internal_energy: TimeFreq_steps Global Joint Internal Energy
+     -  global_system_damping_energy: TimeFreq_steps Global System Damping Energy
+     -  global_sliding_interface_energy: TimeFreq_steps Global Sliding Interface Energy
+     -  global_external_work: TimeFreq_steps Global External Work
+     -  global_eroded_kinetic_energy: TimeFreq_steps Global Eroded Kinetic Energy
+     -  global_eroded_internal_energy: TimeFreq_steps Global Eroded Internal Energy
+     -  global_total_energy: TimeFreq_steps Global Total Energy
+     -  global_energy_ratio: TimeFreq_steps Global Energy Ratio
+     -  global_energy_ratio_wo_eroded: TimeFreq_steps Global Energy Ratio Wo Eroded
+     -  global_velocity: TimeFreq_steps Global Velocity
+     -  global_added_mass: TimeFreq_steps Global Added Mass
+     -  global_added_mass_percentage: TimeFreq_steps Global Added Mass Percentage
+     -  part_internal_energy: TimeFreq_steps Part Internal Energy
+     -  part_kinetic_energy: TimeFreq_steps Part Kinetic Energy
+     -  part_eroded_internal_energy: TimeFreq_steps Part Eroded Internal Energy
+     -  part_eroded_kinetic_energy: TimeFreq_steps Part Eroded Kinetic Energy
+     -  part_added_mass: TimeFreq_steps Part Added Mass
+     -  part_momentum: TimeFreq_steps Part Momentum
+     -  part_rigid_body_velocity: TimeFreq_steps Part Rigid Body Velocity
+     -  interface_contact_mass: TimeFreq_steps Interface Contact Mass
+     -  interface_contact_force: TimeFreq_steps Interface Contact Force
+------------------------------
+DPF  Meshed Region:
+  1 nodes
+  0 elements
+  Unit:
+  With
+------------------------------
+DPF  Time/Freq Support:
+  Number of sets: 1010
+Cumulative     Frequency ()   LoadStep       Substep
+1              0.000000       1              1
+2              0.097868       2              1
+3              0.195737       3              1
+4              0.293605       4              1
+5              0.391474       5              1
+6              0.498239       6              1
+7              0.596107       7              1
+8              0.693976       8              1
+9              0.791844       9              1
+10             0.898610       10             1
+11             0.996478       11             1
+12             1.094346       12             1
+13             1.192215       13             1
+14             1.298980       14             1
+15             1.396849       15             1
+16             1.494717       16             1
+17             1.592585       17             1
+18             1.699351       18             1
+19             1.797219       19             1
+20             1.895088       20             1
+21             1.992956       21             1
+22             2.099721       22             1
+23             2.197590       23             1
+24             2.295462       24             1
+25             2.393364       25             1
+26             2.491304       26             1
+27             2.598073       27             1
+28             2.696023       28             1
+29             2.794000       29             1
+30             2.891951       30             1
+31             2.998879       31             1
+32             3.096866       32             1
+33             3.194883       33             1
+34             3.292901       34             1
+35             3.399788       35             1
+36             3.497805       36             1
+37             3.595823       37             1
+38             3.693840       38             1
+39             3.791857       39             1
+40             3.898755       40             1
+41             3.996773       41             1
+42             4.094749       42             1
+43             4.192767       43             1
+44             4.299624       44             1
+45             4.397628       45             1
+46             4.495646       46             1
+47             4.593663       47             1
+48             4.691681       48             1
+49             4.798609       49             1
+50             4.896627       50             1
+51             4.994594       51             1
+52             5.092611       52             1
+53             5.199547       53             1
+54             5.297572       54             1
+55             5.395590       55             1
+56             5.493581       56             1
+57             5.591599       57             1
+58             5.698528       58             1
+59             5.796547       59             1
+60             5.894565       60             1
+61             5.992583       61             1
+62             6.099511       62             1
+63             6.197529       63             1
+64             6.295547       64             1
+65             6.393566       65             1
+66             6.491584       66             1
+67             6.598444       67             1
+68             6.696421       68             1
+69             6.794439       69             1
+70             6.892458       70             1
+71             6.999387       71             1
+72             7.097407       72             1
+73             7.195426       73             1
+74             7.293445       74             1
+75             7.391466       75             1
+76             7.498406       76             1
+77             7.596435       77             1
+78             7.694464       78             1
+79             7.792492       79             1
+80             7.899434       80             1
+81             7.997462       81             1
+82             8.095469       82             1
+83             8.193441       83             1
+84             8.291460       84             1
+85             8.398328       85             1
+86             8.496346       86             1
+87             8.594317       87             1
+88             8.692324       88             1
+89             8.799255       89             1
+90             8.897273       90             1
+91             8.995292       91             1
+92             9.093309       92             1
+93             9.191328       93             1
+94             9.298257       94             1
+95             9.396275       95             1
+96             9.494293       96             1
+97             9.592311       97             1
+98             9.699240       98             1
+99             9.797258       99             1
+100            9.895276       100            1
+101            9.993294       101            1
+102            10.091312      102            1
+103            10.198241      103            1
+104            10.296259      104            1
+105            10.394279      105            1
+106            10.492304      106            1
+107            10.599245      107            1
+108            10.697274      108            1
+109            10.795304      109            1
+110            10.893333      110            1
+111            10.991363      111            1
+112            11.098304      112            1
+113            11.196333      113            1
+114            11.294362      114            1
+115            11.392391      115            1
+116            11.499333      116            1
+117            11.597363      117            1
+118            11.695392      118            1
+119            11.793422      119            1
+120            11.891449      120            1
+121            11.998384      121            1
+122            12.096347      122            1
+123            12.194366      123            1
+124            12.292382      124            1
+125            12.399310      125            1
+126            12.497328      126            1
+127            12.595345      127            1
+128            12.693352      128            1
+129            12.791368      129            1
+130            12.898229      130            1
+131            12.996218      131            1
+132            13.094235      132            1
+133            13.192252      133            1
+134            13.299180      134            1
+135            13.397198      135            1
+136            13.495215      136            1
+137            13.593246      137            1
+138            13.691278      138            1
+139            13.798222      139            1
+140            13.896254      140            1
+141            13.994215      141            1
+142            14.092141      142            1
+143            14.198971      143            1
+144            14.296902      144            1
+145            14.394816      145            1
+146            14.492726      146            1
+147            14.599604      147            1
+148            14.697553      148            1
+149            14.795456      149            1
+150            14.893403      150            1
+151            14.991365      151            1
+152            15.098253      152            1
+153            15.196204      153            1
+154            15.294127      154            1
+155            15.392003      155            1
+156            15.498770      156            1
+157            15.596642      157            1
+158            15.694518      158            1
+159            15.792427      159            1
+160            15.899206      160            1
+161            15.997162      161            1
+162            16.095060      162            1
+163            16.192940      163            1
+164            16.299715      164            1
+165            16.397587      165            1
+166            16.495459      166            1
+167            16.593330      167            1
+168            16.691200      168            1
+169            16.797968      169            1
+170            16.895941      170            1
+171            16.993937      171            1
+172            17.091888      172            1
+173            17.198776      173            1
+174            17.296793      174            1
+175            17.394678      175            1
+176            17.492554      176            1
+177            17.599354      177            1
+178            17.697252      178            1
+179            17.795135      179            1
+180            17.893005      180            1
+181            17.999775      181            1
+182            18.097645      182            1
+183            18.195517      183            1
+184            18.293386      184            1
+185            18.391256      185            1
+186            18.498024      186            1
+187            18.595894      187            1
+188            18.693762      188            1
+189            18.791632      189            1
+190            18.898399      190            1
+191            18.996269      191            1
+192            19.094139      192            1
+193            19.192009      193            1
+194            19.298775      194            1
+195            19.396645      195            1
+196            19.494514      196            1
+197            19.592386      197            1
+198            19.699152      198            1
+199            19.797024      199            1
+200            19.894894      200            1
+201            19.992764      201            1
+202            20.099531      202            1
+203            20.197401      203            1
+204            20.295271      204            1
+205            20.393141      205            1
+206            20.499907      206            1
+207            20.597776      207            1
+208            20.695646      208            1
+209            20.793518      209            1
+210            20.891388      210            1
+211            20.998158      211            1
+212            21.096027      212            1
+213            21.193899      213            1
+214            21.291771      214            1
+215            21.398764      215            1
+216            21.498735      216            1
+217            21.599386      217            1
+218            21.698536      218            1
+219            21.798298      219            1
+220            21.898647      220            1
+221            21.999575      221            1
+222            22.098860      222            1
+223            22.198702      223            1
+224            22.299099      224            1
+225            22.400043      225            1
+226            22.499275      226            1
+227            22.599031      227            1
+228            22.699329      228            1
+229            22.797865      229            1
+230            22.899208      230            1
+231            22.998747      231            1
+232            23.098791      232            1
+233            23.199358      233            1
+234            23.298098      234            1
+235            23.399715      235            1
+236            23.499483      236            1
+237            23.599775      237            1
+238            23.698185      238            1
+239            23.799513      239            1
+240            23.898933      240            1
+241            23.998865      241            1
+242            24.099319      242            1
+243            24.197836      243            1
+244            24.299360      244            1
+245            24.398956      245            1
+246            24.499113      246            1
+247            24.599850      247            1
+248            24.698679      248            1
+249            24.798164      249            1
+250            24.898348      250            1
+251            24.999241      251            1
+252            25.098253      252            1
+253            25.198011      253            1
+254            25.298561      254            1
+255            25.399933      255            1
+256            25.499472      256            1
+257            25.599909      257            1
+258            25.698580      258            1
+259            25.798267      259            1
+260            25.899038      260            1
+261            25.998114      261            1
+262            26.098392      262            1
+263            26.199966      263            1
+264            26.299913      264            1
+265            26.398115      265            1
+266            26.497496      266            1
+267            26.598053      267            1
+268            26.699776      268            1
+269            26.799532      269            1
+270            26.897236      270            1
+271            26.999231      271            1
+272            27.099184      272            1
+273            27.197046      273            1
+274            27.299398      274            1
+275            27.399677      275            1
+276            27.497784      276            1
+277            27.597071      277            1
+278            27.697582      278            1
+279            27.799368      279            1
+280            27.898903      280            1
+281            27.999710      281            1
+282            28.098152      282            1
+283            28.197824      283            1
+284            28.298733      284            1
+285            28.397083      285            1
+286            28.496624      286            1
+287            28.597397      287            1
+288            28.699442      288            1
+289            28.798777      289            1
+290            28.899324      290            1
+291            28.997013      291            1
+292            29.100006      292            1
+293            29.195889      293            1
+294            29.297098      294            1
+295            29.399496      295            1
+296            29.498739      296            1
+297            29.599081      297            1
+298            29.696087      298            1
+299            29.798573      299            1
+300            29.897617      300            1
+301            29.997641      301            1
+302            30.098639      302            1
+303            30.195957      303            1
+304            30.298866      304            1
+305            30.398010      305            1
+306            30.498035      306            1
+307            30.598740      307            1
+308            30.697105      308            1
+309            30.796635      309            1
+310            30.896976      310            1
+311            30.996698      311            1
+312            31.095596      312            1
+313            31.197756      313            1
+314            31.298031      314            1
+315            31.395048      315            1
+316            31.497917      316            1
+317            31.596348      317            1
+318            31.695446      318            1
+319            31.795191      319            1
+320            31.895548      320            1
+321            31.996508      321            1
+322            32.098083      322            1
+323            32.194904      323            1
+324            32.297726      324            1
+325            32.395702      325            1
+326            32.499683      326            1
+327            32.598660      327            1
+328            32.698044      328            1
+329            32.797794      329            1
+330            32.897907      330            1
+331            32.998405      331            1
+332            33.099312      332            1
+333            33.195011      333            1
+334            33.296768      334            1
+335            33.398956      335            1
+336            33.495861      336            1
+337            33.598877      337            1
+338            33.696568      338            1
+339            33.794651      339            1
+340            33.898952      340            1
+341            33.997894      341            1
+342            34.097282      342            1
+343            34.197136      343            1
+344            34.297470      344            1
+345            34.398304      345            1
+346            34.499653      346            1
+347            34.595516      347            1
+348            34.697891      348            1
+349            34.794743      349            1
+350            34.898186      350            1
+351            34.996063      351            1
+352            35.094463      352            1
+353            35.199596      353            1
+354            35.299114      354            1
+355            35.399197      355            1
+356            35.499851      356            1
+357            35.594730      357            1
+358            35.695652      358            1
+359            35.799515      359            1
+360            35.899506      360            1
+361            35.995525      361            1
+362            36.098106      362            1
+363            36.195683      363            1
+364            36.297588      364            1
+365            36.397541      365            1
+366            36.496498      366            1
+367            36.598366      367            1
+368            36.698254      368            1
+369            36.799324      369            1
+370            36.898586      370            1
+371            36.997723      371            1
+372            37.098717      372            1
+373            37.198433      373            1
+374            37.299068      374            1
+375            37.397396      375            1
+376            37.498909      376            1
+377            37.597363      377            1
+378            37.698647      378            1
+379            37.799484      379            1
+380            37.899643      380            1
+381            37.998882      381            1
+382            38.096966      382            1
+383            38.197273      383            1
+384            38.299793      384            1
+385            38.396961      385            1
+386            38.499851      386            1
+387            38.596916      387            1
+388            38.699688      388            1
+389            38.796211      389            1
+390            38.898472      390            1
+391            38.998302      391            1
+392            39.099781      392            1
+393            39.198582      393            1
+394            39.298496      394            1
+395            39.395855      395            1
+396            39.499107      396            1
+397            39.599281      397            1
+398            39.696175      398            1
+399            39.798985      399            1
+400            39.898350      400            1
+401            39.998882      401            1
+402            40.095692      402            1
+403            40.198425      403            1
+404            40.297260      404            1
+405            40.396984      405            1
+406            40.497517      406            1
+407            40.598789      407            1
+408            40.695621      408            1
+409            40.798138      409            1
+410            40.896027      410            1
+411            40.999531      411            1
+412            41.098259      412            1
+413            41.197323      413            1
+414            41.296677      414            1
+415            41.396275      415            1
+416            41.496067      416            1
+417            41.596027      417            1
+418            41.696152      418            1
+419            41.796444      419            1
+420            41.896938      420            1
+421            41.997654      421            1
+422            42.097473      422            1
+423            42.198185      423            1
+424            42.298985      424            1
+425            42.399212      425            1
+426            42.496552      426            1
+427            42.595505      427            1
+428            42.699448      428            1
+429            42.797859      429            1
+430            42.894871      430            1
+431            42.998627      431            1
+432            43.097332      432            1
+433            43.196476      433            1
+434            43.296085      434            1
+435            43.396194      435            1
+436            43.496834      436            1
+437            43.598022      437            1
+438            43.699772      438            1
+439            43.796383      439            1
+440            43.899239      440            1
+441            43.996918      441            1
+442            44.095146      442            1
+443            44.199768      443            1
+444            44.299168      444            1
+445            44.399162      445            1
+446            44.499771      446            1
+447            44.595058      447            1
+448            44.696953      448            1
+449            44.799515      449            1
+450            44.896626      450            1
+451            44.994236      451            1
+452            45.095139      452            1
+453            45.196796      453            1
+454            45.298306      454            1
+455            45.398643      455            1
+456            45.496727      456            1
+457            45.599728      457            1
+458            45.696220      458            1
+459            45.798355      459            1
+460            45.894894      460            1
+461            45.995911      461            1
+462            46.095600      462            1
+463            46.199570      463            1
+464            46.294743      464            1
+465            46.397125      465            1
+466            46.499519      466            1
+467            46.595528      467            1
+468            46.697941      468            1
+469            46.793964      469            1
+470            46.898586      470            1
+471            46.999065      471            1
+472            47.098663      472            1
+473            47.199722      473            1
+474            47.299709      474            1
+475            47.398182      475            1
+476            47.497311      476            1
+477            47.599579      477            1
+478            47.699291      478            1
+479            47.798820      479            1
+480            47.897900      480            1
+481            47.999321      481            1
+482            48.096905      482            1
+483            48.199684      483            1
+484            48.298237      484            1
+485            48.398777      485            1
+486            48.498035      486            1
+487            48.599335      487            1
+488            48.699295      488            1
+489            48.797794      489            1
+490            48.898296      490            1
+491            48.997124      491            1
+492            49.097820      492            1
+493            49.196495      493            1
+494            49.296780      494            1
+495            49.398594      495            1
+496            49.497856      496            1
+497            49.598370      497            1
+498            49.695961      498            1
+499            49.798687      499            1
+500            49.898251      500            1
+501            49.998661      501            1
+502            50.095600      502            1
+503            50.197403      503            1
+504            50.299770      504            1
+505            50.398323      505            1
+506            50.497257      506            1
+507            50.596539      507            1
+508            50.696148      508            1
+509            50.796036      509            1
+510            50.896156      510            1
+511            50.996483      511            1
+512            51.097012      512            1
+513            51.197742      513            1
+514            51.298710      514            1
+515            51.395569      515            1
+516            51.497196      516            1
+517            51.599281      517            1
+518            51.697464      518            1
+519            51.796288      519            1
+520            51.895859      520            1
+521            51.996254      521            1
+522            52.097549      522            1
+523            52.195145      523            1
+524            52.298397      524            1
+525            52.397980      525            1
+526            52.498501      526            1
+527            52.599464      527            1
+528            52.695415      528            1
+529            52.795685      529            1
+530            52.899094      530            1
+531            52.997910      531            1
+532            53.097610      532            1
+533            53.197834      533            1
+534            53.298611      534            1
+535            53.395298      535            1
+536            53.497799      536            1
+537            53.596516      537            1
+538            53.696472      538            1
+539            53.797825      539            1
+540            53.895523      540            1
+541            53.994690      541            1
+542            53.999950      542            1
+543            54.095367      543            1
+544            54.197590      544            1
+545            54.295849      545            1
+546            54.395443      546            1
+547            54.496315      547            1
+548            54.598404      548            1
+549            54.695896      549            1
+550            54.794392      550            1
+551            54.899723      551            1
+552            54.994213      552            1
+553            55.099247      553            1
+554            55.196472      554            1
+555            55.299496      555            1
+556            55.399052      556            1
+557            55.495045      557            1
+558            55.598309      558            1
+559            55.697903      559            1
+560            55.799137      560            1
+561            55.897148      561            1
+562            55.997131      562            1
+563            56.099277      563            1
+564            56.198238      564            1
+565            56.299503      565            1
+566            56.397381      566            1
+567            56.497566      567            1
+568            56.594013      568            1
+569            56.698742      569            1
+570            56.797749      570            1
+571            56.896503      571            1
+572            56.995148      572            1
+573            57.093777      573            1
+574            57.198627      574            1
+575            57.297436      575            1
+576            57.396423      576            1
+577            57.495628      577            1
+578            57.595066      578            1
+579            57.694752      579            1
+580            57.794678      580            1
+581            57.894829      581            1
+582            57.995201      582            1
+583            58.095810      583            1
+584            58.196674      584            1
+585            58.297829      585            1
+586            58.399292      586            1
+587            58.497662      587            1
+588            58.596508      588            1
+589            58.693451      589            1
+590            58.792042      590            1
+591            58.893253      591            1
+592            58.993610      592            1
+593            59.097088      593            1
+594            59.195107      594            1
+595            59.294846      595            1
+596            59.398270      596            1
+597            59.496750      597            1
+598            59.595139      598            1
+599            59.698166      599            1
+600            59.798031      600            1
+601            59.898396      601            1
+602            59.996727      602            1
+603            60.099335      603            1
+604            60.198711      604            1
+605            60.297974      605            1
+606            60.396893      606            1
+607            60.499100      607            1
+608            60.595608      608            1
+609            60.698551      609            1
+610            60.799133      610            1
+611            60.899158      611            1
+612            60.998318      612            1
+613            61.098686      613            1
+614            61.195549      614            1
+615            61.295708      615            1
+616            61.399109      616            1
+617            61.498520      617            1
+618            61.598572      618            1
+619            61.699268      619            1
+620            61.798626      620            1
+621            61.898388      621            1
+622            61.996387      622            1
+623            62.097511      623            1
+624            62.196812      624            1
+625            62.296928      625            1
+626            62.397636      626            1
+627            62.498623      627            1
+628            62.598114      628            1
+629            62.698845      629            1
+630            62.797821      630            1
+631            62.897034      631            1
+632            62.997009      632            1
+633            63.099350      633            1
+634            63.197098      634            1
+635            63.297955      635            1
+636            63.397018      636            1
+637            63.497719      637            1
+638            63.597069      638            1
+639            63.698181      639            1
+640            63.797832      640            1
+641            63.899082      641            1
+642            63.998466      642            1
+643            64.099220      643            1
+644            64.198006      644            1
+645            64.298363      645            1
+646            64.396996      646            1
+647            64.497734      647            1
+648            64.597267      648            1
+649            64.699341      649            1
+650            64.797836      650            1
+651            64.895775      651            1
+652            64.999107      652            1
+653            65.096153      653            1
+654            65.194511      654            1
+655            65.294067      655            1
+656            65.394691      656            1
+657            65.496292      657            1
+658            65.598442      658            1
+659            65.695824      659            1
+660            65.797157      660            1
+661            65.896500      661            1
+662            65.998512      662            1
+663            66.095955      663            1
+664            66.196014      664            1
+665            66.297638      665            1
+666            66.398659      666            1
+667            66.497978      667            1
+668            66.596672      668            1
+669            66.696022      669            1
+670            66.797050      670            1
+671            66.897072      671            1
+672            66.996864      672            1
+673            67.096977      673            1
+674            67.197739      674            1
+675            67.299347      675            1
+676            67.398209      676            1
+677            67.498039      677            1
+678            67.599007      678            1
+679            67.697502      679            1
+680            67.797569      680            1
+681            67.895668      681            1
+682            67.996025      682            1
+683            68.098991      683            1
+684            68.195976      684            1
+685            68.299057      685            1
+686            68.399063      686            1
+687            68.495331      687            1
+688            68.596405      688            1
+689            68.697884      689            1
+690            68.795311      690            1
+691            68.897575      691            1
+692            68.995827      692            1
+693            69.099022      693            1
+694            69.194160      694            1
+695            69.295479      695            1
+696            69.396385      696            1
+697            69.495796      697            1
+698            69.598282      698            1
+699            69.695694      699            1
+700            69.799469      700            1
+701            69.898781      701            1
+702            69.996033      702            1
+703            69.999756      703            1
+704            70.096512      704            1
+705            70.197105      705            1
+706            70.297966      706            1
+707            70.399284      707            1
+708            70.497482      708            1
+709            70.596344      709            1
+710            70.695747      710            1
+711            70.799263      711            1
+712            70.899025      712            1
+713            70.999016      713            1
+714            71.095772      714            1
+715            71.197426      715            1
+716            71.296288      716            1
+717            71.396271      717            1
+718            71.497467      718            1
+719            71.595886      719            1
+720            71.695580      720            1
+721            71.796181      721            1
+722            71.897385      722            1
+723            71.999176      723            1
+724            72.097397      724            1
+725            72.196312      725            1
+726            72.295929      726            1
+727            72.396133      727            1
+728            72.496887      728            1
+729            72.598228      729            1
+730            72.695869      730            1
+731            72.798912      731            1
+732            72.898674      732            1
+733            72.997437      733            1
+734            73.095413      734            1
+735            73.196739      735            1
+736            73.298820      736            1
+737            73.398743      737            1
+738            73.496010      738            1
+739            73.598969      739            1
+740            73.698006      740            1
+741            73.798454      741            1
+742            73.898056      742            1
+743            73.997803      743            1
+744            74.098282      744            1
+745            74.196243      745            1
+746            74.298874      746            1
+747            74.399155      747            1
+748            74.497017      748            1
+749            74.596191      749            1
+750            74.696945      750            1
+751            74.795631      751            1
+752            74.895981      752            1
+753            74.997833      753            1
+754            75.097069      754            1
+755            75.197525      755            1
+756            75.299156      756            1
+757            75.397606      757            1
+758            75.496498      758            1
+759            75.595306      759            1
+760            75.698036      760            1
+761            75.796631      761            1
+762            75.899315      762            1
+763            75.998055      763            1
+764            76.097130      764            1
+765            76.196556      765            1
+766            76.296249      766            1
+767            76.396255      767            1
+768            76.496902      768            1
+769            76.598694      769            1
+770            76.697784      770            1
+771            76.798668      771            1
+772            76.896393      772            1
+773            76.998802      773            1
+774            77.095863      774            1
+775            77.195580      775            1
+776            77.297424      776            1
+777            77.396805      777            1
+778            77.497551      778            1
+779            77.595688      779            1
+780            77.699280      780            1
+781            77.797119      781            1
+782            77.897072      782            1
+783            77.995789      783            1
+784            77.999428      784            1
+785            78.097328      785            1
+786            78.198364      786            1
+787            78.299225      787            1
+788            78.396614      788            1
+789            78.498070      789            1
+790            78.596519      790            1
+791            78.699333      791            1
+792            78.799156      792            1
+793            78.895920      793            1
+794            78.997055      794            1
+795            79.098854      795            1
+796            79.197380      796            1
+797            79.296219      797            1
+798            79.399139      798            1
+799            79.498566      799            1
+800            79.598297      800            1
+801            79.698227      801            1
+802            79.798187      802            1
+803            79.897949      803            1
+804            79.997330      804            1
+805            80.096260      805            1
+806            80.198669      806            1
+807            80.297554      807            1
+808            80.397369      808            1
+809            80.498566      809            1
+810            80.597290      810            1
+811            80.697189      811            1
+812            80.797874      812            1
+813            80.898842      813            1
+814            80.995499      814            1
+815            80.999519      815            1
+816            81.095490      816            1
+817            81.198395      817            1
+818            81.295998      818            1
+819            81.395844      819            1
+820            81.497581      820            1
+821            81.597313      821            1
+822            81.698814      822            1
+823            81.798645      823            1
+824            81.897079      824            1
+825            81.997871      825            1
+826            82.097832      826            1
+827            82.197243      827            1
+828            82.296303      828            1
+829            82.398483      829            1
+830            82.497002      830            1
+831            82.598633      831            1
+832            82.696518      832            1
+833            82.797386      833            1
+834            82.897896      834            1
+835            82.998161      835            1
+836            83.098282      836            1
+837            83.198311      837            1
+838            83.298271      838            1
+839            83.398163      839            1
+840            83.497871      840            1
+841            83.597122      841            1
+842            83.698853      842            1
+843            83.796303      843            1
+844            83.899185      844            1
+845            83.998177      845            1
+846            84.097023      846            1
+847            84.196312      847            1
+848            84.296509      848            1
+849            84.397743      849            1
+850            84.496628      850            1
+851            84.596344      851            1
+852            84.696762      852            1
+853            84.797684      853            1
+854            84.898834      854            1
+855            84.996559      855            1
+856            84.999931      856            1
+857            85.097366      857            1
+858            85.197601      858            1
+859            85.296936      859            1
+860            85.398407      860            1
+861            85.498558      861            1
+862            85.597412      862            1
+863            85.698296      863            1
+864            85.798248      864            1
+865            85.897491      865            1
+866            85.999207      866            1
+867            86.097252      867            1
+868            86.197800      868            1
+869            86.297852      869            1
+870            86.397476      870            1
+871            86.496696      871            1
+872            86.598503      872            1
+873            86.696907      873            1
+874            86.797882      874            1
+875            86.898445      875            1
+876            86.998558      876            1
+877            87.098228      877            1
+878            87.197449      878            1
+879            87.299103      879            1
+880            87.397354      880            1
+881            87.498009      881            1
+882            87.598175      882            1
+883            87.697823      883            1
+884            87.796829      884            1
+885            87.897827      885            1
+886            87.997841      886            1
+887            88.096748      887            1
+888            88.197258      888            1
+889            88.296837      889            1
+890            88.398468      890            1
+891            88.497032      891            1
+892            88.598061      892            1
+893            88.698975      893            1
+894            88.797234      894            1
+895            88.898125      895            1
+896            88.998909      896            1
+897            89.096809      897            1
+898            89.196999      898            1
+899            89.296768      899            1
+900            89.398796      900            1
+901            89.497932      901            1
+902            89.596710      902            1
+903            89.697548      903            1
+904            89.797577      904            1
+905            89.899040      905            1
+906            89.999130      906            1
+907            90.097702      907            1
+908            90.197128      908            1
+909            90.297394      909            1
+910            90.398682      910            1
+911            90.498909      911            1
+912            90.598305      912            1
+913            90.696991      913            1
+914            90.797256      914            1
+915            90.898933      915            1
+916            90.997368      916            1
+917            90.999596      917            1
+918            91.099159      918            1
+919            91.197655      919            1
+920            91.297287      920            1
+921            91.398048      921            1
+922            91.497818      922            1
+923            91.598694      923            1
+924            91.698486      924            1
+925            91.799164      925            1
+926            91.898529      926            1
+927            91.994476      927            1
+928            91.999649      928            1
+929            92.093620      929            1
+930            92.194557      930            1
+931            92.295479      931            1
+932            92.396393      932            1
+933            92.497284      933            1
+934            92.598167      934            1
+935            92.699028      935            1
+936            92.793571      936            1
+937            92.894409      937            1
+938            92.995239      938            1
+939            93.096054      939            1
+940            93.196861      940            1
+941            93.297661      941            1
+942            93.398453      942            1
+943            93.492920      943            1
+944            93.593674      944            1
+945            93.694130      945            1
+946            93.798470      946            1
+947            93.894218      947            1
+948            93.993454      948            1
+949            93.999214      949            1
+950            94.095642      950            1
+951            94.194656      951            1
+952            94.295464      952            1
+953            94.397217      953            1
+954            94.499069      954            1
+955            94.595764      955            1
+956            94.695816      956            1
+957            94.796463      957            1
+958            94.897522      958            1
+959            94.998192      959            1
+960            95.097672      960            1
+961            95.195129      961            1
+962            95.295425      962            1
+963            95.398483      963            1
+964            95.498398      964            1
+965            95.594734      965            1
+966            95.693306      966            1
+967            95.794113      967            1
+968            95.896873      968            1
+969            95.994904      969            1
+970            96.094551      970            1
+971            96.195740      971            1
+972            96.298393      972            1
+973            96.395454      973            1
+974            96.493706      974            1
+975            96.593170      975            1
+976            96.693840      976            1
+977            96.795700      977            1
+978            96.898735      978            1
+979            96.995483      979            1
+980            97.098320      980            1
+981            97.197815      981            1
+982            97.295593      982            1
+983            97.391281      983            1
+984            97.493439      984            1
+985            97.596687      985            1
+986            97.691605      986            1
+987            97.797691      987            1
+988            97.898926      988            1
+989            97.993690      989            1
+990            98.094635      990            1
+991            98.195473      991            1
+992            98.296059      992            1
+993            98.396629      993            1
+994            98.497223      994            1
+995            98.597824      995            1
+996            98.698425      996            1
+997            98.799034      997            1
+998            98.893364      998            1
+999            98.993980      999            1
+1000           99.094604      1000           1
+1001           99.195229      1001           1
+1002           99.295860      1002           1
+1003           99.396500      1003           1
+1004           99.497131      1004           1
+1005           99.597763      1005           1
+1006           99.698402      1006           1
+1007           99.799042      1007           1
+1008           99.893394      1008           1
+1009           99.993752      1009           1
+1010           99.999969      1010           1
+</pre></div>
+</div>
+<p>In this case, the Unit System is not attached to the data_source, but it can
+be directly assigned to the results. As we are employing the dpf.Model API, we
+only need to assign the Unit System once (the Model will assign it for the
+rest of the results).</p>
+<p>Results from the matsum branch of the binout file are a FieldsContainer on a
+LabelSpace comprised by part IDs. Extract part kinetic energy for all parts:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PKE_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">part_kinetic_energy</span><span class="p">()</span>
+<span class="n">PKE_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">unit_system</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">unit_systems</span><span class="o">.</span><span class="n">solver_mks</span><span class="p">)</span>
+<span class="n">PKE</span> <span class="o">=</span> <span class="n">PKE_op</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">PKE</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Fields Container
+  with 129 field(s)
+  defined on labels: part
+
+  with:
+  - field 0 {part:  1} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 1 {part:  2} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 2 {part:  3} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 3 {part:  4} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 4 {part:  5} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 5 {part:  6} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 6 {part:  7} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 7 {part:  8} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 8 {part:  9} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 9 {part:  10} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 10 {part:  11} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 11 {part:  12} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 12 {part:  13} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 13 {part:  14} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 14 {part:  15} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 15 {part:  16} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 16 {part:  17} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 17 {part:  18} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 18 {part:  19} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 19 {part:  20} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 20 {part:  21} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 21 {part:  22} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 22 {part:  23} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 23 {part:  24} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 24 {part:  25} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 25 {part:  26} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 26 {part:  27} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 27 {part:  28} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 28 {part:  29} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 29 {part:  30} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 30 {part:  31} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 31 {part:  32} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 32 {part:  33} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 33 {part:  34} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 34 {part:  35} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 35 {part:  36} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 36 {part:  37} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 37 {part:  38} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 38 {part:  39} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 39 {part:  40} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 40 {part:  41} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 41 {part:  42} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 42 {part:  43} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 43 {part:  44} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 44 {part:  45} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 45 {part:  46} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 46 {part:  47} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 47 {part:  48} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 48 {part:  49} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 49 {part:  50} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 50 {part:  51} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 51 {part:  52} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 52 {part:  53} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 53 {part:  54} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 54 {part:  55} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 55 {part:  56} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 56 {part:  57} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 57 {part:  58} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 58 {part:  59} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 59 {part:  60} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 60 {part:  61} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 61 {part:  62} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 62 {part:  63} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 63 {part:  64} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 64 {part:  65} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 65 {part:  66} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 66 {part:  67} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 67 {part:  68} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 68 {part:  69} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 69 {part:  70} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 70 {part:  71} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 71 {part:  72} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 72 {part:  73} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 73 {part:  74} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 74 {part:  75} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 75 {part:  76} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 76 {part:  77} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 77 {part:  78} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 78 {part:  79} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 79 {part:  80} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 80 {part:  81} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 81 {part:  82} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 82 {part:  83} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 83 {part:  84} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 84 {part:  85} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 85 {part:  86} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 86 {part:  87} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 87 {part:  88} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 88 {part:  89} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 89 {part:  90} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 90 {part:  91} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 91 {part:  92} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 92 {part:  93} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 93 {part:  301} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 94 {part:  303} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 95 {part:  304} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 96 {part:  305} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 97 {part:  306} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 98 {part:  307} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 99 {part:  308} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 100 {part:  309} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 101 {part:  310} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 102 {part:  311} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 103 {part:  312} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 104 {part:  718} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 105 {part:  1500} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 106 {part:  1501} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 107 {part:  1502} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 108 {part:  1503} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 109 {part:  1504} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 110 {part:  1505} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 111 {part:  1506} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 112 {part:  1507} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 113 {part:  1508} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 114 {part:  1509} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 115 {part:  1510} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 116 {part:  1511} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 117 {part:  1512} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 118 {part:  1513} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 119 {part:  1514} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 120 {part:  1515} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 121 {part:  1516} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 122 {part:  1517} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 123 {part:  1518} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 124 {part:  1519} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 125 {part:  1520} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 126 {part:  1521} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 127 {part:  1522} with TimeFreq_steps location, 1 components and 101 entities.
+  - field 128 {part:  1523} with TimeFreq_steps location, 1 components and 101 entities.
+</pre></div>
+</div>
+<p>Extract part internal energy for only a selected number of parts.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">part_sco</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1522</span><span class="p">],</span> <span class="n">location</span><span class="o">=</span><span class="s2">&quot;part&quot;</span><span class="p">)</span>
+<span class="n">PIE_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">part_internal_energy</span><span class="p">()</span>
+<span class="n">PIE_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">entity_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">part_sco</span><span class="p">)</span>
+<span class="n">PIE</span> <span class="o">=</span> <span class="n">PIE_op</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Plot part kinetic and internal energy for a selection of parts. In this case,
+the TimeFreqSupport of the matsum branch does not have all the time steps in
+the binout file. Thus, a rescoping operation is needed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rescope_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">rescope</span><span class="p">()</span>
+<span class="n">rescope_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">PKE</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="p">)</span>
+<span class="n">rescope_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">PKE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scoping</span><span class="p">)</span>
+<span class="n">t_field</span> <span class="o">=</span> <span class="n">rescope_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_as_field</span><span class="p">()</span>
+<span class="n">t_vals</span> <span class="o">=</span> <span class="n">t_field</span><span class="o">.</span><span class="n">data</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">PKE</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;part&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Kinetic, Part 50&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">PKE</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;part&quot;</span><span class="p">:</span> <span class="mi">1522</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Kinetic, Part 1522&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">PIE</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;part&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal, Part 50&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">PIE</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;part&quot;</span><span class="p">:</span> <span class="mi">1522</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal, Part 1522&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (</span><span class="si">{:s}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t_field</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Energy (</span><span class="si">{:s}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PIE</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;part&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">})</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_02-lsdyna_operators_004.png" srcset="../../_images/sphx_glr_02-lsdyna_operators_004.png" alt="02 lsdyna operators" class = "sphx-glr-single-img"/><p>Similarly, results from the rcforc branch of the binout file are a
+FieldsContainer on a LabelSpace comprised by interface IDs. Extract interface
+contact force for only one interface.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">interface_sco</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span> <span class="n">location</span><span class="o">=</span><span class="s2">&quot;interface&quot;</span><span class="p">)</span>
+<span class="n">FC_op</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">interface_contact_force</span><span class="p">()</span>
+<span class="n">FC_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">entity_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">interface_sco</span><span class="p">)</span>
+<span class="n">FC</span> <span class="o">=</span> <span class="n">FC_op</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">FC</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Fields Container
+  with 2 field(s)
+  defined on labels: idtype interface
+
+  with:
+  - field 0 {interface:  19, idtype:  0} with TimeFreq_steps location, 3 components and 1001 entities.
+  - field 1 {interface:  19, idtype:  1} with TimeFreq_steps location, 3 components and 1001 entities.
+</pre></div>
+</div>
+<p>In addition to interface, the FieldsContainer is scoped on idtype (0 for the
+master side of the interface, 1 for the slave). Contact force is a vector, and
+the three components are available.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rescope_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">rescope</span><span class="p">()</span>
+<span class="n">rescope_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">FC</span><span class="o">.</span><span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span><span class="p">)</span>
+<span class="n">rescope_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">FC</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scoping</span><span class="p">)</span>
+<span class="n">t_field</span> <span class="o">=</span> <span class="n">rescope_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_as_field</span><span class="p">()</span>
+<span class="n">t_vals</span> <span class="o">=</span> <span class="n">t_field</span><span class="o">.</span><span class="n">data</span>
+
+<span class="n">FX</span> <span class="o">=</span> <span class="n">FC</span><span class="o">.</span><span class="n">select_component</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">FY</span> <span class="o">=</span> <span class="n">FC</span><span class="o">.</span><span class="n">select_component</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">FZ</span> <span class="o">=</span> <span class="n">FC</span><span class="o">.</span><span class="n">select_component</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">FX</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;idtype&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;FX, slave&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">FX</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;idtype&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;FX, master&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">FY</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;idtype&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;FY, slave&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">FY</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;idtype&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;FY, master&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">FZ</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;idtype&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;FZ, slave&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_vals</span><span class="p">,</span> <span class="n">FZ</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;idtype&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;FZ, master&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (</span><span class="si">{:s}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t_field</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Contact Force (</span><span class="si">{:s}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">FX</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;idtype&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_02-lsdyna_operators_005.png" srcset="../../_images/sphx_glr_02-lsdyna_operators_005.png" alt="02 lsdyna operators" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  14.197 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-01-transient-analyses-02-lsdyna-operators-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/5cf599e13e3ed93547ec2e2781e05526/02-lsdyna_operators.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-lsdyna_operators.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/f3efe8154f20ce6850a94eee4431f37b/02-lsdyna_operators.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">02-lsdyna_operators.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+            </article>
+            
+            
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Results extraction and analysis from LS-DYNA sources
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#d3plot-file-results-extraction">
+   d3plot file results extraction
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#binout-file-results-extraction">
+   binout file results extraction
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+<div class="tocsection sourcelink">
+    <a href="../../_sources/examples/01-transient_analyses/02-lsdyna_operators.rst.txt">
+        <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+</div>
+
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>
