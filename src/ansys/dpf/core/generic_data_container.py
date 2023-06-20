@@ -85,7 +85,7 @@ class GenericDataContainer:
         ----------
         property_name : str
             Property name.
-        prop : type
+        prop : Int, String, Float, Field, StringField, GenericDataContainer, Scoping
             object instance.
         """
 
