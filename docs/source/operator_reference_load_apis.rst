@@ -9,7 +9,7 @@ Loading operators.
 .. raw:: html
 
     <iframe
-      src="_static/dpf_operators.html#CPython"
+      src="_static/dpf_operators.html"
       style="
         position: fixed;
         top: 36px;
