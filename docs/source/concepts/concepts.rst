@@ -72,7 +72,7 @@ This image summarizes the preceding concepts:
 
 Operators
 ---------
-You use :ref:`ref_dpf_operators_reference` to create, transform and stream the data. An
+You use :ref:`ref_dpf_operators_reference` to create, transform, and stream the data. An
 *operator* is composed of a core and input and output pins.
 
 - The core handles the calculation.
