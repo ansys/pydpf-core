@@ -391,7 +391,9 @@ class Collection:
         try:
             internal_obj = self._api.collection_get_support(self, "time")
         except err.DPFServerException as e:
-            pass
+            str_to_ignore = "The collection does not have a support."
+            if str_to_ignore not in str(e):
+                raise e
         if not internal_obj:
             return None
 
