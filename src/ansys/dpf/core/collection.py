@@ -383,16 +383,26 @@ class Collection:
             capi=data_processing_capi.DataProcessingCAPI,
             grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
         )
+        internal_obj = None
+        # LegacyGrpcServer throws UNAVAILABLE when retrieving nullptr
+        # This is all to obtain a None instead of throwing
+        import ansys.dpf.gate.errors as err
+
+        try:
+            internal_obj = self._api.collection_get_support(self, "time")
+        except err.DPFServerException as e:
+            pass
+        if not internal_obj:
+            return None
+
         support = object_handler.ObjHandler(
             data_processing_api=data_api,
-            internal_obj=self._api.collection_get_support(self, "time"),
+            internal_obj=internal_obj,
             server=self._server,
         )
         support_api = self._server.get_api_for_type(
             capi=support_capi.SupportCAPI, grpcapi=support_grpcapi.SupportGRPCAPI
         )
-        if not support._internal_obj:
-            return None
 
         time_freq = support_api.support_get_as_time_freq_support(support)
         res = TimeFreqSupport(time_freq_support=time_freq, server=self._server)
