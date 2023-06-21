@@ -463,6 +463,7 @@ class MeshedRegion:
             grid["node_ids"] = self._nodeids
             grid["element_ids"] = self._elementids
 
+        self.as_linear = as_linear  # store as_linear to avoid passing through here again
         return grid
 
     @property

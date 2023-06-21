@@ -713,11 +713,19 @@ def test_plot_polyhedron():
     elements_faces = [[0, 1, 2, 3, 4, 5, 6]]
     # Define the types of faces in the mesh
     faces_types = [[element_types.Polygon.value]] * 7
+    # Define the types of elements in the mesh
+    cell_types = [[element_types.Polyhedron.value]]
 
     # Create mesh object and add nodes and elements
     mesh = core.MeshedRegion()
     for index, node_coordinates in enumerate(polyhedron_points):
         mesh.nodes.add_node(index, node_coordinates)
+
+    # Set the "cell_types" PropertyField
+    cell_types_f = core.PropertyField()
+    for cell_index, cell_type in enumerate(cell_types):
+        cell_types_f.append(cell_type, cell_index)
+    mesh.set_property_field("eltype", cell_types_f)
 
     # Set the "faces_nodes_connectivity" PropertyField
     connectivity_f = core.PropertyField()
