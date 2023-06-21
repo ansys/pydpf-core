@@ -22,13 +22,13 @@ class IncrementalHelper:
         Given the first and the last operator of a workflow, as well as the scoping.
 
         This class can be used to simplify the use of incremental operators, and automatically
-        enable to incrementally evaluate a workflow.
+        be enabled to incrementally evaluate a workflow.
 
         Under the constraint that the end_op supports incremental evaluation.
         """
-        # input operator should accept a scoping
-        # last operator should support incremental evaluation
-        #     but it should be permissive too (bad doc/spec whatever)
+        # Input operator should accept a scoping
+        # Last operator should support incremental evaluation
+        # but it should be permissive too (bad doc/spec whatever)
         self._start_op = start_op
         self._end_op = self._map_to_incremental(end_op)
 
@@ -37,14 +37,14 @@ class IncrementalHelper:
 
     def estimate_size(self, max_bytes: int, _dict_inputs: Dict[int, Any]) -> int:
         """
-        Estimation is based on the size of the output for one id of the given time_scoping.
-        Thus it will run the operator for only "one" iteration.
+        Estimation is based on the size of the output for one ID of the given time_scoping,
+        so it will run the operator for only one iteration.
 
         It only supports Field and FieldContainer.
         For other types, you should specify chunk_size argument in the split() method.
         """
-        # evaluate for the first element to try to guess memory consumption
-        # best to use with a lot of elements
+        # Evaluate for the first element to try to guess memory consumption
+        # It is best to use with a lot of elements
         first_id = self._scoping.ids[0]
         srv = self._scoping._server
         loc = self._scoping.location
@@ -54,10 +54,10 @@ class IncrementalHelper:
 
         _outputs = outputs._outputs
         data = map(lambda o: o.get_data(), _outputs)
-        # output sizes of all inputs for 1 iteration
+        # Output sizes of all inputs for one iteration
         sizes = map(lambda obj: self._compute_size(obj), data)
 
-        # total size for 1 id in the scoping
+        # Total size for one ID in the scoping
         size_for_one = sum(sizes)
         # total_size = size_for_one * self._scoping.size
 
@@ -71,7 +71,7 @@ class IncrementalHelper:
             return self._compute_size(fc[0])
         elif isinstance(obj, core.Field):
             field = obj
-            # double = 8 bytes assumption
+            # Double = 8 bytes assumption
             return field.size * 8
 
         raise NotImplementedError()
@@ -84,7 +84,7 @@ class IncrementalHelper:
         self._start_op.run()
         return self._start_op.outputs
 
-    # Transforms an user workflow:
+    # Transforms a user workflow:
     #
     #           +----------+    +---------------+    +---------+
     # scoping ->| start_op | -> | middle ops... | -> | end_op  | ->
@@ -108,11 +108,11 @@ class IncrementalHelper:
         self, chunk_size: int, end_input_pin: int = 0, rescope: bool = False
     ) -> core.Operator:
         """
-        Given a chunk size (multiple of given scoping), it will give a new operator to retrieve
+        Given a chunk size (multiple of given scoping), it will provide a new operator to retrieve
         outputs from, and enable incremental evaluation, notably reducing peak memory usage.
         """
-        # enables incremental evaluation:
-        # using for_each, chunk_in_for_each_range and incremental version of the last op
+        # Enables incremental evaluation:
+        # Using for_each, chunk_in_for_each_range and incremental version of the last operator
         # by returning two operators with remapped inputs and outputs to other operators
 
         _server = self._start_op._server
@@ -222,7 +222,7 @@ def split_workflow_in_chunks(
     end_input_pin: int = 0,
 ):
     """
-    This method helps transforming a workflow into an incrementally evaluating one.
+    This method helps transform a workflow into an incrementally evaluating one.
 
     It wraps in one method the functionality of the IncrementalHelper class as well
     as the estimation of the chunk size.

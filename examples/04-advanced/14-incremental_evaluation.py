@@ -4,7 +4,7 @@
 Use incremental evaluation helper
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This example shows how to use the incremental evaluation helper.
+This example shows you how to use the incremental evaluation helper.
 """
 
 # Import necessary modules
@@ -23,7 +23,7 @@ tf_provider = dpf.operators.metadata.time_freq_provider(data_sources=ds)
 tf_support = tf_provider.get_output(output_type=dpf.types.time_freq_support)
 scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(tf_support)
 
-# if you don't need to reuse TimeFreqSupport you could also use the DataSources
+# If you don't need to reuse TimeFreqSupport you could also use the DataSources
 # scoping = dpf.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)
 
 #######################################################################################
