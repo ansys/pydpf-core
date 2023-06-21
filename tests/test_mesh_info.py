@@ -20,34 +20,37 @@ def test_set_get_num_of(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
     """Number of nodes"""
     num_nodes = 189
-    mesh_info.set_number_nodes(189)
-    assert mesh_info.get_number_nodes() == num_nodes
+    mesh_info.set_num_nodes(189)
+    assert mesh_info.get_num_nodes() == num_nodes
     """ Number of elements """
     num_elements = 2
-    mesh_info.set_number_elements(2)
-    assert mesh_info.get_number_elements() == num_elements
+    mesh_info.set_num_elements(2)
+    assert mesh_info.get_num_elements() == num_elements
 
 
 def test_set_get_property_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
+
     """Scoping"""
-    entity_scoping = dpf.Scoping()
+    scoping = dpf.Scoping()
     expected_ids = [1, 2, 3]
-    entity_scoping._set_ids(expected_ids)
-    mesh_info.set_property("my-property00", entity_scoping)
+    scoping._set_ids(expected_ids)
+    mesh_info.set_property("my-property00", scoping)
     result_scoping = mesh_info.get_property("my-property00", dpf.Scoping)
     for x in range(len(expected_ids)):
-        assert result_scoping.id(x) == entity_scoping.id(x)
+        assert result_scoping.id(x) == scoping.id(x)
+
     """ Field """
-    entity_field = dpf.Field()
-    mesh_info.set_property("my-property01", entity_field)
+    field = dpf.Field()
+    mesh_info.set_property("my-property01", field)
     result_field = mesh_info.get_property("my-property01", dpf.Field)
-    assert result_field.component_count == entity_field.component_count
+    assert result_field.component_count == field.component_count
+
     """ MeshedRegion """
-    entity_meshedregion = dpf.MeshedRegion()
-    mesh_info.set_property("my-property02", entity_meshedregion)
+    meshedregion = dpf.MeshedRegion()
+    mesh_info.set_property("my-property02", meshedregion)
     result_meshedregion = mesh_info.get_property("my-property02", dpf.MeshedRegion)
-    assert result_meshedregion.nodes.n_nodes == entity_meshedregion.nodes.n_nodes
+    assert result_meshedregion.nodes.n_nodes == meshedregion.nodes.n_nodes
 
 
 @pytest.mark.skipif(
@@ -55,24 +58,24 @@ def test_set_get_property_mesh_info(server_type):
 )
 def test_set_get_splittable_by_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
-    entity_splittable = dpf.StringField()
+    splittable = dpf.StringField()
     expected_splittable = {"split_01", "split_02", "split_03"}
-    entity_splittable._set_data(expected_splittable)
-    mesh_info.set_splittable_by(entity_splittable)
+    splittable._set_data(expected_splittable)
+    mesh_info.set_splittable_by(splittable)
     result_splittable = mesh_info.get_splittable_by()
     for i, strings in enumerate(expected_splittable):
-        assert result_splittable.get_entity_data_by_id(i) == entity_splittable.get_entity_data_by_id(i)
+        assert result_splittable.get_entity_data_by_id(i) == splittable.get_entity_data_by_id(i)
 
 
 def test_set_get_available_elem_types_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
-    expected_available = [1, 2, 3]
-    entity_available = dpf.Scoping()
-    entity_available._set_ids(expected_available)
-    mesh_info.set_available_elem_types(entity_available)
+    available_results_ids = [1, 2, 3]
+    available_results = dpf.Scoping()
+    available_results._set_ids(available_results_ids)
+    mesh_info.set_available_elem_types(available_results)
     result_available = mesh_info.get_available_elem_types()
-    for x in range(len(expected_available)):
-        assert result_available.id(x) == entity_available.id(x)
+    for x in range(len(available_results)):
+        assert result_available.id(x) == available_results.id(x)
 
 def test_output_mesh_info_provider_fluent():
     dpf.load_library(r"C:\Program Files\ANSYS Inc\v241\dpf\plugins\dpf_cff\Ans.Dpf.CFF.dll", "cff")
@@ -82,7 +85,7 @@ def test_output_mesh_info_provider_fluent():
 
     mesh_info = dpf.operators.metadata.mesh_info_provider()
     mesh_info.inputs.data_sources(ds)
-    mesh_info_out = mesh_info.outputs.generic_data_container()
+    mesh_info_out = mesh_info.outputs.mesh_info()
 
     """************************ NUMBER OF CELLS/FACES/ZONES ************************"""
 
