@@ -131,3 +131,30 @@ def test_incremental_average(server_type, plate_msup):
     ref_field = ref_op.get_output(0, core.types.field)
 
     assert np.isclose(ref_field.data, inc_field.data).all()
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    reason="for_each not implemented below 6.0",
+)
+def test_incremental_estimation(server_type, plate_msup):
+    ds = core.DataSources(plate_msup, server=server_type)
+    scoping = core.time_freq_scoping_factory.scoping_on_all_time_freqs(ds)
+
+    def create_wf():
+        res_op = core.operators.result.displacement(
+            data_sources=ds, time_scoping=scoping, server=server_type
+        )
+        concat_op = core.Operator("incremental::merge::fields_container", server=server_type)
+        concat_op.connect(0, res_op, 0)
+
+        return (res_op, concat_op)
+
+    # incremental
+    (start_op, end_op) = create_wf()
+
+    helper = core.IncrementalHelper(start_op, end_op, scoping, scoping_pin=0)
+    # 9432 bytes per output according to the heuristic for this plate_msup example
+    chunk_size = helper.estimate_size(max_bytes=50 * 1024)
+
+    assert chunk_size == 5

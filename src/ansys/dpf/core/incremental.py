@@ -35,7 +35,7 @@ class IncrementalHelper:
         self._scoping = scoping
         self._scoping_pin = self._find_scoping_pin(scoping_pin)
 
-    def estimate_size(self, max_bytes: int, _dict_inputs: Dict[int, Any]) -> int:
+    def estimate_size(self, max_bytes: int, _dict_inputs: Dict[int, Any] = {}) -> int:
         """
         Estimation is based on the size of the output for one ID of the given time_scoping,
         so it will run the operator for only one iteration.
