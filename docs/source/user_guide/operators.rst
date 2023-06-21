@@ -6,7 +6,7 @@ Operators
 
 ..    include:: <isonum.txt>
 
-An operator is the only object that is used to create and transform 
+An operator is the main object that is used to create, transform, and stream 
 data. In DPF, you use operators to load, operate on, and output data.
 
 Each operator contains ``input`` and ``output`` attributes, which
