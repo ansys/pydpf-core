@@ -28,7 +28,7 @@ Here are descriptions for key DPF terms:
   the support can be a mesh, geometrical entity, or time or frequency values.
 - **Workflow:** Global entity that is used to evaluate the data produced
   by chained operators.
-- **Meshed region** entity describing a mesh. Node and element scopings, 
+- **Meshed region:** Entity describing a mesh. Node and element scopings, 
   element types, connectivity (list of node indices composing each element) and 
   node coordinates are the fundamental entities composing the meshed region.
 
