@@ -21,6 +21,13 @@ class change_shell_layers(Operator):
     e_shell_layer : int
         0:top, 1: bottom, 2: bottomtop, 3:mid,
         4:bottomtopmid
+    mesh : MeshedRegion or MeshesContainer, optional
+        Mesh support of the input fields_container,
+        in case it does not have one defined.
+        if the fields_container contains
+        mixed shell/solid results, the mesh
+        is required (either by connecting
+        this pin or in the support).
 
 
     Examples
@@ -35,11 +42,14 @@ class change_shell_layers(Operator):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_e_shell_layer = int()
     >>> op.inputs.e_shell_layer.connect(my_e_shell_layer)
+    >>> my_mesh = dpf.MeshedRegion()
+    >>> op.inputs.mesh.connect(my_mesh)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.change_shell_layers(
     ...     fields_container=my_fields_container,
     ...     e_shell_layer=my_e_shell_layer,
+    ...     mesh=my_mesh,
     ... )
 
     >>> # Get output data
@@ -47,7 +57,12 @@ class change_shell_layers(Operator):
     """
 
     def __init__(
-        self, fields_container=None, e_shell_layer=None, config=None, server=None
+        self,
+        fields_container=None,
+        e_shell_layer=None,
+        mesh=None,
+        config=None,
+        server=None,
     ):
         super().__init__(name="change_shellLayers", config=config, server=server)
         self._inputs = InputsChangeShellLayers(self)
@@ -56,6 +71,8 @@ class change_shell_layers(Operator):
             self.inputs.fields_container.connect(fields_container)
         if e_shell_layer is not None:
             self.inputs.e_shell_layer.connect(e_shell_layer)
+        if mesh is not None:
+            self.inputs.mesh.connect(mesh)
 
     @staticmethod
     def _spec():
@@ -76,6 +93,17 @@ class change_shell_layers(Operator):
                     optional=False,
                     document="""0:top, 1: bottom, 2: bottomtop, 3:mid,
         4:bottomtopmid""",
+                ),
+                2: PinSpecification(
+                    name="mesh",
+                    type_names=["abstract_meshed_region", "meshes_container"],
+                    optional=True,
+                    document="""Mesh support of the input fields_container,
+        in case it does not have one defined.
+        if the fields_container contains
+        mixed shell/solid results, the mesh
+        is required (either by connecting
+        this pin or in the support).""",
                 ),
             },
             map_output_pin_spec={
@@ -117,7 +145,7 @@ class change_shell_layers(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -138,6 +166,8 @@ class InputsChangeShellLayers(_Inputs):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_e_shell_layer = int()
     >>> op.inputs.e_shell_layer.connect(my_e_shell_layer)
+    >>> my_mesh = dpf.MeshedRegion()
+    >>> op.inputs.mesh.connect(my_mesh)
     """
 
     def __init__(self, op: Operator):
@@ -148,6 +178,8 @@ class InputsChangeShellLayers(_Inputs):
         self._inputs.append(self._fields_container)
         self._e_shell_layer = Input(change_shell_layers._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._e_shell_layer)
+        self._mesh = Input(change_shell_layers._spec().input_pin(2), 2, op, -1)
+        self._inputs.append(self._mesh)
 
     @property
     def fields_container(self):
@@ -187,6 +219,31 @@ class InputsChangeShellLayers(_Inputs):
         >>> op.inputs.e_shell_layer(my_e_shell_layer)
         """
         return self._e_shell_layer
+
+    @property
+    def mesh(self):
+        """Allows to connect mesh input to the operator.
+
+        Mesh support of the input fields_container,
+        in case it does not have one defined.
+        if the fields_container contains
+        mixed shell/solid results, the mesh
+        is required (either by connecting
+        this pin or in the support).
+
+        Parameters
+        ----------
+        my_mesh : MeshedRegion or MeshesContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.change_shell_layers()
+        >>> op.inputs.mesh.connect(my_mesh)
+        >>> # or
+        >>> op.inputs.mesh(my_mesh)
+        """
+        return self._mesh
 
 
 class OutputsChangeShellLayers(_Outputs):

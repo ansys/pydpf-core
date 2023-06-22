@@ -18,19 +18,24 @@ development mode by running this code:
 
 .. code::
 
-    git clone https://github.com/pyansys/pydpf-core
+    git clone https://github.com/ansys/pydpf-core
     cd pydpf-core
     pip install -e .
 
 
 Post issues
 -----------
-Use the `PyDPF-Core Issues <https://github.com/pyansys/pydpf-core/issues>`_
+Use the `PyDPF-Core Issues <https://github.com/ansys/pydpf-core/issues>`_
 page to submit questions, report bugs, and request new features.
 
-To reach the PyAnsys support team, email `pyansys.support@ansys.com <pyansys.support@ansys.com>`_.
+To reach the project support team, email `pyansys.core@ansys.com <pyansys.core@ansys.com>`_.
 
 View documentation
 ------------------
 Documentation for the latest stable release of PyDPF-Core is hosted at
-`PyDPF-Core Documentation <https://dpf.docs.pyansys.com/>`_.  
+`PyDPF-Core Documentation <https://dpf.docs.pyansys.com/>`_. 
+
+In the upper right corner of the documentation's title bar, there is an option
+for switching from viewing the documentation for the latest stable release
+to viewing the documentation for the development version or previously
+released versions.
