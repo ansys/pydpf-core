@@ -299,7 +299,7 @@ class Operator:
             workflow,
             collection,
             streams_container,
-            generic_data_container
+            generic_data_container,
         )
 
         return [
@@ -375,7 +375,7 @@ class Operator:
             (
                 generic_data_container.GenericDataContainer,
                 self._api.operator_getoutput_generic_data_container,
-                "generic_data_container"
+                "generic_data_container",
             ),
             (
                 dpf_vector.DPFVectorInt,
@@ -409,7 +409,7 @@ class Operator:
             data_tree,
             workflow,
             model,
-            generic_data_container
+            generic_data_container,
         )
 
         return [
@@ -442,7 +442,10 @@ class Operator:
             (workflow.Workflow, self._api.operator_connect_workflow),
             (data_tree.DataTree, self._api.operator_connect_data_tree),
             (Operator, self._api.operator_connect_operator_as_input),
-            (generic_data_container.GenericDataContainer, self._api.operator_connect_generic_data_container)
+            (
+                generic_data_container.GenericDataContainer,
+                self._api.operator_connect_generic_data_container,
+            ),
         ]
 
     def get_output(self, pin=0, output_type=None):
