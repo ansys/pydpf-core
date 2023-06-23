@@ -16,6 +16,11 @@ from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.outputs import _modify_output_spec_with_one_type
 {{/multiple_output_types}}
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
+{{#output_pins}}
+{{#derived_type_name}}
+from ansys.dpf.core.{{name}} import {{derived_type_name.0}}
+{{/derived_type_name}}
+{{/output_pins}}
 
 class {{class_name}}(Operator):
     """{{{docstring}}}
@@ -87,6 +92,7 @@ class {{class_name}}(Operator):
                     {{^has_types}}
                     type_names=["any"],
                     {{/has_types}}
+                    derived_class_type_name={{{derived_type_name}}},
                     optional={{optional}},
                     document="""{{{document}}}""",
                 ),
@@ -99,6 +105,7 @@ class {{class_name}}(Operator):
                     {{#has_types}}
                     type_names={{{types}}},
                     {{/has_types}}
+                    derived_class_type_name={{{derived_type_name}}},
                     optional={{optional}},
                     document="""{{{document}}}""",
                 ),
@@ -224,7 +231,12 @@ class Outputs{{capital_class_name}}(_Outputs):
 
         Returns
         ----------
+        {{#derived_type_name}}
+        my_{{name}} : {{derived_type_name.0}}
+        {{/derived_type_name}}
+        {{^derived_type_name}}
         my_{{name}} :{{#types_for_docstring}} {{types_for_docstring}}{{/types_for_docstring}}
+        {{/derived_type_name}}
 
         Examples
         --------
@@ -233,5 +245,10 @@ class Outputs{{capital_class_name}}(_Outputs):
         >>> # Connect inputs : op.inputs. ...
         >>> result_{{name}} = op.outputs.{{name}}()
         """ # noqa: E501
+        {{#derived_type_name}}
+        return {{derived_type_name.0}}(self._{{name}})
+        {{/derived_type_name}}
+        {{^derived_type_name}}
         return self._{{name}}
+        {{/derived_type_name}}
     {{/multiple_types}}{{/output_pins}}

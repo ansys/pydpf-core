@@ -51,13 +51,15 @@ class PinSpecification:
 
     name: str
     _type_names: list
+    derived_class_type_name = str
     document: str
     optional: bool
     ellipsis: bool
 
-    def __init__(self, name, type_names, document="", optional=False, ellipsis=False):
+    def __init__(self, name, type_names, derived_class_type_name, document="", optional=False, ellipsis=False):
         self.name = name
         self.type_names = type_names
+        self.derived_class_type_name = derived_class_type_name
         self.optional = optional
         self.document = document
         self.ellipsis = ellipsis
@@ -368,10 +370,12 @@ class Specification(SpecificationBase):
                     self._api.operator_specification_get_pin_type_name(self, binput, i_pin, i_type)
                     for i_type in range(n_types)
                 ]
-
+                pin_derived_class_type_name = [
+                    self._api.operator_specification_get_pin_derived_class_type_name(self, binput, i_pin)
+                ]
                 pin_ell = self._api.operator_specification_is_pin_ellipsis(self, binput, i_pin)
                 to_fill[i_pin] = PinSpecification(
-                    pin_name, pin_type_names, pin_doc, pin_opt, pin_ell
+                    pin_name, pin_type_names, pin_derived_class_type_name, pin_doc, pin_opt, pin_ell
                 )
 
     @property

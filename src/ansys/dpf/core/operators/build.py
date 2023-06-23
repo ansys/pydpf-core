@@ -59,6 +59,10 @@ def build_pin_data(pins, output=False):
         specification = pins[id]
 
         type_names = specification.type_names
+
+        derived_class_type_name = specification.derived_class_type_name
+        no_derive_class = "No derive class"
+
         if specification.ellipsis:
             type_names = update_type_names_for_ellipsis(type_names)
         docstring_types = map_types(type_names)
@@ -88,6 +92,8 @@ def build_pin_data(pins, output=False):
             "multiple_types": multiple_types,
             "printable_type_names": printable_type_names,
             "types": type_names,
+            "derived_type_name": derived_class_type_name,
+            "no_derive_class": no_derive_class,
             "types_for_docstring": parameter_types,
             "main_type": main_type,
             "built_in_main_type": main_type in built_in_types,
@@ -175,6 +181,8 @@ def build_operators():
     succeeded = 0
     done = 0
     for operator_name in available_operators:
+        if (operator_name != "mesh_info_provider"):
+            continue
         if succeeded == done + 100:
             done += 100
             print(f"{done} operators done...")
