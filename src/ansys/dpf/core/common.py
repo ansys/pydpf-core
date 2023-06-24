@@ -225,6 +225,22 @@ class nodal_properties:
     nodal_connectivity = "reverse_connectivity"
 
 
+class face_properties:
+    """Contains strings to define face property fields.
+
+    Attributes
+    ----------
+    element_type = "faces_type"
+        face type property data is provided
+
+    connectivity = "faces_nodes_connectivity"
+        faces connectivity property data is provided
+    """
+
+    faces_type = "faces_type"
+    faces_nodes_connectivity = "faces_nodes_connectivity"
+
+
 class config_options:
     """Contains strings to define configuration options.
 

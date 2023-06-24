@@ -12,6 +12,7 @@ from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import locations, types, nodal_properties
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
+from ansys.dpf.core.faces import Faces
 from ansys.dpf.core.plotter import DpfPlotter, Plotter
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core import server as server_module
@@ -165,6 +166,29 @@ class MeshedRegion:
 
         """
         return Elements(self)
+
+    @property
+    def faces(self):
+        """
+        All face properties of the mesh, such as faces_nodes_connectivity and face types.
+
+        Returns
+        -------
+        faces : Faces
+            Faces belonging to the meshed region.
+
+        Examples
+        --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.find_static_rst())
+        >>> meshed_region = model.metadata.meshed_region
+        >>> faces = meshed_region.faces
+        >>> print(faces)
+        DPF Faces object with 0 faces
+
+        """
+        return Faces(self)
 
     @property
     def nodes(self):
