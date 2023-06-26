@@ -31,18 +31,18 @@ if os.name == "posix":
 else:
     LIB_TO_GENERATE = [
         "Ans.Dpf.Native.dll",
-        # "Ans.Dpf.FEMutils.dll",
-        # "meshOperatorsCore.dll",
-        # "mapdlOperatorsCore.dll",
-        # "Ans.Dpf.Math.dll",
-        # "Ans.Dpf.PythonPluginWrapper.dll",
-        # "Ans.Dpf.Hdf5.dll",
-        # "Ans.Dpf.FlowDiagram.dll",
-        # "Ans.Dpf.LSDYNAHGP.dll",
-        # "Ans.Dpf.LivePost.dll",
-        # "Ans.Dpf.PointCloudSearch.dll",
-        # "Ans.Dpf.Vtk.dll",
-        # "Ans.Dpf.MechanicalResults.dll",
+        "Ans.Dpf.FEMutils.dll",
+        "meshOperatorsCore.dll",
+        "mapdlOperatorsCore.dll",
+        "Ans.Dpf.Math.dll",
+        "Ans.Dpf.PythonPluginWrapper.dll",
+        "Ans.Dpf.Hdf5.dll",
+        "Ans.Dpf.FlowDiagram.dll",
+        "Ans.Dpf.LSDYNAHGP.dll",
+        "Ans.Dpf.LivePost.dll",
+        "Ans.Dpf.PointCloudSearch.dll",
+        "Ans.Dpf.Vtk.dll",
+        "Ans.Dpf.MechanicalResults.dll",
     ]
     LIB_OPTIONAL_TO_GENERATE = [
         "Ans.Dpf.SystemCouplingMapping.dll",
@@ -65,7 +65,7 @@ for f in files:
             os.remove(f)
     except:
         pass
-# core.start_local_server(config=core.AvailableServerConfigs.LegacyGrpcServer)
+core.start_local_server(config=core.AvailableServerConfigs.LegacyGrpcServer)
 code_gen = core.Operator("python_generator")
 code_gen.connect(1, TARGET_PATH)
 for lib in LIB_TO_GENERATE:

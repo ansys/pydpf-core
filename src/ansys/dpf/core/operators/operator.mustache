@@ -18,7 +18,7 @@ from ansys.dpf.core.outputs import _modify_output_spec_with_one_type
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
 {{#output_pins}}
 {{#derived_type_name}}
-from ansys.dpf.core.{{name}} import {{derived_type_name.0}}
+from ansys.dpf.core.{{name}} import {{derived_type_name}}
 {{/derived_type_name}}
 {{/output_pins}}
 
@@ -92,9 +92,11 @@ class {{class_name}}(Operator):
                     {{^has_types}}
                     type_names=["any"],
                     {{/has_types}}
-                    derived_class_type_name={{{derived_type_name}}},
                     optional={{optional}},
                     document="""{{{document}}}""",
+                    {{#has_derived_class}}
+                    name_derived_class=["{{{derived_type_name}}}"],
+                    {{/has_derived_class}}
                 ),
                 {{/input_pins}}
             },
@@ -105,9 +107,11 @@ class {{class_name}}(Operator):
                     {{#has_types}}
                     type_names={{{types}}},
                     {{/has_types}}
-                    derived_class_type_name={{{derived_type_name}}},
                     optional={{optional}},
                     document="""{{{document}}}""",
+                    {{#has_derived_class}}
+                    name_derived_class=["{{{derived_type_name}}}"],
+                    {{/has_derived_class}}
                 ),
                 {{/output_pins}}
             },
@@ -232,7 +236,7 @@ class Outputs{{capital_class_name}}(_Outputs):
         Returns
         ----------
         {{#derived_type_name}}
-        my_{{name}} : {{derived_type_name.0}}
+        my_{{name}} : {{derived_type_name}}
         {{/derived_type_name}}
         {{^derived_type_name}}
         my_{{name}} :{{#types_for_docstring}} {{types_for_docstring}}{{/types_for_docstring}}
@@ -246,7 +250,7 @@ class Outputs{{capital_class_name}}(_Outputs):
         >>> result_{{name}} = op.outputs.{{name}}()
         """ # noqa: E501
         {{#derived_type_name}}
-        return {{derived_type_name.0}}(self._{{name}})
+        return {{derived_type_name}}(self._{{name}})
         {{/derived_type_name}}
         {{^derived_type_name}}
         return self._{{name}}

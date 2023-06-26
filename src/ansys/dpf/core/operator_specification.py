@@ -51,18 +51,18 @@ class PinSpecification:
 
     name: str
     _type_names: list
-    derived_class_type_name = str
     document: str
     optional: bool
     ellipsis: bool
+    name_derived_class = str
 
-    def __init__(self, name, type_names, derived_class_type_name, document="", optional=False, ellipsis=False):
+    def __init__(self, name, type_names, document="", optional=False, ellipsis=False, name_derived_class=""):
         self.name = name
         self.type_names = type_names
-        self.derived_class_type_name = derived_class_type_name
         self.optional = optional
         self.document = document
         self.ellipsis = ellipsis
+        self.name_derived_class = name_derived_class
 
     @property
     def type_names(self):
@@ -102,7 +102,7 @@ class PinSpecification:
     @staticmethod
     def _get_copy(other, changed_types):
         return PinSpecification(
-            other.name, changed_types, other.document, other.optional, other.ellipsis
+            other.name, changed_types, other.document, other.optional, other.ellipsis, other.name_derived_class
         )
 
     def __repr__(self):
@@ -370,13 +370,18 @@ class Specification(SpecificationBase):
                     self._api.operator_specification_get_pin_type_name(self, binput, i_pin, i_type)
                     for i_type in range(n_types)
                 ]
-                pin_derived_class_type_name = [
-                    self._api.operator_specification_get_pin_derived_class_type_name(self, binput, i_pin)
-                ]
+
+                pin_derived_class_type_name = self._api.operator_specification_get_pin_derived_class_type_name(self, binput, i_pin)
+
                 pin_ell = self._api.operator_specification_is_pin_ellipsis(self, binput, i_pin)
-                to_fill[i_pin] = PinSpecification(
-                    pin_name, pin_type_names, pin_derived_class_type_name, pin_doc, pin_opt, pin_ell
-                )
+                if pin_derived_class_type_name == "":
+                    to_fill[i_pin] = PinSpecification(
+                        pin_name, pin_type_names, pin_doc, pin_opt, pin_ell
+                    )
+                else:
+                    to_fill[i_pin] = PinSpecification(
+                        pin_name, pin_type_names, pin_doc, pin_opt, pin_ell, pin_derived_class_type_name
+                    )
 
     @property
     def config_specification(self) -> ConfigSpecification:
@@ -602,6 +607,7 @@ class CustomSpecification(Specification):
                 list_types,
                 value.optional,
                 value.ellipsis,
+                value.name_derived_class
             )
 
     @property
@@ -629,6 +635,7 @@ class CustomSpecification(Specification):
                 list_types,
                 value.optional,
                 value.ellipsis,
+                value.name_derived_class
             )
 
     @property
