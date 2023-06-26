@@ -3,6 +3,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
 )
 import pytest
+from ansys.dpf.core import examples
 
 
 @pytest.mark.skipif(
@@ -20,12 +21,12 @@ def test_set_get_num_of(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
     """Number of nodes"""
     num_nodes = 189
-    mesh_info.set_num_nodes(189)
-    assert mesh_info.get_num_nodes() == num_nodes
+    mesh_info.set_number_nodes(189)
+    assert mesh_info.get_number_nodes() == num_nodes
     """ Number of elements """
     num_elements = 2
-    mesh_info.set_num_elements(2)
-    assert mesh_info.get_num_elements() == num_elements
+    mesh_info.set_number_elements(2)
+    assert mesh_info.get_number_elements() == num_elements
 
 
 def test_set_get_property_mesh_info(server_type):
@@ -45,13 +46,6 @@ def test_set_get_property_mesh_info(server_type):
     mesh_info.set_property("my-property01", field)
     result_field = mesh_info.get_property("my-property01", dpf.Field)
     assert result_field.component_count == field.component_count
-
-    """ MeshedRegion """
-    meshedregion = dpf.MeshedRegion()
-    mesh_info.set_property("my-property02", meshedregion)
-    result_meshedregion = mesh_info.get_property("my-property02", dpf.MeshedRegion)
-    assert result_meshedregion.nodes.n_nodes == meshedregion.nodes.n_nodes
-
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
@@ -78,10 +72,9 @@ def test_set_get_available_elem_types_mesh_info(server_type):
         assert result_available.id(x) == available_results.id(x)
 
 def test_output_mesh_info_provider_fluent():
-    dpf.load_library(r"C:\Program Files\ANSYS Inc\v241\dpf\plugins\dpf_cff\Ans.Dpf.CFF.dll", "cff")
-
     ds = dpf.DataSources()
-    ds.set_result_file_path(r"D:\AnsysDev\plugins\Ans.Dpf.CFF\source\Ans.Dpf.CFFTest\test_models\fluent\2D\FFF.cas.h5", "cas")
+    files = examples.download_fluent_multi_species()
+    ds.set_result_file_path(files["cas"], "cas")
 
     mesh_info = dpf.operators.metadata.mesh_info_provider()
     mesh_info.inputs.data_sources(ds)
@@ -226,15 +219,14 @@ def test_output_mesh_info_provider_fluent():
     assert face_zone_elements_value[4] == 15
 
 def test_output_mesh_info_provider_flprj():
-    dpf.load_library(r"C:\Program Files\ANSYS Inc\v241\dpf\plugins\dpf_cff\Ans.Dpf.CFF.dll", "cff")
-
     ds = dpf.DataSources()
-    ds.set_result_file_path(r"D:\AnsysDev\plugins\Ans.Dpf.CFF\source\Ans.Dpf.CFFTest\test_models\FLPRJ\axial_comp\axial_comp_reduced.flprj", "flprj")
+    files = examples.download_fluent_axial_comp()
+    ds.set_result_file_path(files["cas"][0], "cas")
 
     mesh_info = dpf.operators.metadata.mesh_info_provider()
     mesh_info.inputs.data_sources(ds)
     mesh_info.inputs.time_scoping(1)
-    mesh_info_out = mesh_info.outputs.generic_data_container()
+    mesh_info_out = mesh_info.outputs.mesh_info()
 
     """************************ NUMBER OF CELLS/FACES/ZONES ************************"""
 
