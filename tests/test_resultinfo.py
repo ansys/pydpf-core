@@ -84,7 +84,7 @@ def test_print_available_result_with_qualifiers(cfx_heating_coil):
     ref = """DPF Result
 ----------
 specific_heat
-Operator name: "specific_heat"
+Operator name: "CP"
 Number of components: 1
 Dimensionality: scalar
 Homogeneity: specific_heat
