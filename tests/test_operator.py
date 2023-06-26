@@ -262,7 +262,8 @@ def test_connect_operator_output_operator(server_type):
 
 
 @pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="Connect an operator as an input is supported starting server version 7.0",
 )
 def test_connect_generic_data_container_operator(server_type):
     op = dpf.core.Operator("forward", server=server_type)

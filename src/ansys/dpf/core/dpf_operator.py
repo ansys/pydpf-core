@@ -303,7 +303,7 @@ class Operator:
             mesh_info,
         )
 
-        return [
+        out = [
             (bool, self._api.operator_getoutput_bool),
             (int, self._api.operator_getoutput_int),
             (str, self._api.operator_getoutput_string),
@@ -387,17 +387,16 @@ class Operator:
                     server=self._server, collection=obj
                 ).get_integral_entries(),
             ),
-            (
-                generic_data_container.GenericDataContainer,
-                self._api.operator_getoutput_generic_data_container,
-                "generic_data_container",
-            ),
-            (
-                mesh_info.MeshInfo,
-                self._api.operator_getoutput_generic_data_container,
-                "mesh_info",
-            ),
         ]
+        if hasattr(self._api, "operator_getoutput_generic_data_container"):
+            out.append(
+                (
+                    generic_data_container.GenericDataContainer,
+                    self._api.operator_getoutput_generic_data_container,
+                    "generic_data_container",
+                )
+            )
+        return out
 
     @property
     def _type_to_input_method(self):
@@ -418,7 +417,7 @@ class Operator:
             generic_data_container,
         )
 
-        return [
+        out = [
             (bool, self._api.operator_connect_bool),
             ((int, Enum), self._api.operator_connect_int),
             (str, self._api.operator_connect_string),
@@ -448,13 +447,15 @@ class Operator:
             (workflow.Workflow, self._api.operator_connect_workflow),
             (data_tree.DataTree, self._api.operator_connect_data_tree),
             (Operator, self._api.operator_connect_operator_as_input),
-            (
-                generic_data_container.GenericDataContainer,
-                self._api.operator_connect_generic_data_container,
-            ),
         ]
-
-        return types_to_functions
+        if hasattr(self._api, "operator_connect_generic_data_container"):
+            out.append(
+                (
+                    generic_data_container.GenericDataContainer,
+                    self._api.operator_connect_generic_data_container,
+                )
+            )
+        return out
 
     def get_output(self, pin=0, output_type=None):
         """Retrieve the output of the operator on the pin number.
