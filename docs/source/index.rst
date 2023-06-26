@@ -79,33 +79,49 @@ of the framework. Because DPF is plugin-based, new features or formats can be ea
 Accessing and enriching DPF capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:underline:`Most of the DPF capabilities can be accessed using the operators`.
+Most of the DPF capabilities can be accessed using the operators.
 For more information about the existing operators, see **Operators** tab.
+
+Following sections are summarizes. For more detailed content, see :ref:`user_guide_waysofusing`.
 
 **Accessing DPF Server files**
 
-:underline:`DPF capabilities are accessible having DPF Server files available`. Those files can be accessed using:
+DPF capabilities are accessible having DPF Server files available. Those files can be accessed using:
+
 - the **Ansys installer**. To use it, download the standard installation using your preferred distribution channel,
 and install Ansys following the installer instructions. For information on getting a licensed copy of Ansys,
 visit the `Ansys website <https://www.ansys.com/>`_.
+
 - the DPF Server package (see :ref:`ref_getting_started_with_dpf_server`).
 It is independent of the Ansys installer.
 
 **Accessing capabilities with scripting**
+
 - C++ documentations:
-  - see Data Processing Framework section in `Platform panel <https://ansysapi.ansys.com/account/secured?returnurl=/Views/Secured/main_page.html?lang=en>`_.
-  - see `Developer Portal <https://developer.ansys.com/product/DPF-Server-Client-Library/index.xhtml>`_
+
+  1. see Data Processing Framework section in `Platform panel <https://ansysapi.ansys.com/account/secured?returnurl=/Views/Secured/main_page.html?lang=en>`_.
+
+  2. see `Developer Portal <https://developer.ansys.com/product/DPF-Server-Client-Library/index.xhtml>`_
+
 - CPython modules documentations:
-  - `ansys-dpf-core <https://dpf.docs.pyansys.com/version/stable/>`_
-  - `ansys-dpf-post <https://post.docs.pyansys.com/version/stable/>`_
+
+  1. `ansys-dpf-core <https://dpf.docs.pyansys.com/version/stable/>`_
+
+  2. `ansys-dpf-post <https://post.docs.pyansys.com/version/stable/>`_
+
 - Mechanical scripting (IronPython):
-  - `DPF through Automation Scripting <https://ansysproducthelpdev.win.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/act_script/mech_apis_data_process_frame.html>`_
-  - `Python Result object <https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/wb_sim/ds_python_result.html>`_
+
+  1. `DPF through Automation Scripting <https://ansysproducthelpdev.win.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/act_script/mech_apis_data_process_frame.html>`_
+
+  2. `Python Result object <https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/wb_sim/ds_python_result.html>`_
 
 **Enriching DPF capabilities**
+
 - C++ operator's library (see C++ documentation)
+
 - `C++ solver reader plugin <https://dpf.docs.pyansys.com/version/stable/user_guide/custom_operators.html#user-guide-custom-operators>`_
-- :ref:`ref_user_guide_custom_operators`
+
+- :ref:`user_guide_custom_operators`
 
 
 .. toctree::
