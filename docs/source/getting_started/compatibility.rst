@@ -26,7 +26,7 @@ developed for Ansys 2023 R2 pre1 release, for 2023 R2 Ansys version. It is compa
 2023 R2, 2023 R1, 2022 R2 and 2022 R1 Ansys versions.
 
 We strongly encourage to use the latest packages available, as far they are compatible
-with the Server version you want to use. Using Ansys 2022 R1, if ansys-dpf-core module with
+with the Server version you want to use. Using Ansys 2022 R2, if ansys-dpf-core module with
 0.8.0 version is the latest available package, it should be used.
 
 The `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ package
