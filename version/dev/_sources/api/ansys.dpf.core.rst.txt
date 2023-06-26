@@ -1,0 +1,82 @@
+ansys.dpf.core package
+======================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.examples
+   ansys.dpf.core.operators
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.animation
+   ansys.dpf.core.animator
+   ansys.dpf.core.any
+   ansys.dpf.core.available_result
+   ansys.dpf.core.collection
+   ansys.dpf.core.common
+   ansys.dpf.core.config
+   ansys.dpf.core.core
+   ansys.dpf.core.custom_fields_container
+   ansys.dpf.core.custom_operator
+   ansys.dpf.core.custom_type_field
+   ansys.dpf.core.cyclic_support
+   ansys.dpf.core.data_sources
+   ansys.dpf.core.data_tree
+   ansys.dpf.core.dimensionality
+   ansys.dpf.core.dpf_array
+   ansys.dpf.core.dpf_operator
+   ansys.dpf.core.element_descriptor
+   ansys.dpf.core.elements
+   ansys.dpf.core.errors
+   ansys.dpf.core.field
+   ansys.dpf.core.field_definition
+   ansys.dpf.core.fields_container
+   ansys.dpf.core.fields_container_factory
+   ansys.dpf.core.fields_factory
+   ansys.dpf.core.generic_data_container
+   ansys.dpf.core.generic_support
+   ansys.dpf.core.geometry
+   ansys.dpf.core.geometry_factory
+   ansys.dpf.core.inputs
+   ansys.dpf.core.mesh_scoping_factory
+   ansys.dpf.core.meshed_region
+   ansys.dpf.core.meshes_container
+   ansys.dpf.core.model
+   ansys.dpf.core.nodes
+   ansys.dpf.core.operator_specification
+   ansys.dpf.core.outputs
+   ansys.dpf.core.path_utilities
+   ansys.dpf.core.plotter
+   ansys.dpf.core.property_field
+   ansys.dpf.core.result_info
+   ansys.dpf.core.results
+   ansys.dpf.core.runtime_config
+   ansys.dpf.core.scoping
+   ansys.dpf.core.scopings_container
+   ansys.dpf.core.server
+   ansys.dpf.core.server_context
+   ansys.dpf.core.server_factory
+   ansys.dpf.core.server_types
+   ansys.dpf.core.session
+   ansys.dpf.core.settings
+   ansys.dpf.core.streams_container
+   ansys.dpf.core.string_field
+   ansys.dpf.core.support
+   ansys.dpf.core.time_freq_scoping_factory
+   ansys.dpf.core.time_freq_support
+   ansys.dpf.core.unit_system
+   ansys.dpf.core.workflow
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core
+   :inherited-members:

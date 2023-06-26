@@ -1,0 +1,1047 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Create a plug-in package that has third-party dependencies &#8212; PyDPF-Core</title>
+    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    
+        <link href="../../_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/08-python-operators/02-python_operators_with_dependencies';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        </script>
+    <link rel="shortcut icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Averaging examples" href="../09-averaging/index.html" />
+    <link rel="prev" title="Create a plug-in package with multiple operators" href="01-package_python_operators.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+    
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        dev  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+    
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+    
+
+    
+    <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyDPF-Core</a> » </li>
+    
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Examples</a> » </li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Examples of creating custom operator plugins</a> » </li>
+        <li class="nav-item nav-item-this"><a href="">Create a plug-in package that has third-party dependencies</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        dev  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">
+    Section Navigation
+  </p>
+  <div class="bd-toc-item navbar-nav">
+    <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-basic/index.html">Basic DPF examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-transient_analyses/index.html">Transient analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-modal_analyses/index.html">Modal analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-harmonic_analyses/index.html">Harmonic analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-advanced/index.html">Advanced and miscellaneous examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-file-IO/index.html">File manipulation and input-output examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-plotting/index.html">Plotting examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-distributed-post/index.html">Examples for postprocessing on distributed processes</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Examples of creating custom operator plugins</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="00-wrapping_numpy_capabilities.html">Create a basic operator plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-package_python_operators.html">Create a plug-in package with multiple operators</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Create a plug-in package that has third-party dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../09-averaging/index.html">Averaging examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10-mesh_operations/index.html">Mesh operations examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../11-cyclic-symmetry/index.html">Cyclic symmetry examples</a></li>
+</ul>
+
+  </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-08-python-operators-02-python-operators-with-dependencies-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="create-a-plug-in-package-that-has-third-party-dependencies">
+<span id="ref-python-operators-with-deps"></span><span id="sphx-glr-examples-08-python-operators-02-python-operators-with-dependencies-py"></span><h1>Create a plug-in package that has third-party dependencies<a class="headerlink" href="#create-a-plug-in-package-that-has-third-party-dependencies" title="Permalink to this heading">#</a></h1>
+<p>This example shows how to create a Python plug-in package with
+third-party dependencies. You should be familiar with these
+examples before proceeding with this more advanced one:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="00-wrapping_numpy_capabilities.html#ref-wrapping-numpy-capabilities"><span class="std std-ref">Create a basic operator plugin</span></a></p></li>
+<li><p><a class="reference internal" href="01-package_python_operators.html#ref-python-plugin-package"><span class="std std-ref">Create a plug-in package with multiple operators</span></a></p></li>
+</ul>
+<p>This plug-in contains an operator whose implementation depends on a
+third-party Python module named <a class="reference external" href="https://pypi.org/project/gltf/">gltf</a>.
+This operator takes a path, a mesh, and a 3D vector field as inputs
+and then exports the mesh and the norm of the 3D vector field to a GLTF
+file at the given path.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example requires DPF 4.0 (Ansys 2022R2) or above.
+For more information, see <a class="reference internal" href="../../getting_started/compatibility.html#ref-compatibility"><span class="std std-ref">Compatibility</span></a>.</p>
+</div>
+<section id="create-the-plug-in-package">
+<h2>Create the plug-in package<a class="headerlink" href="#create-the-plug-in-package" title="Permalink to this heading">#</a></h2>
+<p>Each operator implementation derives from the
+<a class="reference internal" href="../../api/ansys.dpf.core.custom_operator.html#ansys.dpf.core.custom_operator.CustomOperatorBase" title="ansys.dpf.core.custom_operator.CustomOperatorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.CustomOperatorBase</span></code></a> class
+and a call to the <a class="reference internal" href="../../api/ansys.dpf.core.custom_operator.html#ansys.dpf.core.custom_operator.record_operator" title="ansys.dpf.core.custom_operator.record_operator"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.custom_operator.record_operator()</span></code></a>
+method, which records the operators of the plug-in package.</p>
+<p>Download the <code class="docutils literal notranslate"><span class="pre">gltf_plugin</span></code> plug-in package that has already been
+created for you.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[1m gltf_plugin&quot;</span><span class="p">)</span>
+<span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;gltf_plugin/__init__.py&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gltf_plugin/operators.py&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gltf_plugin/operators_loader.py&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gltf_plugin/requirements.txt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gltf_plugin/gltf_export.py&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gltf_plugin/texture.png&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gltf_plugin.xml&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">plugin_path</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">GITHUB_SOURCE_URL</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;https://github.com/ansys/pydpf-core/raw/&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;examples/first_python_plugins/python_plugins&quot;</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+    <span class="n">EXAMPLE_FILE</span> <span class="o">=</span> <span class="n">GITHUB_SOURCE_URL</span> <span class="o">+</span> <span class="s2">&quot;/gltf_plugin/&quot;</span> <span class="o">+</span> <span class="n">file</span>
+    <span class="n">operator_file_path</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">downloads</span><span class="o">.</span><span class="n">_retrieve_file</span><span class="p">(</span>
+        <span class="n">EXAMPLE_FILE</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;python_plugins&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+    <span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[1m </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="se">\n</span><span class="s2"> </span><span class="se">\033</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;.py&quot;</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;.xml&quot;</span>
+    <span class="p">)</span> <span class="ow">and</span> <span class="n">file</span> <span class="o">!=</span> <span class="s2">&quot;gltf_plugin/gltf_export.py&quot;</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">operator_file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">line</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plugin_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">plugin_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">operator_file_path</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>gltf_plugin
+gltf_plugin/__init__.py
+
+                       from gltf_plugin.operators_loader import load_operators
+
+
+
+
+gltf_plugin/operators.py
+
+                       from gltf_plugin import gltf_export
+
+                       from ansys.dpf.core.custom_operator import CustomOperatorBase, record_operator
+
+                       from ansys.dpf.core.operator_specification import CustomSpecification, PinSpecification, SpecificationProperties
+
+                       from ansys.dpf import core as dpf
+
+
+
+
+
+                       class WriteGLTF(CustomOperatorBase):
+
+                           def run(self):
+
+                               path = self.get_input(0, str)
+
+                               mesh = self.get_input(1, dpf.MeshedRegion)
+
+                               field = self.get_input(2, dpf.Field)
+
+
+
+                               mesh_element_types = mesh.elements.element_types_field.data_as_list
+
+                               if mesh_element_types.count(dpf.element_types.Tri3.value) != len(mesh_element_types) or not mesh_element_types:
+
+                                   raise Exception(&quot;Elements of mesh are not triangles.&quot;)
+
+
+
+                               norm_op = dpf.operators.math.norm()
+
+                               norm_op.inputs.field.connect(field)
+
+
+
+                               min_max_op = dpf.operators.min_max.min_max()
+
+                               min_max_op.inputs.field.connect(norm_op.outputs.field())
+
+                               field_max = min_max_op.outputs.field_max().data[0]
+
+                               field_min = min_max_op.outputs.field_min().data[0]
+
+                               field_range = field_max - field_min
+
+
+
+                               uv = []
+
+                               for value in norm_op.outputs.field().data:
+
+                                   uv.append([value / field_range, 0])
+
+
+
+                               path = gltf_export.export(path, mesh.nodes.coordinates_field.data, mesh.elements.connectivities_field.data_as_list, uv)
+
+
+
+                               self.set_output(0, path)
+
+                               self.set_succeeded()
+
+
+
+                           @property
+
+                           def specification(self):
+
+                               spec = CustomSpecification(&quot;Writes a GLTF file for a surface MeshedRegion with triangles elements and a Field using pygltflib python module.&quot;)
+
+                               spec.inputs = {
+
+                                   0: PinSpecification(&quot;path&quot;, type_names=str, document=&quot;path to write GLTF file&quot;),
+
+                                   1: PinSpecification(&quot;mesh&quot;, type_names=dpf.MeshedRegion),
+
+                                   2: PinSpecification(&quot;field&quot;, type_names=dpf.Field, document=&quot;3D vector Field to export (ie displacement Field).&quot;),
+
+                               }
+
+                               spec.outputs = {
+
+                                   0: PinSpecification(&quot;path&quot;, type_names=str),
+
+                               }
+
+                               spec.properties = SpecificationProperties(user_name=&quot;GLTF export&quot;, category=&quot;serialization&quot;)
+
+                               return spec
+
+
+
+                           @property
+
+                           def name(self):
+
+                               return &quot;gltf_export&quot;
+
+
+
+
+gltf_plugin/operators_loader.py
+
+                       from gltf_plugin import operators
+
+                       from ansys.dpf.core.custom_operator import record_operator
+
+
+
+
+
+                       def load_operators(*args):
+
+                           record_operator(operators.WriteGLTF, *args)
+
+
+
+
+gltf_plugin/requirements.txt
+
+gltf_plugin/gltf_export.py
+
+gltf_plugin/texture.png
+
+gltf_plugin.xml
+
+                       &lt;?xml version=&quot;1.0&quot;?&gt;
+
+                       &lt;Environment&gt;
+
+                               &lt;Windows&gt;
+
+                                       &lt;CUSTOM_SITE&gt;$(THIS_XML_FOLDER)/gltf_plugin/assets/gltf_sites_winx64.zip;$(CUSTOM_SITE)&lt;/CUSTOM_SITE&gt;
+
+                                       &lt;LOAD_DEFAULT_DPF_SITE&gt;true&lt;/LOAD_DEFAULT_DPF_SITE&gt;
+
+                               &lt;/Windows&gt;
+
+                               &lt;Linux&gt;
+
+                                       &lt;CUSTOM_SITE&gt;$(THIS_XML_FOLDER)/gltf_plugin/assets/gltf_sites_linx64.zip:$(CUSTOM_SITE)&lt;/CUSTOM_SITE&gt;
+
+                                       &lt;LOAD_DEFAULT_DPF_SITE&gt;true&lt;/LOAD_DEFAULT_DPF_SITE&gt;
+
+                               &lt;/Linux&gt;
+
+                       &lt;/Environment&gt;
+</pre></div>
+</div>
+<p>To add third-party modules as dependencies to a plug-in package, you must
+create and reference a folder or ZIP file with the sites of the dependencies
+in an XML file located next to the folder for the plug-in package. The XML
+file must have the same name as the plug-in package plus an <code class="docutils literal notranslate"><span class="pre">.xml</span></code> extension.</p>
+<p>When the <a class="reference internal" href="../../api/ansys.dpf.core.core.html#ansys.dpf.core.core.load_library" title="ansys.dpf.core.core.load_library"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code></a> method is called,
+DPF-Core uses the <code class="docutils literal notranslate"><span class="pre">site</span></code> Python module to add custom to the path
+for the Python interpreter.</p>
+<p>To create these custom sites, requirements of the plug-in package should be
+installed in a Python virtual environment, the site-packages
+(with unnecessary folders removed) should be compressed to a ZIP file and
+placed with the plugin. The path to this ZIP file should be referenced in
+the XML as shown in the preceding code.</p>
+<p>To simplify this step, you can add a requirements file in the plug-in package:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[1m gltf_plugin/requirements.txt: </span><span class="se">\n</span><span class="s2"> </span><span class="se">\033</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plugin_path</span><span class="p">,</span> <span class="s2">&quot;requirements.txt&quot;</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">line</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>gltf_plugin/requirements.txt:
+
+                       wheel
+
+                       pygltflib
+</pre></div>
+</div>
+<p>Download the script for your operating system.</p>
+<ul class="simple">
+<li><p>For Windows, download this
+<a class="reference download internal" download="" href="../../_downloads/be1092fa007e10f40b7f9ea7fdfa881a/create_sites_for_python_operators.ps1"><code class="xref download docutils literal notranslate"><span class="pre">PowerShell</span> <span class="pre">script</span></code></a>.</p></li>
+<li><p>For Linux, download this
+<a class="reference download internal" download="" href="../../_downloads/865325386e9f426c0639d8c3be57bb75/create_sites_for_python_operators.sh"><code class="xref download docutils literal notranslate"><span class="pre">Shell</span> <span class="pre">script</span></code></a>.</p></li>
+</ul>
+<p>Run the downloaded script with the mandatory arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-pluginpath</span></code>: Path to the folder with the plug-in package.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-zippath</span></code>: Path and name for the ZIP file.</p></li>
+</ul>
+<p>Optional arguments are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-pythonexe</span></code>: Path to a Python executable of your choice.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-tempfolder</span></code>: Path to a temporary folder to work in. The default is the environment variable
+<code class="docutils literal notranslate"><span class="pre">TEMP</span></code> on Windows and <code class="docutils literal notranslate"><span class="pre">/tmp/</span></code> on Linux.</p></li>
+</ul>
+<p>Run the command for your operating system.</p>
+<ul>
+<li><p>From Windows PowerShell, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create_sites_for_python_operators</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">pluginpath</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">plugin</span> <span class="o">-</span><span class="n">zippath</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">plugin</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">winx64</span><span class="o">.</span><span class="n">zip</span> <span class="c1"># noqa: E501</span>
+</pre></div>
+</div>
+</li>
+<li><p>From Linux Shell, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create_sites_for_python_operators</span><span class="o">.</span><span class="n">sh</span> <span class="o">-</span><span class="n">pluginpath</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">plugin</span> <span class="o">-</span><span class="n">zippath</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">plugin</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">linx64</span><span class="o">.</span><span class="n">zip</span> <span class="c1"># noqa: E501</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;nt&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plugin_path</span><span class="p">,</span> <span class="s2">&quot;assets&quot;</span><span class="p">,</span> <span class="s2">&quot;gltf_sites_winx64.zip&quot;</span><span class="p">)</span>
+<span class="p">):</span>
+    <span class="n">CMD_FILE_URL</span> <span class="o">=</span> <span class="n">GITHUB_SOURCE_URL</span> <span class="o">+</span> <span class="s2">&quot;/create_sites_for_python_operators.ps1&quot;</span>
+    <span class="n">cmd_file</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">downloads</span><span class="o">.</span><span class="n">_retrieve_file</span><span class="p">(</span>
+        <span class="n">CMD_FILE_URL</span><span class="p">,</span> <span class="s2">&quot;create_sites_for_python_operators.ps1&quot;</span><span class="p">,</span> <span class="s2">&quot;python_plugins&quot;</span>
+    <span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;powershell&quot;</span><span class="p">,</span>
+        <span class="n">cmd_file</span><span class="p">,</span>
+        <span class="s2">&quot;-pluginpath&quot;</span><span class="p">,</span>
+        <span class="n">plugin_path</span><span class="p">,</span>
+        <span class="s2">&quot;-zippath&quot;</span><span class="p">,</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plugin_path</span><span class="p">,</span> <span class="s2">&quot;assets&quot;</span><span class="p">,</span> <span class="s2">&quot;gltf_sites_winx64.zip&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">subprocess</span>
+
+    <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">process</span><span class="o">.</span><span class="n">stderr</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">&quot;Installing pygltf in a virtual environment failed with error:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="n">process</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2"> and log:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="n">process</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Installing pygltf in a virtual environment succeeded&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;posix&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plugin_path</span><span class="p">,</span> <span class="s2">&quot;assets&quot;</span><span class="p">,</span> <span class="s2">&quot;gltf_sites_linx64.zip&quot;</span><span class="p">)</span>
+<span class="p">):</span>
+    <span class="n">CMD_FILE_URL</span> <span class="o">=</span> <span class="n">GITHUB_SOURCE_URL</span> <span class="o">+</span> <span class="s2">&quot;/create_sites_for_python_operators.sh&quot;</span>
+    <span class="n">cmd_file</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">downloads</span><span class="o">.</span><span class="n">_retrieve_file</span><span class="p">(</span>
+        <span class="n">CMD_FILE_URL</span><span class="p">,</span> <span class="s2">&quot;create_sites_for_python_operators.ps1&quot;</span><span class="p">,</span> <span class="s2">&quot;python_plugins&quot;</span>
+    <span class="p">)</span>
+    <span class="n">run_cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd_file</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s1">&#39; -pluginpath &quot;</span><span class="si">{</span><span class="n">plugin_path</span><span class="si">}</span><span class="s1">&quot; &#39;</span>
+        <span class="sa">f</span><span class="s2">&quot;-zippath </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plugin_path</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;assets&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;gltf_sites_linx64.zip&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">run_cmd</span> <span class="o">+</span> <span class="n">args</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;chmod u=rwx,o=x </span><span class="si">{</span><span class="n">cmd_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">run_cmd</span> <span class="o">+</span> <span class="n">args</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Installing pygltf in a virtual environment succeeded&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;powershell&#39;, &#39;c:\\hostedtoolcache\\windows\\python\\3.8.10\\x64\\lib\\site-packages\\ansys\\dpf\\core\\examples\\python_plugins\\create_sites_for_python_operators.ps1&#39;, &#39;-pluginpath&#39;, &#39;c:\\hostedtoolcache\\windows\\python\\3.8.10\\x64\\lib\\site-packages\\ansys\\dpf\\core\\examples\\python_plugins\\gltf_plugin&#39;, &#39;-zippath&#39;, &#39;c:\\hostedtoolcache\\windows\\python\\3.8.10\\x64\\lib\\site-packages\\ansys\\dpf\\core\\examples\\python_plugins\\gltf_plugin\\assets\\gltf_sites_winx64.zip&#39;]
+Installing pygltf in a virtual environment succeeded
+</pre></div>
+</div>
+</section>
+<section id="load-the-plug-in-package">
+<h2>Load the plug-in package<a class="headerlink" href="#load-the-plug-in-package" title="Permalink to this heading">#</a></h2>
+<p>You use the function <a class="reference internal" href="../../api/ansys.dpf.core.core.html#ansys.dpf.core.core.load_library" title="ansys.dpf.core.core.load_library"><code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.core.load_library()</span></code></a> to load the
+plug-in package.</p>
+<ul class="simple">
+<li><p>The first argument is the path to the directory where the plug-in package
+is located.</p></li>
+<li><p>The second argument is <code class="docutils literal notranslate"><span class="pre">py_&lt;package&gt;</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;package&gt;</span></code> is the name
+identifying the plug-in package.</p></li>
+<li><p>The third argument is the name of the function exposed in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> file
+for the plug-in package that is used to record operators.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+
+<span class="c1"># Python plugins are not supported in process.</span>
+<span class="n">dpf</span><span class="o">.</span><span class="n">start_local_server</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">AvailableServerConfigs</span><span class="o">.</span><span class="n">GrpcServer</span><span class="p">)</span>
+
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">make_tmp_dir_server</span><span class="p">()</span>
+<span class="n">dpf</span><span class="o">.</span><span class="n">upload_files_in_folder</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">path_utilities</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;gltf_plugin&quot;</span><span class="p">),</span> <span class="n">plugin_path</span><span class="p">)</span>
+<span class="n">dpf</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">plugin_path</span> <span class="o">+</span> <span class="s2">&quot;.xml&quot;</span><span class="p">,</span> <span class="n">dpf</span><span class="o">.</span><span class="n">path_utilities</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;gltf_plugin.xml&quot;</span><span class="p">))</span>
+
+<span class="n">dpf</span><span class="o">.</span><span class="n">load_library</span><span class="p">(</span>
+    <span class="n">dpf</span><span class="o">.</span><span class="n">path_utilities</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;gltf_plugin&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;py_dpf_gltf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;load_operators&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&#39;py_dpf_gltf successfully loaded&#39;
+</pre></div>
+</div>
+<p>Instantiate the operator.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">new_operator</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="s2">&quot;gltf_export&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This new <code class="docutils literal notranslate"><span class="pre">gltf_export</span></code> operator requires the following as inputs: a triangle
+surface mesh, a displacement field on this surface mesh, and a path to export
+the GLTF file to.</p>
+<p>To demonstrate this new operator, a <a class="reference internal" href="../../api/ansys.dpf.core.model.html#ansys.dpf.core.model.Model" title="ansys.dpf.core.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.model.Model</span></code></a> class
+is created on a simple file and the
+<a class="reference internal" href="../../api/ansys.dpf.core.operators.mesh.tri_mesh_skin.html#module-ansys.dpf.core.operators.mesh.tri_mesh_skin" title="ansys.dpf.core.operators.mesh.tri_mesh_skin"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.operators.mesh.tri_mesh_skin</span></code></a> operator is used
+to extract the surface of the mesh in triangle elements.</p>
+<div class="graphviz"><img src="../../_images/graphviz-e1a8fc862c39aa5c2e174183cb631de2e957e8a9.png" alt="digraph workflow {
+   graph [pad=&quot;0.5&quot;, nodesep=&quot;0.3&quot;, ranksep=&quot;0.3&quot;]
+   node [shape=box, style=filled, fillcolor=&quot;#ffcc00&quot;, margin=&quot;0&quot;];
+   rankdir=LR;
+   splines=line;
+   ds [label=&quot;data_sources&quot;, shape=box, style=filled, fillcolor=cadetblue2];
+   ds -&gt; mesh_provider [style=dashed];
+   mesh_provider -&gt; skin_mesh [splines=ortho];
+   ds -&gt; displacement [style=dashed];
+   skin_mesh -&gt; displacement [splines=ortho];
+   skin_mesh -&gt; gltf_export [splines=ortho];
+   displacement -&gt; gltf_export [splines=ortho];
+}" class="graphviz" /></div>
+</section>
+<section id="use-the-custom-operator">
+<h2>Use the custom operator<a class="headerlink" href="#use-the-custom-operator" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">upload_file_in_tmp_folder</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_static_rst</span><span class="p">()))</span>
+
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+<span class="n">skin_mesh</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">tri_mesh_skin</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">)</span>
+
+<span class="n">displacement</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="n">displacement</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_scoping</span><span class="p">(</span><span class="n">skin_mesh</span><span class="p">)</span>
+<span class="n">displacement</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">(</span><span class="n">skin_mesh</span><span class="p">)</span>
+<span class="n">new_operator</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">))</span>
+<span class="n">new_operator</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">(</span><span class="n">skin_mesh</span><span class="p">)</span>
+<span class="n">new_operator</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">displacement</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">new_operator</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;operator ran successfully&quot;</span><span class="p">)</span>
+
+<span class="n">dpf</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="s2">&quot;out.glb&quot;</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;out.glb&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>operator ran successfully
+</pre></div>
+</div>
+<p>You can download <code class="xref download docutils literal notranslate"><span class="pre">output</span></code> from the <code class="docutils literal notranslate"><span class="pre">gltf</span></code> operator.</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 1 minutes  0.487 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-08-python-operators-02-python-operators-with-dependencies-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/379024aace439fb2a3c5343a7c2d2ac8/02-python_operators_with_dependencies.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-python_operators_with_dependencies.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/74f45849c2c0e33d03769398708e8d13/02-python_operators_with_dependencies.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">02-python_operators_with_dependencies.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+            </article>
+            
+            
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-the-plug-in-package">
+   Create the plug-in package
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-the-plug-in-package">
+   Load the plug-in package
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-the-custom-operator">
+   Use the custom operator
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+<div class="tocsection sourcelink">
+    <a href="../../_sources/examples/08-python-operators/02-python_operators_with_dependencies.rst.txt">
+        <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+</div>
+
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

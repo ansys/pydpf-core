@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.plastic_strain_rotation_by_euler_nodes
+   :inherited-members:

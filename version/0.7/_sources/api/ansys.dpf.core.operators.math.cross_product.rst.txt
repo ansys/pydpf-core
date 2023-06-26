@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.cross_product
+   :inherited-members:

@@ -1,0 +1,802 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Averaging order &#8212; PyDPF-Core</title>
+    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    
+        <link href="../../_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/09-averaging/00-compute_and_average';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.8';
+        </script>
+    <link rel="shortcut icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Average across bodies" href="01-average_across_bodies.html" />
+    <link rel="prev" title="Averaging examples" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+    
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.8  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+    
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+    
+
+    
+    <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyDPF-Core</a> » </li>
+    
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Examples</a> » </li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Averaging examples</a> » </li>
+        <li class="nav-item nav-item-this"><a href="">Averaging order</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.8  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">
+    Section Navigation
+  </p>
+  <div class="bd-toc-item navbar-nav">
+    <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-basic/index.html">Basic DPF examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-transient_analyses/index.html">Transient analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-modal_analyses/index.html">Modal analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-harmonic_analyses/index.html">Harmonic analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-advanced/index.html">Advanced and miscellaneous examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-file-IO/index.html">File manipulation and input-output examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-plotting/index.html">Plotting examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-distributed-post/index.html">Examples for postprocessing on distributed processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-python-operators/index.html">Examples of creating custom operator plugins</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Averaging examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Averaging order</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="01-average_across_bodies.html">Average across bodies</a></li>
+
+
+
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../10-mesh_operations/index.html">Mesh operations examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../11-cyclic-symmetry/index.html">Cyclic symmetry examples</a></li>
+</ul>
+
+  </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-09-averaging-00-compute-and-average-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="averaging-order">
+<span id="ref-compute-and-average"></span><span id="sphx-glr-examples-09-averaging-00-compute-and-average-py"></span><h1>Averaging order<a class="headerlink" href="#averaging-order" title="Permalink to this heading">#</a></h1>
+<p>This example compares two different workflows that accomplish the same task to show
+how the order of the operators can change the end result.</p>
+<ul class="simple">
+<li><p>The first workflow extracts the stress field of a crankshaft under load from a
+result file, computes the equivalent (von Mises) stresses, and then applies an
+averaging operator to transpose them from <code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code> to <code class="docutils literal notranslate"><span class="pre">Nodal</span></code> positions.</p></li>
+<li><p>The second workflow first transposes the stresses that come from the result file
+to a <code class="docutils literal notranslate"><span class="pre">Nodal</span></code> position and then calculates the von Mises stresses.</p></li>
+</ul>
+<p>The following images shows these workflows:</p>
+<div class="graphviz"><img src="../../_images/graphviz-114c9e4834468586a5e836a1432d82cd84b23b18.png" alt="digraph foo {
+    graph [pad=&quot;0&quot;, nodesep=&quot;0.3&quot;, ranksep=&quot;0.3&quot;]
+    node [shape=box, style=filled, fillcolor=&quot;#ffcc0&quot;, margin=&quot;0&quot;];
+    rankdir=LR;
+    splines=line;
+    node [fixedsize=true,width=2.5]
+
+    stress01 [label=&quot;stress&quot;];
+    stress02 [label=&quot;stress&quot;];
+    vm01 [label=&quot;von_mises_eqv&quot;];
+    vm02 [label=&quot;von_mises_eqv&quot;];
+    avg01 [label=&quot;elemental_nodal_to_nodal&quot;, width=2.5];
+    avg02 [label=&quot;elemental_nodal_to_nodal&quot;, width=2.5];
+    subgraph cluster_1 {
+        ds01 [label=&quot;data_src&quot;, shape=box, style=filled, fillcolor=cadetblue2];
+
+        ds01 -&gt; stress01 [style=dashed];
+        stress01 -&gt; vm01;
+        vm01 -&gt; avg01
+
+        label=&quot;Compute Von Mises then average stresses&quot;;
+        style=filled;
+        fillcolor=lightgrey;
+    }
+    subgraph cluster_2 {
+        ds02 [label=&quot;data_src&quot;, shape=box, style=filled, fillcolor=cadetblue2];
+
+        ds02 -&gt; stress02 [style=dashed];
+        stress02 -&gt; avg02;
+        avg02 -&gt; vm02
+
+        label=&quot;Average stresses then compute Von Mises&quot;;
+        style=filled;
+        fillcolor=lightgrey;
+    }
+}" class="graphviz" /></div>
+<p>Import the necessary modules.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+</pre></div>
+</div>
+<p>Load the simulation results from an RST file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_crankshaft</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="create-the-first-workflow">
+<h1>Create the first workflow<a class="headerlink" href="#create-the-first-workflow" title="Permalink to this heading">#</a></h1>
+<p>The first workflow applies the averaging operator after computing the equivalent
+stresses. To create it, define a function that computes the von Mises stresses
+in the crankshaft and then apply the averaging operator.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_von_mises_then_average</span><span class="p">(</span><span class="n">analysis</span><span class="p">):</span>
+
+    <span class="c1"># Create a model from the results of the simulation and retrieve its mesh</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+
+    <span class="c1"># Apply the stress operator to obtain the stresses in the body</span>
+    <span class="n">stress_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress</span><span class="p">()</span>
+    <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">stresses</span> <span class="o">=</span> <span class="n">stress_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+
+    <span class="c1"># Compute the von Mises stresses</span>
+    <span class="n">vm_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">invariant</span><span class="o">.</span><span class="n">von_mises_eqv</span><span class="p">()</span>
+    <span class="n">vm_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">stresses</span><span class="p">)</span>
+    <span class="n">von_mises</span> <span class="o">=</span> <span class="n">vm_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+
+    <span class="c1"># Apply the averaging operator to the von Mises stresses</span>
+    <span class="n">avg_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">averaging</span><span class="o">.</span><span class="n">elemental_nodal_to_nodal</span><span class="p">()</span>
+    <span class="n">avg_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">von_mises</span><span class="p">)</span>
+    <span class="n">avg_von_mises</span> <span class="o">=</span> <span class="n">avg_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+
+    <span class="c1"># Find the maximum value of the von Mises stress field</span>
+    <span class="n">min_max</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max</span><span class="p">()</span>
+    <span class="n">min_max</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">avg_von_mises</span><span class="p">)</span>
+    <span class="n">max_val</span> <span class="o">=</span> <span class="n">min_max</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+
+    <span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">avg_von_mises</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">max_val</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="create-the-second-workflow">
+<h1>Create the second workflow<a class="headerlink" href="#create-the-second-workflow" title="Permalink to this heading">#</a></h1>
+<p>The second workflow computes the equivalent stresses after applying the averaging
+operator. To create this workflow, first apply the averaging operator to the
+stress field in the crankshaft and then calculate the von Mises stresses, which
+are already located on a <code class="docutils literal notranslate"><span class="pre">Nodal</span></code> position.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">average_then_compute_von_mises</span><span class="p">(</span><span class="n">analysis</span><span class="p">):</span>
+
+    <span class="c1"># Creating the model from the results of the simulation</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span>
+
+    <span class="c1"># Retrieving the stresses</span>
+    <span class="n">stress_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">stress</span><span class="p">()</span>
+    <span class="n">stress_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">stresses</span> <span class="o">=</span> <span class="n">stress_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+
+    <span class="c1"># Averaging the stresses to a Nodal position</span>
+    <span class="n">avg_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">averaging</span><span class="o">.</span><span class="n">elemental_nodal_to_nodal</span><span class="p">()</span>
+    <span class="n">avg_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">stresses</span><span class="p">)</span>
+    <span class="n">avg_stresses</span> <span class="o">=</span> <span class="n">avg_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+
+    <span class="c1"># Computing the Von Mises stresses</span>
+    <span class="n">vm_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">invariant</span><span class="o">.</span><span class="n">von_mises_eqv</span><span class="p">()</span>
+    <span class="n">vm_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">avg_stresses</span><span class="p">)</span>
+    <span class="n">avg_von_mises</span> <span class="o">=</span> <span class="n">vm_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+
+    <span class="c1"># Finding the maximum Von Mises stress value</span>
+    <span class="n">min_max</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max</span><span class="p">()</span>
+    <span class="n">min_max</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">avg_von_mises</span><span class="p">)</span>
+    <span class="n">max_val</span> <span class="o">=</span> <span class="n">min_max</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+
+    <span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">avg_von_mises</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">max_val</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="plot-the-results">
+<h1>Plot the results<a class="headerlink" href="#plot-the-results" title="Permalink to this heading">#</a></h1>
+<p>Plot both von Mises stress fields side by side to compare them.
+- The first plot displays the results when the equivalent stresses are calculated first.
+- The second plot shows the results when the averaging is done first.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">max1</span> <span class="o">=</span> <span class="n">compute_von_mises_then_average</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
+<span class="n">max2</span> <span class="o">=</span> <span class="n">average_then_compute_von_mises</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../../_images/sphx_glr_00-compute_and_average_001.png" srcset="../../_images/sphx_glr_00-compute_and_average_001.png" alt="00 compute and average" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_00-compute_and_average_002.png" srcset="../../_images/sphx_glr_00-compute_and_average_002.png" alt="00 compute and average" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">max1</span> <span class="o">-</span> <span class="n">max2</span><span class="p">)</span> <span class="o">/</span> <span class="n">max2</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max stress when Von Mises is computed first: </span><span class="si">{:.2f}</span><span class="s2"> Pa&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max stress when the stress averaging is done first: </span><span class="si">{:.2f}</span><span class="s2"> Pa&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;The maximum Von Mises stress value is </span><span class="si">{:.2f}% hi</span><span class="s2">gher when </span><span class="se">\</span>
+<span class="s2">the averaging is done after the calculations.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">diff</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Max stress when Von Mises is computed first: 12494955907.48 Pa
+Max stress when the stress averaging is done first: 11860260659.06 Pa
+The maximum Von Mises stress value is 5.35% higher when the averaging is done after the calculations.
+</pre></div>
+</div>
+<p>Even though both workflows apply the same steps to the same initial data,
+their final results are different because of the order in which the operators
+are applied.</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.897 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-09-averaging-00-compute-and-average-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/9027331b7adce63ca8b2a3554b54a532/00-compute_and_average.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-compute_and_average.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/736c6dfdc20078df3c0c55c8aa8bafce/00-compute_and_average.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">00-compute_and_average.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+            </article>
+            
+            
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Averaging order
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-the-first-workflow">
+   Create the first workflow
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-the-second-workflow">
+   Create the second workflow
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-the-results">
+   Plot the results
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+<div class="tocsection sourcelink">
+    <a href="../../_sources/examples/09-averaging/00-compute_and_average.rst.txt">
+        <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+</div>
+
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>
