@@ -300,7 +300,6 @@ class Operator:
             collection,
             streams_container,
             generic_data_container,
-            mesh_info,
         )
 
         out = [
