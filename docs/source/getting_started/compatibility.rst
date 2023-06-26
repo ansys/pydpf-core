@@ -20,7 +20,7 @@ version 0.3.0 or later. With Ansys 2021 R1, you must use a PyDPF-Core 0.2
 version.
 
 As new features are developed, every attempt is made to ensure backward
-compatibility from the client to the server. We ensure backward compatibility for
+compatibility from the client to the server. Backward compatibility is ensured for
 the 4 latest Ansys versions. For example, ansys-dpf-core module with 0.8.0 version has been
 developed for Ansys 2023 R2 pre1 release, for 2023 R2 Ansys version. It is compatible with
 2023 R2, 2023 R1, 2022 R2 and 2022 R1 Ansys versions.
