@@ -9,7 +9,8 @@ from ansys.dpf.core import server as server_module
 
 import warnings
 
-class MeshInfo():
+
+class MeshInfo:
     """Represents the mesh information.
 
     This class describes the available mesh information.
@@ -88,7 +89,6 @@ class MeshInfo():
 
         return self._gdc.get_property(property_name, output_type)
 
-
     def set_property(self, property_name, prop):
         """Register given property with the given name.
 
@@ -105,7 +105,6 @@ class MeshInfo():
         """
 
         return self._gdc.set_property(property_name, prop)
-
 
     def get_number_nodes(self):
         """
@@ -127,7 +126,6 @@ class MeshInfo():
 
         return self._gdc.get_property("num_elements", int)
 
-
     def get_splittable_by(self):
         """
         Returns
@@ -137,7 +135,6 @@ class MeshInfo():
         """
 
         return self._gdc.get_property("splittable_by", ansys.dpf.core.StringField)
-
 
     def get_available_elem_types(self):
         """
@@ -149,24 +146,23 @@ class MeshInfo():
 
         return self._gdc.get_property("avalaible_elem_type", ansys.dpf.core.Scoping)
 
-
     def set_number_nodes(self, number_of_nodes):
         """Number of nodes"""
 
         return self._gdc.set_property("num_nodes", number_of_nodes)
 
     def set_number_elements(self, number_of_elements):
-        """ Number of elements """
+        """Number of elements"""
 
         return self._gdc.set_property("num_elements", number_of_elements)
 
     def set_splittable_by(self, split):
-        """ Splittable by """
+        """Splittable by"""
 
         return self._gdc.set_property("splittable_by", split)
 
     def set_available_elem_types(self, available_elem_types):
-        """ Available element types """
+        """Available element types"""
 
         return self._gdc.set_property("avalaible_elem_type", available_elem_types)
 

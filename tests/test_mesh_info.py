@@ -47,6 +47,7 @@ def test_set_get_property_mesh_info(server_type):
     result_field = mesh_info.get_property("my-property01", dpf.Field)
     assert result_field.component_count == field.component_count
 
+
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
@@ -70,6 +71,7 @@ def test_set_get_available_elem_types_mesh_info(server_type):
     result_available = mesh_info.get_available_elem_types()
     for x in range(len(available_results)):
         assert result_available.id(x) == available_results.id(x)
+
 
 def test_output_mesh_info_provider_fluent():
     ds = dpf.DataSources()
@@ -217,6 +219,7 @@ def test_output_mesh_info_provider_fluent():
     assert face_zone_elements_value[2] == 21
     assert face_zone_elements_value[3] == 70
     assert face_zone_elements_value[4] == 15
+
 
 def test_output_mesh_info_provider_flprj():
     ds = dpf.DataSources()

@@ -56,7 +56,9 @@ class PinSpecification:
     ellipsis: bool
     name_derived_class = str
 
-    def __init__(self, name, type_names, document="", optional=False, ellipsis=False, name_derived_class=""):
+    def __init__(
+        self, name, type_names, document="", optional=False, ellipsis=False, name_derived_class=""
+    ):
         self.name = name
         self.type_names = type_names
         self.optional = optional
@@ -102,7 +104,12 @@ class PinSpecification:
     @staticmethod
     def _get_copy(other, changed_types):
         return PinSpecification(
-            other.name, changed_types, other.document, other.optional, other.ellipsis, other.name_derived_class
+            other.name,
+            changed_types,
+            other.document,
+            other.optional,
+            other.ellipsis,
+            other.name_derived_class,
         )
 
     def __repr__(self):
@@ -371,7 +378,11 @@ class Specification(SpecificationBase):
                     for i_type in range(n_types)
                 ]
 
-                pin_derived_class_type_name = self._api.operator_specification_get_pin_derived_class_type_name(self, binput, i_pin)
+                pin_derived_class_type_name = (
+                    self._api.operator_specification_get_pin_derived_class_type_name(
+                        self, binput, i_pin
+                    )
+                )
 
                 pin_ell = self._api.operator_specification_is_pin_ellipsis(self, binput, i_pin)
                 if pin_derived_class_type_name == "":
@@ -380,7 +391,12 @@ class Specification(SpecificationBase):
                     )
                 else:
                     to_fill[i_pin] = PinSpecification(
-                        pin_name, pin_type_names, pin_doc, pin_opt, pin_ell, pin_derived_class_type_name
+                        pin_name,
+                        pin_type_names,
+                        pin_doc,
+                        pin_opt,
+                        pin_ell,
+                        pin_derived_class_type_name,
                     )
 
     @property
@@ -607,7 +623,7 @@ class CustomSpecification(Specification):
                 list_types,
                 value.optional,
                 value.ellipsis,
-                value.name_derived_class
+                value.name_derived_class,
             )
 
     @property
@@ -635,7 +651,7 @@ class CustomSpecification(Specification):
                 list_types,
                 value.optional,
                 value.ellipsis,
-                value.name_derived_class
+                value.name_derived_class,
             )
 
     @property
