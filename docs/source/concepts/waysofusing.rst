@@ -31,7 +31,7 @@ These capabilities can be accessed through _client APIs_, as shown here:
 .. image:: ../images/drawings/apis_2.png
 
 
-1. DPF server application can be accessed using Ansys Inc product, or
+1. The DPF server application can be accessed using Ansys Inc product, or
 DPF Server package (see :ref:`ref_getting_started_with_dpf_server`)
 available on the Customer portal
 
