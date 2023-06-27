@@ -97,7 +97,7 @@ It is independent of the Ansys installer.
 
 **Accessing capabilities with scripting**
 
-- C++ documentations:
+- C++ documentation:
 
   1. see Data Processing Framework section in `Platform panel <https://ansysapi.ansys.com/account/secured?returnurl=/Views/Secured/main_page.html?lang=en>`_.
 
