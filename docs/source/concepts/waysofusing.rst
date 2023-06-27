@@ -26,7 +26,7 @@ DPF client: available APIs and languages
 
 DPF is a framework that provides data computation capabilities. These capabilities are
 enabled using the DPF Server application.
-These capabilities can be accessed through _client APIs_, as shown here:
+These capabilities can be accessed through client APIs, as shown here:
 
 .. image:: ../images/drawings/apis_2.png
 
