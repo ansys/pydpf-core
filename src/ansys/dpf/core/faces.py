@@ -37,14 +37,14 @@ class Face:
 
     >>> import ansys.dpf.core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.find_static_rst())
+    >>> model = dpf.Model(examples.find_fluent_model())
     >>> faces = model.metadata.meshed_region.faces
     >>> face = faces[0]
 
     List the coordinates belonging to the first node of the face.
 
     >>> face.nodes[0].coordinates
-    [0.015, 0.045, 0.015]
+    [-0.030426240620025163, -0.05908951107677226, -0.034248966723680496]
 
     """
 
@@ -68,11 +68,11 @@ class Face:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_static_rst())
+        >>> model = dpf.Model(examples.find_fluent_model())
         >>> faces = model.metadata.meshed_region.faces
         >>> face = faces[0]
         >>> face.node_ids
-        [1, 26, 14, 12, 2, 27, 15, 13, 33, 64, 59, 30, 37, 65, 61, 34, 28, 81, 63, 58]
+        [11291, 11416, 11455, 11325]
 
         """
         return [node.id for node in self._nodes]
@@ -116,7 +116,7 @@ class Face:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_static_rst())
+        >>> model = dpf.Model(examples.find_fluent_model())
         >>> faces = model.metadata.meshed_region.faces
         >>> face = faces[0]
         >>> first_node = face.nodes[0]
@@ -159,11 +159,11 @@ class Face:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_static_rst())
+        >>> model = dpf.Model(examples.find_fluent_model())
         >>> faces = model.metadata.meshed_region.faces
         >>> face = faces[0]
         >>> face.type
-        <element_types.Hex20: 1>
+        <element_types.Quad4: 16>
 
         """
         return self._get_type()
@@ -205,10 +205,10 @@ class Faces:
     --------
     >>> import ansys.dpf.core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.find_static_rst())
+    >>> model = dpf.Model(examples.find_fluent_model())
     >>> faces = model.metadata.meshed_region.faces
     >>> faces.n_faces
-    8
+    44242
 
     """
 
@@ -311,7 +311,7 @@ class Faces:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_static_rst())
+        >>> model = dpf.Model(examples.find_fluent_model())
         >>> faces = model.metadata.meshed_region.faces
         >>> my_scoping = faces.scoping
 
@@ -332,11 +332,11 @@ class Faces:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_static_rst())
+        >>> model = dpf.Model(examples.find_fluent_model())
         >>> faces = model.metadata.meshed_region.faces
         >>> field = faces.faces_type_field
         >>> print(field.data)
-        [1 1 1 1 1 1 1 1]
+        [16 16 16 ... 16 16 16]
 
         """
         return self._mesh.field_of_properties(face_properties.faces_type)
@@ -355,12 +355,11 @@ class Faces:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_static_rst())
+        >>> model = dpf.Model(examples.find_fluent_model())
         >>> faces = model.metadata.meshed_region.faces
         >>> field = faces.faces_nodes_connectivity_field
         >>> field.get_entity_data(1)
-        DPFArray([ 0, 11, 13, 25,  2,  9,  8,  3, 29, 58, 63, 32, 40, 52, 42, 37, 28,
-               55, 53, 43]...
+        DPFArray([11415, 11347, 11387, 11454])
 
         """
         return self._mesh.property_field(face_properties.faces_nodes_connectivity)
@@ -385,7 +384,7 @@ class Faces:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_simple_bar())
+        >>> model = dpf.Model(examples.find_fluent_model())
         >>> meshed_region = model.metadata.meshed_region
         >>> map = meshed_region.faces.mapping_id_to_index
 
@@ -418,11 +417,11 @@ class Faces:
 
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_static_rst())
+        >>> model = dpf.Model(examples.find_fluent_model())
         >>> faces = model.metadata.meshed_region.faces
-        >>> T = model.results.temperature()
-        >>> field = T.outputs.fields_container()[0]
-        >>> ind, mask = T.map_scoping(field.scoping)
+        >>> m = model.results.mass_flow_rate()
+        >>> field = m.outputs.fields_container()[0]
+        >>> ind, mask = faces.map_scoping(field.scoping)
 
         """
         if external_scope.location in ["Nodal", "NodalElemental", "Elemental", "ElementalNodal"]:
