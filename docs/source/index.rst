@@ -101,7 +101,7 @@ It is independent of the Ansys installer.
 
   1. The Data Processing Framework section in `Platform panel <https://ansysapi.ansys.com/account/secured?returnurl=/Views/Secured/main_page.html?lang=en>`_.
 
-  2. see `Developer Portal <https://developer.ansys.com/product/DPF-Server-Client-Library/index.xhtml>`_
+  2. `Developer Portal <https://developer.ansys.com/product/DPF-Server-Client-Library/index.xhtml>`_
 
 - CPython modules documentations:
 
