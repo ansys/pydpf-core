@@ -18,7 +18,7 @@ that enables capabilities by loading libraries of operators (for example, mapdlO
 is basic library enabled by DPF).
 This application is also called a **DPF Server application**.
 
-Starting a DPF application, it is possible to customize the list of operator's libraries that the kernel loads.
+When starting a DPF application, you can customize the list of operator's libraries that the kernel loads.
 To learn more on how to customize the initialization of a DPF application, see :ref:`user_guide_xmlfiles`.
 
 DPF client: available APIs and languages
