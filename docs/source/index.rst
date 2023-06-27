@@ -86,7 +86,7 @@ The following sections are summaries. For more detailed content, see :ref:`user_
 
 **Accessing DPF Server files**
 
-DPF capabilities are accessible having DPF Server files available. Those files can be accessed using:
+DPF capabilities are accessible when DPF Server files are available. These files can be accessed using:
 
 - the **Ansys installer**. To use it, download the standard installation using your preferred distribution channel,
 and install Ansys following the installer instructions. For information on getting a licensed copy of Ansys,
