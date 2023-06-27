@@ -302,7 +302,7 @@ class Operator:
             generic_data_container,
         )
 
-        return [
+        out = [
             (bool, self._api.operator_getoutput_bool),
             (int, self._api.operator_getoutput_int),
             (str, self._api.operator_getoutput_string),
@@ -392,6 +392,15 @@ class Operator:
                 ).get_integral_entries(),
             ),
         ]
+        if hasattr(self._api, "operator_getoutput_generic_data_container"):
+            out.append(
+                (
+                    generic_data_container.GenericDataContainer,
+                    self._api.operator_getoutput_generic_data_container,
+                    "generic_data_container",
+                )
+            )
+        return out
 
     @property
     def _type_to_input_method(self):
@@ -412,7 +421,7 @@ class Operator:
             generic_data_container,
         )
 
-        return [
+        out = [
             (bool, self._api.operator_connect_bool),
             ((int, Enum), self._api.operator_connect_int),
             (str, self._api.operator_connect_string),
@@ -447,6 +456,14 @@ class Operator:
                 self._api.operator_connect_generic_data_container,
             ),
         ]
+        if hasattr(self._api, "operator_connect_generic_data_container"):
+            out.append(
+                (
+                    generic_data_container.GenericDataContainer,
+                    self._api.operator_connect_generic_data_container,
+                )
+            )
+        return out
 
     def get_output(self, pin=0, output_type=None):
         """Retrieve the output of the operator on the pin number.

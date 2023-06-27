@@ -269,6 +269,18 @@ def test_connect_generic_data_container_operator(server_type):
 
 
 @pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="Connect an operator as an input is supported starting server version 7.0",
+)
+def test_connect_generic_data_container_operator(server_type):
+    op = dpf.core.Operator("forward", server=server_type)
+    inpt = dpf.core.GenericDataContainer(server=server_type)
+    op.connect(0, inpt)
+    output = op.get_output(0, dpf.core.types.generic_data_container)
+    assert output is not None
+
+
+@pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
     reason="Connect an operator as an input is supported starting server version 6.2",
 )
