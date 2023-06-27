@@ -99,7 +99,7 @@ It is independent of the Ansys installer.
 
 - C++ documentation:
 
-  1. see Data Processing Framework section in `Platform panel <https://ansysapi.ansys.com/account/secured?returnurl=/Views/Secured/main_page.html?lang=en>`_.
+  1. The Data Processing Framework section in `Platform panel <https://ansysapi.ansys.com/account/secured?returnurl=/Views/Secured/main_page.html?lang=en>`_.
 
   2. see `Developer Portal <https://developer.ansys.com/product/DPF-Server-Client-Library/index.xhtml>`_
 
