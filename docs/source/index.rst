@@ -103,7 +103,7 @@ It is independent of the Ansys installer.
 
   2. `Developer Portal <https://developer.ansys.com/product/DPF-Server-Client-Library/index.xhtml>`_
 
-- CPython modules documentations:
+- CPython modules documentation:
 
   1. `ansys-dpf-core <https://dpf.docs.pyansys.com/version/stable/>`_
 
