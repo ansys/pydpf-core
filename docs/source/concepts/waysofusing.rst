@@ -64,8 +64,6 @@ DPF as a standalone application
 
 **Standalone DPF** can be used through any of the previously mentioned APIs.
 
-CPython
--------
 Especially, DPF Standalone capabilities can be enabled using **CPython** and can be accessed via any Python console.
 Data can be exported to universal file formats, such as VTK, HDF5, and TXT
 files. You can use it to generate TH-plots, screenshots, and animations or
@@ -75,7 +73,7 @@ and `matplotlib <https://matplotlib.org/>`_ packages.
 .. image:: ../images/drawings/dpf-reports.png
 
 Mechanical
-----------
+~~~~~~~~~~
 **DPF in Mechanical** uses IronPython and is accessible with the **ACT Console**.
 Use it to perform custom postprocessing and visualization of results directly 
 within the Mechanical application.
