@@ -14,7 +14,7 @@ DPF is a framework that provides data computation capabilities. These capabiliti
 through libraries of operators. To learn more about the computed data and the operator concepts, see :ref:`user_guide_concepts`.
 
 A DPF application is always composed of a kernel (DataProcessingCore and DPFClientAPI binaries),
-that enables capabilities by loading libraries of operators (for example mapdlOperatorsCore library
+that enables capabilities by loading libraries of operators (for example, mapdlOperatorsCore library
 is basic library enabled by DPF).
 **A such application is also called a "DPF Server application"**.
 
