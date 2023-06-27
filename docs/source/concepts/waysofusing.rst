@@ -35,7 +35,7 @@ These capabilities can be accessed through _client APIs_, as shown here:
 DPF Server package (see :ref:`ref_getting_started_with_dpf_server`)
 available on the Customer portal.
 
-2. Several client APIs are available (CPython, IronPython, C++, and so on)
+2. Several client APIs are available (CPython, IronPython, C++, and so on).
 
 3. Communication in the same process, or through gRPC (allows to have the client and the servers on different machines)
 
