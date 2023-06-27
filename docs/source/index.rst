@@ -92,7 +92,7 @@ DPF capabilities are accessible when DPF Server files are available. These files
 and install Ansys following the installer instructions. For information on getting a licensed copy of Ansys,
 visit the `Ansys website <https://www.ansys.com/>`_.
 
-- the DPF Server package (see :ref:`ref_getting_started_with_dpf_server`).
+- The DPF Server package (see :ref:`ref_getting_started_with_dpf_server`).
 It is independent of the Ansys installer.
 
 **Accessing capabilities with scripting**
