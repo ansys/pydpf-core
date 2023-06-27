@@ -88,7 +88,7 @@ The following sections are summaries. For more detailed content, see :ref:`user_
 
 DPF capabilities are accessible when DPF Server files are available. These files can be accessed using:
 
-- the **Ansys installer**. To use it, download the standard installation using your preferred distribution channel,
+- The **Ansys installer**. To use it, download the standard installation using your preferred distribution channel,
 and install Ansys following the installer instructions. For information on getting a licensed copy of Ansys,
 visit the `Ansys website <https://www.ansys.com/>`_.
 
