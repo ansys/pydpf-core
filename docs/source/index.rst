@@ -119,7 +119,7 @@ It is independent of the Ansys installer.
 
 - C++ operator's library (see C++ documentation)
 
-- `C++ solver reader plugin <https://dpf.docs.pyansys.com/version/stable/user_guide/custom_operators.html#user-guide-custom-operators>`_
+- `C++ solver reader plugin <https://astonishing-hyacinth-e64.notion.site/How-to-write-a-new-solver-reader-as-a-DPF-s-plugin-bd2d2a3cf51f47ef9e70df45d64f89cb>`_
 
 - :ref:`user_guide_custom_operators`
 
