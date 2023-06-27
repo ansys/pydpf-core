@@ -50,7 +50,9 @@ Enhance DPF capabilities
 
 *The available DPF capabilities loaded in a DPF application can be enhanced** by creating new operator's libraries.
 DPF offers multiple development APIs depending on your environment. These plugins can be:
+
 - CPython based (see :ref:`user_guide_custom_operators`)
+
 - C++ based (see C++ documentation)
 
 DPF integration
