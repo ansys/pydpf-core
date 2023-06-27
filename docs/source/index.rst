@@ -82,7 +82,7 @@ Accessing and enriching DPF capabilities
 Most of the DPF capabilities can be accessed using the operators.
 For more information about the existing operators, see the **Operators** tab.
 
-Following sections are summarizes. For more detailed content, see :ref:`user_guide_waysofusing`.
+The following sections are summaries. For more detailed content, see :ref:`user_guide_waysofusing`.
 
 **Accessing DPF Server files**
 
