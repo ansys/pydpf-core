@@ -44,7 +44,7 @@ Note that **IronPython and CPython APIs are different**, each has specific synta
 The **list of available operators when using DPF is independent from the language or API which is used**, it only depends
 on how the DPF application has been initialized.
 
-Most of the DPF capabilities can be accessed using the operators. For more information about the existing operators, see **Operators** tab.
+Most of the DPF capabilities can be accessed using the operators. For more information about the existing operators, see the **Operators** tab.
 
 Enhance DPF capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~
