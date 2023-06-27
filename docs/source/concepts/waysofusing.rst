@@ -37,7 +37,7 @@ available on the Customer portal.
 
 2. Several client APIs are available (CPython, IronPython, C++, and so on).
 
-3. Communication in the same process, or through gRPC (allows to have the client and the servers on different machines)
+3. Communication in the same process, or through gRPC, allows you to have the client and the servers on different machines.
 
 Note that **IronPython and CPython APIs are different**, each has specific syntax.
 
