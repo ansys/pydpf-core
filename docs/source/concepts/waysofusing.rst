@@ -33,7 +33,7 @@ These capabilities can be accessed through _client APIs_, as shown here:
 
 1. The DPF server application can be accessed using Ansys Inc product, or
 DPF Server package (see :ref:`ref_getting_started_with_dpf_server`)
-available on the Customer portal
+available on the Customer portal.
 
 2. Several client APIs are available (CPython, IronPython, C++, and so on)
 
