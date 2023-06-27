@@ -65,7 +65,7 @@ DPF as a standalone application
 
 **Standalone DPF** can be used through any of the previously mentioned APIs.
 
-Especially, DPF Standalone capabilities can be enabled using **CPython** and can be accessed via any Python console.
+In particular, DPF Standalone capabilities can be enabled using **CPython** and can be accessed via any Python console.
 Data can be exported to universal file formats, such as VTK, HDF5, and TXT
 files. You can use it to generate TH-plots, screenshots, and animations or
 to create custom result plots using the `numpy <https://numpy.org/>`_
