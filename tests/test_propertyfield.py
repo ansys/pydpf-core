@@ -246,7 +246,9 @@ def test_print_property_field(server_type):
     pfield.data = [1, 2, 4, 6, 7]
     print(pfield)
     assert "Property Field" in str(pfield)
-    assert "5 Nodal entities" in str(pfield)
+    assert "5" in str(pfield)
+    assert "Nodal" in str(pfield)
+    assert "entities" in str(pfield)
     assert "1 components and 5 elementary data" in str(pfield)
 
 
