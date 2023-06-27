@@ -14,11 +14,11 @@ DPF is a framework that provides data computation capabilities. These capabiliti
 through libraries of operators. To learn more about the computed data and the operator concepts, see :ref:`user_guide_concepts`.
 
 A DPF application is always composed of a kernel (DataProcessingCore and DPFClientAPI binaries),
-that enables capabilities by loading libraries of operators (for example mapdlOperatorsCore library
+that enables capabilities by loading libraries of operators (for example, mapdlOperatorsCore library
 is basic library enabled by DPF).
-**A such application is also called a "DPF Server application"**.
+This application is also called a **DPF Server application**.
 
-Starting a DPF application, it is possible to customize the list of operator's libraries that the kernel loads.
+When starting a DPF application, you can customize the list of operator's libraries that the kernel loads.
 To learn more on how to customize the initialization of a DPF application, see :ref:`user_guide_xmlfiles`.
 
 DPF client: available APIs and languages
@@ -26,29 +26,29 @@ DPF client: available APIs and languages
 
 DPF is a framework that provides data computation capabilities. These capabilities are
 enabled using the DPF Server application.
-These capabilities can be accessed through "client APIs", as shown on the following picture:
+These capabilities can be accessed through _client APIs_, as shown here:
 
 .. image:: ../images/drawings/apis_2.png
 
 
 
-  1. DPF server application can be accessed using Ansys Inc product, or DPF Server package (see :ref:`ref_getting_started_with_dpf_server`) available on the Customer portal
+  1. DPF server application can be accessed using Ansys Inc product, or DPF Server package (see :ref:`ref_getting_started_with_dpf_server`) available on the Customer portal.
 
-  2. Several client APIs are available (CPython, IronPython, C++, and so on)
+  2. Several client APIs are available (CPython, IronPython, C++, and so on).
 
-  3. Communication in the same process, or through gRPC (allows to have the client and the servers on different machines)
+  3. Communication in the same process, or through gRPC, allows you to have the client and the servers on different machines.
 
 Note that **IronPython and CPython APIs are different**, each has specific syntax.
 
 The **list of available operators when using DPF is independent from the language or API which is used**, it only depends
 on how the DPF application has been initialized.
 
-Most of the DPF capabilities can be accessed using the operators. For more information about the existing operators, see **Operators** tab.
+Most of the DPF capabilities can be accessed using the operators. For more information about the existing operators, see the **Operators** tab.
 
 Enhance DPF capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-*The available DPF capabilities loaded in a DPF application can be enhanced** by creating new operator's libraries.
+The available DPF capabilities loaded in a DPF application can be enhanced by creating new operator's libraries.
 DPF offers multiple development APIs depending on your environment. These plugins can be:
 
 - CPython based (see :ref:`user_guide_custom_operators`)

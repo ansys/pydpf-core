@@ -80,30 +80,30 @@ Accessing and enriching DPF capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most of the DPF capabilities can be accessed using the operators.
-For more information about the existing operators, see **Operators** tab.
+For more information about the existing operators, see the **Operators** tab.
 
-Following sections are summarizes. For more detailed content, see :ref:`user_guide_waysofusing`.
+The following sections are summaries. For more detailed content, see :ref:`user_guide_waysofusing`.
 
 **Accessing DPF Server files**
 
-DPF capabilities are accessible having DPF Server files available. Those files can be accessed using:
+DPF capabilities are accessible when DPF Server files are available. These files can be accessed using:
 
-- the **Ansys installer**. To use it, download the standard installation using your preferred distribution channel,
+- The **Ansys installer**. To use it, download the standard installation using your preferred distribution channel,
 and install Ansys following the installer instructions. For information on getting a licensed copy of Ansys,
 visit the `Ansys website <https://www.ansys.com/>`_.
 
-- the DPF Server package (see :ref:`ref_getting_started_with_dpf_server`).
+- The DPF Server package (see :ref:`ref_getting_started_with_dpf_server`).
 It is independent of the Ansys installer.
 
 **Accessing capabilities with scripting**
 
-- C++ documentations:
+- C++ documentation:
 
-  1. see Data Processing Framework section in `Platform panel <https://ansysapi.ansys.com/account/secured?returnurl=/Views/Secured/main_page.html?lang=en>`_.
+  1. The Data Processing Framework section in `Platform panel <https://ansysapi.ansys.com/account/secured?returnurl=/Views/Secured/main_page.html?lang=en>`_.
 
-  2. see `Developer Portal <https://developer.ansys.com/product/DPF-Server-Client-Library/index.xhtml>`_
+  2. `Developer Portal <https://developer.ansys.com/product/DPF-Server-Client-Library/index.xhtml>`_
 
-- CPython modules documentations:
+- CPython modules documentation:
 
   1. `ansys-dpf-core <https://dpf.docs.pyansys.com/version/stable/>`_
 
