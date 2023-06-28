@@ -419,7 +419,6 @@ class Operator:
             workflow,
             model,
             generic_data_container,
-            mesh_info,
         )
 
         out = [

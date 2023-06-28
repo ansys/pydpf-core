@@ -14,9 +14,11 @@ def test_create_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
     assert mesh_info is not None
 
+
 @pytest.fixture()
 def model(fluent_multi_species, server_type):
     return Model(fluent_multi_species, server=server_type)
+
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"

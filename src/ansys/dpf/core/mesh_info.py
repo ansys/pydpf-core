@@ -2,12 +2,8 @@
 MeshInfo
 ==========
 """
-import traceback
-
 import ansys.dpf.core
 from ansys.dpf.core import server as server_module
-
-import warnings
 
 
 class MeshInfo:

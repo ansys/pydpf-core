@@ -518,7 +518,6 @@ class Metadata:
 
         return self._mesh_info
 
-
     @property
     @version_requires("4.0")
     def meshes_container(self):
