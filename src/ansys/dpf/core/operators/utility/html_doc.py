@@ -11,8 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class html_doc(Operator):
-    """Create dpf's html documentation. Only on windows, use deprecated doc
-    for linux
+    """Create dpf's html documentation. Only on Windows.
 
     Parameters
     ----------
@@ -60,8 +59,7 @@ class html_doc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Create dpf's html documentation. Only on windows, use deprecated doc
-            for linux"""
+        description = """Create dpf's html documentation. Only on Windows."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
