@@ -300,6 +300,7 @@ class Operator:
             collection,
             streams_container,
             generic_data_container,
+            mesh_info,
         )
 
         out = [
@@ -369,6 +370,10 @@ class Operator:
                 self._api.operator_getoutput_time_freq_support,
                 "time_freq_support",
             ),
+            (
+                mesh_info.MeshInfo,
+                "MeshInfo",
+            ),
             (workflow.Workflow, self._api.operator_getoutput_workflow, "workflow"),
             (data_tree.DataTree, self._api.operator_getoutput_data_tree, "data_tree"),
             (Operator, self._api.operator_getoutput_operator, "operator"),
@@ -414,6 +419,7 @@ class Operator:
             workflow,
             model,
             generic_data_container,
+            mesh_info,
         )
 
         out = [

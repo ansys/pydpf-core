@@ -42,15 +42,18 @@ class MeshInfo:
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
-        if gdc is None:
-            self._gdc = ansys.dpf.core.generic_data_container.GenericDataContainer()
-        else:
-            self._gdc = gdc
+        try:
+            if gdc is None and mesh_info is None:
+                self._gdc = ansys.dpf.core.generic_data_container.GenericDataContainer()
+            elif gdc is not None and mesh_info is None:
+                self._gdc = gdc
+            elif gdc is None and MeshInfo is not None:
+                self._gdc = mesh_info._gdc
+        except ValueError:
+            print("Both generic data container and mesh info can't be filled")
 
-        if mesh_info is None:
-            self.mesh_info = self._gdc
-        else:
-            self.mesh_info = mesh_info
+    def __call__(self):
+        return self
 
     def deep_copy(self, server=None):
         """Create a deep copy of the scoping's data on a given server.
@@ -165,10 +168,3 @@ class MeshInfo:
         """Available element types"""
 
         return self._gdc.set_property("avalaible_elem_type", available_elem_types)
-
-    def __del__(self):
-        try:
-            self._deleter_func[0](self._deleter_func[1](self))
-        except Exception as e:
-            print(str(e.args), str(self._deleter_func[0]))
-            warnings.warn(traceback.format_exc())

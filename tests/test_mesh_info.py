@@ -4,6 +4,7 @@ from conftest import (
 )
 import pytest
 from ansys.dpf.core import examples
+from ansys.dpf.core import Model
 
 
 @pytest.mark.skipif(
@@ -13,6 +14,9 @@ def test_create_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
     assert mesh_info is not None
 
+@pytest.fixture()
+def model(fluent_multi_species, server_type):
+    return Model(fluent_multi_species, server=server_type)
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
@@ -81,6 +85,8 @@ def test_output_mesh_info_provider_fluent():
     mesh_info = dpf.operators.metadata.mesh_info_provider()
     mesh_info.inputs.data_sources(ds)
     mesh_info_out = mesh_info.outputs.mesh_info()
+
+    assert type(mesh_info_out) == dpf.mesh_info.MeshInfo
 
     """************************ NUMBER OF CELLS/FACES/ZONES ************************"""
 
@@ -221,21 +227,15 @@ def test_output_mesh_info_provider_fluent():
     assert face_zone_elements_value[4] == 15
 
 
-def test_output_mesh_info_provider_flprj():
-    ds = dpf.DataSources()
-    files = examples.download_fluent_axial_comp()
-    ds.set_result_file_path(files["cas"][0], "cas")
-
-    mesh_info = dpf.operators.metadata.mesh_info_provider()
-    mesh_info.inputs.data_sources(ds)
-    mesh_info.inputs.time_scoping(1)
-    mesh_info_out = mesh_info.outputs.mesh_info()
+def test_output_mesh_info_provider_flprj(fluent_axial_comp):
+    model = dpf.Model(fluent_axial_comp)
+    res = model.metadata.mesh_info
 
     """************************ NUMBER OF CELLS/FACES/ZONES ************************"""
 
-    num_cells = mesh_info_out.get_property("num_cells", int)
-    num_faces = mesh_info_out.get_property("num_faces", int)
-    num_nodes = mesh_info_out.get_property("num_nodes", int)
+    num_cells = res.get_property("num_cells", int)
+    num_faces = res.get_property("num_faces", int)
+    num_nodes = res.get_property("num_nodes", int)
 
     assert num_cells == 13856
     assert num_faces == 45391
@@ -244,7 +244,7 @@ def test_output_mesh_info_provider_flprj():
     """************************ BODIES ************************"""
 
     """************ Name ************"""
-    body_names = mesh_info_out.get_property("body_name", dpf.StringField)
+    body_names = res.get_property("body_name", dpf.StringField)
 
     body_names_value = body_names._get_data()
 
@@ -253,15 +253,15 @@ def test_output_mesh_info_provider_flprj():
     assert body_names_value[1] == "fluid-stator"
 
     """************ Scoping ************"""
-    body_scoping = mesh_info_out.get_property("body_scoping", dpf.Scoping)
+    body_scoping = res.get_property("body_scoping", dpf.Scoping)
 
     assert body_scoping.size == 2
     assert body_scoping[0] == 13
     assert body_scoping[1] == 28
 
     """************ Topology ************"""
-    body_cell_topology = mesh_info_out.get_property("body_cell_topology", dpf.PropertyField)
-    body_face_topology = mesh_info_out.get_property("body_face_topology", dpf.PropertyField)
+    body_cell_topology = res.get_property("body_cell_topology", dpf.PropertyField)
+    body_face_topology = res.get_property("body_face_topology", dpf.PropertyField)
 
     body_cell_topology_scoping = body_cell_topology._get_scoping()
     body_face_topology_scoping = body_face_topology._get_scoping()
@@ -278,7 +278,7 @@ def test_output_mesh_info_provider_flprj():
     """************************ ZONES ************************"""
 
     """************ Name ************"""
-    zone_names = mesh_info_out.get_property("zone_name", dpf.StringField)
+    zone_names = res.get_property("zone_name", dpf.StringField)
 
     zone_names_value = zone_names._get_data()
 
@@ -293,7 +293,7 @@ def test_output_mesh_info_provider_flprj():
     assert zone_names_value[25] == "stator-per-1-shadow"
 
     """************ Scoping ************"""
-    zone_scoping = mesh_info_out.get_property("zone_scoping", dpf.Scoping)
+    zone_scoping = res.get_property("zone_scoping", dpf.Scoping)
 
     assert zone_scoping.size == 26
     assert zone_scoping[0] == 13
@@ -306,7 +306,7 @@ def test_output_mesh_info_provider_flprj():
     assert zone_scoping[25] == 27
 
     """************ Element ************"""
-    zone_elements = mesh_info_out.get_property("num_elem_zone", dpf.PropertyField)
+    zone_elements = res.get_property("num_elem_zone", dpf.PropertyField)
 
     number_of_element_in_zone_value = zone_elements._get_data()
 
@@ -323,7 +323,7 @@ def test_output_mesh_info_provider_flprj():
     """************ CELL ZONES ************"""
 
     """************ Name ************"""
-    cell_zone_name = mesh_info_out.get_property("cell_zone_names", dpf.StringField)
+    cell_zone_name = res.get_property("cell_zone_names", dpf.StringField)
 
     cell_zone_name_value = cell_zone_name._get_data()
 
@@ -332,14 +332,14 @@ def test_output_mesh_info_provider_flprj():
     assert cell_zone_name_value[1] == "fluid-stator"
 
     """************ Scoping ************"""
-    cell_zone_scoping = mesh_info_out.get_property("cell_zone_scoping", dpf.Scoping)
+    cell_zone_scoping = res.get_property("cell_zone_scoping", dpf.Scoping)
 
     assert cell_zone_scoping.size == 2
     assert cell_zone_scoping[0] == 13
     assert cell_zone_scoping[1] == 28
 
     """************ Element ************"""
-    cell_zone_elements = mesh_info_out.get_property("cell_zone_elements", dpf.PropertyField)
+    cell_zone_elements = res.get_property("cell_zone_elements", dpf.PropertyField)
 
     cell_zone_elements_value = cell_zone_elements._get_data()
 
@@ -350,7 +350,7 @@ def test_output_mesh_info_provider_flprj():
     """************ FACE ZONES ************"""
 
     """************ Name ************"""
-    face_zone_names = mesh_info_out.get_property("face_zone_names", dpf.StringField)
+    face_zone_names = res.get_property("face_zone_names", dpf.StringField)
 
     face_zone_names_value = face_zone_names._get_data()
 
@@ -364,7 +364,7 @@ def test_output_mesh_info_provider_flprj():
     assert face_zone_names_value[23] == "stator-per-1-shadow"
 
     """************ Scoping ************"""
-    face_zone_scoping = mesh_info_out.get_property("face_zone_scoping", dpf.Scoping)
+    face_zone_scoping = res.get_property("face_zone_scoping", dpf.Scoping)
 
     assert face_zone_scoping.size == 24
     assert face_zone_scoping[0] == 2
@@ -376,7 +376,7 @@ def test_output_mesh_info_provider_flprj():
     assert face_zone_scoping[23] == 27
 
     """************ Element ************"""
-    face_zone_elements = mesh_info_out.get_property("face_zone_elements", dpf.PropertyField)
+    face_zone_elements = res.get_property("face_zone_elements", dpf.PropertyField)
 
     face_zone_elements_value = face_zone_elements._get_data()
 

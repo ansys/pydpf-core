@@ -385,19 +385,14 @@ class Specification(SpecificationBase):
                 )
 
                 pin_ell = self._api.operator_specification_is_pin_ellipsis(self, binput, i_pin)
-                if pin_derived_class_type_name == "":
-                    to_fill[i_pin] = PinSpecification(
-                        pin_name, pin_type_names, pin_doc, pin_opt, pin_ell
-                    )
-                else:
-                    to_fill[i_pin] = PinSpecification(
-                        pin_name,
-                        pin_type_names,
-                        pin_doc,
-                        pin_opt,
-                        pin_ell,
-                        pin_derived_class_type_name,
-                    )
+                to_fill[i_pin] = PinSpecification(
+                    pin_name,
+                    pin_type_names,
+                    pin_doc,
+                    pin_opt,
+                    pin_ell,
+                    pin_derived_class_type_name,
+                )
 
     @property
     def config_specification(self) -> ConfigSpecification:

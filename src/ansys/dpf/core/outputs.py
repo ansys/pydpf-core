@@ -39,6 +39,7 @@ class Output:
     def get_data(self):
         """Retrieves the output of the operator."""
         type_output = self._spec.type_names[0]
+
         if type_output == "abstract_meshed_region":
             type_output = types.meshed_region
         elif type_output == "abstract_data_tree":
@@ -56,7 +57,16 @@ class Output:
         elif type_output == "vector<int32>":
             type_output = types.vec_int
 
-        return self._operator.get_output(self._pin, type_output)
+        out = self._operator.get_output(self._pin, type_output)
+        type_output_derive_class = self._spec.name_derived_class
+
+        if type_output_derive_class != "":
+            out_type = [type_tuple for type_tuple in
+                       self._operator._type_to_output_method if type_output_derive_class
+                       in type_tuple]
+            return out_type[0][0](out)
+        else:
+            return out
 
     def __call__(self):
         return self.get_data()
