@@ -67,6 +67,10 @@ Location: [-0.022856459489947675, -0.08534214957826106, -0.013310679234564304]
     assert str(face.nodes[3]) == ref_node_str
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="faces location was not supported before 7.0",
+)
 def test_face_scoping():
     faces_sco = mesh_scoping_factory.face_scoping([56, 78, 4])
     assert faces_sco.location == dpf.locations.faces
