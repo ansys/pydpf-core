@@ -1,5 +1,5 @@
 """
-.. _ref_elements_apis:
+.. _ref_faces_apis:
 
 Faces
 ========
@@ -37,7 +37,7 @@ class Face:
 
     >>> import ansys.dpf.core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.find_fluent_model())
+    >>> model = dpf.Model(examples.fluid_axial_model())
     >>> faces = model.metadata.meshed_region.faces
     >>> face = faces[0]
 
@@ -68,7 +68,7 @@ class Face:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_fluent_model())
+        >>> model = dpf.Model(examples.fluid_axial_model())
         >>> faces = model.metadata.meshed_region.faces
         >>> face = faces[0]
         >>> face.node_ids
@@ -116,7 +116,7 @@ class Face:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_fluent_model())
+        >>> model = dpf.Model(examples.fluid_axial_model())
         >>> faces = model.metadata.meshed_region.faces
         >>> face = faces[0]
         >>> first_node = face.nodes[0]
@@ -159,7 +159,7 @@ class Face:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_fluent_model())
+        >>> model = dpf.Model(examples.fluid_axial_model())
         >>> faces = model.metadata.meshed_region.faces
         >>> face = faces[0]
         >>> face.type
@@ -205,7 +205,7 @@ class Faces:
     --------
     >>> import ansys.dpf.core as dpf
     >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.find_fluent_model())
+    >>> model = dpf.Model(examples.fluid_axial_model())
     >>> faces = model.metadata.meshed_region.faces
     >>> faces.n_faces
     44242
@@ -311,7 +311,7 @@ class Faces:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_fluent_model())
+        >>> model = dpf.Model(examples.fluid_axial_model())
         >>> faces = model.metadata.meshed_region.faces
         >>> my_scoping = faces.scoping
 
@@ -332,7 +332,7 @@ class Faces:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_fluent_model())
+        >>> model = dpf.Model(examples.fluid_axial_model())
         >>> faces = model.metadata.meshed_region.faces
         >>> field = faces.faces_type_field
         >>> print(field.data)
@@ -355,7 +355,7 @@ class Faces:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_fluent_model())
+        >>> model = dpf.Model(examples.fluid_axial_model())
         >>> faces = model.metadata.meshed_region.faces
         >>> field = faces.faces_nodes_connectivity_field
         >>> field.get_entity_data(1)
@@ -384,7 +384,7 @@ class Faces:
         --------
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_fluent_model())
+        >>> model = dpf.Model(examples.fluid_axial_model())
         >>> meshed_region = model.metadata.meshed_region
         >>> map = meshed_region.faces.mapping_id_to_index
 
@@ -417,7 +417,7 @@ class Faces:
 
         >>> import ansys.dpf.core as dpf
         >>> from ansys.dpf.core import examples
-        >>> model = dpf.Model(examples.find_fluent_model())
+        >>> model = dpf.Model(examples.fluid_axial_model())
         >>> faces = model.metadata.meshed_region.faces
         >>> m = model.results.mass_flow_rate()
         >>> field = m.outputs.fields_container()[0]

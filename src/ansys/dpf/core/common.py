@@ -233,10 +233,10 @@ class face_properties:
 
     Attributes
     ----------
-    element_type = "faces_type"
+    faces_type = "faces_type"
         face type property data is provided
 
-    connectivity = "faces_nodes_connectivity"
+    faces_nodes_connectivity = "faces_nodes_connectivity"
         faces connectivity property data is provided
     """
 

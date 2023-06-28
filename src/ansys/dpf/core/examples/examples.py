@@ -424,7 +424,7 @@ def find_distributed_msup_folder(
     return find_files(distributed_msup_folder, should_upload, server, return_local_path)
 
 
-def find_fluent_model(should_upload: bool = True, server=None, return_local_path=False) -> str:
+def fluid_axial_model(should_upload: bool = True, server=None, return_local_path=False) -> str:
     """Make the result file available server side, if the server is remote the file is uploaded
     server side. Returns the path on the file.
 
@@ -441,14 +441,14 @@ def find_fluent_model(should_upload: bool = True, server=None, return_local_path
 
     Returns
     -------
-    str
-        Path to the example file.
+    DataSources
+        DataSources to the example file.
 
     Examples
     --------
 
     >>> from ansys.dpf.core import examples
-    >>> ds = examples.find_fluent_mesh()
+    >>> ds = examples.fluid_axial_model()
     """
     from .downloads import download_fluent_axial_comp
     from ansys.dpf.core import data_sources
