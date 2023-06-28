@@ -709,6 +709,9 @@ def test_plot_polyhedron():
         [2, 7, 6, 1],
         [5, 6, 7, 8, 9],
     ]
+    # Define the element connectivity
+    element_connectivity = [i for face in faces_connectivity for i in face]
+
     # Define the faces connectivity of the element
     elements_faces = [[0, 1, 2, 3, 4, 5, 6]]
     # Define the types of faces in the mesh
@@ -720,6 +723,7 @@ def test_plot_polyhedron():
     mesh = core.MeshedRegion()
     for index, node_coordinates in enumerate(polyhedron_points):
         mesh.nodes.add_node(index, node_coordinates)
+    mesh.elements.add_solid_element(0, element_connectivity)
 
     # Set the "cell_types" PropertyField
     cell_types_f = core.PropertyField()
