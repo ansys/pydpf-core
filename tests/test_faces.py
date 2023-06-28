@@ -1,5 +1,6 @@
 import pytest
 import conftest
+import platform
 from ansys.dpf import core as dpf
 from ansys.dpf.core.elements import element_types
 
