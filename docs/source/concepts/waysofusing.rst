@@ -28,15 +28,15 @@ DPF is a framework that provides data computation capabilities. These capabiliti
 enabled using the DPF Server application.
 These capabilities can be accessed through client APIs, as shown here:
 
+
 .. image:: ../images/drawings/apis_2.png
 
 
+1. DPF server application can be accessed using Ansys Inc product, or DPF Server package (see :ref:`ref_getting_started_with_dpf_server`) available on the Customer portal.
 
-  1. DPF server application can be accessed using Ansys Inc product, or DPF Server package (see :ref:`ref_getting_started_with_dpf_server`) available on the Customer portal.
+2. Several client APIs are available (CPython, IronPython, C++, and so on).
 
-  2. Several client APIs are available (CPython, IronPython, C++, and so on).
-
-  3. Communication in the same process, or through gRPC, allows you to have the client and the servers on different machines.
+3. Communication in the same process, or through gRPC, allows you to have the client and the servers on different machines.
 
 Note that **IronPython and CPython APIs are different**, each has specific syntax.
 
