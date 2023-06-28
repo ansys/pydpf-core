@@ -12,6 +12,7 @@ import inspect
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.core import upload_file_in_tmp_folder
 from ansys.dpf.core import path_utilities
+from ansys.dpf.core import DataSources
 
 if os.environ.get("DPF_DOCKER", "").lower() == "true":
     # must pass a path that can be accessed by a docker image with
@@ -424,20 +425,8 @@ def find_distributed_msup_folder(
     return find_files(distributed_msup_folder, should_upload, server, return_local_path)
 
 
-def fluid_axial_model(should_upload: bool = True, server=None, return_local_path=False) -> str:
-    """Make the result file available server side, if the server is remote the file is uploaded
-    server side. Returns the path on the file.
-
-    Parameters
-    ----------
-    should_upload : bool, optional (default True)
-        Whether the file should be uploaded server side when the server is remote.
-    server : server.DPFServer, optional
-        Server with channel connected to the remote or local instance. When
-        ``None``, attempts to use the global server.
-    return_local_path: bool, optional
-        If ``True``, the local path is returned as is, without uploading, nor searching
-        for mounted volumes.
+def fluid_axial_model() -> DataSources:
+    """Download the files and create a DataSources.
 
     Returns
     -------
@@ -451,10 +440,9 @@ def fluid_axial_model(should_upload: bool = True, server=None, return_local_path
     >>> ds = examples.fluid_axial_model()
     """
     from .downloads import download_fluent_axial_comp
-    from ansys.dpf.core import data_sources
 
     aux = download_fluent_axial_comp()
-    ds = data_sources.DataSources()
+    ds = DataSources()
     ds.set_result_file_path(aux["cas"][0], "cas")
     ds.add_file_path(aux["dat"][0], "dat")
     return ds
