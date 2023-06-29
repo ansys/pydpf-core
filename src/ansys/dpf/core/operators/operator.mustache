@@ -16,11 +16,6 @@ from ansys.dpf.core.outputs import _Outputs
 from ansys.dpf.core.outputs import _modify_output_spec_with_one_type
 {{/multiple_output_types}}
 from ansys.dpf.core.operators.specification import PinSpecification, Specification
-{{#output_pins}}
-{{#derived_type_name}}
-from ansys.dpf.core.{{name}} import {{derived_type_name}}
-{{/derived_type_name}}
-{{/output_pins}}
 
 class {{class_name}}(Operator):
     """{{{docstring}}}

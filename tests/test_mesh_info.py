@@ -1,3 +1,4 @@
+import ansys.dpf.core.generic_data_container
 from ansys.dpf import core as dpf
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
@@ -6,25 +7,46 @@ import pytest
 from ansys.dpf.core import examples
 from ansys.dpf.core import Model
 
+@pytest.fixture()
+def model(fluent_axial_comp, server_clayer):
+    model = Model(fluent_axial_comp, server=server_clayer)
+    return model
+
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_create_mesh_info(server_type):
-    mesh_info = dpf.MeshInfo(server=server_type)
+def test_create_mesh_info(server_clayer):
+    mesh_info = dpf.MeshInfo(server=server_clayer)
     assert mesh_info is not None
 
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_mesh_info_generic_data_container_getter(model):
+    mesh_info = model.metadata.mesh_info
+    gdc = mesh_info.generic_data_container
+    assert type(gdc) is ansys.dpf.core.generic_data_container.GenericDataContainer
 
-@pytest.fixture()
-def model(fluent_multi_species, server_type):
-    return Model(fluent_multi_species, server=server_type)
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_mesh_info_generic_data_container_setter(model):
+    mesh_info = model.metadata.mesh_info
+    gdc = mesh_info.generic_data_container
+    gdc.set_property("property_name_00", 0)
+    mesh_info.generic_data_container = gdc
+    assert mesh_info.generic_data_container == gdc
+    with pytest.raises(ValueError) as e:
+        mesh_info.generic_data_container = "Wrong type"
+        assert "Input value must be a GenericDataContainer." in e
 
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_set_get_num_of(server_type):
-    mesh_info = dpf.MeshInfo(server=server_type)
+def test_set_get_num_of(server_clayer):
+    mesh_info = dpf.MeshInfo(server=server_clayer)
     """Number of nodes"""
     num_nodes = 189
     mesh_info.set_number_nodes(189)
@@ -34,9 +56,11 @@ def test_set_get_num_of(server_type):
     mesh_info.set_number_elements(2)
     assert mesh_info.get_number_elements() == num_elements
 
-
-def test_set_get_property_mesh_info(server_type):
-    mesh_info = dpf.MeshInfo(server=server_type)
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_set_get_property_mesh_info(server_clayer):
+    mesh_info = dpf.MeshInfo(server=server_clayer)
 
     """Scoping"""
     scoping = dpf.Scoping()
@@ -57,8 +81,8 @@ def test_set_get_property_mesh_info(server_type):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_set_get_splittable_by_mesh_info(server_type):
-    mesh_info = dpf.MeshInfo(server=server_type)
+def test_set_get_splittable_by_mesh_info(server_clayer):
+    mesh_info = dpf.MeshInfo(server=server_clayer)
     splittable = dpf.StringField()
     expected_splittable = {"split_01", "split_02", "split_03"}
     splittable._set_data(expected_splittable)
@@ -67,9 +91,11 @@ def test_set_get_splittable_by_mesh_info(server_type):
     for i, strings in enumerate(expected_splittable):
         assert result_splittable.get_entity_data_by_id(i) == splittable.get_entity_data_by_id(i)
 
-
-def test_set_get_available_elem_types_mesh_info(server_type):
-    mesh_info = dpf.MeshInfo(server=server_type)
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_set_get_available_elem_types_mesh_info(server_clayer):
+    mesh_info = dpf.MeshInfo(server=server_clayer)
     available_results_ids = [1, 2, 3]
     available_results = dpf.Scoping()
     available_results._set_ids(available_results_ids)
@@ -78,20 +104,21 @@ def test_set_get_available_elem_types_mesh_info(server_type):
     for x in range(len(available_results)):
         assert result_available.id(x) == available_results.id(x)
 
-
-def test_output_mesh_info_provider_fluent():
-    ds = dpf.DataSources()
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_output_mesh_info_provider_fluent(server_clayer):
+    ds = dpf.DataSources(server=server_clayer)
     files = examples.download_fluent_multi_species()
     ds.set_result_file_path(files["cas"], "cas")
 
-    mesh_info = dpf.operators.metadata.mesh_info_provider()
-    mesh_info.inputs.data_sources(ds)
+    mesh_info = dpf.operators.metadata.mesh_info_provider(server=server_clayer)
+    mesh_info.connect(4, ds)
     mesh_info_out = mesh_info.outputs.mesh_info()
 
     assert type(mesh_info_out) == dpf.mesh_info.MeshInfo
 
     """************************ NUMBER OF CELLS/FACES/ZONES ************************"""
-
     num_cells = mesh_info_out.get_property("num_cells", int)
     num_faces = mesh_info_out.get_property("num_faces", int)
     num_nodes = mesh_info_out.get_property("num_nodes", int)
@@ -228,9 +255,10 @@ def test_output_mesh_info_provider_fluent():
     assert face_zone_elements_value[3] == 70
     assert face_zone_elements_value[4] == 15
 
-
-def test_output_mesh_info_provider_flprj(fluent_axial_comp):
-    model = dpf.Model(fluent_axial_comp)
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_output_mesh_info_provider_flprj(model):
     res = model.metadata.mesh_info
 
     """************************ NUMBER OF CELLS/FACES/ZONES ************************"""

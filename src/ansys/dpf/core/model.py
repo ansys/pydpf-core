@@ -432,8 +432,8 @@ class Metadata:
         return result_info
 
     def _load_mesh_info(self):
-        """Returns a result info object"""
-        op = Operator("mesh_info_provider")
+        """Returns a mesh info object"""
+        op = Operator("mesh_info_provider", server=self._server)
         op.inputs.connect(self._stream_provider.outputs)
         try:
             mesh_info = op.outputs.mesh_info()
@@ -505,8 +505,10 @@ class Metadata:
 
         return self._result_info
 
+
     @property
     @protect_source_op_not_found
+    @version_requires("7.0")
     def mesh_info(self):
         """Mesh Info instance.
 

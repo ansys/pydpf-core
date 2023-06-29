@@ -2,8 +2,9 @@
 MeshInfo
 ==========
 """
-import ansys.dpf.core
+import ansys.dpf.core as dpf
 from ansys.dpf.core import server as server_module
+from ansys.dpf.core.generic_data_container import GenericDataContainer
 
 
 class MeshInfo:
@@ -13,8 +14,6 @@ class MeshInfo:
 
     Parameters
     ----------
-    mesh_info : ctypes.c_void_p, ansys.grpc.dpf.mesh_info_pb2.MeshInfo message
-
      server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
@@ -26,35 +25,54 @@ class MeshInfo:
 
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
-    >>> fluent = examples.download_fluent_axial_comp()
+    >>> fluent = examples.fluid_axial_model()
     >>> model = dpf.Model(fluent)
     >>> mesh_info = model.metadata.mesh_info_provider # printable mesh_info
 
     """
 
-    def __init__(self, gdc=None, mesh_info=None, server=None):
+    def __init__(self, generic_data_container: GenericDataContainer = None, mesh_info=None, server=None):
         """Initialize with a MeshInfo message"""
         # ############################
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
         try:
-            if gdc is None and mesh_info is None:
-                self._gdc = ansys.dpf.core.generic_data_container.GenericDataContainer()
-            elif gdc is not None and mesh_info is None:
-                self._gdc = gdc
-            elif gdc is None and MeshInfo is not None:
-                self._gdc = mesh_info._gdc
+            if generic_data_container is None and mesh_info is None:
+                self._generic_data_container = dpf.generic_data_container.GenericDataContainer()
+            elif generic_data_container is not None and mesh_info is None:
+                self._generic_data_container = generic_data_container
+            elif generic_data_container is None and MeshInfo is not None:
+                self._generic_data_container = mesh_info._generic_data_container
         except ValueError:
             print("Both generic data container and mesh info can't be filled")
 
     def __call__(self):
         return self
 
+    @property
+    def generic_data_container(self) -> GenericDataContainer:
+        """GenericDataContainer wrapped into the MeshInfo that contains all the relative information of
+        the derived class.
+
+        Returns
+        -------
+        :class:`ansys.dpf.core.generic_data_container.GenericDataContainer`
+
+        """
+
+        return self._generic_data_container
+
+    @generic_data_container.setter
+    def generic_data_container(self, value: GenericDataContainer):
+        if type(value) is not GenericDataContainer:
+            raise ValueError("Input value must be a GenericDataContainer.")
+        self._generic_data_container = value
+
     def deep_copy(self, server=None):
         """Create a deep copy of the scoping's data on a given server.
 
-        This method is useful for passiong data from one server instance to another.
+        This method is useful for passing data from one server instance to another.
 
         Parameters
         ----------
@@ -68,7 +86,7 @@ class MeshInfo:
         scoping_copy : Scoping
         """
         mesh_info = MeshInfo(server=server)
-        mesh_info._gdc = self._gdc
+        mesh_info._generic_data_container = self.generic_data_container
         return mesh_info
 
     def get_property(self, property_name, output_type):
@@ -85,8 +103,7 @@ class MeshInfo:
         type
             Property object instance.
         """
-
-        return self._gdc.get_property(property_name, output_type)
+        return self.generic_data_container.get_property(property_name, output_type)
 
     def set_property(self, property_name, prop):
         """Register given property with the given name.
@@ -95,15 +112,11 @@ class MeshInfo:
         ----------
         property_name : str
             Property name.
-        prop :  type of the property.
-
-        Returns
-        -------
-        type
-            Property object instance.
+        prop : Int, String, Float, Field, StringField, GenericDataContainer, Scoping
+            object instance.
         """
 
-        return self._gdc.set_property(property_name, prop)
+        return self.generic_data_container.set_property(property_name, prop)
 
     def get_number_nodes(self):
         """
@@ -113,7 +126,7 @@ class MeshInfo:
             Number of nodes of the mesh.
         """
 
-        return self._gdc.get_property("num_nodes", int)
+        return self.generic_data_container.get_property("num_nodes", int)
 
     def get_number_elements(self):
         """
@@ -123,17 +136,17 @@ class MeshInfo:
             Number of elements of the mesh.
         """
 
-        return self._gdc.get_property("num_elements", int)
+        return self.generic_data_container.get_property("num_elements", int)
 
     def get_splittable_by(self):
         """
         Returns
         -------
         splittable by which entity : StringField
-            Number of elements of the mesh.
+                Name of mesh subdivisions.
         """
 
-        return self._gdc.get_property("splittable_by", ansys.dpf.core.StringField)
+        return self.generic_data_container.get_property("splittable_by", dpf.StringField)
 
     def get_available_elem_types(self):
         """
@@ -143,24 +156,24 @@ class MeshInfo:
             element type available for the mesh.
         """
 
-        return self._gdc.get_property("avalaible_elem_type", ansys.dpf.core.Scoping)
+        return self.generic_data_container.get_property("avalaible_elem_type", dpf.Scoping)
 
     def set_number_nodes(self, number_of_nodes):
-        """Number of nodes"""
+        """Set the number of nodes in the mesh"""
 
-        return self._gdc.set_property("num_nodes", number_of_nodes)
+        return self.generic_data_container.set_property("num_nodes", number_of_nodes)
 
     def set_number_elements(self, number_of_elements):
-        """Number of elements"""
+        """Set the number of elements in the mesh"""
 
-        return self._gdc.set_property("num_elements", number_of_elements)
+        return self.generic_data_container.set_property("num_elements", number_of_elements)
 
     def set_splittable_by(self, split):
-        """Splittable by"""
+        """Set name subdivision stringfield of the mesh"""
 
-        return self._gdc.set_property("splittable_by", split)
+        return self.generic_data_container.set_property("splittable_by", split)
 
     def set_available_elem_types(self, available_elem_types):
-        """Available element types"""
+        """Set the available element types"""
 
-        return self._gdc.set_property("avalaible_elem_type", available_elem_types)
+        return self.generic_data_container.set_property("avalaible_elem_type", available_elem_types)
