@@ -7,6 +7,7 @@ import pytest
 from ansys.dpf.core import examples
 from ansys.dpf.core import Model
 
+
 @pytest.fixture()
 def model(fluent_axial_comp, server_clayer):
     model = Model(fluent_axial_comp, server=server_clayer)
@@ -20,6 +21,7 @@ def test_create_mesh_info(server_clayer):
     mesh_info = dpf.MeshInfo(server=server_clayer)
     assert mesh_info is not None
 
+
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
@@ -27,6 +29,7 @@ def test_mesh_info_generic_data_container_getter(model):
     mesh_info = model.metadata.mesh_info
     gdc = mesh_info.generic_data_container
     assert type(gdc) is ansys.dpf.core.generic_data_container.GenericDataContainer
+
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
@@ -55,6 +58,7 @@ def test_set_get_num_of(server_clayer):
     num_elements = 2
     mesh_info.set_number_elements(2)
     assert mesh_info.get_number_elements() == num_elements
+
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
@@ -91,6 +95,7 @@ def test_set_get_splittable_by_mesh_info(server_clayer):
     for i, strings in enumerate(expected_splittable):
         assert result_splittable.get_entity_data_by_id(i) == splittable.get_entity_data_by_id(i)
 
+
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
@@ -103,6 +108,7 @@ def test_set_get_available_elem_types_mesh_info(server_clayer):
     result_available = mesh_info.get_available_elem_types()
     for x in range(len(available_results)):
         assert result_available.id(x) == available_results.id(x)
+
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
@@ -254,6 +260,7 @@ def test_output_mesh_info_provider_fluent(server_clayer):
     assert face_zone_elements_value[2] == 21
     assert face_zone_elements_value[3] == 70
     assert face_zone_elements_value[4] == 15
+
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"

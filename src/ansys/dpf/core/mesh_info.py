@@ -31,7 +31,12 @@ class MeshInfo:
 
     """
 
-    def __init__(self, generic_data_container: GenericDataContainer = None, mesh_info=None, server=None):
+    def __init__(
+        self,
+        generic_data_container: GenericDataContainer = None,
+        mesh_info: dpf.MeshInfo = None,
+        server=None,
+    ):
         """Initialize with a MeshInfo message"""
         # ############################
         # step 1: get server
@@ -52,8 +57,8 @@ class MeshInfo:
 
     @property
     def generic_data_container(self) -> GenericDataContainer:
-        """GenericDataContainer wrapped into the MeshInfo that contains all the relative information of
-        the derived class.
+        """GenericDataContainer wrapped into the MeshInfo
+        that contains all the relative information of the derived class.
 
         Returns
         -------
@@ -65,6 +70,15 @@ class MeshInfo:
 
     @generic_data_container.setter
     def generic_data_container(self, value: GenericDataContainer):
+        """GenericDataContainer wrapped into the MeshInfo
+        that contains all the relative information of the derived class.
+
+        Returns
+        -------
+        :class:`ansys.dpf.core.generic_data_container.GenericDataContainer`
+
+        """
+
         if type(value) is not GenericDataContainer:
             raise ValueError("Input value must be a GenericDataContainer.")
         self._generic_data_container = value
