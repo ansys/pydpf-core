@@ -41,6 +41,8 @@ class GenericDataContainer:
         self._api_instance = None
         self._api.init_generic_data_container_environment(self)  # creates stub when gRPC
 
+        self._api.init_generic_data_container_environment(self)
+
         if generic_data_container is not None:
             self._internal_obj = generic_data_container
         else:
