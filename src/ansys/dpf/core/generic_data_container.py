@@ -40,6 +40,8 @@ class GenericDataContainer:
         # step 2: if object exists, take the instance, else create it
         self._api_instance = None
 
+        self._api.init_generic_data_container_environment(self)
+
         if generic_data_container is not None:
             self._internal_obj = generic_data_container
         else:
