@@ -72,7 +72,14 @@ def test_get_result_resultinfo_from_index(model):
 
 
 def test_print_result_info(model):
-    print(model.metadata.result_info)
+    str(model.metadata.result_info)
+
+
+def test_repr_available_results_list(model):
+    ar = model.metadata.result_info.available_results
+    assert type(ar) is list
+    assert all([type(r) is dpf.core.result_info.available_result.AvailableResult for r in ar])
+    assert dpf.core.result_info.available_result.AvailableResult.__name__ in str(ar)
 
 
 @pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
