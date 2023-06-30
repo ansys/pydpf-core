@@ -91,7 +91,7 @@ def test_delete_auto_data_sources(server_type):
     assert ref() is None
 
 
-@conftest.raises_for_servers_version_under("6.2")
+@conftest.raises_for_servers_version_under("7.0")
 def test_register_namespace(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(allkindofcomplexity)
