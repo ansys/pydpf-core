@@ -8,6 +8,7 @@ import pkg_resources
 import importlib
 from pkgutil import iter_modules
 from ansys.dpf.gate._version import __ansys_version__
+from ansys.dpf.gate import load_api
 
 DEFAULT_FILE_CHUNK_SIZE = 524288
 DYNAMIC_RESULTS = True
@@ -104,6 +105,8 @@ def _pythonize_awp_version(version):
 
 
 def _find_latest_ansys_versions():
+    if hasattr(load_api, "_find_latest_ansys_versions"):
+        return load_api._find_latest_ansys_versions()
     awp_versions = [key[-3:] for key in os.environ.keys() if "AWP_ROOT" in key]
     installed_packages_list = {}
 
