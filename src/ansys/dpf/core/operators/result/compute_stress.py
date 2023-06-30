@@ -11,12 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class compute_stress(Operator):
-    """Computes the stress from an elastic strain field.Only some 3-D
-    elements (only hexa, tetra, pyramid and wedge) and integration
-    schemes are supported. Only isotropic materials are supported.
-    Material nonlinearity is not supported. Only constant materials
-    are supported. All coordinates are global coordinates. All units
-    need to be consistent.
+    """Computes the stress from an elastic strain field.compute_total_strain
+    limitations are applicable for stress computation
 
     Parameters
     ----------
@@ -97,13 +93,8 @@ class compute_stress(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the stress from an elastic strain field.Only some 3-D
-            elements (only hexa, tetra, pyramid and wedge) and
-            integration schemes are supported. Only isotropic
-            materials are supported. Material nonlinearity is not
-            supported. Only constant materials are supported. All
-            coordinates are global coordinates. All units need to be
-            consistent."""
+        description = """Computes the stress from an elastic strain field.compute_total_strain
+            limitations are applicable for stress computation"""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -185,7 +176,7 @@ class compute_stress(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

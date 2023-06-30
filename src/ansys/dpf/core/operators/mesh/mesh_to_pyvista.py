@@ -28,6 +28,9 @@ class mesh_to_pyvista(Operator):
     vtk_updated : bool, optional
         True if the vtk version employed by pyvista
         is > vtk 9. default true.
+    as_poly : bool, optional
+        Export elements as polyhedrons (cell-face-
+        node representation). default false.
 
 
     Examples
@@ -46,6 +49,8 @@ class mesh_to_pyvista(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_vtk_updated = bool()
     >>> op.inputs.vtk_updated.connect(my_vtk_updated)
+    >>> my_as_poly = bool()
+    >>> op.inputs.as_poly.connect(my_as_poly)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.mesh_to_pyvista(
@@ -53,6 +58,7 @@ class mesh_to_pyvista(Operator):
     ...     as_linear=my_as_linear,
     ...     mesh=my_mesh,
     ...     vtk_updated=my_vtk_updated,
+    ...     as_poly=my_as_poly,
     ... )
 
     >>> # Get output data
@@ -68,6 +74,7 @@ class mesh_to_pyvista(Operator):
         as_linear=None,
         mesh=None,
         vtk_updated=None,
+        as_poly=None,
         config=None,
         server=None,
     ):
@@ -82,6 +89,8 @@ class mesh_to_pyvista(Operator):
             self.inputs.mesh.connect(mesh)
         if vtk_updated is not None:
             self.inputs.vtk_updated.connect(vtk_updated)
+        if as_poly is not None:
+            self.inputs.as_poly.connect(as_poly)
 
     @staticmethod
     def _spec():
@@ -118,11 +127,18 @@ class mesh_to_pyvista(Operator):
                     document="""True if the vtk version employed by pyvista
         is > vtk 9. default true.""",
                 ),
+                200: PinSpecification(
+                    name="as_poly",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Export elements as polyhedrons (cell-face-
+        node representation). default false.""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
                     name="nodes",
-                    type_names=["vector<double>"],
+                    type_names=["field"],
                     optional=False,
                     document="""Node coordinates double vector""",
                 ),
@@ -176,7 +192,7 @@ class mesh_to_pyvista(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -201,6 +217,8 @@ class InputsMeshToPyvista(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_vtk_updated = bool()
     >>> op.inputs.vtk_updated.connect(my_vtk_updated)
+    >>> my_as_poly = bool()
+    >>> op.inputs.as_poly.connect(my_as_poly)
     """
 
     def __init__(self, op: Operator):
@@ -213,6 +231,8 @@ class InputsMeshToPyvista(_Inputs):
         self._inputs.append(self._mesh)
         self._vtk_updated = Input(mesh_to_pyvista._spec().input_pin(60), 60, op, -1)
         self._inputs.append(self._vtk_updated)
+        self._as_poly = Input(mesh_to_pyvista._spec().input_pin(200), 200, op, -1)
+        self._inputs.append(self._as_poly)
 
     @property
     def coordinates(self):
@@ -299,6 +319,27 @@ class InputsMeshToPyvista(_Inputs):
         """
         return self._vtk_updated
 
+    @property
+    def as_poly(self):
+        """Allows to connect as_poly input to the operator.
+
+        Export elements as polyhedrons (cell-face-
+        node representation). default false.
+
+        Parameters
+        ----------
+        my_as_poly : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.mesh_to_pyvista()
+        >>> op.inputs.as_poly.connect(my_as_poly)
+        >>> # or
+        >>> op.inputs.as_poly(my_as_poly)
+        """
+        return self._as_poly
+
 
 class OutputsMeshToPyvista(_Outputs):
     """Intermediate class used to get outputs from
@@ -332,7 +373,7 @@ class OutputsMeshToPyvista(_Outputs):
 
         Returns
         ----------
-        my_nodes :
+        my_nodes : Field
 
         Examples
         --------

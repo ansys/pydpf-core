@@ -39,7 +39,7 @@ from ansys.dpf import core as dpf
 
 
 GITHUB_SOURCE_URL = (
-    "https://github.com/pyansys/pydpf-core/" "raw/examples/first_python_plugins/python_plugins"
+    "https://github.com/ansys/pydpf-core/" "raw/examples/first_python_plugins/python_plugins"
 )
 EXAMPLE_FILE = GITHUB_SOURCE_URL + "/easy_statistics.py"
 operator_file_path = examples.downloads._retrieve_file(

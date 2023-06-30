@@ -65,7 +65,7 @@ def test_get_set_unit_meshedregion(simple_bar_model):
 def test_get_node_meshedregion(simple_bar_model):
     mesh = simple_bar_model.metadata.meshed_region
     node = mesh.nodes.node_by_index(1)
-    scop = mesh._get_scoping(dpf.core.locations.nodal)
+    scop = mesh.nodes.scoping
     assert node.id == scop.id(1)
     assert node.index == 1
 

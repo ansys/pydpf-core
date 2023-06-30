@@ -1,5 +1,5 @@
 .. code::
 
-    git clone https://github.com/pyansys/pydpf-core
+    git clone https://github.com/ansys/pydpf-core
     cd pydpf-core
     pip install -e .

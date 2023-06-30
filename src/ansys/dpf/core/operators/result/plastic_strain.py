@@ -73,6 +73,12 @@ class plastic_strain(Operator):
     read_beams : bool, optional
         Elemental nodal beam results are read if this
         pin is set to true (default is false)
+    split_shells : bool, optional
+        If the requested_location pin is not
+        connected, this pin forces elemental
+        nodal shell and solid results to be
+        split if this pin is set to true
+        (default is false)
 
 
     Examples
@@ -103,6 +109,8 @@ class plastic_strain(Operator):
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     >>> my_read_beams = bool()
     >>> op.inputs.read_beams.connect(my_read_beams)
+    >>> my_split_shells = bool()
+    >>> op.inputs.split_shells.connect(my_split_shells)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.plastic_strain(
@@ -116,6 +124,7 @@ class plastic_strain(Operator):
     ...     requested_location=my_requested_location,
     ...     read_cyclic=my_read_cyclic,
     ...     read_beams=my_read_beams,
+    ...     split_shells=my_split_shells,
     ... )
 
     >>> # Get output data
@@ -134,6 +143,7 @@ class plastic_strain(Operator):
         requested_location=None,
         read_cyclic=None,
         read_beams=None,
+        split_shells=None,
         config=None,
         server=None,
     ):
@@ -160,6 +170,8 @@ class plastic_strain(Operator):
             self.inputs.read_cyclic.connect(read_cyclic)
         if read_beams is not None:
             self.inputs.read_beams.connect(read_beams)
+        if split_shells is not None:
+            self.inputs.split_shells.connect(split_shells)
 
     @staticmethod
     def _spec():
@@ -272,6 +284,16 @@ class plastic_strain(Operator):
                     document="""Elemental nodal beam results are read if this
         pin is set to true (default is false)""",
                 ),
+                26: PinSpecification(
+                    name="split_shells",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If the requested_location pin is not
+        connected, this pin forces elemental
+        nodal shell and solid results to be
+        split if this pin is set to true
+        (default is false)""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -312,7 +334,7 @@ class plastic_strain(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -349,6 +371,8 @@ class InputsPlasticStrain(_Inputs):
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     >>> my_read_beams = bool()
     >>> op.inputs.read_beams.connect(my_read_beams)
+    >>> my_split_shells = bool()
+    >>> op.inputs.split_shells.connect(my_split_shells)
     """
 
     def __init__(self, op: Operator):
@@ -375,6 +399,8 @@ class InputsPlasticStrain(_Inputs):
         self._inputs.append(self._read_cyclic)
         self._read_beams = Input(plastic_strain._spec().input_pin(22), 22, op, -1)
         self._inputs.append(self._read_beams)
+        self._split_shells = Input(plastic_strain._spec().input_pin(26), 26, op, -1)
+        self._inputs.append(self._split_shells)
 
     @property
     def time_scoping(self):
@@ -610,6 +636,30 @@ class InputsPlasticStrain(_Inputs):
         >>> op.inputs.read_beams(my_read_beams)
         """
         return self._read_beams
+
+    @property
+    def split_shells(self):
+        """Allows to connect split_shells input to the operator.
+
+        If the requested_location pin is not
+        connected, this pin forces elemental
+        nodal shell and solid results to be
+        split if this pin is set to true
+        (default is false)
+
+        Parameters
+        ----------
+        my_split_shells : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.plastic_strain()
+        >>> op.inputs.split_shells.connect(my_split_shells)
+        >>> # or
+        >>> op.inputs.split_shells(my_split_shells)
+        """
+        return self._split_shells
 
 
 class OutputsPlasticStrain(_Outputs):

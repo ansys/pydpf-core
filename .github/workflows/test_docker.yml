@@ -9,6 +9,10 @@ on:
         required: false
         type: string
         default: ''
+      ANSYS_VERSION:
+        required: false
+        type: string
+        default: "241"
       custom-requirements:
         description: "Path to requirements.txt file to install"
         required: false
@@ -27,6 +31,11 @@ on:
         required: false
         type: string
         default: ''
+      ANSYS_VERSION:
+        description: "ANSYS version to run."
+        required: true
+        type: string
+        default: "241"
       custom-requirements:
         description: "Path to requirements.txt file to install"
         required: false
@@ -41,7 +50,6 @@ on:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  ANSYS_VERSION: 232
   ANSYS_DPF_ACCEPT_LA: Y
   ANSYSLMD_LICENSE_FILE: 1055@${{secrets.LICENSE_SERVER}}
 
@@ -58,10 +66,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: "Build Docker Package"
-        uses: pyansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
+        uses: ansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
         with:
           python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{env.ANSYS_VERSION}}
+          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
           MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
@@ -73,7 +81,7 @@ jobs:
           custom-requirements: ${{ inputs.custom-requirements }}
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.3
+        uses: ansys/pydpf-actions/prepare_tests@v2.3
         with:
           DEBUG: true
 
@@ -89,7 +97,7 @@ jobs:
       - name: "Set pytest arguments"
         shell: bash
         run: |
-          echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR" >> $GITHUB_ENV
+          echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
           echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
 
       - name: "Test API"
@@ -99,7 +107,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results.xml tests/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results.xml tests/.
 
       - name: "Test API test_launcher"
         uses: nick-fields/retry@v2
@@ -108,7 +116,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results2.xml test_launcher/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results2.xml test_launcher/.
 
       - name: "Test API test_server"
         uses: nick-fields/retry@v2
@@ -117,7 +125,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results3.xml test_server/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results3.xml test_server/.
 
       - name: "Test API test_local_server"
         uses: nick-fields/retry@v2
@@ -126,7 +134,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results4.xml test_local_server/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results4.xml test_local_server/.
 
       - name: "Test API test_multi_server"
         uses: nick-fields/retry@v2
@@ -135,7 +143,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results5.xml test_multi_server/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results5.xml test_multi_server/.
 
       - name: "Test API test_remote_workflow"
         uses: nick-fields/retry@v2
@@ -144,7 +152,7 @@ jobs:
           max_attempts: 3
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results6.xml test_remote_workflow/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results6.xml test_remote_workflow/.
 
       - name: "Test API test_remote_operator"
         uses: nick-fields/retry@v2
@@ -153,7 +161,7 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results7.xml test_remote_operator/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results7.xml test_remote_operator/.
 
       - name: "Test API test_workflow"
         uses: nick-fields/retry@v2
@@ -162,7 +170,7 @@ jobs:
           max_attempts: 3
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results8.xml test_workflow/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results8.xml test_workflow/.
 
       - name: "Test API test_service"
         uses: nick-fields/retry@v2
@@ -171,20 +179,21 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results9.xml test_service/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
 
       - name: "Test API Entry"
         shell: bash
         working-directory: tests
         run: |
           cd entry
-          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=junit/test-results10.xml  .
+          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results10.xml  .
         if: always()
+        timeout-minutes: 10
 
       - name: "Upload Test Results"
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ env.ANSYS_VERSION }}_docker
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}_docker
           path: tests/junit/test-results.xml
         timeout-minutes: 5
 

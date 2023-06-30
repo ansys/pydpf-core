@@ -38,7 +38,7 @@ Install without internet
 
 If you are unable to install PyDPF-Core on the host machine using ``pip`` due to
 network isolation, download the wheelhouse corresponding to your platform and Python interpreter version
-for the latest release of PyDPF-Core from the assets section of the `latest PyDPF-Core release on GitHub <https://github.com/pyansys/pydpf-core/releases/latest>`_. 
+for the latest release of PyDPF-Core from the assets section of the `latest PyDPF-Core release on GitHub <https://github.com/ansys/pydpf-core/releases/latest>`_.
 
 The wheelhouse is a ZIP file containing Python wheels for all the packages PyDPF-Core requires to run.
 To install PyDPF-Core using the downloaded wheelhouse, unzip the wheelhouse to a local directory,

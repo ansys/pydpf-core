@@ -92,6 +92,7 @@ class types(Enum):
     vec_string = 21
     string_field = 22
     custom_type_field = 23
+    generic_data_container = 24
     # Types not from grpc proto, added in Python
     fields_container = -1
     scopings_container = -2
@@ -119,6 +120,7 @@ def types_enum_to_types():
         data_tree,
         workflow,
         streams_container,
+        generic_data_container,
     )
     from ansys.dpf.gate import dpf_vector
 
@@ -147,6 +149,7 @@ def types_enum_to_types():
         types.string_field: string_field.StringField,
         types.custom_type_field: custom_type_field.CustomTypeField,
         types.streams_container: streams_container.StreamsContainer,
+        types.generic_data_container: generic_data_container.GenericDataContainer,
     }
 
 
@@ -225,6 +228,22 @@ class nodal_properties:
     nodal_connectivity = "reverse_connectivity"
 
 
+class face_properties:
+    """Contains strings to define face property fields.
+
+    Attributes
+    ----------
+    faces_type = "faces_type"
+        face type property data is provided
+
+    faces_nodes_connectivity = "faces_nodes_connectivity"
+        faces connectivity property data is provided
+    """
+
+    faces_type = "faces_type"
+    faces_nodes_connectivity = "faces_nodes_connectivity"
+
+
 class config_options:
     """Contains strings to define configuration options.
 
@@ -289,3 +308,47 @@ def _common_progress_bar(text, unit, tot_size=None):
 
 def _common_percentage_progress_bar(text):
     return TqdmProgressBar(text, "%", 100)
+
+
+def type_to_internal_object_keyword():
+    from ansys.dpf.core import (
+        cyclic_support,
+        data_sources,
+        field,
+        fields_container,
+        meshed_region,
+        meshes_container,
+        property_field,
+        string_field,
+        custom_type_field,
+        result_info,
+        scoping,
+        scopings_container,
+        time_freq_support,
+        dpf_operator,
+        data_tree,
+        workflow,
+        streams_container,
+        generic_data_container,
+    )
+
+    return {
+        field.Field: "field",
+        property_field.PropertyField: "property_field",
+        string_field.StringField: "string_field",
+        custom_type_field.CustomTypeField: "field",
+        scoping.Scoping: "scoping",
+        fields_container.FieldsContainer: "fields_container",
+        scopings_container.ScopingsContainer: "scopings_container",
+        meshes_container.MeshesContainer: "meshes_container",
+        streams_container.StreamsContainer: "streams_container",
+        data_sources.DataSources: "data_sources",
+        cyclic_support.CyclicSupport: "cyclic_support",
+        meshed_region.MeshedRegion: "mesh",
+        result_info.ResultInfo: "result_info",
+        time_freq_support.TimeFreqSupport: "time_freq_support",
+        workflow.Workflow: "workflow",
+        data_tree.DataTree: "data_tree",
+        dpf_operator.Operator: "operator",
+        generic_data_container.GenericDataContainer: "generic_data_container",
+    }

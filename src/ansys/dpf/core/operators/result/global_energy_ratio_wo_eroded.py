@@ -145,7 +145,7 @@ class global_energy_ratio_wo_eroded(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

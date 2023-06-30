@@ -268,6 +268,7 @@ data_reverse_field_solid = [
 connectivity_f_n_shell = dpf.PropertyField()
 for face_nodes_index_shell, face_nodes_shell in enumerate(polygon_faces_node_connectivity):
     connectivity_f_n_shell.append(face_nodes_shell, face_nodes_index_shell)
+connectivity_f_n_shell.scoping = mesh_scoping_factory.face_scoping(list(range(30)))
 mesh_shell_only.set_property_field(
     property_name="faces_nodes_connectivity", value=connectivity_f_n_shell
 )
@@ -277,6 +278,7 @@ mesh_shell_only.set_property_field(
 connectivity_f_n_solid = dpf.PropertyField()
 for face_nodes_index_solid, face_nodes_solid in enumerate(polyhedron_faces_node_connectivity):
     connectivity_f_n_solid.append(face_nodes_solid, face_nodes_index_solid)
+connectivity_f_n_solid.scoping = mesh_scoping_factory.face_scoping(list(range(24)))
 mesh_solid_only.set_property_field(
     property_name="faces_nodes_connectivity", value=connectivity_f_n_solid
 )
@@ -335,7 +337,7 @@ FT_shell_line = [[dpf.element_types.Line2.value] * 30]
 fcs_types_shell = dpf.PropertyField()
 for face_index_solid, fctype_shell in enumerate(FT_shell_line):
     fcs_types_shell.append(fctype_shell, face_index_solid)
-fcs_types_shell.scoping = mesh_scoping_factory.elemental_scoping(list(range(30)))
+fcs_types_shell.scoping = mesh_scoping_factory.face_scoping(list(range(30)))
 mesh_shell_only.set_property_field(property_name="faces_type", value=fcs_types_shell)
 
 # SolidOnly
@@ -351,7 +353,7 @@ FT_tot = [
 fcs_types_solid = dpf.PropertyField()
 for face_index_shell, fctype_solid in enumerate(FT_tot):
     fcs_types_solid.append(fctype_solid, face_index_shell)
-fcs_types_solid.scoping = mesh_scoping_factory.elemental_scoping(list(range(24)))
+fcs_types_solid.scoping = mesh_scoping_factory.face_scoping(list(range(24)))
 mesh_solid_only.set_property_field(property_name="faces_type", value=fcs_types_solid)
 
 ###############################################################################

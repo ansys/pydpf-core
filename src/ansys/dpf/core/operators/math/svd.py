@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class svd(Operator):
-    """Computes the complex matrix singular value decomposition (SVD) for
-    each field in the given fields container.
+    """Computes the matrix singular value decomposition (SVD) for each field
+    in the given fields container.
 
     Parameters
     ----------
@@ -37,7 +37,9 @@ class svd(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_fields_container = op.outputs.fields_container()
+    >>> result_s_svd = op.outputs.s_svd()
+    >>> result_u_svd = op.outputs.u_svd()
+    >>> result_vt_svd = op.outputs.vt_svd()
     """
 
     def __init__(self, fields_container=None, config=None, server=None):
@@ -49,8 +51,8 @@ class svd(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the complex matrix singular value decomposition (SVD) for
-            each field in the given fields container."""
+        description = """Computes the matrix singular value decomposition (SVD) for each field
+            in the given fields container."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -63,10 +65,23 @@ class svd(Operator):
             },
             map_output_pin_spec={
                 0: PinSpecification(
-                    name="fields_container",
+                    name="s_svd",
                     type_names=["fields_container"],
                     optional=False,
-                    document="""""",
+                    document="""Singular values of the input data, where
+        a=u.s.vt""",
+                ),
+                1: PinSpecification(
+                    name="u_svd",
+                    type_names=["fields_container"],
+                    optional=False,
+                    document="""U of the input data, where a=u.s.vt""",
+                ),
+                2: PinSpecification(
+                    name="vt_svd",
+                    type_names=["fields_container"],
+                    optional=False,
+                    document="""Vt of the input data, where a=u.s.vt""",
                 ),
             },
         )
@@ -100,7 +115,7 @@ class svd(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -156,27 +171,67 @@ class OutputsSvd(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.math.svd()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_fields_container = op.outputs.fields_container()
+    >>> result_s_svd = op.outputs.s_svd()
+    >>> result_u_svd = op.outputs.u_svd()
+    >>> result_vt_svd = op.outputs.vt_svd()
     """
 
     def __init__(self, op: Operator):
         super().__init__(svd._spec().outputs, op)
-        self._fields_container = Output(svd._spec().output_pin(0), 0, op)
-        self._outputs.append(self._fields_container)
+        self._s_svd = Output(svd._spec().output_pin(0), 0, op)
+        self._outputs.append(self._s_svd)
+        self._u_svd = Output(svd._spec().output_pin(1), 1, op)
+        self._outputs.append(self._u_svd)
+        self._vt_svd = Output(svd._spec().output_pin(2), 2, op)
+        self._outputs.append(self._vt_svd)
 
     @property
-    def fields_container(self):
-        """Allows to get fields_container output of the operator
+    def s_svd(self):
+        """Allows to get s_svd output of the operator
 
         Returns
         ----------
-        my_fields_container : FieldsContainer
+        my_s_svd : FieldsContainer
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.math.svd()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_fields_container = op.outputs.fields_container()
+        >>> result_s_svd = op.outputs.s_svd()
         """  # noqa: E501
-        return self._fields_container
+        return self._s_svd
+
+    @property
+    def u_svd(self):
+        """Allows to get u_svd output of the operator
+
+        Returns
+        ----------
+        my_u_svd : FieldsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.svd()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_u_svd = op.outputs.u_svd()
+        """  # noqa: E501
+        return self._u_svd
+
+    @property
+    def vt_svd(self):
+        """Allows to get vt_svd output of the operator
+
+        Returns
+        ----------
+        my_vt_svd : FieldsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.svd()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_vt_svd = op.outputs.vt_svd()
+        """  # noqa: E501
+        return self._vt_svd

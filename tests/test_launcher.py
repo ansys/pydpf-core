@@ -168,9 +168,7 @@ class TestServerConfigs:
 
     @pytest.mark.skipif(running_docker, reason="Not made to work on docker")
     def test_launch_server_full_path(self, server_config):
-        ansys_path = os.environ.get(
-            "AWP_ROOT" + core.misc.__ansys_version__, core.misc.find_ansys()
-        )
+        ansys_path = core.misc.get_ansys_path()
         if os.name == "nt":
             path = os.path.join(ansys_path, "aisol", "bin", "winx64")
         else:

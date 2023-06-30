@@ -18,14 +18,14 @@ development mode by running this code:
 
 .. code::
 
-    git clone https://github.com/pyansys/pydpf-core
+    git clone https://github.com/ansys/pydpf-core
     cd pydpf-core
     pip install -e .
 
 
 Post issues
 -----------
-Use the `PyDPF-Core Issues <https://github.com/pyansys/pydpf-core/issues>`_
+Use the `PyDPF-Core Issues <https://github.com/ansys/pydpf-core/issues>`_
 page to submit questions, report bugs, and request new features.
 
 To reach the project support team, email `pyansys.core@ansys.com <pyansys.core@ansys.com>`_.

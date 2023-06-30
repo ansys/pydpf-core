@@ -44,7 +44,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: "Setup Python"
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v4.6.0
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
 
@@ -157,8 +157,6 @@ jobs:
       ANSYS_VERSION: "232"
       python_versions: '["3.8", "3.9", "3.10"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
-      custom-wheels: ${{ github.event.inputs.custom-wheels-docker || './dpf-standalone/dist' }}
     secrets: inherit
 
   draft_release:
@@ -168,7 +166,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Set up Python"
-        uses: actions/setup-python@v4.1.0
+        uses: actions/setup-python@v4.6.0
         with:
           python-version: 3.9
 

@@ -267,6 +267,18 @@ class Operator:
             errormsg = f"input type {inpt.__class__} cannot be connected"
             raise TypeError(errormsg)
 
+    @version_requires("6.2")
+    def connect_operator_as_input(self, pin, op):
+        """Connects an operator as an input on a pin.
+        Parameters
+        ----------
+        pin : int
+            Number of the output pin. The default is ``0``.
+        op : :class:`ansys.dpf.core.dpf_operator.Operator`
+            Requested type of the output. The default is ``None``.
+        """
+        self._api.operator_connect_operator_as_input(self, pin, op)
+
     @property
     def _type_to_output_method(self):
         from ansys.dpf.core import (
@@ -287,9 +299,10 @@ class Operator:
             workflow,
             collection,
             streams_container,
+            generic_data_container,
         )
 
-        return [
+        out = [
             (bool, self._api.operator_getoutput_bool),
             (int, self._api.operator_getoutput_int),
             (str, self._api.operator_getoutput_string),
@@ -374,6 +387,15 @@ class Operator:
                 ).get_integral_entries(),
             ),
         ]
+        if hasattr(self._api, "operator_getoutput_generic_data_container"):
+            out.append(
+                (
+                    generic_data_container.GenericDataContainer,
+                    self._api.operator_getoutput_generic_data_container,
+                    "generic_data_container",
+                )
+            )
+        return out
 
     @property
     def _type_to_input_method(self):
@@ -391,9 +413,10 @@ class Operator:
             data_tree,
             workflow,
             model,
+            generic_data_container,
         )
 
-        return [
+        out = [
             (bool, self._api.operator_connect_bool),
             ((int, Enum), self._api.operator_connect_int),
             (str, self._api.operator_connect_string),
@@ -424,6 +447,14 @@ class Operator:
             (data_tree.DataTree, self._api.operator_connect_data_tree),
             (Operator, self._api.operator_connect_operator_as_input),
         ]
+        if hasattr(self._api, "operator_connect_generic_data_container"):
+            out.append(
+                (
+                    generic_data_container.GenericDataContainer,
+                    self._api.operator_connect_generic_data_container,
+                )
+            )
+        return out
 
     def get_output(self, pin=0, output_type=None):
         """Retrieve the output of the operator on the pin number.
@@ -474,12 +505,26 @@ class Operator:
         """Copy of the operator's current configuration.
 
         You can modify the copy of the configuration and then use ``operator.config = new_config``
-        or create an operator with the new configuration as a parameter.
+        or instantiate an operator with the new configuration as a parameter.
+
+        For information on an operator's options, see the documentation for that operator.
 
         Returns
         ----------
         :class:`ansys.dpf.core.config.Config`
             Copy of the operator's current configuration.
+
+        Examples
+        --------
+        Modify the copy of an operator's configuration and set it as current config
+        of the operator.
+
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.add()
+        >>> config_add = op.config
+        >>> config_add.set_work_by_index_option(True)
+        >>> op.config = config_add
+
         """
         config = self._api.operator_get_config(self)
         return Config(config=config, server=self._server, spec=self._spec)

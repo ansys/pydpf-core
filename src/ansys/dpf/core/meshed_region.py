@@ -12,6 +12,7 @@ from ansys.dpf.core.check_version import server_meet_version, version_requires
 from ansys.dpf.core.common import locations, types, nodal_properties
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
+from ansys.dpf.core.faces import Faces
 from ansys.dpf.core.plotter import DpfPlotter, Plotter
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core import server as server_module
@@ -108,6 +109,7 @@ class MeshedRegion:
         self._full_grid = None
         self._elements = None
         self._nodes = None
+        self.as_linear = None
 
     def _get_scoping(self, loc=locations.nodal):
         """
@@ -164,6 +166,29 @@ class MeshedRegion:
 
         """
         return Elements(self)
+
+    @property
+    def faces(self):
+        """
+        All face properties of the mesh, such as faces_nodes_connectivity and face types.
+
+        Returns
+        -------
+        faces : Faces
+            Faces belonging to the meshed region.
+
+        Examples
+        --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.find_static_rst())
+        >>> meshed_region = model.metadata.meshed_region
+        >>> faces = meshed_region.faces
+        >>> print(faces)
+        DPF Faces object with 0 faces
+
+        """
+        return Faces(self)
 
     @property
     def nodes(self):
@@ -457,21 +482,12 @@ class MeshedRegion:
 
         # consider adding this when scoping request is faster
         if include_ids:
-            self._nodeids = self.elements.scoping.ids
-            self._elementids = self.nodes.scoping.ids
-            grid["node_ids"] = self._elementids
-            grid["element_ids"] = self._nodeids
+            self._nodeids = self.nodes.scoping.ids
+            self._elementids = self.elements.scoping.ids
+            grid["node_ids"] = self._nodeids
+            grid["element_ids"] = self._elementids
 
-        # Quick fix required to hold onto the data as PyVista does not make a copy.
-        # All of those now return DPFArrays
-        if coordinates is None:
-            coordinates_field = self.nodes.coordinates_field
-            coordinates = self.nodes.coordinates_field.data
-        else:
-            coordinates_field = coordinates
-            coordinates = coordinates.data
-        setattr(grid, "_dpf_cache", [coordinates, coordinates_field])
-
+        self.as_linear = as_linear  # store as_linear to avoid passing through here again
         return grid
 
     @property

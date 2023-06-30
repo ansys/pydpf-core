@@ -74,6 +74,7 @@ extensions = [
     "enum_tools.autoenum",
     "nbsphinx",
     "pydata_sphinx_theme",
+    "sphinx.ext.autosectionlabel",
     "sphinx.ext.autodoc",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
@@ -183,7 +184,7 @@ html_theme = "ansys_sphinx_theme"
 html_logo = pyansys_logo_black
 html_favicon = ansys_favicon
 html_theme_options = {
-    "github_url": "https://github.com/pyansys/pydpf-core",
+    "github_url": "https://github.com/ansys/pydpf-core",
     "show_prev_next": False,
     "show_breadcrumbs": True,
     "additional_breadcrumbs": [

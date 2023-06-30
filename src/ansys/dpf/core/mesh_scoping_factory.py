@@ -49,6 +49,26 @@ def elemental_scoping(element_ids, server=None):
     return scoping
 
 
+def face_scoping(face_ids, server=None):
+    """Create a specific face :class:`ansys.dpf.core.Scoping` associated with a mesh.
+
+    Parameters
+    ----------
+    face_ids : list[int]
+        List of IDs for the faces.
+    server : DpfServer, optional
+        Server with the channel connected to the remote or local instance.
+        The default is ``None``, in which case an attempt is made to use the
+        global server.
+
+    Returns
+    -------
+    scoping : Scoping
+    """
+    scoping = Scoping(server=server, ids=face_ids, location=locations.faces)
+    return scoping
+
+
 def named_selection_scoping(named_selection_name, model, server=None):
     """Create a specific :class:`ansys.dpf.core.Scoping` associated with a specified model's mesh.
 

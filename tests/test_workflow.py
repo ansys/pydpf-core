@@ -427,6 +427,18 @@ def test_connect_get_output_data_tree_operator(server_type):
     assert d_out.get_as("name") == "Paul"
 
 
+@conftest.raises_for_servers_version_under("7.0")
+def test_connect_get_output_generic_data_container_operator(server_type):
+    inpt = dpf.core.GenericDataContainer(server=server_type)
+    wf = dpf.core.Workflow(server=server_type)
+    op = dpf.core.operators.utility.forward(server=server_type)
+    wf.set_input_name("in", op.inputs.any)
+    wf.set_output_name("out", op.outputs.any)
+    wf.connect("in", inpt)
+    d_out = wf.get_output("out", dpf.core.types.generic_data_container)
+    assert type(d_out) == dpf.core.GenericDataContainer
+
+
 def test_record_workflow(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)
     model = dpf.core.Model(data_sources, server=server_type)
