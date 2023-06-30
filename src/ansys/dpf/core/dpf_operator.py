@@ -372,7 +372,7 @@ class Operator:
             ),
             (
                 mesh_info.MeshInfo,
-                "MeshInfo",
+                "mesh_info",
             ),
             (workflow.Workflow, self._api.operator_getoutput_workflow, "workflow"),
             (data_tree.DataTree, self._api.operator_getoutput_data_tree, "data_tree"),
