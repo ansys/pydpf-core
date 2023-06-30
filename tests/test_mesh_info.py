@@ -91,12 +91,14 @@ def test_set_get_property_mesh_info(server_clayer):
 def test_set_get_splittable_by_mesh_info(server_clayer):
     mesh_info = dpf.MeshInfo(server=server_clayer)
     splittable = dpf.StringField()
-    expected_splittable = {"split_01", "split_02", "split_03"}
-    splittable._set_data(expected_splittable)
+    expected_splittable = ["split_01", "split_02", "split_03"]
+    splittable.append(expected_splittable, 1)
     mesh_info.set_splittable_by(splittable)
     result_splittable = mesh_info.get_splittable_by()
-    for i, strings in enumerate(expected_splittable):
-        assert result_splittable.get_entity_data_by_id(i) == splittable.get_entity_data_by_id(i)
+    assert result_splittable.data[0] == expected_splittable[0]
+    assert result_splittable.data[1] == expected_splittable[1]
+    assert result_splittable.data[2] == expected_splittable[2]
+    assert len(result_splittable.scoping.ids) == 1
 
 
 @pytest.mark.skipif(
