@@ -288,7 +288,7 @@ class DataSources:
                         response.append(path)
             return response
 
-    @version_requires("6.2")
+    @version_requires("7.0")
     def register_namespace(self, result_key: str, namespace: str):
         """Adds a link from this ``result_key`` to this ``namespace`` in the DataSources.
         This ``result_key`` to ``namespace`` mapping is used by source operators
@@ -296,7 +296,7 @@ class DataSources:
 
         Notes
         -----
-        Available with server's version starting at 6.2.
+        Available with server's version starting at 7.0.
         """
         self._api.data_sources_register_namespace(self, result_key, namespace)
 
