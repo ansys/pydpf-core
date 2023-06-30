@@ -2,9 +2,10 @@
 MeshInfo
 ==========
 """
-import ansys.dpf.core as dpf
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.generic_data_container import GenericDataContainer
+from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core.string_field import StringField
 
 
 class MeshInfo:
@@ -33,8 +34,8 @@ class MeshInfo:
 
     def __init__(
         self,
-        generic_data_container: GenericDataContainer = None,
-        mesh_info: dpf.MeshInfo = None,
+        generic_data_container=None,
+        mesh_info=None,
         server=None,
     ):
         """Initialize with a MeshInfo message"""
@@ -44,11 +45,11 @@ class MeshInfo:
 
         try:
             if generic_data_container is None and mesh_info is None:
-                self._generic_data_container = dpf.generic_data_container.GenericDataContainer()
+                self._generic_data_container = GenericDataContainer()
             elif generic_data_container is not None and mesh_info is None:
                 self._generic_data_container = generic_data_container
             elif generic_data_container is None and MeshInfo is not None:
-                self._generic_data_container = mesh_info._generic_data_container
+                self._generic_data_container = mesh_info.generic_data_container
         except ValueError:
             print("Both generic data container and mesh info can't be filled")
 
@@ -100,7 +101,7 @@ class MeshInfo:
         scoping_copy : Scoping
         """
         mesh_info = MeshInfo(server=server)
-        mesh_info._generic_data_container = self.generic_data_container
+        mesh_info.generic_data_container = self._generic_data_container
         return mesh_info
 
     def get_property(self, property_name, output_type):
@@ -157,10 +158,10 @@ class MeshInfo:
         Returns
         -------
         splittable by which entity : StringField
-                Name of mesh subdivisions.
+                Name of the properties according to which the mesh can be split by.
         """
 
-        return self.generic_data_container.get_property("splittable_by", dpf.StringField)
+        return self.generic_data_container.get_property("splittable_by", StringField)
 
     def get_available_elem_types(self):
         """
@@ -170,7 +171,7 @@ class MeshInfo:
             element type available for the mesh.
         """
 
-        return self.generic_data_container.get_property("avalaible_elem_type", dpf.Scoping)
+        return self.generic_data_container.get_property("avalaible_elem_type", Scoping)
 
     def set_number_nodes(self, number_of_nodes):
         """Set the number of nodes in the mesh"""
@@ -183,7 +184,7 @@ class MeshInfo:
         return self.generic_data_container.set_property("num_elements", number_of_elements)
 
     def set_splittable_by(self, split):
-        """Set name subdivision stringfield of the mesh"""
+        """Set name of the properties according to which the mesh can be split by"""
 
         return self.generic_data_container.set_property("splittable_by", split)
 
