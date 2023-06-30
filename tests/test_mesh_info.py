@@ -1,4 +1,5 @@
 import ansys.dpf.core.generic_data_container
+import platform
 from ansys.dpf import core as dpf
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
@@ -109,7 +110,7 @@ def test_set_get_available_elem_types_mesh_info(server_clayer):
     for x in range(len(available_results)):
         assert result_available.id(x) == available_results.id(x)
 
-
+@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
@@ -261,7 +262,7 @@ def test_output_mesh_info_provider_fluent(server_clayer):
     assert face_zone_elements_value[3] == 70
     assert face_zone_elements_value[4] == 15
 
-
+@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
