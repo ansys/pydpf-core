@@ -373,11 +373,6 @@ class Operator:
             (data_tree.DataTree, self._api.operator_getoutput_data_tree, "data_tree"),
             (Operator, self._api.operator_getoutput_operator, "operator"),
             (
-                generic_data_container.GenericDataContainer,
-                self._api.operator_getoutput_generic_data_container,
-                "generic_data_container",
-            ),
-            (
                 dpf_vector.DPFVectorInt,
                 self._api.operator_getoutput_int_collection,
                 lambda obj: collection.IntCollection(
@@ -451,10 +446,6 @@ class Operator:
             (workflow.Workflow, self._api.operator_connect_workflow),
             (data_tree.DataTree, self._api.operator_connect_data_tree),
             (Operator, self._api.operator_connect_operator_as_input),
-            (
-                generic_data_container.GenericDataContainer,
-                self._api.operator_connect_generic_data_container,
-            ),
         ]
         if hasattr(self._api, "operator_connect_generic_data_container"):
             out.append(
