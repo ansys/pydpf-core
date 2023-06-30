@@ -6,6 +6,7 @@ import pytest
 from conftest import running_docker
 from ansys.dpf import core as dpf
 from ansys.dpf.core import Model
+from ansys.dpf.core import DataSources
 from ansys.dpf.core import examples
 
 
@@ -82,6 +83,11 @@ def test_download_cfx_heating_coil():
 def test_download_cfx_mixing_elbow():
     path = examples.download_cfx_mixing_elbow()
     assert isinstance(Model(path), Model)
+
+
+def test_fluid_axial_model():
+    ds = examples.fluid_axial_model()
+    assert isinstance(ds, DataSources)
 
 
 list_examples = [
