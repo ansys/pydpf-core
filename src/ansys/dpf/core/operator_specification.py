@@ -113,23 +113,14 @@ class PinSpecification:
         )
 
     def __repr__(self):
-        if "name_derived_class" in vars(self).items != "":
-            return "{class_name}({params})".format(
-                class_name=self.__class__.__name__,
-                params=", ".join(
-                    "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
-                    for k, v in vars(self).items()
-                ),
-            )
-        else:
-            return "{class_name}({params})".format(
-                class_name=self.__class__.__name__,
-                params=", ".join(
-                    "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
-                    for k, v in vars(self).items()
-                    if not k == "name_derived_class"
-                ),
-            )
+        return "{class_name}({params})".format(
+            class_name=self.__class__.__name__,
+            params=", ".join(
+                "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
+                for k, v in vars(self).items()
+                if not ("{param}" is "name_derived_class" and "name_derived_class" != "")
+            ),
+        )
 
     def __eq__(self, other):
         return str(self) == str(other)
