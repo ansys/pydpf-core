@@ -113,13 +113,22 @@ class PinSpecification:
         )
 
     def __repr__(self):
-        return "{class_name}({params})".format(
-            class_name=self.__class__.__name__,
-            params=", ".join(
-                "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
-                for k, v in vars(self).items()
-            ),
-        )
+        if "name_derived_class" in vars(self).items != "":
+            return "{class_name}({params})".format(
+                class_name=self.__class__.__name__,
+                params=", ".join(
+                    "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
+                    for k, v in vars(self).items()
+                ),
+            )
+        else:
+            return "{class_name}({params})".format(
+                class_name=self.__class__.__name__,
+                params=", ".join(
+                    "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
+                    for k, v in vars(self).items() if not k == "name_derived_class"
+                ),
+            )
 
     def __eq__(self, other):
         return str(self) == str(other)
@@ -378,11 +387,15 @@ class Specification(SpecificationBase):
                     for i_type in range(n_types)
                 ]
 
-                pin_derived_class_type_name = (
-                    self._api.operator_specification_get_pin_derived_class_type_name(
-                        self, binput, i_pin
+                from ansys.dpf.core.check_version import server_meet_version
+
+                pin_derived_class_type_name = ""
+                if server_meet_version("7.0", self._server):
+                    pin_derived_class_type_name = (
+                        self._api.operator_specification_get_pin_derived_class_type_name(
+                            self, binput, i_pin
+                        )
                     )
-                )
 
                 pin_ell = self._api.operator_specification_is_pin_ellipsis(self, binput, i_pin)
                 to_fill[i_pin] = PinSpecification(
