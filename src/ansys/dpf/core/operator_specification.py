@@ -618,7 +618,9 @@ class CustomSpecification(Specification):
             list_types = integral_types.MutableListString(value.type_names)
             if (
                 "derived_type_name"
-                in inspect.getfullargspec(self._api.operator_specification_set_pin_derived_class).args
+                in inspect.getfullargspec(
+                    self._api.operator_specification_set_pin_derived_class
+                ).args
             ):
                 self._api.operator_specification_set_pin_derived_class(
                     self,
@@ -662,7 +664,9 @@ class CustomSpecification(Specification):
             list_types = integral_types.MutableListString(value.type_names)
             if (
                 "derived_type_name"
-                in inspect.getfullargspec(self._api.operator_specification_set_pin_derived_class).args
+                in inspect.getfullargspec(
+                    self._api.operator_specification_set_pin_derived_class
+                ).args
             ):
                 self._api.operator_specification_set_pin_derived_class(
                     self,
