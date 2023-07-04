@@ -26,8 +26,8 @@ class MeshInfo:
 
     >>> from ansys.dpf import core as dpf
     >>> from ansys.dpf.core import examples
-    >>> simple_bar = examples.find_simple_bar()
-    >>> model = dpf.Model(simple_bar)
+    >>> fluent = examples.fluid_axial_model()
+    >>> model = dpf.Model(fluent)
     >>> mesh_info = model.metadata.mesh_info # printable mesh_info
 
     """

@@ -660,18 +660,34 @@ class CustomSpecification(Specification):
     def outputs(self, val: dict):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
-            self._api.operator_specification_set_pin(
-                self,
-                False,
-                key,
-                value.name,
-                value.document,
-                len(value.type_names),
-                list_types,
-                value.optional,
-                value.ellipsis,
-                value.name_derived_class,
-            )
+            if (
+                "derived_type_name"
+                in inspect.getfullargspec(self._api.operator_specification_set_pin).args
+            ):
+                self._api.operator_specification_set_pin(
+                    self,
+                    False,
+                    key,
+                    value.name,
+                    value.document,
+                    len(value.type_names),
+                    list_types,
+                    value.optional,
+                    value.ellipsis,
+                    value.name_derived_class,
+                )
+            else:
+                self._api.operator_specification_set_pin(
+                    self,
+                    False,
+                    key,
+                    value.name,
+                    value.document,
+                    len(value.type_names),
+                    list_types,
+                    value.optional,
+                    value.ellipsis,
+                )
 
     @property
     @version_requires("4.0")
