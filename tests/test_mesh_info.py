@@ -46,7 +46,7 @@ def test_mesh_info_generic_data_container_setter(model):
     with pytest.raises(ValueError) as e:
         mesh_info.generic_data_container = "Wrong type"
         assert "Input value must be a GenericDataContainer." in e
-        
+
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
