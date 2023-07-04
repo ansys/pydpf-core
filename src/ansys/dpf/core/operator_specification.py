@@ -617,7 +617,7 @@ class CustomSpecification(Specification):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
             if (
-                "name_derived_class"
+                "derived_type_name"
                 in inspect.getfullargspec(self._api.operator_specification_set_pin).args
             ):
                 self._api.operator_specification_set_pin(
