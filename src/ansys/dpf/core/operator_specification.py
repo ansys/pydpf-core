@@ -126,7 +126,8 @@ class PinSpecification:
                 class_name=self.__class__.__name__,
                 params=", ".join(
                     "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
-                    for k, v in vars(self).items() if not k == "name_derived_class"
+                    for k, v in vars(self).items()
+                    if not k == "name_derived_class"
                 ),
             )
 
