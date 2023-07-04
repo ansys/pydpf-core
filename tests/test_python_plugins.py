@@ -12,6 +12,9 @@ from ansys.dpf.core.operator_specification import (
     CustomConfigOptionSpec,
     PinSpecification,
 )
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+)
 
 if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     pytest.skip("Requires server version higher than 4.0", allow_module_level=True)
@@ -243,7 +246,9 @@ def test_create_op_specification(server_in_process):
     assert spec.config_specification["work_by_index"].default_value_str == "false"
 
 
-@conftest.raises_for_servers_version_under("7.0")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
 def test_create_op_specification_with_derived_class(server_in_process):
     spec = CustomSpecification(server=server_in_process)
     spec.description = "Add derived class in op specification"

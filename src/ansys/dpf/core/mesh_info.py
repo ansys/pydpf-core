@@ -28,7 +28,7 @@ class MeshInfo:
     >>> from ansys.dpf.core import examples
     >>> fluent = examples.fluid_axial_model()
     >>> model = dpf.Model(fluent)
-    >>> mesh_info = model.metadata.mesh_info # printable mesh_info
+    >>> # mesh_info = model.metadata.mesh_info # printable mesh_info
 
     """
 
