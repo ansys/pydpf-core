@@ -15,6 +15,7 @@ from ansys.dpf.gate import (
 )
 from ansys.dpf.core import mapping_types, common
 from ansys.dpf.core.check_version import version_requires
+import inspect
 
 
 class PinSpecification:
@@ -118,7 +119,7 @@ class PinSpecification:
             params=", ".join(
                 "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
                 for k, v in vars(self).items()
-                if not ("{param}" is "name_derived_class" and "name_derived_class" != "")
+                if not ("{param}" == "name_derived_class" and "name_derived_class" != "")
             ),
         )
 
@@ -332,7 +333,8 @@ class Specification(SpecificationBase):
         >>> 4 in operator.specification.inputs.keys()
         True
         >>> operator.specification.inputs[4]
-        PinSpecification(name='data_sources', _type_names=['data_sources'], ...set', ellipsis=False)
+        PinSpecification(name='data_sources', _type_names=['data_sources'], ...set', ellipsis=False,
+         name_derived_class='')
         """
         if self._map_input_pin_spec is None:
             self._map_input_pin_spec = {}
@@ -352,7 +354,8 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.mesh.mesh_provider()
         >>> operator.specification.outputs
-        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], ...=False)}
+        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], ...=False,
+         name_derived_class='')}
         """
         if self._map_output_pin_spec is None:
             self._map_output_pin_spec = {}
@@ -613,18 +616,34 @@ class CustomSpecification(Specification):
     def inputs(self, val: dict):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
-            self._api.operator_specification_set_pin(
-                self,
-                True,
-                key,
-                value.name,
-                value.document,
-                len(value.type_names),
-                list_types,
-                value.optional,
-                value.ellipsis,
-                value.name_derived_class,
-            )
+            if (
+                "name_derived_class"
+                in inspect.getfullargspec(self._api.operator_specification_set_pin).args
+            ):
+                self._api.operator_specification_set_pin(
+                    self,
+                    True,
+                    key,
+                    value.name,
+                    value.document,
+                    len(value.type_names),
+                    list_types,
+                    value.optional,
+                    value.ellipsis,
+                    value.name_derived_class,
+                )
+            else:
+                self._api.operator_specification_set_pin(
+                    self,
+                    True,
+                    key,
+                    value.name,
+                    value.document,
+                    len(value.type_names),
+                    list_types,
+                    value.optional,
+                    value.ellipsis,
+                )
 
     @property
     @version_requires("4.0")
