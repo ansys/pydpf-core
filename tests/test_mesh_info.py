@@ -54,6 +54,13 @@ def test_mesh_info_generic_data_container_setter(model):
 def test_grpc_mesh_info_generic_data_container_setter(
     fluent_multi_species, server_type_remote_process
 ):
+    my_operator_test = dpf.Operator("cff::cas::mesh_info_provider")
+    if my_operator_test is None:
+        raise ValueError("Cannot reach CFF mesh_info_provider operator.")
+    my_operator_test_bis = dpf.Operator("cff::cas::mesh_provider")
+    if my_operator_test_bis is None:
+        raise ValueError("Cannot reach CFF mesh_provider operator.")
+
     model = dpf.Model(
         fluent_multi_species(server_type_remote_process), server=server_type_remote_process
     )
