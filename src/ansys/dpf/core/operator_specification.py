@@ -15,7 +15,7 @@ from ansys.dpf.gate import (
 )
 from ansys.dpf.core import mapping_types, common
 from ansys.dpf.core.check_version import version_requires
-import inspect
+from ansys.dpf.core.check_version import server_meet_version
 
 
 class PinSpecification:
@@ -382,8 +382,6 @@ class Specification(SpecificationBase):
                     for i_type in range(n_types)
                 ]
 
-                from ansys.dpf.core.check_version import server_meet_version
-
                 pin_derived_class_type_name = ""
                 if server_meet_version("7.0", self._server):
                     pin_derived_class_type_name = (
@@ -616,12 +614,7 @@ class CustomSpecification(Specification):
     def inputs(self, val: dict):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
-            if (
-                "derived_type_name"
-                in inspect.getfullargspec(
-                    self._api.operator_specification_set_pin_derived_class
-                ).args
-            ):
+            if server_meet_version("7.0", self._server):
                 self._api.operator_specification_set_pin_derived_class(
                     self,
                     True,
@@ -662,12 +655,7 @@ class CustomSpecification(Specification):
     def outputs(self, val: dict):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
-            if (
-                "derived_type_name"
-                in inspect.getfullargspec(
-                    self._api.operator_specification_set_pin_derived_class
-                ).args
-            ):
+            if server_meet_version("7.0", self._server):
                 self._api.operator_specification_set_pin_derived_class(
                     self,
                     False,

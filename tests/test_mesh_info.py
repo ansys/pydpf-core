@@ -51,6 +51,21 @@ def test_mesh_info_generic_data_container_setter(model):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
+def test_grpc_mesh_info_generic_data_container_setter(fluent_multi_species, server_type_remote_process):
+    model = dpf.Model(fluent_multi_species(server_type_remote_process), server=server_type_remote_process)
+    mesh_info = model.metadata.mesh_info
+    gdc = mesh_info.generic_data_container
+    gdc.set_property("property_name_00", 0)
+    mesh_info.generic_data_container = gdc
+    assert mesh_info.generic_data_container == gdc
+    with pytest.raises(ValueError) as e:
+        mesh_info.generic_data_container = "Wrong type"
+        assert "Input value must be a GenericDataContainer." in e
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
 def test_set_get_num_of(server_clayer):
     mesh_info = dpf.MeshInfo(server=server_clayer)
     """Number of nodes"""
