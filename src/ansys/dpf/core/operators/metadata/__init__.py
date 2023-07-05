@@ -6,6 +6,7 @@ from .integrate_over_time_freq import integrate_over_time_freq
 from .is_cyclic import is_cyclic 
 from .material_provider import material_provider 
 from .material_support_provider import material_support_provider 
+from .mesh_info_provider import mesh_info_provider 
 from .mesh_property_provider import mesh_property_provider 
 from .mesh_selection_manager_provider import mesh_selection_manager_provider 
 from .mesh_support_provider import mesh_support_provider 

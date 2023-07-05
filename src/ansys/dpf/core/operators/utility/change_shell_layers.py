@@ -12,8 +12,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class change_shell_layers(Operator):
-    """Extract the expected shell layers from the input fields, if the fields
-    contain only one layer then it returns the input fields
+    """Extract the expected shell layers from the input fields. If the fields
+    contain only one layer and the permissive configuration input is
+    set to true then it returns the input fields. If permissive
+    configuration input is set to false, any change which should not
+    be permitted won't be achieved and corresponding field in output
+    will be empty. If permissive configuration input is set to true
+    (default), carefully check the result.
 
     Parameters
     ----------
@@ -76,8 +81,14 @@ class change_shell_layers(Operator):
 
     @staticmethod
     def _spec():
-        description = """Extract the expected shell layers from the input fields, if the fields
-            contain only one layer then it returns the input fields"""
+        description = """Extract the expected shell layers from the input fields. If the fields
+            contain only one layer and the permissive configuration
+            input is set to true then it returns the input fields. If
+            permissive configuration input is set to false, any change
+            which should not be permitted won't be achieved and
+            corresponding field in output will be empty. If permissive
+            configuration input is set to true (default), carefully
+            check the result."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

@@ -146,6 +146,9 @@ class AvailableResult:
                 txt += f"  {qualifier.__dict__()}\n"
         return txt
 
+    def __repr__(self):
+        return f"AvailableResult<name={self.name}>"
+
     @property
     def name(self):
         """Result operator."""
