@@ -92,6 +92,7 @@ class types(Enum):
     vec_string = 21
     string_field = 22
     custom_type_field = 23
+    generic_data_container = 24
     # Types not from grpc proto, added in Python
     fields_container = -1
     scopings_container = -2
@@ -119,6 +120,7 @@ def types_enum_to_types():
         data_tree,
         workflow,
         streams_container,
+        generic_data_container,
     )
     from ansys.dpf.gate import dpf_vector
 
@@ -147,6 +149,7 @@ def types_enum_to_types():
         types.string_field: string_field.StringField,
         types.custom_type_field: custom_type_field.CustomTypeField,
         types.streams_container: streams_container.StreamsContainer,
+        types.generic_data_container: generic_data_container.GenericDataContainer,
     }
 
 
@@ -223,6 +226,22 @@ class nodal_properties:
 
     coordinates = "coordinates"
     nodal_connectivity = "reverse_connectivity"
+
+
+class face_properties:
+    """Contains strings to define face property fields.
+
+    Attributes
+    ----------
+    faces_type = "faces_type"
+        face type property data is provided
+
+    faces_nodes_connectivity = "faces_nodes_connectivity"
+        faces connectivity property data is provided
+    """
+
+    faces_type = "faces_type"
+    faces_nodes_connectivity = "faces_nodes_connectivity"
 
 
 class config_options:
