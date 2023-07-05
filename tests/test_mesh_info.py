@@ -6,20 +6,13 @@ from conftest import (
 )
 import pytest
 from ansys.dpf.core import examples
-from ansys.dpf.core import Model
-
-
-@pytest.fixture()
-def model(fluent_axial_comp, server_clayer):
-    model = Model(fluent_axial_comp, server=server_clayer)
-    return model
 
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_create_mesh_info(server_clayer):
-    mesh_info = dpf.MeshInfo(server=server_clayer)
+def test_create_mesh_info(server_type):
+    mesh_info = dpf.MeshInfo(server=server_type)
     assert mesh_info is not None
 
 
@@ -27,7 +20,8 @@ def test_create_mesh_info(server_clayer):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_mesh_info_generic_data_container_getter(model):
+def test_mesh_info_generic_data_container_getter(fluent_multi_species, server_type):
+    model = dpf.Model(fluent_multi_species(server_type), server=server_type)
     mesh_info = model.metadata.mesh_info
     gdc = mesh_info.generic_data_container
     assert type(gdc) is ansys.dpf.core.generic_data_container.GenericDataContainer
@@ -37,7 +31,8 @@ def test_mesh_info_generic_data_container_getter(model):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_mesh_info_generic_data_container_setter(model):
+def test_mesh_info_generic_data_container_setter(fluent_multi_species, server_type):
+    model = dpf.Model(fluent_multi_species(server_type), server=server_type)
     mesh_info = model.metadata.mesh_info
     gdc = mesh_info.generic_data_container
     gdc.set_property("property_name_00", 0)
@@ -70,8 +65,8 @@ def test_grpc_mesh_info_generic_data_container_setter(
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_set_get_num_of(server_clayer):
-    mesh_info = dpf.MeshInfo(server=server_clayer)
+def test_set_get_num_of(server_type):
+    mesh_info = dpf.MeshInfo(server=server_type)
     """Number of nodes"""
     num_nodes = 189
     mesh_info.set_number_nodes(189)
@@ -85,8 +80,8 @@ def test_set_get_num_of(server_clayer):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_set_get_property_mesh_info(server_clayer):
-    mesh_info = dpf.MeshInfo(server=server_clayer)
+def test_set_get_property_mesh_info(server_type):
+    mesh_info = dpf.MeshInfo(server=server_type)
 
     """Scoping"""
     scoping = dpf.Scoping()
@@ -107,8 +102,8 @@ def test_set_get_property_mesh_info(server_clayer):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_set_get_splittable_by_mesh_info(server_clayer):
-    mesh_info = dpf.MeshInfo(server=server_clayer)
+def test_set_get_splittable_by_mesh_info(server_type):
+    mesh_info = dpf.MeshInfo(server=server_type)
     splittable = dpf.StringField()
     expected_splittable = ["split_01", "split_02", "split_03"]
     splittable.append(expected_splittable, 1)
@@ -123,8 +118,8 @@ def test_set_get_splittable_by_mesh_info(server_clayer):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_set_get_available_elem_types_mesh_info(server_clayer):
-    mesh_info = dpf.MeshInfo(server=server_clayer)
+def test_set_get_available_elem_types_mesh_info(server_type):
+    mesh_info = dpf.MeshInfo(server=server_type)
     available_results_ids = [1, 2, 3]
     available_results = dpf.Scoping()
     available_results._set_ids(available_results_ids)
@@ -291,7 +286,8 @@ def test_output_mesh_info_provider_fluent(server_clayer):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_output_mesh_info_provider_flprj(model):
+def test_output_mesh_info_provider_flprj(fluent_axial_comp, server_clayer):
+    model = dpf.Model(fluent_axial_comp(server_clayer), server=server_clayer)
     res = model.metadata.mesh_info
 
     """************************ NUMBER OF CELLS/FACES/ZONES ************************"""
