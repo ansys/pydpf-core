@@ -41,7 +41,7 @@ def test_load_cff_model_in_process(fluent_multi_species, server_in_process):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_load_cff_provider_grpc(fluent_multi_species, server_type_remote_process):
+def test_load_cff_model_grpc(fluent_multi_species, server_type_remote_process):
     model = dpf.Model(fluent_multi_species(server_type_remote_process), server=server_type_remote_process)
     mesh_provider = model.metadata.mesh_provider
     mesh_info = model.metadata.mesh_info
@@ -59,7 +59,7 @@ def test_create_mesh_info(server_type):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_mesh_info_generic_data_container_getter(fluent_multi_species, server_type):
+def test_mesh_info_generic_data_container_getter_model(fluent_multi_species, server_type):
     model = dpf.Model(fluent_multi_species(server_type), server=server_type)
     mesh_info = model.metadata.mesh_info
     gdc = mesh_info.generic_data_container
@@ -85,7 +85,7 @@ def test_mesh_info_generic_data_container_setter(fluent_multi_species, server_ty
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_grpc_mesh_info_generic_data_container_setter(
+def test_mesh_info_generic_data_container_setter_grpc(
     fluent_multi_species, server_type_remote_process
 ):
     model = dpf.Model(
