@@ -12,6 +12,7 @@ def fluent_multi_species_on_server(server):
     ds.add_file_path(files["dat"], "dat")
     return ds
 
+
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0 or platform.system() == "Linux",
     reason="CFF source operators where not supported before 7.0,",
