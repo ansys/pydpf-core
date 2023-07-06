@@ -506,8 +506,8 @@ class Metadata:
         return self._result_info
 
     @property
-    @protect_source_op_not_found
     @version_requires("7.0")
+    @protect_source_op_not_found
     def mesh_info(self):
         """Mesh Info instance.
 
