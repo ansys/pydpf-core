@@ -222,7 +222,7 @@ def fluent_axial_comp():
 
     def return_ds(server=None):
         ds = core.DataSources(server=server)
-        files = examples.download_fluent_axial_comp()
+        files = examples.download_fluent_axial_comp(server=server)
         ds.set_result_file_path(files["cas"][0], "cas")
         ds.add_file_path(files["dat"][0], "dat")
         return ds
