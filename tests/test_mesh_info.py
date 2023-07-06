@@ -12,19 +12,17 @@ from ansys.dpf.core import examples
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_load_cff_operator_in_process(server_in_process):
-    mesh_provider = dpf.Operator(name="cff::cas::mesh_provider", server=server_in_process)
+def test_load_cff_mesh_info_operator_in_process(server_in_process):
     mesh_info = dpf.Operator(name="cff::cas::mesh_info_provider", server=server_in_process)
-    assert mesh_info and mesh_provider is not None
+    assert mesh_info is not None
 
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_load_cff_operator_grpc(server_type_remote_process):
-    mesh_provider = dpf.Operator(name="cff::cas::mesh_provider", server=server_type_remote_process)
+def test_load_cff_mesh_info_operator_grpc(server_type_remote_process):
     mesh_info = dpf.Operator(name="cff::cas::mesh_info_provider", server=server_type_remote_process)
-    assert mesh_info and mesh_provider is not None
+    assert mesh_info is not None
 
 
 @pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
@@ -44,8 +42,9 @@ def test_load_cff_model_in_process(fluent_multi_species, server_in_process):
 def test_load_cff_model_grpc(fluent_multi_species, server_type_remote_process):
     model = dpf.Model(fluent_multi_species(server_type_remote_process), server=server_type_remote_process)
     mesh_provider = model.metadata.mesh_provider
-    mesh_info = model.metadata.mesh_info
-    assert mesh_info and mesh_provider is not None
+    result_info = model.metadata.result_info
+    assert result_info and mesh_provider is not None
+
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
