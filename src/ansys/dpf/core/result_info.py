@@ -37,6 +37,7 @@ class physics_types(Enum):
     magnetic = 2
     electric = 3
     unknown_physics = 4
+    fluid = 5
 
 
 @unique
@@ -306,7 +307,11 @@ class ResultInfo:
         """
         out = []
         for i in range(len(self)):
-            out.append(self._get_result(i))
+            try:
+                out.append(self._get_result(i))
+            except Exception as e:
+                print(f"Failed to get result {i}")
+                print(e)
         return out
 
     @property
@@ -335,6 +340,7 @@ class ResultInfo:
             raise IndexError("Result index must be greater than 0")
 
         name = self._api.result_info_get_result_name(self, numres)
+        print(f"Querying metadata for result {name}")
         physic_name = self._api.result_info_get_result_physics_name(self, numres)
         dimensionality = self._api.result_info_get_result_dimensionality_nature(self, numres)
         n_comp = self._api.result_info_get_result_number_of_components(self, numres)

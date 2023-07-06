@@ -8,7 +8,7 @@ from ansys.dpf.core import mesh_scoping_factory
 
 @pytest.fixture()
 def model_faces(fluent_axial_comp):
-    model = dpf.Model(fluent_axial_comp)
+    model = dpf.Model(fluent_axial_comp())
     faces = model.metadata.meshed_region.faces
     return faces
 
