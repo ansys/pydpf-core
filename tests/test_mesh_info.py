@@ -42,8 +42,8 @@ def test_load_cff_model_in_process(fluent_multi_species, server_in_process):
 def test_load_cff_model_grpc(fluent_multi_species, server_type_remote_process):
     model = dpf.Model(fluent_multi_species(server_type_remote_process), server=server_type_remote_process)
     mesh_provider = model.metadata.mesh_provider
-    result_info = model.metadata.result_info
-    assert result_info and mesh_provider is not None
+    mesh_info = model.metadata.mesh_info
+    assert mesh_info and mesh_provider is not None
 
 
 @pytest.mark.skipif(
