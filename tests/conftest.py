@@ -161,7 +161,7 @@ def fluent_multi_species():
 
     def return_ds(server=None):
         ds = core.DataSources(server=server)
-        files = examples.download_fluent_multi_species()
+        files = examples.download_fluent_multi_species(server=server)
         ds.set_result_file_path(files["cas"], "cas")
         ds.add_file_path(files["dat"], "dat")
         return ds
