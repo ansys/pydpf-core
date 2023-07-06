@@ -156,17 +156,12 @@ def model_with_ns():
 
 @pytest.fixture()
 def fluent_multi_species():
-    """Return a function which creates a data sources
-    with a cas and a dat file of fluent multi-species case."""
-
-    def return_ds(server=None):
-        ds = core.DataSources(server=server)
-        files = examples.download_fluent_multi_species(server=server)
-        ds.set_result_file_path(files["cas"], "cas")
-        ds.add_file_path(files["dat"], "dat")
-        return ds
-
-    return return_ds
+    """Create a data sources with a cas and a dat file of fluent multi-species case."""
+    ds = core.DataSources()
+    files = examples.download_fluent_multi_species()
+    ds.set_result_file_path(files["cas"], "cas")
+    ds.add_file_path(files["dat"], "dat")
+    return ds
 
 
 @pytest.fixture()
