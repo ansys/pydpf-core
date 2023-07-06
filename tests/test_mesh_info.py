@@ -40,7 +40,9 @@ def test_load_cff_model_in_process(fluent_multi_species, server_in_process):
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
 def test_load_cff_model_grpc(fluent_multi_species, server_type_remote_process):
-    model = dpf.Model(fluent_multi_species(server_type_remote_process), server=server_type_remote_process)
+    model = dpf.Model(
+        fluent_multi_species(server_type_remote_process), server=server_type_remote_process
+    )
     mesh_provider = model.metadata.mesh_provider
     mesh_info = model.metadata.mesh_info
     assert mesh_info and mesh_provider is not None
