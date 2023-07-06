@@ -8,6 +8,23 @@ import pytest
 from ansys.dpf.core import examples
 
 
+@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_load_mesh_info_provider_in_process(server_in_process):
+    mesh_info = dpf.Operator(name="cff::cas::mesh_info_provider", server=server_in_process)
+    assert mesh_info is not None
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_load_mesh_info_provider_grpc(server_type_remote_process):
+    mesh_info = dpf.Operator(name="cff::cas::mesh_info_provider", server=server_type_remote_process)
+    assert mesh_info is not None
+
+
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
