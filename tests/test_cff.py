@@ -74,6 +74,7 @@ def test_results_cfx(cfx_heating_coil, result_name, server_type):
 )
 def test_results_fluent(fluent_axial_comp, result_name, server_type):
     model = dpf.Model(fluent_axial_comp(server=server_type), server=server_type)
+    print(model)
     result_op = getattr(model.results, result_name)()
     result = result_op.eval()
     assert isinstance(result, dpf.FieldsContainer)

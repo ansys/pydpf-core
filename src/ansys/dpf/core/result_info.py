@@ -307,11 +307,11 @@ class ResultInfo:
         """
         out = []
         for i in range(len(self)):
-            try:
-                out.append(self._get_result(i))
-            except Exception as e:
-                print(f"Failed to get result {i}")
-                print(e)
+            # try:
+            out.append(self._get_result(i))
+            # except Exception as e:
+            #     print(f"Failed to get result {i}")
+            #     print(e)
         return out
 
     @property
@@ -364,6 +364,7 @@ class ResultInfo:
                 scripting_name = available_result._remove_spaces(physic_name)
         num_sub_res = self._api.result_info_get_number_of_sub_results(self, numres)
         sub_res = {}
+        print(f"{num_sub_res=}")
         for ires in range(num_sub_res):
             sub_res_name = self._api.result_info_get_sub_result_name(self, numres, ires)
             ssub_res_rec_name = integral_types.MutableString(256)
@@ -371,6 +372,7 @@ class ResultInfo:
                 self, numres, ires, ssub_res_rec_name
             )
             ssub_res_rec_name = str(ssub_res_rec_name)
+            print((f"{ssub_res_rec_name=}"))
             descr = self._api.result_info_get_sub_result_description(self, numres, ires)
             sub_res[sub_res_name] = [ssub_res_rec_name, descr]
 
@@ -380,12 +382,14 @@ class ResultInfo:
             qual_obj = object_handler.ObjHandler(
                 data_processing_api=self._data_processing_core_api,
                 internal_obj=self._api.result_info_get_qualifiers_for_result(self, numres),
+                server=self._server,
             )
             label_space_api = self._server.get_api_for_type(
                 capi=label_space_capi.LabelSpaceCAPI,
                 grpcapi=label_space_grpcapi.LabelSpaceGRPCAPI,
             )
             num_qual_obj = label_space_api.list_label_spaces_size(qual_obj)
+            print(f"{num_qual_obj=}")
             for ires in range(num_qual_obj):
                 label_space = LabelSpace(
                     label_space=label_space_api.list_label_spaces_at(qual_obj, ires),
@@ -394,9 +398,13 @@ class ResultInfo:
                 )
                 qualifiers.append(label_space)
                 label_space_dict = label_space.__dict__()
-                for key in label_space_dict:
+                print(label_space_dict)
+                for key in label_space_dict.keys():
                     value = label_space_dict[key]
                     label_support = self.qualifier_label_support(key)
+                    # print(label_support.available_string_field_supported_properties())
+                    print(f"{key=}")
+                    print(f"{value=}")
                     names_field = label_support.string_field_support_by_property("names")
                     label_value = names_field.data_as_list[
                         names_field.scoping.ids.tolist().index(value)

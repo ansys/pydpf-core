@@ -164,6 +164,7 @@ class Model:
                         print("no result found, switch to CommonResults")
                         self._results = CommonResults(*args)
                 except Exception as e:
+                    raise e
                     print(f"Failed to create Results, switch to CommonResults:\n {e}")
                     self._results = CommonResults(*args)
                     LOG.debug(str(e))
