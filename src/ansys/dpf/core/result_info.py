@@ -257,7 +257,7 @@ class ResultInfo:
         """Version of the solver."""
         major = integral_types.MutableInt32()
         minor = integral_types.MutableInt32()
-        res = self._api.result_info_get_solver_version(self, major, minor)
+        _ = self._api.result_info_get_solver_version(self, major, minor)
         return str(int(major)) + "." + str(int(minor))
 
     @property
@@ -375,7 +375,6 @@ class ResultInfo:
             qual_obj = object_handler.ObjHandler(
                 data_processing_api=self._data_processing_core_api,
                 internal_obj=self._api.result_info_get_qualifiers_for_result(self, numres),
-                server=self._server,
             )
             label_space_api = self._server.get_api_for_type(
                 capi=label_space_capi.LabelSpaceCAPI,
