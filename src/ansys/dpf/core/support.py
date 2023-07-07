@@ -111,17 +111,7 @@ class Support:
         """
         from ansys.dpf.core.string_field import StringField
 
-        try:
-            out = self._support_api.support_get_string_field_support_by_property(
-                self, property_name
-            )
-        except Exception as e:
-            print("string_field_support_by_property failed with:")
-            print(f"{self=}")
-            print(f"{self._internal_obj=}")
-            print(f"{property_name=}")
-            raise e
-
+        out = self._support_api.support_get_string_field_support_by_property(self, property_name)
         if out is not None:
             return StringField(string_field=out, server=self._server)
 

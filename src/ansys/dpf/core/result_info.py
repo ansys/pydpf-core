@@ -307,11 +307,7 @@ class ResultInfo:
         """
         out = []
         for i in range(len(self)):
-            # try:
             out.append(self._get_result(i))
-            # except Exception as e:
-            #     print(f"Failed to get result {i}")
-            #     print(e)
         return out
 
     @property
