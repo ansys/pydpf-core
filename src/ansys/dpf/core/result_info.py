@@ -340,7 +340,6 @@ class ResultInfo:
             raise IndexError("Result index must be greater than 0")
 
         name = self._api.result_info_get_result_name(self, numres)
-        print(f"Querying metadata for result {name}")
         physic_name = self._api.result_info_get_result_physics_name(self, numres)
         dimensionality = self._api.result_info_get_result_dimensionality_nature(self, numres)
         n_comp = self._api.result_info_get_result_number_of_components(self, numres)
@@ -364,7 +363,6 @@ class ResultInfo:
                 scripting_name = available_result._remove_spaces(physic_name)
         num_sub_res = self._api.result_info_get_number_of_sub_results(self, numres)
         sub_res = {}
-        print(f"{num_sub_res=}")
         for ires in range(num_sub_res):
             sub_res_name = self._api.result_info_get_sub_result_name(self, numres, ires)
             ssub_res_rec_name = integral_types.MutableString(256)
@@ -372,7 +370,6 @@ class ResultInfo:
                 self, numres, ires, ssub_res_rec_name
             )
             ssub_res_rec_name = str(ssub_res_rec_name)
-            print((f"{ssub_res_rec_name=}"))
             descr = self._api.result_info_get_sub_result_description(self, numres, ires)
             sub_res[sub_res_name] = [ssub_res_rec_name, descr]
 
@@ -389,7 +386,6 @@ class ResultInfo:
                 grpcapi=label_space_grpcapi.LabelSpaceGRPCAPI,
             )
             num_qual_obj = label_space_api.list_label_spaces_size(qual_obj)
-            print(f"{num_qual_obj=}")
             for ires in range(num_qual_obj):
                 label_space = LabelSpace(
                     label_space=label_space_api.list_label_spaces_at(qual_obj, ires),
@@ -398,13 +394,9 @@ class ResultInfo:
                 )
                 qualifiers.append(label_space)
                 label_space_dict = label_space.__dict__()
-                print(label_space_dict)
                 for key in label_space_dict.keys():
                     value = label_space_dict[key]
                     label_support = self.qualifier_label_support(key)
-                    # print(label_support.available_string_field_supported_properties())
-                    print(f"{key=}")
-                    print(f"{value=}")
                     names_field = label_support.string_field_support_by_property("names")
                     label_value = names_field.data_as_list[
                         names_field.scoping.ids.tolist().index(value)

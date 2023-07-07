@@ -24,6 +24,10 @@ def test_cff_model_grpc_servers(server_type_remote_process, fluent_multi_species
     assert model is not None
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="CFF source operators where not supported before 7.0,",
+)
 @pytest.mark.parametrize(
     "result_name",
     [
@@ -46,6 +50,7 @@ def test_cff_model_grpc_servers(server_type_remote_process, fluent_multi_species
 )
 def test_results_cfx(cfx_heating_coil, result_name, server_type):
     model = dpf.Model(cfx_heating_coil(server=server_type), server=server_type)
+    print(model)
     result_op = getattr(model.results, result_name)()
     result = result_op.eval()
     assert isinstance(result, dpf.FieldsContainer)
@@ -54,27 +59,24 @@ def test_results_cfx(cfx_heating_coil, result_name, server_type):
     assert isinstance(result, dpf.FieldsContainer)
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="CFF source operators where not supported before 7.0,",
+)
 @pytest.mark.parametrize(
     "result_name",
     [
         "enthalpy",
         "mass_flow_rate",
         "static_pressure",
-        "mean_static_pressure",
-        "rms_static_pressure",
         "surface_heat_rate",
         "density",
         "temperature",
-        "mean_temperature",
-        "rms_temperature",
         "velocity",
-        "mean_velocity",
-        "rms_velocity",
     ],
 )
 def test_results_fluent(fluent_mixing_elbow_steady_state, result_name, server_type):
     model = dpf.Model(fluent_mixing_elbow_steady_state(server=server_type), server=server_type)
-    print(model)
     result_op = getattr(model.results, result_name)()
     result = result_op.eval()
     assert isinstance(result, dpf.FieldsContainer)

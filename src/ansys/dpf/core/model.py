@@ -161,15 +161,11 @@ class Model:
                 try:
                     self._results = Results(*args)
                     if len(self._results) == 0:
-                        print("no result found, switch to CommonResults")
                         self._results = CommonResults(*args)
                 except Exception as e:
-                    raise e
-                    print(f"Failed to create Results, switch to CommonResults:\n {e}")
                     self._results = CommonResults(*args)
                     LOG.debug(str(e))
             else:
-                print("no dynamic results, switch to CommonResults")
                 self._results = CommonResults(*args)
         return self._results
 
