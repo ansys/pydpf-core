@@ -8,44 +8,23 @@ import pytest
 from ansys.dpf.core import examples
 
 
-@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_load_cff_mesh_info_operator_in_process(server_in_process):
-    mesh_info = dpf.Operator(name="cff::cas::mesh_info_provider", server=server_in_process)
+def test_load_cff_mesh_info_operator(server_type):
+    mesh_info = dpf.Operator(name="cff::cas::mesh_info_provider", server=server_type)
     assert mesh_info is not None
 
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_load_cff_mesh_info_operator_grpc(server_type_remote_process):
-    mesh_info = dpf.Operator(name="cff::cas::mesh_info_provider", server=server_type_remote_process)
-    assert mesh_info is not None
-
-
-@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
-def test_load_cff_model_in_process(fluent_multi_species, server_in_process):
-    model = dpf.Model(fluent_multi_species(server_in_process), server=server_in_process)
+def test_load_cff_model(fluent_multi_species, server_type):
+    model = dpf.Model(fluent_multi_species(server=server_type), server=server_type)
     mesh_provider = model.metadata.mesh_provider
     mesh_info = model.metadata.mesh_info
     assert mesh_info and mesh_provider is not None
 
-
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
-def test_load_cff_model_grpc(fluent_multi_species, server_type_remote_process):
-    model = dpf.Model(
-        fluent_multi_species(server_type_remote_process), server=server_type_remote_process
-    )
-    mesh_provider = model.metadata.mesh_provider
-    mesh_info = model.metadata.mesh_info
-    assert mesh_info and mesh_provider is not None
 
 
 @pytest.mark.skipif(
@@ -56,7 +35,6 @@ def test_create_mesh_info(server_type):
     assert mesh_info is not None
 
 
-@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
@@ -67,7 +45,6 @@ def test_mesh_info_generic_data_container_getter_model(fluent_multi_species, ser
     assert type(gdc) is ansys.dpf.core.generic_data_container.GenericDataContainer
 
 
-@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
@@ -169,7 +146,6 @@ def test_set_get_available_elem_types_mesh_info(server_type):
         assert result_available.id(x) == available_results.id(x)
 
 
-@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
@@ -322,7 +298,6 @@ def test_output_mesh_info_provider_fluent(server_clayer):
     assert face_zone_elements_value[4] == 15
 
 
-@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
