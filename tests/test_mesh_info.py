@@ -1,5 +1,4 @@
 import ansys.dpf.core.generic_data_container
-import platform
 from ansys.dpf import core as dpf
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
@@ -24,7 +23,6 @@ def test_load_cff_model(fluent_multi_species, server_type):
     mesh_provider = model.metadata.mesh_provider
     mesh_info = model.metadata.mesh_info
     assert mesh_info and mesh_provider is not None
-
 
 
 @pytest.mark.skipif(
