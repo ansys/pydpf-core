@@ -202,6 +202,9 @@ class elemental_properties:
 
     apdl_element_type = "apdl_element_type"
         apdl element type property data is provided
+
+    elements_faces_connectivity = "elements_faces_connectivity"
+        element faces connectivity property data is provided
     """
 
     element_shape = "elshape"
@@ -210,6 +213,7 @@ class elemental_properties:
     material = "mat"
     element_properties = "elprops"
     apdl_element_type = "apdl_element_type"
+    elements_faces_connectivity = "elements_faces_connectivity"
 
 
 class nodal_properties:

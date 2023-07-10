@@ -9,7 +9,13 @@ import ansys.dpf.core.errors
 
 from ansys.dpf.core import scoping, field, property_field
 from ansys.dpf.core.check_version import server_meet_version, version_requires
-from ansys.dpf.core.common import locations, types, nodal_properties
+from ansys.dpf.core.common import (
+    locations,
+    types,
+    nodal_properties,
+    face_properties,
+    elemental_properties,
+)
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.faces import Faces
@@ -622,12 +628,27 @@ class MeshedRegion:
             for i, node in enumerate(mesh.nodes.add_nodes(len(node_ids))):
                 node.id = node_ids[i]
                 node.coordinates = coord.get_entity_data(i)
-        with self.elements.connectivities_field.as_local_field() as connect:
-            with self.elements.element_types_field.as_local_field() as types:
-                for i, elem in enumerate(mesh.elements.add_elements(len(element_ids))):
-                    elem.id = element_ids[i]
-                    elem.connectivity = connect.get_entity_data(i)
-                    elem.shape = element_types.shape(types.get_entity_data(i)[0])
+        if len(element_ids) > 0:
+            with self.elements.connectivities_field.as_local_field() as connect:
+                with self.elements.element_types_field.as_local_field() as types:
+                    for i, elem in enumerate(mesh.elements.add_elements(len(element_ids))):
+                        elem.id = element_ids[i]
+                        elem.connectivity = connect.get_entity_data(i)
+                        elem.shape = element_types.shape(types.get_entity_data(i)[0])
+        if len(self.faces.scoping.ids) > 0:
+            with self.property_field(
+                face_properties.faces_nodes_connectivity
+            ).as_local_field() as f_n_conn:
+                mesh.set_property_field(face_properties.faces_nodes_connectivity, f_n_conn)
+            with self.property_field(face_properties.faces_type).as_local_field() as f_types:
+                mesh.set_property_field(face_properties.faces_type, f_types)
+            if elemental_properties.elements_faces_connectivity in self.available_property_fields:
+                with self.property_field(
+                    elemental_properties.elements_faces_connectivity
+                ).as_local_field() as c_f_conn:
+                    mesh.set_property_field(
+                        elemental_properties.elements_faces_connectivity, c_f_conn
+                    )
         mesh.unit = self.unit
         return mesh
 
