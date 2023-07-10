@@ -6,6 +6,7 @@ from .exclude_levelset import exclude_levelset
 from .external_layer import external_layer 
 from .from_field import from_field 
 from .from_scoping import from_scoping 
+from .from_scopings import from_scopings 
 from .make_plane_levelset import make_plane_levelset 
 from .make_sphere_levelset import make_sphere_levelset 
 from .mesh_clip import mesh_clip 
