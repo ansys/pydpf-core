@@ -82,7 +82,6 @@ def test_repr_available_results_list(model):
     assert dpf.core.result_info.available_result.AvailableResult.__name__ in str(ar)
 
 
-@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
 )
