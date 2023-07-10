@@ -1,5 +1,6 @@
 import pytest
 import conftest
+import platform
 from ansys.dpf import core as dpf
 
 
