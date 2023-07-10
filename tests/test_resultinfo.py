@@ -1,4 +1,3 @@
-import platform
 import pytest
 
 from ansys import dpf
@@ -103,8 +102,8 @@ Available qualifier combinations:"""  # noqa: E501
     ref2 = "'phase':2"
     ref3 = "'zone': 5"
     got = str(model.metadata.result_info.available_results[0])
-    assert ref in got 
-    assert ref2 in got 
+    assert ref in got
+    assert ref2 in got
     assert ref3 in got
 
 
