@@ -96,7 +96,7 @@ Homogeneity: specific_heat
 Units: j/kg*k^-1
 Location: Nodal
 Available qualifier labels:"""  # noqa: E501
-    ref2 = "'phase':2"
+    ref2 = "'phase': 2"
     ref3 = "'zone': 5"
     got = str(model.metadata.result_info.available_results[0])
     assert ref in got
