@@ -83,7 +83,7 @@ for j, freq in enumerate(time_freqs.data):
         result_names_time_per_time.append(res_name)
         h5_serialization_op_set_per_set.connect(2 * (j * num_res + i) + 4, res_name)
         h5_serialization_op_set_per_set.connect(
-                    2 * (j * num_res + i) + 5, res.on_time_scoping(j + 1).eval()
+            2 * (j * num_res + i) + 5, res.on_time_scoping(j + 1).eval()
         )
 
 h5_set_per_set_ds = h5_serialization_op_set_per_set.get_output(0, dpf.types.data_sources)
