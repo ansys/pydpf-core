@@ -82,7 +82,9 @@ for j, freq in enumerate(time_freqs.data):
         res_name = "result_" + res().name + "_time_" + str(freq)
         result_names_time_per_time.append(res_name)
         h5_serialization_op_set_per_set.connect(2 * (j * num_res + i) + 4, res_name)
-        h5_serialization_op_set_per_set.connect(2 * (j * num_res + i) + 5, res.on_time_scoping(j + 1).eval())
+        h5_serialization_op_set_per_set.connect(
+                    2 * (j * num_res + i) + 5, res.on_time_scoping(j + 1).eval()
+        )
 
 h5_set_per_set_ds = h5_serialization_op_set_per_set.get_output(0, dpf.types.data_sources)
 
@@ -90,7 +92,7 @@ h5_set_per_set_ds = h5_serialization_op_set_per_set.get_output(0, dpf.types.data
 # Use H5 reading operator
 # ~~~~~~~~~~~~~~~~~~~~~~~
 # Read the results from all time steps file
-h5_stream_prov_op =  dpf.operators.metadata.streams_provider()
+h5_stream_prov_op = dpf.operators.metadata.streams_provider()
 h5_stream_prov_op.inputs.data_sources.connect(h5_all_times_ds)
 res_deser_all_times_list = []
 h5_read_op = dpf.operators.serialization.hdf5dpf_custom_read()
@@ -103,7 +105,7 @@ for i, res_name in enumerate(result_names_on_all_time_steps):
 ###############################################################################
 # Read the meshed region from all time steps file
 mesh_prov_op = dpf.operators.mesh.mesh_provider()
-mesh_prov_op.inputs.streams_container.connect(h5_stream_prov_op.outputs);
+mesh_prov_op.inputs.streams_container.connect(h5_stream_prov_op.outputs)
 mesh_deser_all_times = mesh_prov_op.outputs.mesh()
 
 # Read the results from set per set file
@@ -120,7 +122,7 @@ for i, res_name in enumerate(result_names_time_per_time):
 ###############################################################################
 # Read the meshed region from all time steps file
 mesh_prov_op_2 = dpf.operators.mesh.mesh_provider()
-mesh_prov_op_2.inputs.streams_container.connect(h5_stream_prov_op_2.outputs);
+mesh_prov_op_2.inputs.streams_container.connect(h5_stream_prov_op_2.outputs)
 mesh_deser_set_per_set = mesh_prov_op_2.outputs.mesh()
 
 ###############################################################################
@@ -138,14 +140,14 @@ print(result_names_time_per_time)
 
 ###############################################################################
 # compare first result at first time set
-fc_all_steps_first_step_first_res = res_deser_all_times_list[0].get_field_by_time_id(1) # set 1
+fc_all_steps_first_step_first_res = res_deser_all_times_list[0].get_field_by_time_id(1)  # set 1
 mesh_deser_all_times.plot(fc_all_steps_first_step_first_res)
 
 mesh_deser_set_per_set.plot(res_deser_set_per_set_list[0])
 
 ###############################################################################
 # compare 4th result at 6 time set
-fc_all_steps_first_step_first_res = res_deser_all_times_list[3].get_field_by_time_id(6) # set 6
+fc_all_steps_first_step_first_res = res_deser_all_times_list[3].get_field_by_time_id(6)  # set 6
 mesh_deser_all_times.plot(fc_all_steps_first_step_first_res)
 
 mesh_deser_set_per_set.plot(res_deser_set_per_set_list[num_res * 5 + 3])
