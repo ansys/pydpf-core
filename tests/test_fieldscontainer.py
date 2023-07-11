@@ -520,6 +520,9 @@ def test_fields_container_get_time_scoping(server_type, disp_fc):
     assert freq_scoping.size == 1
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
 def test_fields_container_empty_tf_support(server_type):
     fields_container = dpf.FieldsContainer(server=server_type)
 
