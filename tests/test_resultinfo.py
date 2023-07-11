@@ -72,7 +72,14 @@ def test_get_result_resultinfo_from_index(model):
 
 
 def test_print_result_info(model):
-    print(model.metadata.result_info)
+    str(model.metadata.result_info)
+
+
+def test_repr_available_results_list(model):
+    ar = model.metadata.result_info.available_results
+    assert type(ar) is list
+    assert all([type(r) is dpf.core.result_info.available_result.AvailableResult for r in ar])
+    assert dpf.core.result_info.available_result.AvailableResult.__name__ in str(ar)
 
 
 @pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
@@ -84,14 +91,14 @@ def test_print_available_result_with_qualifiers(cfx_heating_coil):
     ref = """DPF Result
 ----------
 specific_heat
-Operator name: "specific_heat"
+Operator name: "CP"
 Number of components: 1
 Dimensionality: scalar
 Homogeneity: specific_heat
 Units: j/kg*k^-1
 Location: Nodal
 Available qualifier labels:
-  - phase: Copper (3)
+  - phase: Water at 25 C (2), Copper (3)
   - zone: Default 1 (5), ZN1/FS1 (9), ZN1/FS2 (10), ZN1/FS3 (11), ZN1/FS4 (12), ZN1/FS5 (13), ZN1/FS6 (14), ZN1/FS7 (15), ZN1/FS8 (16), ZN1/FS9 (17), ZN1/FS10 (18), heater (8), ZN2/FS1 (19), ZN2/FS2 (20), ZN2/FS3 (21), ZN2/FS4 (22), ZN2/FS5 (23), ZN2/FS6 (24), ZN2/FS7 (25), ZN2/FS8 (26)
 Available qualifier combinations:
   {'phase': 2, 'zone': 5}

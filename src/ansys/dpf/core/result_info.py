@@ -396,10 +396,10 @@ class ResultInfo:
                         names_field.scoping.ids.tolist().index(value)
                     ]
                     label_value = label_value + f" ({value})"
-                    if key in qualifier_labels.keys() and label_value not in qualifier_labels[key]:
-                        qualifier_labels[key].append(label_value)
-                    else:
+                    if key not in qualifier_labels.keys():
                         qualifier_labels[key] = [label_value]
+                    if label_value not in qualifier_labels[key]:
+                        qualifier_labels[key].append(label_value)
 
         availableresult = SimpleNamespace(
             name=name,
