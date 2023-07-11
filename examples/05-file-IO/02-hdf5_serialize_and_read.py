@@ -59,7 +59,7 @@ files = [
 # Export all results on all time frequencies
 h5_serialization_op_all_times = dpf.operators.serialization.hdf5dpf_generate_result_file()
 h5_serialization_op_all_times.inputs.filename.connect(files[0])
-h5_serialization_op_all_times.connect(1, model.metadata.meshed_region)
+h5_serialization_op_all_times.inputs.mesh_provider_out.connect(model.metadata.meshed_region)
 h5_serialization_op_all_times.connect(2, time_freq_op, 0)
 
 for i, res in enumerate(model.results):
@@ -74,7 +74,7 @@ h5_all_times_ds = h5_serialization_op_all_times.get_output(0, dpf.types.data_sou
 # Export all the results, time set per time set
 h5_serialization_op_set_per_set = dpf.operators.serialization.hdf5dpf_generate_result_file()
 h5_serialization_op_set_per_set.inputs.filename.connect(files[1])
-h5_serialization_op_set_per_set.connect(1, model.metadata.meshed_region)
+h5_serialization_op_set_per_set.inputs.mesh_provider_out.connect(model.metadata.meshed_region)
 h5_serialization_op_set_per_set.connect(2, time_freq_op, 0)
 
 for j, freq in enumerate(time_freqs.data):
@@ -96,10 +96,10 @@ h5_stream_prov_op = dpf.operators.metadata.streams_provider()
 h5_stream_prov_op.inputs.data_sources.connect(h5_all_times_ds)
 res_deser_all_times_list = []
 h5_read_op = dpf.operators.serialization.hdf5dpf_custom_read()
-h5_read_op.connect(3, h5_stream_prov_op, 0)
+h5_read_op.inputs.streams.connect(h5_stream_prov_op.outputs)
 for i, res_name in enumerate(result_names_on_all_time_steps):
-    h5_read_op.connect(60, res_name)
-    res_deser = h5_read_op.get_output(0, dpf.types.fields_container)
+    h5_read_op.inputs.result_name.connect(res_name)
+    res_deser = h5_read_op.outputs.field_or_fields_container_as_fields_container()
     res_deser_all_times_list.append(res_deser)
 
 ###############################################################################
@@ -113,10 +113,10 @@ h5_stream_prov_op_2 = dpf.operators.metadata.streams_provider()
 h5_stream_prov_op_2.inputs.data_sources.connect(h5_set_per_set_ds)
 res_deser_set_per_set_list = []
 h5_read_op_2 = dpf.operators.serialization.hdf5dpf_custom_read()
-h5_read_op_2.connect(3, h5_stream_prov_op_2, 0)
+h5_read_op_2.inputs.streams.connect(h5_stream_prov_op_2.outputs)
 for i, res_name in enumerate(result_names_time_per_time):
-    h5_read_op_2.connect(60, res_name)
-    res_deser = h5_read_op_2.get_output(0, dpf.types.fields_container)
+    h5_read_op_2.inputs.result_name.connect(res_name)
+    res_deser = h5_read_op_2.outputs.field_or_fields_container_as_fields_container()
     res_deser_set_per_set_list.append(res_deser)
 
 ###############################################################################
