@@ -126,7 +126,7 @@ class ResultInfo:
                 ]
                 txt += "{0:^4} {1:^2} {2:<30}".format(*line) + "\n"
 
-            if version_requires(7.0):
+            if self._server.meet_version(5.0):
                 qualifiers_labels = self.available_qualifier_labels
                 if len(qualifiers_labels) > 0:
                     txt += "Available qualifier labels:\n"
