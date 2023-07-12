@@ -104,21 +104,20 @@ class MeshInfo:
         mesh_info.generic_data_container = self._generic_data_container.deep_copy(server)
         return mesh_info
 
-    def get_property(self, property_name, output_type):
+    def get_property(self, property_name):
         """Get property with given name.
 
         Parameters
         ----------
         property_name : str
             Property name.
-        output_type :  :class:`ansys.dpf.core.common.types`
 
         Returns
         -------
         type
             Property object instance.
         """
-        return self.generic_data_container.get_property(property_name, output_type)
+        return self.generic_data_container.get_property(property_name)
 
     def set_property(self, property_name, prop):
         """Register given property with the given name.
