@@ -331,4 +331,4 @@ def test_list_attributes_data_tree(server_type):
 
     attributes = data_tree.get_attributes()
 
-    assert ['double', 'int', 'list_double', 'list_int', 'list_string', 'string'] == attributes
+    assert ["double", "int", "list_double", "list_int", "list_string", "string"] == attributes
