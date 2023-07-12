@@ -12,6 +12,9 @@ from ansys.dpf.core.operator_specification import (
     CustomConfigOptionSpec,
     PinSpecification,
 )
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+)
 
 if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     pytest.skip("Requires server version higher than 4.0", allow_module_level=True)
@@ -241,6 +244,64 @@ def test_create_op_specification(server_in_process):
     assert spec.properties["category"] == "math"
     assert spec.config_specification["work_by_index"].document == "iterate over indices"
     assert spec.config_specification["work_by_index"].default_value_str == "false"
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_create_op_specification_with_derived_class(server_in_process):
+    spec = CustomSpecification(server=server_in_process)
+    spec.description = "Add derived class in op specification"
+    spec.inputs = {
+        0: PinSpecification(
+            name="time_scoping",
+            type_names=["int32"],
+            optional=True,
+            document="""Optional time/frequency set id of the mesh.""",
+        ),
+        3: PinSpecification(
+            name="streams_container",
+            type_names=["streams_container"],
+            optional=True,
+            document="""Streams (mesh file container) (optional)""",
+        ),
+        4: PinSpecification(
+            name="data_sources",
+            type_names=["data_sources"],
+            optional=False,
+            document="""If the stream is null, retrieves the file
+            path from the data sources.""",
+        ),
+    }
+    spec.outputs = {
+        0: PinSpecification(
+            name="mesh_info",
+            type_names=["generic_data_container"],
+            optional=False,
+            document="""""",
+            name_derived_class="mesh_info",
+        ),
+    }
+    spec.properties = SpecificationProperties("mesh info provider", "metadata")
+    spec.config_specification = [
+        CustomConfigOptionSpec("mesh_info_provider", False, "gives mesh info")
+    ]
+    assert spec.description == "Add derived class in op specification"
+    assert len(spec.inputs) == 3
+    assert spec.inputs[0].name == "time_scoping"
+    assert spec.inputs[0].type_names == ["int32"]
+    assert spec.inputs[3].document == """Streams (mesh file container) (optional)"""
+    assert spec.outputs[0] == PinSpecification(
+        name="mesh_info",
+        type_names=["generic_data_container"],
+        optional=False,
+        document="""""",
+        name_derived_class="mesh_info",
+    )
+    assert spec.properties["exposure"] == "public"
+    assert spec.properties["category"] == "metadata"
+    assert spec.config_specification["mesh_info_provider"].document == "gives mesh info"
+    assert spec.config_specification["mesh_info_provider"].default_value_str == "false"
 
 
 @conftest.raises_for_servers_version_under("4.0")
