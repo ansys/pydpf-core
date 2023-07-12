@@ -34,6 +34,25 @@ class Config:
         Server with the channel connected to the remote or local instance. The default is
         ``None``, in which case an attempt is made to use the global server.
 
+    Examples
+    --------
+    Create an operator configuration, instantiate the operator and
+    run it with the configuration.
+
+    >>> from ansys.dpf import core as dpf
+    >>> config_add = dpf.Config("add")
+    >>> config_add.set_work_by_index_option(True)
+    >>> op = dpf.operators.math.add(config=config_add)
+
+    Modify the copy of an operator's configuration and set it as current config
+    of the operator.
+
+    >>> from ansys.dpf import core as dpf
+    >>> op = dpf.operators.math.add()
+    >>> config_add = op.config
+    >>> config_add.set_work_by_index_option(True)
+    >>> op.config = config_add
+
     """
 
     def __init__(self, operator_name=None, config=None, server=None, spec=None):
@@ -144,6 +163,18 @@ class Config:
             Value to give to a configuration option.
         config_name : str
             Name of the configuration option.
+
+        Examples
+        --------
+        Modify the copy of an operator's configuration and set it as current config
+        of the operator.
+
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.add()
+        >>> config_add = op.config
+        >>> config_add.set_config_option(config_name="work_by_index", config_value=True)
+        >>> op.config = config_add
+
         """
         return self.__set_config_option__(config_value, config_name)
 
