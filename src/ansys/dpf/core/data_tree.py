@@ -484,7 +484,9 @@ class DataTree:
 
     def get_attributes(self):
         coll_obj = collection.StringCollection(
-            collection=self._api.dpf_data_tree_get_available_attributes_names_in_string_collection(self),
+            collection=self._api.dpf_data_tree_get_available_attributes_names_in_string_collection(
+                self
+            ),
             server=self._server,
         )
 

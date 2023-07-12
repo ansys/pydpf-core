@@ -317,6 +317,7 @@ def test_unsupported_types_data_tree(server_type):
     with pytest.raises(TypeError):
         data_tree.add(data1=(1, 2))
 
+
 @conftest.raises_for_servers_version_under("7.0")
 def test_list_attributes_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
