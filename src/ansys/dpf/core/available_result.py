@@ -250,6 +250,14 @@ class AvailableResult:
         """Returns a dictionary of available labels for each available qualifier."""
         return self._qualifier_labels
 
+    @property
+    def qualifier_combinations(self) -> list[dict]:
+        """Returns the list of valid qualifier combinations for this result.
+
+        Each combination is a dictionary which can be used for a result request.
+        """
+        return [q.__dict__() for q in self.qualifiers]
+
 
 _result_properties = {
     "S": {"location": "ElementalNodal", "scripting_name": "stress"},
