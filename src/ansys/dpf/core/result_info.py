@@ -126,6 +126,20 @@ class ResultInfo:
                 ]
                 txt += "{0:^4} {1:^2} {2:<30}".format(*line) + "\n"
 
+            if version_requires(5.0):
+                qualifiers_labels = self.available_qualifier_labels
+                if len(qualifiers_labels) > 0:
+                    txt += "Available qualifier labels:\n"
+                    for label in qualifiers_labels:
+                        label_support = self.qualifier_label_support(label)
+                        names_field = label_support.string_field_support_by_property("names")
+                        label_names = names_field.data_as_list
+                        label_values = names_field.scoping.ids.tolist()
+                        txt += f"  - {label}: "
+                        for i, value in enumerate(label_values):
+                            label_values[i] = label_names[i] + f" ({value})"
+                        txt += f"{', '.join(label_values)}\n"
+
             return txt
         except Exception as e:
             from ansys.dpf.core.core import _description
