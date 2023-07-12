@@ -614,7 +614,7 @@ class MeshedRegion:
         """
         from ansys.dpf.core.core import _deep_copy
 
-        return _deep_copy(self, server=self._server)
+        return _deep_copy(self, server=server)
 
     def field_of_properties(self, property_name):
         """
