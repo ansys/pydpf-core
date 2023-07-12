@@ -9,7 +9,7 @@ from ansys.dpf.core.string_field import StringField
 
 
 class MeshInfo:
-    """Represents the mesh information.
+    """Hold the information relative to a mesh region.
 
     This class describes the available mesh information.
 
@@ -19,6 +19,10 @@ class MeshInfo:
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
+     generic_data_container : ansys.dpf.core.generic_data_container, optional
+        Generic data container that is wrapped into the mesh info.
+     mesh_info : optional
+        Hold the information of the mesh region into a generic data container.
 
     Examples
     --------
@@ -28,7 +32,7 @@ class MeshInfo:
     >>> from ansys.dpf.core import examples
     >>> fluent = examples.fluid_axial_model()
     >>> model = dpf.Model(fluent)
-    >>> # mesh_info = model.metadata.mesh_info # printable mesh_info
+    >>> mesh_info = model.metadata.mesh_info
 
     """
 
@@ -43,18 +47,16 @@ class MeshInfo:
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
 
-        try:
-            if generic_data_container is None and mesh_info is None:
-                self._generic_data_container = GenericDataContainer()
-            elif generic_data_container is not None and mesh_info is None:
-                self._generic_data_container = generic_data_container
-            elif generic_data_container is None and MeshInfo is not None:
-                self._generic_data_container = mesh_info.generic_data_container
-        except ValueError:
-            print("Both generic data container and mesh info can't be filled")
-
-    def __call__(self):
-        return self
+        if generic_data_container is None and mesh_info is None:
+            self._generic_data_container = GenericDataContainer()
+        elif generic_data_container is not None and mesh_info is None:
+            self._generic_data_container = generic_data_container
+        elif generic_data_container is None and MeshInfo is not None:
+            self._generic_data_container = mesh_info.generic_data_container
+        else:
+            raise ValueError(
+                "Arguments generic_data_container and mesh_info are mutually exclusive."
+            )
 
     @property
     def generic_data_container(self) -> GenericDataContainer:
@@ -73,19 +75,14 @@ class MeshInfo:
     def generic_data_container(self, value: GenericDataContainer):
         """GenericDataContainer wrapped into the MeshInfo
         that contains all the relative information of the derived class.
-
-        Returns
-        -------
-        :class:`ansys.dpf.core.generic_data_container.GenericDataContainer`
-
         """
 
-        if type(value) is not GenericDataContainer:
+        if not isinstance(value, GenericDataContainer):
             raise ValueError("Input value must be a GenericDataContainer.")
         self._generic_data_container = value
 
     def deep_copy(self, server=None):
-        """Create a deep copy of the scoping's data on a given server.
+        """Create a deep copy of the mesh_info's data on a given server.
 
         This method is useful for passing data from one server instance to another.
 
@@ -98,7 +95,7 @@ class MeshInfo:
 
         Returns
         -------
-        scoping_copy : Scoping
+        mesh_info_copy : MeshInfo
         """
         mesh_info = MeshInfo(server=server)
         mesh_info.generic_data_container = self._generic_data_container
@@ -133,6 +130,7 @@ class MeshInfo:
 
         return self.generic_data_container.set_property(property_name, prop)
 
+    @property
     def get_number_nodes(self):
         """
         Returns
@@ -143,6 +141,7 @@ class MeshInfo:
 
         return self.generic_data_container.get_property("num_nodes", int)
 
+    @property
     def get_number_elements(self):
         """
         Returns
@@ -153,6 +152,7 @@ class MeshInfo:
 
         return self.generic_data_container.get_property("num_elements", int)
 
+    @property
     def get_splittable_by(self):
         """
         Returns
@@ -163,6 +163,7 @@ class MeshInfo:
 
         return self.generic_data_container.get_property("splittable_by", StringField)
 
+    @property
     def get_available_elem_types(self):
         """
         Returns
