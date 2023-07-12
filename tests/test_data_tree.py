@@ -316,3 +316,18 @@ def test_unsupported_types_data_tree(server_type):
         data_tree.add(data1=[[1]])
     with pytest.raises(TypeError):
         data_tree.add(data1=(1, 2))
+
+@conftest.raises_for_servers_version_under("7.0")
+def test_list_attributes_data_tree(server_type):
+    data_tree = dpf.DataTree(server=server_type)
+    with data_tree.to_fill() as to_fill:
+        to_fill.int = 1
+        to_fill.double = 1.0
+        to_fill.string = "hello"
+        to_fill.list_int = [1, 2]
+        to_fill.list_double = [1.5, 2.5]
+        to_fill.add(list_string=["hello", "bye"])
+
+    attributes = data_tree.get_attributes()
+
+    assert ['double', 'int', 'list_double', 'list_int', 'list_string', 'string'] == attributes

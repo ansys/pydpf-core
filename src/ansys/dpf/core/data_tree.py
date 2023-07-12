@@ -482,6 +482,14 @@ class DataTree:
             out = DataTree(data_tree=obj, server=self._server)
         return out
 
+    def get_attributes(self):
+        coll_obj = collection.StringCollection(
+            collection=self._api.dpf_data_tree_get_available_attributes_names_in_string_collection(self),
+            server=self._server,
+        )
+
+        return coll_obj.get_integral_entries()
+
     def __setattr__(self, key, value):
         if key == "_common_keys" or key in self._common_keys:
             return super.__setattr__(self, key, value)
