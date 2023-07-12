@@ -98,7 +98,7 @@ class MeshInfo:
         mesh_info_copy : MeshInfo
         """
         mesh_info = MeshInfo(server=server)
-        mesh_info.generic_data_container = self._generic_data_container
+        mesh_info.generic_data_container = self._generic_data_container.deep_copy(server)
         return mesh_info
 
     def get_property(self, property_name, output_type):
