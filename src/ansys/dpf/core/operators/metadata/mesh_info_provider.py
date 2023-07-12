@@ -106,6 +106,7 @@ class mesh_info_provider(Operator):
                     type_names=["generic_data_container"],
                     optional=False,
                     document="""""",
+                    name_derived_class=["mesh_info"],
                 ),
             },
         )
@@ -260,7 +261,7 @@ class OutputsMeshInfoProvider(_Outputs):
 
         Returns
         ----------
-        my_mesh_info : GenericDataContainer
+        my_mesh_info : mesh_info
 
         Examples
         --------
