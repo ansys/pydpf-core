@@ -263,6 +263,36 @@ def _description(dpf_entity_message, server=None):
         return ""
 
 
+def _deep_copy(dpf_entity_message, server=None):
+    """Returns a copy of the entity in the requested server
+
+    Parameters
+    ----------
+    dpf_entity_message: core.Operator._message, core.Workflow._message,
+                        core.Scoping._message, core.Field._message,
+                        core.FieldContainer._message, core.MeshedRegion._message...
+        Dpf entity to deep_copy
+
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+
+    Returns
+    -------
+       deep_copy of dpf_entity_message: core.Operator._message, core.Workflow._message,
+                                        core.Scoping._message, core.Field._message,
+                                        core.FieldContainer._message, core.MeshedRegion._message...
+    """
+    from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
+    from ansys.dpf.core.common import types_to_types_enum
+
+    serializer = serializer_to_string(server=server)
+    serializer.connect(1, dpf_entity_message)
+    deserializer = string_deserializer(server=server)
+    deserializer.connect(0, serializer, 0)
+    return deserializer.get_output(1, types_to_types_enum()[dpf_entity_message.__class__])
+
+
 class BaseService:
     """The Base Service class allows to make generic requests to dpf's server.
     For example, information about the server can be requested,
