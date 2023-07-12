@@ -17,10 +17,10 @@ class grpc_start_server(Operator):
     Parameters
     ----------
     ip : str, optional
-        If no ip address is put the local ip address
+        If no ip address is put, the local ip address
         is taken
     port : str or int, optional
-        If no port is put port 50052 is taken
+        If no port is put, port 50052 is taken
     starting_option : int, optional
         Default is 1 that starts server in new
         thread. with 0, this thread will be
@@ -106,14 +106,14 @@ class grpc_start_server(Operator):
                     name="ip",
                     type_names=["string"],
                     optional=True,
-                    document="""If no ip address is put the local ip address
+                    document="""If no ip address is put, the local ip address
         is taken""",
                 ),
                 1: PinSpecification(
                     name="port",
                     type_names=["string", "int32"],
                     optional=True,
-                    document="""If no port is put port 50052 is taken""",
+                    document="""If no port is put, port 50052 is taken""",
                 ),
                 2: PinSpecification(
                     name="starting_option",
@@ -150,8 +150,8 @@ class grpc_start_server(Operator):
                     type_names=["streams_container"],
                     optional=True,
                     document="""Dpf streams handling the server, if the
-        server is started in this thread than
-        nothing is added in output""",
+        server is started in this thread,
+        then nothing is added in output""",
                 ),
             },
         )
@@ -233,7 +233,7 @@ class InputsGrpcStartServer(_Inputs):
     def ip(self):
         """Allows to connect ip input to the operator.
 
-        If no ip address is put the local ip address
+        If no ip address is put, the local ip address
         is taken
 
         Parameters
@@ -254,7 +254,7 @@ class InputsGrpcStartServer(_Inputs):
     def port(self):
         """Allows to connect port input to the operator.
 
-        If no port is put port 50052 is taken
+        If no port is put, port 50052 is taken
 
         Parameters
         ----------
