@@ -135,7 +135,7 @@ class ResultInfo:
                         names_field = label_support.string_field_support_by_property("names")
                         label_names = names_field.data_as_list
                         label_values = names_field.scoping.ids.tolist()
-                        txt += f"  - {label}: "
+                        txt += f"     - {label}: "
                         for i, value in enumerate(label_values):
                             label_values[i] = label_names[i] + f" ({value})"
                         txt += f"{', '.join(label_values)}\n"

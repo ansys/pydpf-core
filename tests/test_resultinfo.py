@@ -1,4 +1,3 @@
-import platform
 import pytest
 
 from ansys import dpf
@@ -82,7 +81,6 @@ def test_repr_available_results_list(model):
     assert dpf.core.result_info.available_result.AvailableResult.__name__ in str(ar)
 
 
-@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
 )
@@ -122,6 +120,36 @@ Available qualifier combinations:
   {'phase': 3, 'zone': 25}
   {'phase': 3, 'zone': 26}"""  # noqa: E501
     assert ref in str(model.metadata.result_info.available_results[0])
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
+)
+def test_print_result_info_with_qualifiers(cfx_heating_coil):
+    model = Model(cfx_heating_coil)
+    ref = """Static analysis
+Unit system: SI: m, kg, N, s, V, A, K
+Physics Type: Fluid
+Available results:
+     -  specific_heat: Nodal Specific Heat
+     -  epsilon: Nodal Epsilon        
+     -  enthalpy: Nodal Enthalpy      
+     -  turbulent_kinetic_energy: Nodal Turbulent Kinetic Energy
+     -  thermal_conductivity: Nodal Thermal Conductivity
+     -  dynamic_viscosity: Nodal Dynamic Viscosity
+     -  turbulent_viscosity: Nodal Turbulent Viscosity
+     -  static_pressure: Nodal Static Pressure
+     -  total_pressure: Nodal Total Pressure
+     -  density: Nodal Density        
+     -  entropy: Nodal Entropy        
+     -  wall_shear_stress: Nodal Wall Shear Stress
+     -  temperature: Nodal Temperature
+     -  total_temperature: Nodal Total Temperature
+     -  velocity: Nodal Velocity      
+Available qualifier labels:
+     - zone: ZN1/FS10 (18), ZN1/FS9 (17), ZN1/FS8 (16), ZN1/FS7 (15), ZN1/FS6 (14), ZN1/FS5 (13), ZN1/FS1 (9), ZN1/FS2 (10), ZN1/FS3 (11), ZN1/FS4 (12), Default 1 (5), ZN2/FS1 (19), ZN2/FS2 (20), ZN2/FS3 (21), ZN2/FS4 (22), ZN2/FS5 (23), ZN2/FS6 (24), ZN2/FS7 (25), ZN2/FS8 (26), heater (8)
+     - phase: <Mixture> (1), Water at 25 C (2), Copper (3)"""  # noqa
+    assert ref in str(model.metadata.result_info)
 
 
 @pytest.mark.skipif(True, reason="Used to test memory leaks")
