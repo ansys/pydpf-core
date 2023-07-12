@@ -4,8 +4,6 @@ MeshInfo
 """
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.generic_data_container import GenericDataContainer
-from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core.string_field import StringField
 
 
 class MeshInfo:
@@ -141,7 +139,7 @@ class MeshInfo:
             Number of nodes of the mesh.
         """
 
-        return self.generic_data_container.get_property("num_nodes", int)
+        return self.generic_data_container.get_property("num_nodes")
 
     @property
     def get_number_elements(self):
@@ -152,7 +150,7 @@ class MeshInfo:
             Number of elements of the mesh.
         """
 
-        return self.generic_data_container.get_property("num_elements", int)
+        return self.generic_data_container.get_property("num_elements")
 
     @property
     def get_splittable_by(self):
@@ -163,7 +161,7 @@ class MeshInfo:
                 Name of the properties according to which the mesh can be split by.
         """
 
-        return self.generic_data_container.get_property("splittable_by", StringField)
+        return self.generic_data_container.get_property("splittable_by")
 
     @property
     def get_available_elem_types(self):
@@ -174,7 +172,7 @@ class MeshInfo:
             element type available for the mesh.
         """
 
-        return self.generic_data_container.get_property("avalaible_elem_type", Scoping)
+        return self.generic_data_container.get_property("avalaible_elem_type")
 
     def set_number_nodes(self, number_of_nodes):
         """Set the number of nodes in the mesh"""
