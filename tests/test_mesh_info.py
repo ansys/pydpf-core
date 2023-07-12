@@ -99,7 +99,7 @@ def test_set_get_property_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
 
     # """Scoping"""
-    scoping = dpf.Scoping()
+    scoping = dpf.Scoping(server=server_type)
     expected_ids = [1, 2, 3]
     scoping._set_ids(expected_ids)
     mesh_info.set_property("my-property00", scoping)
@@ -108,7 +108,7 @@ def test_set_get_property_mesh_info(server_type):
         assert result_scoping.id(x) == scoping.id(x)
 
     # """ Field """
-    field = dpf.Field()
+    field = dpf.Field(server=server_type)
     mesh_info.set_property("my-property01", field)
     result_field = mesh_info.get_property("my-property01", dpf.Field)
     assert result_field.component_count == field.component_count
@@ -119,7 +119,7 @@ def test_set_get_property_mesh_info(server_type):
 )
 def test_set_get_splittable_by_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
-    splittable = dpf.StringField()
+    splittable = dpf.StringField(server=server_type)
     expected_splittable = ["split_01", "split_02", "split_03"]
     splittable.append(expected_splittable, 1)
     mesh_info.set_splittable_by(splittable)
@@ -136,7 +136,7 @@ def test_set_get_splittable_by_mesh_info(server_type):
 def test_set_get_available_elem_types_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
     available_results_ids = [1, 2, 3]
-    available_results = dpf.Scoping()
+    available_results = dpf.Scoping(server=server_type)
     available_results._set_ids(available_results_ids)
     mesh_info.set_available_elem_types(available_results)
     result_available = mesh_info.get_available_elem_types
