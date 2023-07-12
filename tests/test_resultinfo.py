@@ -119,7 +119,9 @@ Available qualifier combinations:
   {'phase': 3, 'zone': 24}
   {'phase': 3, 'zone': 25}
   {'phase': 3, 'zone': 26}"""  # noqa: E501
-    assert ref in str(model.metadata.result_info.available_results[0])
+    ar = model.metadata.result_info.available_results[0]
+    assert ref in str(ar)
+    assert len(ar.qualifier_combinations) == 20
 
 
 @pytest.mark.skipif(
