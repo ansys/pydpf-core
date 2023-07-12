@@ -82,11 +82,11 @@ def test_mesh_info_generic_data_container_setter_grpc(
 )
 def test_set_get_num_of(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
-    """Number of nodes"""
+    # """Number of nodes"""
     num_nodes = 189
     mesh_info.set_number_nodes(189)
     assert mesh_info.get_number_nodes == num_nodes
-    """ Number of elements """
+    # """ Number of elements """
     num_elements = 2
     mesh_info.set_number_elements(2)
     assert mesh_info.get_number_elements == num_elements
@@ -98,7 +98,7 @@ def test_set_get_num_of(server_type):
 def test_set_get_property_mesh_info(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
 
-    """Scoping"""
+    # """Scoping"""
     scoping = dpf.Scoping()
     expected_ids = [1, 2, 3]
     scoping._set_ids(expected_ids)
@@ -107,7 +107,7 @@ def test_set_get_property_mesh_info(server_type):
     for x in range(len(expected_ids)):
         assert result_scoping.id(x) == scoping.id(x)
 
-    """ Field """
+    # """ Field """
     field = dpf.Field()
     mesh_info.set_property("my-property01", field)
     result_field = mesh_info.get_property("my-property01", dpf.Field)
@@ -156,7 +156,7 @@ def test_output_mesh_info_provider_fluent(server_clayer):
     mesh_info.connect(4, ds)
     mesh_info_out = mesh_info.outputs.mesh_info()
 
-    assert type(mesh_info_out) == dpf.mesh_info.MeshInfo
+    assert isinstance(mesh_info_out, dpf.mesh_info.MeshInfo)
 
     # """************************ NUMBER OF CELLS/FACES/ZONES ************************"""
     num_cells = mesh_info_out.get_property("num_cells", int)
