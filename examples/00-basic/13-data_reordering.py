@@ -30,14 +30,14 @@ scoping = disp_field_0.scoping
 print(scoping)
 # The first 10 node IDs in the scoping:
 print(scoping.ids[:10])
-# One can indeed see that the node IDs are not in ascending, descending or any particular order.
+# You can see that the node IDs are not in ascending, descending, or any particular order.
 
 # We can compare it to the order the mesh's nodes are in:
 nodes_scoping = model.metadata.meshed_region.nodes.scoping
 print(nodes_scoping)
 print(nodes_scoping.ids[:10])
 
-# The mesh's node scoping is in this case in ascending order.
+# The mesh's node scoping is, in this case, in ascending order.
 # To force the field's date to follow the same ordering, use the rescope operator with the target
 # scoping as input:
 reordered_fields = dpf.operators.scoping.rescope_fc(
