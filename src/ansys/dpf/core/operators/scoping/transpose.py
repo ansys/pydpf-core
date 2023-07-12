@@ -12,8 +12,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class transpose(Operator):
-    """Transposes the input scoping or scopings container (Elemental -->
-    Nodal, or Nodal ---> Elemental), based on the input mesh region.
+    """Transposes the input scoping or scopings container (Elemental/Faces
+    --> Nodal, or Nodal ---> Elemental/Faces), based on the input mesh
+    region.
 
     Parameters
     ----------
@@ -22,11 +23,12 @@ class transpose(Operator):
         is the output type)
     meshed_region : MeshedRegion or MeshesContainer
     inclusive : int, optional
-        If inclusive == 1 then all the elements
+        If inclusive == 1 then all the elements/faces
         adjacent to the nodes ids in input
         are added, if inclusive == 0, only
-        the elements which have all their
-        nodes in the scoping are included
+        the elements/faces which have all
+        their nodes in the scoping are
+        included
 
 
     Examples
@@ -75,9 +77,9 @@ class transpose(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transposes the input scoping or scopings container (Elemental --&gt;
-            Nodal, or Nodal ---&gt; Elemental), based on the input mesh
-            region."""
+        description = """Transposes the input scoping or scopings container (Elemental/Faces
+            --&gt; Nodal, or Nodal ---&gt; Elemental/Faces), based on the
+            input mesh region."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -98,11 +100,12 @@ class transpose(Operator):
                     name="inclusive",
                     type_names=["int32"],
                     optional=True,
-                    document="""If inclusive == 1 then all the elements
+                    document="""If inclusive == 1 then all the elements/faces
         adjacent to the nodes ids in input
         are added, if inclusive == 0, only
-        the elements which have all their
-        nodes in the scoping are included""",
+        the elements/faces which have all
+        their nodes in the scoping are
+        included""",
                 ),
             },
             map_output_pin_spec={
@@ -222,11 +225,12 @@ class InputsTranspose(_Inputs):
     def inclusive(self):
         """Allows to connect inclusive input to the operator.
 
-        If inclusive == 1 then all the elements
+        If inclusive == 1 then all the elements/faces
         adjacent to the nodes ids in input
         are added, if inclusive == 0, only
-        the elements which have all their
-        nodes in the scoping are included
+        the elements/faces which have all
+        their nodes in the scoping are
+        included
 
         Parameters
         ----------
