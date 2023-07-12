@@ -3,6 +3,7 @@ AvailableResult
 ===============
 """
 
+from typing import List
 from warnings import warn
 from ansys.dpf.core.common import _remove_spaces, _make_as_function_name, natures
 from enum import Enum, unique
@@ -251,7 +252,7 @@ class AvailableResult:
         return self._qualifier_labels
 
     @property
-    def qualifier_combinations(self) -> list[dict]:
+    def qualifier_combinations(self) -> List[dict]:
         """Returns the list of valid qualifier combinations for this result.
 
         Each combination is a dictionary which can be used for a result request.
