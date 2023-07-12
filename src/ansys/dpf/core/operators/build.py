@@ -59,6 +59,9 @@ def build_pin_data(pins, output=False):
         specification = pins[id]
 
         type_names = specification.type_names
+
+        derived_class_type_name = specification.name_derived_class
+
         if specification.ellipsis:
             type_names = update_type_names_for_ellipsis(type_names)
         docstring_types = map_types(type_names)
@@ -85,9 +88,11 @@ def build_pin_data(pins, output=False):
             "name": pin_name,
             "pin_name": pin_name, # Base pin name, without numbers for when pin is ellipsis
             "has_types": len(type_names) >= 1,
+            "has_derived_class": len(derived_class_type_name) >= 1,
             "multiple_types": multiple_types,
             "printable_type_names": printable_type_names,
             "types": type_names,
+            "derived_type_name": derived_class_type_name,
             "types_for_docstring": parameter_types,
             "main_type": main_type,
             "built_in_main_type": main_type in built_in_types,
