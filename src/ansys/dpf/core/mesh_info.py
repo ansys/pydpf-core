@@ -45,13 +45,15 @@ class MeshInfo:
         """Initialize with a MeshInfo message"""
         # ############################
         # step 1: get server
-        self._server = server_module.get_or_create_server(server)
 
         if generic_data_container is None and mesh_info is None:
-            self._generic_data_container = GenericDataContainer()
+            self._server = server_module.get_or_create_server(server)
+            self._generic_data_container = GenericDataContainer(server=self._server)
         elif generic_data_container is not None and mesh_info is None:
+            self._server = generic_data_container._server
             self._generic_data_container = generic_data_container
         elif generic_data_container is None and MeshInfo is not None:
+            self._server = mesh_info.generic_data_container._server
             self._generic_data_container = mesh_info.generic_data_container
         else:
             raise ValueError(
@@ -80,6 +82,7 @@ class MeshInfo:
         if not isinstance(value, GenericDataContainer):
             raise ValueError("Input value must be a GenericDataContainer.")
         self._generic_data_container = value
+        self._server = self._generic_data_container._server
 
     def deep_copy(self, server=None):
         """Create a deep copy of the mesh_info's data on a given server.
