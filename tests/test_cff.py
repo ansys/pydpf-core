@@ -20,9 +20,10 @@ def test_cff_model(server_type, fluent_multi_species):
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     reason="CFF source operators where not supported before 7.0,",
 )
-@pytest.mark.parametrize(
-    "result_name",
-    [
+def test_results_cfx(cfx_heating_coil, server_type):
+    model = dpf.Model(cfx_heating_coil(server=server_type), server=server_type)
+    print(model)
+    result_names = [
         "specific_heat",
         "epsilon",
         "enthalpy",
@@ -38,40 +39,42 @@ def test_cff_model(server_type, fluent_multi_species):
         "temperature",
         "total_temperature",
         "velocity",
-    ],
-)
-def test_results_cfx(cfx_heating_coil, result_name, server_type):
-    model = dpf.Model(cfx_heating_coil(server=server_type), server=server_type)
-    print(model)
-    result_op = getattr(model.results, result_name)()
-    result = result_op.eval()
-    assert isinstance(result, dpf.FieldsContainer)
-    result_op.connect(1000, {"phase": 2})
-    result = result_op.eval()
-    assert isinstance(result, dpf.FieldsContainer)
+    ]
+    for result_name in result_names:
+        result_op = getattr(model.results, result_name)()
+        result = result_op.eval()
+        assert isinstance(result, dpf.FieldsContainer)
+        result_op.connect(1000, {"phase": 2})
+        result = result_op.eval()
+        assert isinstance(result, dpf.FieldsContainer)
 
 
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     reason="CFF source operators where not supported before 7.0,",
 )
-@pytest.mark.parametrize(
-    "result_name",
-    [
+def test_results_fluent(fluent_mixing_elbow_steady_state, server_type):
+    model = dpf.Model(fluent_mixing_elbow_steady_state(server=server_type), server=server_type)
+    print(model)
+    result_names = [
+        "epsilon",
         "enthalpy",
+        "turbulent_kinetic_energy",
+        "mach_number",
         "mass_flow_rate",
+        "dynamic_viscosity",
+        "turbulent_viscosity",
         "static_pressure",
         "surface_heat_rate",
         "density",
         "temperature",
         "velocity",
-    ],
-)
-def test_results_fluent(fluent_mixing_elbow_steady_state, result_name, server_type):
-    model = dpf.Model(fluent_mixing_elbow_steady_state(server=server_type), server=server_type)
-    result_op = getattr(model.results, result_name)()
-    result = result_op.eval()
-    assert isinstance(result, dpf.FieldsContainer)
-    result_op.connect(1000, {"phase": 1})
-    result = result_op.eval()
-    assert isinstance(result, dpf.FieldsContainer)
+        "y_plus",
+    ]
+    for result_name in result_names:
+        result_op = getattr(model.results, result_name)()
+        result = result_op.eval()
+        assert isinstance(result, dpf.FieldsContainer)
+        result_op.connect(1000, {"phase": 1})
+        result = result_op.eval()
+        assert isinstance(result, dpf.FieldsContainer)
