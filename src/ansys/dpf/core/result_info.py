@@ -37,6 +37,7 @@ class physics_types(Enum):
     magnetic = 2
     electric = 3
     unknown_physics = 4
+    fluid = 5
 
 
 @unique
@@ -271,7 +272,7 @@ class ResultInfo:
         """Version of the solver."""
         major = integral_types.MutableInt32()
         minor = integral_types.MutableInt32()
-        res = self._api.result_info_get_solver_version(self, major, minor)
+        _ = self._api.result_info_get_solver_version(self, major, minor)
         return str(int(major)) + "." + str(int(minor))
 
     @property
@@ -403,7 +404,7 @@ class ResultInfo:
                 )
                 qualifiers.append(label_space)
                 label_space_dict = label_space.__dict__()
-                for key in label_space_dict:
+                for key in label_space_dict.keys():
                     value = label_space_dict[key]
                     label_support = self.qualifier_label_support(key)
                     names_field = label_support.string_field_support_by_property("names")
