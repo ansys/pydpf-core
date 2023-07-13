@@ -1,6 +1,5 @@
 import pytest
 import conftest
-import platform
 from ansys.dpf import core as dpf
 from ansys.dpf.core.elements import element_types
 from ansys.dpf.core import mesh_scoping_factory
@@ -13,7 +12,6 @@ def model_faces(fluent_axial_comp):
     return faces
 
 
-@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     reason="mesh faces were not supported before 7.0",
@@ -39,7 +37,6 @@ def test_faces(model_faces):
     assert mask[1] == True
 
 
-@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     reason="mesh faces were not supported before 7.0",

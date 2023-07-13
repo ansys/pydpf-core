@@ -19,7 +19,7 @@ class solid_to_skin(Operator):
     field : Field or FieldsContainer
         Field or fields container with only one field
         is expected
-    mesh_scoping : MeshedRegion, optional
+    mesh : MeshedRegion, optional
         Skin mesh region expected
 
 
@@ -33,27 +33,27 @@ class solid_to_skin(Operator):
     >>> # Make input connections
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
-    >>> my_mesh_scoping = dpf.MeshedRegion()
-    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_mesh = dpf.MeshedRegion()
+    >>> op.inputs.mesh.connect(my_mesh)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mapping.solid_to_skin(
     ...     field=my_field,
-    ...     mesh_scoping=my_mesh_scoping,
+    ...     mesh=my_mesh,
     ... )
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, field=None, mesh_scoping=None, config=None, server=None):
+    def __init__(self, field=None, mesh=None, config=None, server=None):
         super().__init__(name="solid_to_skin", config=config, server=server)
         self._inputs = InputsSolidToSkin(self)
         self._outputs = OutputsSolidToSkin(self)
         if field is not None:
             self.inputs.field.connect(field)
-        if mesh_scoping is not None:
-            self.inputs.mesh_scoping.connect(mesh_scoping)
+        if mesh is not None:
+            self.inputs.mesh.connect(mesh)
 
     @staticmethod
     def _spec():
@@ -70,7 +70,7 @@ class solid_to_skin(Operator):
         is expected""",
                 ),
                 1: PinSpecification(
-                    name="mesh_scoping",
+                    name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=True,
                     document="""Skin mesh region expected""",
@@ -134,16 +134,16 @@ class InputsSolidToSkin(_Inputs):
     >>> op = dpf.operators.mapping.solid_to_skin()
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
-    >>> my_mesh_scoping = dpf.MeshedRegion()
-    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_mesh = dpf.MeshedRegion()
+    >>> op.inputs.mesh.connect(my_mesh)
     """
 
     def __init__(self, op: Operator):
         super().__init__(solid_to_skin._spec().inputs, op)
         self._field = Input(solid_to_skin._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field)
-        self._mesh_scoping = Input(solid_to_skin._spec().input_pin(1), 1, op, -1)
-        self._inputs.append(self._mesh_scoping)
+        self._mesh = Input(solid_to_skin._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._mesh)
 
     @property
     def field(self):
@@ -167,24 +167,24 @@ class InputsSolidToSkin(_Inputs):
         return self._field
 
     @property
-    def mesh_scoping(self):
-        """Allows to connect mesh_scoping input to the operator.
+    def mesh(self):
+        """Allows to connect mesh input to the operator.
 
         Skin mesh region expected
 
         Parameters
         ----------
-        my_mesh_scoping : MeshedRegion
+        my_mesh : MeshedRegion
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.mapping.solid_to_skin()
-        >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+        >>> op.inputs.mesh.connect(my_mesh)
         >>> # or
-        >>> op.inputs.mesh_scoping(my_mesh_scoping)
+        >>> op.inputs.mesh(my_mesh)
         """
-        return self._mesh_scoping
+        return self._mesh
 
 
 class OutputsSolidToSkin(_Outputs):

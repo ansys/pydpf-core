@@ -62,7 +62,8 @@ def over_time_freq_fields_container(fields, time_freq_unit=None, server=None):
             len(fields), location=locations.time_freq, server=server
         )
         time_freq_field.append(time_freq, 1)
-        time_freq_field.unit = time_freq_unit
+        if time_freq_unit:
+            time_freq_field.unit = time_freq_unit
         time_freq_support = TimeFreqSupport(server=server)
         time_freq_support.time_frequencies = time_freq_field
         fc.time_freq_support = time_freq_support

@@ -4,6 +4,8 @@ from .data_tree_to_txt import data_tree_to_txt
 from .deserializer import deserializer 
 from .export_symbolic_workflow import export_symbolic_workflow 
 from .field_to_csv import field_to_csv 
+from .hdf5dpf_custom_read import hdf5dpf_custom_read 
+from .hdf5dpf_generate_result_file import hdf5dpf_generate_result_file 
 from .import_symbolic_workflow import import_symbolic_workflow 
 from .json_to_data_tree import json_to_data_tree 
 from .mechanical_csv_to_field import mechanical_csv_to_field 
