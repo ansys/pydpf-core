@@ -168,7 +168,6 @@ def test_output_mesh_info_provider_fluent(server_clayer):
     assert num_nodes == 1430
 
     # """************************ BODIES ************************"""
-    """
     # ************ Name ************
     body_names = mesh_info_out.get_property("body_name")
 
