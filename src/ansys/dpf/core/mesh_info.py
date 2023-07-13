@@ -4,8 +4,6 @@ MeshInfo
 """
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.generic_data_container import GenericDataContainer
-from ansys.dpf.core.scoping import Scoping
-from ansys.dpf.core.string_field import StringField
 
 
 class MeshInfo:
@@ -104,21 +102,20 @@ class MeshInfo:
         mesh_info.generic_data_container = self._generic_data_container.deep_copy(server)
         return mesh_info
 
-    def get_property(self, property_name, output_type):
+    def get_property(self, property_name):
         """Get property with given name.
 
         Parameters
         ----------
         property_name : str
             Property name.
-        output_type :  :class:`ansys.dpf.core.common.types`
 
         Returns
         -------
         type
             Property object instance.
         """
-        return self.generic_data_container.get_property(property_name, output_type)
+        return self.generic_data_container.get_property(property_name)
 
     def set_property(self, property_name, prop):
         """Register given property with the given name.
@@ -142,7 +139,7 @@ class MeshInfo:
             Number of nodes of the mesh.
         """
 
-        return self.generic_data_container.get_property("num_nodes", int)
+        return self.generic_data_container.get_property("num_nodes")
 
     @property
     def get_number_elements(self):
@@ -153,7 +150,7 @@ class MeshInfo:
             Number of elements of the mesh.
         """
 
-        return self.generic_data_container.get_property("num_elements", int)
+        return self.generic_data_container.get_property("num_elements")
 
     @property
     def get_splittable_by(self):
@@ -164,7 +161,7 @@ class MeshInfo:
                 Name of the properties according to which the mesh can be split by.
         """
 
-        return self.generic_data_container.get_property("splittable_by", StringField)
+        return self.generic_data_container.get_property("splittable_by")
 
     @property
     def get_available_elem_types(self):
@@ -175,7 +172,7 @@ class MeshInfo:
             element type available for the mesh.
         """
 
-        return self.generic_data_container.get_property("avalaible_elem_type", Scoping)
+        return self.generic_data_container.get_property("avalaible_elem_type")
 
     def set_number_nodes(self, number_of_nodes):
         """Set the number of nodes in the mesh"""
