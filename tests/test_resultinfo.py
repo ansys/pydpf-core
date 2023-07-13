@@ -87,7 +87,7 @@ def test_repr_available_results_list(model):
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
 )
 def test_print_available_result_with_qualifiers(cfx_heating_coil):
-    model = Model(cfx_heating_coil)
+    model = Model(cfx_heating_coil())
     ref = """DPF Result
 ----------
 specific_heat
