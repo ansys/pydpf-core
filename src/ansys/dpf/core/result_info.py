@@ -429,6 +429,7 @@ class ResultInfo:
             qualifiers=qualifiers,
             qualifier_labels=qualifier_labels,
         )
+        print(f"Build availableresult with:\n{qualifiers}\n{qualifier_labels}")
         return available_result.AvailableResult(availableresult)
 
     @property
