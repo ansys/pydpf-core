@@ -5,9 +5,9 @@
 HDF5 export and import operations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This example shows how to use HDF5 format to export results
-and meshed region in H5 file.
-It shows how to read results and meshed region from the
+This example shows you how to use the HDF5 format to export results
+and meshed regions in an H5 file.
+It also demonstrates how to read results and meshed regions from the
 created H5 file.
 
 First, it exports all the results on all time frequencies,
