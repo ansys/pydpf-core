@@ -108,7 +108,7 @@ mesh_prov_op = dpf.operators.mesh.mesh_provider()
 mesh_prov_op.inputs.streams_container.connect(h5_stream_prov_op.outputs)
 mesh_deser_all_times = mesh_prov_op.outputs.mesh()
 
-# Read the results from set per set file
+# Read the results from the time set per set file
 h5_stream_prov_op_2 = dpf.operators.metadata.streams_provider()
 h5_stream_prov_op_2.inputs.data_sources.connect(h5_set_per_set_ds)
 res_deser_set_per_set_list = []
