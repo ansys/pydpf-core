@@ -271,7 +271,7 @@ def test_elemental_scoping():
 
 def test_named_selection_scoping(model_with_ns):
     model = Model(model_with_ns)
-    print(model.metadata.available_named_selections)
+    # print(model.metadata.available_named_selections)
     scop = mesh_scoping_factory.named_selection_scoping("SELECTION", model)
     assert scop is not None
     assert len(scop.ids) != 0

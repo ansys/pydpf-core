@@ -28,7 +28,7 @@ def test_create_points():
     points = rng.random((n_points, 3))
     points = create_points(points)
     points.plot()
-    print(points)
+    # print(points)
     assert points.dimension == 3
     assert len(points) == points.n_points == n_points
 
@@ -57,7 +57,7 @@ def test_create_line_from_points(points_param):
     info += f"Starting point: {np.array(points[0])}\n"
     info += f"Ending point: {np.array(points[1])}\n"
     info += f"Line discretized with {line.n_points} points\n"
-    assert print(line) == print(info)
+    assert str(line) == str(info)
     assert line.length == np.linalg.norm(points)
     diff = np.array(points[1]) - np.array(points[0])
     assert all(line.direction) == all(diff / np.linalg.norm(diff))
@@ -297,7 +297,7 @@ def test_plane_discretization(component):
     info_discretization += f"  Height (y-dir): {height}\n"
     info_discretization += f"  Num cells x-dir: {n_cells_x}\n"
     info_discretization += f"  Num cells y-dir: {n_cells_y}\n"
-    assert print(plane) == print(info_discretization)
+    assert str(plane) == str(info_discretization)
 
 
 plane_mapping_data = [
