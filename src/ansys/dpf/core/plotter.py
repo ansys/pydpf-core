@@ -267,14 +267,8 @@ class _PyVistaPlotter:
                 warnings.warn("`show_max` and `show_min` is only supported for Nodal results.")
                 show_max = False
                 show_min = False
-        elif location == locations.faces:
-            mesh_location = meshed_region.faces
-            if show_max or show_min:
-                warnings.warn("`show_max` and `show_min` is only supported for Nodal results.")
-                show_max = False
-                show_min = False
         else:
-            raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+            raise ValueError("Only elemental or nodal location are supported for plotting.")
         component_count = field.component_count
         if component_count > 1:
             overall_data = np.full((len(mesh_location), component_count), np.nan)
