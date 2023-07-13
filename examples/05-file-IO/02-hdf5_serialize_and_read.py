@@ -91,7 +91,7 @@ h5_set_per_set_ds = h5_serialization_op_set_per_set.get_output(0, dpf.types.data
 ###############################################################################
 # Use H5 reading operator
 # ~~~~~~~~~~~~~~~~~~~~~~~
-# Read the results from all time steps file
+# Read the results from all time steps files
 h5_stream_prov_op = dpf.operators.metadata.streams_provider()
 h5_stream_prov_op.inputs.data_sources.connect(h5_all_times_ds)
 res_deser_all_times_list = []
