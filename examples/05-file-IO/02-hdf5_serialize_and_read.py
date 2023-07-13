@@ -150,6 +150,10 @@ mesh_deser_set_per_set.plot(res_deser_set_per_set_list[num_res * 1 + 0])
 to_nodal_op = dpf.operators.averaging.to_nodal_fc()
 
 fc_all_steps_first_step_first_res = res_deser_all_times_list[3].get_field_by_time_id(6)  # set 6
-mesh_deser_all_times.plot(dpf.operators.averaging.to_nodal(fc_all_steps_first_step_first_res).outputs.field())
+mesh_deser_all_times.plot(
+    dpf.operators.averaging.to_nodal(fc_all_steps_first_step_first_res).outputs.field()
+)
 
-mesh_deser_set_per_set.plot(dpf.operators.averaging.to_nodal(res_deser_set_per_set_list[num_res * 5 + 3]).outputs.field())
+mesh_deser_set_per_set.plot(
+    dpf.operators.averaging.to_nodal(res_deser_set_per_set_list[num_res * 5 + 3]).outputs.field()
+)
