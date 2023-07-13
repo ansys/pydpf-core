@@ -60,7 +60,7 @@ files = [
 h5_serialization_op_all_times = dpf.operators.serialization.hdf5dpf_generate_result_file()
 h5_serialization_op_all_times.inputs.filename.connect(files[0])
 h5_serialization_op_all_times.inputs.mesh_provider_out.connect(model.metadata.meshed_region)
-h5_serialization_op_all_times.connect(2, time_freq_op, 0)
+h5_serialization_op_all_times.inputs.time_freq_support_out.connect(time_freq_support)
 
 for i, res in enumerate(model.results):
     res_name = "result_" + res().name
@@ -68,14 +68,14 @@ for i, res in enumerate(model.results):
     h5_serialization_op_all_times.connect(2 * i + 4, res_name)
     h5_serialization_op_all_times.connect(2 * i + 5, res.on_all_time_freqs())
 
-h5_all_times_ds = h5_serialization_op_all_times.get_output(0, dpf.types.data_sources)
+h5_all_times_ds = h5_serialization_op_all_times.outputs.data_sources()
 
 ###############################################################################
 # Export all the results, time set per time set
 h5_serialization_op_set_per_set = dpf.operators.serialization.hdf5dpf_generate_result_file()
 h5_serialization_op_set_per_set.inputs.filename.connect(files[1])
 h5_serialization_op_set_per_set.inputs.mesh_provider_out.connect(model.metadata.meshed_region)
-h5_serialization_op_set_per_set.connect(2, time_freq_op, 0)
+h5_serialization_op_set_per_set.inputs.time_freq_support_out.connect(time_freq_support)
 
 for j, freq in enumerate(time_freqs.data):
     for i, res in enumerate(model.results):
@@ -86,7 +86,7 @@ for j, freq in enumerate(time_freqs.data):
             2 * (j * num_res + i) + 5, res.on_time_scoping(j + 1).eval()
         )
 
-h5_set_per_set_ds = h5_serialization_op_set_per_set.get_output(0, dpf.types.data_sources)
+h5_set_per_set_ds = h5_serialization_op_set_per_set.outputs.data_sources()
 
 ###############################################################################
 # Use H5 reading operator
