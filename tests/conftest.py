@@ -217,12 +217,17 @@ def cyclic_multistage():
 
 @pytest.fixture()
 def fluent_axial_comp():
-    """Create a data sources with a cas and a dat file of fluent axial compressor case."""
-    ds = core.DataSources()
-    files = examples.download_fluent_axial_comp()
-    ds.set_result_file_path(files["cas"][0], "cas")
-    ds.add_file_path(files["dat"][0], "dat")
-    return ds
+    """Return a function which creates a data sources
+    with a cas and a dat file of fluent axial compressor case."""
+
+    def return_ds(server=None):
+        ds = core.DataSources(server=server)
+        files = examples.download_fluent_axial_comp(server=server)
+        ds.set_result_file_path(files["cas"][0], "cas")
+        ds.add_file_path(files["dat"][0], "dat")
+        return ds
+
+    return return_ds
 
 
 @pytest.fixture()

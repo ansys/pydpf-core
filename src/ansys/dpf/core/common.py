@@ -93,6 +93,7 @@ class types(Enum):
     string_field = 22
     custom_type_field = 23
     generic_data_container = 24
+    mesh_info = 25
     # Types not from grpc proto, added in Python
     fields_container = -1
     scopings_container = -2
@@ -121,6 +122,7 @@ def types_enum_to_types():
         workflow,
         streams_container,
         generic_data_container,
+        mesh_info,
     )
     from ansys.dpf.gate import dpf_vector
 
@@ -150,6 +152,7 @@ def types_enum_to_types():
         types.custom_type_field: custom_type_field.CustomTypeField,
         types.streams_container: streams_container.StreamsContainer,
         types.generic_data_container: generic_data_container.GenericDataContainer,
+        types.mesh_info: mesh_info.MeshInfo,
     }
 
 

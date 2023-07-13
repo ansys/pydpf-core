@@ -65,6 +65,7 @@ class Model:
         - ``time_freq_support``
         - ``result_info``
         - ``mesh_provider``
+        - ``mesh_info``
 
         Returns
         -------
@@ -268,6 +269,7 @@ class Metadata:
         self._meshed_region = None
         self._meshes_container = None
         self._result_info = None
+        self._mesh_info = None
         self._stream_provider = None
         self._time_freq_support = None
         self._mesh_selection_manager = None
@@ -278,6 +280,11 @@ class Metadata:
         """Store result information."""
         if not self._result_info:
             self._result_info = self._load_result_info()
+
+    def _cache_mesh_info(self):
+        """Store mesh information."""
+        if not self._mesh_info:
+            self._mesh_info = self._load_mesh_info()
 
     def _cache_streams_provider(self):
         """Create a stream provider and cache it."""
@@ -424,6 +431,22 @@ class Metadata:
             return None
         return result_info
 
+    def _load_mesh_info(self):
+        """Returns a mesh info object"""
+        op = Operator("mesh_info_provider", server=self._server)
+        op.inputs.connect(self._stream_provider.outputs)
+        try:
+            mesh_info = op.outputs.mesh_info()
+        except Exception as e:
+            # give the user a more helpful error
+            if "results file is not defined in the Data sources" in e.args:
+                raise RuntimeError("Unable to open result file") from None
+            else:
+                raise e
+        except:
+            return None
+        return mesh_info
+
     @property
     @protect_source_op_not_found
     def meshed_region(self):
@@ -481,6 +504,20 @@ class Metadata:
         self._cache_result_info()
 
         return self._result_info
+
+    @property
+    @version_requires("7.0")
+    @protect_source_op_not_found
+    def mesh_info(self):
+        """Mesh Info instance.
+
+        Returns
+        -------
+        mesh_info : :class:`ansys.dpf.core.mesh_info.MeshInfo`
+        """
+        self._cache_mesh_info()
+
+        return self._mesh_info
 
     @property
     @version_requires("4.0")
