@@ -21,6 +21,13 @@ class hdf5dpf_generate_result_file(Operator):
     mesh_provider_out : MeshedRegion, optional
         Defines the meshedregion that is exported and
         provided by meshprovider.
+    time_freq_support_out : TimeFreqSupport, optional
+        Defines the timefreqsupport that is exported
+        and provided by
+        timefreqsupportprovider.
+    ansys_unit_system_id : int, optional
+        Defines the unitsystem the results are
+        exported with.
 
 
     Examples
@@ -35,19 +42,32 @@ class hdf5dpf_generate_result_file(Operator):
     >>> op.inputs.filename.connect(my_filename)
     >>> my_mesh_provider_out = dpf.MeshedRegion()
     >>> op.inputs.mesh_provider_out.connect(my_mesh_provider_out)
+    >>> my_time_freq_support_out = dpf.TimeFreqSupport()
+    >>> op.inputs.time_freq_support_out.connect(my_time_freq_support_out)
+    >>> my_ansys_unit_system_id = int()
+    >>> op.inputs.ansys_unit_system_id.connect(my_ansys_unit_system_id)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file(
     ...     filename=my_filename,
     ...     mesh_provider_out=my_mesh_provider_out,
+    ...     time_freq_support_out=my_time_freq_support_out,
+    ...     ansys_unit_system_id=my_ansys_unit_system_id,
     ... )
 
     >>> # Get output data
-    >>> result_time_freq_support_out = op.outputs.time_freq_support_out()
-    >>> result_ansys_unit_system_id = op.outputs.ansys_unit_system_id()
+    >>> result_data_sources = op.outputs.data_sources()
     """
 
-    def __init__(self, filename=None, mesh_provider_out=None, config=None, server=None):
+    def __init__(
+        self,
+        filename=None,
+        mesh_provider_out=None,
+        time_freq_support_out=None,
+        ansys_unit_system_id=None,
+        config=None,
+        server=None,
+    ):
         super().__init__(
             name="hdf5::h5dpf::make_result_file", config=config, server=server
         )
@@ -57,6 +77,10 @@ class hdf5dpf_generate_result_file(Operator):
             self.inputs.filename.connect(filename)
         if mesh_provider_out is not None:
             self.inputs.mesh_provider_out.connect(mesh_provider_out)
+        if time_freq_support_out is not None:
+            self.inputs.time_freq_support_out.connect(time_freq_support_out)
+        if ansys_unit_system_id is not None:
+            self.inputs.ansys_unit_system_id.connect(ansys_unit_system_id)
 
     @staticmethod
     def _spec():
@@ -78,8 +102,6 @@ class hdf5dpf_generate_result_file(Operator):
                     document="""Defines the meshedregion that is exported and
         provided by meshprovider.""",
                 ),
-            },
-            map_output_pin_spec={
                 2: PinSpecification(
                     name="time_freq_support_out",
                     type_names=["time_freq_support"],
@@ -94,6 +116,15 @@ class hdf5dpf_generate_result_file(Operator):
                     optional=True,
                     document="""Defines the unitsystem the results are
         exported with.""",
+                ),
+            },
+            map_output_pin_spec={
+                0: PinSpecification(
+                    name="data_sources",
+                    type_names=["data_sources"],
+                    optional=False,
+                    document="""Data_sources filed with the h5 generated file
+        path.""",
                 ),
             },
         )
@@ -150,6 +181,10 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
     >>> op.inputs.filename.connect(my_filename)
     >>> my_mesh_provider_out = dpf.MeshedRegion()
     >>> op.inputs.mesh_provider_out.connect(my_mesh_provider_out)
+    >>> my_time_freq_support_out = dpf.TimeFreqSupport()
+    >>> op.inputs.time_freq_support_out.connect(my_time_freq_support_out)
+    >>> my_ansys_unit_system_id = int()
+    >>> op.inputs.ansys_unit_system_id.connect(my_ansys_unit_system_id)
     """
 
     def __init__(self, op: Operator):
@@ -162,6 +197,14 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
             hdf5dpf_generate_result_file._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_provider_out)
+        self._time_freq_support_out = Input(
+            hdf5dpf_generate_result_file._spec().input_pin(2), 2, op, -1
+        )
+        self._inputs.append(self._time_freq_support_out)
+        self._ansys_unit_system_id = Input(
+            hdf5dpf_generate_result_file._spec().input_pin(3), 3, op, -1
+        )
+        self._inputs.append(self._ansys_unit_system_id)
 
     @property
     def filename(self):
@@ -205,6 +248,49 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         """
         return self._mesh_provider_out
 
+    @property
+    def time_freq_support_out(self):
+        """Allows to connect time_freq_support_out input to the operator.
+
+        Defines the timefreqsupport that is exported
+        and provided by
+        timefreqsupportprovider.
+
+        Parameters
+        ----------
+        my_time_freq_support_out : TimeFreqSupport
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+        >>> op.inputs.time_freq_support_out.connect(my_time_freq_support_out)
+        >>> # or
+        >>> op.inputs.time_freq_support_out(my_time_freq_support_out)
+        """
+        return self._time_freq_support_out
+
+    @property
+    def ansys_unit_system_id(self):
+        """Allows to connect ansys_unit_system_id input to the operator.
+
+        Defines the unitsystem the results are
+        exported with.
+
+        Parameters
+        ----------
+        my_ansys_unit_system_id : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+        >>> op.inputs.ansys_unit_system_id.connect(my_ansys_unit_system_id)
+        >>> # or
+        >>> op.inputs.ansys_unit_system_id(my_ansys_unit_system_id)
+        """
+        return self._ansys_unit_system_id
+
 
 class OutputsHdf5DpfGenerateResultFile(_Outputs):
     """Intermediate class used to get outputs from
@@ -215,51 +301,29 @@ class OutputsHdf5DpfGenerateResultFile(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_time_freq_support_out = op.outputs.time_freq_support_out()
-    >>> result_ansys_unit_system_id = op.outputs.ansys_unit_system_id()
+    >>> result_data_sources = op.outputs.data_sources()
     """
 
     def __init__(self, op: Operator):
         super().__init__(hdf5dpf_generate_result_file._spec().outputs, op)
-        self._time_freq_support_out = Output(
-            hdf5dpf_generate_result_file._spec().output_pin(2), 2, op
+        self._data_sources = Output(
+            hdf5dpf_generate_result_file._spec().output_pin(0), 0, op
         )
-        self._outputs.append(self._time_freq_support_out)
-        self._ansys_unit_system_id = Output(
-            hdf5dpf_generate_result_file._spec().output_pin(3), 3, op
-        )
-        self._outputs.append(self._ansys_unit_system_id)
+        self._outputs.append(self._data_sources)
 
     @property
-    def time_freq_support_out(self):
-        """Allows to get time_freq_support_out output of the operator
+    def data_sources(self):
+        """Allows to get data_sources output of the operator
 
         Returns
         ----------
-        my_time_freq_support_out : TimeFreqSupport
+        my_data_sources : DataSources
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_time_freq_support_out = op.outputs.time_freq_support_out()
+        >>> result_data_sources = op.outputs.data_sources()
         """  # noqa: E501
-        return self._time_freq_support_out
-
-    @property
-    def ansys_unit_system_id(self):
-        """Allows to get ansys_unit_system_id output of the operator
-
-        Returns
-        ----------
-        my_ansys_unit_system_id : int
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
-        >>> # Connect inputs : op.inputs. ...
-        >>> result_ansys_unit_system_id = op.outputs.ansys_unit_system_id()
-        """  # noqa: E501
-        return self._ansys_unit_system_id
+        return self._data_sources
