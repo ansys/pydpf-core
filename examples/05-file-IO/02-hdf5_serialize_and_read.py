@@ -10,10 +10,10 @@ and meshed regions in an H5 file.
 It also demonstrates how to read results and meshed regions from the
 created H5 file.
 
-First, it exports all the results on all time frequencies,
-then it exports all the results time set per time set.
-Finally, it reads the results and compare.
-The h5 file should not exist in order that the example correctly runs.
+First, it exports all the results for all time frequencies,
+then it exports all the time sets for the results, per time set.
+Finally, it reads the results and compares them.
+For the example to run correctly, ensure you do not have an existing H5 file.
 
 """
 
