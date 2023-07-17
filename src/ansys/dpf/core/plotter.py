@@ -334,16 +334,20 @@ class _PyVistaPlotter:
                 point_size=label_point_size,
             )
 
-    def add_streamlines(self, meshed_region, data, radius=1.0, **kwargs):
+    def add_streamlines(self, meshed_region, field, radius=1.0, **kwargs):
+        # Check velocity field location
+        if field.location is not dpf.core.locations.nodal:
+            warnings.warn("Velocity field must have a nodal location. "
+                          "Result must be carefully checked.")
+
         # handles input data
         grid = meshed_region.grid
-        if isinstance(data, dpf.core.Field):
-            mesh_nodes = meshed_region.nodes
-            ind, mask = mesh_nodes.map_scoping(data.scoping)
-            overall_data = np.full((len(mesh_nodes), 3), np.nan)  # velocity has 3 components
-            overall_data[ind] = data.data[mask]
-        else:
-            overall_data = data
+        mesh_nodes = meshed_region.nodes
+
+        ind, mask = mesh_nodes.map_scoping(field.scoping)
+        overall_data = np.full((len(mesh_nodes), 3), np.nan)  # velocity has 3 components
+        overall_data[ind] = field.data[mask]
+
         grid.set_active_scalars(None)
         grid['streamlines'] = overall_data
 
@@ -534,7 +538,7 @@ class DpfPlotter:
     def add_streamlines(
         self,
         meshed_region,
-        data,
+        field,
         radius=0.1,
         **kwargs,
     ):
@@ -549,9 +553,9 @@ class DpfPlotter:
         ----------
         meshed_region : MeshedRegion
             MeshedRegion the streamline will be computed on.
-        data : Field, list
-            list or Field containing raw vector data the streamline will
-            be computed from. The data location must be nodal, velocity
+        field : Field
+            Field containing raw vector data the streamline is
+            computed from. The data location must be nodal, velocity
             values must be defined at nodes.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
@@ -564,7 +568,7 @@ class DpfPlotter:
         """
         self._internal_plotter.add_streamlines(
             meshed_region=meshed_region,
-            data=data,
+            field=field,
             radius=radius,
             **kwargs,
         )

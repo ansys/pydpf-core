@@ -73,7 +73,7 @@ except:
 pl2 = DpfPlotter()
 pl2.add_mesh(meshed_region=meshed_region, opacity=0.15, color="g")
 pl2.add_streamlines(meshed_region=meshed_region,
-                   data=field,
+                   field=field,
                    radius=0.001,
                    source_center=(0.55, 0.55, 0.),
                    n_points=10,
@@ -85,10 +85,11 @@ pl2.show_figure(show_axes=True)
 # Now streamlines are plot, the following items can be added to the display:
 # - source
 # - velocity data with small opacity to avoid to hide the streamlines
+# - n_points can be increased
 pl3 = DpfPlotter()
 pl3.add_field(field, meshed_region, opacity=0.2)
 pl3.add_streamlines(meshed_region=meshed_region,
-                   data=field,
+                   field=field,
                    radius=0.001,
                    return_source=True,
                    source_center=(0.55, 0.55, 0.),
@@ -129,28 +130,28 @@ field = velocity_op.outputs.fields_container()[0]
 pl = DpfPlotter()
 pl.add_field(field, meshed_region, opacity=0.2)
 pl.add_streamlines(meshed_region=meshed_region,
-                   data=field,
+                   field=field,
                    radius=0.007,
                    return_source=True,
                    source_radius=0.25,
                    source_center=(0.75, 0., 0.),
                    )
 pl.add_streamlines(meshed_region=meshed_region,
-                   data=field,
+                   field=field,
                    radius=0.007,
                    return_source=True,
                    source_radius=0.25,
                    source_center=(0.0, 0.75, 0.),
                    )
 pl.add_streamlines(meshed_region=meshed_region,
-                   data=field,
+                   field=field,
                    radius=0.007,
                    return_source=True,
                    source_radius=0.25,
                    source_center=(-0.75, 0., 0.),
                    )
 pl.add_streamlines(meshed_region=meshed_region,
-                   data=field,
+                   field=field,
                    radius=0.007,
                    return_source=True,
                    source_radius=0.25,
