@@ -334,6 +334,41 @@ class _PyVistaPlotter:
                 point_size=label_point_size,
             )
 
+    def add_streamlines(self, meshed_region, data, radius=1.0, **kwargs):
+        # handles input data
+        grid = meshed_region.grid
+        if isinstance(data, dpf.core.Field):
+            mesh_nodes = meshed_region.nodes
+            ind, mask = mesh_nodes.map_scoping(data.scoping)
+            overall_data = np.full((len(mesh_nodes), 3), np.nan)  # velocity has 3 components
+            overall_data[ind] = data.data[mask]
+        else:
+            overall_data = data
+        grid.set_active_scalars(None)
+        grid['streamlines'] = overall_data
+
+        # check src request
+        return_source = kwargs.pop("return_source", None)
+
+        # create streamlines
+        if return_source:
+            streamlines, src = grid.streamlines(
+                vectors="streamlines",
+                return_source=True,
+                **kwargs,
+            )
+        else:
+            streamlines = grid.streamlines(
+                vectors="streamlines",
+                **kwargs,
+            )
+
+        # set streamline on plotter
+        sargs = dict(vertical=False)
+        self._plotter.add_mesh(streamlines.tube(radius=radius), scalar_bar_args=sargs)
+        if return_source:
+            self._plotter.add_mesh(src)
+
     def show_figure(self, **kwargs):
 
         text = kwargs.pop("text", None)
@@ -493,6 +528,44 @@ class DpfPlotter:
             deform_by=deform_by,
             scale_factor=scale_factor,
             as_linear=True,
+            **kwargs,
+        )
+
+    def add_streamlines(
+        self,
+        meshed_region,
+        data,
+        radius=0.1,
+        **kwargs,
+    ):
+        """Add a streamline to the plotter.
+
+        The current add_streamlines method adds streamline
+        as a PyVista based object.
+        For more information about arguments, see
+        :func:`pyvista.DataSetFilters.streamlines`.
+
+        Parameters
+        ----------
+        meshed_region : MeshedRegion
+            MeshedRegion the streamline will be computed on.
+        data : Field, list
+            list or Field containing raw vector data the streamline will
+            be computed from. The data location must be nodal, velocity
+            values must be defined at nodes.
+        **kwargs : optional
+            Additional keyword arguments for the plotter. More information
+            are available at :func:`pyvista.DataSetFilters.streamlines`.
+
+        Examples
+        --------
+        >>> # to fill
+
+        """
+        self._internal_plotter.add_streamlines(
+            meshed_region=meshed_region,
+            data=data,
+            radius=radius,
             **kwargs,
         )
 
