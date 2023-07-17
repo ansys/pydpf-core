@@ -40,8 +40,8 @@ class _LabelSpaceKV:
 
     def __str__(self):
         """Returns a string representation of the association."""
-        field_str = str(self._field).replace("\n", " ")
-        return f"Label Space: {self._dict} with field {field_str}"
+        field_str = str(self._field).replace("\n", "\n\t\t\t")
+        return f"Label Space: {self._dict} with field\n\t\t\t{field_str}"
 
 
 class PropertyFieldsContainer(Sequence):
@@ -87,14 +87,10 @@ class PropertyFieldsContainer(Sequence):
         return self._labels
 
     @labels.setter
-    def labels(self, vals):
-        self.set_labels(vals)
-
-    def set_labels(self, labels):
+    def labels(self, labels):
         """Sets all the label of the PropertyFieldsContainer."""
         if len(self._labels) != 0:
             raise ValueError("labels already set")
-
         for l in labels:
             self.add_label(l)
 
@@ -111,7 +107,7 @@ class PropertyFieldsContainer(Sequence):
     # used by Dataframe
     def get_label_space(self, idx):
         """Get a Label Space at a given index."""
-        return self.label_spaces[idx]._dict
+        return self.label_spaces[idx].dict
 
     # used by Dataframe
     def get_label_scoping(self, label="time"):
@@ -119,7 +115,7 @@ class PropertyFieldsContainer(Sequence):
         if label in self.labels:
             scoping_ids = self.scopings[self.labels.index(label)]
             return dpf.Scoping(ids=scoping_ids, location="")
-        raise KeyError("label {label} not found")
+        raise KeyError(f"label {label} not found")
 
     def add_entry(self, label_space: Dict[str, int], value):
         """Adds a PropertyField associated with a dictionary."""
@@ -172,7 +168,7 @@ class PropertyFieldsContainer(Sequence):
         if len(ret) != 0:
             return ret[0]
 
-        raise IndexError("Could not find corresponding entry")
+        raise ValueError("Could not find corresponding entry")
 
     def _new_id(self):
         """Helper method generating a new id when calling add_entry(...)."""
@@ -263,31 +259,9 @@ class PropertyFieldsContainer(Sequence):
         label_space = {"time": timeid, "complex": 1}
         self.add_field(label_space, field)
 
-    def select_component(self, index):
-        """Not implemented."""
-        raise NotImplementedError
-
-    @property
-    def time_freq_support(self):
-        """Not implemented."""
-        raise NotImplementedError
-
-    @time_freq_support.setter
-    def time_freq_support(self, value):
-        """Not implemented."""
-        raise NotImplementedError
-
-    def deep_copy(self, server=None):
-        """Not implemented."""
-        raise NotImplementedError
-
     def get_time_scoping(self):
         """Retrieves the time scoping containing the time sets."""
         return self.get_label_scoping("time")
-
-    def animate(self, save_as=None, deform_by=None, scale_factor=1.0, **kwargs):
-        """Not implemented."""
-        raise NotImplementedError
 
     def _set_field(self, ls_idx, field):
         self.label_spaces[ls_idx].field = field
