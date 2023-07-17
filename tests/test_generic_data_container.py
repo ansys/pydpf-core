@@ -20,7 +20,7 @@ def test_set_get_property_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)
     entity = dpf.Field(location="phase", nature=dpf.natures.scalar, server=server_type)
     gdc.set_property("viscosity", entity)
-    new_entity = gdc.get_property("viscosity", dpf.Field)
+    new_entity = gdc.get_property("viscosity")
     assert entity.location == new_entity.location
 
 
@@ -31,17 +31,17 @@ def test_get_property_description_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)
     entity = 42
     gdc.set_property("my-int", entity)
-    new_entity = gdc.get_property("my-int", int)
+    new_entity = gdc.get_property("my-int")
     assert 42 == new_entity
 
     entity = 4.2
     gdc.set_property("my-float", entity)
-    new_entity = gdc.get_property("my-float", float)
+    new_entity = gdc.get_property("my-float")
     assert 4.2 == new_entity
 
     entity = "hello world"
     gdc.set_property("my-string", entity)
-    new_entity = gdc.get_property("my-string", str)
+    new_entity = gdc.get_property("my-string")
     assert "hello world" == new_entity
 
     entity = dpf.Field(location="phase", nature=dpf.natures.scalar, server=server_type)

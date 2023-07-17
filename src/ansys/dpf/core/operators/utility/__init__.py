@@ -9,6 +9,7 @@ from .change_shell_layers import change_shell_layers
 from .compute_time_scoping import compute_time_scoping 
 from .default_value import default_value 
 from .delegate_to_operator import delegate_to_operator 
+from .ds_get_attribute import ds_get_attribute 
 from .extract_field import extract_field 
 from .extract_scoping import extract_scoping 
 from .extract_sub_fc import extract_sub_fc 
