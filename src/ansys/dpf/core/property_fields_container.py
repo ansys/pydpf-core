@@ -105,7 +105,7 @@ class PropertyFieldsContainer(Sequence):
             self.scopings.append([])
 
     def has_label(self, label):
-        """Check if a PorpertyFieldsContainer contains a given label."""
+        """Check if a PropertyFieldsContainer contains a given label."""
         return label in self.labels
 
     # used by Dataframe
@@ -162,7 +162,7 @@ class PropertyFieldsContainer(Sequence):
                 return list(map(idx_to_field, remaining))
             else:
                 bad_idx = are_keys_in_labels.index(False)
-                bad_key = _dict.keys()[bad_idx]
+                bad_key = list(_dict.keys())[bad_idx]
                 raise KeyError(f"Key {bad_key} is not in labels: {self.labels}")
 
     def get_entry(self, label_space_or_index):
