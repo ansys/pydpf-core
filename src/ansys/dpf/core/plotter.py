@@ -356,17 +356,22 @@ class _PyVistaPlotter:
         # check src request
         return_source = kwargs.pop("return_source", None)
 
+        # filter kwargs
+        kwargs_base = _sort_supported_kwargs(bound_method=grid.streamlines, **kwargs)
+        kwargs_from_source = _sort_supported_kwargs(bound_method=grid.streamlines_from_source, **kwargs)
+        kwargs_from_source.update(kwargs_base) # merge both dicts in kwargs_from_source
+
         # create streamlines
         if return_source:
             streamlines, src = grid.streamlines(
                 vectors=f"{stream_name}",
                 return_source=True,
-                **kwargs,
+                **kwargs_from_source,
             )
         else:
             streamlines = grid.streamlines(
                 vectors=f"{stream_name}",
-                **kwargs,
+                **kwargs_from_source,
             )
 
         # set streamline on plotter
