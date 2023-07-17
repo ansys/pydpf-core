@@ -11,7 +11,10 @@ from collections.abc import Sequence
 import copy
 from typing import Dict, List, Union
 
+import numpy as np
+
 import ansys.dpf.core as dpf
+from ansys.dpf.core import PropertyField
 from ansys.dpf.core.server_types import BaseServer
 
 
@@ -206,3 +209,15 @@ class _MockPropertyFieldsContainer(Sequence):
     def __len__(self) -> int:
         """Retrieve the number of label spaces."""
         return len(self.label_spaces)
+
+    def rescope(self, scoping: dpf.Scoping):  # Used by post.Dataframe
+        """Helper function to reproduce functionality of rescope_fc Operator."""
+        copy_fc = _MockPropertyFieldsContainer(self, server=None)
+        for idx, label_space in enumerate(copy_fc.label_spaces):
+            pfield = PropertyField(location=label_space.field.location)
+            pfield.data = np.ravel(
+                [label_space._field.get_entity_data_by_id(id) for id in scoping.ids]
+            )
+            pfield.scoping.ids = scoping.ids
+            copy_fc._set_field(idx, pfield)
+        return copy_fc
