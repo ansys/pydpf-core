@@ -341,6 +341,8 @@ class _PyVistaPlotter:
                           "Result must be carefully checked.")
 
         # handles input data
+        f_name = field.name
+        stream_name = "streamlines " + f_name + " (" + str(field.unit) + ")"
         grid = meshed_region.grid
         mesh_nodes = meshed_region.nodes
 
@@ -349,7 +351,7 @@ class _PyVistaPlotter:
         overall_data[ind] = field.data[mask]
 
         grid.set_active_scalars(None)
-        grid['streamlines'] = overall_data
+        grid[f"{stream_name}"] = overall_data
 
         # check src request
         return_source = kwargs.pop("return_source", None)
@@ -357,13 +359,13 @@ class _PyVistaPlotter:
         # create streamlines
         if return_source:
             streamlines, src = grid.streamlines(
-                vectors="streamlines",
+                vectors=f"{stream_name}",
                 return_source=True,
                 **kwargs,
             )
         else:
             streamlines = grid.streamlines(
-                vectors="streamlines",
+                vectors=f"{stream_name}",
                 **kwargs,
             )
 
