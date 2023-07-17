@@ -17,13 +17,15 @@ This example shows how to plot streamlines of fluid simulation results.
 # Import modules:
 
 from ansys.dpf import core as dpf
+from ansys.dpf.core import examples
 from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Create data sources for fluids simulation result:
+fluent_files = examples.download_fluent_mixing_elbow_steady_state()
 ds_fluent = dpf.DataSources()
-ds_fluent.set_result_file_path(r"D:\Work\streamlines\elbow.cas.h5", "cas")
-ds_fluent.add_file_path(r"D:\Work\streamlines\elbow.dat.h5", "dat")
+ds_fluent.set_result_file_path(fluent_files["cas"][0], "cas")
+ds_fluent.add_file_path(fluent_files["dat"][1], "dat")
 
 ###############################################################################
 # Create model from fluid simulation result data sources:
@@ -108,9 +110,10 @@ pl3.show_figure(show_axes=True)
 # ----------------
 # Create data sources for fluid simulation result:
 
+files_cfx = examples.download_cfx_heating_coil()
 ds_cfx = dpf.DataSources()
-ds_cfx.set_result_file_path(r"D:\Work\streamlines\HeatingCoil.res", "cas")
-ds_cfx.add_file_path(r"D:\Work\streamlines\HeatingCoil.res", "dat")
+ds_cfx.set_result_file_path(files_cfx["cas"], "cas")
+ds_cfx.add_file_path(files_cfx["dat"], "dat")
 
 ###############################################################################
 # Create model from fluid simulation result data sources:
