@@ -28,7 +28,7 @@ import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
 
 ###############################################################################
-# Instantiate the model and the provider operators
+# Instantiate the model and the provider operators:
 
 model = dpf.Model(examples.download_transient_result())
 streams_cont = model.metadata.streams_provider.outputs.streams_container
@@ -43,7 +43,7 @@ num_res = len(model.results)
 num_sets = len(time_freqs.data)
 
 ###############################################################################
-# Define a temporary folder for outputs
+# Define a temporary folder for outputs:
 if dpf.SERVER.local_server:
     tmpdir = tempfile.mkdtemp()
 else:
@@ -56,7 +56,7 @@ files = [
 ###############################################################################
 # Use H5 serialization operator
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Export all results on all time frequencies
+# Export all results on all time frequencies:
 h5_serialization_op_all_times = dpf.operators.serialization.hdf5dpf_generate_result_file()
 h5_serialization_op_all_times.inputs.filename.connect(files[0])
 h5_serialization_op_all_times.inputs.mesh_provider_out.connect(model.metadata.meshed_region)
@@ -71,7 +71,7 @@ for i, res in enumerate(model.results):
 h5_all_times_ds = h5_serialization_op_all_times.outputs.data_sources()
 
 ###############################################################################
-# Export all the results, time set per time set
+# Export all the results, time set per time set:
 h5_serialization_op_set_per_set = dpf.operators.serialization.hdf5dpf_generate_result_file()
 h5_serialization_op_set_per_set.inputs.filename.connect(files[1])
 h5_serialization_op_set_per_set.inputs.mesh_provider_out.connect(model.metadata.meshed_region)
@@ -91,7 +91,7 @@ h5_set_per_set_ds = h5_serialization_op_set_per_set.outputs.data_sources()
 ###############################################################################
 # Use H5 reading operator
 # ~~~~~~~~~~~~~~~~~~~~~~~
-# Read the results from all time steps files
+# Read the results from all time steps files:
 h5_stream_prov_op = dpf.operators.metadata.streams_provider()
 h5_stream_prov_op.inputs.data_sources.connect(h5_all_times_ds)
 res_deser_all_times_list = []
@@ -103,12 +103,13 @@ for i, res_name in enumerate(result_names_on_all_time_steps):
     res_deser_all_times_list.append(res_deser)
 
 ###############################################################################
-# Read the meshed region from all time steps file
+# Read the meshed region from all time steps file:
 mesh_prov_op = dpf.operators.mesh.mesh_provider()
 mesh_prov_op.inputs.streams_container.connect(h5_stream_prov_op.outputs)
 mesh_deser_all_times = mesh_prov_op.outputs.mesh()
 
-# Read the results from the time set per set file
+###############################################################################
+# Read the results from the time set per set file:
 h5_stream_prov_op_2 = dpf.operators.metadata.streams_provider()
 h5_stream_prov_op_2.inputs.data_sources.connect(h5_set_per_set_ds)
 res_deser_set_per_set_list = []
@@ -120,7 +121,7 @@ for i, res_name in enumerate(result_names_time_per_time):
     res_deser_set_per_set_list.append(res_deser)
 
 ###############################################################################
-# Read the meshed region from all time steps files
+# Read the meshed region from all time steps files:
 mesh_prov_op_2 = dpf.operators.mesh.mesh_provider()
 mesh_prov_op_2.inputs.streams_container.connect(h5_stream_prov_op_2.outputs)
 mesh_deser_set_per_set = mesh_prov_op_2.outputs.mesh()
@@ -130,7 +131,7 @@ mesh_deser_set_per_set = mesh_prov_op_2.outputs.mesh()
 # ~~~~~~~~~~~~~~~
 
 ###############################################################################
-# Print global data
+# Print global data:
 print("Number of results is: " + str(num_res))
 print("Number of time sets is: " + str(num_sets))
 print("Results names for 'all time steps' file: ")
@@ -139,14 +140,14 @@ print("Results names for 'set per set' file: ")
 print(result_names_time_per_time)
 
 ###############################################################################
-# compare first result at second time set
+# compare first result at second time set:
 fc_all_steps_first_step_first_res = res_deser_all_times_list[0].get_field_by_time_id(2)  # set 1
 mesh_deser_all_times.plot(fc_all_steps_first_step_first_res)
 
 mesh_deser_set_per_set.plot(res_deser_set_per_set_list[num_res * 1 + 0])
 
 ###############################################################################
-# compare 4th result at 6 time set
+# compare 4th result at 6 time set:
 to_nodal_op = dpf.operators.averaging.to_nodal_fc()
 
 fc_all_steps_first_step_first_res = res_deser_all_times_list[3].get_field_by_time_id(6)  # set 6
