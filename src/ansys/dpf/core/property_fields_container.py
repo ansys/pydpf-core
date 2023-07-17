@@ -150,7 +150,10 @@ class PropertyFieldsContainer(Sequence):
                     to_remove = set()
                     for idx in remaining:
                         ls = self.label_spaces[idx]
-                        if ls.dict[key] != val:
+                        if key in ls.dict.keys():
+                            if ls.dict[key] != val:
+                                to_remove.add(idx)
+                        else:
                             to_remove.add(idx)
                     remaining = remaining.difference(to_remove)
 
@@ -212,7 +215,7 @@ class PropertyFieldsContainer(Sequence):
         label_space = {"time": timeid}
         if self.has_label("complex"):
             label_space["complex"] = 0
-            return self.get_field(label_space)
+        return self.get_field(label_space)
 
     def get_imaginary_fields(self, timeid=None):
         """Retrieve the complex fields at a requested timeid."""

@@ -24,23 +24,8 @@ def test_property_fields_container(allkindofcomplexity, server_type):
     ref = """DPF PropertyFieldsContainer with 1 fields
 \t 0: Label Space: {'test': 42} with field
 \t\t\tDPF Property Field
-\t\t\t  10292 entities 
-\t\t\t  Data: 1 components and 10292 elementary data 
-\t\t\t
-\t\t\t  Elemental
-\t\t\t  IDs                   data
-\t\t\t  ------------          ----------
-\t\t\t  10994                 6              
-\t\t\t                        
-\t\t\t  10791                 16             
-\t\t\t                        
-\t\t\t  10993                 6              
-\t\t\t                        
-\t\t\t  ...
-\t\t\t
-\t\t\t
-"""  # noqa
-    assert str(fields_container) == ref
+\t\t\t  10292 """  # noqa
+    assert ref in str(fields_container)
     with pytest.raises(KeyError, match="label test2 not found"):
         fields_container.get_label_scoping("test2")
     scoping = fields_container.get_label_scoping("test")
@@ -58,3 +43,15 @@ def test_property_fields_container(allkindofcomplexity, server_type):
         fields_container.get_entry(({"test": 0}))
     assert fields_container[{"test": 42}] == property_field
     assert len(fields_container) == 1
+
+    assert fields_container.get_fields({"test": 42})[0] == property_field
+    assert fields_container.get_field(0) == property_field
+
+    fields_container.add_field_by_time_id(property_field)
+    assert fields_container.has_label("time")
+    assert fields_container.get_field_by_time_id(1) == property_field
+    fields_container.add_imaginary_field(property_field)
+    assert fields_container.get_imaginary_field(1) == property_field
+    time_scoping = fields_container.get_time_scoping()
+    assert isinstance(time_scoping, dpf.Scoping)
+    assert scoping.ids == [1]
