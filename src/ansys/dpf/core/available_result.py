@@ -138,8 +138,6 @@ class AvailableResult:
             txt += "Units: %s\n" % self.unit
         if self.native_location:
             txt += "Location: %s\n" % self.native_location
-        if self.name == "specific_heat":
-            print(f"Printing {self.name} with {self.qualifiers} and {self.qualifier_labels}")
         if self.qualifiers:
             txt += "Available qualifier labels:\n"
             for label in self.qualifier_labels:
