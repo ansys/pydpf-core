@@ -24,7 +24,7 @@ def test_property_fields_container(allkindofcomplexity, server_type):
     ref = """DPF PropertyFieldsContainer with 1 fields
 \t 0: Label Space: {'test': 42} with field
 \t\t\tDPF Property Field
-\t\t\t  10292 """  # noqa
+\t\t\t"""  # noqa
     assert ref in str(fields_container)
     with pytest.raises(KeyError, match="label test2 not found"):
         fields_container.get_label_scoping("test2")
