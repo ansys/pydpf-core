@@ -1,4 +1,3 @@
-# noqa: D400
 """
 .. _ref_basic_hdf5:
 
@@ -22,8 +21,6 @@ For the example to run correctly, ensure you do not have an existing H5 file.
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Import the ``dpf-core`` module and its examples files.
 
-import tempfile
-
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
 
@@ -44,10 +41,7 @@ num_sets = len(time_freqs.data)
 
 ###############################################################################
 # Define a temporary folder for outputs:
-if dpf.SERVER.local_server:
-    tmpdir = tempfile.mkdtemp()
-else:
-    tmpdir = "/tmp"
+tmpdir = dpf.core.make_tmp_dir_server(dpf.SERVER)
 files = [
     dpf.path_utilities.join(tmpdir, "file_on_all_time_steps.h5"),
     dpf.path_utilities.join(tmpdir, "file_time_per_time.h5"),
