@@ -1,12 +1,12 @@
 import pytest
 
-from ansys.dpf.core.property_fields_container import PropertyFieldsContainer, _LabelSpaceKV
+from ansys.dpf.core.property_fields_container import _MockPropertyFieldsContainer, _LabelSpaceKV
 from ansys.dpf import core as dpf
 
 
 def test_property_fields_container(allkindofcomplexity, server_type):
     model = dpf.Model(allkindofcomplexity, server=server_type)
-    fields_container = PropertyFieldsContainer(server=server_type)
+    fields_container = _MockPropertyFieldsContainer(server=server_type)
     fields_container.add_label(label="test")
     assert fields_container.has_label(label="test")
     assert fields_container.labels == ["test"]

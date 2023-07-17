@@ -1,9 +1,9 @@
 """
 .. _ref_property_fields_container:
 
-PropertyFieldsContainer
-===============
-Contains classes associated with the PropertyFieldsContainer.
+_MockPropertyFieldsContainer
+============================
+Contains classes associated with the _MockPropertyFieldsContainer.
 """
 from __future__ import annotations
 
@@ -13,7 +13,6 @@ from typing import Dict
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core.property_field import PropertyField
-import numpy as np
 
 
 class _LabelSpaceKV:
@@ -44,11 +43,11 @@ class _LabelSpaceKV:
         return f"Label Space: {self._dict} with field\n\t\t\t{field_str}"
 
 
-class PropertyFieldsContainer(Sequence):
-    """Minimal implementation of a FieldsContainer specialized for PropertyFieldsContainer."""
+class _MockPropertyFieldsContainer(Sequence):
+    """Minimal implementation of a FieldsContainer specialized for _MockPropertyFieldsContainer."""
 
     def __init__(self, fields_container=None, server=None):
-        """Constructs an empty PropertyFieldsContainer or from a PropertyFieldsContainer."""
+        """Constructs a _MockPropertyFieldsContainer."""
         # default constructor
         self._labels = []  # used by Dataframe
         self.scopings = []
@@ -57,7 +56,7 @@ class PropertyFieldsContainer(Sequence):
         self.label_spaces = []
         self.ids = []
 
-        # PropertyFieldsContainer copy
+        # _MockPropertyFieldsContainer copy
         if fields_container is not None:
             self._labels = copy.deepcopy(fields_container.labels)
             # self.scopings = copy.deepcopy(fields_container.scopings)
@@ -74,7 +73,7 @@ class PropertyFieldsContainer(Sequence):
 
     # Collection
     def __str__(self):
-        """Returns a string representation of a PropertyFieldsContainer."""
+        """Returns a string representation of a _MockPropertyFieldsContainer."""
         txt = f"DPF PropertyFieldsContainer with {len(self)} fields\n"
         for idx, ls in enumerate(self.label_spaces):
             txt += f"\t {idx}: {ls}\n"
@@ -83,12 +82,12 @@ class PropertyFieldsContainer(Sequence):
 
     @property
     def labels(self):
-        """Returns all labels of the PropertyFieldsContainer."""
+        """Returns all labels of the _MockPropertyFieldsContainer."""
         return self._labels
 
     @labels.setter
     def labels(self, labels):
-        """Sets all the label of the PropertyFieldsContainer."""
+        """Sets all the label of the _MockPropertyFieldsContainer."""
         if len(self._labels) != 0:
             raise ValueError("labels already set")
         for l in labels:
@@ -101,7 +100,7 @@ class PropertyFieldsContainer(Sequence):
             self.scopings.append([])
 
     def has_label(self, label):
-        """Check if a PropertyFieldsContainer contains a given label."""
+        """Check if a _MockPropertyFieldsContainer contains a given label."""
         return label in self.labels
 
     # used by Dataframe
@@ -268,15 +267,3 @@ class PropertyFieldsContainer(Sequence):
 
     def _set_field(self, ls_idx, field):
         self.label_spaces[ls_idx].field = field
-
-    def rescope(self, scoping: dpf.Scoping):
-        """Helper function to reproduce functionality of rescope_fc Operator."""
-        copy_fc = PropertyFieldsContainer(self, server=None)
-        for idx, label_space in enumerate(copy_fc.label_spaces):
-            pfield = PropertyField(location=label_space.field.location)
-            pfield.data = np.ravel(
-                [label_space._field.get_entity_data_by_id(id) for id in scoping.ids]
-            )
-            pfield.scoping.ids = scoping.ids
-            copy_fc._set_field(idx, pfield)
-        return copy_fc
