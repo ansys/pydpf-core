@@ -565,7 +565,33 @@ class DpfPlotter:
 
         Examples
         --------
-        >>> # to fill
+        >>> from ansys.dpf import core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> # Get model and meshed region
+        >>> files = examples.download_fluent_mixing_elbow_steady_state()
+        >>> ds = dpf.DataSources()
+        >>> ds.set_result_file_path(files["cas"][0], "cas")
+        >>> ds.add_file_path(files["dat"][1], "dat")
+        >>> model = dpf.Model(ds)
+        >>> mesh = model.metadata.meshed_region
+        >>> # Get velocity data
+        >>> velocity_op = model.results.velocity()
+        >>> fc = velocity_op.outputs.fields_container()
+        >>> op = dpf.operators.averaging.to_nodal_fc(fields_container=fc)
+        >>> field = op.outputs.fields_container()[0]
+        >>> # Plot
+        >>> from ansys.dpf.core.plotter import DpfPlotter
+        >>> pl = DpfPlotter()
+        >>> pl.add_mesh(meshed_region=mesh, opacity=0.15, color="g")
+        >>> pl.add_streamlines(meshed_region=mesh,
+        ...        field=field,
+        ...        radius=0.001,
+        ...        source_center=(0.55, 0.55, 0.),
+        ...        n_points=10,
+        ...        source_radius=0.08,
+        ...        max_time=10.0
+        ...        )
+        >>> pl.show_figure(show_axes=True)
 
         """
         self._internal_plotter.add_streamlines(
