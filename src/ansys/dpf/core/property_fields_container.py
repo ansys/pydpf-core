@@ -12,7 +12,6 @@ import copy
 from typing import Dict
 
 import ansys.dpf.core as dpf
-from ansys.dpf.core.property_field import PropertyField
 
 
 class _LabelSpaceKV:
@@ -134,6 +133,10 @@ class _MockPropertyFieldsContainer(Sequence):
             label_idx = self.labels.index(label)
             self.scopings[label_idx].append(new_id)
 
+    def add_field(self, label_space, field):
+        """Add or update a field at a requested label space."""
+        self.add_entry(label_space, field)
+
     def get_entries(self, label_space_or_index):
         """Returns a list of fields from a complete or partial specification of a dictionary."""
         if isinstance(label_space_or_index, int):
@@ -181,25 +184,6 @@ class _MockPropertyFieldsContainer(Sequence):
             self.last_id += 1
             return self.last_id
 
-    # FieldsContainer
-    def create_subtype(self, obj_by_copy):
-        """Instantiate a PropertyField with given instance, using the server of the container."""
-        return PropertyField(property_field=obj_by_copy, server=self._server)
-
-    def get_fields_by_time_complex_ids(self, timeid=None, complexid=None):
-        """Returns fields at a requested time or complex ID."""
-        label_space = {"time": timeid, "complex": complexid}
-        return self.get_fields(label_space)
-
-    def get_field_by_time_complex_ids(self, timeid=None, complexid=None):
-        """Returns field at a requested time or complex ID."""
-        label_space = {"time": timeid, "complex": complexid}
-        return self.get_field(label_space)
-
-    def __time_complex_label_space__(self, timeid=None, complexid=None):
-        """Not implemented."""
-        raise NotImplementedError
-
     # used by Dataframe
     def get_fields(self, label_space):
         """Returns the list of fields associated with given label space."""
@@ -209,23 +193,6 @@ class _MockPropertyFieldsContainer(Sequence):
         """Retrieves the field at a requested index or label space."""
         return self.get_entry(label_space_or_index)
 
-    def get_field_by_time_id(self, timeid=None):
-        """Retrieves the complex field at a requested timeid."""
-        label_space = {"time": timeid}
-        if self.has_label("complex"):
-            label_space["complex"] = 0
-        return self.get_field(label_space)
-
-    def get_imaginary_fields(self, timeid=None):
-        """Retrieve the complex fields at a requested timeid."""
-        label_space = {"time": timeid, "complex": 1}
-        return self.get_fields(label_space)
-
-    def get_imaginary_field(self, timeid=None):
-        """Retrieve the complex field at a requested time."""
-        label_space = {"time": timeid, "complex": 1}
-        return self.get_field(label_space)
-
     # used by Dataframe
     def __getitem__(self, key):
         """Retrieve the field at a requested index."""
@@ -234,36 +201,3 @@ class _MockPropertyFieldsContainer(Sequence):
     def __len__(self):
         """Retrieve the number of label spaces."""
         return len(self.label_spaces)
-
-    def add_field(self, label_space, field):
-        """Add or update a field at a requested label space."""
-        self.add_entry(label_space, field)
-
-    def add_field_by_time_id(self, field, timeid=1):
-        """Add or update a field at a requested timeid."""
-        if not self.has_label("time"):
-            self.add_label("time")
-
-        label_space = {"time": timeid}
-
-        if self.has_label("complex"):
-            label_space["complex"] = 0
-
-        self.add_field(label_space, field)
-
-    def add_imaginary_field(self, field, timeid=1):
-        """Add or update an imaginary field at a requested timeid."""
-        if not self.has_label("time"):
-            self.add_label("time")
-        if not self.has_label("complex"):
-            self.add_label("complex")
-
-        label_space = {"time": timeid, "complex": 1}
-        self.add_field(label_space, field)
-
-    def get_time_scoping(self):
-        """Retrieves the time scoping containing the time sets."""
-        return self.get_label_scoping("time")
-
-    def _set_field(self, ls_idx, field):
-        self.label_spaces[ls_idx].field = field

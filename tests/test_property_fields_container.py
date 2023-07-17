@@ -46,12 +46,3 @@ def test_property_fields_container(allkindofcomplexity, server_type):
 
     assert fields_container.get_fields({"test": 42})[0] == property_field
     assert fields_container.get_field(0) == property_field
-
-    fields_container.add_field_by_time_id(property_field)
-    assert fields_container.has_label("time")
-    assert fields_container.get_field_by_time_id(1) == property_field
-    fields_container.add_imaginary_field(property_field)
-    assert fields_container.get_imaginary_field(1) == property_field
-    time_scoping = fields_container.get_time_scoping()
-    assert isinstance(time_scoping, dpf.Scoping)
-    assert scoping.ids == [1]
