@@ -85,11 +85,11 @@ def test_set_get_num_of(server_type):
     # """Number of nodes"""
     num_nodes = 189
     mesh_info.set_number_nodes(189)
-    assert mesh_info.get_number_nodes == num_nodes
+    assert mesh_info.number_nodes == num_nodes
     # """ Number of elements """
     num_elements = 2
     mesh_info.set_number_elements(2)
-    assert mesh_info.get_number_elements == num_elements
+    assert mesh_info.number_elements == num_elements
 
 
 @pytest.mark.skipif(
@@ -123,7 +123,7 @@ def test_set_get_splittable_by_mesh_info(server_type):
     expected_splittable = ["split_01", "split_02", "split_03"]
     splittable.append(expected_splittable, 1)
     mesh_info.set_splittable_by(splittable)
-    result_splittable = mesh_info.get_splittable_by
+    result_splittable = mesh_info.splittable_by
     assert result_splittable.data[0] == expected_splittable[0]
     assert result_splittable.data[1] == expected_splittable[1]
     assert result_splittable.data[2] == expected_splittable[2]
@@ -139,7 +139,7 @@ def test_set_get_available_elem_types_mesh_info(server_type):
     available_results = dpf.Scoping(server=server_type)
     available_results._set_ids(available_results_ids)
     mesh_info.set_available_elem_types(available_results)
-    result_available = mesh_info.get_available_elem_types
+    result_available = mesh_info.available_elem_types
     for x in range(len(available_results)):
         assert result_available.id(x) == available_results.id(x)
 

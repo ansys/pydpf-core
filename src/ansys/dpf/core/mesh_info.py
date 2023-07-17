@@ -131,7 +131,7 @@ class MeshInfo:
         return self.generic_data_container.set_property(property_name, prop)
 
     @property
-    def get_number_nodes(self):
+    def number_nodes(self):
         """
         Returns
         -------
@@ -142,7 +142,7 @@ class MeshInfo:
         return self.generic_data_container.get_property("num_nodes")
 
     @property
-    def get_number_elements(self):
+    def number_elements(self):
         """
         Returns
         -------
@@ -153,7 +153,7 @@ class MeshInfo:
         return self.generic_data_container.get_property("num_elements")
 
     @property
-    def get_splittable_by(self):
+    def splittable_by(self):
         """
         Returns
         -------
@@ -164,7 +164,7 @@ class MeshInfo:
         return self.generic_data_container.get_property("splittable_by")
 
     @property
-    def get_available_elem_types(self):
+    def available_elem_types(self):
         """
         Returns
         -------
