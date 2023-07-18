@@ -71,3 +71,7 @@ class StringFieldAbstractAPI:
 	def csstring_field_new_on_client(client, numEntities, data_size):
 		raise NotImplementedError
 
+	@staticmethod
+	def csstring_field_get_copy(id, client):
+		raise NotImplementedError
+

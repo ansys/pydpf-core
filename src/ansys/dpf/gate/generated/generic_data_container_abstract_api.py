@@ -23,3 +23,19 @@ class GenericDataContainerAbstractAPI:
 	def generic_data_container_set_property_any(container, name, any):
 		raise NotImplementedError
 
+	@staticmethod
+	def generic_data_container_get_property_types(container):
+		raise NotImplementedError
+
+	@staticmethod
+	def generic_data_container_get_property_names(container):
+		raise NotImplementedError
+
+	@staticmethod
+	def generic_data_container_new_on_client(client):
+		raise NotImplementedError
+
+	@staticmethod
+	def generic_data_container_get_copy(id, client):
+		raise NotImplementedError
+

@@ -44,6 +44,10 @@ class PropertyFieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def csproperty_field_new_with_transformation(numEntities, data_size, wf, input_name, output_name):
+		raise NotImplementedError
+
+	@staticmethod
 	def csproperty_field_delete(field):
 		raise NotImplementedError
 
@@ -153,5 +157,9 @@ class PropertyFieldAbstractAPI:
 
 	@staticmethod
 	def csproperty_field_new_on_client(client, numEntities, data_size):
+		raise NotImplementedError
+
+	@staticmethod
+	def csproperty_field_get_copy(id, client):
 		raise NotImplementedError
 

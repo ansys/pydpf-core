@@ -119,3 +119,7 @@ class CustomTypeFieldAbstractAPI:
 	def cscustom_type_field_new_on_client(client, type, unitarySize, numEntities, numUnitaryData):
 		raise NotImplementedError
 
+	@staticmethod
+	def cscustom_type_field_get_copy(id, client):
+		raise NotImplementedError
+

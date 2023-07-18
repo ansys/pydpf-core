@@ -631,6 +631,15 @@ class FieldCAPI(field_abstract_api.FieldAbstractAPI):
 		return res
 
 	@staticmethod
+	def field_new_with_transformation(fieldDimensionnality, numEntities, location, wf, input_name, output_name):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Field_newWithTransformation(utils.to_int32(fieldDimensionnality), utils.to_int32(numEntities), utils.to_char_ptr(location), wf._internal_obj if wf is not None else None, utils.to_char_ptr(input_name), utils.to_char_ptr(output_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def field_new_with1_ddimensionnality(fieldDimensionnality, numComp, numEntitiesToReserve, location):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

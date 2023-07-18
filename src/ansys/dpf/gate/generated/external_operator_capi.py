@@ -230,6 +230,15 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		return res
 
 	@staticmethod
+	def external_operator_get_in_generic_data_container(operator_data, pin_index):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_getInGenericDataContainer(operator_data, utils.to_int32(pin_index), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def external_operator_put_out_property_field(operator_data, pin_index, data):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -515,6 +524,15 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.ExternalOperator_putOutWorkflow(operator_data, utils.to_int32(pin_index), data._internal_obj if data is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_put_out_generic_data_container(operator_data, pin_index, data):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_putOutGenericDataContainer(operator_data, utils.to_int32(pin_index), data._internal_obj if data is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

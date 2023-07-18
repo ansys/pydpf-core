@@ -280,6 +280,10 @@ class FieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def field_new_with_transformation(fieldDimensionnality, numEntities, location, wf, input_name, output_name):
+		raise NotImplementedError
+
+	@staticmethod
 	def field_new_with1_ddimensionnality(fieldDimensionnality, numComp, numEntitiesToReserve, location):
 		raise NotImplementedError
 

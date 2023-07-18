@@ -44,6 +44,18 @@ class AnyAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def any_get_as_string(any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_get_as_int(any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_get_as_double(any):
+		raise NotImplementedError
+
+	@staticmethod
 	def any_get_as_int_collection(any):
 		raise NotImplementedError
 
@@ -96,7 +108,23 @@ class AnyAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def any_get_as_generic_data_container(any):
+		raise NotImplementedError
+
+	@staticmethod
 	def any_make_obj_as_any(dpf_object):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_new_from_int(any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_new_from_string(any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_new_from_double(any):
 		raise NotImplementedError
 
 	@staticmethod
@@ -173,5 +201,21 @@ class AnyAbstractAPI:
 
 	@staticmethod
 	def any_new_from_string_field(any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_new_from_generic_data_container(any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_new_from_int_on_client(client, value):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_new_from_string_on_client(client, any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_new_from_double_on_client(client, any):
 		raise NotImplementedError
 

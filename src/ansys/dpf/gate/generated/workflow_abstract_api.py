@@ -288,6 +288,10 @@ class WorkflowAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def work_flow_connect_generic_data_container(wf, pin_name, labelspace):
+		raise NotImplementedError
+
+	@staticmethod
 	def work_flow_getoutput_fields_container(wf, pin_name):
 		raise NotImplementedError
 
@@ -373,6 +377,10 @@ class WorkflowAbstractAPI:
 
 	@staticmethod
 	def work_flow_getoutput_data_tree(op, pin_name):
+		raise NotImplementedError
+
+	@staticmethod
+	def work_flow_getoutput_generic_data_container(op, pin_name):
 		raise NotImplementedError
 
 	@staticmethod

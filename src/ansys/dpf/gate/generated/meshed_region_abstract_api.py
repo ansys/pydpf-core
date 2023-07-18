@@ -32,6 +32,10 @@ class MeshedRegionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def meshed_region_get_num_faces(meshedRegion):
+		raise NotImplementedError
+
+	@staticmethod
 	def meshed_region_get_shared_nodes_scoping(meshedRegion):
 		raise NotImplementedError
 

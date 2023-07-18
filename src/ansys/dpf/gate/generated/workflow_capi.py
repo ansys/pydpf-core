@@ -649,6 +649,15 @@ class WorkflowCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 		return res
 
 	@staticmethod
+	def work_flow_connect_generic_data_container(wf, pin_name, labelspace):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.WorkFlow_connect_GenericDataContainer(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), labelspace._internal_obj if labelspace is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def work_flow_getoutput_fields_container(wf, pin_name):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -842,6 +851,15 @@ class WorkflowCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.WorkFlow_getoutput_DataTree(op._internal_obj if op is not None else None, utils.to_char_ptr(pin_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def work_flow_getoutput_generic_data_container(op, pin_name):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.WorkFlow_getoutput_GenericDataContainer(op._internal_obj if op is not None else None, utils.to_char_ptr(pin_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

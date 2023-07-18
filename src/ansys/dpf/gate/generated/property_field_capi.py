@@ -92,6 +92,15 @@ class PropertyFieldCAPI(property_field_abstract_api.PropertyFieldAbstractAPI):
 		return res
 
 	@staticmethod
+	def csproperty_field_new_with_transformation(numEntities, data_size, wf, input_name, output_name):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.CSPropertyField_newWithTransformation(utils.to_int32(numEntities), utils.to_int32(data_size), wf._internal_obj if wf is not None else None, utils.to_char_ptr(input_name), utils.to_char_ptr(output_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def csproperty_field_delete(field):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -337,6 +346,15 @@ class PropertyFieldCAPI(property_field_abstract_api.PropertyFieldAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.CSPropertyField_new_on_client(client._internal_obj if client is not None else None, utils.to_int32(numEntities), utils.to_int32(data_size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def csproperty_field_get_copy(id, client):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.CSPropertyField_getCopy(utils.to_int32(id), client._internal_obj if client is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

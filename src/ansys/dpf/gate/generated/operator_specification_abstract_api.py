@@ -84,6 +84,10 @@ class OperatorSpecificationAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_specification_set_pin_derived_class(specification, var1, position, name, description, n_types, types, is_optional, is_ellipsis, derived_type_name):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_specification_add_bool_config_option(specification, option_name, default_value, description):
 		raise NotImplementedError
 
@@ -117,6 +121,10 @@ class OperatorSpecificationAbstractAPI:
 
 	@staticmethod
 	def operator_specification_get_config_description(specification, numOption):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_specification_get_pin_derived_class_type_name(specification, binput, numPin):
 		raise NotImplementedError
 
 	@staticmethod

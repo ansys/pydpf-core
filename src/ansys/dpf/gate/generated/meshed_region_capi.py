@@ -63,6 +63,15 @@ class MeshedRegionCAPI(meshed_region_abstract_api.MeshedRegionAbstractAPI):
 		return res
 
 	@staticmethod
+	def meshed_region_get_num_faces(meshedRegion):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.MeshedRegion_GetNumFaces(meshedRegion._internal_obj if meshedRegion is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def meshed_region_get_shared_nodes_scoping(meshedRegion):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

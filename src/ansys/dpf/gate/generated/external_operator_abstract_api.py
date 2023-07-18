@@ -108,6 +108,10 @@ class ExternalOperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def external_operator_get_in_generic_data_container(operator_data, pin_index):
+		raise NotImplementedError
+
+	@staticmethod
 	def external_operator_put_out_property_field(operator_data, pin_index, data):
 		raise NotImplementedError
 
@@ -233,6 +237,10 @@ class ExternalOperatorAbstractAPI:
 
 	@staticmethod
 	def external_operator_put_out_workflow(operator_data, pin_index, data):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_put_out_generic_data_container(operator_data, pin_index, data):
 		raise NotImplementedError
 
 	@staticmethod

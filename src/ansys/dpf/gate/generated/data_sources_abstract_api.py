@@ -112,6 +112,10 @@ class DataSourcesAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def data_sources_get_namespace(dataSources, key):
+		raise NotImplementedError
+
+	@staticmethod
 	def data_sources_get_new_path_collection_for_key(dataSources, key):
 		raise NotImplementedError
 
@@ -133,6 +137,10 @@ class DataSourcesAbstractAPI:
 
 	@staticmethod
 	def data_sources_get_label_space_by_path_index(dataSources, index):
+		raise NotImplementedError
+
+	@staticmethod
+	def data_sources_register_namespace(dataSources, result_key, ns):
 		raise NotImplementedError
 
 	@staticmethod

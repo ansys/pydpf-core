@@ -262,3 +262,12 @@ class CustomTypeFieldCAPI(custom_type_field_abstract_api.CustomTypeFieldAbstract
 			raise errors.DPFServerException(sError.value)
 		return res
 
+	@staticmethod
+	def cscustom_type_field_get_copy(id, client):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.CSCustomTypeField_getCopy(utils.to_int32(id), client._internal_obj if client is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+

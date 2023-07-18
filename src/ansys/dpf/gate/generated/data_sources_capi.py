@@ -251,6 +251,17 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		return newres
 
 	@staticmethod
+	def data_sources_get_namespace(dataSources, key):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataSources_GetNamespace(dataSources._internal_obj if dataSources is not None else None, utils.to_char_ptr(key), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		newres = ctypes.cast(res, ctypes.c_char_p).value.decode("utf-8") if res else None
+		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
+		return newres
+
+	@staticmethod
 	def data_sources_get_new_path_collection_for_key(dataSources, key):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -304,6 +315,15 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_GetLabelSpaceByPathIndex(dataSources._internal_obj if dataSources is not None else None, utils.to_int32(index), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def data_sources_register_namespace(dataSources, result_key, ns):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataSources_RegisterNamespace(dataSources._internal_obj if dataSources is not None else None, utils.to_char_ptr(result_key), utils.to_char_ptr(ns), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

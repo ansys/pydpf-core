@@ -168,6 +168,14 @@ class OperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_connect_generic_data_container(op, iPin, ptr):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_connect_result_info(op, iPin, ptr):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_disconnect(op, iPin):
 		raise NotImplementedError
 
@@ -213,6 +221,10 @@ class OperatorAbstractAPI:
 
 	@staticmethod
 	def operator_getoutput_custom_type_field(op, iOutput):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_getoutput_generic_data_container(op, iOutput):
 		raise NotImplementedError
 
 	@staticmethod
