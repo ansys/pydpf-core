@@ -76,4 +76,4 @@ pl_multiple.add_streamlines(meshed_region=meshed_region,
                    n_points=10,
                    surface_streamlines=True
                    )
-pl_multiple.show_figure(show_axes=True)
+pl_multiple.show_figure(show_plane="xy", show_axes=True)
