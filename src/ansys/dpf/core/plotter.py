@@ -355,6 +355,7 @@ class _PyVistaPlotter:
 
         # check src request
         return_source = kwargs.pop("return_source", None)
+        permissive = kwargs.pop("permissive", None)
 
         # filter kwargs
         kwargs_base = _sort_supported_kwargs(bound_method=grid.streamlines, **kwargs)
@@ -376,7 +377,8 @@ class _PyVistaPlotter:
 
         # set streamline on plotter
         sargs = dict(vertical=False)
-        self._plotter.add_mesh(streamlines.tube(radius=radius), scalar_bar_args=sargs)
+        if not (permissive and streamlines.n_points == 0):
+            self._plotter.add_mesh(streamlines.tube(radius=radius), scalar_bar_args=sargs)
         if return_source:
             self._plotter.add_mesh(src)
 
@@ -567,6 +569,9 @@ class DpfPlotter:
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :func:`pyvista.DataSetFilters.streamlines`.
+            The "permissive" (boolean) can be used to avoid throwing if
+            computed streamlines are empty. See ``Examples`` section for
+            more information.
 
         Examples
         --------

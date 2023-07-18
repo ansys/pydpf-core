@@ -52,11 +52,11 @@ field = dpf.operators.averaging.to_nodal_fc(fields_container=fc).outputs.fields_
 # of parameters. It shows the issues that can happen, the adjustments that can be done.
 
 # First, a DpfPlotter is created and the streamline is created with default values.
-pl1 = DpfPlotter()
+pl0 = DpfPlotter()
 try:
-    pl1.add_mesh(meshed_region=meshed_region, opacity=0.3)
-    pl1.add_streamlines(meshed_region=meshed_region, data=field)
-    pl1.show_figure(show_axes=True)
+    pl0.add_mesh(meshed_region=meshed_region, opacity=0.3)
+    pl0.add_streamlines(meshed_region=meshed_region, field=field)
+    pl0.show_figure(show_axes=True)
 except:
     # It throws and ends here, because source point are not correctly set.
     # They don't match with the mesh coordinates velocity values
@@ -65,41 +65,42 @@ except:
     # the streamlines source center.
     pass
 
-# Then, more settings are added to adapt the streamlines creation to the geometry and
+# Then, using "source_center" argument that moves the source center,
+# the "return_source" arguments that displays the source, and
+# "permissive" option that allows the display of the source even if the computed
+# streamline size is zero, the source coordinates can be correctly set:
+pl1 = DpfPlotter()
+pl1.add_mesh(meshed_region=meshed_region, opacity=0.3)
+pl1.add_streamlines(
+    meshed_region=meshed_region,
+    field=field,
+    return_source=True,
+    source_center=(0.1, 0.1, 0.2),
+    permissive=True
+)
+pl1.show_figure(show_axes=True)
+
+# After some tries, correct values for "source_center" argument is set.
+# The "permissive" option can be removed.
+# Velocity data with small opacity to avoid to hide the streamlines can be displayed.
+# More settings are added to adapt the streamlines creation to the geometry and
 # the data of the model:
 # - radius: streamlines radius
-# - source_center: move source center
-# - source_radius
 # - n_points: source number of points
+# - source_radius
 # - max_time: allows the streamline to be computed along a certain length
 pl2 = DpfPlotter()
-pl2.add_mesh(meshed_region=meshed_region, opacity=0.15, color="g")
+pl2.add_field(field, meshed_region, opacity=0.2)
 pl2.add_streamlines(meshed_region=meshed_region,
                    field=field,
-                   radius=0.001,
+                   return_source=True,
                    source_center=(0.56, 0.48, 0.),
+                   radius=0.001,
                    n_points=10,
                    source_radius=0.075,
                    max_time=10.0
                    )
 pl2.show_figure(show_axes=True)
-
-# Now streamlines are plot, the following items can be added to the display:
-# - source
-# - velocity data with small opacity to avoid to hide the streamlines
-# - n_points can be increased
-pl3 = DpfPlotter()
-pl3.add_field(field, meshed_region, opacity=0.2)
-pl3.add_streamlines(meshed_region=meshed_region,
-                   field=field,
-                   radius=0.001,
-                   return_source=True,
-                   source_center=(0.56, 0.48, 0.),
-                   n_points=100,
-                   source_radius=0.075,
-                   max_time=10.0
-                   )
-pl3.show_figure(show_axes=True)
 
 ###############################################################################
 # Plot streamlines from several sources
