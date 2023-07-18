@@ -1,9 +1,10 @@
 """
-.. _plot_streamlines:
+.. _plot_3d_streamlines:
 
-Plot streamlines
-~~~~~~~~~~~~~~~~
-This example shows how to plot streamlines of fluid simulation results.
+Plot 3D streamlines
+~~~~~~~~~~~~~~~~~~~
+This example shows how to plot streamlines of fluid simulation results,
+for 3D models.
 
 """
 
@@ -80,7 +81,7 @@ pl1.add_streamlines(
 )
 pl1.show_figure(show_axes=True)
 
-# After some tries, correct values for "source_center" argument is set.
+# After adjustment, correct values for "source_center" argument is set.
 # The "permissive" option can be removed.
 # Velocity data with small opacity to avoid to hide the streamlines can be displayed.
 # More settings are added to adapt the streamlines creation to the geometry and
