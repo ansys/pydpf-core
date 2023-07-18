@@ -690,8 +690,8 @@ class DpfPlotter:
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :func:`pyvista.plot`.
-            "plane" argument can be used to specify the plan to view. For
-            example, add plane="xy" to display (XY) plan.
+            "plane" argument can be used to specify the plane to view. For
+            example, add plane="xy" to display (XY) plane.
 
         Examples
         --------
