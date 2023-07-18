@@ -78,4 +78,4 @@ pl_multiple.add_streamlines(
     n_points=10,
     surface_streamlines=True,
 )
-pl_multiple.show_figure(show_plane="xy", show_axes=True)
+pl_multiple.show_figure(plane="xy", show_axes=True)

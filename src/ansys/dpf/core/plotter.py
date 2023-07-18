@@ -406,9 +406,9 @@ class _PyVistaPlotter:
             self._plotter.camera_position = cpos
 
         # Show depending on return_cpos option
-        show_plane = kwargs.pop("show_plane", None)
-        if show_plane is not None:
-            plane_str = "view_" + show_plane
+        plane = kwargs.pop("plane", None)
+        if plane is not None:
+            plane_str = "view_" + plane
             view_method = getattr(self._plotter, plane_str)
             view_method()
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.show, **kwargs)
@@ -690,8 +690,8 @@ class DpfPlotter:
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :func:`pyvista.plot`.
-            "show_plane" argument can be used to specify the plan to view. For
-            example, add show_plane="xy" to display (XY) plan.
+            "plane" argument can be used to specify the plan to view. For
+            example, add plane="xy" to display (XY) plan.
 
         Examples
         --------
