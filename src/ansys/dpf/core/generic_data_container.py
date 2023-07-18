@@ -110,31 +110,11 @@ class GenericDataContainer:
         """
         any_ptr = self._api.generic_data_container_get_property_any(self, property_name)
         any_dpf = Any(any_ptr, self._server)
-        output_type = self._type_to_output_method[self.get_property_description()[property_name]]
-        return any_dpf.cast(output_type)
+        output_type = self.get_property_description()[property_name]
+        from ansys.dpf import core
 
-    @property
-    def _type_to_output_method(self):
-        # Only the types in any.py need to be casted
-        from ansys.dpf.core import (
-            field,
-            property_field,
-            string_field,
-            scoping,
-        )
-
-        out = {
-            "bool": bool,
-            "int": int,
-            "str": str,
-            "float": float,
-            "Field": field.Field,
-            "PropertyField": property_field.PropertyField,
-            "StringField": string_field.StringField,
-            "Scoping": scoping.Scoping,
-            "GenericDataContainer": GenericDataContainer,
-        }
-        return out
+        class_ = getattr(core, output_type)
+        return any_dpf.cast(class_)
 
     def get_property_description(self):
         """Get a dictionary description of properties by name and data type
