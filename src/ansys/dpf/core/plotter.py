@@ -337,8 +337,9 @@ class _PyVistaPlotter:
     def add_streamlines(self, meshed_region, field, radius=1.0, **kwargs):
         # Check velocity field location
         if field.location is not dpf.core.locations.nodal:
-            warnings.warn("Velocity field must have a nodal location. "
-                          "Result must be carefully checked.")
+            warnings.warn(
+                "Velocity field must have a nodal location. Result must be carefully checked."
+            )
 
         # handles input data
         f_name = field.name
