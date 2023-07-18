@@ -383,7 +383,7 @@ class Specification(SpecificationBase):
                 ]
 
                 pin_derived_class_type_name = ""
-                if server_meet_version("7.0", self._server):
+                if server_meet_version("7.0", self._server) and hasattr(self._api, "operator_specification_get_pin_derived_class_type_name"):
                     pin_derived_class_type_name = (
                         self._api.operator_specification_get_pin_derived_class_type_name(
                             self, binput, i_pin
@@ -614,7 +614,7 @@ class CustomSpecification(Specification):
     def inputs(self, val: dict):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
-            if server_meet_version("7.0", self._server):
+            if server_meet_version("7.0", self._server) and hasattr(self._api, "operator_specification_set_pin_derived_class"):
                 self._api.operator_specification_set_pin_derived_class(
                     self,
                     True,
@@ -655,7 +655,7 @@ class CustomSpecification(Specification):
     def outputs(self, val: dict):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
-            if server_meet_version("7.0", self._server):
+            if server_meet_version("7.0", self._server) and hasattr(self._api, "operator_specification_set_pin_derived_class"):
                 self._api.operator_specification_set_pin_derived_class(
                     self,
                     False,
