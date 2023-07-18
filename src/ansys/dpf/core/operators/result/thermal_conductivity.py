@@ -59,11 +59,11 @@ class thermal_conductivity(Operator):
         of the model (region corresponds to
         zone for fluid results or part for
         lsdyna results).
-    qualifiers1 : LabelSpace, optional
+    qualifiers1 : dict, optional
         (for fluid results only) labelspace with
         combination of zone, phases or
         species ids
-    qualifiers2 : LabelSpace, optional
+    qualifiers2 : dict, optional
         (for fluid results only) labelspace with
         combination of zone, phases or
         species ids
@@ -89,9 +89,9 @@ class thermal_conductivity(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_region_scoping = dpf.Scoping()
     >>> op.inputs.region_scoping.connect(my_region_scoping)
-    >>> my_qualifiers1 = dpf.LabelSpace()
+    >>> my_qualifiers1 = dpf.dict()
     >>> op.inputs.qualifiers1.connect(my_qualifiers1)
-    >>> my_qualifiers2 = dpf.LabelSpace()
+    >>> my_qualifiers2 = dpf.dict()
     >>> op.inputs.qualifiers2.connect(my_qualifiers2)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -309,9 +309,9 @@ class InputsThermalConductivity(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_region_scoping = dpf.Scoping()
     >>> op.inputs.region_scoping.connect(my_region_scoping)
-    >>> my_qualifiers1 = dpf.LabelSpace()
+    >>> my_qualifiers1 = dpf.dict()
     >>> op.inputs.qualifiers1.connect(my_qualifiers1)
-    >>> my_qualifiers2 = dpf.LabelSpace()
+    >>> my_qualifiers2 = dpf.dict()
     >>> op.inputs.qualifiers2.connect(my_qualifiers2)
     """
 
@@ -503,7 +503,7 @@ class InputsThermalConductivity(_Inputs):
 
         Parameters
         ----------
-        my_qualifiers1 : LabelSpace
+        my_qualifiers1 : dict
 
         Examples
         --------
@@ -525,7 +525,7 @@ class InputsThermalConductivity(_Inputs):
 
         Parameters
         ----------
-        my_qualifiers2 : LabelSpace
+        my_qualifiers2 : dict
 
         Examples
         --------
