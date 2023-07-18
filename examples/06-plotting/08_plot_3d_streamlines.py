@@ -77,7 +77,7 @@ pl1.add_streamlines(
     field=field,
     return_source=True,
     source_center=(0.1, 0.1, 0.2),
-    permissive=True
+    permissive=True,
 )
 pl1.show_figure(show_axes=True)
 
@@ -92,15 +92,16 @@ pl1.show_figure(show_axes=True)
 # - max_time: allows the streamline to be computed along a certain length
 pl2 = DpfPlotter()
 pl2.add_field(field, meshed_region, opacity=0.2)
-pl2.add_streamlines(meshed_region=meshed_region,
-                   field=field,
-                   return_source=True,
-                   source_center=(0.56, 0.48, 0.),
-                   radius=0.001,
-                   n_points=10,
-                   source_radius=0.075,
-                   max_time=10.0
-                   )
+pl2.add_streamlines(
+    meshed_region=meshed_region,
+    field=field,
+    return_source=True,
+    source_center=(0.56, 0.48, 0.0),
+    radius=0.001,
+    n_points=10,
+    source_radius=0.075,
+    max_time=10.0,
+)
 pl2.show_figure(show_axes=True)
 
 ###############################################################################
@@ -134,34 +135,38 @@ field = velocity_op.outputs.fields_container()[0]
 # Add streamlines from different sources:
 pl = DpfPlotter()
 pl.add_field(field, meshed_region, opacity=0.2)
-pl.add_streamlines(meshed_region=meshed_region,
-                   field=field,
-                   radius=0.007,
-                   return_source=True,
-                   source_radius=0.25,
-                   source_center=(0.75, 0., 0.),
-                   )
-pl.add_streamlines(meshed_region=meshed_region,
-                   field=field,
-                   radius=0.007,
-                   return_source=True,
-                   source_radius=0.25,
-                   source_center=(0.0, 0.75, 0.),
-                   )
-pl.add_streamlines(meshed_region=meshed_region,
-                   field=field,
-                   radius=0.007,
-                   return_source=True,
-                   source_radius=0.25,
-                   source_center=(-0.75, 0., 0.),
-                   )
-pl.add_streamlines(meshed_region=meshed_region,
-                   field=field,
-                   radius=0.007,
-                   return_source=True,
-                   source_radius=0.25,
-                   source_center=(0.0, -0.75, 0.),
-                   )
+pl.add_streamlines(
+    meshed_region=meshed_region,
+    field=field,
+    radius=0.007,
+    return_source=True,
+    source_radius=0.25,
+    source_center=(0.75, 0.0, 0.0),
+)
+pl.add_streamlines(
+    meshed_region=meshed_region,
+    field=field,
+    radius=0.007,
+    return_source=True,
+    source_radius=0.25,
+    source_center=(0.0, 0.75, 0.0),
+)
+pl.add_streamlines(
+    meshed_region=meshed_region,
+    field=field,
+    radius=0.007,
+    return_source=True,
+    source_radius=0.25,
+    source_center=(-0.75, 0.0, 0.0),
+)
+pl.add_streamlines(
+    meshed_region=meshed_region,
+    field=field,
+    radius=0.007,
+    return_source=True,
+    source_radius=0.25,
+    source_center=(0.0, -0.75, 0.0),
+)
 
 # Plot:
 pl.show_figure(show_axes=True)

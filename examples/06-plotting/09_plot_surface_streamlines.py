@@ -52,13 +52,14 @@ field = dpf.operators.averaging.to_nodal_fc(fields_container=fc).outputs.fields_
 
 pl_single = DpfPlotter()
 pl_single.add_field(field, meshed_region, opacity=0.2)
-pl_single.add_streamlines(meshed_region=meshed_region,
-                   field=field,
-                   return_source=True,
-                   radius=0.00002,
-                   start_position=(0.005, 0.0005, 0.),
-                   surface_streamlines=True
-                   )
+pl_single.add_streamlines(
+    meshed_region=meshed_region,
+    field=field,
+    return_source=True,
+    radius=0.00002,
+    start_position=(0.005, 0.0005, 0.0),
+    surface_streamlines=True,
+)
 pl_single.show_figure(show_axes=True)
 
 ###############################################################################
@@ -67,13 +68,14 @@ pl_single.show_figure(show_axes=True)
 
 pl_multiple = DpfPlotter()
 pl_multiple.add_field(field, meshed_region, opacity=0.2)
-pl_multiple.add_streamlines(meshed_region=meshed_region,
-                   field=field,
-                   return_source=True,
-                   radius=0.000015,
-                   pointa=(0.005, 0.0001, 0.),
-                   pointb=(0.005, 0.001, 0.),
-                   n_points=10,
-                   surface_streamlines=True
-                   )
+pl_multiple.add_streamlines(
+    meshed_region=meshed_region,
+    field=field,
+    return_source=True,
+    radius=0.000015,
+    pointa=(0.005, 0.0001, 0.0),
+    pointb=(0.005, 0.001, 0.0),
+    n_points=10,
+    surface_streamlines=True,
+)
 pl_multiple.show_figure(show_plane="xy", show_axes=True)

@@ -359,8 +359,10 @@ class _PyVistaPlotter:
 
         # filter kwargs
         kwargs_base = _sort_supported_kwargs(bound_method=grid.streamlines, **kwargs)
-        kwargs_from_source = _sort_supported_kwargs(bound_method=grid.streamlines_from_source, **kwargs)
-        kwargs_from_source.update(kwargs_base) # merge both dicts in kwargs_from_source
+        kwargs_from_source = _sort_supported_kwargs(
+            bound_method=grid.streamlines_from_source, **kwargs
+        )
+        kwargs_from_source.update(kwargs_base)  # merge both dicts in kwargs_from_source
 
         # create streamlines
         if return_source:
