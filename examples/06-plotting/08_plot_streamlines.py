@@ -77,9 +77,9 @@ pl2.add_mesh(meshed_region=meshed_region, opacity=0.15, color="g")
 pl2.add_streamlines(meshed_region=meshed_region,
                    field=field,
                    radius=0.001,
-                   source_center=(0.55, 0.55, 0.),
+                   source_center=(0.56, 0.48, 0.),
                    n_points=10,
-                   source_radius=0.08,
+                   source_radius=0.075,
                    max_time=10.0
                    )
 pl2.show_figure(show_axes=True)
@@ -94,9 +94,9 @@ pl3.add_streamlines(meshed_region=meshed_region,
                    field=field,
                    radius=0.001,
                    return_source=True,
-                   source_center=(0.55, 0.55, 0.),
+                   source_center=(0.56, 0.48, 0.),
                    n_points=100,
-                   source_radius=0.08,
+                   source_radius=0.075,
                    max_time=10.0
                    )
 pl3.show_figure(show_axes=True)
