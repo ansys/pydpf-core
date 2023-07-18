@@ -174,22 +174,26 @@ class MeshInfo:
 
         return self.generic_data_container.get_property("avalaible_elem_type")
 
-    def set_number_nodes(self, number_of_nodes):
+    @number_nodes.setter
+    def number_nodes(self, value):
         """Set the number of nodes in the mesh"""
 
-        return self.generic_data_container.set_property("num_nodes", number_of_nodes)
+        self.generic_data_container.set_property("num_nodes", value)
 
-    def set_number_elements(self, number_of_elements):
+    @number_elements.setter
+    def number_elements(self, value):
         """Set the number of elements in the mesh"""
 
-        return self.generic_data_container.set_property("num_elements", number_of_elements)
+        self.generic_data_container.set_property("num_elements", value)
 
-    def set_splittable_by(self, split):
+    @splittable_by.setter
+    def splittable_by(self, value):
         """Set name of the properties according to which the mesh can be split by"""
 
-        return self.generic_data_container.set_property("splittable_by", split)
+        self.generic_data_container.set_property("splittable_by", value)
 
-    def set_available_elem_types(self, available_elem_types):
+    @available_elem_types.setter
+    def available_elem_types(self, value):
         """Set the available element types"""
 
-        return self.generic_data_container.set_property("avalaible_elem_type", available_elem_types)
+        self.generic_data_container.set_property("avalaible_elem_type", value)
