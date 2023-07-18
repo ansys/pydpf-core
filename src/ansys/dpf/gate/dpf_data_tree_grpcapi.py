@@ -1,6 +1,7 @@
 import types
 from ansys.dpf.gate.generated import dpf_data_tree_abstract_api
-from ansys.dpf.gate import errors
+from ansys.dpf.gate import errors, utils
+
 
 #-------------------------------------------------------------------------------
 # DpfDataTree
@@ -184,3 +185,23 @@ class DpfDataTreeGRPCAPI(dpf_data_tree_abstract_api.DpfDataTreeAbstractAPI):
         request.data_tree.CopyFrom(data_tree._internal_obj)
         request.names.append(attribute_name)
         return _get_stub(data_tree._server).Has(request).has_each_name[attribute_name]
+
+    @staticmethod
+    def dpf_data_tree_get_string_collection_attribute(data_tree, attribute_name):
+        from ansys.grpc.dpf import data_tree_pb2, base_pb2
+        request = data_tree_pb2.GetRequest()
+        request.data_tree.CopyFrom(data_tree._internal_obj)
+        stype = base_pb2.Type.Value("VEC_STRING")
+        request.data.append(data_tree_pb2.SingleDataRequest(name=attribute_name, type=stype))
+        data = _get_stub(data_tree._server).Get(request).data[0]
+        if data.HasField("vec_string"):
+            return list(data.vec_string.rep_string)
+
+    @staticmethod
+    def dpf_data_tree_get_available_attributes_names_in_string_collection(data_tree):
+        from ansys.grpc.dpf import data_tree_pb2, base_pb2
+        request = data_tree_pb2.ListRequest()
+        request.data_tree.CopyFrom(data_tree._internal_obj)
+        attribute_names = _get_stub(data_tree._server).List(request).attribute_names
+
+        return utils.to_array(attribute_names)

@@ -170,6 +170,12 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
         _get_stub(wf._server).UpdateConnection(request)
 
     @staticmethod
+    def work_flow_connect_generic_data_container(wf, pin_name, container):
+        request = WorkflowGRPCAPI._connect_init(wf, pin_name)
+        request.generic_data_container.CopyFrom(container._internal_obj)
+        _get_stub(wf._server).UpdateConnection(request)
+
+    @staticmethod
     def get_output_init(wf, pin_name):
         from ansys.grpc.dpf import workflow_pb2
         request = workflow_pb2.WorkflowEvaluationRequest()
@@ -276,6 +282,12 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
     def work_flow_getoutput_workflow(wf, pin_name):
         request = WorkflowGRPCAPI.get_output_init(wf, pin_name)
         stype = "workflow"
+        return WorkflowGRPCAPI.get_output_finish(wf, request, stype)
+
+    @staticmethod
+    def work_flow_getoutput_generic_data_container(wf, pin_name):
+        request = WorkflowGRPCAPI.get_output_init(wf, pin_name)
+        stype = "generic_data_container"
         return WorkflowGRPCAPI.get_output_finish(wf, request, stype)
 
     @staticmethod

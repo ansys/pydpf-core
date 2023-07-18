@@ -236,7 +236,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
         return int(stub.GetStringProperties(request).properties[property_name])
 
     @staticmethod
-    def result_info_get_qualifier_label_support(resultInfo, qualifier):
+    def result_info_get_qualifier_label_support(result_info, qualifier):
         from ansys.grpc.dpf import result_info_pb2
         request = result_info_pb2.ListQualifiersLabelsRequest()
         request.result_info.CopyFrom(result_info._internal_obj)
@@ -248,11 +248,11 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
             if key == qualifier:
                 out = entry
             else:
-                ObjHandler(api, entry, server)
+                ObjHandler(api, entry, result_info._server)
         return out
 
     @staticmethod
-    def result_info_get_available_qualifier_labels_as_string_coll(resultInfo):
+    def result_info_get_available_qualifier_labels_as_string_coll(result_info):
         from ansys.grpc.dpf import result_info_pb2
         request = result_info_pb2.ListQualifiersLabelsRequest()
         request.result_info.CopyFrom(result_info._internal_obj)
@@ -261,7 +261,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
         supports = stub.ListQualifiersLabels(request).qualifier_labels
         api = DataProcessingGRPCAPI
         for key, entry in supports.items():
-            ObjHandler(api, entry, server)
+            ObjHandler(api, entry, result_info._server)
             labels.append(key)
         return labels
 
