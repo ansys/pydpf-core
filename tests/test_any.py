@@ -90,7 +90,7 @@ def test_cast_generic_data_container_any(server_type):
     any_dpf = dpf.Any.new_from(entity)
     new_entity = any_dpf.cast()
 
-    new_field = new_entity.get_property("field", dpf.Field)
+    new_field = new_entity.get_property("field")
 
     assert field.location == new_field.location
 
