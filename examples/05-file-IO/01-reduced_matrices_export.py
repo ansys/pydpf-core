@@ -13,8 +13,6 @@ export them to HDF5 and CSV files.
 # Import the ``dpf-core`` module and its examples files, and then create a
 # temporary directory.
 
-import tempfile
-
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
@@ -38,10 +36,7 @@ fields[0].data
 
 ###############################################################################
 # Define a temporary folder for outputs
-if dpf.SERVER.local_server:
-    tmpdir = tempfile.mkdtemp()
-else:
-    tmpdir = "/tmp/"
+tmpdir = dpf.core.make_tmp_dir_server(dpf.SERVER)
 
 ###############################################################################
 # Export the result fields container to an HDF5 file.

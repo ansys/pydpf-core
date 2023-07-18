@@ -80,3 +80,9 @@ from .sweeping_phase_fc import sweeping_phase_fc
 from .time_freq_interpolation import time_freq_interpolation 
 from .unit_convert import unit_convert 
 from .unit_convert_fc import unit_convert_fc 
+from .window_bartlett import window_bartlett 
+from .window_blackman import window_blackman 
+from .window_hamming import window_hamming 
+from .window_hanning import window_hanning 
+from .window_triangular import window_triangular 
+from .window_welch import window_welch 

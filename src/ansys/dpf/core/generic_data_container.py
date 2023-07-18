@@ -39,6 +39,7 @@ class GenericDataContainer:
 
         # step 2: if object exists, take the instance, else create it
         self._api_instance = None
+        self._api.init_generic_data_container_environment(self)  # creates stub when gRPC
 
         self._api.init_generic_data_container_environment(self)
 
@@ -94,14 +95,13 @@ class GenericDataContainer:
         any_dpf = Any.new_from(prop, self._server)
         self._api.generic_data_container_set_property_any(self, property_name, any_dpf)
 
-    def get_property(self, property_name, output_type):
+    def get_property(self, property_name):
         """Get property with given name.
 
         Parameters
         ----------
         property_name : str
             Property name.
-        output_type :  :class:`ansys.dpf.core.common.types`
 
         Returns
         -------
@@ -110,7 +110,31 @@ class GenericDataContainer:
         """
         any_ptr = self._api.generic_data_container_get_property_any(self, property_name)
         any_dpf = Any(any_ptr, self._server)
+        output_type = self._type_to_output_method[self.get_property_description()[property_name]]
         return any_dpf.cast(output_type)
+
+    @property
+    def _type_to_output_method(self):
+        # Only the types in any.py need to be casted
+        from ansys.dpf.core import (
+            field,
+            property_field,
+            string_field,
+            scoping,
+        )
+
+        out = {
+            "bool": bool,
+            "int": int,
+            "str": str,
+            "float": float,
+            "Field": field.Field,
+            "PropertyField": property_field.PropertyField,
+            "StringField": string_field.StringField,
+            "Scoping": scoping.Scoping,
+            "GenericDataContainer": GenericDataContainer,
+        }
+        return out
 
     def get_property_description(self):
         """Get a dictionary description of properties by name and data type
