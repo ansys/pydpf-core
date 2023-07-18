@@ -58,7 +58,7 @@ class workflow_import_json(Operator):
 
     @property
     def inputs(self):
-        """Enables to connect inputs to the operator
+        """Enables to connect inputs to the operator.
 
         Returns
         --------
@@ -69,7 +69,7 @@ class workflow_import_json(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it.
 
         Returns
         --------

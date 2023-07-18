@@ -1,9 +1,12 @@
 import pytest
+import platform
 
 from ansys import dpf
 from ansys.dpf.core import Model
-from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
-
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+)
 
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
     mechanical = "mechanical"
@@ -69,7 +72,38 @@ def test_get_result_resultinfo_from_index(model):
 
 
 def test_print_result_info(model):
-    print(model.metadata.result_info)
+    str(model.metadata.result_info)
+
+
+def test_repr_available_results_list(model):
+    ar = model.metadata.result_info.available_results
+    assert type(ar) is list
+    assert all([type(r) is dpf.core.result_info.available_result.AvailableResult for r in ar])
+    assert dpf.core.result_info.available_result.AvailableResult.__name__ in str(ar)
+
+
+@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
+)
+def test_print_available_result_with_qualifiers(cfx_heating_coil):
+    model = Model(cfx_heating_coil())
+    ref = """DPF Result
+----------
+specific_heat
+Operator name: "CP"
+Number of components: 1
+Dimensionality: scalar
+Homogeneity: specific_heat
+Units: j/kg*k^-1
+Location: Nodal
+Available qualifier labels:"""  # noqa: E501
+    ref2 = "'phase': 2"
+    ref3 = "'zone': 5"
+    got = str(model.metadata.result_info.available_results[0])
+    assert ref in got
+    assert ref2 in got
+    assert ref3 in got
 
 
 @pytest.mark.skipif(True, reason="Used to test memory leaks")

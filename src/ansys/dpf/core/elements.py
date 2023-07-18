@@ -4,9 +4,10 @@
 Elements
 ========
 """
+from __future__ import annotations
 from enum import Enum
 import numpy as np
-from ansys.dpf.core import nodes, scoping
+from ansys.dpf.core import nodes
 from ansys.dpf.core.common import locations, elemental_properties
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.gate import integral_types
@@ -139,21 +140,21 @@ class Element:
         return len(self._nodes)
 
     def __str__(self):
-        txt = "DPF Element %d\n" % self.id
-        txt += "\tIndex:      %7d\n" % self.index
-        txt += "\tNodes:      %7d\n" % self.n_nodes
-        txt += f"\tType:       {self.type}\n"
-        txt += "\tShape:      %7s\n" % self.shape.capitalize()
+        txt = f"DPF Element {self.id:d}\n"
+        txt += f"\tIndex:{self.index:>13}\n"
+        txt += f"\tNodes:{self.n_nodes:>13}\n"
+        txt += f"\tType:{self.type.name:>14}\n"
+        txt += f"\tShape:{self.shape.capitalize():>13}\n"
         return txt
 
     @property
-    def type(self) -> int:
+    def type(self) -> element_types:
         """
         Type of the element.
 
         Returns
         -------
-        int
+        element_types
             Type of the element. For more information, see
             :class:`ansys.dpf.core.elements.element_types`.
 

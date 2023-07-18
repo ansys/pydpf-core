@@ -353,10 +353,10 @@ def dpf_mesh_to_vtk(mesh, nodes=None, as_linear=True):
     grid : pyvista.UnstructuredGrid
         Unstructured grid of the DPF mesh.
     """
-    # try:
-    #     return dpf_mesh_to_vtk_op(mesh, nodes, as_linear)
-    # except (AttributeError, KeyError, errors.DPFServerException):
-    return dpf_mesh_to_vtk_py(mesh, nodes, as_linear)
+    try:
+        return dpf_mesh_to_vtk_op(mesh, nodes, as_linear)
+    except (AttributeError, KeyError, errors.DPFServerException):
+        return dpf_mesh_to_vtk_py(mesh, nodes, as_linear)
 
 
 def vtk_update_coordinates(vtk_grid, coordinates_array):

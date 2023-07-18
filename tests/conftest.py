@@ -155,13 +155,18 @@ def model_with_ns():
 
 
 @pytest.fixture()
-def cff_data_sources():
-    """Create a data sources with a cas and a dat file of fluent"""
-    ds = core.DataSources()
-    files = examples.download_fluent_files()
-    ds.set_result_file_path(files["cas"], "cas")
-    ds.add_file_path(files["dat"], "dat")
-    return ds
+def fluent_multi_species():
+    """Return a function which creates a data sources
+    with a cas and a dat file of fluent multi-species case."""
+
+    def return_ds(server=None):
+        ds = core.DataSources(server=server)
+        files = examples.download_fluent_multi_species(server=server)
+        ds.set_result_file_path(files["cas"], "cas")
+        ds.add_file_path(files["dat"], "dat")
+        return ds
+
+    return return_ds
 
 
 @pytest.fixture()
@@ -210,6 +215,84 @@ def cyclic_multistage():
     return examples.download_multi_stage_cyclic_result()
 
 
+@pytest.fixture()
+def fluent_axial_comp():
+    """Return a function which creates a data sources
+    with a cas and a dat file of fluent axial compressor case."""
+
+    def return_ds(server=None):
+        ds = core.DataSources(server=server)
+        files = examples.download_fluent_axial_comp(server=server)
+        ds.set_result_file_path(files["cas"][0], "cas")
+        ds.add_file_path(files["dat"][0], "dat")
+        return ds
+
+    return return_ds
+
+
+@pytest.fixture()
+def fluent_mixing_elbow_steady_state():
+    """Return a function which creates a data sources
+    with a cas and a dat file of fluent mixing elbow steady-state case."""
+
+    def return_ds(server=None):
+        ds = core.DataSources(server=server)
+        files = examples.download_fluent_mixing_elbow_steady_state(server=server)
+        ds.set_result_file_path(files["cas"][0], "cas")
+        ds.add_file_path(files["dat"][0], "dat")
+        return ds
+
+    return return_ds
+
+
+@pytest.fixture()
+def fluent_mixing_elbow_transient():
+    """Return a function which creates a data sources
+    with a cas and a dat file of fluent mixing elbow transient case."""
+
+    def return_ds(server=None):
+        ds = core.DataSources(server=server)
+        files = examples.download_fluent_mixing_elbow_transient(server=server)
+        ds.set_result_file_path(files["cas"][0], "cas")
+        ds.add_file_path(files["dat"][0], "dat")
+        return ds
+
+    return return_ds
+
+
+@pytest.fixture()
+def cfx_heating_coil():
+    """Return a function which creates a data sources
+    with a cas and a dat file of CFX heating coil case."""
+
+    def return_ds(server=None):
+        ds = core.DataSources(server=server)
+        files = examples.download_cfx_heating_coil(server=server)
+        ds.set_result_file_path(files["cas"], "cas")
+        ds.add_file_path(files["dat"], "dat")
+        return ds
+
+    return return_ds
+
+
+@pytest.fixture()
+def cfx_mixing_elbow():
+    """Return a function which creates a data sources
+    with a cas and a dat file of CFX mixing elbow case."""
+
+    def return_ds(server=None):
+        ds = core.DataSources(server=server)
+        files = examples.download_cfx_mixing_elbow(server=server)
+        ds.set_result_file_path(files["cas"], "cas")
+        ds.add_file_path(files["dat"], "dat")
+        return ds
+
+    return return_ds
+
+
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0 = meets_version(
+    get_server_version(core._global_server()), "7.0"
+)
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2 = meets_version(
     get_server_version(core._global_server()), "6.2"
 )
