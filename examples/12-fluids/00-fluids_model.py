@@ -62,7 +62,7 @@ print(minfo.get_property("body_face_topology"))
 
 ###############################################################################
 # The cell and face zone ids shown in the previous PropertyFields can be mapped
-# to their names through the "body_zone_names" and "face_zone_names" ``PropertyField``s.
+# to their names through the "body_zone_names" and "face_zone_names" ``PropertyField``.
 # As in this model there is a 1-1 correspondence between bodies and cell zones,
 # they have the same names and IDs.
 
@@ -76,7 +76,7 @@ print(minfo.get_property("face_zone_names"))
 print(minfo.get_property("zone_names"))
 
 ###############################################################################
-# To facilitate the extraction of results, the body, cell and face zone ``Scoping``s
+# To facilitate the extraction of results, the body, cell and face zone ``Scoping``
 # are extracted. They can be used to scope results
 
 print(minfo.get_property("body_scoping"))

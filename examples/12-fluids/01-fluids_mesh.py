@@ -51,7 +51,7 @@ mesh_13.plot()
 
 ###############################################################################
 # Using the ``meshes_provider``
-# ---------------------------
+# -----------------------------
 # The ``meshes_provider`` operator can be used to retrieve the mesh for several
 # zones and time steps of the model. The behavior will differ depending on the
 # inputs to the ``region_scoping`` pin. If no scoping is connected, the
@@ -59,13 +59,15 @@ mesh_13.plot()
 
 meshes_all = dpf.operators.mesh.meshes_provider(streams_container=streams).eval()
 print(meshes_all)
+print("\n".join([str(meshes_all.get_label_space(i)) for i in range(len(meshes_all))]))
 
 ###############################################################################
 # If the ``region_scoping`` pin is connected, the mesh extraction is restricted to
-# the zone IDs contained in the input Scoping/list.
+# the zone IDs contained in the input Scoping/list (in this case, a face zone connected
+# to body 18 and body 13.
 
-meshes_413 = dpf.operators.mesh.meshes_provider(
-    streams_container=streams, region_scoping=[4, 13]
+meshes_23_13 = dpf.operators.mesh.meshes_provider(
+    streams_container=streams, region_scoping=[23, 13]
 ).eval()
-print(meshes_413)
-meshes_413.plot()
+print(meshes_23_13)
+meshes_23_13.plot()
