@@ -116,13 +116,7 @@ class GenericDataContainer:
     @property
     def _type_to_output_method(self):
         # Only the types in any.py need to be casted
-        from ansys.dpf.core import (
-            field,
-            property_field,
-            string_field,
-            scoping,
-            DataTree
-        )
+        from ansys.dpf.core import field, property_field, string_field, scoping, DataTree
 
         out = {
             "bool": bool,
@@ -134,7 +128,7 @@ class GenericDataContainer:
             "StringField": string_field.StringField,
             "Scoping": scoping.Scoping,
             "GenericDataContainer": GenericDataContainer,
-            "DataTree": DataTree
+            "DataTree": DataTree,
         }
         return out
 
