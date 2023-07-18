@@ -32,7 +32,7 @@ def test_set_get_data_tree_generic_data_container(server_type):
     entity = dpf.DataTree(server=server_type)
     entity.add(name="john")
     gdc.set_property("persons", entity)
-    new_entity = gdc.get_property("persons", dpf.DataTree)
+    new_entity = gdc.get_property("persons")
     assert new_entity.get_as("name") == "john"
 
 

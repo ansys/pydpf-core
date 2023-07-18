@@ -121,6 +121,7 @@ class GenericDataContainer:
             property_field,
             string_field,
             scoping,
+            DataTree
         )
 
         out = {
@@ -133,6 +134,7 @@ class GenericDataContainer:
             "StringField": string_field.StringField,
             "Scoping": scoping.Scoping,
             "GenericDataContainer": GenericDataContainer,
+            "DataTree": DataTree
         }
         return out
 
