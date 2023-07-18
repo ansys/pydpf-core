@@ -30,6 +30,7 @@ map_types_to_cpp["int"] = "int32"
 map_types_to_cpp["double"] = "double"
 map_types_to_cpp["float"] = "double"
 map_types_to_cpp["UnitSystem"] = "class dataProcessing::unit::CUnitSystem"
+map_types_to_cpp["dict"] = "label_space"
 
 
 class _smart_dict_snake(dict):
