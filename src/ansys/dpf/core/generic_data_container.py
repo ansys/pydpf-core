@@ -6,6 +6,7 @@ GenericDataContainer
 """
 import traceback
 import warnings
+import builtins
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
@@ -111,9 +112,12 @@ class GenericDataContainer:
         any_ptr = self._api.generic_data_container_get_property_any(self, property_name)
         any_dpf = Any(any_ptr, self._server)
         output_type = self.get_property_description()[property_name]
-        from ansys.dpf import core
+        class_ = getattr(builtins, output_type, None)
+        if class_ is None:
+            from ansys.dpf import core
 
-        class_ = getattr(core, output_type)
+            class_ = getattr(core, output_type)
+
         return any_dpf.cast(class_)
 
     def get_property_description(self):
