@@ -334,6 +334,7 @@ def test_list_attributes_data_tree(server_type):
 
     assert ["double", "int", "list_double", "list_int", "list_string", "string"] == attributes
 
+
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
