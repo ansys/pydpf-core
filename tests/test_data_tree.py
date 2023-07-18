@@ -3,6 +3,7 @@ import os
 import pytest
 import conftest
 
+
 @conftest.raises_for_servers_version_under("4.0")
 def test_create_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)

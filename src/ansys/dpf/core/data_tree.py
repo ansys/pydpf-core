@@ -8,7 +8,6 @@ import enum
 import traceback
 import warnings
 import weakref
-import json
 
 from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core import server as server_module
