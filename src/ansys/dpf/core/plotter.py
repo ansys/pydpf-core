@@ -335,6 +335,19 @@ class _PyVistaPlotter:
             )
 
     def add_streamlines(self, meshed_region, field, radius=1.0, **kwargs):
+        import time
+        t0 = time.time()
+
+        text_time = "Time report \n"
+        text_time += "=============== \n"
+
+        text_time += "\n------------- \n"
+        text_time += "MeshedRegion statistics \n"
+        text_time += "------------- \n"
+
+        text_time += str(meshed_region)
+
+
         # Check velocity field location
         if field.location is not dpf.core.locations.nodal:
             warnings.warn("Velocity field must have a nodal location. "
@@ -356,12 +369,21 @@ class _PyVistaPlotter:
         # check src request
         return_source = kwargs.pop("return_source", None)
 
+        text_time += "\n------------- \n"
+        text_time += "Grid statistics \n"
+        text_time += "------------- \n"
+        text_time += str(grid)
+
         # filter kwargs
         kwargs_base = _sort_supported_kwargs(bound_method=grid.streamlines, **kwargs)
         kwargs_from_source = _sort_supported_kwargs(bound_method=grid.streamlines_from_source, **kwargs)
         kwargs_from_source.update(kwargs_base) # merge both dicts in kwargs_from_source
 
         # create streamlines
+        text_time += "\n------------- \n"
+        text_time += "Streamlines creation duration \n"
+        text_time += "------------- \n"
+        prev_time = time.time()
         if return_source:
             streamlines, src = grid.streamlines(
                 vectors=f"{stream_name}",
@@ -373,12 +395,25 @@ class _PyVistaPlotter:
                 vectors=f"{stream_name}",
                 **kwargs_from_source,
             )
+        text_time += str(time.time() - prev_time) + " s \n"
+
+        text_time += "\n------------- \n"
+        text_time += "Streamline statistics \n"
+        text_time += "------------- \n"
+        text_time += str(streamlines)
+
 
         # set streamline on plotter
         sargs = dict(vertical=False)
         self._plotter.add_mesh(streamlines.tube(radius=radius), scalar_bar_args=sargs)
         if return_source:
             self._plotter.add_mesh(src)
+        text_time += "\n------------- \n"
+        text_time += "add_streamline total duration \n"
+        text_time += "------------- \n"
+        text_time += str(time.time() - t0) + " s \n"
+
+        print(text_time)
 
     def show_figure(self, **kwargs):
 
