@@ -25,6 +25,11 @@ class DataSourcesServiceStub(object):
                 request_serializer=data__sources__pb2.UpdateRequest.SerializeToString,
                 response_deserializer=base__pb2.Empty.FromString,
                 )
+        self.UpdateNamespace = channel.unary_unary(
+                '/ansys.api.dpf.data_sources.v0.DataSourcesService/UpdateNamespace',
+                request_serializer=data__sources__pb2.UpdateNamespaceRequest.SerializeToString,
+                response_deserializer=base__pb2.Empty.FromString,
+                )
         self.UpdateUpstream = channel.unary_unary(
                 '/ansys.api.dpf.data_sources.v0.DataSourcesService/UpdateUpstream',
                 request_serializer=data__sources__pb2.UpdateUpstreamRequest.SerializeToString,
@@ -52,6 +57,12 @@ class DataSourcesServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def Update(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateNamespace(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -86,6 +97,11 @@ def add_DataSourcesServiceServicer_to_server(servicer, server):
             'Update': grpc.unary_unary_rpc_method_handler(
                     servicer.Update,
                     request_deserializer=data__sources__pb2.UpdateRequest.FromString,
+                    response_serializer=base__pb2.Empty.SerializeToString,
+            ),
+            'UpdateNamespace': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateNamespace,
+                    request_deserializer=data__sources__pb2.UpdateNamespaceRequest.FromString,
                     response_serializer=base__pb2.Empty.SerializeToString,
             ),
             'UpdateUpstream': grpc.unary_unary_rpc_method_handler(
@@ -143,6 +159,23 @@ class DataSourcesService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.data_sources.v0.DataSourcesService/Update',
             data__sources__pb2.UpdateRequest.SerializeToString,
+            base__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateNamespace(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.data_sources.v0.DataSourcesService/UpdateNamespace',
+            data__sources__pb2.UpdateNamespaceRequest.SerializeToString,
             base__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
