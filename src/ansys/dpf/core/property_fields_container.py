@@ -210,6 +210,9 @@ class _MockPropertyFieldsContainer(Sequence):
         """Retrieve the number of label spaces."""
         return len(self.label_spaces)
 
+    def _set_field(self, ls_idx, field):
+        self.label_spaces[ls_idx].field = field
+
     def rescope(self, scoping: dpf.Scoping):  # Used by post.Dataframe
         """Helper function to reproduce functionality of rescope_fc Operator."""
         copy_fc = _MockPropertyFieldsContainer(self, server=None)
