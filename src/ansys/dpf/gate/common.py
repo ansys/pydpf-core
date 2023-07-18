@@ -25,6 +25,9 @@ class locations:
 
     time_freq_step = "TimeFreq_steps"
         one per time step
+
+    faces = "Faces"
+        one per face
     """
 
     none = "none"
@@ -46,6 +49,9 @@ class locations:
 
     # one per time step
     time_freq_step = "TimeFreq_steps"
+
+    # one per face
+    faces = "Faces"
 
 
 elemental_property_type_dict = {

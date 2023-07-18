@@ -1,4 +1,7 @@
 import os
+import packaging.version
+import pkg_resources
+import importlib
 from ansys.dpf.gate.generated import capi
 from ansys.dpf.gate import utils, errors
 from ansys.dpf.gate._version import __ansys_version__
@@ -42,9 +45,44 @@ def _get_path_in_install(is_posix: bool = None, internal_folder="dll"):
     return path_in_install
 
 
+def _pythonize_awp_version(version):
+    if len(version) != 3:
+        return version
+    return "20" + version[0:2] + "." + version[2]
+
+
+def _find_latest_ansys_versions():
+    awp_versions = [key[-3:] for key in os.environ.keys() if "AWP_ROOT" in key]
+    installed_packages_list = {}
+
+    for awp_version in awp_versions:
+        if not awp_version.isnumeric():
+            continue
+        ansys_path = os.environ.get("AWP_ROOT" + awp_version)
+        if ansys_path:
+            installed_packages_list[
+                packaging.version.parse(_pythonize_awp_version(awp_version))
+            ] = ansys_path
+
+    installed_packages = pkg_resources.working_set
+    for i in installed_packages:
+        if "ansys-dpf-server" in i.key:
+            file_name = pkg_resources.to_filename(i.project_name.replace("ansys-dpf-", ""))
+            try:
+                module = importlib.import_module("ansys.dpf." + file_name)
+                installed_packages_list[
+                    packaging.version.parse(module.__version__)
+                ] = module.__path__[0]
+            except ModuleNotFoundError:
+                pass
+            except AttributeError:
+                pass
+    if len(installed_packages_list) > 0:
+        return installed_packages_list[sorted(installed_packages_list)[-1]]
+
+
 def _unified_installer_path_if_exists():
-    ANSYS_INSTALL = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
-    return ANSYS_INSTALL
+    return _find_latest_ansys_versions()
 
 
 def _get_api_path_from_installer_or_package(ansys_path: str, is_posix: bool):
@@ -109,7 +147,7 @@ def _try_load_api(path, name):
                     break
             if isinstance(arg, str):
                 if (
-                    len(arg) > 3
+                        len(arg) > 3
                 ):  # at least 4 characters to have v*** defined, e.g. v221
                     if _find_outdated_ansys_version(arg):
                         b_outdated_ansys_version_found = True

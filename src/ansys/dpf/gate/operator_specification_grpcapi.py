@@ -83,6 +83,13 @@ class OperatorSpecificationGRPCAPI(
             return specification._internal_obj.map_output_pin_spec[numPin].type_names[numType]
 
     @staticmethod
+    def operator_specification_get_pin_derived_class_type_name(specification, binput, numPin):
+        if binput:
+            return specification._internal_obj.map_input_pin_spec[numPin].name_derived_class
+        else:
+            return specification._internal_obj.map_output_pin_spec[numPin].name_derived_class
+
+    @staticmethod
     def operator_specification_is_pin_optional(specification, binput, numPin):
         if binput:
             return specification._internal_obj.map_input_pin_spec[numPin].optional

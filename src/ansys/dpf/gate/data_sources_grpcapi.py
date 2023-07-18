@@ -128,6 +128,15 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
         _get_stub(dataSources._server).UpdateUpstream(request)
 
     @staticmethod
+    def data_sources_register_namespace(dataSources, result_key, ns):
+        from ansys.grpc.dpf import data_sources_pb2
+        request = data_sources_pb2.UpdateNamespaceRequest()
+        request.data_sources.CopyFrom(dataSources._internal_obj)
+        request.key = result_key
+        request.namespace = ns
+        _get_stub(dataSources._server).UpdateNamespace(request)
+
+    @staticmethod
     def data_sources_get_result_key(dataSources):
         response = _get_stub(dataSources._server).List(dataSources._internal_obj)
         return response.result_key

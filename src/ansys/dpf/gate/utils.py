@@ -120,3 +120,10 @@ def to_void_ptr_ptr(to_replace):
         return ctypes.cast(to_replace.ctypes_pointer(), ctypes.POINTER(ctypes.c_void_p))
     else:
         return to_replace
+
+
+def to_array(response):
+    out = []
+    for i in range(len(response)):
+        out.append(response[i])
+    return out

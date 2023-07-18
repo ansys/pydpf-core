@@ -182,6 +182,18 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
         OperatorGRPCAPI.update(op, request)
 
     @staticmethod
+    def operator_connect_generic_data_container(op, pin, ptr):
+        request = OperatorGRPCAPI.update_init(op, pin)
+        request.generic_data_container.CopyFrom(ptr._internal_obj)
+        OperatorGRPCAPI.update(op, request)
+
+    @staticmethod
+    def operator_connect_operator_as_input(op, pin, ptr):
+        request = OperatorGRPCAPI.update_init(op, pin)
+        request.operator_as_input.CopyFrom(ptr._internal_obj)
+        OperatorGRPCAPI.update(op, request)
+
+    @staticmethod
     def get_output_init(op, iOutput):
         from ansys.grpc.dpf import operator_pb2
         request = operator_pb2.OperatorEvaluationRequest()
@@ -400,6 +412,13 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
         request = OperatorGRPCAPI.get_output_init(op, iOutput)
         stype = "collection"
         subtype = "double"
+        return OperatorGRPCAPI.get_output_finish(op, request, stype, subtype)
+
+    @staticmethod
+    def operator_getoutput_generic_data_container(op, iOutput):
+        request = OperatorGRPCAPI.get_output_init(op, iOutput)
+        stype = "generic_data_container"
+        subtype = ""
         return OperatorGRPCAPI.get_output_finish(op, request, stype, subtype)
 
     @staticmethod
