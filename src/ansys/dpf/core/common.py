@@ -156,59 +156,6 @@ def types_enum_to_types():
     }
 
 
-def types_to_types_enum():
-    from ansys.dpf.core import (
-        cyclic_support,
-        data_sources,
-        field,
-        fields_container,
-        collection,
-        meshed_region,
-        meshes_container,
-        property_field,
-        string_field,
-        custom_type_field,
-        result_info,
-        scoping,
-        scopings_container,
-        time_freq_support,
-        dpf_operator,
-        data_tree,
-        workflow,
-        streams_container,
-        generic_data_container,
-    )
-    from ansys.dpf.gate import dpf_vector
-
-    return {
-        str: types.string,
-        int: types.int,
-        float: types.double,
-        bool: types.bool,
-        collection.Collection: types.collection,
-        fields_container.FieldsContainer: types.fields_container,
-        scopings_container.ScopingsContainer: types.scopings_container,
-        meshes_container.MeshesContainer: types.meshes_container,
-        field.Field: types.field,
-        data_sources.DataSources: types.data_sources,
-        cyclic_support.CyclicSupport: types.cyclic_support,
-        workflow.Workflow: types.workflow,
-        time_freq_support.TimeFreqSupport: types.time_freq_support,
-        meshed_region.MeshedRegion: types.meshed_region,
-        result_info.ResultInfo: types.result_info,
-        property_field.PropertyField: types.property_field,
-        data_tree.DataTree: types.data_tree,
-        dpf_operator.Operator: types.operator,
-        scoping.Scoping: types.scoping,
-        dpf_vector.DPFVectorInt: types.vec_int,
-        dpf_vector.DPFVectorDouble: types.vec_double,
-        string_field.StringField: types.string_field,
-        custom_type_field.CustomTypeField: types.custom_type_field,
-        streams_container.StreamsContainer: types.streams_container,
-        generic_data_container.GenericDataContainer: types.generic_data_container,
-    }
-
-
 class natures(Enum):
     """The ``'natures'`` enum contains the dimensionality types.
     It can be used to create a field of a given dimensionality.
