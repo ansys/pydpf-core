@@ -487,6 +487,18 @@ class DataTree:
             return super.__setattr__(self, key, value)
         self.add({key: value})
 
+    def __str__(self):
+        """Describe the entity.
+
+        Returns
+        -------
+        str
+            Description of the entity.
+        """
+        from ansys.dpf.core.core import _description
+
+        return _description(self._internal_obj, self._server)
+
     def __del__(self):
         try:
             # needs a proper deleter only when real datatree and not dict
