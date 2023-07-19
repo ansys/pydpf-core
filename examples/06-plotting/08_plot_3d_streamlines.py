@@ -66,10 +66,10 @@ except:
     # the streamlines source center.
     pass
 
-# Then, using "source_center" argument that moves the source center,
+# Then, you can correctly set the source coordinates using the "source_center" argument that moves the source center,
 # the "return_source" arguments that displays the source, and
-# "permissive" option that allows the display of the source even if the computed
-# streamline size is zero, the source coordinates can be correctly set:
+# "permissive" option that allows you to display the source even, if the computed
+# streamline size is zero.
 pl1 = DpfPlotter()
 pl1.add_mesh(meshed_region=meshed_region, opacity=0.3)
 pl1.add_streamlines(
