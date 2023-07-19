@@ -236,6 +236,19 @@ def test_read_from_txt_data_tree(server_type):
 
 
 @conftest.raises_for_servers_version_under("4.0")
+def test_print_data_tree(server_type):
+    data_tree = dpf.DataTree(server=server_type)
+    with data_tree.to_fill() as to_fill:
+        to_fill.int = 1
+        to_fill.double = 1.0
+        to_fill.string = "hello"
+        to_fill.list_int = [1, 2]
+        to_fill.list_double = [1.5, 2.5]
+        to_fill.add(list_string=["hello", "bye"])
+    assert str(data_tree) != ""
+
+
+@conftest.raises_for_servers_version_under("4.0")
 def test_sub_data_tree():
     data_tree = dpf.DataTree()
     data_tree2 = dpf.DataTree()
