@@ -3,7 +3,7 @@
 
 Plot 3D streamlines
 ~~~~~~~~~~~~~~~~~~~
-This example shows how to plot streamlines of fluid simulation results,
+This example shows you how to plot streamlines of fluid simulation results,
 for 3D models.
 
 """
