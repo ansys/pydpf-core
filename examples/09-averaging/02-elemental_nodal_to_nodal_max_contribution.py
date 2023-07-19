@@ -330,34 +330,56 @@ def search_sequence_numpy(arr, seq):
 # Create surface mesh and compute maximum value averaging
 # -------------------------------------------------------
 # Define the geometry:
-cust_length = 0.1
-cust_width = 0.1
-cust_num_nodes_in_length = 3
-cust_num_nodes_in_width = 3
+import time
+text_time = "Time report \n"
+text_time += "==============="
+
+l = 0.1
+n_l = 3
+
+cust_length = l
+cust_width = l
+cust_num_nodes_in_length = n_l
+cust_num_nodes_in_width = n_l
 mesh = create_surface_mesh(
     cust_length,
     cust_width,
     cust_num_nodes_in_length,
     cust_num_nodes_in_width
 )
+text_time += "\n------------- \n"
+text_time += "Surf mesh statistics \n"
+text_time += "------------- \n"
+text_time += str(mesh)
 
 # Create the mesh and compute the specific averaging:
+text_time += "\n------------- \n"
+text_time += "Create elem nodal field duration \n"
+text_time += "------------- \n"
+prev_time = time.time()
 stress_field_surf = create_elemental_nodal_field(mesh, 1)
+text_time += str(time.time() - prev_time) + " s \n"
+
+text_time += "\n------------- \n"
+text_time += "Average \n"
+text_time += "------------- \n"
+prev_time = time.time()
 output_field_surf = averaging_using_max_value(stress_field_surf, True)
-mesh.plot(output_field_surf)
+text_time += str(time.time() - prev_time) + " s \n"
+# mesh.plot(output_field_surf)
 
 # Compare with averaged values:
-fc_surf = dpf.fields_container_factory.over_time_freq_fields_container({0.1: stress_field_surf}, "s")
-field_averaged_surf = ops.averaging.to_nodal_fc(
-    fields_container=fc_surf, mesh=mesh
-).outputs.fields_container()
-mesh.plot(field_averaged_surf[0])
+# fc_surf = dpf.fields_container_factory.over_time_freq_fields_container({0.1: stress_field_surf}, "s")
+# field_averaged_surf = ops.averaging.to_nodal_fc(
+#     fields_container=fc_surf, mesh=mesh
+# ).outputs.fields_container()
+# mesh.plot(field_averaged_surf[0])
 
 # Create volume mesh and compute maximum value averaging
 # -------------------------------------------------------
 # Define the geometry:
-cust_depth = 0.1
-cust_num_nodes_in_depth = 3
+cust_depth = l
+cust_num_nodes_in_depth = n_l
 mesh = create_volume_mesh(
     cust_length,
     cust_width, cust_depth,
@@ -365,15 +387,33 @@ mesh = create_volume_mesh(
     cust_num_nodes_in_width,
     cust_num_nodes_in_depth
 )
+text_time += "\n------------- \n"
+text_time += "Vol mesh statistics \n"
+text_time += "------------- \n"
+text_time += str(mesh)
 
 # Create the mesh and compute the specific averaging:
+# Create the mesh and compute the specific averaging:
+text_time += "\n------------- \n"
+text_time += "Create elem nodal field duration \n"
+text_time += "------------- \n"
+prev_time = time.time()
 stress_field_vol = create_elemental_nodal_field(mesh, 1)
+text_time += str(time.time() - prev_time) + " s \n"
+
+text_time += "\n------------- \n"
+text_time += "Average \n"
+text_time += "------------- \n"
+prev_time = time.time()
 output_field_vol = averaging_using_max_value(stress_field_vol, True)
-mesh.plot(output_field_vol)
+text_time += str(time.time() - prev_time) + " s \n"
+# mesh.plot(output_field_vol)
 
 # Compare with averaged values:
-fc_vol = dpf.fields_container_factory.over_time_freq_fields_container({0.1: stress_field_vol}, "s")
-field_averaged_vol = ops.averaging.to_nodal_fc(
-    fields_container=fc_vol, mesh=mesh
-).outputs.fields_container()
-mesh.plot(field_averaged_vol[0])
+# fc_vol = dpf.fields_container_factory.over_time_freq_fields_container({0.1: stress_field_vol}, "s")
+# field_averaged_vol = ops.averaging.to_nodal_fc(
+#     fields_container=fc_vol, mesh=mesh
+# ).outputs.fields_container()
+# mesh.plot(field_averaged_vol[0])
+
+print(text_time)
