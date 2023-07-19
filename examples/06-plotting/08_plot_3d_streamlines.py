@@ -59,7 +59,7 @@ try:
     pl0.add_streamlines(meshed_region=meshed_region, field=field)
     pl0.show_figure(show_axes=True)
 except:
-    # It throws and ends here, because source point are not correctly set.
+    # It throws an error and ends here, because source points are not set correctly.
     # They don't match with the mesh coordinates velocity values
     # are known for.
     # To fix this issue, the source_center parameter is used to move
