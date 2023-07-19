@@ -35,7 +35,7 @@ m_fluent = dpf.Model(ds_fluent)
 ###############################################################################
 # Get meshed region and velocity data
 # -----------------------------------
-# Meshed region is used as geometric base to compute the streamlines.
+# Meshed region is used as the geometric base to compute the streamlines.
 # Velocity data is used to compute the streamlines. The velocity data must be nodal.
 
 # Get the meshed region:
