@@ -50,7 +50,7 @@ field = dpf.operators.averaging.to_nodal_fc(fields_container=fc).outputs.fields_
 # Plot the streamlines adjusting the request
 # ------------------------------------------
 # The following steps show you how to create streamlines using DpfPlotter, with several sets
-# of parameters. It shows the issues that can happen, the adjustments that can be done.
+# of parameters. It demonstrates the issues that can happen and the adjustments that you can make.
 
 # First, a DpfPlotter is created and the streamline is created with default values.
 pl0 = DpfPlotter()
