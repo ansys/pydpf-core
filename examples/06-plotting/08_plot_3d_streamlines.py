@@ -64,7 +64,8 @@ except:
     # the streamlines source center.
     pass
 
-# Then, you can correctly set the source coordinates using the "source_center" argument that moves the source center,
+# Then, you can correctly set the source coordinates using the
+# "source_center" argument that moves the source center,
 # the "return_source" arguments that displays the source, and
 # "permissive" option that allows you to display the source even, if the computed
 # streamline size is zero.
