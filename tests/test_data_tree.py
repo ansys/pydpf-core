@@ -329,3 +329,48 @@ def test_unsupported_types_data_tree(server_type):
         data_tree.add(data1=[[1]])
     with pytest.raises(TypeError):
         data_tree.add(data1=(1, 2))
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_list_attributes_data_tree(server_type):
+    data_tree = dpf.DataTree(server=server_type)
+    with data_tree.to_fill() as to_fill:
+        to_fill.int = 1
+        to_fill.double = 1.0
+        to_fill.string = "hello"
+        to_fill.list_int = [1, 2]
+        to_fill.list_double = [1.5, 2.5]
+        to_fill.add(list_string=["hello", "bye"])
+
+    attributes = data_tree.get_attribute_names()
+
+    assert ["double", "int", "list_double", "list_int", "list_string", "string"] == attributes
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_list_attributes_recursive_data_tree(server_type):
+    data_tree = dpf.DataTree(server=server_type)
+    with data_tree.to_fill() as to_fill:
+        to_fill.attribute01 = 1
+        sub_tree01 = dpf.DataTree(server=server_type)
+        with sub_tree01.to_fill() as to_fill01:
+            to_fill01.attribute02 = 2
+        to_fill.sub_tree01 = sub_tree01
+        sub_tree02 = dpf.DataTree(server=server_type)
+        to_fill.sub_tree02 = sub_tree02
+
+    attributes = data_tree.get_attribute_names()
+    sub_trees = data_tree.get_sub_tree_names()
+
+    assert attributes == ["attribute01"]
+    assert sub_trees == ["sub_tree01", "sub_tree02"]
+
+    dic = data_tree.to_dict()
+
+    assert ["attribute01", "sub_tree01", "sub_tree02"] == list(dic.keys())
+    assert {"attribute02": "2"} == dic["sub_tree01"]
+    assert {} == dic["sub_tree02"]
