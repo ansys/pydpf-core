@@ -352,7 +352,7 @@ def test_list_attributes_data_tree(server_type):
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_list_attributes_data_tree(server_type):
+def test_list_attributes_recursive_data_tree(server_type):
     data_tree = dpf.DataTree(server=server_type)
     with data_tree.to_fill() as to_fill:
         to_fill.attribute01 = 1
