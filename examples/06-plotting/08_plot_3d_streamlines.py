@@ -81,9 +81,9 @@ pl1.add_streamlines(
 )
 pl1.show_figure(show_axes=True)
 
-# After adjustment, correct values for "source_center" argument is set.
-# The "permissive" option can be removed.
-# Velocity data with small opacity to avoid to hide the streamlines can be displayed.
+# After the adjustment, the correct values for the "source_center" argument are set.
+# You can remove the "permissive" option.
+# You can display velocity data with a small opacity value to avoid hiding the streamlines.
 # More settings are added to adapt the streamlines creation to the geometry and
 # the data of the model:
 # - radius: streamlines radius
