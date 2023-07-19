@@ -334,19 +334,24 @@ import time
 text_time = "Time report \n"
 text_time += "==============="
 
-l = 0.1
-n_l = 3
+l = 1
+n_l = 20
 
 cust_length = l
 cust_width = l
 cust_num_nodes_in_length = n_l
 cust_num_nodes_in_width = n_l
+text_time += "\n------------- \n"
+text_time += "Create surf mesh duration \n"
+text_time += "------------- \n"
+prev_time = time.time()
 mesh = create_surface_mesh(
     cust_length,
     cust_width,
     cust_num_nodes_in_length,
     cust_num_nodes_in_width
 )
+text_time += str(time.time() - prev_time) + " s \n"
 text_time += "\n------------- \n"
 text_time += "Surf mesh statistics \n"
 text_time += "------------- \n"
@@ -366,7 +371,7 @@ text_time += "------------- \n"
 prev_time = time.time()
 output_field_surf = averaging_using_max_value(stress_field_surf, True)
 text_time += str(time.time() - prev_time) + " s \n"
-# mesh.plot(output_field_surf)
+mesh.plot(output_field_surf)
 
 # Compare with averaged values:
 # fc_surf = dpf.fields_container_factory.over_time_freq_fields_container({0.1: stress_field_surf}, "s")
@@ -380,6 +385,10 @@ text_time += str(time.time() - prev_time) + " s \n"
 # Define the geometry:
 cust_depth = l
 cust_num_nodes_in_depth = n_l
+text_time += "\n------------- \n"
+text_time += "Create vol mesh duration \n"
+text_time += "------------- \n"
+prev_time = time.time()
 mesh = create_volume_mesh(
     cust_length,
     cust_width, cust_depth,
@@ -387,6 +396,7 @@ mesh = create_volume_mesh(
     cust_num_nodes_in_width,
     cust_num_nodes_in_depth
 )
+text_time += str(time.time() - prev_time) + " s \n"
 text_time += "\n------------- \n"
 text_time += "Vol mesh statistics \n"
 text_time += "------------- \n"
@@ -407,7 +417,7 @@ text_time += "------------- \n"
 prev_time = time.time()
 output_field_vol = averaging_using_max_value(stress_field_vol, True)
 text_time += str(time.time() - prev_time) + " s \n"
-# mesh.plot(output_field_vol)
+mesh.plot(output_field_vol)
 
 # Compare with averaged values:
 # fc_vol = dpf.fields_container_factory.over_time_freq_fields_container({0.1: stress_field_vol}, "s")
