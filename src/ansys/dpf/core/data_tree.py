@@ -537,10 +537,10 @@ class DataTree:
         return coll_obj.get_integral_entries()
 
     def __to_dict(self, dic):
-        for attribute_name in self.get_attribute_names():
+        for attribute_name in self.get_attribute_names:
             dic[attribute_name] = self.get_as(attribute_name)
 
-        for sub_tree_name in self.get_sub_tree_names():
+        for sub_tree_name in self.get_sub_tree_names:
             sub_tree = self.get_as(sub_tree_name, types.data_tree)
             sub_dic = {}
             sub_tree.__to_dict(sub_dic)
