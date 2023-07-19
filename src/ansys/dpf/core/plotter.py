@@ -576,7 +576,7 @@ class DpfPlotter:
             values must be defined at nodes.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
-            are available at :func:`pyvista.DataSetFilters.streamlines`.
+            is available at :func:`pyvista.DataSetFilters.streamlines`.
             The "permissive" (boolean) can be used to avoid throwing if
             computed streamlines are empty. See ``Examples`` section for
             more information.
