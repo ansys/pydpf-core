@@ -496,7 +496,7 @@ class DataTree:
         >>> from ansys.dpf import core as dpf
         >>> data_tree = dpf.DataTree()
         >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
-        >>> data_tree.get_attribute_names()
+        >>> data_tree.get_attribute_names
         ['id', 'name', 'qualities']
         """
         coll_obj = collection.StringCollection(
@@ -524,7 +524,7 @@ class DataTree:
         >>> first_subtree = dpf.DataTree()
         >>> second_subtree = dpf.DataTree()
         >>> data_tree.add(first=first_subtree, second=second_subtree)
-        >>> data_tree.get_sub_tree_names()
+        >>> data_tree.get_sub_tree_names
         ['first', 'second']
         """
         coll_obj = collection.StringCollection(
