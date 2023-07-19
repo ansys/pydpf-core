@@ -205,3 +205,12 @@ class DpfDataTreeGRPCAPI(dpf_data_tree_abstract_api.DpfDataTreeAbstractAPI):
         attribute_names = _get_stub(data_tree._server).List(request).attribute_names
 
         return utils.to_array(attribute_names)
+
+    @staticmethod
+    def dpf_data_tree_get_available_sub_tree_names_in_string_collection(data_tree):
+        from ansys.grpc.dpf import data_tree_pb2, base_pb2
+        request = data_tree_pb2.ListRequest()
+        request.data_tree.CopyFrom(data_tree._internal_obj)
+        sub_tree_names = _get_stub(data_tree._server).List(request).sub_tree_names
+
+        return utils.to_array(sub_tree_names)
