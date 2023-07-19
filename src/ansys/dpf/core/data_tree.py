@@ -482,6 +482,7 @@ class DataTree:
             out = DataTree(data_tree=obj, server=self._server)
         return out
 
+    @property
     def get_attribute_names(self):
         """
         Returns a list of defined attribute names.
@@ -507,6 +508,7 @@ class DataTree:
 
         return coll_obj.get_integral_entries()
 
+    @property
     def get_sub_tree_names(self):
         """
         Returns a list of defined sub-tree names.
@@ -546,7 +548,7 @@ class DataTree:
 
     def to_dict(self):
         """
-        Returns a dictionary representation of the DataTree
+        Returns a read-only dictionary representation of the DataTree.
 
         Returns
         -------
