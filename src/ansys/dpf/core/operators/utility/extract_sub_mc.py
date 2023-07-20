@@ -18,7 +18,7 @@ class extract_sub_mc(Operator):
     ----------
     meshes : MeshesContainer
         Meshes
-    label_space : LabelSpace
+    label_space : dict
         Label_space
 
 
@@ -32,7 +32,7 @@ class extract_sub_mc(Operator):
     >>> # Make input connections
     >>> my_meshes = dpf.MeshesContainer()
     >>> op.inputs.meshes.connect(my_meshes)
-    >>> my_label_space = dpf.LabelSpace()
+    >>> my_label_space = dict()
     >>> op.inputs.label_space.connect(my_label_space)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -132,7 +132,7 @@ class InputsExtractSubMc(_Inputs):
     >>> op = dpf.operators.utility.extract_sub_mc()
     >>> my_meshes = dpf.MeshesContainer()
     >>> op.inputs.meshes.connect(my_meshes)
-    >>> my_label_space = dpf.LabelSpace()
+    >>> my_label_space = dict()
     >>> op.inputs.label_space.connect(my_label_space)
     """
 
@@ -171,7 +171,7 @@ class InputsExtractSubMc(_Inputs):
 
         Parameters
         ----------
-        my_label_space : LabelSpace
+        my_label_space : dict
 
         Examples
         --------
