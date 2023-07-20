@@ -247,7 +247,7 @@ def test_print_property_field(server_type):
     scop = core.Scoping(ids=list_ids, location=locations.nodal, server=server_type)
     pfield.scoping = scop
     pfield.data = [1, 2, 4, 6, 7]
-    print(pfield)
+    # print(pfield)
     assert "Property Field" in str(pfield)
     assert "5" in str(pfield)
     assert "Nodal" in str(pfield)

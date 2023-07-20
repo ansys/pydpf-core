@@ -184,8 +184,8 @@ class TestServerConfigs:
             else:
                 path = os.path.join(ansys_path, "aisol", "bin", "linx64")
 
-        print("trying to launch on ", path)
-        print(os.listdir(path))
+        # print("trying to launch on ", path)
+        # print(os.listdir(path))
         server = core.start_local_server(as_global=False, ansys_path=path, config=server_config)
         assert "server_port" in server.info
 
