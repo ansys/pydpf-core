@@ -278,6 +278,7 @@ def averaging_using_max_value(elemental_nodal_field, b_compute_max=True):
 # -------------------------------------------------------
 l = 1
 n_l = 3
+###############################################################################
 # Define the geometry:
 cust_length = l
 cust_width = l
@@ -287,11 +288,13 @@ mesh = create_surface_mesh(
     cust_length, cust_width, cust_num_nodes_in_length, cust_num_nodes_in_width
 )
 
+###############################################################################
 # Create the mesh and compute the specific averaging:
 stress_field_surf = create_elemental_nodal_field(mesh, 1)
 output_field_surf = averaging_using_max_value(stress_field_surf, True)
 mesh.plot(output_field_surf)
 
+###############################################################################
 # Compare with averaged values:
 fc_surf = dpf.fields_container_factory.over_time_freq_fields_container(
     {0.1: stress_field_surf}, "s"
@@ -301,6 +304,7 @@ field_averaged_surf = ops.averaging.to_nodal_fc(
 ).outputs.fields_container()
 mesh.plot(field_averaged_surf[0])
 
+###############################################################################
 # Create volume mesh and compute maximum value averaging
 # -------------------------------------------------------
 # Define the geometry:
@@ -315,11 +319,13 @@ mesh = create_volume_mesh(
     cust_num_nodes_in_depth,
 )
 
+###############################################################################
 # Create the mesh and compute the specific averaging:
 stress_field_vol = create_elemental_nodal_field(mesh, 1)
 output_field_vol = averaging_using_max_value(stress_field_vol, True)
 mesh.plot(output_field_vol)
 
+###############################################################################
 # Compare with averaged values:
 fc_vol = dpf.fields_container_factory.over_time_freq_fields_container({0.1: stress_field_vol}, "s")
 field_averaged_vol = ops.averaging.to_nodal_fc(
