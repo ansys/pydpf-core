@@ -69,7 +69,6 @@ def test_animator_animate(displacement_fields):
     loop_over_field.unit = frequencies.unit
 
     wf = Workflow()
-    wf.progress_bar = False
     extract_field_op = dpf.operators.utility.extract_field(displacement_fields)
     wf.set_input_name("loop_over", extract_field_op.inputs.indices)
     wf.set_output_name("to_render", extract_field_op.outputs.field)
@@ -86,7 +85,6 @@ def test_animator_animate_raise_wrong_scale_factor(remove_gifs, displacement_fie
     loop_over_field.unit = frequencies.unit
 
     wf = Workflow()
-    wf.progress_bar = False
     extract_field_op = dpf.operators.utility.extract_field(displacement_fields)
     wf.set_input_name("loop_over", extract_field_op.inputs.indices)
     wf.set_output_name("to_render", extract_field_op.outputs.field)

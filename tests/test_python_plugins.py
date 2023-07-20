@@ -183,7 +183,6 @@ def test_data_sources(server_type_remote_process, testfiles_dir):
 def test_workflow(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.Workflow(server=server_type_remote_process)
-    f.progress_bar = False
     op = dpf.Operator("custom_forward_workflow", server=server_type_remote_process)
     op.connect(0, f)
     assert op.get_output(0, dpf.types.workflow) is not None

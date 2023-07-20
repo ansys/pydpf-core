@@ -14,7 +14,6 @@ def test_create_workflow(server_type):
 
 def test_connect_field_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     op = dpf.core.Operator("min_max", server=server_type)
     inpt = dpf.core.Field(nentities=3, server=server_type)
     data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -34,7 +33,6 @@ def test_connect_field_workflow(server_type):
     assert np.allclose(f_out.data, [7.0, 8.0, 9.0])
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.set_input_name("field", op.inputs.field)
     wf.set_output_name("min", op.outputs.field_min)
     wf.set_output_name("max", op.outputs.field_max)
@@ -47,7 +45,6 @@ def test_connect_field_workflow(server_type):
 
 def test_connect_list_workflow(velocity_acceleration, server_type):
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     model = dpf.core.Model(velocity_acceleration, server=server_type)
     op = model.operator("U")
     wf.add_operator(op)
@@ -66,7 +63,6 @@ def test_connect_list_workflow(velocity_acceleration, server_type):
 
 def test_connect_fieldscontainer_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     op = dpf.core.Operator("min_max_fc", server=server_type)
     wf.add_operator(op)
     fc = dpf.core.FieldsContainer(server=server_type)
@@ -81,7 +77,6 @@ def test_connect_fieldscontainer_workflow(server_type):
         fc.add_field(mscop, field)
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.set_input_name("fields_container", op, 0)
     wf.set_output_name("field", op, 0)
     wf.connect("fields_container", fc)
@@ -91,7 +86,6 @@ def test_connect_fieldscontainer_workflow(server_type):
 
 def test_connect_fieldscontainer_2_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     op = dpf.core.Operator("min_max_fc", server=server_type)
     wf.add_operator(op)
     fc = dpf.core.FieldsContainer(server=server_type)
@@ -106,7 +100,6 @@ def test_connect_fieldscontainer_2_workflow(server_type):
         fc.add_field(mscop, field)
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.set_input_name("fields_container", op.inputs.fields_container)
     wf.set_output_name("field", op.outputs.field_min)
     wf.connect("fields_container", fc)
@@ -117,13 +110,11 @@ def test_connect_fieldscontainer_2_workflow(server_type):
 def test_connect_bool_workflow(server_type):
     op = dpf.core.Operator("S", server=server_type)
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operator(op)
     wf.set_input_name("bool", op, 5)
     wf.connect("bool", True)
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operator(op)
     wf.set_input_name("bool", op.inputs.bool_rotate_to_global)
     wf.connect("bool", True)
@@ -142,7 +133,6 @@ def test_connect_scoping_workflow(server_type):
     scop2.ids = list(range(1, 5))
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operator(op)
     wf.set_input_name("field", op, 0)
     wf.connect("field", field)
@@ -167,7 +157,6 @@ def test_connect_scoping_2_workflow(server_type):
     scop2.ids = list(range(1, 5))
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operator(op)
     wf.set_input_name("field", op.inputs.fields)
     wf.connect("field", field)
@@ -185,7 +174,6 @@ def test_connect_datasources_workflow(fields_container_csv, server_type):
     data_sources.set_result_file_path(fields_container_csv)
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operator(op)
     wf.set_input_name("data_sources", op, 4)
     wf.connect("data_sources", data_sources)
@@ -195,7 +183,6 @@ def test_connect_datasources_workflow(fields_container_csv, server_type):
     assert len(f_out.get_available_ids_for_label()) == 4
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operator(op)
     wf.set_input_name("data_sources", op.inputs.data_sources)
     wf.connect("data_sources", data_sources)
@@ -217,7 +204,6 @@ def test_connect_operator_workflow(server_type):
     op2 = dpf.core.Operator("component_selector", server=server_type)
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operator(op2)
     wf.set_input_name("fields_container", op2, 0)
     wf.set_input_name("comp", op2, 1)
@@ -241,7 +227,6 @@ def test_connect_operator_2_workflow(server_type):
     op2 = dpf.core.Operator("component_selector", server=server_type)
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operator(op2)
     wf.set_input_name("field", op2.inputs.field)
     wf.set_input_name("comp", op2.inputs.component_number)
@@ -265,7 +250,6 @@ def test_output_mesh_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     expand = model.operator("cyclic_expansion")
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operators([support, expand])
     wf.set_input_name("support", expand.inputs.cyclic_support)
     wf.set_input_name("fields", expand.inputs.fields_container)
@@ -300,7 +284,6 @@ def test_outputs_bool_workflow(server_type):
     op = dpf.core.Operator("AreFieldsIdentical", server=server_type)
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operators([op])
     wf.set_input_name("fieldA", op.inputs.fieldA)
     wf.set_input_name("fieldB", op.inputs.fieldB)
@@ -316,7 +299,6 @@ def test_outputs_bool_workflow(server_type):
 def test_connect_get_output_int_list_workflow(server_type):
     d = list(range(0, 1000000))
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     op = dpf.core.operators.utility.forward(d, server=server_type)
     wf.add_operators([op])
     wf.set_input_name("in", op, 0)
@@ -329,7 +311,6 @@ def test_connect_get_output_int_list_workflow(server_type):
 def test_connect_get_output_double_list_workflow(server_type):
     d = list(np.ones(500000))
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     op = dpf.core.operators.utility.forward(d, server=server_type)
     wf.add_operators([op])
     wf.set_input_name("in", op, 0)
@@ -344,7 +325,6 @@ def test_connect_get_output_double_list_workflow(server_type):
 )
 def test_connect_label_space_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     op = dpf.core.operators.utility.forward(server=server_type)
     wf.add_operators([op])
     wf.set_input_name("in", op, 0)
@@ -355,7 +335,6 @@ def test_connect_label_space_workflow(server_type):
 @conftest.raises_for_servers_version_under("5.0")
 def test_connect_get_output_string_field_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     op = dpf.core.operators.utility.forward(server=server_type)
     wf.add_operators([op])
     wf.set_input_name("in", op, 0)
@@ -370,7 +349,6 @@ def test_connect_get_output_string_field_workflow(server_type):
 @conftest.raises_for_servers_version_under("5.0")
 def test_connect_get_output_custom_type_field_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     op = dpf.core.operators.utility.forward(server=server_type)
     wf.add_operators([op])
     wf.set_input_name("in", op, 0)
@@ -391,7 +369,6 @@ def test_inputs_outputs_inputs_outputs_scopings_container_workflow(
     op = dpf.core.Operator("scoping::by_property", server=server_type)
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operators([op])
     wf.set_input_name("mesh", op.inputs.mesh)
     wf.set_input_name("prop", op.inputs.label1)
@@ -403,7 +380,6 @@ def test_inputs_outputs_inputs_outputs_scopings_container_workflow(
 
     op = dpf.core.Operator("forward", server=server_type)
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operators([op])
     wf.set_input_name("a", op, 0)
     wf.set_output_name("a", op, 0)
@@ -419,7 +395,6 @@ def test_inputs_outputs_inputs_outputs_meshes_container_workflow(allkindofcomple
     op = dpf.core.Operator("split_mesh", server=server_type)
 
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operators([op])
     wf.set_input_name("mesh", op.inputs.mesh)
     wf.set_input_name("prop", op.inputs.property)
@@ -431,7 +406,6 @@ def test_inputs_outputs_inputs_outputs_meshes_container_workflow(allkindofcomple
 
     op = dpf.core.Operator("forward", server=server_type)
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.add_operators([op])
     wf.set_input_name("a", op, 0)
     wf.set_output_name("a", op, 0)
@@ -445,7 +419,6 @@ def test_inputs_outputs_inputs_outputs_meshes_container_workflow(allkindofcomple
 def test_connect_get_output_data_tree_operator(server_type):
     d = dpf.core.DataTree({"name": "Paul"}, server=server_type)
     wf = dpf.core.Workflow(server=server_type)
-    wf.progress_bar = False
     op = dpf.core.operators.utility.forward(server=server_type)
     wf.set_input_name("in", op.inputs.any)
     wf.set_output_name("out", op.outputs.any)

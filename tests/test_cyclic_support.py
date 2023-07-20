@@ -117,7 +117,6 @@ def test_cyc_support_from_to_workflow(cyclic_lin_rst, server_type):
     cyc_support = result_info.cyclic_support
     op = dpf.operators.metadata.cyclic_mesh_expansion(server=server_type)
     wf = dpf.Workflow(server=server_type)
-    wf.progress_bar = False
     wf.set_input_name("sup", op.inputs.cyclic_support)
     wf.set_output_name("sup", op.outputs.cyclic_support)
     wf.connect("sup", cyc_support)

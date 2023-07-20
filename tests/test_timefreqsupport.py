@@ -285,7 +285,6 @@ def test_workflow_connect_get_output_time_freq_support(velocity_acceleration):
     model = Model(velocity_acceleration)
     tf = model.metadata.time_freq_support
     wf = dpf.core.Workflow()
-    wf.progress_bar = False
     op = dpf.core.operators.utility.forward()
     wf.set_input_name("tf", op, 0)
     wf.set_output_name("tf", op, 0)

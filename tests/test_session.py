@@ -35,7 +35,6 @@ def test_logging(tmpdir, server_type):
     server_type.session.handle_events_with_file_logger(log_path, 2)
 
     wf = core.Workflow(server=server_type)
-    wf.progress_bar = False
     model = core.Model(result_file, server=server_type)
     stress = model.results.stress()
     to_nodal = core.operators.averaging.to_nodal_fc(stress, server=server_type)
@@ -52,7 +51,6 @@ def test_logging(tmpdir, server_type):
     file_size = os.path.getsize(download_log_path)
 
     wf = core.Workflow(server=server_type)
-    wf.progress_bar = False
     model = core.Model(result_file, server=server_type)
     stress = model.results.stress()
     to_nodal = core.operators.averaging.to_nodal_fc(stress, server=server_type)
@@ -76,8 +74,6 @@ def test_logging_remote(tmpdir, server_type_remote_process):
     server_type_remote_process.session.start_emitting_rpc_log()
 
     wf = core.Workflow(server=server_type_remote_process)
-    wf.progress_bar = False
-    wf.progress_bar = False
     model = core.Model(result_file, server=server_type_remote_process)
     stress = model.results.stress()
     to_nodal = core.operators.averaging.to_nodal_fc(stress, server=server_type_remote_process)
@@ -94,8 +90,6 @@ def test_logging_remote(tmpdir, server_type_remote_process):
     file_size = os.path.getsize(download_log_path)
 
     wf = core.Workflow(server=server_type_remote_process)
-    wf.progress_bar = False
-    wf.progress_bar = False
     model = core.Model(result_file, server=server_type_remote_process)
     stress = model.results.stress()
     to_nodal = core.operators.averaging.to_nodal_fc(stress, server=server_type_remote_process)

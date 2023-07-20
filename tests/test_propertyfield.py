@@ -132,7 +132,6 @@ def test_getoutput_property_field_workflow(simple_bar):
     op.inputs.mesh.connect(mesh)
 
     wf = dpf.core.Workflow()
-    wf.progress_bar = False
     wf.add_operator(op)
     wf.set_output_name("field_out", op, 3)
 
@@ -146,7 +145,6 @@ def test_connect_property_field_workflow():
     op = dpf.core.operators.utility.forward()
 
     wf = dpf.core.Workflow()
-    wf.progress_bar = False
     wf.add_operator(op)
     wf.set_input_name("field_in", op, 0)
     wf.connect("field_in", f_vec)
@@ -197,7 +195,6 @@ def test_mutable_data_property_field(server_clayer, simple_bar):
     op.inputs.mesh.connect(mesh)
 
     wf = dpf.core.Workflow(server=server_clayer)
-    wf.progress_bar = False
     wf.add_operator(op)
     wf.set_output_name("field_out", op, 3)
 
