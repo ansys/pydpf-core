@@ -243,68 +243,32 @@ def averaging_using_max_value(elemental_nodal_field, b_compute_max=True):
     output_field = dpf.Field(nature=dpf.natures.scalar, location=dpf.locations.nodal)
     field_def = output_field.field_definition
     field_def.name = elemental_nodal_field.field_definition.name
-    elem_property_field = dpf.PropertyField(nature=dpf.natures.scalar, location=dpf.locations.nodal)
     # start compute
     elems_scoping_in = elemental_nodal_field.scoping.ids
     elems_scoping_base = mesh.elements.scoping
     nodes_scoping = mesh.nodes.scoping.ids
     elems_connectivity = mesh.elements.connectivities_field # list of nodes per elements
-    nodes_connectivity = mesh.nodes.nodal_connectivity_field # list of elements per nodes
-    for el_id in elems_scoping_in:
-        mesh_el_ind = elems_scoping_base.index(el_id)
+    already_computed = {}  # { nod_id : val }
+    for el_ind_in, el_id_in in enumerate(elems_scoping_in):
+        mesh_el_ind = elems_scoping_base.index(el_id_in)
         el_connectivity = elems_connectivity.get_entity_data(mesh_el_ind)
-        for nod_ind in el_connectivity:
+        el_data = elemental_nodal_field.get_entity_data(el_ind_in)
+        for nod_ind_in, nod_ind_mesh in enumerate(el_connectivity):
             # get nod id for res scoping
-            nod_id = nodes_scoping[nod_ind]
-            is_already_defined = output_field.scoping.index(nod_id)
-            if is_already_defined != -1:
-                continue
-            # get reverse connectivity for this node
-            connected_elems_ind = nodes_connectivity.get_entity_data(nod_ind)
-            # loop over connected elements
-            connected_elems_data = []
-            connected_elems_nodes_connectivities = []
-            size_tot_connect = 0
-            connected_elems_ids = []
-            for conn_elem_ind in connected_elems_ind:
-                # get data by index for each element
-                elem_data = elemental_nodal_field.get_entity_data(conn_elem_ind)
-                if len(elem_data) != 0:
-                    for val in elem_data:
-                        connected_elems_data.append(val)
-                    # get elem id
-                    connected_elems_ids.append(elems_scoping_base[conn_elem_ind])
-                    # get list of nodes for each element
-                    elem_conn = elems_connectivity.get_entity_data(conn_elem_ind)
-                    connected_elems_nodes_connectivities.append(elem_conn)
-                    size_tot_connect += len(elem_conn)
-            # check the maximum value
-            # -----------------------
-            # - create mask with wanted node ind
-            mask = np.full((size_tot_connect), True, dtype=bool)
-            offset = 0
-            for i_ind, i_val in enumerate(connected_elems_nodes_connectivities):
-                for j_ind, j_val in enumerate(i_val):
-                    if j_val == nod_ind:
-                        mask[offset] = True
-                    else:
-                        mask[offset] = False
-                    offset += 1
-            vals = np.array(connected_elems_data, dtype=float)
-            vals_for_nod_ind = vals[mask]
-            # - apply max on data
-            if b_compute_max:
-                compute_val = np.max(vals_for_nod_ind)
+            nod_id = nodes_scoping[nod_ind_mesh]
+            # get nod data
+            nod_data = el_data[nod_ind_in]
+            # check if nod_data is already defined
+            val_to_check = already_computed.get(nod_id)
+            if val_to_check is not None:
+                # - if defined, then check max value and append
+                val_max = max(val_to_check, nod_data)
+                already_computed[nod_id] = val_max
             else:
-                compute_val = np.min(vals_for_nod_ind)
-            # - get max ind (= elem ind in connected_elems_ids)
-            max_ind = np.where(vals_for_nod_ind == compute_val)[0][0]
-            # - get element id from connected_elems_ids using max ind
-            max_elem_id = connected_elems_ids[max_ind]
-            # - in res field, append(data_val, nod_id)
-            output_field.append(compute_val, nod_id)
-            # - in elem_prop_field, append(elem_id, nod_id)
-            elem_property_field.append(max_elem_id, nod_id)
+                # - if not defined, then insert
+                already_computed[nod_id] = nod_data
+    for key, val in already_computed.items():
+        output_field.append(val, key)
 
     return output_field
 
@@ -330,7 +294,7 @@ text_time = "Time report \n"
 text_time += "==============="
 
 l = 1
-n_l = 100
+n_l = 700
 
 cust_length = l
 cust_width = l
