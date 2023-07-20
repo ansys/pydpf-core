@@ -21,7 +21,7 @@ class write_cms_rbd_file(Operator):
         Center of mass of the body
     inertia_relief : Field
         Inertia matrix
-    model_size : PropertyField
+    model_size : float
         Size of the diagonal box containing the body
     master_node_coordinates :
     v_trsf :
@@ -62,7 +62,7 @@ class write_cms_rbd_file(Operator):
     >>> op.inputs.center_of_mass.connect(my_center_of_mass)
     >>> my_inertia_relief = dpf.Field()
     >>> op.inputs.inertia_relief.connect(my_inertia_relief)
-    >>> my_model_size = dpf.PropertyField()
+    >>> my_model_size = float()
     >>> op.inputs.model_size.connect(my_model_size)
     >>> my_master_node_coordinates = dpf.()
     >>> op.inputs.master_node_coordinates.connect(my_master_node_coordinates)
@@ -244,7 +244,7 @@ class write_cms_rbd_file(Operator):
                 ),
                 3: PinSpecification(
                     name="model_size",
-                    type_names=["property_field"],
+                    type_names=["double"],
                     optional=False,
                     document="""Size of the diagonal box containing the body""",
                 ),
@@ -425,7 +425,7 @@ class InputsWriteCmsRbdFile(_Inputs):
     >>> op.inputs.center_of_mass.connect(my_center_of_mass)
     >>> my_inertia_relief = dpf.Field()
     >>> op.inputs.inertia_relief.connect(my_inertia_relief)
-    >>> my_model_size = dpf.PropertyField()
+    >>> my_model_size = float()
     >>> op.inputs.model_size.connect(my_model_size)
     >>> my_master_node_coordinates = dpf.()
     >>> op.inputs.master_node_coordinates.connect(my_master_node_coordinates)
@@ -590,7 +590,7 @@ class InputsWriteCmsRbdFile(_Inputs):
 
         Parameters
         ----------
-        my_model_size : PropertyField
+        my_model_size : float
 
         Examples
         --------
