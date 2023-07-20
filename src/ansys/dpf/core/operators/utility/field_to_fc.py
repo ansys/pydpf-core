@@ -18,7 +18,7 @@ class field_to_fc(Operator):
     field : Field or FieldsContainer
         If a fields container is set in input, it is
         passed on as an output.
-    label : LabelSpace
+    label : dict
         Sets a label space.
 
 
@@ -32,7 +32,7 @@ class field_to_fc(Operator):
     >>> # Make input connections
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
-    >>> my_label = dpf.LabelSpace()
+    >>> my_label = dpf.dict()
     >>> op.inputs.label.connect(my_label)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -134,7 +134,7 @@ class InputsFieldToFc(_Inputs):
     >>> op = dpf.operators.utility.field_to_fc()
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
-    >>> my_label = dpf.LabelSpace()
+    >>> my_label = dpf.dict()
     >>> op.inputs.label.connect(my_label)
     """
 
@@ -174,7 +174,7 @@ class InputsFieldToFc(_Inputs):
 
         Parameters
         ----------
-        my_label : LabelSpace
+        my_label : dict
 
         Examples
         --------

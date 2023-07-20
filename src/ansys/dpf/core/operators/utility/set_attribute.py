@@ -18,7 +18,7 @@ class set_attribute(Operator):
     fields_container : FieldsContainer
     property_name : str
         Supported property names are: "labels".
-    property_identifier : LabelSpace, optional
+    property_identifier : dict, optional
         Value of the property to be set : vector of
         string or labelspace for "labels".
 
@@ -35,7 +35,7 @@ class set_attribute(Operator):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_property_name = str()
     >>> op.inputs.property_name.connect(my_property_name)
-    >>> my_property_identifier = dpf.LabelSpace()
+    >>> my_property_identifier = dpf.dict()
     >>> op.inputs.property_identifier.connect(my_property_identifier)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -157,7 +157,7 @@ class InputsSetAttribute(_Inputs):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_property_name = str()
     >>> op.inputs.property_name.connect(my_property_name)
-    >>> my_property_identifier = dpf.LabelSpace()
+    >>> my_property_identifier = dpf.dict()
     >>> op.inputs.property_identifier.connect(my_property_identifier)
     """
 
@@ -217,7 +217,7 @@ class InputsSetAttribute(_Inputs):
 
         Parameters
         ----------
-        my_property_identifier : LabelSpace
+        my_property_identifier : dict
 
         Examples
         --------

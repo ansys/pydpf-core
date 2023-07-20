@@ -18,7 +18,7 @@ class extract_sub_sc(Operator):
     ----------
     scopings_container : ScopingsContainer
         Scopings_container
-    label_space : LabelSpace
+    label_space : dict
         Label_space
 
 
@@ -32,7 +32,7 @@ class extract_sub_sc(Operator):
     >>> # Make input connections
     >>> my_scopings_container = dpf.ScopingsContainer()
     >>> op.inputs.scopings_container.connect(my_scopings_container)
-    >>> my_label_space = dpf.LabelSpace()
+    >>> my_label_space = dpf.dict()
     >>> op.inputs.label_space.connect(my_label_space)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -134,7 +134,7 @@ class InputsExtractSubSc(_Inputs):
     >>> op = dpf.operators.utility.extract_sub_sc()
     >>> my_scopings_container = dpf.ScopingsContainer()
     >>> op.inputs.scopings_container.connect(my_scopings_container)
-    >>> my_label_space = dpf.LabelSpace()
+    >>> my_label_space = dpf.dict()
     >>> op.inputs.label_space.connect(my_label_space)
     """
 
@@ -173,7 +173,7 @@ class InputsExtractSubSc(_Inputs):
 
         Parameters
         ----------
-        my_label_space : LabelSpace
+        my_label_space : dict
 
         Examples
         --------
