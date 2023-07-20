@@ -131,7 +131,7 @@ minfo
 ###############################################################################
 # In this CFX model there are also two bodies.
 
-info.get_property("body_names")
+minfo.get_property("body_names")
 
 ###############################################################################
 # For this model, each body is conformed by several cell zones. In this general
