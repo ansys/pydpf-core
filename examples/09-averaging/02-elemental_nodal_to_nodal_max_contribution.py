@@ -121,17 +121,24 @@ def create_volume_mesh(
                 b = k * num_nodes_in_length * num_nodes_in_width + j * num_nodes_in_length + i + 1
                 c = k * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length + i
                 d = (
-                    k * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length + i + 1
+                    k * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length
+                    + i
+                    + 1
                 )
                 e = (k + 1) * num_nodes_in_length * num_nodes_in_width + j * num_nodes_in_length + i
                 f = (
-                    (k + 1) * num_nodes_in_length * num_nodes_in_width + j * num_nodes_in_length + i + 1
+                    (k + 1) * num_nodes_in_length * num_nodes_in_width + j * num_nodes_in_length
+                    + i
+                    + 1
                 )
                 g = (
-                    (k + 1) * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length + i
+                    (k + 1) * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length
+                    + i
                 )
                 h = (
-                    (k + 1) * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length + i + 1
+                    (k + 1) * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length
+                    + i
+                    + 1
                 )
                 connectivity = [a, b, d, c, e, f, h, g]
                 mesh.elements.add_solid_element(e_id, connectivity)
