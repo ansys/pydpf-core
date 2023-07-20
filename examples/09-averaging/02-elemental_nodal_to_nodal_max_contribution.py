@@ -77,12 +77,12 @@ def create_surface_mesh(length, width, num_nodes_in_length, num_nodes_in_width):
                     scoping_index = int(data_index / 3)  # 3components
                     connectivity.append(scoping_index)
             # rearrange connectivity
-            # a = 2
-            # b = 1
-            # tmp = connectivity[a]
-            # connectivity[a] = connectivity[b]
-            # connectivity[b] = tmp
-            mesh.elements.add_solid_element(e_id, connectivity)
+            a = 2
+            b = 3
+            tmp = connectivity[a]
+            connectivity[a] = connectivity[b]
+            connectivity[b] = tmp
+            mesh.elements.add_shell_element(e_id, connectivity)
             e_id += 1
 
     return mesh
@@ -339,7 +339,7 @@ text_time = "Time report \n"
 text_time += "==============="
 
 l = 1
-n_l = 10
+n_l = 3
 
 cust_length = l
 cust_width = l
@@ -395,7 +395,8 @@ text_time += "------------- \n"
 prev_time = time.time()
 mesh = create_volume_mesh(
     cust_length,
-    cust_width, cust_depth,
+    cust_width,
+    cust_depth,
     cust_num_nodes_in_length,
     cust_num_nodes_in_width,
     cust_num_nodes_in_depth
