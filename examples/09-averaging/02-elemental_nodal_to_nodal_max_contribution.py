@@ -121,22 +121,26 @@ def create_volume_mesh(
                 b = k * num_nodes_in_length * num_nodes_in_width + j * num_nodes_in_length + i + 1
                 c = k * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length + i
                 d = (
-                    k * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length
+                    k * num_nodes_in_length * num_nodes_in_width
+                    + (j + 1) * num_nodes_in_length
                     + i
                     + 1
                 )
                 e = (k + 1) * num_nodes_in_length * num_nodes_in_width + j * num_nodes_in_length + i
                 f = (
-                    (k + 1) * num_nodes_in_length * num_nodes_in_width + j * num_nodes_in_length
+                    (k + 1) * num_nodes_in_length * num_nodes_in_width
+                    + j * num_nodes_in_length
                     + i
                     + 1
                 )
                 g = (
-                    (k + 1) * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length
+                    (k + 1) * num_nodes_in_length * num_nodes_in_width
+                    + (j + 1) * num_nodes_in_length
                     + i
                 )
                 h = (
-                    (k + 1) * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length
+                    (k + 1) * num_nodes_in_length * num_nodes_in_width
+                    + (j + 1) * num_nodes_in_length
                     + i
                     + 1
                 )
