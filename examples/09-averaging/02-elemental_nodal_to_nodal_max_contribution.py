@@ -20,7 +20,6 @@ an elemental nodal field with one component.
 # Define computation methods
 # --------------------------
 # Import modules:
-import numpy as np
 from ansys.dpf import core as dpf
 from ansys.dpf.core import operators as ops
 
@@ -51,10 +50,10 @@ def create_surface_mesh(length, width, num_nodes_in_length, num_nodes_in_width):
     mesh.unit = "mm"
     n_id = 1
     for i, x in enumerate(
-            [float(i) * length / float(num_nodes_in_length) for i in range(0, num_nodes_in_length)]
+        [float(i) * length / float(num_nodes_in_length) for i in range(0, num_nodes_in_length)]
     ):
         for j, y in enumerate(
-                [float(i) * width / float(num_nodes_in_width) for i in range(0, num_nodes_in_width)]
+            [float(i) * width / float(num_nodes_in_width) for i in range(0, num_nodes_in_width)]
         ):
             mesh.nodes.add_node(n_id, [x, y, 0.0])
             n_id += 1
@@ -74,7 +73,9 @@ def create_surface_mesh(length, width, num_nodes_in_length, num_nodes_in_width):
     return mesh
 
 
-def create_volume_mesh(length, width, depth, num_nodes_in_length, num_nodes_in_width, num_nodes_in_depth):
+def create_volume_mesh(
+        length, width, depth, num_nodes_in_length, num_nodes_in_width, num_nodes_in_depth
+):
     """Creates surface MeshedRegion from geometry information.
 
     Parameters
@@ -101,13 +102,13 @@ def create_volume_mesh(length, width, depth, num_nodes_in_length, num_nodes_in_w
     mesh.unit = "mm"
     n_id = 1
     for i, x in enumerate(
-            [float(i) * length / float(num_nodes_in_length) for i in range(0, num_nodes_in_length)]
+        [float(i) * length / float(num_nodes_in_length) for i in range(0, num_nodes_in_length)]
     ):
         for j, y in enumerate(
-                [float(i) * width / float(num_nodes_in_width) for i in range(0, num_nodes_in_width)]
+            [float(i) * width / float(num_nodes_in_width) for i in range(0, num_nodes_in_width)]
         ):
             for k, z in enumerate(
-                    [float(i) * depth / float(num_nodes_in_depth) for i in range(0, num_nodes_in_depth)]
+                [float(i) * depth / float(num_nodes_in_depth) for i in range(0, num_nodes_in_depth)]
             ):
                 mesh.nodes.add_node(n_id, [x, y, z])
                 n_id += 1
@@ -159,10 +160,7 @@ def create_elemental_nodal_field(meshed_region, number_of_components=6):
         nat = dpf.natures.symmatrix
     else:
         raise Exception(f"{number_of_components} number of components not supported")
-    elem_nod_field = dpf.Field(
-        nature=nat,
-        location=dpf.locations.elemental_nodal
-    )
+    elem_nod_field = dpf.Field(nature=nat, location=dpf.locations.elemental_nodal)
     field_def = elem_nod_field.field_definition
     field_def.name = "stress"
     elems_scop = meshed_region.elements.scoping
@@ -227,7 +225,7 @@ def averaging_using_max_value(elemental_nodal_field, b_compute_max=True):
     elems_scoping_in = elemental_nodal_field.scoping.ids
     elems_scoping_base = mesh.elements.scoping
     nodes_scoping = mesh.nodes.scoping.ids
-    elems_connectivity = mesh.elements.connectivities_field # list of nodes per elements
+    elems_connectivity = mesh.elements.connectivities_field  # list of nodes per elements
     already_computed = {}  # { nod_id : val }
     for el_ind_in, el_id_in in enumerate(elems_scoping_in):
         mesh_el_ind = elems_scoping_base.index(el_id_in)
@@ -267,10 +265,7 @@ cust_width = l
 cust_num_nodes_in_length = n_l
 cust_num_nodes_in_width = n_l
 mesh = create_surface_mesh(
-    cust_length,
-    cust_width,
-    cust_num_nodes_in_length,
-    cust_num_nodes_in_width
+    cust_length, cust_width, cust_num_nodes_in_length, cust_num_nodes_in_width
 )
 
 # Create the mesh and compute the specific averaging:
@@ -296,7 +291,7 @@ mesh = create_volume_mesh(
     cust_depth,
     cust_num_nodes_in_length,
     cust_num_nodes_in_width,
-    cust_num_nodes_in_depth
+    cust_num_nodes_in_depth,
 )
 
 # Create the mesh and compute the specific averaging:
