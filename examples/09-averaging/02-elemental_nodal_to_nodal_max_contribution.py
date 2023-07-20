@@ -45,23 +45,26 @@ def create_surface_mesh(length, width, num_nodes_in_length, num_nodes_in_width):
         Computed surface mesh.
 
     """
+    n_nodes = num_nodes_in_length * num_nodes_in_width
+    n_elems = (num_nodes_in_length - 1) * (num_nodes_in_width - 1)
     mesh = dpf.MeshedRegion()
-    n_id = 1
+    n_ids = [*range(1, n_nodes + 1)]
+    n_coords = [[0., 0., 0.]] * n_nodes
+    offset = 0
     for i, x in enumerate(
             [float(i) * length / float(num_nodes_in_length) for i in range(0, num_nodes_in_length)]
     ):
         for j, y in enumerate(
                 [float(i) * width / float(num_nodes_in_width) for i in range(0, num_nodes_in_width)]
         ):
-            mesh.nodes.add_node(n_id, [x, y, 0.0])
-            n_id += 1
+            n_coords[offset] = [x, y, 0.0]
+            offset += 1
+    flat_coordinates_data = np.reshape(n_coords, (3 * n_nodes))
 
-    coordinates = mesh.nodes.coordinates_field
-    mesh.unit = "mm"
-    coordinates_data = coordinates.data
-    flat_coordinates_data = coordinates_data.reshape(coordinates_data.size)
-
-    e_id = 1
+    e_ids = [*range(1, n_elems + 1)]
+    field_e_connectivity = dpf.PropertyField(nature=dpf.natures.vector, location=dpf.locations.elemental)
+    e_types = [16] * n_elems  # 16 is eltype for kAnsQuad4
+    offset = 0
     for i, x in enumerate(
             [float(i) * length / float(num_nodes_in_length) for i in range(num_nodes_in_length - 1)]
     ):
@@ -74,14 +77,20 @@ def create_surface_mesh(length, width, num_nodes_in_length, num_nodes_in_width):
                     data_index = search_sequence_numpy(flat_coordinates_data, [xx, yy, 0.0])
                     scoping_index = int(data_index / 3)  # 3components
                     connectivity.append(scoping_index)
-            # rearrange connectivity
-            # a = 2
-            # b = 1
-            # tmp = connectivity[a]
-            # connectivity[a] = connectivity[b]
-            # connectivity[b] = tmp
-            mesh.elements.add_solid_element(e_id, connectivity)
-            e_id += 1
+            field_e_connectivity.append(connectivity, offset + 1)
+            offset += 1
+
+    field_n_coords = dpf.Field(location=dpf.locations.nodal)
+    field_n_coords.scoping.ids = n_ids
+    field_n_coords.data = n_coords
+    field_e_types = dpf.PropertyField(nature=dpf.natures.scalar, location=dpf.locations.elemental)
+    field_e_types.scoping.ids = e_ids
+    field_e_types.data = e_types
+
+    mesh.nodes.coordinates_field = field_n_coords
+    mesh.unit = "mm"
+    mesh.elements.connectivities_field = field_e_connectivity
+    mesh.elements.element_types_field = field_e_types
 
     return mesh
 
@@ -107,8 +116,12 @@ def create_volume_mesh(length, width, depth, num_nodes_in_length, num_nodes_in_w
         Computed volume mesh.
 
     """
+    n_nodes = num_nodes_in_length * num_nodes_in_width * num_nodes_in_depth
+    n_elems = (num_nodes_in_length - 1) * (num_nodes_in_width - 1) * (num_nodes_in_depth - 1)
     mesh = dpf.MeshedRegion()
-    n_id = 1
+    n_ids = [*range(1, n_nodes + 1)]
+    n_coords = [[0., 0., 0.]] * n_nodes
+    offset = 0
     for i, x in enumerate(
             [float(i) * length / float(num_nodes_in_length) for i in range(0, num_nodes_in_length)]
     ):
@@ -118,15 +131,14 @@ def create_volume_mesh(length, width, depth, num_nodes_in_length, num_nodes_in_w
             for k, z in enumerate(
                     [float(i) * depth / float(num_nodes_in_depth) for i in range(0, num_nodes_in_depth)]
             ):
-                mesh.nodes.add_node(n_id, [x, y, z])
-                n_id += 1
+                n_coords[offset] = [x, y, z]
+                offset += 1
+    flat_coordinates_data = np.reshape(n_coords, (3 * n_nodes))  # check perf
 
-    coordinates = mesh.nodes.coordinates_field
-    mesh.unit = "mm"
-    coordinates_data = coordinates.data
-    flat_coordinates_data = coordinates_data.reshape(coordinates_data.size)
-
-    e_id = 1
+    e_ids = [*range(1, n_elems + 1)]
+    field_e_connectivity = dpf.PropertyField(nature=dpf.natures.vector, location=dpf.locations.elemental) # reserve ?
+    e_types = [11] * n_elems  # 11 is eltype for kAnsHex8
+    offset = 0
     for i, x in enumerate(
             [float(i) * length / float(num_nodes_in_length) for i in range(num_nodes_in_length - 1)]
     ):
@@ -140,7 +152,7 @@ def create_volume_mesh(length, width, depth, num_nodes_in_length, num_nodes_in_w
                 for xx in [x, x + length / float(num_nodes_in_length)]:
                     for yy in [y, y + width / float(num_nodes_in_width)]:
                         for zz in [z, z + depth / float(num_nodes_in_depth)]:
-                            data_index = search_sequence_numpy(flat_coordinates_data, [xx, yy, zz])
+                            data_index = search_sequence_numpy(flat_coordinates_data, [xx, yy, zz]) # check ?
                             scoping_index = int(data_index / 3)  # 3components
                             connectivity.append(scoping_index)
                 # rearrange connectivity
@@ -150,8 +162,20 @@ def create_volume_mesh(length, width, depth, num_nodes_in_length, num_nodes_in_w
                 tmp = connectivity[6]
                 connectivity[6] = connectivity[7]
                 connectivity[7] = tmp
-                mesh.elements.add_solid_element(e_id, connectivity)
-                e_id += 1
+                field_e_connectivity.append(connectivity, offset + 1)
+                offset += 1
+
+    field_n_coords = dpf.Field(location=dpf.locations.nodal)
+    field_n_coords.scoping.ids = n_ids
+    field_n_coords.data = n_coords
+    field_e_types = dpf.PropertyField(nature=dpf.natures.scalar, location=dpf.locations.elemental)
+    field_e_types.scoping.ids = e_ids
+    field_e_types.data = e_types
+
+    mesh.nodes.coordinates_field = field_n_coords
+    mesh.unit = "mm"
+    mesh.elements.connectivities_field = field_e_connectivity
+    mesh.elements.element_types_field = field_e_types
 
     return mesh
 
@@ -335,43 +359,44 @@ text_time = "Time report \n"
 text_time += "==============="
 
 l = 1
-n_l = 20
+n_l = 10
 
 cust_length = l
 cust_width = l
 cust_num_nodes_in_length = n_l
 cust_num_nodes_in_width = n_l
-text_time += "\n------------- \n"
-text_time += "Create surf mesh duration \n"
-text_time += "------------- \n"
-prev_time = time.time()
-mesh = create_surface_mesh(
-    cust_length,
-    cust_width,
-    cust_num_nodes_in_length,
-    cust_num_nodes_in_width
-)
-text_time += str(time.time() - prev_time) + " s \n"
-text_time += "\n------------- \n"
-text_time += "Surf mesh statistics \n"
-text_time += "------------- \n"
-text_time += str(mesh)
+# text_time += "\n------------- \n"
+# text_time += "Create surf mesh duration \n"
+# text_time += "------------- \n"
+# prev_time = time.time()
+# mesh = create_surface_mesh(
+#     cust_length,
+#     cust_width,
+#     cust_num_nodes_in_length,
+#     cust_num_nodes_in_width
+# )
+# text_time += str(time.time() - prev_time) + " s \n"
+# text_time += "\n------------- \n"
+# text_time += "Surf mesh statistics \n"
+# text_time += "------------- \n"
+# text_time += str(mesh)
+#
+# # Create the mesh and compute the specific averaging:
+# text_time += "\n------------- \n"
+# text_time += "Create elem nodal field duration \n"
+# text_time += "------------- \n"
+# prev_time = time.time()
+# stress_field_surf = create_elemental_nodal_field(mesh, 1)
+# text_time += str(time.time() - prev_time) + " s \n"
+#
+# text_time += "\n------------- \n"
+# text_time += "Average \n"
+# text_time += "------------- \n"
+# prev_time = time.time()
+# output_field_surf = averaging_using_max_value(stress_field_surf, True)
+# text_time += str(time.time() - prev_time) + " s \n"
+# mesh.plot(output_field_surf)
 
-# Create the mesh and compute the specific averaging:
-text_time += "\n------------- \n"
-text_time += "Create elem nodal field duration \n"
-text_time += "------------- \n"
-prev_time = time.time()
-stress_field_surf = create_elemental_nodal_field(mesh, 1)
-text_time += str(time.time() - prev_time) + " s \n"
-
-text_time += "\n------------- \n"
-text_time += "Average \n"
-text_time += "------------- \n"
-prev_time = time.time()
-output_field_surf = averaging_using_max_value(stress_field_surf, True)
-text_time += str(time.time() - prev_time) + " s \n"
-mesh.plot(output_field_surf)
 
 # Compare with averaged values:
 # fc_surf = dpf.fields_container_factory.over_time_freq_fields_container({0.1: stress_field_surf}, "s")
