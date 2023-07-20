@@ -1,34 +1,33 @@
 """
-.. _ref_fluids_mesh:
+.. _ref_fluids_results:
 
-Explore Fluids mesh
+Explore Fluids results
 ------------------------------------------------------
 
 """
 
 ###############################################################################
-# Exploring an Ansys Fluent mesh
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# This example demonstrates how you can explore an Ansys Fluent mesh. Import
-# the result file
+# Exploring Ansys Fluent results
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# This example demonstrates how you can explore Ansys Fluent results. Import
+# the result file and explore the available results with the ``ResultInfo``
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
 
-path = examples.download_fluent_axial_comp()["flprj"]
-ds = dpf.DataSources(path)
+paths = examples.download_fluent_multi_phase()
+ds = dpf.DataSources()
+ds.set_result_file_path(paths["cas"])
+ds.add_file_path(paths["dat"])
 streams = dpf.operators.metadata.streams_provider(data_sources=ds)
+rinfo = dpf.operators.metadata.result_info_provider(streams_container=streams).eval()
+rinfo
 
-
+"""
 ###############################################################################
-# Using the ``mesh_provider``
+# Explore elemental (cell) results
 # ---------------------------
-# The ``mesh_provider`` operator can be used to retrieve the whole mesh of the
-# model or the `MeshedRegion` restricted to a particular body or face zone. The
-# behavior will differ depending on the inputs to the ``region_scoping`` pin.
-# If no scoping is connected, the mesh for the whole model is obtained. This
-# is the same mesh that is obtained if the ``Model.metadata.meshed_region``
-# API is employed.
+# As explored in
 
 mesh_whole = dpf.operators.mesh.mesh_provider(streams_container=streams).eval()
 print(mesh_whole)
@@ -54,10 +53,8 @@ mesh_13.plot()
 # -----------------------------
 # The ``meshes_provider`` operator can be used to retrieve the mesh for several
 # zones and time steps of the model. The behavior will differ depending on the
-# inputs to the ``region_scoping`` pin. If no region_scoping is connected, the
+# inputs to the ``region_scoping`` pin. If no scoping is connected, the
 # ``MeshedRegion`` for all body and face zones is retrieved in a ``MeshesContainer``.
-# If no time_scoping is connected and the simulation is transient, only the meshes
-# for the first time step are extracted.
 
 meshes_all = dpf.operators.mesh.meshes_provider(streams_container=streams).eval()
 print(meshes_all)
@@ -69,7 +66,8 @@ print("\n".join([str(meshes_all.get_label_space(i)) for i in range(len(meshes_al
 # to body 18 and body 13).
 
 meshes_23_13 = dpf.operators.mesh.meshes_provider(
-    streams_container=streams, region_scoping=[23, 13], time_scoping=[2, 3]
+    streams_container=streams, region_scoping=[23, 13]
 ).eval()
 print(meshes_23_13)
 meshes_23_13.plot()
+"""

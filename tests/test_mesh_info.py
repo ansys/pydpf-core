@@ -142,6 +142,7 @@ def test_set_get_available_elem_types_mesh_info(server_type):
     result_available = mesh_info.available_elem_types
     for x in range(len(available_results)):
         assert result_available.id(x) == available_results.id(x)
+    print(mesh_info)
 
 
 @pytest.mark.skipif(
