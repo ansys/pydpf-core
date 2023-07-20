@@ -22,7 +22,7 @@ def test_cff_model(server_type, fluent_multi_species):
 )
 def test_results_cfx(cfx_heating_coil, server_type):
     model = dpf.Model(cfx_heating_coil(server=server_type), server=server_type)
-    print(model)
+    # print(model)
     result_names = [
         "specific_heat",
         "epsilon",
@@ -55,7 +55,7 @@ def test_results_cfx(cfx_heating_coil, server_type):
 )
 def test_results_fluent(fluent_mixing_elbow_steady_state, server_type):
     model = dpf.Model(fluent_mixing_elbow_steady_state(server=server_type), server=server_type)
-    print(model)
+    # print(model)
     result_names = [
         "epsilon",
         "enthalpy",

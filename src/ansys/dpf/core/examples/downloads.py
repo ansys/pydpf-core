@@ -10,7 +10,7 @@ from ansys.dpf.core.examples.examples import find_files
 EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/master/"
 
 
-def delete_downloads():
+def delete_downloads(verbose=True):
     """Delete all downloaded examples to free space or update the files"""
     from ansys.dpf.core import LOCAL_DOWNLOADED_EXAMPLES_PATH, examples
 
@@ -34,7 +34,8 @@ def delete_downloads():
                 if not os.path.join(root, name) in not_to_remove:
                     try:
                         os.remove(os.path.join(root, name))
-                        print(f"deleting {os.path.join(root, name)}")
+                        if verbose:
+                            print(f"deleting {os.path.join(root, name)}")
                     except Exception as e:
                         warnings.warn(
                             f"couldn't delete {os.path.join(root, name)} with error:\n {e.args}"
@@ -43,7 +44,8 @@ def delete_downloads():
         if len(dirs) == 0 and len(files) == 0:
             try:
                 os.rmdir(root)
-                print(f"deleting {root}")
+                if verbose:
+                    print(f"deleting {root}")
             except Exception as e:
                 warnings.warn(f"couldn't delete {root} with error:\n {e.args}")
 
