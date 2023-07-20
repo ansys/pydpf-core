@@ -375,6 +375,7 @@ def test_list_attributes_recursive_data_tree(server_type):
     assert {"attribute02": "2"} == dic["sub_tree01"]
     assert {} == dic["sub_tree02"]
 
+
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
