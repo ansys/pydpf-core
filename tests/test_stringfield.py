@@ -94,19 +94,19 @@ def test_print_string_vector(server_type):
         data.append("bla")
     field.data = data
     d = field.data
-    # print(d)
+    print(d)
     assert "['bla', 'bla', 'bla'" in d.__str__()
     data = []
     for _ in range(0, 2):
         data.append("bla")
     field.data = data
     d = field.data
-    # print(d)
+    print(d)
     assert "['bla', 'bla']" in d.__str__()
     data = []
     field.data = data
     d = field.data
-    # print(d)
+    print(d)
     d.__str__()
 
 

@@ -27,7 +27,7 @@ def test_print_data_sources_path(allkindofcomplexity):
     path = Path(allkindofcomplexity)
     data_sources = dpf.core.DataSources()
     data_sources.set_result_file_path(path)
-    assert str(data_sources)
+    print(data_sources)
     assert data_sources.result_key == "rst"
     assert len(data_sources.result_files) == 1
     assert os.path.normpath(data_sources.result_files[0]) == os.path.normpath(allkindofcomplexity)

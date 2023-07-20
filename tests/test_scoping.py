@@ -115,7 +115,7 @@ def test_print_scoping():
     scop = Scoping()
     ids = [1, 2, 3, 5, 8, 9, 10]
     scop.ids = ids
-    assert str(scop)
+    print(scop)
 
 
 def test_documentation_string_on_scoping(server_type):

@@ -27,7 +27,7 @@ def test_set_get_data_custom_type_field(server_type):
         data[i] = np.byte(b"2")
     field.data = data
     assert np.allclose(field.data, data)
-    # print(field.data)
+    print(field.data)
 
 
 @conftest.raises_for_servers_version_under("5.0")
@@ -96,7 +96,7 @@ def test_set_get_field_def_custom_type_field(server_type):
 
     copy = field.field_definition
 
-    # print(copy.dimensionality)
+    print(copy.dimensionality)
     assert copy.dimensionality == dpf.core.Dimensionality([3], dpf.core.natures.vector)
     assert copy.location == core.locations.elemental
     assert copy.name == "thing"

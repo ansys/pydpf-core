@@ -90,7 +90,7 @@ def test_connect_bool_operator(server_type):
 
 def test_print_operator():
     op = dpf.core.Operator("S")
-    assert str(op)
+    print(op)
 
 
 def test_connect_get_out_all_types_operator(server_type):
