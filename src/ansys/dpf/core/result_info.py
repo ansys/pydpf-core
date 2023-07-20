@@ -429,6 +429,8 @@ class ResultInfo:
             qualifiers=qualifiers,
             qualifier_labels=qualifier_labels,
         )
+        if name == "specific_heat":
+            print(f"Build availableresult {name} with:\n{qualifiers}\n{qualifier_labels}")
         return available_result.AvailableResult(availableresult)
 
     @property
