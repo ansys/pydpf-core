@@ -45,7 +45,9 @@ def create_surface_mesh(length, width, num_nodes_in_length, num_nodes_in_width):
         Computed surface mesh.
 
     """
-    mesh = dpf.MeshedRegion()
+    n_nodes = num_nodes_in_length * num_nodes_in_width
+    n_elems = (num_nodes_in_length - 1) * (num_nodes_in_width - 1)
+    mesh = dpf.MeshedRegion(num_nodes=n_nodes, num_elements=n_elems)
     n_id = 1
     for i, x in enumerate(
             [float(i) * length / float(num_nodes_in_length) for i in range(0, num_nodes_in_length)]
@@ -107,7 +109,9 @@ def create_volume_mesh(length, width, depth, num_nodes_in_length, num_nodes_in_w
         Computed volume mesh.
 
     """
-    mesh = dpf.MeshedRegion()
+    n_nodes = num_nodes_in_length * num_nodes_in_width * num_nodes_in_depth
+    n_elems = (num_nodes_in_length - 1) * (num_nodes_in_width - 1) * (num_nodes_in_depth - 1)
+    mesh = dpf.MeshedRegion(num_nodes=n_nodes, num_elements=n_elems)
     n_id = 1
     for i, x in enumerate(
             [float(i) * length / float(num_nodes_in_length) for i in range(0, num_nodes_in_length)]
@@ -335,7 +339,7 @@ text_time = "Time report \n"
 text_time += "==============="
 
 l = 1
-n_l = 20
+n_l = 10
 
 cust_length = l
 cust_width = l
@@ -402,7 +406,6 @@ text_time += "Vol mesh statistics \n"
 text_time += "------------- \n"
 text_time += str(mesh)
 
-# Create the mesh and compute the specific averaging:
 # Create the mesh and compute the specific averaging:
 text_time += "\n------------- \n"
 text_time += "Create elem nodal field duration \n"
