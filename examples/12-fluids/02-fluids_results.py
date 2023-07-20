@@ -99,9 +99,10 @@ mu_p2_prov.connect(1000, {"phase": 2})
 mu_p2 = mu_p2_prov.eval()
 print(mu_p2)
 
+
 ###############################################################################
 # Explore face results
-# --------------------------------
+# --------------------
 # Mass Flow rate is a result naturally exported to the centroids of the
 # faces in this Fluent model. It is available for several face zones. If no
 # region_scoping is connected to the results extraction operator, the result is
@@ -167,5 +168,84 @@ pl.show_figure(cpos=cpos, show_axes=True)
 ###############################################################################
 # To filter a particular phase for a certain selection of zones, the qualifiers
 # pin can be used.
+
 mdot_out_prov = dpf.operators.result.mass_flow_rate(streams_container=streams, mesh=in_meshes)
 mdot_out_prov.connect(1000, {"zone": 4, "phase": 2})
+mdot_out_prov.connect(1001, {"zone": 5, "phase": 2})
+mdot_out_prov.connect(1002, {"zone": 6, "phase": 2})
+mdot_out_prov.connect(1003, {"zone": 7, "phase": 2})
+mdot_out_2 = mdot_out_prov.eval()
+print(mdot_out_2)
+
+
+###############################################################################
+# Explore ElementalAndFaces results
+# ---------------------------------
+# ElementalAndFaces results are the ones that are exported to both the centroids
+# of the elements and the faces. The same extraction possibilities discussed in
+# the previous sections are applicable to these results. For example, Velocity
+# is available for several cell and face zones. If no region_scoping is connected
+# to the results extraction operator, the result is extracted for all cell zones,
+# and exported to an Elemental ``Field`` (thus, the behavior for Elemental results
+# is replicated). ElementalAndFaces results do not bring their ``MeshSupport`` by
+# default, and thus the mesh input can be employed to connect the MeshedRegion
+# and display the result
+
+print(rinfo.available_results[11])
+v = dpf.operators.result.velocity(streams_container=streams, mesh=whole_mesh).eval()
+print(v)
+print(v[0])
+pl = DpfPlotter()
+pl.add_field(v[0])
+cpos = [
+    (-0.17022616684387018, -0.20190398787025482, 0.1948471407823707),
+    (0.00670901800318915, 0.00674082901283412, 0.0125629516499091),
+    (-0.84269816220442720, 0.39520703007216523, -0.3656107367116286),
+]
+pl.show_figure(cpos=cpos, show_axes=True)
+
+###############################################################################
+# Building upon the concepts from the previous sections, the several velocity
+# Fields will be extracted and compared.
+
+# Velocity field for all cells and phase 1
+v_prov = dpf.operators.result.velocity(streams_container=streams, mesh=whole_mesh)
+v_e_1 = v_prov.eval()[0]
+print(v_e_1)
+# Velocity field for all nodes and phase 1, reconstructed from Elemental values
+v_prov = dpf.operators.result.velocity(
+    streams_container=streams, mesh_scoping=whole_mesh.nodes.scoping
+)
+v_prov.connect(1000, {"phase": 1})
+v_n_1 = v_prov.eval()[0]
+print(v_n_1)
+# Velocity field for all faces in the wall zone and phase 1
+mesh_9 = dpf.operators.mesh.meshes_provider(streams_container=streams, region_scoping=9).eval()
+v_prov = dpf.operators.result.velocity(streams_container=streams, mesh=mesh_9)
+v_prov.connect(1000, {"zone": 9, "phase": 1})
+v_f_1 = v_prov.eval()[0]
+print(v_f_1)
+# Velocity field for all nodes in the wall zone, reconstructed from Faces values
+nodes_9 = dpf.ScopingsContainer()
+nodes_9.labels = ["zone"]
+nodes_9.add_scoping({"zone": 9}, mesh_9[0].nodes.scoping)
+v_prov = dpf.operators.result.velocity(streams_container=streams, mesh=mesh_9, mesh_scoping=nodes_9)
+v_prov.connect(1000, {"zone": 9, "phase": 1})
+v_fn_1 = v_prov.eval()[0]
+print(v_fn_1)
+
+pl = DpfPlotter()
+pl.add_field(v_e_1, v_e_1.meshed_region)
+pl.add_field(v_n_1, displace_mesh(v_n_1.meshed_region, [0.0, 0.1, 0.1]))
+pl.add_field(v_f_1, displace_mesh(v_f_1.meshed_region, [0.14, 0.0, 0.0]))
+pl.add_field(v_fn_1, displace_mesh(v_fn_1.meshed_region, [0.14, 0.1, 0.1]))
+cpos = [
+    (-0.2058408579807798, -0.34369503660680123, 0.3767680226336159),
+    (0.08085116115225241, 0.06304620227334945, 0.0658901646190247),
+    (-0.8717758087404583, 0.3631057505857586, -0.3288786298719831),
+]
+cpos = pl.show_figure(return_cpos=True, show_axes=True, window_size=[1024 * 2, 768 * 2])
+
+###############################################################################
+# As observed, the reconstructed velocities at the nodes are different when cell
+# centroidal and face centroidal values were used to average them.
