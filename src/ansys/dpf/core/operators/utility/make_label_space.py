@@ -15,7 +15,7 @@ class make_label_space(Operator):
 
     Parameters
     ----------
-    base_label : LabelSpace or FieldsContainer or ScopingsContainer, optional
+    base_label : dict or FieldsContainer or ScopingsContainer, optional
         Used as a base label (extracted from
         fields/scoping container, or directly
         from label space) that is
@@ -33,7 +33,7 @@ class make_label_space(Operator):
     >>> op = dpf.operators.utility.make_label_space()
 
     >>> # Make input connections
-    >>> my_base_label = dpf.LabelSpace()
+    >>> my_base_label = dict()
     >>> op.inputs.base_label.connect(my_base_label)
     >>> my_label_name = str()
     >>> op.inputs.label_name.connect(my_label_name)
@@ -169,7 +169,7 @@ class InputsMakeLabelSpace(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.make_label_space()
-    >>> my_base_label = dpf.LabelSpace()
+    >>> my_base_label = dict()
     >>> op.inputs.base_label.connect(my_base_label)
     >>> my_label_name = str()
     >>> op.inputs.label_name.connect(my_label_name)
@@ -201,7 +201,7 @@ class InputsMakeLabelSpace(_Inputs):
 
         Parameters
         ----------
-        my_base_label : LabelSpace or FieldsContainer or ScopingsContainer
+        my_base_label : dict or FieldsContainer or ScopingsContainer
 
         Examples
         --------
@@ -291,7 +291,7 @@ class OutputsMakeLabelSpace(_Outputs):
 
         Returns
         ----------
-        my_label : LabelSpace
+        my_label : dict
 
         Examples
         --------
