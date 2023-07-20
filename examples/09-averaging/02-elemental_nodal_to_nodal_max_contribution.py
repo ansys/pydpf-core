@@ -64,24 +64,15 @@ def create_surface_mesh(length, width, num_nodes_in_length, num_nodes_in_width):
     flat_coordinates_data = coordinates_data.reshape(coordinates_data.size)
 
     e_id = 1
-    for i, x in enumerate(
-            [float(i) * length / float(num_nodes_in_length) for i in range(num_nodes_in_length - 1)]
-    ):
-        for j, y in enumerate(
-                [float(i) * width / float(num_nodes_in_width) for i in range(num_nodes_in_width - 1)]
-        ):
-            connectivity = []
-            for xx in [x, x + length / float(num_nodes_in_length)]:
-                for yy in [y, y + width / float(num_nodes_in_width)]:
-                    data_index = search_sequence_numpy(flat_coordinates_data, [xx, yy, 0.0])
-                    scoping_index = int(data_index / 3)  # 3components
-                    connectivity.append(scoping_index)
-            # rearrange connectivity
-            a = 2
-            b = 3
-            tmp = connectivity[a]
-            connectivity[a] = connectivity[b]
-            connectivity[b] = tmp
+    for i in range(0, num_nodes_in_length - 1):
+        for j in range(0, num_nodes_in_width - 1):
+            e_ind = e_id - 1
+            k = 0
+            a = e_ind + i
+            b = e_ind + i + 1
+            c = j + num_nodes_in_length * (i + 1)
+            d = j + num_nodes_in_length * (i + 1) + 1
+            connectivity = [a, b, d, c]
             mesh.elements.add_shell_element(e_id, connectivity)
             e_id += 1
 
@@ -339,7 +330,7 @@ text_time = "Time report \n"
 text_time += "==============="
 
 l = 1
-n_l = 3
+n_l = 100
 
 cust_length = l
 cust_width = l
@@ -376,6 +367,9 @@ prev_time = time.time()
 output_field_surf = averaging_using_max_value(stress_field_surf, True)
 text_time += str(time.time() - prev_time) + " s \n"
 mesh.plot(output_field_surf)
+
+print(text_time)
+exit()
 
 # Compare with averaged values:
 # fc_surf = dpf.fields_container_factory.over_time_freq_fields_container({0.1: stress_field_surf}, "s")
