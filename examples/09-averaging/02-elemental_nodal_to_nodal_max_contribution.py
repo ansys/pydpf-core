@@ -74,7 +74,7 @@ def create_surface_mesh(length, width, num_nodes_in_length, num_nodes_in_width):
 
 
 def create_volume_mesh(
-        length, width, depth, num_nodes_in_length, num_nodes_in_width, num_nodes_in_depth
+    length, width, depth, num_nodes_in_length, num_nodes_in_width, num_nodes_in_depth
 ):
     """Creates surface MeshedRegion from geometry information.
 
@@ -120,11 +120,19 @@ def create_volume_mesh(
                 a = k * num_nodes_in_length * num_nodes_in_width + j * num_nodes_in_length + i
                 b = k * num_nodes_in_length * num_nodes_in_width + j * num_nodes_in_length + i + 1
                 c = k * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length + i
-                d = k * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length + i + 1
+                d = (
+                    k * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length + i + 1
+                )
                 e = (k + 1) * num_nodes_in_length * num_nodes_in_width + j * num_nodes_in_length + i
-                f = (k + 1) * num_nodes_in_length * num_nodes_in_width + j * num_nodes_in_length + i + 1
-                g = (k + 1) * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length + i
-                h = (k + 1) * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length + i + 1
+                f = (
+                    (k + 1) * num_nodes_in_length * num_nodes_in_width + j * num_nodes_in_length + i + 1
+                )
+                g = (
+                    (k + 1) * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length + i
+                )
+                h = (
+                    (k + 1) * num_nodes_in_length * num_nodes_in_width + (j + 1) * num_nodes_in_length + i + 1
+                )
                 connectivity = [a, b, d, c, e, f, h, g]
                 mesh.elements.add_solid_element(e_id, connectivity)
                 e_id += 1
@@ -274,7 +282,9 @@ output_field_surf = averaging_using_max_value(stress_field_surf, True)
 mesh.plot(output_field_surf)
 
 # Compare with averaged values:
-fc_surf = dpf.fields_container_factory.over_time_freq_fields_container({0.1: stress_field_surf}, "s")
+fc_surf = dpf.fields_container_factory.over_time_freq_fields_container(
+    {0.1: stress_field_surf}, "s"
+)
 field_averaged_surf = ops.averaging.to_nodal_fc(
     fields_container=fc_surf, mesh=mesh
 ).outputs.fields_container()
