@@ -253,7 +253,10 @@ def averaging_using_max_value(elemental_nodal_field, b_compute_max=True):
         mesh_el_ind = elems_scoping_base.index(el_id_in)
         el_connectivity = elems_connectivity.get_entity_data(mesh_el_ind)
         el_data = elemental_nodal_field.get_entity_data(el_ind_in)
+        ldata = len(el_data)
         for nod_ind_in, nod_ind_mesh in enumerate(el_connectivity):
+            if nod_ind_in >= ldata:
+                break
             # get nod id for res scoping
             nod_id = nodes_scoping[nod_ind_mesh]
             # get nod data
@@ -294,7 +297,7 @@ text_time = "Time report \n"
 text_time += "==============="
 
 l = 1
-n_l = 700
+n_l = 200
 
 cust_length = l
 cust_width = l
