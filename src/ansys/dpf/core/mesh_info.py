@@ -58,6 +58,16 @@ class MeshInfo:
                 "Arguments generic_data_container and mesh_info are mutually exclusive."
             )
 
+    def __str__(self):
+        txt = "DPF MeshInfo\n"
+        txt += "-" * 30 + "\n"
+        txt += "with properties:\n"
+        txt += "\n".join(
+            "  {:20s}\t{:s}".format(k, v)
+            for k, v in self._generic_data_container.get_property_description().items()
+        )
+        return txt
+
     @property
     def generic_data_container(self) -> GenericDataContainer:
         """GenericDataContainer wrapped into the MeshInfo

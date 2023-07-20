@@ -38,7 +38,7 @@ mesh_whole.plot()
 # If the ``region_scoping`` pin is connected, a ``Scoping`` with 1 zone ID is
 # expected, or an integer list with one item, or a single integer. The supported
 # zone IDs are either face zone IDs or body IDs. The zones of this particular model
-# are explored in :ref:`_ref_fluids_model`. ID 4 (rotor-shroud) corresponds to a
+# are explored in :ref:`ref_fluids_model`. ID 4 (rotor-shroud) corresponds to a
 # face zone, and thus its mesh is only comprised of faces and nodes. ID 13 (fluid-rotor)
 # is a body, and thus its mesh has elements (cells), faces and nodes.
 
@@ -64,7 +64,7 @@ print("\n".join([str(meshes_all.get_label_space(i)) for i in range(len(meshes_al
 ###############################################################################
 # If the ``region_scoping`` pin is connected, the mesh extraction is restricted to
 # the zone IDs contained in the input Scoping/list (in this case, a face zone connected
-# to body 18 and body 13.
+# to body 18 and body 13).
 
 meshes_23_13 = dpf.operators.mesh.meshes_provider(
     streams_container=streams, region_scoping=[23, 13]

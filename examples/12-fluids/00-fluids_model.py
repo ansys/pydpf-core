@@ -4,13 +4,15 @@
 Explore Fluids models
 ------------------------------------------------------
 
+This example shows how to explore Ansys Fluent and Ansys CFX models employing
+the ``MeshInfo`` and ``ResultInfo``.
 """
 
 ###############################################################################
 # Exploring an Ansys Fluent model
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# This example demonstrates how you can explore an Ansys Fluent model. Import
-# the result file and create a model
+# The first part of the example demonstrates how you can explore an Ansys Fluent
+# model. Import the result file and create a model
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
@@ -23,25 +25,20 @@ model = dpf.Model(data_sources=ds)
 ###############################################################################
 # Exploring the mesh
 # ------------------
-# Explore the mesh through the MeshInfo. The MeshInfo provides metadata information
-# about the mesh. For fluid models, it is useful to know the cell and face zones,
-# as well as the topological relationships between them. First get all the available
-# information in the MeshInfo
+# Explore the mesh through the ``MeshInfo``. The ``MeshInfo`` provides metadata
+# information about the mesh. For fluid models, it is useful to know the cell and
+# face zones, as well as the topological relationships between them. First get all
+# the available information in the ``MeshInfo``
 
 minfo = model.metadata.mesh_info
-print(
-    "\n".join(
-        "{}\t{}".format(k, v)
-        for k, v in minfo.generic_data_container.get_property_description().items()
-    )
-)
+minfo
 
 ###############################################################################
 # Then, get the bodies and their names in the model with the "body_names" ``StringField``,
 # which provides a relationship between body IDs and names. In this model there are two
 # bodies.
 
-print(minfo.get_property("body_names"))
+minfo.get_property("body_names")
 
 ###############################################################################
 # Each body is comprised of a set of cell zones. You can investigate the hierarchical
@@ -49,7 +46,7 @@ print(minfo.get_property("body_names"))
 # ``PropertyField``, which provides a relationship between the body IDs and the cell zone
 # IDs. In this case, each body is only comprised of one cell zone.
 
-print(minfo.get_property("body_cell_topology"))
+minfo.get_property("body_cell_topology")
 
 ###############################################################################
 # Similarly, each body is limited by a set of face zones (generally representing
@@ -58,7 +55,7 @@ print(minfo.get_property("body_cell_topology"))
 # provides a relationship between the body IDs and the face zone IDs. In this case,
 # each body is limited by several face zones
 
-print(minfo.get_property("body_face_topology"))
+minfo.get_property("body_face_topology")
 
 ###############################################################################
 # The cell and face zone ids shown in the previous PropertyFields can be mapped
@@ -73,7 +70,7 @@ print(minfo.get_property("face_zone_names"))
 # All zone names (regardless of them being cell or face zones) are exported to
 # the "zone_names" ``StringField``
 
-print(minfo.get_property("zone_names"))
+minfo.get_property("zone_names")
 
 ###############################################################################
 # To facilitate the extraction of results, the body, cell and face zone ``Scoping``
@@ -113,8 +110,8 @@ print(rinfo.available_results[2])
 ###############################################################################
 # Exploring an Ansys CFX model
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# This example demonstrates how you can explore an Ansys CFX model. Import
-# the result file and create a model
+# The second part of the example demonstrates how you can explore an Ansys CFX model.
+# Import the result file and create a model
 
 path = examples.download_cfx_heating_coil()
 ds = dpf.DataSources()
@@ -129,17 +126,12 @@ model = dpf.Model(data_sources=ds)
 # readily available
 
 minfo = model.metadata.mesh_info
-print(
-    "\n".join(
-        "{}\t{}".format(k, v)
-        for k, v in minfo.generic_data_container.get_property_description().items()
-    )
-)
+minfo
 
 ###############################################################################
 # In this CFX model there are also two bodies.
 
-print(minfo.get_property("body_names"))
+info.get_property("body_names")
 
 ###############################################################################
 # For this model, each body is conformed by several cell zones. In this general
