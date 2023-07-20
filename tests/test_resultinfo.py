@@ -1,5 +1,4 @@
 import pytest
-import platform
 
 from ansys import dpf
 from ansys.dpf.core import Model
@@ -82,12 +81,11 @@ def test_repr_available_results_list(model):
     assert dpf.core.result_info.available_result.AvailableResult.__name__ in str(ar)
 
 
-@pytest.mark.skipif(platform.system() == "Linux", reason="CFF not available for Linux InProcess.")
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
 )
-def test_print_available_result_with_qualifiers(cfx_heating_coil):
-    model = Model(cfx_heating_coil())
+def test_print_available_result_with_qualifiers(cfx_heating_coil, server_type):
+    model = Model(cfx_heating_coil(server=server_type), server=server_type)
     ref = """DPF Result
 ----------
 specific_heat
@@ -100,10 +98,40 @@ Location: Nodal
 Available qualifier labels:"""  # noqa: E501
     ref2 = "'phase': 2"
     ref3 = "'zone': 5"
-    got = str(model.metadata.result_info.available_results[0])
+    ar = model.metadata.result_info.available_results[0]
+    got = str(ar)
     assert ref in got
     assert ref2 in got
     assert ref3 in got
+    assert len(ar.qualifier_combinations) == 20
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
+)
+def test_print_result_info_with_qualifiers(cfx_heating_coil, server_type):
+    model = Model(cfx_heating_coil(server=server_type), server=server_type)
+    ref = """Static analysis
+Unit system: SI: m, kg, N, s, V, A, K
+Physics Type: Fluid
+Available results:
+     -  specific_heat: Nodal Specific Heat
+     -  epsilon: Nodal Epsilon        
+     -  enthalpy: Nodal Enthalpy      
+     -  turbulent_kinetic_energy: Nodal Turbulent Kinetic Energy
+     -  thermal_conductivity: Nodal Thermal Conductivity
+     -  dynamic_viscosity: Nodal Dynamic Viscosity
+     -  turbulent_viscosity: Nodal Turbulent Viscosity
+     -  static_pressure: Nodal Static Pressure
+     -  total_pressure: Nodal Total Pressure
+     -  density: Nodal Density        
+     -  entropy: Nodal Entropy        
+     -  wall_shear_stress: Nodal Wall Shear Stress
+     -  temperature: Nodal Temperature
+     -  total_temperature: Nodal Total Temperature
+     -  velocity: Nodal Velocity      
+Available qualifier labels:"""  # noqa
+    assert ref in str(model.metadata.result_info)
 
 
 @pytest.mark.skipif(True, reason="Used to test memory leaks")
