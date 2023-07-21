@@ -153,6 +153,17 @@ def create_volume_mesh(
 
 ###############################################################################
 # Define methods to create an ElementalNodal field:
+def nature_from_num_component(number_of_components):
+    if number_of_components == 1:
+        nat = dpf.natures.scalar
+    elif number_of_components == 3:
+        nat = dpf.natures.vector
+    elif number_of_components == 6:
+        nat = dpf.natures.symmatrix
+    else:
+        raise Exception(f"{number_of_components} number of components not supported")
+    return nat
+
 def create_elemental_nodal_field(meshed_region, number_of_components=6):
     """Computes elemental nodal field from a MeshedRegion.
     Takes all the elements of the MeshedRegion, and associate a value
@@ -171,14 +182,7 @@ def create_elemental_nodal_field(meshed_region, number_of_components=6):
     elemental_nodal_field: Field
 
     """
-    if number_of_components == 1:
-        nat = dpf.natures.scalar
-    elif number_of_components == 3:
-        nat = dpf.natures.vector
-    elif number_of_components == 6:
-        nat = dpf.natures.symmatrix
-    else:
-        raise Exception(f"{number_of_components} number of components not supported")
+    nat = nature_from_num_component(number_of_components)
     elem_nod_field = dpf.Field(nature=nat, location=dpf.locations.elemental_nodal)
     field_def = elem_nod_field.field_definition
     field_def.name = "stress"
@@ -200,44 +204,8 @@ def create_elemental_nodal_field(meshed_region, number_of_components=6):
 
 
 ###############################################################################
-# Define averaging method:
-def averaging_using_max_value(elemental_nodal_field, b_use_absolute_value=False):
-    """Computes an averaging based on the highest value for a specific node.
-    For elemental nodal field, each node has several contributions (one per element).
-    The averaged field is nodal and for each node, the taken value is the maximum of
-    the contributions.
-    For example, node 1 is connected to elements 1,2,3 and 4. The maximum nodal
-    stress value at node 1 among all the element's contributions (maximum of
-    stress at node 1 among elements 1,2,3 and 4) is the contribution of element
-    3. So the elemental nodal value for element 3, node 1 is taken and placed in
-    the nodal averaged field. If b_compute_max is set to False, then minimum value
-    is taken.
-
-    This algorithm is made for solid and surface elements, shell layered elements
-    are not supported.
-
-    Parameters
-    ----------
-    elemental_nodal_field: Field
-        Elemental nodal field the averaging must be applied on.
-    b_use_absolute_value: bool
-        Default is False. If set to True, considers the absolute value
-        to check the maximum for averaging.
-
-    Returns
-    -------
-    averaged_field: Field
-
-    """
-    # initial checks
-    ncomp = elemental_nodal_field.component_count
-    if ncomp != 1:
-        raise Exception("input field must only have one component")
-    # set output
-    output_field = dpf.Field(nature=dpf.natures.scalar, location=dpf.locations.nodal)
-    field_def = output_field.field_definition
-    field_def.name = elemental_nodal_field.field_definition.name
-    # start compute
+# Define averaging methods:
+def compute_averaging_single_comp(elemental_nodal_field, b_use_absolute_value):
     elems_scoping_in = elemental_nodal_field.scoping.ids
     elems_scoping_base = mesh.elements.scoping
     nodes_scoping = mesh.nodes.scoping.ids
@@ -270,6 +238,92 @@ def averaging_using_max_value(elemental_nodal_field, b_use_absolute_value=False)
                     already_computed[nod_id] = abs(nod_data)
                 else:
                     already_computed[nod_id] = nod_data
+    return already_computed
+
+def compute_averaging_several_comp(elemental_nodal_field, b_use_absolute_value):
+    elems_scoping_in = elemental_nodal_field.scoping.ids
+    elems_scoping_base = mesh.elements.scoping
+    nodes_scoping = mesh.nodes.scoping.ids
+    elems_connectivity = mesh.elements.connectivities_field  # list of nodes per elements
+    already_computed = {}  # { nod_id : val }
+    for el_ind_in, el_id_in in enumerate(elems_scoping_in):
+        mesh_el_ind = elems_scoping_base.index(el_id_in)
+        el_connectivity = elems_connectivity.get_entity_data(mesh_el_ind)
+        el_data = elemental_nodal_field.get_entity_data(el_ind_in)
+        ldata = len(el_data)
+        for nod_ind_in, nod_ind_mesh in enumerate(el_connectivity):
+            if nod_ind_in >= ldata:
+                break
+            # get nod id for res scoping
+            nod_id = nodes_scoping[nod_ind_mesh]
+            # get nod data
+            nod_data = el_data[nod_ind_in]
+            # check if nod_data is already defined
+            val_to_check_vec = already_computed.get(nod_id)
+            computed_vec_to_add = []
+            if val_to_check_vec is not None:
+                # - if defined, then check max value and append
+                for val_ind, val_to_check in enumerate(val_to_check_vec):
+                    if b_use_absolute_value:
+                        val_max = max(abs(val_to_check), abs(nod_data[val_ind]))
+                    else:
+                        val_max = max(val_to_check, nod_data[val_ind])
+                    computed_vec_to_add.append(val_max)
+            else:
+                # - if not defined, then insert
+                for val_ind, val_to_check in enumerate(nod_data):
+                    if b_use_absolute_value:
+                        computed_vec_to_add.append(abs(val_to_check))
+                    else:
+                        computed_vec_to_add.append(val_to_check)
+            already_computed[nod_id] = computed_vec_to_add
+    return already_computed
+
+def averaging_using_max_value(elemental_nodal_field, b_use_absolute_value=False):
+    """Computes an averaging based on the highest value for a specific node.
+    For elemental nodal field, each node has several contributions (one per element).
+    The averaged field is nodal and for each node, the taken value is the maximum of
+    the contributions.
+    For example, node 1 is connected to elements 1,2,3 and 4. The maximum nodal
+    stress value at node 1 among all the element's contributions (maximum of
+    stress at node 1 among elements 1,2,3 and 4) is the contribution of element
+    3. So the elemental nodal value for element 3, node 1 is taken and placed in
+    the nodal averaged field. If b_compute_max is set to False, then minimum value
+    is taken.
+
+    This algorithm is made for solid and surface elements, shell layered elements
+    are not supported.
+
+    Parameters
+    ----------
+    elemental_nodal_field: Field
+        Elemental nodal field the averaging must be applied on.
+    b_use_absolute_value: bool
+        Default is False. If set to True, considers the absolute value
+        to check the maximum for averaging.
+
+    Returns
+    -------
+    averaged_field: Field
+
+    """
+    # set output
+    ncomp = elemental_nodal_field.component_count
+    nat = nature_from_num_component(ncomp)
+    output_field = dpf.Field(nature=nat, location=dpf.locations.nodal)
+    field_def = output_field.field_definition
+    field_def.name = elemental_nodal_field.field_definition.name
+    # start compute
+    if ncomp == 1:
+        already_computed = compute_averaging_single_comp(
+            elemental_nodal_field,
+            b_use_absolute_value
+        )
+    else:
+        already_computed = compute_averaging_several_comp(
+            elemental_nodal_field,
+            b_use_absolute_value
+        )
     for key, val in already_computed.items():
         output_field.append(val, key)
 
@@ -281,6 +335,7 @@ def averaging_using_max_value(elemental_nodal_field, b_use_absolute_value=False)
 # -------------------------------------------------------
 l = 1
 n_l = 3
+num_comp = 6
 ###############################################################################
 # Define the geometry:
 cust_length = l
@@ -293,7 +348,7 @@ mesh = create_surface_mesh(
 
 ###############################################################################
 # Create the mesh and compute the specific averaging:
-stress_field_surf = create_elemental_nodal_field(mesh, 1)
+stress_field_surf = create_elemental_nodal_field(mesh, num_comp)
 output_field_surf = averaging_using_max_value(stress_field_surf, True)
 mesh.plot(output_field_surf)
 
@@ -324,7 +379,7 @@ mesh = create_volume_mesh(
 
 ###############################################################################
 # Create the mesh and compute the specific averaging:
-stress_field_vol = create_elemental_nodal_field(mesh, 1)
+stress_field_vol = create_elemental_nodal_field(mesh, num_comp)
 output_field_vol = averaging_using_max_value(stress_field_vol)
 mesh.plot(output_field_vol)
 
