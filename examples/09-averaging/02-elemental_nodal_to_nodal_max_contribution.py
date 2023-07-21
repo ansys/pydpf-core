@@ -195,7 +195,7 @@ def create_elemental_nodal_field(meshed_region, number_of_components=6):
         for nod_ind in el_connectivity:
             i = 0
             while i < number_of_components:
-                field_val.append(20.0 * ele_ind)
+                field_val.append(-20.0 * ele_ind)
                 i += 1
         if len(field_val) > 0:
             elem_nod_field.append(field_val, el_id)
@@ -335,7 +335,9 @@ def averaging_using_max_value(elemental_nodal_field, b_use_absolute_value=False)
 # -------------------------------------------------------
 l = 1
 n_l = 3
-num_comp = 6
+num_comp = 1
+b_abs_val = False
+
 ###############################################################################
 # Define the geometry:
 cust_length = l
@@ -349,7 +351,7 @@ mesh = create_surface_mesh(
 ###############################################################################
 # Create the mesh and compute the specific averaging:
 stress_field_surf = create_elemental_nodal_field(mesh, num_comp)
-output_field_surf = averaging_using_max_value(stress_field_surf, True)
+output_field_surf = averaging_using_max_value(stress_field_surf, b_abs_val)
 mesh.plot(output_field_surf)
 
 ###############################################################################
@@ -380,7 +382,7 @@ mesh = create_volume_mesh(
 ###############################################################################
 # Create the mesh and compute the specific averaging:
 stress_field_vol = create_elemental_nodal_field(mesh, num_comp)
-output_field_vol = averaging_using_max_value(stress_field_vol)
+output_field_vol = averaging_using_max_value(stress_field_vol, b_abs_val)
 mesh.plot(output_field_vol)
 
 ###############################################################################
