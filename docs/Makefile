@@ -22,6 +22,9 @@ help:
 
 # customized clean
 clean:
-	rm -rf $(BUILDDIR)/*
-	rm -rf source/examples/
-	find . -type d -name "_autosummary" -exec rm -rf {} +
+	rm -rf $(BUILDDIR)
+	rm -rf $(SOURCEDIR)/images/auto-generated
+	cp -r -v $(SOURCEDIR)/examples/07-python-operators/plugins $(TEMP)
+	rm -rf $(SOURCEDIR)/examples
+	cp -r -v $(TEMP)/plugins $(SOURCEDIR)/examples/07-python-operators
+	rm -rf $(TEMP)
