@@ -201,7 +201,7 @@ def create_elemental_nodal_field(meshed_region, number_of_components=6):
 
 ###############################################################################
 # Define averaging method:
-def averaging_using_max_value(elemental_nodal_field, b_compute_max=True):
+def averaging_using_max_value(elemental_nodal_field, b_use_absolute_value=False):
     """Computes an averaging based on the highest value for a specific node.
     For elemental nodal field, each node has several contributions (one per element).
     The averaged field is nodal and for each node, the taken value is the maximum of
@@ -222,10 +222,9 @@ def averaging_using_max_value(elemental_nodal_field, b_compute_max=True):
     ----------
     elemental_nodal_field: Field
         Elemental nodal field the averaging must be applied on.
-    b_compute_max: bool
-        Default is True. If set to True, considers the maximum value
-        for averaging. If set to False, considers the minimum value
-        for averaging.
+    b_use_absolute_value: bool
+        Default is False. If set to True, considers the absolute value
+        to check the maximum for averaging.
 
     Returns
     -------
@@ -262,11 +261,17 @@ def averaging_using_max_value(elemental_nodal_field, b_compute_max=True):
             val_to_check = already_computed.get(nod_id)
             if val_to_check is not None:
                 # - if defined, then check max value and append
-                val_max = max(val_to_check, nod_data)
+                if b_use_absolute_value:
+                    val_max = max(abs(val_to_check), abs(nod_data))
+                else:
+                    val_max = max(val_to_check, nod_data)
                 already_computed[nod_id] = val_max
             else:
                 # - if not defined, then insert
-                already_computed[nod_id] = nod_data
+                if b_use_absolute_value:
+                    already_computed[nod_id] = abs(nod_data)
+                else:
+                    already_computed[nod_id] = nod_data
     for key, val in already_computed.items():
         output_field.append(val, key)
 
@@ -322,7 +327,7 @@ mesh = create_volume_mesh(
 ###############################################################################
 # Create the mesh and compute the specific averaging:
 stress_field_vol = create_elemental_nodal_field(mesh, 1)
-output_field_vol = averaging_using_max_value(stress_field_vol, True)
+output_field_vol = averaging_using_max_value(stress_field_vol)
 mesh.plot(output_field_vol)
 
 ###############################################################################
