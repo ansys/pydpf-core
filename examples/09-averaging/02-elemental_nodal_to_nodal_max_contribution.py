@@ -213,9 +213,8 @@ def averaging_using_max_value(elemental_nodal_field, b_use_absolute_value=False)
     the nodal averaged field. If b_compute_max is set to False, then minimum value
     is taken.
 
-    This algorithm is made for solid or surface elements (shell are not supported).
-    Only elemental nodal fields with one component (e.g. von mises
-    stress, sxx) are handled.
+    This algorithm is made for solid and surface elements, shell layered elements
+    are not supported.
 
     Parameters
     ----------
