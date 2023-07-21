@@ -24,7 +24,9 @@ help:
 clean:
 	rm -rf $(BUILDDIR)
 	rm -rf $(SOURCEDIR)/images/auto-generated
-	cp -r -v $(SOURCEDIR)/examples/07-python-operators/plugins $(TEMP)
+	mkdir -p $(TEMP)/examples/07-python-operators
+	cp -r -v $(SOURCEDIR)/examples/07-python-operators/plugins $(TEMP)/examples/07-python-operators
 	rm -rf $(SOURCEDIR)/examples
-	cp -r -v $(TEMP)/plugins $(SOURCEDIR)/examples/07-python-operators
+	mkdir -p $(SOURCEDIR)/examples/07-python-operators
+	cp -r -v $(TEMP)/examples/07-python-operators/plugins $(SOURCEDIR)/examples/07-python-operators
 	rm -rf $(TEMP)
