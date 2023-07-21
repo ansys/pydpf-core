@@ -122,8 +122,7 @@ class MeshInfo:
 
         Returns
         -------
-        type
-            Property object instance.
+        Property object instance.
         """
         return self.generic_data_container.get_property(property_name)
 
