@@ -214,7 +214,6 @@ def averaging_using_max_value(elemental_nodal_field, b_use_absolute_value=False)
     is taken.
 
     This algorithm is made for solid or surface elements (shell are not supported).
-    Results are mid side nodes are not taken into account.
     Only elemental nodal fields with one component (e.g. von mises
     stress, sxx) are handled.
 
