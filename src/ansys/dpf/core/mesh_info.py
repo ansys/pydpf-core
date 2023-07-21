@@ -298,4 +298,4 @@ class MeshInfo:
     def available_elem_types(self, value):
         """Set the available element types"""
 
-        self.generic_data_container.set_property("avalaible_elem_type", value)
+        self.generic_data_container.set_property("available_elem_types", value)
