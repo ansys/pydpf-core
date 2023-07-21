@@ -15,3 +15,4 @@ from .rotate_in_cylindrical_cs_fc import rotate_in_cylindrical_cs_fc
 from .spherical_to_cartesian import spherical_to_cartesian 
 from .spherical_to_cartesian_fc import spherical_to_cartesian_fc 
 from .to_polar_coordinates import to_polar_coordinates 
+from .transform_invariant_terms_rbd import transform_invariant_terms_rbd 

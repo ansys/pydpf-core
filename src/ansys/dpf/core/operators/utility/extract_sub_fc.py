@@ -18,7 +18,7 @@ class extract_sub_fc(Operator):
     ----------
     fields_container : FieldsContainer
         Fields_container
-    label_space : LabelSpace
+    label_space : dict
         Label_space
 
 
@@ -32,7 +32,7 @@ class extract_sub_fc(Operator):
     >>> # Make input connections
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_label_space = dpf.LabelSpace()
+    >>> my_label_space = dict()
     >>> op.inputs.label_space.connect(my_label_space)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -134,7 +134,7 @@ class InputsExtractSubFc(_Inputs):
     >>> op = dpf.operators.utility.extract_sub_fc()
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_label_space = dpf.LabelSpace()
+    >>> my_label_space = dict()
     >>> op.inputs.label_space.connect(my_label_space)
     """
 
@@ -173,7 +173,7 @@ class InputsExtractSubFc(_Inputs):
 
         Parameters
         ----------
-        my_label_space : LabelSpace
+        my_label_space : dict
 
         Examples
         --------
