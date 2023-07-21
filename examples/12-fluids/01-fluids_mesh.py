@@ -2,13 +2,13 @@
 .. _ref_fluids_mesh:
 
 Explore Fluids mesh
-------------------------------------------------------
+-------------------
 
 """
 
 ###############################################################################
 # Exploring an Ansys Fluent mesh
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ------------------------------
 # This example demonstrates how you can explore an Ansys Fluent mesh. Import
 # the result file
 
@@ -22,7 +22,7 @@ streams = dpf.operators.metadata.streams_provider(data_sources=ds)
 
 ###############################################################################
 # Using the ``mesh_provider``
-# ---------------------------
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # The ``mesh_provider`` operator can be used to retrieve the whole mesh of the
 # model or the `MeshedRegion` restricted to a particular body or face zone. The
 # behavior will differ depending on the inputs to the ``region_scoping`` pin.
@@ -51,7 +51,7 @@ mesh_13.plot()
 
 ###############################################################################
 # Using the ``meshes_provider``
-# -----------------------------
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # The ``meshes_provider`` operator can be used to retrieve the mesh for several
 # zones and time steps of the model. The behavior will differ depending on the
 # inputs to the ``region_scoping`` pin. If no region_scoping is connected, the
@@ -69,7 +69,7 @@ print("\n".join([str(meshes_all.get_label_space(i)) for i in range(len(meshes_al
 # to body 18 and body 13).
 
 meshes_23_13 = dpf.operators.mesh.meshes_provider(
-    streams_container=streams, region_scoping=[23, 13], time_scoping=[2, 3]
+    streams_container=streams, region_scoping=[23, 13], time_scoping=[3]
 ).eval()
 print(meshes_23_13)
 meshes_23_13.plot()

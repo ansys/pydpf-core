@@ -2,13 +2,13 @@
 .. _ref_fluids_results:
 
 Explore Fluids results
-------------------------------------------------------
+----------------------
 
 """
 
 ###############################################################################
 # Exploring Ansys Fluent results
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ------------------------------
 # This example demonstrates how you can explore Ansys Fluent results. Import
 # the result file and explore the available results with the ``ResultInfo``
 
@@ -27,7 +27,7 @@ print(rinfo)
 
 ###############################################################################
 # Explore elemental (cell) results
-# --------------------------------
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Dynamic viscosity is a result naturally exported to the centroids of the
 # elements in this Fluent model. In addition, it is available for zone 1
 # but for all phases. If no region_scoping is connected to the results extraction
@@ -102,7 +102,7 @@ print(mu_p2)
 
 ###############################################################################
 # Explore face results
-# --------------------
+# ~~~~~~~~~~~~~~~~~~~~
 # Mass Flow rate is a result naturally exported to the centroids of the
 # faces in this Fluent model. It is available for several face zones. If no
 # region_scoping is connected to the results extraction operator, the result is
@@ -180,7 +180,7 @@ print(mdot_out_2)
 
 ###############################################################################
 # Explore ElementalAndFaces results
-# ---------------------------------
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ElementalAndFaces results are the ones that are exported to both the centroids
 # of the elements and the faces. The same extraction possibilities discussed in
 # the previous sections are applicable to these results. For example, Velocity
@@ -240,11 +240,11 @@ pl.add_field(v_n_1, displace_mesh(v_n_1.meshed_region, [0.0, 0.1, 0.1]))
 pl.add_field(v_f_1, displace_mesh(v_f_1.meshed_region, [0.14, 0.0, 0.0]))
 pl.add_field(v_fn_1, displace_mesh(v_fn_1.meshed_region, [0.14, 0.1, 0.1]))
 cpos = [
-    (-0.2058408579807798, -0.34369503660680123, 0.3767680226336159),
-    (0.08085116115225241, 0.06304620227334945, 0.0658901646190247),
-    (-0.8717758087404583, 0.3631057505857586, -0.3288786298719831),
+    (-0.21475742417583732, -0.34217954990512434, 0.37813091968727935),
+    (0.07300595909357072, 0.049997377395629886, 0.0500070333480835),
+    (-0.871295572277007, 0.36296433899936376, -0.3303042753965463),
 ]
-cpos = pl.show_figure(return_cpos=True, show_axes=True, window_size=[1024 * 2, 768 * 2])
+pl.show_figure(cpos=cpos, show_axes=True, window_size=[1024 * 2, 768 * 2])
 
 ###############################################################################
 # As observed, the reconstructed velocities at the nodes are different when cell

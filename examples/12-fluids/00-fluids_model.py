@@ -10,7 +10,7 @@ the ``MeshInfo`` and ``ResultInfo``.
 
 ###############################################################################
 # Exploring an Ansys Fluent model
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# -------------------------------
 # The first part of the example demonstrates how you can explore an Ansys Fluent
 # model. Import the result file and create a model
 
@@ -24,21 +24,21 @@ model = dpf.Model(data_sources=ds)
 
 ###############################################################################
 # Exploring the mesh
-# ------------------
+# ~~~~~~~~~~~~~~~~~~
 # Explore the mesh through the ``MeshInfo``. The ``MeshInfo`` provides metadata
 # information about the mesh. For fluid models, it is useful to know the cell and
 # face zones, as well as the topological relationships between them. First get all
 # the available information in the ``MeshInfo``
 
 minfo = model.metadata.mesh_info
-minfo
+print(minfo)
 
 ###############################################################################
 # Then, get the bodies and their names in the model with the "body_names" ``StringField``,
 # which provides a relationship between body IDs and names. In this model there are two
 # bodies.
 
-minfo.get_property("body_names")
+print(minfo.get_property("body_names"))
 
 ###############################################################################
 # Each body is comprised of a set of cell zones. You can investigate the hierarchical
@@ -46,7 +46,7 @@ minfo.get_property("body_names")
 # ``PropertyField``, which provides a relationship between the body IDs and the cell zone
 # IDs. In this case, each body is only comprised of one cell zone.
 
-minfo.get_property("body_cell_topology")
+print(minfo.get_property("body_cell_topology"))
 
 ###############################################################################
 # Similarly, each body is limited by a set of face zones (generally representing
@@ -55,7 +55,7 @@ minfo.get_property("body_cell_topology")
 # provides a relationship between the body IDs and the face zone IDs. In this case,
 # each body is limited by several face zones
 
-minfo.get_property("body_face_topology")
+print(minfo.get_property("body_face_topology"))
 
 ###############################################################################
 # The cell and face zone ids shown in the previous PropertyFields can be mapped
@@ -70,7 +70,7 @@ print(minfo.get_property("face_zone_names"))
 # All zone names (regardless of them being cell or face zones) are exported to
 # the "zone_names" ``StringField``
 
-minfo.get_property("zone_names")
+print(minfo.get_property("zone_names"))
 
 ###############################################################################
 # To facilitate the extraction of results, the body, cell and face zone ``Scoping``
@@ -82,7 +82,7 @@ print(minfo.get_property("face_zone_scoping"))
 
 ###############################################################################
 # Exploring the results
-# ---------------------
+# ~~~~~~~~~~~~~~~~~~~~~
 # Explore the available results in the model through the ResultInfo. This is a Fluent model
 # whose native results are exported to either the centroid of the elements (like
 # Enthalpy or RMS Temperature), the centroid of the faces (like the Mass Flow Rate)
@@ -109,7 +109,7 @@ print(rinfo.available_results[2])
 
 ###############################################################################
 # Exploring an Ansys CFX model
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ----------------------------
 # The second part of the example demonstrates how you can explore an Ansys CFX model.
 # Import the result file and create a model
 
@@ -121,17 +121,17 @@ model = dpf.Model(data_sources=ds)
 
 ###############################################################################
 # Exploring the mesh
-# ------------------
+# ~~~~~~~~~~~~~~~~~~
 # If once again we explore the MeshInfo, we can see that the same information is
 # readily available
 
 minfo = model.metadata.mesh_info
-minfo
+print(minfo)
 
 ###############################################################################
 # In this CFX model there are also two bodies.
 
-minfo.get_property("body_names")
+print(minfo.get_property("body_names"))
 
 ###############################################################################
 # For this model, each body is conformed by several cell zones. In this general
@@ -153,7 +153,7 @@ print(minfo.get_property("face_zone_names"))
 
 ###############################################################################
 # Exploring the results
-# ---------------------
+# ~~~~~~~~~~~~~~~~~~~~~
 # By exploring the ResultInfo we can see that all CFX variables are exported to
 # the Nodes
 
