@@ -160,7 +160,10 @@ class MeshInfo:
             Number of elements of the mesh.
         """
 
-        return self.generic_data_container.get_property("num_elements")
+        if "num_cells" in self._generic_data_container.get_property_description():
+            return self.generic_data_container.get_property("num_cells")
+        else:
+            return self.generic_data_container.get_property("num_elements")
 
     @property
     def splittable_by(self):
@@ -168,10 +171,13 @@ class MeshInfo:
         Returns
         -------
         splittable by which entity : StringField
-                Name of the properties according to which the mesh can be split by.
+            Name of the properties according to which the mesh can be split by.
         """
 
-        return self.generic_data_container.get_property("splittable_by")
+        if "splittable_by" in self._generic_data_container.get_property_description():
+            return self.generic_data_container.get_property("splittable_by")
+        else:
+            return None
 
     @property
     def available_elem_types(self):
@@ -182,7 +188,94 @@ class MeshInfo:
             element type available for the mesh.
         """
 
-        return self.generic_data_container.get_property("avalaible_elem_type")
+        if "available_elem_types" in self._generic_data_container.get_property_description():
+            return self.generic_data_container.get_property("available_elem_types")
+        else:
+            return None
+
+    @property
+    def part_names(self):
+        """
+        Returns
+        -------
+        part_names : StringField
+            part names of the mesh (if it can be split by parts)
+        """
+
+        if "part_names" in self._generic_data_container.get_property_description():
+            return self.generic_data_container.get_property("part_names")
+        else:
+            return None
+
+    @property
+    def part_scoping(self):
+        """
+        Returns
+        -------
+        part_scoping : Scoping
+            part Scoping of the mesh (if it can be split by parts)
+        """
+
+        if "part_scoping" in self._generic_data_container.get_property_description():
+            return self.generic_data_container.get_property("part_scoping")
+        else:
+            return None
+
+    @property
+    def body_names(self):
+        """
+        Returns
+        -------
+        body_names : StringField
+            body names of the mesh (if it can be split by bodies)
+        """
+
+        if "body_names" in self._generic_data_container.get_property_description():
+            return self.generic_data_container.get_property("body_names")
+        else:
+            return None
+
+    @property
+    def body_scoping(self):
+        """
+        Returns
+        -------
+        body_scoping : Scoping
+            body Scoping of the mesh (if it can be split by bodies)
+        """
+
+        if "body_scoping" in self._generic_data_container.get_property_description():
+            return self.generic_data_container.get_property("body_scoping")
+        else:
+            return None
+
+    @property
+    def zone_names(self):
+        """
+        Returns
+        -------
+        zone_names : StringField
+            zone_names of the mesh (if it can be split by zones)
+        """
+
+        if "zone_names" in self._generic_data_container.get_property_description():
+            return self.generic_data_container.get_property("zone_names")
+        else:
+            return None
+
+    @property
+    def zone_scoping(self):
+        """
+        Returns
+        -------
+        zone_scoping : Scoping
+            zone Scoping of the mesh (if it can be split by zone)
+        """
+
+        if "zone_scoping" in self._generic_data_container.get_property_description():
+            return self.generic_data_container.get_property("zone_scoping")
+        else:
+            return None
 
     @number_nodes.setter
     def number_nodes(self, value):
