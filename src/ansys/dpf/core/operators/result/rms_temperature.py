@@ -53,15 +53,17 @@ class rms_temperature(Operator):
     mesh : MeshedRegion or MeshesContainer, optional
         Prevents from reading the mesh in the result
         files
-    zone_scoping : Scoping or int, optional
-        (for fluid results only) zone id (integer) or
-        vector of zone ids (vector) or zone
-        scoping (scoping)
-    qualifiers1 : LabelSpace, optional
+    region_scoping : Scoping or int, optional
+        Region id (integer) or vector of region ids
+        (vector) or region scoping (scoping)
+        of the model (region corresponds to
+        zone for fluid results or part for
+        lsdyna results).
+    qualifiers1 : dict, optional
         (for fluid results only) labelspace with
         combination of zone, phases or
         species ids
-    qualifiers2 : LabelSpace, optional
+    qualifiers2 : dict, optional
         (for fluid results only) labelspace with
         combination of zone, phases or
         species ids
@@ -85,11 +87,11 @@ class rms_temperature(Operator):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
-    >>> my_zone_scoping = dpf.Scoping()
-    >>> op.inputs.zone_scoping.connect(my_zone_scoping)
-    >>> my_qualifiers1 = dpf.LabelSpace()
+    >>> my_region_scoping = dpf.Scoping()
+    >>> op.inputs.region_scoping.connect(my_region_scoping)
+    >>> my_qualifiers1 = dict()
     >>> op.inputs.qualifiers1.connect(my_qualifiers1)
-    >>> my_qualifiers2 = dpf.LabelSpace()
+    >>> my_qualifiers2 = dict()
     >>> op.inputs.qualifiers2.connect(my_qualifiers2)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -99,7 +101,7 @@ class rms_temperature(Operator):
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ...     mesh=my_mesh,
-    ...     zone_scoping=my_zone_scoping,
+    ...     region_scoping=my_region_scoping,
     ...     qualifiers1=my_qualifiers1,
     ...     qualifiers2=my_qualifiers2,
     ... )
@@ -115,7 +117,7 @@ class rms_temperature(Operator):
         streams_container=None,
         data_sources=None,
         mesh=None,
-        zone_scoping=None,
+        region_scoping=None,
         qualifiers1=None,
         qualifiers2=None,
         config=None,
@@ -134,8 +136,8 @@ class rms_temperature(Operator):
             self.inputs.data_sources.connect(data_sources)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
-        if zone_scoping is not None:
-            self.inputs.zone_scoping.connect(zone_scoping)
+        if region_scoping is not None:
+            self.inputs.region_scoping.connect(region_scoping)
         if qualifiers1 is not None:
             self.inputs.qualifiers1.connect(qualifiers1)
         if qualifiers2 is not None:
@@ -213,12 +215,14 @@ class rms_temperature(Operator):
         files""",
                 ),
                 25: PinSpecification(
-                    name="zone_scoping",
+                    name="region_scoping",
                     type_names=["scoping", "int32", "vector<int32>"],
                     optional=True,
-                    document="""(for fluid results only) zone id (integer) or
-        vector of zone ids (vector) or zone
-        scoping (scoping)""",
+                    document="""Region id (integer) or vector of region ids
+        (vector) or region scoping (scoping)
+        of the model (region corresponds to
+        zone for fluid results or part for
+        lsdyna results).""",
                 ),
                 1000: PinSpecification(
                     name="qualifiers",
@@ -303,11 +307,11 @@ class InputsRmsTemperature(_Inputs):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
-    >>> my_zone_scoping = dpf.Scoping()
-    >>> op.inputs.zone_scoping.connect(my_zone_scoping)
-    >>> my_qualifiers1 = dpf.LabelSpace()
+    >>> my_region_scoping = dpf.Scoping()
+    >>> op.inputs.region_scoping.connect(my_region_scoping)
+    >>> my_qualifiers1 = dict()
     >>> op.inputs.qualifiers1.connect(my_qualifiers1)
-    >>> my_qualifiers2 = dpf.LabelSpace()
+    >>> my_qualifiers2 = dict()
     >>> op.inputs.qualifiers2.connect(my_qualifiers2)
     """
 
@@ -323,8 +327,8 @@ class InputsRmsTemperature(_Inputs):
         self._inputs.append(self._data_sources)
         self._mesh = Input(rms_temperature._spec().input_pin(7), 7, op, -1)
         self._inputs.append(self._mesh)
-        self._zone_scoping = Input(rms_temperature._spec().input_pin(25), 25, op, -1)
-        self._inputs.append(self._zone_scoping)
+        self._region_scoping = Input(rms_temperature._spec().input_pin(25), 25, op, -1)
+        self._inputs.append(self._region_scoping)
         self._qualifiers1 = Input(rms_temperature._spec().input_pin(1000), 1000, op, 0)
         self._inputs.append(self._qualifiers1)
         self._qualifiers2 = Input(rms_temperature._spec().input_pin(1001), 1001, op, 1)
@@ -458,26 +462,28 @@ class InputsRmsTemperature(_Inputs):
         return self._mesh
 
     @property
-    def zone_scoping(self):
-        """Allows to connect zone_scoping input to the operator.
+    def region_scoping(self):
+        """Allows to connect region_scoping input to the operator.
 
-        (for fluid results only) zone id (integer) or
-        vector of zone ids (vector) or zone
-        scoping (scoping)
+        Region id (integer) or vector of region ids
+        (vector) or region scoping (scoping)
+        of the model (region corresponds to
+        zone for fluid results or part for
+        lsdyna results).
 
         Parameters
         ----------
-        my_zone_scoping : Scoping or int
+        my_region_scoping : Scoping or int
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.result.rms_temperature()
-        >>> op.inputs.zone_scoping.connect(my_zone_scoping)
+        >>> op.inputs.region_scoping.connect(my_region_scoping)
         >>> # or
-        >>> op.inputs.zone_scoping(my_zone_scoping)
+        >>> op.inputs.region_scoping(my_region_scoping)
         """
-        return self._zone_scoping
+        return self._region_scoping
 
     @property
     def qualifiers1(self):
@@ -489,7 +495,7 @@ class InputsRmsTemperature(_Inputs):
 
         Parameters
         ----------
-        my_qualifiers1 : LabelSpace
+        my_qualifiers1 : dict
 
         Examples
         --------
@@ -511,7 +517,7 @@ class InputsRmsTemperature(_Inputs):
 
         Parameters
         ----------
-        my_qualifiers2 : LabelSpace
+        my_qualifiers2 : dict
 
         Examples
         --------

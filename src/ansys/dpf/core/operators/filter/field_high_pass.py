@@ -23,10 +23,10 @@ class field_high_pass(Operator):
         A threshold scalar or a field containing one
         value is expected.
     both : bool, optional
-        Bool(optional, the default is false). if set
-        to true, the complement of the
-        filtered fields container is returned
-        on output pin 1.
+        The default is false. if set to true, the
+        complement of the filtered fields
+        container is returned on output pin
+        1.
 
 
     Examples
@@ -91,10 +91,10 @@ class field_high_pass(Operator):
                     name="both",
                     type_names=["bool"],
                     optional=True,
-                    document="""Bool(optional, the default is false). if set
-        to true, the complement of the
-        filtered fields container is returned
-        on output pin 1.""",
+                    document="""The default is false. if set to true, the
+        complement of the filtered fields
+        container is returned on output pin
+        1.""",
                 ),
             },
             map_output_pin_spec={
@@ -216,10 +216,10 @@ class InputsFieldHighPass(_Inputs):
     def both(self):
         """Allows to connect both input to the operator.
 
-        Bool(optional, the default is false). if set
-        to true, the complement of the
-        filtered fields container is returned
-        on output pin 1.
+        The default is false. if set to true, the
+        complement of the filtered fields
+        container is returned on output pin
+        1.
 
         Parameters
         ----------

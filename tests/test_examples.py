@@ -6,6 +6,7 @@ import pytest
 from conftest import running_docker
 from ansys.dpf import core as dpf
 from ansys.dpf.core import Model
+from ansys.dpf.core import DataSources
 from ansys.dpf.core import examples
 
 
@@ -54,6 +55,41 @@ def test_download_modal_cyclic():
     assert isinstance(Model(path), Model)
 
 
+def test_download_fluent_multi_species():
+    path = examples.download_fluent_multi_species()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_fluent_axial_comp():
+    path = examples.download_fluent_axial_comp()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_fluent_mixing_elbow_steady_state():
+    path = examples.download_fluent_mixing_elbow_steady_state()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_fluent_mixing_elbow_transient():
+    path = examples.download_fluent_mixing_elbow_transient()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_cfx_heating_coil():
+    path = examples.download_cfx_heating_coil()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_cfx_mixing_elbow():
+    path = examples.download_cfx_mixing_elbow()
+    assert isinstance(Model(path), Model)
+
+
+def test_fluid_axial_model():
+    ds = examples.fluid_axial_model()
+    assert isinstance(ds, DataSources)
+
+
 list_examples = [
     "simple_bar",
     "static_rst",
@@ -100,7 +136,7 @@ def test_find_examples(example, server_type_remote_process):
 def test_delete_downloaded_files():
     path = examples.download_multi_stage_cyclic_result(return_local_path=True)
     assert os.path.exists(path)
-    examples.delete_downloads()
+    examples.delete_downloads(verbose=False)
     assert not os.path.exists(path)
     path = examples.download_multi_stage_cyclic_result(return_local_path=True)
     assert os.path.exists(path)

@@ -14,7 +14,7 @@ pyvista.set_error_output_file("errors.txt")
 pyvista.OFF_SCREEN = True
 # Preferred plotting style for documentation
 # pyvista.set_plot_theme('document')
-pyvista.rcParams["window_size"] = np.array([1024, 768]) * 2
+pyvista.global_theme.window_size = np.array([1024, 768]) * 2
 # Save figures in specified directory
 pyvista.FIGURE_PATH = os.path.join(os.path.abspath("./images/"), "auto-generated/")
 if not os.path.exists(pyvista.FIGURE_PATH):
@@ -74,6 +74,7 @@ extensions = [
     "enum_tools.autoenum",
     "nbsphinx",
     "pydata_sphinx_theme",
+    "sphinx.ext.autosectionlabel",
     "sphinx.ext.autodoc",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
