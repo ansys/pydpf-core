@@ -75,7 +75,7 @@ jobs:
 
   docs:
     name: "Documentation"
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -90,6 +90,12 @@ jobs:
         uses: actions/setup-python@v4.6.0
         with:
           python-version: ${{ inputs.python_version }}
+
+      - name: "Install OS packages"
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt install pandoc
 
       - name: "Build Package"
         id: build-package
@@ -113,10 +119,6 @@ jobs:
       - name: "Setup Graphviz"
         uses: ts-graphviz/setup-graphviz@v1
 
-      - name: "Install OS packages"
-        run: |
-          choco install pandoc
-
       - name: "Install documentation packages for Python"
         run: |
           pip install -r requirements/requirements_docs.txt
@@ -129,10 +131,10 @@ jobs:
         run: pip list
 
       - name: "Build HTML Documentation"
-        shell: cmd
+        shell: bash
         working-directory: .ci
         run: |
-          build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
+          build_doc.sh > ..\docs\log.txt && type ..\docs\log.txt 2>&1
         timeout-minutes: 60
 
       - name: "Check for success"
@@ -171,9 +173,10 @@ jobs:
         if: always()
 
       - name: "Zip HTML Documentation"
-        shell: pwsh
-        run: |
-          Compress-Archive -Path docs/build/html/* -Destination HTML-doc-${{env.PACKAGE_NAME}}.zip
+        uses: vimtor/action-zip@v1.1
+        with:
+          files: docs/build/html/*
+          dest: HTML-doc-${{env.PACKAGE_NAME}}.zip
         if: always()
 
       - name: "Upload HTML Documentation"
