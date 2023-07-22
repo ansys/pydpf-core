@@ -15,7 +15,7 @@ help:
 
 # $(O) is meant as a shortcut for $(SPHINXOPTS).
 html:
-	@$(SPHINXBUILD) -b html -v -v "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@$(SPHINXBUILD) -b html -v "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 
 # customized clean

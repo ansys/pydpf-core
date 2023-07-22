@@ -212,5 +212,5 @@ jobs:
         with:
           name: HTML-doc-${{env.PACKAGE_NAME}}
           path: |
-            docs/build/html/
+            docs/build
         if: always()
