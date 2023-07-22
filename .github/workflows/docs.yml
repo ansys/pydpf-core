@@ -162,7 +162,7 @@ jobs:
           export BASE=${{ github.workspace }}
           make clean
           echo "Making html doc..."
-          cd $(BASE)/docs
+          cd $BASE/docs
           ls -al
           make >> log.txt
 
