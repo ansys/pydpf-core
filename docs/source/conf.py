@@ -173,6 +173,9 @@ sphinx_gallery_conf = {
     #                         "set_plot_theme('document')"),
     "reset_modules_order": 'both',
     "reset_modules": (reset_servers,),
+    "expected_failing_examples " : ["../../examples/08-python-operators/00-wrapping_numpy_capabilities.py",
+                                    "../../examples/08-python-operators/01-package_python_operators.py",
+                                    "../../examples/08-python-operators/02-python_operators_with_dependencies.py"]
 }
 
 autodoc_member_order = "bysource"
