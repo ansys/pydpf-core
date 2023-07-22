@@ -3,8 +3,8 @@
 
 # You can set these variables from the command line, and also
 # from the environment for the first two.
-SPHINXOPTS    = -j auto
-SPHINXBUILD   = sphinx-build
+SPHINXOPTS    ?= -j auto
+SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = build
 
@@ -17,7 +17,7 @@ help:
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
-	@$(SPHINXBUILD) -M html -v -v -v -P -T $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@$(SPHINXBUILD) -M html -v -v -v -P "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 
 # customized clean
@@ -28,5 +28,5 @@ clean:
 	cp -r -v $(SOURCEDIR)/examples/07-python-operators/plugins $(TEMP)/examples/07-python-operators
 	rm -rf $(SOURCEDIR)/examples
 	mkdir -p $(SOURCEDIR)/examples/07-python-operators
-	cp -r -v $(TEMP)/examples/07-python-operators/plugins $(SOURCEDIR)/examples/07-python-operators
-	rm -rf $(TEMP)
+	cp -r -v $(TEMP)/examples/07-python-operators/plugins ${{ env.GITHUB_WORKSPACE }}/docs/$(SOURCEDIR)/examples/07-python-operators
+	rm -rf $(TEMP)/examples
