@@ -165,6 +165,7 @@ jobs:
           cd $BASE/docs
           ls -al
           make >> log.txt
+          cat log.txt
 
       - name: "Check for success"
         shell: bash
