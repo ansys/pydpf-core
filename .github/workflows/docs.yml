@@ -168,6 +168,9 @@ jobs:
           ls -al
           make html >> log.txt
           cat log.txt
+          echo "Dir to build"
+          cd $BASE/docs/build
+          ls -al
 
       - name: "Check for success"
         shell: bash
