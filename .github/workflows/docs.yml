@@ -161,7 +161,7 @@ jobs:
           export TEMP=${{ runner.temp }}
           make clean
           echo "Making html doc..."
-          make html >> log.txt
+          make html -v -v -v -P >> log.txt
 
       - name: "Check for success"
         shell: bash
