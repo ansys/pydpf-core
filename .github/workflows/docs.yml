@@ -152,6 +152,7 @@ jobs:
             src/ansys/dpf/core/examples/python_plugins/* \
             src/ansys/dpf/core/examples/examples.py \
             src/ansys/dpf/core/property_fields_container.py \
+            ${{inputs.build_extras}} \
           -f --implicit-namespaces --separate  --no-headings
 
       - name: "Build HTML Documentation"
@@ -160,6 +161,7 @@ jobs:
         run: |
           export TEMP=${{ runner.temp }}
           export BASE=${{ github.workspace }}
+          export SPHINX_APIDOC_OPTIONS=inherited-members
           make clean
           echo "Making html doc..."
           cd $BASE/docs

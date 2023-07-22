@@ -12,9 +12,10 @@ BUILDDIR      = build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
+
 # $(O) is meant as a shortcut for $(SPHINXOPTS).
 html:
-	@$(SPHINXBUILD) -M html -v -v -v -P "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@$(SPHINXBUILD) -b html -v -v -v -P "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 
 # customized clean
