@@ -159,10 +159,10 @@ jobs:
         working-directory: docs
         run: |
           export TEMP=${{ runner.temp }}
-          export BASE=${{ env.GITHUB_WORKSPACE }}
+          export BASE=${{ github.workspace }}
           make clean
           echo "Making html doc..."
-          cd ${{ env.GITHUB_WORKSPACE }}/docs
+          cd $(BASE)/docs
           ls -al
           make >> log.txt
 
