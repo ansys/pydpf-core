@@ -204,16 +204,10 @@ jobs:
           path: docs/*.txt
         if: always()
 
-      - name: "Zip HTML Documentation"
-        uses: vimtor/action-zip@v1.1
-        with:
-          files: docs/build/html/*
-          dest: HTML-doc-${{env.PACKAGE_NAME}}.zip
-        if: always()
-
       - name: "Upload HTML Documentation"
         uses: actions/upload-artifact@v3
         with:
-          name: HTML-doc-${{env.PACKAGE_NAME}}.zip
-          path: docs/build/html
+          name: HTML-doc-${{env.PACKAGE_NAME}}
+          path: |
+            docs/build/html/
         if: always()
