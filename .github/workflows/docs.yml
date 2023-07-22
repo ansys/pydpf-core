@@ -164,7 +164,7 @@ jobs:
           echo "Making html doc..."
           cd $BASE/docs
           ls -al
-          make html -v -v -v -P $DEBUG_HTML >> log.txt 2>&1
+          make html >> log.txt
           cat log.txt
 
       - name: "Check for success"
