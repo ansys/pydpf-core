@@ -28,5 +28,5 @@ clean:
 	cp -r -v $(SOURCEDIR)/examples/07-python-operators/plugins $(TEMP)/examples/07-python-operators
 	rm -rf $(SOURCEDIR)/examples
 	mkdir -p $(SOURCEDIR)/examples/07-python-operators
-	cp -r -v $(TEMP)/examples/07-python-operators/plugins ${{ env.GITHUB_WORKSPACE }}/docs/$(SOURCEDIR)/examples/07-python-operators
+	cp -r -v $(TEMP)/examples/07-python-operators/plugins  ${{env.GITHUB_WORKSPACE}}/docs/$(SOURCEDIR)/examples/07-python-operators
 	rm -rf $(TEMP)/examples
