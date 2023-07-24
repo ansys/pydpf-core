@@ -90,6 +90,15 @@ jobs:
         uses: actions/setup-python@v4.6.0
         with:
           python-version: ${{ inputs.python_version }}
+          
+      - name: "overview"
+        shell: bash
+        run: |
+          find /usr/lib -name "libffi.so*"
+          echo bla
+          echo $LD_LIBRARY_PATH
+          echo $PATH
+          echo he
 
       - name: "Install OS packages"
         shell: bash
@@ -133,6 +142,8 @@ jobs:
       - name: "Build sphinx doc"
         shell: bash
         run: |
+          sudo ln -s /usr/lib/x86_64-linux-gnu/libffi.so.8 /usr/lib/x86_64-linux-gnu/libffi.so.6
+          export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libffi.so.6
           export SPHINX_APIDOC_OPTIONS=inherited-members
           sphinx-apidoc -o \
             docs/source/api \

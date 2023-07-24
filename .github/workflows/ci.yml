@@ -53,16 +53,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
-      - name: "overview"
-        shell: bash
-        run: |
-          find /usr/lib -name "libffi.so*"
-          echo bla
-          echo $LD_LIBRARY_PATH
-          echo $PATH
-          echo he
-
 
       - name: "Setup Python"
         uses: actions/setup-python@v4.6.0
