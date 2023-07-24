@@ -334,7 +334,7 @@ class _PyVistaPlotter:
                 point_size=label_point_size,
             )
 
-    def add_streamlines(self, meshed_region, field, radius=1.0, **kwargs):
+    def add_streamlines(self, meshed_region, field, computed_streamlines=None, radius=1.0, **kwargs):
         # Check velocity field location
         if field.location is not dpf.core.locations.nodal:
             warnings.warn(
@@ -366,6 +366,8 @@ class _PyVistaPlotter:
         kwargs_from_source.update(kwargs_base)  # merge both dicts in kwargs_from_source
 
         # create streamlines
+        if computed_streamlines is not None:
+            pass
         if return_source:
             streamlines, src = grid.streamlines(
                 vectors=f"{stream_name}",
@@ -556,6 +558,7 @@ class DpfPlotter:
         self,
         meshed_region,
         field,
+        computed_streamlines=None,
         radius=0.1,
         **kwargs,
     ):
@@ -574,6 +577,10 @@ class DpfPlotter:
             Field containing raw vector data the streamline is
             computed from. The data location must be nodal, velocity
             values must be defined at nodes.
+        computed_streamlines : FieldsContainer
+            FieldsContianer containing computed streamlines data,
+            computde using `dpf.helpers.compute_streamlines`
+            function.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             is available at :func:`pyvista.DataSetFilters.streamlines`.
@@ -615,6 +622,7 @@ class DpfPlotter:
         self._internal_plotter.add_streamlines(
             meshed_region=meshed_region,
             field=field,
+            computed_streamlines=computed_streamlines,
             radius=radius,
             **kwargs,
         )
