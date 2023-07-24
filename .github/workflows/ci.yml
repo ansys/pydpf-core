@@ -60,6 +60,8 @@ jobs:
           find /usr/lib -name "libffi.so*"
           echo bla
           echo $LD_LIBRARY_PATH
+          echo $PATH
+          echo he
 
 
       - name: "Setup Python"
