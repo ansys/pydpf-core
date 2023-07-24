@@ -4,7 +4,7 @@
 Explore Fluids models
 ------------------------------------------------------
 
-This example shows how to explore Ansys Fluent and Ansys CFX models employing
+This example demonstrates how to explore Ansys Fluent and Ansys CFX models employing
 the ``MeshInfo`` and ``ResultInfo``.
 """
 
@@ -12,7 +12,7 @@ the ``MeshInfo`` and ``ResultInfo``.
 # Exploring an Ansys Fluent model
 # -------------------------------
 # The first part of the example demonstrates how you can explore an Ansys Fluent
-# model. Import the result file and create a model
+# model. Import the result file and create a model.
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
@@ -28,7 +28,7 @@ model = dpf.Model(data_sources=ds)
 # Explore the mesh through the ``MeshInfo``. The ``MeshInfo`` provides metadata
 # information about the mesh. For fluid models, it is useful to know the cell and
 # face zones, as well as the topological relationships between them. First get all
-# the available information in the ``MeshInfo``
+# the available information in the ``MeshInfo`` .
 
 minfo = model.metadata.mesh_info
 print(minfo)
@@ -53,12 +53,12 @@ print(minfo.get_property("body_cell_topology"))
 # boundary conditions). You can investigate the hierarchical relationship between
 # bodies and face zones through the "body_face_topology" ``PropertyField``, which
 # provides a relationship between the body IDs and the face zone IDs. In this case,
-# each body is limited by several face zones
+# each body is limited by several face zones.
 
 print(minfo.get_property("body_face_topology"))
 
 ###############################################################################
-# The cell and face zone ids shown in the previous PropertyFields can be mapped
+# The cell and face zone IDs shown in the previous PropertyFields can be mapped
 # to their names through the "body_zone_names" and "face_zone_names" ``PropertyField``.
 # As in this model there is a 1-1 correspondence between bodies and cell zones,
 # they have the same names and IDs.
@@ -68,13 +68,13 @@ print(minfo.get_property("face_zone_names"))
 
 ###############################################################################
 # All zone names (regardless of them being cell or face zones) are exported to
-# the "zone_names" ``StringField``
+# the "zone_names" ``StringField`` .
 
 print(minfo.get_property("zone_names"))
 
 ###############################################################################
 # To facilitate the extraction of results, the body, cell and face zone ``Scoping``
-# are extracted. They can be used to scope results
+# are extracted. They can be used to scope results.
 
 print(minfo.get_property("body_scoping"))
 print(minfo.get_property("cell_zone_scoping"))
@@ -111,7 +111,7 @@ print(rinfo.available_results[2])
 # Exploring an Ansys CFX model
 # ----------------------------
 # The second part of the example demonstrates how you can explore an Ansys CFX model.
-# Import the result file and create a model
+# Import the result file and create a model.
 
 path = examples.download_cfx_heating_coil()
 ds = dpf.DataSources()
@@ -123,7 +123,7 @@ model = dpf.Model(data_sources=ds)
 # Exploring the mesh
 # ~~~~~~~~~~~~~~~~~~
 # If once again we explore the MeshInfo, we can see that the same information is
-# readily available
+# readily available.
 
 minfo = model.metadata.mesh_info
 print(minfo)
@@ -141,12 +141,12 @@ print(minfo.get_property("body_names"))
 print(minfo.get_property("body_cell_topology"))
 
 ###############################################################################
-# You can also explore the face zone IDs in each body
+# You can also explore the face zone IDs in each body.
 
 print(minfo.get_property("body_face_topology"))
 
 ###############################################################################
-# The cell and face zone names are readily available
+# The cell and face zone names are readily available.
 
 print(minfo.get_property("cell_zone_names"))
 print(minfo.get_property("face_zone_names"))
@@ -155,7 +155,7 @@ print(minfo.get_property("face_zone_names"))
 # Exploring the results
 # ~~~~~~~~~~~~~~~~~~~~~
 # By exploring the ResultInfo we can see that all CFX variables are exported to
-# the Nodes
+# the Nodes.
 
 rinfo = model.metadata.result_info
 print(rinfo)

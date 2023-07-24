@@ -10,7 +10,7 @@ Explore Fluids results
 # Exploring Ansys Fluent results
 # ------------------------------
 # This example demonstrates how you can explore Ansys Fluent results. Import
-# the result file and explore the available results with the ``ResultInfo``
+# the result file and explore the available results with the ``ResultInfo`` .
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
@@ -34,7 +34,7 @@ print(rinfo)
 # operator, the result is extracted for all cell zones and exported to an
 # Elemental ``Field``. Elemental results do not bring their ``MeshSupport`` by
 # default, and thus the mesh input can be employed to connect the MeshedRegion
-# and display the result
+# and display the result.
 
 print(rinfo.available_results[5])
 whole_mesh = dpf.operators.mesh.mesh_provider(streams_container=streams).eval()
@@ -60,7 +60,7 @@ pl.show_figure(cpos=cpos, show_axes=True)
 # results can be compared.
 
 
-def displace_mesh(original_mesh: dpf.MeshInfo, disp: list) -> dpf.MeshedRegion:
+def displace_mesh(original_mesh: dpf.MeshedRegion, disp: list) -> dpf.MeshedRegion:
     new_mesh = original_mesh.deep_copy()
     overall_field = dpf.fields_factory.create_3d_vector_field(1, dpf.locations.overall)
     overall_field.append(disp, 1)
@@ -138,7 +138,8 @@ pl.show_figure(cpos=cpos, show_axes=True)
 # inlets and outlets of the model. Face results defined on individual zones need
 # the connection of the mesh pin to retrieve their right mesh_support. In particular,
 # the connected entity should be a ``MeshesContainer`` labelled on zone. This is the
-# output from the meshes_provider operator, as seen in :ref:`ref_fluids_mesh`
+# output from the meshes_provider operator, as seen in :ref:`ref_fluids_mesh` .
+
 in_sco = dpf.Scoping(ids=[3], location=dpf.locations.zone)
 in_meshes = dpf.operators.mesh.meshes_provider(
     streams_container=streams, region_scoping=in_sco
@@ -189,7 +190,7 @@ print(mdot_out_2)
 # and exported to an Elemental ``Field`` (thus, the behavior for Elemental results
 # is replicated). ElementalAndFaces results do not bring their ``MeshSupport`` by
 # default, and thus the mesh input can be employed to connect the MeshedRegion
-# and display the result
+# and display the result.
 
 print(rinfo.available_results[11])
 v = dpf.operators.result.velocity(streams_container=streams, mesh=whole_mesh).eval()
