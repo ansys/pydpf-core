@@ -144,6 +144,9 @@ jobs:
         run: |
           sudo ln -s /usr/lib/x86_64-linux-gnu/libffi.so.8 /usr/lib/x86_64-linux-gnu/libffi.so.6
           export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libffi.so.6
+          echo bla
+          find /usr/lib -name "libffi.so*"
+          echo bla2
           export SPHINX_APIDOC_OPTIONS=inherited-members
           sphinx-apidoc -o \
             docs/source/api \
