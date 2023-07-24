@@ -70,7 +70,7 @@ env:
   Python2_ROOT_DIR: ${{github.workspace}}/dpf-standalone/v${{inputs.ANSYS_VERSION}}/commonfiles/CPython/3_10/linx64/Release/python
   Python3_ROOT_DIR: ${{github.workspace}}/dpf-standalone/v${{inputs.ANSYS_VERSION}}/commonfiles/CPython/3_10/linx64/Release/python
   LD_LIBRARY_PATH: ${{github.workspace}}/dpf-standalone/v${{inputs.ANSYS_VERSION}}/commonfiles/CPython/3_10/linx64/Release/python/lib
-  PATH: ${{github.workspace}}/dpf-standalone/v${{inputs.ANSYS_VERSION}}/commonfiles/CPython/3_10/linx64/Release/python/bin/
+  # PATH: ${{github.workspace}}/dpf-standalone/v${{inputs.ANSYS_VERSION}}/commonfiles/CPython/3_10/linx64/Release/python/bin/
 
 jobs:
   doc-style:
