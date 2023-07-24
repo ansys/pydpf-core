@@ -323,7 +323,12 @@ class _PyVistaPlotter:
         # create streamlines
         if return_source:
             if computed_streamlines is not None:
-                streamlines, src = computed_streamlines
+                if computed_source is None:
+                    raise AttributeError(
+                        "return_source is set to True and computed_streamline is not None:"
+                        "computed_source must be set."
+                    )
+                streamlines, src = computed_streamlines, computed_source
             else:
                 streamlines, src = compute_streamlines(
                     meshed_region=meshed_region,
