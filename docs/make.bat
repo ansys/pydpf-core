@@ -40,11 +40,23 @@ IF EXIST "source\images\auto-generated" (
 IF EXIST "source\examples\07-python-operators\plugins" (
     robocopy "source\examples\07-python-operators\plugins" "source\_temp\plugins" /E >nul 2>&1
 )
+IF EXIST "source\examples\04-advanced\02-volume_averaged_stress" (
+    robocopy "source\examples\04-advanced\02-volume_averaged_stress" "source\_temp\04_advanced" /E >nul 2>&1
+)
+IF EXIST "source\examples\12-fluids\02-fluids_results" (
+    robocopy "source\examples\12-fluids\02-fluids_results" "source\_temp\12_fluids" /E >nul 2>&1
+)
 IF EXIST "source\examples" (
     rmdir "source\examples" /s /q
 )
 IF EXIST "source\_temp\plugins" (
     robocopy "source\_temp\plugins" "source\examples\07-python-operators\plugins" /E >nul 2>&1
+)
+IF EXIST "source\_temp\04_advanced" (
+    robocopy "source\_temp\04_advanced" "source\examples\04-advanced\02-volume_averaged_stress" /E >nul 2>&1
+)
+IF EXIST "source\_temp\12_fluids" (
+    robocopy "source\_temp\12_fluids" "source\examples\12-fluids\02-fluids_results" /E >nul 2>&1
 )
 IF EXIST "source\_temp" (
     rmdir "source\_temp" /s /q
