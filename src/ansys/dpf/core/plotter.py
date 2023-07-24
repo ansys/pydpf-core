@@ -21,7 +21,11 @@ from ansys.dpf.core.common import locations, DefinitionLabels
 from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core.helpers.streamlines import compute_streamlines
+from ansys.dpf.core.helpers.streamlines import (
+    compute_streamlines,
+    _fields_to_streamline,
+    _field_to_source,
+)
 from ansys.dpf.core.nodes import Node, Nodes
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -340,11 +344,15 @@ class _PyVistaPlotter:
         if computed_source is not None:
             src = computed_source
 
+        # convert dpf object into pyvista object
+        streamlines = _fields_to_streamline(streamlines)
+
         # set streamline on plotter
         sargs = dict(vertical=False)
         if not (permissive and streamlines.n_points == 0):
             self._plotter.add_mesh(streamlines.tube(radius=radius), scalar_bar_args=sargs)
         if src is not None:
+            src = _field_to_source(src)
             self._plotter.add_mesh(src)
 
     def show_figure(self, **kwargs):

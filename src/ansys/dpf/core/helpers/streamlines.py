@@ -8,6 +8,22 @@ from ansys.dpf.core.common import locations
 from ansys.dpf.core.helpers.utils import _sort_supported_kwargs
 
 
+def _streamline_to_fields(streamline_data_set):
+    return streamline_data_set
+
+
+def _fields_to_streamline(streamline_fields):
+    return streamline_fields
+
+
+def _source_to_field(source_data_set):
+    return source_data_set
+
+
+def _field_to_source(source_field):
+    return source_field
+
+
 def compute_streamlines(meshed_region, field, **kwargs):
     """Compute the streamlines for a given mesh and velocity
     field.
@@ -71,11 +87,14 @@ def compute_streamlines(meshed_region, field, **kwargs):
             return_source=True,
             **kwargs_from_source,
         )
+        streamlines = _streamline_to_fields(streamlines)
+        src = _source_to_field(src)
         return streamlines, src
     else:
         streamlines = grid.streamlines(
             vectors=f"{stream_name}",
             **kwargs_from_source,
         )
+        streamlines = _streamline_to_fields(streamlines)
         return streamlines
 
