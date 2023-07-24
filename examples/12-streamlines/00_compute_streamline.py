@@ -18,7 +18,7 @@ This example shows you how to plot compute streamlines of fluid simulation resul
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core.helpers import compute_streamlines
+from ansys.dpf.core.helpers.streamlines import compute_streamlines
 from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
