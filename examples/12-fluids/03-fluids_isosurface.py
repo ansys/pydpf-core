@@ -21,36 +21,34 @@ from ansys.dpf.core.plotter import DpfPlotter
 # We first work on a cas/dat.h5 file with only elemental variable.
 # ------------------------------
 
-path = examples.download_fluent_multi_phase()
-ds = dpf.DataSources(path)
-ds.set_result_file_path(path["cas"], "cas")
-ds.add_file_path(path["dat"], "dat")
+paths = examples.download_fluent_multi_phase()
+ds = dpf.DataSources()
+ds.set_result_file_path(paths["cas"], "cas")
+ds.add_file_path(paths["dat"], "dat")
 streams = dpf.operators.metadata.streams_provider(data_sources=ds)
 
 ###############################################################################
 # Evaluate the mesh with mesh_provider operator in order to scope the mesh_cut operator
 # with the mesh.
 
-mesh_whole = dpf.operators.mesh.mesh_provider(streams_container=streams).eval()
-print(mesh_whole)
+whole_mesh = dpf.operators.mesh.mesh_provider(streams_container=streams).eval()
+print(whole_mesh)
 
 pl = DpfPlotter()
-pl.add_mesh(mesh_whole)
-cpos_mesh_whole = [
+pl.add_mesh(whole_mesh)
+cpos_whole_mesh = [
     (-0.17022616684387018, -0.20190398787025482, 0.1948471407823707),
     (0.00670901800318915, 0.00674082901283412, 0.0125629516499091),
     (-0.84269816220442720, 0.39520703007216523, -0.3656107367116286),
 ]
-pl.show_figure(cpos=cpos_mesh_whole, show_axes=True)
+pl.show_figure(cpos=cpos_whole_mesh, show_axes=True)
 
 ###############################################################################
 # Element and node scoping in order to scope first the result ont the element
 # and then the mesh_cut operator on the node.
 
-element_scop = dpf.operators.scoping.elemental_from_mesh(mesh=mesh_whole).eval()
-node_scop = dpf.operators.scoping.nodal_from_mesh(mesh=mesh_whole).eval()
+node_scop = dpf.operators.scoping.nodal_from_mesh(mesh=whole_mesh).eval()
 
-print("elements in whole mesh : ", element_scop, "\n")
 print("nodes in whole mesh : ", node_scop)
 
 ###############################################################################
@@ -58,11 +56,11 @@ print("nodes in whole mesh : ", node_scop)
 # elemental variable without multi-species. With a multi-species case, we should have
 # select one specific using qualifiers ellipsis pins and connecting a LabelSpace "phase".
 
-P_S = dpf.operators.result.static_pressure(streams_container=streams, mesh=mesh_whole, mesh_scoping=element_scop).eval()
+P_S = dpf.operators.result.static_pressure(streams_container=streams, mesh=whole_mesh).eval()
 print(P_S)
 
 pl = DpfPlotter()
-pl.add_field(P_S)
+pl.add_field(P_S[0])
 cpos_mesh_variable = [
     (-0.17022616684387018, -0.20190398787025482, 0.1948471407823707),
     (0.00670901800318915, 0.00674082901283412, 0.0125629516499091),
@@ -83,8 +81,10 @@ print(to_nodal)
 # into account shell and skin elements.
 
 iso_surface = dpf.operators.mesh.mesh_cut(
-    field=to_nodal, iso_value=1.0, closed_surface=0, mesh=mesh_whole, slice_surfaces=True
+    field=to_nodal, iso_value=1.0, closed_surface=0, mesh=whole_mesh, slice_surfaces=True
 ).eval()
+
+print(iso_surface)
 
 c_pos_iso = [
     (-0.17022616684387018, -0.20190398787025482, 0.1948471407823707),
@@ -94,7 +94,10 @@ c_pos_iso = [
 
 pl = DpfPlotter()
 pl.add_mesh(
-    mesh_whole, style="surface", show_edges=True, show_axes=True, color="w", opacity=0.3
+    whole_mesh, style="surface", show_edges=True, show_axes=True, color="w", opacity=0.6
+)
+pl.add_field(
+    P_S[0], style="surface", show_edges=True, show_axes=True, color="w", opacity=0.6
 )
 pl.add_mesh(
     iso_surface, style="surface", show_edges=True, show_axes=True, color="r"
