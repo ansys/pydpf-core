@@ -161,11 +161,15 @@ def test_output_mesh_info_provider_fluent(server_clayer):
 
     # """************************ NUMBER OF CELLS/FACES/ZONES ************************"""
     num_cells = mesh_info_out.get_property("num_cells")
+    num_cells2 = mesh_info_out.number_elements
     num_faces = mesh_info_out.get_property("num_faces")
+    num_faces2 = mesh_info_out.number_faces
     num_nodes = mesh_info_out.get_property("num_nodes")
 
     assert num_cells == 1344
+    assert num_cells2 == 1344
     assert num_faces == 2773
+    assert num_faces2 == 2773
     assert num_nodes == 1430
 
     # """************************ BODIES ************************"""
@@ -178,7 +182,7 @@ def test_output_mesh_info_provider_fluent(server_clayer):
     assert body_names_value[0] == "fluid-1"
 
     # """************ Scoping ************"""
-    body_scoping = mesh_info_out.get_property("body_scoping")
+    body_scoping = mesh_info_out.body_scoping
 
     assert body_scoping.size == 1
     assert body_scoping[0] == 1
@@ -213,7 +217,7 @@ def test_output_mesh_info_provider_fluent(server_clayer):
     assert zone_names_value[5] == "velocity-inlet-7"
 
     # """************ Scoping ************"""
-    zone_scoping = mesh_info_out.get_property("zone_scoping")
+    zone_scoping = mesh_info_out.zone_scoping
 
     assert zone_scoping.size == 6
     assert zone_scoping[0] == 1
@@ -312,7 +316,7 @@ def test_output_mesh_info_provider_flprj(fluent_axial_comp, server_clayer):
 
     # """************************ BODIES ************************"""
     # ************ Name ************
-    body_names = res.get_property("body_names")
+    body_names = res.body_names
 
     body_names_value = body_names._get_data()
 
@@ -345,7 +349,7 @@ def test_output_mesh_info_provider_flprj(fluent_axial_comp, server_clayer):
 
     # """************************ ZONES ************************"""
     # ************ Name ************
-    zone_names = res.get_property("zone_names")
+    zone_names = res.zone_names
 
     zone_names_value = zone_names._get_data()
 
