@@ -147,6 +147,7 @@ jobs:
           echo bla
           find /usr/lib -name "libffi.so*"
           echo bla2
+          echo $LD_PRELOAD
           export SPHINX_APIDOC_OPTIONS=inherited-members
           sphinx-apidoc -o \
             docs/source/api \
@@ -173,6 +174,12 @@ jobs:
         shell: bash
         working-directory: docs
         run: |
+          export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libffi.so.6
+          echo bla
+          find /usr/lib -name "libffi.so*"
+          echo bla2
+          echo $LD_PRELOAD
+          
           export TEMP=${{ runner.temp }}
           export BASE=${{ github.workspace }}
           export SPHINX_APIDOC_OPTIONS=inherited-members
