@@ -4,6 +4,40 @@ For example, provide helpers to compute and manipulate
 streamlines.
 """
 
+import inspect
+import numpy as np
+import sys
+import warnings
+
+from ansys.dpf.core.common import locations
+
+
+def _sort_supported_kwargs(bound_method, **kwargs):
+    """Filters the kwargs for a given method."""
+    # Ignore warnings unless specified
+    if not sys.warnoptions:
+        import warnings
+
+        warnings.simplefilter("ignore")
+    # Get supported arguments
+    supported_args = inspect.getfullargspec(bound_method).args
+    kwargs_in = {}
+    kwargs_not_avail = {}
+    # Filter the given arguments
+    for key, item in kwargs.items():
+        if key in supported_args:
+            kwargs_in[key] = item
+        else:
+            kwargs_not_avail[key] = item
+    # Prompt a warning for arguments filtered out
+    if len(kwargs_not_avail) > 0:
+        txt = f"The following arguments are not supported by {bound_method}: "
+        txt += str(kwargs_not_avail)
+        warnings.warn(txt)
+    # Return the accepted arguments
+    return kwargs_in
+
+
 def compute_streamlines(meshed_region, field, **kwargs):
     """Compute the streamlines for a given mesh and velocity
     field.
@@ -32,5 +66,46 @@ def compute_streamlines(meshed_region, field, **kwargs):
     except ModuleNotFoundError:
         raise PyVistaImportError
 
+    # Check velocity field location
+    if field.location is not locations.nodal:
+        warnings.warn(
+            "Velocity field must have a nodal location. Result must be carefully checked."
+        )
 
+    # handles input data
+    f_name = field.name
+    stream_name = "streamlines " + f_name + " (" + str(field.unit) + ")"
+    grid = meshed_region.grid
+    mesh_nodes = meshed_region.nodes
+
+    ind, mask = mesh_nodes.map_scoping(field.scoping)
+    overall_data = np.full((len(mesh_nodes), 3), np.nan)  # velocity has 3 components
+    overall_data[ind] = field.data[mask]
+
+    grid.set_active_scalars(None)
+    grid[f"{stream_name}"] = overall_data
+
+    # check src request
+    return_source = kwargs.pop("return_source", None)
+
+    # filter kwargs
+    kwargs_base = _sort_supported_kwargs(bound_method=grid.streamlines, **kwargs)
+    kwargs_from_source = _sort_supported_kwargs(
+        bound_method=grid.streamlines_from_source, **kwargs
+    )
+    kwargs_from_source.update(kwargs_base)  # merge both dicts in kwargs_from_source
+
+    if return_source:
+        streamlines, src = grid.streamlines(
+            vectors=f"{stream_name}",
+            return_source=True,
+            **kwargs_from_source,
+        )
+        return streamlines, src
+    else:
+        streamlines = grid.streamlines(
+            vectors=f"{stream_name}",
+            **kwargs_from_source,
+        )
+        return streamlines
 

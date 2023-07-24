@@ -18,6 +18,7 @@ This example shows you how to plot compute streamlines of fluid simulation resul
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
+from ansys.dpf.core.helpers import compute_streamlines
 from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
@@ -49,8 +50,8 @@ field = dpf.operators.averaging.to_nodal_fc(fields_container=fc).outputs.fields_
 # Compute the streamlines
 # -----------------------
 
-streamlines_fc_3D = dpf.helpers.compute_streamline(
-    meshed_region,
+streamlines_fc_3D = compute_streamlines(
+    meshed_region=meshed_region,
     field=field,
     source_center=(0.56, 0.48, 0.0),
     n_points=10,
@@ -103,7 +104,7 @@ field = dpf.operators.averaging.to_nodal_fc(fields_container=fc).outputs.fields_
 # Compute and plot single streamline
 # ----------------------------------
 
-streamlines_fc_2D_single = dpf.helpers.compute_streamline(
+streamlines_fc_2D_single = compute_streamlines(
     meshed_region=meshed_region,
     field=field,
     start_position=(0.005, 0.0005, 0.0),
@@ -122,7 +123,7 @@ pl_single.show_figure(show_axes=True)
 # Compute and plot multiple streamlines
 # -------------------------------------
 
-streamlines_fc_2D_multiple = dpf.helpers.compute_streamline(
+streamlines_fc_2D_multiple = compute_streamlines(
     meshed_region=meshed_region,
     field=field,
     pointa=(0.005, 0.0001, 0.0),
