@@ -58,6 +58,8 @@ jobs:
         shell: bash
         run: |
           find /usr/lib -name "libffi.so*"
+          echo bla
+          echo $LD_LIBRARY_PATH
 
 
       - name: "Setup Python"
