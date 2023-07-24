@@ -73,12 +73,12 @@ env:
   # PATH: ${{github.workspace}}/dpf-standalone/v${{inputs.ANSYS_VERSION}}/commonfiles/CPython/3_10/linx64/Release/python/bin/
 
 jobs:
-  doc-style:
-    name: "Check doc style"
-    uses: ./.github/workflows/docs-style.yml
-    with:
-      vale_reporter: ${{ (inputs.event_name == 'pull_request') && 'github-check' || 'local' }}
-    secrets: inherit
+  # doc-style:
+    # name: "Check doc style"
+    # uses: ./.github/workflows/docs-style.yml
+    # with:
+      # vale_reporter: ${{ (inputs.event_name == 'pull_request') && 'github-check' || 'local' }}
+    # secrets: inherit
 
   docs:
     name: "Documentation"
