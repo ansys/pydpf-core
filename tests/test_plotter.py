@@ -9,6 +9,7 @@ from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import misc
 from ansys.dpf.core.plotter import plot_chart
 from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
+from ansys.dpf.core import element_types
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -710,14 +711,25 @@ def test_plot_polyhedron():
     ]
     # Define the element connectivity
     element_connectivity = [i for face in faces_connectivity for i in face]
+
     # Define the faces connectivity of the element
     elements_faces = [[0, 1, 2, 3, 4, 5, 6]]
+    # Define the types of faces in the mesh
+    faces_types = [[element_types.Polygon.value]] * 7
+    # Define the types of elements in the mesh
+    cell_types = [[element_types.Polyhedron.value]]
 
     # Create mesh object and add nodes and elements
     mesh = core.MeshedRegion()
     for index, node_coordinates in enumerate(polyhedron_points):
         mesh.nodes.add_node(index, node_coordinates)
     mesh.elements.add_solid_element(0, element_connectivity)
+
+    # Set the "cell_types" PropertyField
+    cell_types_f = core.PropertyField()
+    for cell_index, cell_type in enumerate(cell_types):
+        cell_types_f.append(cell_type, cell_index)
+    mesh.set_property_field("eltype", cell_types_f)
 
     # Set the "faces_nodes_connectivity" PropertyField
     connectivity_f = core.PropertyField()
@@ -730,6 +742,12 @@ def test_plot_polyhedron():
     for element_index, element_faces in enumerate(elements_faces):
         elements_faces_f.append(element_faces, element_index)
     mesh.set_property_field("elements_faces_connectivity", elements_faces_f)
+
+    # Set the "faces_types" PropertyField
+    faces_types_f = core.PropertyField()
+    for face_index, face_type in enumerate(faces_types):
+        faces_types_f.append(face_type, face_index)
+    mesh.set_property_field("faces_type", faces_types_f)
 
     # Plot the MeshedRegion
     mesh.plot()

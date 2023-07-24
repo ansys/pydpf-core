@@ -30,7 +30,7 @@ class time_freq_interpolation(Operator):
         If a field is set as input, the step ids
         should be its scoping.
     interpolation_type : int, optional
-        1 is ramped, 2 is stepped, default is 0.
+        1 is ramped, 2 is stepped, default is 1.
     force_new_time_freq_support : bool, optional
         If set to true, the output fields container
         will always have a new time freq
@@ -143,7 +143,7 @@ class time_freq_interpolation(Operator):
                     name="interpolation_type",
                     type_names=["int32"],
                     optional=True,
-                    document="""1 is ramped, 2 is stepped, default is 0.""",
+                    document="""1 is ramped, 2 is stepped, default is 1.""",
                 ),
                 4: PinSpecification(
                     name="force_new_time_freq_support",
@@ -204,7 +204,7 @@ class time_freq_interpolation(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -326,7 +326,7 @@ class InputsTimeFreqInterpolation(_Inputs):
     def interpolation_type(self):
         """Allows to connect interpolation_type input to the operator.
 
-        1 is ramped, 2 is stepped, default is 0.
+        1 is ramped, 2 is stepped, default is 1.
 
         Parameters
         ----------

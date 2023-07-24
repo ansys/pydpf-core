@@ -20,7 +20,14 @@ version 0.3.0 or later. With Ansys 2021 R1, you must use a PyDPF-Core 0.2
 version.
 
 As new features are developed, every attempt is made to ensure backward
-compatibility from the client to the server.
+compatibility from the client to the server. Backward compatibility is ensured for
+the 4 latest Ansys versions. For example, ansys-dpf-core module with 0.8.0 version has been
+developed for Ansys 2023 R2 pre1 release, for 2023 R2 Ansys version. It is compatible with
+2023 R2, 2023 R1, 2022 R2 and 2022 R1 Ansys versions.
+
+**Ansys strongly encourages you to use the latest packages available**, as far they are compatible
+with the Server version you want to use. Using Ansys 2022 R2, if ansys-dpf-core module with
+0.8.0 version is the latest available package, it should be used.
 
 The `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ package
 should also be synchronized with the server version.

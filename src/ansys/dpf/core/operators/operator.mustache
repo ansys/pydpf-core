@@ -89,6 +89,9 @@ class {{class_name}}(Operator):
                     {{/has_types}}
                     optional={{optional}},
                     document="""{{{document}}}""",
+                    {{#has_derived_class}}
+                    name_derived_class=["{{{derived_type_name}}}"],
+                    {{/has_derived_class}}
                 ),
                 {{/input_pins}}
             },
@@ -101,6 +104,9 @@ class {{class_name}}(Operator):
                     {{/has_types}}
                     optional={{optional}},
                     document="""{{{document}}}""",
+                    {{#has_derived_class}}
+                    name_derived_class=["{{{derived_type_name}}}"],
+                    {{/has_derived_class}}
                 ),
                 {{/output_pins}}
             },
@@ -135,7 +141,7 @@ class {{class_name}}(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -224,7 +230,12 @@ class Outputs{{capital_class_name}}(_Outputs):
 
         Returns
         ----------
+        {{#derived_type_name}}
+        my_{{name}} : {{derived_type_name}}
+        {{/derived_type_name}}
+        {{^derived_type_name}}
         my_{{name}} :{{#types_for_docstring}} {{types_for_docstring}}{{/types_for_docstring}}
+        {{/derived_type_name}}
 
         Examples
         --------

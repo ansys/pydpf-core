@@ -22,7 +22,7 @@ class modal_participation(Operator):
         Imag part of field v
     mode_shapes : FieldsContainer
     ponderation : Field, optional
-    force_label_space : LabelSpace, optional
+    force_label_space : dict, optional
         If set, will force a label space for output
         result.
 
@@ -43,7 +43,7 @@ class modal_participation(Operator):
     >>> op.inputs.mode_shapes.connect(my_mode_shapes)
     >>> my_ponderation = dpf.Field()
     >>> op.inputs.ponderation.connect(my_ponderation)
-    >>> my_force_label_space = dpf.LabelSpace()
+    >>> my_force_label_space = dict()
     >>> op.inputs.force_label_space.connect(my_force_label_space)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -165,7 +165,7 @@ class modal_participation(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -190,7 +190,7 @@ class InputsModalParticipation(_Inputs):
     >>> op.inputs.mode_shapes.connect(my_mode_shapes)
     >>> my_ponderation = dpf.Field()
     >>> op.inputs.ponderation.connect(my_ponderation)
-    >>> my_force_label_space = dpf.LabelSpace()
+    >>> my_force_label_space = dict()
     >>> op.inputs.force_label_space.connect(my_force_label_space)
     """
 
@@ -294,7 +294,7 @@ class InputsModalParticipation(_Inputs):
 
         Parameters
         ----------
-        my_force_label_space : LabelSpace
+        my_force_label_space : dict
 
         Examples
         --------

@@ -168,9 +168,7 @@ class TestServerConfigs:
 
     @pytest.mark.skipif(running_docker, reason="Not made to work on docker")
     def test_launch_server_full_path(self, server_config):
-        ansys_path = os.environ.get(
-            "AWP_ROOT" + core.misc.__ansys_version__, core.misc.find_ansys()
-        )
+        ansys_path = core.misc.get_ansys_path()
         if os.name == "nt":
             path = os.path.join(ansys_path, "aisol", "bin", "winx64")
         else:
@@ -186,8 +184,8 @@ class TestServerConfigs:
             else:
                 path = os.path.join(ansys_path, "aisol", "bin", "linx64")
 
-        print("trying to launch on ", path)
-        print(os.listdir(path))
+        # print("trying to launch on ", path)
+        # print(os.listdir(path))
         server = core.start_local_server(as_global=False, ansys_path=path, config=server_config)
         assert "server_port" in server.info
 

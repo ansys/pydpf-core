@@ -11,16 +11,17 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class serialize_to_hdf5(Operator):
-    """Serialize the inputs in an hdf5 format.
+    """This operator is deprecated: use 'hdf5::h5dpf::make_result_file'
+    instead. Serialize the inputs in an hdf5 format.
 
     Parameters
     ----------
     file_path : str
         Output file path with .h5 extension
-    export_floats : bool
+    export_floats : bool, optional
         Converts double to float to reduce file size
         (default is true)
-    export_flat_vectors : bool
+    export_flat_vectors : bool, optional
         If true, vectors and matrices data are
         exported flat (x1,y1,z1,x2,y2,z2..)
         (default is false)
@@ -88,7 +89,8 @@ class serialize_to_hdf5(Operator):
 
     @staticmethod
     def _spec():
-        description = """Serialize the inputs in an hdf5 format."""
+        description = """This operator is deprecated: use 'hdf5::h5dpf::make_result_file'
+            instead. Serialize the inputs in an hdf5 format."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -101,14 +103,14 @@ class serialize_to_hdf5(Operator):
                 1: PinSpecification(
                     name="export_floats",
                     type_names=["bool"],
-                    optional=False,
+                    optional=True,
                     document="""Converts double to float to reduce file size
         (default is true)""",
                 ),
                 2: PinSpecification(
                     name="export_flat_vectors",
                     type_names=["bool"],
-                    optional=False,
+                    optional=True,
                     document="""If true, vectors and matrices data are
         exported flat (x1,y1,z1,x2,y2,z2..)
         (default is false)""",
@@ -160,7 +162,7 @@ class serialize_to_hdf5(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

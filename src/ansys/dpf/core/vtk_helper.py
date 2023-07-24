@@ -2,7 +2,7 @@ import numpy as np
 import pyvista as pv
 import ansys.dpf.core as dpf
 
-# from ansys.dpf.core import errors
+from ansys.dpf.core import errors
 from vtk import (
     VTK_HEXAHEDRON,
     VTK_LINE,
@@ -176,7 +176,7 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
         Meshed Region to export to pyVista format
 
     nodes : dpf.Field
-        Field containing the nodes of the mesh.
+        Field containing the node coordinates of the mesh.
 
     as_linear : bool
         Export quadratic surface elements as linear.
@@ -189,9 +189,11 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
     etypes = mesh.elements.element_types_field.data
     connectivity = mesh.elements.connectivities_field
     if nodes is None:
-        nodes = mesh.nodes.coordinates_field.data
+        coordinates_field = mesh.nodes.coordinates_field
+        node_coordinates = coordinates_field.data
     else:
-        nodes = nodes.data
+        coordinates_field = nodes
+        node_coordinates = nodes.data
 
     elem_size = np.ediff1d(np.append(connectivity._data_pointer, connectivity.shape))
 
@@ -207,22 +209,21 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
     insert_ind = np.cumsum(elem_size)
     insert_ind = np.hstack(([0], insert_ind))[:-1]
 
-    # Handle semiparabolic elements
-    nullmask = connectivity.data == -1
-    connectivity.data[nullmask] = 0
-    if nullmask.any():
-        nodes[0] = np.nan
+    # if not as_linear:
+    #     # Pre-handle semi-parabolic elements
+    #     semi_mask = connectivity.data == -1
+    #     if semi_mask.any():
+    #         # Modify -1 connectivity values
+    #         repeated_data_pointers = connectivity._data_pointer.repeat(repeats=elem_size)
+    #         connectivity.data[semi_mask] = connectivity.data[repeated_data_pointers[semi_mask]]
 
-    # For each polyhedron, cell = [nCellFaces, nFace0pts, i, j, k, ..., nFace1pts, i, j, k, ...]
-    # polys_ind = insert_ind[polyhedron_mask]
-    # cells = np.take(cells, sorted(set(insert_ind)-set(polys_ind)))
     # partition cells in vtk format
     cells = np.insert(connectivity.data, insert_ind, elem_size)
 
     # Check if polyhedrons are present
     if element_types.Polyhedron.value in etypes:
         cells = np.array(cells)
-        nodes = np.array(nodes)
+        nodes = np.array(node_coordinates)
         insert_ind = insert_ind + np.asarray(list(range(len(insert_ind))))
         # Replace in cells values for polyhedron format
         # [NValuesToFollow,
@@ -252,45 +253,93 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
         """Return the starting point of a cell in the cells array"""
         return insert_ind + np.arange(insert_ind.size)
 
+    cells_insert_ind = compute_offset()
     # convert kAns to VTK cell type
     offset = None
     if as_linear:
+        # Map the vtk_cell_type to linear versions of the initial elements types
         vtk_cell_type = VTK_LINEAR_MAPPING[etypes]
 
-        # visualization bug within VTK with quadratic surf cells
-        ansquad8_mask = etypes == 6
-        if np.any(ansquad8_mask):  # kAnsQuad8
+        # Create a global mask of connectivity values to take
+        mask = np.full(cells.shape, True)
 
-            # simply copy the edge node indices to the midside points
-            offset = compute_offset()
-            cell_pos = offset[ansquad8_mask]
-            cells[cell_pos + 5] = cells[cell_pos + 1]
-            cells[cell_pos + 6] = cells[cell_pos + 2]
-            cells[cell_pos + 7] = cells[cell_pos + 3]
-            cells[cell_pos + 8] = cells[cell_pos + 4]
+        # Get a mask of quad8 elements in etypes
+        quad8_mask = etypes == 6
+        # If any quad8
+        if np.any(quad8_mask):  # kAnsQuad8
+            # Get the starting indices of quad8 elements in cells
+            insert_ind_quad8 = cells_insert_ind[quad8_mask]
+            # insert_ind_quad8 += np.arange(insert_ind_quad8.size)
+            mask[insert_ind_quad8 + 5] = False
+            mask[insert_ind_quad8 + 6] = False
+            mask[insert_ind_quad8 + 7] = False
+            mask[insert_ind_quad8 + 8] = False
+            cells[insert_ind_quad8] //= 2
 
-        anstri6_mask = etypes == 4  # kAnsTri6 = 4
-        if np.any(anstri6_mask):
-            if offset is None:
-                offset = compute_offset()
-            cell_pos = offset[anstri6_mask]
-            cells[cell_pos + 4] = cells[cell_pos + 1]
-            cells[cell_pos + 5] = cells[cell_pos + 2]
-            cells[cell_pos + 6] = cells[cell_pos + 3]
+        tri6_mask = etypes == 4  # kAnsTri6 = 4
+        if np.any(tri6_mask):
+            insert_ind_tri6 = cells_insert_ind[tri6_mask]
+            # insert_ind_tri6 += np.arange(insert_ind_tri6.size)
+            mask[insert_ind_tri6 + 4] = False
+            mask[insert_ind_tri6 + 5] = False
+            mask[insert_ind_tri6 + 6] = False
+            cells[insert_ind_tri6] //= 2
+        cells = cells[mask]
 
     else:
         vtk_cell_type = VTK_MAPPING[etypes]
 
+        # Handle semi-parabolic elements
+        semi_mask = cells == -1
+        if semi_mask.any():
+            cells_insert_ind = compute_offset()
+            # Create a global mask of connectivity values to take
+            mask = np.full(cells.shape, True)
+            # Build a map of size cells with repeated element beginning index
+            repeated_insert_ind = cells_insert_ind.repeat(repeats=elem_size + 1)
+            # Apply the semi-mask to get a unique set of indices of semi-parabolic elements in cells
+            semi_indices_in_cells = np.array(list(set(repeated_insert_ind[semi_mask])))
+            semi_sizes = cells[semi_indices_in_cells]
+            semi_quad8 = semi_sizes == 8
+            if semi_quad8.any():
+                mask[semi_indices_in_cells[semi_quad8] + 5] = False
+                mask[semi_indices_in_cells[semi_quad8] + 6] = False
+                mask[semi_indices_in_cells[semi_quad8] + 7] = False
+                mask[semi_indices_in_cells[semi_quad8] + 8] = False
+                cells[semi_indices_in_cells[semi_quad8]] //= 2
+
+                quad8_mask = etypes == 6
+                semi_quad8_mask = (cells[cells_insert_ind] == 4) & quad8_mask
+                vtk_cell_type[semi_quad8_mask] = VTK_LINEAR_MAPPING[6]
+            semi_tri6 = semi_sizes == 6
+            if semi_tri6.any():
+                mask[semi_indices_in_cells[semi_tri6] + 4] = False
+                mask[semi_indices_in_cells[semi_tri6] + 5] = False
+                mask[semi_indices_in_cells[semi_tri6] + 6] = False
+                cells[semi_indices_in_cells[semi_tri6]] //= 2
+
+                tri6_mask = etypes == 4
+                semi_tri6_mask = (cells[cells_insert_ind] == 3) & tri6_mask
+                vtk_cell_type[semi_tri6_mask] = VTK_LINEAR_MAPPING[4]
+            # Update cells with the mask
+            cells = cells[mask]
+
     # different treatment depending on the version of vtk
     if VTK9:
         # compute offset array when < VTK v9
-        return pv.UnstructuredGrid(cells, vtk_cell_type, nodes)
+        grid = pv.UnstructuredGrid(cells, vtk_cell_type, node_coordinates)
+
+        # Quick fix required to hold onto the data as PyVista does not make a copy.
+        # All of those now return DPFArrays
+        setattr(grid, "_dpf_cache", [node_coordinates, coordinates_field])
+
+        return grid
 
     # might be computed when checking for VTK quadratic bug
     if offset is None:
         offset = compute_offset()
 
-    return pv.UnstructuredGrid(offset, cells, vtk_cell_type, nodes)
+    return pv.UnstructuredGrid(offset, cells, vtk_cell_type, node_coordinates)
 
 
 def dpf_mesh_to_vtk(mesh, nodes=None, as_linear=True):
@@ -313,10 +362,10 @@ def dpf_mesh_to_vtk(mesh, nodes=None, as_linear=True):
     grid : pyvista.UnstructuredGrid
         Unstructured grid of the DPF mesh.
     """
-    # try:
-    #    return dpf_mesh_to_vtk_op(mesh, nodes, as_linear)
-    # except (AttributeError, KeyError, errors.DPFServerException):
-    return dpf_mesh_to_vtk_py(mesh, nodes, as_linear)
+    try:
+        return dpf_mesh_to_vtk_op(mesh, nodes, as_linear)
+    except (AttributeError, KeyError, errors.DPFServerException):
+        return dpf_mesh_to_vtk_py(mesh, nodes, as_linear)
 
 
 def vtk_update_coordinates(vtk_grid, coordinates_array):
