@@ -26,4 +26,11 @@ def compute_streamlines(meshed_region, field, **kwargs):
     streamlines: FieldsContainer
 
     """
-    pass
+    from ansys.dpf.core.vtk_helper import PyVistaImportError
+    try:
+        import pyvista as pv
+    except ModuleNotFoundError:
+        raise PyVistaImportError
+
+
+
