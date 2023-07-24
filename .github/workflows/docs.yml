@@ -101,7 +101,6 @@ jobs:
           echo $LD_LIBRARY_PATH
           echo $PATH
           echo he
-          mv -v /home/runner/.local/lib/python3.10 /home/runner/.local/lib/_python3.10
 
       - name: "Install OS packages"
         shell: bash
