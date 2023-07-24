@@ -50,13 +50,14 @@ field = dpf.operators.averaging.to_nodal_fc(fields_container=fc).outputs.fields_
 # Compute the streamlines
 # -----------------------
 
-streamlines_fc_3D = compute_streamlines(
+streamlines_fc_3D, src = compute_streamlines(
     meshed_region=meshed_region,
     field=field,
     source_center=(0.56, 0.48, 0.0),
     n_points=10,
     source_radius=0.075,
     max_time=10.0,
+    return_source=True
 )
 
 ###############################################################################
@@ -67,9 +68,11 @@ pl = DpfPlotter()
 pl.add_field(field, meshed_region, opacity=0.2)
 pl.add_streamlines(
     computed_streamlines=streamlines_fc_3D,
+    computed_source=src,
     radius=0.001,
 )
 pl.show_figure(show_axes=True)
+
 
 ###############################################################################
 # Compute 2D streamlines

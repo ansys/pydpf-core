@@ -312,6 +312,7 @@ class _PyVistaPlotter:
     def add_streamlines(self, meshed_region=None, field=None, computed_streamlines=None, computed_source=None, radius=1.0, **kwargs):
         permissive = kwargs.pop("permissive", None)
         return_source = kwargs.get("return_source", None)
+        src = None
 
         if computed_streamlines is None:
             if meshed_region is None or field is None:
@@ -321,35 +322,29 @@ class _PyVistaPlotter:
                 )
 
         # create streamlines
-        if return_source:
-            if computed_streamlines is not None:
-                if computed_source is None:
-                    raise AttributeError(
-                        "return_source is set to True and computed_streamline is not None:"
-                        "computed_source must be set."
-                    )
-                streamlines, src = computed_streamlines, computed_source
-            else:
+        if computed_streamlines is not None:
+            streamlines = computed_streamlines
+        else:
+            if return_source:
                 streamlines, src = compute_streamlines(
                     meshed_region=meshed_region,
                     field=field,
                     **kwargs
                 )
-        else:
-            if computed_streamlines is not None:
-                streamlines = computed_streamlines
             else:
                 streamlines = compute_streamlines(
                     meshed_region=meshed_region,
                     field=field,
                     **kwargs
                 )
+        if computed_source is not None:
+            src = computed_source
 
         # set streamline on plotter
         sargs = dict(vertical=False)
         if not (permissive and streamlines.n_points == 0):
             self._plotter.add_mesh(streamlines.tube(radius=radius), scalar_bar_args=sargs)
-        if return_source:
+        if src is not None:
             self._plotter.add_mesh(src)
 
     def show_figure(self, **kwargs):
