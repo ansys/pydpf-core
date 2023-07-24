@@ -90,6 +90,7 @@ def test_set_get_num_of(server_type):
     num_elements = 2
     mesh_info.number_elements = 2
     assert mesh_info.number_elements == num_elements
+    assert mesh_info.number_faces == 0
 
 
 @pytest.mark.skipif(
