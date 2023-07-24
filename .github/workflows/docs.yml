@@ -64,21 +64,14 @@ on:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  pythonLocation: ${{github.workspace}}/dpf-standalone/v${{inputs.ANSYS_VERSION}}/commonfiles/CPython/3_10/linx64/Release/python
-  PKG_CONFIG_PATH: ${{github.workspace}}/dpf-standalone/v${{inputs.ANSYS_VERSION}}/commonfiles/CPython/3_10/linx64/Release/python/lib/pkgconfig
-  Python_ROOT_DIR: ${{github.workspace}}/dpf-standalone/v${{inputs.ANSYS_VERSION}}/commonfiles/CPython/3_10/linx64/Release/python
-  Python2_ROOT_DIR: ${{github.workspace}}/dpf-standalone/v${{inputs.ANSYS_VERSION}}/commonfiles/CPython/3_10/linx64/Release/python
-  Python3_ROOT_DIR: ${{github.workspace}}/dpf-standalone/v${{inputs.ANSYS_VERSION}}/commonfiles/CPython/3_10/linx64/Release/python
-  LD_LIBRARY_PATH: ${{github.workspace}}/dpf-standalone/v${{inputs.ANSYS_VERSION}}/commonfiles/CPython/3_10/linx64/Release/python/lib
-  # PATH: ${{github.workspace}}/dpf-standalone/v${{inputs.ANSYS_VERSION}}/commonfiles/CPython/3_10/linx64/Release/python/bin/
 
 jobs:
-  # doc-style:
-    # name: "Check doc style"
-    # uses: ./.github/workflows/docs-style.yml
-    # with:
-      # vale_reporter: ${{ (inputs.event_name == 'pull_request') && 'github-check' || 'local' }}
-    # secrets: inherit
+  doc-style:
+    name: "Check doc style"
+    uses: ./.github/workflows/docs-style.yml
+    with:
+      vale_reporter: ${{ (inputs.event_name == 'pull_request') && 'github-check' || 'local' }}
+    secrets: inherit
 
   docs:
     name: "Documentation"
@@ -92,6 +85,11 @@ jobs:
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.6.0
+        with:
+          python-version: ${{ inputs.python_version }}
           
       - name: "overview"
         shell: bash
@@ -110,7 +108,7 @@ jobs:
 
       - name: "Build Package"
         id: build-package
-        uses: ansys/pydpf-actions/build_package@v2.3.lpa
+        uses: ansys/pydpf-actions/build_package@v2.3
         with:
           python-version: ${{ inputs.python_version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
