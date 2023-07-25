@@ -9,8 +9,31 @@ large amounts of simulation data within a simulation workflow.
 
 DPF is an independent, physics-agnostic tool that you can plug into many 
 apps for both data input and data output, including visualization and 
-result plots. It can access data from solver result files and other neutral
-formats, such as CSV, HDF5, and VTK files.
+result plots. By "many", we can draw up an exhaustive list of supported
+apps by DPF and their related format:
+
+.. list-table:: Supported solver and related file format
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Solver
+     - File format
+     - DPF examples
+   * - MAPDL
+     - .rst, .mode, .rfrq, .rdsp
+     - :ref:`_ref_distributed_msup`, :ref:`_ref_average_across_bodies`
+   * - LS DYNA
+     - .d3plot
+     - :ref:`lsdyna_operators`
+   * - Fluent
+     - .cfx, .cas/dat.h5, .res, .flprj
+     - :ref:`_ref_fluids_mesh`
+   * - Abaqus
+     - .obd
+     - Not yet
+
+Visualisation is ensured by VTK and leverage of `PyVista tools
+<https://docs.pyvista.org>`_.
 
 Using the many DPF operators that are available, you can manipulate and
 transform this data. You can also chain operators together to create simple
@@ -28,7 +51,6 @@ a modular and easy-to-use tool with a large range of capabilities.
 The ``ansys.dpf.core`` package provides a Python interface to DPF, enabling
 rapid postprocessing of a variety of Ansys file formats and physics solutions
 without ever leaving the Python environment.
-
 
 Brief demo
 ~~~~~~~~~~

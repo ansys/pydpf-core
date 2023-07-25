@@ -6,7 +6,8 @@ Getting started
 
 The Data Processing Framework (DPF) provides numerical simulation users and engineers with a toolbox
 for accessing and transforming simulation data. DPF can access data from Ansys solver
-result (RST) files as well as from several neutral file formats, including CSV, HDF5, and VTK.
+result files as well as from several neutral `file formats <https://dpf.docs.pyansys.com/version/stable/index.html>`_.
+
 This **workflow-based** framework allows you to perform complex preprocessing and
 postprocessing operations on large amounts of simulation data.
 
