@@ -254,6 +254,57 @@ def create_vector_field(num_entities, num_comp, location=locations.nodal, server
     return _create_field(server, natures.vector, num_entities, location, ncomp_n=num_comp)
 
 
+def create_overall_field(
+    value, nature, num_entities, num_comp, location=locations.overall, server=None
+):
+    """Create a specific `:class:`ansys.dpf.core.Field` with entities that have an
+    overall location.
+
+    Regarding the nature of the entity contained in the field, we set the same value
+    for all element.
+
+    Parameters
+    ----------
+    value : float
+        Value of the entity
+    nature : str
+        Nature of the field entity data. For example:
+
+        - :class:`ansys.dpf.core.natures.matrix`
+        - :class:`ansys.dpf.core.natures.scalar`
+    num_entities : int
+        Number of entities to reserve.
+    num_comp : int
+        Number of vector components.
+    location : str, optional
+        Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
+        The default is ``dpf.locations.nodal``.
+
+    server : ansys.dpf.core.server, optional
+        Server with the channel connected to the remote or local instance.
+        The default is ``None``, in which case an attempt is made to use the
+        global server.
+
+    Returns
+    -------
+    field : Field
+        DPF field in the requested format.
+
+    Examples
+    --------
+    Create a field containing 10 scalar entities of 1 component each with an
+    overall location (default). Same value (1.0) is set for all element of the field.
+
+    >>> from ansys.dpf.core import fields_factory
+    >>> field = fields_factory.create_overall_field(1.0, natures.scalar, 10, 1)
+
+    """
+    overall_field = _create_field(server, nature, num_entities, location, ncomp_n=num_comp)
+    for i in range(num_entities):
+        overall_field.append(value, i)
+    return overall_field
+
+
 def _create_field(server, nature, nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0):
     """Create a specific :class:`ansys.dpf.core.Field`.
 

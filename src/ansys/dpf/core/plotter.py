@@ -269,6 +269,8 @@ class _PyVistaPlotter:
                 show_min = False
         elif location == locations.faces:
             mesh_location = meshed_region.faces
+            if len(mesh_location) == 0:
+                raise ValueError("No faces found to plot on")
             if show_max or show_min:
                 warnings.warn("`show_max` and `show_min` is only supported for Nodal results.")
                 show_max = False
