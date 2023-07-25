@@ -24,7 +24,7 @@ from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.helpers.streamlines import (
     compute_streamlines,
     _fields_to_streamline,
-    _field_to_source,
+    _fields_to_source,
 )
 from ansys.dpf.core.nodes import Node, Nodes
 
@@ -352,7 +352,7 @@ class _PyVistaPlotter:
         if not (permissive and streamlines.n_points == 0):
             self._plotter.add_mesh(streamlines.tube(radius=radius), scalar_bar_args=sargs)
         if src is not None:
-            src = _field_to_source(src)
+            src = _fields_to_source(src)
             self._plotter.add_mesh(src)
 
     def show_figure(self, **kwargs):

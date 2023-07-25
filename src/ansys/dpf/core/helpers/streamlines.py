@@ -16,11 +16,11 @@ def _fields_to_streamline(streamline_fields):
     return streamline_fields
 
 
-def _source_to_field(source_data_set):
+def _source_to_fields(source_data_set):
     return source_data_set
 
 
-def _field_to_source(source_field):
+def _fields_to_source(source_field):
     return source_field
 
 
@@ -88,7 +88,7 @@ def compute_streamlines(meshed_region, field, **kwargs):
             **kwargs_from_source,
         )
         streamlines = _streamline_to_fields(streamlines)
-        src = _source_to_field(src)
+        src = _source_to_fields(src)
         return streamlines, src
     else:
         streamlines = grid.streamlines(
