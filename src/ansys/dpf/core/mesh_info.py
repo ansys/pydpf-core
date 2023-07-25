@@ -151,6 +151,19 @@ class MeshInfo:
         return self.generic_data_container.get_property("num_nodes")
 
     @property
+    def number_faces(self):
+        """
+        Returns
+        -------
+        number_faces : int
+            Number of faces of the mesh.
+        """
+        if "num_faces" in self._generic_data_container.get_property_description():
+            return self.generic_data_container.get_property("num_faces")
+        else:
+            return 0
+
+    @property
     def number_elements(self):
         """
         Returns
