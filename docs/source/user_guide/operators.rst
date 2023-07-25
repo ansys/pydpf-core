@@ -308,7 +308,8 @@ Operators for importing or reading data
 ***************************************
 
 These operators provide for reading data from solver files or from standard file types
-such as .RST (MAPDL), .D3Plot (LS DYNA), .CFX (Fluent) or .OBD (Abaqus).
+such as .RST (MAPDL), .D3Plot (LS DYNA), .CAS.H5/.DAT.H5 (Fluent), .CAS.CFF/.DAT.CFF (CFX)
+or .OBD (Abaqus).
 
 To read these files, different readers are implemented as plugins.
 Plugins can be loaded on demand in any DPF scripting language with "load library" methods. 

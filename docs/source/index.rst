@@ -9,7 +9,7 @@ large amounts of simulation data within a simulation workflow.
 
 DPF is an independent, physics-agnostic tool that you can plug into many 
 apps for both data input and data output, including visualization and 
-result plots. By "many", we can draw up an exhaustive list of supported
+result plots. The following table shows an exhaustive list of supported
 apps by DPF and their related format:
 
 .. list-table:: Supported solver and related file format
@@ -21,13 +21,19 @@ apps by DPF and their related format:
      - DPF examples
    * - MAPDL
      - .rst, .mode, .rfrq, .rdsp
-     - :ref:`_ref_distributed_msup`, :ref:`_ref_average_across_bodies`
+     - :ref:`distributed_msup`, :ref:`average_across_bodies`
    * - LS DYNA
      - .d3plot
      - :ref:`lsdyna_operators`
-   * - Fluent
-     - .cfx, .cas/dat.h5, .res, .flprj
-     - :ref:`_ref_fluids_mesh`
+   * - Fluent CFF restart files
+     - .cas/dat.h5
+     - :ref:`fluids_results`
+   * - CFX CFF files
+     - .cas/dat.cff
+     - :ref:`fluids_mesh`
+   * - Fluid project files
+     - .flprj
+     - :ref:`fluids_mesh`
    * - Abaqus
      - .obd
      - Not yet
