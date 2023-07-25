@@ -40,9 +40,11 @@ m_fluent = dpf.Model(ds_fluent)
 # Meshed region is used as geometric base to compute the streamlines.
 # Velocity data is used to compute the streamlines. The velocity data must be nodal.
 
+###############################################################################
 # Get the meshed region:
 meshed_region = m_fluent.metadata.meshed_region
 
+###############################################################################
 # Get the velocity result at nodes:
 velocity_op = m_fluent.results.velocity()
 fc = velocity_op.outputs.fields_container()
@@ -54,6 +56,7 @@ field = dpf.operators.averaging.to_nodal_fc(fields_container=fc).outputs.fields_
 # The following steps show you how to create streamlines using DpfPlotter, with several sets
 # of parameters. It demonstrates the issues that can happen and the adjustments that you can make.
 
+###############################################################################
 # First, a DpfPlotter is created and the streamline is created with default values.
 pl0 = DpfPlotter()
 try:
@@ -67,6 +70,7 @@ except:
     # the streamlines source center.
     pass
 
+###############################################################################
 # Then, you can correctly set the source coordinates using the
 # "source_center" argument that moves the source center,
 # the "return_source" arguments that displays the source, and
@@ -87,6 +91,7 @@ pl1.add_streamlines(
 )
 pl1.show_figure(show_axes=True)
 
+###############################################################################
 # After the adjustment, the correct values for the "source_center" argument are set.
 # You can remove the "permissive" option.
 # You can display velocity data with a small opacity value to avoid hiding the streamlines.
@@ -142,6 +147,7 @@ field = velocity_op.outputs.fields_container()[0]
 # Compute streamlines from different sources
 # ------------------------------------------
 
+###############################################################################
 # Compute streamlines from different sources:
 streamline_1, source_1 = compute_streamlines(
     meshed_region=meshed_region,

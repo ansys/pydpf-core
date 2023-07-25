@@ -39,9 +39,11 @@ m_fluent = dpf.Model(ds_fluent)
 # Meshed region is used as the geometric base to compute the streamlines.
 # Velocity data is used to compute the streamlines. The velocity data must be nodal.
 
+###############################################################################
 # Get the meshed region:
 meshed_region = m_fluent.metadata.meshed_region
 
+###############################################################################
 # Get the velocity result at nodes:
 velocity_op = m_fluent.results.velocity()
 fc = velocity_op.outputs.fields_container()
