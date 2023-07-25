@@ -20,13 +20,13 @@ class identical_fields(Operator):
     double_value : float, optional
         Double positive small value. smallest value
         which will be considered during the
-        comparison step: all the abs(values)
-        in field less than this value is
+        comparison step. all the abs(values)
+        in the field less than this value are
         considered as null, (default
         value:1.0e-14).
     double_tolerance : float, optional
-        Double relative tolerance.maximum tolerance
-        gap between to compared values :
+        Double relative tolerance. maximum tolerance
+        gap between two compared values.
         values within relative tolerance are
         considered identical(v1 - v2) / v2 <
         relativetol(default is 0.001).
@@ -107,8 +107,8 @@ class identical_fields(Operator):
                     optional=True,
                     document="""Double positive small value. smallest value
         which will be considered during the
-        comparison step: all the abs(values)
-        in field less than this value is
+        comparison step. all the abs(values)
+        in the field less than this value are
         considered as null, (default
         value:1.0e-14).""",
                 ),
@@ -116,8 +116,8 @@ class identical_fields(Operator):
                     name="double_tolerance",
                     type_names=["double"],
                     optional=True,
-                    document="""Double relative tolerance.maximum tolerance
-        gap between to compared values :
+                    document="""Double relative tolerance. maximum tolerance
+        gap between two compared values.
         values within relative tolerance are
         considered identical(v1 - v2) / v2 <
         relativetol(default is 0.001).""",
@@ -168,7 +168,7 @@ class identical_fields(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -248,8 +248,8 @@ class InputsIdenticalFields(_Inputs):
 
         Double positive small value. smallest value
         which will be considered during the
-        comparison step: all the abs(values)
-        in field less than this value is
+        comparison step. all the abs(values)
+        in the field less than this value are
         considered as null, (default
         value:1.0e-14).
 
@@ -271,8 +271,8 @@ class InputsIdenticalFields(_Inputs):
     def double_tolerance(self):
         """Allows to connect double_tolerance input to the operator.
 
-        Double relative tolerance.maximum tolerance
-        gap between to compared values :
+        Double relative tolerance. maximum tolerance
+        gap between two compared values.
         values within relative tolerance are
         considered identical(v1 - v2) / v2 <
         relativetol(default is 0.001).

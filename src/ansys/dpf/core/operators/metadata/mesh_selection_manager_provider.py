@@ -11,17 +11,17 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class mesh_selection_manager_provider(Operator):
-    """Read mesh properties from the results files contained in the streams
-    or data sources and make those properties available through a mesh
-    selection manager in output.
+    """Reads mesh properties from the results files contained in the streams
+    or data sources, and makes those properties available through a
+    mesh selection manager in output.
 
     Parameters
     ----------
     streams_container : StreamsContainer, optional
         Streams (result file container) (optional)
     data_sources : DataSources
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
 
 
     Examples
@@ -62,8 +62,8 @@ class mesh_selection_manager_provider(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read mesh properties from the results files contained in the streams
-            or data sources and make those properties available
+        description = """Reads mesh properties from the results files contained in the streams
+            or data sources, and makes those properties available
             through a mesh selection manager in output."""
         spec = Specification(
             description=description,
@@ -78,8 +78,8 @@ class mesh_selection_manager_provider(Operator):
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document="""If the stream is null then we need to get the
-        file path from the data sources""",
+                    document="""If the stream is null, retrieves the file
+        path from the data sources.""",
                 ),
             },
             map_output_pin_spec={
@@ -123,7 +123,7 @@ class mesh_selection_manager_provider(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -181,8 +181,8 @@ class InputsMeshSelectionManagerProvider(_Inputs):
     def data_sources(self):
         """Allows to connect data_sources input to the operator.
 
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
 
         Parameters
         ----------

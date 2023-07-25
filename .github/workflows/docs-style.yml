@@ -3,11 +3,13 @@ name: Documentation Style Check
 
 on:
   workflow_call:
+    inputs:
+      vale_reporter:
+        description: "Vale reporter to use"
+        required: false
+        type: string
+        default: 'local'
   workflow_dispatch:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
 
 jobs:
   docs-style:
@@ -22,7 +24,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           files: docs
-          reporter: github-check
+          reporter: ${{ inputs.vale_reporter || 'local' }}
           level: error
           filter_mode: nofilter
           fail_on_error: true

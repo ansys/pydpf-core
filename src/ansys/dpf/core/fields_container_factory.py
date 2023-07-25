@@ -62,7 +62,8 @@ def over_time_freq_fields_container(fields, time_freq_unit=None, server=None):
             len(fields), location=locations.time_freq, server=server
         )
         time_freq_field.append(time_freq, 1)
-        time_freq_field.unit = time_freq_unit
+        if time_freq_unit:
+            time_freq_field.unit = time_freq_unit
         time_freq_support = TimeFreqSupport(server=server)
         time_freq_support.time_frequencies = time_freq_field
         fc.time_freq_support = time_freq_support
@@ -103,14 +104,10 @@ def over_time_freq_complex_fields_container(
     """
     if not isinstance(real_fields, dict) and not isinstance(real_fields, list):
         raise dpf_errors.InvalidTypeError("dictionary/list", "real_fields")
-    if not isinstance(imaginary_fields, dict) and not isinstance(
-        imaginary_fields, list
-    ):
+    if not isinstance(imaginary_fields, dict) and not isinstance(imaginary_fields, list):
         raise dpf_errors.InvalidTypeError("dictionary/list", "imaginary_fields")
 
-    errorString = (
-        "Both real_fields and imaginary_fields must have the same type (list or dict)"
-    )
+    errorString = "Both real_fields and imaginary_fields must have the same type (list or dict)"
     if isinstance(real_fields, dict):
         if not isinstance(imaginary_fields, dict):
             raise dpf_errors.DpfValueError(errorString)

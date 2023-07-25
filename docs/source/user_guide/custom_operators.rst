@@ -5,7 +5,7 @@ Custom operators
 ================
 
 In Ansys 2022 R2 and later, you can create custom operators in CPython. Creating custom operators
-consists of wrapping Python routines in a DPF-compliant way so that you can them in the same way
+consists of wrapping Python routines in a DPF-compliant way so that you can access them in the same way
 as you access the native operators in the :class:`ansys.dpf.core.dpf_operator.Operator` class in
 PyDPF-Core or in any supported client API.
 
@@ -24,7 +24,7 @@ With support for custom operators, PyDPF-Core becomes a development tool offerin
 - **Remotable and parallel computing:** Native DPF capabilities are inherited by custom operators.
 
 The only prerequisite for creating custom operators is to be familiar with native operators.
-For more information, see (:ref:`ref_user_guide_operators`).
+For more information, see :ref:`ref_user_guide_operators`.
 
 Install module
 --------------
@@ -34,8 +34,8 @@ installer's Python interpreter.
 
 #. Download the script for you operating system:
 
-   - For Windows, download this :download:`powershell script </user_guide/install_ansys_dpf_core_in_ansys.ps1>`.
-   - For Linux, download this :download:`shell script </user_guide/install_ansys_dpf_core_in_ansys.sh>`
+   - For Windows, download this :download:`PowerShell script </user_guide/install_ansys_dpf_core_in_ansys.ps1>`.
+   - For Linux, download this :download:`Shell script </user_guide/install_ansys_dpf_core_in_ansys.sh>`
 
 #. Run the downloaded script for installing with optional arguments:
 
@@ -48,8 +48,8 @@ If you ever want to uninstall the ``ansys-dpf-core`` module from the Ansys insta
 
 #. Download the script for your operating system:
 
-   - For Windows, download this :download:`powershell script </user_guide/uninstall_ansys_dpf_core_in_ansys.ps1>`.
-   - For Linux, download this :download:`shell script </user_guide/uninstall_ansys_dpf_core_in_ansys.sh>`.
+   - For Windows, download this :download:`PowerShell script </user_guide/uninstall_ansys_dpf_core_in_ansys.ps1>`.
+   - For Linux, download this :download:`Shell script </user_guide/uninstall_ansys_dpf_core_in_ansys.sh>`.
   
 3. Run the downloaded script for uninstalling with the optional argument:
 
@@ -86,7 +86,9 @@ In the various properties for the class, you specify the following:
   and whether it is optional and/or ellipsis (meaning that the specification is valid for pins going from pin
   number *x* to infinity)
 - List for operator properties, including name to use in the documentation and code generation and the
-  operator category
+  operator category. The optional ``license`` property allows to define a required license to check out
+  when running the operator. Set it equal to ``any_dpf_supported_increments`` to allow any license
+  currently accepted by DPF (see :ref:`here<target_to_ansys_license_increments_list>`)
 
 For comprehensive examples on writing operator plugins, see :ref:`python_operators`.
 
@@ -202,8 +204,8 @@ The ``requirements.txt`` file contains code like this:
 
 The ZIP files for Windows and Linux are included as assets:
   
-- winx64.zip
-- linx64.zip
+- ``winx64.zip``
+- ``linx64.zip``
 
 
 **custom_plugin.xml file**
@@ -247,4 +249,5 @@ Once the plugin is loaded, you can instantiate the custom operator:
 
 References
 ----------
-See the API reference at :ref:`ref_custom_operator` and examples of Custom Operators implementations in :ref:`python_operators`.
+For more information, see :ref:`ref_custom_operator` in the **API reference**
+and :ref:`python_operators` in **Examples**.

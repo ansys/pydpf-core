@@ -11,9 +11,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class field_band_pass_fc(Operator):
-    """The band pass filter returns all the values strictly superior to the
-    min threshold value and strictly inferior to the max threshold
-    value in input.
+    """The band pass filter returns all the values above (but not equal to)
+    the minimum threshold value and below (but not equal to) the
+    maximum threshold value in input.
 
     Parameters
     ----------
@@ -21,11 +21,11 @@ class field_band_pass_fc(Operator):
         Field or fields container with only one field
         is expected
     min_threshold : float or Field
-        A min threshold scalar or a field containing
-        one value is expected
+        A minimum threshold scalar or a field
+        containing one value is expected.
     max_threshold : float or Field, optional
-        A max threshold scalar or a field containing
-        one value is expected
+        A maximum threshold scalar or a field
+        containing one value is expected.
 
 
     Examples
@@ -74,9 +74,9 @@ class field_band_pass_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """The band pass filter returns all the values strictly superior to the
-            min threshold value and strictly inferior to the max
-            threshold value in input."""
+        description = """The band pass filter returns all the values above (but not equal to)
+            the minimum threshold value and below (but not equal to)
+            the maximum threshold value in input."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -91,15 +91,15 @@ class field_band_pass_fc(Operator):
                     name="min_threshold",
                     type_names=["double", "field"],
                     optional=False,
-                    document="""A min threshold scalar or a field containing
-        one value is expected""",
+                    document="""A minimum threshold scalar or a field
+        containing one value is expected.""",
                 ),
                 2: PinSpecification(
                     name="max_threshold",
                     type_names=["double", "field"],
                     optional=True,
-                    document="""A max threshold scalar or a field containing
-        one value is expected""",
+                    document="""A maximum threshold scalar or a field
+        containing one value is expected.""",
                 ),
             },
             map_output_pin_spec={
@@ -141,7 +141,7 @@ class field_band_pass_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -202,8 +202,8 @@ class InputsFieldBandPassFc(_Inputs):
     def min_threshold(self):
         """Allows to connect min_threshold input to the operator.
 
-        A min threshold scalar or a field containing
-        one value is expected
+        A minimum threshold scalar or a field
+        containing one value is expected.
 
         Parameters
         ----------
@@ -223,8 +223,8 @@ class InputsFieldBandPassFc(_Inputs):
     def max_threshold(self):
         """Allows to connect max_threshold input to the operator.
 
-        A max threshold scalar or a field containing
-        one value is expected
+        A maximum threshold scalar or a field
+        containing one value is expected.
 
         Parameters
         ----------

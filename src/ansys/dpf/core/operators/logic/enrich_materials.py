@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class enrich_materials(Operator):
-    """Take a MaterialContainer and a stream and enrich the MaterialContainer
-    using stream data.
+    """Takes a MaterialContainer and a stream and enriches the
+    MaterialContainer using stream data.
 
     Parameters
     ----------
@@ -67,8 +67,8 @@ class enrich_materials(Operator):
 
     @staticmethod
     def _spec():
-        description = """Take a MaterialContainer and a stream and enrich the MaterialContainer
-            using stream data."""
+        description = """Takes a MaterialContainer and a stream and enriches the
+            MaterialContainer using stream data."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -130,7 +130,7 @@ class enrich_materials(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

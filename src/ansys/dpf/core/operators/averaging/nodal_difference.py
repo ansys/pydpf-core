@@ -11,10 +11,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class nodal_difference(Operator):
-    """Transform ElementalNodal field into Nodal field. Each nodal value is
-    the maximum difference between the unaveraged computed result for
-    all elements that share this particular node. Result is computed
-    on a given node scoping.
+    """Transforms an Elemental Nodal field into a Nodal field. Each nodal
+    value is the maximum difference between the unaveraged computed
+    result for all elements that share this particular node. The
+    result is computed on a given node's scoping.
 
     Parameters
     ----------
@@ -67,10 +67,11 @@ class nodal_difference(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transform ElementalNodal field into Nodal field. Each nodal value is
-            the maximum difference between the unaveraged computed
-            result for all elements that share this particular node.
-            Result is computed on a given node scoping."""
+        description = """Transforms an Elemental Nodal field into a Nodal field. Each nodal
+            value is the maximum difference between the unaveraged
+            computed result for all elements that share this
+            particular node. The result is computed on a given node's
+            scoping."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -133,7 +134,7 @@ class nodal_difference(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

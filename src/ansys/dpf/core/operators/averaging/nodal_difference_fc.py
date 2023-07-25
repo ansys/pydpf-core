@@ -11,24 +11,25 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class nodal_difference_fc(Operator):
-    """Transform ElementalNodal fields into Nodal fields. Each nodal value is
-    the maximum difference between the unaveraged computed result for
-    all elements that share this particular node. Result is computed
-    on a given node scoping. If the input fields are mixed
+    """Transforms Elemental Nodal fields into Nodal fields. Each nodal value
+    is the maximum difference between the unaveraged computed result
+    for all elements that share this particular node. The result is
+    computed on a given node scoping. If the input fields are mixed
     shell/solid, then the fields are split by element shape and the
-    output fields container has elshape label.
+    output fields container has an elshape label.
 
     Parameters
     ----------
     fields_container : FieldsContainer
     mesh : MeshedRegion or MeshesContainer, optional
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
     scoping : Scoping or ScopingsContainer, optional
-        Average only on these nodes, if it is scoping
-        container, the label must correspond
-        to the one of the fields container
+        Average only on these nodes. if it is a
+        scoping container, the label must
+        correspond to the one of the fields
+        containers.
 
 
     Examples
@@ -72,13 +73,13 @@ class nodal_difference_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transform ElementalNodal fields into Nodal fields. Each nodal value is
-            the maximum difference between the unaveraged computed
+        description = """Transforms Elemental Nodal fields into Nodal fields. Each nodal value
+            is the maximum difference between the unaveraged computed
             result for all elements that share this particular node.
-            Result is computed on a given node scoping. If the input
-            fields are mixed shell/solid, then the fields are split by
-            element shape and the output fields container has elshape
-            label."""
+            The result is computed on a given node scoping. If the
+            input fields are mixed shell/solid, then the fields are
+            split by element shape and the output fields container has
+            an elshape label."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -93,16 +94,17 @@ class nodal_difference_fc(Operator):
                     type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
                     document="""The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used""",
+        perform the averaging. it is used if
+        there is no fields support.""",
                 ),
                 3: PinSpecification(
                     name="scoping",
                     type_names=["scoping", "scopings_container"],
                     optional=True,
-                    document="""Average only on these nodes, if it is scoping
-        container, the label must correspond
-        to the one of the fields container""",
+                    document="""Average only on these nodes. if it is a
+        scoping container, the label must
+        correspond to the one of the fields
+        containers.""",
                 ),
             },
             map_output_pin_spec={
@@ -144,7 +146,7 @@ class nodal_difference_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -203,8 +205,8 @@ class InputsNodalDifferenceFc(_Inputs):
         """Allows to connect mesh input to the operator.
 
         The mesh region in this pin is used to
-        perform the averaging, if there is no
-        field's support it is used
+        perform the averaging. it is used if
+        there is no fields support.
 
         Parameters
         ----------
@@ -224,9 +226,10 @@ class InputsNodalDifferenceFc(_Inputs):
     def scoping(self):
         """Allows to connect scoping input to the operator.
 
-        Average only on these nodes, if it is scoping
-        container, the label must correspond
-        to the one of the fields container
+        Average only on these nodes. if it is a
+        scoping container, the label must
+        correspond to the one of the fields
+        containers.
 
         Parameters
         ----------

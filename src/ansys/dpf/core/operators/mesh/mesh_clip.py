@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class mesh_clip(Operator):
-    """Clip a volume mesh along an iso value x, and construct the volume mesh
-    defined by v < x.
+    """Clips a volume mesh along an iso value x, and construct the volume
+    mesh defined by v < x.
 
     Parameters
     ----------
@@ -20,13 +20,13 @@ class mesh_clip(Operator):
     iso_value : float
         Iso value
     closed_surface : int
-        1: closed surface, 0:iso surface
+        1: closed surface, 0: iso surface.
     mesh : MeshedRegion, optional
     slice_surfaces : bool
         True: slicing will also take into account
-        shell and 2d elements, false: slicing
-        will ignore shell and 2d elements.
-        default is true
+        shell and skin elements. false:
+        slicing will ignore shell and skin
+        elements. the default is true.
 
 
     Examples
@@ -88,8 +88,8 @@ class mesh_clip(Operator):
 
     @staticmethod
     def _spec():
-        description = """Clip a volume mesh along an iso value x, and construct the volume mesh
-            defined by v &lt; x."""
+        description = """Clips a volume mesh along an iso value x, and construct the volume
+            mesh defined by v &lt; x."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -109,7 +109,7 @@ class mesh_clip(Operator):
                     name="closed_surface",
                     type_names=["int32"],
                     optional=False,
-                    document="""1: closed surface, 0:iso surface""",
+                    document="""1: closed surface, 0: iso surface.""",
                 ),
                 3: PinSpecification(
                     name="mesh",
@@ -122,9 +122,9 @@ class mesh_clip(Operator):
                     type_names=["bool"],
                     optional=False,
                     document="""True: slicing will also take into account
-        shell and 2d elements, false: slicing
-        will ignore shell and 2d elements.
-        default is true""",
+        shell and skin elements. false:
+        slicing will ignore shell and skin
+        elements. the default is true.""",
                 ),
             },
             map_output_pin_spec={
@@ -172,7 +172,7 @@ class mesh_clip(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -256,7 +256,7 @@ class InputsMeshClip(_Inputs):
     def closed_surface(self):
         """Allows to connect closed_surface input to the operator.
 
-        1: closed surface, 0:iso surface
+        1: closed surface, 0: iso surface.
 
         Parameters
         ----------
@@ -295,9 +295,9 @@ class InputsMeshClip(_Inputs):
         """Allows to connect slice_surfaces input to the operator.
 
         True: slicing will also take into account
-        shell and 2d elements, false: slicing
-        will ignore shell and 2d elements.
-        default is true
+        shell and skin elements. false:
+        slicing will ignore shell and skin
+        elements. the default is true.
 
         Parameters
         ----------

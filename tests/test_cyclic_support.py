@@ -64,9 +64,7 @@ def test_cyc_support_from_model(cyclic_lin_rst):
     )
 
     exp = cyc_support.expand_element_id(1)
-    assert np.allclose(
-        exp.ids, [1, 10, 19, 28, 37, 46, 55, 64, 73, 82, 91, 100, 109, 118, 127]
-    )
+    assert np.allclose(exp.ids, [1, 10, 19, 28, 37, 46, 55, 64, 73, 82, 91, 100, 109, 118, 127])
 
     exp = cyc_support.expand_node_id(1, [0, 1, 2])
     assert np.allclose(exp.ids, [1, 33, 65])
@@ -119,6 +117,7 @@ def test_cyc_support_from_to_workflow(cyclic_lin_rst, server_type):
     cyc_support = result_info.cyclic_support
     op = dpf.operators.metadata.cyclic_mesh_expansion(server=server_type)
     wf = dpf.Workflow(server=server_type)
+    wf.progress_bar = False
     wf.set_input_name("sup", op.inputs.cyclic_support)
     wf.set_output_name("sup", op.outputs.cyclic_support)
     wf.connect("sup", cyc_support)
@@ -161,9 +160,7 @@ def test_cyc_support_multistage(cyclic_multistage):
         cyc_support.expand_node_id(1, stage_num=0).ids,
         [1, 3596, 5816, 8036, 10256, 12476],
     )
-    assert np.allclose(
-        cyc_support.sectors_set_for_expansion(stage_num=1).ids, list(range(0, 12))
-    )
+    assert np.allclose(cyc_support.sectors_set_for_expansion(stage_num=1).ids, list(range(0, 12)))
 
 
 def test_delete_cyc_support(cyclic_lin_rst, server_type_legacy_grpc):

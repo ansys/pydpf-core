@@ -12,7 +12,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class centroid(Operator):
     """Computes centroid of field1 and field2, using fieldOut =
-    field1*(1.-fact)+field2*(fact).
+    field1*(1.-fact)+field2*(fact). Only works by index.
 
     Parameters
     ----------
@@ -66,7 +66,7 @@ class centroid(Operator):
     @staticmethod
     def _spec():
         description = """Computes centroid of field1 and field2, using fieldOut =
-            field1*(1.-fact)+field2*(fact)."""
+            field1*(1.-fact)+field2*(fact). Only works by index."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -130,7 +130,7 @@ class centroid(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

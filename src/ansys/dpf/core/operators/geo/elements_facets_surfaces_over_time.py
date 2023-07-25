@@ -11,9 +11,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elements_facets_surfaces_over_time(Operator):
-    """Calculation of the surface of each element's facet over time of a mesh
-    for each specified time step. Moreover, it gives as output a new
-    mesh made with only surface elements.
+    """Calculates for a mesh, the surface of each element's facet over time
+    for each specified time step. The output is a new mesh made with
+    only surface elements.
 
     Parameters
     ----------
@@ -68,9 +68,9 @@ class elements_facets_surfaces_over_time(Operator):
 
     @staticmethod
     def _spec():
-        description = """Calculation of the surface of each element's facet over time of a mesh
-            for each specified time step. Moreover, it gives as output
-            a new mesh made with only surface elements."""
+        description = """Calculates for a mesh, the surface of each element's facet over time
+            for each specified time step. The output is a new mesh
+            made with only surface elements."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -140,7 +140,7 @@ class elements_facets_surfaces_over_time(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

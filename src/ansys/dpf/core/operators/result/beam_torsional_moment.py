@@ -17,11 +17,21 @@ class beam_torsional_moment(Operator):
     Parameters
     ----------
     time_scoping : Scoping or int or float or Field, optional
-        Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output
+        Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.
     mesh_scoping : ScopingsContainer or Scoping, optional
         Elements scoping required in output.
     streams_container : StreamsContainer, optional
@@ -30,6 +40,10 @@ class beam_torsional_moment(Operator):
     data_sources : DataSources
         Result file path container, used if no
         streams are set
+    unit_system : int or str or UnitSystem, optional
+        Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance
 
 
     Examples
@@ -48,6 +62,8 @@ class beam_torsional_moment(Operator):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_unit_system = int()
+    >>> op.inputs.unit_system.connect(my_unit_system)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.beam_torsional_moment(
@@ -55,6 +71,7 @@ class beam_torsional_moment(Operator):
     ...     mesh_scoping=my_mesh_scoping,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
+    ...     unit_system=my_unit_system,
     ... )
 
     >>> # Get output data
@@ -67,6 +84,7 @@ class beam_torsional_moment(Operator):
         mesh_scoping=None,
         streams_container=None,
         data_sources=None,
+        unit_system=None,
         config=None,
         server=None,
     ):
@@ -81,6 +99,8 @@ class beam_torsional_moment(Operator):
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
+        if unit_system is not None:
+            self.inputs.unit_system.connect(unit_system)
 
     @staticmethod
     def _spec():
@@ -100,11 +120,21 @@ class beam_torsional_moment(Operator):
                         "vector<double>",
                     ],
                     optional=True,
-                    document="""Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output""",
+                    document="""Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -125,6 +155,18 @@ class beam_torsional_moment(Operator):
                     optional=False,
                     document="""Result file path container, used if no
         streams are set""",
+                ),
+                50: PinSpecification(
+                    name="unit_system",
+                    type_names=[
+                        "int32",
+                        "string",
+                        "class dataProcessing::unit::CUnitSystem",
+                    ],
+                    optional=True,
+                    document="""Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance""",
                 ),
             },
             map_output_pin_spec={
@@ -166,7 +208,7 @@ class beam_torsional_moment(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -191,6 +233,8 @@ class InputsBeamTorsionalMoment(_Inputs):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_unit_system = int()
+    >>> op.inputs.unit_system.connect(my_unit_system)
     """
 
     def __init__(self, op: Operator):
@@ -211,16 +255,30 @@ class InputsBeamTorsionalMoment(_Inputs):
             beam_torsional_moment._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._data_sources)
+        self._unit_system = Input(
+            beam_torsional_moment._spec().input_pin(50), 50, op, -1
+        )
+        self._inputs.append(self._unit_system)
 
     @property
     def time_scoping(self):
         """Allows to connect time_scoping input to the operator.
 
-        Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output
+        Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.
 
         Parameters
         ----------
@@ -297,6 +355,28 @@ class InputsBeamTorsionalMoment(_Inputs):
         >>> op.inputs.data_sources(my_data_sources)
         """
         return self._data_sources
+
+    @property
+    def unit_system(self):
+        """Allows to connect unit_system input to the operator.
+
+        Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance
+
+        Parameters
+        ----------
+        my_unit_system : int or str or UnitSystem
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.beam_torsional_moment()
+        >>> op.inputs.unit_system.connect(my_unit_system)
+        >>> # or
+        >>> op.inputs.unit_system(my_unit_system)
+        """
+        return self._unit_system
 
 
 class OutputsBeamTorsionalMoment(_Outputs):

@@ -12,8 +12,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class scale_by_field(Operator):
     """Scales a field (in 0) by a scalar field (in 1). If one field's scoping
-    has 'overall' location, then these field's values are applied on
-    the entire other field.
+    has an 'overall' location, then this field's values are applied on
+    the other field entirely.
 
     Parameters
     ----------
@@ -60,8 +60,8 @@ class scale_by_field(Operator):
     @staticmethod
     def _spec():
         description = """Scales a field (in 0) by a scalar field (in 1). If one field's scoping
-            has 'overall' location, then these field's values are
-            applied on the entire other field."""
+            has an 'overall' location, then this field's values are
+            applied on the other field entirely."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -119,7 +119,7 @@ class scale_by_field(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

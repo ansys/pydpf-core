@@ -11,14 +11,14 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class extract_sub_mc(Operator):
-    """Create a new MeshesContainer with all the MeshedRegions corresponding
-    to the label space in input 1
+    """Creates a new meshes container with all the meshed regions
+    corresponding to the label space in input 1.
 
     Parameters
     ----------
     meshes : MeshesContainer
         Meshes
-    label_space : LabelSpace
+    label_space : dict
         Label_space
 
 
@@ -32,7 +32,7 @@ class extract_sub_mc(Operator):
     >>> # Make input connections
     >>> my_meshes = dpf.MeshesContainer()
     >>> op.inputs.meshes.connect(my_meshes)
-    >>> my_label_space = dpf.LabelSpace()
+    >>> my_label_space = dict()
     >>> op.inputs.label_space.connect(my_label_space)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -56,8 +56,8 @@ class extract_sub_mc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Create a new MeshesContainer with all the MeshedRegions corresponding
-            to the label space in input 1"""
+        description = """Creates a new meshes container with all the meshed regions
+            corresponding to the label space in input 1."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -113,7 +113,7 @@ class extract_sub_mc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -132,7 +132,7 @@ class InputsExtractSubMc(_Inputs):
     >>> op = dpf.operators.utility.extract_sub_mc()
     >>> my_meshes = dpf.MeshesContainer()
     >>> op.inputs.meshes.connect(my_meshes)
-    >>> my_label_space = dpf.LabelSpace()
+    >>> my_label_space = dict()
     >>> op.inputs.label_space.connect(my_label_space)
     """
 
@@ -171,7 +171,7 @@ class InputsExtractSubMc(_Inputs):
 
         Parameters
         ----------
-        my_label_space : LabelSpace
+        my_label_space : dict
 
         Examples
         --------

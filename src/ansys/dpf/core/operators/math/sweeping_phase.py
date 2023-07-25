@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class sweeping_phase(Operator):
-    """Shift the phase of a real and an imaginary fields (in 0 and 1) of a
-    given angle (in 3) of unit (in 4).
+    """Shifts the phase of a real and an imaginary field (in 0 and 1) of a
+    given angle (in 3) of a unit (in 4).
 
     Parameters
     ----------
@@ -23,14 +23,15 @@ class sweeping_phase(Operator):
         Field or fields container with only one field
         is expected
     angle : float
-    unit_name : str
-        String unit
+    unit_name : str, optional
+        String unit. supported values: "deg" or
+        "rad". default: "rad".
     abs_value : bool
     imaginary_part_null : bool
         If the imaginary part field is empty and this
         pin is true, then the imaginary part
         is supposed to be 0 (default is
-        false)
+        false).
 
 
     Examples
@@ -97,8 +98,8 @@ class sweeping_phase(Operator):
 
     @staticmethod
     def _spec():
-        description = """Shift the phase of a real and an imaginary fields (in 0 and 1) of a
-            given angle (in 3) of unit (in 4)."""
+        description = """Shifts the phase of a real and an imaginary field (in 0 and 1) of a
+            given angle (in 3) of a unit (in 4)."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -125,8 +126,9 @@ class sweeping_phase(Operator):
                 3: PinSpecification(
                     name="unit_name",
                     type_names=["string"],
-                    optional=False,
-                    document="""String unit""",
+                    optional=True,
+                    document="""String unit. supported values: "deg" or
+        "rad". default: "rad".""",
                 ),
                 4: PinSpecification(
                     name="abs_value",
@@ -141,7 +143,7 @@ class sweeping_phase(Operator):
                     document="""If the imaginary part field is empty and this
         pin is true, then the imaginary part
         is supposed to be 0 (default is
-        false)""",
+        false).""",
                 ),
             },
             map_output_pin_spec={
@@ -183,7 +185,7 @@ class sweeping_phase(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -295,7 +297,8 @@ class InputsSweepingPhase(_Inputs):
     def unit_name(self):
         """Allows to connect unit_name input to the operator.
 
-        String unit
+        String unit. supported values: "deg" or
+        "rad". default: "rad".
 
         Parameters
         ----------
@@ -336,7 +339,7 @@ class InputsSweepingPhase(_Inputs):
         If the imaginary part field is empty and this
         pin is true, then the imaginary part
         is supposed to be 0 (default is
-        false)
+        false).
 
         Parameters
         ----------

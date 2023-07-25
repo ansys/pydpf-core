@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class assemble_scalars_to_vectors(Operator):
-    """Take three scalar fields and assemble them as a 3d vector field.
+    """Takes three scalar fields and assembles them as a 3D vector field.
 
     Parameters
     ----------
@@ -62,7 +62,7 @@ class assemble_scalars_to_vectors(Operator):
     @staticmethod
     def _spec():
         description = (
-            """Take three scalar fields and assemble them as a 3d vector field."""
+            """Takes three scalar fields and assembles them as a 3D vector field."""
         )
         spec = Specification(
             description=description,
@@ -127,7 +127,7 @@ class assemble_scalars_to_vectors(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

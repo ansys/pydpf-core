@@ -136,12 +136,10 @@ def test_no_element_descriptor():
     # descriptor = dpf.element_types.descriptor(89)
     # assert not descriptor
     descriptor = dpf.element_types.descriptor(dpf.element_types.General)
-    print(descriptor)
+    # print(descriptor)
     unknown_shape = "unknown_shape"
     assert descriptor.shape == unknown_shape
-    assert (
-        dpf.element_types.descriptor(dpf.element_types.General).shape == unknown_shape
-    )
+    assert dpf.element_types.descriptor(dpf.element_types.General).shape == unknown_shape
 
 
 def test_descriptor_with_int_value():

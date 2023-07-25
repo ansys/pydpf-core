@@ -21,8 +21,8 @@ class scale(Operator):
     ponderation : float or Field
         Double/field scoped on overall
     boolean : bool, optional
-        Bool(optional, default false) if set to true,
-        output of scale is mane dimensionless
+        Default is false. if set to true, output of
+        scale is made dimensionless
 
 
     Examples
@@ -87,8 +87,8 @@ class scale(Operator):
                     name="boolean",
                     type_names=["bool"],
                     optional=True,
-                    document="""Bool(optional, default false) if set to true,
-        output of scale is mane dimensionless""",
+                    document="""Default is false. if set to true, output of
+        scale is made dimensionless""",
                 ),
             },
             map_output_pin_spec={
@@ -130,7 +130,7 @@ class scale(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -209,8 +209,8 @@ class InputsScale(_Inputs):
     def boolean(self):
         """Allows to connect boolean input to the operator.
 
-        Bool(optional, default false) if set to true,
-        output of scale is mane dimensionless
+        Default is false. if set to true, output of
+        scale is made dimensionless
 
         Parameters
         ----------

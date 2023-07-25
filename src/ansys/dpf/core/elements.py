@@ -4,9 +4,10 @@
 Elements
 ========
 """
+from __future__ import annotations
 from enum import Enum
 import numpy as np
-from ansys.dpf.core import nodes, scoping
+from ansys.dpf.core import nodes
 from ansys.dpf.core.common import locations, elemental_properties
 from ansys.dpf.core.element_descriptor import ElementDescriptor
 from ansys.dpf.gate import integral_types
@@ -139,21 +140,21 @@ class Element:
         return len(self._nodes)
 
     def __str__(self):
-        txt = "DPF Element %d\n" % self.id
-        txt += "\tIndex:      %7d\n" % self.index
-        txt += "\tNodes:      %7d\n" % self.n_nodes
-        txt += f"\tType:       {self.type}\n"
-        txt += "\tShape:      %7s\n" % self.shape.capitalize()
+        txt = f"DPF Element {self.id:d}\n"
+        txt += f"\tIndex:{self.index:>13}\n"
+        txt += f"\tNodes:{self.n_nodes:>13}\n"
+        txt += f"\tType:{self.type.name:>14}\n"
+        txt += f"\tShape:{self.shape.capitalize():>13}\n"
         return txt
 
     @property
-    def type(self) -> int:
+    def type(self) -> element_types:
         """
         Type of the element.
 
         Returns
         -------
-        int
+        element_types
             Type of the element. For more information, see
             :class:`ansys.dpf.core.elements.element_types`.
 
@@ -173,9 +174,7 @@ class Element:
     def _get_type(self):
         """Retrieve the Ansys element type."""
         type = integral_types.MutableInt32()
-        self._mesh._api.meshed_region_get_element_type(
-            self._mesh, self.id, type, self.index
-        )
+        self._mesh._api.meshed_region_get_element_type(self._mesh, self.id, type, self.index)
         return element_types(int(type))
 
     @property
@@ -205,9 +204,7 @@ class Element:
     def _get_shape(self):
         """Retrieve the element shape."""
         shape = integral_types.MutableInt32()
-        self._mesh._api.meshed_region_get_element_shape(
-            self._mesh, self.id, shape, self.index
-        )
+        self._mesh._api.meshed_region_get_element_shape(self._mesh, self.id, shape, self.index)
         for name in _element_shapes:
             if name.value == int(shape):
                 return name.name.lower()
@@ -441,13 +438,9 @@ class Elements:
         element : Element
         """
         if elementindex is None:
-            elementindex = self._mesh._api.meshed_region_get_element_index(
-                self._mesh, elementid
-            )
+            elementindex = self._mesh._api.meshed_region_get_element_index(self._mesh, elementid)
         elif elementid is None:
-            elementid = self._mesh._api.meshed_region_get_element_id(
-                self._mesh, elementindex
-            )
+            elementid = self._mesh._api.meshed_region_get_element_id(self._mesh, elementindex)
         nodesOut = []
         num_nodes = self._mesh._api.meshed_region_get_num_nodes_of_element(
             self._mesh, index=elementindex
@@ -457,9 +450,7 @@ class Elements:
                 self._mesh, elementindex, i_node
             )
             if node_id >= 0:
-                node_index = self._mesh._api.meshed_region_get_node_index(
-                    self._mesh, node_id
-                )
+                node_index = self._mesh._api.meshed_region_get_node_index(self._mesh, node_id)
                 node_coordinates = [
                     self._mesh._api.meshed_region_get_node_coord(
                         self._mesh, index=node_index, coordinate=0
@@ -471,9 +462,7 @@ class Elements:
                         self._mesh, index=node_index, coordinate=2
                     ),
                 ]
-                nodesOut.append(
-                    nodes.Node(self._mesh, node_id, node_index, node_coordinates)
-                )
+                nodesOut.append(nodes.Node(self._mesh, node_id, node_index, node_coordinates))
         return Element(self._mesh, elementid, elementindex, nodesOut)
 
     @property
@@ -668,15 +657,13 @@ class Elements:
         >>> vol = model.results.elemental_volume()
         >>> field = vol.outputs.fields_container()[0]
         >>> ind, mask = elements.map_scoping(field.scoping)
-        >>> ind
-        array([0, 1, 2, 3, 4, 5, 6, 7])
 
         """
         if external_scope.location in ["Nodal", "NodalElemental"]:
             raise ValueError('Input scope location must be "Nodal"')
         arr = np.array(list(map(self.mapping_id_to_index.get, external_scope.ids)))
         mask = arr != None
-        ind = arr[mask].astype(np.int)
+        ind = arr[mask].astype(np.int32)
         return ind, mask
 
     @property
@@ -935,12 +922,8 @@ class element_types(Enum):
     @staticmethod
     def _descriptors():
         return {
-            element_types.General: ElementDescriptor(
-                element_types.General, "General", "general"
-            ),
-            element_types.All: ElementDescriptor(
-                element_types.All, "Unknown", "unknown"
-            ),
+            element_types.General: ElementDescriptor(element_types.General, "General", "general"),
+            element_types.All: ElementDescriptor(element_types.All, "Unknown", "unknown"),
             element_types.Tet10: ElementDescriptor(
                 element_types.Tet10,
                 "Quadratic 10-nodes Tetrahedron",
@@ -1191,9 +1174,7 @@ class element_types(Enum):
             element_types.NumElementTypes: ElementDescriptor(
                 element_types.NumElementTypes, "NumElementTypes", "numElementTypes"
             ),
-            element_types.Unknown: ElementDescriptor(
-                element_types.Unknown, "Unknown", "unknown"
-            ),
+            element_types.Unknown: ElementDescriptor(element_types.Unknown, "Unknown", "unknown"),
             element_types.EMagLine: ElementDescriptor(
                 element_types.EMagLine, "EMagLine", "EMagLine", "beam"
             ),
@@ -1215,18 +1196,10 @@ class element_types(Enum):
             element_types.Surface8: ElementDescriptor(
                 element_types.Surface8, "Surface8", "surface8", "shell"
             ),
-            element_types.Edge2: ElementDescriptor(
-                element_types.Edge2, "Edge2", "edge2", "beam"
-            ),
-            element_types.Edge3: ElementDescriptor(
-                element_types.Edge3, "Edge3", "edge3", "beam"
-            ),
-            element_types.Beam3: ElementDescriptor(
-                element_types.Beam3, "Beam3", "beam3", "beam"
-            ),
-            element_types.Beam4: ElementDescriptor(
-                element_types.Beam4, "Beam4", "beam4", "beam"
-            ),
+            element_types.Edge2: ElementDescriptor(element_types.Edge2, "Edge2", "edge2", "beam"),
+            element_types.Edge3: ElementDescriptor(element_types.Edge3, "Edge3", "edge3", "beam"),
+            element_types.Beam3: ElementDescriptor(element_types.Beam3, "Beam3", "beam3", "beam"),
+            element_types.Beam4: ElementDescriptor(element_types.Beam4, "Beam4", "beam4", "beam"),
             element_types.GeneralPlaceholder: ElementDescriptor(
                 element_types.GeneralPlaceholder,
                 "GeneralPlaceholder",

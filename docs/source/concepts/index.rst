@@ -4,11 +4,7 @@
 Concepts
 ========
 
-This section gives in depth descriptions and explanations of DPF concepts, including terminology.
-
-Other sections of this guide include :ref:`ref_user_guide`, :ref:`ref_api_section`,
-:ref:`ref_dpf_operators_reference`, and :ref:`gallery`.
-
+This section provides in-depth descriptions and explanations of DPF concepts, including terminology.
 
 DPF concepts
 ~~~~~~~~~~~~

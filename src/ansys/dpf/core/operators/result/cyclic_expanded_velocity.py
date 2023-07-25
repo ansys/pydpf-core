@@ -26,6 +26,11 @@ class cyclic_expanded_velocity(Operator):
         Data sources containing the result file.
     bool_rotate_to_global : bool, optional
         Default is true
+    all_dofs : bool, optional
+        If this pin is set to true, all the dofs are
+        retrieved. by default this pin is set
+        to false and only the translational
+        dofs are retrieved.
     sector_mesh : MeshedRegion or MeshesContainer, optional
         Mesh of the base sector (can be a skin).
     requested_location : str, optional
@@ -44,7 +49,7 @@ class cyclic_expanded_velocity(Operator):
         multistage: use scopings container
         with 'stage' label.
     phi : float, optional
-        Angle phi (default value 0.0)
+        Angle phi in degrees (default value 0.0)
 
 
     Examples
@@ -67,6 +72,8 @@ class cyclic_expanded_velocity(Operator):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_bool_rotate_to_global = bool()
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+    >>> my_all_dofs = bool()
+    >>> op.inputs.all_dofs.connect(my_all_dofs)
     >>> my_sector_mesh = dpf.MeshedRegion()
     >>> op.inputs.sector_mesh.connect(my_sector_mesh)
     >>> my_requested_location = str()
@@ -90,6 +97,7 @@ class cyclic_expanded_velocity(Operator):
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
+    ...     all_dofs=my_all_dofs,
     ...     sector_mesh=my_sector_mesh,
     ...     requested_location=my_requested_location,
     ...     read_cyclic=my_read_cyclic,
@@ -112,6 +120,7 @@ class cyclic_expanded_velocity(Operator):
         streams_container=None,
         data_sources=None,
         bool_rotate_to_global=None,
+        all_dofs=None,
         sector_mesh=None,
         requested_location=None,
         read_cyclic=None,
@@ -137,6 +146,8 @@ class cyclic_expanded_velocity(Operator):
             self.inputs.data_sources.connect(data_sources)
         if bool_rotate_to_global is not None:
             self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
+        if all_dofs is not None:
+            self.inputs.all_dofs.connect(all_dofs)
         if sector_mesh is not None:
             self.inputs.sector_mesh.connect(sector_mesh)
         if requested_location is not None:
@@ -197,6 +208,15 @@ class cyclic_expanded_velocity(Operator):
                     optional=True,
                     document="""Default is true""",
                 ),
+                6: PinSpecification(
+                    name="all_dofs",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If this pin is set to true, all the dofs are
+        retrieved. by default this pin is set
+        to false and only the translational
+        dofs are retrieved.""",
+                ),
                 7: PinSpecification(
                     name="sector_mesh",
                     type_names=["abstract_meshed_region", "meshes_container"],
@@ -243,7 +263,7 @@ class cyclic_expanded_velocity(Operator):
                     name="phi",
                     type_names=["double"],
                     optional=True,
-                    document="""Angle phi (default value 0.0)""",
+                    document="""Angle phi in degrees (default value 0.0)""",
                 ),
             },
             map_output_pin_spec={
@@ -291,7 +311,7 @@ class cyclic_expanded_velocity(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -320,6 +340,8 @@ class InputsCyclicExpandedVelocity(_Inputs):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_bool_rotate_to_global = bool()
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+    >>> my_all_dofs = bool()
+    >>> op.inputs.all_dofs.connect(my_all_dofs)
     >>> my_sector_mesh = dpf.MeshedRegion()
     >>> op.inputs.sector_mesh.connect(my_sector_mesh)
     >>> my_requested_location = str()
@@ -362,6 +384,8 @@ class InputsCyclicExpandedVelocity(_Inputs):
             cyclic_expanded_velocity._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._bool_rotate_to_global)
+        self._all_dofs = Input(cyclic_expanded_velocity._spec().input_pin(6), 6, op, -1)
+        self._inputs.append(self._all_dofs)
         self._sector_mesh = Input(
             cyclic_expanded_velocity._spec().input_pin(7), 7, op, -1
         )
@@ -507,6 +531,29 @@ class InputsCyclicExpandedVelocity(_Inputs):
         return self._bool_rotate_to_global
 
     @property
+    def all_dofs(self):
+        """Allows to connect all_dofs input to the operator.
+
+        If this pin is set to true, all the dofs are
+        retrieved. by default this pin is set
+        to false and only the translational
+        dofs are retrieved.
+
+        Parameters
+        ----------
+        my_all_dofs : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.cyclic_expanded_velocity()
+        >>> op.inputs.all_dofs.connect(my_all_dofs)
+        >>> # or
+        >>> op.inputs.all_dofs(my_all_dofs)
+        """
+        return self._all_dofs
+
+    @property
     def sector_mesh(self):
         """Allows to connect sector_mesh input to the operator.
 
@@ -634,7 +681,7 @@ class InputsCyclicExpandedVelocity(_Inputs):
     def phi(self):
         """Allows to connect phi input to the operator.
 
-        Angle phi (default value 0.0)
+        Angle phi in degrees (default value 0.0)
 
         Parameters
         ----------

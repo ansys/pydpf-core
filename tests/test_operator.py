@@ -17,6 +17,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
 )
 
 # Check for ANSYS installation env var
@@ -89,7 +90,7 @@ def test_connect_bool_operator(server_type):
 
 def test_print_operator():
     op = dpf.core.Operator("S")
-    print(op)
+    assert str(op)
 
 
 def test_connect_get_out_all_types_operator(server_type):
@@ -112,7 +113,7 @@ def test_connect_get_out_all_types_operator(server_type):
             dpf.core.Workflow(server=server_type),
             dpf.core.DataTree(server=server_type),
             dpf.core.StringField(server=server_type),
-            dpf.core.CustomTypeField(np.float, server=server_type),
+            dpf.core.CustomTypeField(np.float64, server=server_type),
         ]
         if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
         else [
@@ -259,6 +260,37 @@ def test_connect_operator_output_operator(server_type):
     assert len(fOut.data) == 3
 
 
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="Connect an operator as an input is supported starting server version 7.0",
+)
+def test_connect_generic_data_container_operator(server_type):
+    op = dpf.core.Operator("forward", server=server_type)
+    inpt = dpf.core.GenericDataContainer(server=server_type)
+    op.connect(0, inpt)
+    output = op.get_output(0, dpf.core.types.generic_data_container)
+    assert output is not None
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
+    reason="Connect an operator as an input is supported starting server version 6.2",
+)
+def test_connect_operator_as_input(server_type):
+    op_for_each = dpf.core.Operator("for_each", server=server_type)
+    fieldify = dpf.core.Operator("fieldify", server=server_type)
+    op_merge = dpf.core.Operator("incremental::merge::field", server=server_type)
+
+    op_for_each.connect_operator_as_input(0, fieldify)
+    op_for_each.connect(1, [1.0, 2.0, 3.0, 4.0])
+    op_for_each.connect(3, op_merge, 0)
+    op_merge.connect(0, fieldify, 0)
+    op_merge.connect(-2, True)
+
+    op_for_each.run()
+    assert op_for_each.get_output(3, dpf.core.types.field).get_entity_data(0) == 10.0
+
+
 def test_eval_operator(server_type):
     op = dpf.core.Operator("min_max", server=server_type)
     inpt = dpf.core.Field(nentities=3, server=server_type)
@@ -367,9 +399,7 @@ def test_inputs_int_operator(cyclic_lin_rst, cyclic_ds, server_type):
     op = dpf.core.Operator("mapdl::rst::U", server=server_type)
     op.inputs.connect(data_sources)
     op.inputs.read_cyclic.connect(1)
-    support = dpf.core.Operator(
-        "mapdl::rst::support_provider_cyclic", server=server_type
-    )
+    support = dpf.core.Operator("mapdl::rst::support_provider_cyclic", server=server_type)
     support.inputs.connect(data_sources)
     expand = dpf.core.Operator("cyclic_expansion", server=server_type)
     expand.inputs.connect(support.outputs.cyclic_support)
@@ -611,9 +641,7 @@ def test_operator_several_output_types(plate_msup, server_type):
     op.inputs.unit_name("mm")
     f = op.outputs.converted_entity_as_field()
     assert f.unit == "mm"
-    assert np.allclose(
-        f.data.flatten("C"), np.array([1, 2, 3, 4, 5, 6, 7, 8, 9]) * 1000
-    )
+    assert np.allclose(f.data.flatten("C"), np.array([1, 2, 3, 4, 5, 6, 7, 8, 9]) * 1000)
 
     model = dpf.core.Model(plate_msup, server=server_type)
     din = model.metadata.meshed_region.nodes.coordinates_field.data
@@ -725,9 +753,7 @@ def test_operator_set_config(server_type):
     op.inputs.fieldA.connect(inpt)
     op.inputs.fieldB.connect(inpt2)
     out = op.outputs.field()
-    assert np.allclose(
-        out.data, np.array([[2.0, 4.0, 6.0], [8.0, 10.0, 12.0], [14.0, 16.0, 18.0]])
-    )
+    assert np.allclose(out.data, np.array([[2.0, 4.0, 6.0], [8.0, 10.0, 12.0], [14.0, 16.0, 18.0]]))
 
     conf.set_work_by_index_option(False)
     op = dpf.core.Operator("add", conf, server=server_type)
@@ -855,9 +881,7 @@ def test_operator_several_output_types(plate_msup):
     op.inputs.unit_name("mm")
     f = op.outputs.converted_entity_as_field()
     assert f.unit == "mm"
-    assert np.allclose(
-        f.data.flatten("C"), np.array([1, 2, 3, 4, 5, 6, 7, 8, 9]) * 1000
-    )
+    assert np.allclose(f.data.flatten("C"), np.array([1, 2, 3, 4, 5, 6, 7, 8, 9]) * 1000)
 
     model = dpf.core.Model(plate_msup)
     din = copy.deepcopy(model.metadata.meshed_region.nodes.coordinates_field.data)
@@ -921,9 +945,7 @@ def test_add_operator_operator(server_type):
     out = add.outputs.fields_container()
     assert len(out) == 1
     assert np.allclose(out[0].scoping.ids, [1, 2])
-    assert np.allclose(
-        out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
-    )
+    assert np.allclose(out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]]))
 
     # operator + float
     add = forward + 1.0
@@ -956,9 +978,7 @@ def test_add_operator_operator(server_type):
     out = add.outputs.fields_container()
     assert len(out) == 1
     assert np.allclose(out[0].scoping.ids, [1, 2])
-    assert np.allclose(
-        out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
-    )
+    assert np.allclose(out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]]))
 
     # operator + float
     add = forward + 1.0
@@ -1125,9 +1145,7 @@ def test_list_operators(server_type):
 def test_get_static_spec_operator(server_type_legacy_grpc):
     l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
     for i, name in enumerate(l):
-        spec = dpf.core.Operator.operator_specification(
-            name, server=server_type_legacy_grpc
-        )
+        spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
         assert len(spec.operator_name) > 0
         assert len(spec.inputs) > 0
         assert len(spec.description) > 0
@@ -1150,9 +1168,7 @@ def test_with_progress_operator(allkindofcomplexity, server_type_legacy_grpc):
     model = dpf.core.Model(allkindofcomplexity, server=server_type_legacy_grpc)
     op = model.results.stress()
     op.inputs.read_cyclic(3)
-    opnorm = dpf.core.operators.averaging.to_nodal_fc(
-        op, server=server_type_legacy_grpc
-    )
+    opnorm = dpf.core.operators.averaging.to_nodal_fc(op, server=server_type_legacy_grpc)
     add = dpf.core.operators.math.add_fc(opnorm, opnorm, server=server_type_legacy_grpc)
     add2 = dpf.core.operators.math.add_fc(add, add, server=server_type_legacy_grpc)
     add3 = dpf.core.operators.math.add_fc(add2, server=server_type_legacy_grpc)
@@ -1192,9 +1208,7 @@ def test_list_operators(server_type_legacy_grpc):
 def test_get_static_spec_operator(server_type_legacy_grpc):
     l = dpf.core.dpf_operator.available_operator_names(server=server_type_legacy_grpc)
     for i, name in enumerate(l):
-        spec = dpf.core.Operator.operator_specification(
-            name, server=server_type_legacy_grpc
-        )
+        spec = dpf.core.Operator.operator_specification(name, server=server_type_legacy_grpc)
         assert len(spec.operator_name) > 0
         assert len(spec.inputs) > 0
         assert len(spec.description) > 0
@@ -1223,7 +1237,7 @@ def test_operator_specification_simple(server_type):
 
 
 def test_operator_specification_none(server_type):
-    op = dpf.core.Operator("mapdl::rst::MeshProvider", server=server_type)
+    op = dpf.core.Operator("mapdl::rst::thickness", server=server_type)
     assert op.specification.description == ""
     assert op.specification.inputs == {}
     assert op.specification.outputs == {}
@@ -1253,8 +1267,10 @@ def test_operator_config_specification_simple(server_type):
     if server_type.os != "posix":
         assert (
             "enum dataProcessing::EBinaryOperation"
-            in conf_spec["binary_operation"].type_names
+            or "binary_operation_enum" in conf_spec["binary_operation"].type_names
         )
+    elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
+        assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
     assert conf_spec["binary_operation"].default_value_str == "1"
     assert "Intersection" in conf_spec["binary_operation"].document
     assert "run_in_parallel" in conf_spec
@@ -1269,8 +1285,10 @@ def test_generated_operator_config_specification_simple(server_type):
     if server_type.os != "posix":
         assert (
             "enum dataProcessing::EBinaryOperation"
-            in conf_spec["binary_operation"].type_names
+            or "binary_operation_enum" in conf_spec["binary_operation"].type_names
         )
+    elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
+        assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
     assert conf_spec["binary_operation"].default_value_str == "1"
     assert "Intersection" in conf_spec["binary_operation"].document
     assert "run_in_parallel" in conf_spec

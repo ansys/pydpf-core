@@ -37,6 +37,7 @@ class physics_types(Enum):
     magnetic = 2
     electric = 3
     unknown_physics = 4
+    fluid = 5
 
 
 @unique
@@ -126,8 +127,23 @@ class ResultInfo:
                 ]
                 txt += "{0:^4} {1:^2} {2:<30}".format(*line) + "\n"
 
+            if self._server.meet_version("7.0"):
+                qualifiers_labels = self.available_qualifier_labels
+                if len(qualifiers_labels) > 0:
+                    txt += "Available qualifier labels:\n"
+                    for label in qualifiers_labels:
+                        label_support = self.qualifier_label_support(label)
+                        names_field = label_support.string_field_support_by_property("names")
+                        label_names = names_field.data_as_list
+                        label_values = names_field.scoping.ids.tolist()
+                        txt += f"     - {label}: "
+                        for i, value in enumerate(label_values):
+                            label_values[i] = label_names[i] + f" ({value})"
+                        txt += f"{', '.join(label_values)}\n"
+
             return txt
         except Exception as e:
+            raise e
             from ansys.dpf.core.core import _description
 
             return _description(self._internal_obj, self._server)
@@ -198,7 +214,6 @@ class ResultInfo:
     def unit_system(self):
         """Unit system of the result."""
         return self._api.result_info_get_unit_system_name(self)
-        # return map_unit_system[self._api.result_info_get_ansys_unit_system_enum(self)]
 
     @property
     def cyclic_symmetry_type(self):
@@ -257,7 +272,7 @@ class ResultInfo:
         """Version of the solver."""
         major = integral_types.MutableInt32()
         minor = integral_types.MutableInt32()
-        res = self._api.result_info_get_solver_version(self, major, minor)
+        _ = self._api.result_info_get_solver_version(self, major, minor)
         return str(int(major)) + "." + str(int(minor))
 
     @property
@@ -337,9 +352,7 @@ class ResultInfo:
 
         name = self._api.result_info_get_result_name(self, numres)
         physic_name = self._api.result_info_get_result_physics_name(self, numres)
-        dimensionality = self._api.result_info_get_result_dimensionality_nature(
-            self, numres
-        )
+        dimensionality = self._api.result_info_get_result_dimensionality_nature(self, numres)
         n_comp = self._api.result_info_get_result_number_of_components(self, numres)
         unit_symbol = self._api.result_info_get_result_unit_symbol(self, numres)
         homogeneity = self._api.result_info_get_result_homogeneity(self, numres)
@@ -353,14 +366,10 @@ class ResultInfo:
             else:
                 loc_name = ""
         try:
-            scripting_name = self._api.result_info_get_result_scripting_name(
-                self, numres
-            )
+            scripting_name = self._api.result_info_get_result_scripting_name(self, numres)
         except AttributeError:
             if name in available_result._result_properties:
-                scripting_name = available_result._result_properties[name][
-                    "scripting_name"
-                ]
+                scripting_name = available_result._result_properties[name]["scripting_name"]
             else:
                 scripting_name = available_result._remove_spaces(physic_name)
         num_sub_res = self._api.result_info_get_number_of_sub_results(self, numres)
@@ -376,12 +385,11 @@ class ResultInfo:
             sub_res[sub_res_name] = [ssub_res_rec_name, descr]
 
         qualifiers = []
+        qualifier_labels = {}
         if self._server.meet_version("5.0"):
             qual_obj = object_handler.ObjHandler(
                 data_processing_api=self._data_processing_core_api,
-                internal_obj=self._api.result_info_get_qualifiers_for_result(
-                    self, numres
-                ),
+                internal_obj=self._api.result_info_get_qualifiers_for_result(self, numres),
             )
             label_space_api = self._server.get_api_for_type(
                 capi=label_space_capi.LabelSpaceCAPI,
@@ -389,15 +397,25 @@ class ResultInfo:
             )
             num_qual_obj = label_space_api.list_label_spaces_size(qual_obj)
             for ires in range(num_qual_obj):
-                qualifiers.append(
-                    LabelSpace(
-                        label_space=label_space_api.list_label_spaces_at(
-                            qual_obj, ires
-                        ),
-                        obj=self,
-                        server=self._server,
-                    )
+                label_space = LabelSpace(
+                    label_space=label_space_api.list_label_spaces_at(qual_obj, ires),
+                    obj=self,
+                    server=self._server,
                 )
+                qualifiers.append(label_space)
+                label_space_dict = label_space.__dict__()
+                for key in label_space_dict.keys():
+                    value = label_space_dict[key]
+                    label_support = self.qualifier_label_support(key)
+                    names_field = label_support.string_field_support_by_property("names")
+                    label_value = names_field.data_as_list[
+                        names_field.scoping.ids.tolist().index(value)
+                    ]
+                    label_value = label_value + f" ({value})"
+                    if key not in qualifier_labels.keys():
+                        qualifier_labels[key] = [label_value]
+                    if label_value not in qualifier_labels[key]:
+                        qualifier_labels[key].append(label_value)
 
         availableresult = SimpleNamespace(
             name=name,
@@ -409,6 +427,7 @@ class ResultInfo:
             sub_res=sub_res,
             properties={"loc_name": loc_name, "scripting_name": scripting_name},
             qualifiers=qualifiers,
+            qualifier_labels=qualifier_labels,
         )
         return available_result.AvailableResult(availableresult)
 
@@ -426,9 +445,7 @@ class ResultInfo:
         Available with server's version starting at 5.0.
         """
         coll_obj = collection.StringCollection(
-            collection=self._support_api.result_info_get_available_qualifier_labels_as_string_coll(
-                self
-            ),
+            collection=self._api.result_info_get_available_qualifier_labels_as_string_coll(self),
             server=self._server,
         )
         return coll_obj.get_integral_entries()

@@ -11,10 +11,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class minus_fc(Operator):
-    """Computes the difference of two fields. If one field's scoping has
-    'overall' location, then these field's values are applied on the
-    entire other field.When using a constant or 'work_by_index', it's
-    possible to use 'inplace' to reuse one of the fields.
+    """Computes the difference of two fields. If one field's scoping has an
+    'overall' location, then this field's values are applied on the
+    other field entirely. When using a constant or 'work_by_index',
+    you can use 'inplace' to reuse one of the fields.
 
     Parameters
     ----------
@@ -66,11 +66,11 @@ class minus_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the difference of two fields. If one field's scoping has
-            'overall' location, then these field's values are applied
-            on the entire other field.When using a constant or
-            'work_by_index', it's possible to use 'inplace' to reuse
-            one of the fields."""
+        description = """Computes the difference of two fields. If one field's scoping has an
+            'overall' location, then this field's values are applied
+            on the other field entirely. When using a constant or
+            'work_by_index', you can use 'inplace' to reuse one of the
+            fields."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -138,7 +138,7 @@ class minus_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

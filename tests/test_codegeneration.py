@@ -195,9 +195,7 @@ def test_create_op_in_chain(plate_msup):
     identical = op.logic.identical_fc(eqv2.outputs, eqv1.outputs)
     out = identical.outputs.boolean()
     assert out == True
-    identical = op.logic.identical_fc(
-        eqv2.outputs.fields_container, eqv1.outputs.fields_container
-    )
+    identical = op.logic.identical_fc(eqv2.outputs.fields_container, eqv1.outputs.fields_container)
     out = identical.outputs.boolean()
     assert out == True
 
@@ -244,9 +242,7 @@ def test_generated_operator_several_output_types(plate_msup):
     uc.inputs.unit_name("mm")
     f = uc.outputs.converted_entity_as_field()
     assert f.unit == "mm"
-    assert np.allclose(
-        f.data.flatten("C"), np.array([1, 2, 3, 4, 5, 6, 7, 8, 9]) * 1000
-    )
+    assert np.allclose(f.data.flatten("C"), np.array([1, 2, 3, 4, 5, 6, 7, 8, 9]) * 1000)
 
     model = core.Model(plate_msup)
     din = copy.deepcopy(model.metadata.meshed_region.nodes.coordinates_field.data)
@@ -290,18 +286,14 @@ def test_generated_operator_set_config():
     inpt2.unit = "m"
 
     conf = op.math.add.default_config()
-    print(conf)
+    # print(conf)
     conf.set_work_by_index_option(True)
     op1 = op.math.add(config=conf)
     op1.inputs.fieldA.connect(inpt)
     op1.inputs.fieldB.connect(inpt2)
     out = op1.outputs.field()
-    assert np.allclose(out.scoping.ids, [1, 2, 3]) or np.allclose(
-        out.scoping.ids, [3, 4, 5]
-    )
-    assert np.allclose(
-        out.data, np.array([[2.0, 4.0, 6.0], [8.0, 10.0, 12.0], [14.0, 16.0, 18.0]])
-    )
+    assert np.allclose(out.scoping.ids, [1, 2, 3]) or np.allclose(out.scoping.ids, [3, 4, 5])
+    assert np.allclose(out.data, np.array([[2.0, 4.0, 6.0], [8.0, 10.0, 12.0], [14.0, 16.0, 18.0]]))
 
     conf.set_work_by_index_option(False)
     op1 = op.math.add(config=conf)

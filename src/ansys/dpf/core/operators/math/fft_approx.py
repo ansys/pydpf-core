@@ -12,33 +12,35 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class fft_approx(Operator):
     """Computes the fitting curve using FFT filtering and cubic fitting in
-    space (node i: x=time, y=data), with possibility to compute the
-    first and the second derivatives of the curve.
+    space (node i: x=time, y=data), with the possibility to compute
+    the first and the second derivatives of the curve.
 
     Parameters
     ----------
     time_scoping : Scoping, optional
-        A time scoping to rescope / split an iunput
-        fields container
+        A time scoping to rescope / split the fields
+        container given as input.
     mesh_scoping : Scoping or ScopingsContainer, optional
-        A space (mesh entities) scopings (or
-        container) to rescope / split an
-        input fields container
+        A space (mesh entities) scoping (or scopings
+        container) to rescope / split the
+        fields container given as input.
     entity_to_fit : FieldsContainer
-        Data changing in time to be fitted
+        Data changing in time to be fitted.
     component_number : int
-        Component number as an int, ex '0' for
-        x-displacement, '1' for
-        y-displacement,...
+        Component number as an integer, for example
+        '0' for x-displacement, '1' for
+        y-displacement, and so on.
     first_derivative : bool
-        Calculate the first derivative? (bool):
-        default is false
+        Calculate the first derivative (bool). the
+        default is false.
     second_derivative : bool
-        Calculate the second derivative? (bool):
-        default is false
+        Calculate the second derivative (bool). the
+        default is false.
     fit_data : bool
-        Calculate the fitted values? (bool): default
-        is false
+        Calculate the fitted values (bool). the
+        default is false
+    cutoff_fr : float or int, optional
+        Cutoff frequency.
 
 
     Examples
@@ -63,6 +65,8 @@ class fft_approx(Operator):
     >>> op.inputs.second_derivative.connect(my_second_derivative)
     >>> my_fit_data = bool()
     >>> op.inputs.fit_data.connect(my_fit_data)
+    >>> my_cutoff_fr = float()
+    >>> op.inputs.cutoff_fr.connect(my_cutoff_fr)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.fft_approx(
@@ -73,6 +77,7 @@ class fft_approx(Operator):
     ...     first_derivative=my_first_derivative,
     ...     second_derivative=my_second_derivative,
     ...     fit_data=my_fit_data,
+    ...     cutoff_fr=my_cutoff_fr,
     ... )
 
     >>> # Get output data
@@ -90,6 +95,7 @@ class fft_approx(Operator):
         first_derivative=None,
         second_derivative=None,
         fit_data=None,
+        cutoff_fr=None,
         config=None,
         server=None,
     ):
@@ -110,11 +116,13 @@ class fft_approx(Operator):
             self.inputs.second_derivative.connect(second_derivative)
         if fit_data is not None:
             self.inputs.fit_data.connect(fit_data)
+        if cutoff_fr is not None:
+            self.inputs.cutoff_fr.connect(cutoff_fr)
 
     @staticmethod
     def _spec():
         description = """Computes the fitting curve using FFT filtering and cubic fitting in
-            space (node i: x=time, y=data), with possibility to
+            space (node i: x=time, y=data), with the possibility to
             compute the first and the second derivatives of the curve."""
         spec = Specification(
             description=description,
@@ -123,51 +131,57 @@ class fft_approx(Operator):
                     name="time_scoping",
                     type_names=["vector<int32>", "scoping"],
                     optional=True,
-                    document="""A time scoping to rescope / split an iunput
-        fields container""",
+                    document="""A time scoping to rescope / split the fields
+        container given as input.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["umap<int32,int32>", "scoping", "scopings_container"],
                     optional=True,
-                    document="""A space (mesh entities) scopings (or
-        container) to rescope / split an
-        input fields container""",
+                    document="""A space (mesh entities) scoping (or scopings
+        container) to rescope / split the
+        fields container given as input.""",
                 ),
                 2: PinSpecification(
                     name="entity_to_fit",
                     type_names=["fields_container"],
                     optional=False,
-                    document="""Data changing in time to be fitted""",
+                    document="""Data changing in time to be fitted.""",
                 ),
                 3: PinSpecification(
                     name="component_number",
                     type_names=["int32"],
                     optional=False,
-                    document="""Component number as an int, ex '0' for
-        x-displacement, '1' for
-        y-displacement,...""",
+                    document="""Component number as an integer, for example
+        '0' for x-displacement, '1' for
+        y-displacement, and so on.""",
                 ),
                 4: PinSpecification(
                     name="first_derivative",
                     type_names=["bool"],
                     optional=False,
-                    document="""Calculate the first derivative? (bool):
-        default is false""",
+                    document="""Calculate the first derivative (bool). the
+        default is false.""",
                 ),
                 5: PinSpecification(
                     name="second_derivative",
                     type_names=["bool"],
                     optional=False,
-                    document="""Calculate the second derivative? (bool):
-        default is false""",
+                    document="""Calculate the second derivative (bool). the
+        default is false.""",
                 ),
                 6: PinSpecification(
                     name="fit_data",
                     type_names=["bool"],
                     optional=False,
-                    document="""Calculate the fitted values? (bool): default
-        is false""",
+                    document="""Calculate the fitted values (bool). the
+        default is false""",
+                ),
+                7: PinSpecification(
+                    name="cutoff_fr",
+                    type_names=["double", "int32"],
+                    optional=True,
+                    document="""Cutoff frequency.""",
                 ),
             },
             map_output_pin_spec={
@@ -177,20 +191,21 @@ class fft_approx(Operator):
                     optional=False,
                     document="""The fitted entity is fitted using fft along
         the space scoping (node i: x=time,
-        y=data): fitted y is expected to be
-        close to the input data""",
+        y=data). fitted y is expected to be
+        close to the input data.""",
                 ),
                 1: PinSpecification(
                     name="first_der_dy",
                     type_names=["fields_container"],
                     optional=False,
-                    document="""The first derivative (dy) from the fitted y""",
+                    document="""The first derivative (dy) from the fitted y.""",
                 ),
                 2: PinSpecification(
                     name="second_der_d2y",
                     type_names=["fields_container"],
                     optional=False,
-                    document="""The second derivative (d2y) from the fitted y""",
+                    document="""The second derivative (d2y) from the fitted
+        y.""",
                 ),
             },
         )
@@ -224,7 +239,7 @@ class fft_approx(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -255,6 +270,8 @@ class InputsFftApprox(_Inputs):
     >>> op.inputs.second_derivative.connect(my_second_derivative)
     >>> my_fit_data = bool()
     >>> op.inputs.fit_data.connect(my_fit_data)
+    >>> my_cutoff_fr = float()
+    >>> op.inputs.cutoff_fr.connect(my_cutoff_fr)
     """
 
     def __init__(self, op: Operator):
@@ -273,13 +290,15 @@ class InputsFftApprox(_Inputs):
         self._inputs.append(self._second_derivative)
         self._fit_data = Input(fft_approx._spec().input_pin(6), 6, op, -1)
         self._inputs.append(self._fit_data)
+        self._cutoff_fr = Input(fft_approx._spec().input_pin(7), 7, op, -1)
+        self._inputs.append(self._cutoff_fr)
 
     @property
     def time_scoping(self):
         """Allows to connect time_scoping input to the operator.
 
-        A time scoping to rescope / split an iunput
-        fields container
+        A time scoping to rescope / split the fields
+        container given as input.
 
         Parameters
         ----------
@@ -299,9 +318,9 @@ class InputsFftApprox(_Inputs):
     def mesh_scoping(self):
         """Allows to connect mesh_scoping input to the operator.
 
-        A space (mesh entities) scopings (or
-        container) to rescope / split an
-        input fields container
+        A space (mesh entities) scoping (or scopings
+        container) to rescope / split the
+        fields container given as input.
 
         Parameters
         ----------
@@ -321,7 +340,7 @@ class InputsFftApprox(_Inputs):
     def entity_to_fit(self):
         """Allows to connect entity_to_fit input to the operator.
 
-        Data changing in time to be fitted
+        Data changing in time to be fitted.
 
         Parameters
         ----------
@@ -341,9 +360,9 @@ class InputsFftApprox(_Inputs):
     def component_number(self):
         """Allows to connect component_number input to the operator.
 
-        Component number as an int, ex '0' for
-        x-displacement, '1' for
-        y-displacement,...
+        Component number as an integer, for example
+        '0' for x-displacement, '1' for
+        y-displacement, and so on.
 
         Parameters
         ----------
@@ -363,8 +382,8 @@ class InputsFftApprox(_Inputs):
     def first_derivative(self):
         """Allows to connect first_derivative input to the operator.
 
-        Calculate the first derivative? (bool):
-        default is false
+        Calculate the first derivative (bool). the
+        default is false.
 
         Parameters
         ----------
@@ -384,8 +403,8 @@ class InputsFftApprox(_Inputs):
     def second_derivative(self):
         """Allows to connect second_derivative input to the operator.
 
-        Calculate the second derivative? (bool):
-        default is false
+        Calculate the second derivative (bool). the
+        default is false.
 
         Parameters
         ----------
@@ -405,8 +424,8 @@ class InputsFftApprox(_Inputs):
     def fit_data(self):
         """Allows to connect fit_data input to the operator.
 
-        Calculate the fitted values? (bool): default
-        is false
+        Calculate the fitted values (bool). the
+        default is false
 
         Parameters
         ----------
@@ -421,6 +440,26 @@ class InputsFftApprox(_Inputs):
         >>> op.inputs.fit_data(my_fit_data)
         """
         return self._fit_data
+
+    @property
+    def cutoff_fr(self):
+        """Allows to connect cutoff_fr input to the operator.
+
+        Cutoff frequency.
+
+        Parameters
+        ----------
+        my_cutoff_fr : float or int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.fft_approx()
+        >>> op.inputs.cutoff_fr.connect(my_cutoff_fr)
+        >>> # or
+        >>> op.inputs.cutoff_fr(my_cutoff_fr)
+        """
+        return self._cutoff_fr
 
 
 class OutputsFftApprox(_Outputs):

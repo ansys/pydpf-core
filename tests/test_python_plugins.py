@@ -12,6 +12,9 @@ from ansys.dpf.core.operator_specification import (
     CustomConfigOptionSpec,
     PinSpecification,
 )
+from conftest import (
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+)
 
 if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
     pytest.skip("Requires server version higher than 4.0", allow_module_level=True)
@@ -21,17 +24,13 @@ if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
 #         allow_module_level=True
 #     )
 if platform.system() == "Linux":
-    pytest.skip(
-        "Known failures for the Ubuntu-latest GitHub pipelines", allow_module_level=True
-    )
+    pytest.skip("Known failures for the Ubuntu-latest GitHub pipelines", allow_module_level=True)
 
 
 @pytest.fixture(scope="module")
 def load_all_types_plugin(testfiles_dir):
     return dpf.load_library(
-        dpf.path_utilities.to_server_os(
-            os.path.join(testfiles_dir, "pythonPlugins", "all_types")
-        ),
+        dpf.path_utilities.to_server_os(os.path.join(testfiles_dir, "pythonPlugins", "all_types")),
         "py_test_types",
         "load_operators",
     )
@@ -75,24 +74,18 @@ def test_lists(server_type_remote_process, testfiles_dir):
     op = dpf.Operator("custom_set_out_vec_double", server=server_type_remote_process)
     assert np.allclose(op.get_output(0, dpf.types.vec_double), [1.0, 2.0, 3.0])
     op = dpf.Operator("custom_set_out_np_int", server=server_type_remote_process)
-    assert np.allclose(
-        op.get_output(0, dpf.types.vec_int), np.ones((200), dtype=np.int)
-    )
+    assert np.allclose(op.get_output(0, dpf.types.vec_int), np.ones((200), dtype=np.int32))
     op = dpf.Operator("custom_set_out_np_double", server=server_type_remote_process)
     assert np.allclose(op.get_output(0, dpf.types.vec_double), np.ones((200)))
 
 
 def test_field(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
-    f = dpf.fields_factory.create_3d_vector_field(
-        3, "Elemental", server=server_type_remote_process
-    )
-    f.data = np.ones((3, 3), dtype=np.float)
+    f = dpf.fields_factory.create_3d_vector_field(3, "Elemental", server=server_type_remote_process)
+    f.data = np.ones((3, 3), dtype=np.float64)
     op = dpf.Operator("custom_forward_field", server=server_type_remote_process)
     op.connect(0, f)
-    assert np.allclose(
-        op.get_output(0, dpf.types.field).data, np.ones((3, 3), dtype=np.float)
-    )
+    assert np.allclose(op.get_output(0, dpf.types.field).data, np.ones((3, 3), dtype=np.float64))
     assert op.get_output(0, dpf.types.field).location == "Elemental"
 
 
@@ -100,9 +93,7 @@ def test_property_field(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.PropertyField(server=server_type_remote_process)
     f.data = np.ones((9), dtype=np.int32)
-    op = dpf.Operator(
-        "custom_forward_property_field", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_forward_property_field", server=server_type_remote_process)
     op.connect(0, f)
     assert np.allclose(
         op.get_output(0, dpf.types.property_field).data,
@@ -125,9 +116,7 @@ def test_custom_type_field(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.CustomTypeField(np.uint64, server=server_type_remote_process)
     f.data = np.array([1000000000000, 200000000000000], dtype=np.uint64)
-    op = dpf.Operator(
-        "custom_forward_custom_type_field", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_forward_custom_type_field", server=server_type_remote_process)
     op.connect(0, f)
     assert np.allclose(
         op.get_output(0, dpf.types.custom_type_field).data,
@@ -145,20 +134,16 @@ def test_scoping(server_type_remote_process, testfiles_dir):
 
 def test_fields_container(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
-    f = dpf.fields_factory.create_3d_vector_field(
-        3, "Elemental", server=server_type_remote_process
-    )
-    f.data = np.ones((3, 3), dtype=np.float)
+    f = dpf.fields_factory.create_3d_vector_field(3, "Elemental", server=server_type_remote_process)
+    f.data = np.ones((3, 3), dtype=np.float64)
     fc = dpf.fields_container_factory.over_time_freq_fields_container(
         [f], server=server_type_remote_process
     )
-    op = dpf.Operator(
-        "custom_forward_fields_container", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_forward_fields_container", server=server_type_remote_process)
     op.connect(0, fc)
     assert np.allclose(
         op.get_output(0, dpf.types.fields_container)[0].data,
-        np.ones((3, 3), dtype=np.float),
+        np.ones((3, 3), dtype=np.float64),
     )
     assert op.get_output(0, dpf.types.fields_container)[0].location == "Elemental"
 
@@ -168,9 +153,7 @@ def test_scopings_container(server_type_remote_process, testfiles_dir):
     f = dpf.Scoping(location="Elemental", server=server_type_remote_process)
     sc = dpf.ScopingsContainer(server=server_type_remote_process)
     sc.add_scoping({}, f)
-    op = dpf.Operator(
-        "custom_forward_scopings_container", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_forward_scopings_container", server=server_type_remote_process)
     op.connect(0, sc)
     assert op.get_output(0, dpf.types.scopings_container)[0].location == "Elemental"
 
@@ -180,9 +163,7 @@ def test_meshes_container(server_type_remote_process, testfiles_dir):
     f = dpf.MeshedRegion(server=server_type_remote_process)
     sc = dpf.MeshesContainer(server=server_type_remote_process)
     sc.add_mesh({}, f)
-    op = dpf.Operator(
-        "custom_forward_meshes_container", server=server_type_remote_process
-    )
+    op = dpf.Operator("custom_forward_meshes_container", server=server_type_remote_process)
     op.connect(0, sc)
     assert len(op.get_output(0, dpf.types.meshes_container)) == 1
 
@@ -202,6 +183,7 @@ def test_data_sources(server_type_remote_process, testfiles_dir):
 def test_workflow(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     f = dpf.Workflow(server=server_type_remote_process)
+    f.progress_bar = False
     op = dpf.Operator("custom_forward_workflow", server=server_type_remote_process)
     op.connect(0, f)
     assert op.get_output(0, dpf.types.workflow) is not None
@@ -241,15 +223,11 @@ def test_create_op_specification(server_in_process):
     spec = CustomSpecification(server=server_in_process)
     spec.description = "Add a custom value to all the data of an input Field"
     spec.inputs = {
-        0: PinSpecification(
-            "field", [dpf.Field], "Field on which float value is added."
-        ),
+        0: PinSpecification("field", [dpf.Field], "Field on which float value is added."),
         1: PinSpecification("to_add", [float], "Data to add."),
     }
     spec.outputs = {
-        0: PinSpecification(
-            "field", [dpf.Field], "Field on which the float value is added."
-        )
+        0: PinSpecification("field", [dpf.Field], "Field on which the float value is added.")
     }
     spec.properties = SpecificationProperties("custom add to field", "math")
     spec.config_specification = [
@@ -267,6 +245,64 @@ def test_create_op_specification(server_in_process):
     assert spec.properties["category"] == "math"
     assert spec.config_specification["work_by_index"].document == "iterate over indices"
     assert spec.config_specification["work_by_index"].default_value_str == "false"
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_create_op_specification_with_derived_class(server_in_process):
+    spec = CustomSpecification(server=server_in_process)
+    spec.description = "Add derived class in op specification"
+    spec.inputs = {
+        0: PinSpecification(
+            name="time_scoping",
+            type_names=["int32"],
+            optional=True,
+            document="""Optional time/frequency set id of the mesh.""",
+        ),
+        3: PinSpecification(
+            name="streams_container",
+            type_names=["streams_container"],
+            optional=True,
+            document="""Streams (mesh file container) (optional)""",
+        ),
+        4: PinSpecification(
+            name="data_sources",
+            type_names=["data_sources"],
+            optional=False,
+            document="""If the stream is null, retrieves the file
+            path from the data sources.""",
+        ),
+    }
+    spec.outputs = {
+        0: PinSpecification(
+            name="mesh_info",
+            type_names=["generic_data_container"],
+            optional=False,
+            document="""""",
+            name_derived_class="mesh_info",
+        ),
+    }
+    spec.properties = SpecificationProperties("mesh info provider", "metadata")
+    spec.config_specification = [
+        CustomConfigOptionSpec("mesh_info_provider", False, "gives mesh info")
+    ]
+    assert spec.description == "Add derived class in op specification"
+    assert len(spec.inputs) == 3
+    assert spec.inputs[0].name == "time_scoping"
+    assert spec.inputs[0].type_names == ["int32"]
+    assert spec.inputs[3].document == """Streams (mesh file container) (optional)"""
+    assert spec.outputs[0] == PinSpecification(
+        name="mesh_info",
+        type_names=["generic_data_container"],
+        optional=False,
+        document="""""",
+        name_derived_class="mesh_info",
+    )
+    assert spec.properties["exposure"] == "public"
+    assert spec.properties["category"] == "metadata"
+    assert spec.config_specification["mesh_info_provider"].document == "gives mesh info"
+    assert spec.config_specification["mesh_info_provider"].default_value_str == "false"
 
 
 @conftest.raises_for_servers_version_under("4.0")
@@ -317,19 +353,17 @@ def test_custom_op_with_spec(server_type_remote_process, testfiles_dir):
     assert "Add a custom value to all the data of an input Field" in str(op)
     assert "Field on which float value is added" in str(op.inputs)
     assert "Field on which the float value is added" in str(op.outputs.field)
-    f = dpf.fields_factory.create_3d_vector_field(
-        3, "Elemental", server=server_type_remote_process
-    )
-    f.data = np.ones((3, 3), dtype=np.float)
+    f = dpf.fields_factory.create_3d_vector_field(3, "Elemental", server=server_type_remote_process)
+    f.data = np.ones((3, 3), dtype=np.float64)
     op.inputs.field(f)
     op.inputs.to_add(3.0)
     outf = op.outputs.field()
-    expected = np.ones((3, 3), dtype=np.float) + 3.0
+    expected = np.ones((3, 3), dtype=np.float64) + 3.0
     assert np.allclose(outf.data, expected)
     op = dpf.Operator("custom_add_to_field", server=server_type_remote_process)
     op.inputs.connect(f)
     op.inputs.to_add(4.0)
-    f.data = np.ones((3, 3), dtype=np.float)
+    f.data = np.ones((3, 3), dtype=np.float64)
     outf = op.outputs.field()
-    expected = np.ones((3, 3), dtype=np.float) + 4.0
+    expected = np.ones((3, 3), dtype=np.float64) + 4.0
     assert np.allclose(outf.data, expected)

@@ -11,13 +11,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class beam_properties(Operator):
-    """Read beam's properties from the result files contained in the streams
-    or data sources.
+    """Reads the beam's properties from the result files contained in the
+    streams or data sources.
 
     Parameters
     ----------
     streams : StreamsContainer, optional
-        result file container allowed to be kept open
+        Result file container allowed to be kept open
         to cache data.
     data_sources : DataSources
         Result file path container, used if no
@@ -68,8 +68,8 @@ class beam_properties(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read beam's properties from the result files contained in the streams
-            or data sources."""
+        description = """Reads the beam's properties from the result files contained in the
+            streams or data sources."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -77,7 +77,7 @@ class beam_properties(Operator):
                     name="streams",
                     type_names=["streams_container"],
                     optional=True,
-                    document="""result file container allowed to be kept open
+                    document="""Result file container allowed to be kept open
         to cache data.""",
                 ),
                 4: PinSpecification(
@@ -93,15 +93,15 @@ class beam_properties(Operator):
                     name="mesh_out",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document="""This mesh updates a new map containing field
-        of beam's properties if there is at
-        least 1 beam in mesh.""",
+                    document="""This mesh updates a new map containing a
+        field of the beam's properties if
+        there is at least one beam in mesh.""",
                 ),
                 1: PinSpecification(
                     name="field_type_section_id",
                     type_names=["field"],
                     optional=False,
-                    document="""This field contains section id of beams.
+                    document="""This field contains the section id of beams.
         1:rec; 3:csolid, 4:ctube, 5:chan,
         6:z, 7:l, 8:i, 9:t, 11:hats, 12:hrec.""",
                 ),
@@ -109,20 +109,20 @@ class beam_properties(Operator):
                     name="field_area",
                     type_names=["field"],
                     optional=False,
-                    document="""This field contains area of beams.""",
+                    document="""This field contains the area of beams.""",
                 ),
                 3: PinSpecification(
                     name="field_moment_inertia",
                     type_names=["field"],
                     optional=False,
-                    document="""This field contains inertia moment of beams.
-        iyy, iyz, izz""",
+                    document="""This field contains the inertia moment of
+        beams. iyy, iyz, izz.""",
                 ),
                 4: PinSpecification(
                     name="field_geometry",
                     type_names=["field"],
                     optional=False,
-                    document="""This field contains geometry of beams.
+                    document="""This field contains the geometry of beams.
         rec:b,h. csolid:ri. ctube:ri, re.
         chan:w1,w2,w3,t1,t2,t3.
         z:w1,w2,w3,t1,t2,t3. l:w1,w2,t1,t2.
@@ -134,38 +134,41 @@ class beam_properties(Operator):
                     name="field_young_modulus",
                     type_names=["field"],
                     optional=False,
-                    document="""This field contains young's modulus of beams.""",
+                    document="""This field contains the young's modulus of
+        beams.""",
                 ),
                 6: PinSpecification(
                     name="field_poisson_ratio",
                     type_names=["field"],
                     optional=False,
-                    document="""This field contains poisson's ratio of beams.""",
+                    document="""This field contains the poisson's ratio of
+        beams.""",
                 ),
                 7: PinSpecification(
                     name="field_shear_modulus",
                     type_names=["field"],
                     optional=False,
-                    document="""This field contains shear modulus of beams.""",
+                    document="""This field contains the shear modulus of
+        beams.""",
                 ),
                 8: PinSpecification(
                     name="field_beam_length",
                     type_names=["field"],
                     optional=False,
-                    document="""This field contains length of beams.""",
+                    document="""This field contains the length of beams.""",
                 ),
                 9: PinSpecification(
                     name="field_torsion_constant",
                     type_names=["field"],
                     optional=False,
-                    document="""This field contains torsion constant of
+                    document="""This field contains the torsion constant of
         beams.""",
                 ),
                 10: PinSpecification(
                     name="field_warping_constant",
                     type_names=["field"],
                     optional=False,
-                    document="""This field contains warping constant of
+                    document="""This field contains the warping constant of
         beams.""",
                 ),
             },
@@ -200,7 +203,7 @@ class beam_properties(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -234,7 +237,7 @@ class InputsBeamProperties(_Inputs):
     def streams(self):
         """Allows to connect streams input to the operator.
 
-        result file container allowed to be kept open
+        Result file container allowed to be kept open
         to cache data.
 
         Parameters

@@ -75,12 +75,14 @@ class Input:
             inpt = inpt.metadata.data_sources
         elif isinstance(inpt, Path):
             inpt = str(inpt)
+        elif isinstance(inpt, core.UnitSystem):
+            if inpt.ID != -2:  # Ansys UnitSystem
+                inpt = inpt.ID
+            else:  # Custom UnitSystem
+                inpt = inpt.unit_names
 
         input_type_name = type(inpt).__name__
-        if not (
-            input_type_name in self._python_expected_types
-            or ["Outputs", "Output", "Any"]
-        ):
+        if not (input_type_name in self._python_expected_types or ["Outputs", "Output", "Any"]):
             for types in self._python_expected_types:
                 print(types, end=" ")
             print("types are expected for", self._spec.name, "pin")
@@ -107,25 +109,19 @@ class Input:
                 f"The input operator for the {self._spec.name} pin must be "
                 "one of the following types:\n"
             )
-            err_str += "\n".join(
-                [f"- {py_type}" for py_type in self._python_expected_types]
-            )
+            err_str += "\n".join([f"- {py_type}" for py_type in self._python_expected_types])
             raise TypeError(err_str)
 
         from ansys.dpf.core.results import Result
 
         if isinstance(inpt, _Outputs):
-            self._operator().connect(
-                self._pin, inpt._operator, corresponding_pins[0][1]
-            )
+            self._operator().connect(self._pin, inpt._operator, corresponding_pins[0][1])
             self._operator().inputs._connected_inputs[self._pin] = {
                 corresponding_pins[0][1]: weakref.ref(inpt._operator)
             }
         elif isinstance(inpt, Output):
             self._operator().connect(self._pin, inpt._operator, inpt._pin)
-            self._operator().inputs._connected_inputs[self._pin] = {
-                inpt._pin: weakref.ref(inpt)
-            }
+            self._operator().inputs._connected_inputs[self._pin] = {inpt._pin: weakref.ref(inpt)}
         elif isinstance(inpt, Result):
             self._operator().connect(self._pin, inpt(), corresponding_pins[0][1])
             self._operator().inputs._connected_inputs[self._pin] = {
@@ -236,9 +232,7 @@ class _Inputs:
             for pin in corresponding_pins:
                 if isinstance(pin, tuple):
                     pin = pin[0]
-                err_str += (
-                    "   - operator.inputs." + self._dict_inputs[pin].name + "(input)\n"
-                )
+                err_str += "   - operator.inputs." + self._dict_inputs[pin].name + "(input)\n"
             raise ValueError(err_str)
 
         if len(corresponding_pins) == 0:
@@ -252,9 +246,7 @@ class _Inputs:
 
         if isinstance(inpt, Output):
             self._operator().connect(corresponding_pins[0], inpt._operator, inpt._pin)
-            self._connected_inputs[corresponding_pins[0]] = {
-                inpt._pin: weakref.ref(inpt._operator)
-            }
+            self._connected_inputs[corresponding_pins[0]] = {inpt._pin: weakref.ref(inpt._operator)}
         elif isinstance(inpt, _Outputs):
             self._operator().connect(
                 corresponding_pins[0][0], inpt._operator, corresponding_pins[0][1]
@@ -263,9 +255,7 @@ class _Inputs:
                 corresponding_pins[0][1]: weakref.ref(inpt._operator)
             }
         elif isinstance(inpt, Result):
-            self._operator().connect(
-                corresponding_pins[0][0], inpt(), corresponding_pins[0][1]
-            )
+            self._operator().connect(corresponding_pins[0][0], inpt(), corresponding_pins[0][1])
             self._connected_inputs[corresponding_pins[0][0]] = {
                 corresponding_pins[0][1]: weakref.ref(inpt)
             }

@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elements_volumes_over_time(Operator):
-    """Calculation of the volume of each element over time of a mesh for each
+    """Calculates for a mesh, the volume of each element over time for each
     specified time step.
 
     Parameters
@@ -68,7 +68,7 @@ class elements_volumes_over_time(Operator):
 
     @staticmethod
     def _spec():
-        description = """Calculation of the volume of each element over time of a mesh for each
+        description = """Calculates for a mesh, the volume of each element over time for each
             specified time step."""
         spec = Specification(
             description=description,
@@ -135,7 +135,7 @@ class elements_volumes_over_time(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

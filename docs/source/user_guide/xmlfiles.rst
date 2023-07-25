@@ -3,8 +3,8 @@
 =============
 DPF XML files
 =============
-This page describes the ``DataProcessingCore.xml``and ``Plugin.xml`` XML files
-provided with the DPF software. These XML files work on both Linux and Windows
+This page describes the ``DataProcessingCore.xml`` and ``Plugin.xml`` XML files
+provided with DPF. These XML files work on both Linux and Windows
 because they contain content for both of these operating systems.
 
 These XML files must be located alongside the plugin DLL files on Windows or
@@ -63,7 +63,7 @@ In this XML file, some of the elements are optional, and many of the
 elements have Linux-specific versus Windows-specific child elements.
 
 .. caution::
-	To ensure that the DPF software operates correctly, modify this XML file
+	To ensure that DPF operates correctly, modify this XML file
 	carefully. All paths specified in this XML file must adhere to the path
 	conventions of the respective operating system. For Linux paths, use
 	forward slashes (/). For Windows paths, use backward slashes (\\). 
@@ -77,36 +77,39 @@ define the root folders for Ansys software installed on Linux and on Windows.
 
 The path for the root folder ends with Ansys version information, ``v###``,
 where ``###`` is the three-digit format for the installed version. For example,
-on Windows, the path for the root folder for Ansys 2022 R2likely looks something
-like ``C:\Program Files\ANSYS Inc\v222``.
+on Windows, the path for the root folder for Ansys 2022 R2 likely ends with
+``\ANSYS Inc\v222``.
 
-The ``ANSYS_ROOT_FOLDER`` element is like an environment variable. You can use
-this element in other XML files. For example, you might use it to find required
+The ``ANSYS_ROOT_FOLDER`` element defines a variable 
+that can be used in the other XML files. For example, you might use it to find required
 third-party software.
 
 If the ``ANSYS_ROOT_FOLDER`` element is not defined in the ``DataProcessing.xml``
-file, the root folder is determined by reading the ``AWP_ROOT###`` environment
-variable specific to your installed Ansys version. For example, if you are
-using Ansys 2022 R2, it looks for ``AWP_ROOT222`` to find the root folder.
-
-If the ``ANSYS_ROOT_FOLDER`` element is still not defined, an attempt is made to
+file, an attempt is made to
 find the root folder relative to the ``DataProcessingCore`` DLL or SO file. This
 works only if the ``DataProcessingCore.xml`` file is located in its default
 location.
 
+If the ``ANSYS_ROOT_FOLDER`` element is still not defined, the root folder is 
+determined by reading the ``AWP_ROOT###`` environment variable specific to your 
+installed Ansys version. For example, if you are using Ansys 2022 R2, it looks 
+for the ``AWP_ROOT222`` environment variable to find the root folder.
+
+ANSYS_ROOT_FOLDER is not an environment variable and cannot be set accordingly.
+
 ``<DefaultPlugin>`` element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The ``<DefaultPlugin>`` element defines the plugins to load. The ``<Linux>`` or
-``Windows`` child element contains the operating system for plugins defined
-in child elements.
+``<Windows>`` child element contains the operating system for the plugins defined
+in the child elements.
 
-The ``native`` element defines DPF native operators. The further subdividing of
+The ``<native>`` element defines DPF native operators. The further subdividing of
 plugins into ``<Debug>`` or ``<Release>`` elements is optional. The ``<Debug>``
 element, for example, would only be used with a debug version of the
-``DataProcessingCore DLL/SO`` file.
+``DataProcessingCore`` DLL or SO file.
 
 The element names for plugins, such as ``<native>`` and ``<fem_utils>``, are used as 
-*keys* when loading plugins. Each plugin must have a unique key.
+**keys** when loading plugins. Each plugin must have a unique key.
 
 The element for each plug-in has child elements:
 
@@ -132,7 +135,7 @@ plugins in a folder defined by a ``MY_PLUGINS`` environment variable, you could 
 it in the XML file.
 
 You specify environment variables in the same way as the ``ANSYS_ROOT_FOLDER``
-or ``THIS_XML_FOLDER`` variable. They are defined as $(…).
+or ``THIS_XML_FOLDER`` variable. They are defined as ``$(…)``.
 
 In the Ansys installation, the default ``DataProcessingCore.xml`` file is located
 next to the ``DataProcessingCore`` DLL or SO file. If you want to use a different

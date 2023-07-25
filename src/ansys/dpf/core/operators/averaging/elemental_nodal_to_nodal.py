@@ -11,8 +11,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elemental_nodal_to_nodal(Operator):
-    """Transform ElementalNodal field into Nodal field using an averaging
-    process, result is computed on a given node scoping.
+    """Transforms an Elemental Nodal field into a Nodal field using an
+    averaging process. The result is computed on a given node's
+    scoping.
 
     Parameters
     ----------
@@ -24,10 +25,14 @@ class elemental_nodal_to_nodal(Operator):
     should_average : bool, optional
         Each nodal value is divided by the number of
         elements linked to this node (default
-        is true for discrete quantities)
+        is true for discrete quantities).
     extend_to_mid_nodes : bool, optional
         Compute mid nodes (when available) by
-        averaging neighbour primary nodes
+        averaging the neighbour primary
+        nodes.
+    extend_weights_to_mid_nodes : bool, optional
+        Extends weights to mid nodes (when
+        available). default is false.
     mesh : MeshedRegion, optional
 
 
@@ -47,6 +52,8 @@ class elemental_nodal_to_nodal(Operator):
     >>> op.inputs.should_average.connect(my_should_average)
     >>> my_extend_to_mid_nodes = bool()
     >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
+    >>> my_extend_weights_to_mid_nodes = bool()
+    >>> op.inputs.extend_weights_to_mid_nodes.connect(my_extend_weights_to_mid_nodes)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
 
@@ -56,6 +63,7 @@ class elemental_nodal_to_nodal(Operator):
     ...     mesh_scoping=my_mesh_scoping,
     ...     should_average=my_should_average,
     ...     extend_to_mid_nodes=my_extend_to_mid_nodes,
+    ...     extend_weights_to_mid_nodes=my_extend_weights_to_mid_nodes,
     ...     mesh=my_mesh,
     ... )
 
@@ -70,6 +78,7 @@ class elemental_nodal_to_nodal(Operator):
         mesh_scoping=None,
         should_average=None,
         extend_to_mid_nodes=None,
+        extend_weights_to_mid_nodes=None,
         mesh=None,
         config=None,
         server=None,
@@ -85,13 +94,16 @@ class elemental_nodal_to_nodal(Operator):
             self.inputs.should_average.connect(should_average)
         if extend_to_mid_nodes is not None:
             self.inputs.extend_to_mid_nodes.connect(extend_to_mid_nodes)
+        if extend_weights_to_mid_nodes is not None:
+            self.inputs.extend_weights_to_mid_nodes.connect(extend_weights_to_mid_nodes)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
 
     @staticmethod
     def _spec():
-        description = """Transform ElementalNodal field into Nodal field using an averaging
-            process, result is computed on a given node scoping."""
+        description = """Transforms an Elemental Nodal field into a Nodal field using an
+            averaging process. The result is computed on a given
+            node's scoping."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -114,14 +126,22 @@ class elemental_nodal_to_nodal(Operator):
                     optional=True,
                     document="""Each nodal value is divided by the number of
         elements linked to this node (default
-        is true for discrete quantities)""",
+        is true for discrete quantities).""",
                 ),
                 4: PinSpecification(
                     name="extend_to_mid_nodes",
                     type_names=["bool"],
                     optional=True,
                     document="""Compute mid nodes (when available) by
-        averaging neighbour primary nodes""",
+        averaging the neighbour primary
+        nodes.""",
+                ),
+                5: PinSpecification(
+                    name="extend_weights_to_mid_nodes",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Extends weights to mid nodes (when
+        available). default is false.""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -141,9 +161,9 @@ class elemental_nodal_to_nodal(Operator):
                     name="weight",
                     type_names=["property_field"],
                     optional=False,
-                    document="""Gives for each node, the number of times it
-        was found in the elemental nodal
-        field. can be used to average later.""",
+                    document="""Provides the number of times it was found in
+        the elemental nodal field, for each
+        node. can be used to average later.""",
                 ),
             },
         )
@@ -177,7 +197,7 @@ class elemental_nodal_to_nodal(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -202,6 +222,8 @@ class InputsElementalNodalToNodal(_Inputs):
     >>> op.inputs.should_average.connect(my_should_average)
     >>> my_extend_to_mid_nodes = bool()
     >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
+    >>> my_extend_weights_to_mid_nodes = bool()
+    >>> op.inputs.extend_weights_to_mid_nodes.connect(my_extend_weights_to_mid_nodes)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     """
@@ -222,6 +244,10 @@ class InputsElementalNodalToNodal(_Inputs):
             elemental_nodal_to_nodal._spec().input_pin(4), 4, op, -1
         )
         self._inputs.append(self._extend_to_mid_nodes)
+        self._extend_weights_to_mid_nodes = Input(
+            elemental_nodal_to_nodal._spec().input_pin(5), 5, op, -1
+        )
+        self._inputs.append(self._extend_weights_to_mid_nodes)
         self._mesh = Input(elemental_nodal_to_nodal._spec().input_pin(7), 7, op, -1)
         self._inputs.append(self._mesh)
 
@@ -272,7 +298,7 @@ class InputsElementalNodalToNodal(_Inputs):
 
         Each nodal value is divided by the number of
         elements linked to this node (default
-        is true for discrete quantities)
+        is true for discrete quantities).
 
         Parameters
         ----------
@@ -293,7 +319,8 @@ class InputsElementalNodalToNodal(_Inputs):
         """Allows to connect extend_to_mid_nodes input to the operator.
 
         Compute mid nodes (when available) by
-        averaging neighbour primary nodes
+        averaging the neighbour primary
+        nodes.
 
         Parameters
         ----------
@@ -308,6 +335,27 @@ class InputsElementalNodalToNodal(_Inputs):
         >>> op.inputs.extend_to_mid_nodes(my_extend_to_mid_nodes)
         """
         return self._extend_to_mid_nodes
+
+    @property
+    def extend_weights_to_mid_nodes(self):
+        """Allows to connect extend_weights_to_mid_nodes input to the operator.
+
+        Extends weights to mid nodes (when
+        available). default is false.
+
+        Parameters
+        ----------
+        my_extend_weights_to_mid_nodes : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_nodal_to_nodal()
+        >>> op.inputs.extend_weights_to_mid_nodes.connect(my_extend_weights_to_mid_nodes)
+        >>> # or
+        >>> op.inputs.extend_weights_to_mid_nodes(my_extend_weights_to_mid_nodes)
+        """
+        return self._extend_weights_to_mid_nodes
 
     @property
     def mesh(self):

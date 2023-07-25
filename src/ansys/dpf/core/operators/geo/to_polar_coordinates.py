@@ -11,9 +11,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class to_polar_coordinates(Operator):
-    """Find r, theta (rad), z coordinates of a coordinates (nodal) field in
-    cartesian coordinates system with respoect to the input coordinate
-    system defining the rotation axis and the origin.
+    """Finds r, theta (rad), and z coordinates of a coordinates (nodal) field
+    in a cartesian coordinates system where the input coordinate
+    system defines the rotation axis and the origin.
 
     Parameters
     ----------
@@ -25,7 +25,7 @@ class to_polar_coordinates(Operator):
         must be set here to define a
         coordinate system. by default, the
         rotation axis is the z axis and the
-        origin is [0,0,0]
+        origin is [0,0,0].
 
 
     Examples
@@ -62,9 +62,9 @@ class to_polar_coordinates(Operator):
 
     @staticmethod
     def _spec():
-        description = """Find r, theta (rad), z coordinates of a coordinates (nodal) field in
-            cartesian coordinates system with respoect to the input
-            coordinate system defining the rotation axis and the
+        description = """Finds r, theta (rad), and z coordinates of a coordinates (nodal) field
+            in a cartesian coordinates system where the input
+            coordinate system defines the rotation axis and the
             origin."""
         spec = Specification(
             description=description,
@@ -84,7 +84,7 @@ class to_polar_coordinates(Operator):
         must be set here to define a
         coordinate system. by default, the
         rotation axis is the z axis and the
-        origin is [0,0,0]""",
+        origin is [0,0,0].""",
                 ),
             },
             map_output_pin_spec={
@@ -126,7 +126,7 @@ class to_polar_coordinates(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -187,7 +187,7 @@ class InputsToPolarCoordinates(_Inputs):
         must be set here to define a
         coordinate system. by default, the
         rotation axis is the z axis and the
-        origin is [0,0,0]
+        origin is [0,0,0].
 
         Parameters
         ----------

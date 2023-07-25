@@ -13,7 +13,6 @@ from ansys.dpf.core.common import (
     _smart_dict_camel,
     _camel_to_snake_case,
     _snake_to_camel_case,
-    _smart_dict_unit_system,
 )
 
 
@@ -30,6 +29,8 @@ map_types_to_cpp["bool"] = "bool"
 map_types_to_cpp["int"] = "int32"
 map_types_to_cpp["double"] = "double"
 map_types_to_cpp["float"] = "double"
+map_types_to_cpp["UnitSystem"] = "class dataProcessing::unit::CUnitSystem"
+map_types_to_cpp["dict"] = "label_space"
 
 
 class _smart_dict_snake(dict):
@@ -42,11 +43,3 @@ for k, v in map_types_to_cpp.items():
     map_types_to_python[v] = k
 map_types_to_python["vector<double>"] = "list"
 map_types_to_python["b"] = "bool"
-
-map_unit_system = _smart_dict_unit_system()
-map_unit_system[5] = "Metric (cm, g, dyne, s, V, A)"
-map_unit_system[6] = "Metric (mm, Kg, N, s, mV, mA)"
-map_unit_system[7] = "U.S Customary (ft, lbm, lbf, F, s, V, A)"
-map_unit_system[8] = "U.S Customary (in, lbm, lbf, F, s, V, A)"
-map_unit_system[10] = "Metric (um, t, uN, s, V, mA)"
-map_unit_system[11] = "Metric (m, kg, N, s, V, A)"

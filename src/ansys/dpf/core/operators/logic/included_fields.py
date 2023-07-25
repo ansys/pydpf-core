@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class included_fields(Operator):
-    """Check if one field belongs to another.
+    """Checks if one field belongs to another.
 
     Parameters
     ----------
@@ -20,13 +20,13 @@ class included_fields(Operator):
     double_value : float
         Double positive small value. smallest value
         which will be considered during the
-        comparison step: all the abs(values)
-        in field less than this value is
+        comparison step. all the abs(values)
+        in the field less than this value are
         considered as null, (default
         value:1.0e-14).
     double_tolerance : float, optional
         Double relative tolerance. maximum tolerance
-        gap between to compared values:
+        gap between two compared values.
         values within relative tolerance are
         considered identical (v1-v2)/v2 <
         relativetol (default is 0.001).
@@ -85,7 +85,7 @@ class included_fields(Operator):
 
     @staticmethod
     def _spec():
-        description = """Check if one field belongs to another."""
+        description = """Checks if one field belongs to another."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -107,8 +107,8 @@ class included_fields(Operator):
                     optional=False,
                     document="""Double positive small value. smallest value
         which will be considered during the
-        comparison step: all the abs(values)
-        in field less than this value is
+        comparison step. all the abs(values)
+        in the field less than this value are
         considered as null, (default
         value:1.0e-14).""",
                 ),
@@ -117,7 +117,7 @@ class included_fields(Operator):
                     type_names=["double"],
                     optional=True,
                     document="""Double relative tolerance. maximum tolerance
-        gap between to compared values:
+        gap between two compared values.
         values within relative tolerance are
         considered identical (v1-v2)/v2 <
         relativetol (default is 0.001).""",
@@ -168,7 +168,7 @@ class included_fields(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -248,8 +248,8 @@ class InputsIncludedFields(_Inputs):
 
         Double positive small value. smallest value
         which will be considered during the
-        comparison step: all the abs(values)
-        in field less than this value is
+        comparison step. all the abs(values)
+        in the field less than this value are
         considered as null, (default
         value:1.0e-14).
 
@@ -272,7 +272,7 @@ class InputsIncludedFields(_Inputs):
         """Allows to connect double_tolerance input to the operator.
 
         Double relative tolerance. maximum tolerance
-        gap between to compared values:
+        gap between two compared values.
         values within relative tolerance are
         considered identical (v1-v2)/v2 <
         relativetol (default is 0.001).

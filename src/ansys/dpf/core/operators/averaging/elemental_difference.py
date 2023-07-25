@@ -11,10 +11,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elemental_difference(Operator):
-    """Transform ElementalNodal or Nodal field into Elemental field. Each
-    elemental value is the maximum difference between the computed
-    result for all nodes in this element. Result is computed on a
-    given element scoping.
+    """Transforms an Elemental Nodal or Nodal field into an Elemental field.
+    Each elemental value is the maximum difference between the
+    computed result for all nodes in this element. The result is
+    computed on a given element scoping.
 
     Parameters
     ----------
@@ -25,9 +25,9 @@ class elemental_difference(Operator):
         Average only on these entities
     mesh : MeshedRegion, optional
     through_layers : bool, optional
-        The max elemental difference is taken through
-        the different shell layers if true
-        (default is false)
+        The maximum elemental difference is taken
+        through the different shell layers if
+        true (default is false).
 
 
     Examples
@@ -82,10 +82,10 @@ class elemental_difference(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transform ElementalNodal or Nodal field into Elemental field. Each
-            elemental value is the maximum difference between the
-            computed result for all nodes in this element. Result is
-            computed on a given element scoping."""
+        description = """Transforms an Elemental Nodal or Nodal field into an Elemental field.
+            Each elemental value is the maximum difference between the
+            computed result for all nodes in this element. The result
+            is computed on a given element scoping."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -112,9 +112,9 @@ class elemental_difference(Operator):
                     name="through_layers",
                     type_names=["bool"],
                     optional=True,
-                    document="""The max elemental difference is taken through
-        the different shell layers if true
-        (default is false)""",
+                    document="""The maximum elemental difference is taken
+        through the different shell layers if
+        true (default is false).""",
                 ),
             },
             map_output_pin_spec={
@@ -156,7 +156,7 @@ class elemental_difference(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -259,9 +259,9 @@ class InputsElementalDifference(_Inputs):
     def through_layers(self):
         """Allows to connect through_layers input to the operator.
 
-        The max elemental difference is taken through
-        the different shell layers if true
-        (default is false)
+        The maximum elemental difference is taken
+        through the different shell layers if
+        true (default is false).
 
         Parameters
         ----------

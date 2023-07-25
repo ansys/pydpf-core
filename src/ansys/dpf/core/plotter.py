@@ -6,18 +6,25 @@ This module contains the DPF plotter class.
 Contains classes used to plot a mesh and a fields container using PyVista.
 """
 
+from __future__ import annotations
+
 import tempfile
 import os
 import sys
 import numpy as np
 import inspect
 import warnings
+from typing import TYPE_CHECKING, List, Union
 
 from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.common import locations, DefinitionLabels
 from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core import errors as dpf_errors
+from ansys.dpf.core.nodes import Node, Nodes
+
+if TYPE_CHECKING:  # pragma: no cover
+    from ansys.dpf.core.meshed_region import MeshedRegion
 
 
 def _sort_supported_kwargs(bound_method, **kwargs):
@@ -73,9 +80,7 @@ class _PyVistaPlotter:
         self._plotter = pv.Plotter(**kwargs_in)
 
     def add_scale_factor_legend(self, scale_factor, **kwargs):
-        kwargs_in = _sort_supported_kwargs(
-            bound_method=self._plotter.add_text, **kwargs
-        )
+        kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **kwargs)
         _ = kwargs_in.pop("position", None)
         _ = kwargs_in.pop("font_size", None)
         _ = kwargs_in.pop("text", None)
@@ -87,25 +92,25 @@ class _PyVistaPlotter:
             **kwargs_in,
         )
 
-    def add_points(self, points, field):
+    def add_points(self, points, field, **kwargs):
         import pyvista as pv
 
         point_cloud = pv.PolyData(points)
         if field:
             point_cloud[f"{field.name}"] = field.data
-        self._plotter.add_points(point_cloud)
+        self._plotter.add_points(point_cloud, **kwargs)
 
-    def add_line(self, points, field=None):
+    def add_line(self, points, field=None, **kwargs):
         import pyvista as pv
 
         line_field = pv.PolyData(np.array(points))
         if field:
             line_field[f"{field.name}"] = field.data
-            self._plotter.add_mesh(line_field)
+            self._plotter.add_mesh(line_field, **kwargs)
         else:
-            self._plotter.add_lines(points)
+            self._plotter.add_lines(points, **kwargs)
 
-    def add_plane(self, plane, field=None):
+    def add_plane(self, plane, field=None, **kwargs):
         import pyvista as pv
 
         plane_plot = pv.Plane(
@@ -118,9 +123,9 @@ class _PyVistaPlotter:
         )
         if field:
             plane[f"{field.name}"] = field.data
-        self._plotter.add_mesh(plane_plot)
+        self._plotter.add_mesh(plane_plot, **kwargs)
 
-    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
+    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, as_linear=True, **kwargs):
 
         kwargs = self._set_scalar_bar_title(kwargs)
 
@@ -133,18 +138,22 @@ class _PyVistaPlotter:
             self.add_scale_factor_legend(scale_factor, **kwargs)
 
         # Filter kwargs
-        kwargs_in = _sort_supported_kwargs(
-            bound_method=self._plotter.add_mesh, **kwargs
-        )
+        kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
         # Give the mesh to the pyvista Plotter
         # Have to remove any active scalar field from the pre-existing grid object,
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
         if not deform_by:
-            grid = meshed_region.grid
+            if as_linear != meshed_region.as_linear:
+                grid = meshed_region._as_vtk(
+                    meshed_region.nodes.coordinates_field, as_linear=as_linear
+                )
+                meshed_region.as_linear = as_linear
+            else:
+                grid = meshed_region.grid
         else:
             grid = meshed_region._as_vtk(
-                meshed_region.deform_by(deform_by, scale_factor)
+                meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
             )
 
         # show axes
@@ -155,14 +164,21 @@ class _PyVistaPlotter:
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, **kwargs_in)
 
-    def add_point_labels(self, nodes, meshed_region, labels=None, **kwargs):
+    def add_point_labels(
+        self,
+        nodes: Union[Nodes, List[Node], List[int]],
+        meshed_region: MeshedRegion,
+        labels: Union[List[str], None] = None,
+        **kwargs,
+    ) -> List:
         label_actors = []
-        node_indexes = [
-            meshed_region.nodes.mapping_id_to_index.get(node.id) for node in nodes
-        ]
-        grid_points = [
-            meshed_region.grid.points[node_index] for node_index in node_indexes
-        ]
+        if isinstance(nodes, Nodes):
+            nodes = nodes.scoping.ids
+        elif isinstance(nodes, list):
+            if isinstance(nodes[0], Node):
+                nodes = [node.id for node in nodes]
+        node_indexes = [meshed_region.nodes.mapping_id_to_index.get(node_id) for node_id in nodes]
+        grid_points = [meshed_region.grid.points[node_index] for node_index in node_indexes]
 
         def get_label_at_grid_point(index):
             try:
@@ -172,20 +188,21 @@ class _PyVistaPlotter:
             return label
 
         # Filter kwargs
-        kwargs_in = _sort_supported_kwargs(
-            bound_method=self._plotter.add_point_labels, **kwargs
-        )
+        kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_point_labels, **kwargs)
         import pyvista as pv
 
         # The scalar data used will be the one of the last field added.
         from packaging.version import parse
 
+        active_scalars = None
         if parse(pv.__version__) >= parse("0.35.2"):
             for data_set in self._plotter._datasets:
                 if type(data_set) is pv.core.pointset.UnstructuredGrid:
                     active_scalars = data_set.active_scalars
         else:
             active_scalars = meshed_region.grid.active_scalars
+        if active_scalars is None:
+            self.add_mesh(meshed_region=meshed_region)
         # For all grid_points given
         for index, grid_point in enumerate(grid_points):
             # Check for existing label at that point
@@ -193,18 +210,18 @@ class _PyVistaPlotter:
             if label_at_grid_point:
                 # If there is already a label, create the associated actor
                 label_actors.append(
-                    self._plotter.add_point_labels(
-                        grid_point, [labels[index]], **kwargs_in
-                    )
+                    self._plotter.add_point_labels(grid_point, [labels[index]], **kwargs_in)
                 )
             else:
-                # Otherwise, get the value of the current scalar field
-                scalar_at_index = active_scalars[node_indexes[index]]
-                scalar_at_grid_point = f"{scalar_at_index:.2f}"
+                if active_scalars is not None:
+                    # get the value of the current scalar field if present
+                    scalar_at_index = active_scalars[node_indexes[index]]
+                    value = f"{scalar_at_index:.2f}"
+                else:
+                    # if no scalar field is present, print the node id
+                    value = nodes[index]
                 label_actors.append(
-                    self._plotter.add_point_labels(
-                        grid_point, [scalar_at_grid_point], **kwargs_in
-                    )
+                    self._plotter.add_point_labels(grid_point, [value], **kwargs_in)
                 )
         return label_actors
 
@@ -219,6 +236,7 @@ class _PyVistaPlotter:
         deform_by=None,
         scale_factor=1.0,
         scale_factor_legend=None,
+        as_linear=True,
         **kwargs,
     ):
         # Get the field name
@@ -246,15 +264,17 @@ class _PyVistaPlotter:
         elif location == locations.elemental:
             mesh_location = meshed_region.elements
             if show_max or show_min:
-                warnings.warn(
-                    "`show_max` and `show_min` is only supported for Nodal results."
-                )
+                warnings.warn("`show_max` and `show_min` is only supported for Nodal results.")
+                show_max = False
+                show_min = False
+        elif location == locations.faces:
+            mesh_location = meshed_region.faces
+            if show_max or show_min:
+                warnings.warn("`show_max` and `show_min` is only supported for Nodal results.")
                 show_max = False
                 show_min = False
         else:
-            raise ValueError(
-                "Only elemental or nodal location are supported for plotting."
-            )
+            raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
         component_count = field.component_count
         if component_count > 1:
             overall_data = np.full((len(mesh_location), component_count), np.nan)
@@ -264,9 +284,7 @@ class _PyVistaPlotter:
         overall_data[ind] = field.data[mask]
 
         # Filter kwargs for add_mesh
-        kwargs_in = _sort_supported_kwargs(
-            bound_method=self._plotter.add_mesh, **kwargs
-        )
+        kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
         # Have to remove any active scalar field from the pre-existing grid object,
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
@@ -274,7 +292,7 @@ class _PyVistaPlotter:
             grid = meshed_region.grid
         else:
             grid = meshed_region._as_vtk(
-                meshed_region.deform_by(deform_by, scale_factor)
+                meshed_region.deform_by(deform_by, scale_factor), as_linear
             )
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
@@ -409,20 +427,28 @@ class DpfPlotter:
         """
         return self._labels
 
-    def add_node_labels(self, nodes, meshed_region, labels=None, **kwargs):
-        """Add labels at the nodal locations for the last added field.
+    def add_node_labels(
+        self,
+        nodes: Union[Nodes, List[Node], List[int]],
+        meshed_region: MeshedRegion,
+        labels: Union[List[str], None] = None,
+        **kwargs,
+    ):
+        """Add labels at nodal locations.
 
         Parameters
         ----------
-        nodes : list
+        nodes :
             Nodes where the labels should be added.
-        meshed_region: MeshedRegion
+        meshed_region:
             MeshedRegion to plot.
-        labels: : list of str or str, optional
-            If label for grid point is not defined, scalar value at that point is shown.
-        kwargs: dict, optional
-                Keyword arguments controlling label properties.
-                See :func:`pyvista.Plotter.add_point_labels`.
+        labels:
+            The labels to use. A node for which the label is not defined or `None`
+            will show the scalar value of the currently active field at that node,
+            or, if no field is active, its node ID.
+        kwargs:
+            Keyword arguments controlling label properties.
+            See :func:`pyvista.Plotter.add_point_labels`.
         """
         self._labels.append(
             self._internal_plotter.add_point_labels(
@@ -430,14 +456,14 @@ class DpfPlotter:
             )
         )
 
-    def add_points(self, points, field=None):
-        self._internal_plotter.add_points(points, field)
+    def add_points(self, points, field=None, **kwargs):
+        self._internal_plotter.add_points(points, field, **kwargs)
 
-    def add_line(self, points, field=None):
-        self._internal_plotter.add_line(points, field)
+    def add_line(self, points, field=None, **kwargs):
+        self._internal_plotter.add_line(points, field, **kwargs)
 
-    def add_plane(self, plane, field=None):
-        self._internal_plotter.add_plane(plane, field)
+    def add_plane(self, plane, field=None, **kwargs):
+        self._internal_plotter.add_plane(plane, field, **kwargs)
 
     def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
         """Add a mesh to plot.
@@ -472,6 +498,7 @@ class DpfPlotter:
             meshed_region=meshed_region,
             deform_by=deform_by,
             scale_factor=scale_factor,
+            as_linear=True,
             **kwargs,
         )
 
@@ -534,6 +561,7 @@ class DpfPlotter:
             label_point_size=label_point_size,
             deform_by=deform_by,
             scale_factor=scale_factor,
+            as_linear=True,
             **kwargs,
         )
 
@@ -559,6 +587,12 @@ class DpfPlotter:
         >>> pl.show_figure()
 
         """
+        if "notebook" in kwargs.keys():
+            warnings.simplefilter("once")
+            warnings.warn(
+                "'notebook' is not a valid kwarg for show_figure(). "
+                "Please give this argument to the init of DpfPlotter."
+            )
         return self._internal_plotter.show_figure(**kwargs)
 
 
@@ -739,18 +773,14 @@ class Plotter:
 
             warnings.simplefilter("ignore")
 
-        if isinstance(
-            field_or_fields_container, (dpf.core.Field, dpf.core.FieldsContainer)
-        ):
+        if isinstance(field_or_fields_container, (dpf.core.Field, dpf.core.FieldsContainer)):
             fields_container = None
             if isinstance(field_or_fields_container, dpf.core.Field):
                 fields_container = dpf.core.FieldsContainer(
                     server=field_or_fields_container._server
                 )
                 fields_container.add_label(DefinitionLabels.time)
-                fields_container.add_field(
-                    {DefinitionLabels.time: 1}, field_or_fields_container
-                )
+                fields_container.add_field({DefinitionLabels.time: 1}, field_or_fields_container)
             elif isinstance(field_or_fields_container, dpf.core.FieldsContainer):
                 fields_container = field_or_fields_container
         else:
@@ -790,10 +820,10 @@ class Plotter:
             mesh_location = mesh.nodes
         elif location == locations.elemental:
             mesh_location = mesh.elements
+        elif location == locations.faces:
+            mesh_location = mesh.faces
         else:
-            raise ValueError(
-                "Only elemental or nodal location are supported for plotting."
-            )
+            raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
 
         # pre-loop: check if shell layers for each field, if yes, set the shell layers
         changeOp = core.Operator("change_shellLayers")
@@ -850,15 +880,18 @@ class Plotter:
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._internal_plotter._plotter.add_mesh, **kwargs
         )
+        as_linear = True
         if deform_by:
-            grid = mesh._as_vtk(mesh.deform_by(deform_by, scale_factor))
+            grid = mesh._as_vtk(mesh.deform_by(deform_by, scale_factor), as_linear=as_linear)
             self._internal_plotter.add_scale_factor_legend(scale_factor, **kwargs)
         else:
-            grid = mesh.grid
+            if as_linear != mesh.as_linear:
+                grid = mesh._as_vtk(mesh.nodes.coordinates_field, as_linear=as_linear)
+                mesh.as_linear = as_linear
+            else:
+                grid = mesh.grid
         grid.clear_data()
-        self._internal_plotter._plotter.add_mesh(
-            grid, scalars=overall_data, **kwargs_in
-        )
+        self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
         background = kwargs.pop("background", None)
         if background is not None:

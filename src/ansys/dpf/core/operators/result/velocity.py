@@ -17,18 +17,33 @@ class velocity(Operator):
     Parameters
     ----------
     time_scoping : Scoping or int or float or Field, optional
-        Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output
+        Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.
     mesh_scoping : ScopingsContainer or Scoping, optional
         Nodes or elements scoping required in output.
-        the scoping's location indicates
-        whether nodes or elements are asked.
-        using scopings container enables to
-        split the result fields container in
-        domains
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains
     fields_container : FieldsContainer, optional
         Fields container already allocated modified
         inplace
@@ -50,6 +65,20 @@ class velocity(Operator):
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)
+    region_scoping : Scoping or int, optional
+        Region id (integer) or vector of region ids
+        (vector) or region scoping (scoping)
+        of the model (region corresponds to
+        zone for fluid results or part for
+        lsdyna results).
+    qualifiers1 : dict, optional
+        (for fluid results only) labelspace with
+        combination of zone, phases or
+        species ids
+    qualifiers2 : dict, optional
+        (for fluid results only) labelspace with
+        combination of zone, phases or
+        species ids
 
 
     Examples
@@ -76,6 +105,12 @@ class velocity(Operator):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_region_scoping = dpf.Scoping()
+    >>> op.inputs.region_scoping.connect(my_region_scoping)
+    >>> my_qualifiers1 = dict()
+    >>> op.inputs.qualifiers1.connect(my_qualifiers1)
+    >>> my_qualifiers2 = dict()
+    >>> op.inputs.qualifiers2.connect(my_qualifiers2)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.velocity(
@@ -87,6 +122,9 @@ class velocity(Operator):
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
     ...     read_cyclic=my_read_cyclic,
+    ...     region_scoping=my_region_scoping,
+    ...     qualifiers1=my_qualifiers1,
+    ...     qualifiers2=my_qualifiers2,
     ... )
 
     >>> # Get output data
@@ -103,6 +141,9 @@ class velocity(Operator):
         bool_rotate_to_global=None,
         mesh=None,
         read_cyclic=None,
+        region_scoping=None,
+        qualifiers1=None,
+        qualifiers2=None,
         config=None,
         server=None,
     ):
@@ -125,6 +166,12 @@ class velocity(Operator):
             self.inputs.mesh.connect(mesh)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
+        if region_scoping is not None:
+            self.inputs.region_scoping.connect(region_scoping)
+        if qualifiers1 is not None:
+            self.inputs.qualifiers1.connect(qualifiers1)
+        if qualifiers2 is not None:
+            self.inputs.qualifiers2.connect(qualifiers2)
 
     @staticmethod
     def _spec():
@@ -144,22 +191,37 @@ class velocity(Operator):
                         "vector<double>",
                     ],
                     optional=True,
-                    document="""Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output""",
+                    document="""Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scopings_container", "scoping"],
                     optional=True,
                     document="""Nodes or elements scoping required in output.
-        the scoping's location indicates
-        whether nodes or elements are asked.
-        using scopings container enables to
-        split the result fields container in
-        domains""",
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains""",
                 ),
                 2: PinSpecification(
                     name="fields_container",
@@ -206,6 +268,32 @@ class velocity(Operator):
         done and stages are merged (default
         is 1)""",
                 ),
+                25: PinSpecification(
+                    name="region_scoping",
+                    type_names=["scoping", "int32", "vector<int32>"],
+                    optional=True,
+                    document="""Region id (integer) or vector of region ids
+        (vector) or region scoping (scoping)
+        of the model (region corresponds to
+        zone for fluid results or part for
+        lsdyna results).""",
+                ),
+                1000: PinSpecification(
+                    name="qualifiers",
+                    type_names=["label_space"],
+                    optional=True,
+                    document="""(for fluid results only) labelspace with
+        combination of zone, phases or
+        species ids""",
+                ),
+                1001: PinSpecification(
+                    name="qualifiers",
+                    type_names=["label_space"],
+                    optional=True,
+                    document="""(for fluid results only) labelspace with
+        combination of zone, phases or
+        species ids""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -246,7 +334,7 @@ class velocity(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -279,6 +367,12 @@ class InputsVelocity(_Inputs):
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_region_scoping = dpf.Scoping()
+    >>> op.inputs.region_scoping.connect(my_region_scoping)
+    >>> my_qualifiers1 = dict()
+    >>> op.inputs.qualifiers1.connect(my_qualifiers1)
+    >>> my_qualifiers2 = dict()
+    >>> op.inputs.qualifiers2.connect(my_qualifiers2)
     """
 
     def __init__(self, op: Operator):
@@ -299,16 +393,32 @@ class InputsVelocity(_Inputs):
         self._inputs.append(self._mesh)
         self._read_cyclic = Input(velocity._spec().input_pin(14), 14, op, -1)
         self._inputs.append(self._read_cyclic)
+        self._region_scoping = Input(velocity._spec().input_pin(25), 25, op, -1)
+        self._inputs.append(self._region_scoping)
+        self._qualifiers1 = Input(velocity._spec().input_pin(1000), 1000, op, 0)
+        self._inputs.append(self._qualifiers1)
+        self._qualifiers2 = Input(velocity._spec().input_pin(1001), 1001, op, 1)
+        self._inputs.append(self._qualifiers2)
 
     @property
     def time_scoping(self):
         """Allows to connect time_scoping input to the operator.
 
-        Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output
+        Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.
 
         Parameters
         ----------
@@ -329,11 +439,16 @@ class InputsVelocity(_Inputs):
         """Allows to connect mesh_scoping input to the operator.
 
         Nodes or elements scoping required in output.
-        the scoping's location indicates
-        whether nodes or elements are asked.
-        using scopings container enables to
-        split the result fields container in
-        domains
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains
 
         Parameters
         ----------
@@ -477,6 +592,74 @@ class InputsVelocity(_Inputs):
         >>> op.inputs.read_cyclic(my_read_cyclic)
         """
         return self._read_cyclic
+
+    @property
+    def region_scoping(self):
+        """Allows to connect region_scoping input to the operator.
+
+        Region id (integer) or vector of region ids
+        (vector) or region scoping (scoping)
+        of the model (region corresponds to
+        zone for fluid results or part for
+        lsdyna results).
+
+        Parameters
+        ----------
+        my_region_scoping : Scoping or int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.velocity()
+        >>> op.inputs.region_scoping.connect(my_region_scoping)
+        >>> # or
+        >>> op.inputs.region_scoping(my_region_scoping)
+        """
+        return self._region_scoping
+
+    @property
+    def qualifiers1(self):
+        """Allows to connect qualifiers1 input to the operator.
+
+        (for fluid results only) labelspace with
+        combination of zone, phases or
+        species ids
+
+        Parameters
+        ----------
+        my_qualifiers1 : dict
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.velocity()
+        >>> op.inputs.qualifiers1.connect(my_qualifiers1)
+        >>> # or
+        >>> op.inputs.qualifiers1(my_qualifiers1)
+        """
+        return self._qualifiers1
+
+    @property
+    def qualifiers2(self):
+        """Allows to connect qualifiers2 input to the operator.
+
+        (for fluid results only) labelspace with
+        combination of zone, phases or
+        species ids
+
+        Parameters
+        ----------
+        my_qualifiers2 : dict
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.velocity()
+        >>> op.inputs.qualifiers2.connect(my_qualifiers2)
+        >>> # or
+        >>> op.inputs.qualifiers2(my_qualifiers2)
+        """
+        return self._qualifiers2
 
 
 class OutputsVelocity(_Outputs):

@@ -94,12 +94,10 @@ class cms_subfile_info_provider(Operator):
                     name="field",
                     type_names=["property_field"],
                     optional=False,
-                    document="""Returns integer values in the order : unit
-        system used, stiffness matrix present
-        key, damping matrix present key, mass
-        matrix present key, number of master
-        nodes, number of virtual nodes,
-        number of modes""",
+                    document="""Returns integer values in the order : number
+        of load vectors (nvects), number of
+        nodes (nnod), number of virtual nodes
+        (nvnodes), number of modes (nvmodes)""",
                 ),
             },
         )
@@ -133,7 +131,7 @@ class cms_subfile_info_provider(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

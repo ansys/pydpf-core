@@ -16,6 +16,8 @@ class transient_rayleigh_integration(Operator):
     Parameters
     ----------
     fields_container : FieldsContainer
+        The input field container expects
+        acceleration fields
     mesh : MeshedRegion or MeshesContainer
         The meshes region in this pin has to be
         boundary or skin mesh. this is the
@@ -121,7 +123,8 @@ class transient_rayleigh_integration(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document="""""",
+                    document="""The input field container expects
+        acceleration fields""",
                 ),
                 1: PinSpecification(
                     name="mesh",
@@ -212,7 +215,7 @@ class transient_rayleigh_integration(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -279,6 +282,9 @@ class InputsTransientRayleighIntegration(_Inputs):
     @property
     def fields_container(self):
         """Allows to connect fields_container input to the operator.
+
+        The input field container expects
+        acceleration fields
 
         Parameters
         ----------

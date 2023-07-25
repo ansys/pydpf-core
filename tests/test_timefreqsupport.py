@@ -198,9 +198,7 @@ def test_append_step_1(server_type):
 
 def test_append_step_2(server_type):
     tfq = TimeFreqSupport(server=server_type)
-    tfq.append_step(
-        1, [0.1, 0.21, 1.0], rpm_value=2.0, step_harmonic_indices=[1.0, 2.0, 3.0]
-    )
+    tfq.append_step(1, [0.1, 0.21, 1.0], rpm_value=2.0, step_harmonic_indices=[1.0, 2.0, 3.0])
     tfq.append_step(2, [1.1, 2.0], rpm_value=2.3, step_harmonic_indices=[1.0, 2.0])
     tfq.append_step(3, [0.23, 0.25], rpm_value=3.0, step_harmonic_indices=[1.0, 2.0])
     assert len(tfq.rpms.data) == 3
@@ -209,9 +207,7 @@ def test_append_step_2(server_type):
     assert tfq.rpms.location == locations.time_freq_step
     assert tfq.get_harmonic_indices().location == locations.time_freq
     assert tfq.time_frequencies.location == locations.time_freq
-    assert np.allclose(
-        [0.1, 0.21, 1.0, 1.1, 2.0, 0.23, 0.25], tfq.time_frequencies.data
-    )
+    assert np.allclose([0.1, 0.21, 1.0, 1.1, 2.0, 0.23, 0.25], tfq.time_frequencies.data)
     assert np.allclose([2.0, 2.3, 3.0], tfq.rpms.data)
     assert tfq.complex_frequencies is None
 
@@ -251,14 +247,10 @@ def test_deep_copy_time_freq_support_harmonic():
     tf = model.metadata.time_freq_support
     copy = tf.deep_copy()
     assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
-    assert np.allclose(
-        tf.time_frequencies.scoping.ids, copy.time_frequencies.scoping.ids
-    )
+    assert np.allclose(tf.time_frequencies.scoping.ids, copy.time_frequencies.scoping.ids)
     assert tf.time_frequencies.unit == copy.time_frequencies.unit
     assert np.allclose(tf.complex_frequencies.data, copy.complex_frequencies.data)
-    assert np.allclose(
-        tf.complex_frequencies.scoping.ids, copy.complex_frequencies.scoping.ids
-    )
+    assert np.allclose(tf.complex_frequencies.scoping.ids, copy.complex_frequencies.scoping.ids)
     assert np.allclose(tf.rpms.data, copy.rpms.data)
     assert np.allclose(tf.rpms.scoping.ids, copy.rpms.scoping.ids)
 
@@ -270,20 +262,10 @@ def test_deep_copy_time_freq_support_multi_stage():
     assert np.allclose(tf.time_frequencies.data, copy.time_frequencies.data)
     assert tf.time_frequencies.scoping.ids == copy.time_frequencies.scoping.ids
     assert tf.time_frequencies.unit == copy.time_frequencies.unit
-    assert np.allclose(
-        tf.get_harmonic_indices(0).data, copy.get_harmonic_indices(0).data
-    )
-    assert (
-        tf.get_harmonic_indices(0).scoping.ids
-        == copy.get_harmonic_indices(0).scoping.ids
-    )
-    assert np.allclose(
-        tf.get_harmonic_indices(1).data, copy.get_harmonic_indices(1).data
-    )
-    assert (
-        tf.get_harmonic_indices(1).scoping.ids
-        == copy.get_harmonic_indices(1).scoping.ids
-    )
+    assert np.allclose(tf.get_harmonic_indices(0).data, copy.get_harmonic_indices(0).data)
+    assert tf.get_harmonic_indices(0).scoping.ids == copy.get_harmonic_indices(0).scoping.ids
+    assert np.allclose(tf.get_harmonic_indices(1).data, copy.get_harmonic_indices(1).data)
+    assert tf.get_harmonic_indices(1).scoping.ids == copy.get_harmonic_indices(1).scoping.ids
 
     assert len(tf.get_harmonic_indices(0).data) == 6
     assert len(tf.get_harmonic_indices(1).data) == 6
@@ -303,6 +285,7 @@ def test_workflow_connect_get_output_time_freq_support(velocity_acceleration):
     model = Model(velocity_acceleration)
     tf = model.metadata.time_freq_support
     wf = dpf.core.Workflow()
+    wf.progress_bar = False
     op = dpf.core.operators.utility.forward()
     wf.set_input_name("tf", op, 0)
     wf.set_output_name("tf", op, 0)

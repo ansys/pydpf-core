@@ -19,7 +19,7 @@ class global_to_nodal(Operator):
     fieldA : Field
         Vector or tensor field that must be rotated,
         expressed in global coordinate
-        systyem.
+        system.
     fieldB : Field
         Nodal euler angles defined from an rst file.
         those  must be the rotations from
@@ -71,7 +71,7 @@ class global_to_nodal(Operator):
                     optional=False,
                     document="""Vector or tensor field that must be rotated,
         expressed in global coordinate
-        systyem.""",
+        system.""",
                 ),
                 1: PinSpecification(
                     name="fieldB",
@@ -121,7 +121,7 @@ class global_to_nodal(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -157,7 +157,7 @@ class InputsGlobalToNodal(_Inputs):
 
         Vector or tensor field that must be rotated,
         expressed in global coordinate
-        systyem.
+        system.
 
         Parameters
         ----------

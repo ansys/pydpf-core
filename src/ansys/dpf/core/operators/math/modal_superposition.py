@@ -11,30 +11,30 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class modal_superposition(Operator):
-    """Compute the solution in the time/frequency space from a modal solution
-    by multiplying a modal basis (in 0) by the solution in this modal
-    space (coefficients for each mode for each time/frequency) (in 1).
+    """Computes the solution in the time/frequency space from a modal
+    solution by multiplying a modal basis (in 0) by the solution in
+    this modal space (coefficients for each mode for each
+    time/frequency) (in 1).
 
     Parameters
     ----------
     modal_basis : FieldsContainer
         One field by mode with each field
         representing a mode shape on nodes or
-        elements
+        elements.
     solution_in_modal_space : FieldsContainer
         One field by time/frequency with each field
         having a ponderating coefficient for
-        each mode of the modal_basis pin
+        each mode of the modal_basis pin.
     time_scoping : Scoping, optional
-        This input allows to compute the result on a
-        subset of the time frequency domain
-        defined in the
+        Compute the result on a subset of the time
+        frequency domain defined in the
         solution_in_modal_space fields
-        container
+        container.
     mesh_scoping : Scoping or ScopingsContainer, optional
-        This input allows to compute the result on a
-        subset of the space domain defined in
-        the modal_basis fields container
+        Compute the result on a subset of the space
+        domain defined in the modal_basis
+        fields container.
 
 
     Examples
@@ -91,10 +91,10 @@ class modal_superposition(Operator):
 
     @staticmethod
     def _spec():
-        description = """Compute the solution in the time/frequency space from a modal solution
-            by multiplying a modal basis (in 0) by the solution in
-            this modal space (coefficients for each mode for each
-            time/frequency) (in 1)."""
+        description = """Computes the solution in the time/frequency space from a modal
+            solution by multiplying a modal basis (in 0) by the
+            solution in this modal space (coefficients for each mode
+            for each time/frequency) (in 1)."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -104,7 +104,7 @@ class modal_superposition(Operator):
                     optional=False,
                     document="""One field by mode with each field
         representing a mode shape on nodes or
-        elements""",
+        elements.""",
                 ),
                 1: PinSpecification(
                     name="solution_in_modal_space",
@@ -112,25 +112,24 @@ class modal_superposition(Operator):
                     optional=False,
                     document="""One field by time/frequency with each field
         having a ponderating coefficient for
-        each mode of the modal_basis pin""",
+        each mode of the modal_basis pin.""",
                 ),
                 3: PinSpecification(
                     name="time_scoping",
                     type_names=["scoping", "vector<int32>"],
                     optional=True,
-                    document="""This input allows to compute the result on a
-        subset of the time frequency domain
-        defined in the
+                    document="""Compute the result on a subset of the time
+        frequency domain defined in the
         solution_in_modal_space fields
-        container""",
+        container.""",
                 ),
                 4: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping", "scopings_container"],
                     optional=True,
-                    document="""This input allows to compute the result on a
-        subset of the space domain defined in
-        the modal_basis fields container""",
+                    document="""Compute the result on a subset of the space
+        domain defined in the modal_basis
+        fields container.""",
                 ),
             },
             map_output_pin_spec={
@@ -174,7 +173,7 @@ class modal_superposition(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -220,7 +219,7 @@ class InputsModalSuperposition(_Inputs):
 
         One field by mode with each field
         representing a mode shape on nodes or
-        elements
+        elements.
 
         Parameters
         ----------
@@ -242,7 +241,7 @@ class InputsModalSuperposition(_Inputs):
 
         One field by time/frequency with each field
         having a ponderating coefficient for
-        each mode of the modal_basis pin
+        each mode of the modal_basis pin.
 
         Parameters
         ----------
@@ -262,11 +261,10 @@ class InputsModalSuperposition(_Inputs):
     def time_scoping(self):
         """Allows to connect time_scoping input to the operator.
 
-        This input allows to compute the result on a
-        subset of the time frequency domain
-        defined in the
+        Compute the result on a subset of the time
+        frequency domain defined in the
         solution_in_modal_space fields
-        container
+        container.
 
         Parameters
         ----------
@@ -286,9 +284,9 @@ class InputsModalSuperposition(_Inputs):
     def mesh_scoping(self):
         """Allows to connect mesh_scoping input to the operator.
 
-        This input allows to compute the result on a
-        subset of the space domain defined in
-        the modal_basis fields container
+        Compute the result on a subset of the space
+        domain defined in the modal_basis
+        fields container.
 
         Parameters
         ----------

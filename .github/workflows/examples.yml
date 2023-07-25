@@ -7,11 +7,11 @@ on:
       python_versions:
         required: false
         type: string
-        default: '["3.7"]'
+        default: '["3.8"]'
       ANSYS_VERSION:
         required: false
         type: string
-        default: "232"
+        default: "241"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -19,6 +19,11 @@ on:
         default: ''
       custom-requirements:
         description: "Path to requirements.txt file to install"
+        required: false
+        type: string
+        default: ''
+      custom-wheels:
+        description: "extra pip --find-links argument to find custom dpf wheels"
         required: false
         type: string
         default: ''
@@ -29,12 +34,12 @@ on:
         description: "Python interpreters to test."
         required: true
         type: string
-        default: '["3.7"]'
+        default: '["3.8"]'
       ANSYS_VERSION:
         description: "ANSYS version to run."
         required: true
         type: string
-        default: "232"
+        default: "241"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -45,11 +50,15 @@ on:
         required: false
         type: string
         default: ''
+      custom-wheels:
+        description: "extra pip --find-links argument to find custom dpf wheels"
+        required: false
+        type: string
+        default: ''
 
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  extra: "--find-links .github/"
 
 jobs:
   setup:
@@ -83,12 +92,12 @@ jobs:
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
       - name: Setup Python
-        uses: actions/setup-python@v4.2.0
+        uses: actions/setup-python@v4.6.0
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.3
+        uses: ansys/pydpf-actions/build_package@v2.3
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
@@ -98,12 +107,12 @@ jobs:
           install_extras: plotting
           wheelhouse: false
           wheel: false
-          extra-pip-args: ${{ env.extra }}
+          extra-pip-args: ${{ inputs.custom-wheels && format('--find-links {0}', inputs.custom-wheels) || '' }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           custom-requirements: ${{ inputs.custom-requirements }}
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.3
+        uses: ansys/pydpf-actions/prepare_tests@v2.3
         with:
           DEBUG: true
 
@@ -119,5 +128,5 @@ jobs:
           python run_examples.py
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()

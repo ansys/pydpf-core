@@ -11,14 +11,14 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class extract_sub_sc(Operator):
-    """Create a new ScopingsContainer with all the Scopings corresponding to
-    the label space in input 1
+    """Creates a new scopings container with all the scopings corresponding
+    to the label space in input 1.
 
     Parameters
     ----------
     scopings_container : ScopingsContainer
         Scopings_container
-    label_space : LabelSpace
+    label_space : dict
         Label_space
 
 
@@ -32,7 +32,7 @@ class extract_sub_sc(Operator):
     >>> # Make input connections
     >>> my_scopings_container = dpf.ScopingsContainer()
     >>> op.inputs.scopings_container.connect(my_scopings_container)
-    >>> my_label_space = dpf.LabelSpace()
+    >>> my_label_space = dict()
     >>> op.inputs.label_space.connect(my_label_space)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -58,8 +58,8 @@ class extract_sub_sc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Create a new ScopingsContainer with all the Scopings corresponding to
-            the label space in input 1"""
+        description = """Creates a new scopings container with all the scopings corresponding
+            to the label space in input 1."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -115,7 +115,7 @@ class extract_sub_sc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -134,7 +134,7 @@ class InputsExtractSubSc(_Inputs):
     >>> op = dpf.operators.utility.extract_sub_sc()
     >>> my_scopings_container = dpf.ScopingsContainer()
     >>> op.inputs.scopings_container.connect(my_scopings_container)
-    >>> my_label_space = dpf.LabelSpace()
+    >>> my_label_space = dict()
     >>> op.inputs.label_space.connect(my_label_space)
     """
 
@@ -173,7 +173,7 @@ class InputsExtractSubSc(_Inputs):
 
         Parameters
         ----------
-        my_label_space : LabelSpace
+        my_label_space : dict
 
         Examples
         --------

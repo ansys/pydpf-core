@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class exclude_levelset(Operator):
-    """Take a leveset and exclude the second one from it.
+    """Takes two level sets and excludes the second one from the first.
 
     Parameters
     ----------
@@ -53,7 +53,9 @@ class exclude_levelset(Operator):
 
     @staticmethod
     def _spec():
-        description = """Take a leveset and exclude the second one from it."""
+        description = (
+            """Takes two level sets and excludes the second one from the first."""
+        )
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -109,7 +111,7 @@ class exclude_levelset(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

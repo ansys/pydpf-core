@@ -14,10 +14,10 @@ PyDPF-Core is a Python client API communicating with a **DPF Server**, either
 through the network using gRPC or directly in the same process.
 
 
-Installing PyDPF-Core
----------------------
+Install PyDPF-Core
+------------------
 
-In a Python environment, run the following command to install PyDPF-Core:
+To install PyDPF-Core, in a Python environment, run this command:
 
 .. code::
 
@@ -26,54 +26,52 @@ In a Python environment, run the following command to install PyDPF-Core:
 For more installation options, see :ref:`Installation section <installation>`.
 
 
-Installing DPF Server
----------------------
+Install DPF Server
+------------------
 
-#. DPF Server is packaged within the **Ansys Unified Installer** starting with Ansys 2021 R1.
-   To use it, download the standard installation using your preferred distribution channel, 
-   and install Ansys following the installer instructions. If you experience problems,
-   see  :ref:`Environment variable section <target_environment_variable_with_dpf_section>`. For information on getting
-   a licensed copy of Ansys, visit the `Ansys website <https://www.ansys.com/>`_.
+* DPF Server is packaged within the **Ansys installer** in Ansys 2021 R1 and later.
+  To use it, download the standard installation using your preferred distribution channel, 
+  and install Ansys following the installer instructions. If you experience problems,
+  see :ref:`Environment variable <target_environment_variable_with_dpf_section>`. For information on getting
+  a licensed copy of Ansys, visit the `Ansys website <https://www.ansys.com/>`_.
 
-#. DPF Server is available as a **standalone** package (independent of the Ansys installer) on the 
-   `DPF Pre-Release page of the Ansys Customer Portal <https://download.ansys.com/Others/DPF%20Pre-Release>`_.
-   As explained in :ref:`Ansys licensing section <target_to_ansys_license_mechanism>`,
-   DPF Server is protected by an Ansys license mechanism. Once you have access to an
-   Ansys license, install DPF Server:
+* DPF Server is available as a **standalone** package (independent of the Ansys installer) on the 
+  `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_ of the Ansys Customer Portal.
+  As explained in :ref:`Ansys licensing <target_to_ansys_license_mechanism>`,
+  DPF Server is protected by an Ansys license mechanism. Once you have access to an
+  Ansys license, install DPF Server:
 
 .. card::
 
-    * Download the ansys_dpf_server_win_v2023.2.pre0.zip or ansys_dpf_server_lin_v2023.2.pre0.zip
+    * Download the ``ansys_dpf_server_win_v2023.2.pre1.zip`` or ``ansys_dpf_server_lin_v2023.2.pre1.zip``
       file as appropriate.
-    * Unzip the package and go to the root folder of the unzipped package
-      (ansys_dpf_server_win_v2023.2.pre0 or ansys_dpf_server_lin_v2023.2.pre0).
-    * In a Python environment, run the following command:
+    * Unzip the package and go to its root folder (``ansys_dpf_server_win_v2023.2.pre1`` or
+       ``ansys_dpf_server_lin_v2023.2.pre1``).
+    * In a Python environment, run this command:
 
     .. code::
 
         pip install -e .
 
     * DPF Server is protected using the license terms specified in the
-    `DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_ file, which is available on the
-    `DPF Pre-Release page of the Ansys Customer Portal <https://download.ansys.com/Others/DPF%20Pre-Release>`_. 
-    To accept these terms, you must set the
-    following environment variable:
+      `DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_
+      file, which is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
+      of the Ansys Customer Portal. To accept these terms, you must set this
+      environment variable:
 
     .. code::
 
         ANSYS_DPF_ACCEPT_LA=Y
 
-For more information about the license terms, see the :ref:`DPF Preview License Agreement<target_to_license_terms>` 
-section.
+For more information about the license terms, see :ref:`DPF Preview License Agreement<target_to_license_terms>`.
 
-For installation methods that do not use pip, such as using **Docker containers**, see
-:ref:`ref_getting_started_with_dpf_server`.
-
+For installation methods that do not use `pip <https://pypi.org/project/pip/>`_,
+such as using **Docker containers**, see :ref:`ref_getting_started_with_dpf_server`.
 
 Use PyDPF-Core
 --------------
 
-In the same Python environment, run the following command to use PyDPF-Core:
+To use PyDPF-Core, in the same Python environment, run this command:
 
 .. code:: python
 

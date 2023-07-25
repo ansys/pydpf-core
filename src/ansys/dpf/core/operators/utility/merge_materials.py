@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class merge_materials(Operator):
-    """Take a set of materials and assemble them in a unique one
+    """Assembles a set of materials into a unique one.
 
     Parameters
     ----------
@@ -57,7 +57,7 @@ class merge_materials(Operator):
 
     @staticmethod
     def _spec():
-        description = """Take a set of materials and assemble them in a unique one"""
+        description = """Assembles a set of materials into a unique one."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -115,7 +115,7 @@ class merge_materials(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

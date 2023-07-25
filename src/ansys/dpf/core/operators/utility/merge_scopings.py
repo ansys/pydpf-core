@@ -11,13 +11,17 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class merge_scopings(Operator):
-    """Take a set of scoping and assemble them in a unique one
+    """Assembles a set of scopings into a unique one.
 
     Parameters
     ----------
-    scopings : Scoping or ScopingsContainer
+    scopings1 : Scoping or ScopingsContainer
         Either a scopings container, a vector of
-        scopings to merge or scopings from
+        scopings to merge, or scopings from
+        pin 0 to ...
+    scopings2 : Scoping or ScopingsContainer
+        Either a scopings container, a vector of
+        scopings to merge, or scopings from
         pin 0 to ...
 
 
@@ -29,41 +33,50 @@ class merge_scopings(Operator):
     >>> op = dpf.operators.utility.merge_scopings()
 
     >>> # Make input connections
-    >>> my_scopings = dpf.Scoping()
-    >>> op.inputs.scopings.connect(my_scopings)
+    >>> my_scopings1 = dpf.Scoping()
+    >>> op.inputs.scopings1.connect(my_scopings1)
+    >>> my_scopings2 = dpf.Scoping()
+    >>> op.inputs.scopings2.connect(my_scopings2)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.merge_scopings(
-    ...     scopings=my_scopings,
+    ...     scopings1=my_scopings1,
+    ...     scopings2=my_scopings2,
     ... )
 
     >>> # Get output data
     >>> result_merged_scoping = op.outputs.merged_scoping()
     """
 
-    def __init__(self, scopings=None, config=None, server=None):
+    def __init__(self, scopings1=None, scopings2=None, config=None, server=None):
         super().__init__(name="merge::scoping", config=config, server=server)
         self._inputs = InputsMergeScopings(self)
         self._outputs = OutputsMergeScopings(self)
-        if scopings is not None:
-            self.inputs.scopings.connect(scopings)
+        if scopings1 is not None:
+            self.inputs.scopings1.connect(scopings1)
+        if scopings2 is not None:
+            self.inputs.scopings2.connect(scopings2)
 
     @staticmethod
     def _spec():
-        description = """Take a set of scoping and assemble them in a unique one"""
+        description = """Assembles a set of scopings into a unique one."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
                     name="scopings",
-                    type_names=[
-                        "vector<shared_ptr<scoping>>",
-                        "scoping",
-                        "scopings_container",
-                    ],
+                    type_names=["scoping", "scopings_container"],
                     optional=False,
                     document="""Either a scopings container, a vector of
-        scopings to merge or scopings from
+        scopings to merge, or scopings from
+        pin 0 to ...""",
+                ),
+                1: PinSpecification(
+                    name="scopings",
+                    type_names=["scoping", "scopings_container"],
+                    optional=False,
+                    document="""Either a scopings container, a vector of
+        scopings to merge, or scopings from
         pin 0 to ...""",
                 ),
             },
@@ -106,7 +119,7 @@ class merge_scopings(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -123,36 +136,62 @@ class InputsMergeScopings(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.merge_scopings()
-    >>> my_scopings = dpf.Scoping()
-    >>> op.inputs.scopings.connect(my_scopings)
+    >>> my_scopings1 = dpf.Scoping()
+    >>> op.inputs.scopings1.connect(my_scopings1)
+    >>> my_scopings2 = dpf.Scoping()
+    >>> op.inputs.scopings2.connect(my_scopings2)
     """
 
     def __init__(self, op: Operator):
         super().__init__(merge_scopings._spec().inputs, op)
-        self._scopings = Input(merge_scopings._spec().input_pin(0), 0, op, -1)
-        self._inputs.append(self._scopings)
+        self._scopings1 = Input(merge_scopings._spec().input_pin(0), 0, op, 0)
+        self._inputs.append(self._scopings1)
+        self._scopings2 = Input(merge_scopings._spec().input_pin(1), 1, op, 1)
+        self._inputs.append(self._scopings2)
 
     @property
-    def scopings(self):
-        """Allows to connect scopings input to the operator.
+    def scopings1(self):
+        """Allows to connect scopings1 input to the operator.
 
         Either a scopings container, a vector of
-        scopings to merge or scopings from
+        scopings to merge, or scopings from
         pin 0 to ...
 
         Parameters
         ----------
-        my_scopings : Scoping or ScopingsContainer
+        my_scopings1 : Scoping or ScopingsContainer
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.merge_scopings()
-        >>> op.inputs.scopings.connect(my_scopings)
+        >>> op.inputs.scopings1.connect(my_scopings1)
         >>> # or
-        >>> op.inputs.scopings(my_scopings)
+        >>> op.inputs.scopings1(my_scopings1)
         """
-        return self._scopings
+        return self._scopings1
+
+    @property
+    def scopings2(self):
+        """Allows to connect scopings2 input to the operator.
+
+        Either a scopings container, a vector of
+        scopings to merge, or scopings from
+        pin 0 to ...
+
+        Parameters
+        ----------
+        my_scopings2 : Scoping or ScopingsContainer
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.merge_scopings()
+        >>> op.inputs.scopings2.connect(my_scopings2)
+        >>> # or
+        >>> op.inputs.scopings2(my_scopings2)
+        """
+        return self._scopings2
 
 
 class OutputsMergeScopings(_Outputs):

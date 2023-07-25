@@ -34,6 +34,25 @@ class Config:
         Server with the channel connected to the remote or local instance. The default is
         ``None``, in which case an attempt is made to use the global server.
 
+    Examples
+    --------
+    Create an operator configuration, instantiate the operator and
+    run it with the configuration.
+
+    >>> from ansys.dpf import core as dpf
+    >>> config_add = dpf.Config("add")
+    >>> config_add.set_work_by_index_option(True)
+    >>> op = dpf.operators.math.add(config=config_add)
+
+    Modify the copy of an operator's configuration and set it as current config
+    of the operator.
+
+    >>> from ansys.dpf import core as dpf
+    >>> op = dpf.operators.math.add()
+    >>> config_add = op.config
+    >>> config_add.set_work_by_index_option(True)
+    >>> op.config = config_add
+
     """
 
     def __init__(self, operator_name=None, config=None, server=None, spec=None):
@@ -52,10 +71,8 @@ class Config:
         else:
             if self._server.has_client():
                 if operator_name:
-                    self._internal_obj = (
-                        self._api.operator_config_default_new_on_client(
-                            self._server.client, operator_name
-                        )
+                    self._internal_obj = self._api.operator_config_default_new_on_client(
+                        self._server.client, operator_name
                     )
                 else:
                     self._internal_obj = self._api.operator_config_empty_new_on_client(
@@ -63,9 +80,7 @@ class Config:
                     )
             else:
                 if operator_name:
-                    self._internal_obj = self._api.operator_config_default_new(
-                        operator_name
-                    )
+                    self._internal_obj = self._api.operator_config_default_new(operator_name)
                 else:
                     self._internal_obj = self._api.operator_config_empty_new()
 
@@ -95,9 +110,7 @@ class Config:
     @property
     def _spec(self):
         if self._spec_instance is None and self._operator_name is not None:
-            self._spec_instance = Specification(
-                self._operator_name, server=self._server
-            )
+            self._spec_instance = Specification(self._operator_name, server=self._server)
         return self._spec_instance
 
     @property
@@ -139,9 +152,7 @@ class Config:
         elif isinstance(config_value, float):
             self._api.operator_config_set_double(self, config_name, config_value)
         else:
-            raise TypeError(
-                "str, int, float are the accepted types for configuration options."
-            )
+            raise TypeError("str, int, float are the accepted types for configuration options.")
 
     def set_config_option(self, config_name, config_value):
         """Change the value of a configuration option.
@@ -152,6 +163,18 @@ class Config:
             Value to give to a configuration option.
         config_name : str
             Name of the configuration option.
+
+        Examples
+        --------
+        Modify the copy of an operator's configuration and set it as current config
+        of the operator.
+
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.add()
+        >>> config_add = op.config
+        >>> config_add.set_config_option(config_name="work_by_index", config_value=True)
+        >>> op.config = config_add
+
         """
         return self.__set_config_option__(config_value, config_name)
 

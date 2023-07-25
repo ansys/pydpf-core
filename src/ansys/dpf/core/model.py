@@ -65,6 +65,7 @@ class Model:
         - ``time_freq_support``
         - ``result_info``
         - ``mesh_provider``
+        - ``mesh_info``
 
         Returns
         -------
@@ -235,11 +236,7 @@ class Model:
         kwargs["color"] = color
         kwargs["show_edges"] = show_edges
         pl = DpfPlotter(**kwargs)
-        pl.add_mesh(
-            self.metadata.meshed_region,
-            show_axes=kwargs.pop("show_axes", True),
-            **kwargs
-        )
+        pl.add_mesh(self.metadata.meshed_region, show_axes=kwargs.pop("show_axes", True), **kwargs)
         return pl.show_figure(**kwargs)
 
     @property
@@ -272,6 +269,7 @@ class Metadata:
         self._meshed_region = None
         self._meshes_container = None
         self._result_info = None
+        self._mesh_info = None
         self._stream_provider = None
         self._time_freq_support = None
         self._mesh_selection_manager = None
@@ -283,13 +281,16 @@ class Metadata:
         if not self._result_info:
             self._result_info = self._load_result_info()
 
+    def _cache_mesh_info(self):
+        """Store mesh information."""
+        if not self._mesh_info:
+            self._mesh_info = self._load_mesh_info()
+
     def _cache_streams_provider(self):
         """Create a stream provider and cache it."""
         from ansys.dpf.core import operators
 
-        if hasattr(operators, "metadata") and hasattr(
-            operators.metadata, "stream_provider"
-        ):
+        if hasattr(operators, "metadata") and hasattr(operators.metadata, "stream_provider"):
             self._stream_provider = operators.metadata.streams_provider(
                 data_sources=self._data_sources, server=self._server
             )
@@ -348,9 +349,7 @@ class Metadata:
                 timeProvider.inputs.connect(self._stream_provider.outputs)
             else:
                 timeProvider.inputs.connect(self.data_sources)
-            self._time_freq_support = timeProvider.get_output(
-                0, types.time_freq_support
-            )
+            self._time_freq_support = timeProvider.get_output(0, types.time_freq_support)
         return self._time_freq_support
 
     @property
@@ -424,13 +423,29 @@ class Metadata:
             result_info = op.get_output(0, types.result_info)
         except Exception as e:
             # give the user a more helpful error
-            if "results file is not defined in the Data sources" in e.args():
+            if "results file is not defined in the Data sources" in e.args:
                 raise RuntimeError("Unable to open result file") from None
             else:
                 raise e
         except:
             return None
         return result_info
+
+    def _load_mesh_info(self):
+        """Returns a mesh info object"""
+        op = Operator("mesh_info_provider", server=self._server)
+        op.inputs.connect(self._stream_provider.outputs)
+        try:
+            mesh_info = op.outputs.mesh_info()
+        except Exception as e:
+            # give the user a more helpful error
+            if "results file is not defined in the Data sources" in e.args:
+                raise RuntimeError("Unable to open result file") from None
+            else:
+                raise e
+        except:
+            return None
+        return mesh_info
 
     @property
     @protect_source_op_not_found
@@ -491,6 +506,20 @@ class Metadata:
         return self._result_info
 
     @property
+    @version_requires("7.0")
+    @protect_source_op_not_found
+    def mesh_info(self):
+        """Mesh Info instance.
+
+        Returns
+        -------
+        mesh_info : :class:`ansys.dpf.core.mesh_info.MeshInfo`
+        """
+        self._cache_mesh_info()
+
+        return self._mesh_info
+
+    @property
     @version_requires("4.0")
     def meshes_container(self):
         """Meshes container instance.
@@ -501,9 +530,7 @@ class Metadata:
             Meshes
         """
         if self._meshes_container is None:
-            self._meshes_container = self.meshes_provider.get_output(
-                0, types.meshes_container
-            )
+            self._meshes_container = self.meshes_provider.get_output(0, types.meshes_container)
 
         return self._meshes_container
 

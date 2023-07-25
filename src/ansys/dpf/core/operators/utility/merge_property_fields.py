@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class merge_property_fields(Operator):
-    """Take a set of property fields and assemble them in a unique one
+    """Assembles a set of property fields into a unique one.
 
     Parameters
     ----------
@@ -71,9 +71,7 @@ class merge_property_fields(Operator):
 
     @staticmethod
     def _spec():
-        description = (
-            """Take a set of property fields and assemble them in a unique one"""
-        )
+        description = """Assembles a set of property fields into a unique one."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -139,7 +137,7 @@ class merge_property_fields(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

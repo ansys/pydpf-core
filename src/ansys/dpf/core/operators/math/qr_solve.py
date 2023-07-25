@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class qr_solve(Operator):
-    """computes the solution using QR factorization.
+    """Computes the solution using QR factorization.
 
     Parameters
     ----------
@@ -55,7 +55,7 @@ class qr_solve(Operator):
 
     @staticmethod
     def _spec():
-        description = """computes the solution using QR factorization."""
+        description = """Computes the solution using QR factorization."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -111,7 +111,7 @@ class qr_solve(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

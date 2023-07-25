@@ -19,6 +19,8 @@ from ansys.dpf.core.common import (
     _common_percentage_progress_bar,
     _progress_bar_is_available,
 )
+from ansys.dpf.core import data_tree
+
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel("DEBUG")
@@ -34,9 +36,7 @@ def progress_call_back(obj, nature, arg):
         elif nature == 1:
             handler.finished_operators += 1
             if handler.finished_operators > 0 and handler.bar:
-                handler.bar.update(
-                    handler.finished_operators / handler.started_operators * 100
-                )
+                handler.bar.update(handler.finished_operators / handler.started_operators * 100)
                 if handler.finished_operators == handler.started_operators:
                     handler.bar.finish()
         elif nature == 9:
@@ -112,7 +112,7 @@ class GrpcEventHandler(EventHandlerBase):
 
 class Session:
     """A class used to create a user session on the server, it allows to plan events
-    call backs from the server when workflows are running.
+    call backs from the server: progress bar when workflows are running, logging...
     A session is started every time a ``'DpfServer'`` is created.
 
     Notes
@@ -187,6 +187,33 @@ class Session:
         """
         if self._handler is not None:
             self._handler.add_operator(operator, pin, identifier)
+
+    @version_requires("6.1")
+    def handle_events_with_file_logger(self, file_path, verbosity_level=1):
+        """Adds an event handler of type ``file_logger`` server side.
+        Events will then be caught and forwarded to the file stream.
+
+        Parameters
+        ----------
+        file_path : str
+
+        verbosity_level : int
+            0, 1 or 2
+        """
+        properties = data_tree.DataTree(server=self._server)
+        properties.add({"file_name": file_path, "verbosity": verbosity_level})
+        self._api.add_event_handler_type(self, "file_logger", properties)
+
+    @version_requires("6.1")
+    def start_emitting_rpc_log(self):
+        """Adds a signal emitter to the session. This emitter will catch all incoming rpc calls.
+        Adding a handler will enable the logging (
+        use :func:`Session.handle_events_with_file_logger()`).
+
+        """
+        self._api.add_signal_emitter_type(
+            self, "gRPC_calls_interceptor", "gRPC_calls_interceptor", None
+        )
 
     @version_requires("3.0")
     def listen_to_progress(self):

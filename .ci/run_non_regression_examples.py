@@ -15,22 +15,21 @@ print(os.path.join(actual_path, os.path.pardir, "examples"))
 list_tests = [
     os.path.join(actual_path, os.path.pardir, "examples", "00-basic"),
     os.path.join(actual_path, os.path.pardir, "examples", "01-transient_analyses"),
-    os.path.join(actual_path, os.path.pardir, "examples", "02-modal-harmonic"),
-    os.path.join(
-        actual_path, os.path.pardir, "examples", "05-plotting", "00-basic_plotting.py"
-    ),
+    os.path.join(actual_path, os.path.pardir, "examples", "02-modal_analyses"),
+    os.path.join(actual_path, os.path.pardir, "examples", "03-harmonic_analyses"),
+    os.path.join(actual_path, os.path.pardir, "examples", "06-plotting", "00-basic_plotting.py"),
     os.path.join(
         actual_path,
         os.path.pardir,
         "examples",
-        "05-plotting",
+        "06-plotting",
         "05-plot_on_warped_mesh.py",
     ),
     os.path.join(
         actual_path,
         os.path.pardir,
         "examples",
-        "06-distributed-post",
+        "07-distributed-post",
         "00-distributed_total_disp.py",
     ),
 ]
@@ -41,7 +40,7 @@ if core.SERVER_CONFIGURATION != core.AvailableServerConfigs.InProcessServer:
             actual_path,
             os.path.pardir,
             "examples",
-            "07-python-operators",
+            "08-python-operators",
             "00-wrapping_numpy_capabilities.py",
         )
     )

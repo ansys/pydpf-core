@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class make_one_on_comp(Operator):
-    """take the input field's scoping and create a field full of zeros,
+    """Takes the input field's scoping and creates a field full of zeros,
     except for the indexes from pin 1 that will hold 1.0.
 
     Parameters
@@ -54,7 +54,7 @@ class make_one_on_comp(Operator):
 
     @staticmethod
     def _spec():
-        description = """take the input field's scoping and create a field full of zeros,
+        description = """Takes the input field's scoping and creates a field full of zeros,
             except for the indexes from pin 1 that will hold 1.0."""
         spec = Specification(
             description=description,
@@ -111,7 +111,7 @@ class make_one_on_comp(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

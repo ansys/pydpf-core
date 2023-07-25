@@ -17,11 +17,21 @@ class beam_tr_shear_stress(Operator):
     Parameters
     ----------
     time_scoping : Scoping or int or float or Field, optional
-        Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output
+        Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.
     mesh_scoping : ScopingsContainer or Scoping, optional
         Elements scoping required in output.
     streams_container : StreamsContainer, optional
@@ -34,6 +44,10 @@ class beam_tr_shear_stress(Operator):
         Integration point where the result will be
         read from. default value: 0 (first
         integration point).
+    unit_system : int or str or UnitSystem, optional
+        Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance
 
 
     Examples
@@ -54,6 +68,8 @@ class beam_tr_shear_stress(Operator):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_integration_point = int()
     >>> op.inputs.integration_point.connect(my_integration_point)
+    >>> my_unit_system = int()
+    >>> op.inputs.unit_system.connect(my_unit_system)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.beam_tr_shear_stress(
@@ -62,6 +78,7 @@ class beam_tr_shear_stress(Operator):
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ...     integration_point=my_integration_point,
+    ...     unit_system=my_unit_system,
     ... )
 
     >>> # Get output data
@@ -75,6 +92,7 @@ class beam_tr_shear_stress(Operator):
         streams_container=None,
         data_sources=None,
         integration_point=None,
+        unit_system=None,
         config=None,
         server=None,
     ):
@@ -91,6 +109,8 @@ class beam_tr_shear_stress(Operator):
             self.inputs.data_sources.connect(data_sources)
         if integration_point is not None:
             self.inputs.integration_point.connect(integration_point)
+        if unit_system is not None:
+            self.inputs.unit_system.connect(unit_system)
 
     @staticmethod
     def _spec():
@@ -110,11 +130,21 @@ class beam_tr_shear_stress(Operator):
                         "vector<double>",
                     ],
                     optional=True,
-                    document="""Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output""",
+                    document="""Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
@@ -143,6 +173,18 @@ class beam_tr_shear_stress(Operator):
                     document="""Integration point where the result will be
         read from. default value: 0 (first
         integration point).""",
+                ),
+                50: PinSpecification(
+                    name="unit_system",
+                    type_names=[
+                        "int32",
+                        "string",
+                        "class dataProcessing::unit::CUnitSystem",
+                    ],
+                    optional=True,
+                    document="""Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance""",
                 ),
             },
             map_output_pin_spec={
@@ -184,7 +226,7 @@ class beam_tr_shear_stress(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -211,6 +253,8 @@ class InputsBeamTrShearStress(_Inputs):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_integration_point = int()
     >>> op.inputs.integration_point.connect(my_integration_point)
+    >>> my_unit_system = int()
+    >>> op.inputs.unit_system.connect(my_unit_system)
     """
 
     def __init__(self, op: Operator):
@@ -229,16 +273,30 @@ class InputsBeamTrShearStress(_Inputs):
             beam_tr_shear_stress._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._integration_point)
+        self._unit_system = Input(
+            beam_tr_shear_stress._spec().input_pin(50), 50, op, -1
+        )
+        self._inputs.append(self._unit_system)
 
     @property
     def time_scoping(self):
         """Allows to connect time_scoping input to the operator.
 
-        Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output
+        Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.
 
         Parameters
         ----------
@@ -337,6 +395,28 @@ class InputsBeamTrShearStress(_Inputs):
         >>> op.inputs.integration_point(my_integration_point)
         """
         return self._integration_point
+
+    @property
+    def unit_system(self):
+        """Allows to connect unit_system input to the operator.
+
+        Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance
+
+        Parameters
+        ----------
+        my_unit_system : int or str or UnitSystem
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.beam_tr_shear_stress()
+        >>> op.inputs.unit_system.connect(my_unit_system)
+        >>> # or
+        >>> op.inputs.unit_system(my_unit_system)
+        """
+        return self._unit_system
 
 
 class OutputsBeamTrShearStress(_Outputs):

@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class prepare_mapping_workflow(Operator):
-    """Generate a workflow that can map results from a support to another
+    """Generates a workflow that can map results from a support to another
     one.
 
     Parameters
@@ -75,7 +75,7 @@ class prepare_mapping_workflow(Operator):
 
     @staticmethod
     def _spec():
-        description = """Generate a workflow that can map results from a support to another
+        description = """Generates a workflow that can map results from a support to another
             one."""
         spec = Specification(
             description=description,
@@ -144,7 +144,7 @@ class prepare_mapping_workflow(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

@@ -34,13 +34,14 @@ class _PyVistaAnimator(_PyVistaPlotter):
         output_name,
         input_name="loop_over",
         save_as="",
+        mode_number=None,
         scale_factor=1.0,
         **kwargs,
     ):
-        # Extract useful information from the given frequencies Field
 
         unit = loop_over.unit
         indices = loop_over.scoping.ids
+
         if scale_factor is None:
             scale_factor = [False] * len(indices)
         type_scale = type(scale_factor)
@@ -60,9 +61,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
             if save_as.endswith(".gif"):
                 self._plotter.open_gif(save_as)
             else:  # pragma: no cover
-                kwargs_in = _sort_supported_kwargs(
-                    bound_method=self._plotter.open_movie, **kwargs
-                )
+                kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.open_movie, **kwargs)
                 try:
                     self._plotter.open_movie(save_as, **kwargs_in)
                 except ImportError as e:
@@ -81,12 +80,16 @@ class _PyVistaAnimator(_PyVistaPlotter):
         if cpos:
             if isinstance(cpos[0][0], float):
                 cpos = [cpos] * len(indices)
-        str_template = "t={0:{2}} {1}"
 
         def render_frame(frame):
             self._plotter.clear()
-            # print(f"render frame {frame} for input {indices[frame]}")
-            workflow.connect(input_name, [frame])
+
+            if mode_number is None:
+                workflow.connect(input_name, [frame])
+
+            else:
+                workflow.connect(input_name, loop_over.data[frame])
+
             field = workflow.get_output(output_name, core.types.field)
             deform = None
             if "deform_by" in workflow.output_names:
@@ -97,12 +100,18 @@ class _PyVistaAnimator(_PyVistaPlotter):
                 scale_factor_legend=scale_factor[frame],
                 **kwargs,
             )
-            kwargs_in = _sort_supported_kwargs(
-                bound_method=self._plotter.add_text, **freq_kwargs
-            )
-            self._plotter.add_text(
-                str_template.format(loop_over.data[frame], unit, freq_fmt), **kwargs_in
-            )
+            kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **freq_kwargs)
+            if mode_number is None:
+                str_template = "t={0:{2}} {1}"
+                self._plotter.add_text(
+                    str_template.format(indices[frame], unit, freq_fmt), **kwargs_in
+                )
+            else:
+                str_template = "frq={0:{2}} {1}"
+                self._plotter.add_text(
+                    str_template.format(mode_number, unit, freq_fmt), **kwargs_in
+                )
+
             if cpos:
                 self._plotter.camera_position = cpos[frame]
 
@@ -126,10 +135,7 @@ class _PyVistaAnimator(_PyVistaPlotter):
                         try:
                             render_frame(frame)
                         except AttributeError as e:  # pragma: no cover
-                            if (
-                                "'NoneType' object has no attribute 'interactor'"
-                                in e.args[0]
-                            ):
+                            if "'NoneType' object has no attribute 'interactor'" in e.args[0]:
                                 print("Animation canceled.")
                                 return result
                         if save_as:
@@ -249,8 +255,8 @@ class Animator:
         output_name : str, optional
             Name of the workflow output to use as Field for each frame's contour.
             Defaults to "to_render".
-        input_name : str, optional
-            Name of the workflow input to feed loop_over values into.
+        input_name : list of str, optional
+            Name of the workflow inputs to feed loop_over values into.
             Defaults to "loop_over".
         save_as : str, optional
             Path of file to save the animation to. Defaults to None. Can be of any format supported
@@ -288,9 +294,7 @@ class Animator:
 
 def scale_factor_to_fc(scale_factor, fc):
     def int_to_field(value, shape, scoping):
-        field = core.fields_factory.field_from_array(
-            np.full(shape=shape, fill_value=value)
-        )
+        field = core.fields_factory.field_from_array(np.full(shape=shape, fill_value=value))
         field.scoping = scoping
         return field
 
@@ -304,9 +308,7 @@ def scale_factor_to_fc(scale_factor, fc):
         #     fields.append(scale_factor)
         # scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
     elif scale_type == core.fields_container.FieldsContainer:
-        raise NotImplementedError(
-            "Scaling by a FieldsContainer is not yet implemented."
-        )
+        raise NotImplementedError("Scaling by a FieldsContainer is not yet implemented.")
         # if scale_factor.time_freq_support.n_sets != n_sets:
         #     raise ValueError(f"The scale_factor FieldsContainer does not contain the same "
         #                      f"number of fields as the fields_container being animated "
@@ -321,25 +323,17 @@ def scale_factor_to_fc(scale_factor, fc):
         fields = []
         for i in range(len(fc)):
             fields.append(
-                int_to_field(
-                    scale_factor[i], fc.get_field(0).shape, fc.get_field(0).scoping
-                )
+                int_to_field(scale_factor[i], fc.get_field(0).shape, fc.get_field(0).scoping)
             )
-        scale_factor = core.fields_container_factory.over_time_freq_fields_container(
-            fields
-        )
+        scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
     elif scale_type == int or scale_type == float:
         # Turn the float into a fields_container
         fields = []
         for i in range(n_sets):
             fields.append(
-                int_to_field(
-                    scale_factor, fc.get_field(0).shape, fc.get_field(0).scoping
-                )
+                int_to_field(scale_factor, fc.get_field(0).shape, fc.get_field(0).scoping)
             )
-        scale_factor = core.fields_container_factory.over_time_freq_fields_container(
-            fields
-        )
+        scale_factor = core.fields_container_factory.over_time_freq_fields_container(fields)
     else:
         raise ValueError(
             "Argument scale_factor must be an int, a float, or a list of either, "

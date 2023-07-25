@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class to_elemental_fc(Operator):
-    """Transform input fields into Elemental fields using an averaging
-    process, result is computed on a given elements scoping.
+    """Transforms Input fields into Elemental fields using an averaging
+    process. The result is computed on a given element's scoping.
 
     Parameters
     ----------
@@ -23,7 +23,7 @@ class to_elemental_fc(Operator):
         If it is set to true, elemental nodal fields
         are first averaged on nodes and then
         averaged on elements (default is
-        false)
+        false).
     collapse_shell_layers : bool, optional
         If true shell layers are averaged as well
         (default is false)
@@ -87,8 +87,9 @@ class to_elemental_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transform input fields into Elemental fields using an averaging
-            process, result is computed on a given elements scoping."""
+        description = """Transforms Input fields into Elemental fields using an averaging
+            process. The result is computed on a given element's
+            scoping."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -117,7 +118,7 @@ class to_elemental_fc(Operator):
                     document="""If it is set to true, elemental nodal fields
         are first averaged on nodes and then
         averaged on elements (default is
-        false)""",
+        false).""",
                 ),
                 10: PinSpecification(
                     name="collapse_shell_layers",
@@ -166,7 +167,7 @@ class to_elemental_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -271,7 +272,7 @@ class InputsToElementalFc(_Inputs):
         If it is set to true, elemental nodal fields
         are first averaged on nodes and then
         averaged on elements (default is
-        false)
+        false).
 
         Parameters
         ----------

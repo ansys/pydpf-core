@@ -11,17 +11,17 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class rescope_fc(Operator):
-    """Rescope a field on the given scoping. If an id does not exists in the
-    original field, default value (in 2) is used if defined.
+    """Rescopes a field on the given scoping. If an ID does not exist in the
+    original field, the default value (in 2) is used when defined.
 
     Parameters
     ----------
     fields_container : FieldsContainer
     mesh_scoping : Scoping
-    default_value : float
-        If a the pin 2 is used, the ids not found in
-        the fields are added with this
-        default value
+    default_value : float, optional
+        If pin 2 is used, the ids not found in the
+        fields are added with this default
+        value.
 
 
     Examples
@@ -70,8 +70,9 @@ class rescope_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Rescope a field on the given scoping. If an id does not exists in the
-            original field, default value (in 2) is used if defined."""
+        description = """Rescopes a field on the given scoping. If an ID does not exist in the
+            original field, the default value (in 2) is used when
+            defined."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -90,10 +91,10 @@ class rescope_fc(Operator):
                 2: PinSpecification(
                     name="default_value",
                     type_names=["double", "vector<double>"],
-                    optional=False,
-                    document="""If a the pin 2 is used, the ids not found in
-        the fields are added with this
-        default value""",
+                    optional=True,
+                    document="""If pin 2 is used, the ids not found in the
+        fields are added with this default
+        value.""",
                 ),
             },
             map_output_pin_spec={
@@ -135,7 +136,7 @@ class rescope_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -209,9 +210,9 @@ class InputsRescopeFc(_Inputs):
     def default_value(self):
         """Allows to connect default_value input to the operator.
 
-        If a the pin 2 is used, the ids not found in
-        the fields are added with this
-        default value
+        If pin 2 is used, the ids not found in the
+        fields are added with this default
+        value.
 
         Parameters
         ----------

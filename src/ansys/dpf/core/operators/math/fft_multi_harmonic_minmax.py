@@ -12,15 +12,15 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class fft_multi_harmonic_minmax(Operator):
     """Evaluate min max fields on multi harmonic solution. min and max fields
-    are calculated based on evaluating a fft wrt rpms and using the
-    gradient method for adaptive time steping
+    are calculated based on evaluating a fourier series sum wrt rpms
+    and using the gradient method for adaptive time steping
 
     Parameters
     ----------
     fields_container : FieldsContainer
     rpm_scoping : Scoping, optional
-        Rpm scoping, by default the fft is evaluated
-        using all the rpms
+        Rpm scoping, by default the fourier series
+        sum is evaluated using all the rpms
     fs_ratio : int, optional
         Field or fields container with only one field
         is expected
@@ -36,6 +36,15 @@ class fft_multi_harmonic_minmax(Operator):
     use_harmonic_zero : bool, optional
         Use harmonic zero for first rpm (default is
         false)
+    calculate_time_series : bool, optional
+        Calculates time series output (output pin 2),
+        setting it to false enhance
+        performance if only min/max are
+        required (default is true)
+    substeps_selector : optional
+        Substeps to evaluate (frequencies), by
+        default the operator is evaluated
+        using all the available steps
 
 
     Examples
@@ -60,6 +69,10 @@ class fft_multi_harmonic_minmax(Operator):
     >>> op.inputs.num_cycles.connect(my_num_cycles)
     >>> my_use_harmonic_zero = bool()
     >>> op.inputs.use_harmonic_zero.connect(my_use_harmonic_zero)
+    >>> my_calculate_time_series = bool()
+    >>> op.inputs.calculate_time_series.connect(my_calculate_time_series)
+    >>> my_substeps_selector = dpf.()
+    >>> op.inputs.substeps_selector.connect(my_substeps_selector)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.fft_multi_harmonic_minmax(
@@ -70,6 +83,8 @@ class fft_multi_harmonic_minmax(Operator):
     ...     max_num_subdivisions=my_max_num_subdivisions,
     ...     num_cycles=my_num_cycles,
     ...     use_harmonic_zero=my_use_harmonic_zero,
+    ...     calculate_time_series=my_calculate_time_series,
+    ...     substeps_selector=my_substeps_selector,
     ... )
 
     >>> # Get output data
@@ -87,6 +102,8 @@ class fft_multi_harmonic_minmax(Operator):
         max_num_subdivisions=None,
         num_cycles=None,
         use_harmonic_zero=None,
+        calculate_time_series=None,
+        substeps_selector=None,
         config=None,
         server=None,
     ):
@@ -107,12 +124,17 @@ class fft_multi_harmonic_minmax(Operator):
             self.inputs.num_cycles.connect(num_cycles)
         if use_harmonic_zero is not None:
             self.inputs.use_harmonic_zero.connect(use_harmonic_zero)
+        if calculate_time_series is not None:
+            self.inputs.calculate_time_series.connect(calculate_time_series)
+        if substeps_selector is not None:
+            self.inputs.substeps_selector.connect(substeps_selector)
 
     @staticmethod
     def _spec():
         description = """Evaluate min max fields on multi harmonic solution. min and max fields
-            are calculated based on evaluating a fft wrt rpms and
-            using the gradient method for adaptive time steping"""
+            are calculated based on evaluating a fourier series sum
+            wrt rpms and using the gradient method for adaptive time
+            steping"""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -126,8 +148,8 @@ class fft_multi_harmonic_minmax(Operator):
                     name="rpm_scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document="""Rpm scoping, by default the fft is evaluated
-        using all the rpms""",
+                    document="""Rpm scoping, by default the fourier series
+        sum is evaluated using all the rpms""",
                 ),
                 2: PinSpecification(
                     name="fs_ratio",
@@ -163,6 +185,23 @@ class fft_multi_harmonic_minmax(Operator):
                     optional=True,
                     document="""Use harmonic zero for first rpm (default is
         false)""",
+                ),
+                7: PinSpecification(
+                    name="calculate_time_series",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Calculates time series output (output pin 2),
+        setting it to false enhance
+        performance if only min/max are
+        required (default is true)""",
+                ),
+                8: PinSpecification(
+                    name="substeps_selector",
+                    type_names=["vector<int32>"],
+                    optional=True,
+                    document="""Substeps to evaluate (frequencies), by
+        default the operator is evaluated
+        using all the available steps""",
                 ),
             },
             map_output_pin_spec={
@@ -216,7 +255,7 @@ class fft_multi_harmonic_minmax(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -247,6 +286,10 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
     >>> op.inputs.num_cycles.connect(my_num_cycles)
     >>> my_use_harmonic_zero = bool()
     >>> op.inputs.use_harmonic_zero.connect(my_use_harmonic_zero)
+    >>> my_calculate_time_series = bool()
+    >>> op.inputs.calculate_time_series.connect(my_calculate_time_series)
+    >>> my_substeps_selector = dpf.()
+    >>> op.inputs.substeps_selector.connect(my_substeps_selector)
     """
 
     def __init__(self, op: Operator):
@@ -279,6 +322,14 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
             fft_multi_harmonic_minmax._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._use_harmonic_zero)
+        self._calculate_time_series = Input(
+            fft_multi_harmonic_minmax._spec().input_pin(7), 7, op, -1
+        )
+        self._inputs.append(self._calculate_time_series)
+        self._substeps_selector = Input(
+            fft_multi_harmonic_minmax._spec().input_pin(8), 8, op, -1
+        )
+        self._inputs.append(self._substeps_selector)
 
     @property
     def fields_container(self):
@@ -302,8 +353,8 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
     def rpm_scoping(self):
         """Allows to connect rpm_scoping input to the operator.
 
-        Rpm scoping, by default the fft is evaluated
-        using all the rpms
+        Rpm scoping, by default the fourier series
+        sum is evaluated using all the rpms
 
         Parameters
         ----------
@@ -423,6 +474,51 @@ class InputsFftMultiHarmonicMinmax(_Inputs):
         >>> op.inputs.use_harmonic_zero(my_use_harmonic_zero)
         """
         return self._use_harmonic_zero
+
+    @property
+    def calculate_time_series(self):
+        """Allows to connect calculate_time_series input to the operator.
+
+        Calculates time series output (output pin 2),
+        setting it to false enhance
+        performance if only min/max are
+        required (default is true)
+
+        Parameters
+        ----------
+        my_calculate_time_series : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+        >>> op.inputs.calculate_time_series.connect(my_calculate_time_series)
+        >>> # or
+        >>> op.inputs.calculate_time_series(my_calculate_time_series)
+        """
+        return self._calculate_time_series
+
+    @property
+    def substeps_selector(self):
+        """Allows to connect substeps_selector input to the operator.
+
+        Substeps to evaluate (frequencies), by
+        default the operator is evaluated
+        using all the available steps
+
+        Parameters
+        ----------
+        my_substeps_selector :
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.fft_multi_harmonic_minmax()
+        >>> op.inputs.substeps_selector.connect(my_substeps_selector)
+        >>> # or
+        >>> op.inputs.substeps_selector(my_substeps_selector)
+        """
+        return self._substeps_selector
 
 
 class OutputsFftMultiHarmonicMinmax(_Outputs):

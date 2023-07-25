@@ -11,15 +11,18 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class accumulate_over_label_fc(Operator):
-    """Compute the component-wise sum over all the fields having the same id
-    for the label set in input in the fields container. This
-    computation can be incremental, if the input fields container is
-    connected and the operator is ran several time, the output field
-    will be on all the inputs connected
+    """Compute the component-wise sum over all the fields that have the same
+    ID as the label set as input in the fields container. This
+    computation can be incremental. If the input fields container is
+    connected and the operator is run multiple times, the output field
+    will be on all the connected inputs.
 
     Parameters
     ----------
     fields_container : FieldsContainer
+    label : str, optional
+        Label of the fields container where it should
+        operate.
 
 
     Examples
@@ -32,30 +35,36 @@ class accumulate_over_label_fc(Operator):
     >>> # Make input connections
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_label = str()
+    >>> op.inputs.label.connect(my_label)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.accumulate_over_label_fc(
     ...     fields_container=my_fields_container,
+    ...     label=my_label,
     ... )
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, fields_container=None, config=None, server=None):
+    def __init__(self, fields_container=None, label=None, config=None, server=None):
         super().__init__(name="accumulate_over_label_fc", config=config, server=server)
         self._inputs = InputsAccumulateOverLabelFc(self)
         self._outputs = OutputsAccumulateOverLabelFc(self)
         if fields_container is not None:
             self.inputs.fields_container.connect(fields_container)
+        if label is not None:
+            self.inputs.label.connect(label)
 
     @staticmethod
     def _spec():
-        description = """Compute the component-wise sum over all the fields having the same id
-            for the label set in input in the fields container. This
-            computation can be incremental, if the input fields
-            container is connected and the operator is ran several
-            time, the output field will be on all the inputs connected"""
+        description = """Compute the component-wise sum over all the fields that have the same
+            ID as the label set as input in the fields container. This
+            computation can be incremental. If the input fields
+            container is connected and the operator is run multiple
+            times, the output field will be on all the connected
+            inputs."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -64,6 +73,13 @@ class accumulate_over_label_fc(Operator):
                     type_names=["fields_container"],
                     optional=False,
                     document="""""",
+                ),
+                1: PinSpecification(
+                    name="label",
+                    type_names=["string"],
+                    optional=True,
+                    document="""Label of the fields container where it should
+        operate.""",
                 ),
             },
             map_output_pin_spec={
@@ -105,7 +121,7 @@ class accumulate_over_label_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -124,6 +140,8 @@ class InputsAccumulateOverLabelFc(_Inputs):
     >>> op = dpf.operators.math.accumulate_over_label_fc()
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
+    >>> my_label = str()
+    >>> op.inputs.label.connect(my_label)
     """
 
     def __init__(self, op: Operator):
@@ -132,6 +150,8 @@ class InputsAccumulateOverLabelFc(_Inputs):
             accumulate_over_label_fc._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._fields_container)
+        self._label = Input(accumulate_over_label_fc._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._label)
 
     @property
     def fields_container(self):
@@ -150,6 +170,27 @@ class InputsAccumulateOverLabelFc(_Inputs):
         >>> op.inputs.fields_container(my_fields_container)
         """
         return self._fields_container
+
+    @property
+    def label(self):
+        """Allows to connect label input to the operator.
+
+        Label of the fields container where it should
+        operate.
+
+        Parameters
+        ----------
+        my_label : str
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.accumulate_over_label_fc()
+        >>> op.inputs.label.connect(my_label)
+        >>> # or
+        >>> op.inputs.label(my_label)
+        """
+        return self._label
 
 
 class OutputsAccumulateOverLabelFc(_Outputs):

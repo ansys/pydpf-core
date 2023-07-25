@@ -11,22 +11,23 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class decimate_mesh(Operator):
-    """Decimate a surface meshed region with triangle elements
+    """Decimate a meshed region
 
     Parameters
     ----------
     mesh : MeshedRegion
         Mesh to decimate
     preservation_ratio : float, optional
-        Ratio of triangles to preserve. default value
-        is 0.5.
+        Target ratio of elements to preserve, the
+        actual number of elements preserved
+        might differ. default value is 0.5.
     aggressiveness : int, optional
         Quality measure for the resulting decimated
         mesh. lower aggresiveness will
         provide a higher quality mesh with
         the tradeoff of higher execution
         time. value range is 0 to 150,
-        default is 1.
+        default is 0.
 
 
     Examples
@@ -75,7 +76,7 @@ class decimate_mesh(Operator):
 
     @staticmethod
     def _spec():
-        description = """Decimate a surface meshed region with triangle elements"""
+        description = """Decimate a meshed region"""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -89,8 +90,9 @@ class decimate_mesh(Operator):
                     name="preservation_ratio",
                     type_names=["double"],
                     optional=True,
-                    document="""Ratio of triangles to preserve. default value
-        is 0.5.""",
+                    document="""Target ratio of elements to preserve, the
+        actual number of elements preserved
+        might differ. default value is 0.5.""",
                 ),
                 2: PinSpecification(
                     name="aggressiveness",
@@ -101,7 +103,7 @@ class decimate_mesh(Operator):
         provide a higher quality mesh with
         the tradeoff of higher execution
         time. value range is 0 to 150,
-        default is 1.""",
+        default is 0.""",
                 ),
             },
             map_output_pin_spec={
@@ -109,7 +111,7 @@ class decimate_mesh(Operator):
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=False,
-                    document="""Decimated mesh""",
+                    document="""Decimated mesh with triangle elements""",
                 ),
             },
         )
@@ -143,7 +145,7 @@ class decimate_mesh(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -201,8 +203,9 @@ class InputsDecimateMesh(_Inputs):
     def preservation_ratio(self):
         """Allows to connect preservation_ratio input to the operator.
 
-        Ratio of triangles to preserve. default value
-        is 0.5.
+        Target ratio of elements to preserve, the
+        actual number of elements preserved
+        might differ. default value is 0.5.
 
         Parameters
         ----------
@@ -227,7 +230,7 @@ class InputsDecimateMesh(_Inputs):
         provide a higher quality mesh with
         the tradeoff of higher execution
         time. value range is 0 to 150,
-        default is 1.
+        default is 0.
 
         Parameters
         ----------

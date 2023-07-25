@@ -7,8 +7,8 @@ Dependencies
 Package dependencies
 --------------------
 
-PyDPF-Core dependencies are automatically checked when packages are
-installed. Package dependencies follow:
+Dependencies for the ``ansys-dpf-core`` package are automatically checked when the
+package is installed. Package dependencies follow:
 
 - `ansys.dpf.gate <https://pypi.org/project/ansys-dpf-gate/>`_, which is the gate
   to the DPF C API or Python gRPC API. The gate depends on the server configuration:
@@ -28,5 +28,5 @@ Optional dependencies
 
 For plotting, you can install these optional Python packages:
 
-- `matplotlib <https://pypi.org/project/matplotlib/>`_ for chart plotting
-- `pyvista <https://pypi.org/project/pyvista/>`_ for 3D plotting
+- `matplotlib <https://pypi.org/project/matplotlib/>`_ package for chart plotting
+- `pyvista <https://pypi.org/project/pyvista/>`_ package for 3D plotting

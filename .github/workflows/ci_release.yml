@@ -6,6 +6,12 @@ on:
       - "v*"
   schedule:
     - cron: "0 13 * * 0"
+  workflow_dispatch:
+    inputs:
+      standalone_branch_suffix:
+        description: 'Suffix of the branch on standalone'
+        required: false
+        default: '.pre1'
 
 #┌───────────── minute (0 - 59)
 #│ ┌───────────── hour (0 - 23)
@@ -17,9 +23,10 @@ on:
 #│ │ │ │ │
 #* * * * *
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+env:
+  ANSYS_VERSION: 232
+  DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
+  MAIN_PYTHON_VERSION: '3.8'
 
 jobs:
   debug:
@@ -37,21 +44,15 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: "Setup Python"
-        uses: actions/setup-python@v4.2.0
+        uses: actions/setup-python@v4.6.0
         with:
-          python-version: 3.8
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}
 
-      - name: "Install style requirements"
-        run: |
-          pip install -r requirements/requirements_style.txt --disable-pip-version-check
+      - name: "Install pre-commit"
+        run: pip install pre-commit
 
-      - name: "Codespell"
-        run: |
-          make codespell
-
-      - name: "flake8"
-        run: |
-          make flake8
+      - name: "Run pre-commit"
+        run: pre-commit run --all-files --show-diff-on-failure
 
   tests:
     uses: ./.github/workflows/tests.yml
@@ -60,14 +61,15 @@ jobs:
       python_versions: '["3.7", "3.8", "3.9", "3.10"]'
       wheel: true
       wheelhouse: true
-      standalone_suffix: ""
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
     secrets: inherit
 
   docs:
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: "232"
-      standalone_suffix: ""
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
+      event_name: ${{ github.event_name }}
     secrets: inherit
 
   examples:
@@ -75,7 +77,7 @@ jobs:
     with:
       ANSYS_VERSION: "232"
       python_versions: '["3.7", "3.8", "3.9", "3.10"]'
-      standalone_suffix: ""
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
     secrets: inherit
 
   retro_231:
@@ -110,7 +112,7 @@ jobs:
     uses: ./.github/workflows/pydpf-post.yml
     with:
       ANSYS_VERSION: "232"
-      standalone_suffix: ""
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
     secrets: inherit
 
   pydpf-post_231:
@@ -138,14 +140,23 @@ jobs:
     name: "gate"
     uses: ./.github/workflows/gate.yml
     with:
-      standalone_suffix: ""
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
     secrets: inherit
 
   docker_tests:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
     with:
-      standalone_suffix: ""
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
+    secrets: inherit
+
+  docker_examples:
+    name: "Run examples on Docker"
+    uses: ./.github/workflows/examples_docker.yml
+    with:
+      ANSYS_VERSION: "232"
+      python_versions: '["3.8", "3.9", "3.10"]'
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   draft_release:
@@ -155,7 +166,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Set up Python"
-        uses: actions/setup-python@v4.1.0
+        uses: actions/setup-python@v4.6.0
         with:
           python-version: 3.9
 

@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class cplx_multiply(Operator):
-    """Computes multiply between two field containers containing complex
-    fields.
+    """Computes multiplication between two field containers containing
+    complex fields.
 
     Parameters
     ----------
@@ -56,8 +56,8 @@ class cplx_multiply(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes multiply between two field containers containing complex
-            fields."""
+        description = """Computes multiplication between two field containers containing
+            complex fields."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -113,7 +113,7 @@ class cplx_multiply(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

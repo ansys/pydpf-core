@@ -9,9 +9,14 @@ import ansys.dpf.core.errors
 
 from ansys.dpf.core import scoping, field, property_field
 from ansys.dpf.core.check_version import server_meet_version, version_requires
-from ansys.dpf.core.common import locations, types, nodal_properties
+from ansys.dpf.core.common import (
+    locations,
+    types,
+    nodal_properties,
+)
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
+from ansys.dpf.core.faces import Faces
 from ansys.dpf.core.plotter import DpfPlotter, Plotter
 from ansys.dpf.core.cache import class_handling_cache
 from ansys.dpf.core import server as server_module
@@ -28,9 +33,7 @@ def update_grid(func):
                 # When setting node coordinates
                 from ansys.dpf.core.vtk_helper import vtk_update_coordinates
 
-                vtk_update_coordinates(
-                    vtk_grid=mesh._full_grid, coordinates_array=args[1].data
-                )
+                vtk_update_coordinates(vtk_grid=mesh._full_grid, coordinates_array=args[1].data)
 
         return func(*args, **kwargs)
 
@@ -103,15 +106,14 @@ class MeshedRegion:
         else:
             # if no mesh object, create one
             if self._server.has_client():
-                self._internal_obj = self._api.meshed_region_new_on_client(
-                    self._server.client
-                )
+                self._internal_obj = self._api.meshed_region_new_on_client(self._server.client)
             else:
                 self._internal_obj = self._api.meshed_region_new()
 
         self._full_grid = None
         self._elements = None
         self._nodes = None
+        self.as_linear = None
 
     def _get_scoping(self, loc=locations.nodal):
         """
@@ -168,6 +170,29 @@ class MeshedRegion:
 
         """
         return Elements(self)
+
+    @property
+    def faces(self):
+        """
+        All face properties of the mesh, such as faces_nodes_connectivity and face types.
+
+        Returns
+        -------
+        faces : Faces
+            Faces belonging to the meshed region.
+
+        Examples
+        --------
+        >>> import ansys.dpf.core as dpf
+        >>> from ansys.dpf.core import examples
+        >>> model = dpf.Model(examples.find_static_rst())
+        >>> meshed_region = model.metadata.meshed_region
+        >>> faces = meshed_region.faces
+        >>> print(faces)
+        DPF Faces object with 0 faces
+
+        """
+        return Faces(self)
 
     @property
     def nodes(self):
@@ -257,9 +282,7 @@ class MeshedRegion:
         available_property_fields : list str
         """
         available_property_fields = []
-        n_property_field = self._api.meshed_region_get_num_available_property_field(
-            self
-        )
+        n_property_field = self._api.meshed_region_get_num_available_property_field(self)
         for index in range(n_property_field):
             available_property_fields.append(
                 self._api.meshed_region_get_property_field_name(self, index)
@@ -328,9 +351,7 @@ class MeshedRegion:
         named_selections = []
         n_selections = self._api.meshed_region_get_num_available_named_selection(self)
         for index in range(n_selections):
-            named_selections.append(
-                self._api.meshed_region_get_named_selection_name(self, index)
-            )
+            named_selections.append(self._api.meshed_region_get_named_selection_name(self, index))
         return named_selections
 
     def named_selection(self, named_selection):
@@ -347,9 +368,7 @@ class MeshedRegion:
         named_selection : Scoping
         """
         if server_meet_version("2.1", self._server):
-            out = self._api.meshed_region_get_named_selection_scoping(
-                self, named_selection
-            )
+            out = self._api.meshed_region_get_named_selection_scoping(self, named_selection)
             return scoping.Scoping(scoping=out, server=self._server)
         else:
             if hasattr(self, "_stream_provider"):
@@ -452,20 +471,10 @@ class MeshedRegion:
         if deform_by.unit != self.unit:
             unit_convert(deform_by, self.unit)
         scale_op = scale(field=deform_by, ponderation=scale_factor)
-        return add(
-            fieldA=self.nodes.coordinates_field, fieldB=scale_op.outputs.field
-        ).eval()
+        return add(fieldA=self.nodes.coordinates_field, fieldB=scale_op.outputs.field).eval()
 
     def _as_vtk(self, coordinates=None, as_linear=True, include_ids=False):
         """Convert DPF mesh to a PyVista unstructured grid."""
-        if coordinates is None:
-            coordinates_field = self.nodes.coordinates_field
-            coordinates = self.nodes.coordinates_field.data
-        else:
-            coordinates_field = coordinates
-            coordinates = coordinates.data
-        etypes = self.elements.element_types_field.data
-        conn = self.elements.connectivities_field
         try:
             from ansys.dpf.core.vtk_helper import dpf_mesh_to_vtk
         except ModuleNotFoundError:
@@ -473,19 +482,16 @@ class MeshedRegion:
                 "To use plotting capabilities, please install pyvista "
                 "with :\n pip install pyvista>=0.24.0"
             )
-        grid = dpf_mesh_to_vtk(coordinates, etypes, conn, as_linear, self)
+        grid = dpf_mesh_to_vtk(self, coordinates, as_linear)
 
         # consider adding this when scoping request is faster
         if include_ids:
-            self._nodeids = self.elements.scoping.ids
-            self._elementids = self.nodes.scoping.ids
-            grid["node_ids"] = self._elementids
-            grid["element_ids"] = self._nodeids
+            self._nodeids = self.nodes.scoping.ids
+            self._elementids = self.elements.scoping.ids
+            grid["node_ids"] = self._nodeids
+            grid["element_ids"] = self._elementids
 
-        # Quick fix required to hold onto the data as PyVista does not make a copy.
-        # All of those now return DPFArrays
-        setattr(grid, "_dpf_cache", [coordinates, coordinates_field])
-
+        self.as_linear = as_linear  # store as_linear to avoid passing through here again
         return grid
 
     @property
@@ -585,11 +591,6 @@ class MeshedRegion:
 
         This method is useful for passing data from one server instance to another.
 
-        .. warning::
-           Only nodes scoping and coordinates and elements scoping, connectivity,
-           and types are copied. The eventual property field for elemental properties
-           and named selection will not be copied.
-
         Parameters
         ----------
         server : ansys.dpf.core.server, optional
@@ -611,25 +612,30 @@ class MeshedRegion:
         >>> deep_copy = meshed_region.deep_copy(server=other_server)
 
         """
-        if self.nodes.scoping is None:  # empty Mesh
-            return MeshedRegion()
-        node_ids = self.nodes.scoping.ids
-        element_ids = self.elements.scoping.ids
-        mesh = MeshedRegion(
-            num_nodes=len(node_ids), num_elements=len(element_ids), server=server
-        )
-        with self.nodes.coordinates_field.as_local_field() as coord:
-            for i, node in enumerate(mesh.nodes.add_nodes(len(node_ids))):
-                node.id = node_ids[i]
-                node.coordinates = coord.get_entity_data(i)
-        with self.elements.connectivities_field.as_local_field() as connect:
-            with self.elements.element_types_field.as_local_field() as types:
-                for i, elem in enumerate(mesh.elements.add_elements(len(element_ids))):
-                    elem.id = element_ids[i]
-                    elem.connectivity = connect.get_entity_data(i)
-                    elem.shape = element_types.shape(types.get_entity_data(i)[0])
-        mesh.unit = self.unit
-        return mesh
+        if self._server.config.legacy:
+            if self.nodes.scoping is None:  # empty Mesh
+                return MeshedRegion()
+            node_ids = self.nodes.scoping.ids
+            element_ids = self.elements.scoping.ids
+            mesh = MeshedRegion(
+                num_nodes=len(node_ids), num_elements=len(element_ids), server=server
+            )
+            with self.nodes.coordinates_field.as_local_field() as coord:
+                for i, node in enumerate(mesh.nodes.add_nodes(len(node_ids))):
+                    node.id = node_ids[i]
+                    node.coordinates = coord.get_entity_data(i)
+            with self.elements.connectivities_field.as_local_field() as connect:
+                with self.elements.element_types_field.as_local_field() as types:
+                    for i, elem in enumerate(mesh.elements.add_elements(len(element_ids))):
+                        elem.id = element_ids[i]
+                        elem.connectivity = connect.get_entity_data(i)
+                        elem.shape = element_types.shape(types.get_entity_data(i)[0])
+            mesh.unit = self.unit
+            return mesh
+        else:
+            from ansys.dpf.core.core import _deep_copy
+
+            return _deep_copy(self, server=server)
 
     def field_of_properties(self, property_name):
         """
@@ -661,9 +667,7 @@ class MeshedRegion:
         else:
             field_out = self._api.meshed_region_get_property_field(self, property_name)
             if isinstance(field_out, int):
-                res = property_field.PropertyField(
-                    server=self._server, property_field=field_out
-                )
+                res = property_field.PropertyField(server=self._server, property_field=field_out)
                 return res
             else:
                 if field_out.datatype == "int":

@@ -11,7 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class matrix_inverse(Operator):
-    """computes the complex matrix inverse at a given fields container.
+    """Computes the complex matrix inverse for each field in the given fields
+    container.
 
     Parameters
     ----------
@@ -48,9 +49,8 @@ class matrix_inverse(Operator):
 
     @staticmethod
     def _spec():
-        description = (
-            """computes the complex matrix inverse at a given fields container."""
-        )
+        description = """Computes the complex matrix inverse for each field in the given fields
+            container."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -100,7 +100,7 @@ class matrix_inverse(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

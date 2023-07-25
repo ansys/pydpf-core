@@ -41,9 +41,7 @@ else:
     CONFIGURATION = "release"
 
 
-def load_library(
-    filename, name="", symbol="LoadOperators", server=None, generate_operators=False
-):
+def load_library(filename, name="", symbol="LoadOperators", server=None, generate_operators=False):
     """Dynamically load an operators library for dpf.core.
     Code containing this library's operators is generated in
     ansys.dpf.core.operators
@@ -98,14 +96,6 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
     -------
       server_file_path : str
            path generated server side
-
-    Examples
-    --------
-    >>> from ansys.dpf import core as dpf
-    >>> from ansys.dpf.core import examples
-    >>> server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer,
-    ... as_global=False)
-    >>> file_path = dpf.upload_file_in_tmp_folder(examples.find_static_rst(), server=server)
 
     Notes
     -----
@@ -163,17 +153,6 @@ def download_file(server_file_path, to_client_file_path, server=None):
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
-
-    Examples
-    --------
-    >>> from ansys.dpf import core as dpf
-    >>> from ansys.dpf.core import examples
-    >>> server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer,
-    ... as_global=False)
-    >>> file_path = dpf.upload_file_in_tmp_folder(examples.find_static_rst(), server=server)
-    >>> dpf.download_file(file_path, examples.find_static_rst(),  server=server)
-    <BLANKLINE>
-    ...
 
     Notes
     -----
@@ -279,11 +258,39 @@ def _description(dpf_entity_message, server=None):
        description : str
     """
     try:
-        return BaseService(server, load_operators=False)._description(
-            dpf_entity_message
-        )
+        return BaseService(server, load_operators=False)._description(dpf_entity_message)
     except:
         return ""
+
+
+def _deep_copy(dpf_entity, server=None):
+    """Returns a copy of the entity in the requested server
+
+    Parameters
+    ----------
+    dpf_entity: core.Operator, core.Workflow, core.Scoping,
+                core.Field, core.FieldsContainer, core.MeshedRegion...
+        Dpf entity to deep_copy
+
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+
+    Returns
+    -------
+       deep_copy of dpf_entity: core.Operator, core.Workflow, core.Scoping,
+                                core.Field, core.FieldsContainer, core.MeshedRegion...
+    """
+    from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
+    from ansys.dpf.core.common import types_enum_to_types
+
+    serializer = serializer_to_string(server=server)
+    serializer.connect(1, dpf_entity)
+    deserializer = string_deserializer(server=server)
+    deserializer.connect(0, serializer, 0)
+    type_map = types_enum_to_types()
+    output_type = list(type_map.keys())[list(type_map.values()).index(dpf_entity.__class__)]
+    return deserializer.get_output(1, output_type)
 
 
 class BaseService:
@@ -347,15 +354,11 @@ class BaseService:
             path to the temporary dir
         """
         if self._server().has_client():
-            return self._api_tmp_dir.tmp_dir_get_dir_on_client(
-                client=self._server().client
-            )
+            return self._api_tmp_dir.tmp_dir_get_dir_on_client(client=self._server().client)
         else:
             return self._api_tmp_dir.tmp_dir_get_dir()
 
-    def load_library(
-        self, file_path, name="", symbol="LoadOperators", generate_operators=False
-    ):
+    def load_library(self, file_path, name="", symbol="LoadOperators", generate_operators=False):
         """Dynamically load an operators library for dpf.core.
         Code containing this library's operators is generated in
         ansys.dpf.core.operators
@@ -408,16 +411,12 @@ class BaseService:
                     code_gen.connect(3, name)
                     code_gen.run()
                 except Exception as e:
-                    warnings.warn(
-                        "Unable to generate the python code with error: " + str(e.args)
-                    )
+                    warnings.warn("Unable to generate the python code with error: " + str(e.args))
 
             local_dir = os.path.dirname(os.path.abspath(__file__))
             LOCAL_PATH = os.path.join(local_dir, "operators")
             if not self._server().local_server:
-                if self._server().os != "posix" or (
-                    not self._server().os and os.name != "posix"
-                ):
+                if self._server().os != "posix" or (not self._server().os and os.name != "posix"):
                     # send local generated code
                     TARGET_PATH = self.make_tmp_dir_server()
                     self.upload_files_in_folder(TARGET_PATH, LOCAL_PATH, "py")
@@ -501,18 +500,14 @@ class BaseService:
         Available with server's version starting at 6.0 (Ansys 2023R2).
         """
         if self._server().has_client():
-            error = self._api.data_processing_release_on_client(
-                self._server().client, 1
-            )
+            error = self._api.data_processing_release_on_client(self._server().client, 1)
         else:
             error = self._api.data_processing_release(1)
 
     def get_runtime_client_config(self):
         if self._server().has_client():
             data_tree_tmp = self._api.data_processing_get_client_config_as_data_tree()
-            config_to_return = RuntimeClientConfig(
-                data_tree=data_tree_tmp, server=self._server()
-            )
+            config_to_return = RuntimeClientConfig(data_tree=data_tree_tmp, server=self._server())
         else:
             if misc.RUNTIME_CLIENT_CONFIG is None:
                 from ansys.dpf.core import data_tree
@@ -527,10 +522,8 @@ class BaseService:
     @version_requires("4.0")
     def get_runtime_core_config(self):
         if self._server().has_client():
-            data_tree_tmp = (
-                self._api.data_processing_get_global_config_as_data_tree_on_client(
-                    self._server().client
-                )
+            data_tree_tmp = self._api.data_processing_get_global_config_as_data_tree_on_client(
+                self._server().client
             )
 
         else:
@@ -568,9 +561,7 @@ class BaseService:
             serv_port = None
         # process id
         if self._server().has_client():
-            proc_id = self._api.data_processing_process_id_on_client(
-                client=self._server().client
-            )
+            proc_id = self._api.data_processing_process_id_on_client(client=self._server().client)
         else:
             proc_id = self._api.data_processing_process_id()
         # server version
@@ -579,14 +570,10 @@ class BaseService:
                 client=self._server().client, major=serv_ver_maj, minor=serv_ver_min
             )
         else:
-            self._api.data_processing_get_server_version(
-                major=serv_ver_maj, minor=serv_ver_min
-            )
+            self._api.data_processing_get_server_version(major=serv_ver_maj, minor=serv_ver_min)
         # server os
         if self._server().has_client():
-            serv_os = self._api.data_processing_get_os_on_client(
-                client=self._server().client
-            )
+            serv_os = self._api.data_processing_get_os_on_client(client=self._server().client)
         else:
             serv_os = self._api.data_processing_get_os()
 

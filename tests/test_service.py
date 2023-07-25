@@ -50,8 +50,7 @@ def test_loadplugin(server_type):
 @pytest.mark.skipif(
     platform.system() == "Windows"
     and (
-        platform.python_version().startswith("3.8")
-        or platform.python_version().startswith("3.7")
+        platform.python_version().startswith("3.8") or platform.python_version().startswith("3.7")
     ),
     reason="Random SEGFAULT in the GitHub pipeline for 3.7-8 on Windows",
 )
@@ -91,16 +90,10 @@ def test_download_folder(
     file = dpf.core.upload_file_in_tmp_folder(
         allkindofcomplexity, server=server_type_remote_process
     )
-    file = dpf.core.upload_file_in_tmp_folder(
-        plate_msup, server=server_type_remote_process
-    )
-    file = dpf.core.upload_file_in_tmp_folder(
-        multishells, server=server_type_remote_process
-    )
+    file = dpf.core.upload_file_in_tmp_folder(plate_msup, server=server_type_remote_process)
+    file = dpf.core.upload_file_in_tmp_folder(multishells, server=server_type_remote_process)
     parent_path = os.path.dirname(file)
-    dpf.core.download_files_in_folder(
-        parent_path, tmpdir, server=server_type_remote_process
-    )
+    dpf.core.download_files_in_folder(parent_path, tmpdir, server=server_type_remote_process)
     import ntpath
 
     assert os.path.exists(os.path.join(tmpdir, ntpath.basename(allkindofcomplexity)))
@@ -111,9 +104,7 @@ def test_download_folder(
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
 def test_download_with_subdir(multishells, tmpdir, server_type_remote_process):
     tmpdir = str(tmpdir)
-    file = dpf.core.upload_file_in_tmp_folder(
-        multishells, server=server_type_remote_process
-    )
+    file = dpf.core.upload_file_in_tmp_folder(multishells, server=server_type_remote_process)
 
     base = dpf.core.BaseService(server=server_type_remote_process)
     separator = base._get_separator(file)
@@ -123,14 +114,10 @@ def test_download_with_subdir(multishells, tmpdir, server_type_remote_process):
     filename = ntpath.basename(file)
     parent_path = os.path.dirname(file)
     to_server_path = parent_path + separator + "subdir" + separator + filename
-    subdir_filepath = dpf.core.upload_file(
-        file, to_server_path, server=server_type_remote_process
-    )
+    subdir_filepath = dpf.core.upload_file(file, to_server_path, server=server_type_remote_process)
     folder = parent_path
 
-    out = dpf.core.download_files_in_folder(
-        folder, tmpdir, server=server_type_remote_process
-    )
+    out = dpf.core.download_files_in_folder(folder, tmpdir, server=server_type_remote_process)
     p1 = os.path.join(tmpdir, filename)
     p2 = os.path.join(tmpdir, "subdir", filename)
     # p1 = tmpdir + "/" + filename
@@ -140,9 +127,7 @@ def test_download_with_subdir(multishells, tmpdir, server_type_remote_process):
 
 
 @pytest.mark.skipif(running_docker, reason="Path hidden within docker container")
-def test_downloadinfolder_uploadinfolder(
-    multishells, tmpdir, server_type_remote_process
-):
+def test_downloadinfolder_uploadinfolder(multishells, tmpdir, server_type_remote_process):
     tmpdir = str(tmpdir)
     base = dpf.core.BaseService(server=server_type_remote_process)
     # create in tmpdir some architecture with subfolder in subfolder
@@ -229,9 +214,7 @@ def test_uploadinfolder_emptyfolder(tmpdir, server_type_remote_process):
     tmpdir = str(tmpdir)
     base = dpf.core.BaseService(server=server_type_remote_process)
     TARGET_PATH = base.make_tmp_dir_server()
-    path = base.upload_files_in_folder(
-        to_server_folder_path=TARGET_PATH, client_folder_path=tmpdir
-    )
+    path = base.upload_files_in_folder(to_server_folder_path=TARGET_PATH, client_folder_path=tmpdir)
     assert len(path) == 0
 
 
@@ -244,17 +227,12 @@ def test_load_plugin_correctly(server_type):
     if server_type.os == "nt":
         base.load_library("Ans.Dpf.Math.dll", "math_operators", generate_operators=True)
         t = os.path.getmtime(os.path.join(actual_path, r"operators/math/fft_eval.py"))
-        assert (
-            datetime.datetime.fromtimestamp(t).date()
-            == datetime.datetime.today().date()
-        )
+        assert datetime.datetime.fromtimestamp(t).date() == datetime.datetime.today().date()
     else:
         base.load_library("libAns.Dpf.Math.so", "math_operators")
     exists = os.path.exists(os.path.join(actual_path, r"operators/fft_eval.py"))
     assert not exists
-    num_lines = sum(
-        1 for line in open(os.path.join(actual_path, r"operators/math/__init__.py"))
-    )
+    num_lines = sum(1 for line in open(os.path.join(actual_path, r"operators/math/__init__.py")))
     assert num_lines >= 11
 
 
@@ -262,9 +240,7 @@ def test_load_plugin_correctly(server_type):
 def test_load_plugin_correctly_remote():
     from ansys.dpf import core as dpf
 
-    server = dpf.start_local_server(
-        config=dpf.AvailableServerConfigs.GrpcServer, as_global=False
-    )
+    server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer, as_global=False)
     server_connected = dpf.connect_to_server(
         server.external_ip, server.external_port, as_global=False
     )
@@ -272,16 +248,11 @@ def test_load_plugin_correctly_remote():
     actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
 
     if server.os == "posix":
-        dpf.load_library(
-            "libAns.Dpf.Math.so", "math_operators", server=server_connected
-        )
+        dpf.load_library("libAns.Dpf.Math.so", "math_operators", server=server_connected)
     else:
         dpf.load_library("Ans.Dpf.Math.dll", "math_operators", server=server_connected)
         t = os.path.getmtime(os.path.join(actual_path, r"operators/math/fft_eval.py"))
-        assert (
-            datetime.datetime.fromtimestamp(t).date()
-            == datetime.datetime.today().date()
-        )
+        assert datetime.datetime.fromtimestamp(t).date() == datetime.datetime.today().date()
 
     actual_path = os.path.dirname(pkgutil.get_loader("ansys.dpf.core").path)
 
@@ -300,9 +271,7 @@ def test_dpf_join(server_type):
         assert conc == "temp\\file.rst"
 
 
-@pytest.mark.skipif(
-    not conftest.IS_USING_GATEBIN, reason="This test must have gatebin installed"
-)
+@pytest.mark.skipif(not conftest.IS_USING_GATEBIN, reason="This test must have gatebin installed")
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="GrpcServer class is " "supported starting server version 4.0",
@@ -335,9 +304,7 @@ def test_load_api_without_awp_root(restore_awp_root):
     assert dpf_inner_path in serv._grpc_client_path
 
 
-@pytest.mark.skipif(
-    not conftest.IS_USING_GATEBIN, reason="This test must have gatebin installed"
-)
+@pytest.mark.skipif(not conftest.IS_USING_GATEBIN, reason="This test must have gatebin installed")
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="GrpcServer class is " "supported starting server version 4.0",
@@ -356,9 +323,7 @@ def test_load_api_with_awp_root():
     assert dpf_inner_path in serv_2._grpc_client_path
 
 
-@pytest.mark.skipif(
-    not conftest.IS_USING_GATEBIN, reason="This test must have gatebin installed"
-)
+@pytest.mark.skipif(not conftest.IS_USING_GATEBIN, reason="This test must have gatebin installed")
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="GrpcServer class is " "supported starting server version 4.0",
@@ -385,9 +350,7 @@ def test_load_api_with_awp_root_2():
     assert dpf_inner_path in serv._grpc_client_path
 
 
-@pytest.mark.skipif(
-    conftest.IS_USING_GATEBIN, reason="This test must not have gatebin installed"
-)
+@pytest.mark.skipif(conftest.IS_USING_GATEBIN, reason="This test must not have gatebin installed")
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="GrpcServer class is " "supported starting server version 4.0",
@@ -417,9 +380,7 @@ def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
         )
 
 
-@pytest.mark.skipif(
-    conftest.IS_USING_GATEBIN, reason="This test must no have gatebin installed"
-)
+@pytest.mark.skipif(conftest.IS_USING_GATEBIN, reason="This test must no have gatebin installed")
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="GrpcServer class is " "supported starting server version 4.0",
@@ -442,9 +403,7 @@ def test_load_api_with_awp_root_no_gatebin():
     assert dpf_inner_path in serv_2._grpc_client_path
 
 
-@pytest.mark.skipif(
-    conftest.IS_USING_GATEBIN, reason="This test must not have gatebin installed"
-)
+@pytest.mark.skipif(conftest.IS_USING_GATEBIN, reason="This test must not have gatebin installed")
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="GrpcServer class is " "supported starting server version 4.0",
@@ -473,42 +432,12 @@ def test_load_api_with_awp_root_2_no_gatebin():
 
 
 @pytest.fixture(autouse=False, scope="function")
-def set_context_back_to_premium(request):
-    """Count servers once we are finished."""
-
-    dpf.core.server.shutdown_all_session_servers()
-    init_val = os.environ.get("ANSYS_DPF_ACCEPT_LA", None)
-    try:
-        dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.entry)
-    except dpf.core.errors.DpfVersionNotSupported:
-        pass
-
-    def revert():
-        if init_val:
-            os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
-        dpf.core.SERVER_CONFIGURATION = None
-        dpf.core.server.shutdown_all_session_servers()
-        try:
-            dpf.core.set_default_server_context(
-                dpf.core.AvailableServerContexts.premium
-            )
-        except dpf.core.errors.DpfVersionNotSupported:
-            pass
-
-    request.addfinalizer(revert)
-
-
-@pytest.fixture(autouse=False, scope="function")
 def reset_context_environment_variable(request):
     """Reset ANSYS_DPF_SERVER_CONTEXT."""
     from ansys.dpf.core import server_context as s_c
 
-    environment = os.environ
     key = s_c.DPF_SERVER_CONTEXT_ENV
-    if key in environment.keys():
-        init_context = environment[key]
-    else:
-        init_context = None
+    init_context = os.environ.get(key, None)
 
     def revert():
         if init_context:
@@ -516,12 +445,6 @@ def reset_context_environment_variable(request):
         else:
             del os.environ[key]
         reload(s_c)
-        try:
-            dpf.core.set_default_server_context(
-                dpf.core.AvailableServerContexts.premium
-            )
-        except dpf.core.errors.DpfVersionNotSupported:
-            pass
 
     request.addfinalizer(revert)
 
@@ -543,130 +466,16 @@ def test_context_environment_variable(reset_context_environment_variable):
         match="which is not recognized as an available " "DPF ServerContext type.",
     ):
         reload(s_c)
-    assert s_c.SERVER_CONTEXT == s_c.AvailableServerContexts.entry
+    assert s_c.SERVER_CONTEXT == s_c.AvailableServerContexts.premium
 
     # Test each possible value is correctly understood and sets SERVER_CONTEXT
     for context in s_c.LicensingContextType:
         os.environ[key] = context.name.upper()
         reload(s_c)
         try:
-            assert s_c.SERVER_CONTEXT == getattr(
-                s_c.AvailableServerContexts, context.name
-            )
+            assert s_c.SERVER_CONTEXT == getattr(s_c.AvailableServerContexts, context.name)
         except AttributeError:
             continue
-
-
-@pytest.mark.order(1)
-@pytest.mark.skipif(
-    running_docker
-    or os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
-    or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="Tests ANSYS_DPF_ACCEPT_LA",
-)
-def test_license_agr(set_context_back_to_premium):
-    config = dpf.core.AvailableServerConfigs.InProcessServer
-    init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
-    del os.environ["ANSYS_DPF_ACCEPT_LA"]
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.start_local_server(config=config, as_global=True)
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.Operator("stream_provider")
-    os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
-    dpf.core.start_local_server(config=config, as_global=True)
-    assert "static" in examples.find_static_rst()
-    assert dpf.core.Operator("stream_provider") is not None
-
-
-@pytest.mark.order(2)
-@pytest.mark.skipif(
-    os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
-    or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="Tests ANSYS_DPF_ACCEPT_LA",
-)
-def test_license_agr_remote(remote_config_server_type, set_context_back_to_premium):
-    init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
-    del os.environ["ANSYS_DPF_ACCEPT_LA"]
-    with pytest.raises(RuntimeError):  # runtime error raised when server is started
-        dpf.core.start_local_server(config=remote_config_server_type, as_global=True)
-    with pytest.raises((dpf.core.errors.DPFServerException, RuntimeError)):
-        dpf.core.Operator("stream_provider")
-    os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
-    dpf.core.start_local_server(config=remote_config_server_type, as_global=True)
-    assert "static" in examples.find_static_rst()
-    assert dpf.core.Operator("stream_provider") is not None
-
-
-@pytest.mark.order(3)
-@pytest.mark.skipif(
-    running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    reason="AWP ROOT is not set with Docker",
-)
-@conftest.raises_for_servers_version_under("6.0")
-def test_apply_context(set_context_back_to_premium):
-    # Carefully: this test only work if the premium context has never been applied before on the
-    # in process server, otherwise premium operators will already be loaded.
-    dpf.core.server.shutdown_all_session_servers()
-    dpf.core.SERVER_CONFIGURATION = dpf.core.AvailableServerConfigs.InProcessServer
-
-    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
-        with pytest.raises(KeyError):
-            dpf.core.Operator("core::field::high_pass")
-        with pytest.raises(dpf.core.errors.DPFServerException):
-            if dpf.core.SERVER.os == "nt":
-                dpf.core.load_library("Ans.Dpf.Math.dll", "math_operators")
-            else:
-                dpf.core.load_library("libAns.Dpf.Math.so", "math_operators")
-        assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.entry
-    else:
-        dpf.core.start_local_server()
-
-    dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.premium)
-    assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.premium
-    dpf.core.Operator("core::field::high_pass")
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.entry)
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.SERVER.apply_context(dpf.core.AvailableServerContexts.entry)
-    assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.premium
-
-
-@pytest.mark.order(4)
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0, reason="not supported"
-)
-@conftest.raises_for_servers_version_under("6.0")
-def test_apply_context_remote(remote_config_server_type, set_context_back_to_premium):
-    dpf.core.server.shutdown_all_session_servers()
-    dpf.core.SERVER_CONFIGURATION = remote_config_server_type
-    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
-        with pytest.raises(dpf.core.errors.DPFServerException):
-            dpf.core.Operator("core::field::high_pass")
-        with pytest.raises(dpf.core.errors.DPFServerException):
-            if dpf.core.SERVER.os == "nt":
-                dpf.core.load_library("Ans.Dpf.Math.dll", "math_operators")
-            else:
-                dpf.core.load_library("libAns.Dpf.Math.so", "math_operators")
-
-            assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.entry
-    else:
-        dpf.core.start_local_server()
-
-    dpf.core.SERVER.apply_context(dpf.core.AvailableServerContexts.premium)
-    dpf.core.Operator("core::field::high_pass")
-    assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.premium
-
-    dpf.core.server.shutdown_all_session_servers()
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.Operator("core::field::high_pass")
-    dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.premium)
-    dpf.core.Operator("core::field::high_pass")
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.set_default_server_context(dpf.core.AvailableServerContexts.entry)
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.core.SERVER.apply_context(dpf.core.AvailableServerContexts.entry)
-
-    assert dpf.core.SERVER.context == dpf.core.AvailableServerContexts.premium
 
 
 @pytest.mark.order("last")
@@ -681,6 +490,41 @@ def test_release_dpf(server_type):
 
     with pytest.raises((KeyError, dpf.core.errors.DPFServerException)):
         dpf.core.Operator("expansion::modal_superposition", server=server_type)
+
+
+@conftest.raises_for_servers_version_under("6.1")
+def test_license_context_manager_as_context():
+    field = dpf.core.Field()
+    field.append([0.0, 0.0, 0.0], 1)
+    op = dpf.core.operators.filter.field_high_pass()
+    op.inputs.field(field)
+    op.inputs.threshold(0.0)
+    with dpf.core.LicenseContextManager() as lic:
+        out = op.outputs.field()
+        st = lic.status
+
+    assert len(st) != 0
+    new_st = lic.status
+    assert new_st == ""
+    lic = dpf.core.LicenseContextManager()
+    op.inputs.field(field)
+    op.inputs.threshold(0.0)
+    out = op.outputs.field()
+    new_st = lic.status
+    assert str(new_st) == str(st)
+    lic = None
+
+    op = dpf.core.operators.filter.field_high_pass()
+    op.inputs.field(field)
+    op.inputs.threshold(0.0)
+    with dpf.core.LicenseContextManager(
+        increment_name="ansys", license_timeout_in_seconds=1.0
+    ) as lic:
+        out = op.outputs.field()
+        st = lic.status
+        assert "ansys" in st
+    st = lic.status
+    assert "ansys" not in st
 
 
 if __name__ == "__main__":

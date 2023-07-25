@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class forward_field(Operator):
-    """Return the input field or fields container.
+    """Returns the input field or fields container.
 
     Parameters
     ----------
@@ -49,7 +49,7 @@ class forward_field(Operator):
 
     @staticmethod
     def _spec():
-        description = """Return the input field or fields container."""
+        description = """Returns the input field or fields container."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -100,7 +100,7 @@ class forward_field(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

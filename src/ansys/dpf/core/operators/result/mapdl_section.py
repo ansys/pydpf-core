@@ -12,8 +12,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class mapdl_section(Operator):
     """Read the values of the section properties for a given section property
-    field(property field that contains section information for each
-    element of a mesh).The following keys can be used: Thickness,
+    field (property field that contains section information for each
+    element of a mesh). The following keys can be used: Thickness,
     NumLayers
 
     Parameters
@@ -79,9 +79,9 @@ class mapdl_section(Operator):
     @staticmethod
     def _spec():
         description = """Read the values of the section properties for a given section property
-            field(property field that contains section information for
-            each element of a mesh).The following keys can be used:
-            Thickness, NumLayers"""
+            field (property field that contains section information
+            for each element of a mesh). The following keys can be
+            used: Thickness, NumLayers"""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -150,7 +150,7 @@ class mapdl_section(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class polar_to_cplx(Operator):
-    """Convert complex number from polar form to complex.
+    """Converts a complex number from polar form to complex.
 
     Parameters
     ----------
@@ -47,7 +47,7 @@ class polar_to_cplx(Operator):
 
     @staticmethod
     def _spec():
-        description = """Convert complex number from polar form to complex."""
+        description = """Converts a complex number from polar form to complex."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -97,7 +97,7 @@ class polar_to_cplx(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

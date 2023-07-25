@@ -26,6 +26,10 @@ class interface_contact_area(Operator):
         Entity (part for matsum, interface for
         rcforc) where the result will be
         scoped
+    unit_system : int or str or UnitSystem, optional
+        Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance
 
 
     Examples
@@ -42,12 +46,15 @@ class interface_contact_area(Operator):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_entity_scoping = dpf.Scoping()
     >>> op.inputs.entity_scoping.connect(my_entity_scoping)
+    >>> my_unit_system = int()
+    >>> op.inputs.unit_system.connect(my_unit_system)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.interface_contact_area(
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ...     entity_scoping=my_entity_scoping,
+    ...     unit_system=my_unit_system,
     ... )
 
     >>> # Get output data
@@ -59,6 +66,7 @@ class interface_contact_area(Operator):
         streams_container=None,
         data_sources=None,
         entity_scoping=None,
+        unit_system=None,
         config=None,
         server=None,
     ):
@@ -71,6 +79,8 @@ class interface_contact_area(Operator):
             self.inputs.data_sources.connect(data_sources)
         if entity_scoping is not None:
             self.inputs.entity_scoping.connect(entity_scoping)
+        if unit_system is not None:
+            self.inputs.unit_system.connect(unit_system)
 
     @staticmethod
     def _spec():
@@ -100,6 +110,18 @@ class interface_contact_area(Operator):
                     document="""Entity (part for matsum, interface for
         rcforc) where the result will be
         scoped""",
+                ),
+                50: PinSpecification(
+                    name="unit_system",
+                    type_names=[
+                        "int32",
+                        "string",
+                        "class dataProcessing::unit::CUnitSystem",
+                    ],
+                    optional=True,
+                    document="""Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance""",
                 ),
             },
             map_output_pin_spec={
@@ -141,7 +163,7 @@ class interface_contact_area(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -164,6 +186,8 @@ class InputsInterfaceContactArea(_Inputs):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_entity_scoping = dpf.Scoping()
     >>> op.inputs.entity_scoping.connect(my_entity_scoping)
+    >>> my_unit_system = int()
+    >>> op.inputs.unit_system.connect(my_unit_system)
     """
 
     def __init__(self, op: Operator):
@@ -180,6 +204,10 @@ class InputsInterfaceContactArea(_Inputs):
             interface_contact_area._spec().input_pin(6), 6, op, -1
         )
         self._inputs.append(self._entity_scoping)
+        self._unit_system = Input(
+            interface_contact_area._spec().input_pin(50), 50, op, -1
+        )
+        self._inputs.append(self._unit_system)
 
     @property
     def streams_container(self):
@@ -244,6 +272,28 @@ class InputsInterfaceContactArea(_Inputs):
         >>> op.inputs.entity_scoping(my_entity_scoping)
         """
         return self._entity_scoping
+
+    @property
+    def unit_system(self):
+        """Allows to connect unit_system input to the operator.
+
+        Unit system id (int), semicolon-separated
+        list of base unit strings (str) or
+        unitsystem instance
+
+        Parameters
+        ----------
+        my_unit_system : int or str or UnitSystem
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.interface_contact_area()
+        >>> op.inputs.unit_system.connect(my_unit_system)
+        >>> # or
+        >>> op.inputs.unit_system(my_unit_system)
+        """
+        return self._unit_system
 
 
 class OutputsInterfaceContactArea(_Outputs):

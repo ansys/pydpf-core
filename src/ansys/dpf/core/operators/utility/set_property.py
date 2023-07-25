@@ -12,7 +12,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class set_property(Operator):
-    """Set a property to an input field/field container
+    """Sets a property to an input field/field container.
 
     Parameters
     ----------
@@ -69,7 +69,7 @@ class set_property(Operator):
 
     @staticmethod
     def _spec():
-        description = """Set a property to an input field/field container"""
+        description = """Sets a property to an input field/field container."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -131,7 +131,7 @@ class set_property(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

@@ -9,6 +9,7 @@ from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import misc
 from ansys.dpf.core.plotter import plot_chart
 from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
+from ansys.dpf.core import element_types
 
 if misc.module_exists("pyvista"):
     HAS_PYVISTA = True
@@ -70,6 +71,13 @@ def test_plotter_on_mesh(allkindofcomplexity):
     pl = DpfPlotter()
     pl.add_mesh(model.metadata.meshed_region)
     pl.show_figure()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
+def test_plotter_on_mesh_warning_notebook():
+    pl = DpfPlotter()
+    with pytest.warns(expected_warning=UserWarning, match="'notebook' is not a valid kwarg"):
+        pl.show_figure(notebook=False)
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="Please install pyvista")
@@ -514,9 +522,7 @@ def test_plot_path_2(multishells):
     # to use outside of the window:
     # pl = DpfPlotter(notebook=False)
     pl.add_field(field_m, mesh_m, show_max=True, show_min=True)
-    pl.add_field(
-        field, mesh, style="wireframe", show_edges=True, color="w", opacity=0.3
-    )
+    pl.add_field(field, mesh, style="wireframe", show_edges=True, color="w", opacity=0.3)
     pl.show_figure()
 
 
@@ -530,9 +536,7 @@ def test_plot_path_3(multishells):
     # to use outside of the window:
     # pl = DpfPlotter(notebook=False)
     pl.add_field(field_m, mesh_m)
-    pl.add_field(
-        field, mesh, style="wireframe", show_edges=True, color="w", opacity=0.3
-    )
+    pl.add_field(field, mesh, style="wireframe", show_edges=True, color="w", opacity=0.3)
     pl.show_figure()
 
 
@@ -582,6 +586,15 @@ def test_plot_node_labels(multishells):
     )
     a = pl.labels[0]
     assert len(a) == 2
+    pl.show_figure()
+
+    pl = DpfPlotter()
+    my_labels_1 = ["MyNode1", None, "MyNode3"]
+    pl.add_node_labels(
+        mesh_m.nodes,
+        mesh_m,
+        my_labels_1,
+    )
     pl.show_figure()
 
 
@@ -698,14 +711,25 @@ def test_plot_polyhedron():
     ]
     # Define the element connectivity
     element_connectivity = [i for face in faces_connectivity for i in face]
+
     # Define the faces connectivity of the element
     elements_faces = [[0, 1, 2, 3, 4, 5, 6]]
+    # Define the types of faces in the mesh
+    faces_types = [[element_types.Polygon.value]] * 7
+    # Define the types of elements in the mesh
+    cell_types = [[element_types.Polyhedron.value]]
 
     # Create mesh object and add nodes and elements
     mesh = core.MeshedRegion()
     for index, node_coordinates in enumerate(polyhedron_points):
         mesh.nodes.add_node(index, node_coordinates)
     mesh.elements.add_solid_element(0, element_connectivity)
+
+    # Set the "cell_types" PropertyField
+    cell_types_f = core.PropertyField()
+    for cell_index, cell_type in enumerate(cell_types):
+        cell_types_f.append(cell_type, cell_index)
+    mesh.set_property_field("eltype", cell_types_f)
 
     # Set the "faces_nodes_connectivity" PropertyField
     connectivity_f = core.PropertyField()
@@ -718,6 +742,12 @@ def test_plot_polyhedron():
     for element_index, element_faces in enumerate(elements_faces):
         elements_faces_f.append(element_faces, element_index)
     mesh.set_property_field("elements_faces_connectivity", elements_faces_f)
+
+    # Set the "faces_types" PropertyField
+    faces_types_f = core.PropertyField()
+    for face_index, face_type in enumerate(faces_types):
+        faces_types_f.append(face_type, face_index)
+    mesh.set_property_field("faces_type", faces_types_f)
 
     # Plot the MeshedRegion
     mesh.plot()

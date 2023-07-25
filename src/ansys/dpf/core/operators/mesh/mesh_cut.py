@@ -11,21 +11,28 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class mesh_cut(Operator):
-    """Extracts a skin of the mesh in triangles (2D elements) in a new meshed
-    region
+    """Extracts a skin of the mesh in triangles in a new meshed region.
 
     Parameters
     ----------
     field : Field
+        Field containing the values for the iso-
+        surface computation. the mesh can be
+        retrieved from this field's support
+        or through pin 2.
     iso_value : float
         Iso value
-    closed_surface : float
-        1: closed surface, 0:iso surface
+    closed_surface : int
+        1: closed surface, 0: iso surface.
+    mesh : MeshedRegion, optional
+        Mesh to compute the iso-surface from. used
+        when not given through the support of
+        the field in pin 0.
     slice_surfaces : bool
         True: slicing will also take into account
-        shell and 2d elements, false: slicing
-        will ignore shell and 2d elements.
-        default is true
+        shell and skin elements. false:
+        slicing will ignore shell and skin
+        elements. the default is true.
 
 
     Examples
@@ -40,8 +47,10 @@ class mesh_cut(Operator):
     >>> op.inputs.field.connect(my_field)
     >>> my_iso_value = float()
     >>> op.inputs.iso_value.connect(my_iso_value)
-    >>> my_closed_surface = float()
+    >>> my_closed_surface = int()
     >>> op.inputs.closed_surface.connect(my_closed_surface)
+    >>> my_mesh = dpf.MeshedRegion()
+    >>> op.inputs.mesh.connect(my_mesh)
     >>> my_slice_surfaces = bool()
     >>> op.inputs.slice_surfaces.connect(my_slice_surfaces)
 
@@ -50,6 +59,7 @@ class mesh_cut(Operator):
     ...     field=my_field,
     ...     iso_value=my_iso_value,
     ...     closed_surface=my_closed_surface,
+    ...     mesh=my_mesh,
     ...     slice_surfaces=my_slice_surfaces,
     ... )
 
@@ -62,6 +72,7 @@ class mesh_cut(Operator):
         field=None,
         iso_value=None,
         closed_surface=None,
+        mesh=None,
         slice_surfaces=None,
         config=None,
         server=None,
@@ -75,13 +86,16 @@ class mesh_cut(Operator):
             self.inputs.iso_value.connect(iso_value)
         if closed_surface is not None:
             self.inputs.closed_surface.connect(closed_surface)
+        if mesh is not None:
+            self.inputs.mesh.connect(mesh)
         if slice_surfaces is not None:
             self.inputs.slice_surfaces.connect(slice_surfaces)
 
     @staticmethod
     def _spec():
-        description = """Extracts a skin of the mesh in triangles (2D elements) in a new meshed
-            region"""
+        description = (
+            """Extracts a skin of the mesh in triangles in a new meshed region."""
+        )
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -89,7 +103,10 @@ class mesh_cut(Operator):
                     name="field",
                     type_names=["field"],
                     optional=False,
-                    document="""""",
+                    document="""Field containing the values for the iso-
+        surface computation. the mesh can be
+        retrieved from this field's support
+        or through pin 2.""",
                 ),
                 1: PinSpecification(
                     name="iso_value",
@@ -97,20 +114,28 @@ class mesh_cut(Operator):
                     optional=False,
                     document="""Iso value""",
                 ),
-                3: PinSpecification(
+                2: PinSpecification(
                     name="closed_surface",
-                    type_names=["double"],
+                    type_names=["int32"],
                     optional=False,
-                    document="""1: closed surface, 0:iso surface""",
+                    document="""1: closed surface, 0: iso surface.""",
+                ),
+                3: PinSpecification(
+                    name="mesh",
+                    type_names=["meshed_region"],
+                    optional=True,
+                    document="""Mesh to compute the iso-surface from. used
+        when not given through the support of
+        the field in pin 0.""",
                 ),
                 4: PinSpecification(
                     name="slice_surfaces",
                     type_names=["bool"],
                     optional=False,
                     document="""True: slicing will also take into account
-        shell and 2d elements, false: slicing
-        will ignore shell and 2d elements.
-        default is true""",
+        shell and skin elements. false:
+        slicing will ignore shell and skin
+        elements. the default is true.""",
                 ),
             },
             map_output_pin_spec={
@@ -152,7 +177,7 @@ class mesh_cut(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -173,8 +198,10 @@ class InputsMeshCut(_Inputs):
     >>> op.inputs.field.connect(my_field)
     >>> my_iso_value = float()
     >>> op.inputs.iso_value.connect(my_iso_value)
-    >>> my_closed_surface = float()
+    >>> my_closed_surface = int()
     >>> op.inputs.closed_surface.connect(my_closed_surface)
+    >>> my_mesh = dpf.MeshedRegion()
+    >>> op.inputs.mesh.connect(my_mesh)
     >>> my_slice_surfaces = bool()
     >>> op.inputs.slice_surfaces.connect(my_slice_surfaces)
     """
@@ -185,14 +212,21 @@ class InputsMeshCut(_Inputs):
         self._inputs.append(self._field)
         self._iso_value = Input(mesh_cut._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._iso_value)
-        self._closed_surface = Input(mesh_cut._spec().input_pin(3), 3, op, -1)
+        self._closed_surface = Input(mesh_cut._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._closed_surface)
+        self._mesh = Input(mesh_cut._spec().input_pin(3), 3, op, -1)
+        self._inputs.append(self._mesh)
         self._slice_surfaces = Input(mesh_cut._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._slice_surfaces)
 
     @property
     def field(self):
         """Allows to connect field input to the operator.
+
+        Field containing the values for the iso-
+        surface computation. the mesh can be
+        retrieved from this field's support
+        or through pin 2.
 
         Parameters
         ----------
@@ -232,11 +266,11 @@ class InputsMeshCut(_Inputs):
     def closed_surface(self):
         """Allows to connect closed_surface input to the operator.
 
-        1: closed surface, 0:iso surface
+        1: closed surface, 0: iso surface.
 
         Parameters
         ----------
-        my_closed_surface : float
+        my_closed_surface : int
 
         Examples
         --------
@@ -249,13 +283,35 @@ class InputsMeshCut(_Inputs):
         return self._closed_surface
 
     @property
+    def mesh(self):
+        """Allows to connect mesh input to the operator.
+
+        Mesh to compute the iso-surface from. used
+        when not given through the support of
+        the field in pin 0.
+
+        Parameters
+        ----------
+        my_mesh : MeshedRegion
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.mesh_cut()
+        >>> op.inputs.mesh.connect(my_mesh)
+        >>> # or
+        >>> op.inputs.mesh(my_mesh)
+        """
+        return self._mesh
+
+    @property
     def slice_surfaces(self):
         """Allows to connect slice_surfaces input to the operator.
 
         True: slicing will also take into account
-        shell and 2d elements, false: slicing
-        will ignore shell and 2d elements.
-        default is true
+        shell and skin elements. false:
+        slicing will ignore shell and skin
+        elements. the default is true.
 
         Parameters
         ----------

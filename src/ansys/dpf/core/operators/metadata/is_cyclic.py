@@ -11,15 +11,15 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class is_cyclic(Operator):
-    """Read if the model is cyclic form the result file.
+    """Reads if the model is cyclic from the result file.
 
     Parameters
     ----------
     streams_container : StreamsContainer, optional
         Streams (result file container) (optional)
     data_sources : DataSources
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
 
 
     Examples
@@ -58,7 +58,7 @@ class is_cyclic(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read if the model is cyclic form the result file."""
+        description = """Reads if the model is cyclic from the result file."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -72,8 +72,8 @@ class is_cyclic(Operator):
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document="""If the stream is null then we need to get the
-        file path from the data sources""",
+                    document="""If the stream is null, retrieves the file
+        path from the data sources.""",
                 ),
             },
             map_output_pin_spec={
@@ -116,7 +116,7 @@ class is_cyclic(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -170,8 +170,8 @@ class InputsIsCyclic(_Inputs):
     def data_sources(self):
         """Allows to connect data_sources input to the operator.
 
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
 
         Parameters
         ----------

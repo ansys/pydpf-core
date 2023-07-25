@@ -165,15 +165,9 @@ class Nodes:
         elif nodeid is None:
             nodeid = self._mesh._api.meshed_region_get_node_id(self._mesh, nodeindex)
         node_coordinates = [
-            self._mesh._api.meshed_region_get_node_coord(
-                self._mesh, index=nodeindex, coordinate=0
-            ),
-            self._mesh._api.meshed_region_get_node_coord(
-                self._mesh, index=nodeindex, coordinate=1
-            ),
-            self._mesh._api.meshed_region_get_node_coord(
-                self._mesh, index=nodeindex, coordinate=2
-            ),
+            self._mesh._api.meshed_region_get_node_coord(self._mesh, index=nodeindex, coordinate=0),
+            self._mesh._api.meshed_region_get_node_coord(self._mesh, index=nodeindex, coordinate=1),
+            self._mesh._api.meshed_region_get_node_coord(self._mesh, index=nodeindex, coordinate=2),
         ]
         return Node(self._mesh, nodeid, nodeindex, node_coordinates)
 
@@ -328,7 +322,7 @@ class Nodes:
             raise ValueError('Input scope location must be "Nodal"')
         arr = np.array(list(map(self.mapping_id_to_index.get, external_scope.ids)))
         mask = arr != None
-        ind = arr[mask].astype(np.int)
+        ind = arr[mask].astype(np.int32)
         return ind, mask
 
     def add_node(self, id, coordinates):

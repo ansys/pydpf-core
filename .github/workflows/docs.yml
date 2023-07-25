@@ -11,7 +11,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "232"
+        default: "241"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -20,6 +20,16 @@ on:
       custom-requirements:
         description: "Path to requirements.txt file to install"
         required: false
+        type: string
+        default: ''
+      custom-wheels:
+        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
+        required: false
+        type: string
+        default: ''
+      event_name:
+        description: "Name of event calling"
+        required: true
         type: string
         default: ''
 # Can be called manually
@@ -34,7 +44,7 @@ on:
         description: "ANSYS version"
         required: true
         type: string
-        default: "232"
+        default: "241"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -45,22 +55,27 @@ on:
         required: false
         type: string
         default: ''
+      custom-wheels:
+        description: "extra pip --find-links argument to find custom dpf wheels"
+        required: false
+        type: string
+        default: ''
 
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  extra: "--find-links .github/"
 
 jobs:
   doc-style:
     name: "Check doc style"
     uses: ./.github/workflows/docs-style.yml
+    with:
+      vale_reporter: ${{ (inputs.event_name == 'pull_request') && 'github-check' || 'local' }}
     secrets: inherit
 
   docs:
     name: "Documentation"
     runs-on: windows-latest
-    needs: [doc-style]
     steps:
       - uses: actions/checkout@v3
 
@@ -70,16 +85,15 @@ jobs:
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
-          echo "ANSYS_DPF_SERVER_CONTEXT=PREMIUM" >> $GITHUB_ENV
 
       - name: Setup Python
-        uses: actions/setup-python@v4.2.0
+        uses: actions/setup-python@v4.6.0
         with:
           python-version: ${{ inputs.python_version }}
 
       - name: "Build Package"
         id: build-package
-        uses: pyansys/pydpf-actions/build_package@v2.3
+        uses: ansys/pydpf-actions/build_package@v2.3
         with:
           python-version: ${{ inputs.python_version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
@@ -89,7 +103,7 @@ jobs:
           install_extras: plotting
           wheel: false
           wheelhouse: false
-          extra-pip-args: ${{ env.extra }}
+          extra-pip-args: ${{ inputs.custom-wheels && format('--find-links {0}', inputs.custom-wheels) || '' }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
           custom-requirements: ${{ inputs.custom-requirements }}
 
@@ -108,7 +122,7 @@ jobs:
           pip install -r requirements/requirements_docs.txt
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
 
       - name: "List installed packages"
         shell: bash
@@ -119,13 +133,13 @@ jobs:
         working-directory: .ci
         run: |
           build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
-        timeout-minutes: 20
+        timeout-minutes: 60
 
       - name: "Check for success"
         shell: bash
         working-directory: docs
         run: |
-          case `tail -n 5 log.txt | grep -F "build succeeded" >/dev/null; echo $?` in
+          case `grep -F "build succeeded" log.txt >/dev/null; echo $?` in
           0)
             echo "Build succeeded!"
             exit 0;;
@@ -138,7 +152,7 @@ jobs:
           esac
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Retrieve package version"
@@ -157,21 +171,14 @@ jobs:
         if: always()
 
       - name: "Zip HTML Documentation"
-        uses: vimtor/action-zip@v1
-        with:
-          files: docs/build/html
-          dest: HTML-doc-${{env.PACKAGE_NAME}}.zip
+        shell: pwsh
+        run: |
+          Compress-Archive -Path docs/build/html/* -Destination HTML-doc-${{env.PACKAGE_NAME}}.zip
         if: always()
 
       - name: "Upload HTML Documentation"
         uses: actions/upload-artifact@v3
         with:
-          name: HTML-doc-${{env.PACKAGE_NAME}}
-          path: HTML-doc-${{env.PACKAGE_NAME}}.zip
-        if: always()
-
-      - name: "Upload HTML Documentation"
-        uses: actions/upload-artifact@v3
-        with:
-          name: documentation-html
+          name: HTML-doc-${{env.PACKAGE_NAME}}.zip
           path: docs/build/html
+        if: always()

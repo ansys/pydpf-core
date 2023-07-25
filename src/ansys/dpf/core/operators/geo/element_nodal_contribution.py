@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class element_nodal_contribution(Operator):
-    """Compute the fraction of volume attributed to each node of each
+    """Compute the fraction of the volume attributed to each node of each
     element.
 
     Parameters
@@ -21,10 +21,10 @@ class element_nodal_contribution(Operator):
         Integrate the input field over a specific
         scoping.
     volume_fraction : bool, optional
-        If true, returns influence volume, if false,
-        return influence volume fraction
-        (i.e. integrated value of shape
-        function for each node).
+        If true, returns influence volume. if false,
+        returns the influence volume fraction
+        (for example, the integrated value of
+        shape function for each node).
 
 
     Examples
@@ -70,7 +70,7 @@ class element_nodal_contribution(Operator):
 
     @staticmethod
     def _spec():
-        description = """Compute the fraction of volume attributed to each node of each
+        description = """Compute the fraction of the volume attributed to each node of each
             element."""
         spec = Specification(
             description=description,
@@ -92,10 +92,10 @@ class element_nodal_contribution(Operator):
                     name="volume_fraction",
                     type_names=["bool"],
                     optional=True,
-                    document="""If true, returns influence volume, if false,
-        return influence volume fraction
-        (i.e. integrated value of shape
-        function for each node).""",
+                    document="""If true, returns influence volume. if false,
+        returns the influence volume fraction
+        (for example, the integrated value of
+        shape function for each node).""",
                 ),
             },
             map_output_pin_spec={
@@ -139,7 +139,7 @@ class element_nodal_contribution(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -220,10 +220,10 @@ class InputsElementNodalContribution(_Inputs):
     def volume_fraction(self):
         """Allows to connect volume_fraction input to the operator.
 
-        If true, returns influence volume, if false,
-        return influence volume fraction
-        (i.e. integrated value of shape
-        function for each node).
+        If true, returns influence volume. if false,
+        returns the influence volume fraction
+        (for example, the integrated value of
+        shape function for each node).
 
         Parameters
         ----------

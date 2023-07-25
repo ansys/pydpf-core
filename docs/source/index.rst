@@ -18,7 +18,7 @@ or complex data-processing workflows that you can reuse for repeated or
 future evaluations.
 
 The data in DPF is defined based on physics-agnostic mathematical quantities 
-described in self-sufficient entities called *fields*. This allows DPF to be 
+described in self-sufficient entities called **fields**. This allows DPF to be 
 a modular and easy-to-use tool with a large range of capabilities. 
 
 .. image:: images/drawings/dpf-flow.png
@@ -50,7 +50,7 @@ Here is how you plot displacement results:
     >>> disp = model.results.displacement().X()
     >>> model.metadata.meshed_region.plot(disp.outputs.fields_container())
 
-For comprehensive demos, see :ref:`gallery`.
+For comprehensive examples of how you use PyDPF-Core, see :ref:`gallery`.
 
 
 Key features
@@ -67,13 +67,61 @@ DPF is physics-agnostic, which means that its use is not limited to a particular
 field, physics solution, or file format.
 
 **Extensibility and customization**
+
 DPF is developed around two core entities:
 
-- Data represented as a *field*
-- An *operator* to act upon this data
+- Data represented as a **field**
+- An **operator** to act upon this data
 
 Each DPF capability is developed through operators that allow for componentization
 of the framework. Because DPF is plugin-based, new features or formats can be easily added.
+
+Accessing and enriching DPF capabilities
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Most of the DPF capabilities can be accessed using the operators.
+For more information about the existing operators, see the **Operators** tab.
+
+The following sections are summaries. For more detailed content, see :ref:`user_guide_waysofusing`.
+
+**Accessing DPF Server files**
+
+DPF capabilities are accessible when DPF Server files are available. These files can be accessed using:
+
+- The **Ansys installer**. To use it, download the standard installation using your preferred distribution channel,
+and install Ansys following the installer instructions. For information on getting a licensed copy of Ansys,
+visit the `Ansys website <https://www.ansys.com/>`_.
+
+- The DPF Server package (see :ref:`ref_getting_started_with_dpf_server`).
+It is independent of the Ansys installer.
+
+**Accessing capabilities with scripting**
+
+- C++ documentation:
+
+  1. The Data Processing Framework section in `Platform panel <https://ansysapi.ansys.com/account/secured?returnurl=/Views/Secured/main_page.html?lang=en>`_.
+
+  2. `Developer Portal <https://developer.ansys.com/product/DPF-Server-Client-Library/index.xhtml>`_
+
+- CPython modules documentation:
+
+  1. `ansys-dpf-core <https://dpf.docs.pyansys.com/version/stable/>`_
+
+  2. `ansys-dpf-post <https://post.docs.pyansys.com/version/stable/>`_
+
+- Mechanical scripting (IronPython):
+
+  1. `DPF through Automation Scripting <https://ansysproducthelpdev.win.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/act_script/mech_apis_data_process_frame.html>`_
+
+  2. `Python Result object <https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/wb_sim/ds_python_result.html>`_
+
+**Enriching DPF capabilities**
+
+- C++ operator's library (see C++ documentation)
+
+- `C++ solver reader plugin <https://astonishing-hyacinth-e64.notion.site/How-to-write-a-new-solver-reader-as-a-DPF-s-plugin-bd2d2a3cf51f47ef9e70df45d64f89cb>`_
+
+- :ref:`user_guide_custom_operators`
 
 
 .. toctree::

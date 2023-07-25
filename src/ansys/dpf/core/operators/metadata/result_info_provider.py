@@ -11,17 +11,17 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class result_info_provider(Operator):
-    """Read the result info with information sucha as available results or
-    unit system from the results files contained in the streams or
-    data sources.
+    """Reads the result information, such as available results or unit
+    systems from the results files contained in the streams or data
+    sources.
 
     Parameters
     ----------
     streams_container : StreamsContainer, optional
         Streams (result file container) (optional)
     data_sources : DataSources
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
 
 
     Examples
@@ -60,9 +60,9 @@ class result_info_provider(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read the result info with information sucha as available results or
-            unit system from the results files contained in the
-            streams or data sources."""
+        description = """Reads the result information, such as available results or unit
+            systems from the results files contained in the streams or
+            data sources."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -76,8 +76,8 @@ class result_info_provider(Operator):
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document="""If the stream is null then we need to get the
-        file path from the data sources""",
+                    document="""If the stream is null, retrieves the file
+        path from the data sources.""",
                 ),
             },
             map_output_pin_spec={
@@ -119,7 +119,7 @@ class result_info_provider(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -175,8 +175,8 @@ class InputsResultInfoProvider(_Inputs):
     def data_sources(self):
         """Allows to connect data_sources input to the operator.
 
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
 
         Parameters
         ----------

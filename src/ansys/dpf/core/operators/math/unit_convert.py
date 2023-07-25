@@ -12,7 +12,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class unit_convert(Operator):
-    """Convert an input field/fields container or mesh of a given unit to
+    """Converts an input field/fields container or mesh of a given unit to
     another unit.
 
     Parameters
@@ -59,7 +59,7 @@ class unit_convert(Operator):
 
     @staticmethod
     def _spec():
-        description = """Convert an input field/fields container or mesh of a given unit to
+        description = """Converts an input field/fields container or mesh of a given unit to
             another unit."""
         spec = Specification(
             description=description,
@@ -128,7 +128,7 @@ class unit_convert(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

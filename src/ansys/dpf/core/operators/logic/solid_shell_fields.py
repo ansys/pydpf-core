@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class solid_shell_fields(Operator):
-    """Makes a fields based on fields container containing shell and solid
-    fields with respect to time steps/frequencies.
+    """Merges shell and solid fields for each time step/frequency in the
+    fields container.
 
     Parameters
     ----------
@@ -48,8 +48,8 @@ class solid_shell_fields(Operator):
 
     @staticmethod
     def _spec():
-        description = """Makes a fields based on fields container containing shell and solid
-            fields with respect to time steps/frequencies."""
+        description = """Merges shell and solid fields for each time step/frequency in the
+            fields container."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -99,7 +99,7 @@ class solid_shell_fields(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

@@ -11,13 +11,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class meshes_provider(Operator):
-    """Read meshes from result files. Meshes can be spatially or temporally
+    """Reads meshes from result files. Meshes can be spatially or temporally
     varying.
 
     Parameters
     ----------
     time_scoping : Scoping or int, optional
-        Time/freq set ids required in output
+        Time/frequency set ids required in output.
     streams_container : StreamsContainer, optional
         Result file container allowed to be kept open
         to cache data
@@ -25,8 +25,15 @@ class meshes_provider(Operator):
         Result file path container, used if no
         streams are set
     read_cyclic : int, optional
-        If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)
+        If 1, cyclic symmetry is ignored. if 2,
+        cyclic expansion is done (default is
+        1).
+    region_scoping : Scoping or int, optional
+        Region id (integer) or vector of region ids
+        (vector) or region scoping (scoping)
+        of the model (region corresponds to
+        zone for fluid results or part for
+        lsdyna results).
 
 
     Examples
@@ -45,6 +52,8 @@ class meshes_provider(Operator):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_region_scoping = dpf.Scoping()
+    >>> op.inputs.region_scoping.connect(my_region_scoping)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.meshes_provider(
@@ -52,6 +61,7 @@ class meshes_provider(Operator):
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ...     read_cyclic=my_read_cyclic,
+    ...     region_scoping=my_region_scoping,
     ... )
 
     >>> # Get output data
@@ -64,6 +74,7 @@ class meshes_provider(Operator):
         streams_container=None,
         data_sources=None,
         read_cyclic=None,
+        region_scoping=None,
         config=None,
         server=None,
     ):
@@ -78,10 +89,12 @@ class meshes_provider(Operator):
             self.inputs.data_sources.connect(data_sources)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
+        if region_scoping is not None:
+            self.inputs.region_scoping.connect(region_scoping)
 
     @staticmethod
     def _spec():
-        description = """Read meshes from result files. Meshes can be spatially or temporally
+        description = """Reads meshes from result files. Meshes can be spatially or temporally
             varying."""
         spec = Specification(
             description=description,
@@ -90,7 +103,7 @@ class meshes_provider(Operator):
                     name="time_scoping",
                     type_names=["scoping", "vector<int32>", "int32"],
                     optional=True,
-                    document="""Time/freq set ids required in output""",
+                    document="""Time/frequency set ids required in output.""",
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -110,8 +123,19 @@ class meshes_provider(Operator):
                     name="read_cyclic",
                     type_names=["enum dataProcessing::ECyclicReading", "int32"],
                     optional=True,
-                    document="""If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)""",
+                    document="""If 1, cyclic symmetry is ignored. if 2,
+        cyclic expansion is done (default is
+        1).""",
+                ),
+                25: PinSpecification(
+                    name="region_scoping",
+                    type_names=["scoping", "int32", "vector<int32>"],
+                    optional=True,
+                    document="""Region id (integer) or vector of region ids
+        (vector) or region scoping (scoping)
+        of the model (region corresponds to
+        zone for fluid results or part for
+        lsdyna results).""",
                 ),
             },
             map_output_pin_spec={
@@ -153,7 +177,7 @@ class meshes_provider(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -178,6 +202,8 @@ class InputsMeshesProvider(_Inputs):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_region_scoping = dpf.Scoping()
+    >>> op.inputs.region_scoping.connect(my_region_scoping)
     """
 
     def __init__(self, op: Operator):
@@ -190,12 +216,14 @@ class InputsMeshesProvider(_Inputs):
         self._inputs.append(self._data_sources)
         self._read_cyclic = Input(meshes_provider._spec().input_pin(14), 14, op, -1)
         self._inputs.append(self._read_cyclic)
+        self._region_scoping = Input(meshes_provider._spec().input_pin(25), 25, op, -1)
+        self._inputs.append(self._region_scoping)
 
     @property
     def time_scoping(self):
         """Allows to connect time_scoping input to the operator.
 
-        Time/freq set ids required in output
+        Time/frequency set ids required in output.
 
         Parameters
         ----------
@@ -257,8 +285,9 @@ class InputsMeshesProvider(_Inputs):
     def read_cyclic(self):
         """Allows to connect read_cyclic input to the operator.
 
-        If 1 cyclic symmetry is ignored, if 2 cyclic
-        expansion is done (default is 1)
+        If 1, cyclic symmetry is ignored. if 2,
+        cyclic expansion is done (default is
+        1).
 
         Parameters
         ----------
@@ -273,6 +302,30 @@ class InputsMeshesProvider(_Inputs):
         >>> op.inputs.read_cyclic(my_read_cyclic)
         """
         return self._read_cyclic
+
+    @property
+    def region_scoping(self):
+        """Allows to connect region_scoping input to the operator.
+
+        Region id (integer) or vector of region ids
+        (vector) or region scoping (scoping)
+        of the model (region corresponds to
+        zone for fluid results or part for
+        lsdyna results).
+
+        Parameters
+        ----------
+        my_region_scoping : Scoping or int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.meshes_provider()
+        >>> op.inputs.region_scoping.connect(my_region_scoping)
+        >>> # or
+        >>> op.inputs.region_scoping(my_region_scoping)
+        """
+        return self._region_scoping
 
 
 class OutputsMeshesProvider(_Outputs):

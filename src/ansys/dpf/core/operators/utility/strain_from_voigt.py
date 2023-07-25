@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class strain_from_voigt(Operator):
-    """Put strain field from Voigt notation to standard format.
+    """Converts the strain field from Voigt notation into standard format.
 
     Parameters
     ----------
@@ -49,7 +49,9 @@ class strain_from_voigt(Operator):
 
     @staticmethod
     def _spec():
-        description = """Put strain field from Voigt notation to standard format."""
+        description = (
+            """Converts the strain field from Voigt notation into standard format."""
+        )
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -100,7 +102,7 @@ class strain_from_voigt(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

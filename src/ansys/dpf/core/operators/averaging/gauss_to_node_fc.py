@@ -11,10 +11,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class gauss_to_node_fc(Operator):
-    """Extrapolating results available at Gauss or quadrature points to nodal
-    points for a field container. The available elements are : Linear
-    quadrangle , parabolique quadrangle,Linear Hexagonal, quadratic
-    hexagonal , linear tetrahedral, quadratic tetrahedral
+    """Extrapolates results available at Gauss or quadrature points to nodal
+    points for a field container. The available elements are: Linear
+    quadrangle, parabolic quadrangle, linear hexagonal, quadratic
+    hexagonal, linear tetrahedral, and quadratic tetrahedral.
 
     Parameters
     ----------
@@ -25,10 +25,10 @@ class gauss_to_node_fc(Operator):
         gauss or quadrature points to nodal
         points.
     scoping : Scoping, optional
-        Extrapolating results on the scoping selected
-        by the user, if it is scoping
+        Extrapolating results on the selected
+        scoping. if it is a scoping
         container, the label must correspond
-        to the one of the fields container
+        to the one of the fields containers.
 
 
     Examples
@@ -72,11 +72,11 @@ class gauss_to_node_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Extrapolating results available at Gauss or quadrature points to nodal
-            points for a field container. The available elements are :
-            Linear quadrangle , parabolique quadrangle,Linear
-            Hexagonal, quadratic hexagonal , linear tetrahedral,
-            quadratic tetrahedral"""
+        description = """Extrapolates results available at Gauss or quadrature points to nodal
+            points for a field container. The available elements are:
+            Linear quadrangle, parabolic quadrangle, linear hexagonal,
+            quadratic hexagonal, linear tetrahedral, and quadratic
+            tetrahedral."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -99,10 +99,10 @@ class gauss_to_node_fc(Operator):
                     name="scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document="""Extrapolating results on the scoping selected
-        by the user, if it is scoping
+                    document="""Extrapolating results on the selected
+        scoping. if it is a scoping
         container, the label must correspond
-        to the one of the fields container""",
+        to the one of the fields containers.""",
                 ),
             },
             map_output_pin_spec={
@@ -144,7 +144,7 @@ class gauss_to_node_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -223,10 +223,10 @@ class InputsGaussToNodeFc(_Inputs):
     def scoping(self):
         """Allows to connect scoping input to the operator.
 
-        Extrapolating results on the scoping selected
-        by the user, if it is scoping
+        Extrapolating results on the selected
+        scoping. if it is a scoping
         container, the label must correspond
-        to the one of the fields container
+        to the one of the fields containers.
 
         Parameters
         ----------

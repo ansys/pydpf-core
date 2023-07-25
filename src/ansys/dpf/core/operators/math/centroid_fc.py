@@ -20,6 +20,7 @@ class centroid_fc(Operator):
     fields_container : FieldsContainer
     time_freq : float
     step : int, optional
+    time_freq_support : TimeFreqSupport, optional
 
 
     Examples
@@ -36,12 +37,15 @@ class centroid_fc(Operator):
     >>> op.inputs.time_freq.connect(my_time_freq)
     >>> my_step = int()
     >>> op.inputs.step.connect(my_step)
+    >>> my_time_freq_support = dpf.TimeFreqSupport()
+    >>> op.inputs.time_freq_support.connect(my_time_freq_support)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.math.centroid_fc(
     ...     fields_container=my_fields_container,
     ...     time_freq=my_time_freq,
     ...     step=my_step,
+    ...     time_freq_support=my_time_freq_support,
     ... )
 
     >>> # Get output data
@@ -49,7 +53,13 @@ class centroid_fc(Operator):
     """
 
     def __init__(
-        self, fields_container=None, time_freq=None, step=None, config=None, server=None
+        self,
+        fields_container=None,
+        time_freq=None,
+        step=None,
+        time_freq_support=None,
+        config=None,
+        server=None,
     ):
         super().__init__(name="centroid_fc", config=config, server=server)
         self._inputs = InputsCentroidFc(self)
@@ -60,6 +70,8 @@ class centroid_fc(Operator):
             self.inputs.time_freq.connect(time_freq)
         if step is not None:
             self.inputs.step.connect(step)
+        if time_freq_support is not None:
+            self.inputs.time_freq_support.connect(time_freq_support)
 
     @staticmethod
     def _spec():
@@ -84,6 +96,12 @@ class centroid_fc(Operator):
                 2: PinSpecification(
                     name="step",
                     type_names=["int32"],
+                    optional=True,
+                    document="""""",
+                ),
+                8: PinSpecification(
+                    name="time_freq_support",
+                    type_names=["time_freq_support"],
                     optional=True,
                     document="""""",
                 ),
@@ -127,7 +145,7 @@ class centroid_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -150,6 +168,8 @@ class InputsCentroidFc(_Inputs):
     >>> op.inputs.time_freq.connect(my_time_freq)
     >>> my_step = int()
     >>> op.inputs.step.connect(my_step)
+    >>> my_time_freq_support = dpf.TimeFreqSupport()
+    >>> op.inputs.time_freq_support.connect(my_time_freq_support)
     """
 
     def __init__(self, op: Operator):
@@ -160,6 +180,8 @@ class InputsCentroidFc(_Inputs):
         self._inputs.append(self._time_freq)
         self._step = Input(centroid_fc._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._step)
+        self._time_freq_support = Input(centroid_fc._spec().input_pin(8), 8, op, -1)
+        self._inputs.append(self._time_freq_support)
 
     @property
     def fields_container(self):
@@ -214,6 +236,24 @@ class InputsCentroidFc(_Inputs):
         >>> op.inputs.step(my_step)
         """
         return self._step
+
+    @property
+    def time_freq_support(self):
+        """Allows to connect time_freq_support input to the operator.
+
+        Parameters
+        ----------
+        my_time_freq_support : TimeFreqSupport
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.centroid_fc()
+        >>> op.inputs.time_freq_support.connect(my_time_freq_support)
+        >>> # or
+        >>> op.inputs.time_freq_support(my_time_freq_support)
+        """
+        return self._time_freq_support
 
 
 class OutputsCentroidFc(_Outputs):

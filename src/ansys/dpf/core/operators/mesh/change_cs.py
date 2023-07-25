@@ -12,8 +12,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class change_cs(Operator):
-    """Apply a transformation (rotation and displacement) matrix on a mesh or
-    meshes container.
+    """Applies a transformation (rotation and displacement) matrix on a mesh
+    or meshes container.
 
     Parameters
     ----------
@@ -57,8 +57,8 @@ class change_cs(Operator):
 
     @staticmethod
     def _spec():
-        description = """Apply a transformation (rotation and displacement) matrix on a mesh or
-            meshes container."""
+        description = """Applies a transformation (rotation and displacement) matrix on a mesh
+            or meshes container."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -115,7 +115,7 @@ class change_cs(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

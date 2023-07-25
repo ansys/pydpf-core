@@ -11,9 +11,10 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class ascending_sort(Operator):
-    """Sort a field (in 0) in ascending order, with an optional component
-    priority table or a boolean to enable sort by scoping (in 1). This
-    operator doesn't support multiple elementary data per entity.
+    """Sort a field (in 0) in ascending order with an optional component
+    priority table, or a boolean, to enable sort by scoping (in 1).
+    This operator does not support multiple elementary data per
+    entity.
 
     Parameters
     ----------
@@ -73,10 +74,10 @@ class ascending_sort(Operator):
 
     @staticmethod
     def _spec():
-        description = """Sort a field (in 0) in ascending order, with an optional component
-            priority table or a boolean to enable sort by scoping (in
-            1). This operator doesn't support multiple elementary data
-            per entity."""
+        description = """Sort a field (in 0) in ascending order with an optional component
+            priority table, or a boolean, to enable sort by scoping
+            (in 1). This operator does not support multiple elementary
+            data per entity."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -140,7 +141,7 @@ class ascending_sort(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

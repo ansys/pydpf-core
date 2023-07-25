@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class nodal_to_elemental(Operator):
-    """Transform Nodal field to Elemental field, compute result on a given
-    element scoping.
+    """Transforms a Nodal field to an Elemental field, The result is computed
+    on a given element's scoping.
 
     Parameters
     ----------
@@ -21,8 +21,8 @@ class nodal_to_elemental(Operator):
         is expected
     mesh_scoping : Scoping, optional
     collapse_shell_layers : bool, optional
-        If true shell layers are averaged as well
-        (default is false)
+        If true, shell layers are averaged as well
+        (default is false).
 
 
     Examples
@@ -71,8 +71,8 @@ class nodal_to_elemental(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transform Nodal field to Elemental field, compute result on a given
-            element scoping."""
+        description = """Transforms a Nodal field to an Elemental field, The result is computed
+            on a given element's scoping."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -93,8 +93,8 @@ class nodal_to_elemental(Operator):
                     name="collapse_shell_layers",
                     type_names=["bool"],
                     optional=True,
-                    document="""If true shell layers are averaged as well
-        (default is false)""",
+                    document="""If true, shell layers are averaged as well
+        (default is false).""",
                 ),
             },
             map_output_pin_spec={
@@ -136,7 +136,7 @@ class nodal_to_elemental(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -215,8 +215,8 @@ class InputsNodalToElemental(_Inputs):
     def collapse_shell_layers(self):
         """Allows to connect collapse_shell_layers input to the operator.
 
-        If true shell layers are averaged as well
-        (default is false)
+        If true, shell layers are averaged as well
+        (default is false).
 
         Parameters
         ----------

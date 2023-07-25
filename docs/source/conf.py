@@ -1,9 +1,11 @@
 import os
+from glob import glob
 from datetime import datetime
 
 import numpy as np
 import pyvista
-from ansys.dpf.core import __version__
+from ansys.dpf.core import __version__, server, server_factory
+from ansys.dpf.core.examples import get_example_required_minimum_dpf_version
 from ansys_sphinx_theme import pyansys_logo_black, ansys_favicon, get_version_match
 
 # Manage errors
@@ -12,7 +14,7 @@ pyvista.set_error_output_file("errors.txt")
 pyvista.OFF_SCREEN = True
 # Preferred plotting style for documentation
 # pyvista.set_plot_theme('document')
-pyvista.rcParams["window_size"] = np.array([1024, 768]) * 2
+pyvista.global_theme.window_size = np.array([1024, 768]) * 2
 # Save figures in specified directory
 pyvista.FIGURE_PATH = os.path.join(os.path.abspath("./images/"), "auto-generated/")
 if not os.path.exists(pyvista.FIGURE_PATH):
@@ -28,7 +30,7 @@ pyvista.global_theme.lighting = False
 project = "PyDPF-Core"
 copyright = f"(c) {datetime.now().year} ANSYS, Inc. All rights reserved"
 author = "ANSYS Inc."
-cname = os.getenv("DOCUMENTATION_CNAME", "nocname.com")
+cname = os.getenv("DOCUMENTATION_CNAME", "dpf.docs.pyansys.com")
 
 # The short X.Y version
 version = __version__
@@ -36,6 +38,28 @@ version = __version__
 # The full version, including alpha/beta/rc tags
 release = __version__
 
+# -- Rename files to be ignored with the ignored pattern ---------------------
+
+# Get the DPF server version
+server_instance = server.start_local_server(
+    as_global=False,
+    config=server_factory.AvailableServerConfigs.GrpcServer,
+)
+server_version = server_instance.version
+server.shutdown_all_session_servers()
+print(f"DPF version: {server_version}")
+
+# Build ignore pattern
+ignored_pattern = r"(ignore"
+header_flag = "\"\"\""
+note_flag = r".. note::"
+for example in glob(r"../../examples/**/*.py"):
+    minimum_version_str = get_example_required_minimum_dpf_version(example)
+    if float(server_version) - float(minimum_version_str) < -0.05:
+        example_name = example.split(os.path.sep)[-1]
+        print(f"Example {example_name} skipped as it requires DPF {minimum_version_str}.")
+        ignored_pattern += f"|{example_name}"
+ignored_pattern += r")"
 
 # -- General configuration ---------------------------------------------------
 
@@ -50,6 +74,7 @@ extensions = [
     "enum_tools.autoenum",
     "nbsphinx",
     "pydata_sphinx_theme",
+    "sphinx.ext.autosectionlabel",
     "sphinx.ext.autodoc",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
@@ -120,7 +145,7 @@ def reset_servers(gallery_conf, fname, when):
                 nb_procs += 1
         except psutil.NoSuchProcess:
             pass
-    print(f"Counted {nb_procs} {proc_name} processes {when} the example.")
+    print(f"Counted {nb_procs} {proc_name} processes {when} example {fname}.")
 
 
 sphinx_gallery_conf = {
@@ -134,6 +159,8 @@ sphinx_gallery_conf = {
     "gallery_dirs": ["examples"],
     # Pattern to search for example files
     "filename_pattern": r"\.py",
+    # Pattern to search for example files to be ignored
+    "ignore_pattern": ignored_pattern,
     # Remove the "Download all examples" button from the top level gallery
     "download_all_examples": False,
     # Sort gallery example by file name instead of number of lines (default)
@@ -157,14 +184,14 @@ html_theme = "ansys_sphinx_theme"
 html_logo = pyansys_logo_black
 html_favicon = ansys_favicon
 html_theme_options = {
-    "github_url": "https://github.com/pyansys/pydpf-core",
+    "github_url": "https://github.com/ansys/pydpf-core",
     "show_prev_next": False,
     "show_breadcrumbs": True,
     "additional_breadcrumbs": [
         ("PyAnsys", "https://docs.pyansys.com/"),
     ],
     "switcher": {
-        "json_url": f"https://{cname}/release/versions.json",
+        "json_url": f"https://{cname}/versions.json",
         "version_match": get_version_match(__version__),
     },
     "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],

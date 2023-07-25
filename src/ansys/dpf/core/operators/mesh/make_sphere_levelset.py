@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class make_sphere_levelset(Operator):
-    """Compute the levelset for a sphere using coordinates.
+    """Computes the level set for a sphere using coordinates.
 
     Parameters
     ----------
@@ -64,7 +64,7 @@ class make_sphere_levelset(Operator):
 
     @staticmethod
     def _spec():
-        description = """Compute the levelset for a sphere using coordinates."""
+        description = """Computes the level set for a sphere using coordinates."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -127,7 +127,7 @@ class make_sphere_levelset(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

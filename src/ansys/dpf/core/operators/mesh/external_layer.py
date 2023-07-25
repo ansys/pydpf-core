@@ -12,7 +12,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class external_layer(Operator):
     """Extracts the external layer (thick skin) of the mesh (3D elements) in
-    a new meshed region
+    a new meshed region.
 
     Parameters
     ----------
@@ -53,7 +53,7 @@ class external_layer(Operator):
     @staticmethod
     def _spec():
         description = """Extracts the external layer (thick skin) of the mesh (3D elements) in
-            a new meshed region"""
+            a new meshed region."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -117,7 +117,7 @@ class external_layer(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

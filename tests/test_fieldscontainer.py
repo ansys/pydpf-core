@@ -64,10 +64,7 @@ def test_set_get_field_fields_container(server_type):
         fieldid = fc.get_field({"time": i + 1, "complex": 0})._internal_obj
         assert fieldid != None
         assert fc.get_field(i)._internal_obj != None
-        assert (
-            fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._internal_obj
-            != None
-        )
+        assert fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._internal_obj != None
         assert fc[i]._internal_obj != None
 
 
@@ -92,10 +89,7 @@ def test_set_get_field_fields_container_new_label(server_type):
     for i in range(0, 20):
         assert fc.get_field({"time": i + 1, "complex": 0})._internal_obj != None
         assert fc.get_field(i)._internal_obj != None
-        assert (
-            fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._internal_obj
-            != None
-        )
+        assert fc.get_field_by_time_complex_ids(timeid=i + 1, complexid=0)._internal_obj != None
         assert fc[i]._internal_obj != None
         assert fc.get_label_space(i) == {"time": i + 1, "complex": 0}
     fc.add_label("shape")
@@ -106,10 +100,7 @@ def test_set_get_field_fields_container_new_label(server_type):
     assert len(fc.get_fields({"time": i + 1, "complex": 0})) == 2
 
     for i in range(0, 20):
-        fieldid = (
-            fc.get_field({"time": i + 1, "complex": 0, "shape": 1})._internal_obj
-            != None
-        )
+        fieldid = fc.get_field({"time": i + 1, "complex": 0, "shape": 1})._internal_obj != None
         assert fieldid != 0
         assert fc.get_field(i + 20)._internal_obj != None
         assert fc[i]._internal_obj != None
@@ -404,9 +395,7 @@ def test_mat_time_fc():
     fc = model.results.stress.on_all_time_freqs.split_by_body.eval()
     assert isinstance(fc, BodyFieldsContainer)
     assert len(fc.get_fields_by_mat_id(45)) == 45
-    assert np.allclose(
-        fc.get_fields_by_mat_id(45)[0].data, fc.get_field_by_mat_id(45, 1).data
-    )
+    assert np.allclose(fc.get_fields_by_mat_id(45)[0].data, fc.get_field_by_mat_id(45, 1).data)
     assert len(fc.get_mat_scoping().ids) == 32
 
 
@@ -432,9 +421,7 @@ def test_add_operator_fields_container():
     out = add.outputs.fields_container()
     assert len(out) == 2
     assert np.allclose(out[0].scoping.ids, [1, 2])
-    assert np.allclose(
-        out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]])
-    )
+    assert np.allclose(out[0].data, field.data + np.array([[0.0, 1.0, 2.0], [0.0, 1.0, 2.0]]))
 
     # fc + float
     add = fc + 1.0
@@ -516,9 +503,30 @@ def test_dot_operator_fields_container():
     assert np.allclose(out[0].data, -field.data)
 
 
+def test_fields_container_factory_with_dict():
+    field1 = dpf.Field()
+    field1.data = [1, 2, 3]
+    field2 = dpf.Field()
+    field2.data = [2, 3, 4]
+    fields_container = dpf.fields_container_factory.over_time_freq_fields_container(
+        fields={0.1: field1, 0.2: field2}
+    )
+
+    assert fields_container[0].unit == ""
+
+
 def test_fields_container_get_time_scoping(server_type, disp_fc):
     freq_scoping = disp_fc.get_time_scoping()
     assert freq_scoping.size == 1
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_fields_container_empty_tf_support(server_type):
+    fields_container = dpf.FieldsContainer(server=server_type)
+
+    assert fields_container.time_freq_support == None
 
 
 if __name__ == "__main__":

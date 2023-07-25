@@ -23,19 +23,19 @@ class on_property(Operator):
         "mapdl_element_type_id",
         "apdl_type_index", "mapdl_type_id",
         "material", "apdl_section_id",
-        "apdl_real_id", "shell_axi",
-        "volume_axi"...
+        "apdl_real_id", "apdl_esys_id",
+        "shell_axi", "volume_axi"...
     property_id : int
     streams_container : StreamsContainer, optional
     data_sources : DataSources
     inclusive : int, optional
         If element scoping is requested on a nodal
         named selection, if inclusive == 1
-        then all the elements adjacent to the
-        nodes ids in input are added, if
-        inclusive == 0, only the elements
-        which have all their nodes in the
-        scoping are included
+        then all the elements/faces adjacent
+        to the nodes ids in input are added,
+        if inclusive == 0, only the
+        elements/faces which have all their
+        nodes in the scoping are included
 
 
     Examples
@@ -121,8 +121,8 @@ class on_property(Operator):
         "mapdl_element_type_id",
         "apdl_type_index", "mapdl_type_id",
         "material", "apdl_section_id",
-        "apdl_real_id", "shell_axi",
-        "volume_axi"...""",
+        "apdl_real_id", "apdl_esys_id",
+        "shell_axi", "volume_axi"...""",
                 ),
                 2: PinSpecification(
                     name="property_id",
@@ -148,11 +148,11 @@ class on_property(Operator):
                     optional=True,
                     document="""If element scoping is requested on a nodal
         named selection, if inclusive == 1
-        then all the elements adjacent to the
-        nodes ids in input are added, if
-        inclusive == 0, only the elements
-        which have all their nodes in the
-        scoping are included""",
+        then all the elements/faces adjacent
+        to the nodes ids in input are added,
+        if inclusive == 0, only the
+        elements/faces which have all their
+        nodes in the scoping are included""",
                 ),
             },
             map_output_pin_spec={
@@ -194,7 +194,7 @@ class on_property(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -268,8 +268,8 @@ class InputsOnProperty(_Inputs):
         "mapdl_element_type_id",
         "apdl_type_index", "mapdl_type_id",
         "material", "apdl_section_id",
-        "apdl_real_id", "shell_axi",
-        "volume_axi"...
+        "apdl_real_id", "apdl_esys_id",
+        "shell_axi", "volume_axi"...
 
         Parameters
         ----------
@@ -345,11 +345,11 @@ class InputsOnProperty(_Inputs):
 
         If element scoping is requested on a nodal
         named selection, if inclusive == 1
-        then all the elements adjacent to the
-        nodes ids in input are added, if
-        inclusive == 0, only the elements
-        which have all their nodes in the
-        scoping are included
+        then all the elements/faces adjacent
+        to the nodes ids in input are added,
+        if inclusive == 0, only the
+        elements/faces which have all their
+        nodes in the scoping are included
 
         Parameters
         ----------

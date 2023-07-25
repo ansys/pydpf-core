@@ -20,6 +20,7 @@ from ansys.dpf.core.common import types_enum_to_types
 from ansys.dpf.core.outputs import Output, Outputs, _Outputs
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core.operator_specification import Specification
+from ansys.dpf.core.unit_system import UnitSystem
 from ansys.dpf.gate import (
     operator_capi,
     operator_abstract_api,
@@ -111,9 +112,7 @@ class Operator:
 
         # step4: if object exists: take instance, else create it (server)
         if self._server.has_client():
-            self._internal_obj = self._api.operator_new_on_client(
-                self.name, self._server.client
-            )
+            self._internal_obj = self._api.operator_new_on_client(self.name, self._server.client)
         else:
             self._internal_obj = self._api.operator_new(self.name)
 
@@ -206,7 +205,7 @@ class Operator:
             Number of the input pin.
 
         inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
-        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs
+        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, dict, Outputs
             Operator, os.PathLike Object to connect to.
 
         pin_out : int, optional
@@ -233,9 +232,7 @@ class Operator:
         elif isinstance(inpt, Operator):
             self._api.operator_connect_operator_output(self, pin, inpt, pin_out)
         elif isinstance(inpt, Output):
-            self._api.operator_connect_operator_output(
-                self, pin, inpt._operator, inpt._pin
-            )
+            self._api.operator_connect_operator_output(self, pin, inpt._operator, inpt._pin)
         elif isinstance(inpt, list):
             from ansys.dpf.core import collection
 
@@ -254,6 +251,11 @@ class Operator:
                 label_space=inpt, obj=self, server=self._server
             )
             self._api.operator_connect_label_space(self, pin, label_space_to_con)
+        elif isinstance(inpt, UnitSystem):
+            if inpt.ID != -2:  # Ansys UnitSystem
+                self.connect(pin, inpt.ID)
+            else:  # Custom UnitSystem
+                self.connect(pin, inpt.unit_names)
         else:
             if isinstance(inpt, os.PathLike):
                 inpt = str(inpt)
@@ -264,6 +266,18 @@ class Operator:
                     return type_tuple[1](self, pin, inpt)
             errormsg = f"input type {inpt.__class__} cannot be connected"
             raise TypeError(errormsg)
+
+    @version_requires("6.2")
+    def connect_operator_as_input(self, pin, op):
+        """Connects an operator as an input on a pin.
+        Parameters
+        ----------
+        pin : int
+            Number of the output pin. The default is ``0``.
+        op : :class:`ansys.dpf.core.dpf_operator.Operator`
+            Requested type of the output. The default is ``None``.
+        """
+        self._api.operator_connect_operator_as_input(self, pin, op)
 
     @property
     def _type_to_output_method(self):
@@ -285,9 +299,11 @@ class Operator:
             workflow,
             collection,
             streams_container,
+            generic_data_container,
+            mesh_info,
         )
 
-        return [
+        out = [
             (bool, self._api.operator_getoutput_bool),
             (int, self._api.operator_getoutput_int),
             (str, self._api.operator_getoutput_string),
@@ -354,6 +370,10 @@ class Operator:
                 self._api.operator_getoutput_time_freq_support,
                 "time_freq_support",
             ),
+            (
+                mesh_info.MeshInfo,
+                "mesh_info",
+            ),
             (workflow.Workflow, self._api.operator_getoutput_workflow, "workflow"),
             (data_tree.DataTree, self._api.operator_getoutput_data_tree, "data_tree"),
             (Operator, self._api.operator_getoutput_operator, "operator"),
@@ -372,6 +392,15 @@ class Operator:
                 ).get_integral_entries(),
             ),
         ]
+        if hasattr(self._api, "operator_getoutput_generic_data_container"):
+            out.append(
+                (
+                    generic_data_container.GenericDataContainer,
+                    self._api.operator_getoutput_generic_data_container,
+                    "generic_data_container",
+                )
+            )
+        return out
 
     @property
     def _type_to_input_method(self):
@@ -389,9 +418,10 @@ class Operator:
             data_tree,
             workflow,
             model,
+            generic_data_container,
         )
 
-        return [
+        out = [
             (bool, self._api.operator_connect_bool),
             ((int, Enum), self._api.operator_connect_int),
             (str, self._api.operator_connect_string),
@@ -422,6 +452,14 @@ class Operator:
             (data_tree.DataTree, self._api.operator_connect_data_tree),
             (Operator, self._api.operator_connect_operator_as_input),
         ]
+        if hasattr(self._api, "operator_connect_generic_data_container"):
+            out.append(
+                (
+                    generic_data_container.GenericDataContainer,
+                    self._api.operator_connect_generic_data_container,
+                )
+            )
+        return out
 
     def get_output(self, pin=0, output_type=None):
         """Retrieve the output of the operator on the pin number.
@@ -443,8 +481,8 @@ class Operator:
         """
         output_type = _write_output_type_to_type(output_type)
         if self._server.meet_version("3.0") and self.progress_bar:
-            self._server._session.add_operator(self, pin, "operator")
-            self._progress_thread = self._server._session.listen_to_progress()
+            self._server.session.add_operator(self, pin, "operator")
+            self._progress_thread = self._server.session.listen_to_progress()
         if output_type is None:
             return self._api.operator_run(self)
         out = None
@@ -458,9 +496,7 @@ class Operator:
                         out = type_tuple[2](type_tuple[1](self, pin))
                 if out is None:
                     try:
-                        return output_type(
-                            type_tuple[1](self, pin), server=self._server
-                        )
+                        return output_type(type_tuple[1](self, pin), server=self._server)
                     except TypeError:
                         self._progress_thread = None
                         return output_type(type_tuple[1](self, pin))
@@ -474,12 +510,26 @@ class Operator:
         """Copy of the operator's current configuration.
 
         You can modify the copy of the configuration and then use ``operator.config = new_config``
-        or create an operator with the new configuration as a parameter.
+        or instantiate an operator with the new configuration as a parameter.
+
+        For information on an operator's options, see the documentation for that operator.
 
         Returns
         ----------
         :class:`ansys.dpf.core.config.Config`
             Copy of the operator's current configuration.
+
+        Examples
+        --------
+        Modify the copy of an operator's configuration and set it as current config
+        of the operator.
+
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.math.add()
+        >>> config_add = op.config
+        >>> config_add.set_work_by_index_option(True)
+        >>> op.config = config_add
+
         """
         config = self._api.operator_get_config(self)
         return Config(config=config, server=self._server, spec=self._spec)
@@ -631,9 +681,7 @@ class Operator:
                 if output._pin == pin:
                     return output()
 
-    def _find_outputs_corresponding_pins(
-        self, type_names, inpt, pin, corresponding_pins
-    ):
+    def _find_outputs_corresponding_pins(self, type_names, inpt, pin, corresponding_pins):
         from ansys.dpf.core.results import Result
 
         for python_name in type_names:
@@ -649,9 +697,7 @@ class Operator:
                 if isinstance(inpt, Operator):
                     output_pin_available = inpt.outputs._get_given_output([python_name])
                 elif isinstance(inpt, Result):
-                    output_pin_available = inpt().outputs._get_given_output(
-                        [python_name]
-                    )
+                    output_pin_available = inpt().outputs._get_given_output([python_name])
                 else:
                     output_pin_available = inpt._get_given_output([python_name])
                 for outputpin in output_pin_available:
@@ -721,14 +767,10 @@ class Operator:
         """
         from ansys.dpf.core import dpf_operator, operators
 
-        if hasattr(operators, "math") and hasattr(
-            operators.math, "generalized_inner_product_fc"
-        ):
+        if hasattr(operators, "math") and hasattr(operators.math, "generalized_inner_product_fc"):
             op = operators.math.generalized_inner_product_fc(server=self._server)
         else:
-            op = dpf_operator.Operator(
-                "generalized_inner_product_fc", server=self._server
-            )
+            op = dpf_operator.Operator("generalized_inner_product_fc", server=self._server)
         op.connect(0, self)
         op.connect(1, value)
         return op
@@ -803,9 +845,7 @@ def available_operator_names(server=None):
     if server.has_client():
         coll_obj = object_handler.ObjHandler(
             data_processing_api=api,
-            internal_obj=api.data_processing_list_operators_as_collection_on_client(
-                server.client
-            ),
+            internal_obj=api.data_processing_list_operators_as_collection_on_client(server.client),
         )
     else:
         coll_obj = object_handler.ObjHandler(

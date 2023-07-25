@@ -39,8 +39,7 @@ def field_from_array(arr, server=None):
         raise TypeError("Array must be a numeric type")
 
     shp_err = ValueError(
-        "Array must be either contain 1 dimension or "
-        "2 dimensions with three components."
+        "Array must be either contain 1 dimension or " "2 dimensions with three components."
     )
     if arr.ndim == 1:
         nature = natures.scalar
@@ -64,12 +63,10 @@ def field_from_array(arr, server=None):
     return field
 
 
-def create_matrix_field(
-    num_entities, num_lines, num_col, location=locations.nodal, server=None
-):
+def create_matrix_field(num_entities, num_lines, num_col, location=locations.nodal, server=None):
     """Create a matrix :class:`ansys.dpf.core.Field`.
 
-    This field contain entities that have a matrix format. This is a "reserve" mechanism,
+    This field contains entities that have a matrix format. This is a "reserve" mechanism,
     not a resize one. This means that you need to append data to grow the size of your field.
 
     Parameters
@@ -81,12 +78,8 @@ def create_matrix_field(
     num_col : int
         Number of matrix columns.
     location : str, optional
-        Location of the field. The default is ``"Nodal"``. For example:
-
-        - :class:`ansys.dpf.core.natures.nodal` (``"Nodal"``)
-        - :class:`ansys.dpf.core.natures.elemental` (``"Elemental"``)
-        - :class:`ansys.dpf.core.natures.elemental_nodal` (``"ElementalNodal"``)
-        - ...
+        Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
+        The default is ``dpf.locations.nodal``.
 
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
@@ -129,12 +122,8 @@ def create_3d_vector_field(num_entities, location=locations.nodal, server=None):
         Number of entities to reserve
 
     location : str, optional
-        Location of the field. The default is ``"Nodal"``. For example:
-
-        - ansys.dpf.core.natures.nodal (``"Nodal"``)
-        - ansys.dpf.core.natures.elemental (``"Elemental"``)
-        - ansys.dpf.core.natures.elemental_nodal (``"ElementalNodal"``)
-        - ...
+        Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
+        The default is ``dpf.locations.nodal``.
 
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
@@ -168,12 +157,8 @@ def create_tensor_field(num_entities, location=locations.nodal, server=None):
     num_entities : int
         Number of entities to reserve.
     location : str, optional
-        Location of the field. The default is ``"Nodal"``. For example:
-
-        - :class:`ansys.dpf.core.natures.nodal` (``"Nodal"``)
-        - :class:`ansys.dpf.core.natures.elemental` (``"Elemental"``)
-        - :class:`ansys.dpf.core.natures.elemental_nodal` (``"ElementalNodal"``)
-        - ...
+        Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
+        The default is ``dpf.locations.nodal``.
 
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
@@ -207,12 +192,8 @@ def create_scalar_field(num_entities, location=locations.nodal, server=None):
     num_entities : int
         Number of entities to reserve
     location : str, optional
-        Location of the field. The default is ``"Nodal"``. For example:
-
-        - ansys.dpf.core.natures.nodal (``"Nodal"``)
-        - ansys.dpf.core.natures.elemental (``"Elemental"``)
-        - ansys.dpf.core.natures.elemental_nodal (``"ElementalNodal"``)
-        - ...
+        Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
+        The default is ``dpf.locations.nodal``.
 
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
@@ -248,12 +229,8 @@ def create_vector_field(num_entities, num_comp, location=locations.nodal, server
     num_comp : int
         Number of vector components.
     location : str, optional
-        Location of the field. The default is ``"Nodal"``. For example:
-
-        - ansys.dpf.core.natures.nodal (``"Nodal"``)
-        - ansys.dpf.core.natures.elemental (``"Elemental"``)
-        - ansys.dpf.core.natures.elemental_nodal (``"ElementalNodal"``)
-        - ...
+        Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
+        The default is ``dpf.locations.nodal``.
 
     server : ansys.dpf.core.server, optional
         Server with the channel connected to the remote or local instance.
@@ -274,14 +251,10 @@ def create_vector_field(num_entities, num_comp, location=locations.nodal, server
     >>> field = fields_factory.create_vector_field(3, 5)
 
     """
-    return _create_field(
-        server, natures.vector, num_entities, location, ncomp_n=num_comp
-    )
+    return _create_field(server, natures.vector, num_entities, location, ncomp_n=num_comp)
 
 
-def _create_field(
-    server, nature, nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0
-):
+def _create_field(server, nature, nentities, location=locations.nodal, ncomp_n=0, ncomp_m=0):
     """Create a specific :class:`ansys.dpf.core.Field`.
 
     This is a "reserve" mechanism, not a resize one. This means that you
@@ -293,22 +266,18 @@ def _create_field(
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
-    snature : str
+    nature : str
         Nature of the field entity data. For example:
 
         - :class:`ansys.dpf.core.natures.matrix`
         - :class:`ansys.dpf.core.natures.scalar`
 
-    num_entities : int
+    nentities : int
         Number of entities to reserve.
 
     location : str, optional
-        Location of the field. For example:
-
-        - :class:`ansys.dpf.core.natures.nodal` (``"Nodal"``)
-        - :class:`ansys.dpf.core.natures.elemental` (``"Elemental"``)
-        - :class:`ansys.dpf.core.natures.elemental_nodal` (``"ElementalNodal"``)
-        - ...
+        Location of the field. Options are in :class:`locations <ansys.dpf.core.common.locations>`.
+        The default is ``dpf.locations.nodal``.
 
     ncomp_n : int
         Number of lines.
@@ -322,9 +291,7 @@ def _create_field(
     """
     if server is None:
         server = server_module.get_or_create_server(server)
-    api = server.get_api_for_type(
-        capi=field_capi.FieldCAPI, grpcapi=field_grpcapi.FieldGRPCAPI
-    )
+    api = server.get_api_for_type(capi=field_capi.FieldCAPI, grpcapi=field_grpcapi.FieldGRPCAPI)
     api.init_field_environment(server)
     internal_obj = Field._field_create_internal_obj(
         api=api,

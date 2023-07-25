@@ -13,11 +13,11 @@ Start the DPF server
 ~~~~~~~~~~~~~~~~~~~~~
 When using PyDPF-Core to start the server with the
 :py:meth:`start_local_server() <ansys.dpf.core.server.start_local_server>` method
-or when starting the server manually with the ``Ans.Dpf.Grpc.sh``or ``Ans.Dpf.Grpc.bat``
+or when starting the server manually with the ``Ans.Dpf.Grpc.sh`` or ``Ans.Dpf.Grpc.bat``
 file, a Python error might occur: ``TimeoutError: Server did not start in 10 seconds``.
 This kind of error might mean that the server or its dependencies were not found. Ensure that
-the environment variable ``AWP_ROOT{VER}`` is set, where ``VER``is  the three-digit numeric
-format for the version, such as ``221`` or ``222``.
+the ``AWP_ROOT{VER}`` environment variable is set when using DPF from an Ansys unified install,
+where ``VER`` is the three-digit numeric format for the version, such as ``221`` or ``222``.
 
 Connect to the DPF server
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -75,13 +75,13 @@ When trying to plot a result with DPF, the following error might be raised:
 
     ModuleNotFoundError: No module named 'pyvista'
 
-In that case, simply install PyVista with:
+In that case, simply install `PyVista <https://pyvista.org/>`_` with this command:
 
 .. code-block:: default
 
     pip install pyvista
 
-Another option is to install PyVista along PyDPF-Core. For more information, see 
+Another option is to install PyVista along with PyDPF-Core. For more information, see 
 :ref:`Install with plotting capabilities<target_to_install_with_plotting_capabilities>`
 
 Performance issues

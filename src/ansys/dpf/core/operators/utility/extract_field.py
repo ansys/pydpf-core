@@ -11,13 +11,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class extract_field(Operator):
-    """Extract the fields at the indices defined in the vector (in 1) form
-    the fields container (in:0).
+    """Extracts the fields at the indices defined in the vector (in 1) from
+    the fields container (in 0).
 
     Parameters
     ----------
     fields_container : Field or FieldsContainer
-        If a field is in input, it is passed on as
+        If a field is in input, it is passed on as an
         output
     indices : optional
         Default is the first field
@@ -57,8 +57,8 @@ class extract_field(Operator):
 
     @staticmethod
     def _spec():
-        description = """Extract the fields at the indices defined in the vector (in 1) form
-            the fields container (in:0)."""
+        description = """Extracts the fields at the indices defined in the vector (in 1) from
+            the fields container (in 0)."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -66,7 +66,7 @@ class extract_field(Operator):
                     name="fields_container",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document="""If a field is in input, it is passed on as
+                    document="""If a field is in input, it is passed on as an
         output""",
                 ),
                 1: PinSpecification(
@@ -115,7 +115,7 @@ class extract_field(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -149,7 +149,7 @@ class InputsExtractField(_Inputs):
     def fields_container(self):
         """Allows to connect fields_container input to the operator.
 
-        If a field is in input, it is passed on as
+        If a field is in input, it is passed on as an
         output
 
         Parameters

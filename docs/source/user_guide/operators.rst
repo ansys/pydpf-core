@@ -6,7 +6,7 @@ Operators
 
 ..    include:: <isonum.txt>
 
-An operator is the only object that is used to create and transform 
+An operator is the main object that is used to create, transform, and stream 
 data. In DPF, you use operators to load, operate on, and output data.
 
 Each operator contains ``input`` and ``output`` attributes, which
@@ -48,6 +48,10 @@ displacement of a result entirely within the DPF service, without
 transferring any data from DPF to Python until DPF arrives at the
 solution data that you want.
 
+A DPF operator can be licensed, meaning it requires a license checkout to run.
+The license type can be specific, or amongst a given list, and is defined at the operator level.
+For more information about the DPF licensing logic, see :ref:`user_guide_server_context`.
+
 The library of DPF operators is large and includes file readers and mathematical,
 geometrical, and logical transformations. For more information on this library,
 which is progressively enhanced, see :ref:`ref_dpf_operators_reference`.
@@ -56,9 +60,9 @@ which is progressively enhanced, see :ref:`ref_dpf_operators_reference`.
 Create operators
 ~~~~~~~~~~~~~~~~
 Each operator is of type :ref:`ref_operator`. You can create an instance 
-in Python with any of the derived classes available in the 
-package :ref:`ref_operators_package` or directly with the class :ref:`ref_operator`
-using the internal name string that indicates the operator type. 
+in Python with any of the derived classes available in the
+:ref:`ansys.dpf.core.operators package` or directly with the :ref:`ref_operator`
+class using the internal name string that indicates the operator type. 
 For more information, see :ref:`ref_dpf_operators_reference`.
 
 This example shows how to create the displacement operator:
@@ -97,7 +101,7 @@ operator by printing it:
 Alternatively, you can instantiate result providers using the ``Model`` object.
 For more information, see :ref:`user_guide_model`.
 
-When using this model's result usage, file paths for the results are directly  
+When using this model's results, file paths for the results are directly  
 connected to the operator, which means that you can only instantiate 
 available results for your result files:
 
@@ -113,7 +117,7 @@ available results for your result files:
 
 Connect operators
 ~~~~~~~~~~~~~~~~~
-The only required input for the displacement operator is ``data_sources`` (see above). 
+The only required input for the displacement operator is the ``data_sources``input (see above). 
 To compute an output in the ``fields_container`` object, which contains the displacement
 results, you must provide paths for the result files.
 
@@ -140,7 +144,7 @@ Because several other examples use the ``Model`` class, this example uses the
  
   DPF  DataSources: 
   Result files:
-     result key: rst and path: D:\ANSYSDev\dpf-python-core\ansys\dpf\core\examples\model_with_ns.rst 
+     result key: rst and path: path\...\ansys\dpf\core\examples\model_with_ns.rst
   Secondary files:
 
 This code shows how to connect the data source to the displacement operator:
@@ -200,7 +204,7 @@ like this one:
  
     DPFServerException: U<-Data sources are not defined.
 
-For more information on using the fields container, see :ref:`ref_user_guide_fields_container`.
+For more information on using a fields container, see :ref:`ref_user_guide_fields_container`.
 
 
 Chain operators
@@ -234,7 +238,7 @@ displacement data on the client side to compute the maximum:
 
  .. code-block:: none
  
-    array([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
+    DPFArray([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
 
 On an industrial model, however, you should use code like this:
 
@@ -254,14 +258,14 @@ On an industrial model, however, you should use code like this:
 
  .. code-block:: none
  
-    array([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
+    DPFArray([8.20217171e-07, 6.26510654e-06, 0.00000000e+00])
     
 
 In the preceding example, only the maximum displacements in the X, Y, and Z
 components are transferred and returned as a numpy array.
 
-For small data sets, you can compute the maximum of the array in NumpPy.
-While there might be times where having the entire data array for a given 
+For small data sets, you can compute the maximum of the array in `NumpPy <https://numpy.org/>`_.
+While there may be times where having the entire data array for a given 
 result type is necessary, many times it is not necessary. In these 
 cases, it is faster not to transfer the array to Python but rather to 
 compute the maximum of the fields container within DPF and then return 
@@ -311,10 +315,10 @@ These operators provide for reading data from solver files or from standard file
 - For Abaqus, ODB files are supported.
 
 To read these files, different readers are implemented as plugins.
-Plugins can be loaded on demand in any DPF scripting language with the "load library" methods. 
+Plugins can be loaded on demand in any DPF scripting language with "load library" methods. 
 File readers can be used generically thanks to the DPF result providers, which means that the same operators can be used for any file types.
 
-This example shows how to read a displacement or a stress for any file:
+This example shows how to read a displacement and a stress for any file:
 
 .. code-block:: python
 
@@ -364,9 +368,9 @@ operators:
 
  .. code-block:: none
  
-     array([[ 2.,  4.,  6.],
-       [ 8., 10., 12.],
-       [14., 16., 18.]])
+     DPFArray([[ 2.,  4.,  6.],
+          [ 8., 10., 12.],
+          [14., 16., 18.]])
 
 
 .. code-block:: python
@@ -382,8 +386,8 @@ operators:
 
  .. code-block:: none
  
-     array([[4., 5., 6.],
-       [7., 8., 9.]])
+     DPFArray([[4., 5., 6.],
+          [7., 8., 9.]])
        
  
 ****************************
@@ -395,7 +399,8 @@ to export the results in a given format to either use them in another
 environment or save them for future use with DPF. Supported file formats 
 for export include VTK, H5, CSV, and TXT (serializer operator). Export 
 operators often match with import operators, allowing you to reuse data. 
-In :ref:`ref_dpf_operators_reference`, the **Serialization** category
+In :ref:`ref_dpf_operators_reference`, both the **Entry**
+and **Premium** sections have a **Serialization** category that
 displays available import and export operators.
 
 
@@ -434,12 +439,12 @@ Python client is not on the same machine as the server:
 
  .. code-block:: none
  
-     C:\Users\cbellot\AppData\Local\Temp\dataProcessingTemp17168
+     C:\Users\user_name\AppData\Local\Temp\dataProcessingTemp17168
      Downloading...: 759 KB|
  
 
 API reference
 ~~~~~~~~~~~~~
 For a list of all operators in DPF, see :ref:`ref_dpf_operators_reference` 
-or :ref:`ref_operators_package`.  For more information about the
+or the package :ref:`ansys.dpf.core.operators package`.  For more information about the
 class itself, see :ref:`ref_operator`.

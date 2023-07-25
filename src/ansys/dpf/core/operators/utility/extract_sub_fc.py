@@ -11,14 +11,14 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class extract_sub_fc(Operator):
-    """Create a new FieldsContainer with all the Fields corresponding to the
-    label space in input 1
+    """Creates a new fields container with all the fields corresponding to
+    the label space in input 1.
 
     Parameters
     ----------
     fields_container : FieldsContainer
         Fields_container
-    label_space : LabelSpace
+    label_space : dict
         Label_space
 
 
@@ -32,7 +32,7 @@ class extract_sub_fc(Operator):
     >>> # Make input connections
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_label_space = dpf.LabelSpace()
+    >>> my_label_space = dict()
     >>> op.inputs.label_space.connect(my_label_space)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -58,8 +58,8 @@ class extract_sub_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Create a new FieldsContainer with all the Fields corresponding to the
-            label space in input 1"""
+        description = """Creates a new fields container with all the fields corresponding to
+            the label space in input 1."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -115,7 +115,7 @@ class extract_sub_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -134,7 +134,7 @@ class InputsExtractSubFc(_Inputs):
     >>> op = dpf.operators.utility.extract_sub_fc()
     >>> my_fields_container = dpf.FieldsContainer()
     >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_label_space = dpf.LabelSpace()
+    >>> my_label_space = dict()
     >>> op.inputs.label_space.connect(my_label_space)
     """
 
@@ -173,7 +173,7 @@ class InputsExtractSubFc(_Inputs):
 
         Parameters
         ----------
-        my_label_space : LabelSpace
+        my_label_space : dict
 
         Examples
         --------

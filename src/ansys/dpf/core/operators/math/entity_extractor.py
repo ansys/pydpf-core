@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class entity_extractor(Operator):
-    """Extract an entity from a field, based on its Id.
+    """Extracts an entity from a field, based on its ID.
 
     Parameters
     ----------
@@ -53,7 +53,7 @@ class entity_extractor(Operator):
 
     @staticmethod
     def _spec():
-        description = """Extract an entity from a field, based on its Id."""
+        description = """Extracts an entity from a field, based on its ID."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -109,7 +109,7 @@ class entity_extractor(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

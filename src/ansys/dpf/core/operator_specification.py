@@ -15,6 +15,7 @@ from ansys.dpf.gate import (
 )
 from ansys.dpf.core import mapping_types, common
 from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.check_version import server_meet_version
 
 
 class PinSpecification:
@@ -54,13 +55,17 @@ class PinSpecification:
     document: str
     optional: bool
     ellipsis: bool
+    name_derived_class = str
 
-    def __init__(self, name, type_names, document="", optional=False, ellipsis=False):
+    def __init__(
+        self, name, type_names, document="", optional=False, ellipsis=False, name_derived_class=""
+    ):
         self.name = name
         self.type_names = type_names
         self.optional = optional
         self.document = document
         self.ellipsis = ellipsis
+        self.name_derived_class = name_derived_class
 
     @property
     def type_names(self):
@@ -82,22 +87,16 @@ class PinSpecification:
             return
         elif isinstance(val, common.types):
             self._type_names = [
-                mapping_types.map_types_to_cpp[
-                    common.types_enum_to_types()[val].__name__
-                ]
+                mapping_types.map_types_to_cpp[common.types_enum_to_types()[val].__name__]
             ]
             return
         elif isinstance(val, list):
             if len(val) > 0 and isinstance(val[0], type):
-                self._type_names = [
-                    mapping_types.map_types_to_cpp[ival.__name__] for ival in val
-                ]
+                self._type_names = [mapping_types.map_types_to_cpp[ival.__name__] for ival in val]
                 return
             if len(val) > 0 and isinstance(val[0], common.types):
                 self._type_names = [
-                    mapping_types.map_types_to_cpp[
-                        common.types_enum_to_types()[ival].__name__
-                    ]
+                    mapping_types.map_types_to_cpp[common.types_enum_to_types()[ival].__name__]
                     for ival in val
                 ]
                 return
@@ -106,17 +105,21 @@ class PinSpecification:
     @staticmethod
     def _get_copy(other, changed_types):
         return PinSpecification(
-            other.name, changed_types, other.document, other.optional, other.ellipsis
+            other.name,
+            changed_types,
+            other.document,
+            other.optional,
+            other.ellipsis,
+            other.name_derived_class,
         )
 
     def __repr__(self):
         return "{class_name}({params})".format(
             class_name=self.__class__.__name__,
             params=", ".join(
-                "{param}={value}".format(
-                    param=k, value=f"'{v}'" if isinstance(v, str) else v
-                )
+                "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
                 for k, v in vars(self).items()
+                if not ("{param}" == "name_derived_class" and "name_derived_class" != "")
             ),
         )
 
@@ -177,9 +180,7 @@ class ConfigOptionSpec:
         return "{class_name}({params})".format(
             class_name=self.__class__.__name__,
             params=", ".join(
-                "{param}={value}".format(
-                    param=k, value=f"'{v}'" if isinstance(v, str) else v
-                )
+                "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
                 for k, v in vars(self).items()
             ),
         )
@@ -241,9 +242,7 @@ class Specification(SpecificationBase):
         )
 
         # step3: init environment
-        self._api.init_operator_specification_environment(
-            self
-        )  # creates stub when gRPC
+        self._api.init_operator_specification_environment(self)  # creates stub when gRPC
 
         # step4: if object exists: take instance, else create it (specification)
         if specification is not None:
@@ -255,9 +254,7 @@ class Specification(SpecificationBase):
                         self._server.client, operator_name
                     )
                 else:
-                    self._internal_obj = self._api.operator_specification_new(
-                        operator_name
-                    )
+                    self._internal_obj = self._api.operator_specification_new(operator_name)
             else:
                 if self._server.has_client():
                     raise NotImplementedError(
@@ -270,6 +267,9 @@ class Specification(SpecificationBase):
         self._map_input_pin_spec = None
         self._properties = None
         self._config_specification = None
+
+    def __str__(self):
+        return "Description:\n" + str(self.description) + "\nProperties:\n" + str(self.properties)
 
     @property
     def properties(self):
@@ -286,16 +286,12 @@ class Specification(SpecificationBase):
         if self._properties is None:
             temp_properties = dict()
             if self._internal_obj is not None:
-                num_properties = self._api.operator_specification_get_num_properties(
-                    self
-                )
+                num_properties = self._api.operator_specification_get_num_properties(self)
                 for i_property in range(num_properties):
                     property_key = self._api.operator_specification_get_property_key(
                         self, i_property
                     )
-                    prop = self._api.operator_specification_get_properties(
-                        self, property_key
-                    )
+                    prop = self._api.operator_specification_get_properties(self, property_key)
                     temp_properties[property_key] = prop
             # Reorder the properties for consistency
             self._properties = dict()
@@ -316,7 +312,7 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.math.scale_by_field()
         >>> operator.specification.description
-        "Scales a field (in 0) by a scalar field (in 1). If one field's ... the entire other field."
+        "Scales a field (in 0) by a scalar field (in 1). If one field's ..."
         """
         if self._internal_obj is not None:
             return self._api.operator_specification_get_description(self)
@@ -337,7 +333,8 @@ class Specification(SpecificationBase):
         >>> 4 in operator.specification.inputs.keys()
         True
         >>> operator.specification.inputs[4]
-        PinSpecification(name='data_sources', _type_names=['data_sources'], ...set', ellipsis=False)
+        PinSpecification(name='data_sources', _type_names=['data_sources'], ...set', ellipsis=False,
+         name_derived_class='')
         """
         if self._map_input_pin_spec is None:
             self._map_input_pin_spec = {}
@@ -357,7 +354,8 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.mesh.mesh_provider()
         >>> operator.specification.outputs
-        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], ...=False)}
+        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], ...=False,
+         name_derived_class='')}
         """
         if self._map_output_pin_spec is None:
             self._map_output_pin_spec = {}
@@ -373,30 +371,35 @@ class Specification(SpecificationBase):
             pins = pins.tolist()
 
             for i_pin in pins:
-                pin_name = self._api.operator_specification_get_pin_name(
-                    self, binput, i_pin
-                )
-                pin_opt = self._api.operator_specification_is_pin_optional(
-                    self, binput, i_pin
-                )
-                pin_doc = self._api.operator_specification_get_pin_document(
-                    self, binput, i_pin
-                )
+                pin_name = self._api.operator_specification_get_pin_name(self, binput, i_pin)
+                pin_opt = self._api.operator_specification_is_pin_optional(self, binput, i_pin)
+                pin_doc = self._api.operator_specification_get_pin_document(self, binput, i_pin)
                 n_types = self._api.operator_specification_get_pin_num_type_names(
                     self, binput, i_pin
                 )
                 pin_type_names = [
-                    self._api.operator_specification_get_pin_type_name(
-                        self, binput, i_pin, i_type
-                    )
+                    self._api.operator_specification_get_pin_type_name(self, binput, i_pin, i_type)
                     for i_type in range(n_types)
                 ]
 
-                pin_ell = self._api.operator_specification_is_pin_ellipsis(
-                    self, binput, i_pin
-                )
+                pin_derived_class_type_name = ""
+                if server_meet_version("7.0", self._server) and hasattr(
+                    self._api, "operator_specification_get_pin_derived_class_type_name"
+                ):
+                    pin_derived_class_type_name = (
+                        self._api.operator_specification_get_pin_derived_class_type_name(
+                            self, binput, i_pin
+                        )
+                    )
+
+                pin_ell = self._api.operator_specification_is_pin_ellipsis(self, binput, i_pin)
                 to_fill[i_pin] = PinSpecification(
-                    pin_name, pin_type_names, pin_doc, pin_opt, pin_ell
+                    pin_name,
+                    pin_type_names,
+                    pin_doc,
+                    pin_opt,
+                    pin_ell,
+                    pin_derived_class_type_name,
                 )
 
     @property
@@ -412,23 +415,15 @@ class Specification(SpecificationBase):
             num_options = self._api.operator_specification_get_num_config_options(self)
             for i in range(num_options):
                 option_name = self._api.operator_specification_get_config_name(self, i)
-                n_types = self._api.operator_specification_get_config_num_type_names(
-                    self, i
-                )
+                n_types = self._api.operator_specification_get_config_num_type_names(self, i)
                 option_type_names = [
-                    self._api.operator_specification_get_config_type_name(
-                        self, i, n_type
-                    )
+                    self._api.operator_specification_get_config_type_name(self, i, n_type)
                     for n_type in range(n_types)
                 ]
                 option_default_value = (
-                    self._api.operator_specification_get_config_printable_default_value(
-                        self, i
-                    )
+                    self._api.operator_specification_get_config_printable_default_value(self, i)
                 )
-                option_doc = self._api.operator_specification_get_config_description(
-                    self, i
-                )
+                option_doc = self._api.operator_specification_get_config_description(self, i)
                 self._config_specification[option_name] = ConfigOptionSpec(
                     name=option_name,
                     type_names=option_type_names,
@@ -493,6 +488,12 @@ class SpecificationProperties:
     plugin : str
         Snake case name of the plugin it belongs to.
 
+    license: str
+        Optional license name to check out that is used to run the operator.
+        The value "any_dpf_supported_increments" tells DPF than any DPF-accepted license
+        is accepted by this operator (see `here
+        <https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html#ansys-licensing>`_).  # noqa
+
     """
 
     def __init__(
@@ -502,9 +503,13 @@ class SpecificationProperties:
         scripting_name: str = None,
         exposure: Exposures = Exposures.public,
         plugin: str = None,
+        license: str = None,
         spec=None,
         **kwargs,
     ):
+        if license is not None:
+            kwargs["license"] = license
+
         self._spec = spec
         self.__dict__.update(
             user_name=user_name,
@@ -523,9 +528,7 @@ class SpecificationProperties:
     def __setitem__(self, key, value):
         if self._spec is not None:
             if value is not None:
-                self._spec._api.operator_specification_set_property(
-                    self._spec, key, value
-                )
+                self._spec._api.operator_specification_set_property(self._spec, key, value)
                 self._spec._properties = None
         setattr(self, key, value)
 
@@ -613,17 +616,33 @@ class CustomSpecification(Specification):
     def inputs(self, val: dict):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
-            self._api.operator_specification_set_pin(
-                self,
-                True,
-                key,
-                value.name,
-                value.document,
-                len(value.type_names),
-                list_types,
-                value.optional,
-                value.ellipsis,
-            )
+            if server_meet_version("7.0", self._server) and hasattr(
+                self._api, "operator_specification_set_pin_derived_class"
+            ):
+                self._api.operator_specification_set_pin_derived_class(
+                    self,
+                    True,
+                    key,
+                    value.name,
+                    value.document,
+                    len(value.type_names),
+                    list_types,
+                    value.optional,
+                    value.ellipsis,
+                    value.name_derived_class,
+                )
+            else:
+                self._api.operator_specification_set_pin(
+                    self,
+                    True,
+                    key,
+                    value.name,
+                    value.document,
+                    len(value.type_names),
+                    list_types,
+                    value.optional,
+                    value.ellipsis,
+                )
 
     @property
     @version_requires("4.0")
@@ -640,17 +659,33 @@ class CustomSpecification(Specification):
     def outputs(self, val: dict):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
-            self._api.operator_specification_set_pin(
-                self,
-                False,
-                key,
-                value.name,
-                value.document,
-                len(value.type_names),
-                list_types,
-                value.optional,
-                value.ellipsis,
-            )
+            if server_meet_version("7.0", self._server) and hasattr(
+                self._api, "operator_specification_set_pin_derived_class"
+            ):
+                self._api.operator_specification_set_pin_derived_class(
+                    self,
+                    False,
+                    key,
+                    value.name,
+                    value.document,
+                    len(value.type_names),
+                    list_types,
+                    value.optional,
+                    value.ellipsis,
+                    value.name_derived_class,
+                )
+            else:
+                self._api.operator_specification_set_pin(
+                    self,
+                    False,
+                    key,
+                    value.name,
+                    value.document,
+                    len(value.type_names),
+                    list_types,
+                    value.optional,
+                    value.ellipsis,
+                )
 
     @property
     @version_requires("4.0")

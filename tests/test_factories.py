@@ -73,9 +73,7 @@ def test_over_time_freq_fields_container_1():
 
 def test_over_time_freq_fields_container_2(server_type):
     f1 = fields_factory.create_vector_field(24, 4, server=server_type)
-    f2 = fields_factory.create_vector_field(
-        32, 4, location=locations.elemental, server=server_type
-    )
+    f2 = fields_factory.create_vector_field(32, 4, location=locations.elemental, server=server_type)
     fc = fields_container_factory.over_time_freq_fields_container(
         {0.43: f1, 1.12: f2}, "Hz", server=server_type
     )
@@ -97,9 +95,7 @@ def test_over_time_freq_complex_fields_container_1():
     f2 = fields_factory.create_scalar_field(31)
     f1_im = fields_factory.create_scalar_field(25)
     f2_im = fields_factory.create_scalar_field(31)
-    fc = fields_container_factory.over_time_freq_complex_fields_container(
-        [f1, f2], [f1_im, f2_im]
-    )
+    fc = fields_container_factory.over_time_freq_complex_fields_container([f1, f2], [f1_im, f2_im])
     labels = fc.labels
     assert labels == ["complex", "time"]
     assert len(fc) == 4
@@ -248,9 +244,7 @@ def test_scoping_on_all_freqs(plate_msup):
     scop = time_freq_scoping_factory.scoping_on_all_time_freqs(model)
     assert scop is not None
     assert np.allclose(scop.ids, range(1, 21))
-    scop = time_freq_scoping_factory.scoping_on_all_time_freqs(
-        model.metadata.time_freq_support
-    )
+    scop = time_freq_scoping_factory.scoping_on_all_time_freqs(model.metadata.time_freq_support)
     assert scop is not None
     assert np.allclose(scop.ids, range(1, 21))
 
@@ -277,7 +271,7 @@ def test_elemental_scoping():
 
 def test_named_selection_scoping(model_with_ns):
     model = Model(model_with_ns)
-    print(model.metadata.available_named_selections)
+    # print(model.metadata.available_named_selections)
     scop = mesh_scoping_factory.named_selection_scoping("SELECTION", model)
     assert scop is not None
     assert len(scop.ids) != 0

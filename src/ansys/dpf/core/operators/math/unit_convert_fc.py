@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class unit_convert_fc(Operator):
-    """Convert an input fields container of a given unit to another unit.
+    """Converts an input fields container of a given unit to another unit.
 
     Parameters
     ----------
@@ -56,7 +56,7 @@ class unit_convert_fc(Operator):
     @staticmethod
     def _spec():
         description = (
-            """Convert an input fields container of a given unit to another unit."""
+            """Converts an input fields container of a given unit to another unit."""
         )
         spec = Specification(
             description=description,
@@ -114,7 +114,7 @@ class unit_convert_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

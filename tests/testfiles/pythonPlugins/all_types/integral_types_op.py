@@ -114,8 +114,7 @@ class SetOutNpArrayIntOperator(CustomOperatorBase):
         spec = CustomSpecification()
         spec.outputs = {0: PinSpecification("flat_int_vec", type_names=types.vec_int)}
         spec.description = (
-            "Sets a numpy array of shape (100,2) as output. "
-            "The array is flatten by DPF."
+            "Sets a numpy array of shape (100,2) as output. " "The array is flatten by DPF."
         )
         spec.properties = SpecificationProperties(
             user_name="set out numpy array of int", category="logic"
@@ -138,12 +137,9 @@ class SetOutNpArrayDoubleOperator(CustomOperatorBase):
     @property
     def specification(self):
         spec = CustomSpecification(
-            "Sets a numpy array of shape (100,2) as output."
-            " The array is flatten by DPF."
+            "Sets a numpy array of shape (100,2) as output." " The array is flatten by DPF."
         )
-        spec.outputs = {
-            0: PinSpecification("flat_double_vec", type_names=types.vec_double)
-        }
+        spec.outputs = {0: PinSpecification("flat_double_vec", type_names=types.vec_double)}
         spec.properties = SpecificationProperties(
             user_name="set out numpy array of double", category="logic"
         )

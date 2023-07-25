@@ -1,4 +1,7 @@
+# import subprocess
+
 from ansys.dpf import core
+from ansys.dpf.core.operators import build
 import os
 import glob
 from pathlib import Path
@@ -20,6 +23,7 @@ if os.name == "posix":
         "libAns.Dpf.LivePost.so",
         "libans.dpf.pointcloudsearch.so",
         "libAns.Dpf.Vtk.so",
+        "libAns.Dpf.MechanicalResults.so",
     ]
     LIB_OPTIONAL_TO_GENERATE = [
         "libAns.Dpf.SystemCouplingMapping.so",
@@ -38,13 +42,14 @@ else:
         "Ans.Dpf.LivePost.dll",
         "Ans.Dpf.PointCloudSearch.dll",
         "Ans.Dpf.Vtk.dll",
+        "Ans.Dpf.MechanicalResults.dll",
     ]
     LIB_OPTIONAL_TO_GENERATE = [
         "Ans.Dpf.SystemCouplingMapping.dll",
     ]
 
 local_dir = os.path.dirname(os.path.abspath(__file__))
-TARGET_PATH = os.path.join(local_dir, os.pardir, "ansys", "dpf", "core", "operators")
+TARGET_PATH = os.path.join(local_dir, os.pardir, "src", "ansys", "dpf", "core", "operators")
 files = glob.glob(os.path.join(TARGET_PATH, "*"))
 for f in files:
     if Path(f).stem == "specification":
@@ -84,10 +89,17 @@ for lib in LIB_OPTIONAL_TO_GENERATE:
             code_gen.connect(2, False)
         else:
             code_gen.connect(2, True)
-        print(
-            f"Generating optional {lib} operators for server {core.SERVER.version}..."
-        )
+        print(f"Generating optional {lib} operators for server {core.SERVER.version}...")
         code_gen.run()
         time.sleep(0.1)
     except Exception as e:
         print(f"Could not generate operators for optional library {lib}:\n{str(e)}")
+
+# Reorder imports alphabetically in __init__.py files to reduce changes raised
+for init_file_path in glob.glob(os.path.join(TARGET_PATH, "**/__init__.py"), recursive=True):
+    with open(init_file_path, "r") as init_file:
+        lines = init_file.readlines()
+    with open(init_file_path, "w") as init_file:
+        init_file.writelines(sorted(lines))
+
+build.build_operators()

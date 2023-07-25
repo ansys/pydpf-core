@@ -48,9 +48,7 @@ class FieldDefinition:
             self._internal_obj = field_definition
         else:
             if self._server.has_client():
-                self._internal_obj = self._api.field_definition_new_on_client(
-                    self._server.client
-                )
+                self._internal_obj = self._api.field_definition_new_on_client(self._server.client)
             else:
                 self._internal_obj = self._api.field_definition_new()
 
@@ -61,8 +59,9 @@ class FieldDefinition:
         Returns
         -------
         str
-            Location string, such as ``"Nodal"``, ``"Elemental"``,
-            or ``"TimeFreq_sets"``.
+            Location string, such as :class:`ansys.dpf.core.locations.nodal`,
+            :class:`ansys.dpf.core.locations.elemental` or
+            :class:`ansys.dpf.core.locations.time_freq`.
         """
         location = integral_types.MutableString(256)
         size = integral_types.MutableInt32(0)
@@ -127,9 +126,7 @@ class FieldDefinition:
         """
         dim = integral_types.MutableListInt32(size=3)
         nature = integral_types.MutableInt32()
-        self._api.csfield_definition_fill_dimensionality(
-            self, dim, nature, dim.internal_size
-        )
+        self._api.csfield_definition_fill_dimensionality(self, dim, nature, dim.internal_size)
         return Dimensionality(dim.tolist(), natures(int(nature)))
 
     @unit.setter

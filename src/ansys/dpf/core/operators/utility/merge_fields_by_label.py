@@ -11,7 +11,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class merge_fields_by_label(Operator):
-    """Take a fields container and merge its fields that share the same label
+    """Merges the fields of a fields container that share the same label
     value.
 
     Parameters
@@ -23,7 +23,7 @@ class merge_fields_by_label(Operator):
         The fieldscontainer's support that has
         already been merged.
     sum_merge : bool, optional
-        Default is false. if true redundant
+        Default is false. if true, redundant
         quantities are summed instead of
         being ignored.
 
@@ -83,7 +83,7 @@ class merge_fields_by_label(Operator):
 
     @staticmethod
     def _spec():
-        description = """Take a fields container and merge its fields that share the same label
+        description = """Merges the fields of a fields container that share the same label
             value."""
         spec = Specification(
             description=description,
@@ -111,7 +111,7 @@ class merge_fields_by_label(Operator):
                     name="sum_merge",
                     type_names=["bool"],
                     optional=True,
-                    document="""Default is false. if true redundant
+                    document="""Default is false. if true, redundant
         quantities are summed instead of
         being ignored.""",
                 ),
@@ -163,7 +163,7 @@ class merge_fields_by_label(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -268,7 +268,7 @@ class InputsMergeFieldsByLabel(_Inputs):
     def sum_merge(self):
         """Allows to connect sum_merge input to the operator.
 
-        Default is false. if true redundant
+        Default is false. if true, redundant
         quantities are summed instead of
         being ignored.
 

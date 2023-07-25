@@ -11,23 +11,23 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class merge_weighted_fields(Operator):
-    """Take a set of fields and assemble them in a unique one applying a
-    weight on the sum of the fields.
+    """Assembles a set of fields into a unique one, applying a weight on the
+    sum of the fields.
 
     Parameters
     ----------
     sum_merge : bool, optional
-        Default is false. if true redundant
+        Default is false. if true, redundant
         quantities are summed instead of
         being ignored.
     merged_support : AbstractFieldSupport, optional
         Already merged field support.
     fields1 : Field or FieldsContainer
         Either a fields container, a vector of fields
-        to merge or fields from pin 0 to ...
+        to merge, or fields from pin 0 to ...
     fields2 : Field or FieldsContainer
         Either a fields container, a vector of fields
-        to merge or fields from pin 0 to ...
+        to merge, or fields from pin 0 to ...
     weights1 : PropertyField
         Weights to apply to each field from pin 1000
         to ...
@@ -100,8 +100,8 @@ class merge_weighted_fields(Operator):
 
     @staticmethod
     def _spec():
-        description = """Take a set of fields and assemble them in a unique one applying a
-            weight on the sum of the fields."""
+        description = """Assembles a set of fields into a unique one, applying a weight on the
+            sum of the fields."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -109,7 +109,7 @@ class merge_weighted_fields(Operator):
                     name="sum_merge",
                     type_names=["bool"],
                     optional=True,
-                    document="""Default is false. if true redundant
+                    document="""Default is false. if true, redundant
         quantities are summed instead of
         being ignored.""",
                 ),
@@ -124,14 +124,14 @@ class merge_weighted_fields(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""Either a fields container, a vector of fields
-        to merge or fields from pin 0 to ...""",
+        to merge, or fields from pin 0 to ...""",
                 ),
                 1: PinSpecification(
                     name="fields",
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""Either a fields container, a vector of fields
-        to merge or fields from pin 0 to ...""",
+        to merge, or fields from pin 0 to ...""",
                 ),
                 1000: PinSpecification(
                     name="weights",
@@ -187,7 +187,7 @@ class merge_weighted_fields(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -243,7 +243,7 @@ class InputsMergeWeightedFields(_Inputs):
     def sum_merge(self):
         """Allows to connect sum_merge input to the operator.
 
-        Default is false. if true redundant
+        Default is false. if true, redundant
         quantities are summed instead of
         being ignored.
 
@@ -286,7 +286,7 @@ class InputsMergeWeightedFields(_Inputs):
         """Allows to connect fields1 input to the operator.
 
         Either a fields container, a vector of fields
-        to merge or fields from pin 0 to ...
+        to merge, or fields from pin 0 to ...
 
         Parameters
         ----------
@@ -307,7 +307,7 @@ class InputsMergeWeightedFields(_Inputs):
         """Allows to connect fields2 input to the operator.
 
         Either a fields container, a vector of fields
-        to merge or fields from pin 0 to ...
+        to merge, or fields from pin 0 to ...
 
         Parameters
         ----------

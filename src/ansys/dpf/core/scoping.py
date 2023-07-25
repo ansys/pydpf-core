@@ -53,7 +53,7 @@ class Scoping:
     >>> my_nodal_scoping = mesh_scoping_factory.nodal_scoping([4, 6])
     >>> #2. using the classic API
     >>> my_scoping = dpf.Scoping()
-    >>> my_scoping.location = "Nodal" #optional
+    >>> my_scoping.location = dpf.locations.nodal #optional
     >>> my_scoping.ids = list(range(1,11))
 
     """
@@ -85,24 +85,20 @@ class Scoping:
                     grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
                 )
                 core_api.init_data_processing_environment(self)
-                self._internal_obj = (
-                    core_api.data_processing_duplicate_object_reference(scoping)
-                )
+                self._internal_obj = core_api.data_processing_duplicate_object_reference(scoping)
             else:
                 # scoping is of type protobuf.message or DPFObject*
                 self._internal_obj = scoping
         else:
             if self._server.has_client():
-                self._internal_obj = self._api.scoping_new_on_client(
-                    self._server.client
-                )
+                self._internal_obj = self._api.scoping_new_on_client(self._server.client)
             else:
                 self._internal_obj = self._api.scoping_new()
 
         # step5: handle specific calls to set attributes
-        if ids:
+        if ids is not None:
             self.ids = ids
-        if location:
+        if location is not None:
             self.location = location
 
     def _count(self):

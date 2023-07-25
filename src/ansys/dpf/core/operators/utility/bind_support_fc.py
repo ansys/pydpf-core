@@ -11,13 +11,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class bind_support_fc(Operator):
-    """Tie a support to a fields container.
+    """Ties a support to a fields container.
 
     Parameters
     ----------
     fields_container : FieldsContainer
     support : MeshedRegion or AbstractFieldSupport
-        Meshed region or a support of the field
+        Meshed region or a support of the field.
 
 
     Examples
@@ -54,7 +54,7 @@ class bind_support_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Tie a support to a fields container."""
+        description = """Ties a support to a fields container."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -68,7 +68,7 @@ class bind_support_fc(Operator):
                     name="support",
                     type_names=["abstract_meshed_region", "abstract_field_support"],
                     optional=False,
-                    document="""Meshed region or a support of the field""",
+                    document="""Meshed region or a support of the field.""",
                 ),
             },
             map_output_pin_spec={
@@ -110,7 +110,7 @@ class bind_support_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -162,7 +162,7 @@ class InputsBindSupportFc(_Inputs):
     def support(self):
         """Allows to connect support input to the operator.
 
-        Meshed region or a support of the field
+        Meshed region or a support of the field.
 
         Parameters
         ----------

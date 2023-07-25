@@ -19,18 +19,33 @@ class plastic_strain_eqv(Operator):
     Parameters
     ----------
     time_scoping : Scoping or int or float or Field, optional
-        Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output
+        Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.
     mesh_scoping : ScopingsContainer or Scoping, optional
         Nodes or elements scoping required in output.
-        the scoping's location indicates
-        whether nodes or elements are asked.
-        using scopings container enables to
-        split the result fields container in
-        domains
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains
     fields_container : FieldsContainer, optional
         Fields container already allocated modified
         inplace
@@ -58,6 +73,12 @@ class plastic_strain_eqv(Operator):
     read_beams : bool, optional
         Elemental nodal beam results are read if this
         pin is set to true (default is false)
+    split_shells : bool, optional
+        If the requested_location pin is not
+        connected, this pin forces elemental
+        nodal shell and solid results to be
+        split if this pin is set to true
+        (default is false)
 
 
     Examples
@@ -88,6 +109,8 @@ class plastic_strain_eqv(Operator):
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     >>> my_read_beams = bool()
     >>> op.inputs.read_beams.connect(my_read_beams)
+    >>> my_split_shells = bool()
+    >>> op.inputs.split_shells.connect(my_split_shells)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.plastic_strain_eqv(
@@ -101,6 +124,7 @@ class plastic_strain_eqv(Operator):
     ...     requested_location=my_requested_location,
     ...     read_cyclic=my_read_cyclic,
     ...     read_beams=my_read_beams,
+    ...     split_shells=my_split_shells,
     ... )
 
     >>> # Get output data
@@ -119,6 +143,7 @@ class plastic_strain_eqv(Operator):
         requested_location=None,
         read_cyclic=None,
         read_beams=None,
+        split_shells=None,
         config=None,
         server=None,
     ):
@@ -145,6 +170,8 @@ class plastic_strain_eqv(Operator):
             self.inputs.read_cyclic.connect(read_cyclic)
         if read_beams is not None:
             self.inputs.read_beams.connect(read_beams)
+        if split_shells is not None:
+            self.inputs.split_shells.connect(split_shells)
 
     @staticmethod
     def _spec():
@@ -166,22 +193,37 @@ class plastic_strain_eqv(Operator):
                         "vector<double>",
                     ],
                     optional=True,
-                    document="""Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output""",
+                    document="""Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scopings_container", "scoping"],
                     optional=True,
                     document="""Nodes or elements scoping required in output.
-        the scoping's location indicates
-        whether nodes or elements are asked.
-        using scopings container enables to
-        split the result fields container in
-        domains""",
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains""",
                 ),
                 2: PinSpecification(
                     name="fields_container",
@@ -242,6 +284,16 @@ class plastic_strain_eqv(Operator):
                     document="""Elemental nodal beam results are read if this
         pin is set to true (default is false)""",
                 ),
+                26: PinSpecification(
+                    name="split_shells",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If the requested_location pin is not
+        connected, this pin forces elemental
+        nodal shell and solid results to be
+        split if this pin is set to true
+        (default is false)""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -282,7 +334,7 @@ class plastic_strain_eqv(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -319,6 +371,8 @@ class InputsPlasticStrainEqv(_Inputs):
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     >>> my_read_beams = bool()
     >>> op.inputs.read_beams.connect(my_read_beams)
+    >>> my_split_shells = bool()
+    >>> op.inputs.split_shells.connect(my_split_shells)
     """
 
     def __init__(self, op: Operator):
@@ -351,16 +405,28 @@ class InputsPlasticStrainEqv(_Inputs):
         self._inputs.append(self._read_cyclic)
         self._read_beams = Input(plastic_strain_eqv._spec().input_pin(22), 22, op, -1)
         self._inputs.append(self._read_beams)
+        self._split_shells = Input(plastic_strain_eqv._spec().input_pin(26), 26, op, -1)
+        self._inputs.append(self._split_shells)
 
     @property
     def time_scoping(self):
         """Allows to connect time_scoping input to the operator.
 
-        Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output
+        Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.
 
         Parameters
         ----------
@@ -381,11 +447,16 @@ class InputsPlasticStrainEqv(_Inputs):
         """Allows to connect mesh_scoping input to the operator.
 
         Nodes or elements scoping required in output.
-        the scoping's location indicates
-        whether nodes or elements are asked.
-        using scopings container enables to
-        split the result fields container in
-        domains
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains
 
         Parameters
         ----------
@@ -571,6 +642,30 @@ class InputsPlasticStrainEqv(_Inputs):
         >>> op.inputs.read_beams(my_read_beams)
         """
         return self._read_beams
+
+    @property
+    def split_shells(self):
+        """Allows to connect split_shells input to the operator.
+
+        If the requested_location pin is not
+        connected, this pin forces elemental
+        nodal shell and solid results to be
+        split if this pin is set to true
+        (default is false)
+
+        Parameters
+        ----------
+        my_split_shells : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.plastic_strain_eqv()
+        >>> op.inputs.split_shells.connect(my_split_shells)
+        >>> # or
+        >>> op.inputs.split_shells(my_split_shells)
+        """
+        return self._split_shells
 
 
 class OutputsPlasticStrainEqv(_Outputs):

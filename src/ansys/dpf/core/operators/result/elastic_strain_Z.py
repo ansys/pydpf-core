@@ -20,18 +20,33 @@ class elastic_strain_Z(Operator):
     Parameters
     ----------
     time_scoping : Scoping or int or float or Field, optional
-        Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output
+        Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.
     mesh_scoping : ScopingsContainer or Scoping, optional
         Nodes or elements scoping required in output.
-        the scoping's location indicates
-        whether nodes or elements are asked.
-        using scopings container enables to
-        split the result fields container in
-        domains
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains
     fields_container : FieldsContainer, optional
         Fieldscontainer already allocated modified
         inplace
@@ -167,22 +182,37 @@ class elastic_strain_Z(Operator):
                         "vector<double>",
                     ],
                     optional=True,
-                    document="""Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output""",
+                    document="""Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scopings_container", "scoping"],
                     optional=True,
                     document="""Nodes or elements scoping required in output.
-        the scoping's location indicates
-        whether nodes or elements are asked.
-        using scopings container enables to
-        split the result fields container in
-        domains""",
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains""",
                 ),
                 2: PinSpecification(
                     name="fields_container",
@@ -282,7 +312,7 @@ class elastic_strain_Z(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -354,11 +384,21 @@ class InputsElasticStrainZ(_Inputs):
     def time_scoping(self):
         """Allows to connect time_scoping input to the operator.
 
-        Time/freq (use doubles or field), time/freq
-        set ids (use ints or scoping) or
-        time/freq step ids (use scoping with
-        timefreq_steps location) required in
-        output
+        Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output.to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps".linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.
 
         Parameters
         ----------
@@ -379,11 +419,16 @@ class InputsElasticStrainZ(_Inputs):
         """Allows to connect mesh_scoping input to the operator.
 
         Nodes or elements scoping required in output.
-        the scoping's location indicates
-        whether nodes or elements are asked.
-        using scopings container enables to
-        split the result fields container in
-        domains
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains
 
         Parameters
         ----------

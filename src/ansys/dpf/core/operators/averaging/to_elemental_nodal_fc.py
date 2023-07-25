@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class to_elemental_nodal_fc(Operator):
-    """Transform input fields into ElementalNodal fields using an averaging
-    process, result is computed on a given elements scoping.
+    """Transforms fields into Elemental Nodal fields using an averaging
+    process. The result is computed on a given element's scoping.
 
     Parameters
     ----------
@@ -67,8 +67,9 @@ class to_elemental_nodal_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = """Transform input fields into ElementalNodal fields using an averaging
-            process, result is computed on a given elements scoping."""
+        description = """Transforms fields into Elemental Nodal fields using an averaging
+            process. The result is computed on a given element's
+            scoping."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -130,7 +131,7 @@ class to_elemental_nodal_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

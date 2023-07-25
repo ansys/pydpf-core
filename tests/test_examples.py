@@ -6,6 +6,7 @@ import pytest
 from conftest import running_docker
 from ansys.dpf import core as dpf
 from ansys.dpf.core import Model
+from ansys.dpf.core import DataSources
 from ansys.dpf.core import examples
 
 
@@ -37,6 +38,56 @@ def test_download_piston_rod():
 def test_download_cycles_to_failure():
     path = examples.download_cycles_to_failure()
     assert isinstance(Model(path), Model)
+
+
+def test_download_modal_frame():
+    path = examples.download_modal_frame()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_harmonic_clamped_pipe():
+    path = examples.download_harmonic_clamped_pipe()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_modal_cyclic():
+    path = examples.download_modal_cyclic()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_fluent_multi_species():
+    path = examples.download_fluent_multi_species()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_fluent_axial_comp():
+    path = examples.download_fluent_axial_comp()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_fluent_mixing_elbow_steady_state():
+    path = examples.download_fluent_mixing_elbow_steady_state()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_fluent_mixing_elbow_transient():
+    path = examples.download_fluent_mixing_elbow_transient()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_cfx_heating_coil():
+    path = examples.download_cfx_heating_coil()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_cfx_mixing_elbow():
+    path = examples.download_cfx_mixing_elbow()
+    assert isinstance(Model(path), Model)
+
+
+def test_fluid_axial_model():
+    ds = examples.fluid_axial_model()
+    assert isinstance(ds, DataSources)
 
 
 list_examples = [
@@ -85,7 +136,7 @@ def test_find_examples(example, server_type_remote_process):
 def test_delete_downloaded_files():
     path = examples.download_multi_stage_cyclic_result(return_local_path=True)
     assert os.path.exists(path)
-    examples.delete_downloads()
+    examples.delete_downloads(verbose=False)
     assert not os.path.exists(path)
     path = examples.download_multi_stage_cyclic_result(return_local_path=True)
     assert os.path.exists(path)
@@ -93,3 +144,39 @@ def test_delete_downloaded_files():
     assert os.path.exists(examples.static_rst)
     assert os.path.exists(examples.complex_rst)
     assert os.path.exists(examples.distributed_msup_folder)
+
+
+def test_get_example_required_minimum_dpf_version(tmp_path):
+    # Check version is parsed
+    example_header = """
+\"\"\"
+.. _ref_average_across_bodies:
+
+Average across bodies
+~~~~~~~~~~~~~~~~~~~~~
+.. note::
+    This example requires DPF 6.1 or above.
+    For more information, see :ref:`ref_compatibility`.
+\"\"\"
+    """
+    p = tmp_path / "test_example_version_0.py"
+    p.write_text(example_header)
+    assert examples.get_example_required_minimum_dpf_version(p) == "6.1"
+    # Check default version is 0.0, and versions declared outside a note in a header do not work
+    example_header = """
+\"\"\"
+.. _ref_average_across_bodies:
+
+Average across bodies
+~~~~~~~~~~~~~~~~~~~~~
+.. note::
+    This example requires Premium
+
+This example requires DPF 1.2 or above.
+\"\"\"
+This example requires DPF 2.3 or above.
+from ansys.dpf import core as dpf
+    """
+    p = tmp_path / "test_example_version_1.py"
+    p.write_text(example_header)
+    assert examples.get_example_required_minimum_dpf_version(p) == "0.0"

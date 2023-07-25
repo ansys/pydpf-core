@@ -11,13 +11,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class make_plane_levelset(Operator):
-    """Compute the levelset for a plane using coordinates.
+    """Computes the level set for a plane using coordinates.
 
     Parameters
     ----------
     coordinates : MeshedRegion or Field
     normal : Field
-        An overall 3d vector that gives normal
+        An overall 3d vector that gives the normal
         direction of the plane.
     origin : Field
         An overall 3d vector that gives a point of
@@ -65,7 +65,7 @@ class make_plane_levelset(Operator):
 
     @staticmethod
     def _spec():
-        description = """Compute the levelset for a plane using coordinates."""
+        description = """Computes the level set for a plane using coordinates."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -79,7 +79,7 @@ class make_plane_levelset(Operator):
                     name="normal",
                     type_names=["field"],
                     optional=False,
-                    document="""An overall 3d vector that gives normal
+                    document="""An overall 3d vector that gives the normal
         direction of the plane.""",
                 ),
                 2: PinSpecification(
@@ -129,7 +129,7 @@ class make_plane_levelset(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -185,7 +185,7 @@ class InputsMakePlaneLevelset(_Inputs):
     def normal(self):
         """Allows to connect normal input to the operator.
 
-        An overall 3d vector that gives normal
+        An overall 3d vector that gives the normal
         direction of the plane.
 
         Parameters

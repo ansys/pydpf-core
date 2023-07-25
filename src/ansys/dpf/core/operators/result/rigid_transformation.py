@@ -18,8 +18,8 @@ class rigid_transformation(Operator):
     streams_container : StreamsContainer, optional
         Streams (result file container) (optional)
     data_sources : DataSources
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
 
 
     Examples
@@ -74,8 +74,8 @@ class rigid_transformation(Operator):
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document="""If the stream is null then we need to get the
-        file path from the data sources""",
+                    document="""If the stream is null, retrieves the file
+        path from the data sources.""",
                 ),
             },
             map_output_pin_spec={
@@ -119,7 +119,7 @@ class rigid_transformation(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -175,8 +175,8 @@ class InputsRigidTransformation(_Inputs):
     def data_sources(self):
         """Allows to connect data_sources input to the operator.
 
-        If the stream is null then we need to get the
-        file path from the data sources
+        If the stream is null, retrieves the file
+        path from the data sources.
 
         Parameters
         ----------

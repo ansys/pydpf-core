@@ -11,22 +11,22 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elemental_mean(Operator):
-    """Computes the average of a multi-entity fields, (ElementalNodal ->
+    """Computes the average of a multi-entity field, (ElementalNodal ->
     Elemental), (NodalElemental -> Nodal).
 
     Parameters
     ----------
     field : Field
     collapse_shell_layers : bool, optional
-        If true shell layers are averaged as well
-        (default is false)
+        If true, shell layers are averaged as well
+        (default is false).
     force_averaging : bool, optional
-        If true you average, if false you just sum
+        If true you average, if false you just sum.
     scoping : Scoping, optional
-        Average only on these elements, if it is
+        Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        container
+        containers.
 
 
     Examples
@@ -81,7 +81,7 @@ class elemental_mean(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the average of a multi-entity fields, (ElementalNodal -&gt;
+        description = """Computes the average of a multi-entity field, (ElementalNodal -&gt;
             Elemental), (NodalElemental -&gt; Nodal)."""
         spec = Specification(
             description=description,
@@ -96,23 +96,23 @@ class elemental_mean(Operator):
                     name="collapse_shell_layers",
                     type_names=["bool"],
                     optional=True,
-                    document="""If true shell layers are averaged as well
-        (default is false)""",
+                    document="""If true, shell layers are averaged as well
+        (default is false).""",
                 ),
                 2: PinSpecification(
                     name="force_averaging",
                     type_names=["bool"],
                     optional=True,
-                    document="""If true you average, if false you just sum""",
+                    document="""If true you average, if false you just sum.""",
                 ),
                 3: PinSpecification(
                     name="scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document="""Average only on these elements, if it is
+                    document="""Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        container""",
+        containers.""",
                 ),
             },
             map_output_pin_spec={
@@ -154,7 +154,7 @@ class elemental_mean(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -216,8 +216,8 @@ class InputsElementalMean(_Inputs):
     def collapse_shell_layers(self):
         """Allows to connect collapse_shell_layers input to the operator.
 
-        If true shell layers are averaged as well
-        (default is false)
+        If true, shell layers are averaged as well
+        (default is false).
 
         Parameters
         ----------
@@ -237,7 +237,7 @@ class InputsElementalMean(_Inputs):
     def force_averaging(self):
         """Allows to connect force_averaging input to the operator.
 
-        If true you average, if false you just sum
+        If true you average, if false you just sum.
 
         Parameters
         ----------
@@ -257,10 +257,10 @@ class InputsElementalMean(_Inputs):
     def scoping(self):
         """Allows to connect scoping input to the operator.
 
-        Average only on these elements, if it is
+        Average only on these elements. if it is a
         scoping container, the label must
         correspond to the one of the fields
-        container
+        containers.
 
         Parameters
         ----------

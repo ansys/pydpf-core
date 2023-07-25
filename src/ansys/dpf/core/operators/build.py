@@ -13,9 +13,6 @@ from ansys.dpf.core.outputs import _make_printable_type
 from ansys.dpf.core.mapping_types import map_types_to_python
 
 
-dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
-dpf.start_local_server(config=dpf.AvailableServerConfigs.LegacyGrpcServer)
-
 def build_docstring(specification):
     """Used to generate class docstrings."""
     docstring = ""
@@ -62,6 +59,9 @@ def build_pin_data(pins, output=False):
         specification = pins[id]
 
         type_names = specification.type_names
+
+        derived_class_type_name = specification.name_derived_class
+
         if specification.ellipsis:
             type_names = update_type_names_for_ellipsis(type_names)
         docstring_types = map_types(type_names)
@@ -75,7 +75,7 @@ def build_pin_data(pins, output=False):
         pin_name = pin_name.replace(">", "_")
 
         main_type = docstring_types[0] if len(docstring_types) >= 1 else ""
-        built_in_types = ("int", "double", "string", "bool", "float", "str")
+        built_in_types = ("int", "double", "string", "bool", "float", "str", "dict")
 
         # Case where output pin has multiple types.
         multiple_types = len(type_names) >= 2
@@ -88,9 +88,11 @@ def build_pin_data(pins, output=False):
             "name": pin_name,
             "pin_name": pin_name, # Base pin name, without numbers for when pin is ellipsis
             "has_types": len(type_names) >= 1,
+            "has_derived_class": len(derived_class_type_name) >= 1,
             "multiple_types": multiple_types,
             "printable_type_names": printable_type_names,
             "types": type_names,
+            "derived_type_name": derived_class_type_name,
             "types_for_docstring": parameter_types,
             "main_type": main_type,
             "built_in_main_type": main_type in built_in_types,
@@ -166,7 +168,7 @@ def build_operator(
     return black.format_str(cls, mode=black.FileMode())
 
 
-if __name__ == "__main__":
+def build_operators():
     print(f"Generating operators for server {dpf.SERVER.version}")
 
     this_path = os.path.dirname(os.path.abspath(__file__))
@@ -215,7 +217,7 @@ if __name__ == "__main__":
                     capital_class_name,
                     category,
                 )
-                exec(operator_str)
+                exec(operator_str, globals())
                 f.write(operator_str)
                 succeeded += 1
             except SyntaxError as e:
@@ -229,10 +231,16 @@ if __name__ == "__main__":
                 print(error_message)
 
     print(f"Generated {succeeded} out of {len(available_operators)}")
-    dpf.SERVER.shutdown()
     if succeeded == len(available_operators):
         print("Success")
         exit(0)
     else:
         print("Terminated with errors")
         exit(1)
+
+
+if __name__ == "__main__":
+    dpf.set_default_server_context(dpf.AvailableServerContexts.premium)
+    dpf.start_local_server(config=dpf.AvailableServerConfigs.LegacyGrpcServer)
+    build_operators()
+    dpf.SERVER.shutdown()

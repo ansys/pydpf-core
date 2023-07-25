@@ -16,6 +16,7 @@ class mesh_to_graphics_edges(Operator):
     Parameters
     ----------
     mesh_scoping : Scoping, optional
+    include_mid_nodes : bool, optional
     mesh : MeshedRegion
 
 
@@ -29,12 +30,15 @@ class mesh_to_graphics_edges(Operator):
     >>> # Make input connections
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_include_mid_nodes = bool()
+    >>> op.inputs.include_mid_nodes.connect(my_include_mid_nodes)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mesh.mesh_to_graphics_edges(
     ...     mesh_scoping=my_mesh_scoping,
+    ...     include_mid_nodes=my_include_mid_nodes,
     ...     mesh=my_mesh,
     ... )
 
@@ -43,12 +47,21 @@ class mesh_to_graphics_edges(Operator):
     >>> result_connectivity = op.outputs.connectivity()
     """
 
-    def __init__(self, mesh_scoping=None, mesh=None, config=None, server=None):
+    def __init__(
+        self,
+        mesh_scoping=None,
+        include_mid_nodes=None,
+        mesh=None,
+        config=None,
+        server=None,
+    ):
         super().__init__(name="mesh_to_graphics_edges", config=config, server=server)
         self._inputs = InputsMeshToGraphicsEdges(self)
         self._outputs = OutputsMeshToGraphicsEdges(self)
         if mesh_scoping is not None:
             self.inputs.mesh_scoping.connect(mesh_scoping)
+        if include_mid_nodes is not None:
+            self.inputs.include_mid_nodes.connect(include_mid_nodes)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
 
@@ -61,6 +74,12 @@ class mesh_to_graphics_edges(Operator):
                 1: PinSpecification(
                     name="mesh_scoping",
                     type_names=["scoping"],
+                    optional=True,
+                    document="""""",
+                ),
+                6: PinSpecification(
+                    name="include_mid_nodes",
+                    type_names=["bool"],
                     optional=True,
                     document="""""",
                 ),
@@ -116,7 +135,7 @@ class mesh_to_graphics_edges(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -135,6 +154,8 @@ class InputsMeshToGraphicsEdges(_Inputs):
     >>> op = dpf.operators.mesh.mesh_to_graphics_edges()
     >>> my_mesh_scoping = dpf.Scoping()
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+    >>> my_include_mid_nodes = bool()
+    >>> op.inputs.include_mid_nodes.connect(my_include_mid_nodes)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     """
@@ -145,6 +166,10 @@ class InputsMeshToGraphicsEdges(_Inputs):
             mesh_to_graphics_edges._spec().input_pin(1), 1, op, -1
         )
         self._inputs.append(self._mesh_scoping)
+        self._include_mid_nodes = Input(
+            mesh_to_graphics_edges._spec().input_pin(6), 6, op, -1
+        )
+        self._inputs.append(self._include_mid_nodes)
         self._mesh = Input(mesh_to_graphics_edges._spec().input_pin(7), 7, op, -1)
         self._inputs.append(self._mesh)
 
@@ -165,6 +190,24 @@ class InputsMeshToGraphicsEdges(_Inputs):
         >>> op.inputs.mesh_scoping(my_mesh_scoping)
         """
         return self._mesh_scoping
+
+    @property
+    def include_mid_nodes(self):
+        """Allows to connect include_mid_nodes input to the operator.
+
+        Parameters
+        ----------
+        my_include_mid_nodes : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.mesh_to_graphics_edges()
+        >>> op.inputs.include_mid_nodes.connect(my_include_mid_nodes)
+        >>> # or
+        >>> op.inputs.include_mid_nodes(my_include_mid_nodes)
+        """
+        return self._include_mid_nodes
 
     @property
     def mesh(self):

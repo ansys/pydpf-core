@@ -19,12 +19,11 @@ import psutil
 
 import ansys.dpf.core as core
 from ansys.dpf.core.check_version import server_meet_version
-from ansys.dpf.core import errors, session, server_factory
+from ansys.dpf.core import errors, server_factory
 from ansys.dpf.core._version import (
     server_to_ansys_grpc_dpf_version,
     server_to_ansys_version,
 )
-from ansys.dpf.core.misc import __ansys_version__
 from ansys.dpf.core import server_context
 from ansys.dpf.gate import load_api, data_processing_grpcapi
 
@@ -42,17 +41,7 @@ MAX_PORT = 65535
 def _get_dll_path(name, ansys_path=None):
     """Helper function to get the right dll path for Linux or Windows"""
     ISPOSIX = os.name == "posix"
-    if ansys_path is None:
-        ansys_path = os.environ.get("ANSYS_DPF_PATH")
-    if ansys_path is None:
-        awp_root = "AWP_ROOT" + str(__ansys_version__)
-        ANSYS_INSTALL = os.environ.get(awp_root, None)
-        if ANSYS_INSTALL is None:
-            ANSYS_INSTALL = core.misc.find_ansys()
-    else:
-        ANSYS_INSTALL = ansys_path
-    if ANSYS_INSTALL is None:
-        raise ImportError(f"Could not find ansys installation path using {awp_root}.")
+    ANSYS_INSTALL = core.misc.get_ansys_path(ansys_path)
     api_path = load_api._get_path_in_install()
     if api_path is None:
         raise ImportError(f"Could not find API path in install.")
@@ -117,16 +106,12 @@ def _run_launch_server_process(
                 f"--port {port}",
             ]  # pragma: no cover
         path_in_install = load_api._get_path_in_install(internal_folder="bin")
-        dpf_run_dir = _verify_ansys_path_is_valid(
-            ansys_path, executable, path_in_install
-        )
+        dpf_run_dir = _verify_ansys_path_is_valid(ansys_path, executable, path_in_install)
 
     old_dir = os.getcwd()
     os.chdir(dpf_run_dir)
     if not bShell:
-        process = subprocess.Popen(
-            run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-        )
+        process = subprocess.Popen(run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     else:
         process = subprocess.Popen(
             run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
@@ -171,9 +156,7 @@ def _wait_and_check_server_connection(
 
         if time.time() > t_timeout:
             if timedout:
-                raise TimeoutError(
-                    f"Server did not start in {timeout + timeout} seconds"
-                )
+                raise TimeoutError(f"Server did not start in {timeout + timeout} seconds")
             timedout = True
             t_timeout += timeout
 
@@ -275,9 +258,7 @@ def launch_dpf_on_docker(
                 current_errors.append(line)
             while lock.locked():
                 pass
-            running_docker_config.listen_to_process(
-                LOG, cmd_lines, current_errors, timeout, False
-            )
+            running_docker_config.listen_to_process(LOG, cmd_lines, current_errors, timeout, False)
 
     _wait_and_check_server_connection(
         process,
@@ -315,44 +296,28 @@ def launch_remote_dpf(version=None):
     return instance
 
 
-def _compare_ansys_grpc_dpf_version(
-    right_grpc_module_version_str: str, grpc_module_version: str
-):
+def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_module_version: str):
     if right_grpc_module_version_str:
         import re
         from packaging.version import parse as parse_version
 
         right_version_first_numbers = re.search(r"\d", right_grpc_module_version_str)
-        right_version_numbers = right_grpc_module_version_str[
-            right_version_first_numbers.start() :
-        ]
+        right_version_numbers = right_grpc_module_version_str[right_version_first_numbers.start() :]
         compare = (
             "=="
             if right_version_first_numbers.start() == 0
-            else right_grpc_module_version_str[
-                0 : right_version_first_numbers.start()
-            ].strip()
+            else right_grpc_module_version_str[0 : right_version_first_numbers.start()].strip()
         )
         if compare == "==":
-            return parse_version(grpc_module_version) == parse_version(
-                right_version_numbers
-            )
+            return parse_version(grpc_module_version) == parse_version(right_version_numbers)
         elif compare == ">=":
-            return parse_version(grpc_module_version) >= parse_version(
-                right_version_numbers
-            )
+            return parse_version(grpc_module_version) >= parse_version(right_version_numbers)
         elif compare == ">":
-            return parse_version(grpc_module_version) > parse_version(
-                right_version_numbers
-            )
+            return parse_version(grpc_module_version) > parse_version(right_version_numbers)
         elif compare == "<=":
-            return parse_version(grpc_module_version) <= parse_version(
-                right_version_numbers
-            )
+            return parse_version(grpc_module_version) <= parse_version(right_version_numbers)
         elif compare == "<":
-            return parse_version(grpc_module_version) < parse_version(
-                right_version_numbers
-            )
+            return parse_version(grpc_module_version) < parse_version(right_version_numbers)
     return True
 
 
@@ -371,15 +336,12 @@ def check_ansys_grpc_dpf_version(server, timeout):
             f"Failed to connect to {server._input_ip}:{server._input_port} in {timeout} seconds"
         )
     compatibility_link = (
-        f"https://dpf.docs.pyansys.com/getting_started/"
-        f"index.html#client-server-compatibility"
+        f"https://dpf.docs.pyansys.com/getting_started/" f"index.html#client-server-compatibility"
     )
     LOG.debug("Established connection to DPF gRPC")
     grpc_module_version = ansys.grpc.dpf.__version__
     server_version = server.version
-    right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(
-        server_version, None
-    )
+    right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
     if right_grpc_module_version is None:  # pragma: no cover
         # warnings.warn(f"No requirement specified on ansys-grpc-dpf for server version "
         #               f"{server_version}. Continuing with the ansys-grpc-dpf version "
@@ -387,9 +349,7 @@ def check_ansys_grpc_dpf_version(server, timeout):
         #               f"please refer to the compatibility guidelines given in "
         #               f"{compatibility_link}.")
         return
-    if not _compare_ansys_grpc_dpf_version(
-        right_grpc_module_version, grpc_module_version
-    ):
+    if not _compare_ansys_grpc_dpf_version(right_grpc_module_version, grpc_module_version):
         ansys_version_to_use = server_to_ansys_version.get(server_version, "Unknown")
         ansys_versions = core._version.server_to_ansys_version
         latest_ansys = ansys_versions[max(ansys_versions.keys())]
@@ -476,8 +436,17 @@ class BaseServer(abc.ABC):
         self._session_instance = None
 
     @property
-    def _session(self):
+    def session(self):
+        """Allows to plan events call backs from the server:
+        progress bar when workflows are running, logging...
+
+        Returns
+        -------
+        ansys.dpf.core.session.Session
+        """
         if not self._session_instance:
+            from ansys.dpf.core import session
+
             self._session_instance = session.Session(self)
         return self._session_instance
 
@@ -627,10 +596,7 @@ class BaseServer(abc.ABC):
             warnings.warn(traceback.format_exc())
 
         try:
-            if (
-                hasattr(core, "_server_instances")
-                and core._server_instances is not None
-            ):
+            if hasattr(core, "_server_instances") and core._server_instances is not None:
                 for i, server in enumerate(core._server_instances):
                     if server() == self:
                         core._server_instances.remove(server)
@@ -754,9 +720,9 @@ class GrpcServer(CServer):
                 self.version
                 break
             except errors.DPFServerException as e:
-                if (
-                    "GOAWAY" not in str(e.args) and "unavailable" not in str(e.args)
-                ) or i == (num_connection_tryouts - 1):
+                if ("GOAWAY" not in str(e.args) and "unavailable" not in str(e.args)) or i == (
+                    num_connection_tryouts - 1
+                ):
                     raise e
 
     @property
@@ -788,19 +754,22 @@ class GrpcServer(CServer):
         self._shutdown_func = (api.data_processing_release_server, self.client)
 
     def shutdown(self):
-        if self._remote_instance:
-            self._remote_instance.delete()
-        try:
-            if hasattr(self, "_preparing_shutdown_func"):
-                self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
-        except Exception as e:
-            warnings.warn("couldn't prepare shutdown: " + str(e.args))
-        try:
-            if hasattr(self, "_shutdown_func"):
-                self._shutdown_func[0](self._shutdown_func[1])
-        except Exception as e:
-            warnings.warn("couldn't shutdown server: " + str(e.args))
-        self._docker_config.remove_docker_image()
+        if self.live:
+            if self._remote_instance:
+                self._remote_instance.delete()
+            try:
+                if hasattr(self, "_preparing_shutdown_func"):
+                    self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
+            except Exception as e:
+                warnings.warn("couldn't prepare shutdown: " + str(e.args))
+            try:
+                if hasattr(self, "_shutdown_func"):
+                    self._shutdown_func[0](self._shutdown_func[1])
+            except Exception as e:
+                warnings.warn("couldn't shutdown server: " + str(e.args))
+
+            self._docker_config.remove_docker_image()
+            self.live = False
 
     def __eq__(self, other_server):
         """Return true, if ***** are equals"""
@@ -1055,9 +1024,7 @@ class LegacyGrpcServer(BaseServer):
             else:
 
                 if docker_config.use_docker:
-                    self.docker_config = server_factory.RunningDockerConfig(
-                        docker_config
-                    )
+                    self.docker_config = server_factory.RunningDockerConfig(docker_config)
                     launch_dpf_on_docker(
                         running_docker_config=self.docker_config,
                         ansys_path=ansys_path,

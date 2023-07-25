@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class scoping_low_pass(Operator):
-    """The low pass filter returns all the values strictly inferior to the
-    threshold value in input.
+    """The low pass filter returns all the values below (but not equal to)
+    the threshold value in input.
 
     Parameters
     ----------
@@ -23,10 +23,10 @@ class scoping_low_pass(Operator):
         A threshold scalar or a field containing one
         value is expected
     both : bool, optional
-        Bool(optional, default false) if set to true,
-        the complement of the filtered fields
+        The default is false. if set to true, the
+        complement of the filtered fields
         container is returned on output pin
-        #1
+        1.
 
 
     Examples
@@ -68,8 +68,8 @@ class scoping_low_pass(Operator):
 
     @staticmethod
     def _spec():
-        description = """The low pass filter returns all the values strictly inferior to the
-            threshold value in input."""
+        description = """The low pass filter returns all the values below (but not equal to)
+            the threshold value in input."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -91,10 +91,10 @@ class scoping_low_pass(Operator):
                     name="both",
                     type_names=["bool"],
                     optional=True,
-                    document="""Bool(optional, default false) if set to true,
-        the complement of the filtered fields
+                    document="""The default is false. if set to true, the
+        complement of the filtered fields
         container is returned on output pin
-        #1""",
+        1.""",
                 ),
             },
             map_output_pin_spec={
@@ -136,7 +136,7 @@ class scoping_low_pass(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -216,10 +216,10 @@ class InputsScopingLowPass(_Inputs):
     def both(self):
         """Allows to connect both input to the operator.
 
-        Bool(optional, default false) if set to true,
-        the complement of the filtered fields
+        The default is false. if set to true, the
+        complement of the filtered fields
         container is returned on output pin
-        #1
+        1.
 
         Parameters
         ----------
