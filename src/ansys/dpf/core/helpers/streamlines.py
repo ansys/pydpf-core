@@ -8,75 +8,46 @@ import warnings
 from ansys.dpf.core.common import locations
 from ansys.dpf.core.helpers.utils import _sort_supported_kwargs
 
-# class Streamline:
-#     """Class to define the Streamline object
-#     scripting with `ansys-dpf-core`.
-#     """
-#
-#     def __init__(self, pv_data_set):
-#         """Instantiate Streamline
-#         from pyvista.PolyData object.
-#         This construction is only
-#         intended to be used internally.
-#
-#         Parameters
-#         ----------
-#         pv_data_set: pyvista.PolyData
-#         """
-#         _pv_data_set = pv_data_set
 
-def _pvdataset_to_fields(data_set):
-    to_return = {}
-    cell_points = []
-    cell_types = []
-    data_arrays = []
-    array_names = data_set.array_names
-    for n in array_names:
-        data_arrays.append(data_set[n])
-    for i in range(0, data_set.n_cells):
-        cell_points.append(data_set.cell_point_ids(i))
-        cell_types.append(data_set.cell_type(i))
-    to_return["cell_points"] = cell_points
-    to_return["cell_types"] = cell_types
-    to_return["points"] = data_set.points
-    to_return["array_names"] = array_names
-    to_return["data_arrays"] = data_arrays
-    return to_return
+class Streamlines:
+    """Class to define the Streamline object
+    scripting with `ansys-dpf-core`.
 
+    """
 
-def _fields_to_pvdataset(fields):
-    from ansys.dpf.core.vtk_helper import PyVistaImportError
-    try:
-        import pyvista as pv
-    except ModuleNotFoundError:
-        raise PyVistaImportError
+    def __init__(self, pv_data_set):
+        """Instantiate Streamline
+        from pyvista.PolyData object.
+        This construction is only
+        intended to be used internally.
 
-    cell_points = fields["cell_points"]
-    cell_types = fields["cell_types"]
-    points = fields["points"]
-    array_names = fields["array_names"]
-    data_arrays = fields["data_arrays"]
-    ncells = len(cell_types)
-    npoints = len(points)
-    vpoly = vtk.vtkPolyData()
-    vpoints = vtk.vtkPoints()
-    vpoints.SetNumberOfPoints(npoints)
-    vtk_array_points = pv.convert_array(arr=points)
-    vpoints.SetData(vtk_array_points)
-    vpoly.SetPoints(vpoints)
-    vcells = vtk.vtkCellArray()
-    for i in range(0, ncells):
-        vcells.InsertNextCell(cell_types[i])
-        for pid in cell_points[i]:
-            vcells.InsertCellPoint(pid)
-    # vtk_array_cell_points = pv.convert_array(arr=cell_points)
-    # vcells.SetCells(ncells, vtk_array_cell_points)
-    vpoly.SetPolys(vcells)
-    pv_poly = pv.wrap(vpoly)
-    for ind, n in enumerate(array_names):
-        pv_poly[n] = data_arrays[ind]
-    return pv_poly
+        Parameters
+        ----------
+        pv_data_set: pyvista.PolyData
+        """
+        # in the future, a FieldsContainer would
+        # probably work to store the related data
+        self._pv_data_set = pv_data_set
 
+class StreamlinesSource:
+    """Class to define the StreamlineSource
+    object scripting with `ansys-dpf-core`.
+
+    """
+
+    def __init__(self, pv_data_set):
+        """Instantiate Streamline
+        from pyvista.PolyData object.
+        This construction is only
+        intended to be used internally.
+
+        Parameters
+        ----------
+        pv_data_set: pyvista.PolyData
+        """
+        # in the future, a MeshedRegion would
+        # probably work to store the related data
+        self._pv_data_set = pv_data_set
 
 def compute_streamlines(meshed_region, field, **kwargs):
     """Compute the streamlines for a given mesh and velocity
@@ -141,14 +112,14 @@ def compute_streamlines(meshed_region, field, **kwargs):
             return_source=True,
             **kwargs_from_source,
         )
-        streamlines = _pvdataset_to_fields(streamlines)
-        src = _pvdataset_to_fields(src)
+        streamlines = Streamlines(streamlines)
+        src = StreamlinesSource(src)
         return streamlines, src
     else:
         streamlines = grid.streamlines(
             vectors=f"{stream_name}",
             **kwargs_from_source,
         )
-        streamlines = _pvdataset_to_fields(streamlines)
+        streamlines = Streamlines(streamlines)
         return streamlines
 
