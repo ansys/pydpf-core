@@ -59,7 +59,7 @@ pl0 = DpfPlotter()
 try:
     streamline_obj = compute_streamlines(meshed_region=meshed_region, field=field)
     pl0.add_mesh(meshed_region=meshed_region, opacity=0.3)
-    pl0.add_streamlines(computed_streamlines=streamline_obj)
+    pl0.add_streamlines(streamlines=streamline_obj)
     pl0.show_figure(show_axes=True)
 except:
     # It throws an error and ends here, because source points are not set correctly.
@@ -81,8 +81,8 @@ streamline_obj, source_obj = compute_streamlines(
 pl1 = DpfPlotter()
 pl1.add_mesh(meshed_region=meshed_region, opacity=0.3)
 pl1.add_streamlines(
-    computed_streamlines=streamline_obj,
-    computed_source=source_obj,
+    streamlines=streamline_obj,
+    source=source_obj,
     permissive=True,
 )
 pl1.show_figure(show_axes=True)
@@ -108,8 +108,8 @@ streamline_obj, source_obj = compute_streamlines(
 pl2 = DpfPlotter()
 pl2.add_field(field, meshed_region, opacity=0.2)
 pl2.add_streamlines(
-    computed_streamlines=streamline_obj,
-    computed_source=source_obj,
+    streamlines=streamline_obj,
+    source=source_obj,
     radius=0.001,
 )
 pl2.show_figure(show_axes=True)
@@ -179,23 +179,23 @@ streamline_4, source_4 = compute_streamlines(
 pl = DpfPlotter()
 pl.add_field(field, meshed_region, opacity=0.2)
 pl.add_streamlines(
-    computed_streamlines=streamline_1,
-    computed_source=source_1,
+    streamlines=streamline_1,
+    source=source_1,
     radius=0.007,
 )
 pl.add_streamlines(
-    computed_streamlines=streamline_2,
-    computed_source=source_2,
+    streamlines=streamline_2,
+    source=source_2,
     radius=0.007,
 )
 pl.add_streamlines(
-    computed_streamlines=streamline_3,
-    computed_source=source_3,
+    streamlines=streamline_3,
+    source=source_3,
     radius=0.007,
 )
 pl.add_streamlines(
-    computed_streamlines=streamline_4,
-    computed_source=source_4,
+    streamlines=streamline_4,
+    source=source_4,
     radius=0.007,
 )
 pl.show_figure(show_axes=True)

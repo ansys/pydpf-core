@@ -66,8 +66,8 @@ single_2d_streamline, single_2d_source = compute_streamlines(
 pl_single = DpfPlotter()
 pl_single.add_field(field, meshed_region, opacity=0.2)
 pl_single.add_streamlines(
-    computed_streamlines=single_2d_streamline,
-    computed_source=single_2d_source,
+    streamlines=single_2d_streamline,
+    source=single_2d_source,
     radius=0.00002,
 )
 pl_single.show_figure(show_axes=True)
@@ -93,8 +93,8 @@ multiple_2d_streamlines, multiple_2d_source = compute_streamlines(
 pl_multiple = DpfPlotter()
 pl_multiple.add_field(field, meshed_region, opacity=0.2)
 pl_multiple.add_streamlines(
-    computed_streamlines=multiple_2d_streamlines,
-    computed_source=multiple_2d_source,
+    streamlines=multiple_2d_streamlines,
+    source=multiple_2d_source,
     radius=0.000015,
 )
 pl_multiple.show_figure(plane="xy", show_axes=True)
