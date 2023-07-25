@@ -9,7 +9,11 @@ import ansys.dpf.core.errors
 
 from ansys.dpf.core import scoping, field, property_field
 from ansys.dpf.core.check_version import server_meet_version, version_requires
-from ansys.dpf.core.common import locations, types, nodal_properties
+from ansys.dpf.core.common import (
+    locations,
+    types,
+    nodal_properties,
+)
 from ansys.dpf.core.elements import Elements, element_types
 from ansys.dpf.core.nodes import Nodes
 from ansys.dpf.core.faces import Faces
@@ -587,11 +591,6 @@ class MeshedRegion:
 
         This method is useful for passing data from one server instance to another.
 
-        .. warning::
-           Only nodes scoping and coordinates and elements scoping, connectivity,
-           and types are copied. The eventual property field for elemental properties
-           and named selection will not be copied.
-
         Parameters
         ----------
         server : ansys.dpf.core.server, optional
@@ -613,23 +612,30 @@ class MeshedRegion:
         >>> deep_copy = meshed_region.deep_copy(server=other_server)
 
         """
-        if self.nodes.scoping is None:  # empty Mesh
-            return MeshedRegion()
-        node_ids = self.nodes.scoping.ids
-        element_ids = self.elements.scoping.ids
-        mesh = MeshedRegion(num_nodes=len(node_ids), num_elements=len(element_ids), server=server)
-        with self.nodes.coordinates_field.as_local_field() as coord:
-            for i, node in enumerate(mesh.nodes.add_nodes(len(node_ids))):
-                node.id = node_ids[i]
-                node.coordinates = coord.get_entity_data(i)
-        with self.elements.connectivities_field.as_local_field() as connect:
-            with self.elements.element_types_field.as_local_field() as types:
-                for i, elem in enumerate(mesh.elements.add_elements(len(element_ids))):
-                    elem.id = element_ids[i]
-                    elem.connectivity = connect.get_entity_data(i)
-                    elem.shape = element_types.shape(types.get_entity_data(i)[0])
-        mesh.unit = self.unit
-        return mesh
+        if self._server.config.legacy:
+            if self.nodes.scoping is None:  # empty Mesh
+                return MeshedRegion()
+            node_ids = self.nodes.scoping.ids
+            element_ids = self.elements.scoping.ids
+            mesh = MeshedRegion(
+                num_nodes=len(node_ids), num_elements=len(element_ids), server=server
+            )
+            with self.nodes.coordinates_field.as_local_field() as coord:
+                for i, node in enumerate(mesh.nodes.add_nodes(len(node_ids))):
+                    node.id = node_ids[i]
+                    node.coordinates = coord.get_entity_data(i)
+            with self.elements.connectivities_field.as_local_field() as connect:
+                with self.elements.element_types_field.as_local_field() as types:
+                    for i, elem in enumerate(mesh.elements.add_elements(len(element_ids))):
+                        elem.id = element_ids[i]
+                        elem.connectivity = connect.get_entity_data(i)
+                        elem.shape = element_types.shape(types.get_entity_data(i)[0])
+            mesh.unit = self.unit
+            return mesh
+        else:
+            from ansys.dpf.core.core import _deep_copy
+
+            return _deep_copy(self, server=server)
 
     def field_of_properties(self, property_name):
         """

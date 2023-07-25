@@ -106,8 +106,7 @@ class GenericDataContainer:
 
         Returns
         -------
-        type
-            Property object instance.
+        Property object instance.
         """
         any_ptr = self._api.generic_data_container_get_property_any(self, property_name)
         any_dpf = Any(any_ptr, self._server)

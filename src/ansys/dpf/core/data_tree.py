@@ -482,7 +482,8 @@ class DataTree:
             out = DataTree(data_tree=obj, server=self._server)
         return out
 
-    def get_attribute_names(self):
+    @property
+    def attribute_names(self):
         """
         Returns a list of defined attribute names.
 
@@ -495,7 +496,7 @@ class DataTree:
         >>> from ansys.dpf import core as dpf
         >>> data_tree = dpf.DataTree()
         >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
-        >>> data_tree.get_attribute_names()
+        >>> data_tree.attribute_names
         ['id', 'name', 'qualities']
         """
         coll_obj = collection.StringCollection(
@@ -507,7 +508,8 @@ class DataTree:
 
         return coll_obj.get_integral_entries()
 
-    def get_sub_tree_names(self):
+    @property
+    def sub_tree_names(self):
         """
         Returns a list of defined sub-tree names.
 
@@ -522,7 +524,7 @@ class DataTree:
         >>> first_subtree = dpf.DataTree()
         >>> second_subtree = dpf.DataTree()
         >>> data_tree.add(first=first_subtree, second=second_subtree)
-        >>> data_tree.get_sub_tree_names()
+        >>> data_tree.sub_tree_names
         ['first', 'second']
         """
         coll_obj = collection.StringCollection(
@@ -534,11 +536,19 @@ class DataTree:
 
         return coll_obj.get_integral_entries()
 
+    @attribute_names.setter
+    def attribute_names(self, val):
+        raise AttributeError("can't set attribute")
+
+    @sub_tree_names.setter
+    def sub_tree_names(self, val):
+        raise AttributeError("can't set attribute")
+
     def __to_dict(self, dic):
-        for attribute_name in self.get_attribute_names():
+        for attribute_name in self.attribute_names:
             dic[attribute_name] = self.get_as(attribute_name)
 
-        for sub_tree_name in self.get_sub_tree_names():
+        for sub_tree_name in self.sub_tree_names:
             sub_tree = self.get_as(sub_tree_name, types.data_tree)
             sub_dic = {}
             sub_tree.__to_dict(sub_dic)
@@ -546,7 +556,7 @@ class DataTree:
 
     def to_dict(self):
         """
-        Returns a dictionary representation of the DataTree
+        Returns a read-only dictionary representation of the DataTree.
 
         Returns
         -------
@@ -568,7 +578,7 @@ class DataTree:
         return dic
 
     def __setattr__(self, key, value):
-        if key == "_common_keys" or key in self._common_keys:
+        if key == "_common_keys" or key in self._common_keys or key in dir(self):
             return super.__setattr__(self, key, value)
         self.add({key: value})
 

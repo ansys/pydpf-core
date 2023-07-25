@@ -533,6 +533,62 @@ def download_fluent_multi_species(
     }
 
 
+def download_fluent_multi_phase(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> dict:
+    """Download the cas and dat file of a fluent analysis with multiple phases
+    and return the download paths into a dictionary extension->path.
+    If the server is remote (or doesn't share memory), the file is uploaded or made available
+    on the server side.
+
+    Examples files are downloaded to a persistent cache to avoid
+    re-downloading the same file twice.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    dict[str:str]
+        Path to the example files.
+
+    Examples
+    --------
+    Download an example result file and return the path of the file
+
+    >>> from ansys.dpf.core import examples
+    >>> paths = examples.download_fluent_multi_phase()
+    >>> paths
+    {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-multi_phase\\fluentMultiphase.cas.h5',
+     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\fluent-multi_phase\\fluentMultiphase.dat.h5'} # noqa: E501
+
+    """
+    return {
+        "cas": _download_file(
+            "result_files/fluent-multi_phase",
+            "fluentMultiphase.cas.h5",
+            should_upload,
+            server,
+            return_local_path,
+        ),
+        "dat": _download_file(
+            "result_files/fluent-multi_phase",
+            "fluentMultiphase.dat.h5",
+            should_upload,
+            server,
+            return_local_path,
+        ),
+    }
+
+
 def download_extrapolation_3d_result(
     should_upload: bool = True, server=None, return_local_path=False
 ) -> dict:
