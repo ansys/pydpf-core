@@ -309,45 +309,21 @@ class _PyVistaPlotter:
                 point_size=label_point_size,
             )
 
-    def add_streamlines(self, meshed_region=None, field=None, computed_streamlines=None, computed_source=None, radius=1.0, **kwargs):
+    def add_streamlines(self, computed_streamlines, computed_source=None, radius=1.0, **kwargs):
         permissive = kwargs.pop("permissive", None)
-        return_source = kwargs.get("return_source", None)
-        src = None
-
-        if computed_streamlines is None:
-            if meshed_region is None or field is None:
-                raise AttributeError(
-                    "if computed_streamlines argument is None,"
-                    "meshed_region and field arguments must be provided"
-                )
-
-        # create streamlines
-        if computed_streamlines is not None:
-            streamlines = computed_streamlines
-        else:
-            if return_source:
-                streamlines, src = compute_streamlines(
-                    meshed_region=meshed_region,
-                    field=field,
-                    **kwargs
-                )
-            else:
-                streamlines = compute_streamlines(
-                    meshed_region=meshed_region,
-                    field=field,
-                    **kwargs
-                )
-        if computed_source is not None:
-            src = computed_source
-
+        kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
         # set streamline on plotter
         sargs = dict(vertical=False)
+        streamlines = computed_streamlines._pv_data_set
         if not (permissive and streamlines.n_points == 0):
-            streamlines = streamlines._pv_data_set
-            self._plotter.add_mesh(streamlines.tube(radius=radius), scalar_bar_args=sargs)
-        if src is not None:
-            src = src._pv_data_set
-            self._plotter.add_mesh(src)
+            self._plotter.add_mesh(
+                streamlines.tube(radius=radius),
+                scalar_bar_args=sargs,
+                **kwargs_in
+            )
+        if computed_source is not None:
+            src = computed_source._pv_data_set
+            self._plotter.add_mesh(src, **kwargs_in)
 
     def show_figure(self, **kwargs):
 
@@ -518,9 +494,8 @@ class DpfPlotter:
 
     def add_streamlines(
         self,
-        meshed_region=None,
-        field=None,
-        computed_streamlines=None,
+        computed_streamlines,
+        computed_source=None,
         radius=0.1,
         **kwargs,
     ):
@@ -533,22 +508,17 @@ class DpfPlotter:
 
         Parameters
         ----------
-        meshed_region : MeshedRegion
-            MeshedRegion the streamline will be computed on.
-            Not needed if computed_streamlines is provided.
-        field : Field
-            Field containing raw vector data the streamline is
-            computed from. The data location must be nodal, velocity
-            values must be defined at nodes.
-            Not needed if computed_streamlines is provided.
-        computed_streamlines : FieldsContainer
-            FieldsContianer containing computed streamlines data,
-            computde using `dpf.helpers.compute_streamlines`
-            function. Must be provided if field and meshed_region
-            are not provided.
+        computed_streamlines : helpers.streamlines.Streamlines
+            Object containing computed streamlines data,
+            computed using `helpers.streamlines.compute_streamlines`
+            function.
+        computed_source : helpers.streamlines.StreamlinesSource, optional
+            Object containing computed streamines source data,
+            computed using `helpers.streamlines.compute_streamlines`
+            function.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
-            is available at :func:`pyvista.DataSetFilters.streamlines`.
+            is available at :func:`pyvista.plot`.
             The "permissive" (boolean) can be used to avoid throwing if
             computed streamlines are empty. See ``Examples`` section for
             more information.
@@ -585,9 +555,8 @@ class DpfPlotter:
 
         """
         self._internal_plotter.add_streamlines(
-            meshed_region=meshed_region,
-            field=field,
             computed_streamlines=computed_streamlines,
+            computed_source=computed_source,
             radius=radius,
             **kwargs,
         )
