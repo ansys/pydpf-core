@@ -132,13 +132,13 @@ def compute_streamlines(meshed_region, field, **kwargs):
             return_source=True,
             **kwargs_from_source,
         )
-        streamlines = Streamlines(streamlines)
-        src = StreamlinesSource(src)
+        streamlines = Streamlines(pv_data_set=streamlines)
+        src = StreamlinesSource(pv_data_set=src)
         return streamlines, src
     else:
         streamlines = grid.streamlines(
             vectors=f"{stream_name}",
             **kwargs_from_source,
         )
-        streamlines = Streamlines(streamlines)
+        streamlines = Streamlines(pv_data_set=streamlines)
         return streamlines
