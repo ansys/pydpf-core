@@ -261,7 +261,7 @@ def create_overall_field(
     overall location.
 
     Regarding the nature of the entity contained in the field, we set the same value
-    for all element.
+    for all elements.
 
     Parameters
     ----------
