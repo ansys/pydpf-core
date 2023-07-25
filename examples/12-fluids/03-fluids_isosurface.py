@@ -9,7 +9,7 @@ This example shows how to compute iso-surfaces on fluid models.
 
 ###############################################################################
 # Import the ``dpf-core`` module and its examples files.
-# ------------------------------
+# # ~~~~~~~~~~~~~~~~~~
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
@@ -17,8 +17,8 @@ from ansys.dpf.core.plotter import DpfPlotter
 
 ###############################################################################
 # Specify the file path.
-# We first work on a cas/dat.h5 file with only nodal variable.
-# ------------------------------
+# ~~~~~~~~~~~~~~~~~~
+# We work on a cas/dat.h5 file with only nodal variable.
 
 path = examples.download_cfx_heating_coil()
 ds = dpf.DataSources()
@@ -27,9 +27,10 @@ ds.add_file_path(path["dat"], "dat")
 streams = dpf.operators.metadata.streams_provider(data_sources=ds)
 
 ###############################################################################
-# Evaluate the mesh with mesh_provider operator in order to scope the mesh_cut operator
-# with the mesh.
-# ------------------------------
+# Whole mesh scoping.
+# ~~~~~~~~~~~~~~~~~~
+# We evaluate the mesh with mesh_provider operator in order to scope the mesh_cut operator
+# with the whole mesh.
 
 whole_mesh = dpf.operators.mesh.mesh_provider(streams_container=streams).eval()
 print(whole_mesh)
@@ -41,13 +42,14 @@ cpos_whole_mesh = [
     (-0.0011924505233764648, 1.8596649169921875e-05, 1.125),
     (-0.2738679385987956, -0.30771426079547065, 0.9112125360807675),
 ]
-pl.show_figure(cpos=cpos_whole_mesh, show_axes=True, return_cpos=True)
+pl.show_figure(cpos=cpos_whole_mesh, show_axes=True)
 
 ###############################################################################
+# Extract the physic variable.
+# ~~~~~~~~~~~~~~~~~~
 # Here we choose to work with the static pressure by default which is a scalar and
 # nodal variable without multi-species/phases. With a multi-species case, we should have
 # select one specific using qualifiers ellipsis pins and connecting a LabelSpace "specie"/"phase".
-# ------------------------------
 
 P_S = dpf.operators.result.static_pressure(streams_container=streams, mesh=whole_mesh).eval()
 print(P_S[0])
@@ -62,14 +64,13 @@ cpos_mesh_variable = [
 pl.show_figure(cpos=cpos_mesh_variable, show_axes=True)
 
 ###############################################################################
-# We can finally use the mesh_cut operator on this specific variable for a specific iso-value
-# arbitrary chosen. We have to specify also the mesh scoping. By default, we choose to take
-# into account shell and skin elements.
-# ------------------------------
+# Evaluate iso-surfaces.
+# ~~~~~~~~~~~~~~~~~~
+# We can finally use the mesh_cut operator on this specific variable.
+# We choose to cut the whole with 5 iso-surface equally spaced between min and max.
 
 max_pressure = 361.8170  # Pa
 min_pressure = -153.5356  # Pa
-
 number_of_iso_surface = 5
 step = (max_pressure - min_pressure) / number_of_iso_surface
 
@@ -101,9 +102,11 @@ for i in range(number_of_iso_surface):
     )
     min_pressure += step
 
-pl.show_figure(show_axes=True, cpos=c_pos_iso, return_cpos=True)
+pl.show_figure(show_axes=True, cpos=c_pos_iso)
 
 ###############################################################################
+# Important note
+# ------------------------------
 # For elemental or face variables we should have done an averaging on node
 # by using elemental_to_node operator and set as an input of the
-# mesh_cut operator the node scoping
+# mesh_cut operator the node scoping.
