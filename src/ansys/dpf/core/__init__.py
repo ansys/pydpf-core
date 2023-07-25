@@ -81,8 +81,15 @@ from ansys.dpf.core import check_version
 from ansys.dpf.core import path_utilities
 from ansys.dpf.core import settings
 from ansys.dpf.core.server_factory import ServerConfig, AvailableServerConfigs
-from ansys.dpf.core.server_context import set_default_server_context, AvailableServerContexts
+from ansys.dpf.core.server_context import (
+    set_default_server_context,
+    AvailableServerContexts,
+    LicenseContextManager
+)
 from ansys.dpf.core.unit_system import UnitSystem, unit_systems
+from ansys.dpf.core.mesh_info import MeshInfo
+from ansys.dpf.core.generic_data_container import GenericDataContainer
+from ansys.dpf.core.any import Any
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."

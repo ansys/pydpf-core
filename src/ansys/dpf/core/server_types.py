@@ -24,7 +24,6 @@ from ansys.dpf.core._version import (
     server_to_ansys_grpc_dpf_version,
     server_to_ansys_version,
 )
-from ansys.dpf.core.misc import __ansys_version__
 from ansys.dpf.core import server_context
 from ansys.dpf.gate import load_api, data_processing_grpcapi
 
@@ -42,17 +41,7 @@ MAX_PORT = 65535
 def _get_dll_path(name, ansys_path=None):
     """Helper function to get the right dll path for Linux or Windows"""
     ISPOSIX = os.name == "posix"
-    if ansys_path is None:
-        ansys_path = os.environ.get("ANSYS_DPF_PATH")
-    if ansys_path is None:
-        awp_root = "AWP_ROOT" + str(__ansys_version__)
-        ANSYS_INSTALL = os.environ.get(awp_root, None)
-        if ANSYS_INSTALL is None:
-            ANSYS_INSTALL = core.misc.find_ansys()
-    else:
-        ANSYS_INSTALL = ansys_path
-    if ANSYS_INSTALL is None:
-        raise ImportError(f"Could not find ansys installation path using {awp_root}.")
+    ANSYS_INSTALL = core.misc.get_ansys_path(ansys_path)
     api_path = load_api._get_path_in_install()
     if api_path is None:
         raise ImportError(f"Could not find API path in install.")
@@ -765,19 +754,22 @@ class GrpcServer(CServer):
         self._shutdown_func = (api.data_processing_release_server, self.client)
 
     def shutdown(self):
-        if self._remote_instance:
-            self._remote_instance.delete()
-        try:
-            if hasattr(self, "_preparing_shutdown_func"):
-                self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
-        except Exception as e:
-            warnings.warn("couldn't prepare shutdown: " + str(e.args))
-        try:
-            if hasattr(self, "_shutdown_func"):
-                self._shutdown_func[0](self._shutdown_func[1])
-        except Exception as e:
-            warnings.warn("couldn't shutdown server: " + str(e.args))
-        self._docker_config.remove_docker_image()
+        if self.live:
+            if self._remote_instance:
+                self._remote_instance.delete()
+            try:
+                if hasattr(self, "_preparing_shutdown_func"):
+                    self._preparing_shutdown_func[0](self._preparing_shutdown_func[1])
+            except Exception as e:
+                warnings.warn("couldn't prepare shutdown: " + str(e.args))
+            try:
+                if hasattr(self, "_shutdown_func"):
+                    self._shutdown_func[0](self._shutdown_func[1])
+            except Exception as e:
+                warnings.warn("couldn't shutdown server: " + str(e.args))
+
+            self._docker_config.remove_docker_image()
+            self.live = False
 
     def __eq__(self, other_server):
         """Return true, if ***** are equals"""

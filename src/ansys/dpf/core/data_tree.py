@@ -482,10 +482,117 @@ class DataTree:
             out = DataTree(data_tree=obj, server=self._server)
         return out
 
+    @property
+    def attribute_names(self):
+        """
+        Returns a list of defined attribute names.
+
+        Returns
+        -------
+        list[str]
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> data_tree = dpf.DataTree()
+        >>> data_tree.add(id=3, qualities=["nice", "funny"], name="George")
+        >>> data_tree.attribute_names
+        ['id', 'name', 'qualities']
+        """
+        coll_obj = collection.StringCollection(
+            collection=self._api.dpf_data_tree_get_available_attributes_names_in_string_collection(
+                self
+            ),
+            server=self._server,
+        )
+
+        return coll_obj.get_integral_entries()
+
+    @property
+    def sub_tree_names(self):
+        """
+        Returns a list of defined sub-tree names.
+
+        Returns
+        -------
+        list[str]
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> data_tree = dpf.DataTree()
+        >>> first_subtree = dpf.DataTree()
+        >>> second_subtree = dpf.DataTree()
+        >>> data_tree.add(first=first_subtree, second=second_subtree)
+        >>> data_tree.sub_tree_names
+        ['first', 'second']
+        """
+        coll_obj = collection.StringCollection(
+            collection=self._api.dpf_data_tree_get_available_sub_tree_names_in_string_collection(
+                self
+            ),
+            server=self._server,
+        )
+
+        return coll_obj.get_integral_entries()
+
+    @attribute_names.setter
+    def attribute_names(self, val):
+        raise AttributeError("can't set attribute")
+
+    @sub_tree_names.setter
+    def sub_tree_names(self, val):
+        raise AttributeError("can't set attribute")
+
+    def __to_dict(self, dic):
+        for attribute_name in self.attribute_names:
+            dic[attribute_name] = self.get_as(attribute_name)
+
+        for sub_tree_name in self.sub_tree_names:
+            sub_tree = self.get_as(sub_tree_name, types.data_tree)
+            sub_dic = {}
+            sub_tree.__to_dict(sub_dic)
+            dic[sub_tree_name] = sub_dic
+
+    def to_dict(self):
+        """
+        Returns a read-only dictionary representation of the DataTree.
+
+        Returns
+        -------
+        dict
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> data_tree = dpf.DataTree()
+        >>> sub = dpf.DataTree()
+        >>> sub.add(str="hello world")
+        >>> data_tree.add(id=3, sub_tree=sub)
+        >>> data_tree.to_dict()
+        {'id': '3', 'sub_tree': {'str': 'hello world'}}
+        """
+        dic = {}
+        self.__to_dict(dic)
+
+        return dic
+
     def __setattr__(self, key, value):
-        if key == "_common_keys" or key in self._common_keys:
+        if key == "_common_keys" or key in self._common_keys or key in dir(self):
             return super.__setattr__(self, key, value)
         self.add({key: value})
+
+    def __str__(self):
+        """Describe the entity.
+
+        Returns
+        -------
+        str
+            Description of the entity.
+        """
+        from ansys.dpf.core.core import _description
+
+        return _description(self._internal_obj, self._server)
 
     def __del__(self):
         try:

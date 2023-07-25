@@ -11,15 +11,29 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class scalars_to_field(Operator):
-    """Takes a double or a vector of double and transforms it into a one
-    entity field of location 'numeric'.
+    """Create scalar or vector Field.
 
     Parameters
     ----------
-    double_or_vector_double : float
-        Double or vector of double
+    double_or_vector_double : float, optional
+        Data of the field, default is 0-field.
+        specify a double to have a field of
+        same value or specify directly the
+        data vector.
     unit : str, optional
         Unit symbol (m, hz, kg, ...)
+    location : str, optional
+        Location of the field ex 'nodal',
+        'elementalnodal', 'elemental'...
+        default is 'numeric'.
+    num_entity : int, optional
+        Number of field entities. default is 1 or the
+        size of the scoping in input if
+        specified.
+    num_comp : int, optional
+        Number of field components. default is 1.
+    scoping : Scoping, optional
+        Scoping.
 
 
     Examples
@@ -34,11 +48,23 @@ class scalars_to_field(Operator):
     >>> op.inputs.double_or_vector_double.connect(my_double_or_vector_double)
     >>> my_unit = str()
     >>> op.inputs.unit.connect(my_unit)
+    >>> my_location = str()
+    >>> op.inputs.location.connect(my_location)
+    >>> my_num_entity = int()
+    >>> op.inputs.num_entity.connect(my_num_entity)
+    >>> my_num_comp = int()
+    >>> op.inputs.num_comp.connect(my_num_comp)
+    >>> my_scoping = dpf.Scoping()
+    >>> op.inputs.scoping.connect(my_scoping)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.scalars_to_field(
     ...     double_or_vector_double=my_double_or_vector_double,
     ...     unit=my_unit,
+    ...     location=my_location,
+    ...     num_entity=my_num_entity,
+    ...     num_comp=my_num_comp,
+    ...     scoping=my_scoping,
     ... )
 
     >>> # Get output data
@@ -46,7 +72,15 @@ class scalars_to_field(Operator):
     """
 
     def __init__(
-        self, double_or_vector_double=None, unit=None, config=None, server=None
+        self,
+        double_or_vector_double=None,
+        unit=None,
+        location=None,
+        num_entity=None,
+        num_comp=None,
+        scoping=None,
+        config=None,
+        server=None,
     ):
         super().__init__(name="fieldify", config=config, server=server)
         self._inputs = InputsScalarsToField(self)
@@ -55,25 +89,63 @@ class scalars_to_field(Operator):
             self.inputs.double_or_vector_double.connect(double_or_vector_double)
         if unit is not None:
             self.inputs.unit.connect(unit)
+        if location is not None:
+            self.inputs.location.connect(location)
+        if num_entity is not None:
+            self.inputs.num_entity.connect(num_entity)
+        if num_comp is not None:
+            self.inputs.num_comp.connect(num_comp)
+        if scoping is not None:
+            self.inputs.scoping.connect(scoping)
 
     @staticmethod
     def _spec():
-        description = """Takes a double or a vector of double and transforms it into a one
-            entity field of location &quot;numeric&quot;."""
+        description = """Create scalar or vector Field."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
                     name="double_or_vector_double",
                     type_names=["double", "vector<double>"],
-                    optional=False,
-                    document="""Double or vector of double""",
+                    optional=True,
+                    document="""Data of the field, default is 0-field.
+        specify a double to have a field of
+        same value or specify directly the
+        data vector.""",
                 ),
                 1: PinSpecification(
                     name="unit",
                     type_names=["string"],
                     optional=True,
                     document="""Unit symbol (m, hz, kg, ...)""",
+                ),
+                2: PinSpecification(
+                    name="location",
+                    type_names=["string"],
+                    optional=True,
+                    document="""Location of the field ex 'nodal',
+        'elementalnodal', 'elemental'...
+        default is 'numeric'.""",
+                ),
+                3: PinSpecification(
+                    name="num_entity",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""Number of field entities. default is 1 or the
+        size of the scoping in input if
+        specified.""",
+                ),
+                4: PinSpecification(
+                    name="num_comp",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""Number of field components. default is 1.""",
+                ),
+                5: PinSpecification(
+                    name="scoping",
+                    type_names=["scoping"],
+                    optional=True,
+                    document="""Scoping.""",
                 ),
             },
             map_output_pin_spec={
@@ -115,7 +187,7 @@ class scalars_to_field(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -136,6 +208,14 @@ class InputsScalarsToField(_Inputs):
     >>> op.inputs.double_or_vector_double.connect(my_double_or_vector_double)
     >>> my_unit = str()
     >>> op.inputs.unit.connect(my_unit)
+    >>> my_location = str()
+    >>> op.inputs.location.connect(my_location)
+    >>> my_num_entity = int()
+    >>> op.inputs.num_entity.connect(my_num_entity)
+    >>> my_num_comp = int()
+    >>> op.inputs.num_comp.connect(my_num_comp)
+    >>> my_scoping = dpf.Scoping()
+    >>> op.inputs.scoping.connect(my_scoping)
     """
 
     def __init__(self, op: Operator):
@@ -146,12 +226,23 @@ class InputsScalarsToField(_Inputs):
         self._inputs.append(self._double_or_vector_double)
         self._unit = Input(scalars_to_field._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._unit)
+        self._location = Input(scalars_to_field._spec().input_pin(2), 2, op, -1)
+        self._inputs.append(self._location)
+        self._num_entity = Input(scalars_to_field._spec().input_pin(3), 3, op, -1)
+        self._inputs.append(self._num_entity)
+        self._num_comp = Input(scalars_to_field._spec().input_pin(4), 4, op, -1)
+        self._inputs.append(self._num_comp)
+        self._scoping = Input(scalars_to_field._spec().input_pin(5), 5, op, -1)
+        self._inputs.append(self._scoping)
 
     @property
     def double_or_vector_double(self):
         """Allows to connect double_or_vector_double input to the operator.
 
-        Double or vector of double
+        Data of the field, default is 0-field.
+        specify a double to have a field of
+        same value or specify directly the
+        data vector.
 
         Parameters
         ----------
@@ -186,6 +277,90 @@ class InputsScalarsToField(_Inputs):
         >>> op.inputs.unit(my_unit)
         """
         return self._unit
+
+    @property
+    def location(self):
+        """Allows to connect location input to the operator.
+
+        Location of the field ex 'nodal',
+        'elementalnodal', 'elemental'...
+        default is 'numeric'.
+
+        Parameters
+        ----------
+        my_location : str
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.scalars_to_field()
+        >>> op.inputs.location.connect(my_location)
+        >>> # or
+        >>> op.inputs.location(my_location)
+        """
+        return self._location
+
+    @property
+    def num_entity(self):
+        """Allows to connect num_entity input to the operator.
+
+        Number of field entities. default is 1 or the
+        size of the scoping in input if
+        specified.
+
+        Parameters
+        ----------
+        my_num_entity : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.scalars_to_field()
+        >>> op.inputs.num_entity.connect(my_num_entity)
+        >>> # or
+        >>> op.inputs.num_entity(my_num_entity)
+        """
+        return self._num_entity
+
+    @property
+    def num_comp(self):
+        """Allows to connect num_comp input to the operator.
+
+        Number of field components. default is 1.
+
+        Parameters
+        ----------
+        my_num_comp : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.scalars_to_field()
+        >>> op.inputs.num_comp.connect(my_num_comp)
+        >>> # or
+        >>> op.inputs.num_comp(my_num_comp)
+        """
+        return self._num_comp
+
+    @property
+    def scoping(self):
+        """Allows to connect scoping input to the operator.
+
+        Scoping.
+
+        Parameters
+        ----------
+        my_scoping : Scoping
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.scalars_to_field()
+        >>> op.inputs.scoping.connect(my_scoping)
+        >>> # or
+        >>> op.inputs.scoping(my_scoping)
+        """
+        return self._scoping
 
 
 class OutputsScalarsToField(_Outputs):

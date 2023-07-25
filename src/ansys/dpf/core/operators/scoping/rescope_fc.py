@@ -18,7 +18,7 @@ class rescope_fc(Operator):
     ----------
     fields_container : FieldsContainer
     mesh_scoping : Scoping
-    default_value : float
+    default_value : float, optional
         If pin 2 is used, the ids not found in the
         fields are added with this default
         value.
@@ -91,7 +91,7 @@ class rescope_fc(Operator):
                 2: PinSpecification(
                     name="default_value",
                     type_names=["double", "vector<double>"],
-                    optional=False,
+                    optional=True,
                     document="""If pin 2 is used, the ids not found in the
         fields are added with this default
         value.""",
@@ -136,7 +136,7 @@ class rescope_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

@@ -20,7 +20,11 @@ class CustomOperator(CustomOperatorBase):
         spec.outputs = {
             0: PinSpecification("name_of_pin_0", [dpf.Field], "Describe pin 0."),
         }
-        spec.properties = SpecificationProperties("user name", "category")
+        spec.properties = SpecificationProperties(
+            user_name="user name",
+            category="category",
+            license="license",
+        )
         return spec
 
     def run(self):

@@ -3,9 +3,10 @@ import os.path
 
 import pytest
 
-from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0
+from conftest import running_docker
 from ansys.dpf import core as dpf
 from ansys.dpf.core import Model
+from ansys.dpf.core import DataSources
 from ansys.dpf.core import examples
 
 
@@ -47,6 +48,46 @@ def test_download_modal_frame():
 def test_download_harmonic_clamped_pipe():
     path = examples.download_harmonic_clamped_pipe()
     assert isinstance(Model(path), Model)
+
+
+def test_download_modal_cyclic():
+    path = examples.download_modal_cyclic()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_fluent_multi_species():
+    path = examples.download_fluent_multi_species()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_fluent_axial_comp():
+    path = examples.download_fluent_axial_comp()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_fluent_mixing_elbow_steady_state():
+    path = examples.download_fluent_mixing_elbow_steady_state()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_fluent_mixing_elbow_transient():
+    path = examples.download_fluent_mixing_elbow_transient()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_cfx_heating_coil():
+    path = examples.download_cfx_heating_coil()
+    assert isinstance(Model(path), Model)
+
+
+def test_download_cfx_mixing_elbow():
+    path = examples.download_cfx_mixing_elbow()
+    assert isinstance(Model(path), Model)
+
+
+def test_fluid_axial_model():
+    ds = examples.fluid_axial_model()
+    assert isinstance(ds, DataSources)
 
 
 list_examples = [
@@ -95,7 +136,7 @@ def test_find_examples(example, server_type_remote_process):
 def test_delete_downloaded_files():
     path = examples.download_multi_stage_cyclic_result(return_local_path=True)
     assert os.path.exists(path)
-    examples.delete_downloads()
+    examples.delete_downloads(verbose=False)
     assert not os.path.exists(path)
     path = examples.download_multi_stage_cyclic_result(return_local_path=True)
     assert os.path.exists(path)
@@ -103,29 +144,6 @@ def test_delete_downloaded_files():
     assert os.path.exists(examples.static_rst)
     assert os.path.exists(examples.complex_rst)
     assert os.path.exists(examples.distributed_msup_folder)
-
-
-# Duplicated from test_service to certify ADO pipelines
-# It's making sure that the first server is started as entry
-@pytest.mark.order(1)
-@pytest.mark.skipif(
-    running_docker
-    or os.environ.get("ANSYS_DPF_ACCEPT_LA", None) is None
-    or not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
-    reason="Tests ANSYS_DPF_ACCEPT_LA",
-)
-def test_license_agr(set_context_back_to_premium):
-    config = dpf.AvailableServerConfigs.InProcessServer
-    init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
-    del os.environ["ANSYS_DPF_ACCEPT_LA"]
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.start_local_server(config=config, as_global=True)
-    with pytest.raises(dpf.core.errors.DPFServerException):
-        dpf.Operator("stream_provider")
-    os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
-    dpf.start_local_server(config=config, as_global=True)
-    assert "static" in examples.find_static_rst()
-    assert dpf.Operator("stream_provider") is not None
 
 
 def test_get_example_required_minimum_dpf_version(tmp_path):

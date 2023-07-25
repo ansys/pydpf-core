@@ -193,9 +193,10 @@ class Workflow:
             data_tree,
             workflow,
             model,
+            generic_data_container,
         )
 
-        return [
+        out = [
             (bool, self._api.work_flow_connect_bool),
             ((int, Enum), self._api.work_flow_connect_int),
             (str, self._api.work_flow_connect_string),
@@ -225,6 +226,14 @@ class Workflow:
             (workflow.Workflow, self._api.work_flow_connect_workflow),
             (data_tree.DataTree, self._api.work_flow_connect_data_tree),
         ]
+        if hasattr(self._api, "work_flow_connect_generic_data_container"):
+            out.append(
+                (
+                    generic_data_container.GenericDataContainer,
+                    self._api.work_flow_connect_generic_data_container,
+                )
+            )
+        return out
 
     @property
     def _type_to_output_method(self):
@@ -245,9 +254,10 @@ class Workflow:
             data_tree,
             workflow,
             collection,
+            generic_data_container,
         )
 
-        return [
+        out = [
             (bool, self._api.work_flow_getoutput_bool),
             (int, self._api.work_flow_getoutput_int),
             (str, self._api.work_flow_getoutput_string),
@@ -327,6 +337,15 @@ class Workflow:
                 ).get_integral_entries(),
             ),
         ]
+        if hasattr(self._api, "work_flow_connect_generic_data_container"):
+            out.append(
+                (
+                    generic_data_container.GenericDataContainer,
+                    self._api.work_flow_getoutput_generic_data_container,
+                    "generic_data_container",
+                )
+            )
+        return out
 
     def get_output(self, pin_name, output_type):
         """Retrieve the output of the operator on the pin number.
@@ -363,7 +382,7 @@ class Workflow:
         if out is not None:
             self._progress_thread = None
             return out
-        raise TypeError(f"{output_type} is not an implemented Operator's output")
+        raise TypeError(f"{output_type} is not an implemented Workflow's output")
 
     def set_input_name(self, name, *args):
         """Set the name of the input pin of the workflow to expose it for future connection.
@@ -498,6 +517,10 @@ class Workflow:
             Whether to transfer the ownership. The default is ``True``. If the ownership is
             not transferred, the workflow is removed from the internal registry
             as soon as the workflow has been recovered by its ID.
+
+        Returns
+        -------
+        int
 
         Examples
         --------

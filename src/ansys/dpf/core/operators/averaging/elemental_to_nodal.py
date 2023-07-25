@@ -11,8 +11,18 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elemental_to_nodal(Operator):
-    """Transforms an Elemental Nodal field to a Nodal field. The result is
-    computed on a given node's scoping.
+    """Transforms an Elemental field to a Nodal field. The result is computed
+    on a given node's scoping.  1. For a finite element mesh, the
+    value on a node is the average of the values of the neighbour
+    elements.  2. For a volume finite volume mesh, the agorithm is :
+    - For each node, compute interpolation weights for the cells
+    connected to it based   on the Frink's Laplacian method.         -
+    If the determinant of the I matrix is zero, switch to an inverse
+    distance weighted average.         - If not, compute the Frink
+    weights and apply the Holmes' weight clip.         - If the
+    clipping produces a large overshoot, inverse volume weighted
+    average is used.. 3. For a face finite volume mesh inverse
+    distance weighted average is used.
 
     Parameters
     ----------
@@ -24,6 +34,10 @@ class elemental_to_nodal(Operator):
         Averaging on nodes is used if this pin is set
         to 1 (default is 1 for integrated
         results and 0 for discrete ones).
+    algorithm : int, optional
+        Forces the usage of algorithm 1, 2 or 3
+        (default is chosen based on the type
+        of mesh).
 
 
     Examples
@@ -40,12 +54,15 @@ class elemental_to_nodal(Operator):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_force_averaging = int()
     >>> op.inputs.force_averaging.connect(my_force_averaging)
+    >>> my_algorithm = int()
+    >>> op.inputs.algorithm.connect(my_algorithm)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.averaging.elemental_to_nodal(
     ...     field=my_field,
     ...     mesh_scoping=my_mesh_scoping,
     ...     force_averaging=my_force_averaging,
+    ...     algorithm=my_algorithm,
     ... )
 
     >>> # Get output data
@@ -57,6 +74,7 @@ class elemental_to_nodal(Operator):
         field=None,
         mesh_scoping=None,
         force_averaging=None,
+        algorithm=None,
         config=None,
         server=None,
     ):
@@ -69,11 +87,24 @@ class elemental_to_nodal(Operator):
             self.inputs.mesh_scoping.connect(mesh_scoping)
         if force_averaging is not None:
             self.inputs.force_averaging.connect(force_averaging)
+        if algorithm is not None:
+            self.inputs.algorithm.connect(algorithm)
 
     @staticmethod
     def _spec():
-        description = """Transforms an Elemental Nodal field to a Nodal field. The result is
-            computed on a given node's scoping."""
+        description = """Transforms an Elemental field to a Nodal field. The result is computed
+            on a given node's scoping.  1. For a finite element mesh,
+            the value on a node is the average of the values of the
+            neighbour elements.  2. For a volume finite volume mesh,
+            the agorithm is :    - For each node, compute
+            interpolation weights for the cells connected to it based
+            on the Frink's Laplacian method.         - If the
+            determinant of the I matrix is zero, switch to an inverse
+            distance weighted average.         - If not, compute the
+            Frink weights and apply the Holmes' weight clip.         -
+            If the clipping produces a large overshoot, inverse volume
+            weighted average is used.. 3. For a face finite volume
+            mesh inverse distance weighted average is used."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -97,6 +128,14 @@ class elemental_to_nodal(Operator):
                     document="""Averaging on nodes is used if this pin is set
         to 1 (default is 1 for integrated
         results and 0 for discrete ones).""",
+                ),
+                200: PinSpecification(
+                    name="algorithm",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""Forces the usage of algorithm 1, 2 or 3
+        (default is chosen based on the type
+        of mesh).""",
                 ),
             },
             map_output_pin_spec={
@@ -138,7 +177,7 @@ class elemental_to_nodal(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -161,6 +200,8 @@ class InputsElementalToNodal(_Inputs):
     >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     >>> my_force_averaging = int()
     >>> op.inputs.force_averaging.connect(my_force_averaging)
+    >>> my_algorithm = int()
+    >>> op.inputs.algorithm.connect(my_algorithm)
     """
 
     def __init__(self, op: Operator):
@@ -173,6 +214,8 @@ class InputsElementalToNodal(_Inputs):
             elemental_to_nodal._spec().input_pin(2), 2, op, -1
         )
         self._inputs.append(self._force_averaging)
+        self._algorithm = Input(elemental_to_nodal._spec().input_pin(200), 200, op, -1)
+        self._inputs.append(self._algorithm)
 
     @property
     def field(self):
@@ -234,6 +277,28 @@ class InputsElementalToNodal(_Inputs):
         >>> op.inputs.force_averaging(my_force_averaging)
         """
         return self._force_averaging
+
+    @property
+    def algorithm(self):
+        """Allows to connect algorithm input to the operator.
+
+        Forces the usage of algorithm 1, 2 or 3
+        (default is chosen based on the type
+        of mesh).
+
+        Parameters
+        ----------
+        my_algorithm : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_to_nodal()
+        >>> op.inputs.algorithm.connect(my_algorithm)
+        >>> # or
+        >>> op.inputs.algorithm(my_algorithm)
+        """
+        return self._algorithm
 
 
 class OutputsElementalToNodal(_Outputs):

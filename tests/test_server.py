@@ -73,7 +73,7 @@ class TestServerConfigs:
 
     def test__global_server(self, server_config):
         set_server_configuration(server_config)
-        print(dpf.core.SERVER_CONFIGURATION)
+        # print(dpf.core.SERVER_CONFIGURATION)
         shutdown_all_session_servers()
         _global_server()
         assert has_local_server()
@@ -84,7 +84,7 @@ class TestServerConfigs:
 
     def test_start_local_server(self, server_config):
         set_server_configuration(server_config)
-        print(dpf.core.SERVER_CONFIGURATION)
+        # print(dpf.core.SERVER_CONFIGURATION)
         start_local_server(timeout=20)
         assert has_local_server()
         shutdown_all_session_servers()
@@ -98,7 +98,7 @@ class TestServerConfigs:
 
     def test_shutdown_all_session_servers(self, server_config):
         set_server_configuration(server_config)
-        print(dpf.core.SERVER_CONFIGURATION)
+        # print(dpf.core.SERVER_CONFIGURATION)
         start_local_server(timeout=10.0)
         shutdown_all_session_servers()
         assert not has_local_server()
@@ -252,9 +252,11 @@ def test_connect_to_remote_server(remote_config_server_type):
         port=server_type_remote_process.external_port,
         timeout=10.0,
         as_global=False,
+        config=remote_config_server_type,
     )
     assert server.external_ip == server_type_remote_process.external_ip
     assert server.external_port == server_type_remote_process.external_port
+    assert server.config == remote_config_server_type
 
 
 @pytest.mark.skipif(
@@ -266,3 +268,23 @@ def test_go_away_server():
         s = start_local_server(config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False)
         field = dpf.core.Field(server=s)
         assert field._internal_obj is not None
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
+    reason="Not existing in version lower than 4.0",
+)
+def test_start_after_shutting_down_server():
+    remote_server = start_local_server(
+        config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False
+    )
+    remote_server.shutdown()
+
+    time.sleep(2.0)
+
+    remote_server = start_local_server(
+        config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False
+    )
+    info = remote_server.info
+    remote_server.shutdown()
+    assert info is not None

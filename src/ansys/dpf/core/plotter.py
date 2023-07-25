@@ -125,7 +125,7 @@ class _PyVistaPlotter:
             plane[f"{field.name}"] = field.data
         self._plotter.add_mesh(plane_plot, **kwargs)
 
-    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, **kwargs):
+    def add_mesh(self, meshed_region, deform_by=None, scale_factor=1.0, as_linear=True, **kwargs):
 
         kwargs = self._set_scalar_bar_title(kwargs)
 
@@ -144,9 +144,17 @@ class _PyVistaPlotter:
         # otherwise we get two scalar bars when calling several plot_contour on the same mesh
         # but not for the same field. The PyVista UnstructuredGrid keeps memory of it.
         if not deform_by:
-            grid = meshed_region.grid
+            if as_linear != meshed_region.as_linear:
+                grid = meshed_region._as_vtk(
+                    meshed_region.nodes.coordinates_field, as_linear=as_linear
+                )
+                meshed_region.as_linear = as_linear
+            else:
+                grid = meshed_region.grid
         else:
-            grid = meshed_region._as_vtk(meshed_region.deform_by(deform_by, scale_factor))
+            grid = meshed_region._as_vtk(
+                meshed_region.deform_by(deform_by, scale_factor), as_linear=as_linear
+            )
 
         # show axes
         show_axes = kwargs.pop("show_axes", None)
@@ -228,6 +236,7 @@ class _PyVistaPlotter:
         deform_by=None,
         scale_factor=1.0,
         scale_factor_legend=None,
+        as_linear=True,
         **kwargs,
     ):
         # Get the field name
@@ -258,8 +267,14 @@ class _PyVistaPlotter:
                 warnings.warn("`show_max` and `show_min` is only supported for Nodal results.")
                 show_max = False
                 show_min = False
+        elif location == locations.faces:
+            mesh_location = meshed_region.faces
+            if show_max or show_min:
+                warnings.warn("`show_max` and `show_min` is only supported for Nodal results.")
+                show_max = False
+                show_min = False
         else:
-            raise ValueError("Only elemental or nodal location are supported for plotting.")
+            raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
         component_count = field.component_count
         if component_count > 1:
             overall_data = np.full((len(mesh_location), component_count), np.nan)
@@ -276,7 +291,9 @@ class _PyVistaPlotter:
         if not deform_by:
             grid = meshed_region.grid
         else:
-            grid = meshed_region._as_vtk(meshed_region.deform_by(deform_by, scale_factor))
+            grid = meshed_region._as_vtk(
+                meshed_region.deform_by(deform_by, scale_factor), as_linear
+            )
         grid.set_active_scalars(None)
         self._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 
@@ -481,6 +498,7 @@ class DpfPlotter:
             meshed_region=meshed_region,
             deform_by=deform_by,
             scale_factor=scale_factor,
+            as_linear=True,
             **kwargs,
         )
 
@@ -543,6 +561,7 @@ class DpfPlotter:
             label_point_size=label_point_size,
             deform_by=deform_by,
             scale_factor=scale_factor,
+            as_linear=True,
             **kwargs,
         )
 
@@ -801,8 +820,10 @@ class Plotter:
             mesh_location = mesh.nodes
         elif location == locations.elemental:
             mesh_location = mesh.elements
+        elif location == locations.faces:
+            mesh_location = mesh.faces
         else:
-            raise ValueError("Only elemental or nodal location are supported for plotting.")
+            raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
 
         # pre-loop: check if shell layers for each field, if yes, set the shell layers
         changeOp = core.Operator("change_shellLayers")
@@ -859,11 +880,16 @@ class Plotter:
         kwargs_in = _sort_supported_kwargs(
             bound_method=self._internal_plotter._plotter.add_mesh, **kwargs
         )
+        as_linear = True
         if deform_by:
-            grid = mesh._as_vtk(mesh.deform_by(deform_by, scale_factor))
+            grid = mesh._as_vtk(mesh.deform_by(deform_by, scale_factor), as_linear=as_linear)
             self._internal_plotter.add_scale_factor_legend(scale_factor, **kwargs)
         else:
-            grid = mesh.grid
+            if as_linear != mesh.as_linear:
+                grid = mesh._as_vtk(mesh.nodes.coordinates_field, as_linear=as_linear)
+                mesh.as_linear = as_linear
+            else:
+                grid = mesh.grid
         grid.clear_data()
         self._internal_plotter._plotter.add_mesh(grid, scalars=overall_data, **kwargs_in)
 

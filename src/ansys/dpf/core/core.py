@@ -97,14 +97,6 @@ def upload_file_in_tmp_folder(file_path, new_file_name=None, server=None):
       server_file_path : str
            path generated server side
 
-    Examples
-    --------
-    >>> from ansys.dpf import core as dpf
-    >>> from ansys.dpf.core import examples
-    >>> server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer,
-    ... as_global=False)
-    >>> file_path = dpf.upload_file_in_tmp_folder(examples.find_static_rst(), server=server)
-
     Notes
     -----
     Is not implemented for usage with type(server)=
@@ -161,17 +153,6 @@ def download_file(server_file_path, to_client_file_path, server=None):
     server : server.DPFServer, optional
         Server with channel connected to the remote or local instance. When
         ``None``, attempts to use the global server.
-
-    Examples
-    --------
-    >>> from ansys.dpf import core as dpf
-    >>> from ansys.dpf.core import examples
-    >>> server = dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer,
-    ... as_global=False)
-    >>> file_path = dpf.upload_file_in_tmp_folder(examples.find_static_rst(), server=server)
-    >>> dpf.download_file(file_path, examples.find_static_rst(),  server=server)
-    <BLANKLINE>
-    ...
 
     Notes
     -----
@@ -280,6 +261,36 @@ def _description(dpf_entity_message, server=None):
         return BaseService(server, load_operators=False)._description(dpf_entity_message)
     except:
         return ""
+
+
+def _deep_copy(dpf_entity, server=None):
+    """Returns a copy of the entity in the requested server
+
+    Parameters
+    ----------
+    dpf_entity: core.Operator, core.Workflow, core.Scoping,
+                core.Field, core.FieldsContainer, core.MeshedRegion...
+        Dpf entity to deep_copy
+
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+
+    Returns
+    -------
+       deep_copy of dpf_entity: core.Operator, core.Workflow, core.Scoping,
+                                core.Field, core.FieldsContainer, core.MeshedRegion...
+    """
+    from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
+    from ansys.dpf.core.common import types_enum_to_types
+
+    serializer = serializer_to_string(server=server)
+    serializer.connect(1, dpf_entity)
+    deserializer = string_deserializer(server=server)
+    deserializer.connect(0, serializer, 0)
+    type_map = types_enum_to_types()
+    output_type = list(type_map.keys())[list(type_map.values()).index(dpf_entity.__class__)]
+    return deserializer.get_output(1, output_type)
 
 
 class BaseService:

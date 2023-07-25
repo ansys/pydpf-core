@@ -17,6 +17,7 @@ class elements_volume(Operator):
     Parameters
     ----------
     mesh : MeshedRegion
+    mesh_scoping : Scoping
 
 
     Examples
@@ -29,22 +30,27 @@ class elements_volume(Operator):
     >>> # Make input connections
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_mesh_scoping = dpf.Scoping()
+    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.geo.elements_volume(
     ...     mesh=my_mesh,
+    ...     mesh_scoping=my_mesh_scoping,
     ... )
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
     """
 
-    def __init__(self, mesh=None, config=None, server=None):
+    def __init__(self, mesh=None, mesh_scoping=None, config=None, server=None):
         super().__init__(name="element::volume", config=config, server=server)
         self._inputs = InputsElementsVolume(self)
         self._outputs = OutputsElementsVolume(self)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
+        if mesh_scoping is not None:
+            self.inputs.mesh_scoping.connect(mesh_scoping)
 
     @staticmethod
     def _spec():
@@ -56,6 +62,12 @@ class elements_volume(Operator):
                 0: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
+                    optional=False,
+                    document="""""",
+                ),
+                1: PinSpecification(
+                    name="mesh_scoping",
+                    type_names=["scoping"],
                     optional=False,
                     document="""""",
                 ),
@@ -99,7 +111,7 @@ class elements_volume(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -118,12 +130,16 @@ class InputsElementsVolume(_Inputs):
     >>> op = dpf.operators.geo.elements_volume()
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_mesh_scoping = dpf.Scoping()
+    >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
     """
 
     def __init__(self, op: Operator):
         super().__init__(elements_volume._spec().inputs, op)
         self._mesh = Input(elements_volume._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._mesh)
+        self._mesh_scoping = Input(elements_volume._spec().input_pin(1), 1, op, -1)
+        self._inputs.append(self._mesh_scoping)
 
     @property
     def mesh(self):
@@ -142,6 +158,24 @@ class InputsElementsVolume(_Inputs):
         >>> op.inputs.mesh(my_mesh)
         """
         return self._mesh
+
+    @property
+    def mesh_scoping(self):
+        """Allows to connect mesh_scoping input to the operator.
+
+        Parameters
+        ----------
+        my_mesh_scoping : Scoping
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.geo.elements_volume()
+        >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
+        >>> # or
+        >>> op.inputs.mesh_scoping(my_mesh_scoping)
+        """
+        return self._mesh_scoping
 
 
 class OutputsElementsVolume(_Outputs):

@@ -16,7 +16,7 @@ class incremental_concatenate_as_fc(Operator):
     Parameters
     ----------
     field : Field
-    label : LabelSpace, optional
+    label : dict, optional
         Label space value that must be applied to the
         added field.
 
@@ -31,7 +31,7 @@ class incremental_concatenate_as_fc(Operator):
     >>> # Make input connections
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
-    >>> my_label = dpf.LabelSpace()
+    >>> my_label = dict()
     >>> op.inputs.label.connect(my_label)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -116,7 +116,7 @@ class incremental_concatenate_as_fc(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -135,7 +135,7 @@ class InputsIncrementalConcatenateAsFc(_Inputs):
     >>> op = dpf.operators.utility.incremental_concatenate_as_fc()
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
-    >>> my_label = dpf.LabelSpace()
+    >>> my_label = dict()
     >>> op.inputs.label.connect(my_label)
     """
 
@@ -177,7 +177,7 @@ class InputsIncrementalConcatenateAsFc(_Inputs):
 
         Parameters
         ----------
-        my_label : LabelSpace
+        my_label : dict
 
         Examples
         --------

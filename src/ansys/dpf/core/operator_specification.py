@@ -15,6 +15,7 @@ from ansys.dpf.gate import (
 )
 from ansys.dpf.core import mapping_types, common
 from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.check_version import server_meet_version
 
 
 class PinSpecification:
@@ -54,13 +55,17 @@ class PinSpecification:
     document: str
     optional: bool
     ellipsis: bool
+    name_derived_class = str
 
-    def __init__(self, name, type_names, document="", optional=False, ellipsis=False):
+    def __init__(
+        self, name, type_names, document="", optional=False, ellipsis=False, name_derived_class=""
+    ):
         self.name = name
         self.type_names = type_names
         self.optional = optional
         self.document = document
         self.ellipsis = ellipsis
+        self.name_derived_class = name_derived_class
 
     @property
     def type_names(self):
@@ -100,7 +105,12 @@ class PinSpecification:
     @staticmethod
     def _get_copy(other, changed_types):
         return PinSpecification(
-            other.name, changed_types, other.document, other.optional, other.ellipsis
+            other.name,
+            changed_types,
+            other.document,
+            other.optional,
+            other.ellipsis,
+            other.name_derived_class,
         )
 
     def __repr__(self):
@@ -109,6 +119,7 @@ class PinSpecification:
             params=", ".join(
                 "{param}={value}".format(param=k, value=f"'{v}'" if isinstance(v, str) else v)
                 for k, v in vars(self).items()
+                if not ("{param}" == "name_derived_class" and "name_derived_class" != "")
             ),
         )
 
@@ -257,6 +268,9 @@ class Specification(SpecificationBase):
         self._properties = None
         self._config_specification = None
 
+    def __str__(self):
+        return "Description:\n" + str(self.description) + "\nProperties:\n" + str(self.properties)
+
     @property
     def properties(self):
         """Returns some additional properties of the Operator, like the category, the exposure,
@@ -319,7 +333,8 @@ class Specification(SpecificationBase):
         >>> 4 in operator.specification.inputs.keys()
         True
         >>> operator.specification.inputs[4]
-        PinSpecification(name='data_sources', _type_names=['data_sources'], ...set', ellipsis=False)
+        PinSpecification(name='data_sources', _type_names=['data_sources'], ...set', ellipsis=False,
+         name_derived_class='')
         """
         if self._map_input_pin_spec is None:
             self._map_input_pin_spec = {}
@@ -339,7 +354,8 @@ class Specification(SpecificationBase):
         >>> from ansys.dpf import core as dpf
         >>> operator = dpf.operators.mesh.mesh_provider()
         >>> operator.specification.outputs
-        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], ...=False)}
+        {0: PinSpecification(name='mesh', _type_names=['abstract_meshed_region'], ...=False,
+         name_derived_class='')}
         """
         if self._map_output_pin_spec is None:
             self._map_output_pin_spec = {}
@@ -366,9 +382,24 @@ class Specification(SpecificationBase):
                     for i_type in range(n_types)
                 ]
 
+                pin_derived_class_type_name = ""
+                if server_meet_version("7.0", self._server) and hasattr(
+                    self._api, "operator_specification_get_pin_derived_class_type_name"
+                ):
+                    pin_derived_class_type_name = (
+                        self._api.operator_specification_get_pin_derived_class_type_name(
+                            self, binput, i_pin
+                        )
+                    )
+
                 pin_ell = self._api.operator_specification_is_pin_ellipsis(self, binput, i_pin)
                 to_fill[i_pin] = PinSpecification(
-                    pin_name, pin_type_names, pin_doc, pin_opt, pin_ell
+                    pin_name,
+                    pin_type_names,
+                    pin_doc,
+                    pin_opt,
+                    pin_ell,
+                    pin_derived_class_type_name,
                 )
 
     @property
@@ -457,6 +488,12 @@ class SpecificationProperties:
     plugin : str
         Snake case name of the plugin it belongs to.
 
+    license: str
+        Optional license name to check out that is used to run the operator.
+        The value "any_dpf_supported_increments" tells DPF than any DPF-accepted license
+        is accepted by this operator (see `here
+        <https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html#ansys-licensing>`_).  # noqa
+
     """
 
     def __init__(
@@ -466,9 +503,13 @@ class SpecificationProperties:
         scripting_name: str = None,
         exposure: Exposures = Exposures.public,
         plugin: str = None,
+        license: str = None,
         spec=None,
         **kwargs,
     ):
+        if license is not None:
+            kwargs["license"] = license
+
         self._spec = spec
         self.__dict__.update(
             user_name=user_name,
@@ -575,17 +616,33 @@ class CustomSpecification(Specification):
     def inputs(self, val: dict):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
-            self._api.operator_specification_set_pin(
-                self,
-                True,
-                key,
-                value.name,
-                value.document,
-                len(value.type_names),
-                list_types,
-                value.optional,
-                value.ellipsis,
-            )
+            if server_meet_version("7.0", self._server) and hasattr(
+                self._api, "operator_specification_set_pin_derived_class"
+            ):
+                self._api.operator_specification_set_pin_derived_class(
+                    self,
+                    True,
+                    key,
+                    value.name,
+                    value.document,
+                    len(value.type_names),
+                    list_types,
+                    value.optional,
+                    value.ellipsis,
+                    value.name_derived_class,
+                )
+            else:
+                self._api.operator_specification_set_pin(
+                    self,
+                    True,
+                    key,
+                    value.name,
+                    value.document,
+                    len(value.type_names),
+                    list_types,
+                    value.optional,
+                    value.ellipsis,
+                )
 
     @property
     @version_requires("4.0")
@@ -602,17 +659,33 @@ class CustomSpecification(Specification):
     def outputs(self, val: dict):
         for key, value in val.items():
             list_types = integral_types.MutableListString(value.type_names)
-            self._api.operator_specification_set_pin(
-                self,
-                False,
-                key,
-                value.name,
-                value.document,
-                len(value.type_names),
-                list_types,
-                value.optional,
-                value.ellipsis,
-            )
+            if server_meet_version("7.0", self._server) and hasattr(
+                self._api, "operator_specification_set_pin_derived_class"
+            ):
+                self._api.operator_specification_set_pin_derived_class(
+                    self,
+                    False,
+                    key,
+                    value.name,
+                    value.document,
+                    len(value.type_names),
+                    list_types,
+                    value.optional,
+                    value.ellipsis,
+                    value.name_derived_class,
+                )
+            else:
+                self._api.operator_specification_set_pin(
+                    self,
+                    False,
+                    key,
+                    value.name,
+                    value.document,
+                    len(value.type_names),
+                    list_types,
+                    value.optional,
+                    value.ellipsis,
+                )
 
     @property
     @version_requires("4.0")
