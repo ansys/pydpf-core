@@ -12,7 +12,6 @@ import tempfile
 import os
 import sys
 import numpy as np
-import inspect
 import warnings
 from typing import TYPE_CHECKING, List, Union
 
@@ -20,37 +19,12 @@ from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.common import locations, DefinitionLabels
 from ansys.dpf.core.common import shell_layers as eshell_layers
+from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.nodes import Node, Nodes
 
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core.meshed_region import MeshedRegion
-
-
-def _sort_supported_kwargs(bound_method, **kwargs):
-    """Filters the kwargs for a given method."""
-    # Ignore warnings unless specified
-    if not sys.warnoptions:
-        import warnings
-
-        warnings.simplefilter("ignore")
-    # Get supported arguments
-    supported_args = inspect.getfullargspec(bound_method).args
-    kwargs_in = {}
-    kwargs_not_avail = {}
-    # Filter the given arguments
-    for key, item in kwargs.items():
-        if key in supported_args:
-            kwargs_in[key] = item
-        else:
-            kwargs_not_avail[key] = item
-    # Prompt a warning for arguments filtered out
-    if len(kwargs_not_avail) > 0:
-        txt = f"The following arguments are not supported by {bound_method}: "
-        txt += str(kwargs_not_avail)
-        warnings.warn(txt)
-    # Return the accepted arguments
-    return kwargs_in
 
 
 class _InternalPlotterFactory:
@@ -340,56 +314,19 @@ class _PyVistaPlotter:
                 point_size=label_point_size,
             )
 
-    def add_streamlines(self, meshed_region, field, radius=1.0, **kwargs):
-        # Check velocity field location
-        if field.location is not dpf.core.locations.nodal:
-            warnings.warn(
-                "Velocity field must have a nodal location. Result must be carefully checked."
-            )
-
-        # handles input data
-        f_name = field.name
-        stream_name = "streamlines " + f_name + " (" + str(field.unit) + ")"
-        grid = meshed_region.grid
-        mesh_nodes = meshed_region.nodes
-
-        ind, mask = mesh_nodes.map_scoping(field.scoping)
-        overall_data = np.full((len(mesh_nodes), 3), np.nan)  # velocity has 3 components
-        overall_data[ind] = field.data[mask]
-
-        grid.set_active_scalars(None)
-        grid[f"{stream_name}"] = overall_data
-
-        # check src request
-        return_source = kwargs.pop("return_source", None)
+    def add_streamlines(self, streamlines, source=None, radius=1.0, **kwargs):
         permissive = kwargs.pop("permissive", None)
-
-        # filter kwargs
-        kwargs_base = _sort_supported_kwargs(bound_method=grid.streamlines, **kwargs)
-        kwargs_from_source = _sort_supported_kwargs(
-            bound_method=grid.streamlines_from_source, **kwargs
-        )
-        kwargs_from_source.update(kwargs_base)  # merge both dicts in kwargs_from_source
-
-        # create streamlines
-        if return_source:
-            streamlines, src = grid.streamlines(
-                vectors=f"{stream_name}",
-                return_source=True,
-                **kwargs_from_source,
-            )
-        else:
-            streamlines = grid.streamlines(
-                vectors=f"{stream_name}",
-                **kwargs_from_source,
-            )
-
+        kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
         # set streamline on plotter
         sargs = dict(vertical=False)
+        streamlines = streamlines._pv_data_set
         if not (permissive and streamlines.n_points == 0):
-            self._plotter.add_mesh(streamlines.tube(radius=radius), scalar_bar_args=sargs)
-        if return_source:
-            self._plotter.add_mesh(src)
+            self._plotter.add_mesh(
+                streamlines.tube(radius=radius), scalar_bar_args=sargs, **kwargs_in
+            )
+        if source is not None:
+            src = source._pv_data_set
+            self._plotter.add_mesh(src, **kwargs_in)
 
     def show_figure(self, **kwargs):
 
@@ -560,8 +497,8 @@ class DpfPlotter:
 
     def add_streamlines(
         self,
-        meshed_region,
-        field,
+        streamlines,
+        source=None,
         radius=0.1,
         **kwargs,
     ):
@@ -574,15 +511,17 @@ class DpfPlotter:
 
         Parameters
         ----------
-        meshed_region : MeshedRegion
-            MeshedRegion the streamline will be computed on.
-        field : Field
-            Field containing raw vector data the streamline is
-            computed from. The data location must be nodal, velocity
-            values must be defined at nodes.
+        streamlines : helpers.streamlines.Streamlines
+            Object containing computed streamlines data,
+            computed using `helpers.streamlines.compute_streamlines`
+            function.
+        source : helpers.streamlines.StreamlinesSource, optional
+            Object containing computed streamines source data,
+            computed using `helpers.streamlines.compute_streamlines`
+            function.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
-            is available at :func:`pyvista.DataSetFilters.streamlines`.
+            is available at :func:`pyvista.plot`.
             The "permissive" (boolean) can be used to avoid throwing if
             computed streamlines are empty. See ``Examples`` section for
             more information.
@@ -591,6 +530,7 @@ class DpfPlotter:
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.helpers.streamlines import compute_streamlines
         >>> # Get model and meshed region
         >>> files = examples.download_fluent_mixing_elbow_steady_state()
         >>> ds = dpf.DataSources()
@@ -607,20 +547,24 @@ class DpfPlotter:
         >>> from ansys.dpf.core.plotter import DpfPlotter
         >>> pl = DpfPlotter()
         >>> pl.add_mesh(meshed_region=mesh, opacity=0.15, color="g")
-        >>> pl.add_streamlines(meshed_region=mesh,
+        >>> streamline_obj = compute_streamlines(
+        ...        meshed_region=mesh,
         ...        field=field,
-        ...        radius=0.001,
         ...        source_center=(0.55, 0.55, 0.),
         ...        n_points=10,
         ...        source_radius=0.08,
         ...        max_time=10.0
         ...        )
+        >>> pl.add_streamlines(
+        ...        streamlines=streamline_obj,
+        ...        radius=0.001,
+        ...        )
         >>> pl.show_figure(show_axes=True)
 
         """
         self._internal_plotter.add_streamlines(
-            meshed_region=meshed_region,
-            field=field,
+            streamlines=streamlines,
+            source=source,
             radius=radius,
             **kwargs,
         )
