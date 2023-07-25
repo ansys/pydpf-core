@@ -205,7 +205,7 @@ class Operator:
             Number of the input pin.
 
         inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
-        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs
+        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, dict, Outputs
             Operator, os.PathLike Object to connect to.
 
         pin_out : int, optional

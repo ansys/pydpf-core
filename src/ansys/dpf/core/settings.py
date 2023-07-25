@@ -32,10 +32,10 @@ def set_default_pyvista_config():
     if module_exists("pyvista"):
         import pyvista as pv
 
-        pv.rcParams["interactive"] = True
-        pv.rcParams["cmap"] = "jet"
-        pv.rcParams["font"]["family"] = "courier"
-        pv.rcParams["title"] = "DPF"
+        pv.global_theme.interactive = True
+        pv.global_theme.cmap = "jet"
+        pv.global_theme.font.family = "courier"
+        pv.global_theme.title = "DPF"
 
 
 def bypass_pv_opengl_osmesa_crash():
