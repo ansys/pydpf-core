@@ -68,7 +68,34 @@ def compute_streamlines(meshed_region, field, **kwargs):
 
     Returns
     -------
-    streamlines: FieldsContainer
+    streamlines: helpers.streamlines.Streamlines
+
+    Examples
+    --------
+    >>> from ansys.dpf import core as dpf
+    >>> from ansys.dpf.core import examples
+    >>> from ansys.dpf.core.helpers.streamlines import compute_streamlines
+    >>> # Get model and meshed region
+    >>> files = examples.download_fluent_mixing_elbow_steady_state()
+    >>> ds = dpf.DataSources()
+    >>> ds.set_result_file_path(files["cas"][0], "cas")
+    >>> ds.add_file_path(files["dat"][1], "dat")
+    >>> model = dpf.Model(ds)
+    >>> mesh = model.metadata.meshed_region
+    >>> # Get velocity data
+    >>> velocity_op = model.results.velocity()
+    >>> fc = velocity_op.outputs.fields_container()
+    >>> op = dpf.operators.averaging.to_nodal_fc(fields_container=fc)
+    >>> field = op.outputs.fields_container()[0]
+    >>> # compute streamline
+    >>> streamline_obj = compute_streamlines(
+    ...        meshed_region=mesh,
+    ...        field=field,
+    ...        source_center=(0.55, 0.55, 0.),
+    ...        n_points=10,
+    ...        source_radius=0.08,
+    ...        max_time=10.0
+    ...        )
 
     """
     from ansys.dpf.core.vtk_helper import PyVistaImportError
