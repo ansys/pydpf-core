@@ -9,7 +9,7 @@ This example shows how to compute iso-surfaces on fluid models.
 
 ###############################################################################
 # Import the ``dpf-core`` module and its examples files.
-# # ~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~
 
 import ansys.dpf.core as dpf
 from ansys.dpf.core import examples
