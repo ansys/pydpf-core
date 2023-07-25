@@ -12,27 +12,32 @@ apps for both data input and data output, including visualization and
 result plots. The following table shows an exhaustive list of supported
 apps by DPF and their related format:
 
-+--------------------+------------------------+------------------------------+
-|     **Solver**     |    **File format**     |       **DPF examples**       |
-+====================+========================+==============================+
-|                    |   .rst, .mode, .rfrq   | :ref:`distributed_msup`      |
-|        MAPDL       |   .rdsp                +------------------------------+
-|                    |                        | :ref:`average_across_bodies` |
-+--------------------+------------------------+------------------------------+
-|       LS DYNA      |   .d3plot, .binout     | :ref:`lsdyna_operators`      |
-+--------------------+------------------------+------------------------------+
-|                    | *CFF restart files*    | :ref:`ref_fluids_model`      |
-|                    | .cas/dat.h5            +------------------------------+
-|        Fluent      +------------------------+ :ref:`ref_fluids_mesh`       |
-|                    | *Project files*        +------------------------------+
-|                    | .flprj                 | :ref:`ref_fluids_results`    |
-+--------------------+------------------------+------------------------------+
-|                    | *CFF files*            | :ref:`ref_fluids_model`      |
-|                    | .cas/dat.cff           +------------------------------+
-|          CFX       +------------------------+ :ref:`ref_fluids_mesh`       |
-|                    | *Project files*        +------------------------------+
-|                    | .flprj                 | :ref:`ref_fluids_results`    |
-+--------------------+------------------------+------------------------------+
++--------------------+------------------------+----------------------------------+
+|     **Solver**     |    **File format**     |       **DPF examples**           |
++====================+========================+==================================+
+|                    |   .rst, .mode, .rfrq   | :ref:`ref_distributed_msup`      |
+|        MAPDL       |   .rdsp                +----------------------------------+
+|                    |                        | :ref:`ref_average_across_bodies` |
++--------------------+------------------------+----------------------------------+
+|       LS DYNA      |   .d3plot, .binout     | :ref:`lsdyna_operators`          |
++--------------------+------------------------+----------------------------------+
+|                    | *CFF restart files*    | :ref:`ref_fluids_model`          |
+|                    |                        +----------------------------------+
+|                    | .cas/dat.h5            | :ref:`ref_fluids_mesh`           |
+|        Fluent      +------------------------+----------------------------------+
+|                    | *Project files*        |                                  |
+|                    |                        |                                  |
+|                    | .flprj                 | :ref:`ref_fluids_results`        |
++--------------------+------------------------+----------------------------------+
+|                    | *CFF files*            | :ref:`ref_fluids_model`          |
+|                    |                        |                                  |
+|                    | .cas/dat.cff           +----------------------------------+
+|                    |                        | :ref:`ref_fluids_mesh`           |
+|          CFX       +------------------------+----------------------------------+
+|                    | *Project files*        |                                  |
+|                    |                        |                                  |
+|                    | .flprj                 | :ref:`ref_fluids_results`        |
++--------------------+------------------------+----------------------------------+
 
 Visualisation is ensured by VTK and leverage of `PyVista tools
 <https://docs.pyvista.org>`_.
