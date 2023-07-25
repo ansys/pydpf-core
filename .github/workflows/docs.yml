@@ -96,6 +96,12 @@ jobs:
         run: |
           find /usr/lib -name "libffi.so*"
           echo bla
+          find /usr/lib -name "libc.so*"
+          echo blop
+          find /usr/lib -name "ld-linux-x86-64.so*"
+          echo blop2
+          find /usr/lib -name "linux-vdso.so*"
+          echo ble
           echo $LD_LIBRARY_PATH
           echo $PATH
           echo he
