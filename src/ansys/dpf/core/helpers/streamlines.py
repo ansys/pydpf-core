@@ -142,4 +142,3 @@ def compute_streamlines(meshed_region, field, **kwargs):
         )
         streamlines = Streamlines(streamlines)
         return streamlines
-
