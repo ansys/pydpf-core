@@ -84,12 +84,13 @@ def test_set_get_num_of(server_type):
     mesh_info = dpf.MeshInfo(server=server_type)
     # """Number of nodes"""
     num_nodes = 189
-    mesh_info.set_number_nodes(189)
-    assert mesh_info.get_number_nodes == num_nodes
+    mesh_info.number_nodes = 189
+    assert mesh_info.number_nodes == num_nodes
     # """ Number of elements """
     num_elements = 2
-    mesh_info.set_number_elements(2)
-    assert mesh_info.get_number_elements == num_elements
+    mesh_info.number_elements = 2
+    assert mesh_info.number_elements == num_elements
+    assert mesh_info.number_faces == 0
 
 
 @pytest.mark.skipif(
@@ -122,8 +123,8 @@ def test_set_get_splittable_by_mesh_info(server_type):
     splittable = dpf.StringField(server=server_type)
     expected_splittable = ["split_01", "split_02", "split_03"]
     splittable.append(expected_splittable, 1)
-    mesh_info.set_splittable_by(splittable)
-    result_splittable = mesh_info.get_splittable_by
+    mesh_info.splittable_by = splittable
+    result_splittable = mesh_info.splittable_by
     assert result_splittable.data[0] == expected_splittable[0]
     assert result_splittable.data[1] == expected_splittable[1]
     assert result_splittable.data[2] == expected_splittable[2]
@@ -138,10 +139,11 @@ def test_set_get_available_elem_types_mesh_info(server_type):
     available_results_ids = [1, 2, 3]
     available_results = dpf.Scoping(server=server_type)
     available_results._set_ids(available_results_ids)
-    mesh_info.set_available_elem_types(available_results)
-    result_available = mesh_info.get_available_elem_types
+    mesh_info.available_elem_types = available_results
+    result_available = mesh_info.available_elem_types
     for x in range(len(available_results)):
         assert result_available.id(x) == available_results.id(x)
+    print(mesh_info)
 
 
 @pytest.mark.skipif(
@@ -160,29 +162,32 @@ def test_output_mesh_info_provider_fluent(server_clayer):
 
     # """************************ NUMBER OF CELLS/FACES/ZONES ************************"""
     num_cells = mesh_info_out.get_property("num_cells")
+    num_cells2 = mesh_info_out.number_elements
     num_faces = mesh_info_out.get_property("num_faces")
+    num_faces2 = mesh_info_out.number_faces
     num_nodes = mesh_info_out.get_property("num_nodes")
 
     assert num_cells == 1344
+    assert num_cells2 == 1344
     assert num_faces == 2773
+    assert num_faces2 == 2773
     assert num_nodes == 1430
 
     # """************************ BODIES ************************"""
-    """
     # ************ Name ************
-    body_names = mesh_info_out.get_property("body_name")
+    body_names = mesh_info_out.get_property("body_names")
 
     body_names_value = body_names._get_data()
 
     assert len(body_names_value) == 1
     assert body_names_value[0] == "fluid-1"
-    """
+
     # """************ Scoping ************"""
-    body_scoping = mesh_info_out.get_property("body_scoping")
+    body_scoping = mesh_info_out.body_scoping
 
     assert body_scoping.size == 1
     assert body_scoping[0] == 1
-    """
+
     # ************ Topology ************
     body_cell_topology = mesh_info_out.get_property("body_cell_topology")
     body_face_topology = mesh_info_out.get_property("body_face_topology")
@@ -193,16 +198,15 @@ def test_output_mesh_info_provider_fluent(server_clayer):
     body_face_topology_value = body_face_topology._get_data()
 
     assert body_cell_topology_scoping.size == 1
-    assert body_face_topology_scoping.size == 5
+    assert body_face_topology_scoping.size == 1
     assert body_cell_topology_scoping[0] == 1
     assert body_face_topology_scoping[0] == 1
     assert body_cell_topology_value[0] == 1
     assert body_face_topology_value[0] == 3
-    """
+
     # """************************ ZONES ************************"""
-    """
     # ************ Name ************
-    zone_names = mesh_info_out.get_property("zone_name")
+    zone_names = mesh_info_out.get_property("zone_names")
 
     zone_names_value = zone_names._get_data()
 
@@ -212,9 +216,9 @@ def test_output_mesh_info_provider_fluent(server_clayer):
     assert zone_names_value[2] == "symmetry-4"
     assert zone_names_value[3] == "pressure-outlet-5"
     assert zone_names_value[5] == "velocity-inlet-7"
-    """
+
     # """************ Scoping ************"""
-    zone_scoping = mesh_info_out.get_property("zone_scoping")
+    zone_scoping = mesh_info_out.zone_scoping
 
     assert zone_scoping.size == 6
     assert zone_scoping[0] == 1
@@ -236,7 +240,6 @@ def test_output_mesh_info_provider_fluent(server_clayer):
     assert number_of_element_in_zone_value[5] == 15
 
     # """************ CELL ZONES ************"""
-
     # """************ Name ************"""
     cell_zone_name = mesh_info_out.get_property("cell_zone_names")
 
@@ -260,7 +263,6 @@ def test_output_mesh_info_provider_fluent(server_clayer):
     assert cell_zone_elements_value[0] == 1344
 
     # """************ FACE ZONES ************"""
-
     # """************ Name ************"""
     face_zone_names = mesh_info_out.get_property("face_zone_names")
 
@@ -314,23 +316,22 @@ def test_output_mesh_info_provider_flprj(fluent_axial_comp, server_clayer):
     assert num_nodes == 16660
 
     # """************************ BODIES ************************"""
-    """
     # ************ Name ************
-    body_names = res.get_property("body_name")
+    body_names = res.body_names
 
     body_names_value = body_names._get_data()
 
     assert len(body_names_value) == 2
     assert body_names_value[0] == "fluid-rotor"
     assert body_names_value[1] == "fluid-stator"
-    """
+
     # """************ Scoping ************"""
     body_scoping = res.get_property("body_scoping")
 
     assert body_scoping.size == 2
     assert body_scoping[0] == 13
     assert body_scoping[1] == 28
-    """
+
     # ************ Topology ************
     body_cell_topology = res.get_property("body_cell_topology")
     body_face_topology = res.get_property("body_face_topology")
@@ -341,16 +342,15 @@ def test_output_mesh_info_provider_flprj(fluent_axial_comp, server_clayer):
     body_face_topology_value = body_face_topology._get_data()
 
     assert body_cell_topology_scoping.size == 2
-    assert body_face_topology_scoping.size == 24
+    assert body_face_topology_scoping.size == 2
     assert body_cell_topology_scoping[0] == 13
     assert body_face_topology_scoping[0] == 13
     assert body_cell_topology_value[0] == 13
     assert body_face_topology_value[0] == 2
-    """
+
     # """************************ ZONES ************************"""
-    """
     # ************ Name ************
-    zone_names = res.get_property("zone_name")
+    zone_names = res.zone_names
 
     zone_names_value = zone_names._get_data()
 
@@ -363,7 +363,7 @@ def test_output_mesh_info_provider_flprj(fluent_axial_comp, server_clayer):
     assert zone_names_value[18] == "stator-blade-1"
     assert zone_names_value[22] == "stator-per-2"
     assert zone_names_value[25] == "stator-per-1-shadow"
-    """
+
     # """************ Scoping ************"""
     zone_scoping = res.get_property("zone_scoping")
 
