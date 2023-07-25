@@ -12,31 +12,27 @@ apps for both data input and data output, including visualization and
 result plots. The following table shows an exhaustive list of supported
 apps by DPF and their related format:
 
-.. list-table:: Supported solver and related file format
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Solver
-     - File format
-     - DPF examples
-   * - MAPDL
-     - .rst, .mode, .rfrq, .rdsp
-     - :ref:`distributed_msup`, :ref:`average_across_bodies`
-   * - LS DYNA
-     - .d3plot
-     - :ref:`lsdyna_operators`
-   * - Fluent CFF restart files
-     - .cas/dat.h5
-     - :ref:`fluids_results`
-   * - CFX CFF files
-     - .cas/dat.cff
-     - :ref:`fluids_mesh`
-   * - Fluid project files
-     - .flprj
-     - :ref:`fluids_mesh`
-   * - Abaqus
-     - .obd
-     - Not yet
++--------------------+------------------------+------------------------------+
+|     **Solver**     |    **File format**     |       **DPF examples**       |
++====================+========================+==============================+
+|                    |   .rst, .mode, .rfrq   | :ref:`distributed_msup`      |
+|        MAPDL       |   .rdsp                +------------------------------+
+|                    |                        | :ref:`average_across_bodies` |
++--------------------+------------------------+------------------------------+
+|       LS DYNA      |   .d3plot, .binout     | :ref:`lsdyna_operators`      |
++--------------------+------------------------+------------------------------+
+|                    | *CFF restart files*    | :ref:`ref_fluids_model`      |
+|                    | .cas/dat.h5            +------------------------------+
+|        Fluent      +------------------------+ :ref:`ref_fluids_mesh`       |
+|                    | *Project files*        +------------------------------+
+|                    | .flprj                 | :ref:`ref_fluids_results`    |
++--------------------+------------------------+------------------------------+
+|                    | *CFF files*            | :ref:`ref_fluids_model`      |
+|                    | .cas/dat.cff           +------------------------------+
+|          CFX       +------------------------+ :ref:`ref_fluids_mesh`       |
+|                    | *Project files*        +------------------------------+
+|                    | .flprj                 | :ref:`ref_fluids_results`    |
++--------------------+------------------------+------------------------------+
 
 Visualisation is ensured by VTK and leverage of `PyVista tools
 <https://docs.pyvista.org>`_.
