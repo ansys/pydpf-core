@@ -2,7 +2,6 @@
 """
 
 import numpy as np
-import vtk
 import warnings
 
 from ansys.dpf.core.common import locations
@@ -29,6 +28,7 @@ class Streamlines:
         # probably work to store the related data
         self._pv_data_set = pv_data_set
 
+
 class StreamlinesSource:
     """Class to define the StreamlineSource
     object scripting with `ansys-dpf-core`.
@@ -48,6 +48,7 @@ class StreamlinesSource:
         # in the future, a MeshedRegion would
         # probably work to store the related data
         self._pv_data_set = pv_data_set
+
 
 def compute_streamlines(meshed_region, field, **kwargs):
     """Compute the streamlines for a given mesh and velocity
@@ -98,12 +99,6 @@ def compute_streamlines(meshed_region, field, **kwargs):
     ...        )
 
     """
-    from ansys.dpf.core.vtk_helper import PyVistaImportError
-    try:
-        import pyvista as pv
-    except ModuleNotFoundError:
-        raise PyVistaImportError
-
     # Check velocity field location
     if field.location is not locations.nodal:
         warnings.warn(
@@ -128,9 +123,7 @@ def compute_streamlines(meshed_region, field, **kwargs):
 
     # filter kwargs
     kwargs_base = _sort_supported_kwargs(bound_method=grid.streamlines, **kwargs)
-    kwargs_from_source = _sort_supported_kwargs(
-        bound_method=grid.streamlines_from_source, **kwargs
-    )
+    kwargs_from_source = _sort_supported_kwargs(bound_method=grid.streamlines_from_source, **kwargs)
     kwargs_from_source.update(kwargs_base)  # merge both dicts in kwargs_from_source
 
     if return_source:

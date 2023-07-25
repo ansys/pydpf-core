@@ -21,7 +21,6 @@ from ansys.dpf.core.common import locations, DefinitionLabels
 from ansys.dpf.core.common import shell_layers as eshell_layers
 from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core.helpers.streamlines import compute_streamlines
 from ansys.dpf.core.nodes import Node, Nodes
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -317,9 +316,7 @@ class _PyVistaPlotter:
         streamlines = streamlines._pv_data_set
         if not (permissive and streamlines.n_points == 0):
             self._plotter.add_mesh(
-                streamlines.tube(radius=radius),
-                scalar_bar_args=sargs,
-                **kwargs_in
+                streamlines.tube(radius=radius), scalar_bar_args=sargs, **kwargs_in
             )
         if source is not None:
             src = source._pv_data_set

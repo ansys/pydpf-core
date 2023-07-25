@@ -82,7 +82,7 @@ multiple_2d_streamlines, multiple_2d_source = compute_streamlines(
     pointb=(0.005, 0.001, 0.0),
     n_points=10,
     surface_streamlines=True,
-    return_source=True
+    return_source=True,
 )
 
 
