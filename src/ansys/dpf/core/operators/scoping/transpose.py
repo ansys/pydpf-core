@@ -12,8 +12,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class transpose(Operator):
-    """Transposes the input scoping or scopings container (Elemental -->
-    Nodal, or Nodal ---> Elemental), based on the input mesh region.
+    """Transposes the input scoping or scopings container (Elemental/Faces
+    --> Nodal, or Nodal ---> Elemental/Faces), based on the input mesh
+    region.
 
     Parameters
     ----------
@@ -22,11 +23,18 @@ class transpose(Operator):
         is the output type)
     meshed_region : MeshedRegion or MeshesContainer
     inclusive : int, optional
-        If inclusive == 1 then all the elements
+        If inclusive == 1 then all the elements/faces
         adjacent to the nodes ids in input
         are added, if inclusive == 0, only
-        the elements which have all their
-        nodes in the scoping are included
+        the elements/faces which have all
+        their nodes in the scoping are
+        included
+    requested_location : str, optional
+        Output scoping location for meshes with
+        nodes, faces and elements. by
+        default, elemental and faces scopings
+        transpose to nodal, and nodal
+        scopings transpose to elemental.
 
 
     Examples
@@ -43,12 +51,15 @@ class transpose(Operator):
     >>> op.inputs.meshed_region.connect(my_meshed_region)
     >>> my_inclusive = int()
     >>> op.inputs.inclusive.connect(my_inclusive)
+    >>> my_requested_location = str()
+    >>> op.inputs.requested_location.connect(my_requested_location)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.scoping.transpose(
     ...     mesh_scoping=my_mesh_scoping,
     ...     meshed_region=my_meshed_region,
     ...     inclusive=my_inclusive,
+    ...     requested_location=my_requested_location,
     ... )
 
     >>> # Get output data
@@ -60,6 +71,7 @@ class transpose(Operator):
         mesh_scoping=None,
         meshed_region=None,
         inclusive=None,
+        requested_location=None,
         config=None,
         server=None,
     ):
@@ -72,12 +84,14 @@ class transpose(Operator):
             self.inputs.meshed_region.connect(meshed_region)
         if inclusive is not None:
             self.inputs.inclusive.connect(inclusive)
+        if requested_location is not None:
+            self.inputs.requested_location.connect(requested_location)
 
     @staticmethod
     def _spec():
-        description = """Transposes the input scoping or scopings container (Elemental --&gt;
-            Nodal, or Nodal ---&gt; Elemental), based on the input mesh
-            region."""
+        description = """Transposes the input scoping or scopings container (Elemental/Faces
+            --&gt; Nodal, or Nodal ---&gt; Elemental/Faces), based on the
+            input mesh region."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -98,11 +112,22 @@ class transpose(Operator):
                     name="inclusive",
                     type_names=["int32"],
                     optional=True,
-                    document="""If inclusive == 1 then all the elements
+                    document="""If inclusive == 1 then all the elements/faces
         adjacent to the nodes ids in input
         are added, if inclusive == 0, only
-        the elements which have all their
-        nodes in the scoping are included""",
+        the elements/faces which have all
+        their nodes in the scoping are
+        included""",
+                ),
+                9: PinSpecification(
+                    name="requested_location",
+                    type_names=["string"],
+                    optional=True,
+                    document="""Output scoping location for meshes with
+        nodes, faces and elements. by
+        default, elemental and faces scopings
+        transpose to nodal, and nodal
+        scopings transpose to elemental.""",
                 ),
             },
             map_output_pin_spec={
@@ -145,7 +170,7 @@ class transpose(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -168,6 +193,8 @@ class InputsTranspose(_Inputs):
     >>> op.inputs.meshed_region.connect(my_meshed_region)
     >>> my_inclusive = int()
     >>> op.inputs.inclusive.connect(my_inclusive)
+    >>> my_requested_location = str()
+    >>> op.inputs.requested_location.connect(my_requested_location)
     """
 
     def __init__(self, op: Operator):
@@ -178,6 +205,8 @@ class InputsTranspose(_Inputs):
         self._inputs.append(self._meshed_region)
         self._inclusive = Input(transpose._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._inclusive)
+        self._requested_location = Input(transpose._spec().input_pin(9), 9, op, -1)
+        self._inputs.append(self._requested_location)
 
     @property
     def mesh_scoping(self):
@@ -222,11 +251,12 @@ class InputsTranspose(_Inputs):
     def inclusive(self):
         """Allows to connect inclusive input to the operator.
 
-        If inclusive == 1 then all the elements
+        If inclusive == 1 then all the elements/faces
         adjacent to the nodes ids in input
         are added, if inclusive == 0, only
-        the elements which have all their
-        nodes in the scoping are included
+        the elements/faces which have all
+        their nodes in the scoping are
+        included
 
         Parameters
         ----------
@@ -241,6 +271,30 @@ class InputsTranspose(_Inputs):
         >>> op.inputs.inclusive(my_inclusive)
         """
         return self._inclusive
+
+    @property
+    def requested_location(self):
+        """Allows to connect requested_location input to the operator.
+
+        Output scoping location for meshes with
+        nodes, faces and elements. by
+        default, elemental and faces scopings
+        transpose to nodal, and nodal
+        scopings transpose to elemental.
+
+        Parameters
+        ----------
+        my_requested_location : str
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.scoping.transpose()
+        >>> op.inputs.requested_location.connect(my_requested_location)
+        >>> # or
+        >>> op.inputs.requested_location(my_requested_location)
+        """
+        return self._requested_location
 
 
 class OutputsTranspose(_Outputs):

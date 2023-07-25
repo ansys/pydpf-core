@@ -39,6 +39,7 @@ class Output:
     def get_data(self):
         """Retrieves the output of the operator."""
         type_output = self._spec.type_names[0]
+
         if type_output == "abstract_meshed_region":
             type_output = types.meshed_region
         elif type_output == "abstract_data_tree":
@@ -56,7 +57,17 @@ class Output:
         elif type_output == "vector<int32>":
             type_output = types.vec_int
 
-        return self._operator.get_output(self._pin, type_output)
+        type_output_derive_class = self._spec.name_derived_class
+
+        if type_output_derive_class != "":
+            out_type = [
+                type_tuple
+                for type_tuple in self._operator._type_to_output_method
+                if type_output_derive_class in type_tuple
+            ]
+            return out_type[0][0](self._operator.get_output(self._pin, type_output))
+        else:
+            return self._operator.get_output(self._pin, type_output)
 
     def __call__(self):
         return self.get_data()
@@ -156,7 +167,8 @@ class Outputs(_Outputs):
 
     def __init__(self, dict_outputs, operator):
         super().__init__(dict_outputs, operator)
-        for pin in self._dict_outputs:
+        # order the dict before looping
+        for pin in sorted(list(self._dict_outputs.keys())):
             if len(self._dict_outputs[pin].type_names) == 1 and self._dict_outputs[pin] is not None:
                 output_name = self._dict_outputs[pin].name
                 output = Output(self._dict_outputs[pin], pin, self._operator)

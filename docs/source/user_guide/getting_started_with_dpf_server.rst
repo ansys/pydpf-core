@@ -146,7 +146,7 @@ To update the context, apply a new server context:
 
 .. code::
 
-    dpf.apply_server_context(dpf.AvailableServerContexts.premium)
+    server.apply_context(dpf.AvailableServerContexts.premium)
 
 .. _target_to_ansys_license_increments_list:
 

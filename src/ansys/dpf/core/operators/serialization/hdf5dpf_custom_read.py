@@ -35,7 +35,7 @@ class hdf5dpf_custom_read(Operator):
     >>> from ansys.dpf import core as dpf
 
     >>> # Instantiate operator
-    >>> op = dpf.operators.utility.hdf5dpf_custom_read()
+    >>> op = dpf.operators.serialization.hdf5dpf_custom_read()
 
     >>> # Make input connections
     >>> my_time_scoping = dpf.Scoping()
@@ -52,7 +52,7 @@ class hdf5dpf_custom_read(Operator):
     >>> op.inputs.result_name.connect(my_result_name)
 
     >>> # Instantiate operator and connect inputs in one line
-    >>> op = dpf.operators.utility.hdf5dpf_custom_read(
+    >>> op = dpf.operators.serialization.hdf5dpf_custom_read(
     ...     time_scoping=my_time_scoping,
     ...     mesh_scoping=my_mesh_scoping,
     ...     streams=my_streams,
@@ -176,7 +176,7 @@ class hdf5dpf_custom_read(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -192,7 +192,7 @@ class InputsHdf5DpfCustomRead(_Inputs):
     Examples
     --------
     >>> from ansys.dpf import core as dpf
-    >>> op = dpf.operators.utility.hdf5dpf_custom_read()
+    >>> op = dpf.operators.serialization.hdf5dpf_custom_read()
     >>> my_time_scoping = dpf.Scoping()
     >>> op.inputs.time_scoping.connect(my_time_scoping)
     >>> my_mesh_scoping = dpf.Scoping()
@@ -233,7 +233,7 @@ class InputsHdf5DpfCustomRead(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.hdf5dpf_custom_read()
+        >>> op = dpf.operators.serialization.hdf5dpf_custom_read()
         >>> op.inputs.time_scoping.connect(my_time_scoping)
         >>> # or
         >>> op.inputs.time_scoping(my_time_scoping)
@@ -251,7 +251,7 @@ class InputsHdf5DpfCustomRead(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.hdf5dpf_custom_read()
+        >>> op = dpf.operators.serialization.hdf5dpf_custom_read()
         >>> op.inputs.mesh_scoping.connect(my_mesh_scoping)
         >>> # or
         >>> op.inputs.mesh_scoping(my_mesh_scoping)
@@ -271,7 +271,7 @@ class InputsHdf5DpfCustomRead(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.hdf5dpf_custom_read()
+        >>> op = dpf.operators.serialization.hdf5dpf_custom_read()
         >>> op.inputs.streams.connect(my_streams)
         >>> # or
         >>> op.inputs.streams(my_streams)
@@ -291,7 +291,7 @@ class InputsHdf5DpfCustomRead(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.hdf5dpf_custom_read()
+        >>> op = dpf.operators.serialization.hdf5dpf_custom_read()
         >>> op.inputs.data_sources.connect(my_data_sources)
         >>> # or
         >>> op.inputs.data_sources(my_data_sources)
@@ -312,7 +312,7 @@ class InputsHdf5DpfCustomRead(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.hdf5dpf_custom_read()
+        >>> op = dpf.operators.serialization.hdf5dpf_custom_read()
         >>> op.inputs.meta_data.connect(my_meta_data)
         >>> # or
         >>> op.inputs.meta_data(my_meta_data)
@@ -333,7 +333,7 @@ class InputsHdf5DpfCustomRead(_Inputs):
         Examples
         --------
         >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.hdf5dpf_custom_read()
+        >>> op = dpf.operators.serialization.hdf5dpf_custom_read()
         >>> op.inputs.result_name.connect(my_result_name)
         >>> # or
         >>> op.inputs.result_name(my_result_name)
@@ -348,7 +348,7 @@ class OutputsHdf5DpfCustomRead(_Outputs):
     Examples
     --------
     >>> from ansys.dpf import core as dpf
-    >>> op = dpf.operators.utility.hdf5dpf_custom_read()
+    >>> op = dpf.operators.serialization.hdf5dpf_custom_read()
     >>> # Connect inputs : op.inputs. ...
     >>> result_field_or_fields_container = op.outputs.field_or_fields_container()
     """

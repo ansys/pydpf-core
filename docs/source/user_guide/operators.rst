@@ -6,7 +6,7 @@ Operators
 
 ..    include:: <isonum.txt>
 
-An operator is the only object that is used to create and transform 
+An operator is the main object that is used to create, transform, and stream 
 data. In DPF, you use operators to load, operate on, and output data.
 
 Each operator contains ``input`` and ``output`` attributes, which
@@ -60,8 +60,8 @@ which is progressively enhanced, see :ref:`ref_dpf_operators_reference`.
 Create operators
 ~~~~~~~~~~~~~~~~
 Each operator is of type :ref:`ref_operator`. You can create an instance 
-in Python with any of the derived classes available in the 
-package :ref:`ref_operators_package` or directly with the :ref:`ref_operator`
+in Python with any of the derived classes available in the
+:ref:`ansys.dpf.core.operators package` or directly with the :ref:`ref_operator`
 class using the internal name string that indicates the operator type. 
 For more information, see :ref:`ref_dpf_operators_reference`.
 
@@ -446,5 +446,5 @@ Python client is not on the same machine as the server:
 API reference
 ~~~~~~~~~~~~~
 For a list of all operators in DPF, see :ref:`ref_dpf_operators_reference` 
-or the package :ref:`ref_operators_package`.  For more information about the
+or the package :ref:`ansys.dpf.core.operators package`.  For more information about the
 class itself, see :ref:`ref_operator`.

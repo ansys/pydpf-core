@@ -17,6 +17,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
 )
 
 # Check for ANSYS installation env var
@@ -89,7 +90,7 @@ def test_connect_bool_operator(server_type):
 
 def test_print_operator():
     op = dpf.core.Operator("S")
-    print(op)
+    assert str(op)
 
 
 def test_connect_get_out_all_types_operator(server_type):
@@ -257,6 +258,37 @@ def test_connect_operator_output_operator(server_type):
     op2.connect(1, 0)
     fOut = op2.get_output(0, dpf.core.types.field)
     assert len(fOut.data) == 3
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    reason="Connect an operator as an input is supported starting server version 7.0",
+)
+def test_connect_generic_data_container_operator(server_type):
+    op = dpf.core.Operator("forward", server=server_type)
+    inpt = dpf.core.GenericDataContainer(server=server_type)
+    op.connect(0, inpt)
+    output = op.get_output(0, dpf.core.types.generic_data_container)
+    assert output is not None
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
+    reason="Connect an operator as an input is supported starting server version 6.2",
+)
+def test_connect_operator_as_input(server_type):
+    op_for_each = dpf.core.Operator("for_each", server=server_type)
+    fieldify = dpf.core.Operator("fieldify", server=server_type)
+    op_merge = dpf.core.Operator("incremental::merge::field", server=server_type)
+
+    op_for_each.connect_operator_as_input(0, fieldify)
+    op_for_each.connect(1, [1.0, 2.0, 3.0, 4.0])
+    op_for_each.connect(3, op_merge, 0)
+    op_merge.connect(0, fieldify, 0)
+    op_merge.connect(-2, True)
+
+    op_for_each.run()
+    assert op_for_each.get_output(3, dpf.core.types.field).get_entity_data(0) == 10.0
 
 
 def test_eval_operator(server_type):
@@ -1233,7 +1265,12 @@ def test_operator_config_specification_simple(server_type):
     spec = Specification(operator_name="add", server=server_type)
     conf_spec = spec.config_specification
     if server_type.os != "posix":
-        assert "enum dataProcessing::EBinaryOperation" in conf_spec["binary_operation"].type_names
+        assert (
+            "enum dataProcessing::EBinaryOperation"
+            or "binary_operation_enum" in conf_spec["binary_operation"].type_names
+        )
+    elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
+        assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
     assert conf_spec["binary_operation"].default_value_str == "1"
     assert "Intersection" in conf_spec["binary_operation"].document
     assert "run_in_parallel" in conf_spec
@@ -1246,7 +1283,12 @@ def test_generated_operator_config_specification_simple(server_type):
     spec = op.specification
     conf_spec = spec.config_specification
     if server_type.os != "posix":
-        assert "enum dataProcessing::EBinaryOperation" in conf_spec["binary_operation"].type_names
+        assert (
+            "enum dataProcessing::EBinaryOperation"
+            or "binary_operation_enum" in conf_spec["binary_operation"].type_names
+        )
+    elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
+        assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
     assert conf_spec["binary_operation"].default_value_str == "1"
     assert "Intersection" in conf_spec["binary_operation"].document
     assert "run_in_parallel" in conf_spec

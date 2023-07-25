@@ -48,6 +48,7 @@ remote processes.
 ###############################################################################
 # Import the ``dpf-core`` module and its examples files.
 
+import os
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
@@ -57,9 +58,11 @@ from ansys.dpf.core import operators as ops
 # To make it easier, this example starts local servers. However, you can
 # connect to any existing servers on your network.
 
-global_server = dpf.start_local_server(
-    as_global=True, config=dpf.AvailableServerConfigs.InProcessServer
-)
+config = dpf.AvailableServerConfigs.InProcessServer
+if "DPF_DOCKER" in os.environ.keys():
+    # If running DPF on Docker, you cannot start an InProcessServer
+    config = dpf.AvailableServerConfigs.GrpcServer
+global_server = dpf.start_local_server(as_global=True, config=config)
 
 remote_servers = [
     dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
@@ -69,7 +72,7 @@ remote_servers = [
 ###############################################################################
 # Send files to the temporary directory if they are not in shared memory.
 
-files = examples.download_distributed_files()
+files = examples.download_distributed_files(return_local_path=True)
 server_file_paths = [
     dpf.upload_file_in_tmp_folder(files[0], server=remote_servers[0]),
     dpf.upload_file_in_tmp_folder(files[1], server=remote_servers[1]),

@@ -153,8 +153,8 @@ class mesh_property_provider(Operator):
         "section", "elprops", "keyopt_1" to
         "keyopt_18" (or any mesh's property
         field), a scoping for
-        properties:"named_selection, a string
-        field for properties:
+        properties:"named_selection", a
+        string field for properties:
         "named_selection_names".""",
                 ),
             },
@@ -189,7 +189,7 @@ class mesh_property_provider(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------

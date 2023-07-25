@@ -13,15 +13,9 @@ export them to HDF5 and CSV files.
 # Import the ``dpf-core`` module and its examples files, and then create a
 # temporary directory.
 
-import os
-import tempfile
-
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
-
-
-tmpdir = tempfile.mkdtemp()
 
 ###############################################################################
 # Create the operator and connect data sources.
@@ -41,11 +35,15 @@ len(fields)
 fields[0].data
 
 ###############################################################################
+# Define a temporary folder for outputs
+tmpdir = dpf.core.make_tmp_dir_server(dpf.SERVER)
+
+###############################################################################
 # Export the result fields container to an HDF5 file.
 
 h5_op = ops.serialization.serialize_to_hdf5()
 h5_op.inputs.data1.connect(matrices_provider.outputs)
-h5_op.inputs.file_path.connect(os.path.join(tmpdir, "matrices.h5"))
+h5_op.inputs.file_path.connect(dpf.path_utilities.join(tmpdir, "matrices.h5"))
 h5_op.run()
 
 ###############################################################################
@@ -53,5 +51,5 @@ h5_op.run()
 
 csv_op = ops.serialization.field_to_csv()
 csv_op.inputs.field_or_fields_container.connect(matrices_provider.outputs)
-csv_op.inputs.file_path.connect(os.path.join(tmpdir, "matrices.csv"))
+csv_op.inputs.file_path.connect(dpf.path_utilities.join(tmpdir, "matrices.csv"))
 csv_op.run()

@@ -20,11 +20,12 @@ class from_scoping(Operator):
         transposed respecting the inclusive
         pin
     inclusive : int, optional
-        If inclusive == 1 then all the elements
+        If inclusive == 1 then all the elements/faces
         adjacent to the nodes ids in input
         are added, if inclusive == 0, only
-        the elements which have all their
-        nodes in the scoping are included
+        the elements/faces which have all
+        their nodes in the scoping are
+        included
     nodes_only : bool, optional
         Returns mesh with nodes only (without any
         elements). default is false.
@@ -101,11 +102,12 @@ class from_scoping(Operator):
                     name="inclusive",
                     type_names=["int32"],
                     optional=True,
-                    document="""If inclusive == 1 then all the elements
+                    document="""If inclusive == 1 then all the elements/faces
         adjacent to the nodes ids in input
         are added, if inclusive == 0, only
-        the elements which have all their
-        nodes in the scoping are included""",
+        the elements/faces which have all
+        their nodes in the scoping are
+        included""",
                 ),
                 3: PinSpecification(
                     name="nodes_only",
@@ -160,7 +162,7 @@ class from_scoping(Operator):
 
     @property
     def outputs(self):
-        """Enables to get outputs of the operator by evaluationg it
+        """Enables to get outputs of the operator by evaluating it
 
         Returns
         --------
@@ -224,11 +226,12 @@ class InputsFromScoping(_Inputs):
     def inclusive(self):
         """Allows to connect inclusive input to the operator.
 
-        If inclusive == 1 then all the elements
+        If inclusive == 1 then all the elements/faces
         adjacent to the nodes ids in input
         are added, if inclusive == 0, only
-        the elements which have all their
-        nodes in the scoping are included
+        the elements/faces which have all
+        their nodes in the scoping are
+        included
 
         Parameters
         ----------

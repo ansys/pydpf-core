@@ -11,7 +11,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "232"
+        default: "241"
       wheel:
         required: false
         type: string
@@ -119,7 +119,7 @@ jobs:
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
       - name: "Build Package"
-        uses: pyansys/pydpf-actions/build_package@v2.3
+        uses: ansys/pydpf-actions/build_package@v2.3
         with:
           python-version: ${{ matrix.python-version }}
           ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
@@ -140,7 +140,7 @@ jobs:
           pip install ansys-grpc-dpf==0.4.0
 
       - name: "Prepare Testing Environment"
-        uses: pyansys/pydpf-actions/prepare_tests@v2.3
+        uses: ansys/pydpf-actions/prepare_tests@v2.3
         with:
           DEBUG: true
 
@@ -150,7 +150,7 @@ jobs:
 
       - name: "Test Docstrings"
         if: inputs.DOCSTRING == 'true'
-        uses: pyansys/pydpf-actions/test_docstrings@v2.3
+        uses: ansys/pydpf-actions/test_docstrings@v2.3
         with:
           MODULE: ${{env.MODULE}}
           PACKAGE_NAME: ${{env.PACKAGE_NAME}}
@@ -165,7 +165,7 @@ jobs:
       - name: "Set pytest arguments"
         shell: bash
         run: |
-          echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR" >> $GITHUB_ENV
+          echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
           echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
 
       - name: "Test API"
@@ -176,7 +176,7 @@ jobs:
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_launcher"
@@ -186,10 +186,10 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results2.xml test_launcher/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results2.xml test_launcher/.
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_server"
@@ -199,11 +199,11 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results3.xml test_server/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results3.xml test_server/.
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_local_server"
@@ -213,10 +213,10 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results4.xml test_local_server/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results4.xml test_local_server/.
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_multi_server"
@@ -226,10 +226,10 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results5.xml test_multi_server/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results5.xml test_multi_server/.
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_remote_workflow"
@@ -239,20 +239,20 @@ jobs:
           max_attempts: 3
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results6.xml test_remote_workflow/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results6.xml test_remote_workflow/.
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_remote_operator"
         shell: bash
         working-directory: test_remote_operator
         run: |
-          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results7.xml .
+          pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results7.xml .
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_workflow"
@@ -263,11 +263,11 @@ jobs:
           retry_wait_seconds: 15
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=../tests/junit/test-results8.xml test_workflow/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results8.xml test_workflow/.
         if: always()
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.3
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
         if: always()
 
       - name: "Test API test_service"
@@ -277,10 +277,10 @@ jobs:
           max_attempts: 2
           shell: bash
           command: |
-            pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
         if: always()
 
       - name: "Test API Entry"
@@ -288,11 +288,12 @@ jobs:
         working-directory: tests
         run: |
           cd entry
-          pytest $DEBUG $COVERAGE --cov-append $RERUNS --junitxml=junit/test-results10.xml  .
+          pytest $DEBUG $COVERAGE $RERUNS --junitxml=../junit/test-results10.xml  .
         if: always()
+        timeout-minutes: 30
 
       - name: "Kill all servers"
-        uses: pyansys/pydpf-actions/kill-dpf-servers@v2.2
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
         if: always()
 
       - name: "Upload Test Results"

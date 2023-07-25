@@ -286,7 +286,7 @@ def test_generated_operator_set_config():
     inpt2.unit = "m"
 
     conf = op.math.add.default_config()
-    print(conf)
+    # print(conf)
     conf.set_work_by_index_option(True)
     op1 = op.math.add(config=conf)
     op1.inputs.fieldA.connect(inpt)

@@ -73,8 +73,8 @@ chain that is used to compute the final result.
 
 ###############################################################################
 # Import the ``dpf-core`` module and its examples files.
-import os.path
 
+import os
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
 from ansys.dpf.core import operators as ops
@@ -93,9 +93,11 @@ from ansys.dpf.core import operators as ops
 # To make it easier, this example starts local servers. However, you can
 # connect to any existing servers on your network.
 
-global_server = dpf.start_local_server(
-    as_global=True, config=dpf.AvailableServerConfigs.InProcessServer
-)
+config = dpf.AvailableServerConfigs.InProcessServer
+if "DPF_DOCKER" in os.environ.keys():
+    # If running DPF on Docker, you cannot start an InProcessServer
+    config = dpf.AvailableServerConfigs.GrpcServer
+global_server = dpf.start_local_server(as_global=True, config=config)
 
 remote_servers = [
     dpf.start_local_server(as_global=False, config=dpf.AvailableServerConfigs.GrpcServer),
@@ -114,8 +116,19 @@ print("ports:", ports)
 # Specify the file path.
 
 base_path = examples.find_distributed_msup_folder()
-files = [os.path.join(base_path, "file0.mode"), os.path.join(base_path, "file1.mode")]
-files_aux = [os.path.join(base_path, "file0.rst"), os.path.join(base_path, "file1.rst")]
+
+files = [
+    dpf.path_utilities.join(base_path, "file0.mode"),
+    dpf.path_utilities.join(base_path, "file1.mode"),
+]
+files_aux = [
+    dpf.path_utilities.join(base_path, "file0.rst"),
+    dpf.path_utilities.join(base_path, "file1.rst"),
+]
+files_rfrq = [
+    dpf.path_utilities.join(base_path, "file_load_1.rfrq"),
+    dpf.path_utilities.join(base_path, "file_load_2.rfrq"),
+]
 
 ###############################################################################
 # Create operators on each server
@@ -146,15 +159,11 @@ for i, server in enumerate(remote_servers):
 merge_fields = ops.utility.merge_fields_containers()
 merge_mesh = ops.utility.merge_meshes()
 
-ds = dpf.DataSources(os.path.join(base_path, "file_load_1.rfrq"))
+ds = dpf.DataSources(files_rfrq[0])
 response = ops.result.displacement(data_sources=ds)
 response.inputs.mesh(merge_mesh.outputs.merges_mesh)
 
-ds = dpf.DataSources(os.path.join(base_path, "file_load_2.rfrq"))
-from os import walk
-
-for (dirpath, dirnames, filenames) in walk(base_path):
-    print(filenames)
+ds = dpf.DataSources(files_rfrq[1])
 response2 = ops.result.displacement(data_sources=ds)
 response2fc = response2.outputs.fields_container()
 response2fc.time_freq_support.time_frequencies.scoping.set_id(0, 2)
