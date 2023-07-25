@@ -107,6 +107,7 @@ pl.show_figure(show_axes=True, cpos=c_pos_iso)
 ###############################################################################
 # Important note
 # ------------------------------
-# For elemental or face variables we should have done an averaging on node
-# by using elemental_to_node operator and set as an input of the
-# mesh_cut operator the node scoping.
+# Isosurfaces computation through the `mesh_cut` operator are only supported for Nodal Fields.
+# Thus, for Elemental variables an averaging operation to the Nodes needs to be performed before
+# running the `mesh_cut` operator. This can be done by chaining the `elemental_to_nodal` operator
+# output with the `mesh_cut` operator input.
