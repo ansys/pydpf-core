@@ -309,20 +309,20 @@ class _PyVistaPlotter:
                 point_size=label_point_size,
             )
 
-    def add_streamlines(self, computed_streamlines, computed_source=None, radius=1.0, **kwargs):
+    def add_streamlines(self, streamlines, source=None, radius=1.0, **kwargs):
         permissive = kwargs.pop("permissive", None)
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
         # set streamline on plotter
         sargs = dict(vertical=False)
-        streamlines = computed_streamlines._pv_data_set
+        streamlines = streamlines._pv_data_set
         if not (permissive and streamlines.n_points == 0):
             self._plotter.add_mesh(
                 streamlines.tube(radius=radius),
                 scalar_bar_args=sargs,
                 **kwargs_in
             )
-        if computed_source is not None:
-            src = computed_source._pv_data_set
+        if source is not None:
+            src = source._pv_data_set
             self._plotter.add_mesh(src, **kwargs_in)
 
     def show_figure(self, **kwargs):
@@ -494,8 +494,8 @@ class DpfPlotter:
 
     def add_streamlines(
         self,
-        computed_streamlines,
-        computed_source=None,
+        streamlines,
+        source=None,
         radius=0.1,
         **kwargs,
     ):
@@ -508,11 +508,11 @@ class DpfPlotter:
 
         Parameters
         ----------
-        computed_streamlines : helpers.streamlines.Streamlines
+        streamlines : helpers.streamlines.Streamlines
             Object containing computed streamlines data,
             computed using `helpers.streamlines.compute_streamlines`
             function.
-        computed_source : helpers.streamlines.StreamlinesSource, optional
+        source : helpers.streamlines.StreamlinesSource, optional
             Object containing computed streamines source data,
             computed using `helpers.streamlines.compute_streamlines`
             function.
@@ -527,6 +527,7 @@ class DpfPlotter:
         --------
         >>> from ansys.dpf import core as dpf
         >>> from ansys.dpf.core import examples
+        >>> from ansys.dpf.core.helpers.streamlines import compute_streamlines
         >>> # Get model and meshed region
         >>> files = examples.download_fluent_mixing_elbow_steady_state()
         >>> ds = dpf.DataSources()
@@ -543,20 +544,24 @@ class DpfPlotter:
         >>> from ansys.dpf.core.plotter import DpfPlotter
         >>> pl = DpfPlotter()
         >>> pl.add_mesh(meshed_region=mesh, opacity=0.15, color="g")
-        >>> pl.add_streamlines(meshed_region=mesh,
+        >>> streamline_obj = compute_streamlines(
+        ...        meshed_region=mesh,
         ...        field=field,
-        ...        radius=0.001,
         ...        source_center=(0.55, 0.55, 0.),
         ...        n_points=10,
         ...        source_radius=0.08,
         ...        max_time=10.0
         ...        )
+        >>> pl.add_streamlines(
+        ...        streamlines=streamline_obj,
+        ...        radius=0.001,
+        ...        )
         >>> pl.show_figure(show_axes=True)
 
         """
         self._internal_plotter.add_streamlines(
-            computed_streamlines=computed_streamlines,
-            computed_source=computed_source,
+            streamlines=streamlines,
+            source=source,
             radius=radius,
             **kwargs,
         )
