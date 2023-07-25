@@ -37,6 +37,7 @@ class physics_types(Enum):
     magnetic = 2
     electric = 3
     unknown_physics = 4
+    fluid = 5
 
 
 @unique
@@ -126,8 +127,23 @@ class ResultInfo:
                 ]
                 txt += "{0:^4} {1:^2} {2:<30}".format(*line) + "\n"
 
+            if self._server.meet_version("7.0"):
+                qualifiers_labels = self.available_qualifier_labels
+                if len(qualifiers_labels) > 0:
+                    txt += "Available qualifier labels:\n"
+                    for label in qualifiers_labels:
+                        label_support = self.qualifier_label_support(label)
+                        names_field = label_support.string_field_support_by_property("names")
+                        label_names = names_field.data_as_list
+                        label_values = names_field.scoping.ids.tolist()
+                        txt += f"     - {label}: "
+                        for i, value in enumerate(label_values):
+                            label_values[i] = label_names[i] + f" ({value})"
+                        txt += f"{', '.join(label_values)}\n"
+
             return txt
         except Exception as e:
+            raise e
             from ansys.dpf.core.core import _description
 
             return _description(self._internal_obj, self._server)
@@ -256,7 +272,7 @@ class ResultInfo:
         """Version of the solver."""
         major = integral_types.MutableInt32()
         minor = integral_types.MutableInt32()
-        res = self._api.result_info_get_solver_version(self, major, minor)
+        _ = self._api.result_info_get_solver_version(self, major, minor)
         return str(int(major)) + "." + str(int(minor))
 
     @property
@@ -388,7 +404,7 @@ class ResultInfo:
                 )
                 qualifiers.append(label_space)
                 label_space_dict = label_space.__dict__()
-                for key in label_space_dict:
+                for key in label_space_dict.keys():
                     value = label_space_dict[key]
                     label_support = self.qualifier_label_support(key)
                     names_field = label_support.string_field_support_by_property("names")

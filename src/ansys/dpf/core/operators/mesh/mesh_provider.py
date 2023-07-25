@@ -28,6 +28,12 @@ class mesh_provider(Operator):
         If 1, cyclic symmetry is ignored. if 2,
         cyclic expansion is done (default is
         1).
+    region_scoping : Scoping or int, optional
+        Region id (integer) or vector of region ids
+        with one entity (vector) or region
+        scoping with one id (scoping) (region
+        corresponds to zone for fluid results
+        or part for lsdyna results).
     laziness : DataTree, optional
         Configurate whether lazy evaluation can be
         performed and to what extent.
@@ -64,6 +70,8 @@ class mesh_provider(Operator):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_region_scoping = dpf.Scoping()
+    >>> op.inputs.region_scoping.connect(my_region_scoping)
     >>> my_laziness = dpf.DataTree()
     >>> op.inputs.laziness.connect(my_laziness)
 
@@ -73,6 +81,7 @@ class mesh_provider(Operator):
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
     ...     read_cyclic=my_read_cyclic,
+    ...     region_scoping=my_region_scoping,
     ...     laziness=my_laziness,
     ... )
 
@@ -86,6 +95,7 @@ class mesh_provider(Operator):
         streams_container=None,
         data_sources=None,
         read_cyclic=None,
+        region_scoping=None,
         laziness=None,
         config=None,
         server=None,
@@ -101,6 +111,8 @@ class mesh_provider(Operator):
             self.inputs.data_sources.connect(data_sources)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
+        if region_scoping is not None:
+            self.inputs.region_scoping.connect(region_scoping)
         if laziness is not None:
             self.inputs.laziness.connect(laziness)
 
@@ -138,6 +150,16 @@ class mesh_provider(Operator):
                     document="""If 1, cyclic symmetry is ignored. if 2,
         cyclic expansion is done (default is
         1).""",
+                ),
+                25: PinSpecification(
+                    name="region_scoping",
+                    type_names=["scoping", "int32", "vector<int32>"],
+                    optional=True,
+                    document="""Region id (integer) or vector of region ids
+        with one entity (vector) or region
+        scoping with one id (scoping) (region
+        corresponds to zone for fluid results
+        or part for lsdyna results).""",
                 ),
                 200: PinSpecification(
                     name="laziness",
@@ -226,6 +248,8 @@ class InputsMeshProvider(_Inputs):
     >>> op.inputs.data_sources.connect(my_data_sources)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_region_scoping = dpf.Scoping()
+    >>> op.inputs.region_scoping.connect(my_region_scoping)
     >>> my_laziness = dpf.DataTree()
     >>> op.inputs.laziness.connect(my_laziness)
     """
@@ -240,6 +264,8 @@ class InputsMeshProvider(_Inputs):
         self._inputs.append(self._data_sources)
         self._read_cyclic = Input(mesh_provider._spec().input_pin(14), 14, op, -1)
         self._inputs.append(self._read_cyclic)
+        self._region_scoping = Input(mesh_provider._spec().input_pin(25), 25, op, -1)
+        self._inputs.append(self._region_scoping)
         self._laziness = Input(mesh_provider._spec().input_pin(200), 200, op, -1)
         self._inputs.append(self._laziness)
 
@@ -327,6 +353,30 @@ class InputsMeshProvider(_Inputs):
         >>> op.inputs.read_cyclic(my_read_cyclic)
         """
         return self._read_cyclic
+
+    @property
+    def region_scoping(self):
+        """Allows to connect region_scoping input to the operator.
+
+        Region id (integer) or vector of region ids
+        with one entity (vector) or region
+        scoping with one id (scoping) (region
+        corresponds to zone for fluid results
+        or part for lsdyna results).
+
+        Parameters
+        ----------
+        my_region_scoping : Scoping or int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.mesh_provider()
+        >>> op.inputs.region_scoping.connect(my_region_scoping)
+        >>> # or
+        >>> op.inputs.region_scoping(my_region_scoping)
+        """
+        return self._region_scoping
 
     @property
     def laziness(self):
