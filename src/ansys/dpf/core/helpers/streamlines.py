@@ -1,3 +1,4 @@
+
 """Streamlines computation specific helpers.
 """
 
@@ -5,49 +6,87 @@ import numpy as np
 import warnings
 
 from ansys.dpf.core.common import locations
+from ansys.dpf.core.fields_container import FieldsContainer
 from ansys.dpf.core.helpers.utils import _sort_supported_kwargs
 
+class _PvFieldsContainerBase:
 
-class Streamlines:
-    """Class to define the Streamline object
+    def __init__(self, data):
+        """Instantiate Streamline
+        from pyvista.PolyData object.
+        This construction is only
+        intended to be used internally.
+
+        Parameters
+        ----------
+        pv_data_set: pyvista.PolyData
+        """
+        try:
+            import pyvista as pv
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "To use streamlines capabilities, please install pyvista "
+                "with :\n pip install pyvista>=0.24.0"
+            )
+        self._pv_data_set = None
+        self._streamlines_fc = None
+        if isinstance(data, pv.PolyData):
+            self._pv_data_set = data
+        elif isinstance(FieldsContainer):
+            self._streamlines_fc = data
+        else:
+            raise AttributeError(
+                "streamlines must be a pyvista.PolyData or a dpf.FieldsContainer instance."
+            )
+
+    def _pv_data_set_to_fc(self):
+        """Convert pyvista.PolyData into FieldsContainer.
+        """
+        raise Exception("Not implemented yet")
+
+    def _fc_to_pv_data_set(self):
+        """Convert pyvista.PolyData into FieldsContainer.
+        """
+        raise Exception("Not implemented yet")
+
+    def _as_pyvista_data_set(self):
+        if self._pv_data_set is None:
+            self._pv_data_set = self._fc_to_pv_data_set()
+        return self._pv_data_set
+
+    def _as_fields_container(self):
+        """Returns a FieldsContainer representing the streamlines
+        related objects.
+
+        Returns
+        -------
+        streamlines_fields_container : FieldsContainer
+            FieldsContainer containing the streamlines data array,
+            and a MeshedRegion as support.
+
+        """
+        # once implemented, this method will become public
+        if self._streamlines_fc is None:
+            self._streamlines_fc = self._pv_data_set_to_fc()
+        return self._streamlines_fc
+
+
+class Streamlines(_PvFieldsContainerBase):
+    """Class to define the Streamlines object
     scripting with `ansys-dpf-core`.
 
     """
-
-    def __init__(self, pv_data_set):
-        """Instantiate Streamline
-        from pyvista.PolyData object.
-        This construction is only
-        intended to be used internally.
-
-        Parameters
-        ----------
-        pv_data_set: pyvista.PolyData
-        """
-        # in the future, a FieldsContainer would
-        # probably work to store the related data
-        self._pv_data_set = pv_data_set
+    def __init__(self, data):
+        super().__init__(data=data)
 
 
-class StreamlinesSource:
-    """Class to define the StreamlineSource
+class StreamlinesSource(_PvFieldsContainerBase):
+    """Class to define the StreamlinesSource
     object scripting with `ansys-dpf-core`.
 
     """
-
-    def __init__(self, pv_data_set):
-        """Instantiate Streamline
-        from pyvista.PolyData object.
-        This construction is only
-        intended to be used internally.
-
-        Parameters
-        ----------
-        pv_data_set: pyvista.PolyData
-        """
-        # in the future, a MeshedRegion would
-        # probably work to store the related data
-        self._pv_data_set = pv_data_set
+    def __init__(self, data):
+        super().__init__(data=data)
 
 
 def compute_streamlines(meshed_region, field, **kwargs):
@@ -132,13 +171,13 @@ def compute_streamlines(meshed_region, field, **kwargs):
             return_source=True,
             **kwargs_from_source,
         )
-        streamlines = Streamlines(pv_data_set=streamlines)
-        src = StreamlinesSource(pv_data_set=src)
+        streamlines = Streamlines(data=streamlines)
+        src = StreamlinesSource(data=src)
         return streamlines, src
     else:
         streamlines = grid.streamlines(
             vectors=f"{stream_name}",
             **kwargs_from_source,
         )
-        streamlines = Streamlines(pv_data_set=streamlines)
+        streamlines = Streamlines(data=streamlines)
         return streamlines

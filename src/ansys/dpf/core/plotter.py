@@ -319,13 +319,13 @@ class _PyVistaPlotter:
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
         # set streamline on plotter
         sargs = dict(vertical=False)
-        streamlines = streamlines._pv_data_set
+        streamlines = streamlines._as_pyvista_data_set()
         if not (permissive and streamlines.n_points == 0):
             self._plotter.add_mesh(
                 streamlines.tube(radius=radius), scalar_bar_args=sargs, **kwargs_in
             )
         if source is not None:
-            src = source._pv_data_set
+            src = source._as_pyvista_data_set()
             self._plotter.add_mesh(src, **kwargs_in)
 
     def show_figure(self, **kwargs):
