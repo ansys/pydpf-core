@@ -43,7 +43,7 @@ class _PvFieldsContainerBase:
         raise Exception("Not implemented yet")
 
     def _fc_to_pv_data_set(self):
-        """Convert pyvista.PolyData into FieldsContainer."""
+        """Convert FieldsContainer into pyvista.PolyData."""
         raise Exception("Not implemented yet")
 
     def _as_pyvista_data_set(self):
