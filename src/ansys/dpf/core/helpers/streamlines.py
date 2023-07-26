@@ -1,4 +1,3 @@
-
 """Streamlines computation specific helpers.
 """
 
@@ -40,13 +39,11 @@ class _PvFieldsContainerBase:
             )
 
     def _pv_data_set_to_fc(self):
-        """Convert pyvista.PolyData into FieldsContainer.
-        """
+        """Convert pyvista.PolyData into FieldsContainer."""
         raise Exception("Not implemented yet")
 
     def _fc_to_pv_data_set(self):
-        """Convert pyvista.PolyData into FieldsContainer.
-        """
+        """Convert pyvista.PolyData into FieldsContainer."""
         raise Exception("Not implemented yet")
 
     def _as_pyvista_data_set(self):
@@ -76,6 +73,7 @@ class Streamlines(_PvFieldsContainerBase):
     scripting with `ansys-dpf-core`.
 
     """
+
     def __init__(self, data):
         super().__init__(data=data)
 
@@ -85,6 +83,7 @@ class StreamlinesSource(_PvFieldsContainerBase):
     object scripting with `ansys-dpf-core`.
 
     """
+
     def __init__(self, data):
         super().__init__(data=data)
 
