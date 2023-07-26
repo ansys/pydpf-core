@@ -48,7 +48,7 @@ class Face:
 
     Notes
     -----
-    Class available with server's version starting at 7.0 (Ansys 2023R2).
+    Class available with server's version starting at 7.0 (2024 R1 pre0).
     """
 
     def __init__(self, mesh, faceid, index, nodes):
@@ -215,7 +215,7 @@ class Faces:
 
     Notes
     -----
-    Class available with server's version starting at 7.0 (Ansys 2023R2).
+    Class available with server's version starting at 7.0 (2024 R1 pre0).
     """
 
     def __init__(self, mesh):
