@@ -53,12 +53,14 @@ file_list = [
 ]
 import os
 
-folder_root = os.getcwd().split("examples")[0]
+folder_root = os.path.join(os.getcwd().rsplit("pydpf-core")[0], "pydpf-core")
 source_path_in_repo = r"docs\source\examples\07-python-operators\plugins"
+operator_folder = os.path.join(folder_root, source_path_in_repo)
+print(operator_folder)
 plugin_path = None
 
 for file in file_list:
-    operator_file_path = os.path.join(folder_root, source_path_in_repo, file)
+    operator_file_path = os.path.join(operator_folder, file)
 
     print(f"\033[1m {file}\n \033[0m")
     if (
