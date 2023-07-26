@@ -269,10 +269,14 @@ class _PyVistaPlotter:
                 show_min = False
         elif location == locations.faces:
             mesh_location = meshed_region.faces
+            if len(mesh_location) == 0:
+                raise ValueError("No faces found to plot on")
             if show_max or show_min:
                 warnings.warn("`show_max` and `show_min` is only supported for Nodal results.")
                 show_max = False
                 show_min = False
+        elif location == locations.overall:
+            mesh_location = meshed_region.elements
         else:
             raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
         component_count = field.component_count
@@ -280,9 +284,11 @@ class _PyVistaPlotter:
             overall_data = np.full((len(mesh_location), component_count), np.nan)
         else:
             overall_data = np.full(len(mesh_location), np.nan)
-        ind, mask = mesh_location.map_scoping(field.scoping)
-        overall_data[ind] = field.data[mask]
-
+        if location != locations.overall:
+            ind, mask = mesh_location.map_scoping(field.scoping)
+            overall_data[ind] = field.data[mask]
+        else:
+            overall_data[:] = field.data[0]
         # Filter kwargs for add_mesh
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
         # Have to remove any active scalar field from the pre-existing grid object,
