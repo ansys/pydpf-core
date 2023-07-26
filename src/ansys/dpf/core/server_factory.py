@@ -155,6 +155,23 @@ class DockerConfig:
         mounted_volumes_args = "-v " + " -v ".join(
             key + ":" + val for key, val in self.mounted_volumes.items()
         )
+
+        if os.name == "nt" and os.environ.get("TO_RUN_ON_WSL"):
+            updated_volume_args = ""
+            for i in mounted_volumes_args.split(" "):
+                if ":" in i:
+                    i = "/mnt/" + (
+                        ("".join([i[0].lower(), (i[1:])]).replace("\\", "/")).replace(":", "", 1)
+                    )
+                    if "lib" in i:
+                        i = (
+                            i[: i.index("lib")]
+                            + i[i.index("lib")].upper()
+                            + i[i.index("lib") + 1 :]
+                        )
+                updated_volume_args = updated_volume_args + " " + i
+            mounted_volumes_args = updated_volume_args
+
         licensing_options = self.licensing_args
         return (
             f"docker run -d "
