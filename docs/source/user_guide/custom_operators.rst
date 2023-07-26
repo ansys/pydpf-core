@@ -4,7 +4,7 @@
 Custom operators
 ================
 
-In Ansys 2022 R2 and later, you can create custom operators in CPython. Creating custom operators
+In Ansys 2023 R1 and later, you can create custom operators in CPython. Creating custom operators
 consists of wrapping Python routines in a DPF-compliant way so that you can access them in the same way
 as you access the native operators in the :class:`ansys.dpf.core.dpf_operator.Operator` class in
 PyDPF-Core or in any supported client API.
@@ -39,8 +39,8 @@ installer's Python interpreter.
 
 #. Run the downloaded script for installing with optional arguments:
 
-   - ``-awp_root``: Path to the Ansys root installation folder. For example, the 2022 R2 installation folder ends
-     with ``Ansys Inc/v222``, and the default environment variable is ``AWP_ROOT222``.
+   - ``-awp_root``: Path to the Ansys root installation folder. For example, the 2023 R1 installation folder ends
+     with ``Ansys Inc/v231``, and the default environment variable is ``AWP_ROOT231``.
    - ``-pip_args``: Optional arguments to add to the ``pip`` command. For example, ``--extra-index-url`` or
      ``--trusted-host``.
 
@@ -53,8 +53,8 @@ If you ever want to uninstall the ``ansys-dpf-core`` module from the Ansys insta
   
 3. Run the downloaded script for uninstalling with the optional argument:
 
-   - ``-awp_root``: Path to the Ansys root installation folder.  For example, the 2022 R2 installation folder ends
-     with ``Ansys Inc/v222``, and the default environment variable is ``AWP_ROOT222``.
+   - ``-awp_root``: Path to the Ansys root installation folder.  For example, the 2023 R1 installation folder ends
+     with ``Ansys Inc/v231``, and the default environment variable is ``AWP_ROOT31``.
 
 
 Create operators
