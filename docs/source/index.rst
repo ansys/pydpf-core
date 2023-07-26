@@ -1,3 +1,5 @@
+.. _ref_main_index:
+
 ==========
 PyDPF-Core
 ==========
@@ -11,6 +13,10 @@ DPF is an independent, physics-agnostic tool that you can plug into many
 apps for both data input and data output, including visualization and 
 result plots. The following table shows an exhaustive list of supported
 apps by DPF and their related format:
+
+.. table:: Truth table for "not"
+   :widths: auto
+   :align: center
 
 +--------------------+------------------------+----------------------------------+
 |     **Solver**     |    **File format**     |       **DPF examples**           |
