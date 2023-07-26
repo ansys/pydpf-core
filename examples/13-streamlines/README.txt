@@ -2,5 +2,5 @@
 
 Streamlines examples
 ====================
-These examples show how compute and plot streamlines.
+These examples show how to compute and plot streamlines.
 
