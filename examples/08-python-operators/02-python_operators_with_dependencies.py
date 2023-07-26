@@ -53,7 +53,7 @@ file_list = [
 ]
 import os
 
-folder_root = os.path.join(os.getcwd().rsplit("pydpf-core")[0], "pydpf-core")
+folder_root = os.path.join(os.getcwd().rsplit("pydpf-core", 1)[0], "pydpf-core")
 source_path_in_repo = r"docs\source\examples\07-python-operators\plugins"
 operator_folder = os.path.join(folder_root, source_path_in_repo)
 print(operator_folder)
