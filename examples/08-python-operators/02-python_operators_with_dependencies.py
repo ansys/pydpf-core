@@ -53,7 +53,7 @@ file_list = [
 ]
 import os
 
-folder_root = os.getcwd().split("pydpf-core")[0]
+folder_root = os.getcwd().split("examples")[0]
 source_path_in_repo = r"docs\source\examples\07-python-operators\plugins"
 plugin_path = None
 
