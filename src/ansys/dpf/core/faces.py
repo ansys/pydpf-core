@@ -46,6 +46,9 @@ class Face:
     >>> face.nodes[0].coordinates
     [-0.030426240620025163, -0.05908951107677226, -0.034248966723680496]
 
+    Notes
+    -----
+    Class available with server's version starting at 7.0 (Ansys 2023R2).
     """
 
     def __init__(self, mesh, faceid, index, nodes):
@@ -210,6 +213,9 @@ class Faces:
     >>> faces.n_faces
     44242
 
+    Notes
+    -----
+    Class available with server's version starting at 7.0 (Ansys 2023R2).
     """
 
     def __init__(self, mesh):

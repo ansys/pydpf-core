@@ -27,7 +27,7 @@ class Any:
 
     Notes
     -----
-    Class available with server's version starting at 6.2 (Ansys 2024R1).
+    Class available with server's version starting at 7.0 (Ansys 2024R1).
     """
 
     def __init__(self, any_dpf=None, server=None):

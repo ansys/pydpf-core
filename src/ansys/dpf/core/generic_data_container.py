@@ -28,7 +28,7 @@ class GenericDataContainer:
 
     Notes
     -----
-    Class available with server's version starting at 6.2 (Ansys 2023R2).
+    Class available with server's version starting at 7.0 (Ansys 2023R2).
     """
 
     def __init__(self, generic_data_container=None, server=None):
