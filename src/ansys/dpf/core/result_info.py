@@ -409,9 +409,7 @@ class ResultInfo:
                     label_support = self.qualifier_label_support(key)
                     names_field = label_support.string_field_support_by_property("names")
                     ids = names_field.scoping.ids
-                    label_value = names_field.data_as_list[
-                        ids.tolist().index(value)
-                    ]
+                    label_value = names_field.data_as_list[ids.tolist().index(value)]
                     label_value = label_value + f" ({value})"
                     if key not in qualifier_labels.keys():
                         qualifier_labels[key] = [label_value]
