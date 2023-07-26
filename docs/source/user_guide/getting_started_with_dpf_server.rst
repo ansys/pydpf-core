@@ -1,5 +1,9 @@
 .. _ref_getting_started_with_dpf_server:
 
+.. |latest_server_version| replace:: 2024.1.pre0
+.. |latest_server_version_under| replace:: 2024_1_pre0
+.. |latest_server_version_short| replace:: 241
+
 ===============================
 Getting started with DPF Server
 ===============================
@@ -26,11 +30,11 @@ Install DPF Server
 
 .. _target_installing_server:
 
-#. Download the ``ansys_dpf_server_win_v2023.2.pre1.zip`` or ``ansys_dpf_server_lin_v2023.2.pre1.zip`` file as appropriate.
+#. Download the ``ansys_dpf_server_win_v|latest_server_version|.zip`` or ``ansys_dpf_server_lin_v|latest_server_version|.zip`` file as appropriate.
 #. Unzip the package.
 #. Optional: download any other plugin ZIP file as appropriate and unzip the package. For example, to access the ``composites`` plugin for Linux, 
-   download ``ansys_dpf_composites_lin_v2023.2.pre1.zip`` and unzip the package in the same location as ``ansys_dpf_server_lin_v2023.2.pre1.zip``.
-#. Change to the root folder (``ansys_dpf_server_win_v2023.2.pre1``) of the unzipped package. 
+   download ``ansys_dpf_composites_lin_v|latest_server_version|.zip`` and unzip the package in the same location as ``ansys_dpf_server_lin_v|latest_server_version|.zip``.
+#. Change to the root folder (``ansys_dpf_server_win_v|latest_server_version|``) of the unzipped package.
 #. In a Python environment, run this command:
 
 .. code::
@@ -79,16 +83,16 @@ Run DPF Server in a Docker container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 DPF server can be run in a Docker container.
 
-#. Along with the ``ansys_dpf_server_lin_v2023.2.pre1.zip`` file mentioned earlier
+#. Along with the ``ansys_dpf_server_lin_v|latest_server_version|.zip`` file mentioned earlier
    in :ref:`Install DPF Server <target_installing_server>`, download the ``Dockerfile`` file.
 #. Optional: download any other plugin ZIP file as appropriate. For example, to access the ``composites`` plugin for Linux, 
-   download ``ansys_dpf_composites_lin_v2023.2.pre1.zip``.
+   download ``ansys_dpf_composites_lin_v|latest_server_version|.zip``.
 #. Copy all the ZIP files and ``Dockerfile`` file in a folder and navigate into that folder.
 #. To build the DPF Docker container, run the following command:
 
 .. code::
 
-    docker build . -t dpf-core:v2023_2_pre1 --build-arg DPF_VERSION=232
+    docker build . -t dpf-core:v|latest_server_version| --build-arg DPF_VERSION=|latest_server_version_short|
 
 4. To run the DPF Docker container, license it. For more information, see'
    :ref:`DPF Preview License Agreement<target_to_license_terms>`.
@@ -122,7 +126,7 @@ ensure that you replace ``<license_server_to_use>`` to point to the Ansys licens
 
 .. code::
 
-    docker run -e "ANSYS_DPF_ACCEPT_LA=Y" -e ANSYSLMD_LICENSE_FILE=1055@<license_server_to_use> -p 50052:50052 -e DOCKER_SERVER_PORT=50052 --expose=50052 dpf-core:v2023_2_pre1
+    docker run -e "ANSYS_DPF_ACCEPT_LA=Y" -e ANSYSLMD_LICENSE_FILE=1055@<license_server_to_use> -p 50052:50052 -e DOCKER_SERVER_PORT=50052 --expose=50052 dpf-core:v|latest_server_version_under|
 
 The next section, :ref:`Ansys licensing<target_to_ansys_license_mechanism>`, provides information on
 the Ansys license mechanism that is used with DPF Server.
