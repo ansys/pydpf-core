@@ -315,7 +315,7 @@ class _PyVistaPlotter:
             )
 
     def add_streamlines(self, streamlines, source=None, radius=1.0, **kwargs):
-        permissive = kwargs.pop("permissive", None)
+        permissive = kwargs.pop("permissive", True)
         kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_mesh, **kwargs)
         # set streamline on plotter
         sargs = dict(vertical=False)
@@ -522,9 +522,9 @@ class DpfPlotter:
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             is available at :func:`pyvista.plot`.
-            The "permissive" (boolean) can be used to avoid throwing if
-            computed streamlines are empty. See ``Examples`` section for
-            more information.
+            The "permissive" (boolean, default being True) can be used to
+            avoid throwing if computed streamlines are empty. See
+            ``Examples`` section for more information.
 
         Examples
         --------

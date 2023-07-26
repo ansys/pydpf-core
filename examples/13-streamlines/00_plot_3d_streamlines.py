@@ -57,25 +57,13 @@ field = dpf.operators.averaging.to_nodal_fc(fields_container=fc).outputs.fields_
 # of parameters. It demonstrates the issues that can happen and the adjustments that you can make.
 
 ###############################################################################
-# First, a DpfPlotter is created and the streamline is created with default values.
-pl0 = DpfPlotter()
-try:
-    streamline_obj = compute_streamlines(meshed_region=meshed_region, field=field)
-    pl0.add_mesh(meshed_region=meshed_region, opacity=0.3)
-    pl0.add_streamlines(streamlines=streamline_obj)
-    pl0.show_figure(show_axes=True)
-except:
-    # It throws an error and ends here, because source points are not set correctly.
-    # To fix this issue, the source_center parameter is used to move
-    # the streamlines source center.
-    pass
-
-###############################################################################
+# First, Streamlines and StreamlinesSource objects are created. The
+# StreamlinesSource is available using the 'return_source' argument.
 # Then, you can correctly set the source coordinates using the
-# "source_center" argument that moves the source center,
-# the "return_source" arguments that displays the source, and
+# "source_center" argument that moves the source center, and
 # "permissive" option that allows you to display the source even, if the computed
-# streamline size is zero.
+# streamline size is zero. Default value for "permissive" argument is True. If permissive
+# is set to False, the "add_streamlines" method throws.
 streamline_obj, source_obj = compute_streamlines(
     meshed_region=meshed_region,
     field=field,
