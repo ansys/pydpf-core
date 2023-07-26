@@ -21,9 +21,9 @@ apps by DPF and their related format:
 +--------------------+------------------------+----------------------------------+----------------------------------+
 |     **Solver**     |    **File format**     |       **Server version**         |       **DPF examples**           |
 +====================+========================+==================================+==================================+
-|                    || .rst, .mode           || **1.0** and later               | :ref:`ref_distributed_msup`      |
+|                    || .rst, .mode           || **1.0** and later               | :ref:`ref_basic_example`         |
 |        MAPDL       || .rfrq, .rdsp          || (*Ansys 2021 R1*)               +----------------------------------+
-|                    |                        |                                  | :ref:`ref_average_across_bodies` |
+|                    |                        |                                  | :ref:`ref_distributed_msup`      |
 +--------------------+------------------------+----------------------------------+----------------------------------+
 |       LS DYNA      |   .d3plot, .binout     || **4.0** and later               | :ref:`lsdyna_operators`          |
 |                    |                        || (*Ansys 2022 R2*)               |                                  |
