@@ -10,7 +10,6 @@ from ansys.dpf.core.helpers.utils import _sort_supported_kwargs
 
 
 class _PvFieldsContainerBase:
-
     def __init__(self, data):
         """Instantiate Streamline
         from pyvista.PolyData object.
