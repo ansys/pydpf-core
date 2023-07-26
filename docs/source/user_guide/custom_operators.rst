@@ -54,7 +54,7 @@ If you ever want to uninstall the ``ansys-dpf-core`` module from the Ansys insta
 3. Run the downloaded script for uninstalling with the optional argument:
 
    - ``-awp_root``: Path to the Ansys root installation folder.  For example, the 2023 R1 installation folder ends
-     with ``Ansys Inc/v231``, and the default environment variable is ``AWP_ROOT31``.
+     with ``Ansys Inc/v231``, and the default environment variable is ``AWP_ROOT231``.
 
 
 Create operators
