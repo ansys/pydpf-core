@@ -88,7 +88,8 @@ pl1.show_figure(show_axes=True)
 # - radius: streamlines radius
 # - n_points: source number of points
 # - source_radius
-# - max_time: allows the streamline to be computed along a certain length
+# - max_time: maximum integration time of the streamline. It controls
+# the streamline length.
 streamline_obj, source_obj = compute_streamlines(
     meshed_region=meshed_region,
     field=field,
