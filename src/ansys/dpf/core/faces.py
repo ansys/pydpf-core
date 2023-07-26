@@ -2,7 +2,7 @@
 .. _ref_faces_apis:
 
 Faces
-========
+=====
 """
 import numpy as np
 from ansys.dpf.core import scoping
