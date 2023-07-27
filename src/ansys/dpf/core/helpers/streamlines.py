@@ -85,9 +85,17 @@ class _PvFieldsContainerBase:
         vpoly.SetPoints(vpoints)
         vcells = vtk.vtkCellArray()
         for i in range(0, ncells):
-            vcells.InsertNextCell(cell_types[i])
-            for pid in cell_points[i]:
-                vcells.InsertCellPoint(pid)
+            this_cell_points = cell_points[i]
+            cell_type_id = cell_types[i]
+            if cell_type_id == 3: # check if integer values can be accessed as enum
+                vtk_cell = vtk.vtkLine()
+            elif cell_type_id == 4:
+                vtk_cell = vtk.vtkPolyLine()
+            vtk_cell_pid = vtk_cell.GetPointIds()
+            vtk_cell_pid.SetNumberOfIds(len(this_cell_points))
+            for ind, pid in enumerate(this_cell_points):
+                vtk_cell_pid.SetId(ind, pid)
+            vcells.InsertNextCell(vtk_cell)
         # vtk_array_cell_points = pv.convert_array(arr=cell_points)
         # vcells.SetCells(ncells, vtk_array_cell_points)
         vpoly.SetLines(vcells)
