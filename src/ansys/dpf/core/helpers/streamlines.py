@@ -87,9 +87,9 @@ class _PvFieldsContainerBase:
         for i in range(0, ncells):
             this_cell_points = cell_points[i]
             cell_type_id = cell_types[i]
-            if cell_type_id == 3: # check if integer values can be accessed as enum
+            if cell_type_id == vtk.VTK_LINE:
                 vtk_cell = vtk.vtkLine()
-            elif cell_type_id == 4:
+            elif cell_type_id == vtk.VTK_POLY_LINE:
                 vtk_cell = vtk.vtkPolyLine()
             vtk_cell_pid = vtk_cell.GetPointIds()
             vtk_cell_pid.SetNumberOfIds(len(this_cell_points))
