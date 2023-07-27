@@ -42,7 +42,6 @@ class _PvFieldsContainerBase:
                 "streamlines must be a pyvista.PolyData or a dpf.FieldsContainer instance."
             )
 
-
     def _pv_data_set_to_fc(self):
         """Convert pyvista.PolyData into FieldsContainer."""
         data_set = self._pv_data_set
@@ -60,13 +59,6 @@ class _PvFieldsContainerBase:
             cell_points.append(data_set.cell_point_ids(i))
             cell_types.append(data_set.cell_type(i))
         points_array = data_set.points
-        # to_return = {}
-        # to_return["cell_points"] = cell_points
-        # to_return["cell_types"] = cell_types
-        # to_return["points"] = points_array
-        # to_return["array_names"] = array_names
-        # to_return["data_arrays"] = data_arrays
-        # return to_return
 
         # compute DPF objects
         cell_types_converted = cell_types # to do: to convert
@@ -112,12 +104,6 @@ class _PvFieldsContainerBase:
         except ModuleNotFoundError:
             raise PyVistaImportError
         import vtk
-
-        # cell_points = fields["cell_points"]
-        # cell_types = fields["cell_types"]
-        # points = fields["points"]
-        # array_names = fields["array_names"]
-        # data_arrays = fields["data_arrays"]
 
         streamlines_field = fields.get_field({DefinitionLabels.time: 1})
         mesh = streamlines_field.meshed_region
