@@ -96,8 +96,6 @@ class _PvFieldsContainerBase:
             for ind, pid in enumerate(this_cell_points):
                 vtk_cell_pid.SetId(ind, pid)
             vcells.InsertNextCell(vtk_cell)
-        # vtk_array_cell_points = pv.convert_array(arr=cell_points)
-        # vcells.SetCells(ncells, vtk_array_cell_points)
         vpoly.SetLines(vcells)
         pv_poly = pv.wrap(vpoly)
         for ind, n in enumerate(array_names):
