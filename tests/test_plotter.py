@@ -794,7 +794,16 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state):
         assert str_as_data_set.GetCellType(c_ind) == str_as_data_set_check.GetCellType(c_ind)
 
     # checks for fields containers
-    # to do
+    assert len(str_as_fc) == 1
+    field = str_as_fc.get_field_by_time_id(1)
+    mesh = field.meshed_region
+    assert len(field.scoping.ids) == len(str_as_data_set[an])
+    assert len(field.scoping.ids) == str_as_data_set.n_points
+    assert len(mesh.nodes.coordinates_field.scoping.ids) == str_as_data_set.n_points
+    assert len(mesh.elements.element_types_field) == str_as_data_set.n_cells
+    assert len(mesh.elements.connectivities_field.scoping.ids) == str_as_data_set.n_cells
+    assert len(mesh.elements.connectivities_field.get_entity_data(0)) == 5
+    assert len(mesh.elements.connectivities_field.get_entity_data(1)) == 7
 
     pl = DpfPlotter()
     pl.add_field(field, meshed_region, opacity=0.2)
