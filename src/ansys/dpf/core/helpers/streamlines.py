@@ -43,7 +43,7 @@ class _PvFieldsContainerBase:
                 "streamlines must be a pyvista.PolyData or a dpf.FieldsContainer instance."
             )
 
-    def _pv_data_set_to_fc(self):
+    def _pv_data_set_to_fc(self, server=None):
         """Convert pyvista.PolyData into a Field."""
         import vtk
         data_set = self._pv_data_set
@@ -69,26 +69,26 @@ class _PvFieldsContainerBase:
                 cell_types_converted.append(element_types.Line2.value)
             elif c == vtk.VTK_POLY_LINE:
                 cell_types_converted.append(element_types.EMagLine.value)
-        nodes_scoping = dpf.Scoping(location=locations.nodal)
+        nodes_scoping = dpf.Scoping(location=locations.nodal, server=server)
         nodes_scoping.ids = np.arange(1, data_set.n_points + 1)
-        streamlines_field = dpf.Field(location=locations.nodal)
+        streamlines_field = dpf.Field(location=locations.nodal, server=server)
         fdef = streamlines_field.field_definition
         fdef.name = array_names[0]
         streamlines_field.scoping = nodes_scoping
         streamlines_field.data = data_arrays[0]
-        mesh = dpf.MeshedRegion()
-        coords_field = dpf.Field(location=locations.nodal)
+        mesh = dpf.MeshedRegion(server=server)
+        coords_field = dpf.Field(location=locations.nodal, server=server)
         coords_field.scoping = nodes_scoping
         coords_field.data = points_array
         mesh.set_coordinates_field(coords_field)
-        elems_scoping = dpf.Scoping(location=locations.elemental)
+        elems_scoping = dpf.Scoping(location=locations.elemental, server=server)
         elems_scoping.ids = np.arange(1, data_set.n_cells + 1)
-        connectivity_field = dpf.PropertyField(location=locations.elemental)
+        connectivity_field = dpf.PropertyField(location=locations.elemental, server=server)
         # connectivity size is different for each element,
         # data array can't be set in once
         for ind, dat in enumerate(cell_points):
             connectivity_field.append(dat, ind + 1)
-        elems_types_field = dpf.PropertyField(location=locations.elemental)
+        elems_types_field = dpf.PropertyField(location=locations.elemental, server=server)
         elems_types_field.scoping = elems_scoping
         elems_types_field.data = cell_types_converted
         mesh.nodes.coordinates_field = coords_field
@@ -151,10 +151,19 @@ class _PvFieldsContainerBase:
             self._pv_data_set = self._fc_to_pv_data_set()
         return self._pv_data_set
 
-    def as_field(self):
+    def as_field(self, server=None):
         """Returns a Field representing the streamlines
-        related data.
-        The Field has a MeshedRegion as support.
+        related data. It has a MeshedRegion as support.
+
+        The Field associated to the Streamlines
+        is only computed once, and kept in cache.
+
+        Parameters
+        ----------
+        ansys.dpf.core.server, optional
+            Server with the channel connected to the remote or local instance.
+            The default is ``None``, in which case an attempt is made to use the
+            global server.
 
         Returns
         -------
@@ -165,7 +174,7 @@ class _PvFieldsContainerBase:
 
         """
         if self._streamlines_field is None:
-            self._streamlines_field = self._pv_data_set_to_fc()
+            self._streamlines_field = self._pv_data_set_to_fc(server=server)
         return self._streamlines_field
 
 

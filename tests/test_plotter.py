@@ -755,12 +755,12 @@ def test_plot_polyhedron():
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
-def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state):
-    ds_fluent = fluent_mixing_elbow_steady_state()
-    m_fluent = core.Model(ds_fluent)
+def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_clayer):
+    ds_fluent = fluent_mixing_elbow_steady_state(server=server_clayer)
+    m_fluent = core.Model(data_sources=ds_fluent, server=server_clayer)
     meshed_region = m_fluent.metadata.meshed_region
     velocity_op = m_fluent.results.velocity()
-    fc = velocity_op.outputs.fields_container()
+    fc = velocity_op.outputs.fields_container(server=server_clayer)
     field = core.operators.averaging.to_nodal_fc(fields_container=fc).outputs.fields_container()[0]
 
     streamline_obj, src_obj = compute_streamlines(
@@ -778,7 +778,7 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state):
     # get the pv_data_set for the new streamline and ensure
     # it's the same than the original one
     str_as_data_set = streamline_obj._as_pyvista_data_set()
-    str_as_field = streamline_obj.as_field()
+    str_as_field = streamline_obj.as_field(server=server_clayer)
     tmp = core.helpers.streamlines.Streamlines(str_as_field)
     str_as_data_set_check = tmp._as_pyvista_data_set()
     streamline_obj = core.helpers.streamlines.Streamlines(str_as_data_set_check)
