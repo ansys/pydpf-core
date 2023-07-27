@@ -33,18 +33,18 @@ class _PvFieldsContainerBase:
                 "with :\n pip install pyvista>=0.24.0"
             )
         self._pv_data_set = None
-        self._streamlines_fc = None
+        self._streamlines_field = None
         if isinstance(data, pv.PolyData):
             self._pv_data_set = data
-        elif isinstance(data, dpf.FieldsContainer):
-            self._streamlines_fc = data
+        elif isinstance(data, dpf.Field):
+            self._streamlines_field = data
         else:
             raise AttributeError(
                 "streamlines must be a pyvista.PolyData or a dpf.FieldsContainer instance."
             )
 
     def _pv_data_set_to_fc(self):
-        """Convert pyvista.PolyData into FieldsContainer."""
+        """Convert pyvista.PolyData into a Field."""
         import vtk
         data_set = self._pv_data_set
         cell_points = []
@@ -95,15 +95,12 @@ class _PvFieldsContainerBase:
         mesh.elements.connectivities_field = connectivity_field
         mesh.elements.element_types_field = elems_types_field
         streamlines_field.meshed_region = mesh
-        fc_to_return = dpf.FieldsContainer()
-        fc_to_return.add_label(DefinitionLabels.time)
-        fc_to_return.add_field({DefinitionLabels.time: 1}, streamlines_field)
 
-        return fc_to_return
+        return streamlines_field
 
     def _fc_to_pv_data_set(self):
-        """Convert FieldsContainer into pyvista.PolyData."""
-        fields = self._streamlines_fc
+        """Convert Field into pyvista.PolyData."""
+        streamlines_field = self._streamlines_field
 
         from ansys.dpf.core.vtk_helper import PyVistaImportError
         try:
@@ -112,7 +109,6 @@ class _PvFieldsContainerBase:
             raise PyVistaImportError
         import vtk
 
-        streamlines_field = fields.get_field({DefinitionLabels.time: 1})
         mesh = streamlines_field.meshed_region
         cell_types = mesh.elements.element_types_field.data
         cell_points = []
@@ -155,21 +151,22 @@ class _PvFieldsContainerBase:
             self._pv_data_set = self._fc_to_pv_data_set()
         return self._pv_data_set
 
-    def _as_fields_container(self):
-        """Returns a FieldsContainer representing the streamlines
-        related objects.
+    def as_field(self):
+        """Returns a Field representing the streamlines
+        related data.
+        The Field has a MeshedRegion as support.
 
         Returns
         -------
-        streamlines_fields_container : FieldsContainer
-            FieldsContainer containing the streamlines data array,
-            and a MeshedRegion as support.
+        streamlines_field : Field
+            Field containing a Field with the
+            streamlines data array, and a MeshedRegion
+            as support.
 
         """
-        # once implemented, this method will become public
-        if self._streamlines_fc is None:
-            self._streamlines_fc = self._pv_data_set_to_fc()
-        return self._streamlines_fc
+        if self._streamlines_field is None:
+            self._streamlines_field = self._pv_data_set_to_fc()
+        return self._streamlines_field
 
 
 class Streamlines(_PvFieldsContainerBase):
