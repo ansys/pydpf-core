@@ -10,6 +10,7 @@ from ansys.dpf.core.common import (
     locations,
     natures,
 )
+from ansys.dpf.core.elements import element_types
 from ansys.dpf.core.helpers.utils import _sort_supported_kwargs
 
 
@@ -44,6 +45,7 @@ class _PvFieldsContainerBase:
 
     def _pv_data_set_to_fc(self):
         """Convert pyvista.PolyData into FieldsContainer."""
+        import vtk
         data_set = self._pv_data_set
         cell_points = []
         cell_types = []
@@ -61,7 +63,12 @@ class _PvFieldsContainerBase:
         points_array = data_set.points
 
         # compute DPF objects
-        cell_types_converted = cell_types # to do: to convert
+        cell_types_converted = []
+        for c in cell_types:
+            if c == vtk.VTK_LINE:
+                cell_types_converted.append(element_types.Line2.value)
+            elif c == vtk.VTK_POLY_LINE:
+                cell_types_converted.append(element_types.EMagLine.value)
         nodes_scoping = dpf.Scoping(location=locations.nodal)
         nodes_scoping.ids = np.arange(1, data_set.n_points + 1)
         streamlines_field = dpf.Field(location=locations.nodal)
@@ -83,7 +90,7 @@ class _PvFieldsContainerBase:
             connectivity_field.append(dat, ind + 1)
         elems_types_field = dpf.PropertyField(location=locations.elemental)
         elems_types_field.scoping = elems_scoping
-        elems_types_field.data = cell_types
+        elems_types_field.data = cell_types_converted
         mesh.nodes.coordinates_field = coords_field
         mesh.elements.connectivities_field = connectivity_field
         mesh.elements.element_types_field = elems_types_field
@@ -128,9 +135,9 @@ class _PvFieldsContainerBase:
         for i in range(0, ncells):
             this_cell_points = cell_points[i]
             cell_type_id = cell_types[i]
-            if cell_type_id == vtk.VTK_LINE:
+            if cell_type_id == element_types.Line2.value:
                 vtk_cell = vtk.vtkLine()
-            elif cell_type_id == vtk.VTK_POLY_LINE:
+            elif cell_type_id == element_types.EMagLine.value:
                 vtk_cell = vtk.vtkPolyLine()
             vtk_cell_pid = vtk_cell.GetPointIds()
             vtk_cell_pid.SetNumberOfIds(len(this_cell_points))
