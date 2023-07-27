@@ -34,6 +34,6 @@ Click below to access the operators documentation.
 
 .. note::
     For Ansys 2023 R1 and earlier, the context is equivalent to Premium, with all operators loaded.
-    For DPF Server 2023.2.pre0, the server context defines which operators are loaded and
-    accessible. Use the `PyDPF-Core 0.7 operator documentation<https://dpf.docs.pyansys.com/version/0.7/operator_reference.html#>`_ to learn more.
+    For DPF Server 2023.2.pre0 specifically, the server context defines which operators are loaded and
+    accessible. Use the `PyDPF-Core 0.7 operator documentation<https://dpf.docs.pyansys.com/version/0.7/operator_reference.html>`_ to learn more.
     Some operators in the documentation might not be available for a particular server version.
