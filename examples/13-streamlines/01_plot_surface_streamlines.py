@@ -6,6 +6,10 @@ Compute and plot 2D streamlines
 This example shows you how to compute and plot
 streamlines of fluid simulation results, for 2D models.
 
+.. note::
+    This example requires DPF 7.0 (ansys-dpf-server-2024-1-pre0) or above.
+    For more information, see :ref:`ref_compatibility`.
+
 """
 
 ###############################################################################
