@@ -31,7 +31,8 @@ class _PvFieldsContainerBase:
         self._streamlines_fc = None
         if isinstance(data, pv.PolyData):
             self._pv_data_set = data
-        elif isinstance(FieldsContainer):
+        # elif isinstance(data, FieldsContainer):
+        elif True:
             self._streamlines_fc = data
         else:
             raise AttributeError(
@@ -40,11 +41,60 @@ class _PvFieldsContainerBase:
 
     def _pv_data_set_to_fc(self):
         """Convert pyvista.PolyData into FieldsContainer."""
-        raise Exception("Not implemented yet")
+        data_set = self._pv_data_set
+        to_return = {}
+        cell_points = []
+        cell_types = []
+        data_arrays = []
+        array_names = data_set.array_names
+        for n in array_names:
+            data_arrays.append(data_set[n])
+        for i in range(0, data_set.n_cells):
+            cell_points.append(data_set.cell_point_ids(i))
+            cell_types.append(data_set.cell_type(i))
+        to_return["cell_points"] = cell_points
+        to_return["cell_types"] = cell_types
+        to_return["points"] = data_set.points
+        to_return["array_names"] = array_names
+        to_return["data_arrays"] = data_arrays
+        return to_return
 
     def _fc_to_pv_data_set(self):
         """Convert FieldsContainer into pyvista.PolyData."""
-        raise Exception("Not implemented yet")
+        fields = self._streamlines_fc
+
+        from ansys.dpf.core.vtk_helper import PyVistaImportError
+        try:
+            import pyvista as pv
+        except ModuleNotFoundError:
+            raise PyVistaImportError
+        import vtk
+
+        cell_points = fields["cell_points"]
+        cell_types = fields["cell_types"]
+        points = fields["points"]
+        array_names = fields["array_names"]
+        data_arrays = fields["data_arrays"]
+        ncells = len(cell_types)
+        npoints = len(points)
+        vpoly = vtk.vtkPolyData()
+        vpoints = vtk.vtkPoints()
+        vpoints.SetNumberOfPoints(npoints)
+        vtk_array_points = pv.convert_array(arr=points)
+        vpoints.SetData(vtk_array_points)
+        vpoly.SetPoints(vpoints)
+        vcells = vtk.vtkCellArray()
+        for i in range(0, ncells):
+            vcells.InsertNextCell(cell_types[i])
+            for pid in cell_points[i]:
+                vcells.InsertCellPoint(pid)
+        # vtk_array_cell_points = pv.convert_array(arr=cell_points)
+        # vcells.SetCells(ncells, vtk_array_cell_points)
+        vpoly.SetLines(vcells)
+        pv_poly = pv.wrap(vpoly)
+        for ind, n in enumerate(array_names):
+            pv_poly[n] = data_arrays[ind]
+        return pv_poly
 
     def _as_pyvista_data_set(self):
         if self._pv_data_set is None:
