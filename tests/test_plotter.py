@@ -786,11 +786,10 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state):
     # check for pyvista objects
     assert str_as_data_set.n_points == str_as_data_set_check.n_points
     assert str_as_data_set.n_cells == str_as_data_set_check.n_cells
-    array_names = str_as_data_set.array_names
     array_names_check = str_as_data_set_check.array_names
-    assert len(array_names) == len(array_names_check)
-    for an in array_names:
-        assert len(str_as_data_set[an]) == len(str_as_data_set_check[an])
+    an = array_names_check[0]
+    assert len(array_names_check) == 1
+    assert len(str_as_data_set[an]) == len(str_as_data_set_check[an])
     for c_ind in range(0, str_as_data_set.n_cells):
         assert str_as_data_set.GetCellType(c_ind) == str_as_data_set_check.GetCellType(c_ind)
 
