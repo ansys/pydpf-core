@@ -7,6 +7,7 @@ from ansys.dpf import core
 from ansys.dpf.core import Model, Operator
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import misc
+from ansys.dpf.core.helpers.streamlines import compute_streamlines
 from ansys.dpf.core.plotter import plot_chart
 from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0
 from ansys.dpf.core import element_types
@@ -751,3 +752,55 @@ def test_plot_polyhedron():
 
     # Plot the MeshedRegion
     mesh.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state):
+    ds_fluent = fluent_mixing_elbow_steady_state()
+    m_fluent = core.Model(ds_fluent)
+    meshed_region = m_fluent.metadata.meshed_region
+    velocity_op = m_fluent.results.velocity()
+    fc = velocity_op.outputs.fields_container()
+    field = core.operators.averaging.to_nodal_fc(fields_container=fc).outputs.fields_container()[0]
+
+    streamline_obj, src_obj = compute_streamlines(
+        meshed_region=meshed_region,
+        field=field,
+        return_source=True,
+        source_center=(0.56, 0.48, 0.0),
+        n_points=10,
+        source_radius=0.075,
+        max_time=10.0,
+    )
+
+    # get the pv_data_set and the fc for initial streamline
+    # re-create a streamline from fc
+    # get the pv_data_set for the new streamline and ensure
+    # it's the same than the original one
+    str_as_data_set = streamline_obj._as_pyvista_data_set()
+    str_as_fc = streamline_obj._as_fields_container()
+    tmp = core.helpers.streamlines.Streamlines(str_as_fc)
+    str_as_data_set_check = tmp._as_pyvista_data_set()
+    streamline_obj = core.helpers.streamlines.Streamlines(str_as_data_set_check)
+
+    # check for pyvista objects
+    assert str_as_data_set.n_points == str_as_data_set_check.n_points
+    assert str_as_data_set.n_cells == str_as_data_set_check.n_cells
+    array_names = str_as_data_set.array_names
+    array_names_check = str_as_data_set_check.array_names
+    assert len(array_names) == len(array_names_check)
+    for an in array_names:
+        assert len(str_as_data_set[an]) == len(str_as_data_set_check[an])
+    for c_ind in range(0, str_as_data_set.n_cells):
+        assert str_as_data_set.GetCellType(c_ind) == str_as_data_set_check.GetCellType(c_ind)
+
+    # checks for fields containers
+    # to do
+
+    pl = DpfPlotter()
+    pl.add_field(field, meshed_region, opacity=0.2)
+    pl.add_streamlines(
+        streamlines=streamline_obj,
+        source=src_obj,
+        radius=0.001,
+    )
