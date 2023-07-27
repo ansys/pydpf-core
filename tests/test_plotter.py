@@ -786,6 +786,7 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state):
     # check for pyvista objects
     assert str_as_data_set.n_points == str_as_data_set_check.n_points
     assert str_as_data_set.n_cells == str_as_data_set_check.n_cells
+    array_names = str_as_data_set.array_names
     array_names_check = str_as_data_set_check.array_names
     an = array_names_check[0]
     assert len(array_names_check) == 1
@@ -803,6 +804,11 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state):
     assert len(mesh.elements.connectivities_field.scoping.ids) == str_as_data_set.n_cells
     assert len(mesh.elements.connectivities_field.get_entity_data(0)) == 5
     assert len(mesh.elements.connectivities_field.get_entity_data(1)) == 7
+    for i in range(0, len(array_names)):
+        array_n = array_names[i]
+        if "streamlines" in array_n:
+            array_check = array_n
+    assert field.field_definition.name == array_check
 
     pl = DpfPlotter()
     pl.add_field(field, meshed_region, opacity=0.2)
