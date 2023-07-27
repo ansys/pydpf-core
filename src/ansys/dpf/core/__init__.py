@@ -89,6 +89,7 @@ from ansys.dpf.core.server_context import (
 from ansys.dpf.core.unit_system import UnitSystem, unit_systems
 from ansys.dpf.core.incremental import IncrementalHelper, split_workflow_in_chunks
 from ansys.dpf.core.any import Any
+from ansys.dpf.core.mesh_info import MeshInfo
 from ansys.dpf.core.generic_data_container import GenericDataContainer
 
 
