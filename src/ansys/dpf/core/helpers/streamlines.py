@@ -69,6 +69,8 @@ class _PvFieldsContainerBase:
                 cell_types_converted.append(element_types.Line2.value)
             elif c == vtk.VTK_POLY_LINE:
                 cell_types_converted.append(element_types.EMagLine.value)
+            else:
+                cell_types_converted.append(element_types.Unknown.value)
         nodes_scoping = dpf.Scoping(location=locations.nodal, server=server)
         nodes_scoping.ids = np.arange(1, data_set.n_points + 1)
         streamlines_field = dpf.Field(location=locations.nodal, server=server)
@@ -116,8 +118,8 @@ class _PvFieldsContainerBase:
         for i in range(len(cell_types)):
             cell_points.append(conn_field.get_entity_data(i))
         points = mesh.nodes.coordinates_field.data
-        array_names = [ streamlines_field.field_definition.name ]
-        data_arrays = [ streamlines_field.data ]
+        array_names = [streamlines_field.field_definition.name]
+        data_arrays = [streamlines_field.data]
 
         ncells = len(cell_types)
         npoints = len(points)
@@ -135,6 +137,8 @@ class _PvFieldsContainerBase:
                 vtk_cell = vtk.vtkLine()
             elif cell_type_id == element_types.EMagLine.value:
                 vtk_cell = vtk.vtkPolyLine()
+            elif element_types.Unknown.value:
+                vtk_cell = vtk.vtkGenericCell()
             vtk_cell_pid = vtk_cell.GetPointIds()
             vtk_cell_pid.SetNumberOfIds(len(this_cell_points))
             for ind, pid in enumerate(this_cell_points):

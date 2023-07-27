@@ -773,6 +773,39 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_c
         max_time=10.0,
     )
 
+    # testing the StreamlinesSource
+    # ------------------------------------
+    src_as_data_set = src_obj._as_pyvista_data_set()
+    src_as_field = streamline_obj.as_field(server=server_clayer)
+    tmp = core.helpers.streamlines.StreamlinesSource(src_as_field)
+    src_as_data_set_check = tmp._as_pyvista_data_set()
+    src_obj = core.helpers.streamlines.StreamlinesSource(src_as_data_set_check)
+
+    # check for pyvista objects
+    assert src_as_data_set.n_points == src_as_data_set_check.n_points
+    assert src_as_data_set.n_cells == src_as_data_set_check.n_cells
+    array_names_check = src_as_data_set_check.array_names
+    an = array_names_check[0]
+    assert len(array_names_check) == 1
+    assert len(src_as_data_set[an]) == len(src_as_data_set_check[an])
+    for c_ind in range(0, src_as_data_set.n_cells):
+        assert src_as_data_set.GetCellType(c_ind) == src_as_data_set_check.GetCellType(c_ind)
+
+    # checks for field
+    field = src_as_field
+    mesh = field.meshed_region
+    assert len(field.scoping.ids) == len(src_as_data_set[an])
+    assert len(field.scoping.ids) == src_as_data_set.n_points
+    assert len(mesh.nodes.coordinates_field.scoping.ids) == src_as_data_set.n_points
+    assert len(mesh.elements.element_types_field) == src_as_data_set.n_cells
+    assert len(mesh.elements.connectivities_field.scoping.ids) == src_as_data_set.n_cells
+    assert len(mesh.elements.connectivities_field.get_entity_data(0)) == 5
+    assert len(mesh.elements.connectivities_field.get_entity_data(1)) == 7
+    assert len(array_names_check) == 0
+    assert field.field_definition.name == ""
+
+    # testing the Streamlines
+    # ------------------------------------
     # get the pv_data_set and the fc for initial streamline
     # re-create a streamline from fc
     # get the pv_data_set for the new streamline and ensure
@@ -794,7 +827,7 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_c
     for c_ind in range(0, str_as_data_set.n_cells):
         assert str_as_data_set.GetCellType(c_ind) == str_as_data_set_check.GetCellType(c_ind)
 
-    # checks for fields containers
+    # checks for field
     field = str_as_field
     mesh = field.meshed_region
     assert len(field.scoping.ids) == len(str_as_data_set[an])
@@ -802,14 +835,15 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_c
     assert len(mesh.nodes.coordinates_field.scoping.ids) == str_as_data_set.n_points
     assert len(mesh.elements.element_types_field) == str_as_data_set.n_cells
     assert len(mesh.elements.connectivities_field.scoping.ids) == str_as_data_set.n_cells
-    assert len(mesh.elements.connectivities_field.get_entity_data(0)) == 5
-    assert len(mesh.elements.connectivities_field.get_entity_data(1)) == 7
     for i in range(0, len(array_names)):
         array_n = array_names[i]
         if "streamlines" in array_n:
             array_check = array_n
     assert field.field_definition.name == array_check
 
+
+    # plot
+    # -----------------------
     pl = DpfPlotter()
     pl.add_field(field, meshed_region, opacity=0.2)
     pl.add_streamlines(
