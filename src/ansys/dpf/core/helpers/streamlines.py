@@ -46,8 +46,12 @@ class _PvFieldsContainerBase:
         cell_points = []
         cell_types = []
         data_arrays = []
-        array_names = data_set.array_names
-        for n in array_names:
+        array_names_base = data_set.array_names
+        array_names = []
+        for n in array_names_base:
+            if not "streamlines" in n:
+                continue
+            array_names.append(n)
             data_arrays.append(data_set[n])
         for i in range(0, data_set.n_cells):
             cell_points.append(data_set.cell_point_ids(i))
@@ -55,8 +59,10 @@ class _PvFieldsContainerBase:
         to_return["cell_points"] = cell_points
         to_return["cell_types"] = cell_types
         to_return["points"] = data_set.points
+        # to do: reduce quantity of arrays to only keep streamlines ?
         to_return["array_names"] = array_names
         to_return["data_arrays"] = data_arrays
+
         return to_return
 
     def _fc_to_pv_data_set(self):
