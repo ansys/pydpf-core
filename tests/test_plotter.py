@@ -778,8 +778,8 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state):
     # get the pv_data_set for the new streamline and ensure
     # it's the same than the original one
     str_as_data_set = streamline_obj._as_pyvista_data_set()
-    str_as_fc = streamline_obj._as_fields_container()
-    tmp = core.helpers.streamlines.Streamlines(str_as_fc)
+    str_as_field = streamline_obj.as_field()
+    tmp = core.helpers.streamlines.Streamlines(str_as_field)
     str_as_data_set_check = tmp._as_pyvista_data_set()
     streamline_obj = core.helpers.streamlines.Streamlines(str_as_data_set_check)
 
@@ -794,8 +794,7 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state):
         assert str_as_data_set.GetCellType(c_ind) == str_as_data_set_check.GetCellType(c_ind)
 
     # checks for fields containers
-    assert len(str_as_fc) == 1
-    field = str_as_fc.get_field_by_time_id(1)
+    field = str_as_field
     mesh = field.meshed_region
     assert len(field.scoping.ids) == len(str_as_data_set[an])
     assert len(field.scoping.ids) == str_as_data_set.n_points

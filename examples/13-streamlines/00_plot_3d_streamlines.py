@@ -80,6 +80,14 @@ pl1.add_streamlines(
 pl1.show_figure(show_axes=True)
 
 ###############################################################################
+# Access the streamlines data
+# ---------------------------
+# The Streamlines data can be requested as a Field.
+# The streamlines Field has a MeshedRegion as support.
+streamlines_field = streamline_obj.as_field()
+streamlines_data = streamlines_field.data
+
+###############################################################################
 # After the adjustment, the correct values for the "source_center" argument are set.
 # You can remove the "permissive" option.
 # You can display velocity data with a small opacity value to avoid hiding the streamlines.
