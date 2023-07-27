@@ -4,8 +4,12 @@
 import numpy as np
 import warnings
 
-from ansys.dpf.core.common import locations
-from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf import core as dpf
+from ansys.dpf.core.common import (
+    DefinitionLabels,
+    locations,
+    natures,
+)
 from ansys.dpf.core.helpers.utils import _sort_supported_kwargs
 
 
@@ -31,18 +35,17 @@ class _PvFieldsContainerBase:
         self._streamlines_fc = None
         if isinstance(data, pv.PolyData):
             self._pv_data_set = data
-        # elif isinstance(data, FieldsContainer):
-        elif True:
+        elif isinstance(data, dpf.FieldsContainer):
             self._streamlines_fc = data
         else:
             raise AttributeError(
                 "streamlines must be a pyvista.PolyData or a dpf.FieldsContainer instance."
             )
 
+
     def _pv_data_set_to_fc(self):
         """Convert pyvista.PolyData into FieldsContainer."""
         data_set = self._pv_data_set
-        to_return = {}
         cell_points = []
         cell_types = []
         data_arrays = []
@@ -56,14 +59,48 @@ class _PvFieldsContainerBase:
         for i in range(0, data_set.n_cells):
             cell_points.append(data_set.cell_point_ids(i))
             cell_types.append(data_set.cell_type(i))
-        to_return["cell_points"] = cell_points
-        to_return["cell_types"] = cell_types
-        to_return["points"] = data_set.points
-        # to do: reduce quantity of arrays to only keep streamlines ?
-        to_return["array_names"] = array_names
-        to_return["data_arrays"] = data_arrays
+        points_array = data_set.points
+        # to_return = {}
+        # to_return["cell_points"] = cell_points
+        # to_return["cell_types"] = cell_types
+        # to_return["points"] = points_array
+        # to_return["array_names"] = array_names
+        # to_return["data_arrays"] = data_arrays
+        # return to_return
 
-        return to_return
+        # compute DPF objects
+        cell_types_converted = cell_types # to do: to convert
+        nodes_scoping = dpf.Scoping(location=locations.nodal)
+        nodes_scoping.ids = np.arange(1, data_set.n_points + 1)
+        streamlines_field = dpf.Field(location=locations.nodal)
+        fdef = streamlines_field.field_definition
+        fdef.name = array_names[0]
+        streamlines_field.scoping = nodes_scoping
+        streamlines_field.data = data_arrays[0]
+        mesh = dpf.MeshedRegion()
+        coords_field = dpf.Field(location=locations.nodal)
+        coords_field.scoping = nodes_scoping
+        coords_field.data = points_array
+        mesh.set_coordinates_field(coords_field)
+        elems_scoping = dpf.Scoping(location=locations.elemental)
+        elems_scoping.ids = np.arange(1, data_set.n_cells + 1)
+        connectivity_field = dpf.PropertyField(location=locations.elemental)
+        # connectivity size is different for each element,
+        # data array can't be set in once
+        for ind, dat in enumerate(cell_points):
+            connectivity_field.append(dat, ind + 1)
+        elems_types_field = dpf.PropertyField(location=locations.elemental)
+        elems_types_field.scoping = elems_scoping
+        elems_types_field.data = cell_types
+        mesh.nodes.coordinates_field = coords_field
+        mesh.elements.connectivities_field = connectivity_field
+        mesh.elements.element_types_field = elems_types_field
+        streamlines_field.meshed_region = mesh
+        fc_to_return = dpf.FieldsContainer()
+        fc_to_return.add_label(DefinitionLabels.time)
+        fc_to_return.add_field({DefinitionLabels.time: 1}, streamlines_field)
+
+        return fc_to_return
 
     def _fc_to_pv_data_set(self):
         """Convert FieldsContainer into pyvista.PolyData."""
@@ -76,11 +113,23 @@ class _PvFieldsContainerBase:
             raise PyVistaImportError
         import vtk
 
-        cell_points = fields["cell_points"]
-        cell_types = fields["cell_types"]
-        points = fields["points"]
-        array_names = fields["array_names"]
-        data_arrays = fields["data_arrays"]
+        # cell_points = fields["cell_points"]
+        # cell_types = fields["cell_types"]
+        # points = fields["points"]
+        # array_names = fields["array_names"]
+        # data_arrays = fields["data_arrays"]
+
+        streamlines_field = fields.get_field({DefinitionLabels.time: 1})
+        mesh = streamlines_field.meshed_region
+        cell_types = mesh.elements.element_types_field.data
+        cell_points = []
+        conn_field = mesh.elements.connectivities_field
+        for i in range(len(cell_types)):
+            cell_points.append(conn_field.get_entity_data(i))
+        points = mesh.nodes.coordinates_field.data
+        array_names = [ streamlines_field.field_definition.name ]
+        data_arrays = [ streamlines_field.data ]
+
         ncells = len(cell_types)
         npoints = len(points)
         vpoly = vtk.vtkPolyData()
