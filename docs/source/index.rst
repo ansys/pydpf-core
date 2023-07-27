@@ -1,3 +1,5 @@
+.. _ref_main_index:
+
 ==========
 PyDPF-Core
 ==========
@@ -9,8 +11,39 @@ large amounts of simulation data within a simulation workflow.
 
 DPF is an independent, physics-agnostic tool that you can plug into many 
 apps for both data input and data output, including visualization and 
-result plots. It can access data from solver result files and other neutral
-formats, such as CSV, HDF5, and VTK files.
+result plots. The following table shows an exhaustive list of supported
+apps by DPF and their related format:
+
+.. table:: Truth table for "not"
+   :widths: auto
+   :align: center
+
++--------------------+------------------------+----------------------------------+----------------------------------+
+|     **Solver**     |    **File format**     |       **Server version**         |       **DPF examples**           |
++====================+========================+==================================+==================================+
+|                    || .rst, .mode           || **1.0** and later               | :ref:`ref_basic_example`         |
+|        MAPDL       || .rfrq, .rdsp          || (*Ansys 2021 R1*)               |                                  |
++--------------------+------------------------+----------------------------------+----------------------------------+
+|       LS DYNA      |   .d3plot, .binout     || **4.0** and later               | :ref:`lsdyna_operators`          |
+|                    |                        || (*Ansys 2022 R2*)               |                                  |
++--------------------+------------------------+----------------------------------+----------------------------------+
+|                    || *CFF restart files*   ||                                 | :ref:`ref_fluids_model`          |
+|                    || .cas/dat.h5           ||                                 +----------------------------------+
+|                    |                        || **7.0** and later               | :ref:`ref_fluids_mesh`           |
+|        Fluent      +------------------------+| (*Ansys 2024 R1 pre0*)          +----------------------------------+
+|                    || *Project files*       |                                  | :ref:`ref_fluids_results`        |
+|                    || .flprj                |                                  |                                  |
++--------------------+------------------------+----------------------------------+----------------------------------+
+|                    || *CFF files*           ||                                 | :ref:`ref_fluids_model`          |
+|                    || .cas/dat.cff          ||                                 +----------------------------------+
+|                    |                        || **7.0** and later               | :ref:`ref_fluids_mesh`           |
+|          CFX       +------------------------+| (*Ansys 2024 R1 pre0*)          +----------------------------------+
+|                    || *Project files*       |                                  | :ref:`ref_fluids_results`        |
+|                    || .flprj                |                                  |                                  |
++--------------------+------------------------+----------------------------------+----------------------------------+
+
+Visualisation is ensured by VTK and leverage of `PyVista tools
+<https://docs.pyvista.org>`_.
 
 Using the many DPF operators that are available, you can manipulate and
 transform this data. You can also chain operators together to create simple
@@ -28,7 +61,6 @@ a modular and easy-to-use tool with a large range of capabilities.
 The ``ansys.dpf.core`` package provides a Python interface to DPF, enabling
 rapid postprocessing of a variety of Ansys file formats and physics solutions
 without ever leaving the Python environment.
-
 
 Brief demo
 ~~~~~~~~~~
