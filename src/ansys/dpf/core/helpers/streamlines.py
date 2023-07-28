@@ -5,11 +5,7 @@ import numpy as np
 import warnings
 
 from ansys.dpf import core as dpf
-from ansys.dpf.core.common import (
-    DefinitionLabels,
-    locations,
-    natures,
-)
+from ansys.dpf.core.common import locations
 from ansys.dpf.core.elements import element_types
 from ansys.dpf.core.helpers.utils import _sort_supported_kwargs
 
