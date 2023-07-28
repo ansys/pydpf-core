@@ -204,6 +204,7 @@ class Streamlines(_PvFieldsContainerBase):
     def _set_vtk_cell_array(self, vtk_cell_array, vtk_poly_data):
         vtk_poly_data.SetLines(vtk_cell_array)
 
+
 class StreamlinesSource(_PvFieldsContainerBase):
     """Class to define the StreamlinesSource
     object scripting with `ansys-dpf-core`.
@@ -215,6 +216,7 @@ class StreamlinesSource(_PvFieldsContainerBase):
 
     def _set_vtk_cell_array(self, vtk_cell_array, vtk_poly_data):
         vtk_poly_data.SetVerts(vtk_cell_array)
+
 
 def compute_streamlines(meshed_region, field, **kwargs):
     """Compute the streamlines for a given mesh and velocity
