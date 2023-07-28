@@ -43,6 +43,9 @@ class _PvFieldsContainerBase:
                 "streamlines must be a pyvista.PolyData or a dpf.FieldsContainer instance."
             )
 
+    def _set_vtk_cell_array(self, vtk_cell_array, vtk_poly_data):
+        raise Exception("_set_vtk_cell_array not implemented in child class")
+
     def _pv_data_set_to_fc(self, server=None):
         """Convert pyvista.PolyData into a Field."""
         import vtk
@@ -151,8 +154,7 @@ class _PvFieldsContainerBase:
             for ind, pid in enumerate(this_cell_points):
                 vtk_cell_pid.SetId(ind, pid)
             vcells.InsertNextCell(vtk_cell)
-        # vpoly.SetLines(vcells)
-        vpoly.SetVerts(vcells)
+        self._set_vtk_cell_array(vcells, vpoly)
         pv_poly = pv.wrap(vpoly)
         for ind, n in enumerate(array_names):
             pv_poly[n] = data_arrays[ind]
@@ -199,6 +201,8 @@ class Streamlines(_PvFieldsContainerBase):
     def __init__(self, data):
         super().__init__(data=data)
 
+    def _set_vtk_cell_array(self, vtk_cell_array, vtk_poly_data):
+        vtk_poly_data.SetLines(vtk_cell_array)
 
 class StreamlinesSource(_PvFieldsContainerBase):
     """Class to define the StreamlinesSource
@@ -209,6 +213,8 @@ class StreamlinesSource(_PvFieldsContainerBase):
     def __init__(self, data):
         super().__init__(data=data)
 
+    def _set_vtk_cell_array(self, vtk_cell_array, vtk_poly_data):
+        vtk_poly_data.SetVerts(vtk_cell_array)
 
 def compute_streamlines(meshed_region, field, **kwargs):
     """Compute the streamlines for a given mesh and velocity
