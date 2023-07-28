@@ -755,8 +755,7 @@ def test_plot_polyhedron():
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
-def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_in_process):
-    server_clayer = server_in_process
+def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_clayer):
     ds_fluent = fluent_mixing_elbow_steady_state(server=server_clayer)
     m_fluent = core.Model(data_sources=ds_fluent, server=server_clayer)
     meshed_region = m_fluent.metadata.meshed_region
