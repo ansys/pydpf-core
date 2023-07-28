@@ -58,7 +58,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.7", "3.8", "3.9", "3.10"]'
+      python_versions: '["3.8", "3.9", "3.10"]'
       wheel: true
       wheelhouse: true
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
@@ -76,7 +76,7 @@ jobs:
     uses: ./.github/workflows/examples.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.7", "3.8", "3.9", "3.10"]'
+      python_versions: '["3.8", "3.9", "3.10"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
@@ -156,6 +156,7 @@ jobs:
     name: "gate"
     uses: ./.github/workflows/gate.yml
     with:
+      python_versions: '["3.8"]'
       ANSYS_VERSION: "241"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
@@ -173,7 +174,7 @@ jobs:
     uses: ./.github/workflows/examples_docker.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.7", "3.8", "3.9", "3.10"]'
+      python_versions: '["3.8", "3.9", "3.10"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
