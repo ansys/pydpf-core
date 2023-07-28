@@ -50,8 +50,7 @@ def test_incremental_minmax(server_type, plate_msup):
         res_op = core.operators.result.displacement(
             data_sources=ds, time_scoping=scoping, server=server_type
         )
-        norm_fc = core.operators.math.norm_fc(res_op, server=server_type)
-        minmax_op = core.operators.min_max.min_max_fc_inc(norm_fc, server=server_type)
+        minmax_op = core.operators.min_max.min_max_fc_inc(res_op, server=server_type)
 
         return (res_op, minmax_op)
 
