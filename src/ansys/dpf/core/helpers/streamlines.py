@@ -49,7 +49,7 @@ class _PvFieldsContainerBase:
     def _cell_from_type(self, cell_type_id, vtk):
         if cell_type_id == element_types.Line2.value:
             vtk_cell = vtk.vtkLine()
-        elif cell_type_id == element_types.EMagLine.value:
+        elif cell_type_id == -4:
             vtk_cell = vtk.vtkPolyLine()
         elif element_types.Unknown.value:
             vtk_cell = vtk.vtkGenericCell()
@@ -59,7 +59,7 @@ class _PvFieldsContainerBase:
         if c == vtk.VTK_LINE:
             cell_types_converted.append(element_types.Line2.value)
         elif c == vtk.VTK_POLY_LINE:
-            cell_types_converted.append(element_types.EMagLine.value)
+            cell_types_converted.append(int(-4))
         elif c == vtk.VTK_POLY_VERTEX:
             cell_types_converted.append(int(-3))
         else:
