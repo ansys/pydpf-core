@@ -68,6 +68,7 @@ class _PvFieldsContainerBase:
     def _pv_data_set_to_fc(self, server=None):
         """Convert pyvista.PolyData into a Field."""
         import vtk
+
         data_set = self._pv_data_set
         cell_points = []
         cell_types = []
@@ -124,6 +125,7 @@ class _PvFieldsContainerBase:
         streamlines_field = self._streamlines_field
 
         from ansys.dpf.core.vtk_helper import PyVistaImportError
+
         try:
             import pyvista as pv
         except ModuleNotFoundError:
@@ -139,7 +141,7 @@ class _PvFieldsContainerBase:
         points = mesh.nodes.coordinates_field.data
         f_name = streamlines_field.field_definition.name
         array_names = []
-        if f_name != '':
+        if f_name != "":
             array_names.append(f_name)
         data_arrays = [streamlines_field.data]
 

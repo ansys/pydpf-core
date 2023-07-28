@@ -836,7 +836,6 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_c
             array_check = array_n
     assert field.field_definition.name == array_check
 
-
     # plot
     # -----------------------
     pl = DpfPlotter()
