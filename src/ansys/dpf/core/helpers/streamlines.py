@@ -46,6 +46,25 @@ class _PvFieldsContainerBase:
     def _set_vtk_cell_array(self, vtk_cell_array, vtk_poly_data):
         raise Exception("_set_vtk_cell_array not implemented in child class")
 
+    def _cell_from_type(self, cell_type_id, vtk):
+        if cell_type_id == element_types.Line2.value:
+            vtk_cell = vtk.vtkLine()
+        elif cell_type_id == element_types.EMagLine.value:
+            vtk_cell = vtk.vtkPolyLine()
+        elif element_types.Unknown.value:
+            vtk_cell = vtk.vtkGenericCell()
+        return vtk_cell
+
+    def _vtk_type_from_dpf_type(self, c, cell_types_converted, vtk):
+        if c == vtk.VTK_LINE:
+            cell_types_converted.append(element_types.Line2.value)
+        elif c == vtk.VTK_POLY_LINE:
+            cell_types_converted.append(element_types.EMagLine.value)
+        elif c == vtk.VTK_POLY_VERTEX:
+            cell_types_converted.append(int(-3))
+        else:
+            cell_types_converted.append(element_types.Unknown.value)
+
     def _pv_data_set_to_fc(self, server=None):
         """Convert pyvista.PolyData into a Field."""
         import vtk
@@ -68,14 +87,7 @@ class _PvFieldsContainerBase:
         # compute DPF objects
         cell_types_converted = []
         for c in cell_types:
-            if c == vtk.VTK_LINE:
-                cell_types_converted.append(element_types.Line2.value)
-            elif c == vtk.VTK_POLY_LINE:
-                cell_types_converted.append(element_types.EMagLine.value)
-            elif c == vtk.VTK_POLY_VERTEX:
-                cell_types_converted.append(int(-3))
-            else:
-                cell_types_converted.append(element_types.Unknown.value)
+            self._vtk_type_from_dpf_type(c, cell_types_converted, vtk)
         nodes_scoping = dpf.Scoping(location=locations.nodal, server=server)
         nodes_scoping.ids = np.arange(1, data_set.n_points + 1)
         streamlines_field = dpf.Field(location=locations.nodal, server=server)
@@ -143,12 +155,7 @@ class _PvFieldsContainerBase:
         for i in range(0, ncells):
             this_cell_points = cell_points[i]
             cell_type_id = cell_types[i]
-            if cell_type_id == element_types.Line2.value:
-                vtk_cell = vtk.vtkLine()
-            elif cell_type_id == element_types.EMagLine.value:
-                vtk_cell = vtk.vtkPolyLine()
-            elif element_types.Unknown.value:
-                vtk_cell = vtk.vtkGenericCell()
+            vtk_cell = self._cell_from_type(cell_type_id, vtk)
             vtk_cell_pid = vtk_cell.GetPointIds()
             vtk_cell_pid.SetNumberOfIds(len(this_cell_points))
             for ind, pid in enumerate(this_cell_points):
