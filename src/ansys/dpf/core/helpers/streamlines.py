@@ -69,15 +69,19 @@ class _PvFieldsContainerBase:
                 cell_types_converted.append(element_types.Line2.value)
             elif c == vtk.VTK_POLY_LINE:
                 cell_types_converted.append(element_types.EMagLine.value)
+            elif c == vtk.VTK_POLY_VERTEX:
+                cell_types_converted.append(int(-3))
             else:
                 cell_types_converted.append(element_types.Unknown.value)
         nodes_scoping = dpf.Scoping(location=locations.nodal, server=server)
         nodes_scoping.ids = np.arange(1, data_set.n_points + 1)
         streamlines_field = dpf.Field(location=locations.nodal, server=server)
         fdef = streamlines_field.field_definition
-        fdef.name = array_names[0]
+        if len(array_names) > 0:
+            fdef.name = array_names[0]
         streamlines_field.scoping = nodes_scoping
-        streamlines_field.data = data_arrays[0]
+        if len(data_arrays) > 0:
+            streamlines_field.data = data_arrays[0]
         mesh = dpf.MeshedRegion(server=server)
         coords_field = dpf.Field(location=locations.nodal, server=server)
         coords_field.scoping = nodes_scoping
@@ -118,7 +122,10 @@ class _PvFieldsContainerBase:
         for i in range(len(cell_types)):
             cell_points.append(conn_field.get_entity_data(i))
         points = mesh.nodes.coordinates_field.data
-        array_names = [streamlines_field.field_definition.name]
+        f_name = streamlines_field.field_definition.name
+        array_names = []
+        if f_name != '':
+            array_names.append(f_name)
         data_arrays = [streamlines_field.data]
 
         ncells = len(cell_types)
@@ -144,7 +151,8 @@ class _PvFieldsContainerBase:
             for ind, pid in enumerate(this_cell_points):
                 vtk_cell_pid.SetId(ind, pid)
             vcells.InsertNextCell(vtk_cell)
-        vpoly.SetLines(vcells)
+        # vpoly.SetLines(vcells)
+        vpoly.SetVerts(vcells)
         pv_poly = pv.wrap(vpoly)
         for ind, n in enumerate(array_names):
             pv_poly[n] = data_arrays[ind]

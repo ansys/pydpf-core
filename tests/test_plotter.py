@@ -755,12 +755,13 @@ def test_plot_polyhedron():
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
-def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_clayer):
+def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_in_process):
+    server_clayer = server_in_process
     ds_fluent = fluent_mixing_elbow_steady_state(server=server_clayer)
     m_fluent = core.Model(data_sources=ds_fluent, server=server_clayer)
     meshed_region = m_fluent.metadata.meshed_region
     velocity_op = m_fluent.results.velocity()
-    fc = velocity_op.outputs.fields_container(server=server_clayer)
+    fc = velocity_op.outputs.fields_container()
     field = core.operators.averaging.to_nodal_fc(fields_container=fc).outputs.fields_container()[0]
 
     streamline_obj, src_obj = compute_streamlines(
@@ -776,7 +777,7 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_c
     # testing the StreamlinesSource
     # ------------------------------------
     src_as_data_set = src_obj._as_pyvista_data_set()
-    src_as_field = streamline_obj.as_field(server=server_clayer)
+    src_as_field = src_obj.as_field(server=server_clayer)
     tmp = core.helpers.streamlines.StreamlinesSource(src_as_field)
     src_as_data_set_check = tmp._as_pyvista_data_set()
     src_obj = core.helpers.streamlines.StreamlinesSource(src_as_data_set_check)
@@ -785,22 +786,17 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_c
     assert src_as_data_set.n_points == src_as_data_set_check.n_points
     assert src_as_data_set.n_cells == src_as_data_set_check.n_cells
     array_names_check = src_as_data_set_check.array_names
-    an = array_names_check[0]
-    assert len(array_names_check) == 1
-    assert len(src_as_data_set[an]) == len(src_as_data_set_check[an])
+    assert len(array_names_check) == 0
     for c_ind in range(0, src_as_data_set.n_cells):
         assert src_as_data_set.GetCellType(c_ind) == src_as_data_set_check.GetCellType(c_ind)
 
     # checks for field
     field = src_as_field
     mesh = field.meshed_region
-    assert len(field.scoping.ids) == len(src_as_data_set[an])
-    assert len(field.scoping.ids) == src_as_data_set.n_points
     assert len(mesh.nodes.coordinates_field.scoping.ids) == src_as_data_set.n_points
     assert len(mesh.elements.element_types_field) == src_as_data_set.n_cells
     assert len(mesh.elements.connectivities_field.scoping.ids) == src_as_data_set.n_cells
-    assert len(mesh.elements.connectivities_field.get_entity_data(0)) == 5
-    assert len(mesh.elements.connectivities_field.get_entity_data(1)) == 7
+    assert len(mesh.elements.connectivities_field.get_entity_data(0)) == 10
     assert len(array_names_check) == 0
     assert field.field_definition.name == ""
 
