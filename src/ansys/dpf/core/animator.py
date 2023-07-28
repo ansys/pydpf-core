@@ -95,18 +95,11 @@ class _PyVistaAnimator(_PyVistaPlotter):
             deform = None
             if "deform_by" in workflow.output_names:
                 deform = workflow.get_output("deform_by", core.types.field)
-            # self.add_field(
-            #     field,
-            #     deform_by=deform,
-            #     scale_factor_legend=scale_factor[frame],
-            #     **kwargs,
-            # )
-            # m = kwargs.pop("streamlines_mesh_base")
-            # self.add_mesh(meshed_region=m, opacity=0.2)
-            streamline_instance = core.helpers.streamlines.Streamlines(data=field)
-            self.add_streamlines(
-                streamlines=streamline_instance,
-                radius=0.001,
+            self.add_field(
+                field,
+                deform_by=deform,
+                scale_factor_legend=scale_factor[frame],
+                **kwargs,
             )
             kwargs_in = _sort_supported_kwargs(bound_method=self._plotter.add_text, **freq_kwargs)
             if mode_number is None:
