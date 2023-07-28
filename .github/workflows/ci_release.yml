@@ -180,7 +180,7 @@ jobs:
   draft_release:
     name: "Draft Release"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [style, tests, docs, examples, retro_232, retro_231, retro_222, retro_221, gate, pydpf-post_241, pydpf-post_232, pydpf-post_231, pydpf-post_222, pydpf-post_221, docker_tests]
+    needs: [style, tests, docs, examples, retro_232, retro_231, retro_222, retro_221, gate, docker_tests]
     runs-on: ubuntu-latest
     steps:
       - name: "Set up Python"
