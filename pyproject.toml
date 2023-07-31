@@ -8,7 +8,7 @@ name = "ansys-dpf-core"
 version = "0.8.2.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
-requires-python = ">=3.7, <4"
+requires-python = ">=3.8, <4"
 license = {file = "LICENSE"}
 authors = [
     {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"},
@@ -24,7 +24,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "ansys-dpf-gate>=0.3.*",
+    "ansys-dpf-gate>=0.3.0",
     "importlib-metadata >=4.0",
     "numpy",
     "packaging",
@@ -40,7 +40,7 @@ plotting = [
     # 3D plotting
     "pyvista>=0.32.0",
     # Animations
-    "imageio",
+    "imageio < 2.28.1",
     "imageio-ffmpeg",
 ]
 

@@ -6,6 +6,7 @@ GenericDataContainer
 """
 import traceback
 import warnings
+import builtins
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
@@ -27,7 +28,7 @@ class GenericDataContainer:
 
     Notes
     -----
-    Class available with server's version starting at 6.2 (Ansys 2023R2).
+    Class available with server's version starting at 7.0 (Ansys 2024 R1 pre0).
     """
 
     def __init__(self, generic_data_container=None, server=None):
@@ -39,6 +40,7 @@ class GenericDataContainer:
 
         # step 2: if object exists, take the instance, else create it
         self._api_instance = None
+        self._api.init_generic_data_container_environment(self)  # creates stub when gRPC
 
         self._api.init_generic_data_container_environment(self)
 
@@ -94,23 +96,28 @@ class GenericDataContainer:
         any_dpf = Any.new_from(prop, self._server)
         self._api.generic_data_container_set_property_any(self, property_name, any_dpf)
 
-    def get_property(self, property_name, output_type):
+    def get_property(self, property_name):
         """Get property with given name.
 
         Parameters
         ----------
         property_name : str
             Property name.
-        output_type :  :class:`ansys.dpf.core.common.types`
 
         Returns
         -------
-        type
-            Property object instance.
+        Property object instance.
         """
         any_ptr = self._api.generic_data_container_get_property_any(self, property_name)
         any_dpf = Any(any_ptr, self._server)
-        return any_dpf.cast(output_type)
+        output_type = self.get_property_description()[property_name]
+        class_ = getattr(builtins, output_type, None)
+        if class_ is None:
+            from ansys.dpf import core
+
+            class_ = getattr(core, output_type)
+
+        return any_dpf.cast(class_)
 
     def get_property_description(self):
         """Get a dictionary description of properties by name and data type
