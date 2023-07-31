@@ -5,6 +5,11 @@ Compute iso-surfaces on fluid models
 ------------------------------------------
 
 This example demonstrates how to compute iso-surfaces on fluid models.
+
+.. note::
+    This example requires DPF 7.0 (ansys-dpf-server-2024-1-pre0) or above.
+    For more information, see :ref:`ref_compatibility`.
+
 """
 
 ###############################################################################
@@ -35,14 +40,7 @@ streams = dpf.operators.metadata.streams_provider(data_sources=ds)
 whole_mesh = dpf.operators.mesh.mesh_provider(streams_container=streams).eval()
 print(whole_mesh)
 
-pl = DpfPlotter()
-pl.add_mesh(whole_mesh)
-cpos_whole_mesh = [
-    (4.256160478475664, 4.73662111240005, 4.00410065817644),
-    (-0.0011924505233764648, 1.8596649169921875e-05, 1.125),
-    (-0.2738679385987956, -0.30771426079547065, 0.9112125360807675),
-]
-pl.show_figure(cpos=cpos_whole_mesh, show_axes=True)
+whole_mesh.plot()
 
 ###############################################################################
 # Extract the physics variable
