@@ -76,7 +76,7 @@ pl_single.add_streamlines(
     source=single_2d_source,
     radius=0.00002,
 )
-pl_single.show_figure(show_axes=True)
+pl_single.show_figure(cpos="xy", show_axes=True)
 
 ###############################################################################
 # Compute multiple streamlines
@@ -103,4 +103,4 @@ pl_multiple.add_streamlines(
     source=multiple_2d_source,
     radius=0.000015,
 )
-pl_multiple.show_figure(plane="xy", show_axes=True)
+pl_multiple.show_figure(cpos="xy", show_axes=True)
