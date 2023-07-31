@@ -11,7 +11,7 @@ on:
       standalone_branch_suffix:
         description: 'Suffix of the branch on standalone'
         required: false
-        default: '.pre1'
+        default: '.pre0'
 
 #┌───────────── minute (0 - 59)
 #│ ┌───────────── hour (0 - 23)
@@ -24,7 +24,7 @@ on:
 #* * * * *
 
 env:
-  ANSYS_VERSION: 232
+  ANSYS_VERSION: 241
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
   MAIN_PYTHON_VERSION: '3.8'
 
@@ -57,27 +57,36 @@ jobs:
   tests:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: "232"
-      python_versions: '["3.7", "3.8", "3.9", "3.10"]'
+      ANSYS_VERSION: "241"
+      python_versions: '["3.8", "3.9", "3.10"]'
       wheel: true
       wheelhouse: true
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
   docs:
     uses: ./.github/workflows/docs.yml
     with:
-      ANSYS_VERSION: "232"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
+      ANSYS_VERSION: "241"
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
       event_name: ${{ github.event_name }}
     secrets: inherit
 
   examples:
     uses: ./.github/workflows/examples.yml
     with:
+      ANSYS_VERSION: "241"
+      python_versions: '["3.8", "3.9", "3.10"]'
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+    secrets: inherit
+
+  retro_232:
+    name: "retro 232"
+    uses: ./.github/workflows/tests.yml
+    with:
       ANSYS_VERSION: "232"
-      python_versions: '["3.7", "3.8", "3.9", "3.10"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
+      python_versions: '["3.8"]'
+      DOCSTRING: false
     secrets: inherit
 
   retro_231:
@@ -107,12 +116,19 @@ jobs:
       DOCSTRING: false
     secrets: inherit
 
+  pydpf-post_241:
+    name: "PyDPF-Post with 241"
+    uses: ./.github/workflows/pydpf-post.yml
+    with:
+      ANSYS_VERSION: "241"
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+    secrets: inherit
+
   pydpf-post_232:
     name: "PyDPF-Post with 232"
     uses: ./.github/workflows/pydpf-post.yml
     with:
       ANSYS_VERSION: "232"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
     secrets: inherit
 
   pydpf-post_231:
@@ -140,29 +156,32 @@ jobs:
     name: "gate"
     uses: ./.github/workflows/gate.yml
     with:
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
+      python_versions: '["3.8"]'
+      ANSYS_VERSION: "241"
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
   docker_tests:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
     with:
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre1' }}
+      ANSYS_VERSION: "241"
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
   docker_examples:
     name: "Run examples on Docker"
     uses: ./.github/workflows/examples_docker.yml
     with:
-      ANSYS_VERSION: "232"
+      ANSYS_VERSION: "241"
       python_versions: '["3.8", "3.9", "3.10"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
   draft_release:
     name: "Draft Release"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [style, tests, docs, examples, retro_222, retro_221, gate, pydpf-post_231, pydpf-post_222, pydpf-post_221, docker_tests]
+    needs: [style, tests, docs, examples, retro_232, retro_231, retro_222, retro_221, gate, docker_tests]
     runs-on: ubuntu-latest
     steps:
       - name: "Set up Python"
