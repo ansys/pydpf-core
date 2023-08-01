@@ -76,8 +76,20 @@ pl_single.add_streamlines(
     source=single_2d_source,
     radius=0.00002,
 )
-pl_single.show_figure(cpos="xy", show_axes=True)
-
+# Use the PyVista 'cpos' optional argument to control the camera position.
+# To easily save a camera position, plot the figure a first time with the argument
+# 'cpos=True'. This will make the ``DpfPlotter.show_figure`` function return the camera position
+# at the time the PyVista interactive plotting window is closed.
+# You can also define a plane to use for the camera with 'cpos="xy"'. In this case the camera will
+# fit the entire model in the window.
+# Starting from a returned 'cpos', you can build a custom camera position, such as:
+cpos = [
+    (0.005, 0.0004, 0.015),  # Camera position (X, Y, Z)
+    (0.005, 0.0004, 0.0),  # Target point (X, Y, Z)
+    (0.0, 1.0, 0.0),  # Upward direction (+y)
+]
+return_cpos = pl_single.show_figure(return_cpos=True, cpos=cpos, show_axes=True)
+print(return_cpos)
 ###############################################################################
 # Compute multiple streamlines
 # ----------------------------
@@ -103,4 +115,4 @@ pl_multiple.add_streamlines(
     source=multiple_2d_source,
     radius=0.000015,
 )
-pl_multiple.show_figure(cpos="xy", show_axes=True)
+pl_multiple.show_figure(cpos=cpos, show_axes=True)
