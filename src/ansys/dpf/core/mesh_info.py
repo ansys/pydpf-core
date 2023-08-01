@@ -32,6 +32,9 @@ class MeshInfo:
     >>> model = dpf.Model(fluent)
     >>> mesh_info = model.metadata.mesh_info
 
+    Notes
+    -----
+    Class available with server's version starting at 7.0 (2024 R1 pre0).
     """
 
     def __init__(
