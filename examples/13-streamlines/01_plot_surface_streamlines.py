@@ -78,10 +78,10 @@ pl_single.add_streamlines(
 )
 # Use the PyVista 'cpos' optional argument to control the camera position.
 # To easily save a camera position, plot the figure a first time with the argument
-# 'cpos=True'. This will make the ``DpfPlotter.show_figure`` function return the camera position
-# at the time the PyVista interactive plotting window is closed.
-# You can also define a plane to use for the camera with 'cpos="xy"'. In this case the camera will
-# fit the entire model in the window.
+# 'return_cpos=True'. This will make the ``DpfPlotter.show_figure`` function return
+# the camera position at the time the PyVista interactive plotting window is closed.
+# You can also define a plane to use for the camera with 'cpos="xy"'.
+# In this case the camera will fit the entire model in the window.
 # Starting from a returned 'cpos', you can build a custom camera position, such as:
 cpos = [
     (0.005, 0.0004, 0.015),  # Camera position (X, Y, Z)
