@@ -899,6 +899,10 @@ class InProcessServer(CServer):
             self._context = server_context.AvailableServerContexts.premium
             pass
         self.set_as_global(as_global=as_global)
+        if self.os == "nt" and self.meet_version("7.0"): # 24.1.pre0
+            from ansys.dpf.gate import utils
+            gatebin_path = os.path.join(self.ansys_path, "aisol", "bin", "winx64", "Ans.Dpf.GrpcClient")
+            utils.data_processing_core_load_api(gatebin_path, "remote")
 
     @property
     def version(self):
