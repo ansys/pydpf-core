@@ -39,7 +39,7 @@ echo "activate venv"
 source ${tempfolder}/venv/bin/activate
 
 echo "install deps"
-python -m pip install -r ${pluginpath}/requirements.txt --disable-pip-version-check
+python -m pip install -r ${pluginpath}/requirements.txt --disable-pip-version-check --use-pep517
 
 SITES=$(find ${tempfolder}/venv/ -type d -name "site-packages")
 echo "SITES"
