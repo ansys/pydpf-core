@@ -94,7 +94,7 @@ jobs:
       - name: install ate dependencies
         shell: bash
         run: | 
-          pip install packaging numpy
+          pip install packaging numpy setuptools
           pip install -r requirements/requirements_dev.txt --index-url https://test.pypi.org/simple/
 
       - name: "Build Package"
