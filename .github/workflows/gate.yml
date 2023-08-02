@@ -79,7 +79,7 @@ jobs:
       - name: install gate dependencies
         shell: bash
         run: | 
-          pip install packaging numpy setuptools
+          pip install packaging numpy setuptools grpcio google-api-python-client
           pip install -r requirements/requirements_dev.txt --index-url https://test.pypi.org/simple/ --no-dependencies
 
       - name: "Build Package"
