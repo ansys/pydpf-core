@@ -100,7 +100,7 @@ class _PvFieldsContainerBase:
         coords_field.data = points_array
         mesh.set_coordinates_field(coords_field)
         elems_scoping = dpf.Scoping(location=locations.elemental, server=server)
-        elems_scoping.ids = np.arange(1, data_set.n_cells + 1)
+        elems_scoping.ids = list(np.arange(1, data_set.n_cells + 1))
         connectivity_field = dpf.PropertyField(location=locations.elemental, server=server)
         # connectivity size is different for each element,
         # data array can't be set in once
