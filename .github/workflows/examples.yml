@@ -107,9 +107,9 @@ jobs:
           install_extras: plotting
           wheelhouse: false
           wheel: false
-          extra-pip-args: ${{ inputs.custom-wheels && format('--find-links {0}', inputs.custom-wheels) || '' }}
+          extra-pip-args: "--index-url https://test.pypi.org/simple/"
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          custom-requirements: ${{ inputs.custom-requirements }}
+          custom-requirements: 'requirements/requirements_dev.txt'
 
       - name: "Prepare Testing Environment"
         uses: ansys/pydpf-actions/prepare_tests@v2.3
