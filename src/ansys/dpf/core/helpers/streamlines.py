@@ -106,6 +106,7 @@ class _PvFieldsContainerBase:
         # data array can't be set in once
         for ind, dat in enumerate(cell_points):
             connectivity_field.append(dat, ind + 1)
+        connectivity_field.scoping.location = locations.elemental
         elems_types_field = dpf.PropertyField(location=locations.elemental, server=server)
         elems_types_field.scoping = elems_scoping
         elems_types_field.data = cell_types_converted

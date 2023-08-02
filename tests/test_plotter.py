@@ -755,13 +755,15 @@ def test_plot_polyhedron():
 
 
 @pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
-def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_clayer):
-    ds_fluent = fluent_mixing_elbow_steady_state(server=server_clayer)
-    m_fluent = core.Model(data_sources=ds_fluent, server=server_clayer)
+def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_type):
+    ds_fluent = fluent_mixing_elbow_steady_state(server=server_type)
+    m_fluent = core.Model(data_sources=ds_fluent, server=server_type)
     meshed_region = m_fluent.metadata.meshed_region
     velocity_op = m_fluent.results.velocity()
     fc = velocity_op.outputs.fields_container()
-    field = core.operators.averaging.to_nodal_fc(fields_container=fc).outputs.fields_container()[0]
+    fc_av = core.operators.averaging.to_nodal_fc(server=server_type)
+    fc_av.inputs.fields_container.connect(fc)
+    field = fc_av.outputs.fields_container()[0]
 
     streamline_obj, src_obj = compute_streamlines(
         meshed_region=meshed_region,
@@ -776,7 +778,7 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_c
     # testing the StreamlinesSource
     # ------------------------------------
     src_as_data_set = src_obj._as_pyvista_data_set()
-    src_as_field = src_obj.as_field(server=server_clayer)
+    src_as_field = src_obj.as_field(server=server_type)
     tmp = core.helpers.streamlines.StreamlinesSource(src_as_field)
     src_as_data_set_check = tmp._as_pyvista_data_set()
     src_obj = core.helpers.streamlines.StreamlinesSource(src_as_data_set_check)
@@ -806,7 +808,7 @@ def test_compute_and_plot_streamlines(fluent_mixing_elbow_steady_state, server_c
     # get the pv_data_set for the new streamline and ensure
     # it's the same than the original one
     str_as_data_set = streamline_obj._as_pyvista_data_set()
-    str_as_field = streamline_obj.as_field(server=server_clayer)
+    str_as_field = streamline_obj.as_field(server=server_type)
     tmp = core.helpers.streamlines.Streamlines(str_as_field)
     str_as_data_set_check = tmp._as_pyvista_data_set()
     streamline_obj = core.helpers.streamlines.Streamlines(str_as_data_set_check)
