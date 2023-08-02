@@ -83,6 +83,12 @@ jobs:
         with:
           python-version: "3.8"
 
+      - name: install ate dependencies
+        shell: bash
+        run: | 
+          pip install packaging numpy
+          pip install -r requirements/requirements_dev.txt --index-url https://test.pypi.org/simple/
+
       - name: "Build Core Package"
         uses: ansys/pydpf-actions/build_package@v2.3
         with:
@@ -94,9 +100,9 @@ jobs:
           install_extras: plotting
           wheel: false
           wheelhouse: false
-          extra-pip-args: "--index-url https://test.pypi.org/simple/"
+          extra-pip-args: ""
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          custom-requirements: 'requirements/requirements_dev.txt'
+          custom-requirements: ''
 
       - name: "Install ansys-grpc-dpf==0.4.0"
         if: inputs.ANSYS_VERSION == 221

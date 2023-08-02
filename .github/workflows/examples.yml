@@ -96,6 +96,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: install ate dependencies
+        shell: bash
+        run: | 
+          pip install packaging numpy
+          pip install -r requirements/requirements_dev.txt --index-url https://test.pypi.org/simple/
+
       - name: "Build Package"
         uses: ansys/pydpf-actions/build_package@v2.3
         with:
@@ -107,9 +113,9 @@ jobs:
           install_extras: plotting
           wheelhouse: false
           wheel: false
-          extra-pip-args: "--index-url https://test.pypi.org/simple/"
+          extra-pip-args: ""
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          custom-requirements: 'requirements/requirements_dev.txt'
+          custom-requirements: ''
 
       - name: "Prepare Testing Environment"
         uses: ansys/pydpf-actions/prepare_tests@v2.3

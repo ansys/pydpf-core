@@ -91,6 +91,12 @@ jobs:
         with:
           python-version: ${{ inputs.python_version }}
 
+      - name: install ate dependencies
+        shell: bash
+        run: | 
+          pip install packaging numpy
+          pip install -r requirements/requirements_dev.txt --index-url https://test.pypi.org/simple/
+
       - name: "Build Package"
         id: build-package
         uses: ansys/pydpf-actions/build_package@v2.3
@@ -103,9 +109,9 @@ jobs:
           install_extras: plotting
           wheel: false
           wheelhouse: false
-          extra-pip-args: "--index-url https://test.pypi.org/simple/"
+          extra-pip-args: ""
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          custom-requirements: 'requirements/requirements_dev.txt'
+          custom-requirements: ''
 
       - name: "Setup headless display"
         uses: pyvista/setup-headless-display-action@v1

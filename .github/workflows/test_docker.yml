@@ -65,6 +65,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.6.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: install ate dependencies
+        shell: bash
+        run: | 
+          pip install packaging numpy
+          pip install -r requirements/requirements_dev.txt --index-url https://test.pypi.org/simple/
+
       - name: "Build Docker Package"
         uses: ansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
         with:
@@ -76,9 +88,9 @@ jobs:
           install_extras: plotting
           wheel: false
           wheelhouse: false
-          extra-pip-args: "--index-url https://test.pypi.org/simple/"
+          extra-pip-args: ""
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          custom-requirements: 'requirements/requirements_dev.txt'
+          custom-requirements: ''
 
       - name: "Prepare Testing Environment"
         uses: ansys/pydpf-actions/prepare_tests@v2.3
