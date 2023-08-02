@@ -6,6 +6,11 @@ Explore Fluids models
 
 This example demonstrates how to explore Ansys Fluent and Ansys CFX models employing
 the ``MeshInfo`` and ``ResultInfo``.
+
+.. note::
+    This example requires DPF 7.0 (ansys-dpf-server-2024-1-pre0) or above.
+    For more information, see :ref:`ref_compatibility`.
+
 """
 
 ###############################################################################
