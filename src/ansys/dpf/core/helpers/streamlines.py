@@ -273,7 +273,7 @@ def compute_streamlines(meshed_region, field, **kwargs):
 
     """
     # Check velocity field location
-    if field.location is not locations.nodal:
+    if field.location != locations.nodal:
         warnings.warn(
             "Velocity field must have a nodal location. Result must be carefully checked."
         )
