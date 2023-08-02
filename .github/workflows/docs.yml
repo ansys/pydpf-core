@@ -95,7 +95,7 @@ jobs:
         shell: bash
         run: | 
           pip install packaging numpy setuptools
-          pip install -r requirements/requirements_dev.txt --index-url https://test.pypi.org/simple/
+          pip install -r requirements/requirements_dev.txt --index-url https://test.pypi.org/simple/ --no-dependencies
 
       - name: "Build Package"
         id: build-package
