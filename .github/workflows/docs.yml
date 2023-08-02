@@ -102,7 +102,7 @@ jobs:
           echo blop2
           find /usr/lib -name "linux-vdso.so*"
           echo ble
-          echo $LD_LIBRARY_PATH
+          echo $LD_LIBRARY_PATH 
           echo $PATH
           echo he
 
