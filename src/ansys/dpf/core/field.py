@@ -575,7 +575,6 @@ class Field(_FieldBase):
     @property
     def name(self):
         """Name of the field."""
-        # return self._api.csfield_get_name(self)
         from ansys.dpf.gate import integral_types
 
         size = integral_types.MutableInt32()
@@ -584,6 +583,28 @@ class Field(_FieldBase):
             self._field_definition, name=name, size=size
         )
         return str(name)
+
+    @name.setter
+    def name(self, value):
+        """Change the name of the field
+
+        Parameters
+        ----------
+        value : str
+            Name of the field.
+
+        Examples
+        --------
+        Units for a displacement field.
+
+        >>> from ansys.dpf import core as dpf
+        >>> my_field = dpf.Field(10, dpf.natures.vector,dpf.locations.nodal)
+        >>> my_field.name = "my-field"
+        >>> my_field.name
+        'my-field'
+
+        """
+        self._field_definition._api.csfield_definition_set_name(self._field_definition, name=value)
 
     def _set_field_definition(self, field_definition):
         """Set the field definition.

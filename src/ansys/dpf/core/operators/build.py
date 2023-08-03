@@ -75,7 +75,7 @@ def build_pin_data(pins, output=False):
         pin_name = pin_name.replace(">", "_")
 
         main_type = docstring_types[0] if len(docstring_types) >= 1 else ""
-        built_in_types = ("int", "double", "string", "bool", "float", "str")
+        built_in_types = ("int", "double", "string", "bool", "float", "str", "dict")
 
         # Case where output pin has multiple types.
         multiple_types = len(type_names) >= 2

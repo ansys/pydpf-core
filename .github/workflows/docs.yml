@@ -117,7 +117,7 @@ jobs:
         shell: bash
         working-directory: docs
         run: |
-          case `tail -n 5 log.txt | grep -F "build succeeded" >/dev/null; echo $?` in
+          case `grep -F "build succeeded" log.txt >/dev/null; echo $?` in
           0)
             echo "Build succeeded!"
             exit 0;;

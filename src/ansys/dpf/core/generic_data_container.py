@@ -28,7 +28,7 @@ class GenericDataContainer:
 
     Notes
     -----
-    Class available with server's version starting at 6.2 (Ansys 2023R2).
+    Class available with server's version starting at 7.0 (Ansys 2024 R1 pre0).
     """
 
     def __init__(self, generic_data_container=None, server=None):
@@ -106,8 +106,7 @@ class GenericDataContainer:
 
         Returns
         -------
-        type
-            Property object instance.
+        Property object instance.
         """
         any_ptr = self._api.generic_data_container_get_property_any(self, property_name)
         any_dpf = Any(any_ptr, self._server)
