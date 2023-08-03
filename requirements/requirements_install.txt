@@ -1,4 +1,4 @@
-ansys-dpf-gate==0.3.1
+ansys-dpf-gate==0.4.1
 importlib-metadata==6.8.0
 numpy==1.25.2
 packaging==23.0
