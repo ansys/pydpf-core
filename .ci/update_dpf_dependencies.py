@@ -5,9 +5,9 @@ Actual commit of updated code should not occur.
 The GitHub pipelines take care of the actual update in ansys-dpf-core.
 
 Define environment variables to know where to get the code from:
-- "ANSYS_DPF_GRPC_ROOT" defines where ansys-grpc-dpf resides (DPF/proto/).
+- "DPFDV_ROOT" defines the DPF repo where ansys-grpc-dpf resides.
   Will unzip the latest wheel built in DPF/proto/dist/.
-- "ANSYS_DPF_GATE_ROOT" defines where ansys-dpf-gate and ansys-dpf-gatebin are gathered from
+- "ANSYSDPFPYGATE_ROOT" defines where the ansys-dpf-pygate repository resides.
 """
 import os
 import glob
@@ -16,15 +16,15 @@ import shutil
 import zipfile
 
 
-grpc_path_key = "ANSYS_DPF_GRPC_ROOT"
-gate_path_key = "ANSYS_DPF_GATE_ROOT"
+grpc_path_key = "DPFDV_ROOT"
+gate_path_key = "ANSYSDPFPYGATE_ROOT"
 
 grpc_path = os.getenv(grpc_path_key, None)
 gate_path = os.getenv(gate_path_key, None)
 
 if grpc_path is not None:
     # Update ansys-grpc-dpf with latest in proto/dist
-    dist_path = os.path.join(grpc_path, "dist", "*")
+    dist_path = os.path.join(grpc_path, "proto", "dist", "*")
     latest_wheel = max(glob.glob(dist_path), key=os.path.getctime)
     with zipfile.ZipFile(latest_wheel, 'r') as wheel:
         for file in wheel.namelist():
