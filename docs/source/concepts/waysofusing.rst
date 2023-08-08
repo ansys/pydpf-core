@@ -53,7 +53,7 @@ DPF offers multiple development APIs depending on your environment. These plugin
 
 - CPython based (see :ref:`user_guide_custom_operators`)
 
-- C++ based (see C++ documentation)
+- C++ based (see "DPF/USER GUIDE" section of `C++ documentation <https://developer.ansys.com/docs>`_)
 
 DPF integration
 ---------------
