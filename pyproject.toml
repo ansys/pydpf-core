@@ -24,7 +24,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "ansys-api-platform-instancemanagement<1.0.0b4",
+    "ansys-api-platform-instancemanagement<=1.0.0b3",
     "ansys-dpf-gate>=0.3.0",
     "importlib-metadata >=4.0",
     "numpy",
