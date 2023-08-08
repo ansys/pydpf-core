@@ -28,6 +28,12 @@ class locations:
 
     faces = "Faces"
         one per face
+
+    zone = "zone"
+        one per zone
+
+    elemental_and_faces = "ElementalAndFaces"
+        data available in elements and faces of the model
     """
 
     none = "none"
@@ -52,6 +58,12 @@ class locations:
 
     # one per face
     faces = "Faces"
+
+    # one per zone
+    zone = "zone"
+
+    # data available in elements and faces of the model
+    elemental_and_faces = "ElementalAndFaces"
 
 
 elemental_property_type_dict = {

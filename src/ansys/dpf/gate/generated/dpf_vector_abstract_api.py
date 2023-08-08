@@ -56,6 +56,10 @@ class DpfVectorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def dpf_vector_duplicate_dpf_vector(dpf_vector):
+		raise NotImplementedError
+
+	@staticmethod
 	def dpf_vector_new_for_object(api_to_use):
 		raise NotImplementedError
 

@@ -28,6 +28,28 @@ class hdf5dpf_generate_result_file(Operator):
     ansys_unit_system_id : int, optional
         Defines the unitsystem the results are
         exported with.
+    input_name1 : str or Any, optional
+        Set of even and odd pins to serialize
+        results. odd pins (4, 6, 8...) are
+        strings, and they represent the names
+        of the results to be serialized. even
+        pins (5, 7, 9...) are dpf types, and
+        they represent the results to be
+        serialized. they should go in pairs
+        (for each result name, there should
+        be a result) and connected
+        sequentially.
+    input_name2 : str or Any, optional
+        Set of even and odd pins to serialize
+        results. odd pins (4, 6, 8...) are
+        strings, and they represent the names
+        of the results to be serialized. even
+        pins (5, 7, 9...) are dpf types, and
+        they represent the results to be
+        serialized. they should go in pairs
+        (for each result name, there should
+        be a result) and connected
+        sequentially.
 
 
     Examples
@@ -46,6 +68,10 @@ class hdf5dpf_generate_result_file(Operator):
     >>> op.inputs.time_freq_support_out.connect(my_time_freq_support_out)
     >>> my_ansys_unit_system_id = int()
     >>> op.inputs.ansys_unit_system_id.connect(my_ansys_unit_system_id)
+    >>> my_input_name1 = str()
+    >>> op.inputs.input_name1.connect(my_input_name1)
+    >>> my_input_name2 = str()
+    >>> op.inputs.input_name2.connect(my_input_name2)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file(
@@ -53,6 +79,8 @@ class hdf5dpf_generate_result_file(Operator):
     ...     mesh_provider_out=my_mesh_provider_out,
     ...     time_freq_support_out=my_time_freq_support_out,
     ...     ansys_unit_system_id=my_ansys_unit_system_id,
+    ...     input_name1=my_input_name1,
+    ...     input_name2=my_input_name2,
     ... )
 
     >>> # Get output data
@@ -65,6 +93,8 @@ class hdf5dpf_generate_result_file(Operator):
         mesh_provider_out=None,
         time_freq_support_out=None,
         ansys_unit_system_id=None,
+        input_name1=None,
+        input_name2=None,
         config=None,
         server=None,
     ):
@@ -81,6 +111,10 @@ class hdf5dpf_generate_result_file(Operator):
             self.inputs.time_freq_support_out.connect(time_freq_support_out)
         if ansys_unit_system_id is not None:
             self.inputs.ansys_unit_system_id.connect(ansys_unit_system_id)
+        if input_name1 is not None:
+            self.inputs.input_name1.connect(input_name1)
+        if input_name2 is not None:
+            self.inputs.input_name2.connect(input_name2)
 
     @staticmethod
     def _spec():
@@ -116,6 +150,36 @@ class hdf5dpf_generate_result_file(Operator):
                     optional=True,
                     document="""Defines the unitsystem the results are
         exported with.""",
+                ),
+                4: PinSpecification(
+                    name="input_name",
+                    type_names=["string", "any"],
+                    optional=True,
+                    document="""Set of even and odd pins to serialize
+        results. odd pins (4, 6, 8...) are
+        strings, and they represent the names
+        of the results to be serialized. even
+        pins (5, 7, 9...) are dpf types, and
+        they represent the results to be
+        serialized. they should go in pairs
+        (for each result name, there should
+        be a result) and connected
+        sequentially.""",
+                ),
+                5: PinSpecification(
+                    name="input_name",
+                    type_names=["string", "any"],
+                    optional=True,
+                    document="""Set of even and odd pins to serialize
+        results. odd pins (4, 6, 8...) are
+        strings, and they represent the names
+        of the results to be serialized. even
+        pins (5, 7, 9...) are dpf types, and
+        they represent the results to be
+        serialized. they should go in pairs
+        (for each result name, there should
+        be a result) and connected
+        sequentially.""",
                 ),
             },
             map_output_pin_spec={
@@ -185,6 +249,10 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
     >>> op.inputs.time_freq_support_out.connect(my_time_freq_support_out)
     >>> my_ansys_unit_system_id = int()
     >>> op.inputs.ansys_unit_system_id.connect(my_ansys_unit_system_id)
+    >>> my_input_name1 = str()
+    >>> op.inputs.input_name1.connect(my_input_name1)
+    >>> my_input_name2 = str()
+    >>> op.inputs.input_name2.connect(my_input_name2)
     """
 
     def __init__(self, op: Operator):
@@ -205,6 +273,14 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
             hdf5dpf_generate_result_file._spec().input_pin(3), 3, op, -1
         )
         self._inputs.append(self._ansys_unit_system_id)
+        self._input_name1 = Input(
+            hdf5dpf_generate_result_file._spec().input_pin(4), 4, op, 0
+        )
+        self._inputs.append(self._input_name1)
+        self._input_name2 = Input(
+            hdf5dpf_generate_result_file._spec().input_pin(5), 5, op, 1
+        )
+        self._inputs.append(self._input_name2)
 
     @property
     def filename(self):
@@ -290,6 +366,64 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
         >>> op.inputs.ansys_unit_system_id(my_ansys_unit_system_id)
         """
         return self._ansys_unit_system_id
+
+    @property
+    def input_name1(self):
+        """Allows to connect input_name1 input to the operator.
+
+        Set of even and odd pins to serialize
+        results. odd pins (4, 6, 8...) are
+        strings, and they represent the names
+        of the results to be serialized. even
+        pins (5, 7, 9...) are dpf types, and
+        they represent the results to be
+        serialized. they should go in pairs
+        (for each result name, there should
+        be a result) and connected
+        sequentially.
+
+        Parameters
+        ----------
+        my_input_name1 : str or Any
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+        >>> op.inputs.input_name1.connect(my_input_name1)
+        >>> # or
+        >>> op.inputs.input_name1(my_input_name1)
+        """
+        return self._input_name1
+
+    @property
+    def input_name2(self):
+        """Allows to connect input_name2 input to the operator.
+
+        Set of even and odd pins to serialize
+        results. odd pins (4, 6, 8...) are
+        strings, and they represent the names
+        of the results to be serialized. even
+        pins (5, 7, 9...) are dpf types, and
+        they represent the results to be
+        serialized. they should go in pairs
+        (for each result name, there should
+        be a result) and connected
+        sequentially.
+
+        Parameters
+        ----------
+        my_input_name2 : str or Any
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+        >>> op.inputs.input_name2.connect(my_input_name2)
+        >>> # or
+        >>> op.inputs.input_name2(my_input_name2)
+        """
+        return self._input_name2
 
 
 class OutputsHdf5DpfGenerateResultFile(_Outputs):
