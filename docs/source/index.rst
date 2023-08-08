@@ -133,7 +133,7 @@ It is independent of the Ansys installer.
 
   1. The Data Processing Framework section in `Platform panel <https://ansysapi.ansys.com/account/secured?returnurl=/Views/Secured/main_page.html?lang=en>`_.
 
-  2. The Data Processing Framework section in `Developer Portal<https://developer.ansys.com/docs>`_
+  2. The Data Processing Framework section in `Developer Portal <https://developer.ansys.com/docs>`_
 
 - CPython modules documentation:
 
