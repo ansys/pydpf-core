@@ -117,6 +117,15 @@ class DpfVectorCAPI(dpf_vector_abstract_api.DpfVectorAbstractAPI):
 		return res
 
 	@staticmethod
+	def dpf_vector_duplicate_dpf_vector(dpf_vector):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DpfVector_duplicate_dpf_vector(dpf_vector._internal_obj, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def dpf_vector_new_for_object(api_to_use):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

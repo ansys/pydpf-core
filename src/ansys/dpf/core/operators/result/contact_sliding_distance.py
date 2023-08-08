@@ -12,7 +12,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class contact_sliding_distance(Operator):
     """Read/compute element contact sliding distance by calling the readers
-    defined by the datasources.
+    defined by the datasources. Regarding the requested location and
+    the input mesh scoping, the result location can be
+    Nodal/ElementalNodal/Elemental.
 
     Parameters
     ----------
@@ -21,11 +23,11 @@ class contact_sliding_distance(Operator):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq
@@ -59,12 +61,24 @@ class contact_sliding_distance(Operator):
     mesh : MeshedRegion or MeshesContainer, optional
         Prevents from reading the mesh in the result
         files
+    requested_location : str, optional
+        Requested location nodal, elemental or
+        elementalnodal
     read_cyclic : int, optional
         If 0 cyclic symmetry is ignored, if 1 cyclic
         sector is read, if 2 cyclic expansion
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)
+    read_beams : bool, optional
+        Elemental nodal beam results are read if this
+        pin is set to true (default is false)
+    split_shells : bool, optional
+        If the requested_location pin is not
+        connected, this pin forces elemental
+        nodal shell and solid results to be
+        split if this pin is set to true
+        (default is false)
 
 
     Examples
@@ -89,8 +103,14 @@ class contact_sliding_distance(Operator):
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_requested_location = str()
+    >>> op.inputs.requested_location.connect(my_requested_location)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_read_beams = bool()
+    >>> op.inputs.read_beams.connect(my_read_beams)
+    >>> my_split_shells = bool()
+    >>> op.inputs.split_shells.connect(my_split_shells)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.contact_sliding_distance(
@@ -101,7 +121,10 @@ class contact_sliding_distance(Operator):
     ...     data_sources=my_data_sources,
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
+    ...     requested_location=my_requested_location,
     ...     read_cyclic=my_read_cyclic,
+    ...     read_beams=my_read_beams,
+    ...     split_shells=my_split_shells,
     ... )
 
     >>> # Get output data
@@ -117,7 +140,10 @@ class contact_sliding_distance(Operator):
         data_sources=None,
         bool_rotate_to_global=None,
         mesh=None,
+        requested_location=None,
         read_cyclic=None,
+        read_beams=None,
+        split_shells=None,
         config=None,
         server=None,
     ):
@@ -138,13 +164,21 @@ class contact_sliding_distance(Operator):
             self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
+        if requested_location is not None:
+            self.inputs.requested_location.connect(requested_location)
         if read_cyclic is not None:
             self.inputs.read_cyclic.connect(read_cyclic)
+        if read_beams is not None:
+            self.inputs.read_beams.connect(read_beams)
+        if split_shells is not None:
+            self.inputs.split_shells.connect(split_shells)
 
     @staticmethod
     def _spec():
         description = """Read/compute element contact sliding distance by calling the readers
-            defined by the datasources."""
+            defined by the datasources. Regarding the requested
+            location and the input mesh scoping, the result location
+            can be Nodal/ElementalNodal/Elemental."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -163,11 +197,11 @@ class contact_sliding_distance(Operator):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq
@@ -226,6 +260,13 @@ class contact_sliding_distance(Operator):
                     document="""Prevents from reading the mesh in the result
         files""",
                 ),
+                9: PinSpecification(
+                    name="requested_location",
+                    type_names=["string"],
+                    optional=True,
+                    document="""Requested location nodal, elemental or
+        elementalnodal""",
+                ),
                 14: PinSpecification(
                     name="read_cyclic",
                     type_names=["enum dataProcessing::ECyclicReading", "int32"],
@@ -235,6 +276,23 @@ class contact_sliding_distance(Operator):
         is done, if 3 cyclic expansion is
         done and stages are merged (default
         is 1)""",
+                ),
+                22: PinSpecification(
+                    name="read_beams",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Elemental nodal beam results are read if this
+        pin is set to true (default is false)""",
+                ),
+                26: PinSpecification(
+                    name="split_shells",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If the requested_location pin is not
+        connected, this pin forces elemental
+        nodal shell and solid results to be
+        split if this pin is set to true
+        (default is false)""",
                 ),
             },
             map_output_pin_spec={
@@ -307,8 +365,14 @@ class InputsContactSlidingDistance(_Inputs):
     >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_requested_location = str()
+    >>> op.inputs.requested_location.connect(my_requested_location)
     >>> my_read_cyclic = int()
     >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+    >>> my_read_beams = bool()
+    >>> op.inputs.read_beams.connect(my_read_beams)
+    >>> my_split_shells = bool()
+    >>> op.inputs.split_shells.connect(my_split_shells)
     """
 
     def __init__(self, op: Operator):
@@ -339,10 +403,22 @@ class InputsContactSlidingDistance(_Inputs):
         self._inputs.append(self._bool_rotate_to_global)
         self._mesh = Input(contact_sliding_distance._spec().input_pin(7), 7, op, -1)
         self._inputs.append(self._mesh)
+        self._requested_location = Input(
+            contact_sliding_distance._spec().input_pin(9), 9, op, -1
+        )
+        self._inputs.append(self._requested_location)
         self._read_cyclic = Input(
             contact_sliding_distance._spec().input_pin(14), 14, op, -1
         )
         self._inputs.append(self._read_cyclic)
+        self._read_beams = Input(
+            contact_sliding_distance._spec().input_pin(22), 22, op, -1
+        )
+        self._inputs.append(self._read_beams)
+        self._split_shells = Input(
+            contact_sliding_distance._spec().input_pin(26), 26, op, -1
+        )
+        self._inputs.append(self._split_shells)
 
     @property
     def time_scoping(self):
@@ -352,11 +428,11 @@ class InputsContactSlidingDistance(_Inputs):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq
@@ -514,6 +590,27 @@ class InputsContactSlidingDistance(_Inputs):
         return self._mesh
 
     @property
+    def requested_location(self):
+        """Allows to connect requested_location input to the operator.
+
+        Requested location nodal, elemental or
+        elementalnodal
+
+        Parameters
+        ----------
+        my_requested_location : str
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.contact_sliding_distance()
+        >>> op.inputs.requested_location.connect(my_requested_location)
+        >>> # or
+        >>> op.inputs.requested_location(my_requested_location)
+        """
+        return self._requested_location
+
+    @property
     def read_cyclic(self):
         """Allows to connect read_cyclic input to the operator.
 
@@ -536,6 +633,51 @@ class InputsContactSlidingDistance(_Inputs):
         >>> op.inputs.read_cyclic(my_read_cyclic)
         """
         return self._read_cyclic
+
+    @property
+    def read_beams(self):
+        """Allows to connect read_beams input to the operator.
+
+        Elemental nodal beam results are read if this
+        pin is set to true (default is false)
+
+        Parameters
+        ----------
+        my_read_beams : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.contact_sliding_distance()
+        >>> op.inputs.read_beams.connect(my_read_beams)
+        >>> # or
+        >>> op.inputs.read_beams(my_read_beams)
+        """
+        return self._read_beams
+
+    @property
+    def split_shells(self):
+        """Allows to connect split_shells input to the operator.
+
+        If the requested_location pin is not
+        connected, this pin forces elemental
+        nodal shell and solid results to be
+        split if this pin is set to true
+        (default is false)
+
+        Parameters
+        ----------
+        my_split_shells : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.contact_sliding_distance()
+        >>> op.inputs.split_shells.connect(my_split_shells)
+        >>> # or
+        >>> op.inputs.split_shells(my_split_shells)
+        """
+        return self._split_shells
 
 
 class OutputsContactSlidingDistance(_Outputs):

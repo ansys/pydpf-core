@@ -1147,6 +1147,10 @@ def load_api(path):
 		dll.DpfString_free.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DpfString_free.restype = None
 
+	if hasattr(dll, "DpfVector_duplicate_dpf_vector"):
+		dll.DpfVector_duplicate_dpf_vector.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DpfVector_duplicate_dpf_vector.restype = ctypes.c_void_p
+
 	if hasattr(dll, "DpfVector_new_for_object"):
 		dll.DpfVector_new_for_object.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DpfVector_new_for_object.restype = ctypes.c_void_p
