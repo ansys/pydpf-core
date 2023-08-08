@@ -133,7 +133,7 @@ It is independent of the Ansys installer.
 
   1. The Data Processing Framework section in `Platform panel <https://ansysapi.ansys.com/account/secured?returnurl=/Views/Secured/main_page.html?lang=en>`_.
 
-  2. The Data Processing Framework section in [Developer Portal](https://developer.ansys.com/docs)
+  2. The Data Processing Framework section in `Developer Portal<https://developer.ansys.com/docs>`_
 
 - CPython modules documentation:
 
@@ -149,7 +149,7 @@ It is independent of the Ansys installer.
 
 **Enriching DPF capabilities**
 
-- C++ operator's library (see "DPF/USER GUIDE" section of [C++ documentation](https://developer.ansys.com/docs))
+- C++ operator's library (see "DPF/USER GUIDE" section of `C++ documentation <https://developer.ansys.com/docs>`_)
 
 - `C++ solver reader plugin <https://astonishing-hyacinth-e64.notion.site/How-to-write-a-new-solver-reader-as-a-DPF-s-plugin-bd2d2a3cf51f47ef9e70df45d64f89cb>`_
 
