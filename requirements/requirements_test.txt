@@ -1,5 +1,4 @@
-ansys-api-platform-instancemanagement==1.0.0b3
-ansys-platform-instancemanagement==1.1.1
+ansys-platform-instancemanagement==1.0.2
 coverage==7.2.7
 imageio==2.28.0
 imageio-ffmpeg==0.4.7
