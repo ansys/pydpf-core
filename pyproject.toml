@@ -28,6 +28,7 @@ dependencies = [
     "importlib-metadata >=4.0",
     "numpy",
     "packaging",
+    "protobuf<4",
     "psutil",
     "setuptools",
     "tqdm",
