@@ -85,6 +85,8 @@ def test_apply_context_remote(remote_config_server_type):
     op.eval()
     assert dpf.SERVER.context == dpf.AvailableServerContexts.premium
     dpf.server.shutdown_all_session_servers()
+    field = dpf.Field()
+    field.append([0.0], 1)
     if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_1:
         with pytest.raises(errors.DPFServerException):
             op = dpf.Operator("core::field::high_pass")

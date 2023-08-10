@@ -202,6 +202,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
     _wait_and_check_server_connection(
         process, port, timeout, lines, current_errors, stderr=None, stdout=None
     )
+    return process
 
 
 def launch_dpf_on_docker(
@@ -366,6 +367,33 @@ def check_ansys_grpc_dpf_version(server, timeout):
             f" with the command: \n"
             f"     pip install ansys-grpc-dpf{right_grpc_module_version}"
         )
+
+
+class GhostServer:
+    ip: str
+    _port: int
+    close_time: float
+
+    def __init__(self, ip: str, port: int, close_time: float = None):
+        """
+        Internal class used to keep in memory the port used by previous servers.
+        Adds a timeout before reusing ports of shutdown servers.
+        """
+        self.ip = ip
+        self._port = port
+        self.closed_time = close_time
+        if self.closed_time is None:
+            self.closed_time = time.time()
+
+    @property
+    def port(self) -> int:
+        """Returns the port of shutdown server if the shutdown happened less than 10s ago."""
+        if time.time() - self.closed_time > 10:
+            return -1
+        return self._port
+
+    def __call__(self, *args, **kwargs):
+        return self
 
 
 class BaseServer(abc.ABC):
@@ -599,7 +627,15 @@ class BaseServer(abc.ABC):
             if hasattr(core, "_server_instances") and core._server_instances is not None:
                 for i, server in enumerate(core._server_instances):
                     if server() == self:
-                        core._server_instances.remove(server)
+                        print("--------------------------__del__-------------------------------")
+                        if hasattr(self, "_input_ip") and hasattr(self, "_input_port"):
+                            # keeps a ghost instance with the used port and ip to prevent
+                            # from reusing the port to soon after shutting down: bug
+                            core._server_instances[i] = GhostServer(
+                                self._input_ip, self._input_port
+                            )
+                        else:
+                            core._server_instances.remove(server)
         except:
             warnings.warn(traceback.format_exc())
 
@@ -636,6 +672,7 @@ class GrpcClient:
 
         self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
         client_capi.ClientCAPI.init_client_environment(self)
+        self._address = address
 
     def __del__(self):
         try:
@@ -699,7 +736,6 @@ class GrpcServer(CServer):
                 self._local_server = True
 
         self._client = GrpcClient(address)
-
         # store port and ip for later reference
         self._address = address
         self._input_ip = ip
