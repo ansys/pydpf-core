@@ -83,6 +83,7 @@ def test_apply_context_remote(remote_config_server_type):
     op.connect(0, field)
     op.connect(1, 0.0)
     op.eval()
+    field = None
     assert dpf.SERVER.context == dpf.AvailableServerContexts.premium
     dpf.server.shutdown_all_session_servers()
     field = dpf.Field()
