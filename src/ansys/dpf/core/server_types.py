@@ -627,7 +627,6 @@ class BaseServer(abc.ABC):
             if hasattr(core, "_server_instances") and core._server_instances is not None:
                 for i, server in enumerate(core._server_instances):
                     if server() == self:
-                        print("--------------------------__del__-------------------------------")
                         if hasattr(self, "_input_ip") and hasattr(self, "_input_port"):
                             # keeps a ghost instance with the used port and ip to prevent
                             # from reusing the port to soon after shutting down: bug
@@ -672,7 +671,6 @@ class GrpcClient:
 
         self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
         client_capi.ClientCAPI.init_client_environment(self)
-        self._address = address
 
     def __del__(self):
         try:
