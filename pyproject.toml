@@ -5,7 +5,7 @@ build-backend = "flit_core.buildapi"
 [project]
 # Check https://flit.readthedocs.io/en/latest/pyproject_toml.html for all available sections
 name = "ansys-dpf-core"
-version = "0.8.2.dev0"
+version = "0.9.1.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
 requires-python = ">=3.8, <4"
@@ -28,6 +28,7 @@ dependencies = [
     "importlib-metadata >=4.0",
     "numpy",
     "packaging",
+    "protobuf<4",
     "psutil",
     "setuptools",
     "tqdm",
