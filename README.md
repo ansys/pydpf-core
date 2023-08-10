@@ -10,7 +10,7 @@
 [![cov](https://codecov.io/gh/ansys/pydpf-core/branch/master/graph/badge.svg)](https://codecov.io/gh/ansys/pydpf-core)
 [![codacy](https://app.codacy.com/project/badge/Grade/61b6a519aea64715ad1726b3955fcf98)](https://www.codacy.com/gh/ansys/pydpf-core/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ansys/pydpf-core&amp;utm_campaign=Badge_Grade)
 
-The Data Processing Framework (DPF) provides numerical simulation 
+Ansys Data Processing Framework (DPF) provides numerical simulation 
 users and engineers with a toolbox for accessing and transforming simulation 
 data. With DPF, you can perform complex preprocessing or postprocessing of
 large amounts of simulation data within a simulation workflow.
@@ -27,8 +27,8 @@ The latest version of DPF supports Ansys solver result files for:
 - Fluent (`.cas/dat.h5`, `.flprj`)
 - CFX (`.cad/dat.cff`, `.flprj`)
 
-See the `PyDPF-Core main page <https://dpf.docs.pyansys.com/version/stable/index.html>`_
-for more information on compatibility.
+For more information on compatibility, see the `main page <https://dpf.docs.pyansys.com/version/stable/index.html>`_
+of the PDF-Core documentation.
 
 Using the many DPF operators that are available, you can manipulate and
 transform this data. You can also chain operators together to create simple
@@ -47,12 +47,30 @@ The ``ansys.dpf.core`` package provides a Python interface to DPF, enabling
 rapid postprocessing of a variety of Ansys file formats and physics solutions
 without ever leaving the Python environment.
 
-## Documentation
+## Documentation and issues
 
-Visit the [DPF-Core Documentation](https://dpfdocs.pyansys.com) for
-comprehensive information on this library. See the
-[Examples](https://dpfdocs.pyansys.com/version/stable/examples/index.html)
-for how-to information.
+Documentation for the latest stable release of PyPDF-Core is hosted at
+[DPF-Core documentation](https://dpf.docs.pyansys.com/version/stable/).
+
+In the upper right corner of the documentation's title bar, there is an option for switching from
+viewing the documentation for the latest stable release to viewing the documentation for the
+development version or previously released versions.
+
+In the upper right corner of the documentation's title bar, there is an option for switching from
+viewing the documentation for the latest stable release to viewing the documentation for the
+development version or previously released versions.
+
+You can also [view](https://cheatsheets.docs.pyansys.com/pydpf-core_cheat_sheet.png>`_ or
+[download](https://cheatsheets.docs.pyansys.com/pydpf-core_cheat_sheet.pdf) the
+PyDPF-Core cheat sheet. This one-page reference provides syntax rules and commands
+for using PyDPF-Core.
+
+On the [PyDPF-Core Issues](https://github.com/ansys/pydpf-core/issues) page,
+you can create issues to report bugs and request new features. On the
+[PyDPF-Core Discussions](https://github.com/ansys/pydpf-core/discussions) page or the {Discussions](https://discuss.ansys.com/)
+page on the Ansys Developer portal, you can post questions, share ideas, and get community feedback. 
+
+To reach the project support team, email [pyansys.core@ansys.com](mailto:pyansys.core@ansys.com).
 
 ## Installation
 
