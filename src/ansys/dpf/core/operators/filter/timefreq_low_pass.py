@@ -51,7 +51,7 @@ class timefreq_low_pass(Operator):
 
     >>> # Get output data
     >>> result_time_freq_support = op.outputs.time_freq_support()
-    >>> result_property_field = op.outputs.property_field()
+    >>> result_scoping = op.outputs.scoping()
     """
 
     def __init__(
@@ -110,8 +110,8 @@ class timefreq_low_pass(Operator):
                     document="""""",
                 ),
                 1: PinSpecification(
-                    name="property_field",
-                    type_names=["property_field"],
+                    name="scoping",
+                    type_names=["scoping"],
                     optional=False,
                     document="""""",
                 ),
@@ -256,15 +256,15 @@ class OutputsTimefreqLowPass(_Outputs):
     >>> op = dpf.operators.filter.timefreq_low_pass()
     >>> # Connect inputs : op.inputs. ...
     >>> result_time_freq_support = op.outputs.time_freq_support()
-    >>> result_property_field = op.outputs.property_field()
+    >>> result_scoping = op.outputs.scoping()
     """
 
     def __init__(self, op: Operator):
         super().__init__(timefreq_low_pass._spec().outputs, op)
         self._time_freq_support = Output(timefreq_low_pass._spec().output_pin(0), 0, op)
         self._outputs.append(self._time_freq_support)
-        self._property_field = Output(timefreq_low_pass._spec().output_pin(1), 1, op)
-        self._outputs.append(self._property_field)
+        self._scoping = Output(timefreq_low_pass._spec().output_pin(1), 1, op)
+        self._outputs.append(self._scoping)
 
     @property
     def time_freq_support(self):
@@ -284,18 +284,18 @@ class OutputsTimefreqLowPass(_Outputs):
         return self._time_freq_support
 
     @property
-    def property_field(self):
-        """Allows to get property_field output of the operator
+    def scoping(self):
+        """Allows to get scoping output of the operator
 
         Returns
         ----------
-        my_property_field : PropertyField
+        my_scoping : Scoping
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.filter.timefreq_low_pass()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_property_field = op.outputs.property_field()
+        >>> result_scoping = op.outputs.scoping()
         """  # noqa: E501
-        return self._property_field
+        return self._scoping
