@@ -11,6 +11,7 @@ import ansys.dpf.core.server_types
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
 from ansys.dpf.core.common import type_to_internal_object_keyword
+from ansys.dpf.gate import any_abstract_api
 
 
 class Any:
@@ -26,7 +27,7 @@ class Any:
 
     Notes
     -----
-    Class available with server's version starting at 6.2 (Ansys 2024R1).
+    Class available with server's version starting at 7.0 (Ansys 2024 R1 pre0).
     """
 
     def __init__(self, any_dpf=None, server=None):
@@ -55,6 +56,7 @@ class Any:
             generic_data_container,
             string_field,
             scoping,
+            data_tree,
         )
 
         return [
@@ -97,6 +99,11 @@ class Any:
                 any_dpf._api.any_new_from_scoping,
                 any_dpf._api.any_get_as_scoping,
             ),
+            (
+                data_tree.DataTree,
+                any_dpf._api.any_new_from_data_tree,
+                any_dpf._api.any_get_as_data_tree,
+            ),
         ]
 
     @staticmethod
@@ -138,7 +145,7 @@ class Any:
         raise TypeError(f"{obj.__class__} is not currently supported by the Any class.")
 
     @property
-    def _api(self):
+    def _api(self) -> any_abstract_api.AnyAbstractAPI:
         from ansys.dpf.gate import any_capi, any_grpcapi
 
         if not self._api_instance:

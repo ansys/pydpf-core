@@ -120,7 +120,8 @@ class Operator:
             raise KeyError(
                 f"The operator {self.name} doesn't exist in the registry. "
                 f"Check its spelling in the documentation or verify its availability "
-                f"in your Context (Entry/Premium) and in your loaded plugins."
+                f"in your loaded plugins. The current available operator names can be "
+                f"accessed using 'available_operator_names' method."
             )
 
         self._spec = Specification(operator_name=self.name, server=self._server)
@@ -205,7 +206,7 @@ class Operator:
             Number of the input pin.
 
         inpt : str, int, double, bool, list[int], list[float], Field, FieldsContainer, Scoping,
-        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, Outputs
+        ScopingsContainer, MeshedRegion, MeshesContainer, DataSources, CyclicSupport, dict, Outputs
             Operator, os.PathLike Object to connect to.
 
         pin_out : int, optional
@@ -300,6 +301,7 @@ class Operator:
             collection,
             streams_container,
             generic_data_container,
+            mesh_info,
         )
 
         out = [
@@ -368,6 +370,10 @@ class Operator:
                 time_freq_support.TimeFreqSupport,
                 self._api.operator_getoutput_time_freq_support,
                 "time_freq_support",
+            ),
+            (
+                mesh_info.MeshInfo,
+                "mesh_info",
             ),
             (workflow.Workflow, self._api.operator_getoutput_workflow, "workflow"),
             (data_tree.DataTree, self._api.operator_getoutput_data_tree, "data_tree"),

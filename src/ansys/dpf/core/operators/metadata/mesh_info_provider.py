@@ -50,7 +50,7 @@ class mesh_info_provider(Operator):
     ... )
 
     >>> # Get output data
-    >>> result_generic_data_container = op.outputs.generic_data_container()
+    >>> result_mesh_info = op.outputs.mesh_info()
     """
 
     def __init__(
@@ -102,10 +102,11 @@ class mesh_info_provider(Operator):
             },
             map_output_pin_spec={
                 0: PinSpecification(
-                    name="generic_data_container",
+                    name="mesh_info",
                     type_names=["generic_data_container"],
                     optional=False,
                     document="""""",
+                    name_derived_class=["mesh_info"],
                 ),
             },
         )
@@ -246,29 +247,27 @@ class OutputsMeshInfoProvider(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.metadata.mesh_info_provider()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_generic_data_container = op.outputs.generic_data_container()
+    >>> result_mesh_info = op.outputs.mesh_info()
     """
 
     def __init__(self, op: Operator):
         super().__init__(mesh_info_provider._spec().outputs, op)
-        self._generic_data_container = Output(
-            mesh_info_provider._spec().output_pin(0), 0, op
-        )
-        self._outputs.append(self._generic_data_container)
+        self._mesh_info = Output(mesh_info_provider._spec().output_pin(0), 0, op)
+        self._outputs.append(self._mesh_info)
 
     @property
-    def generic_data_container(self):
-        """Allows to get generic_data_container output of the operator
+    def mesh_info(self):
+        """Allows to get mesh_info output of the operator
 
         Returns
         ----------
-        my_generic_data_container : GenericDataContainer
+        my_mesh_info : mesh_info
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.metadata.mesh_info_provider()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_generic_data_container = op.outputs.generic_data_container()
+        >>> result_mesh_info = op.outputs.mesh_info()
         """  # noqa: E501
-        return self._generic_data_container
+        return self._mesh_info
