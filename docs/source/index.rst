@@ -153,6 +153,28 @@ It is independent of the Ansys installer.
 
 - `C++ solver reader plugin <https://astonishing-hyacinth-e64.notion.site/How-to-write-a-new-solver-reader-as-a-DPF-s-plugin-bd2d2a3cf51f47ef9e70df45d64f89cb>`_
 
+Documentation and issues
+------------------------
+Documentation for the latest stable release of PyDPF-Core is hosted at `PyDPF-Core documentation
+<https://dpf.docs.pyansys.com/version/stable/>`_.
+
+In the upper right corner of the documentation's title bar, there is an option for switching from
+viewing the documentation for the latest stable release to viewing the documentation for the
+development version or previously released versions.
+
+You can also `view <https://cheatsheets.docs.pyansys.com/pydpf-core_cheat_sheet.png>`_ or
+`download <https://cheatsheets.docs.pyansys.com/pydpf-core_cheat_sheet.pdf>`_ the
+PyDPF-Core cheat sheet. This one-page reference provides syntax rules and commands
+for using PyDPF-Core. 
+
+On the `PyDPF-Core Issues <https://github.com/ansys/pydpf-core/issues>`_ page,
+you can create issues to report bugs and request new features. On the `PyDPF-Core Discussions
+<https://github.com/ansys/pydpf-core/discussions>`_ page or the `Discussions <https://discuss.ansys.com/>`_
+page on the Ansys Developer portal, you can post questions, share ideas, and get community feedback. 
+
+To reach the project support team, email `pyansys.core@ansys.com <pyansys.core@ansys.com>`_.
+
+
 - :ref:`user_guide_custom_operators`
 
 
