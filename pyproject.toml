@@ -91,29 +91,6 @@ packages = [
     "libDPFClientAPI.so",
     "libAns.Dpf.GrpcClient.so",
 ]
-"ansys.dpf.core.examples" = [
-    "ASimpleBar.rst",
-    "static.rst",
-    "complex.rst",
-    "model_with_ns.rst",
-    "file_cyclic.rst",
-    "msup_transient_plate1.rst",
-    "rth/rth_electric.rth",
-    "rth/rth_steady.rth",
-    "rth/rth_transient.rth",
-    "sub/cp56.sub",
-    "msup/file.mode",
-    "msup/file.rst",
-    "msup/file.rfrq",
-    "distributed/file0.rst",
-    "distributed/file1.rst",
-    "msup_distributed/file0.rst",
-    "msup_distributed/file1.rst",
-    "msup_distributed/file0.mode",
-    "msup_distributed/file1.mode",
-    "msup_distributed/file_load_1.rfrq",
-    "msup_distributed/file_load_2.rfrq",
-]
 
 [tool.black]
 line-length = 100
