@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class compute_stress_YZ(Operator):
-    """Computes the stress from an elastic strain field.compute_total_strain
-    limitations are applicable for stress computationGet the YZ shear
+    """Computes the stress from an elastic strain field. compute_total_strain
+    limitations are applicable for stress computation Get the YZ shear
     component (12 component).
 
     Parameters
@@ -94,8 +94,8 @@ class compute_stress_YZ(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the stress from an elastic strain field.compute_total_strain
-            limitations are applicable for stress computationGet the
+        description = """Computes the stress from an elastic strain field. compute_total_strain
+            limitations are applicable for stress computation Get the
             YZ shear component (12 component)."""
         spec = Specification(
             description=description,
