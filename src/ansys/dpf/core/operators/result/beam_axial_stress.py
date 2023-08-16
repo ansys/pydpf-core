@@ -21,11 +21,11 @@ class beam_axial_stress(Operator):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq
@@ -134,11 +134,11 @@ class beam_axial_stress(Operator):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq
@@ -284,11 +284,11 @@ class InputsBeamAxialStress(_Inputs):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq
