@@ -39,10 +39,11 @@ if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
 
 @pytest.fixture()
 def static_models(local_server, other_remote_server):
+    static_rst_local_path = examples.find_static_rst()
     try:
-        upload = dpf.upload_file_in_tmp_folder(examples.static_rst, server=other_remote_server)
+        upload = dpf.upload_file_in_tmp_folder(static_rst_local_path, server=other_remote_server)
     except ServerTypeError:
-        upload = examples.static_rst
+        upload = static_rst_local_path
     return (
         dpf.Model(upload, server=other_remote_server),
         dpf.Model(examples.find_static_rst(server=local_server), server=local_server),
@@ -51,10 +52,11 @@ def static_models(local_server, other_remote_server):
 
 @pytest.fixture()
 def transient_models(local_server, other_remote_server):
+    msup_transient_path = examples.find_msup_transient()
     try:
-        upload = dpf.upload_file_in_tmp_folder(examples.msup_transient, server=other_remote_server)
+        upload = dpf.upload_file_in_tmp_folder(msup_transient_path, server=other_remote_server)
     except ServerTypeError:
-        upload = examples.msup_transient
+        upload = msup_transient_path
     return (
         dpf.Model(upload, server=other_remote_server),
         dpf.Model(examples.find_msup_transient(server=local_server), server=local_server),
@@ -63,10 +65,11 @@ def transient_models(local_server, other_remote_server):
 
 @pytest.fixture()
 def cyc_models(local_server, other_remote_server):
+    simple_cyclic_path = examples.find_simple_cyclic()
     try:
-        upload = dpf.upload_file_in_tmp_folder(examples.simple_cyclic, server=other_remote_server)
+        upload = dpf.upload_file_in_tmp_folder(simple_cyclic_path, server=other_remote_server)
     except ServerTypeError:
-        upload = examples.simple_cyclic
+        upload = simple_cyclic_path
     return (
         dpf.Model(upload, server=other_remote_server),
         dpf.Model(examples.find_simple_cyclic(server=local_server), server=local_server),
