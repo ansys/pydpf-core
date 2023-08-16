@@ -15,7 +15,6 @@ concurrency:
   
 jobs: 
   docs:
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: "241"
