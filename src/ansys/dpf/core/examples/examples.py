@@ -13,6 +13,7 @@ from ansys.dpf.core import server as server_module
 from ansys.dpf.core.core import upload_file_in_tmp_folder
 from ansys.dpf.core import path_utilities
 from ansys.dpf.core import DataSources
+from ansys.dpf.core.examples.downloads import _download_file
 
 if os.environ.get("DPF_DOCKER", "").lower() == "true":
     # must pass a path that can be accessed by a docker image with
@@ -132,7 +133,7 @@ def find_simple_bar(should_upload: bool = True, server=None, return_local_path=F
     'C:/Users/user/AppData/local/temp/ASimpleBar.rst'
 
     """
-    return find_files(simple_bar, should_upload, server, return_local_path)
+    return _download_file("result_files", "ASimpleBar.rst", should_upload, server, return_local_path)
 
 
 def find_static_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -164,7 +165,7 @@ def find_static_rst(should_upload: bool = True, server=None, return_local_path=F
     'C:/Users/user/AppData/local/temp/static.rst'
 
     """
-    return find_files(static_rst, should_upload, server, return_local_path)
+    return _download_file("result_files", "static.rst", should_upload, server, return_local_path)
 
 
 def find_complex_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -196,7 +197,7 @@ def find_complex_rst(should_upload: bool = True, server=None, return_local_path=
     'C:/Users/user/AppData/local/temp/complex.rst'
 
     """
-    return find_files(complex_rst, should_upload, server, return_local_path)
+    return _download_file("result_files", "complex.rst", should_upload, server, return_local_path)
 
 
 def find_multishells_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -228,7 +229,7 @@ def find_multishells_rst(should_upload: bool = True, server=None, return_local_p
     'C:/Users/user/AppData/local/temp/model_with_ns.rst'
 
     """
-    return find_files(multishells_rst, should_upload, server, return_local_path)
+    return _download_file("result_files", "model_with_ns.rst", should_upload, server, return_local_path)
 
 
 def find_electric_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -260,7 +261,7 @@ def find_electric_therm(should_upload: bool = True, server=None, return_local_pa
     'C:/Users/user/AppData/local/temp/rth_electric.rth'
 
     """
-    return find_files(electric_therm, should_upload, server, return_local_path)
+    return _download_file("result_files/rth", "rth_electric.rst", should_upload, server, return_local_path)
 
 
 def find_steady_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -292,7 +293,7 @@ def find_steady_therm(should_upload: bool = True, server=None, return_local_path
     'C:/Users/user/AppData/local/temp/rth_steady.rst'
 
     """
-    return find_files(steady_therm, should_upload, server, return_local_path)
+    return _download_file("result_files/rth", "rth_steady.rst", should_upload, server, return_local_path)
 
 
 def find_transient_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -324,7 +325,7 @@ def find_transient_therm(should_upload: bool = True, server=None, return_local_p
     'C:/Users/user/AppData/local/temp/rth_transient.rst'
 
     """
-    return find_files(transient_therm, should_upload, server, return_local_path)
+    return _download_file("result_files/rth", "rth_transient.rst", should_upload, server, return_local_path)
 
 
 def find_msup_transient(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -356,7 +357,7 @@ def find_msup_transient(should_upload: bool = True, server=None, return_local_pa
     'C:/Users/user/AppData/local/temp/msup_transient_plate1.rst'
 
     """
-    return find_files(msup_transient, should_upload, server, return_local_path)
+    return _download_file("result_files", "msup_transient_plate1.rst", should_upload, server, return_local_path)
 
 
 def find_simple_cyclic(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -388,7 +389,7 @@ def find_simple_cyclic(should_upload: bool = True, server=None, return_local_pat
     'C:/Users/user/AppData/local/temp/file_cyclic.rst'
 
     """
-    return find_files(simple_cyclic, should_upload, server, return_local_path)
+    return _download_file("result_files", "file_cyclic.rst", should_upload, server, return_local_path)
 
 
 def find_distributed_msup_folder(
@@ -422,7 +423,14 @@ def find_distributed_msup_folder(
     'C:/Users/user/AppData/local/temp/msup_distributed'
 
     """
-    return find_files(distributed_msup_folder, should_upload, server, return_local_path)
+    # In this case we return the path to the folder with all the downloaded files
+    _download_file("result_files/msup_distributed", "file0.mode", should_upload, server, return_local_path)
+    _download_file("result_files/msup_distributed", "file0.rst", should_upload, server, return_local_path)
+    _download_file("result_files/msup_distributed", "file1.mode", should_upload, server, return_local_path)
+    _download_file("result_files/msup_distributed", "file1.rst", should_upload, server, return_local_path)
+    _download_file("result_files/msup_distributed", "file_load_1.rfrq", should_upload, server, return_local_path)
+    path = _download_file("result_files/msup_distributed", "file_load_2.rfrq", should_upload, server, return_local_path)
+    return os.path.dirname(path)
 
 
 def fluid_axial_model() -> DataSources:
