@@ -92,7 +92,7 @@ simplify_optional_unions = False
 
 # Intersphinx mapping
 intersphinx_mapping = {
-    "pyvista": ("https://docs.pyvista.org/", None),
+    "pyvista": ("https://docs.pyvista.org/version/stable/", None),
 }
 
 autosummary_generate = True
