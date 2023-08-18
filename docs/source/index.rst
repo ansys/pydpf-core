@@ -42,7 +42,7 @@ apps by DPF and their related format:
 |                    || .flprj                |                                  |                                  |
 +--------------------+------------------------+----------------------------------+----------------------------------+
 
-Visualisation is ensured by VTK and leverage of `PyVista tools
+Visualisation is ensured by VTK and leverages `PyVista tools
 <https://docs.pyvista.org>`_.
 
 Using the many DPF operators that are available, you can manipulate and
@@ -112,46 +112,51 @@ Accessing and enriching DPF capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most of the DPF capabilities can be accessed using the operators.
-For more information about the existing operators, see the **Operators** tab.
+For more informations, see :ref:`_ref_dpf_operators_reference`.
 
-The following sections are summaries. For more detailed content, see :ref:`user_guide_waysofusing`.
+The following sections are summaries. For more information, see :ref:`user_guide_waysofusing`.
 
 **Accessing DPF Server files**
 
-DPF capabilities are accessible when DPF Server files are available. These files can be accessed using:
+DPF capabilities are accessible when DPF Server files are available. These files can be accessed using
+the **Ansys installer** and **DPF Server**.
 
-- The **Ansys installer**. To use it, download the standard installation using your preferred distribution channel,
-and install Ansys following the installer instructions. For information on getting a licensed copy of Ansys,
-visit the `Ansys website <https://www.ansys.com/>`_.
+- To use the Ansys installer, download the standard Ansys installation using your preferred
+  distribution channel, and install Ansys following the installer instructions. For information
+  on getting a licensed copy of Ansys, visit the `Ansys website <https://www.ansys.com/>`_.
 
-- The DPF Server package (see :ref:`ref_getting_started_with_dpf_server`).
-It is independent of the Ansys installer.
+- The DPF Server package is independent of the Ansys installer. For more information, see
+  :ref:`ref_getting_started_with_dpf_server`.
 
 **Accessing capabilities with scripting**
 
 - C++ documentation:
 
-  1. The Data Processing Framework section in `Platform panel <https://ansysapi.ansys.com/account/secured?returnurl=/Views/Secured/main_page.html?lang=en>`_.
+  - On the `Developer Documentation <https://developer.ansys.com/docs>`_page of the Ansys Developer portal,
+    see **Data Processing Framework (DPF)**.
 
-  2. The Data Processing Framework section in `Developer Portal <https://developer.ansys.com/docs>`_
+- PyDPF documentation:
 
-- CPython modules documentation:
+  - `PyDPF-Core documentation <https://dpf.docs.pyansys.com/version/stable/>`_
 
-  1. `ansys-dpf-core <https://dpf.docs.pyansys.com/version/stable/>`_
-
-  2. `ansys-dpf-post <https://post.docs.pyansys.com/version/stable/>`_
+  - `PyDPF-Post documentation <https://post.docs.pyansys.com/version/stable/>`_
 
 - Mechanical scripting (IronPython):
 
-  1. `DPF through Automation Scripting <https://ansysproducthelpdev.win.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/act_script/mech_apis_data_process_frame.html>`_
-
-  2. `Python Result object <https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/wb_sim/ds_python_result.html>`_
+  - `Data Processing Framework <https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v232/en/act_script/mech_apis_data_process_frame.html>`_
+    in the *Scripting in Mechanical Guide*.
+  
+  - `Python Result <https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/wb_sim/ds_python_result.html>`_
+    in the *Mechanical User's Guide*.
 
 **Enriching DPF capabilities**
 
-- C++ operator's library (see "DPF/USER GUIDE" section of `C++ documentation <https://developer.ansys.com/docs>`_)
+- `User guide <https://developer.ansys.com/product/DPF-C-Client-Library-2023-R2/modules.xhtml>`_ in the *DPF C++ Client Library*
 
-- `C++ solver reader plugin <https://astonishing-hyacinth-e64.notion.site/How-to-write-a-new-solver-reader-as-a-DPF-s-plugin-bd2d2a3cf51f47ef9e70df45d64f89cb>`_
+- :ref:`user_guide_custom_operators` in the PyDPF-Core documentation 
+
+- `How to write a new solver reader as a PDF's plugin <https://astonishing-hyacinth-e64.notion.site/How-to-write-a-new-solver-reader-as-a-DPF-s-plugin-bd2d2a3cf51f47ef9e70df45d64f89cb>`_
+
 
 Documentation and issues
 ------------------------
@@ -173,9 +178,6 @@ you can create issues to report bugs and request new features. On the `PyDPF-Cor
 page on the Ansys Developer portal, you can post questions, share ideas, and get community feedback. 
 
 To reach the project support team, email `pyansys.core@ansys.com <pyansys.core@ansys.com>`_.
-
-
-- :ref:`user_guide_custom_operators`
 
 
 .. toctree::
