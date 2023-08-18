@@ -20,14 +20,14 @@ apps for both data input and data output, including visualization and
 result plots. It can access data from solver result files and other neutral
 formats, such as CSV, HDF5, and VTK files.
 
-The latest version of DPF supports Ansys solver result files for:
+The latest version of DPF supports Ansys solver results files for:
 
-- MAPDL (`.rst`, `.mode`, `.rfrq`, `.rdsp`)
+- Mechanical APDL (`.rst`, `.mode`, `.rfrq`, `.rdsp`)
 - LS-DYNA (`.d3plot`, `.binout`)
 - Fluent (`.cas/dat.h5`, `.flprj`)
 - CFX (`.cad/dat.cff`, `.flprj`)
 
-For more information on compatibilities, see the [main page](https://dpf.docs.pyansys.com/version/stable/index.html)
+For more information on file support, see the [main page](https://dpf.docs.pyansys.com/version/stable/index.html)
 in the PDF-Core documentation.
 
 Using the many DPF operators that are available, you can manipulate and
@@ -172,9 +172,10 @@ module. It closes when you exit Python or connect to a different server.
 
 ## License and acknowledgments
 
-PyDPF-Core is licensed under the MIT license.
+PyDPF-Core is licensed under the MIT license. For more information, see the
+[LICENSE](https://github.com/ansys/pydpf-post/raw/master/LICENSE) file.
 
 PyDPF-Core makes no commercial claim over Ansys whatsoever. This library
 extends the functionality of Ansys DPF by adding a Python interface
-to Ansys DPF without changing the core behavior or license of the original
+to DPF without changing the core behavior or license of the original
 software.

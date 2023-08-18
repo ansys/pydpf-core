@@ -4,7 +4,7 @@
 PyDPF-Core
 ==========
 
-The Data Processing Framework (DPF) provides numerical simulation 
+Ansys Data Processing Framework (DPF) provides numerical simulation 
 users and engineers with a toolbox for accessing and transforming simulation 
 data. With DPF, you can perform complex preprocessing or postprocessing of
 large amounts of simulation data within a simulation workflow.
@@ -12,7 +12,7 @@ large amounts of simulation data within a simulation workflow.
 DPF is an independent, physics-agnostic tool that you can plug into many 
 apps for both data input and data output, including visualization and 
 result plots. The following table shows an exhaustive list of supported
-apps by DPF and their related format:
+apps by DPF and their related formats:
 
 .. table:: Truth table for "not"
    :widths: auto
