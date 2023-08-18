@@ -54,10 +54,6 @@ In the upper right corner of the documentation's title bar, there is an option f
 viewing the documentation for the latest stable release to viewing the documentation for the
 development version or previously released versions.
 
-In the upper right corner of the documentation's title bar, there is an option for switching from
-viewing the documentation for the latest stable release to viewing the documentation for the
-development version or previously released versions.
-
 You can also [view](https://cheatsheets.docs.pyansys.com/pydpf-core_cheat_sheet.png) or
 [download](https://cheatsheets.docs.pyansys.com/pydpf-core_cheat_sheet.pdf) the
 PyDPF-Core cheat sheet. This one-page reference provides syntax rules and commands
