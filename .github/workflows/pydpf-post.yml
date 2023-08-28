@@ -151,7 +151,7 @@ jobs:
           MODULE: post
           PACKAGE_NAME: ansys-dpf-post
           working-directory: pydpf-post/src
-        if: inputs.test_docstrings = 'true'
+        if: inputs.test_docstrings == 'true'
 
       - name: "Test API"
         shell: bash
