@@ -20,15 +20,15 @@ apps for both data input and data output, including visualization and
 result plots. It can access data from solver result files and other neutral
 formats, such as CSV, HDF5, and VTK files.
 
-The latest version of DPF supports Ansys solver result files for:
+The latest version of DPF supports Ansys solver results files for:
 
-- MAPDL (`.rst`, `.mode`, `.rfrq`, `.rdsp`)
+- Mechanical APDL (`.rst`, `.mode`, `.rfrq`, `.rdsp`)
 - LS-DYNA (`.d3plot`, `.binout`)
 - Fluent (`.cas/dat.h5`, `.flprj`)
 - CFX (`.cad/dat.cff`, `.flprj`)
 
-For more information on compatibility, see the `main page <https://dpf.docs.pyansys.com/version/stable/index.html>`_
-of the PDF-Core documentation.
+For more information on file support, see the [main page](https://dpf.docs.pyansys.com/version/stable/index.html)
+in the PDF-Core documentation.
 
 Using the many DPF operators that are available, you can manipulate and
 transform this data. You can also chain operators together to create simple
@@ -37,11 +37,9 @@ future evaluations.
 
 The data in DPF is defined based on physics-agnostic mathematical quantities 
 described in self-sufficient entities called **fields**. This allows DPF to be 
-a modular and easy-to-use tool with a large range of capabilities. 
+a modular and easy-to-use tool with a large range of capabilities.
 
-.. image:: https://github.com/ansys/pydpf-core/raw/main/docs/source/images/drawings/dpf-flow.png
-  :width: 670
-  :alt: DPF flow
+![DPF flow](https://github.com/ansys/pydpf-core/raw/main/docs/source/images/drawings/dpf-flow.png "DPF flow")
 
 The ``ansys.dpf.core`` package provides a Python interface to DPF, enabling
 rapid postprocessing of a variety of Ansys file formats and physics solutions
@@ -50,11 +48,7 @@ without ever leaving the Python environment.
 ## Documentation and issues
 
 Documentation for the latest stable release of PyPDF-Core is hosted at
-[DPF-Core documentation](https://dpf.docs.pyansys.com/version/stable/).
-
-In the upper right corner of the documentation's title bar, there is an option for switching from
-viewing the documentation for the latest stable release to viewing the documentation for the
-development version or previously released versions.
+[PyDPF-Core documentation](https://dpf.docs.pyansys.com/version/stable/).
 
 In the upper right corner of the documentation's title bar, there is an option for switching from
 viewing the documentation for the latest stable release to viewing the documentation for the
@@ -67,7 +61,7 @@ for using PyDPF-Core.
 
 On the [PyDPF-Core Issues](https://github.com/ansys/pydpf-core/issues) page,
 you can create issues to report bugs and request new features. On the
-[PyDPF-Core Discussions](https://github.com/ansys/pydpf-core/discussions) page or the {Discussions](https://discuss.ansys.com/)
+[PyDPF-Core Discussions](https://github.com/ansys/pydpf-core/discussions) page or the [Discussions](https://discuss.ansys.com/)
 page on the Ansys Developer portal, you can post questions, share ideas, and get community feedback. 
 
 To reach the project support team, email [pyansys.core@ansys.com](mailto:pyansys.core@ansys.com).
@@ -76,7 +70,8 @@ To reach the project support team, email [pyansys.core@ansys.com](mailto:pyansys
 
 PyDPF-Core requires DPF to be available. You can either have a compatible Ansys version installed
 or install the standalone ``ansys-dpf-server`` server package. For more information, see
-[Getting Started with DPF Server](https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html) in the PyDPF-Core documentation.
+[Getting Started with DPF Server](https://dpf.docs.pyansys.com/version/stable/user_guide/getting_started_with_dpf_server.html)
+in the PyDPF-Core documentation.
 
 For the compatibility between PyDPF-Core and Ansys, see
 [Compatibility](https://dpf.docs.pyansys.com/version/stable/getting_started/compatibility.html) in
@@ -174,3 +169,13 @@ remote or local DPF instance, use the ``connect_to_server`` method:
 
 Once connected, this connection remains for the duration of the
 module. It closes when you exit Python or connect to a different server.
+
+## License and acknowledgments
+
+PyDPF-Core is licensed under the MIT license. For more information, see the
+[LICENSE](https://github.com/ansys/pydpf-post/raw/master/LICENSE) file.
+
+PyDPF-Core makes no commercial claim over Ansys whatsoever. This library
+extends the functionality of Ansys DPF by adding a Python interface
+to DPF without changing the core behavior or license of the original
+software.
