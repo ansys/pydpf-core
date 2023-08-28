@@ -59,6 +59,7 @@ Tracker = "https://github.com/ansys/pydpf-core/issues"
 package-dir = {"" = "src"}
 packages = [
     "ansys.dpf.core",
+    "ansys.dpf.core.examples",
     "ansys.dpf.core.helpers",
     "ansys.dpf.core.operators",
     "ansys.dpf.core.operators.averaging",
