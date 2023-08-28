@@ -122,6 +122,7 @@ jobs:
     with:
       ANSYS_VERSION: "241"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      test_docstrings: "true"
     secrets: inherit
 
   pydpf-post_232:
