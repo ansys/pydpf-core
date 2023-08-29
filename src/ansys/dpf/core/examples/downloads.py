@@ -7,7 +7,7 @@ import urllib.request
 import warnings
 from ansys.dpf.core.examples.examples import find_files
 
-EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/master/"
+EXAMPLE_REPO = "https://github.com/ansys/example-data/raw/pydpf/update_examples"
 
 
 def delete_downloads(verbose=True):
