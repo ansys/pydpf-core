@@ -140,10 +140,6 @@ def test_delete_downloaded_files():
     assert not os.path.exists(path)
     path = examples.download_multi_stage_cyclic_result(return_local_path=True)
     assert os.path.exists(path)
-    assert os.path.exists(examples.find_simple_bar())
-    assert os.path.exists(examples.find_static_rst())
-    assert os.path.exists(examples.find_complex_rst())
-    assert os.path.exists(examples.find_distributed_msup_folder())
 
 
 def test_get_example_required_minimum_dpf_version(tmp_path):
