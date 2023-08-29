@@ -1632,7 +1632,9 @@ def find_simple_bar(should_upload: bool = True, server=None, return_local_path=F
     'C:/Users/user/AppData/local/temp/ASimpleBar.rst'
 
     """
-    return _download_file("result_files", "ASimpleBar.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files", "ASimpleBar.rst", should_upload, server, return_local_path
+    )
 
 
 def find_static_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -1728,7 +1730,9 @@ def find_multishells_rst(should_upload: bool = True, server=None, return_local_p
     'C:/Users/user/AppData/local/temp/model_with_ns.rst'
 
     """
-    return _download_file("result_files", "model_with_ns.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files", "model_with_ns.rst", should_upload, server, return_local_path
+    )
 
 
 def find_electric_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -1760,7 +1764,9 @@ def find_electric_therm(should_upload: bool = True, server=None, return_local_pa
     'C:/Users/user/AppData/local/temp/rth_electric.rth'
 
     """
-    return _download_file("result_files/rth", "rth_electric.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/rth", "rth_electric.rst", should_upload, server, return_local_path
+    )
 
 
 def find_steady_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -1792,7 +1798,9 @@ def find_steady_therm(should_upload: bool = True, server=None, return_local_path
     'C:/Users/user/AppData/local/temp/rth_steady.rst'
 
     """
-    return _download_file("result_files/rth", "rth_steady.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/rth", "rth_steady.rst", should_upload, server, return_local_path
+    )
 
 
 def find_transient_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -1824,7 +1832,9 @@ def find_transient_therm(should_upload: bool = True, server=None, return_local_p
     'C:/Users/user/AppData/local/temp/rth_transient.rst'
 
     """
-    return _download_file("result_files/rth", "rth_transient.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files/rth", "rth_transient.rst", should_upload, server, return_local_path
+    )
 
 
 def find_msup_transient(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -1856,7 +1866,9 @@ def find_msup_transient(should_upload: bool = True, server=None, return_local_pa
     'C:/Users/user/AppData/local/temp/msup_transient_plate1.rst'
 
     """
-    return _download_file("result_files", "msup_transient_plate1.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files", "msup_transient_plate1.rst", should_upload, server, return_local_path
+    )
 
 
 def find_simple_cyclic(should_upload: bool = True, server=None, return_local_path=False) -> str:
@@ -1888,7 +1900,9 @@ def find_simple_cyclic(should_upload: bool = True, server=None, return_local_pat
     'C:/Users/user/AppData/local/temp/file_cyclic.rst'
 
     """
-    return _download_file("result_files", "file_cyclic.rst", should_upload, server, return_local_path)
+    return _download_file(
+        "result_files", "file_cyclic.rst", should_upload, server, return_local_path
+    )
 
 
 def find_distributed_msup_folder(
@@ -1923,10 +1937,30 @@ def find_distributed_msup_folder(
 
     """
     # In this case we return the path to the folder with all the downloaded files
-    _download_file("result_files/msup_distributed", "file0.mode", should_upload, server, return_local_path)
-    _download_file("result_files/msup_distributed", "file0.rst", should_upload, server, return_local_path)
-    _download_file("result_files/msup_distributed", "file1.mode", should_upload, server, return_local_path)
-    _download_file("result_files/msup_distributed", "file1.rst", should_upload, server, return_local_path)
-    _download_file("result_files/msup_distributed", "file_load_1.rfrq", should_upload, server, return_local_path)
-    path = _download_file("result_files/msup_distributed", "file_load_2.rfrq", should_upload, server, return_local_path)
+    _download_file(
+        "result_files/msup_distributed", "file0.mode", should_upload, server, return_local_path
+    )
+    _download_file(
+        "result_files/msup_distributed", "file0.rst", should_upload, server, return_local_path
+    )
+    _download_file(
+        "result_files/msup_distributed", "file1.mode", should_upload, server, return_local_path
+    )
+    _download_file(
+        "result_files/msup_distributed", "file1.rst", should_upload, server, return_local_path
+    )
+    _download_file(
+        "result_files/msup_distributed",
+        "file_load_1.rfrq",
+        should_upload,
+        server,
+        return_local_path,
+    )
+    path = _download_file(
+        "result_files/msup_distributed",
+        "file_load_2.rfrq",
+        should_upload,
+        server,
+        return_local_path,
+    )
     return os.path.dirname(path)
