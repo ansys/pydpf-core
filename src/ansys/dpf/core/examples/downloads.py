@@ -1765,7 +1765,7 @@ def find_electric_therm(should_upload: bool = True, server=None, return_local_pa
 
     """
     return _download_file(
-        "result_files/rth", "rth_electric.rst", should_upload, server, return_local_path
+        "result_files/rth", "rth_electric.rth", should_upload, server, return_local_path
     )
 
 
@@ -1795,11 +1795,11 @@ def find_steady_therm(should_upload: bool = True, server=None, return_local_path
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_steady_therm()
     >>> path
-    'C:/Users/user/AppData/local/temp/rth_steady.rst'
+    'C:/Users/user/AppData/local/temp/rth_steady.rth'
 
     """
     return _download_file(
-        "result_files/rth", "rth_steady.rst", should_upload, server, return_local_path
+        "result_files/rth", "rth_steady.rth", should_upload, server, return_local_path
     )
 
 
@@ -1829,11 +1829,11 @@ def find_transient_therm(should_upload: bool = True, server=None, return_local_p
     >>> from ansys.dpf.core import examples
     >>> path = examples.find_transient_therm()
     >>> path
-    'C:/Users/user/AppData/local/temp/rth_transient.rst'
+    'C:/Users/user/AppData/local/temp/rth_transient.rth'
 
     """
     return _download_file(
-        "result_files/rth", "rth_transient.rst", should_upload, server, return_local_path
+        "result_files/rth", "rth_transient.rth", should_upload, server, return_local_path
     )
 
 
