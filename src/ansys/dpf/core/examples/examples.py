@@ -17,9 +17,11 @@ from ansys.dpf.core import DataSources
 if os.environ.get("DPF_DOCKER", "").lower() == "true":
     # must pass a path that can be accessed by a docker image with
     # this directory mounted at the repository level for CI
-    _module_path = r"/dpf/ansys/dpf/core/examples/"
+    _module_path = r"/dpf/ansys/dpf/core/examples/result_files/"
 else:
-    _module_path = os.path.dirname(inspect.getfile(inspect.currentframe()))
+    _module_path = os.path.join(
+        os.path.dirname(inspect.getfile(inspect.currentframe())), "result_files"
+    )
 
 # this files can be imported with from `ansys.dpf.core import examples`:
 simple_bar = os.path.join(_module_path, "ASimpleBar.rst")
