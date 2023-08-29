@@ -376,6 +376,10 @@ class WorkflowAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def work_flow_getoutput_custom_type_fields_container(wf, pin_name):
+		raise NotImplementedError
+
+	@staticmethod
 	def work_flow_getoutput_data_tree(op, pin_name):
 		raise NotImplementedError
 

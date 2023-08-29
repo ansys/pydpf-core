@@ -96,6 +96,10 @@ class ExternalOperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def external_operator_get_in_custom_type_fields_container(operator_data, pin_index):
+		raise NotImplementedError
+
+	@staticmethod
 	def external_operator_get_in_streams(operator_data, pin_index):
 		raise NotImplementedError
 

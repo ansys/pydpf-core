@@ -115,14 +115,10 @@ def _get_api_path_from_installer_or_package(ansys_path: str, is_posix: bool):
 
 
 def _try_use_gatebin():
-    import shutil
     try:
         from ansys.dpf import gatebin
-        for archive_format in shutil.get_unpack_formats():
-            extensions = archive_format[1]
-            if any([x in gatebin.__path__[0] for x in extensions]):
-                return False
         gatebin.__doc__
+
         return True
     except ModuleNotFoundError:
         return False

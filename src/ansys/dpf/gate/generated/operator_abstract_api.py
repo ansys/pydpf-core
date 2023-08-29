@@ -208,6 +208,10 @@ class OperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_getoutput_custom_type_fields_container(op, iOutput):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_getoutput_cyclic_support(op, iOutput):
 		raise NotImplementedError
 

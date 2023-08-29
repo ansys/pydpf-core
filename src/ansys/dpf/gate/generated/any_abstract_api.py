@@ -20,6 +20,10 @@ class AnyAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def any_unwrap_to_real_type(dpf_object):
+		raise NotImplementedError
+
+	@staticmethod
 	def any_get_as_fields_container(any):
 		raise NotImplementedError
 
@@ -109,6 +113,10 @@ class AnyAbstractAPI:
 
 	@staticmethod
 	def any_get_as_generic_data_container(any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_get_as_custom_type_fields_container(any):
 		raise NotImplementedError
 
 	@staticmethod
@@ -205,6 +213,10 @@ class AnyAbstractAPI:
 
 	@staticmethod
 	def any_new_from_generic_data_container(any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_new_from_custom_type_fields_container(any):
 		raise NotImplementedError
 
 	@staticmethod

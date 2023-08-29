@@ -15,6 +15,9 @@ class hdf5dpf_generate_result_file(Operator):
 
     Parameters
     ----------
+    export_floats : bool, optional
+        Converts double to float to reduce file size
+        (default is true)
     filename : str
         Name of the output file that will be
         generated (utf8).
@@ -60,6 +63,8 @@ class hdf5dpf_generate_result_file(Operator):
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
 
     >>> # Make input connections
+    >>> my_export_floats = bool()
+    >>> op.inputs.export_floats.connect(my_export_floats)
     >>> my_filename = str()
     >>> op.inputs.filename.connect(my_filename)
     >>> my_mesh_provider_out = dpf.MeshedRegion()
@@ -75,6 +80,7 @@ class hdf5dpf_generate_result_file(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file(
+    ...     export_floats=my_export_floats,
     ...     filename=my_filename,
     ...     mesh_provider_out=my_mesh_provider_out,
     ...     time_freq_support_out=my_time_freq_support_out,
@@ -89,6 +95,7 @@ class hdf5dpf_generate_result_file(Operator):
 
     def __init__(
         self,
+        export_floats=None,
         filename=None,
         mesh_provider_out=None,
         time_freq_support_out=None,
@@ -103,6 +110,8 @@ class hdf5dpf_generate_result_file(Operator):
         )
         self._inputs = InputsHdf5DpfGenerateResultFile(self)
         self._outputs = OutputsHdf5DpfGenerateResultFile(self)
+        if export_floats is not None:
+            self.inputs.export_floats.connect(export_floats)
         if filename is not None:
             self.inputs.filename.connect(filename)
         if mesh_provider_out is not None:
@@ -122,6 +131,13 @@ class hdf5dpf_generate_result_file(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -1: PinSpecification(
+                    name="export_floats",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Converts double to float to reduce file size
+        (default is true)""",
+                ),
                 0: PinSpecification(
                     name="filename",
                     type_names=["string"],
@@ -241,6 +257,8 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+    >>> my_export_floats = bool()
+    >>> op.inputs.export_floats.connect(my_export_floats)
     >>> my_filename = str()
     >>> op.inputs.filename.connect(my_filename)
     >>> my_mesh_provider_out = dpf.MeshedRegion()
@@ -257,6 +275,10 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(hdf5dpf_generate_result_file._spec().inputs, op)
+        self._export_floats = Input(
+            hdf5dpf_generate_result_file._spec().input_pin(-1), -1, op, -1
+        )
+        self._inputs.append(self._export_floats)
         self._filename = Input(
             hdf5dpf_generate_result_file._spec().input_pin(0), 0, op, -1
         )
@@ -281,6 +303,27 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
             hdf5dpf_generate_result_file._spec().input_pin(5), 5, op, 1
         )
         self._inputs.append(self._input_name2)
+
+    @property
+    def export_floats(self):
+        """Allows to connect export_floats input to the operator.
+
+        Converts double to float to reduce file size
+        (default is true)
+
+        Parameters
+        ----------
+        my_export_floats : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+        >>> op.inputs.export_floats.connect(my_export_floats)
+        >>> # or
+        >>> op.inputs.export_floats(my_export_floats)
+        """
+        return self._export_floats
 
     @property
     def filename(self):
