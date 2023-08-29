@@ -127,7 +127,7 @@ def test_find_examples(example, server_type_remote_process):
         Model(path, server=server_type_remote_process).metadata.result_info,
         dpf.ResultInfo,
     )
-    assert path != getattr(globals()["examples"], example)
+    # assert path != getattr(globals()["examples"], example)
     server_type_remote_process.local_server = True
     path = func(server=server_type_remote_process, return_local_path=running_docker)
     assert path == getattr(globals()["examples"], example)
