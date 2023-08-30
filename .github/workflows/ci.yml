@@ -188,4 +188,5 @@ jobs:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
       custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v241/dist' }}
+      test_docstrings: "true"
     secrets: inherit
