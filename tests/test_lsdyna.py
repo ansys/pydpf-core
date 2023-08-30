@@ -2,7 +2,6 @@ import numpy as np
 import pytest
 import conftest
 from ansys.dpf import core as dpf
-from ansys.dpf.core.check_version import server_meet_version
 
 
 @pytest.mark.skipif(
