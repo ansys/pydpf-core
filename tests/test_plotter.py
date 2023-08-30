@@ -758,3 +758,17 @@ def test_plot_polyhedron():
 
     # Plot the MeshedRegion
     mesh.plot()
+
+
+@pytest.mark.skipif(not HAS_PYVISTA, reason="This test requires pyvista")
+def test_plotter_add_volume(allkindofcomplexity):
+    model = Model(allkindofcomplexity)
+    mesh = model.metadata.meshed_region
+    stress = model.results.stress.on_location(location=dpf.core.locations.nodal)()
+    norm_op = dpf.core.operators.math.norm_fc(fields_container=stress.outputs.fields_container)
+    fc = norm_op.outputs.fields_container()
+    f = fc[0]
+    print(f)
+    plotter = DpfPlotter()
+    plotter.add_volume(field=f, meshed_region=mesh)
+    plotter.show_figure()

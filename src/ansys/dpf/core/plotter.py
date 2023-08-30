@@ -19,7 +19,7 @@ from ansys import dpf
 from ansys.dpf import core
 from ansys.dpf.core.common import locations, DefinitionLabels
 from ansys.dpf.core.common import shell_layers as eshell_layers
-from ansys.dpf.core.helpers.streamlines import _sort_supported_kwargs
+from ansys.dpf.core.helpers.utils import _sort_supported_kwargs
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core.nodes import Node, Nodes
 
@@ -365,16 +365,16 @@ class _PyVistaPlotter:
         location = field.location
         if location == locations.nodal:
             mesh_location = meshed_region.nodes
-        elif location == locations.elemental:
-            mesh_location = meshed_region.elements
         else:
-            raise ValueError("Only elemental or nodal location are supported for plotting.")
+            raise ValueError("Only nodal location is supported for volume rendering.")
 
         component_count = field.component_count
         if component_count > 1:
-            overall_data = np.full((len(mesh_location), component_count), np.nan)
-        else:
-            overall_data = np.full(len(mesh_location), np.nan)
+            raise ValueError(
+                "Only scalar fields with one component are supported for volume rendering."
+            )
+
+        overall_data = np.full(len(mesh_location), np.nan)
         ind, mask = mesh_location.map_scoping(field.scoping)
         overall_data[ind] = field.data[mask]
 
