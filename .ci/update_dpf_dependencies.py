@@ -24,7 +24,11 @@ gate_path = os.getenv(gate_path_key, None)
 
 if grpc_path is not None:
     # Update ansys-grpc-dpf with latest in proto/dist
+    print("Updating ansys.grpc.dpf")
     dist_path = os.path.join(grpc_path, "proto", "dist", "*")
+    print(f"from {dist_path}")
+    destination = os.path.join(os.getcwd(), "..", "src")
+    print(f"into {destination}")
     latest_wheel = max(glob.glob(dist_path), key=os.path.getctime)
     with zipfile.ZipFile(latest_wheel, 'r') as wheel:
         for file in wheel.namelist():
@@ -32,7 +36,7 @@ if grpc_path is not None:
             if file.startswith('ansys/'):
                 wheel.extract(
                     file,
-                    path=os.path.join(os.getcwd(), "..", "src"),
+                    path=destination,
                 )
     print("Done updating ansys-grpc-dpf")
 else:
@@ -41,18 +45,28 @@ else:
 
 if gate_path is not None:
     # Update ansys-dpf-gate
+    print("Updating ansys.dpf.gate")
+    dist_path = os.path.join(gate_path, "ansys-dpf-gate", "ansys")
+    print(f"from {dist_path}")
+    destination = os.path.join(os.getcwd(), "..", "src", "ansys")
+    print(f"into {destination}")
     shutil.copytree(
-        src=os.path.join(gate_path, "ansys-dpf-gate", "ansys"),
-        dst=os.path.join(os.getcwd(), "..", "src", "ansys"),
+        src=dist_path,
+        dst=destination,
         dirs_exist_ok=True,
         ignore=lambda directory, contents: ["__pycache__"] if directory[-5:] == "gate" else [],
     )
     print("Done updating ansys-dpf-gate")
 
     # Update ansys-dpf-gatebin
+    print("Updating ansys.dpf.gatebin")
+    dist_path = os.path.join(gate_path, "ansys-dpf-gatebin", "ansys")
+    print(f"from {dist_path}")
+    destination = os.path.join(os.getcwd(), "..", "src", "ansys")
+    print(f"into {destination}")
     shutil.copytree(
-        src=os.path.join(gate_path, "ansys-dpf-gatebin", "ansys"),
-        dst=os.path.join(os.getcwd(), "..", "src", "ansys"),
+        src=dist_path,
+        dst=destination,
         dirs_exist_ok=True,
     )
     print(f"Done updating ansys-dpf-gatebin for {platform.system()}")
