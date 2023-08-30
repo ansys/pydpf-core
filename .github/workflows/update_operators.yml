@@ -39,7 +39,7 @@ jobs:
         uses: ansys/pydpf-actions/install-dpf-server@v2.3
         with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+          standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test_pygate' }}
           ANSYS_VERSION : ${{ github.event.inputs.ANSYS_VERSION || '241' }}
 
       - name: "Update ansys-grpc-dpf"
@@ -123,9 +123,9 @@ jobs:
             src/ansys/dpf/core/operators/*
             docs/source/_static/dpf_operators.html
           commit-message: update operators
-          title: Update Operators for DPF ${{ github.event.inputs.ANSYS_VERSION || '241' }}${{ github.event.inputs.standalone_branch_suffix || '' }} on ${{ github.ref_name }}
+          title: Update Operators for DPF ${{ github.event.inputs.ANSYS_VERSION || '241' }}${{ github.event.inputs.standalone_branch_suffix || '_test_pygate' }} on ${{ github.ref_name }}
           body: An update of operators has been triggered either manually or by an update in the dpf-standalone repository.
-          branch: maint/update_operators_for_${{ github.event.inputs.ANSYS_VERSION || '241' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
+          branch: maint/update_operators_for_${{ github.event.inputs.ANSYS_VERSION || '241' }}${{ github.event.inputs.standalone_branch_suffix || '_test_pygate' }}_on_${{ github.ref_name }}
           labels: maintenance
 
       - name: "Kill all servers"
