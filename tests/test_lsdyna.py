@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 import conftest
 from ansys.dpf import core as dpf
+from ansys.dpf.core.check_version import server_meet_version
 
 
 @pytest.mark.skipif(
@@ -72,7 +73,7 @@ def test_lsdyna_generic(d3plot_files):
     global_velocity_model = model.results.global_velocity().eval()
 
     assert np.allclose(global_velocity_fc[0].data[0], global_velocity_model[0].data[0])
-    if dpf.check_version == "7.1":
+    if server_meet_version("7.1", global_velocity_op._server):
         assert global_velocity_fc[0].unit == "mm/s"
         assert global_velocity_model[0].unit == "mm/s"
     else:
