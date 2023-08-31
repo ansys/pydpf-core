@@ -16,6 +16,11 @@ on:
         required: false
         type: string
         default: ''
+      test_docstrings:
+        description: "whether to run doctest"
+        required: false
+        type: string
+        default: "false"
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -33,6 +38,11 @@ on:
         required: false
         type: string
         default: ''
+      test_docstrings:
+        description: "whether to run doctest"
+        required: false
+        type: string
+        default: "false"
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -112,6 +122,7 @@ jobs:
           MODULE: post
           PACKAGE_NAME: ansys-dpf-post
           working-directory: pydpf-post/src
+        if: inputs.test_docstrings == 'true'
 
       - name: "Test API"
         shell: bash

@@ -97,6 +97,7 @@ jobs:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
+          decompress-artifact: true
 
   examples:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
@@ -146,4 +147,5 @@ jobs:
       ANSYS_VERSION: "241"
       post_branch: "master"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test_pygate' }}
+      test_docstrings: "true"
     secrets: inherit

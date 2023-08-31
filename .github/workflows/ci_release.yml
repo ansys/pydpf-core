@@ -113,6 +113,7 @@ jobs:
     with:
       ANSYS_VERSION: "241"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      test_docstrings: "true"
     secrets: inherit
 
   pydpf-post_232:
@@ -168,11 +169,6 @@ jobs:
     needs: [style, tests, docs, examples, retro_232, retro_231, retro_222, gate, docker_tests]
     runs-on: ubuntu-latest
     steps:
-      - name: "Set up Python"
-        uses: actions/setup-python@v4.6.0
-        with:
-          python-version: 3.9
-
       - name: "Download artifacts"
         uses: actions/download-artifact@v3
 
@@ -188,12 +184,3 @@ jobs:
             ./**/*.zip
           draft: true
           generate_release_notes: true
-
-#      - name: "Upload to Test PyPi"  # Change TOKEN
-#        run: |
-#          pip install twine
-#          twine upload --repository testpypi --skip-existing ./**/*.whl
-#          twine upload --repository testpypi --skip-existing ./**/*.tar.gz
-#        env:
-#          TWINE_USERNAME: __token__
-#          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
