@@ -24,12 +24,29 @@ class migrate_to_h5dpf(Operator):
         will be stored. if empty, all
         available results will be converted.
     all_time_sets : bool, optional
-        Default is true
+        Default is false
     streams_container : StreamsContainer, optional
         Streams (result file container) (optional)
     data_sources : DataSources, optional
         If the stream is null then we need to get the
         file path from the data sources
+    export_floats : bool, optional
+        Converts double to float to reduce file size
+        (default is true)
+    compression_worfklow : Workflow, optional
+        Beta option: applies input compression
+        workflow
+    filtering_workflow : Workflow, optional
+        Applies input filtering workflow
+    requested_location : str, optional
+        If no location is specified, elemental
+        results will be stored as they are.
+        if a location is set, all elemental
+        results will be converted accordingly
+    separate_dofs : bool, optional
+        If this option is set to true, all available
+        dofs will be exported (e.g.
+        displacements + rotations)
 
 
     Examples
@@ -50,6 +67,16 @@ class migrate_to_h5dpf(Operator):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_export_floats = bool()
+    >>> op.inputs.export_floats.connect(my_export_floats)
+    >>> my_compression_worfklow = dpf.Workflow()
+    >>> op.inputs.compression_worfklow.connect(my_compression_worfklow)
+    >>> my_filtering_workflow = dpf.Workflow()
+    >>> op.inputs.filtering_workflow.connect(my_filtering_workflow)
+    >>> my_requested_location = str()
+    >>> op.inputs.requested_location.connect(my_requested_location)
+    >>> my_separate_dofs = bool()
+    >>> op.inputs.separate_dofs.connect(my_separate_dofs)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.migrate_to_h5dpf(
@@ -58,6 +85,11 @@ class migrate_to_h5dpf(Operator):
     ...     all_time_sets=my_all_time_sets,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
+    ...     export_floats=my_export_floats,
+    ...     compression_worfklow=my_compression_worfklow,
+    ...     filtering_workflow=my_filtering_workflow,
+    ...     requested_location=my_requested_location,
+    ...     separate_dofs=my_separate_dofs,
     ... )
 
     >>> # Get output data
@@ -71,6 +103,11 @@ class migrate_to_h5dpf(Operator):
         all_time_sets=None,
         streams_container=None,
         data_sources=None,
+        export_floats=None,
+        compression_worfklow=None,
+        filtering_workflow=None,
+        requested_location=None,
+        separate_dofs=None,
         config=None,
         server=None,
     ):
@@ -89,6 +126,16 @@ class migrate_to_h5dpf(Operator):
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
+        if export_floats is not None:
+            self.inputs.export_floats.connect(export_floats)
+        if compression_worfklow is not None:
+            self.inputs.compression_worfklow.connect(compression_worfklow)
+        if filtering_workflow is not None:
+            self.inputs.filtering_workflow.connect(filtering_workflow)
+        if requested_location is not None:
+            self.inputs.requested_location.connect(requested_location)
+        if separate_dofs is not None:
+            self.inputs.separate_dofs.connect(separate_dofs)
 
     @staticmethod
     def _spec():
@@ -116,7 +163,7 @@ class migrate_to_h5dpf(Operator):
                     name="all_time_sets",
                     type_names=["bool"],
                     optional=True,
-                    document="""Default is true""",
+                    document="""Default is false""",
                 ),
                 3: PinSpecification(
                     name="streams_container",
@@ -130,6 +177,43 @@ class migrate_to_h5dpf(Operator):
                     optional=True,
                     document="""If the stream is null then we need to get the
         file path from the data sources""",
+                ),
+                5: PinSpecification(
+                    name="export_floats",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Converts double to float to reduce file size
+        (default is true)""",
+                ),
+                6: PinSpecification(
+                    name="compression_worfklow",
+                    type_names=["workflow"],
+                    optional=True,
+                    document="""Beta option: applies input compression
+        workflow""",
+                ),
+                7: PinSpecification(
+                    name="filtering_workflow",
+                    type_names=["workflow"],
+                    optional=True,
+                    document="""Applies input filtering workflow""",
+                ),
+                9: PinSpecification(
+                    name="requested_location",
+                    type_names=["string"],
+                    optional=True,
+                    document="""If no location is specified, elemental
+        results will be stored as they are.
+        if a location is set, all elemental
+        results will be converted accordingly""",
+                ),
+                200: PinSpecification(
+                    name="separate_dofs",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If this option is set to true, all available
+        dofs will be exported (e.g.
+        displacements + rotations)""",
                 ),
             },
             map_output_pin_spec={
@@ -198,6 +282,16 @@ class InputsMigrateToH5Dpf(_Inputs):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_export_floats = bool()
+    >>> op.inputs.export_floats.connect(my_export_floats)
+    >>> my_compression_worfklow = dpf.Workflow()
+    >>> op.inputs.compression_worfklow.connect(my_compression_worfklow)
+    >>> my_filtering_workflow = dpf.Workflow()
+    >>> op.inputs.filtering_workflow.connect(my_filtering_workflow)
+    >>> my_requested_location = str()
+    >>> op.inputs.requested_location.connect(my_requested_location)
+    >>> my_separate_dofs = bool()
+    >>> op.inputs.separate_dofs.connect(my_separate_dofs)
     """
 
     def __init__(self, op: Operator):
@@ -216,6 +310,24 @@ class InputsMigrateToH5Dpf(_Inputs):
         self._inputs.append(self._streams_container)
         self._data_sources = Input(migrate_to_h5dpf._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
+        self._export_floats = Input(migrate_to_h5dpf._spec().input_pin(5), 5, op, -1)
+        self._inputs.append(self._export_floats)
+        self._compression_worfklow = Input(
+            migrate_to_h5dpf._spec().input_pin(6), 6, op, -1
+        )
+        self._inputs.append(self._compression_worfklow)
+        self._filtering_workflow = Input(
+            migrate_to_h5dpf._spec().input_pin(7), 7, op, -1
+        )
+        self._inputs.append(self._filtering_workflow)
+        self._requested_location = Input(
+            migrate_to_h5dpf._spec().input_pin(9), 9, op, -1
+        )
+        self._inputs.append(self._requested_location)
+        self._separate_dofs = Input(
+            migrate_to_h5dpf._spec().input_pin(200), 200, op, -1
+        )
+        self._inputs.append(self._separate_dofs)
 
     @property
     def filename(self):
@@ -263,7 +375,7 @@ class InputsMigrateToH5Dpf(_Inputs):
     def all_time_sets(self):
         """Allows to connect all_time_sets input to the operator.
 
-        Default is true
+        Default is false
 
         Parameters
         ----------
@@ -319,6 +431,113 @@ class InputsMigrateToH5Dpf(_Inputs):
         >>> op.inputs.data_sources(my_data_sources)
         """
         return self._data_sources
+
+    @property
+    def export_floats(self):
+        """Allows to connect export_floats input to the operator.
+
+        Converts double to float to reduce file size
+        (default is true)
+
+        Parameters
+        ----------
+        my_export_floats : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.migrate_to_h5dpf()
+        >>> op.inputs.export_floats.connect(my_export_floats)
+        >>> # or
+        >>> op.inputs.export_floats(my_export_floats)
+        """
+        return self._export_floats
+
+    @property
+    def compression_worfklow(self):
+        """Allows to connect compression_worfklow input to the operator.
+
+        Beta option: applies input compression
+        workflow
+
+        Parameters
+        ----------
+        my_compression_worfklow : Workflow
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.migrate_to_h5dpf()
+        >>> op.inputs.compression_worfklow.connect(my_compression_worfklow)
+        >>> # or
+        >>> op.inputs.compression_worfklow(my_compression_worfklow)
+        """
+        return self._compression_worfklow
+
+    @property
+    def filtering_workflow(self):
+        """Allows to connect filtering_workflow input to the operator.
+
+        Applies input filtering workflow
+
+        Parameters
+        ----------
+        my_filtering_workflow : Workflow
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.migrate_to_h5dpf()
+        >>> op.inputs.filtering_workflow.connect(my_filtering_workflow)
+        >>> # or
+        >>> op.inputs.filtering_workflow(my_filtering_workflow)
+        """
+        return self._filtering_workflow
+
+    @property
+    def requested_location(self):
+        """Allows to connect requested_location input to the operator.
+
+        If no location is specified, elemental
+        results will be stored as they are.
+        if a location is set, all elemental
+        results will be converted accordingly
+
+        Parameters
+        ----------
+        my_requested_location : str
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.migrate_to_h5dpf()
+        >>> op.inputs.requested_location.connect(my_requested_location)
+        >>> # or
+        >>> op.inputs.requested_location(my_requested_location)
+        """
+        return self._requested_location
+
+    @property
+    def separate_dofs(self):
+        """Allows to connect separate_dofs input to the operator.
+
+        If this option is set to true, all available
+        dofs will be exported (e.g.
+        displacements + rotations)
+
+        Parameters
+        ----------
+        my_separate_dofs : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.migrate_to_h5dpf()
+        >>> op.inputs.separate_dofs.connect(my_separate_dofs)
+        >>> # or
+        >>> op.inputs.separate_dofs(my_separate_dofs)
+        """
+        return self._separate_dofs
 
 
 class OutputsMigrateToH5Dpf(_Outputs):

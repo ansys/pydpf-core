@@ -4,6 +4,7 @@ from .element_nodal_contribution import element_nodal_contribution
 from .elements_facets_surfaces_over_time import elements_facets_surfaces_over_time 
 from .elements_volume import elements_volume 
 from .elements_volumes_over_time import elements_volumes_over_time 
+from .faces_area import faces_area 
 from .gauss_to_node import gauss_to_node 
 from .integrate_over_elements import integrate_over_elements 
 from .normals import normals 

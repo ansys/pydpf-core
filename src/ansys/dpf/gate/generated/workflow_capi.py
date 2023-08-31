@@ -847,6 +847,15 @@ class WorkflowCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 		return res
 
 	@staticmethod
+	def work_flow_getoutput_custom_type_fields_container(wf, pin_name):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.WorkFlow_getoutput_CustomTypeFieldsContainer(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def work_flow_getoutput_data_tree(op, pin_name):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

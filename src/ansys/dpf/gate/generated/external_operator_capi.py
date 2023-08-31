@@ -203,6 +203,15 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		return res
 
 	@staticmethod
+	def external_operator_get_in_custom_type_fields_container(operator_data, pin_index):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_getInCustomTypeFieldsContainer(operator_data, utils.to_int32(pin_index), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def external_operator_get_in_streams(operator_data, pin_index):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

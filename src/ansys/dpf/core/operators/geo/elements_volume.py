@@ -11,13 +11,18 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class elements_volume(Operator):
-    """Compute the volume of each element of a mesh using default shape
-    functions.
+    """Compute the measure of the Elements (volume for 3D elements, surface
+    for 2D elements or length for 1D elements) using default shape
+    functions, except for polyhedrons.
 
     Parameters
     ----------
     mesh : MeshedRegion
     mesh_scoping : Scoping
+        If not provided, the measure of all elements
+        for the mesh is computed. if
+        provided, the scoping needs to have
+        "elemental" location.
 
 
     Examples
@@ -54,8 +59,9 @@ class elements_volume(Operator):
 
     @staticmethod
     def _spec():
-        description = """Compute the volume of each element of a mesh using default shape
-            functions."""
+        description = """Compute the measure of the Elements (volume for 3D elements, surface
+            for 2D elements or length for 1D elements) using default
+            shape functions, except for polyhedrons."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -69,7 +75,10 @@ class elements_volume(Operator):
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=False,
-                    document="""""",
+                    document="""If not provided, the measure of all elements
+        for the mesh is computed. if
+        provided, the scoping needs to have
+        "elemental" location.""",
                 ),
             },
             map_output_pin_spec={
@@ -162,6 +171,11 @@ class InputsElementsVolume(_Inputs):
     @property
     def mesh_scoping(self):
         """Allows to connect mesh_scoping input to the operator.
+
+        If not provided, the measure of all elements
+        for the mesh is computed. if
+        provided, the scoping needs to have
+        "elemental" location.
 
         Parameters
         ----------

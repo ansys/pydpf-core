@@ -7,6 +7,7 @@ from .field_low_pass import field_low_pass
 from .field_low_pass_fc import field_low_pass_fc 
 from .field_signed_high_pass import field_signed_high_pass 
 from .field_signed_high_pass_fc import field_signed_high_pass_fc 
+from .filtering_max_over_time import filtering_max_over_time 
 from .scoping_band_pass import scoping_band_pass 
 from .scoping_high_pass import scoping_high_pass 
 from .scoping_low_pass import scoping_low_pass 

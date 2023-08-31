@@ -118,9 +118,15 @@ def _try_use_gatebin():
     import shutil
     try:
         from ansys.dpf import gatebin
+        if isinstance(gatebin.__path__, str):
+            gatebin_path = gatebin.__path__
+        elif gatebin.__path__ is None:
+            return False
+        else:
+            gatebin_path = gatebin.__path__[0]
         for archive_format in shutil.get_unpack_formats():
             extensions = archive_format[1]
-            if any([x in gatebin.__path__[0] for x in extensions]):
+            if any([x in gatebin_path for x in extensions]):
                 return False
         gatebin.__doc__
         return True
