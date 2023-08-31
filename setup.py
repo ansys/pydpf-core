@@ -9,10 +9,10 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     packages=find_namespace_packages(where="src"),
-    # package_data={
-    #     "ansys.dpf.gatebin": ["*.so", "*.dll"],
-    #     "ansys.dpf.core.examples": ["*.rst"],
-    # },
+    package_data={
+        "ansys.dpf.gatebin": ["*.so", "*.dll"],
+        "ansys.dpf.core.examples": ["**/*"],
+    },
 )
 # "ansys.dpf.core.examples" = [
 #     "ASimpleBar.rst",
