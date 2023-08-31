@@ -459,6 +459,15 @@ class OperatorCAPI(operator_abstract_api.OperatorAbstractAPI):
 		return res
 
 	@staticmethod
+	def operator_getoutput_custom_type_fields_container(op, iOutput):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_getoutput_CustomTypeFieldsContainer(op._internal_obj if op is not None else None, utils.to_int32(iOutput), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def operator_getoutput_cyclic_support(op, iOutput):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

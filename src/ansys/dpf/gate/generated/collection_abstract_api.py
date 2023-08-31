@@ -96,6 +96,10 @@ class CollectionAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def collection_of_custom_type_field_new():
+		raise NotImplementedError
+
+	@staticmethod
 	def collection_get_num_labels(collection):
 		raise NotImplementedError
 
