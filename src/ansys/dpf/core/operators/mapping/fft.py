@@ -11,27 +11,20 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class fft(Operator):
-    """Computes the Fast Fourier Transform of given field or fields container
-    that are assumed equally spaced and resampled to have 2^n values
-    (use prepare_sampling_fft and time_freq_interpolation operators
-    for that).
+    """Computes the Fast Fourier Transform on each component of input Field
+    or each field of input Fields Fontainer (you can use
+    transpose_fields_container to have relevant scoping). Fields are
+    assumed with the same scoping, number of components and
+    representing equally spaced data, ideally resampled to have a 2^n
+    points (prepare_sampling_fft with time_freq_interpolation can help
+    creating these fields). If Complex label is present, Complex to
+    Complex FFT performed otherwise Real to Complex is performed (only
+    half of the coefficient will be returned).
 
     Parameters
     ----------
     field : Field or FieldsContainer
-        Field (real to complex fft is performed). or
-        fields container with fields of the
-        same dimension. if complex label is
-        present, complex to complex fft
-        performed. if time label is present,
-        fft performed on each field.
-    in_time_tfs : TimeFreqSupport, optional
-        Specify input time freq support if the field
-        or fields container don't have it.
-    out_freq_tfs : TimeFreqSupport, optional
-        Specify output time freq support, otherwise
-        calculated from input
-        timefreqsupport.
+        Field or fields container.
     scale_forward_transform : float, optional
         Scale for forward transform, default is 1.0.
     inplace : bool, optional
@@ -52,10 +45,6 @@ class fft(Operator):
     >>> # Make input connections
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
-    >>> my_in_time_tfs = dpf.TimeFreqSupport()
-    >>> op.inputs.in_time_tfs.connect(my_in_time_tfs)
-    >>> my_out_freq_tfs = dpf.TimeFreqSupport()
-    >>> op.inputs.out_freq_tfs.connect(my_out_freq_tfs)
     >>> my_scale_forward_transform = float()
     >>> op.inputs.scale_forward_transform.connect(my_scale_forward_transform)
     >>> my_inplace = bool()
@@ -66,8 +55,6 @@ class fft(Operator):
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mapping.fft(
     ...     field=my_field,
-    ...     in_time_tfs=my_in_time_tfs,
-    ...     out_freq_tfs=my_out_freq_tfs,
     ...     scale_forward_transform=my_scale_forward_transform,
     ...     inplace=my_inplace,
     ...     calc_conjugated_coef=my_calc_conjugated_coef,
@@ -80,8 +67,6 @@ class fft(Operator):
     def __init__(
         self,
         field=None,
-        in_time_tfs=None,
-        out_freq_tfs=None,
         scale_forward_transform=None,
         inplace=None,
         calc_conjugated_coef=None,
@@ -93,10 +78,6 @@ class fft(Operator):
         self._outputs = OutputsFft(self)
         if field is not None:
             self.inputs.field.connect(field)
-        if in_time_tfs is not None:
-            self.inputs.in_time_tfs.connect(in_time_tfs)
-        if out_freq_tfs is not None:
-            self.inputs.out_freq_tfs.connect(out_freq_tfs)
         if scale_forward_transform is not None:
             self.inputs.scale_forward_transform.connect(scale_forward_transform)
         if inplace is not None:
@@ -106,10 +87,16 @@ class fft(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the Fast Fourier Transform of given field or fields container
-            that are assumed equally spaced and resampled to have 2^n
-            values (use prepare_sampling_fft and
-            time_freq_interpolation operators for that)."""
+        description = """Computes the Fast Fourier Transform on each component of input Field
+            or each field of input Fields Fontainer (you can use
+            transpose_fields_container to have relevant scoping).
+            Fields are assumed with the same scoping, number of
+            components and representing equally spaced data, ideally
+            resampled to have a 2^n points (prepare_sampling_fft with
+            time_freq_interpolation can help creating these fields).
+            If Complex label is present, Complex to Complex FFT
+            performed otherwise Real to Complex is performed (only
+            half of the coefficient will be returned)."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -117,27 +104,7 @@ class fft(Operator):
                     name="field",
                     type_names=["field", "fields_container"],
                     optional=False,
-                    document="""Field (real to complex fft is performed). or
-        fields container with fields of the
-        same dimension. if complex label is
-        present, complex to complex fft
-        performed. if time label is present,
-        fft performed on each field.""",
-                ),
-                1: PinSpecification(
-                    name="in_time_tfs",
-                    type_names=["time_freq_support"],
-                    optional=True,
-                    document="""Specify input time freq support if the field
-        or fields container don't have it.""",
-                ),
-                2: PinSpecification(
-                    name="out_freq_tfs",
-                    type_names=["time_freq_support"],
-                    optional=True,
-                    document="""Specify output time freq support, otherwise
-        calculated from input
-        timefreqsupport.""",
+                    document="""Field or fields container.""",
                 ),
                 3: PinSpecification(
                     name="scale_forward_transform",
@@ -165,7 +132,10 @@ class fft(Operator):
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document="""""",
+                    document="""Output complex fields container with labels
+        matching input fields container. no
+        supports binded, but
+        prepare_sampling_fft provides it.""",
                 ),
             },
         )
@@ -218,10 +188,6 @@ class InputsFft(_Inputs):
     >>> op = dpf.operators.mapping.fft()
     >>> my_field = dpf.Field()
     >>> op.inputs.field.connect(my_field)
-    >>> my_in_time_tfs = dpf.TimeFreqSupport()
-    >>> op.inputs.in_time_tfs.connect(my_in_time_tfs)
-    >>> my_out_freq_tfs = dpf.TimeFreqSupport()
-    >>> op.inputs.out_freq_tfs.connect(my_out_freq_tfs)
     >>> my_scale_forward_transform = float()
     >>> op.inputs.scale_forward_transform.connect(my_scale_forward_transform)
     >>> my_inplace = bool()
@@ -234,10 +200,6 @@ class InputsFft(_Inputs):
         super().__init__(fft._spec().inputs, op)
         self._field = Input(fft._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._field)
-        self._in_time_tfs = Input(fft._spec().input_pin(1), 1, op, -1)
-        self._inputs.append(self._in_time_tfs)
-        self._out_freq_tfs = Input(fft._spec().input_pin(2), 2, op, -1)
-        self._inputs.append(self._out_freq_tfs)
         self._scale_forward_transform = Input(fft._spec().input_pin(3), 3, op, -1)
         self._inputs.append(self._scale_forward_transform)
         self._inplace = Input(fft._spec().input_pin(4), 4, op, -1)
@@ -249,12 +211,7 @@ class InputsFft(_Inputs):
     def field(self):
         """Allows to connect field input to the operator.
 
-        Field (real to complex fft is performed). or
-        fields container with fields of the
-        same dimension. if complex label is
-        present, complex to complex fft
-        performed. if time label is present,
-        fft performed on each field.
+        Field or fields container.
 
         Parameters
         ----------
@@ -269,49 +226,6 @@ class InputsFft(_Inputs):
         >>> op.inputs.field(my_field)
         """
         return self._field
-
-    @property
-    def in_time_tfs(self):
-        """Allows to connect in_time_tfs input to the operator.
-
-        Specify input time freq support if the field
-        or fields container don't have it.
-
-        Parameters
-        ----------
-        my_in_time_tfs : TimeFreqSupport
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.mapping.fft()
-        >>> op.inputs.in_time_tfs.connect(my_in_time_tfs)
-        >>> # or
-        >>> op.inputs.in_time_tfs(my_in_time_tfs)
-        """
-        return self._in_time_tfs
-
-    @property
-    def out_freq_tfs(self):
-        """Allows to connect out_freq_tfs input to the operator.
-
-        Specify output time freq support, otherwise
-        calculated from input
-        timefreqsupport.
-
-        Parameters
-        ----------
-        my_out_freq_tfs : TimeFreqSupport
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.mapping.fft()
-        >>> op.inputs.out_freq_tfs.connect(my_out_freq_tfs)
-        >>> # or
-        >>> op.inputs.out_freq_tfs(my_out_freq_tfs)
-        """
-        return self._out_freq_tfs
 
     @property
     def scale_forward_transform(self):
