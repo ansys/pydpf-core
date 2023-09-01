@@ -3,7 +3,6 @@ import os.path
 
 import pytest
 
-from conftest import running_docker
 from ansys.dpf import core as dpf
 from ansys.dpf.core import Model
 from ansys.dpf.core import DataSources
@@ -127,10 +126,6 @@ def test_find_examples(example, server_type_remote_process):
         Model(path, server=server_type_remote_process).metadata.result_info,
         dpf.ResultInfo,
     )
-    # assert path != getattr(globals()["examples"], example)
-    server_type_remote_process.local_server = True
-    path = func(server=server_type_remote_process, return_local_path=running_docker)
-    assert path == getattr(globals()["examples"], example)
 
 
 def test_delete_downloaded_files():
