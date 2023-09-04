@@ -4,7 +4,6 @@ import conftest
 
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples, server_types, server
-from ansys.dpf.core.errors import ServerTypeError
 from ansys.dpf.core.server_factory import ServerConfig, CommunicationProtocols
 
 if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
@@ -39,41 +38,31 @@ if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
 
 @pytest.fixture()
 def static_models(local_server, other_remote_server):
-    static_rst_local_path = examples.find_static_rst(server=local_server)
-    static_rst_remote_path = examples.find_static_rst(server=other_remote_server)
-    # try:
-    #     upload = dpf.upload_file_in_tmp_folder(static_rst_local_path, server=other_remote_server)
-    # except ServerTypeError:
-    #     upload = static_rst_local_path
+    static_rst_path_local = examples.find_static_rst(server=local_server)
+    static_rst_path_remote = examples.find_static_rst(server=other_remote_server)
     return (
-        dpf.Model(static_rst_remote_path, server=other_remote_server),
-        dpf.Model(static_rst_local_path, server=local_server),
+        dpf.Model(static_rst_path_remote, server=other_remote_server),
+        dpf.Model(static_rst_path_local, server=local_server),
     )
 
 
 @pytest.fixture()
 def transient_models(local_server, other_remote_server):
-    msup_transient_path = examples.find_msup_transient()
-    try:
-        upload = dpf.upload_file_in_tmp_folder(msup_transient_path, server=other_remote_server)
-    except ServerTypeError:
-        upload = msup_transient_path
+    msup_transient_path_local = examples.find_msup_transient(server=local_server)
+    msup_transient_path_remote = examples.find_msup_transient(server=other_remote_server)
     return (
-        dpf.Model(upload, server=other_remote_server),
-        dpf.Model(examples.find_msup_transient(server=local_server), server=local_server),
+        dpf.Model(msup_transient_path_remote, server=other_remote_server),
+        dpf.Model(msup_transient_path_local, server=local_server),
     )
 
 
 @pytest.fixture()
 def cyc_models(local_server, other_remote_server):
-    simple_cyclic_path = examples.find_simple_cyclic()
-    try:
-        upload = dpf.upload_file_in_tmp_folder(simple_cyclic_path, server=other_remote_server)
-    except ServerTypeError:
-        upload = simple_cyclic_path
+    simple_cyclic_path_local = examples.find_simple_cyclic(server=local_server)
+    simple_cyclic_path_remote = examples.find_simple_cyclic(server=local_server)
     return (
-        dpf.Model(upload, server=other_remote_server),
-        dpf.Model(examples.find_simple_cyclic(server=local_server), server=local_server),
+        dpf.Model(simple_cyclic_path_remote, server=other_remote_server),
+        dpf.Model(simple_cyclic_path_local, server=local_server),
     )
 
 
