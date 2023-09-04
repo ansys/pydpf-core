@@ -39,14 +39,15 @@ if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
 
 @pytest.fixture()
 def static_models(local_server, other_remote_server):
-    static_rst_local_path = examples.find_static_rst()
-    try:
-        upload = dpf.upload_file_in_tmp_folder(static_rst_local_path, server=other_remote_server)
-    except ServerTypeError:
-        upload = static_rst_local_path
+    static_rst_local_path = examples.find_static_rst(server=local_server)
+    static_rst_remote_path = examples.find_static_rst(server=other_remote_server)
+    # try:
+    #     upload = dpf.upload_file_in_tmp_folder(static_rst_local_path, server=other_remote_server)
+    # except ServerTypeError:
+    #     upload = static_rst_local_path
     return (
-        dpf.Model(upload, server=other_remote_server),
-        dpf.Model(examples.find_static_rst(server=local_server), server=local_server),
+        dpf.Model(static_rst_remote_path, server=other_remote_server),
+        dpf.Model(static_rst_local_path, server=local_server),
     )
 
 
