@@ -42,10 +42,15 @@ should also be synchronized with the server version.
      - ``ansys.grpc.dpf`` Python module version
      - ``ansys.dpf.core`` Python module version
    * - 7.0 (Ansys 2024 R1 pre0)
-     - 0.4.0 and later
-     - 0.4.0 and later
-     - 0.8.0 and later
+     - 0.4.1 and later
+     - 0.4.1 and later
+     - 0.8.1 and later
      - 0.9.0 and later
+   * - 6.2 (Ansys 2023 R2)
+     - 0.3.1 and later
+     - 0.3.1 and later
+     - 0.7.1 and later
+     - 0.8.0 and later
    * - 6.1 (Ansys 2023 R2 pre1)
      - 0.3.1 and later
      - 0.3.1 and later
