@@ -184,7 +184,7 @@ jobs:
     uses: ./.github/workflows/pydpf-post.yml
     with:
       ANSYS_VERSION: "241"
-      post_branch: "maint/make_all_examples_downloadable"
+      post_branch: "master"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
       custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v241/dist' }}
