@@ -14,7 +14,7 @@ class mapdl_section(Operator):
     """Read the values of the section properties for a given section property
     field (property field that contains section information for each
     element of a mesh). The following keys can be used: Thickness,
-    NumLayers.For layered elements, the following keys can be used:
+    NumLayers. For layered elements, the following keys can be used:
     Thickness, MatID, Orientation, NumIntPoints.
 
     Parameters
@@ -101,7 +101,7 @@ class mapdl_section(Operator):
         description = """Read the values of the section properties for a given section property
             field (property field that contains section information
             for each element of a mesh). The following keys can be
-            used: Thickness, NumLayers.For layered elements, the
+            used: Thickness, NumLayers. For layered elements, the
             following keys can be used: Thickness, MatID, Orientation,
             NumIntPoints."""
         spec = Specification(

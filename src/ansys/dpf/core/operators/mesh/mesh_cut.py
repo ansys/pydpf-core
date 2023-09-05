@@ -139,7 +139,7 @@ class mesh_cut(Operator):
                 ),
             },
             map_output_pin_spec={
-                2: PinSpecification(
+                0: PinSpecification(
                     name="mesh",
                     type_names=["meshed_region"],
                     optional=False,
@@ -342,7 +342,7 @@ class OutputsMeshCut(_Outputs):
 
     def __init__(self, op: Operator):
         super().__init__(mesh_cut._spec().outputs, op)
-        self._mesh = Output(mesh_cut._spec().output_pin(2), 2, op)
+        self._mesh = Output(mesh_cut._spec().output_pin(0), 0, op)
         self._outputs.append(self._mesh)
 
     @property
