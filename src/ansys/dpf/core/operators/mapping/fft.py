@@ -12,7 +12,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class fft(Operator):
     """Computes the Fast Fourier Transform on each component of input Field
-    or each field of input Fields Fontainer (you can use
+    or each field of input Fields Container (you can use
     transpose_fields_container to have relevant scoping). Fields are
     assumed with the same scoping, number of components and
     representing equally spaced data, ideally resampled to have a 2^n
@@ -88,7 +88,7 @@ class fft(Operator):
     @staticmethod
     def _spec():
         description = """Computes the Fast Fourier Transform on each component of input Field
-            or each field of input Fields Fontainer (you can use
+            or each field of input Fields Container (you can use
             transpose_fields_container to have relevant scoping).
             Fields are assumed with the same scoping, number of
             components and representing equally spaced data, ideally
