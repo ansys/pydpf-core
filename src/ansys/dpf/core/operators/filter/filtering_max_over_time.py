@@ -18,9 +18,8 @@ class filtering_max_over_time(Operator):
     ----------
     invariant_fc_operator : str
         Name of the invariant operator to be used to
-        calculate filter (avalailable:
-        eqv_fc, invariants_deriv_fc,
-        invariants_fc).
+        calculate filter (available: eqv_fc,
+        invariants_deriv_fc, invariants_fc).
     output_pin : int, optional
         Output pin of the invariant operator. default
         = 0.
@@ -94,9 +93,8 @@ class filtering_max_over_time(Operator):
                     type_names=["string"],
                     optional=False,
                     document="""Name of the invariant operator to be used to
-        calculate filter (avalailable:
-        eqv_fc, invariants_deriv_fc,
-        invariants_fc).""",
+        calculate filter (available: eqv_fc,
+        invariants_deriv_fc, invariants_fc).""",
                 ),
                 1: PinSpecification(
                     name="output_pin",
@@ -208,9 +206,8 @@ class InputsFilteringMaxOverTime(_Inputs):
         """Allows to connect invariant_fc_operator input to the operator.
 
         Name of the invariant operator to be used to
-        calculate filter (avalailable:
-        eqv_fc, invariants_deriv_fc,
-        invariants_fc).
+        calculate filter (available: eqv_fc,
+        invariants_deriv_fc, invariants_fc).
 
         Parameters
         ----------
