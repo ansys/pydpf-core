@@ -57,7 +57,7 @@ jobs:
       python_versions: '["3.8"]'
       wheel: true
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test_pygate' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   docker_tests:
@@ -65,7 +65,7 @@ jobs:
     uses: ./.github/workflows/test_docker.yml
     with:
       ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test_pygate' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   docker_examples:
@@ -74,7 +74,7 @@ jobs:
     with:
       ANSYS_VERSION: "241"
       python_versions: '["3.8"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test_pygate' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   docs:
@@ -82,7 +82,7 @@ jobs:
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test_pygate' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       event_name: ${{ github.event_name }}
     secrets: inherit
 
@@ -105,7 +105,7 @@ jobs:
     with:
       ANSYS_VERSION: "241"
       python_versions: '["3.8"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test_pygate' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   retro_232:
@@ -146,6 +146,6 @@ jobs:
     with:
       ANSYS_VERSION: "241"
       post_branch: "master"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '_test_pygate' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       test_docstrings: "true"
     secrets: inherit
