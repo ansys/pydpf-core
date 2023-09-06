@@ -7,6 +7,6 @@
 # Order is important. The last matching pattern has the most precedence.
 # So if a pull request only touches javascript files, only these owners
 # will be requested to review.
-src/ansys/grpc/*        @dpf_integration_proxies
-src/ansys/dpf/gate/*    @dpf_integration_proxies
-src/ansys/dpf/gatebin/* @dpf_integration_proxies
+src/ansys/grpc/*        @ansys/dpf_integration_proxies
+src/ansys/dpf/gate/*    @ansys/dpf_integration_proxies
+src/ansys/dpf/gatebin/* @ansys/dpf_integration_proxies
