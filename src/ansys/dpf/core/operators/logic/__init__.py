@@ -6,9 +6,9 @@ from .component_transformer import component_transformer
 from .component_transformer_fc import component_transformer_fc 
 from .descending_sort import descending_sort 
 from .descending_sort_fc import descending_sort_fc 
+from .elementary_data_selector import elementary_data_selector 
+from .elementary_data_selector_fc import elementary_data_selector_fc 
 from .enrich_materials import enrich_materials 
-from .entity_selector import entity_selector 
-from .entity_selector_fc import entity_selector_fc 
 from .identical_fc import identical_fc 
 from .identical_fields import identical_fields 
 from .identical_meshes import identical_meshes 
