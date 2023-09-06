@@ -4,9 +4,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# C extensions
-*.so
-
 # Distribution / packaging
 .Python
 build/
@@ -187,3 +184,11 @@ dpf-standalone/
 # to be deleted
 
 search/
+
+# ansys-dpf-gate, ansys-grpc-dpf and ansys-dpg-gatebin
+src/ansys/dpf/core/gate/
+src/ansys/dpf/core/gatebin/
+src/ansys/dpf/core/grpc/
+
+# C extensions
+*.so

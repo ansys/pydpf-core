@@ -13,16 +13,6 @@ on:
         required: false
         type: string
         default: "241"
-      custom-requirements:
-        description: "Path to requirements.txt file to install"
-        required: false
-        type: string
-        default: ''
-      custom-wheels:
-        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
-        required: false
-        type: string
-        default: ''
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -36,16 +26,6 @@ on:
         required: true
         type: string
         default: "241"
-      custom-requirements:
-        description: "Path to requirements.txt file to install"
-        required: false
-        type: string
-        default: ''
-      custom-wheels:
-        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
-        required: false
-        type: string
-        default: ''
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -76,9 +56,7 @@ jobs:
           install_extras: plotting
           wheel: false
           wheelhouse: false
-          extra-pip-args: ${{ inputs.custom-wheels && format('--find-links {0}', inputs.custom-wheels) || '' }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          custom-requirements: ${{ inputs.custom-requirements }}
 
       - name: "Prepare Testing Environment"
         uses: ansys/pydpf-actions/prepare_tests@v2.3
