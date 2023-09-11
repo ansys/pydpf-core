@@ -18,8 +18,8 @@ from ansys.dpf.gate import (
 )
 
 from ansys.dpf.core.check_version import version_requires
-from ansys.grpc.dpf import data_sources_pb2
 from ansys.dpf.core import errors
+
 
 class DataSources:
     """Contains files with analysis results.
@@ -78,7 +78,7 @@ class DataSources:
                 self._internal_obj = core_api.data_processing_duplicate_object_reference(
                     data_sources
                 )
-            elif isinstance(data_sources, data_sources_pb2.DataSources) or isinstance(data_sources, int):
+            elif hasattr(data_sources, "DESCRIPTOR") or isinstance(data_sources, int):
                 # It should be a message (usually from a call to operator_getoutput_data_sources)
                 self._internal_obj = data_sources
             else:
