@@ -18,8 +18,7 @@ from ansys.dpf.gate import (
 )
 
 from ansys.dpf.core.check_version import version_requires
-from ansys.grpc.dpf import data_sources_pb2
-from ansys.dpf.core import errors
+
 
 class DataSources:
     """Contains files with analysis results.
@@ -78,12 +77,9 @@ class DataSources:
                 self._internal_obj = core_api.data_processing_duplicate_object_reference(
                     data_sources
                 )
-            elif isinstance(data_sources, data_sources_pb2.DataSources) or isinstance(data_sources, int):
+            else:
                 # It should be a message (usually from a call to operator_getoutput_data_sources)
                 self._internal_obj = data_sources
-            else:
-                self._internal_obj = None
-                raise errors.DpfValueError("Data source must be gRPC data sources message type")
         else:
             if self._server.has_client():
                 self._internal_obj = self._api.data_sources_new_on_client(self._server.client)
