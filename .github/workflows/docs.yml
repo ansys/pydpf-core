@@ -17,16 +17,6 @@ on:
         required: false
         type: string
         default: ''
-      custom-requirements:
-        description: "Path to requirements.txt file to install"
-        required: false
-        type: string
-        default: ''
-      custom-wheels:
-        description: "extra pip '--find-links XXX' argument to find custom dpf wheels"
-        required: false
-        type: string
-        default: ''
       event_name:
         description: "Name of event calling"
         required: true
@@ -47,16 +37,6 @@ on:
         default: "241"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
-        required: false
-        type: string
-        default: ''
-      custom-requirements:
-        description: "Path to requirements.txt file to install"
-        required: false
-        type: string
-        default: ''
-      custom-wheels:
-        description: "extra pip --find-links argument to find custom dpf wheels"
         required: false
         type: string
         default: ''
@@ -103,9 +83,7 @@ jobs:
           install_extras: plotting
           wheel: false
           wheelhouse: false
-          extra-pip-args: ${{ inputs.custom-wheels && format('--find-links {0}', inputs.custom-wheels) || '' }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          custom-requirements: ${{ inputs.custom-requirements }}
 
       - name: "Setup headless display"
         uses: pyvista/setup-headless-display-action@v1
@@ -180,5 +158,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: HTML-doc-${{env.PACKAGE_NAME}}.zip
-          path: docs/build/html
+          path: HTML-doc-${{env.PACKAGE_NAME}}.zip
         if: always()
