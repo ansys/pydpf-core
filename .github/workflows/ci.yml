@@ -14,21 +14,6 @@ on:
         description: 'Suffix of the branch on standalone'
         required: false
         default: ''
-      custom-requirements:
-        description: "Path to requirements.txt file to install"
-        required: false
-        type: string
-        default: 'requirements/requirements_dev.txt'
-      custom-wheels:
-        description: "extra pip --find-links argument to find custom dpf wheels"
-        required: false
-        type: string
-        default: './dpf-standalone/v241/dist'
-      custom-wheels-docker:
-        description: "extra pip --find-links argument to find custom dpf wheels"
-        required: false
-        type: string
-        default: './dpf-standalone/dist'
 
 
 concurrency:
@@ -73,8 +58,6 @@ jobs:
       wheel: true
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
-      custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v241/dist' }}
     secrets: inherit
 
   docker_tests:
@@ -83,8 +66,6 @@ jobs:
     with:
       ANSYS_VERSION: "241"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
-      custom-wheels: ${{ github.event.inputs.custom-wheels-docker || './dpf-standalone/dist' }}
     secrets: inherit
 
   docker_examples:
@@ -94,8 +75,6 @@ jobs:
       ANSYS_VERSION: "241"
       python_versions: '["3.8"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
-      custom-wheels: ${{ github.event.inputs.custom-wheels-docker || './dpf-standalone/dist' }}
     secrets: inherit
 
   docs:
@@ -104,8 +83,6 @@ jobs:
     with:
       ANSYS_VERSION: "241"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
-      custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v241/dist' }}
       event_name: ${{ github.event_name }}
     secrets: inherit
 
@@ -120,6 +97,7 @@ jobs:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
+          decompress-artifact: true
 
   examples:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
@@ -128,8 +106,6 @@ jobs:
       ANSYS_VERSION: "241"
       python_versions: '["3.8"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
-      custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v241/dist' }}
     secrets: inherit
 
   retro_232:
@@ -141,7 +117,6 @@ jobs:
       python_versions: '["3.8"]'
       DOCSTRING: false
       standalone_suffix: ''
-      custom-wheels: './dpf-standalone/v232/dist --pre'
     secrets: inherit
 
   retro_231:
@@ -152,7 +127,6 @@ jobs:
       ANSYS_VERSION: "231"
       python_versions: '["3.8"]'
       DOCSTRING: false
-      custom-wheels: './.github'
     secrets: inherit
 
   retro_222:
@@ -163,18 +137,6 @@ jobs:
       ANSYS_VERSION: "222"
       python_versions: '["3.8"]'
       DOCSTRING: false
-      custom-wheels: './.github'
-    secrets: inherit
-
-  retro_221:
-    name: "retro 221"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "221"
-      python_versions: '["3.8"]'
-      DOCSTRING: false
-      custom-wheels: './.github'
     secrets: inherit
 
   pydpf-post:
@@ -185,6 +147,5 @@ jobs:
       ANSYS_VERSION: "241"
       post_branch: "master"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      custom-requirements: ${{ github.event.inputs.custom-requirements || 'requirements/requirements_dev.txt' }}
-      custom-wheels: ${{ github.event.inputs.custom-wheels || './dpf-standalone/v241/dist' }}
+      test_docstrings: "true"
     secrets: inherit

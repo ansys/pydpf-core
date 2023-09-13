@@ -11,8 +11,11 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class element_nodal_contribution(Operator):
-    """Compute the fraction of the volume attributed to each node of each
-    element.
+    """Compute the fraction of the element measure attributed to each node of
+    each element (fraction of the volume for 3D elements, fraction of
+    the area for 2D elements or fraction of the length for 1D
+    elements). It is computed by taking the integral of the shape
+    function associated to each node within each element.
 
     Parameters
     ----------
@@ -21,10 +24,10 @@ class element_nodal_contribution(Operator):
         Integrate the input field over a specific
         scoping.
     volume_fraction : bool, optional
-        If true, returns influence volume. if false,
-        returns the influence volume fraction
-        (for example, the integrated value of
-        shape function for each node).
+        If true, returns influence volume, area or
+        length. if false, the values are
+        normalized with the element volume,
+        area or length. default: true.
 
 
     Examples
@@ -70,8 +73,12 @@ class element_nodal_contribution(Operator):
 
     @staticmethod
     def _spec():
-        description = """Compute the fraction of the volume attributed to each node of each
-            element."""
+        description = """Compute the fraction of the element measure attributed to each node of
+            each element (fraction of the volume for 3D elements,
+            fraction of the area for 2D elements or fraction of the
+            length for 1D elements). It is computed by taking the
+            integral of the shape function associated to each node
+            within each element."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -92,10 +99,10 @@ class element_nodal_contribution(Operator):
                     name="volume_fraction",
                     type_names=["bool"],
                     optional=True,
-                    document="""If true, returns influence volume. if false,
-        returns the influence volume fraction
-        (for example, the integrated value of
-        shape function for each node).""",
+                    document="""If true, returns influence volume, area or
+        length. if false, the values are
+        normalized with the element volume,
+        area or length. default: true.""",
                 ),
             },
             map_output_pin_spec={
@@ -220,10 +227,10 @@ class InputsElementNodalContribution(_Inputs):
     def volume_fraction(self):
         """Allows to connect volume_fraction input to the operator.
 
-        If true, returns influence volume. if false,
-        returns the influence volume fraction
-        (for example, the integrated value of
-        shape function for each node).
+        If true, returns influence volume, area or
+        length. if false, the values are
+        normalized with the element volume,
+        area or length. default: true.
 
         Parameters
         ----------

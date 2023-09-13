@@ -87,9 +87,7 @@ jobs:
           install_extras: plotting
           wheelhouse: false
           wheel: false
-          extra-pip-args: ${{ format('--find-links ./dpf-standalone/v{0}/dist', inputs.ANSYS_VERSION) }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
-          custom-requirements: ${{ inputs.custom-requirements }}
 
       - name: "Prepare Testing Environment"
         uses: ansys/pydpf-actions/prepare_tests@v2.3

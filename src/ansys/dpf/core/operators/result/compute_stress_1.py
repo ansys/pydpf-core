@@ -11,8 +11,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class compute_stress_1(Operator):
-    """Computes the stress from an elastic strain field.compute_total_strain
-    limitations are applicable for stress computationGet the 1st
+    """Computes the stress from an elastic strain field. compute_total_strain
+    limitations are applicable for stress computation Get the 1st
     principal component.
 
     Parameters
@@ -94,8 +94,8 @@ class compute_stress_1(Operator):
 
     @staticmethod
     def _spec():
-        description = """Computes the stress from an elastic strain field.compute_total_strain
-            limitations are applicable for stress computationGet the
+        description = """Computes the stress from an elastic strain field. compute_total_strain
+            limitations are applicable for stress computation Get the
             1st principal component."""
         spec = Specification(
             description=description,

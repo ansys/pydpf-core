@@ -39,12 +39,16 @@ jobs:
           file: HTML-doc-ansys-dpf-core.zip
           token: ${{ secrets.GITHUB_TOKEN }}
 
-#      - name: "Unzip HTML Documentation"
-#        shell: bash
-#        run: |
-#          unzip HTML-doc-ansys-dpf-core.zip -d documentation-html
-#          chmod -R 777 documentation-html
-#        if: always()
+      - name: "List downloaded assets"
+        shell: bash
+        run: |
+          ls
+
+      - name: "Upload artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: HTML-doc-ansys-dpf-core.zip
+          path: HTML-doc-ansys-dpf-core.zip
 
       - name: "Deploy the stable documentation"
         uses: ansys/actions/doc-deploy-stable@v4
@@ -52,3 +56,4 @@ jobs:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
+          decompress-artifact: true

@@ -19,8 +19,8 @@ class compute_total_strain_Y(Operator):
     element for isotropic and orthotropic elasticity. Material
     nonlinearity is not supported Only linear analysis are supported
     without On Demand Expansion. All coordinates are global
-    coordinates. Euler Angles need to be included in the database. Get
-    the YY normal component (11 component).
+    coordinates. Euler Angles need to be included in the database.
+    Get the YY normal component (11 component).
 
     Parameters
     ----------
@@ -29,11 +29,11 @@ class compute_total_strain_Y(Operator):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq
@@ -170,7 +170,7 @@ class compute_total_strain_Y(Operator):
             orthotropic elasticity. Material nonlinearity is not
             supported Only linear analysis are supported without On
             Demand Expansion. All coordinates are global coordinates.
-            Euler Angles need to be included in the database. Get the
+            Euler Angles need to be included in the database.  Get the
             YY normal component (11 component)."""
         spec = Specification(
             description=description,
@@ -190,11 +190,11 @@ class compute_total_strain_Y(Operator):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq
@@ -392,11 +392,11 @@ class InputsComputeTotalStrainY(_Inputs):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq

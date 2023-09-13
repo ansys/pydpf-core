@@ -19,7 +19,7 @@ class Any:
 
     Parameters
     ----------
-    any : ctypes.c_void_p, ansys.grpc.dpf.any_pb2.Any message, optional  # noqa: E501
+    any_dpf : ctypes.c_void_p, ansys.grpc.dpf.any_pb2.Any message, optional
     server : DPFServer, optional
         Server with channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the

@@ -121,7 +121,6 @@ def shutdown_all_session_servers():
             print(e.args)
             pass
     shutdown_global_server()
-    _server_instances.clear()
 
 
 def start_local_server(
