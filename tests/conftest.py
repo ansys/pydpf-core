@@ -93,7 +93,7 @@ def allkindofcomplexity():
 @pytest.fixture()
 def simple_bar():
     """Resolve the path of the "ASimpleBar.rst" result file."""
-    return resolve_test_file("ASimpleBar.rst", "", "simple_bar")
+    return examples.find_simple_bar()
 
 
 @pytest.fixture()
@@ -129,13 +129,13 @@ def simple_rst():
 @pytest.fixture()
 def multishells():
     """Resolve the path of the "rst_operators/multishells.rst" result file."""
-    return resolve_test_file("model_with_ns.rst", "", "multishells_rst")
+    return examples.find_multishells_rst()
 
 
 @pytest.fixture()
 def complex_model():
     """Resolve the path of the "complex/fileComplex.rst" result file."""
-    return resolve_test_file("complex.rst", "", "complex_rst")
+    return examples.find_complex_rst()
 
 
 @pytest.fixture()
@@ -145,13 +145,13 @@ def plate_msup():
     Originally:
     UnitTestDataFiles/DataProcessing/expansion/msup/Transient/plate1/file.rst
     """
-    return resolve_test_file("msup_transient_plate1.rst", "", "msup_transient")
+    return examples.find_msup_transient()
 
 
 @pytest.fixture()
 def model_with_ns():
     """Resolve the path of the "model_with_ns.rst" result file."""
-    return resolve_test_file("model_with_ns.rst", "", "multishells_rst")
+    return examples.find_multishells_rst()
 
 
 @pytest.fixture()
