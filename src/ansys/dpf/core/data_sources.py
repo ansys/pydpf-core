@@ -78,7 +78,7 @@ class DataSources:
                 self._internal_obj = core_api.data_processing_duplicate_object_reference(
                     data_sources
                 )
-            elif hasattr(data_sources, "DESCRIPTOR") or isinstance(data_sources, int):
+            elif (hasattr(data_sources, "module") and (data_sources.module == 'data_sources_pb2')) or isinstance(data_sources, int):
                 # It should be a message (usually from a call to operator_getoutput_data_sources)
                 self._internal_obj = data_sources
             else:
