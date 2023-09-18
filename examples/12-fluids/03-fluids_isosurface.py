@@ -85,16 +85,16 @@ pl.add_mesh(
 
 vec_iso_values = [-153.6, -100.0, -50.0, 50.0, 100.0, 150.0, 200.0, 300.0, 361.8]
 
-iso_surfaces = dpf.operators.mesh.iso_surfaces(field=P_S[0], mesh=whole_mesh, slice_surfaces=True,
-                                              vector_iso_values=vec_iso_values).eval()
+iso_surfaces_meshes = dpf.operators.mesh.iso_surfaces(field=P_S[0], mesh=whole_mesh, slice_surfaces=True,
+                                              vector_iso_values=vec_iso_values).outputs.meshes()
 
-for i in range(len(iso_surfaces)):
-    P_S_step = dpf.Field(location=dpf.locations.overall, nature=dpf.common.natures.scalar)
-    P_S_step.append(vec_iso_values[i], i)
-    P_S_step.name = "static pressure"
-    P_S_step.unit = "Pa"
+iso_surfaces_fields = dpf.operators.mesh.iso_surfaces(field=P_S[0], mesh=whole_mesh, slice_surfaces=True,
+                                              vector_iso_values=vec_iso_values).outputs.fields_container()
+
+for i in range(len(iso_surfaces_fields)):
     pl.add_field(
-        field=P_S_step, meshed_region=iso_surfaces[i], style="surface", show_edges=False, show_axes=True
+        field=iso_surfaces_fields[i], meshed_region=iso_surfaces_meshes[i], style="surface", show_edges=False,
+        show_axes=True
     )
 
 pl.show_figure(show_axes=True, cpos=c_pos_iso)
