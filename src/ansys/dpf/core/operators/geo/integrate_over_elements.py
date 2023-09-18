@@ -20,8 +20,8 @@ class integrate_over_elements(Operator):
         Integrate the input field over a specific
         scoping.
     mesh : MeshedRegion, optional
-        Mesh to integrate on, if not provided the one
-        from input field is provided.
+        Mesh to integrate on. if not provided, the
+        one from input field is employed.
 
 
     Examples
@@ -84,8 +84,8 @@ class integrate_over_elements(Operator):
                     name="mesh",
                     type_names=["abstract_meshed_region"],
                     optional=True,
-                    document="""Mesh to integrate on, if not provided the one
-        from input field is provided.""",
+                    document="""Mesh to integrate on. if not provided, the
+        one from input field is employed.""",
                 ),
             },
             map_output_pin_spec={
@@ -204,8 +204,8 @@ class InputsIntegrateOverElements(_Inputs):
     def mesh(self):
         """Allows to connect mesh input to the operator.
 
-        Mesh to integrate on, if not provided the one
-        from input field is provided.
+        Mesh to integrate on. if not provided, the
+        one from input field is employed.
 
         Parameters
         ----------

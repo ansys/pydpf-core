@@ -11,19 +11,20 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class assemble_scalars_to_matrices_fc(Operator):
-    """Take nine scalar fields and assemble them as a 3x3 matrix field.
+    """Take nine scalar fields container and assemble them as a 3x3 matrix
+    fields.
 
     Parameters
     ----------
-    fields_container : FieldsContainer, optional
-    yy : Field, optional
-    zz : Field, optional
-    xy : Field, optional
-    yz : Field, optional
-    xz : Field, optional
-    yx : Field, optional
-    zy : Field, optional
-    zx : Field, optional
+    xx : FieldsContainer, optional
+    yy : FieldsContainer, optional
+    zz : FieldsContainer, optional
+    xy : FieldsContainer, optional
+    yz : FieldsContainer, optional
+    xz : FieldsContainer, optional
+    yx : FieldsContainer, optional
+    zy : FieldsContainer, optional
+    zx : FieldsContainer, optional
 
 
     Examples
@@ -34,28 +35,28 @@ class assemble_scalars_to_matrices_fc(Operator):
     >>> op = dpf.operators.utility.assemble_scalars_to_matrices_fc()
 
     >>> # Make input connections
-    >>> my_fields_container = dpf.FieldsContainer()
-    >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_yy = dpf.Field()
+    >>> my_xx = dpf.FieldsContainer()
+    >>> op.inputs.xx.connect(my_xx)
+    >>> my_yy = dpf.FieldsContainer()
     >>> op.inputs.yy.connect(my_yy)
-    >>> my_zz = dpf.Field()
+    >>> my_zz = dpf.FieldsContainer()
     >>> op.inputs.zz.connect(my_zz)
-    >>> my_xy = dpf.Field()
+    >>> my_xy = dpf.FieldsContainer()
     >>> op.inputs.xy.connect(my_xy)
-    >>> my_yz = dpf.Field()
+    >>> my_yz = dpf.FieldsContainer()
     >>> op.inputs.yz.connect(my_yz)
-    >>> my_xz = dpf.Field()
+    >>> my_xz = dpf.FieldsContainer()
     >>> op.inputs.xz.connect(my_xz)
-    >>> my_yx = dpf.Field()
+    >>> my_yx = dpf.FieldsContainer()
     >>> op.inputs.yx.connect(my_yx)
-    >>> my_zy = dpf.Field()
+    >>> my_zy = dpf.FieldsContainer()
     >>> op.inputs.zy.connect(my_zy)
-    >>> my_zx = dpf.Field()
+    >>> my_zx = dpf.FieldsContainer()
     >>> op.inputs.zx.connect(my_zx)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.assemble_scalars_to_matrices_fc(
-    ...     fields_container=my_fields_container,
+    ...     xx=my_xx,
     ...     yy=my_yy,
     ...     zz=my_zz,
     ...     xy=my_xy,
@@ -72,7 +73,7 @@ class assemble_scalars_to_matrices_fc(Operator):
 
     def __init__(
         self,
-        fields_container=None,
+        xx=None,
         yy=None,
         zz=None,
         xy=None,
@@ -89,8 +90,8 @@ class assemble_scalars_to_matrices_fc(Operator):
         )
         self._inputs = InputsAssembleScalarsToMatricesFc(self)
         self._outputs = OutputsAssembleScalarsToMatricesFc(self)
-        if fields_container is not None:
-            self.inputs.fields_container.connect(fields_container)
+        if xx is not None:
+            self.inputs.xx.connect(xx)
         if yy is not None:
             self.inputs.yy.connect(yy)
         if zz is not None:
@@ -110,63 +111,62 @@ class assemble_scalars_to_matrices_fc(Operator):
 
     @staticmethod
     def _spec():
-        description = (
-            """Take nine scalar fields and assemble them as a 3x3 matrix field."""
-        )
+        description = """Take nine scalar fields container and assemble them as a 3x3 matrix
+            fields."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
-                    name="fields_container",
+                    name="xx",
                     type_names=["fields_container"],
                     optional=True,
                     document="""""",
                 ),
                 1: PinSpecification(
                     name="yy",
-                    type_names=["field"],
+                    type_names=["fields_container"],
                     optional=True,
                     document="""""",
                 ),
                 2: PinSpecification(
                     name="zz",
-                    type_names=["field"],
+                    type_names=["fields_container"],
                     optional=True,
                     document="""""",
                 ),
                 3: PinSpecification(
                     name="xy",
-                    type_names=["field"],
+                    type_names=["fields_container"],
                     optional=True,
                     document="""""",
                 ),
                 4: PinSpecification(
                     name="yz",
-                    type_names=["field"],
+                    type_names=["fields_container"],
                     optional=True,
                     document="""""",
                 ),
                 5: PinSpecification(
                     name="xz",
-                    type_names=["field"],
+                    type_names=["fields_container"],
                     optional=True,
                     document="""""",
                 ),
                 6: PinSpecification(
                     name="yx",
-                    type_names=["field"],
+                    type_names=["fields_container"],
                     optional=True,
                     document="""""",
                 ),
                 7: PinSpecification(
                     name="zy",
-                    type_names=["field"],
+                    type_names=["fields_container"],
                     optional=True,
                     document="""""",
                 ),
                 8: PinSpecification(
                     name="zx",
-                    type_names=["field"],
+                    type_names=["fields_container"],
                     optional=True,
                     document="""""",
                 ),
@@ -229,32 +229,32 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.assemble_scalars_to_matrices_fc()
-    >>> my_fields_container = dpf.FieldsContainer()
-    >>> op.inputs.fields_container.connect(my_fields_container)
-    >>> my_yy = dpf.Field()
+    >>> my_xx = dpf.FieldsContainer()
+    >>> op.inputs.xx.connect(my_xx)
+    >>> my_yy = dpf.FieldsContainer()
     >>> op.inputs.yy.connect(my_yy)
-    >>> my_zz = dpf.Field()
+    >>> my_zz = dpf.FieldsContainer()
     >>> op.inputs.zz.connect(my_zz)
-    >>> my_xy = dpf.Field()
+    >>> my_xy = dpf.FieldsContainer()
     >>> op.inputs.xy.connect(my_xy)
-    >>> my_yz = dpf.Field()
+    >>> my_yz = dpf.FieldsContainer()
     >>> op.inputs.yz.connect(my_yz)
-    >>> my_xz = dpf.Field()
+    >>> my_xz = dpf.FieldsContainer()
     >>> op.inputs.xz.connect(my_xz)
-    >>> my_yx = dpf.Field()
+    >>> my_yx = dpf.FieldsContainer()
     >>> op.inputs.yx.connect(my_yx)
-    >>> my_zy = dpf.Field()
+    >>> my_zy = dpf.FieldsContainer()
     >>> op.inputs.zy.connect(my_zy)
-    >>> my_zx = dpf.Field()
+    >>> my_zx = dpf.FieldsContainer()
     >>> op.inputs.zx.connect(my_zx)
     """
 
     def __init__(self, op: Operator):
         super().__init__(assemble_scalars_to_matrices_fc._spec().inputs, op)
-        self._fields_container = Input(
+        self._xx = Input(
             assemble_scalars_to_matrices_fc._spec().input_pin(0), 0, op, -1
         )
-        self._inputs.append(self._fields_container)
+        self._inputs.append(self._xx)
         self._yy = Input(
             assemble_scalars_to_matrices_fc._spec().input_pin(1), 1, op, -1
         )
@@ -289,22 +289,22 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
         self._inputs.append(self._zx)
 
     @property
-    def fields_container(self):
-        """Allows to connect fields_container input to the operator.
+    def xx(self):
+        """Allows to connect xx input to the operator.
 
         Parameters
         ----------
-        my_fields_container : FieldsContainer
+        my_xx : FieldsContainer
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.assemble_scalars_to_matrices_fc()
-        >>> op.inputs.fields_container.connect(my_fields_container)
+        >>> op.inputs.xx.connect(my_xx)
         >>> # or
-        >>> op.inputs.fields_container(my_fields_container)
+        >>> op.inputs.xx(my_xx)
         """
-        return self._fields_container
+        return self._xx
 
     @property
     def yy(self):
@@ -312,7 +312,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
 
         Parameters
         ----------
-        my_yy : Field
+        my_yy : FieldsContainer
 
         Examples
         --------
@@ -330,7 +330,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
 
         Parameters
         ----------
-        my_zz : Field
+        my_zz : FieldsContainer
 
         Examples
         --------
@@ -348,7 +348,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
 
         Parameters
         ----------
-        my_xy : Field
+        my_xy : FieldsContainer
 
         Examples
         --------
@@ -366,7 +366,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
 
         Parameters
         ----------
-        my_yz : Field
+        my_yz : FieldsContainer
 
         Examples
         --------
@@ -384,7 +384,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
 
         Parameters
         ----------
-        my_xz : Field
+        my_xz : FieldsContainer
 
         Examples
         --------
@@ -402,7 +402,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
 
         Parameters
         ----------
-        my_yx : Field
+        my_yx : FieldsContainer
 
         Examples
         --------
@@ -420,7 +420,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
 
         Parameters
         ----------
-        my_zy : Field
+        my_zy : FieldsContainer
 
         Examples
         --------
@@ -438,7 +438,7 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
 
         Parameters
         ----------
-        my_zx : Field
+        my_zx : FieldsContainer
 
         Examples
         --------

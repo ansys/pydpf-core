@@ -49,6 +49,7 @@ from .make_one_on_comp import make_one_on_comp
 from .matrix_inverse import matrix_inverse 
 from .minus import minus 
 from .minus_fc import minus_fc 
+from .modal_damping_ratio import modal_damping_ratio 
 from .modal_participation import modal_participation 
 from .modal_superposition import modal_superposition 
 from .modulus import modulus 
