@@ -50,12 +50,88 @@ jobs:
       - name: "Run pre-commit"
         run: pre-commit run --all-files --show-diff-on-failure
 
+  build_any:
+    name: "Build wheel any for the package"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Install requirements"
+        run: pip install -r requirements/requirements_build.txt
+
+      - name: "Build the wheel"
+        shell: bash
+        run: |
+          rm src/ansys/dpf/gatebin/*
+          export DIST_EXTRA_CONFIG=build-opts.cfg
+          
+          echo [bdist_wheel]\nplat-name=any > build-opts.cfg
+          python -m build -w
+
+      - name: "Upload wheel any as artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: any_wheels
+          path: dist/*.whl
+
+  build_win:
+    name: "Build wheel win for the package"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Install requirements"
+        run: pip install -r requirements/requirements_build.txt
+
+      - name: "Build the wheel"
+        shell: bash
+        run: |
+          rm src/ansys/dpf/gatebin/*.so
+          export DIST_EXTRA_CONFIG=build-opts.cfg
+          
+          echo [bdist_wheel]\nplat-name=win_amd64 > build-opts.cfg
+          python -m build -w
+
+      - name: "Upload wheel any as artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: win_wheels
+          path: dist/*.whl
+
+  build_linux:
+    name: "Build wheel win for the package"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Install requirements"
+        run: pip install -r requirements/requirements_build.txt
+
+      - name: "Build the wheel"
+        shell: bash
+        run: |
+          rm src/ansys/dpf/gatebin/*.dll
+          export DIST_EXTRA_CONFIG=build-opts.cfg
+          
+          echo [bdist_wheel]\nplat-name=manylinux_2_17_x86_64 > build-opts.cfg
+          python -m build -w
+          
+          rm build-opts.cfg
+          echo [bdist_wheel]\nplat-name=manylinux1_17_x86_64 > build-opts.cfg
+          python -m build -w
+
+      - name: "Upload wheel any as artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux_wheels
+          path: dist/*.whl
+
   tests:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "241"
       python_versions: '["3.8"]'
-      wheel: true
+      wheel: false
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
