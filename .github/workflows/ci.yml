@@ -67,7 +67,7 @@ jobs:
         run: |
           python .ci/build_wheel.py -p any
           cd dist
-          export name=`ls *any*.whl`
+          export name=`ls ansys_dpf_core*.whl`
           echo ${name}
           echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
           cd ..
@@ -80,7 +80,7 @@ jobs:
 
   build_win:
     name: "Build win wheels for the package"
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -91,9 +91,9 @@ jobs:
         shell: bash
         id: wheel
         run: |
-          python .ci/build_wheel.py -p win
+          python .ci/build_wheel.py -p win -w
           cd dist
-          export name=`ls *win*.whl`
+          export name=`ls ansys_dpf_core*.whl`
           echo ${name}
           echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
           cd ..
@@ -104,8 +104,8 @@ jobs:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
 
-  build_linux:
-    name: "Build linux wheels for the package"
+  build_linux1:
+    name: "Build linux1 wheels for the package"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -119,7 +119,7 @@ jobs:
         run: |
           python .ci/build_wheel.py -p manylinux1
           cd dist
-          export name=`ls *manylinux1*.whl`
+          export name=`ls ansys_dpf_core*.whl`
           echo ${name}
           echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
           cd ..
@@ -130,13 +130,22 @@ jobs:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
 
+  build_linux2:
+    name: "Build linux2 wheels for the package"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Install requirements"
+        run: pip install -r requirements/requirements_build.txt
+
       - name: "Build the manylinux_2_17 wheel"
         shell: bash
-        id: wheel2
+        id: wheel
         run: |
-          python .ci/build_wheel.py -p manylinux_2_17
+          python .ci/build_wheel.py -p manylinux_2_17 -w
           cd dist
-          export name=`ls *manylinux_2_17*.whl`
+          export name=`ls ansys_dpf_core*.whl`
           echo ${name}
           echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
           cd ..
@@ -144,21 +153,23 @@ jobs:
       - name: "Upload wheel any as artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.wheel2.outputs.wheel_name }}
-          path: dist/${{ steps.wheel2.outputs.wheel_name }}
+          name: ${{ steps.wheel.outputs.wheel_name }}
+          path: dist/${{ steps.wheel.outputs.wheel_name }}
 
-#  tests:
-#    uses: ./.github/workflows/tests.yml
-#    with:
-#      ANSYS_VERSION: "241"
-#      python_versions: '["3.8"]'
-#      wheel: false
-#      wheelhouse: false
-#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-#    secrets: inherit
-#
+  tests:
+    needs: [build_win, build_linux2]
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "241"
+      python_versions: '["3.8"]'
+      wheel: false
+      wheelhouse: false
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+    secrets: inherit
+
 #  docker_tests:
 #    name: "Build and Test on Docker"
+#    needs: [build_linux2]
 #    uses: ./.github/workflows/test_docker.yml
 #    with:
 #      ANSYS_VERSION: "241"
@@ -167,6 +178,7 @@ jobs:
 #
 #  docker_examples:
 #    name: "Run examples on Docker"
+#    needs: [build_linux2]
 #    uses: ./.github/workflows/examples_docker.yml
 #    with:
 #      ANSYS_VERSION: "241"
@@ -176,6 +188,7 @@ jobs:
 #
 #  docs:
 #    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    needs: [build_win]
 #    uses: ./.github/workflows/docs.yml
 #    with:
 #      ANSYS_VERSION: "241"
@@ -198,6 +211,7 @@ jobs:
 #
 #  examples:
 #    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    needs: [build_win, build_linux2]
 #    uses: ./.github/workflows/examples.yml
 #    with:
 #      ANSYS_VERSION: "241"
@@ -207,6 +221,7 @@ jobs:
 #
 #  retro_232:
 #    name: "retro 232"
+#    needs: [build_win, build_linux2]
 #    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
 #    uses: ./.github/workflows/tests.yml
 #    with:
@@ -218,6 +233,7 @@ jobs:
 #
 #  retro_231:
 #    name: "retro 231"
+#    needs: [build_win, build_linux2]
 #    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
 #    uses: ./.github/workflows/tests.yml
 #    with:
@@ -228,6 +244,7 @@ jobs:
 #
 #  retro_222:
 #    name: "retro 222"
+#    needs: [build_win, build_linux2]
 #    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
 #    uses: ./.github/workflows/tests.yml
 #    with:
@@ -238,6 +255,7 @@ jobs:
 #
 #  pydpf-post:
 #    name: "PyDPF-Post"
+#    needs: [build_win, build_linux2]
 #    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
 #    uses: ./.github/workflows/pydpf-post.yml
 #    with:
