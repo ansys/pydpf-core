@@ -114,14 +114,13 @@ jobs:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
-#  docker_tests:
-#    name: "Build and Test on Docker"
-#    needs: [build_linux2]
-#    uses: ./.github/workflows/test_docker.yml
-#    with:
-#      ANSYS_VERSION: "241"
-#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-#    secrets: inherit
+  docker_tests:
+    name: "Build and Test on Docker"
+    uses: ./.github/workflows/test_docker.yml
+    with:
+      ANSYS_VERSION: "241"
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+    secrets: inherit
 #
 #  docker_examples:
 #    name: "Run examples on Docker"
