@@ -165,41 +165,38 @@ jobs:
 #      python_versions: '["3.8"]'
 #      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
 #    secrets: inherit
-#
-#  retro_232:
-#    name: "retro 232"
-#    needs: [build_win, build_linux2]
-#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-#    uses: ./.github/workflows/tests.yml
-#    with:
-#      ANSYS_VERSION: "232"
-#      python_versions: '["3.8"]'
-#      DOCSTRING: false
-#      standalone_suffix: ''
-#    secrets: inherit
-#
-#  retro_231:
-#    name: "retro 231"
-#    needs: [build_win, build_linux2]
-#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-#    uses: ./.github/workflows/tests.yml
-#    with:
-#      ANSYS_VERSION: "231"
-#      python_versions: '["3.8"]'
-#      DOCSTRING: false
-#    secrets: inherit
-#
-#  retro_222:
-#    name: "retro 222"
-#    needs: [build_win, build_linux2]
-#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-#    uses: ./.github/workflows/tests.yml
-#    with:
-#      ANSYS_VERSION: "222"
-#      python_versions: '["3.8"]'
-#      DOCSTRING: false
-#    secrets: inherit
-#
+
+  retro_232:
+    name: "retro 232"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "232"
+      python_versions: '["3.8"]'
+      DOCSTRING: false
+      standalone_suffix: ''
+    secrets: inherit
+
+  retro_231:
+    name: "retro 231"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "231"
+      python_versions: '["3.8"]'
+      DOCSTRING: false
+    secrets: inherit
+
+  retro_222:
+    name: "retro 222"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "222"
+      python_versions: '["3.8"]'
+      DOCSTRING: false
+    secrets: inherit
+
 #  pydpf-post:
 #    name: "PyDPF-Post"
 #    needs: [build_win, build_linux2]
