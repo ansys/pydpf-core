@@ -67,3 +67,7 @@ show_missing = true
 [tool.setuptools.packages.find]
 namespaces = true
 where = ["src"]
+
+[tool.setuptools.package-data]
+"ansys.dpf.gatebin" = ["*.so", "*.dll"]
+
