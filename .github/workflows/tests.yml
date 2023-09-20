@@ -98,17 +98,17 @@ jobs:
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
-      - name: "Build Package"
-        uses: ansys/pydpf-actions/build_package@v2.3
-        with:
-          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
-          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheel: ${{ inputs.wheel }}
-          wheelhouse: ${{ inputs.wheelhouse }}
-          standalone_suffix: ${{ inputs.standalone_suffix }}
+#      - name: "Build Package"
+#        uses: ansys/pydpf-actions/build_package@v2.3
+#        with:
+#          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
+#          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+#          MODULE: ${{env.MODULE}}
+#          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+#          install_extras: plotting
+#          wheel: ${{ inputs.wheel }}
+#          wheelhouse: ${{ inputs.wheelhouse }}
+#          standalone_suffix: ${{ inputs.standalone_suffix }}
 
       - name: "Setup Python"
         uses: actions/setup-python@v4.6.1
