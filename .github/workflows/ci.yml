@@ -51,8 +51,10 @@ jobs:
 #        run: pre-commit run --all-files --show-diff-on-failure
 
   build_any:
-    name: "Build wheel any for the package"
+    name: "Build any wheels for the package"
     runs-on: ubuntu-latest
+    env:
+      platform: any
     steps:
       - uses: actions/checkout@v3
 
@@ -61,21 +63,25 @@ jobs:
 
       - name: "Build the wheel"
         shell: bash
+        id: wheel
         run: |
           rm src/ansys/dpf/gatebin/*
           export DIST_EXTRA_CONFIG=build-opts.cfg
           
-          echo [bdist_wheel]\nplat-name=any > build-opts.cfg
+          echo [bdist_wheel]\nplat-name=${{ env.platform }} > build-opts.cfg
           python -m build -w
+          export name=`ls dist/*.whl`
+          echo ${name}
+          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
 
       - name: "Upload wheel any as artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: any_wheels
-          path: dist/*.whl
+          name: ${{ steps.wheel.outputs.wheel_name }}
+          path: dist/${{ steps.wheel.outputs.wheel_name }}
 
   build_win:
-    name: "Build wheel win for the package"
+    name: "Build win wheels for the package"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -99,7 +105,7 @@ jobs:
           path: dist/*.whl
 
   build_linux:
-    name: "Build wheel win for the package"
+    name: "Build linux wheels for the package"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
