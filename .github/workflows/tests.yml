@@ -145,13 +145,13 @@ jobs:
       - name: "Install package wheel"
         shell: bash
         run: |
-          pip install ${{ steps.wheel.outputs.wheel_name }}
+          pip install dist/${{ steps.wheel.outputs.wheel_name }}
         if: ${{inputs.install_extras}} == null
 
       - name: "Install package with optional dependencies"
         shell: bash
         run: |
-          pip install '${{ steps.wheel.outputs.wheel_name }}[${{inputs.install_extras}}]'
+          pip install 'dist/${{ steps.wheel.outputs.wheel_name }}[${{inputs.install_extras}}]'
         if: ${{inputs.install_extras}} != null
 
       - name: "Check licences of packages"
