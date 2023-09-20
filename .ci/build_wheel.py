@@ -65,10 +65,10 @@ with tempfile.TemporaryDirectory() as tmpdirname:
         moved.append([dst, src])
 
     # Call the build
-    cmd = [sys.executable, "-m", "pip", "wheel", "-w", "dist"]
     if not args.wheelhouse:
-        cmd.append("--no-deps")
-    cmd.append(".[plotting]")
+        cmd = [sys.executable, "-m", "build", "--wheel"]
+    else:
+        cmd = [sys.executable, "-m", "pip", "wheel", "-w", "dist", ".[plotting]"]
     try:
         subprocess.run(cmd, capture_output=False, text=True)
         print("Done building the wheel.")
