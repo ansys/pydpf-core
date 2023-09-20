@@ -25,33 +25,33 @@ env:
   MAIN_PYTHON_VERSION: '3.8'
 
 jobs:
-#  debug:
-#    runs-on: ubuntu-latest
-#    steps:
-#    - name: Show the Github context for the triggered event
-#      run: echo "$GITHUB_CONTEXT"
-#      env:
-#        GITHUB_CONTEXT: ${{ toJson(github) }}
-#
-#  style:
-#    name: "Style Check"
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#      - name: "Setup Python"
-#        uses: actions/setup-python@v4.6.0
-#        with:
-#          python-version: ${{ env.MAIN_PYTHON_VERSION }}
-#
-#      - name: "Install pre-commit"
-#        run: pip install pre-commit
-#
-#      - name: "Run pre-commit"
-#        run: pre-commit run --all-files --show-diff-on-failure
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Show the Github context for the triggered event
+      run: echo "$GITHUB_CONTEXT"
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+
+  style:
+    name: "Style Check"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Setup Python"
+        uses: actions/setup-python@v4.6.0
+        with:
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}
+
+      - name: "Install pre-commit"
+        run: pip install pre-commit
+
+      - name: "Run pre-commit"
+        run: pre-commit run --all-files --show-diff-on-failure
 
   build_any:
-    name: "Build any wheels for the package"
+    name: "Build wheel any"
     runs-on: ubuntu-latest
     env:
       platform: any
@@ -78,34 +78,8 @@ jobs:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
 
-#  build_win:
-#    name: "Build win wheels for the package"
-#    runs-on: windows-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#      - name: "Install requirements"
-#        run: pip install -r requirements/requirements_build.txt
-#
-#      - name: "Build the wheel"
-#        shell: bash
-#        id: wheel
-#        run: |
-#          python .ci/build_wheel.py -p win
-#          cd dist
-#          export name=`ls ansys_dpf_core*.whl`
-#          echo ${name}
-#          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-#          cd ..
-#
-#      - name: "Upload wheel any as artifact"
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: ${{ steps.wheel.outputs.wheel_name }}
-#          path: dist/${{ steps.wheel.outputs.wheel_name }}
-
   build_linux1:
-    name: "Build linux1 wheels for the package"
+    name: "Build linux1 wheel"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -130,39 +104,13 @@ jobs:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
 
-#  build_linux2:
-#    name: "Build linux2 wheels for the package"
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#      - name: "Install requirements"
-#        run: pip install -r requirements/requirements_build.txt
-#
-#      - name: "Build the manylinux_2_17 wheel"
-#        shell: bash
-#        id: wheel
-#        run: |
-#          python .ci/build_wheel.py -p manylinux_2_17
-#          cd dist
-#          export name=`ls ansys_dpf_core*.whl`
-#          echo ${name}
-#          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-#          cd ..
-#
-#      - name: "Upload wheel any as artifact"
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: ${{ steps.wheel.outputs.wheel_name }}
-#          path: dist/${{ steps.wheel.outputs.wheel_name }}
-
   tests:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "241"
       python_versions: '["3.8"]'
       wheel: true
-      wheelhouse: false
+      wheelhouse: true
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
