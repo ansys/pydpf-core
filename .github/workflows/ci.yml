@@ -91,7 +91,7 @@ jobs:
         shell: bash
         id: wheel
         run: |
-          python .ci/build_wheel.py -p win -w
+          python .ci/build_wheel.py -p win
           cd dist
           export name=`ls ansys_dpf_core*.whl`
           echo ${name}
@@ -143,7 +143,7 @@ jobs:
         shell: bash
         id: wheel
         run: |
-          python .ci/build_wheel.py -p manylinux_2_17 -w
+          python .ci/build_wheel.py -p manylinux_2_17
           cd dist
           export name=`ls ansys_dpf_core*.whl`
           echo ${name}
