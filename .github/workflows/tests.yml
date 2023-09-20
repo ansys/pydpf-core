@@ -132,19 +132,27 @@ jobs:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
 
+      - name: "Define wheelhouse name"
+        if: inputs.wheelhouse == 'true'
+        shell: bash
+        id: wheelhouse
+        run: |
+          export name=ansys-dpf-core-v${${{ steps.wheel.outputs.wheel_name }}:15:5}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}
+          echo "name=${name}" >> $GITHUB_OUTPUT
+
       - name: "Zip wheelhouse"
         if: inputs.wheelhouse == 'true'
         uses: vimtor/action-zip@v1.1
         with:
           files: dist
-          dest: ${{ steps.wheel.outputs.wheel_name }}_wheelhouse.zip
+          dest: ${{ steps.wheelhouse.outputs.name }}.zip
 
       - name: "Upload wheelhouse to artifacts"
         if: inputs.wheelhouse == 'true'
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: ${{ steps.wheel.outputs.wheel_name }}_wheelhouse
-          path: ${{ steps.wheel.outputs.wheel_name }}_wheelhouse.zip
+          name: ${{ steps.wheelhouse.outputs.name }}
+          path: ${{ steps.wheelhouse.outputs.name }}.zip
           retention-days: 7
 
       - name: "Install package wheel"
