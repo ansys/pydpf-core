@@ -162,185 +162,185 @@ jobs:
         run: |
           pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
 
-#      - name: "Install DPF"
-#        id: set-server-path
-#        uses: ansys/pydpf-actions/install-dpf-server@v2.3
-#        with:
-#          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-#          standalone_suffix: ${{ inputs.standalone_suffix }}
-#          ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
-#
-#      - name: "Check licences of packages"
-#        uses: ansys/pydpf-actions/check-licenses@v2.3
-#
-#      - name: "Test import"
-#        shell: bash
-#        working-directory: tests
-#        run: python -c "from ansys.dpf import core"
-#
-#      - name: "Prepare Testing Environment"
-#        uses: ansys/pydpf-actions/prepare_tests@v2.3
-#        with:
-#          DEBUG: true
-#
-#      - name: "List installed packages"
-#        shell: bash
-#        run: pip list
-#
-#      - name: "Test Docstrings"
-#        if: inputs.DOCSTRING == 'true'
-#        uses: ansys/pydpf-actions/test_docstrings@v2.3
-#        with:
-#          MODULE: ${{env.MODULE}}
-#          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-#          working-directory: src
-#
-#      - name: "Separate long Core tests"
-#        shell: pwsh
-#        run: |
-#          .github\workflows\scripts\separate_long_core_tests.ps1
-#        if: always()
-#
-#      - name: "Set pytest arguments"
-#        shell: bash
-#        run: |
-#          echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
-#          echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
-#
-#      - name: "Test API"
-#        shell: bash
-#        working-directory: tests
-#        run: |
-#          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results.xml  .
-#        if: always()
-#
-#      - name: "Kill all servers"
-#        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-#        if: always()
-#
-#      - name: "Test API test_launcher"
-#        uses: nick-fields/retry@v2
-#        with:
-#          timeout_minutes: 2
-#          max_attempts: 2
-#          shell: bash
-#          command: |
-#            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results2.xml test_launcher/.
-#
-#      - name: "Kill all servers"
-#        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-#        if: always()
-#
-#      - name: "Test API test_server"
-#        uses: nick-fields/retry@v2
-#        with:
-#          timeout_minutes: 5
-#          max_attempts: 2
-#          shell: bash
-#          command: |
-#            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results3.xml test_server/.
-#        if: always()
-#
-#      - name: "Kill all servers"
-#        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-#        if: always()
-#
-#      - name: "Test API test_local_server"
-#        uses: nick-fields/retry@v2
-#        with:
-#          timeout_minutes: 2
-#          max_attempts: 2
-#          shell: bash
-#          command: |
-#            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results4.xml test_local_server/.
-#
-#      - name: "Kill all servers"
-#        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-#        if: always()
-#
-#      - name: "Test API test_multi_server"
-#        uses: nick-fields/retry@v2
-#        with:
-#          timeout_minutes: 5
-#          max_attempts: 2
-#          shell: bash
-#          command: |
-#            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results5.xml test_multi_server/.
-#
-#      - name: "Kill all servers"
-#        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-#        if: always()
-#
-#      - name: "Test API test_remote_workflow"
-#        uses: nick-fields/retry@v2
-#        with:
-#          timeout_minutes: 4
-#          max_attempts: 3
-#          shell: bash
-#          command: |
-#            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results6.xml test_remote_workflow/.
-#
-#      - name: "Kill all servers"
-#        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-#        if: always()
-#
-#      - name: "Test API test_remote_operator"
-#        shell: bash
-#        working-directory: test_remote_operator
-#        run: |
-#          pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results7.xml .
-#
-#      - name: "Kill all servers"
-#        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-#        if: always()
-#
-#      - name: "Test API test_workflow"
-#        uses: nick-fields/retry@v2
-#        with:
-#          timeout_minutes: 3
-#          max_attempts: 4
-#          retry_wait_seconds: 15
-#          shell: bash
-#          command: |
-#            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results8.xml test_workflow/.
-#        if: always()
-#
-#      - name: "Kill all servers"
-#        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
-#        if: always()
-#
-#      - name: "Test API test_service"
-#        uses: nick-fields/retry@v2
-#        with:
-#          timeout_minutes: 2
-#          max_attempts: 2
-#          shell: bash
-#          command: |
-#            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
-#
-#      - name: "Kill all servers"
-#        uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
-#        if: always()
-#
-#      - name: "Test API Entry"
-#        shell: bash
-#        working-directory: tests
-#        run: |
-#          cd entry
-#          pytest $DEBUG $COVERAGE $RERUNS --junitxml=../junit/test-results10.xml  .
-#        if: always()
-#        timeout-minutes: 30
-#
-#      - name: "Kill all servers"
-#        uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
-#        if: always()
-#
-#      - name: "Upload Test Results"
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}
-#          path: tests/junit/test-results.xml
-#        if: always()
-#
-#      - name: "Upload coverage to Codecov"
-#        uses: codecov/codecov-action@v3
+      - name: "Install DPF"
+        id: set-server-path
+        uses: ansys/pydpf-actions/install-dpf-server@v2.3
+        with:
+          dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
+          standalone_suffix: ${{ inputs.standalone_suffix }}
+          ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+
+      - name: "Check licences of packages"
+        uses: ansys/pydpf-actions/check-licenses@v2.3
+
+      - name: "Test import"
+        shell: bash
+        working-directory: tests
+        run: python -c "from ansys.dpf import core"
+
+      - name: "Prepare Testing Environment"
+        uses: ansys/pydpf-actions/prepare_tests@v2.3
+        with:
+          DEBUG: true
+
+      - name: "List installed packages"
+        shell: bash
+        run: pip list
+
+      - name: "Test Docstrings"
+        if: inputs.DOCSTRING == 'true'
+        uses: ansys/pydpf-actions/test_docstrings@v2.3
+        with:
+          MODULE: ${{env.MODULE}}
+          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
+          working-directory: src
+
+      - name: "Separate long Core tests"
+        shell: pwsh
+        run: |
+          .github\workflows\scripts\separate_long_core_tests.ps1
+        if: always()
+
+      - name: "Set pytest arguments"
+        shell: bash
+        run: |
+          echo "COVERAGE=--cov=ansys.dpf.${{env.MODULE}} --cov-report=xml --cov-report=html --log-level=ERROR --cov-append" >> $GITHUB_ENV
+          echo "RERUNS=--reruns 2 --reruns-delay 1" >> $GITHUB_ENV
+
+      - name: "Test API"
+        shell: bash
+        working-directory: tests
+        run: |
+          pytest $DEBUG $COVERAGE $RERUNS --junitxml=junit/test-results.xml  .
+        if: always()
+
+      - name: "Kill all servers"
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+        if: always()
+
+      - name: "Test API test_launcher"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 2
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results2.xml test_launcher/.
+
+      - name: "Kill all servers"
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+        if: always()
+
+      - name: "Test API test_server"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results3.xml test_server/.
+        if: always()
+
+      - name: "Kill all servers"
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+        if: always()
+
+      - name: "Test API test_local_server"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 2
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results4.xml test_local_server/.
+
+      - name: "Kill all servers"
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+        if: always()
+
+      - name: "Test API test_multi_server"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results5.xml test_multi_server/.
+
+      - name: "Kill all servers"
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+        if: always()
+
+      - name: "Test API test_remote_workflow"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 4
+          max_attempts: 3
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results6.xml test_remote_workflow/.
+
+      - name: "Kill all servers"
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+        if: always()
+
+      - name: "Test API test_remote_operator"
+        shell: bash
+        working-directory: test_remote_operator
+        run: |
+          pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results7.xml .
+
+      - name: "Kill all servers"
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+        if: always()
+
+      - name: "Test API test_workflow"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 3
+          max_attempts: 4
+          retry_wait_seconds: 15
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=../tests/junit/test-results8.xml test_workflow/.
+        if: always()
+
+      - name: "Kill all servers"
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
+        if: always()
+
+      - name: "Test API test_service"
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 2
+          max_attempts: 2
+          shell: bash
+          command: |
+            pytest $DEBUG $COVERAGE $RERUNS --junitxml=tests/junit/test-results9.xml test_service/.
+
+      - name: "Kill all servers"
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Test API Entry"
+        shell: bash
+        working-directory: tests
+        run: |
+          cd entry
+          pytest $DEBUG $COVERAGE $RERUNS --junitxml=../junit/test-results10.xml  .
+        if: always()
+        timeout-minutes: 30
+
+      - name: "Kill all servers"
+        uses: ansys/pydpf-actions/kill-dpf-servers@v2.2
+        if: always()
+
+      - name: "Upload Test Results"
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.PACKAGE_NAME }}_${{ matrix.python-version }}_${{ matrix.os }}_pytest_${{ inputs.ANSYS_VERSION }}
+          path: tests/junit/test-results.xml
+        if: always()
+
+      - name: "Upload coverage to Codecov"
+        uses: codecov/codecov-action@v3
