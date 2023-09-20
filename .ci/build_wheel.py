@@ -19,6 +19,7 @@ supported_platforms = {
 
 argParser = argparse.ArgumentParser()
 argParser.add_argument("-p", "--platform", help="platform")
+argParser.add_argument("-w", "--wheelhouse", help="platform", action='store_true')
 
 args = argParser.parse_args()
 
@@ -64,7 +65,10 @@ with tempfile.TemporaryDirectory() as tmpdirname:
         moved.append([dst, src])
 
     # Call the build
-    cmd = [sys.executable, "-m", "build", "-w"]
+    cmd = [sys.executable, "-m", "pip", "wheel", "-w", "dist"]
+    if not args.wheelhouse:
+        cmd.append("--no-deps")
+    cmd.append(".[plotting]")
     try:
         subprocess.run(cmd, capture_output=False, text=True)
         print("Done building the wheel.")
