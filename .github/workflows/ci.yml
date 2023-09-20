@@ -196,14 +196,13 @@ jobs:
       DOCSTRING: false
     secrets: inherit
 
-#  pydpf-post:
-#    name: "PyDPF-Post"
-#    needs: [build_win, build_linux2]
-#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-#    uses: ./.github/workflows/pydpf-post.yml
-#    with:
-#      ANSYS_VERSION: "241"
-#      post_branch: "master"
-#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-#      test_docstrings: "true"
-#    secrets: inherit
+  pydpf-post:
+    name: "PyDPF-Post"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/pydpf-post.yml
+    with:
+      ANSYS_VERSION: "241"
+      post_branch: "master"
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      test_docstrings: "true"
+    secrets: inherit
