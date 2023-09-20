@@ -7,7 +7,7 @@ Compute iso-surfaces on fluid models
 This example demonstrates how to compute iso-surfaces on fluid models.
 
 .. note::
-    This example requires DPF 7.0 (ansys-dpf-server-2024-1-pre0) or above.
+    This example requires DPF 7.1 (ansys-dpf-server-2024-1-pre1) or above.
     For more information, see :ref:`ref_compatibility`.
 
 """
