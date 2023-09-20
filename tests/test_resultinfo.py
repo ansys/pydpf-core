@@ -132,7 +132,6 @@ Available results:
      -  total_pressure: Nodal Total Pressure
      -  density: Nodal Density        
      -  entropy: Nodal Entropy        
-     -  wall_shear_stress: Nodal Wall Shear Stress
      -  temperature: Nodal Temperature
      -  total_temperature: Nodal Total Temperature
      -  velocity: Nodal Velocity      
