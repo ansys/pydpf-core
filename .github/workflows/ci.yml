@@ -110,7 +110,7 @@ jobs:
       ANSYS_VERSION: "241"
       python_versions: '["3.8"]'
       wheel: true
-      wheelhouse: true
+      wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
