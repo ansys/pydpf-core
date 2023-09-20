@@ -78,31 +78,31 @@ jobs:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
 
-  build_win:
-    name: "Build win wheels for the package"
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: "Install requirements"
-        run: pip install -r requirements/requirements_build.txt
-
-      - name: "Build the wheel"
-        shell: bash
-        id: wheel
-        run: |
-          python .ci/build_wheel.py -p win
-          cd dist
-          export name=`ls ansys_dpf_core*.whl`
-          echo ${name}
-          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-          cd ..
-
-      - name: "Upload wheel any as artifact"
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ steps.wheel.outputs.wheel_name }}
-          path: dist/${{ steps.wheel.outputs.wheel_name }}
+#  build_win:
+#    name: "Build win wheels for the package"
+#    runs-on: windows-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: "Install requirements"
+#        run: pip install -r requirements/requirements_build.txt
+#
+#      - name: "Build the wheel"
+#        shell: bash
+#        id: wheel
+#        run: |
+#          python .ci/build_wheel.py -p win
+#          cd dist
+#          export name=`ls ansys_dpf_core*.whl`
+#          echo ${name}
+#          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+#          cd ..
+#
+#      - name: "Upload wheel any as artifact"
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: ${{ steps.wheel.outputs.wheel_name }}
+#          path: dist/${{ steps.wheel.outputs.wheel_name }}
 
   build_linux1:
     name: "Build linux1 wheels for the package"
@@ -130,34 +130,33 @@ jobs:
           name: ${{ steps.wheel.outputs.wheel_name }}
           path: dist/${{ steps.wheel.outputs.wheel_name }}
 
-  build_linux2:
-    name: "Build linux2 wheels for the package"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: "Install requirements"
-        run: pip install -r requirements/requirements_build.txt
-
-      - name: "Build the manylinux_2_17 wheel"
-        shell: bash
-        id: wheel
-        run: |
-          python .ci/build_wheel.py -p manylinux_2_17
-          cd dist
-          export name=`ls ansys_dpf_core*.whl`
-          echo ${name}
-          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-          cd ..
-
-      - name: "Upload wheel any as artifact"
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ steps.wheel.outputs.wheel_name }}
-          path: dist/${{ steps.wheel.outputs.wheel_name }}
+#  build_linux2:
+#    name: "Build linux2 wheels for the package"
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: "Install requirements"
+#        run: pip install -r requirements/requirements_build.txt
+#
+#      - name: "Build the manylinux_2_17 wheel"
+#        shell: bash
+#        id: wheel
+#        run: |
+#          python .ci/build_wheel.py -p manylinux_2_17
+#          cd dist
+#          export name=`ls ansys_dpf_core*.whl`
+#          echo ${name}
+#          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+#          cd ..
+#
+#      - name: "Upload wheel any as artifact"
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: ${{ steps.wheel.outputs.wheel_name }}
+#          path: dist/${{ steps.wheel.outputs.wheel_name }}
 
   tests:
-    needs: [build_win, build_linux2]
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "241"
