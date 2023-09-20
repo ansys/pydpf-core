@@ -65,13 +65,9 @@ jobs:
         shell: bash
         id: wheel
         run: |
-          rm src/ansys/dpf/gatebin/*
-          export DIST_EXTRA_CONFIG=build-opts.cfg
-          
-          echo [bdist_wheel]\nplat-name=${{ env.platform }} > build-opts.cfg
-          python -m build -w
+          python .ci/build_wheel.py -p any
           cd dist
-          export name=`ls *.whl`
+          export name=`ls *any*.whl`
           echo ${name}
           echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
           cd ..
@@ -93,18 +89,20 @@ jobs:
 
       - name: "Build the wheel"
         shell: bash
+        id: wheel
         run: |
-          rm src/ansys/dpf/gatebin/*.so
-          export DIST_EXTRA_CONFIG=build-opts.cfg
-          
-          echo [bdist_wheel]\nplat-name=win_amd64 > build-opts.cfg
-          python -m build -w
+          python .ci/build_wheel.py -p win
+          cd dist
+          export name=`ls *win*.whl`
+          echo ${name}
+          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+          cd ..
 
       - name: "Upload wheel any as artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: win_wheels
-          path: dist/*.whl
+          name: ${{ steps.wheel.outputs.wheel_name }}
+          path: dist/${{ steps.wheel.outputs.wheel_name }}
 
   build_linux:
     name: "Build linux wheels for the package"
@@ -115,24 +113,39 @@ jobs:
       - name: "Install requirements"
         run: pip install -r requirements/requirements_build.txt
 
-      - name: "Build the wheel"
+      - name: "Build the manylinux1 wheel"
         shell: bash
+        id: wheel
         run: |
-          rm src/ansys/dpf/gatebin/*.dll
-          export DIST_EXTRA_CONFIG=build-opts.cfg
-          
-          echo [bdist_wheel]\nplat-name=manylinux_2_17_x86_64 > build-opts.cfg
-          python -m build -w
-          
-          rm build-opts.cfg
-          echo [bdist_wheel]\nplat-name=manylinux1_17_x86_64 > build-opts.cfg
-          python -m build -w
+          python .ci/build_wheel.py -p manylinux1
+          cd dist
+          export name=`ls *manylinux1*.whl`
+          echo ${name}
+          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+          cd ..
 
       - name: "Upload wheel any as artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: linux_wheels
-          path: dist/*.whl
+          name: ${{ steps.wheel.outputs.wheel_name }}
+          path: dist/${{ steps.wheel.outputs.wheel_name }}
+
+      - name: "Build the manylinux_2_17 wheel"
+        shell: bash
+        id: wheel2
+        run: |
+          python .ci/build_wheel.py -p manylinux_2_17
+          cd dist
+          export name=`ls *manylinux_2_17*.whl`
+          echo ${name}
+          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+          cd ..
+
+      - name: "Upload wheel any as artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.wheel2.outputs.wheel_name }}
+          path: dist/${{ steps.wheel2.outputs.wheel_name }}
 
 #  tests:
 #    uses: ./.github/workflows/tests.yml
