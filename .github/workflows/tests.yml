@@ -7,7 +7,7 @@ on:
       python_versions:
         required: false
         type: string
-        default: '["3.7"]'
+        default: '["3.8"]'
       ANSYS_VERSION:
         required: false
         type: string
