@@ -161,7 +161,7 @@ jobs:
     with:
       ANSYS_VERSION: "241"
       python_versions: '["3.8"]'
-      wheel: false
+      wheel: true
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
