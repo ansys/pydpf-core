@@ -132,30 +132,29 @@ jobs:
 #      python_versions: '["3.8"]'
 #      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
 #    secrets: inherit
-#
-#  docs:
-#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-#    needs: [build_win]
-#    uses: ./.github/workflows/docs.yml
-#    with:
-#      ANSYS_VERSION: "241"
-#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-#      event_name: ${{ github.event_name }}
-#    secrets: inherit
-#
-#  upload-development-docs:
-#    runs-on: ubuntu-latest
-#    if: ${{ github.ref == 'refs/heads/master' }}
-#    needs: [docs]
-#    steps:
-#      - name: "Upload development documentation"
-#        uses: ansys/actions/doc-deploy-dev@v4
-#        with:
-#          cname: ${{ env.DOCUMENTATION_CNAME }}
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
-#          decompress-artifact: true
-#
+
+  docs:
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/docs.yml
+    with:
+      ANSYS_VERSION: "241"
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      event_name: ${{ github.event_name }}
+    secrets: inherit
+
+  upload-development-docs:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/master' }}
+    needs: [docs]
+    steps:
+      - name: "Upload development documentation"
+        uses: ansys/actions/doc-deploy-dev@v4
+        with:
+          cname: ${{ env.DOCUMENTATION_CNAME }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
+          decompress-artifact: true
+
   examples:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/examples.yml
