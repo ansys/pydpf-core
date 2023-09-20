@@ -25,7 +25,10 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.result_info)
     assert res.analysis_type == "static"
-    assert res.n_results == 14
+    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0:
+        assert res.n_results == 14
+    else:
+        assert res.n_results == 15
     assert "m, kg, N, s, V, A" in res.unit_system
     assert res.physics_type == mechanical
 
@@ -33,7 +36,10 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
 def test_get_resultinfo(model):
     res = model.metadata.result_info
     assert res.analysis_type == "static"
-    assert res.n_results == 14
+    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0:
+        assert res.n_results == 14
+    else:
+        assert res.n_results == 15
     assert "m, kg, N, s, V, A" in res.unit_system
     assert res.physics_type == mechanical
     assert "Static analysis" in str(res)

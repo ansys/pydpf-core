@@ -19,6 +19,7 @@ from .mesh_provider import mesh_provider
 from .mesh_to_graphics import mesh_to_graphics 
 from .mesh_to_graphics_edges import mesh_to_graphics_edges 
 from .mesh_to_pyvista import mesh_to_pyvista 
+from .mesh_to_tetra import mesh_to_tetra 
 from .meshes_provider import meshes_provider 
 from .node_coordinates import node_coordinates 
 from .points_from_coordinates import points_from_coordinates 
