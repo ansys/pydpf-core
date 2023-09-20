@@ -68,7 +68,7 @@ with tempfile.TemporaryDirectory() as tmpdirname:
     if not args.wheelhouse:
         cmd = [sys.executable, "-m", "build", "--wheel"]
     else:
-        cmd = [sys.executable, "-m", "pip", "wheel", "-w", "dist", ".[plotting]"]
+        cmd = [sys.executable, "-m", "pip", "wheel", "-w", "dist", "."]
     try:
         subprocess.run(cmd, capture_output=False, text=True)
         print("Done building the wheel.")
