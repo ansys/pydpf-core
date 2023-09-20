@@ -70,9 +70,11 @@ jobs:
           
           echo [bdist_wheel]\nplat-name=${{ env.platform }} > build-opts.cfg
           python -m build -w
-          export name=`ls dist/*.whl`
+          cd dist
+          export name=`ls *.whl`
           echo ${name}
           echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+          cd ..
 
       - name: "Upload wheel any as artifact"
         uses: actions/upload-artifact@v3
