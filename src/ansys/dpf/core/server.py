@@ -365,7 +365,7 @@ def connect_to_server(
             )
             warnings.warn(
                 UserWarning(
-                    "Could not connect to remote server as ansys-dpf-gatebin "
+                    "Could not connect to remote server as ansys.dpf.gatebin "
                     "is missing. Trying again using LegacyGrpcServer.\n"
                     f"The error stated:\n{e.msg}"
                 )
