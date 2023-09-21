@@ -1541,18 +1541,26 @@ def download_cfx_heating_coil(
     >>> from ansys.dpf.core import examples
     >>> paths = examples.download_cfx_heating_coil()
     >>> paths
-    {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-heating_coil\\HeatingCoil.res',
-     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-heating_coil\\HeatingCoil.res'} # noqa: E501
+    {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-heating_coil\\def.cas.cff',
+     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-heating_coil\\def.dat.cff'} # noqa: E501
 
     """
-    file = _download_file(
-        "result_files/cfx-heating_coil",
-        "HeatingCoil.res",
-        should_upload,
-        server,
-        return_local_path,
-    )
-    return {"cas": file, "dat": file}
+    return {
+        "cas": _download_file(
+            "result_files/cfx-heating_coil",
+            "def.cas.cff",
+            should_upload,
+            server,
+            return_local_path,
+        ),
+        "dat": _download_file(
+            "result_files/cfx-heating_coil",
+            "def.dat.cff",
+            should_upload,
+            server,
+            return_local_path,
+        )
+    }
 
 
 def download_cfx_mixing_elbow(
