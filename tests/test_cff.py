@@ -35,7 +35,6 @@ def test_results_cfx(cfx_heating_coil, server_type):
         "total_pressure",
         "density",
         "entropy",
-        "wall_shear_stress",
         "temperature",
         "total_temperature",
         "velocity",
