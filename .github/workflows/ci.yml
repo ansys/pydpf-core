@@ -114,6 +114,17 @@ jobs:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
+  tests_any:
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "241"
+      python_versions: '["3.8"]'
+      wheel: true
+      wheelhouse: false
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      any: true
+    secrets: inherit
+
   docker_tests:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml

@@ -29,6 +29,11 @@ on:
         required: false
         type: string
         default: ''
+      test_any:
+        description: "Test the any version of the wheel"
+        required: false
+        type: string
+        default: false
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -62,6 +67,11 @@ on:
         required: false
         type: string
         default: ''
+      test_any:
+        description: "Test the any version of the wheel"
+        required: false
+        type: string
+        default: 'false'
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -109,7 +119,9 @@ jobs:
       - name: "Build the wheel"
         shell: bash
         run: |
-          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
+          if [ ${{ inputs.any }} == 'true' ]; then
+              export platform="any" 
+          elif [ ${{ matrix.os }} == "ubuntu-latest" ]; then
               export platform="manylinux_2_17"
           else
               export platform="win"
