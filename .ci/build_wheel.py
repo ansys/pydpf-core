@@ -58,8 +58,6 @@ with tempfile.TemporaryDirectory() as tmpdirname:
         binaries_to_move.extend(["Ans.Dpf.GrpcClient.dll", "DPFClientAPI.dll"])
     if "any" == requested_platform:
         binaries_to_move.extend(["_version.py"])
-        # Also remove the gatebin folder
-        os.rmdir(gatebin_folder_path)
 
     for binary_name in binaries_to_move:
         src = os.path.join(gatebin_folder_path, binary_name)
@@ -67,6 +65,10 @@ with tempfile.TemporaryDirectory() as tmpdirname:
         print(f"Moving {src} to {dst}")
         shutil.move(src=src, dst=dst)
         moved.append([dst, src])
+
+    if "any" == requested_platform:
+        # Also remove the gatebin folder
+        os.rmdir(gatebin_folder_path)
 
     # Call the build
     if not args.wheelhouse:
