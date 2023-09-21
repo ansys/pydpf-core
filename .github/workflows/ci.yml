@@ -50,34 +50,6 @@ jobs:
       - name: "Run pre-commit"
         run: pre-commit run --all-files --show-diff-on-failure
 
-  build_any:
-    name: "Build wheel any"
-    runs-on: ubuntu-latest
-    env:
-      platform: any
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: "Install requirements"
-        run: pip install -r requirements/requirements_build.txt
-
-      - name: "Build the wheel"
-        shell: bash
-        id: wheel
-        run: |
-          python .ci/build_wheel.py -p any
-          cd dist
-          export name=`ls ansys_dpf_core*.whl`
-          echo ${name}
-          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-          cd ..
-
-      - name: "Upload wheel any as artifact"
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ steps.wheel.outputs.wheel_name }}
-          path: dist/${{ steps.wheel.outputs.wheel_name }}
-
   build_linux1:
     name: "Build linux1 wheel"
     runs-on: ubuntu-latest
