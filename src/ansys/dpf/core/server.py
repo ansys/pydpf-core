@@ -359,7 +359,7 @@ def connect_to_server(
     try:
         return connect()
     except ModuleNotFoundError as e:
-        if "gatebin" in e.msg:
+        if "use a LegacyGrpcServer" in e.msg:
             server_type = ServerFactory.get_remote_server_type_from_config(
                 ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
             )
