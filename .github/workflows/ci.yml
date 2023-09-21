@@ -122,7 +122,7 @@ jobs:
       wheel: true
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      any: true
+      test_any: true
     secrets: inherit
 
   docker_tests:

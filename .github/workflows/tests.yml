@@ -119,7 +119,7 @@ jobs:
       - name: "Build the wheel"
         shell: bash
         run: |
-          if [ ${{ inputs.any }} == 'true' ]; then
+          if [ ${{ inputs.test_any }} == 'true' ]; then
               export platform="any" 
           elif [ ${{ matrix.os }} == "ubuntu-latest" ]; then
               export platform="manylinux_2_17"
