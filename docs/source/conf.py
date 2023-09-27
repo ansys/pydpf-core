@@ -199,7 +199,7 @@ html_theme_options = {
         "version_match": get_version_match(__version__),
     },
     "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
-      "use_meilisearch": {
+    "use_meilisearch": {
         "api_key": os.getenv("MEILISEARCH_PUBLIC_API_KEY", ""),
         "index_uids": {
             f"pydpf-core-v{get_version_match(__version__).replace('.', '-')}": "PyDPF-Core",
