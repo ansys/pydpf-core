@@ -7,6 +7,8 @@ on:
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
   PYTHON_MAIN_VERSION: '3.10'
+  MEILISEARCH_API_KEY: ${{ secrets.MEILISEARCH_API_KEY }}
+  MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
 
 jobs:
 
