@@ -67,6 +67,7 @@ jobs:
     steps:
       - name: "Install Git and clone project"
         uses: actions/checkout@v4
+
       - name: "Install the package requirements"
         run: pip install -e .
 
@@ -78,6 +79,7 @@ jobs:
           echo "Calculated VERSION_MEILI: $VERSION_MEILI"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "VERSION_MEILI=$VERSION_MEILI" >> $GITHUB_ENV
+
       - name: "Deploy the latest documentation index"
         uses: ansys/actions/doc-deploy-index@v4
         with:
