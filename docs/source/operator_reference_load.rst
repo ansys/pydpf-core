@@ -22,6 +22,6 @@ Loading operators.
         padding: 0;
         overflow: hidden;
         z-index: 1000;
-        height: 95%;
+        height: 94%;
       ">
     </iframe>
