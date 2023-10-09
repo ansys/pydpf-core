@@ -14,6 +14,10 @@ then it exports all the time sets for the results, per time set.
 Finally, it reads the results and compares them.
 For the example to run correctly, ensure you do not have an existing H5 file.
 
+.. note::
+    This example requires DPF 7.0 (ansys-dpf-server-2024-1-pre0) or above.
+    For more information, see :ref:`ref_compatibility`.
+
 """
 
 ###############################################################################
