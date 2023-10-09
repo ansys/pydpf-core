@@ -79,6 +79,16 @@ class element_nodal_forces(Operator):
         nodal shell and solid results to be
         split if this pin is set to true
         (default is false)
+    split_force_components : bool, optional
+        If this pin is set to true, the output fields
+        container splits the enf by degree of
+        freedom ("dof" label, 0 for
+        translation, 1 for rotation, 2 for
+        temperature) and derivative order
+        ("derivative_order" label, 0 for
+        stiffness terms, 1 for damping terms
+        and 2 for inertial terms). default is
+        false.
 
 
     Examples
@@ -111,6 +121,8 @@ class element_nodal_forces(Operator):
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
     >>> op.inputs.split_shells.connect(my_split_shells)
+    >>> my_split_force_components = bool()
+    >>> op.inputs.split_force_components.connect(my_split_force_components)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.element_nodal_forces(
@@ -125,6 +137,7 @@ class element_nodal_forces(Operator):
     ...     read_cyclic=my_read_cyclic,
     ...     read_beams=my_read_beams,
     ...     split_shells=my_split_shells,
+    ...     split_force_components=my_split_force_components,
     ... )
 
     >>> # Get output data
@@ -144,6 +157,7 @@ class element_nodal_forces(Operator):
         read_cyclic=None,
         read_beams=None,
         split_shells=None,
+        split_force_components=None,
         config=None,
         server=None,
     ):
@@ -172,6 +186,8 @@ class element_nodal_forces(Operator):
             self.inputs.read_beams.connect(read_beams)
         if split_shells is not None:
             self.inputs.split_shells.connect(split_shells)
+        if split_force_components is not None:
+            self.inputs.split_force_components.connect(split_force_components)
 
     @staticmethod
     def _spec():
@@ -294,6 +310,20 @@ class element_nodal_forces(Operator):
         split if this pin is set to true
         (default is false)""",
                 ),
+                200: PinSpecification(
+                    name="split_force_components",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If this pin is set to true, the output fields
+        container splits the enf by degree of
+        freedom ("dof" label, 0 for
+        translation, 1 for rotation, 2 for
+        temperature) and derivative order
+        ("derivative_order" label, 0 for
+        stiffness terms, 1 for damping terms
+        and 2 for inertial terms). default is
+        false.""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
@@ -373,6 +403,8 @@ class InputsElementNodalForces(_Inputs):
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
     >>> op.inputs.split_shells.connect(my_split_shells)
+    >>> my_split_force_components = bool()
+    >>> op.inputs.split_force_components.connect(my_split_force_components)
     """
 
     def __init__(self, op: Operator):
@@ -411,6 +443,10 @@ class InputsElementNodalForces(_Inputs):
             element_nodal_forces._spec().input_pin(26), 26, op, -1
         )
         self._inputs.append(self._split_shells)
+        self._split_force_components = Input(
+            element_nodal_forces._spec().input_pin(200), 200, op, -1
+        )
+        self._inputs.append(self._split_force_components)
 
     @property
     def time_scoping(self):
@@ -670,6 +706,34 @@ class InputsElementNodalForces(_Inputs):
         >>> op.inputs.split_shells(my_split_shells)
         """
         return self._split_shells
+
+    @property
+    def split_force_components(self):
+        """Allows to connect split_force_components input to the operator.
+
+        If this pin is set to true, the output fields
+        container splits the enf by degree of
+        freedom ("dof" label, 0 for
+        translation, 1 for rotation, 2 for
+        temperature) and derivative order
+        ("derivative_order" label, 0 for
+        stiffness terms, 1 for damping terms
+        and 2 for inertial terms). default is
+        false.
+
+        Parameters
+        ----------
+        my_split_force_components : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.element_nodal_forces()
+        >>> op.inputs.split_force_components.connect(my_split_force_components)
+        >>> # or
+        >>> op.inputs.split_force_components(my_split_force_components)
+        """
+        return self._split_force_components
 
 
 class OutputsElementNodalForces(_Outputs):

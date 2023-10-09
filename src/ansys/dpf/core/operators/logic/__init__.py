@@ -13,5 +13,6 @@ from .identical_fc import identical_fc
 from .identical_fields import identical_fields 
 from .identical_meshes import identical_meshes 
 from .identical_property_fields import identical_property_fields 
+from .identical_string_fields import identical_string_fields 
 from .included_fields import included_fields 
 from .solid_shell_fields import solid_shell_fields 
