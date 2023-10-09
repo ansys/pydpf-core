@@ -13,7 +13,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 class thermal_strain_principal_1(Operator):
     """Read/compute element nodal component thermal strains 1st principal
     component by calling the readers defined by the datasources and
-    computing its eigen values.
+    computing its eigen values. The off-diagonal strains are first
+    converted from Voigt notation to the standard strain values.
 
     Parameters
     ----------
@@ -162,7 +163,9 @@ class thermal_strain_principal_1(Operator):
     def _spec():
         description = """Read/compute element nodal component thermal strains 1st principal
             component by calling the readers defined by the
-            datasources and computing its eigen values."""
+            datasources and computing its eigen values. The off-
+            diagonal strains are first converted from Voigt notation
+            to the standard strain values."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
