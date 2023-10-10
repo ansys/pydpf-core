@@ -22,6 +22,12 @@ class export_symbolic_workflow(Operator):
     format : int, optional
         0 is ascii format and 1 is binary, default is
         0.
+    options : int, optional
+        1 copies connections with its data, 2
+        forwards named inputs and outputs
+        names, 7 copies connections of named
+        inputs and ouputs with their data.
+        default is 7.
 
 
     Examples
@@ -38,19 +44,30 @@ class export_symbolic_workflow(Operator):
     >>> op.inputs.path.connect(my_path)
     >>> my_format = int()
     >>> op.inputs.format.connect(my_format)
+    >>> my_options = int()
+    >>> op.inputs.options.connect(my_options)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.export_symbolic_workflow(
     ...     workflow=my_workflow,
     ...     path=my_path,
     ...     format=my_format,
+    ...     options=my_options,
     ... )
 
     >>> # Get output data
     >>> result_data_sources = op.outputs.data_sources()
     """
 
-    def __init__(self, workflow=None, path=None, format=None, config=None, server=None):
+    def __init__(
+        self,
+        workflow=None,
+        path=None,
+        format=None,
+        options=None,
+        config=None,
+        server=None,
+    ):
         super().__init__(name="export_symbolic_workflow", config=config, server=server)
         self._inputs = InputsExportSymbolicWorkflow(self)
         self._outputs = OutputsExportSymbolicWorkflow(self)
@@ -60,6 +77,8 @@ class export_symbolic_workflow(Operator):
             self.inputs.path.connect(path)
         if format is not None:
             self.inputs.format.connect(format)
+        if options is not None:
+            self.inputs.options.connect(options)
 
     @staticmethod
     def _spec():
@@ -86,6 +105,16 @@ class export_symbolic_workflow(Operator):
                     optional=True,
                     document="""0 is ascii format and 1 is binary, default is
         0.""",
+                ),
+                3: PinSpecification(
+                    name="options",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""1 copies connections with its data, 2
+        forwards named inputs and outputs
+        names, 7 copies connections of named
+        inputs and ouputs with their data.
+        default is 7.""",
                 ),
             },
             map_output_pin_spec={
@@ -150,6 +179,8 @@ class InputsExportSymbolicWorkflow(_Inputs):
     >>> op.inputs.path.connect(my_path)
     >>> my_format = int()
     >>> op.inputs.format.connect(my_format)
+    >>> my_options = int()
+    >>> op.inputs.options.connect(my_options)
     """
 
     def __init__(self, op: Operator):
@@ -160,6 +191,8 @@ class InputsExportSymbolicWorkflow(_Inputs):
         self._inputs.append(self._path)
         self._format = Input(export_symbolic_workflow._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._format)
+        self._options = Input(export_symbolic_workflow._spec().input_pin(3), 3, op, -1)
+        self._inputs.append(self._options)
 
     @property
     def workflow(self):
@@ -217,6 +250,30 @@ class InputsExportSymbolicWorkflow(_Inputs):
         >>> op.inputs.format(my_format)
         """
         return self._format
+
+    @property
+    def options(self):
+        """Allows to connect options input to the operator.
+
+        1 copies connections with its data, 2
+        forwards named inputs and outputs
+        names, 7 copies connections of named
+        inputs and ouputs with their data.
+        default is 7.
+
+        Parameters
+        ----------
+        my_options : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.export_symbolic_workflow()
+        >>> op.inputs.options.connect(my_options)
+        >>> # or
+        >>> op.inputs.options(my_options)
+        """
+        return self._options
 
 
 class OutputsExportSymbolicWorkflow(_Outputs):

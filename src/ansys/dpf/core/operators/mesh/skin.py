@@ -18,6 +18,11 @@ class skin(Operator):
     ----------
     mesh : MeshedRegion
     mesh_scoping : Scoping, optional
+        Nodal scoping to restrict the skin extraction
+        to a set of nodes. if provided, a
+        skin element is added to the skin
+        mesh if all its nodes are in the
+        scoping.
 
 
     Examples
@@ -73,7 +78,11 @@ class skin(Operator):
                     name="mesh_scoping",
                     type_names=["scoping"],
                     optional=True,
-                    document="""""",
+                    document="""Nodal scoping to restrict the skin extraction
+        to a set of nodes. if provided, a
+        skin element is added to the skin
+        mesh if all its nodes are in the
+        scoping.""",
                 ),
             },
             map_output_pin_spec={
@@ -202,6 +211,12 @@ class InputsSkin(_Inputs):
     @property
     def mesh_scoping(self):
         """Allows to connect mesh_scoping input to the operator.
+
+        Nodal scoping to restrict the skin extraction
+        to a set of nodes. if provided, a
+        skin element is added to the skin
+        mesh if all its nodes are in the
+        scoping.
 
         Parameters
         ----------

@@ -25,11 +25,12 @@ class find_reduced_coordinates(Operator):
         is set, it should be on the same
         label spaces as the coordinates
         fields container.
-    use_quadratic_elements : bool
+    use_quadratic_elements : bool, optional
         If this pin is set to true, reduced
         coordinates are computed on the
         quadratic element if the element is
-        quadratic (default is false).
+        quadratic (more precise but less
+        performant). default is false.
 
 
     Examples
@@ -110,11 +111,12 @@ class find_reduced_coordinates(Operator):
                 200: PinSpecification(
                     name="use_quadratic_elements",
                     type_names=["bool"],
-                    optional=False,
+                    optional=True,
                     document="""If this pin is set to true, reduced
         coordinates are computed on the
         quadratic element if the element is
-        quadratic (default is false).""",
+        quadratic (more precise but less
+        performant). default is false.""",
                 ),
             },
             map_output_pin_spec={
@@ -252,7 +254,8 @@ class InputsFindReducedCoordinates(_Inputs):
         If this pin is set to true, reduced
         coordinates are computed on the
         quadratic element if the element is
-        quadratic (default is false).
+        quadratic (more precise but less
+        performant). default is false.
 
         Parameters
         ----------
