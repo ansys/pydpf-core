@@ -187,8 +187,8 @@ To reach the project support team, email `pyansys.core@ansys.com <pyansys.core@a
 
    getting_started/index
    user_guide/index
-   concepts/index
+   examples/index
    api/index
    operator_reference
-   examples/index
+   concepts/index
    contributing
