@@ -325,6 +325,7 @@ def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_mod
 
 def check_ansys_grpc_dpf_version(server, timeout):
     import grpc
+    from packaging import version
 
     state = grpc.channel_ready_future(server.channel)
     # verify connection has matured
@@ -337,7 +338,7 @@ def check_ansys_grpc_dpf_version(server, timeout):
             f"Failed to connect to {server._input_ip}:{server._input_port} in {timeout} seconds"
         )
     LOG.debug("Established connection to DPF gRPC")
-    if server.version < min_server_version:
+    if version.parse(server.version) < version.parse(min_server_version):
         raise ValueError(f"Error connecting via gRPC to DPF server version {server.version} "
                          f"(ANSYS {server_to_ansys_version[server.version]}): "
                          f"ansys-dpf-core {__version__} does not support DPF servers below "
