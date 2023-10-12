@@ -8,16 +8,6 @@ __version__ = ".".join(map(str, version_info))
 # Minimal DPF server version supported
 min_server_version = "4.0"
 
-server_to_ansys_grpc_dpf_version = {
-    "1.0": "==0.2.2",
-    "2.0": "==0.3.0",
-    "3.0": ">=0.4.0",
-    "4.0": ">=0.5.0",
-    "5.0": ">=0.6.0",
-    "6.0": ">=0.7.0",
-    "7.0": ">=0.8dev",
-}
-
 
 class ServerToAnsysVersion:
     legacy_version_map = {
