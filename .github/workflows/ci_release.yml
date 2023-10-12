@@ -174,15 +174,6 @@ jobs:
       ANSYS_VERSION: "222"
     secrets: inherit
 
-  gate:
-    name: "gate"
-    uses: ./.github/workflows/gate.yml
-    with:
-      python_versions: '["3.8"]'
-      ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
-    secrets: inherit
-
   docker_tests:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
