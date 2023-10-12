@@ -339,7 +339,7 @@ def check_ansys_grpc_dpf_version(server, timeout):
         )
     LOG.debug("Established connection to DPF gRPC")
     if version.parse(server.version) < version.parse(min_server_version):
-        raise ValueError(f"Error connecting via gRPC to DPF server version {server.version} "
+        raise ValueError(f"Error connecting to DPF LegacyGrpcServer with version {server.version} "
                          f"(ANSYS {server_to_ansys_version[server.version]}): "
                          f"ansys-dpf-core {__version__} does not support DPF servers below "
                          f"{min_server_version} ({server_to_ansys_version[min_server_version]}).")
