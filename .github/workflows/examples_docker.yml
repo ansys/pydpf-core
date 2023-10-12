@@ -67,23 +67,53 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4.6.0
+      - name: "Setup Python"
+        uses: actions/setup-python@v4.6.1
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: "Build Docker Package"
-        uses: ansys/pydpf-actions/install-docker-server-and-python-packages@v2.3
+      - name: "Install requirements"
+        run: pip install -r requirements/requirements_build.txt
+
+      - name: "Build the wheel"
+        shell: bash
+        run: |
+          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
+              export platform="manylinux_2_17"
+          else
+              export platform="win"
+          fi
+          python .ci/build_wheel.py -p $platform -w
+
+      - name: "Expose the wheel"
+        shell: bash
+        id: wheel
+        working-directory: dist
+        run: |
+          export name=`ls ansys_dpf_core*.whl`
+          echo ${name}
+          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+
+      - name: "Install package wheel"
+        shell: bash
+        run: |
+          pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
+
+      - name: "Install DPF"
+        id: set-server-path
+        uses: ansys/pydpf-actions/install-dpf-docker@v2.3
         with:
-          python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheel: false
-          wheelhouse: false
           standalone_suffix: ${{ inputs.standalone_suffix }}
+          ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+
+      - name: "Check licences of packages"
+        uses: ansys/pydpf-actions/check-licenses@v2.3
+
+      - name: "Test import"
+        shell: bash
+        working-directory: tests
+        run: python -c "from ansys.dpf import core"
 
       - name: "Prepare Testing Environment"
         uses: ansys/pydpf-actions/prepare_tests@v2.3
