@@ -1541,18 +1541,26 @@ def download_cfx_heating_coil(
     >>> from ansys.dpf.core import examples
     >>> paths = examples.download_cfx_heating_coil()
     >>> paths
-    {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-heating_coil\\HeatingCoil.res',
-     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-heating_coil\\HeatingCoil.res'} # noqa: E501
+    {'cas': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-heating_coil\\def.cas.cff',
+     'dat': 'C:\\Users\\user\\AppData\\Local\\ansys-dpf-core\\ansys-dpf-core\\examples\\cfx-heating_coil\\def.dat.cff'} # noqa: E501
 
     """
-    file = _download_file(
-        "result_files/cfx-heating_coil",
-        "HeatingCoil.res",
-        should_upload,
-        server,
-        return_local_path,
-    )
-    return {"cas": file, "dat": file}
+    return {
+        "cas": _download_file(
+            "result_files/cfx-heating_coil",
+            "def.cas.cff",
+            should_upload,
+            server,
+            return_local_path,
+        ),
+        "dat": _download_file(
+            "result_files/cfx-heating_coil",
+            "def.dat.cff",
+            should_upload,
+            server,
+            return_local_path,
+        )
+    }
 
 
 def download_cfx_mixing_elbow(
@@ -1601,3 +1609,366 @@ def download_cfx_mixing_elbow(
         return_local_path,
     )
     return {"cas": file, "dat": file}
+
+
+def find_simple_bar(should_upload: bool = True, server=None, return_local_path=False) -> str:
+    """Make the result file available server side, if the server is remote the file is uploaded
+    server side. Returns the path on the file.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.find_simple_bar()
+    >>> path
+    'C:/Users/user/AppData/local/temp/ASimpleBar.rst'
+
+    """
+    return _download_file(
+        "result_files", "ASimpleBar.rst", should_upload, server, return_local_path
+    )
+
+
+def find_static_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
+    """Make the result file available server side, if the server is remote the file is uploaded
+    server side. Returns the path on the file.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.find_static_rst()
+    >>> path
+    'C:/Users/user/AppData/local/temp/static.rst'
+
+    """
+    return _download_file("result_files", "static.rst", should_upload, server, return_local_path)
+
+
+def find_complex_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
+    """Make the result file available server side, if the server is remote the file is uploaded
+    server side. Returns the path on the file.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.find_complex_rst()
+    >>> path
+    'C:/Users/user/AppData/local/temp/complex.rst'
+
+    """
+    return _download_file("result_files", "complex.rst", should_upload, server, return_local_path)
+
+
+def find_multishells_rst(should_upload: bool = True, server=None, return_local_path=False) -> str:
+    """Make the result file available server side, if the server is remote the file is uploaded
+    server side. Returns the path on the file.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.find_multishells_rst()
+    >>> path
+    'C:/Users/user/AppData/local/temp/model_with_ns.rst'
+
+    """
+    return _download_file(
+        "result_files", "model_with_ns.rst", should_upload, server, return_local_path
+    )
+
+
+def find_electric_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
+    """Make the result file available server side, if the server is remote the file is uploaded
+    server side. Returns the path on the file.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.find_electric_therm()
+    >>> path
+    'C:/Users/user/AppData/local/temp/rth_electric.rth'
+
+    """
+    return _download_file(
+        "result_files/rth", "rth_electric.rth", should_upload, server, return_local_path
+    )
+
+
+def find_steady_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
+    """Make the result file available server side, if the server is remote the file is uploaded
+    server side. Returns the path on the file.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.find_steady_therm()
+    >>> path
+    'C:/Users/user/AppData/local/temp/rth_steady.rth'
+
+    """
+    return _download_file(
+        "result_files/rth", "rth_steady.rth", should_upload, server, return_local_path
+    )
+
+
+def find_transient_therm(should_upload: bool = True, server=None, return_local_path=False) -> str:
+    """Make the result file available server side, if the server is remote the file is uploaded
+    server side. Returns the path on the file.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.find_transient_therm()
+    >>> path
+    'C:/Users/user/AppData/local/temp/rth_transient.rth'
+
+    """
+    return _download_file(
+        "result_files/rth", "rth_transient.rth", should_upload, server, return_local_path
+    )
+
+
+def find_msup_transient(should_upload: bool = True, server=None, return_local_path=False) -> str:
+    """Make the result file available server side, if the server is remote the file is uploaded
+    server side. Returns the path on the file.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.find_msup_transient()
+    >>> path
+    'C:/Users/user/AppData/local/temp/msup_transient_plate1.rst'
+
+    """
+    return _download_file(
+        "result_files", "msup_transient_plate1.rst", should_upload, server, return_local_path
+    )
+
+
+def find_simple_cyclic(should_upload: bool = True, server=None, return_local_path=False) -> str:
+    """Make the result file available server side, if the server is remote the file is uploaded
+    server side. Returns the path on the file.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.find_simple_cyclic()
+    >>> path
+    'C:/Users/user/AppData/local/temp/file_cyclic.rst'
+
+    """
+    return _download_file(
+        "result_files", "file_cyclic.rst", should_upload, server, return_local_path
+    )
+
+
+def find_distributed_msup_folder(
+    should_upload: bool = True, server=None, return_local_path=False
+) -> str:
+    """Make the result file available server side, if the server is remote the file is uploaded
+    server side. Returns the path on the file.
+
+    Parameters
+    ----------
+    should_upload : bool, optional (default True)
+        Whether the file should be uploaded server side when the server is remote.
+    server : server.DPFServer, optional
+        Server with channel connected to the remote or local instance. When
+        ``None``, attempts to use the global server.
+    return_local_path: bool, optional
+        If ``True``, the local path is returned as is, without uploading, nor searching
+        for mounted volumes.
+
+    Returns
+    -------
+    str
+        Path to the example file.
+
+    Examples
+    --------
+
+    >>> from ansys.dpf.core import examples
+    >>> path = examples.find_distributed_msup_folder()
+    >>> path
+    'C:/Users/user/AppData/local/temp/msup_distributed'
+
+    """
+    # In this case we return the path to the folder with all the downloaded files
+    _download_file(
+        "result_files/msup_distributed", "file0.mode", should_upload, server, return_local_path
+    )
+    _download_file(
+        "result_files/msup_distributed", "file0.rst", should_upload, server, return_local_path
+    )
+    _download_file(
+        "result_files/msup_distributed", "file1.mode", should_upload, server, return_local_path
+    )
+    _download_file(
+        "result_files/msup_distributed", "file1.rst", should_upload, server, return_local_path
+    )
+    _download_file(
+        "result_files/msup_distributed",
+        "file_load_1.rfrq",
+        should_upload,
+        server,
+        return_local_path,
+    )
+    path = _download_file(
+        "result_files/msup_distributed",
+        "file_load_2.rfrq",
+        should_upload,
+        server,
+        return_local_path,
+    )
+    return os.path.dirname(path)

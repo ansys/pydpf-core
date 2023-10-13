@@ -1,16 +1,49 @@
+.. _ref_main_index:
+
 ==========
 PyDPF-Core
 ==========
 
-The Data Processing Framework (DPF) provides numerical simulation 
+Ansys Data Processing Framework (DPF) provides numerical simulation 
 users and engineers with a toolbox for accessing and transforming simulation 
 data. With DPF, you can perform complex preprocessing or postprocessing of
 large amounts of simulation data within a simulation workflow.
 
 DPF is an independent, physics-agnostic tool that you can plug into many 
 apps for both data input and data output, including visualization and 
-result plots. It can access data from solver result files and other neutral
-formats, such as CSV, HDF5, and VTK files.
+result plots. The following table shows an exhaustive list of supported
+apps by DPF and their related formats:
+
+.. table:: Truth table for "not"
+   :widths: auto
+   :align: center
+
++--------------------+------------------------+----------------------------------+----------------------------------+
+|     **Solver**     |    **File format**     |       **Server version**         |       **DPF examples**           |
++====================+========================+==================================+==================================+
+|                    || .rst, .mode           || **1.0** and later               | :ref:`ref_basic_example`         |
+|        MAPDL       || .rfrq, .rdsp          || (*Ansys 2021 R1*)               |                                  |
++--------------------+------------------------+----------------------------------+----------------------------------+
+|       LS DYNA      |   .d3plot, .binout     || **4.0** and later               | :ref:`lsdyna_operators`          |
+|                    |                        || (*Ansys 2022 R2*)               |                                  |
++--------------------+------------------------+----------------------------------+----------------------------------+
+|                    || *CFF restart files*   ||                                 | :ref:`ref_fluids_model`          |
+|                    || .cas/dat.h5           ||                                 +----------------------------------+
+|                    |                        || **7.0** and later               | :ref:`ref_fluids_mesh`           |
+|        Fluent      +------------------------+| (*Ansys 2024 R1 pre0*)          +----------------------------------+
+|                    || *Project files*       |                                  | :ref:`ref_fluids_results`        |
+|                    || .flprj                |                                  |                                  |
++--------------------+------------------------+----------------------------------+----------------------------------+
+|                    || *CFF files*           ||                                 | :ref:`ref_fluids_model`          |
+|                    || .cas/dat.cff          ||                                 +----------------------------------+
+|                    |                        || **7.0** and later               | :ref:`ref_fluids_mesh`           |
+|          CFX       +------------------------+| (*Ansys 2024 R1 pre0*)          +----------------------------------+
+|                    || *Project files*       |                                  | :ref:`ref_fluids_results`        |
+|                    || .flprj                |                                  |                                  |
++--------------------+------------------------+----------------------------------+----------------------------------+
+
+Visualisation is ensured by VTK and leverages `PyVista tools
+<https://docs.pyvista.org>`_.
 
 Using the many DPF operators that are available, you can manipulate and
 transform this data. You can also chain operators together to create simple
@@ -28,7 +61,6 @@ a modular and easy-to-use tool with a large range of capabilities.
 The ``ansys.dpf.core`` package provides a Python interface to DPF, enabling
 rapid postprocessing of a variety of Ansys file formats and physics solutions
 without ever leaving the Python environment.
-
 
 Brief demo
 ~~~~~~~~~~
@@ -80,48 +112,72 @@ Accessing and enriching DPF capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most of the DPF capabilities can be accessed using the operators.
-For more information about the existing operators, see the **Operators** tab.
+For more information, see :ref:`_ref_dpf_operators_reference`.
 
-The following sections are summaries. For more detailed content, see :ref:`user_guide_waysofusing`.
+The following sections are summaries. For more information, see :ref:`user_guide_waysofusing`.
 
 **Accessing DPF Server files**
 
-DPF capabilities are accessible when DPF Server files are available. These files can be accessed using:
+DPF capabilities are accessible when DPF Server files are available. These files can be accessed using
+the **Ansys installer** and **DPF Server**.
 
-- The **Ansys installer**. To use it, download the standard installation using your preferred distribution channel,
-and install Ansys following the installer instructions. For information on getting a licensed copy of Ansys,
-visit the `Ansys website <https://www.ansys.com/>`_.
+- To use the Ansys installer, download the standard Ansys installation using your preferred
+  distribution channel, and install Ansys following the installer instructions. For information
+  on getting a licensed copy of Ansys, visit the `Ansys website <https://www.ansys.com/>`_.
 
-- The DPF Server package (see :ref:`ref_getting_started_with_dpf_server`).
-It is independent of the Ansys installer.
+- The DPF Server package is independent of the Ansys installer. For more information, see
+  :ref:`ref_getting_started_with_dpf_server`.
 
 **Accessing capabilities with scripting**
 
 - C++ documentation:
 
-  1. The Data Processing Framework section in `Platform panel <https://ansysapi.ansys.com/account/secured?returnurl=/Views/Secured/main_page.html?lang=en>`_.
+  - On the `Developer Documentation <https://developer.ansys.com/docs>`_page of the Ansys Developer portal,
+    see **Data Processing Framework (DPF)**.
 
-  2. `Developer Portal <https://developer.ansys.com/product/DPF-Server-Client-Library/index.xhtml>`_
+- PyDPF documentation:
 
-- CPython modules documentation:
+  - `PyDPF-Core documentation <https://dpf.docs.pyansys.com/version/stable/>`_
 
-  1. `ansys-dpf-core <https://dpf.docs.pyansys.com/version/stable/>`_
-
-  2. `ansys-dpf-post <https://post.docs.pyansys.com/version/stable/>`_
+  - `PyDPF-Post documentation <https://post.docs.pyansys.com/version/stable/>`_
 
 - Mechanical scripting (IronPython):
 
-  1. `DPF through Automation Scripting <https://ansysproducthelpdev.win.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/act_script/mech_apis_data_process_frame.html>`_
-
-  2. `Python Result object <https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/wb_sim/ds_python_result.html>`_
+  - `Data Processing Framework <https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v232/en/act_script/mech_apis_data_process_frame.html>`_
+    in the *Scripting in Mechanical Guide*.
+  
+  - `Python Result <https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/wb_sim/ds_python_result.html>`_
+    in the *Mechanical User's Guide*.
 
 **Enriching DPF capabilities**
 
-- C++ operator's library (see C++ documentation)
+- `User guide <https://developer.ansys.com/product/DPF-C-Client-Library-2023-R2/modules.xhtml>`_ in the *DPF C++ Client Library*
 
-- `C++ solver reader plugin <https://astonishing-hyacinth-e64.notion.site/How-to-write-a-new-solver-reader-as-a-DPF-s-plugin-bd2d2a3cf51f47ef9e70df45d64f89cb>`_
+- :ref:`user_guide_custom_operators` in the PyDPF-Core documentation 
 
-- :ref:`user_guide_custom_operators`
+- `How to write a new solver reader as a PDF plugin <https://astonishing-hyacinth-e64.notion.site/How-to-write-a-new-solver-reader-as-a-DPF-s-plugin-bd2d2a3cf51f47ef9e70df45d64f89cb>`_
+
+
+Documentation and issues
+------------------------
+Documentation for the latest stable release of PyDPF-Core is hosted at `PyDPF-Core documentation
+<https://dpf.docs.pyansys.com/version/stable/>`_.
+
+In the upper right corner of the documentation's title bar, there is an option for switching from
+viewing the documentation for the latest stable release to viewing the documentation for the
+development version or previously released versions.
+
+You can also `view <https://cheatsheets.docs.pyansys.com/pydpf-core_cheat_sheet.png>`_ or
+`download <https://cheatsheets.docs.pyansys.com/pydpf-core_cheat_sheet.pdf>`_ the
+PyDPF-Core cheat sheet. This one-page reference provides syntax rules and commands
+for using PyDPF-Core. 
+
+On the `PyDPF-Core Issues <https://github.com/ansys/pydpf-core/issues>`_ page,
+you can create issues to report bugs and request new features. On the `PyDPF-Core Discussions
+<https://github.com/ansys/pydpf-core/discussions>`_ page or the `Discussions <https://discuss.ansys.com/>`_
+page on the Ansys Developer portal, you can post questions, share ideas, and get community feedback. 
+
+To reach the project support team, email `pyansys.core@ansys.com <pyansys.core@ansys.com>`_.
 
 
 .. toctree::
@@ -131,8 +187,8 @@ It is independent of the Ansys installer.
 
    getting_started/index
    user_guide/index
-   concepts/index
+   examples/index
    api/index
    operator_reference
-   examples/index
+   concepts/index
    contributing

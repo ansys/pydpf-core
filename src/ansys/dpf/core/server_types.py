@@ -21,8 +21,9 @@ import ansys.dpf.core as core
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core import errors, server_factory
 from ansys.dpf.core._version import (
-    server_to_ansys_grpc_dpf_version,
+    min_server_version,
     server_to_ansys_version,
+    __version__
 )
 from ansys.dpf.core import server_context
 from ansys.dpf.gate import load_api, data_processing_grpcapi
@@ -202,6 +203,7 @@ def launch_dpf(ansys_path, ip=LOCALHOST, port=DPF_DEFAULT_PORT, timeout=10):
     _wait_and_check_server_connection(
         process, port, timeout, lines, current_errors, stderr=None, stdout=None
     )
+    return process
 
 
 def launch_dpf_on_docker(
@@ -322,8 +324,8 @@ def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_mod
 
 
 def check_ansys_grpc_dpf_version(server, timeout):
-    import ansys.grpc.dpf
     import grpc
+    from packaging import version
 
     state = grpc.channel_ready_future(server.channel)
     # verify connection has matured
@@ -335,37 +337,39 @@ def check_ansys_grpc_dpf_version(server, timeout):
         raise TimeoutError(
             f"Failed to connect to {server._input_ip}:{server._input_port} in {timeout} seconds"
         )
-    compatibility_link = (
-        f"https://dpf.docs.pyansys.com/getting_started/" f"index.html#client-server-compatibility"
-    )
     LOG.debug("Established connection to DPF gRPC")
-    grpc_module_version = ansys.grpc.dpf.__version__
-    server_version = server.version
-    right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
-    if right_grpc_module_version is None:  # pragma: no cover
-        # warnings.warn(f"No requirement specified on ansys-grpc-dpf for server version "
-        #               f"{server_version}. Continuing with the ansys-grpc-dpf version "
-        #               f"installed ({grpc_module_version}). In case of unexpected instability, "
-        #               f"please refer to the compatibility guidelines given in "
-        #               f"{compatibility_link}.")
-        return
-    if not _compare_ansys_grpc_dpf_version(right_grpc_module_version, grpc_module_version):
-        ansys_version_to_use = server_to_ansys_version.get(server_version, "Unknown")
-        ansys_versions = core._version.server_to_ansys_version
-        latest_ansys = ansys_versions[max(ansys_versions.keys())]
-        raise ImportWarning(
-            f"An incompatibility has been detected between the DPF server version "
-            f"({server_version} "
-            f"from Ansys {ansys_version_to_use})"
-            f" and the ansys-grpc-dpf version installed ({grpc_module_version})."
-            f" Please consider using the latest DPF server available in the "
-            f"{latest_ansys} Ansys unified install.\n"
-            f"To follow the compatibility guidelines given in "
-            f"{compatibility_link} while still using DPF server {server_version}, "
-            f"please install version {right_grpc_module_version} of ansys-grpc-dpf"
-            f" with the command: \n"
-            f"     pip install ansys-grpc-dpf{right_grpc_module_version}"
-        )
+    if version.parse(server.version) < version.parse(min_server_version):
+        raise ValueError(f"Error connecting to DPF LegacyGrpcServer with version {server.version} "
+                         f"(ANSYS {server_to_ansys_version[server.version]}): "
+                         f"ansys-dpf-core {__version__} does not support DPF servers below "
+                         f"{min_server_version} ({server_to_ansys_version[min_server_version]}).")
+
+
+class GhostServer:
+    ip: str
+    _port: int
+    close_time: float
+
+    def __init__(self, ip: str, port: int, close_time: float = None):
+        """
+        Internal class used to keep in memory the port used by previous servers.
+        Adds a timeout before reusing ports of shutdown servers.
+        """
+        self.ip = ip
+        self._port = port
+        self.closed_time = close_time
+        if self.closed_time is None:
+            self.closed_time = time.time()
+
+    @property
+    def port(self) -> int:
+        """Returns the port of shutdown server if the shutdown happened less than 10s ago."""
+        if time.time() - self.closed_time > 10:
+            return -1
+        return self._port
+
+    def __call__(self, *args, **kwargs):
+        return self
 
 
 class BaseServer(abc.ABC):
@@ -599,7 +603,14 @@ class BaseServer(abc.ABC):
             if hasattr(core, "_server_instances") and core._server_instances is not None:
                 for i, server in enumerate(core._server_instances):
                     if server() == self:
-                        core._server_instances.remove(server)
+                        if hasattr(self, "_input_ip") and hasattr(self, "_input_port"):
+                            # keeps a ghost instance with the used port and ip to prevent
+                            # from reusing the port to soon after shutting down: bug
+                            core._server_instances[i] = GhostServer(
+                                self._input_ip, self._input_port
+                            )
+                        else:
+                            core._server_instances.remove(server)
         except:
             warnings.warn(traceback.format_exc())
 
@@ -699,7 +710,6 @@ class GrpcServer(CServer):
                 self._local_server = True
 
         self._client = GrpcClient(address)
-
         # store port and ip for later reference
         self._address = address
         self._input_ip = ip

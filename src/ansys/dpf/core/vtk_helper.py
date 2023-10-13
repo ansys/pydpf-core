@@ -1,7 +1,6 @@
 import numpy as np
 import pyvista as pv
 import ansys.dpf.core as dpf
-
 from ansys.dpf.core import errors
 from vtk import (
     VTK_HEXAHEDRON,
@@ -208,14 +207,6 @@ def dpf_mesh_to_vtk_py(mesh, nodes, as_linear):
 
     insert_ind = np.cumsum(elem_size)
     insert_ind = np.hstack(([0], insert_ind))[:-1]
-
-    # if not as_linear:
-    #     # Pre-handle semi-parabolic elements
-    #     semi_mask = connectivity.data == -1
-    #     if semi_mask.any():
-    #         # Modify -1 connectivity values
-    #         repeated_data_pointers = connectivity._data_pointer.repeat(repeats=elem_size)
-    #         connectivity.data[semi_mask] = connectivity.data[repeated_data_pointers[semi_mask]]
 
     # partition cells in vtk format
     cells = np.insert(connectivity.data, insert_ind, elem_size)

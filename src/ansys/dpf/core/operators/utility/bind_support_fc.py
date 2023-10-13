@@ -16,7 +16,7 @@ class bind_support_fc(Operator):
     Parameters
     ----------
     fields_container : FieldsContainer
-    support : MeshedRegion or AbstractFieldSupport
+    support : MeshedRegion or AbstractFieldSupport or TimeFreqSupport
         Meshed region or a support of the field.
 
 
@@ -66,7 +66,11 @@ class bind_support_fc(Operator):
                 ),
                 1: PinSpecification(
                     name="support",
-                    type_names=["abstract_meshed_region", "abstract_field_support"],
+                    type_names=[
+                        "abstract_meshed_region",
+                        "abstract_field_support",
+                        "time_freq_support",
+                    ],
                     optional=False,
                     document="""Meshed region or a support of the field.""",
                 ),
@@ -166,7 +170,7 @@ class InputsBindSupportFc(_Inputs):
 
         Parameters
         ----------
-        my_support : MeshedRegion or AbstractFieldSupport
+        my_support : MeshedRegion or AbstractFieldSupport or TimeFreqSupport
 
         Examples
         --------

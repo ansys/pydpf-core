@@ -11,9 +11,9 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class element_orientations(Operator):
-    """Read/compute element output orientations by calling the readers
-    defined by the datasources. Regarding the requested location and
-    the input mesh scoping, the result location can be
+    """Read/compute element euler angles by calling the readers defined by
+    the datasources. Regarding the requested location and the input
+    mesh scoping, the result location can be
     Nodal/ElementalNodal/Elemental.
 
     Parameters
@@ -23,11 +23,11 @@ class element_orientations(Operator):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq
@@ -175,10 +175,10 @@ class element_orientations(Operator):
 
     @staticmethod
     def _spec():
-        description = """Read/compute element output orientations by calling the readers
-            defined by the datasources. Regarding the requested
-            location and the input mesh scoping, the result location
-            can be Nodal/ElementalNodal/Elemental."""
+        description = """Read/compute element euler angles by calling the readers defined by
+            the datasources. Regarding the requested location and the
+            input mesh scoping, the result location can be
+            Nodal/ElementalNodal/Elemental."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -197,11 +197,11 @@ class element_orientations(Operator):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq
@@ -420,11 +420,11 @@ class InputsElementOrientations(_Inputs):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq

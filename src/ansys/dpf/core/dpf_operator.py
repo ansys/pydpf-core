@@ -120,7 +120,8 @@ class Operator:
             raise KeyError(
                 f"The operator {self.name} doesn't exist in the registry. "
                 f"Check its spelling in the documentation or verify its availability "
-                f"in your Context (Entry/Premium) and in your loaded plugins."
+                f"in your loaded plugins. The current available operator names can be "
+                f"accessed using 'available_operator_names' method."
             )
 
         self._spec = Specification(operator_name=self.name, server=self._server)

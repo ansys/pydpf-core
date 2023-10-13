@@ -19,7 +19,7 @@ class Any:
 
     Parameters
     ----------
-    any : ctypes.c_void_p, ansys.grpc.dpf.any_pb2.Any message, optional  # noqa: E501
+    any_dpf : ctypes.c_void_p, ansys.grpc.dpf.any_pb2.Any message, optional
     server : DPFServer, optional
         Server with channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
@@ -27,7 +27,7 @@ class Any:
 
     Notes
     -----
-    Class available with server's version starting at 6.2 (Ansys 2024R1).
+    Class available with server's version starting at 7.0 (Ansys 2024 R1 pre0).
     """
 
     def __init__(self, any_dpf=None, server=None):

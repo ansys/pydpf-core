@@ -13,7 +13,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 class thermal_strain_principal_1(Operator):
     """Read/compute element nodal component thermal strains 1st principal
     component by calling the readers defined by the datasources and
-    computing its eigen values.
+    computing its eigen values. The off-diagonal strains are first
+    converted from Voigt notation to the standard strain values.
 
     Parameters
     ----------
@@ -22,11 +23,11 @@ class thermal_strain_principal_1(Operator):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq
@@ -162,7 +163,9 @@ class thermal_strain_principal_1(Operator):
     def _spec():
         description = """Read/compute element nodal component thermal strains 1st principal
             component by calling the readers defined by the
-            datasources and computing its eigen values."""
+            datasources and computing its eigen values. The off-
+            diagonal strains are first converted from Voigt notation
+            to the standard strain values."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -181,11 +184,11 @@ class thermal_strain_principal_1(Operator):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq
@@ -395,11 +398,11 @@ class InputsThermalStrainPrincipal1(_Inputs):
         time/freq set ids (use ints or
         scoping) or time/freq step ids (use
         scoping with timefreq_steps location)
-        required in output.to specify
+        required in output. to specify
         time/freq values at specific load
         steps, put a field (and not a list)
         in input with a scoping located on
-        "timefreq_steps".linear time freq
+        "timefreq_steps". linear time freq
         intrapolation is performed if the
         values are not in the result files
         and the data at the max time or freq

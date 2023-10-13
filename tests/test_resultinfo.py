@@ -5,6 +5,7 @@ from ansys.dpf.core import Model
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
 )
 
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
@@ -25,7 +26,10 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.result_info)
     assert res.analysis_type == "static"
-    assert res.n_results == 14
+    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
+        assert res.n_results == 14
+    else:
+        assert res.n_results == 15
     assert "m, kg, N, s, V, A" in res.unit_system
     assert res.physics_type == mechanical
 
@@ -33,7 +37,10 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
 def test_get_resultinfo(model):
     res = model.metadata.result_info
     assert res.analysis_type == "static"
-    assert res.n_results == 14
+    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
+        assert res.n_results == 14
+    else:
+        assert res.n_results == 15
     assert "m, kg, N, s, V, A" in res.unit_system
     assert res.physics_type == mechanical
     assert "Static analysis" in str(res)
@@ -126,7 +133,6 @@ Available results:
      -  total_pressure: Nodal Total Pressure
      -  density: Nodal Density        
      -  entropy: Nodal Entropy        
-     -  wall_shear_stress: Nodal Wall Shear Stress
      -  temperature: Nodal Temperature
      -  total_temperature: Nodal Total Temperature
      -  velocity: Nodal Velocity      

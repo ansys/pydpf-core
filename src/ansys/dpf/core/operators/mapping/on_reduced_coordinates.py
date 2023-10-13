@@ -33,12 +33,13 @@ class on_reduced_coordinates(Operator):
         is set, it should be on the same
         label spaces as the coordinates
         fields container
-    use_quadratic_elements : bool
-        If this pin is set to true interpolation is
-        computed on the quadratic element if
-        the element is quadratic (default is
-        false). to use only when results have
-        mid side nodes values.
+    use_quadratic_elements : bool, optional
+        If this pin is set to true, the interpolation
+        is computed on the quadratic element
+        if the element is quadratic (more
+        precise but less performant). default
+        is false. to use only when results
+        have mid side nodes values.
 
 
     Examples
@@ -142,12 +143,13 @@ class on_reduced_coordinates(Operator):
                 200: PinSpecification(
                     name="use_quadratic_elements",
                     type_names=["bool"],
-                    optional=False,
-                    document="""If this pin is set to true interpolation is
-        computed on the quadratic element if
-        the element is quadratic (default is
-        false). to use only when results have
-        mid side nodes values.""",
+                    optional=True,
+                    document="""If this pin is set to true, the interpolation
+        is computed on the quadratic element
+        if the element is quadratic (more
+        precise but less performant). default
+        is false. to use only when results
+        have mid side nodes values.""",
                 ),
             },
             map_output_pin_spec={
@@ -331,11 +333,12 @@ class InputsOnReducedCoordinates(_Inputs):
     def use_quadratic_elements(self):
         """Allows to connect use_quadratic_elements input to the operator.
 
-        If this pin is set to true interpolation is
-        computed on the quadratic element if
-        the element is quadratic (default is
-        false). to use only when results have
-        mid side nodes values.
+        If this pin is set to true, the interpolation
+        is computed on the quadratic element
+        if the element is quadratic (more
+        precise but less performant). default
+        is false. to use only when results
+        have mid side nodes values.
 
         Parameters
         ----------

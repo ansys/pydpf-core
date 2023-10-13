@@ -86,6 +86,10 @@ extensions = [
     "sphinx_gallery.gen_gallery",
 ]
 
+typehints_defaults = "comma"
+typehints_use_signature = True
+simplify_optional_unions = False
+
 # Intersphinx mapping
 intersphinx_mapping = {
     "pyvista": ("https://docs.pyvista.org/", None),

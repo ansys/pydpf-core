@@ -279,9 +279,8 @@ This example instantiates operators with other operators:
     min_max = ops.min_max.min_max(displacement)
 
 This automatically connects the matching ``displacement`` output with the 
-matching ``min_max`` input. You can also use the :py:meth:`connect()
-<ansys.dpf.core.dpf_operator.Operator.connect>` method to manually connect 
-the outputs of one operator to the inputs of another operator:
+matching ``min_max`` input. You can also use the :py:meth:`connect()<ansys.dpf.core.dpf_operator.Operator.connect>`
+method to manually connect the outputs of one operator to the inputs of another operator:
 
 .. code-block:: python
 
@@ -307,12 +306,8 @@ DPF provides three main types of operators:
 Operators for importing or reading data
 ***************************************
 
-These operators provide for reading data from solver files or from standard file types:
-
-- For MAPDL, supported solver file formats include RST, MODE, RFRQ, and RDSP.
-- For LS DYNA, D3PLOT files are supported.
-- For Fluent and CFX, CAS.H5, DAT.H5, RES, and FLPRJ files are supported.
-- For Abaqus, ODB files are supported.
+These operators provide for reading data from solver files or from standard file types
+such as .RST (MAPDL), .D3Plot (LS DYNA), .CAS.H5/.DAT.H5 (Fluent) or .CAS.CFF/.DAT.CFF (CFX).
 
 To read these files, different readers are implemented as plugins.
 Plugins can be loaded on demand in any DPF scripting language with "load library" methods. 

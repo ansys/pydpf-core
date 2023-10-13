@@ -121,7 +121,6 @@ def shutdown_all_session_servers():
             print(e.args)
             pass
     shutdown_global_server()
-    _server_instances.clear()
 
 
 def start_local_server(
@@ -360,13 +359,13 @@ def connect_to_server(
     try:
         return connect()
     except ModuleNotFoundError as e:
-        if "gatebin" in e.msg:
+        if "use a LegacyGrpcServer" in e.msg:
             server_type = ServerFactory.get_remote_server_type_from_config(
                 ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=True)
             )
             warnings.warn(
                 UserWarning(
-                    "Could not connect to remote server as ansys-dpf-gatebin "
+                    "Could not connect to remote server as ansys.dpf.gatebin "
                     "is missing. Trying again using LegacyGrpcServer.\n"
                     f"The error stated:\n{e.msg}"
                 )

@@ -4,7 +4,6 @@ from .cyclic_support_provider import cyclic_support_provider
 from .datasources_provider import datasources_provider 
 from .integrate_over_time_freq import integrate_over_time_freq 
 from .is_cyclic import is_cyclic 
-from .material_provider import material_provider 
 from .material_support_provider import material_support_provider 
 from .mesh_info_provider import mesh_info_provider 
 from .mesh_property_provider import mesh_property_provider 

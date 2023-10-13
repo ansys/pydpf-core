@@ -317,9 +317,9 @@ def test_runtime_core_config(server_type):
     timeout_init = core_config.license_timeout_in_seconds
     core_config.license_timeout_in_seconds = 4.0
     license_timeout_in_seconds = core_config.license_timeout_in_seconds
-    assert license_timeout_in_seconds == 4.0
+    assert abs(license_timeout_in_seconds - 4.0) < 1.0e-16
     core_config.license_timeout_in_seconds = timeout_init
-    assert core_config.license_timeout_in_seconds == timeout_init
+    assert abs(core_config.license_timeout_in_seconds - timeout_init) < 1.0e-16
 
 
 @conftest.raises_for_servers_version_under("4.0")

@@ -61,6 +61,9 @@ def test_print_data_sources(allkindofcomplexity, server_type):
 
 
 def test_data_sources_from_data_sources(allkindofcomplexity, server_type):
+    with pytest.raises(ValueError) as e:
+        data_sources_false = dpf.core.DataSources(data_sources="Wrong Input", server=server_type)
+        assert "gRPC data sources" in e
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources2 = dpf.core.DataSources(data_sources=data_sources, server=server_type)
 
