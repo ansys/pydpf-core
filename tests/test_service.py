@@ -366,17 +366,21 @@ def test_load_api_without_awp_root_no_gatebin(restore_awp_root):
 
     # start CServer
     conf = ServerConfig(protocol=CommunicationProtocols.gRPC, legacy=False)
-    with pytest.warns(
-        UserWarning,
-        match="Could not connect to remote server as ansys-dpf--gatebin "
-        "is missing. Trying again using LegacyGrpcServer.\n",
-    ):
-        serv = dpf.core.connect_to_server(
-            config=conf,
-            as_global=False,
-            ip=loc_serv.external_ip,
-            port=loc_serv.external_port,
-        )
+    # Cannot test this warning as it only happens if the server is remote,
+    # which we cannot test in the CI
+    # with pytest.warns(
+    #     UserWarning,
+    #     match="Could not connect to remote server as ansys.dpf.gatebin "
+    #           "is missing. Trying again using LegacyGrpcServer.\n",
+    # ):
+    # Here it will work as ansys.dpf.gate.load_api._get_api_path_from_installer_or_package
+    # will find DPFClientAPI in the server local installation.
+    _ = dpf.core.connect_to_server(
+        config=conf,
+        as_global=False,
+        ip=loc_serv.external_ip,
+        port=loc_serv.external_port,
+    )
 
 
 @pytest.mark.skipif(conftest.IS_USING_GATEBIN, reason="This test must no have gatebin installed")

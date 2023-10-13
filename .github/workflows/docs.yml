@@ -66,24 +66,53 @@ jobs:
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
           echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
 
-      - name: Setup Python
-        uses: actions/setup-python@v4.6.0
+      - name: "Setup Python"
+        uses: actions/setup-python@v4.6.1
         with:
           python-version: ${{ inputs.python_version }}
 
-      - name: "Build Package"
-        id: build-package
-        uses: ansys/pydpf-actions/build_package@v2.3
+      - name: "Install requirements"
+        run: pip install -r requirements/requirements_build.txt
+
+      - name: "Build the wheel"
+        shell: bash
+        run: |
+          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
+              export platform="manylinux_2_17"
+          else
+              export platform="win"
+          fi
+          python .ci/build_wheel.py -p $platform -w
+
+      - name: "Expose the wheel"
+        shell: bash
+        id: wheel
+        working-directory: dist
+        run: |
+          export name=`ls ansys_dpf_core*.whl`
+          echo ${name}
+          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+
+      - name: "Install package wheel"
+        shell: bash
+        run: |
+          pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
+
+      - name: "Install DPF"
+        id: set-server-path
+        uses: ansys/pydpf-actions/install-dpf-server@v2.3
         with:
-          python-version: ${{ inputs.python_version }}
-          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheel: false
-          wheelhouse: false
           standalone_suffix: ${{ inputs.standalone_suffix }}
+          ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+
+      - name: "Check licences of packages"
+        uses: ansys/pydpf-actions/check-licenses@v2.3
+
+      - name: "Test import"
+        shell: bash
+        working-directory: tests
+        run: python -c "from ansys.dpf import core"
 
       - name: "Setup headless display"
         uses: pyvista/setup-headless-display-action@v1
