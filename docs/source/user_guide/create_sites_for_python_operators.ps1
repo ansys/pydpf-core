@@ -5,6 +5,8 @@ Write-Host "-zippath" $zippath
 Write-Host "-pythonexe" $pythonexe
 Write-Host "-tempfolder" $tempfolder
 
+# Expand shortcut in path
+$tempfolder = Resolve-Path -Path $tempfolder
 
 Write-Host "make venv"
 Start-Process $pythonexe -ArgumentList ("-m venv "+ $tempfolder+"\venv") -NoNewWindow -Wait
