@@ -279,9 +279,8 @@ This example instantiates operators with other operators:
     min_max = ops.min_max.min_max(displacement)
 
 This automatically connects the matching ``displacement`` output with the 
-matching ``min_max`` input. You can also use the :py:meth:`connect()
-<ansys.dpf.core.dpf_operator.Operator.connect>` method to manually connect 
-the outputs of one operator to the inputs of another operator:
+matching ``min_max`` input. You can also use the :py:meth:`connect()<ansys.dpf.core.dpf_operator.Operator.connect>`
+method to manually connect the outputs of one operator to the inputs of another operator:
 
 .. code-block:: python
 

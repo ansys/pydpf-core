@@ -52,6 +52,32 @@ jobs:
       - name: "Run pre-commit"
         run: pre-commit run --all-files --show-diff-on-failure
 
+  build_linux1:
+    name: "Build linux1 wheel"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Install requirements"
+        run: pip install -r requirements/requirements_build.txt
+
+      - name: "Build the manylinux1 wheel"
+        shell: bash
+        id: wheel
+        run: |
+          python .ci/build_wheel.py -p manylinux1
+          cd dist
+          export name=`ls ansys_dpf_core*.whl`
+          echo ${name}
+          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+          cd ..
+
+      - name: "Upload wheel any as artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.wheel.outputs.wheel_name }}
+          path: dist/${{ steps.wheel.outputs.wheel_name }}
+
   tests:
     uses: ./.github/workflows/tests.yml
     with:
@@ -60,6 +86,17 @@ jobs:
       wheel: true
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+    secrets: inherit
+
+  tests_any:
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "241"
+      python_versions: '["3.8"]'
+      wheel: true
+      wheelhouse: false
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      test_any: true
     secrets: inherit
 
   docker_tests:

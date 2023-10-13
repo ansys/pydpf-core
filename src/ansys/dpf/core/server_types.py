@@ -21,8 +21,9 @@ import ansys.dpf.core as core
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core import errors, server_factory
 from ansys.dpf.core._version import (
-    server_to_ansys_grpc_dpf_version,
+    min_server_version,
     server_to_ansys_version,
+    __version__
 )
 from ansys.dpf.core import server_context
 from ansys.dpf.gate import load_api, data_processing_grpcapi
@@ -323,8 +324,8 @@ def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_mod
 
 
 def check_ansys_grpc_dpf_version(server, timeout):
-    import ansys.grpc.dpf
     import grpc
+    from packaging import version
 
     state = grpc.channel_ready_future(server.channel)
     # verify connection has matured
@@ -336,37 +337,12 @@ def check_ansys_grpc_dpf_version(server, timeout):
         raise TimeoutError(
             f"Failed to connect to {server._input_ip}:{server._input_port} in {timeout} seconds"
         )
-    compatibility_link = (
-        f"https://dpf.docs.pyansys.com/getting_started/" f"index.html#client-server-compatibility"
-    )
     LOG.debug("Established connection to DPF gRPC")
-    grpc_module_version = ansys.grpc.dpf.__version__
-    server_version = server.version
-    right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
-    if right_grpc_module_version is None:  # pragma: no cover
-        # warnings.warn(f"No requirement specified on ansys-grpc-dpf for server version "
-        #               f"{server_version}. Continuing with the ansys-grpc-dpf version "
-        #               f"installed ({grpc_module_version}). In case of unexpected instability, "
-        #               f"please refer to the compatibility guidelines given in "
-        #               f"{compatibility_link}.")
-        return
-    if not _compare_ansys_grpc_dpf_version(right_grpc_module_version, grpc_module_version):
-        ansys_version_to_use = server_to_ansys_version.get(server_version, "Unknown")
-        ansys_versions = core._version.server_to_ansys_version
-        latest_ansys = ansys_versions[max(ansys_versions.keys())]
-        raise ImportWarning(
-            f"An incompatibility has been detected between the DPF server version "
-            f"({server_version} "
-            f"from Ansys {ansys_version_to_use})"
-            f" and the ansys-grpc-dpf version installed ({grpc_module_version})."
-            f" Please consider using the latest DPF server available in the "
-            f"{latest_ansys} Ansys unified install.\n"
-            f"To follow the compatibility guidelines given in "
-            f"{compatibility_link} while still using DPF server {server_version}, "
-            f"please install version {right_grpc_module_version} of ansys-grpc-dpf"
-            f" with the command: \n"
-            f"     pip install ansys-grpc-dpf{right_grpc_module_version}"
-        )
+    if version.parse(server.version) < version.parse(min_server_version):
+        raise ValueError(f"Error connecting to DPF LegacyGrpcServer with version {server.version} "
+                         f"(ANSYS {server_to_ansys_version[server.version]}): "
+                         f"ansys-dpf-core {__version__} does not support DPF servers below "
+                         f"{min_server_version} ({server_to_ansys_version[min_server_version]}).")
 
 
 class GhostServer:

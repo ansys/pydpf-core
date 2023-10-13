@@ -12,7 +12,8 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class assemble_scalars_to_matrices_fc(Operator):
     """Take nine scalar fields container and assemble them as a 3x3 matrix
-    fields.
+    fields. If the 'symmetrical' input is set to true, only six field
+    containers are required (xx, yy, zz, xy, xz and yz).
 
     Parameters
     ----------
@@ -25,6 +26,7 @@ class assemble_scalars_to_matrices_fc(Operator):
     yx : FieldsContainer, optional
     zy : FieldsContainer, optional
     zx : FieldsContainer, optional
+    symmetrical : bool, optional
 
 
     Examples
@@ -53,6 +55,8 @@ class assemble_scalars_to_matrices_fc(Operator):
     >>> op.inputs.zy.connect(my_zy)
     >>> my_zx = dpf.FieldsContainer()
     >>> op.inputs.zx.connect(my_zx)
+    >>> my_symmetrical = bool()
+    >>> op.inputs.symmetrical.connect(my_symmetrical)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.assemble_scalars_to_matrices_fc(
@@ -65,6 +69,7 @@ class assemble_scalars_to_matrices_fc(Operator):
     ...     yx=my_yx,
     ...     zy=my_zy,
     ...     zx=my_zx,
+    ...     symmetrical=my_symmetrical,
     ... )
 
     >>> # Get output data
@@ -82,6 +87,7 @@ class assemble_scalars_to_matrices_fc(Operator):
         yx=None,
         zy=None,
         zx=None,
+        symmetrical=None,
         config=None,
         server=None,
     ):
@@ -108,11 +114,15 @@ class assemble_scalars_to_matrices_fc(Operator):
             self.inputs.zy.connect(zy)
         if zx is not None:
             self.inputs.zx.connect(zx)
+        if symmetrical is not None:
+            self.inputs.symmetrical.connect(symmetrical)
 
     @staticmethod
     def _spec():
         description = """Take nine scalar fields container and assemble them as a 3x3 matrix
-            fields."""
+            fields. If the 'symmetrical' input is set to true, only
+            six field containers are required (xx, yy, zz, xy, xz and
+            yz)."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -167,6 +177,12 @@ class assemble_scalars_to_matrices_fc(Operator):
                 8: PinSpecification(
                     name="zx",
                     type_names=["fields_container"],
+                    optional=True,
+                    document="""""",
+                ),
+                60: PinSpecification(
+                    name="symmetrical",
+                    type_names=["bool"],
                     optional=True,
                     document="""""",
                 ),
@@ -247,6 +263,8 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
     >>> op.inputs.zy.connect(my_zy)
     >>> my_zx = dpf.FieldsContainer()
     >>> op.inputs.zx.connect(my_zx)
+    >>> my_symmetrical = bool()
+    >>> op.inputs.symmetrical.connect(my_symmetrical)
     """
 
     def __init__(self, op: Operator):
@@ -287,6 +305,10 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
             assemble_scalars_to_matrices_fc._spec().input_pin(8), 8, op, -1
         )
         self._inputs.append(self._zx)
+        self._symmetrical = Input(
+            assemble_scalars_to_matrices_fc._spec().input_pin(60), 60, op, -1
+        )
+        self._inputs.append(self._symmetrical)
 
     @property
     def xx(self):
@@ -449,6 +471,24 @@ class InputsAssembleScalarsToMatricesFc(_Inputs):
         >>> op.inputs.zx(my_zx)
         """
         return self._zx
+
+    @property
+    def symmetrical(self):
+        """Allows to connect symmetrical input to the operator.
+
+        Parameters
+        ----------
+        my_symmetrical : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.assemble_scalars_to_matrices_fc()
+        >>> op.inputs.symmetrical.connect(my_symmetrical)
+        >>> # or
+        >>> op.inputs.symmetrical(my_symmetrical)
+        """
+        return self._symmetrical
 
 
 class OutputsAssembleScalarsToMatricesFc(_Outputs):

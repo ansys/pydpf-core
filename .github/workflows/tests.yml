@@ -7,7 +7,7 @@ on:
       python_versions:
         required: false
         type: string
-        default: '["3.7"]'
+        default: '["3.8"]'
       ANSYS_VERSION:
         required: false
         type: string
@@ -29,6 +29,11 @@ on:
         required: false
         type: string
         default: ''
+      test_any:
+        description: "Test the any version of the wheel"
+        required: false
+        type: string
+        default: false
 # Can be called manually
   workflow_dispatch:
     inputs:
@@ -62,6 +67,11 @@ on:
         required: false
         type: string
         default: ''
+      test_any:
+        description: "Test the any version of the wheel"
+        required: false
+        type: string
+        default: 'false'
 
 env:
   PACKAGE_NAME: ansys-dpf-core
@@ -81,6 +91,7 @@ jobs:
   tests:
     name: "Tests"
     needs: setup
+    timeout-minutes: 30
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -96,20 +107,89 @@ jobs:
         shell: bash
         run: |
           echo "ANSYS_DPF_ACCEPT_LA=Y" >> $GITHUB_ENV
-          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV
+          echo "ANSYSLMD_LICENSE_FILE=1055@${{ secrets.LICENSE_SERVER }}" >> $GITHUB_ENV      
 
-      - name: "Build Package"
-        uses: ansys/pydpf-actions/build_package@v2.3
+      - name: "Setup Python"
+        uses: actions/setup-python@v4.6.1
         with:
           python-version: ${{ matrix.python-version }}
-          ANSYS_VERSION: ${{inputs.ANSYS_VERSION}}
-          PACKAGE_NAME: ${{env.PACKAGE_NAME}}
-          MODULE: ${{env.MODULE}}
+
+      - name: "Install requirements"
+        run: pip install -r requirements/requirements_build.txt
+
+      - name: "Build the wheel"
+        shell: bash
+        run: |
+          if [ ${{ inputs.test_any }} == 'true' ]; then
+              export platform="any" 
+          elif [ ${{ matrix.os }} == "ubuntu-latest" ]; then
+              export platform="manylinux_2_17"
+          else
+              export platform="win"
+          fi
+          python .ci/build_wheel.py -p $platform -w
+
+      - name: "Expose the wheel"
+        shell: bash
+        id: wheel
+        working-directory: dist
+        run: |
+          export name=`ls ansys_dpf_core*.whl`
+          echo ${name}
+          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+
+      - name: "Upload wheel to artifacts"
+        if: inputs.wheel == 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.wheel.outputs.wheel_name }}
+          path: dist/${{ steps.wheel.outputs.wheel_name }}
+
+      - name: "Define wheelhouse name"
+        if: inputs.wheelhouse == 'true'
+        shell: bash
+        id: wheelhouse
+        run: |
+          export wheel_name=${{ steps.wheel.outputs.wheel_name }}
+          export version=${wheel_name:15:5}
+          export name=ansys-dpf-core-v$version-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}.zip
+          echo "name=${name}" >> $GITHUB_OUTPUT
+
+      - name: "Zip wheelhouse"
+        if: inputs.wheelhouse == 'true'
+        uses: vimtor/action-zip@v1.1
+        with:
+          files: dist
+          dest: ${{ steps.wheelhouse.outputs.name }}
+
+      - name: "Upload wheelhouse to artifacts"
+        if: inputs.wheelhouse == 'true'
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: ${{ steps.wheelhouse.outputs.name }}
+          path: ${{ steps.wheelhouse.outputs.name }}
+          retention-days: 7
+
+      - name: "Install package wheel"
+        shell: bash
+        run: |
+          pip install dist/${{ steps.wheel.outputs.wheel_name }}[plotting]
+
+      - name: "Install DPF"
+        id: set-server-path
+        uses: ansys/pydpf-actions/install-dpf-server@v2.3
+        with:
           dpf-standalone-TOKEN: ${{secrets.DPF_PIPELINE}}
-          install_extras: plotting
-          wheel: ${{ inputs.wheel }}
-          wheelhouse: ${{ inputs.wheelhouse }}
           standalone_suffix: ${{ inputs.standalone_suffix }}
+          ANSYS_VERSION : ${{inputs.ANSYS_VERSION}}
+
+      - name: "Check licences of packages"
+        uses: ansys/pydpf-actions/check-licenses@v2.3
+
+      - name: "Test import"
+        shell: bash
+        working-directory: tests
+        run: python -c "from ansys.dpf import core"
 
       - name: "Prepare Testing Environment"
         uses: ansys/pydpf-actions/prepare_tests@v2.3
