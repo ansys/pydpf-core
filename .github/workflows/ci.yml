@@ -22,7 +22,7 @@ concurrency:
 
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
-  MAIN_PYTHON_VERSION: '3.8'
+  MAIN_PYTHON_VERSION: '3.9'
   MEILISEARCH_API_KEY: ${{ secrets.MEILISEARCH_API_KEY }}
   MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
 
@@ -82,7 +82,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       wheel: true
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
@@ -92,7 +92,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       wheel: true
       wheelhouse: false
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
@@ -112,7 +112,7 @@ jobs:
     uses: ./.github/workflows/examples_docker.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
@@ -158,7 +158,7 @@ jobs:
     uses: ./.github/workflows/examples.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
@@ -168,7 +168,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "232"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       DOCSTRING: false
       standalone_suffix: ''
     secrets: inherit
@@ -179,7 +179,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "231"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -189,7 +189,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "222"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       DOCSTRING: false
     secrets: inherit
 
