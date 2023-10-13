@@ -288,3 +288,25 @@ def test_start_after_shutting_down_server():
     info = remote_server.info
     remote_server.shutdown()
     assert info is not None
+
+
+def test_check_ansys_grpc_dpf_version_raise():
+    remote_server = start_local_server(
+        config=dpf.core.AvailableServerConfigs.LegacyGrpcServer, as_global=False
+    )
+
+    class MockServer:
+        def __init__(self, server):
+            for attribute in ["channel", "_input_ip", "_input_port"]:
+                setattr(self, attribute, getattr(server, attribute))
+
+        @property
+        def version(self):
+            return "1.0"
+
+    print(MockServer(remote_server).version)
+    with pytest.raises(
+            ValueError,
+            match="Error connecting to DPF LegacyGrpcServer with version 1.0"
+    ):
+        dpf.core.server_types.check_ansys_grpc_dpf_version(MockServer(remote_server), timeout=2.0)
