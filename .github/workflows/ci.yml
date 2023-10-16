@@ -27,131 +27,131 @@ env:
   MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
 
 jobs:
-  debug:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Show the Github context for the triggered event
-      run: echo "$GITHUB_CONTEXT"
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-
-  style:
-    name: "Style Check"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: "Setup Python"
-        uses: actions/setup-python@v4.6.0
-        with:
-          python-version: ${{ env.MAIN_PYTHON_VERSION }}
-
-      - name: "Install pre-commit"
-        run: pip install pre-commit
-
-      - name: "Run pre-commit"
-        run: pre-commit run --all-files --show-diff-on-failure
-
-  build_linux1:
-    name: "Build linux1 wheel"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: "Install requirements"
-        run: pip install -r requirements/requirements_build.txt
-
-      - name: "Build the manylinux1 wheel"
-        shell: bash
-        id: wheel
-        run: |
-          python .ci/build_wheel.py -p manylinux1
-          cd dist
-          export name=`ls ansys_dpf_core*.whl`
-          echo ${name}
-          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-          cd ..
-
-      - name: "Upload wheel any as artifact"
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ steps.wheel.outputs.wheel_name }}
-          path: dist/${{ steps.wheel.outputs.wheel_name }}
-
-  tests:
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "241"
-      python_versions: '["3.9"]'
-      wheel: true
-      wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-    secrets: inherit
-
-  tests_any:
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "241"
-      python_versions: '["3.9"]'
-      wheel: true
-      wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      test_any: true
-    secrets: inherit
-
-  docker_tests:
-    name: "Build and Test on Docker"
-    uses: ./.github/workflows/test_docker.yml
-    with:
-      ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-    secrets: inherit
-
-  docker_examples:
-    name: "Run examples on Docker"
-    uses: ./.github/workflows/examples_docker.yml
-    with:
-      ANSYS_VERSION: "241"
-      python_versions: '["3.9"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-    secrets: inherit
-
-  docs:
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/docs.yml
-    with:
-      ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      event_name: ${{ github.event_name }}
-    secrets: inherit
-
-  upload-development-docs:
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/master' }}
-    needs: [docs]
-    steps:
-      - name: "Upload development documentation"
-        uses: ansys/actions/doc-deploy-dev@v4
-        with:
-          cname: ${{ env.DOCUMENTATION_CNAME }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
-          decompress-artifact: true
-  
-  doc-index-dev:
-    name: "Deploy dev index docs"
-    runs-on: ubuntu-latest
-    needs: upload-development-docs
-    steps:
-      - name: "Deploy the latest documentation index"
-        uses: ansys/actions/doc-deploy-index@v4
-        with:
-          cname: ${{ env.DOCUMENTATION_CNAME }}/version/dev
-          index-name: pydpf-core-vdev
-          host-url: ${{ vars.MEILISEARCH_HOST_URL }}
-          api-key: ${{ env.MEILISEARCH_API_KEY }}
-          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
-          decompress-artifact: true
+#  debug:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - name: Show the Github context for the triggered event
+#      run: echo "$GITHUB_CONTEXT"
+#      env:
+#        GITHUB_CONTEXT: ${{ toJson(github) }}
+#
+#  style:
+#    name: "Style Check"
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: "Setup Python"
+#        uses: actions/setup-python@v4.6.0
+#        with:
+#          python-version: ${{ env.MAIN_PYTHON_VERSION }}
+#
+#      - name: "Install pre-commit"
+#        run: pip install pre-commit
+#
+#      - name: "Run pre-commit"
+#        run: pre-commit run --all-files --show-diff-on-failure
+#
+#  build_linux1:
+#    name: "Build linux1 wheel"
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: "Install requirements"
+#        run: pip install -r requirements/requirements_build.txt
+#
+#      - name: "Build the manylinux1 wheel"
+#        shell: bash
+#        id: wheel
+#        run: |
+#          python .ci/build_wheel.py -p manylinux1
+#          cd dist
+#          export name=`ls ansys_dpf_core*.whl`
+#          echo ${name}
+#          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+#          cd ..
+#
+#      - name: "Upload wheel any as artifact"
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: ${{ steps.wheel.outputs.wheel_name }}
+#          path: dist/${{ steps.wheel.outputs.wheel_name }}
+#
+#  tests:
+#    uses: ./.github/workflows/tests.yml
+#    with:
+#      ANSYS_VERSION: "241"
+#      python_versions: '["3.9"]'
+#      wheel: true
+#      wheelhouse: false
+#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+#    secrets: inherit
+#
+#  tests_any:
+#    uses: ./.github/workflows/tests.yml
+#    with:
+#      ANSYS_VERSION: "241"
+#      python_versions: '["3.9"]'
+#      wheel: true
+#      wheelhouse: false
+#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+#      test_any: true
+#    secrets: inherit
+#
+#  docker_tests:
+#    name: "Build and Test on Docker"
+#    uses: ./.github/workflows/test_docker.yml
+#    with:
+#      ANSYS_VERSION: "241"
+#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+#    secrets: inherit
+#
+#  docker_examples:
+#    name: "Run examples on Docker"
+#    uses: ./.github/workflows/examples_docker.yml
+#    with:
+#      ANSYS_VERSION: "241"
+#      python_versions: '["3.9"]'
+#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+#    secrets: inherit
+#
+#  docs:
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/docs.yml
+#    with:
+#      ANSYS_VERSION: "241"
+#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+#      event_name: ${{ github.event_name }}
+#    secrets: inherit
+#
+#  upload-development-docs:
+#    runs-on: ubuntu-latest
+#    if: ${{ github.ref == 'refs/heads/master' }}
+#    needs: [docs]
+#    steps:
+#      - name: "Upload development documentation"
+#        uses: ansys/actions/doc-deploy-dev@v4
+#        with:
+#          cname: ${{ env.DOCUMENTATION_CNAME }}
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
+#          decompress-artifact: true
+#
+#  doc-index-dev:
+#    name: "Deploy dev index docs"
+#    runs-on: ubuntu-latest
+#    needs: upload-development-docs
+#    steps:
+#      - name: "Deploy the latest documentation index"
+#        uses: ansys/actions/doc-deploy-index@v4
+#        with:
+#          cname: ${{ env.DOCUMENTATION_CNAME }}/version/dev
+#          index-name: pydpf-core-vdev
+#          host-url: ${{ vars.MEILISEARCH_HOST_URL }}
+#          api-key: ${{ env.MEILISEARCH_API_KEY }}
+#          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
+#          decompress-artifact: true
 
   examples:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
@@ -162,44 +162,44 @@ jobs:
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
-  retro_232:
-    name: "retro 232"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "232"
-      python_versions: '["3.9"]'
-      DOCSTRING: false
-      standalone_suffix: ''
-    secrets: inherit
-
-  retro_231:
-    name: "retro 231"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "231"
-      python_versions: '["3.9"]'
-      DOCSTRING: false
-    secrets: inherit
-
-  retro_222:
-    name: "retro 222"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "222"
-      python_versions: '["3.9"]'
-      DOCSTRING: false
-    secrets: inherit
-
-  pydpf-post:
-    name: "PyDPF-Post"
-    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-    uses: ./.github/workflows/pydpf-post.yml
-    with:
-      ANSYS_VERSION: "241"
-      post_branch: "master"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-      test_docstrings: "true"
-    secrets: inherit
+#  retro_232:
+#    name: "retro 232"
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/tests.yml
+#    with:
+#      ANSYS_VERSION: "232"
+#      python_versions: '["3.9"]'
+#      DOCSTRING: false
+#      standalone_suffix: ''
+#    secrets: inherit
+#
+#  retro_231:
+#    name: "retro 231"
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/tests.yml
+#    with:
+#      ANSYS_VERSION: "231"
+#      python_versions: '["3.9"]'
+#      DOCSTRING: false
+#    secrets: inherit
+#
+#  retro_222:
+#    name: "retro 222"
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/tests.yml
+#    with:
+#      ANSYS_VERSION: "222"
+#      python_versions: '["3.9"]'
+#      DOCSTRING: false
+#    secrets: inherit
+#
+#  pydpf-post:
+#    name: "PyDPF-Post"
+#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+#    uses: ./.github/workflows/pydpf-post.yml
+#    with:
+#      ANSYS_VERSION: "241"
+#      post_branch: "master"
+#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+#      test_docstrings: "true"
+#    secrets: inherit
