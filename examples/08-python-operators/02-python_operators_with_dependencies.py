@@ -149,9 +149,10 @@ if os.name == "nt" and not os.path.exists(
     import subprocess
 
     process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    if process.stderr:
+    if process.returncode != 0 and process.stderr:
         raise RuntimeError(
             "Installing pygltf in a virtual environment failed with error:\n"
+            + f"return code = {process.returncode}\n"
             + process.stderr.decode()
             + "\n\n and log:\n"
             + process.stdout.decode()
