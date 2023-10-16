@@ -6,10 +6,7 @@ Write-Host "-pythonexe" $pythonexe
 Write-Host "-tempfolder" $tempfolder
 
 # Expand shortcut in path
-Write-Host "Expand temp path"
-Write-Host "Initial path" $tempfolder
 $tempfolder = Resolve-Path -Path $tempfolder -Relative
-Write-Host "New path" $tempfolder
 
 Write-Host "make venv"
 Start-Process $pythonexe -ArgumentList ("-m venv "+ $tempfolder+"\venv") -NoNewWindow -Wait
