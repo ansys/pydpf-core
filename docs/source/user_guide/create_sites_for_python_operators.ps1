@@ -7,8 +7,6 @@ Write-Host "-tempfolder" $tempfolder
 
 # Expand shortcut in path
 Write-Host "initial tempfolder" $tempfolder
-# $tempfolder = Resolve-Path -Path $tempfolder
-# $tempfolder = $tempfolder.ToString()
 $tempfolder = (Get-Item -LiteralPath $tempfolder).FullName
 Write-Host "tempfolder" $tempfolder
 
