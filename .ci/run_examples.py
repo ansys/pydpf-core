@@ -26,8 +26,6 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
         for file in glob.iglob(os.path.join(subdir, "*.py")):
             if sys.platform == "linux" and "08-python-operators" in file:
                 continue
-            if "02-python_operators_with_dependencies" not in file:
-                continue
             print("\n--------------------------------------------------")
             print(file)
             minimum_version_str = get_example_required_minimum_dpf_version(file)
