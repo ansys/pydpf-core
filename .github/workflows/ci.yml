@@ -137,7 +137,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
           decompress-artifact: true
-  
+
   doc-index-dev:
     name: "Deploy dev index docs"
     runs-on: ubuntu-latest
