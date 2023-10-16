@@ -56,20 +56,20 @@ import os
 folder_root = os.path.join(os.getcwd().rsplit("pydpf-core", 1)[0], "pydpf-core")
 source_path_in_repo = r"docs\source\examples\07-python-operators\plugins"
 operator_folder = os.path.join(folder_root, source_path_in_repo)
-print(operator_folder)
+# print(operator_folder)
 plugin_path = None
 
 for file in file_list:
     operator_file_path = os.path.join(operator_folder, file)
 
-    print(f"\033[1m {file}\n \033[0m")
+    # print(f"\033[1m {file}\n \033[0m")
     if (
         os.path.splitext(file)[1] == ".py" or os.path.splitext(file)[1] == ".xml"
     ) and file != "gltf_plugin/gltf_export.py":
-        with open(operator_file_path, "r") as f:
-            for line in f.readlines():
-                print("\t\t\t" + line)
-        print("\n\n")
+        # with open(operator_file_path, "r") as f:
+        #     for line in f.readlines():
+        #         print("\t\t\t" + line)
+        # print("\n\n")
         if plugin_path is None:
             plugin_path = os.path.dirname(operator_file_path)
 
@@ -91,10 +91,10 @@ for file in file_list:
 #
 # To simplify this step, you can add a requirements file in the plug-in package:
 #
-print("\033[1m gltf_plugin/requirements.txt: \n \033[0m")
-with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
-    for line in f.readlines():
-        print("\t\t\t" + line)
+# print("\033[1m gltf_plugin/requirements.txt: \n \033[0m")
+# with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
+#     for line in f.readlines():
+#         print("\t\t\t" + line)
 
 
 # %%
