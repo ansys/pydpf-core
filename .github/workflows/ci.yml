@@ -116,14 +116,14 @@ jobs:
 #      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
 #    secrets: inherit
 #
-#  docs:
-#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-#    uses: ./.github/workflows/docs.yml
-#    with:
-#      ANSYS_VERSION: "241"
-#      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
-#      event_name: ${{ github.event_name }}
-#    secrets: inherit
+  docs:
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/docs.yml
+    with:
+      ANSYS_VERSION: "241"
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      event_name: ${{ github.event_name }}
+    secrets: inherit
 #
 #  upload-development-docs:
 #    runs-on: ubuntu-latest
