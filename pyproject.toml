@@ -1,6 +1,6 @@
 [build-system]
 build-backend = "setuptools.build_meta"
-requires = ["setuptools>=61.0.0"]
+requires = ["setuptools>=61.0.0", "wheel"]
 
 [project]
 # Check https://setuptools.pypa.io/en/stable/userguide/quickstart.html for all available sections
@@ -8,7 +8,7 @@ name = "ansys-dpf-core"
 version = "0.9.1.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
-requires-python = ">=3.8, <4"
+requires-python = ">=3.9, <4"
 license = {file = "LICENSE"}
 authors = [
     {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"},
@@ -63,3 +63,11 @@ source = ["ansys.dpf.core"]
 
 [tool.coverage.report]
 show_missing = true
+
+[tool.setuptools.packages.find]
+namespaces = true
+where = ["src"]
+
+[tool.setuptools.package-data]
+"ansys.dpf.gatebin" = ["*.so", "*.dll"]
+
