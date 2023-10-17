@@ -107,9 +107,9 @@ def _get_api_path_from_installer_or_package(ansys_path: str, is_posix: bool):
                 dpf_client_found = True
     if not dpf_client_found and not is_ansys_version_old:
         raise ModuleNotFoundError(
-            "To use ansys.dpf.gate as a client API "
-            "install ansys-dpf-core for your OS instead of "
-            "ansys-dpf-core any or use a LegacyGrpcServer."
+            "To use ansys-dpf-gate as a client API "
+            "install ansys-dpf-gatebin "
+            "with :\n pip install ansys-dpf-gatebin."
         )
     return path
 

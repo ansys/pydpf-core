@@ -8,7 +8,7 @@ name = "ansys-dpf-core"
 version = "0.9.1.dev0"
 description = "Data Processing Framework - Python Core "
 readme = "README.md"
-requires-python = ">=3.8, <4"
+requires-python = ">=3.9, <4"
 license = {file = "LICENSE"}
 authors = [
     {name = "ANSYS, Inc.", email = "pyansys.core@ansys.com"},
@@ -32,7 +32,7 @@ dependencies = [
     "importlib-metadata >=4.0",
     "numpy",
     "packaging",
-    "protobuf<4",
+    "protobuf",
     "psutil",
     "setuptools",
     "tqdm",
