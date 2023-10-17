@@ -11,6 +11,7 @@ Gaussian
 getters
 gltf
 GLTF
+grpcio
 hexa
 IronPython
 matplotlib
@@ -33,6 +34,7 @@ Reusability
 Rz
 scopings
 serializer
+setuptools
 substep
 tqdm
 von

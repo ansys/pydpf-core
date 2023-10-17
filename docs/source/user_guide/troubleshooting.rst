@@ -28,14 +28,14 @@ on the network.
 
 Import the ``pydpf-core`` package
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Assume that you are importing the ``pydpf-core`` package:
+Assume that you are importing the ``PyDPF-Core`` package:
 
 .. code-block:: default
 
     from ansys.dpf import core as dpf
 
 If an error lists missing modules, see :ref:`ref_compatibility`.
-For ``pydpf-core``<0.10.0, the `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ module
+For ``PyDPF-Core``<0.10.0, the `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ module
 should always be synchronized with its server version.
 
 Model issues
