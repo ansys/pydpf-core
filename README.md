@@ -104,14 +104,14 @@ To use PyDPF-Core with Ansys 2021R2, install the latest compatible version
 with this command:
 
 ```con
-   pip install ansys-dpf-core<0.10.0; pip install ansys-grpc-dpf<0.4.0
+   pip install ansys-grpc-dpf<0.4.0; pip install ansys-dpf-core<0.10.0
 ```
 
 To use PyDPF-Core with Ansys 2021 R1, install the latest compatible version
 with this command:
 
 ```con
-   pip install ansys-dpf-core<0.3.0; pip install ansys-grpc-dpf<0.3.0
+   pip install ansys-grpc-dpf<0.3.0; pip install ansys-dpf-core<0.3.0
 ```
 
 ### Brief demo
