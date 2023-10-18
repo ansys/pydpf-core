@@ -33,8 +33,8 @@ and prevent synchronization issues between the PyDPF libraries, requiring to dro
 previous to 2022 R2.
 
 **Ansys strongly encourages you to use the latest packages available**, as far they are compatible
-with the Server version you want to use. Using Ansys 2023 R1 for example, if ansys-dpf-core
-module with 0.10.0 version is the latest available package, it should be used.
+with the Server version you want to run. Considering Ansys 2023 R1 for example, if ansys-dpf-core
+module with 0.10.0 version is the latest available compatible package, it should be used.
 
 For ``ansys-dpf-core<0.10``, the `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_
 package should also be synchronized with the server version.
