@@ -127,7 +127,7 @@ jobs:
 
   upload-development-docs:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/master' }}
+    if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
     needs: [docs]
     steps:
       - name: "Upload development documentation"
