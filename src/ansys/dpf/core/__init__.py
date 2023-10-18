@@ -9,8 +9,8 @@ LOCAL_DOWNLOADED_EXAMPLES_PATH = None
 try:
     import pkgutil
 
-    spec = pkgutil.get_loader("ansys.dpf.core")
-    USER_DATA_PATH = os.path.dirname(spec.get_filename())
+    spec = pkgutil.get_loader(__name__)
+    USER_DATA_PATH = os.path.dirname(spec.get_filename(__name__))
     if not os.path.exists(USER_DATA_PATH):  # pragma: no cover
         os.makedirs(USER_DATA_PATH)
 
