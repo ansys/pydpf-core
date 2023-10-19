@@ -3,6 +3,13 @@ name: Release
 on:
   release:
     types: [published]
+# Can be called manually
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag'
+        default: 'latest'
+        type: string
 
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
@@ -19,6 +26,7 @@ jobs:
       - name: "Download Release Assets"
         uses: robinraju/release-downloader@v1.8
         with:
+          tag: ${{ github.event.inputs.release_tag || 'latest' }}
           fileName: "*.whl"
           tarBall: true
           zipBall: true
