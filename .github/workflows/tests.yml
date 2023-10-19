@@ -155,7 +155,7 @@ jobs:
           read -a strarr <<< $wheel_name
           export version="${strarr[1]}"
           echo $version
-          export name=ansys-dpf-core-v$version-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}.zip
+          export name=ansys-dpf-core-v${version}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}.zip
           echo "name=${name}" >> $GITHUB_OUTPUT
 
       - name: "Zip wheelhouse"
