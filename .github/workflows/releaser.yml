@@ -31,8 +31,8 @@ jobs:
         with:
           tag: ${{ github.event.inputs.release_tag || 'latest' }}
           fileName: "*.whl"
-          tarBall: true
-          zipBall: true
+          tarBall: false
+          zipBall: false
           out-file-path: "assets"
           extract: false
           token: ${{ secrets.GITHUB_TOKEN }}
