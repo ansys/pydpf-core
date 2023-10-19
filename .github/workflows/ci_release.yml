@@ -208,7 +208,6 @@ jobs:
         with:
           files: |
             ./**/*.whl
-            ./**/*.tar.gz
             ./**/*.zip
           draft: true
           generate_release_notes: true
