@@ -151,7 +151,9 @@ jobs:
         id: wheelhouse
         run: |
           export wheel_name=${{ steps.wheel.outputs.wheel_name }}
-          export version=${wheel_name:15:5}
+          export IFS='-'
+          read -a strarr <<< $wheel_name
+          export version="${strarr[1]}"
           export name=ansys-dpf-core-v$version-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}.zip
           echo "name=${name}" >> $GITHUB_OUTPUT
 
