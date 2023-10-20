@@ -1,11 +1,15 @@
-ANSYS
 [Aa]nsys
-Abaqus
-APIs
 [Cc]omponentization
 [Cc]ore
+[Pp]ostprocessing
+[Pp]ython
+[Pp]yvista
+[Ss]erver
+ANSYS
+Abaqus
+APIs
 CPython
-DPF [Ss]erver
+DPF
 Entry
 Gaussian
 getters
@@ -19,15 +23,12 @@ Mises
 MSUP
 numpy
 postprocess
-[Pp]ostprocessing
 Premium
 Preview License Agreement
 protobuf
 psutil
-PyDPF
-[Pp]ython
+(PyDPF\s|PyDPF-Core|PyDPF-Post)
 Pythonic
-[Pp]yvista
 recursivity
 Remotable
 Reusability
