@@ -66,7 +66,7 @@ Change the default server context
 
 The default context for the server is **Premium**. You can change the context using
 the ``ANSYS_DPF_SERVER_CONTEXT`` environment variable. For more information, see
-the :module: `<ansys.dpf.core.server_context>` module). You can also change the server context
+the :module:`<ansys.dpf.core.server_context>` module). You can also change the server context
 with this code:
 
 .. code-block::
