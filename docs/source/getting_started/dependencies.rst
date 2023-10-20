@@ -20,14 +20,14 @@ package is installed. Package dependencies are:
 - `setuptools <https://pypi.org/project/setuptools/>`_
 - `tqdm <https://pypi.org/project/tqdm/>`_
 
-For ``ansys-dpf-core<0.10.0``, the ``ansys.dpf.gate``, ``ansys.dpf.gatebin`` and ``ansys.grpc.dpf``
-modules are not included and are dependencies:
+For ``ansys-dpf-core<0.10.0``, the :module:`ansys.dpf.gate`, :module:`ansys.dpf.gatebin` and
+:module:`ansys.grpc.dpf` modules are not included and are dependencies:
 
-- `ansys.dpf.gate <https://pypi.org/project/ansys-dpf-gate/>`_, which is the gate
+- :module:`ansys.dpf.gate <https://pypi.org/project/ansys-dpf-gate/>`_, which is the gate
   to the DPF C API or Python gRPC API. The gate depends on the server configuration:
-- `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ is the gRPC code
+- :module:`ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_ is the gRPC code
   generated from protobuf files and is a dependency of ``ansys-dpf-gate``.
-- `ansys.dpf.gatebin <https://pypi.org/project/ansys-dpf-gatebin/>`_ is the
+- :module:`ansys.dpf.gatebin <https://pypi.org/project/ansys-dpf-gatebin/>`_ is the
   operating system-specific binaries with DPF C APIs and is a dependency of ``ansys-dpf-gate``.
 
 
