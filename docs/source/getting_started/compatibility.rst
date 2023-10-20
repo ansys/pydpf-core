@@ -36,7 +36,7 @@ previous to 2022 R2.
 with the Server version you want to run. Considering Ansys 2023 R1 for example, if ansys-dpf-core
 module with 0.10.0 version is the latest available compatible package, it should be used.
 
-For ``ansys-dpf-core<0.10``, the `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_
+For ``ansys-dpf-core``<0.10, the `ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_
 package should also be synchronized with the server version.
 
 .. list-table:: Client-server compatibility
@@ -118,7 +118,7 @@ package should also be synchronized with the server version.
      - None
      - None
 
-(** Compatibility of DPF 2.0 with ansys-dpf-core 0.5.0 to 0.9.0 is assumed but not certified.)
+(** Compatibility of DPF 2.0 with ``ansys-dpf-core`` 0.5.0 to 0.9.0 is assumed but not certified.)
 
 Update Python environment
 -------------------------
