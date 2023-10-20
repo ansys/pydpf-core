@@ -208,9 +208,9 @@ The ZIP files for Windows and Linux are included as assets:
 - ``linx64.zip``
 
 
-**``custom_plugin.xml`` file**
+**:file:`custom_plugin.xml` file**
 
-The ``custom_plugin.xml`` file contains code like this:
+The :file:`custom_plugin.xml` file contains code like this:
  
 .. literalinclude:: custom_plugin.xml
    :language: xml
