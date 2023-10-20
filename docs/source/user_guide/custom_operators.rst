@@ -208,7 +208,7 @@ The ZIP files for Windows and Linux are included as assets:
 - ``linx64.zip``
 
 
-**custom_plugin.xml file**
+**``custom_plugin.xml`` file**
 
 The ``custom_plugin.xml`` file contains code like this:
  

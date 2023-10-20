@@ -35,7 +35,7 @@ Assume that you are importing the ``PyDPF-Core`` package:
     from ansys.dpf import core as dpf
 
 If an error lists missing modules, see :ref:`ref_compatibility`.
-For ``PyDPF-Core``<0.10.0, the :module:`ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_
+For ``PyDPF-Core``<0.10.0, the :py:mod:`ansys.grpc.dpf <https://pypi.org/project/ansys-grpc-dpf/>`_
 module should always be synchronized with its server version.
 
 Model issues
