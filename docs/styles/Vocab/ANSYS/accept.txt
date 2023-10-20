@@ -39,5 +39,6 @@ serializer
 setuptools
 substep
 tqdm
+UTF-8
 von
 XML
