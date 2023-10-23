@@ -9,7 +9,7 @@ on:
         required: false
         type: string
         default: "241"
-      standalone_suffix:
+      standalone_branch_suffix:
         description: "Suffix of the branch on standalone"
         required: false
         type: string
