@@ -100,7 +100,7 @@ Operator name: "CP"
 Number of components: 1
 Dimensionality: scalar
 Homogeneity: specific_heat
-Units: j/kg*k^-1
+Units: J/kg*K^-1
 Location: Nodal
 Available qualifier labels:"""  # noqa: E501
     ref2 = "'phase': 2"
