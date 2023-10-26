@@ -1274,3 +1274,9 @@ def test_dot_operator_field():
     out = add.outputs.field()
     assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, -field.data)
+
+def test_field_no_inprocess_localfield(server_in_process, allkindofcomplexity):
+    model = dpf.core.Model(allkindofcomplexity, server=server_in_process)
+    field = model.results.stress().outputs.fields_container()[0]
+
+    assert field == field.as_local_field()
