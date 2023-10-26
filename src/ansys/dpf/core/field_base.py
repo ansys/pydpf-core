@@ -494,6 +494,12 @@ class _FieldBase:
     def _set_data(self, data):
         pass
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, tb):
+        pass
+
 
 class _LocalFieldBase(_FieldBase):
     """Caches the internal data of the field so that it can be modified locally.
@@ -512,7 +518,7 @@ class _LocalFieldBase(_FieldBase):
 
     def __cache_data__(self, field):
         self._ncomp = super().component_count
-        self._data_copy = super().data_as_list
+        self._data_copy = super().data_as_list#_get_data(np_array=True)
         self._num_entities_reserved = len(self._data_copy)
         self._data_pointer_copy = super()._get_data_pointer().tolist()
         self._scoping_copy = super().scoping.as_local_scoping()
