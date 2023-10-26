@@ -240,7 +240,7 @@ class Field(_FieldBase):
                [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
 
         """  # noqa: E501
-        if self._api == field_grpcapi.FieldGRPCAPI:
+        if self._server is not None:
             return _LocalField(self)
         else:
             return self
