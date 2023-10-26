@@ -240,7 +240,10 @@ class Field(_FieldBase):
                [0.3, 0.6, 0.9]]), [[0.30000000000000004, 0.6000000000000001, 0.8999999999999999], [0.30000000000000004, 0.6000000000000001, 0.8999999999999999]])
 
         """  # noqa: E501
-        return _LocalField(self)
+        if self._api == field_grpcapi.FieldGRPCAPI:
+            return _LocalField(self)
+        else:
+            return self
 
     @property
     def location(self):
