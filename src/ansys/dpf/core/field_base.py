@@ -618,7 +618,7 @@ class _LocalFieldBase(_FieldBase):
         >>> stress_op = model.results.stress()
         >>> fields_container = stress_op.outputs.fields_container()
         >>> with fields_container[0].as_local_field() as f:
-        ...     for id in f.scoping_ids:
+        ...     for id in f.scoping.ids:
         ...         if id < 2:
         ...             print(f.get_entity_data_by_id(id))
         [[-5.83890625e+03 -1.04498969e+05 -5.83890625e+03  2.10637354e+03
