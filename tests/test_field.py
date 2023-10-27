@@ -804,7 +804,7 @@ def test_get_set_scoping_local_field(server_type_remote_process):
     )
     with field_to_local.as_local_field() as f:
         f.data = [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]]
-        f.scoping = dpf.core.Scoping(ids=[3, 4])
+        f.scoping = dpf.core.Scoping(ids=[3, 4], server=server_type_remote_process)
         assert np.allclose(f.data, [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
         assert np.allclose(f.scoping_ids, [3, 4])
         assert np.allclose(f.scoping.ids, [3, 4])
