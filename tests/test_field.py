@@ -543,14 +543,14 @@ def test_set_support_mesh(simple_bar):
     assert mesh_to_check_2.elements.n_elements == 0
 
 
-def test_local_field_append():
+def test_local_field_append(server_type_remote_process):
     num_entities = 400
-    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities)
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities, server=server_type_remote_process)
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             f.append([0.1 * i, 0.2 * i, 0.3 * i], i)
         assert f._is_set == True
-    field = dpf.core.fields_factory.create_3d_vector_field(num_entities)
+    field = dpf.core.fields_factory.create_3d_vector_field(num_entities, server=server_type_remote_process)
     for i in range(1, num_entities + 1):
         field.append([0.1 * i, 0.2 * i, 0.3 * i], i)
 
@@ -559,15 +559,15 @@ def test_local_field_append():
     assert len(field_to_local._data_pointer) == 0
 
 
-def test_local_elemental_nodal_field_append():
+def test_local_elemental_nodal_field_append(server_type_remote_process):
     num_entities = 100
     field_to_local = dpf.core.fields_factory.create_3d_vector_field(
-        num_entities, location=dpf.core.locations.elemental_nodal
+        num_entities, location=dpf.core.locations.elemental_nodal, server=server_type_remote_process
     )
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             f.append([[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]], i)
-    field = dpf.core.fields_factory.create_3d_vector_field(num_entities)
+    field = dpf.core.fields_factory.create_3d_vector_field(num_entities, server=server_type_remote_process)
     for i in range(1, num_entities + 1):
         field.append([[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]], i)
 
@@ -577,7 +577,7 @@ def test_local_elemental_nodal_field_append():
 
     # flat data
     field_to_local = dpf.core.fields_factory.create_3d_vector_field(
-        num_entities, location=dpf.core.locations.elemental_nodal
+        num_entities, location=dpf.core.locations.elemental_nodal, server=server_type_remote_process
     )
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
@@ -588,14 +588,14 @@ def test_local_elemental_nodal_field_append():
     assert len(field_to_local._data_pointer) == num_entities
 
 
-def test_local_array_field_append():
+def test_local_array_field_append(server_type_remote_process):
     num_entities = 400
-    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities)
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities, server=server_type_remote_process)
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             f.append(np.array([0.1 * i, 0.2 * i, 0.3 * i]), i)
         assert f._is_set is True
-    field = dpf.core.fields_factory.create_3d_vector_field(num_entities)
+    field = dpf.core.fields_factory.create_3d_vector_field(num_entities, server=server_type_remote_process)
     for i in range(1, num_entities + 1):
         field.append(np.array([0.1 * i, 0.2 * i, 0.3 * i]), i)
 
@@ -633,10 +633,10 @@ def test_local_elemental_nodal_array_field_append():
     assert len(field_to_local._data_pointer) == num_entities
 
 
-def test_local_get_entity_data():
+def test_local_get_entity_data(server_type_remote_process):
     num_entities = 100
     field_to_local = dpf.core.fields_factory.create_3d_vector_field(
-        num_entities, location=dpf.core.locations.elemental_nodal
+        num_entities, location=dpf.core.locations.elemental_nodal, server=server_type_remote_process
     )
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
@@ -653,10 +653,10 @@ def test_local_get_entity_data():
         assert hasattr(f, "_is_set") is False
 
 
-def test_local_elemental_nodal_get_entity_data():
+def test_local_elemental_nodal_get_entity_data(server_type_remote_process):
     num_entities = 100
     field_to_local = dpf.core.fields_factory.create_3d_vector_field(
-        num_entities, location=dpf.core.locations.elemental_nodal
+        num_entities, location=dpf.core.locations.elemental_nodal, server=server_type_remote_process
     )
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
@@ -730,9 +730,9 @@ def test_get_set_data_local_field():
     assert np.allclose(field_to_local.data, [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]])
 
 
-def test_get_set_data_elemental_nodal_local_field():
+def test_get_set_data_elemental_nodal_local_field(server_type_remote_process):
     field_to_local = dpf.core.fields_factory.create_3d_vector_field(
-        2, location=dpf.core.locations.elemental_nodal
+        2, location=dpf.core.locations.elemental_nodal, server=server_type_remote_process
     )
     with field_to_local.as_local_field() as f:
         f.data = [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.1, 0.2, 0.4]]
@@ -798,9 +798,9 @@ def test_get_set_data_elemental_nodal_local_field():
     assert np.allclose(field_to_local.get_entity_data(1), [[0.1, 0.2, 0.3], [0.1, 0.2, 0.4]])
 
 
-def test_get_set_scoping_local_field():
+def test_get_set_scoping_local_field(server_type_remote_process):
     field_to_local = dpf.core.fields_factory.create_3d_vector_field(
-        2, location=dpf.core.locations.elemental_nodal
+        2, location=dpf.core.locations.elemental_nodal, server=server_type_remote_process
     )
     with field_to_local.as_local_field() as f:
         f.data = [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]]
