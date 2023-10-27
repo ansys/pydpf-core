@@ -1279,4 +1279,5 @@ def test_field_no_inprocess_localfield(server_in_process, allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity, server=server_in_process)
     field = model.results.stress().outputs.fields_container()[0]
 
-    assert field == field.as_local_field()
+    with field.as_local_field() as local_field:
+        assert field == local_field
