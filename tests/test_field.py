@@ -549,7 +549,7 @@ def test_local_field_append(server_type_remote_process):
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             f.append([0.1 * i, 0.2 * i, 0.3 * i], i)
-        assert f._is_set == True
+        assert f._is_set is True
     field = dpf.core.fields_factory.create_3d_vector_field(num_entities, server=server_type_remote_process)
     for i in range(1, num_entities + 1):
         field.append([0.1 * i, 0.2 * i, 0.3 * i], i)
