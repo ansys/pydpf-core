@@ -208,6 +208,9 @@ from .prns_to_field import prns_to_field
 from .raw_displacement import raw_displacement 
 from .raw_reaction_force import raw_reaction_force 
 from .reaction_force import reaction_force 
+from .reaction_force_X import reaction_force_X 
+from .reaction_force_Y import reaction_force_Y 
+from .reaction_force_Z import reaction_force_Z 
 from .recombine_harmonic_indeces_cyclic import recombine_harmonic_indeces_cyclic 
 from .remove_rigid_body_motion import remove_rigid_body_motion 
 from .remove_rigid_body_motion_fc import remove_rigid_body_motion_fc 
