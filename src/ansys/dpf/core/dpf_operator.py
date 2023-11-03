@@ -15,7 +15,7 @@ from ansys.dpf.core.check_version import version_requires, server_meet_version
 from ansys.dpf.core.config import Config
 from ansys.dpf.core.errors import DpfVersionNotSupported
 from ansys.dpf.core.inputs import Inputs
-from ansys.dpf.core.mapping_types import types
+from ansys.dpf.core.common import types
 from ansys.dpf.core.common import types_enum_to_types
 from ansys.dpf.core.outputs import Output, Outputs, _Outputs
 from ansys.dpf.core import server as server_module
