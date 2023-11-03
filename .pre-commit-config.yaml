@@ -1,3 +1,4 @@
+include: ''
 exclude: |
     (?x)^(
         docs/source/|

@@ -582,3 +582,5 @@ class CustomTypeFieldsContainer(Collection):
 
         """
         return self.type == type_to_compare
+
+    # toto
