@@ -1,10 +1,8 @@
-files: ''
 exclude: |
     (?x)^(
         docs/source/|
         src/ansys/dpf/core/operators/|
         examples_notebooks/|
-        src/ansys/dpf/core/__init__.py|
         docs/styles/|
         src/ansys/dpf/gate/|
         src/ansys/dpf/gatebin/|

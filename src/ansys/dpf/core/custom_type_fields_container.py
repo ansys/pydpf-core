@@ -48,12 +48,19 @@ class CustomTypeFieldsContainer(Collection):
 
     """
 
-    def __init__(self, unitary_type: Union[np.dtype, None] = None, custom_type_fields_container=None, server=None):
+    def __init__(
+        self,
+        unitary_type: Union[np.dtype, None] = None,
+        custom_type_fields_container=None,
+        server=None,
+    ):
         super().__init__(collection=custom_type_fields_container, server=server)
         if self._internal_obj is None:
             if self._server.has_client():
-                self._internal_obj = self._api.collection_of_custom_type_field_new_on_client( # TODO
-                    self._server.client
+                self._internal_obj = (
+                    self._api.collection_of_custom_type_field_new_on_client(  # TODO
+                        self._server.client
+                    )
                 )
             else:
                 self._internal_obj = self._api.collection_of_custom_type_field_new()
@@ -62,16 +69,10 @@ class CustomTypeFieldsContainer(Collection):
         self._component_info = None  # for norm/max/min
 
     def create_subtype(self, obj_by_copy) -> CustomTypeField:
-        return CustomTypeField(
-            unitary_type=self._type,
-            field=obj_by_copy,
-            server=self._server
-        )
+        return CustomTypeField(unitary_type=self._type, field=obj_by_copy, server=self._server)
 
     def get_fields_by_time_complex_ids(
-            self,
-            timeid: Union[int, None] = None,
-            complexid: Union[int, None] = None
+        self, timeid: Union[int, None] = None, complexid: Union[int, None] = None
     ) -> list[CustomTypeField]:
         """Retrieve custom type fields at a requested time ID or complex ID.
 
@@ -92,7 +93,9 @@ class CustomTypeFieldsContainer(Collection):
         label_space = self.__time_complex_label_space__(timeid, complexid)
         return super()._get_entries(label_space)
 
-    def get_field_by_time_complex_ids(self, timeid: Union[int, None] = None, complexid: Union[int, None] = None) -> CustomTypeField:
+    def get_field_by_time_complex_ids(
+        self, timeid: Union[int, None] = None, complexid: Union[int, None] = None
+    ) -> CustomTypeField:
         """Retrieve a custom type field at a requested time ID or complex ID.
 
         An exception is raised if the number of fields matching the request is
@@ -140,10 +143,7 @@ class CustomTypeFieldsContainer(Collection):
         """
         return super()._get_entries(label_space)
 
-    def get_field(
-            self,
-            label_space_or_index: Union[dict[str, int], int]
-    ) -> CustomTypeField:
+    def get_field(self, label_space_or_index: Union[dict[str, int], int]) -> CustomTypeField:
         """Retrieves the custom type field at a requested index or label space.
 
         An exception is raised if the number of fields matching the request is
@@ -386,7 +386,13 @@ class CustomTypeFieldsContainer(Collection):
         """
         return self.get_label_scoping("time")
 
-    def animate(self, save_as: Union[str, None] = None, deform_by: Union[CustomTypeFieldsContainer, FieldsContainer, Result, Operator, None] = None, scale_factor: Union[float, list[float]] = 1.0, **kwargs):
+    def animate(
+        self,
+        save_as: Union[str, None] = None,
+        deform_by: Union[CustomTypeFieldsContainer, FieldsContainer, Result, Operator, None] = None,
+        scale_factor: Union[float, list[float]] = 1.0,
+        **kwargs,
+    ):
         """Creates an animation based on the data contained in the CustomTypeFieldsContainer.
 
         This method creates a movie or a gif based on the time ids of a CustomTypeFieldsContainer.
@@ -545,7 +551,9 @@ class CustomTypeFieldsContainer(Collection):
         op.connect(1, value)
         return op
 
-    def __mul__(self, value: Union[int, float]) -> dpf.core.operators.math.generalized_inner_product_fc:
+    def __mul__(
+        self, value: Union[int, float]
+    ) -> dpf.core.operators.math.generalized_inner_product_fc:
         """Multiply two custom type fields containers.
 
         Returns
@@ -569,7 +577,9 @@ class CustomTypeFieldsContainer(Collection):
         """Type of unitary data in the CustomFieldsContainer."""
         return self._type
 
-    def is_of_type(self, type_to_compare: np.dtype) -> bool:
+    def is_of_type(self, type_to_compare:
+    np.dtype) -> \
+            bool:
         """Checks whether the CustomTypeFieldsContainer unitary type is the same as the input type.
 
         Parameters
@@ -582,5 +592,3 @@ class CustomTypeFieldsContainer(Collection):
 
         """
         return self.type == type_to_compare
-
-    #
