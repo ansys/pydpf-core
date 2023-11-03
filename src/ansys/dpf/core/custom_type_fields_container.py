@@ -577,8 +577,7 @@ class CustomTypeFieldsContainer(Collection):
         """Type of unitary data in the CustomFieldsContainer."""
         return self._type
 
-    def is_of_type(self, type_to_compare: np.dtype) -> \
-            bool:
+    def is_of_type(self, type_to_compare: np.dtype) -> bool:
         """Checks whether the CustomTypeFieldsContainer unitary type is the same as the input type.
 
         Parameters
