@@ -13,6 +13,7 @@ from ansys.dpf.core import CustomTypeField, FieldsContainer, Operator
 from ansys.dpf.core import TimeFreqSupport, Scoping
 from ansys.dpf.core.results import Result
 from typing import Union
+import numpy as np
 
 
 class CustomTypeFieldsContainer(Collection):
@@ -34,7 +35,7 @@ class CustomTypeFieldsContainer(Collection):
 
     Parameters
     ----------
-    unitary_type: np.dtype, optional
+    unitary_type:
         Type of data in the custom type fields.
     custom_type_fields_container : ansys.grpc.dpf.collection_pb2.Collection, ctypes.c_void_p,
     CustomTypeFieldsContainer, optional
@@ -47,7 +48,7 @@ class CustomTypeFieldsContainer(Collection):
 
     """
 
-    def __init__(self, unitary_type=None, custom_type_fields_container=None, server=None):
+    def __init__(self, unitary_type: Union[np.dtype, None] = None, custom_type_fields_container=None, server=None):
         super().__init__(collection=custom_type_fields_container, server=server)
         if self._internal_obj is None:
             if self._server.has_client():
@@ -562,3 +563,22 @@ class CustomTypeFieldsContainer(Collection):
         op.connect(0, self)
         op.connect(1, value)
         return op
+
+    @property
+    def type(self) -> np.dtype:
+        """Type of unitary data in the CustomFieldsContainer."""
+        return self._type
+
+    def is_of_type(self, type_to_compare: np.dtype) -> bool:
+        """Checks whether the CustomTypeFieldsContainer unitary type is the same as the input type.
+
+        Parameters
+        ----------
+        type_to_compare: numpy.dtype
+
+        Returns
+        -------
+        bool
+
+        """
+        return self.type == type_to_compare
