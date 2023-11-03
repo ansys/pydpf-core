@@ -42,6 +42,11 @@ def test_addfilepathspecifiedresult_data_sources(allkindofcomplexity, server_typ
     data_sources.add_file_path_for_specified_result(allkindofcomplexity, "d3plot")
 
 
+def test_setresultpath_data_sources_no_extension(d3plot_beam, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_result_file_path(d3plot_beam)
+
+
 def test_addupstream_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources2 = dpf.core.DataSources(server=server_type)

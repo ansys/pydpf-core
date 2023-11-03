@@ -116,6 +116,10 @@ class DataSources:
         ['/tmp/file.rst']
 
         """
+        # Handle the case of files without extension, such as the LS-DYNA d3plot file
+        if os.path.splitext(filepath)[1] == "":
+            if "d3plot" in os.path.basename(filepath):
+                key = "d3plot"
         if key == "":
             self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
         else:
