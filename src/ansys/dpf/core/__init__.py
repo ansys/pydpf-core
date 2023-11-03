@@ -28,6 +28,7 @@ from ansys.dpf.core.dimensionality import Dimensionality
 from ansys.dpf.core.property_field import PropertyField
 from ansys.dpf.core.string_field import StringField
 from ansys.dpf.core.fields_container import FieldsContainer
+from ansys.dpf.core.custom_type_fields_container import CustomTypeFieldsContainer
 from ansys.dpf.core.meshes_container import MeshesContainer
 from ansys.dpf.core.scopings_container import ScopingsContainer
 from ansys.dpf.core.streams_container import StreamsContainer  # noqa: F401

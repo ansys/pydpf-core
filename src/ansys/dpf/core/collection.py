@@ -9,9 +9,13 @@ import warnings
 import traceback
 
 import numpy as np
+from typing import Union
 
 from ansys.dpf.core.server_types import BaseServer
-from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core import Field
+from ansys.dpf.core import MeshedRegion
+from ansys.dpf.core import CustomTypeField
+from ansys.dpf.core import Scoping
 from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
@@ -201,19 +205,22 @@ class Collection:
         """
         return label in self.labels
 
-    def _get_entries(self, label_space_or_index):
+    def _get_entries(
+            self,
+            label_space_or_index: dict[str, int]
+    ) -> Union[list[Scoping], Scoping, list[MeshedRegion], MeshedRegion, list[Field], Field, list[CustomTypeField], CustomTypeField, None]:
         """Retrieve the entries at a requested label space or index.
 
         Parameters
         ----------
-        label_space_or_index : dict[str,int]
+        label_space_or_index:
             Label space or index. For example,
             ``{"time": 1, "complex": 0}`` or the index of the field.
 
         Returns
         -------
-        entries : list[Scoping], list[Field], list[MeshedRegion]
-            Entries corresponding to the request.
+        entries:
+            Entries or entry corresponding to the request.
         """
         if isinstance(label_space_or_index, dict):
             client_label_space = LabelSpace(
@@ -235,18 +242,18 @@ class Collection:
                 self._api.collection_get_obj_by_index(self, label_space_or_index)
             )
 
-    def _get_entry(self, label_space_or_index):
+    def _get_entry(self, label_space_or_index: dict[str, int]) -> Union[Scoping, Field, CustomTypeField, MeshedRegion, None]:
         """Retrieve the entry at a requested label space or index.
 
         Parameters
         ----------
-        label_space_or_index : dict[str,int]
+        label_space_or_index:
             Label space or index of the requested entry. For example,
             ``{"time": 1, "complex": 0}`` or the index of the field.
 
         Returns
         -------
-        entry : Scoping, Field, MeshedRegion
+        entry:
             Entry at the requested label space or index.
         """
         entries = self._get_entries(label_space_or_index)
@@ -260,17 +267,17 @@ class Collection:
         else:
             return entries
 
-    def get_label_space(self, index):
+    def get_label_space(self, index: int) -> dict[str, int]:
         """Retrieve the label space of an entry at a requested index.
 
         Parameters
         ----------
-        index: int
+        index:
             Index of the entry.
 
         Returns
         -------
-        label_space : dict(str:int)
+        label_space:
             Scoping of the requested entry. For example,
             ``{"time": 1, "complex": 0}``.
         """
@@ -315,17 +322,17 @@ class Collection:
         scoping = Scoping(self._api.collection_get_label_scoping(self, label), server=self._server)
         return scoping
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> Union[Scoping, Field, CustomTypeField, MeshedRegion]:
         """Retrieves the entry at a requested index value.
 
         Parameters
         ----------
-        index : int
+        index:
             Index value.
 
         Returns
         -------
-        entry : Field , Scoping
+        entry:
             Entry at the index value.
         """
         self_len = len(self)
@@ -350,14 +357,14 @@ class Collection:
         core_api.init_data_processing_environment(self)
         return core_api
 
-    def _add_entry(self, label_space, entry):
+    def _add_entry(self, label_space: dict[str, int], entry: Union[Scoping, Field, MeshedRegion, CustomTypeField]):
         """Update or add an entry at a requested label space.
 
         parameters
         ----------
-        label_space : list[str,int]
+        label_space:
             Label space of the requested fields. For example, ``{"time":1, "complex":0}``.
-        entry : Field or Scoping
+        entry:
             DPF entry to add.
         """
         client_label_space = LabelSpace(label_space=label_space, obj=self, server=self._server)
