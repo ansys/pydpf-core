@@ -99,6 +99,7 @@ class types(Enum):
     scopings_container = -2
     meshes_container = -3
     streams_container = -4
+    custom_type_fields_container = -5
 
 
 def types_enum_to_types():
@@ -123,6 +124,7 @@ def types_enum_to_types():
         streams_container,
         generic_data_container,
         mesh_info,
+        custom_type_fields_container,
     )
     from ansys.dpf.gate import dpf_vector
 
@@ -150,6 +152,7 @@ def types_enum_to_types():
         types.vec_double: dpf_vector.DPFVectorDouble,
         types.string_field: string_field.StringField,
         types.custom_type_field: custom_type_field.CustomTypeField,
+        types.custom_type_fields_container: custom_type_fields_container.CustomTypeFieldsContainer,
         types.streams_container: streams_container.StreamsContainer,
         types.generic_data_container: generic_data_container.GenericDataContainer,
         types.mesh_info: mesh_info.MeshInfo,
