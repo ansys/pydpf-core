@@ -5,6 +5,7 @@ from ansys.dpf.core import Model
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
 )
 
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
@@ -25,7 +26,7 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
     op.connect(4, dataSource)
     res = op.get_output(0, dpf.core.types.result_info)
     assert res.analysis_type == "static"
-    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0:
+    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
         assert res.n_results == 14
     else:
         assert res.n_results == 15
@@ -36,7 +37,7 @@ def test_get_resultinfo_no_model(velocity_acceleration, server_type):
 def test_get_resultinfo(model):
     res = model.metadata.result_info
     assert res.analysis_type == "static"
-    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0:
+    if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
         assert res.n_results == 14
     else:
         assert res.n_results == 15
@@ -99,7 +100,7 @@ Operator name: "CP"
 Number of components: 1
 Dimensionality: scalar
 Homogeneity: specific_heat
-Units: j/kg*k^-1
+Units: J/kg*K^-1
 Location: Nodal
 Available qualifier labels:"""  # noqa: E501
     ref2 = "'phase': 2"

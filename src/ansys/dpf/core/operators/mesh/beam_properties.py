@@ -55,6 +55,9 @@ class beam_properties(Operator):
     >>> result_field_beam_length = op.outputs.field_beam_length()
     >>> result_field_torsion_constant = op.outputs.field_torsion_constant()
     >>> result_field_warping_constant = op.outputs.field_warping_constant()
+    >>> result_field_offset_type = op.outputs.field_offset_type()
+    >>> result_field_offset_y = op.outputs.field_offset_y()
+    >>> result_field_offset_z = op.outputs.field_offset_z()
     """
 
     def __init__(self, streams=None, data_sources=None, config=None, server=None):
@@ -170,6 +173,24 @@ class beam_properties(Operator):
                     optional=False,
                     document="""This field contains the warping constant of
         beams.""",
+                ),
+                11: PinSpecification(
+                    name="field_offset_type",
+                    type_names=["field"],
+                    optional=False,
+                    document="""This field contains offset type of beams.""",
+                ),
+                12: PinSpecification(
+                    name="field_offset_y",
+                    type_names=["field"],
+                    optional=False,
+                    document="""This field contains offset y of beams.""",
+                ),
+                13: PinSpecification(
+                    name="field_offset_z",
+                    type_names=["field"],
+                    optional=False,
+                    document="""This field contains offset z of beams.""",
                 ),
             },
         )
@@ -296,6 +317,9 @@ class OutputsBeamProperties(_Outputs):
     >>> result_field_beam_length = op.outputs.field_beam_length()
     >>> result_field_torsion_constant = op.outputs.field_torsion_constant()
     >>> result_field_warping_constant = op.outputs.field_warping_constant()
+    >>> result_field_offset_type = op.outputs.field_offset_type()
+    >>> result_field_offset_y = op.outputs.field_offset_y()
+    >>> result_field_offset_z = op.outputs.field_offset_z()
     """
 
     def __init__(self, op: Operator):
@@ -330,6 +354,12 @@ class OutputsBeamProperties(_Outputs):
             beam_properties._spec().output_pin(10), 10, op
         )
         self._outputs.append(self._field_warping_constant)
+        self._field_offset_type = Output(beam_properties._spec().output_pin(11), 11, op)
+        self._outputs.append(self._field_offset_type)
+        self._field_offset_y = Output(beam_properties._spec().output_pin(12), 12, op)
+        self._outputs.append(self._field_offset_y)
+        self._field_offset_z = Output(beam_properties._spec().output_pin(13), 13, op)
+        self._outputs.append(self._field_offset_z)
 
     @property
     def mesh_out(self):
@@ -517,3 +547,54 @@ class OutputsBeamProperties(_Outputs):
         >>> result_field_warping_constant = op.outputs.field_warping_constant()
         """  # noqa: E501
         return self._field_warping_constant
+
+    @property
+    def field_offset_type(self):
+        """Allows to get field_offset_type output of the operator
+
+        Returns
+        ----------
+        my_field_offset_type : Field
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.beam_properties()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_field_offset_type = op.outputs.field_offset_type()
+        """  # noqa: E501
+        return self._field_offset_type
+
+    @property
+    def field_offset_y(self):
+        """Allows to get field_offset_y output of the operator
+
+        Returns
+        ----------
+        my_field_offset_y : Field
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.beam_properties()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_field_offset_y = op.outputs.field_offset_y()
+        """  # noqa: E501
+        return self._field_offset_y
+
+    @property
+    def field_offset_z(self):
+        """Allows to get field_offset_z output of the operator
+
+        Returns
+        ----------
+        my_field_offset_z : Field
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mesh.beam_properties()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_field_offset_z = op.outputs.field_offset_z()
+        """  # noqa: E501
+        return self._field_offset_z

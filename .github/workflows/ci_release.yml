@@ -26,7 +26,7 @@ on:
 env:
   ANSYS_VERSION: 241
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
-  MAIN_PYTHON_VERSION: '3.8'
+  MAIN_PYTHON_VERSION: '3.9'
 
 jobs:
   debug:
@@ -54,14 +54,51 @@ jobs:
       - name: "Run pre-commit"
         run: pre-commit run --all-files --show-diff-on-failure
 
+  build_linux1:
+    name: "Build linux1 wheel"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Install requirements"
+        run: pip install -r requirements/requirements_build.txt
+
+      - name: "Build the manylinux1 wheel"
+        shell: bash
+        id: wheel
+        run: |
+          python .ci/build_wheel.py -p manylinux1
+          cd dist
+          export name=`ls ansys_dpf_core*.whl`
+          echo ${name}
+          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+          cd ..
+
+      - name: "Upload wheel any as artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.wheel.outputs.wheel_name }}
+          path: dist/${{ steps.wheel.outputs.wheel_name }}
+
   tests:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.8", "3.9", "3.10"]'
+      python_versions: '["3.9", "3.10", "3.11"]'
       wheel: true
       wheelhouse: true
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+    secrets: inherit
+
+  tests_any:
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "241"
+      python_versions: '["3.9", "3.10", "3.11"]'
+      wheel: true
+      wheelhouse: false
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      test_any: true
     secrets: inherit
 
   docs:
@@ -76,7 +113,7 @@ jobs:
     uses: ./.github/workflows/examples.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.8", "3.9", "3.10"]'
+      python_versions: '["3.9", "3.10", "3.11"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
@@ -85,7 +122,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "232"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -94,7 +131,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "231"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -103,7 +140,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "222"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -137,15 +174,6 @@ jobs:
       ANSYS_VERSION: "222"
     secrets: inherit
 
-  gate:
-    name: "gate"
-    uses: ./.github/workflows/gate.yml
-    with:
-      python_versions: '["3.8"]'
-      ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
-    secrets: inherit
-
   docker_tests:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
@@ -159,14 +187,14 @@ jobs:
     uses: ./.github/workflows/examples_docker.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.8", "3.9", "3.10"]'
+      python_versions: '["3.9", "3.10", "3.11"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
   draft_release:
     name: "Draft Release"
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    needs: [style, tests, docs, examples, retro_232, retro_231, retro_222, gate, docker_tests]
+    needs: [style, tests, docs, examples, retro_232, retro_231, retro_222, docker_tests]
     runs-on: ubuntu-latest
     steps:
       - name: "Download artifacts"
@@ -180,7 +208,6 @@ jobs:
         with:
           files: |
             ./**/*.whl
-            ./**/*.tar.gz
             ./**/*.zip
           draft: true
           generate_release_notes: true
