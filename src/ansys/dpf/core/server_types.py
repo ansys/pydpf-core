@@ -20,11 +20,7 @@ import psutil
 import ansys.dpf.core as core
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core import errors, server_factory
-from ansys.dpf.core._version import (
-    min_server_version,
-    server_to_ansys_version,
-    __version__
-)
+from ansys.dpf.core._version import min_server_version, server_to_ansys_version, __version__
 from ansys.dpf.core import server_context
 from ansys.dpf.gate import load_api, data_processing_grpcapi
 
@@ -339,10 +335,12 @@ def check_ansys_grpc_dpf_version(server, timeout):
         )
     LOG.debug("Established connection to DPF gRPC")
     if version.parse(server.version) < version.parse(min_server_version):
-        raise ValueError(f"Error connecting to DPF LegacyGrpcServer with version {server.version} "
-                         f"(ANSYS {server_to_ansys_version[server.version]}): "
-                         f"ansys-dpf-core {__version__} does not support DPF servers below "
-                         f"{min_server_version} ({server_to_ansys_version[min_server_version]}).")
+        raise ValueError(
+            f"Error connecting to DPF LegacyGrpcServer with version {server.version} "
+            f"(ANSYS {server_to_ansys_version[server.version]}): "
+            f"ansys-dpf-core {__version__} does not support DPF servers below "
+            f"{min_server_version} ({server_to_ansys_version[min_server_version]})."
+        )
 
 
 class GhostServer:

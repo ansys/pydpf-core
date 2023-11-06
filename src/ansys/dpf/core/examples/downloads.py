@@ -1559,7 +1559,7 @@ def download_cfx_heating_coil(
             should_upload,
             server,
             return_local_path,
-        )
+        ),
     }
 
 

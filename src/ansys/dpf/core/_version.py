@@ -27,8 +27,8 @@ class ServerToAnsysVersion:
         if len(item) == 3:
             return self.legacy_version_map[item]
         else:
-            split = item.split('.')
-            return split[0]+'R'+split[1]
+            split = item.split(".")
+            return split[0] + "R" + split[1]
 
 
 server_to_ansys_version = ServerToAnsysVersion()

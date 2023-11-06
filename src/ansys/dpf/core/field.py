@@ -241,7 +241,7 @@ class Field(_FieldBase):
 
         """  # noqa: E501
         # Do not copy data if using InProcess server
-        if self._server.client is not None: 
+        if self._server.client is not None:
             return _LocalField(self)
         else:
             return self

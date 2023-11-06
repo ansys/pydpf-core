@@ -545,12 +545,16 @@ def test_set_support_mesh(simple_bar):
 
 def test_local_field_append(server_type_remote_process):
     num_entities = 400
-    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities, server=server_type_remote_process)
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(
+        num_entities, server=server_type_remote_process
+    )
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             f.append([0.1 * i, 0.2 * i, 0.3 * i], i)
         assert f._is_set is True
-    field = dpf.core.fields_factory.create_3d_vector_field(num_entities, server=server_type_remote_process)
+    field = dpf.core.fields_factory.create_3d_vector_field(
+        num_entities, server=server_type_remote_process
+    )
     for i in range(1, num_entities + 1):
         field.append([0.1 * i, 0.2 * i, 0.3 * i], i)
 
@@ -567,7 +571,9 @@ def test_local_elemental_nodal_field_append(server_type_remote_process):
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             f.append([[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]], i)
-    field = dpf.core.fields_factory.create_3d_vector_field(num_entities, server=server_type_remote_process)
+    field = dpf.core.fields_factory.create_3d_vector_field(
+        num_entities, server=server_type_remote_process
+    )
     for i in range(1, num_entities + 1):
         field.append([[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]], i)
 
@@ -590,12 +596,16 @@ def test_local_elemental_nodal_field_append(server_type_remote_process):
 
 def test_local_array_field_append(server_type_remote_process):
     num_entities = 400
-    field_to_local = dpf.core.fields_factory.create_3d_vector_field(num_entities, server=server_type_remote_process)
+    field_to_local = dpf.core.fields_factory.create_3d_vector_field(
+        num_entities, server=server_type_remote_process
+    )
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             f.append(np.array([0.1 * i, 0.2 * i, 0.3 * i]), i)
         assert f._is_set is True
-    field = dpf.core.fields_factory.create_3d_vector_field(num_entities, server=server_type_remote_process)
+    field = dpf.core.fields_factory.create_3d_vector_field(
+        num_entities, server=server_type_remote_process
+    )
     for i in range(1, num_entities + 1):
         field.append(np.array([0.1 * i, 0.2 * i, 0.3 * i]), i)
 
@@ -612,7 +622,9 @@ def test_local_elemental_nodal_array_field_append(server_type_remote_process):
     with field_to_local.as_local_field() as f:
         for i in range(1, num_entities + 1):
             f.append(np.array([[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]]), i)
-    field = dpf.core.fields_factory.create_3d_vector_field(num_entities, server=server_type_remote_process)
+    field = dpf.core.fields_factory.create_3d_vector_field(
+        num_entities, server=server_type_remote_process
+    )
     for i in range(1, num_entities + 1):
         field.append(np.array([[0.1 * i, 0.2 * i, 0.3 * i], [0.1 * i, 0.2 * i, 0.3 * i]]), i)
 
@@ -691,7 +703,9 @@ def test_auto_delete_field_local(server_type_remote_process):
         num_entities, location=dpf.core.locations.elemental_nodal, server=server_type_remote_process
     )
     field_to_local.append([3.0, 4.0, 5.0], 1)
-    fc = dpf.core.fields_container_factory.over_time_freq_fields_container([field_to_local], server=server_type_remote_process)
+    fc = dpf.core.fields_container_factory.over_time_freq_fields_container(
+        [field_to_local], server=server_type_remote_process
+    )
     field_to_local = None
     with fc[0].as_local_field() as f:
         assert np.allclose(f.get_entity_data(0), [3.0, 4.0, 5.0])
@@ -1274,6 +1288,7 @@ def test_dot_operator_field():
     out = add.outputs.field()
     assert np.allclose(out.scoping.ids, [1, 2])
     assert np.allclose(out.data, -field.data)
+
 
 def test_field_no_inprocess_localfield(server_in_process, allkindofcomplexity):
     model = dpf.core.Model(allkindofcomplexity, server=server_in_process)

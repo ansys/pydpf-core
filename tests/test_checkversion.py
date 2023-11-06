@@ -101,5 +101,6 @@ def test_find_outdated_ansys_version():
 
 def test_version():
     from ansys.dpf.core._version import server_to_ansys_version
+
     assert server_to_ansys_version["1.0"] == "2021R1"
     assert server_to_ansys_version["2099.9"] == "2099R9"
