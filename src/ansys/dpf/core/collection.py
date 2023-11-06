@@ -4,21 +4,18 @@ Collection
 Contains classes associated with the DPF collection.
 
 """
-# from __future__ import annotations
 import abc
 import warnings
 import traceback
-import numpy as np
 
-# from typing import TYPE_CHECKING, Union
+import numpy as np
+from typing import Union
 
 from ansys.dpf.core.server_types import BaseServer
-
-# if TYPE_CHECKING:  # pragma: no cover
-#     from ansys.dpf.core.field import Field
-#     from ansys.dpf.core.meshed_region import MeshedRegion
-#     from ansys.dpf.core.custom_type_field import CustomTypeField
-from ansys.dpf.core.scoping import Scoping
+from ansys.dpf.core import Field
+from ansys.dpf.core import MeshedRegion
+from ansys.dpf.core import CustomTypeField
+from ansys.dpf.core import Scoping
 from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
@@ -209,9 +206,9 @@ class Collection:
         return label in self.labels
 
     def _get_entries(
-        self, label_space_or_index: dict[str, int]
-    ):  # -> Union[list[Scoping], Scoping, list[MeshedRegion], MeshedRegion, list[Field], Field,
-        # list[CustomTypeField], CustomTypeField, None]:
+            self,
+            label_space_or_index: dict[str, int]
+    ) -> Union[list[Scoping], Scoping, list[MeshedRegion], MeshedRegion, list[Field], Field, list[CustomTypeField], CustomTypeField, None]:
         """Retrieve the entries at a requested label space or index.
 
         Parameters
@@ -245,9 +242,7 @@ class Collection:
                 self._api.collection_get_obj_by_index(self, label_space_or_index)
             )
 
-    def _get_entry(
-        self, label_space_or_index: dict[str, int]
-    ):  # -> Union[Scoping, Field, CustomTypeField, MeshedRegion, None]:
+    def _get_entry(self, label_space_or_index: dict[str, int]) -> Union[Scoping, Field, CustomTypeField, MeshedRegion, None]:
         """Retrieve the entry at a requested label space or index.
 
         Parameters
@@ -327,7 +322,7 @@ class Collection:
         scoping = Scoping(self._api.collection_get_label_scoping(self, label), server=self._server)
         return scoping
 
-    def __getitem__(self, index: int):  # -> Union[Scoping, Field, CustomTypeField, MeshedRegion]:
+    def __getitem__(self, index: int) -> Union[Scoping, Field, CustomTypeField, MeshedRegion]:
         """Retrieves the entry at a requested index value.
 
         Parameters
@@ -362,9 +357,7 @@ class Collection:
         core_api.init_data_processing_environment(self)
         return core_api
 
-    def _add_entry(
-        self, label_space: dict[str, int], entry
-    ):  # Union[Scoping, Field, MeshedRegion, CustomTypeField]):
+    def _add_entry(self, label_space: dict[str, int], entry: Union[Scoping, Field, MeshedRegion, CustomTypeField]):
         """Update or add an entry at a requested label space.
 
         parameters
