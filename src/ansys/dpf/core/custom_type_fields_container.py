@@ -9,10 +9,15 @@ from __future__ import annotations
 from ansys import dpf
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core import errors as dpf_errors
-from ansys.dpf.core import CustomTypeField, FieldsContainer, Operator
-from ansys.dpf.core import TimeFreqSupport, Scoping
-from ansys.dpf.core.results import Result
-from typing import Union
+from typing import TYPE_CHECKING, Union
+
+if TYPE_CHECKING:  # pragma: no cover
+    from ansys.dpf.core.custom_type_field import CustomTypeField
+    from ansys.dpf.core.fields_container import FieldsContainer
+    from ansys.dpf.core.dpf_operator import Operator
+    from ansys.dpf.core.time_freq_support import TimeFreqSupport
+    from ansys.dpf.core.scoping import Scoping
+    from ansys.dpf.core.results import Result
 import numpy as np
 
 
@@ -35,7 +40,7 @@ class CustomTypeFieldsContainer(Collection):
 
     Parameters
     ----------
-    unitary_type:
+    unitary_type: numpy.dtype
         Type of data in the custom type fields.
     custom_type_fields_container : ansys.grpc.dpf.collection_pb2.Collection, ctypes.c_void_p,
     CustomTypeFieldsContainer, optional
@@ -50,7 +55,7 @@ class CustomTypeFieldsContainer(Collection):
 
     def __init__(
         self,
-        unitary_type: Union[np.dtype, None] = None,
+        unitary_type=None,
         custom_type_fields_container=None,
         server=None,
     ):
