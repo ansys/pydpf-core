@@ -329,7 +329,7 @@ class Operator:
             (
                 custom_type_fields_container.CustomTypeFieldsContainer,
                 self._api.operator_getoutput_custom_type_fields_container,
-                "fields_container",
+                "custom_type_fields_container",
             ),
             (scoping.Scoping, self._api.operator_getoutput_scoping, "scoping"),
             (
@@ -420,7 +420,6 @@ class Operator:
             property_field,
             string_field,
             custom_type_field,
-            custom_type_fields_container,
             scoping,
             time_freq_support,
             data_tree,
@@ -440,10 +439,6 @@ class Operator:
             (
                 custom_type_field.CustomTypeField,
                 self._api.operator_connect_custom_type_field,
-            ),
-            (
-                custom_type_fields_container.CustomTypeFieldsContainer,
-                self._api.operator_connect_custom_type_fields_container,
             ),
             (scoping.Scoping, self._api.operator_connect_scoping),
             (collection.Collection, self._api.operator_connect_collection),
