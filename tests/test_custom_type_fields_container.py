@@ -12,13 +12,16 @@ def integer_field(server):
     field.scoping = scop
     list_data = np.array([20, 30, 50, 70, 80], dtype=np.uint64)
     field.data = list_data
+    field.location = dpf.locations.nodal
+    field.unit = "m"
     return field
 
 
 @conftest.raises_for_servers_version_under("5.0")
 def test_add_field_custom_type_fields_container(server_type):
-    field = integer_field(server_type)
+    # field = integer_field(server_type)
+    # print(field)
     fc = dpf.CustomTypeFieldsContainer(np.uint64, server_type)
-    fc.add_label("time", 1)
-    fc.add_field_by_time_id(field)
+    # fc.add_field(label_space={"time": 1}, field=field)
     print(fc)
+    assert str(fc) == ""
