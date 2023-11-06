@@ -18,10 +18,10 @@ def integer_field(server):
 
 
 @conftest.raises_for_servers_version_under("5.0")
-def test_add_field_custom_type_fields_container(server_type):
-    # field = integer_field(server_type)
-    # print(field)
+def test_create_custom_type_fields_container(server_type):
+    field = integer_field(server_type)
     fc = dpf.CustomTypeFieldsContainer(np.uint64, server_type)
-    # fc.add_field(label_space={"time": 1}, field=field)
-    print(fc)
     assert str(fc) == ""
+    assert fc.type == np.uint64
+    assert fc.is_of_type(np.uint64)
+    print(fc.create_subtype(field))
