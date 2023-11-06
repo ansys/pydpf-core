@@ -21,6 +21,7 @@ class ServerToAnsysVersion:
         "6.2": "2023R2",
         "7.0": "2024R1",
         "7.1": "2024R1",
+        "8.0": "2024R2",
     }
 
     def __getitem__(self, item):
