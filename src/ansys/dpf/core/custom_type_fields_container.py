@@ -165,14 +165,6 @@ class CustomTypeFieldsContainer(Collection):
         field:
             CustomTypeField corresponding to the request.
 
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> fc = dpf.fields_container_factory.over_time_freq_fields_container(
-        ...     [dpf.Field(nentities=10)]
-        ... )
-        >>> field = fc.get_field({"time":1})
-
         """
         return super()._get_entry(label_space_or_index)
 
