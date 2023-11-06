@@ -18,7 +18,7 @@ if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Field
     from ansys.dpf.core import MeshedRegion
     from ansys.dpf.core import CustomTypeField
-    from ansys.dpf.core import Scoping
+from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
