@@ -2,7 +2,6 @@
 # Input can be one of ["any", "win", "manylinux1", "manylinux_2_17"]
 
 import argparse
-import pathlib
 import subprocess
 import os
 import sys
@@ -14,18 +13,20 @@ supported_platforms = {
     "any": "any",
     "win": "win_amd64",
     "manylinux1": "manylinux1_x86_64",
-    "manylinux_2_17": "manylinux_2_17_x86_64"
+    "manylinux_2_17": "manylinux_2_17_x86_64",
 }
 
 argParser = argparse.ArgumentParser()
 argParser.add_argument("-p", "--platform", help="platform")
-argParser.add_argument("-w", "--wheelhouse", help="platform", action='store_true')
+argParser.add_argument("-w", "--wheelhouse", help="platform", action="store_true")
 
 args = argParser.parse_args()
 
 if args.platform not in supported_platforms:
-    raise ValueError(f"Platform {args.platform} is not supported. "
-                     f"Supported platforms are: {list(supported_platforms.keys())}")
+    raise ValueError(
+        f"Platform {args.platform} is not supported. "
+        f"Supported platforms are: {list(supported_platforms.keys())}"
+    )
 else:
     requested_platform = supported_platforms[args.platform]
 print(requested_platform)
@@ -35,7 +36,7 @@ print(requested_platform)
 # win: move .so binaries out before building
 # lin: move .dll binaries out before building
 with tempfile.TemporaryDirectory() as tmpdirname:
-    print('Created temporary directory: ', tmpdirname)
+    print("Created temporary directory: ", tmpdirname)
 
     # Create the temporary build-opts.cfg
     build_opts_path = os.path.join(tmpdirname, "build-opts.cfg")
@@ -45,8 +46,7 @@ with tempfile.TemporaryDirectory() as tmpdirname:
 
     # Move the binaries
     gatebin_folder_path = os.path.join(
-        os.path.curdir,
-        os.path.join("src", "ansys", "dpf", "gatebin")
+        os.path.curdir, os.path.join("src", "ansys", "dpf", "gatebin")
     )
     binaries_to_move = []
     moved = []
