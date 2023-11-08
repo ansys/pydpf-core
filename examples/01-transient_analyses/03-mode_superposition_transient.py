@@ -11,11 +11,8 @@ and visualize the outputs. It also shows how to select modes for the modal expan
 # Import the necessary modules
 from ansys.dpf import core as dpf
 from ansys.dpf.core import examples
-from ansys.dpf.core import operators as ops
 
 ###############################################################################
-# Modal superposition on all modes available
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Download the mode superposition transient result example. This example is
 # not included in DPF-Core by default to speed up the installation.
 # Downloading this example should take only a few seconds.
@@ -24,18 +21,27 @@ from ansys.dpf.core import operators as ops
 # result file contains several individual results, each at a different timestamp, automatically
 # expanded on all available modes.
 
-# msup_transient = examples.download_transient_result()
-msup_transient = {
+# msup_transient_files = examples.find_msup_transient()
+msup_transient_files = {
     "rst": r"D:\ANSYSDev\Sandbox\UnitTestDataFiles\expansion\msup\Transient\plate1\file.rst",
     "rdsp": r"D:\ANSYSDev\Sandbox\UnitTestDataFiles\expansion\msup\Transient\plate1\file.rdsp",
     "mode": r"D:\ANSYSDev\Sandbox\UnitTestDataFiles\expansion\msup\Transient\plate1\modal\file.mode",
     "modal_rst": r"D:\ANSYSDev\Sandbox\UnitTestDataFiles\expansion\msup\Transient\plate1\modal\file.rst",
 }
-data_sources = dpf.DataSources(msup_transient["rdsp"])
-up_stream_data_sources = dpf.DataSources(msup_transient["mode"])
-up_stream_data_sources.add_file_path(msup_transient["modal_rst"])
+# print(msup_transient_files)
 
+###############################################################################
+# Modal superposition on all modes available
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Create a datasource with upstream modal information
+data_sources = dpf.DataSources(msup_transient_files["rdsp"])
+
+up_stream_data_sources = dpf.DataSources(msup_transient_files["mode"])
+up_stream_data_sources.add_file_path(msup_transient_files["modal_rst"])
 data_sources.add_upstream(up_stream_data_sources)
+
+# Load into a model
 model = dpf.Model(data_sources)
 print(model)
 
@@ -73,7 +79,7 @@ print(disp)
 # Below is a workflow to extract results while specifying modes for expansion:
 
 # First build a data source for the modal response factors
-transient_response_ds = dpf.DataSources(result_path=msup_transient["rdsp"])
+transient_response_ds = dpf.DataSources(result_path=msup_transient_files["rdsp"])
 
 # Define the time-steps of interest
 time_scoping = dpf.time_freq_scoping_factory.scoping_by_sets(list(range(1, 22)))
@@ -101,8 +107,8 @@ print(displacement_fc)
 
 ###############################################################################
 # Get the modal basis of interest, with mode selection
-modal_basis_ds = dpf.DataSources(result_path=msup_transient["mode"])
-modal_basis_ds.add_file_path(msup_transient["modal_rst"])  # Associate mesh data to the mode shapes
+modal_basis_ds = dpf.DataSources(result_path=msup_transient_files["mode"])
+modal_basis_ds.add_file_path(msup_transient_files["modal_rst"])  # Associate mesh data to the mode shapes
 modal_basis_fc = dpf.operators.result.modal_basis(
     data_sources=modal_basis_ds,
     time_scoping=mode_scoping,  # Input here the modes of interest
