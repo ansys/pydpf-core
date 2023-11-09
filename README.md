@@ -28,7 +28,7 @@ The latest version of DPF supports Ansys solver results files for:
 - CFX (`.cad/dat.cff`, `.flprj`)
 
 For more information on file support, see the [main page](https://dpf.docs.pyansys.com/version/stable/index.html)
-in the PDF-Core documentation.
+in the PyDPF-Core documentation.
 
 Using the many DPF operators that are available, you can manipulate and
 transform this data. You can also chain operators together to create simple
@@ -47,7 +47,7 @@ without ever leaving the Python environment.
 
 ## Documentation and issues
 
-Documentation for the latest stable release of PyPDF-Core is hosted at
+Documentation for the latest stable release of PyDPF-Core is hosted at
 [PyDPF-Core documentation](https://dpf.docs.pyansys.com/version/stable/).
 
 In the upper right corner of the documentation's title bar, there is an option for switching from
