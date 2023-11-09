@@ -155,7 +155,7 @@ the **Ansys installer** and **DPF Server**.
 
 - :ref:`user_guide_custom_operators` in the PyDPF-Core documentation 
 
-- `How to write a new solver reader as a PDF plugin <https://astonishing-hyacinth-e64.notion.site/How-to-write-a-new-solver-reader-as-a-DPF-s-plugin-bd2d2a3cf51f47ef9e70df45d64f89cb>`_
+- `How to write a new solver reader as a DPF plugin <https://astonishing-hyacinth-e64.notion.site/How-to-write-a-new-solver-reader-as-a-DPF-s-plugin-bd2d2a3cf51f47ef9e70df45d64f89cb>`_
 
 
 Documentation and issues
