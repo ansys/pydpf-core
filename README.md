@@ -28,7 +28,7 @@ The latest version of DPF supports Ansys solver results files for:
 - CFX (`.cad/dat.cff`, `.flprj`)
 
 For more information on file support, see the [main page](https://dpf.docs.pyansys.com/version/stable/index.html)
-in the DPF-Core documentation.
+in the PyDPF-Core documentation.
 
 Using the many DPF operators that are available, you can manipulate and
 transform this data. You can also chain operators together to create simple

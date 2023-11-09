@@ -3,7 +3,7 @@ and reference a folder or ZIP file with the sites of the dependencies in an XML 
 located next to the folder for the plug-in package. The XML file must have the same
 name as the plug-in package plus an ``.xml`` extension.
 
-When the :py:func:`ansys.dpf.core.core.load_library` method is called, DPF-Core uses the
+When the :py:func:`ansys.dpf.core.core.load_library` method is called, PyDPF-Core uses the
 ``site`` Python module to add custom sites to the path for the Python interpreter.
 
 
