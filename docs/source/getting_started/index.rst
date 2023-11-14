@@ -66,6 +66,13 @@ Install DPF Server
 
 For more information about the license terms, see :ref:`DPF Preview License Agreement<target_to_license_terms>`.
 
+To use a remote license, change or set the ``ANSYSLMD_LICENSE_FILE`` environment
+variable to point to the Ansys license server ``<license_server_to_use>``:
+
+.. code::
+
+    ANSYSLMD_LICENSE_FILE=1055@<license_server_to_use>
+
 For installation methods that do not use `pip <https://pypi.org/project/pip/>`_,
 such as using **Docker containers**, see :ref:`ref_getting_started_with_dpf_server`.
 
