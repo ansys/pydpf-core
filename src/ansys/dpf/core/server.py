@@ -7,6 +7,7 @@ import os
 import socket
 import weakref
 import copy
+import platform
 import inspect
 import warnings
 import traceback
@@ -309,7 +310,7 @@ def connect_to_server(
         The default is ``10``. Once the specified number of seconds
         passes, the connection fails.
     config: ServerConfig, optional
-        Manages the type of server connection to use.
+        Manages the type of server connection to use. Forced to LegacyGrpc on macOS.
     context: ServerContext, optional
         Defines the settings that will be used to load DPF's plugins.
         A DPF xml file can be used to list the plugins and set up variables. Default is
@@ -354,6 +355,10 @@ def connect_to_server(
             server = server_type(as_global=as_global, context=context)
         dpf.core._server_instances.append(weakref.ref(server))
         return server
+
+    # Enforce LegacyGrpc when on macOS
+    if platform.system() == 'Darwin':
+        config = dpf.core.AvailableServerConfigs.LegacyGrpcServer
 
     server_type = ServerFactory.get_remote_server_type_from_config(config)
     try:
