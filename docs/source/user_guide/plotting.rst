@@ -73,8 +73,8 @@ First, extract the X component strain
       8640 entities
       Data:1 components and 69120 elementary data
 
-This ElementalNodal strain must be converted to nodal strain for
-    it to be plotted.
+
+This ElementalNodal strain must be converted to nodal strain for it to be plotted.
 
 .. code-block::
 
