@@ -93,11 +93,11 @@ This example shows how you get the analysis type:
 This example shows how you get mesh information:
 
 
-.. code:: default
+.. code:: python
 
-    >>> model.metadata.meshed_region.nodes.n_nodes
-    >>> model.metadata.meshed_region.elements.n_elements
-    >>> print(model.metadata.meshed_region.elements.element_by_id(1))
+    model.metadata.meshed_region.nodes.n_nodes
+    model.metadata.meshed_region.elements.n_elements
+    print(model.metadata.meshed_region.elements.element_by_id(1))
 
 .. rst-class:: sphx-glr-script-out
 
