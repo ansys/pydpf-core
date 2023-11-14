@@ -226,6 +226,9 @@ def start_local_server(
     timed_out = False
     for _ in range(n_attempts):
         try:
+            # Force LegacyGrpc when on macOS
+            if platform.system() == "Darwin":
+                config = dpf.core.AvailableServerConfigs.LegacyGrpcServer
             server_type = ServerFactory.get_server_type_from_config(
                 config, ansys_path, docker_config
             )
