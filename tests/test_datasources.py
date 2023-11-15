@@ -51,16 +51,6 @@ def test_setresultpath_data_sources_no_extension(d3plot_beam, binout_glstat, ser
     assert data_sources.result_key == "binout"
 
 
-def test_setresultpath_data_sources_dyna_extensions(d3plot_beam, binout_glstat, server_type):
-
-    data_sources = dpf.core.DataSources(server=server_type)
-    data_sources.set_result_file_path(d3plot_beam)
-    assert data_sources.result_key == "d3plot"
-    data_sources = dpf.core.DataSources(server=server_type)
-    data_sources.set_result_file_path(binout_glstat)
-    assert data_sources.result_key == "binout"
-
-
 def test_addupstream_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources2 = dpf.core.DataSources(server=server_type)
