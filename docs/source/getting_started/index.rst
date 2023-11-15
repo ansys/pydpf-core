@@ -81,12 +81,12 @@ Use PyDPF-Core
 
 To use PyDPF-Core, in the same Python environment, run this command:
 
-.. code:: python
+.. code-block:: python
 
-    >>> from ansys.dpf import core as dpf
-    >>> from ansys.dpf.core import examples
-    >>> model = dpf.Model(examples.download_crankshaft())
-    >>> print(model)
+    from ansys.dpf import core as dpf
+    from ansys.dpf.core import examples
+    model = dpf.Model(examples.download_crankshaft())
+    print(model)
 
 
 .. rst-class:: sphx-glr-script-out
@@ -129,10 +129,10 @@ To use PyDPF-Core, in the same Python environment, run this command:
 
 
 
-.. code:: python
+.. code-block:: python
 
-    >>> over_time_disp = model.results.displacement().eval()
-    >>> over_time_disp[0].plot()
+    over_time_disp = model.results.displacement().eval()
+    over_time_disp[0].plot()
 
 
 .. figure:: ../images/plotting/crankshaft_disp.png
