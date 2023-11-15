@@ -51,38 +51,51 @@ def _pythonize_awp_version(version):
     return "20" + version[0:2] + "." + version[2]
 
 
-def _find_latest_ansys_versions():
-    awp_versions = [key[-3:] for key in os.environ.keys() if "AWP_ROOT" in key]
-    installed_packages_list = {}
+def _find_latest_dpf_server():
+    path_per_version = {}
 
-    for awp_version in awp_versions:
-        if not awp_version.isnumeric():
-            continue
-        ansys_path = os.environ.get("AWP_ROOT" + awp_version)
-        if ansys_path:
-            installed_packages_list[
-                packaging.version.parse(_pythonize_awp_version(awp_version))
-            ] = ansys_path
+    path_per_version = _paths_to_dpf_in_unified_installs(path_per_version)
 
+    path_per_version = _paths_to_dpf_server_library_installs(path_per_version)
+
+    if len(path_per_version) > 0:
+        return path_per_version[sorted(path_per_version)[-1]]
+
+
+def _paths_to_dpf_server_library_installs(path_per_version: dict) -> dict:
     installed_packages = pkg_resources.working_set
     for i in installed_packages:
         if "ansys-dpf-server" in i.key:
             file_name = pkg_resources.to_filename(i.project_name.replace("ansys-dpf-", ""))
             try:
                 module = importlib.import_module("ansys.dpf." + file_name)
-                installed_packages_list[
+                path_per_version[
                     packaging.version.parse(module.__version__)
                 ] = module.__path__[0]
             except ModuleNotFoundError:
                 pass
             except AttributeError:
                 pass
-    if len(installed_packages_list) > 0:
-        return installed_packages_list[sorted(installed_packages_list)[-1]]
+    return path_per_version
 
 
-def _unified_installer_path_if_exists():
-    return _find_latest_ansys_versions()
+def _paths_to_dpf_in_unified_installs(path_per_version: dict) -> dict:
+    awp_versions = [key[-3:] for key in os.environ.keys() if "AWP_ROOT" in key]
+    for awp_version in awp_versions:
+        if not awp_version.isnumeric():
+            continue
+        ansys_path = os.environ.get("AWP_ROOT" + awp_version)
+        if ansys_path:
+            # Check that this ansys path exists
+            if not os.path.isdir(ansys_path):
+                continue
+            # Check that it contains a DPF install
+            if not os.path.exists(os.path.join(ansys_path, _get_path_in_install())):
+                continue
+            path_per_version[
+                packaging.version.parse(_pythonize_awp_version(awp_version))
+            ] = ansys_path
+    return path_per_version
 
 
 def _get_api_path_from_installer_or_package(ansys_path: str, is_posix: bool):
@@ -190,7 +203,7 @@ def load_client_api(ansys_path=None):
 
     ANSYS_PATH = ansys_path
     if ANSYS_PATH is None:
-        ANSYS_PATH = _unified_installer_path_if_exists()
+        ANSYS_PATH = _find_latest_dpf_server()
     path = _get_api_path_from_installer_or_package(ANSYS_PATH, ISPOSIX)
 
     return _try_load_api(path=path, name=name)
@@ -205,7 +218,7 @@ def load_grpc_client(ansys_path=None):
 
     ANSYS_PATH = ansys_path
     if ANSYS_PATH is None:
-        ANSYS_PATH = _unified_installer_path_if_exists()
+        ANSYS_PATH = _find_latest_dpf_server()
     path = _get_api_path_from_installer_or_package(ANSYS_PATH, ISPOSIX)
 
     # PATH should be set only on Windows and only if working
