@@ -116,23 +116,25 @@ class DataSources:
         ['/tmp/file.rst']
 
         """
-        # Handle no key given
-        if key == "":
-            # Handle the case of files without extension, such as the LSDYNA d3plot and binout files
-            if os.path.splitext(filepath)[1] == "":
-                if "d3plot" in os.path.basename(filepath):
-                    key = "d3plot"
-                elif "binout" in os.path.basename(filepath):
-                    key = "binout"
-            # Handle LSDYNA extensions
-            elif os.path.splitext(filepath)[1] == "d3plot":
-                key = "d3plot"
-            elif os.path.splitext(filepath)[1] == "binout":
-                key = "binout"
+        # Handle no key given and no file extension
+        if key == "" and os.path.splitext(filepath)[1] == "":
+            key = self.guess_result_key(str(filepath))
         if key == "":
             self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
         else:
             self._api.data_sources_set_result_file_path_with_key_utf8(self, str(filepath), key)
+
+    @staticmethod
+    def guess_result_key(filepath: str) -> str:
+        """Guess result key for files without a file extension."""
+        d3plot_key = "d3plot"
+        binout_key = "binout"
+        # Handle files without extension
+        if d3plot_key in os.path.basename(filepath):
+            return d3plot_key
+        elif binout_key in os.path.basename(filepath):
+            return binout_key
+        return ""
 
     def set_domain_result_file_path(self, path, domain_id):
         """Add a result file path by domain.
