@@ -127,13 +127,12 @@ class DataSources:
     @staticmethod
     def guess_result_key(filepath: str) -> str:
         """Guess result key for files without a file extension."""
-        d3plot_key = "d3plot"
-        binout_key = "binout"
+        result_keys = ["d3plot", "binout"]
+        base_name = os.path.basename(filepath)
         # Handle files without extension
-        if d3plot_key in os.path.basename(filepath):
-            return d3plot_key
-        elif binout_key in os.path.basename(filepath):
-            return binout_key
+        for result_key in result_keys:
+            if result_key in base_name:
+                return result_key
         return ""
 
     def set_domain_result_file_path(self, path, domain_id):
