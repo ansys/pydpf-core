@@ -28,6 +28,12 @@ jobs:
         with:
           ref: ${{ env.DESTINATION_BRANCH_NAME }}
 
+      - name: "Clean-up working directory"
+        shell: python
+        run: |
+          import glob
+          import os
+
       - name: "Download Release Asset - HTML"
         uses: dsaltares/fetch-gh-release-asset@1.1.0
         with:
@@ -39,10 +45,14 @@ jobs:
         shell: python
         run: |
           import os
+          import shutil
           import zipfile
           with zipfile.ZipFile("HTML-doc-ansys-dpf-core.zip", 'r') as z:
             [z.extract(file, "./") for file in z.namelist() if file.endswith(".ipynb")]
           os.remove("HTML-doc-ansys-dpf-core.zip")
+                    
+          for example in glob.iglob('*.ipynb'):
+              shutil.move(example, "./examples/")
 
       - name: "Push changes"
         shell: bash
