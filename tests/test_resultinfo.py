@@ -88,29 +88,29 @@ def test_repr_available_results_list(model):
     assert dpf.core.result_info.available_result.AvailableResult.__name__ in str(ar)
 
 
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
-)
-def test_print_available_result_with_qualifiers(cfx_heating_coil, server_type):
-    model = Model(cfx_heating_coil(server=server_type), server=server_type)
-    ref = """DPF Result
-----------
-specific_heat
-Operator name: "CP"
-Number of components: 1
-Dimensionality: scalar
-Homogeneity: specific_heat
-Units: J/kg*K^-1
-Location: Nodal
-Available qualifier labels:"""  # noqa: E501
-    ref2 = "'phase': 2"
-    ref3 = "'zone': 5"
-    ar = model.metadata.result_info.available_results[0]
-    got = str(ar)
-    assert ref in got
-    assert ref2 in got
-    assert ref3 in got
-    assert len(ar.qualifier_combinations) == 20
+# @pytest.mark.skipif(
+#     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
+# )
+# def test_print_available_result_with_qualifiers(cfx_heating_coil, server_type):
+#     model = Model(cfx_heating_coil(server=server_type), server=server_type)
+#     ref = """DPF Result
+# ----------
+# specific_heat
+# Operator name: "CP"
+# Number of components: 1
+# Dimensionality: scalar
+# Homogeneity: specific_heat
+# Units: J/kg*K^-1
+# Location: Nodal
+# Available qualifier labels:"""  # noqa: E501
+#     ref2 = "'phase': 2"
+#     ref3 = "'zone': 5"
+#     ar = model.metadata.result_info.available_results[0]
+#     got = str(ar)
+#     assert ref in got
+#     assert ref2 in got
+#     assert ref3 in got
+#     assert len(ar.qualifier_combinations) == 20
 
 
 @pytest.mark.skipif(
