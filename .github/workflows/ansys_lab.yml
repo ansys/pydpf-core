@@ -33,7 +33,7 @@ jobs:
         with:
           file: HTML-doc-ansys-dpf-core.zip
           token: ${{ secrets.GITHUB_TOKEN }}
-          version: tags/${{ inputs.version }}
+          version: tags/v${{ inputs.version }}
 
       - name: "Extract ipynb examples"
         shell: python
