@@ -12,7 +12,7 @@ To create an instance of the ``Model`` object, import the ``pydpf-core`` package
 load a result file. The path that you provide must be an absolute path
 or a path relative to the DPF server.
 
-.. code-block:: default
+.. code-block:: python
 
     from ansys.dpf import core as dpf
     from ansys.dpf.core import examples
@@ -23,11 +23,9 @@ or a path relative to the DPF server.
 To understand what is available in the result file, you can print the model
 (or any other instance):
 
-.. code-block:: default
+.. code-block:: python
 
     print(model)
-
-
 
 .. rst-class:: sphx-glr-script-out
 
@@ -80,7 +78,7 @@ To access all information about an analysis, you can use model metadata:
 This example shows how you get the analysis type:
 
 
-.. code-block:: default
+.. code-block:: python
 
     model.metadata.result_info.analysis_type
 
@@ -93,11 +91,11 @@ This example shows how you get the analysis type:
 This example shows how you get mesh information:
 
 
-.. code:: default
+.. code:: python
 
-    >>> model.metadata.meshed_region.nodes.n_nodes
-    >>> model.metadata.meshed_region.elements.n_elements
-    >>> print(model.metadata.meshed_region.elements.element_by_id(1))
+    model.metadata.meshed_region.nodes.n_nodes
+    model.metadata.meshed_region.elements.n_elements
+    print(model.metadata.meshed_region.elements.element_by_id(1))
 
 .. rst-class:: sphx-glr-script-out
 
@@ -115,7 +113,7 @@ This example shows how you get mesh information:
 This example shows how you get time sets:
 
 
-.. code-block:: default
+.. code-block:: python
 
     time_freq_support =  model.metadata.time_freq_support
     print(time_freq_support.time_frequencies.data)
@@ -137,7 +135,7 @@ create operators to access certain results.
 This example shows how you view available results:
 
 
-.. code-block:: default
+.. code-block:: python
 
     print(model.results)
 
@@ -170,7 +168,7 @@ on which to get a given result is straightforward.
 This example shows how you get displacement results on all time frequencies on
 the mesh scoping:
 
-.. code-block:: default
+.. code-block:: python
 
     disp_result = model.results.displacement
     disp_at_all_times_on_node_1 =  disp_result.on_all_time_freqs.on_mesh_scoping([1])

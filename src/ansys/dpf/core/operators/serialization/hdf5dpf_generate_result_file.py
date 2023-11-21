@@ -15,6 +15,12 @@ class hdf5dpf_generate_result_file(Operator):
 
     Parameters
     ----------
+    h5_native_compression : int, optional
+        Integer value that defines the h5 native
+        compression used 0: no compression
+        (default)1-9: gzip level compression
+        : 9 gives us maximum compression but
+        at the slowest speed.
     export_floats : bool, optional
         Converts double to float to reduce file size
         (default is true)
@@ -63,6 +69,8 @@ class hdf5dpf_generate_result_file(Operator):
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
 
     >>> # Make input connections
+    >>> my_h5_native_compression = int()
+    >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
     >>> my_export_floats = bool()
     >>> op.inputs.export_floats.connect(my_export_floats)
     >>> my_filename = str()
@@ -80,6 +88,7 @@ class hdf5dpf_generate_result_file(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file(
+    ...     h5_native_compression=my_h5_native_compression,
     ...     export_floats=my_export_floats,
     ...     filename=my_filename,
     ...     mesh_provider_out=my_mesh_provider_out,
@@ -95,6 +104,7 @@ class hdf5dpf_generate_result_file(Operator):
 
     def __init__(
         self,
+        h5_native_compression=None,
         export_floats=None,
         filename=None,
         mesh_provider_out=None,
@@ -110,6 +120,8 @@ class hdf5dpf_generate_result_file(Operator):
         )
         self._inputs = InputsHdf5DpfGenerateResultFile(self)
         self._outputs = OutputsHdf5DpfGenerateResultFile(self)
+        if h5_native_compression is not None:
+            self.inputs.h5_native_compression.connect(h5_native_compression)
         if export_floats is not None:
             self.inputs.export_floats.connect(export_floats)
         if filename is not None:
@@ -131,6 +143,16 @@ class hdf5dpf_generate_result_file(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -2: PinSpecification(
+                    name="h5_native_compression",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""Integer value that defines the h5 native
+        compression used 0: no compression
+        (default)1-9: gzip level compression
+        : 9 gives us maximum compression but
+        at the slowest speed.""",
+                ),
                 -1: PinSpecification(
                     name="export_floats",
                     type_names=["bool"],
@@ -257,6 +279,8 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+    >>> my_h5_native_compression = int()
+    >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
     >>> my_export_floats = bool()
     >>> op.inputs.export_floats.connect(my_export_floats)
     >>> my_filename = str()
@@ -275,6 +299,10 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(hdf5dpf_generate_result_file._spec().inputs, op)
+        self._h5_native_compression = Input(
+            hdf5dpf_generate_result_file._spec().input_pin(-2), -2, op, -1
+        )
+        self._inputs.append(self._h5_native_compression)
         self._export_floats = Input(
             hdf5dpf_generate_result_file._spec().input_pin(-1), -1, op, -1
         )
@@ -303,6 +331,30 @@ class InputsHdf5DpfGenerateResultFile(_Inputs):
             hdf5dpf_generate_result_file._spec().input_pin(5), 5, op, 1
         )
         self._inputs.append(self._input_name2)
+
+    @property
+    def h5_native_compression(self):
+        """Allows to connect h5_native_compression input to the operator.
+
+        Integer value that defines the h5 native
+        compression used 0: no compression
+        (default)1-9: gzip level compression
+        : 9 gives us maximum compression but
+        at the slowest speed.
+
+        Parameters
+        ----------
+        my_h5_native_compression : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.hdf5dpf_generate_result_file()
+        >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
+        >>> # or
+        >>> op.inputs.h5_native_compression(my_h5_native_compression)
+        """
+        return self._h5_native_compression
 
     @property
     def export_floats(self):

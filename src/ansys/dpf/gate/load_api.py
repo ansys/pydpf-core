@@ -93,7 +93,11 @@ def _get_api_path_from_installer_or_package(ansys_path: str, is_posix: bool):
         # should work from the gatebin package
         from ansys.dpf import gatebin
 
-        path = os.path.abspath(gatebin.__path__._path[0])
+        if hasattr(gatebin.__path__, "_path"):
+            path = os.path.abspath(gatebin.__path__._path[0])
+        else:
+            path = os.path.abspath(gatebin.__path__[0])
+            
         dpf_client_found = True
     else:
         if ansys_path is not None:

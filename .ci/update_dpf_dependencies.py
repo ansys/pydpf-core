@@ -37,18 +37,17 @@ if grpc_path is not None:
     destination = os.path.join(core_path, "src")
     print(f"into {destination}")
     latest_wheel = max(glob.glob(dist_path), key=os.path.getctime)
-    with zipfile.ZipFile(latest_wheel, 'r') as wheel:
+    with zipfile.ZipFile(latest_wheel, "r") as wheel:
         for file in wheel.namelist():
             # print(file)
-            if file.startswith('ansys/'):
+            if file.startswith("ansys/"):
                 wheel.extract(
                     file,
                     path=destination,
                 )
     print("Done updating ansys-grpc-dpf")
 else:
-    print(f"{grpc_path_key} environment variable is not defined. "
-          "Cannot update ansys-grpc-dpf.")
+    print(f"{grpc_path_key} environment variable is not defined. " "Cannot update ansys-grpc-dpf.")
 
 if gate_path is not None:
     # Update ansys-dpf-gate
@@ -78,5 +77,7 @@ if gate_path is not None:
     )
     print(f"Done updating ansys-dpf-gatebin for {platform.system()}")
 else:
-    print(f"{gate_path_key} environment variable is not defined. "
-          "Cannot update ansys-dpf-gate or ansys-dpf-gatebin.")
+    print(
+        f"{gate_path_key} environment variable is not defined. "
+        "Cannot update ansys-dpf-gate or ansys-dpf-gatebin."
+    )

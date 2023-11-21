@@ -81,6 +81,8 @@ def get_ansys_path(ansys_path=None):
     # First check the environment variable for a custom path
     if ansys_path is None:
         ansys_path = os.environ.get("ANSYS_DPF_PATH")
+        if ansys_path:
+            ansys_path = ansys_path.replace('"', "")
     # Then check for usual installation folders with AWP_ROOT and installed modules
     if ansys_path is None:
         ansys_path = find_ansys()

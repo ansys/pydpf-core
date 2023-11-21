@@ -81,7 +81,7 @@ jobs:
   tests:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: "241"
+      ANSYS_VERSION: "242"
       python_versions: '["3.9"]'
       wheel: true
       wheelhouse: false
@@ -91,7 +91,7 @@ jobs:
   tests_any:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: "241"
+      ANSYS_VERSION: "242"
       python_versions: '["3.9"]'
       wheel: true
       wheelhouse: false
@@ -103,7 +103,7 @@ jobs:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
     with:
-      ANSYS_VERSION: "241"
+      ANSYS_VERSION: "242"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
@@ -111,7 +111,7 @@ jobs:
     name: "Run examples on Docker"
     uses: ./.github/workflows/examples_docker.yml
     with:
-      ANSYS_VERSION: "241"
+      ANSYS_VERSION: "242"
       python_versions: '["3.9"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
@@ -120,7 +120,7 @@ jobs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/docs.yml
     with:
-      ANSYS_VERSION: "241"
+      ANSYS_VERSION: "242"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       event_name: ${{ github.event_name }}
     secrets: inherit
@@ -157,9 +157,20 @@ jobs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/examples.yml
     with:
-      ANSYS_VERSION: "241"
+      ANSYS_VERSION: "242"
       python_versions: '["3.9"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+    secrets: inherit
+
+  retro_241:
+    name: "retro 241"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "241"
+      python_versions: '["3.9"]'
+      DOCSTRING: false
+      standalone_suffix: ''
     secrets: inherit
 
   retro_232:
@@ -198,7 +209,7 @@ jobs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/pydpf-post.yml
     with:
-      ANSYS_VERSION: "241"
+      ANSYS_VERSION: "242"
       post_branch: "master"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       test_docstrings: "true"

@@ -21,14 +21,15 @@ class ServerToAnsysVersion:
         "6.2": "2023R2",
         "7.0": "2024R1",
         "7.1": "2024R1",
+        "8.0": "2024R2",
     }
 
     def __getitem__(self, item):
         if len(item) == 3:
             return self.legacy_version_map[item]
         else:
-            split = item.split('.')
-            return split[0]+'R'+split[1]
+            split = item.split(".")
+            return split[0] + "R" + split[1]
 
 
 server_to_ansys_version = ServerToAnsysVersion()
