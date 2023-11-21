@@ -49,6 +49,6 @@ jobs:
         run: |
           git status
           git commit -a -m ${{ inputs.version }}
-          git push https://${{ secrets.DPF_PIPELINE }}@github.com/ansys/pydpf-core.git
+          git push https://${{ secrets.DPF_PIPELINE }}@github.com/rlagha/ansys/pydpf-core.git
           git tag ${{ env.DESTINATION_BRANCH_NAME }}_${{ inputs.version }}
           git push origin ${{ env.DESTINATION_BRANCH_NAME }}_${{ inputs.version }}
