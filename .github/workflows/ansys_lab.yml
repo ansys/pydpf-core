@@ -34,7 +34,7 @@ jobs:
           import glob
           import os
                     
-          for example in glob.iglob('*.ipynb'):
+          for example in glob.glob('*.ipynb'):
               os.remove(example)
 
       - name: "Download Release Asset - HTML"
@@ -58,7 +58,9 @@ jobs:
           if not "examples" in os.listdir(os.getcwd()):
             os.mkdir(os.path.join(os.getcwd(), "examples"))
           print(os.listdir(os.getcwd()))
-          for example in glob.iglob('*.ipynb'):
+          for folder in os.listdir(os.path.join(os.getcwd(), "_downloads")):
+            print(os.listdir(folder))
+          for example in glob.glob('*.ipynb'):
             print(f"Moving {example}") 
             shutil.move(example, os.path.join(os.getcwd(), "examples"))
           print(os.listdir(os.path.join(os.getcwd(), "examples")))
