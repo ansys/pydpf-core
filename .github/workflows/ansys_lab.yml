@@ -48,6 +48,7 @@ jobs:
         shell: bash
         run: |
           git config --global user.name "rlagha"
+          git add .
           git status
           git commit -a -m ${{ inputs.version }}
           git tag ${{ env.DESTINATION_BRANCH_NAME }}_${{ inputs.version }}
