@@ -37,7 +37,7 @@ jobs:
           for example in glob.iglob('*.ipynb'):
               os.remove(example)
           if not "examples" in os.listdir(os.getcwd()):
-            os.mkdir(os.path.join(os.getcwd()+"examples"))
+            os.mkdir(os.path.join(os.getcwd(), "examples"))
           print(os.listdir(os.getcwd()))
 
       - name: "Download Release Asset - HTML"
@@ -59,8 +59,8 @@ jobs:
           os.remove("HTML-doc-ansys-dpf-core.zip")
           
           for example in glob.iglob('*.ipynb'):
-              shutil.move(example, os.path.join(os.getcwd()+"/examples"))
-          print(os.path.join(os.getcwd()+"examples"))
+              shutil.move(example, os.path.join(os.getcwd(), "examples"))
+          print(os.listdir(os.path.join(os.getcwd(), "examples"))
 
       - name: "Push changes"
         shell: bash
