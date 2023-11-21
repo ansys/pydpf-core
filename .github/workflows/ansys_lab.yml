@@ -5,18 +5,16 @@ on:
   workflow_call:
     inputs:
       version:
-        description: "Release tag as 'tags/XX' (defaults to latest)"
+        description: "Release version as 'X.Y.Z'"
         type: string
-        required: false
-        default: latest
+        required: true
 # Can be called manually
   workflow_dispatch:
     inputs:
       version:
-        description: "Release tag as 'tags/XX' (defaults to latest)"
+        description: "Release version as 'X.Y.Z'"
         type: string
-        required: false
-        default: latest
+        required: true
 
 env:
   DESTINATION_BRANCH_NAME: ansys_lab_examples
@@ -35,7 +33,7 @@ jobs:
         with:
           file: HTML-doc-ansys-dpf-core.zip
           token: ${{ secrets.GITHUB_TOKEN }}
-          version: ${{ inputs.version }}
+          version: tags/${{ inputs.version }}
 
       - name: "Extract ipynb examples"
         shell: python
@@ -46,7 +44,12 @@ jobs:
             [z.extract(file, "./") for file in z.namelist() if file.endswith(".ipynb")]
           os.remove("HTML-doc-ansys-dpf-core.zip")
 
-      - name: "Show changes"
+      - name: "Push changes"
         shell: bash
         run: |
+          git add .
           git status
+          git commit -m ${{ inputs.version }}
+          git push
+          git tag ${{ env.DESTINATION_BRANCH_NAME }}_${{ inputs.version }}
+          git push origin ${{ env.DESTINATION_BRANCH_NAME }}_${{ inputs.version }}
