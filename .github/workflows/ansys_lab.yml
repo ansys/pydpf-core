@@ -51,6 +51,4 @@ jobs:
           git add .
           git status
           git commit -a -m ${{ inputs.version }}
-          git tag ${{ env.DESTINATION_BRANCH_NAME }}_${{ inputs.version }}
           git push https://${{ secrets.DPF_PIPELINE }}@github.com/ansys/pydpf-core.git --follow-tags
-          git push https://${{ secrets.DPF_PIPELINE }}@github.com/ansys/pydpf-core.git ${{ env.DESTINATION_BRANCH_NAME }}_${{ inputs.version }}

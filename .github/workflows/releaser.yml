@@ -106,3 +106,9 @@ jobs:
           api-key: ${{ env.MEILISEARCH_API_KEY }}
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
           decompress-artifact: true
+
+  update_ansys_lab_examples:
+    uses: ./.github/workflows/ansys_lab.yml
+    with:
+      version: ${{ github.event.inputs.release_tag || 'latest' }}
+    secrets: inherit
