@@ -38,6 +38,7 @@ jobs:
               os.remove(example)
           if not "examples" in os.listdir(os.getcwd()):
             os.mkdir(os.path.join(os.getcwd()+"examples"))
+          print(os.listdir(os.getcwd()))
 
       - name: "Download Release Asset - HTML"
         uses: dsaltares/fetch-gh-release-asset@1.1.0
@@ -59,6 +60,7 @@ jobs:
           
           for example in glob.iglob('*.ipynb'):
               shutil.move(example, os.path.join(os.getcwd()+"/examples"))
+          print(os.path.join(os.getcwd()+"examples"))
 
       - name: "Push changes"
         shell: bash
