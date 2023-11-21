@@ -113,19 +113,23 @@ class ResultInfo:
 
     def __str__(self):
         try:
-            txt = (
-                "%s analysis\n" % self.analysis_type.capitalize()
-                + "Unit system: %s\n" % self.unit_system
-                + "Physics Type: %s\n" % self.physics_type.capitalize()
-                + "Available results:\n"
-            )
-            for res in self.available_results:
-                line = [
-                    "",
-                    "-",
-                    f"{res.name}: {res.native_location} {res.physical_name}",
-                ]
-                txt += "{0:^4} {1:^2} {2:<30}".format(*line) + "\n"
+            from ansys.dpf.core import AvailableServerConfigs
+            if self._server.config == AvailableServerConfigs.LegacyGrpcServer:
+                txt = self._description
+            else:
+                txt = (
+                    "%s analysis\n" % self.analysis_type.capitalize()
+                    + "Unit system: %s\n" % self.unit_system
+                    + "Physics Type: %s\n" % self.physics_type.capitalize()
+                    + "Available results:\n"
+                )
+                for res in self.available_results:
+                    line = [
+                        "",
+                        "-",
+                        f"{res.name}: {res.native_location} {res.physical_name}",
+                    ]
+                    txt += "{0:^4} {1:^2} {2:<30}".format(*line) + "\n"
 
             if self._server.meet_version("7.0"):
                 qualifiers_labels = self.available_qualifier_labels
@@ -144,9 +148,6 @@ class ResultInfo:
             return txt
         except Exception as e:
             raise e
-            from ansys.dpf.core.core import _description
-
-            return _description(self._internal_obj, self._server)
 
     @property
     def _description(self):
