@@ -59,7 +59,8 @@ jobs:
             os.mkdir(os.path.join(os.getcwd(), "examples"))
           print(os.listdir(os.getcwd()))
           for example in glob.iglob('*.ipynb'):
-              shutil.move(example, os.path.join(os.getcwd(), "examples"))
+            print(f"Moving {example}") 
+            shutil.move(example, os.path.join(os.getcwd(), "examples"))
           print(os.listdir(os.path.join(os.getcwd(), "examples")))
 
       - name: "Push changes"
