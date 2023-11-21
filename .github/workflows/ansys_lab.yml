@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: env.DESTINATION_BRANCH_NAME
+          ref: ${{ env.DESTINATION_BRANCH_NAME }}
 
       - name: "Download Release Asset - HTML"
         uses: dsaltares/fetch-gh-release-asset@1.1.0
