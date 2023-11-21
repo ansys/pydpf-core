@@ -7,9 +7,9 @@ from ansys.dpf import core as dpf
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     reason="CFF source operators where not supported before 7.0,",
 )
-def test_cff_model(server_type, fluent_multi_species):
-    ds = fluent_multi_species(server_type)
-    model = dpf.Model(ds, server=server_type)
+def test_cff_model(server_clayer, fluent_multi_species):
+    ds = fluent_multi_species(server_clayer)
+    model = dpf.Model(ds, server=server_clayer)
     assert "Fluid" in str(model)
     assert model is not None
     mesh = model.metadata.meshed_region

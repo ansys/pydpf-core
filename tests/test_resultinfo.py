@@ -15,8 +15,8 @@ else:
 
 
 @pytest.fixture()
-def model(velocity_acceleration, server_type):
-    return dpf.core.Model(velocity_acceleration, server=server_type)
+def model(velocity_acceleration, server_clayer):
+    return dpf.core.Model(velocity_acceleration, server=server_clayer)
 
 
 def test_get_resultinfo_no_model(velocity_acceleration, server_type):
@@ -116,8 +116,8 @@ Available qualifier labels:"""  # noqa: E501
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
 )
-def test_print_result_info_with_qualifiers(cfx_heating_coil, server_type):
-    model = Model(cfx_heating_coil(server=server_type), server=server_type)
+def test_print_result_info_with_qualifiers(cfx_heating_coil, server_clayer):
+    model = Model(cfx_heating_coil(server=server_clayer), server=server_clayer)
     ref = """Static analysis
 Unit system: SI: m, kg, N, s, V, A, K
 Physics Type: Fluid
