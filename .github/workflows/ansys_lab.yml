@@ -34,8 +34,9 @@ jobs:
           import glob
           import os
                     
-          for example in glob.glob('*.ipynb'):
-              os.remove(example)
+          for example in glob.glob('**/*.ipynb'):
+            os.remove(example)
+            print(f"Deleted {example}")
 
       - name: "Download Release Asset - HTML"
         uses: dsaltares/fetch-gh-release-asset@1.1.0
@@ -60,7 +61,7 @@ jobs:
           print(os.listdir(os.getcwd()))
           for folder in os.listdir(os.path.join(os.getcwd(), "_downloads")):
             print(os.listdir(os.path.join(os.path.join(os.getcwd(), "_downloads"), folder)))
-          for example in glob.glob('*.ipynb'):
+          for example in glob.glob('**/*.ipynb'):
             print(f"Moving {example}") 
             shutil.move(example, os.path.join(os.getcwd(), "examples"))
           print(os.listdir(os.path.join(os.getcwd(), "examples")))
