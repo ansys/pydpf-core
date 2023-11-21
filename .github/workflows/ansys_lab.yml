@@ -47,9 +47,8 @@ jobs:
       - name: "Push changes"
         shell: bash
         run: |
-          git add .
           git status
-          git commit -m ${{ inputs.version }}
-          git push
+          git commit -a -m ${{ inputs.version }}
+          git push https://${{ secrets.DPF_PIPELINE }}@github.com/ansys/pydpf-core.git
           git tag ${{ env.DESTINATION_BRANCH_NAME }}_${{ inputs.version }}
           git push origin ${{ env.DESTINATION_BRANCH_NAME }}_${{ inputs.version }}
