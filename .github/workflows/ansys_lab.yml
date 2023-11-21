@@ -59,7 +59,7 @@ jobs:
             os.mkdir(os.path.join(os.getcwd(), "examples"))
           print(os.listdir(os.getcwd()))
           for folder in os.listdir(os.path.join(os.getcwd(), "_downloads")):
-            print(os.listdir(folder))
+            print(os.listdir(os.path.join(os.path.join(os.getcwd(), "_downloads"), folder)))
           for example in glob.glob('*.ipynb'):
             print(f"Moving {example}") 
             shutil.move(example, os.path.join(os.getcwd(), "examples"))
