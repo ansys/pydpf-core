@@ -60,7 +60,7 @@ jobs:
           
           for example in glob.iglob('*.ipynb'):
               shutil.move(example, os.path.join(os.getcwd(), "examples"))
-          print(os.listdir(os.path.join(os.getcwd(), "examples"))
+          print(os.listdir(os.path.join(os.getcwd(), "examples")))
 
       - name: "Push changes"
         shell: bash
