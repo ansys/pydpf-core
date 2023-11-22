@@ -5,7 +5,6 @@ Contains the different kinds of
 servers available for the factory.
 """
 import abc
-import functools
 import io
 import os
 import socket
