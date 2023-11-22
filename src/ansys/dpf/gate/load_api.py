@@ -45,6 +45,16 @@ def _get_path_in_install(is_posix: bool = None, internal_folder="dll"):
     return path_in_install
 
 
+def _get_dpf_path_in_install(is_posix: bool = None):
+    if not is_posix:
+        is_posix = os.name == "posix"
+    if not is_posix:
+        path_in_install = os.path.join("dpf", "bin", "winx64")
+    else:
+        path_in_install = os.path.join("dpf", "bin", "linx64")
+    return path_in_install
+
+
 def _pythonize_awp_version(version):
     if len(version) != 3:
         return version
@@ -91,6 +101,8 @@ def _paths_to_dpf_in_unified_installs(path_per_version: dict) -> dict:
                 continue
             # Check that it contains a DPF install
             if not os.path.exists(os.path.join(ansys_path, _get_path_in_install())):
+                continue
+            if not os.path.exists(os.path.join(ansys_path, _get_dpf_path_in_install())):
                 continue
             path_per_version[
                 packaging.version.parse(_pythonize_awp_version(awp_version))
