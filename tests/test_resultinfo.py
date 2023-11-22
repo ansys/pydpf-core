@@ -6,6 +6,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
 )
 
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
@@ -104,14 +105,19 @@ Units: J/kg*K^-1
 Location: Nodal
 Available qualifier labels:"""  # noqa: E501
     ref2 = "'phase': 2"
-    ref3 = "'zone': 11"
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
+        ref3 = "'zone': 11"
+    else:
+        ref3 = "'zone': 5"
     ar = model.metadata.result_info.available_results[0]
     got = str(ar)
     assert ref in got
     assert ref2 in got
     assert ref3 in got
-    assert len(ar.qualifier_combinations) == 18
-
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
+        assert len(ar.qualifier_combinations) == 18
+    else:
+        assert len(ar.qualifier_combinations) == 20
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
