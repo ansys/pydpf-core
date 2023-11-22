@@ -230,6 +230,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
         return _get_stub(result_info._server).GetStringProperties(request).properties[property_name]
 
     @staticmethod
+    @functools.lru_cache(maxsize=50, typed=False)
     def result_info_get_int_property(result_info, property_name):
         from ansys.grpc.dpf import result_info_pb2
         request = result_info_pb2.GetStringPropertiesRequest()
