@@ -26,6 +26,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
         result_info._deleter_func = (_get_stub(result_info._server).Delete, lambda obj: obj._internal_obj)
 
     @staticmethod
+    @functools.lru_cache(maxsize=50, typed=False)
     def list(result_info):
         from types import SimpleNamespace
         server = result_info._server
