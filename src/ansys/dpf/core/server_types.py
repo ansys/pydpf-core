@@ -5,6 +5,7 @@ Contains the different kinds of
 servers available for the factory.
 """
 import abc
+import functools
 import io
 import os
 import socket
@@ -678,6 +679,8 @@ class GrpcServer(CServer):
         self._grpc_client_path = load_api.load_grpc_client(ansys_path=ansys_path)
         self._own_process = launch_server
         self._local_server = False
+        self._os = None
+        self._version = None
 
         address = f"{ip}:{port}"
 
@@ -735,21 +738,24 @@ class GrpcServer(CServer):
 
     @property
     def version(self):
-        from ansys.dpf.gate import data_processing_capi, integral_types
+        if not self._version:
+            from ansys.dpf.gate import data_processing_capi, integral_types
 
-        api = data_processing_capi.DataProcessingCAPI
-        major = integral_types.MutableInt32()
-        minor = integral_types.MutableInt32()
-        api.data_processing_get_server_version_on_client(self.client, major, minor)
-        out = str(int(major)) + "." + str(int(minor))
-        return out
+            api = data_processing_capi.DataProcessingCAPI
+            major = integral_types.MutableInt32()
+            minor = integral_types.MutableInt32()
+            api.data_processing_get_server_version_on_client(self.client, major, minor)
+            self._version = str(int(major)) + "." + str(int(minor))
+        return self._version
 
     @property
     def os(self):
-        from ansys.dpf.gate import data_processing_capi
+        if not self._os:
+            from ansys.dpf.gate import data_processing_capi
 
-        api = data_processing_capi.DataProcessingCAPI
-        return api.data_processing_get_os_on_client(self.client)
+            api = data_processing_capi.DataProcessingCAPI
+            self._os = api.data_processing_get_os_on_client(self.client)
+        return self._os
 
     def _create_shutdown_funcs(self):
         from ansys.dpf.gate import data_processing_capi
