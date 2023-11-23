@@ -99,10 +99,13 @@ def _paths_to_dpf_in_unified_installs(path_per_version: dict) -> dict:
             # Check that this ansys path exists
             if not os.path.isdir(ansys_path):
                 continue
-            # Check that it contains a DPF install
+            # Check that it contains a DPF install with an aisol folder
             if not os.path.exists(os.path.join(ansys_path, _get_path_in_install())):
                 continue
-            if not os.path.exists(os.path.join(ansys_path, _get_dpf_path_in_install())):
+            # Check that it contains a DPF install with a dpf folder (for 231 and above)
+            if not os.path.exists(os.path.join(ansys_path, _get_dpf_path_in_install()))\
+                    and \
+                    int(awp_version) > 222:
                 continue
             path_per_version[
                 packaging.version.parse(_pythonize_awp_version(awp_version))
