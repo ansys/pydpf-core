@@ -24,7 +24,7 @@ on:
 #* * * * *
 
 env:
-  ANSYS_VERSION: 242
+  ANSYS_VERSION: 241
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
   MAIN_PYTHON_VERSION: '3.9'
 
@@ -83,7 +83,7 @@ jobs:
   tests:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: "242"
+      ANSYS_VERSION: "241"
       python_versions: '["3.9", "3.10", "3.11"]'
       wheel: true
       wheelhouse: true
@@ -93,7 +93,7 @@ jobs:
   tests_any:
     uses: ./.github/workflows/tests.yml
     with:
-      ANSYS_VERSION: "242"
+      ANSYS_VERSION: "241"
       python_versions: '["3.9", "3.10", "3.11"]'
       wheel: true
       wheelhouse: false
@@ -104,7 +104,7 @@ jobs:
   docs:
     uses: ./.github/workflows/docs.yml
     with:
-      ANSYS_VERSION: "242"
+      ANSYS_VERSION: "241"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
       event_name: ${{ github.event_name }}
     secrets: inherit
@@ -112,18 +112,9 @@ jobs:
   examples:
     uses: ./.github/workflows/examples.yml
     with:
-      ANSYS_VERSION: "242"
+      ANSYS_VERSION: "241"
       python_versions: '["3.9", "3.10", "3.11"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
-    secrets: inherit
-
-  retro_241:
-    name: "retro 241"
-    uses: ./.github/workflows/tests.yml
-    with:
-      ANSYS_VERSION: "241"
-      python_versions: '["3.9"]'
-      DOCSTRING: false
     secrets: inherit
 
   retro_232:
@@ -151,15 +142,6 @@ jobs:
       ANSYS_VERSION: "222"
       python_versions: '["3.9"]'
       DOCSTRING: false
-    secrets: inherit
-
-  pydpf-post_242:
-    name: "PyDPF-Post with 242"
-    uses: ./.github/workflows/pydpf-post.yml
-    with:
-      ANSYS_VERSION: "242"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
-      test_docstrings: "true"
     secrets: inherit
 
   pydpf-post_241:
@@ -196,7 +178,7 @@ jobs:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
     with:
-      ANSYS_VERSION: "242"
+      ANSYS_VERSION: "241"
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit
 
@@ -204,7 +186,7 @@ jobs:
     name: "Run examples on Docker"
     uses: ./.github/workflows/examples_docker.yml
     with:
-      ANSYS_VERSION: "242"
+      ANSYS_VERSION: "241"
       python_versions: '["3.9", "3.10", "3.11"]'
       standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
     secrets: inherit

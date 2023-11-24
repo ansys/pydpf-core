@@ -114,6 +114,7 @@ class MeshesContainer(Collection):
                     **kwargs,
                 )
         # Plot the figure
+        kwargs.pop("notebook", None)
         return pl.show_figure(**kwargs)
 
     def get_meshes(self, label_space):
