@@ -218,7 +218,7 @@ def load_client_api(ansys_path=None):
 
     ANSYS_PATH = ansys_path
     if ANSYS_PATH is None:
-        ANSYS_PATH = _find_latest_dpf_server()
+        ANSYS_PATH = _find_latest_ansys_versions()
     path = _get_api_path_from_installer_or_package(ANSYS_PATH, ISPOSIX)
 
     return _try_load_api(path=path, name=name)
@@ -233,7 +233,7 @@ def load_grpc_client(ansys_path=None):
 
     ANSYS_PATH = ansys_path
     if ANSYS_PATH is None:
-        ANSYS_PATH = _find_latest_dpf_server()
+        ANSYS_PATH = _find_latest_ansys_versions()
     path = _get_api_path_from_installer_or_package(ANSYS_PATH, ISPOSIX)
 
     # PATH should be set only on Windows and only if working
