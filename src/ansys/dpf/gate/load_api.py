@@ -61,7 +61,7 @@ def _pythonize_awp_version(version):
     return "20" + version[0:2] + "." + version[2]
 
 
-def _find_latest_dpf_server():
+def _find_latest_ansys_versions():
     path_per_version = {}
 
     path_per_version = _paths_to_dpf_in_unified_installs(path_per_version)

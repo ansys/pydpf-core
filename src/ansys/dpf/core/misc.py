@@ -106,8 +106,8 @@ def _pythonize_awp_version(version):
     return "20" + version[0:2] + "." + version[2]
 
 
-def _find_latest_dpf_server():
-    return load_api._find_latest_dpf_server()
+def _find_latest_ansys_versions():
+    return load_api._find_latest_ansys_versions()
 
 
 def find_ansys():
@@ -131,7 +131,7 @@ def find_ansys():
     >>> path = find_ansys()
 
     """
-    latest_install = _find_latest_dpf_server()
+    latest_install = _find_latest_ansys_versions()
     if latest_install:
         return latest_install
 
