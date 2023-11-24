@@ -673,13 +673,14 @@ class GrpcServer(CServer):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
 
-        super().__init__(ansys_path=ansys_path, load_operators=load_operators)
-        # Load Ans.Dpf.GrpcClient
-        self._grpc_client_path = load_api.load_grpc_client(ansys_path=ansys_path)
         self._own_process = launch_server
         self._local_server = False
         self._os = None
         self._version = None
+
+        super().__init__(ansys_path=ansys_path, load_operators=load_operators)
+        # Load Ans.Dpf.GrpcClient
+        self._grpc_client_path = load_api.load_grpc_client(ansys_path=ansys_path)
 
         address = f"{ip}:{port}"
 
@@ -1005,12 +1006,12 @@ class LegacyGrpcServer(BaseServer):
         # Use ansys.grpc.dpf
         from ansys.dpf.core.misc import is_pypim_configured
 
-        super().__init__()
-
         self._info_instance = None
         self._own_process = launch_server
         self.live = False
         self._local_server = False
+
+        super().__init__()
 
         # Load Ans.Dpf.Grpc?
         import grpc
