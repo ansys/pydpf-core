@@ -630,19 +630,24 @@ class Workflow:
 
     @version_requires("3.0")
     def connect_with(self, left_workflow, output_input_names=None):
-        """Chain 2 workflows together so that they become one workflow.
+        """Prepend a given workflow to the current workflow.
 
-        The one workflow contains all the operators, inputs, and outputs
-        exposed in both workflows.
+        Updates the current workflow to include all the operators of the workflow given as argument.
+        Outputs of the given workflow are connected to inputs of the current workflow according to
+        the map.
+        All outputs of the given workflow become outputs of the current workflow.
 
         Parameters
         ----------
         left_workflow : core.Workflow
-            Second workflow's outputs to chained with this workflow's inputs.
+            The given workflow's outputs are chained with the current workflow's inputs.
         output_input_names : str tuple, str dict optional
-            Input name of the left_workflow to be cained with the output name of this workflow.
-            The default is ``None``, in which case the inputs in the left_workflow with the same
-            names as the outputs of this workflow are chained.
+            Map used to connect the outputs of the given workflow to the inputs of the current
+            workflow.
+            Check the available inputs and outputs names of each workflow using
+            `Workflow.input_names` and `Workflow.output_names`.
+            The default is ``None``, in which case it tries to connect each output of the
+            left_workflow with an input of the current workflow with the same name.
 
         Examples
         --------
@@ -662,6 +667,38 @@ class Workflow:
             |"time_scoping" ->  |    | ->  "contour"                                                          |
             |"mesh_scoping" ->  |____| -> "output"                                                            |
             +-------------------------------------------------------------------------------------------------+ # noqa: E501
+
+        >>> import ansys.dpf.core as dpf
+        >>> left_wf = dpf.Workflow()
+        >>> op1 = dpf.operators.utility.forward()
+        >>> left_wf.set_input_name("op1_input", op1.inputs.any)
+        >>> left_wf.set_output_name("op1_output", op1.outputs.any)
+        >>> op2 = dpf.operators.utility.forward()
+        >>> left_wf.set_input_name("op2_input", op2.inputs.any)
+        >>> left_wf.set_output_name("op2_output", op2.outputs.any)
+        >>> left_wf.add_operators([op1, op2])
+        >>> print(f"{left_wf.input_names=}")
+        left_wf.input_names=['op1_input', 'op2_input']
+        >>> print(f"{left_wf.output_names=}")
+        left_wf.output_names=['op1_output', 'op2_output']
+        >>> current_wf = dpf.Workflow()
+        >>> op3 = dpf.operators.utility.forward()
+        >>> current_wf.set_input_name("op3_input", op3.inputs.any)
+        >>> current_wf.set_output_name("op3_output", op3.outputs.any)
+        >>> op4 = dpf.operators.utility.forward()
+        >>> current_wf.set_input_name("op4_input", op4.inputs.any)
+        >>> current_wf.set_output_name("op4_output", op4.outputs.any)
+        >>> current_wf.add_operators([op3, op4])
+        >>> print(f"{current_wf.input_names=}")
+        current_wf.input_names=['op3_input', 'op4_input']
+        >>> print(f"{current_wf.output_names=}")
+        current_wf.output_names=['op3_output', 'op4_output']
+        >>> output_input_names = {"op2_output": "op3_input"}
+        >>> current_wf.connect_with(left_wf, output_input_names)
+        >>> print(f"New {current_wf.input_names=}")
+        New current_wf.input_names=['op1_input', 'op2_input', 'op4_input']
+        >>> print(f"New {current_wf.output_names=}")
+        New current_wf.output_names=['op1_output', 'op2_output', 'op3_output', 'op4_output']
 
         Notes
         -----
