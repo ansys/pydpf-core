@@ -644,7 +644,7 @@ class Workflow:
         output_input_names : str tuple, str dict optional
             Map used to connect the outputs of the given workflow to the inputs of the current
             workflow.
-            Check the available inputs and outputs names of each workflow using
+            Check the names of available inputs and outputs for each workflow using
             `Workflow.input_names` and `Workflow.output_names`.
             The default is ``None``, in which case it tries to connect each output of the
             left_workflow with an input of the current workflow with the same name.
