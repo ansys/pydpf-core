@@ -811,7 +811,6 @@ class Workflow:
 
     def view(
             self,
-            renderer: str = "graphviz",
             viewer: Union[None, str] = None,
             title: Union[None, str] = None
     ):
@@ -819,9 +818,6 @@ class Workflow:
 
         Parameters
         ----------
-        renderer:
-            Available renderers are: "graphviz".
-
         viewer:
             Available viewers are None and "paraview".
             If None, the system's default image viewer is used.
@@ -837,20 +833,16 @@ class Workflow:
         # Create graphviz file of workflow
         self.to_graphviz(file_path)
         # Render workflow
-        if renderer == "graphviz":
-            try:
-                import graphviz
-            except ImportError:
-                raise ValueError(f"To render workflows using graphviz, run 'pip install graphviz'.")
-            graphviz.render(engine='dot', format='png', filepath=file_path)
-            file_path = file_path+".png"
-        else:
-            raise ValueError(f"Renderer {renderer} is not a valid workflow renderer.")
+        try:
+            import graphviz
+        except ImportError:
+            raise ValueError(f"To render workflows using graphviz, run 'pip install graphviz'.")
+        graphviz.render(engine='dot', format='png', filepath=file_path)
+        file_path = file_path+".png"
 
         # View workflow
         if viewer is None:
-            from PIL import Image
-            Image.open(file_path).show(title=name)
+            graphviz.view(filepath=file_path)
         elif viewer == "paraview":
             import pyvista as pv
             pv.read(file_path).plot(title=name, rgb=True, cpos="xy")
