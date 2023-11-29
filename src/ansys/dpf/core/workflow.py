@@ -844,6 +844,8 @@ class Workflow:
                 raise ValueError(f"To render workflows using graphviz, run 'pip install graphviz'.")
             graphviz.render(engine='dot', format='png', filepath=file_path)
             file_path = file_path+".png"
+        else:
+            raise ValueError(f"Renderer {renderer} is not a valid workflow renderer.")
 
         # View workflow
         if viewer is None:
