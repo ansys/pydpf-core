@@ -10,6 +10,8 @@ import traceback
 import warnings
 
 from enum import Enum
+from typing import Union
+
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
 from ansys.dpf.core.check_version import server_meet_version, version_requires
@@ -807,11 +809,37 @@ class Workflow:
                 "or both ip and port inputs) or a server is required"
             )
 
-    def to_json(self, path: os.PathLike):
-        """Saves the workflow to a file in JSON format."""
-        dpf.core.operators.serialization.workflow_export_json(
-            workflow=self, file_path=str(path), server=self._server
-        ).eval()
+    def view(self, renderer="graphviz", viewer=None):
+        """Run the viewer to show a rendering of the workflow.
+
+        Available renderers are: "graphviz".
+        Available viewers are: the system image viewer if viewer=None, and "paraview".
+        """
+        file_path = os.path.join(os.getcwd(), f"workflow_{repr(self).split()[-1][:-1]}.dot")
+        # Create graphviz file of workflow
+        self.to_graphviz(file_path)
+        # Render workflow
+        if renderer == "graphviz":
+            try:
+                import graphviz
+            except ImportError:
+                raise ValueError(f"To render workflows using graphviz, run 'pip install graphviz'.")
+            graphviz.render(engine='dot', format='png', filepath=file_path)
+            file_path = file_path+".png"
+
+        # View workflow
+        if viewer is None:
+            from PIL import Image
+            Image.open(file_path).show()
+        elif viewer == "paraview":
+            import pyvista as pv
+            pv.read(file_path).plot(rgb=True, cpos="xy")
+        else:
+            raise ValueError(f"Viewer {viewer} is not a valid viewer for workflows.")
+
+    def to_graphviz(self, path: Union[os.PathLike, str]):
+        """Saves the workflow to a GraphViz file."""
+        return self._api.work_flow_export_graphviz(self, str(path))
 
     def __del__(self):
         try:
