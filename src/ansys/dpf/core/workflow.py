@@ -809,13 +809,33 @@ class Workflow:
                 "or both ip and port inputs) or a server is required"
             )
 
-    def view(self, renderer="graphviz", viewer=None):
+    def view(
+            self,
+            renderer: str = "graphviz",
+            viewer: Union[None, str] = None,
+            title: Union[None, str] = None
+    ):
         """Run the viewer to show a rendering of the workflow.
 
         Available renderers are: "graphviz".
         Available viewers are: the system image viewer if viewer=None, and "paraview".
+
+        Parameters
+        ----------
+        renderer:
+            Available renderers are: "graphviz".
+
+        viewer:
+            Available viewers are None and "paraview".
+            If None, the system's default image viewer is used.
+
+        title:
+            Name to use in intermediate files and in the viewer.
         """
-        name = f"workflow_{repr(self).split()[-1][:-1]}"
+        if title is None:
+            name = f"workflow_{repr(self).split()[-1][:-1]}"
+        else:
+            name = title
         file_path = os.path.join(os.getcwd(), f"{name}.dot")
         # Create graphviz file of workflow
         self.to_graphviz(file_path)
