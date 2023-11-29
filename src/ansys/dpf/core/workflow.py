@@ -815,10 +815,7 @@ class Workflow:
             viewer: Union[None, str] = None,
             title: Union[None, str] = None
     ):
-        """Run the viewer to show a rendering of the workflow.
-
-        Available renderers are: "graphviz".
-        Available viewers are: the system image viewer if viewer=None, and "paraview".
+        """Run a viewer to show a rendering of the workflow.
 
         Parameters
         ----------
