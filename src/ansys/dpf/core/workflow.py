@@ -807,10 +807,10 @@ class Workflow:
                 "or both ip and port inputs) or a server is required"
             )
 
-    def save_to_file(self, path: os.PathLike):
-        """Saves the workflow in a file."""
-        dpf.core.operators.serialization.export_symbolic_workflow(
-            workflow=self, path=str(path), server=self._server
+    def to_json(self, path: os.PathLike):
+        """Saves the workflow to a file in JSON format."""
+        dpf.core.operators.serialization.workflow_export_json(
+            workflow=self, file_path=str(path), server=self._server
         ).eval()
 
     def __del__(self):
