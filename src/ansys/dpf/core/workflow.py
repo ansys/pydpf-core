@@ -5,6 +5,7 @@ Workflow
 ========
 """
 import logging
+import os
 import traceback
 import warnings
 
@@ -805,6 +806,12 @@ class Workflow:
                 "a connection address (either with address input"
                 "or both ip and port inputs) or a server is required"
             )
+
+    def save_to_file(self, path: os.PathLike):
+        """Saves the workflow in a file."""
+        dpf.core.operators.serialization.export_symbolic_workflow(
+            workflow=self, path=str(path), server=self._server
+        ).eval()
 
     def __del__(self):
         try:
