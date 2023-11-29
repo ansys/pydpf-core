@@ -844,7 +844,10 @@ class Workflow:
         if viewer is None:
             graphviz.view(filepath=file_path)
         elif viewer == "paraview":
-            import pyvista as pv
+            try:
+                import pyvista as pv
+            except ImportError:
+                raise ValueError(f"To view workflows using pyvista, run 'pip install pyvista'.")
             pv.read(file_path).plot(title=name, rgb=True, cpos="xy")
         else:
             raise ValueError(f"Viewer {viewer} is not a valid viewer for workflows.")
