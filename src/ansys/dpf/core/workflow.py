@@ -815,7 +815,8 @@ class Workflow:
         Available renderers are: "graphviz".
         Available viewers are: the system image viewer if viewer=None, and "paraview".
         """
-        file_path = os.path.join(os.getcwd(), f"workflow_{repr(self).split()[-1][:-1]}.dot")
+        name = f"workflow_{repr(self).split()[-1][:-1]}"
+        file_path = os.path.join(os.getcwd(), f"{name}.dot")
         # Create graphviz file of workflow
         self.to_graphviz(file_path)
         # Render workflow
@@ -830,10 +831,10 @@ class Workflow:
         # View workflow
         if viewer is None:
             from PIL import Image
-            Image.open(file_path).show()
+            Image.open(file_path).show(title=name)
         elif viewer == "paraview":
             import pyvista as pv
-            pv.read(file_path).plot(rgb=True, cpos="xy")
+            pv.read(file_path).plot(title=name, rgb=True, cpos="xy")
         else:
             raise ValueError(f"Viewer {viewer} is not a valid viewer for workflows.")
 
