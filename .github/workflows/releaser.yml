@@ -67,13 +67,13 @@ jobs:
           name: HTML-doc-ansys-dpf-core.zip
           path: HTML-doc-ansys-dpf-core.zip
 
-      - name: "Deploy the stable documentation"
-        uses: ansys/actions/doc-deploy-stable@v4
-        with:
-          cname: ${{ env.DOCUMENTATION_CNAME }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
-          decompress-artifact: true
+#      - name: "Deploy the stable documentation"
+#        uses: ansys/actions/doc-deploy-stable@v4
+#        with:
+#          cname: ${{ env.DOCUMENTATION_CNAME }}
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
+#          decompress-artifact: true
 
   doc-index-stable:
     name: "Deploy stable docs index"
