@@ -88,6 +88,7 @@ jobs:
       - name: "Install the package requirements"
         run: |
           ls
+          cat pyproject.toml
 
       - name: "Get the version to PyMeilisearch"
         run: |
