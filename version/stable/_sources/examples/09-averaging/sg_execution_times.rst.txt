@@ -1,0 +1,14 @@
+
+:orphan:
+
+.. _sphx_glr_examples_09-averaging_sg_execution_times:
+
+Computation times
+=================
+**00:20.641** total execution time for **examples_09-averaging** files:
+
++-----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_09-averaging_01-average_across_bodies.py` (``01-average_across_bodies.py``) | 00:18.221 | 0.0 MB |
++-----------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_09-averaging_00-compute_and_average.py` (``00-compute_and_average.py``)     | 00:02.421 | 0.0 MB |
++-----------------------------------------------------------------------------------------------------+-----------+--------+

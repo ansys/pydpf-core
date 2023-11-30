@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.hdf5dpf_workglow_provider
+   :inherited-members:

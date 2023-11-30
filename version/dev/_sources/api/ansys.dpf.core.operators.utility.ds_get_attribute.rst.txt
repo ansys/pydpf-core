@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.utility.ds_get_attribute
+   :inherited-members:

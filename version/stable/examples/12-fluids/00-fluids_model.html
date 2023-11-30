@@ -1,0 +1,1229 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Explore Fluids models &#8212; PyDPF-Core</title>
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+ 
+<link href="../../_static/css/breadcrumbs.css" rel="stylesheet" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/12-fluids/00-fluids_model';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.14.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.10';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="shortcut icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Explore Fluids mesh" href="01-fluids_mesh.html" />
+    <link rel="prev" title="Fluids examples" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+   
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-header-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-header-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-header-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-header-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-basic/index.html">Basic DPF examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-transient_analyses/index.html">Transient analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-modal_analyses/index.html">Modal analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-harmonic_analyses/index.html">Harmonic analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-advanced/index.html">Advanced and miscellaneous examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-file-IO/index.html">File manipulation and input-output examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-plotting/index.html">Plotting examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-distributed-post/index.html">Examples for postprocessing on distributed processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-python-operators/index.html">Examples of creating custom operator plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-averaging/index.html">Averaging examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10-mesh_operations/index.html">Mesh operations examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../11-cyclic-symmetry/index.html">Cyclic symmetry examples</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Fluids examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Explore Fluids models</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="01-fluids_mesh.html">Explore Fluids mesh</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="02-fluids_results.html">Explore Fluids results</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="03-fluids_isosurface.html">Compute iso-surfaces on fluid models</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../13-streamlines/index.html">Streamlines examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Fluids examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Explore...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-12-fluids-00-fluids-model-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="explore-fluids-models">
+<span id="ref-fluids-model"></span><span id="sphx-glr-examples-12-fluids-00-fluids-model-py"></span><h1>Explore Fluids models<a class="headerlink" href="#explore-fluids-models" title="Permalink to this heading">#</a></h1>
+<p>This example demonstrates how to explore Ansys Fluent and Ansys CFX models employing
+the <code class="docutils literal notranslate"><span class="pre">MeshInfo</span></code> and <code class="docutils literal notranslate"><span class="pre">ResultInfo</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example requires DPF 7.0 (ansys-dpf-server-2024-1-pre0) or above.
+For more information, see <a class="reference internal" href="../../getting_started/compatibility.html#ref-compatibility"><span class="std std-ref">Compatibility</span></a>.</p>
+</div>
+</section>
+<section id="exploring-an-ansys-fluent-model">
+<h1>Exploring an Ansys Fluent model<a class="headerlink" href="#exploring-an-ansys-fluent-model" title="Permalink to this heading">#</a></h1>
+<p>The first part of the example demonstrates how you can explore an Ansys Fluent
+model. Import the result file and create a model.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ansys.dpf.core</span> <span class="k">as</span> <span class="nn">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_fluent_axial_comp</span><span class="p">()[</span><span class="s2">&quot;flprj&quot;</span><span class="p">]</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="exploring-the-mesh">
+<h2>Exploring the mesh<a class="headerlink" href="#exploring-the-mesh" title="Permalink to this heading">#</a></h2>
+<p>Explore the mesh through the <code class="docutils literal notranslate"><span class="pre">MeshInfo</span></code>. The <code class="docutils literal notranslate"><span class="pre">MeshInfo</span></code> provides metadata
+information about the mesh. For fluid models, it is useful to know the cell and
+face zones, as well as the topological relationships between them. First get all
+the available information in the <code class="docutils literal notranslate"><span class="pre">MeshInfo</span></code> .</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">minfo</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">mesh_info</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF MeshInfo
+------------------------------
+with properties:
+  num_cells             int
+  num_nodes             int
+  num_faces             int
+  body_names            StringField
+  body_cell_topology    PropertyField
+  body_face_topology    PropertyField
+  body_scoping          Scoping
+  cell_zone_names       StringField
+  cell_zone_scoping     Scoping
+  face_zone_names       StringField
+  cell_zone_elements    PropertyField
+  face_zone_elements    PropertyField
+  face_zone_scoping     Scoping
+  zone_names            StringField
+  num_elem_zone         PropertyField
+  zone_scoping          Scoping
+  splittable_by         StringField
+</pre></div>
+</div>
+<p>Then, get the bodies and their names in the model with the “body_names” <code class="docutils literal notranslate"><span class="pre">StringField</span></code>,
+which provides a relationship between body IDs and names. In this model there are two
+bodies.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;body_names&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF String Field
+  2 Body entities
+  Data:2 elementary data
+
+  Body
+  IDs                   data
+  ------------          ----------
+  13                    fluid-rotor
+
+  28                    fluid-stator
+</pre></div>
+</div>
+<p>Each body is comprised of a set of cell zones. You can investigate the hierarchical
+relationship between bodies and cell zones through the “body_cell_topology”
+<code class="docutils literal notranslate"><span class="pre">PropertyField</span></code>, which provides a relationship between the body IDs and the cell zone
+IDs. In this case, each body is only comprised of one cell zone.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;body_cell_topology&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Property Field
+  2 entities
+  Data: 1 components and 2 elementary data
+
+  Body
+  IDs                   data
+  ------------          ----------
+  13                    13
+
+  28                    28
+</pre></div>
+</div>
+<p>Similarly, each body is limited by a set of face zones (generally representing
+boundary conditions). You can investigate the hierarchical relationship between
+bodies and face zones through the “body_face_topology” <code class="docutils literal notranslate"><span class="pre">PropertyField</span></code>, which
+provides a relationship between the body IDs and the face zone IDs. In this case,
+each body is limited by several face zones.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;body_face_topology&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Property Field
+  2 entities
+  Data: 1 components and 24 elementary data
+
+  Body
+  IDs                   data
+  ------------          ----------
+  13                    2
+                        3
+                        4
+                        ...
+
+  28                    15
+                        16
+                        17
+                        ...
+</pre></div>
+</div>
+<p>The cell and face zone IDs shown in the previous PropertyFields can be mapped
+to their names through the “body_zone_names” and “face_zone_names” <code class="docutils literal notranslate"><span class="pre">PropertyField</span></code>.
+As in this model there is a 1-1 correspondence between bodies and cell zones,
+they have the same names and IDs.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;cell_zone_names&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;face_zone_names&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF String Field
+  2 zone entities
+  Data:2 elementary data
+
+  zone
+  IDs                   data
+  ------------          ----------
+  13                    fluid-rotor
+
+  28                    fluid-stator
+
+
+
+DPF String Field
+  24 zone entities
+  Data:24 elementary data
+
+  zone
+  IDs                   data
+  ------------          ----------
+  2                     default-interior:0
+
+  3                     rotor-hub
+
+  4                     rotor-shroud
+
+  ...
+</pre></div>
+</div>
+<p>All zone names (regardless of them being cell or face zones) are exported to
+the “zone_names” <code class="docutils literal notranslate"><span class="pre">StringField</span></code> .</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;zone_names&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF String Field
+  26 zone entities
+  Data:26 elementary data
+
+  zone
+  IDs                   data
+  ------------          ----------
+  13                    fluid-rotor
+
+  2                     default-interior:0
+
+  3                     rotor-hub
+
+  ...
+</pre></div>
+</div>
+<p>To facilitate the extraction of results, the body, cell and face zone <code class="docutils literal notranslate"><span class="pre">Scoping</span></code>
+are extracted. They can be used to scope results.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;body_scoping&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;cell_zone_scoping&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;face_zone_scoping&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Scoping:
+  with Body location and 2 entities
+
+DPF  Scoping:
+  with zone location and 2 entities
+
+DPF  Scoping:
+  with zone location and 24 entities
+</pre></div>
+</div>
+</section>
+<section id="exploring-the-results">
+<h2>Exploring the results<a class="headerlink" href="#exploring-the-results" title="Permalink to this heading">#</a></h2>
+<p>Explore the available results in the model through the ResultInfo. This is a Fluent model
+whose native results are exported to either the centroid of the elements (like
+Enthalpy or RMS Temperature), the centroid of the faces (like the Mass Flow Rate)
+or the centroid of both elements and faces (like Static Pressure).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rinfo</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">result_info</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rinfo</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Transient analysis
+Unit system: SI: m, kg, N, s, V, A, K
+Physics Type: Fluid
+Available results:
+     -  enthalpy: Elemental Enthalpy
+     -  mass_flow_rate: Faces Mass Flow Rate
+     -  static_pressure: ElementalAndFaces Static Pressure
+     -  mean_static_pressure: Elemental Mean Static Pressure
+     -  rms_static_pressure: Elemental Rms Static Pressure
+     -  surface_heat_rate: Faces Surface Heat Rate
+     -  density: ElementalAndFaces Density
+     -  temperature: ElementalAndFaces Temperature
+     -  mean_temperature: ElementalAndFaces Mean Temperature
+     -  rms_temperature: Elemental Rms Temperature
+     -  velocity: ElementalAndFaces Velocity
+     -  mean_velocity: Elemental Mean Velocity
+     -  rms_velocity: Elemental Rms Velocity
+Available qualifier labels:
+     - zone: default-interior:0 (2), rotor-hub (3), rotor-shroud (4), rotor-inlet (5), rotor-interface (6), rotor-blade-1 (7), rotor-blade-2 (8), rotor-per-1-shadow (9), rotor-per-1 (10), rotor-per-2-shadow (11), rotor-per-2 (12), fluid-rotor (13), default-interior (15), stator-hub (16), stator-shroud (17), stator-interface (18), stator-outlet (19), stator-blade-1 (20), stator-blade-2 (21), stator-blade-3 (22), stator-blade-4 (23), stator-per-2 (24), stator-per-2-shadow (25), stator-per-1 (26), stator-per-1-shadow (27), fluid-stator (28)
+     - phase: phase-1 (1)
+</pre></div>
+</div>
+<p>Each result holds more detailed information while explored individually. Enthalpy
+is a scalar magnitude exported to the centroids of the elements (cells). Thus, it is
+available for the two cell zones of the model (13 and 28). In addition, the model
+only has one phase, and therefore the result can only be extracted for “phase-1”.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">rinfo</span><span class="o">.</span><span class="n">available_results</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Result
+----------
+enthalpy
+Operator name: &quot;H_S&quot;
+Number of components: 1
+Dimensionality: scalar
+Homogeneity: specific_energy
+Units: j/kg
+Location: Elemental
+Available qualifier labels:
+  - phase: phase-1 (1)
+  - zone: fluid-rotor (13), fluid-stator (28)
+Available qualifier combinations:
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 13}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 28}
+</pre></div>
+</div>
+<p>Static Pressure, however, is ElementalAndFaces, which means that it is exported
+at both the centroids of the cells and the centroids of the faces. Therefore, it is
+available for all the cell and face zones of the model.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">rinfo</span><span class="o">.</span><span class="n">available_results</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Result
+----------
+static_pressure
+Operator name: &quot;P_S&quot;
+Number of components: 1
+Dimensionality: scalar
+Homogeneity: pressure
+Units: pa
+Location: ElementalAndFaces
+Available qualifier labels:
+  - phase: phase-1 (1)
+  - zone: fluid-rotor (13), fluid-stator (28), rotor-hub (3), rotor-shroud (4), rotor-inlet (5), rotor-interface (6), rotor-blade-1 (7), rotor-blade-2 (8), rotor-per-1-shadow (9), rotor-per-1 (10), rotor-per-2-shadow (11), rotor-per-2 (12), stator-hub (16), stator-shroud (17), stator-interface (18), stator-outlet (19), stator-blade-1 (20), stator-blade-2 (21), stator-blade-3 (22), stator-blade-4 (23), stator-per-2 (24), stator-per-2-shadow (25), stator-per-1 (26), stator-per-1-shadow (27)
+Available qualifier combinations:
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 13}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 28}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 3}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 4}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 5}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 6}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 7}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 8}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 9}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 10}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 11}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 12}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 16}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 17}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 18}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 19}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 20}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 21}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 22}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 23}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 24}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 25}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 26}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 27}
+</pre></div>
+</div>
+</section>
+</section>
+<section id="exploring-an-ansys-cfx-model">
+<h1>Exploring an Ansys CFX model<a class="headerlink" href="#exploring-an-ansys-cfx-model" title="Permalink to this heading">#</a></h1>
+<p>The second part of the example demonstrates how you can explore an Ansys CFX model.
+Import the result file and create a model.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_cfx_heating_coil</span><span class="p">()</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">()</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">set_result_file_path</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="s2">&quot;cas&quot;</span><span class="p">],</span> <span class="s2">&quot;cas&quot;</span><span class="p">)</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">add_file_path</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="s2">&quot;dat&quot;</span><span class="p">],</span> <span class="s2">&quot;dat&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="n">ds</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="id1">
+<h2>Exploring the mesh<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p>If once again we explore the MeshInfo, we can see that the same information is
+readily available.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">minfo</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">mesh_info</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF MeshInfo
+------------------------------
+with properties:
+  num_nodes             int
+  num_cells             int
+  body_names            StringField
+  body_cell_topology    PropertyField
+  num_faces             int
+  body_face_topology    PropertyField
+  body_scoping          Scoping
+  cell_zone_names       StringField
+  face_zone_names       StringField
+  cell_zone_scoping     Scoping
+  cell_zone_elements    PropertyField
+  face_zone_elements    PropertyField
+  face_zone_scoping     Scoping
+  zone_names            StringField
+  num_elem_zone         PropertyField
+  zone_scoping          Scoping
+  splittable_by         StringField
+</pre></div>
+</div>
+<p>In this CFX model there are also two bodies.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;body_names&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF String Field
+  2 Body entities
+  Data:2 elementary data
+
+  Body
+  IDs                   data
+  ------------          ----------
+  5                     Default 1
+
+  8                     heater
+</pre></div>
+</div>
+<p>For this model, each body is conformed by several cell zones. In this general
+situation, the body ID corresponds to the highest cell zone ID of the one that
+comprises it.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;body_cell_topology&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Property Field
+  2 entities
+  Data: 1 components and 6 elementary data
+
+  Body
+  IDs                   data
+  ------------          ----------
+  5                     3
+                        4
+                        5
+
+  8                     6
+                        7
+                        8
+</pre></div>
+</div>
+<p>You can also explore the face zone IDs in each body.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;body_face_topology&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Property Field
+  2 entities
+  Data: 1 components and 18 elementary data
+
+  Body
+  IDs                   data
+  ------------          ----------
+  5                     18
+                        17
+                        16
+                        ...
+
+  8                     19
+                        20
+                        21
+                        ...
+</pre></div>
+</div>
+<p>The cell and face zone names are readily available.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;cell_zone_names&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">minfo</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s2">&quot;face_zone_names&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF String Field
+  6 zone entities
+  Data:6 elementary data
+
+  zone
+  IDs                   data
+  ------------          ----------
+  3                     ZN1/ES1
+
+  4                     ZN1/ES2
+
+  5                     ZN1/ES3
+
+  ...
+
+
+DPF String Field
+  18 zone entities
+  Data:18 elementary data
+
+  zone
+  IDs                   data
+  ------------          ----------
+  18                    ZN1/FS10
+
+  17                    ZN1/FS9
+
+  16                    ZN1/FS8
+
+  ...
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>Exploring the results<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>By exploring the ResultInfo we can see that all CFX variables are exported to
+the Nodes.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rinfo</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">result_info</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rinfo</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Static analysis
+Unit system: SI: m, kg, N, s, V, A, K
+Physics Type: Fluid
+Available results:
+     -  specific_heat: Nodal Specific Heat
+     -  epsilon: Nodal Epsilon
+     -  enthalpy: Nodal Enthalpy
+     -  turbulent_kinetic_energy: Nodal Turbulent Kinetic Energy
+     -  thermal_conductivity: Nodal Thermal Conductivity
+     -  dynamic_viscosity: Nodal Dynamic Viscosity
+     -  turbulent_viscosity: Nodal Turbulent Viscosity
+     -  static_pressure: Nodal Static Pressure
+     -  total_pressure: Nodal Total Pressure
+     -  density: Nodal Density
+     -  entropy: Nodal Entropy
+     -  temperature: Nodal Temperature
+     -  total_temperature: Nodal Total Temperature
+     -  velocity: Nodal Velocity
+Available qualifier labels:
+     - zone: ZN1/FS10 (18), ZN1/FS9 (17), ZN1/FS8 (16), ZN1/FS7 (15), ZN1/FS6 (14), ZN1/FS5 (13), ZN1/FS1 (9), ZN1/FS2 (10), ZN1/FS3 (11), ZN1/FS4 (12), Default 1 (5), ZN2/FS1 (19), ZN2/FS2 (20), ZN2/FS3 (21), ZN2/FS4 (22), ZN2/FS5 (23), ZN2/FS6 (24), ZN2/FS7 (25), ZN2/FS8 (26), heater (8)
+     - phase: &lt;Mixture&gt; (1), Water at 25 C (2), Copper (3)
+</pre></div>
+</div>
+<p>However, in this model there are two distinct phases. To understand the phases
+at the model, you can explore the qualifiers of the ResultInfo. Thus, results
+could potentially be scoped on “zone” and “phase”, with the ID and name of each
+phase shown below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="n">rinfo</span><span class="o">.</span><span class="n">available_qualifier_labels</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">phase_names</span> <span class="o">=</span> <span class="n">rinfo</span><span class="o">.</span><span class="n">qualifier_label_support</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">string_field_support_by_property</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">phase_names</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;zone&#39;, &#39;phase&#39;]
+DPF String Field
+  3  entities
+  Data:3 elementary data
+
+  IDs                   data
+  ------------          ----------
+  1                     &lt;Mixture&gt;
+
+  2                     Water at 25 C
+
+  3                     Copper
+</pre></div>
+</div>
+<p>Each result holds more detailed information while explored individually. Static
+Pressure is only available for phase 1 (“&lt;Mixture&gt;”), and several cell and face
+zones.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">rinfo</span><span class="o">.</span><span class="n">available_results</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Result
+----------
+static_pressure
+Operator name: &quot;P_S&quot;
+Number of components: 1
+Dimensionality: scalar
+Homogeneity: pressure
+Units: pa
+Location: Nodal
+Available qualifier labels:
+  - phase: &lt;Mixture&gt; (1)
+  - zone: Default 1 (5), ZN1/FS1 (9), ZN1/FS2 (10), ZN1/FS3 (11), ZN1/FS4 (12), ZN1/FS5 (13), ZN1/FS6 (14), ZN1/FS7 (15), ZN1/FS8 (16), ZN1/FS9 (17), ZN1/FS10 (18)
+Available qualifier combinations:
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 5}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 9}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 10}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 11}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 12}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 13}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 14}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 15}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 16}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 17}
+  {&#39;phase&#39;: 1, &#39;zone&#39;: 18}
+</pre></div>
+</div>
+<p>Thermal conductivity, however, exists for phases 2 and 3 (“Copper” and “Water at 25 C”,
+respectively), and several face and cell zones.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">rinfo</span><span class="o">.</span><span class="n">available_results</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Result
+----------
+thermal_conductivity
+Operator name: &quot;KT&quot;
+Number of components: 1
+Dimensionality: scalar
+Homogeneity: conductivity
+Units: w*m^-1*k^-1
+Location: Nodal
+Available qualifier labels:
+  - phase: Water at 25 C (2), Copper (3)
+  - zone: Default 1 (5), ZN1/FS1 (9), ZN1/FS2 (10), ZN1/FS3 (11), ZN1/FS4 (12), ZN1/FS5 (13), ZN1/FS6 (14), ZN1/FS7 (15), ZN1/FS8 (16), ZN1/FS9 (17), ZN1/FS10 (18), heater (8), ZN2/FS1 (19), ZN2/FS2 (20), ZN2/FS3 (21), ZN2/FS4 (22), ZN2/FS5 (23), ZN2/FS6 (24), ZN2/FS7 (25), ZN2/FS8 (26)
+Available qualifier combinations:
+  {&#39;phase&#39;: 2, &#39;zone&#39;: 5}
+  {&#39;phase&#39;: 2, &#39;zone&#39;: 9}
+  {&#39;phase&#39;: 2, &#39;zone&#39;: 10}
+  {&#39;phase&#39;: 2, &#39;zone&#39;: 11}
+  {&#39;phase&#39;: 2, &#39;zone&#39;: 12}
+  {&#39;phase&#39;: 2, &#39;zone&#39;: 13}
+  {&#39;phase&#39;: 2, &#39;zone&#39;: 14}
+  {&#39;phase&#39;: 2, &#39;zone&#39;: 15}
+  {&#39;phase&#39;: 2, &#39;zone&#39;: 16}
+  {&#39;phase&#39;: 2, &#39;zone&#39;: 17}
+  {&#39;phase&#39;: 2, &#39;zone&#39;: 18}
+  {&#39;phase&#39;: 3, &#39;zone&#39;: 8}
+  {&#39;phase&#39;: 3, &#39;zone&#39;: 19}
+  {&#39;phase&#39;: 3, &#39;zone&#39;: 20}
+  {&#39;phase&#39;: 3, &#39;zone&#39;: 21}
+  {&#39;phase&#39;: 3, &#39;zone&#39;: 22}
+  {&#39;phase&#39;: 3, &#39;zone&#39;: 23}
+  {&#39;phase&#39;: 3, &#39;zone&#39;: 24}
+  {&#39;phase&#39;: 3, &#39;zone&#39;: 25}
+  {&#39;phase&#39;: 3, &#39;zone&#39;: 26}
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  15.148 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-12-fluids-00-fluids-model-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/9110362a21ac47a04009840f1f2ba5e2/00-fluids_model.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">00-fluids_model.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/4ca87de16c2ee32a4f4442bcce476558/00-fluids_model.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">00-fluids_model.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Explore Fluids models</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-an-ansys-fluent-model">Exploring an Ansys Fluent model</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-the-mesh">Exploring the mesh</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-the-results">Exploring the results</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-an-ansys-cfx-model">Exploring an Ansys CFX model</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Exploring the mesh</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Exploring the results</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/examples/12-fluids/00-fluids_model.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright (c) 2023 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

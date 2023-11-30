@@ -1,0 +1,14 @@
+
+:orphan:
+
+.. _sphx_glr_examples_13-streamlines_sg_execution_times:
+
+Computation times
+=================
+**00:18.759** total execution time for **examples_13-streamlines** files:
+
++-------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_13-streamlines_00_plot_3d_streamlines.py` (``00_plot_3d_streamlines.py``)           | 00:15.112 | 0.0 MB |
++-------------------------------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_examples_13-streamlines_01_plot_surface_streamlines.py` (``01_plot_surface_streamlines.py``) | 00:03.647 | 0.0 MB |
++-------------------------------------------------------------------------------------------------------------+-----------+--------+

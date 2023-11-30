@@ -1,0 +1,1097 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Fields container and fields &#8212; PyDPF-Core</title>
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+ 
+<link href="../_static/css/breadcrumbs.css" rel="stylesheet" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/fields_container';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.14.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="shortcut icon" href="../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Plot" href="plotting.html" />
+    <link rel="prev" title="Operators" href="operators.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+   
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <script>document.write(`<img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="PyDPF-Core - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links-2">
+                    More
+                </button>
+                <ul id="pst-nav-more-links-2" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Fields...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="fields-container-and-fields">
+<span id="ref-user-guide-fields-container"></span><h1>Fields container and fields<a class="headerlink" href="#fields-container-and-fields" title="Permalink to this heading">#</a></h1>
+<p>While DPF uses operators to load and operate on data, it uses field containers
+and fields to store and return data. In other words, operators are like verbs,
+acting on the data, while field containers and fields are like nouns, objects
+that hold data.</p>
+<section id="access-a-fields-container-or-field">
+<h2>Access a fields container or field<a class="headerlink" href="#access-a-fields-container-or-field" title="Permalink to this heading">#</a></h2>
+<p>The outputs from operators can be either a
+<a class="reference internal" href="../api/ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.fields_container.FieldsContainer</span></code></a> or
+<a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> class.</p>
+<p>A fields container is the DPF equivalent of a list of fields. It holds a
+vector of fields.</p>
+<p>This example uses the <code class="docutils literal notranslate"><span class="pre">elastic_strain</span></code> operator to access a fields container:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_msup_transient</span><span class="p">())</span>
+<span class="n">epel</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elastic_strain</span><span class="o">.</span><span class="n">on_all_time_freqs</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="n">epel</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF elastic_strain(s)Fields Container
+  with 20 field(s)
+  defined on labels: time
+
+  with:
+  - field 0 {time:  1} with ElementalNodal location, 6 components and 40 entities.
+  - field 1 {time:  2} with ElementalNodal location, 6 components and 40 entities.
+  - field 2 {time:  3} with ElementalNodal location, 6 components and 40 entities.
+  - field 3 {time:  4} with ElementalNodal location, 6 components and 40 entities.
+  - field 4 {time:  5} with ElementalNodal location, 6 components and 40 entities.
+  - field 5 {time:  6} with ElementalNodal location, 6 components and 40 entities.
+  - field 6 {time:  7} with ElementalNodal location, 6 components and 40 entities.
+  - field 7 {time:  8} with ElementalNodal location, 6 components and 40 entities.
+  - field 8 {time:  9} with ElementalNodal location, 6 components and 40 entities.
+  - field 9 {time:  10} with ElementalNodal location, 6 components and 40 entities.
+  - field 10 {time:  11} with ElementalNodal location, 6 components and 40 entities.
+  - field 11 {time:  12} with ElementalNodal location, 6 components and 40 entities.
+  - field 12 {time:  13} with ElementalNodal location, 6 components and 40 entities.
+  - field 13 {time:  14} with ElementalNodal location, 6 components and 40 entities.
+  - field 14 {time:  15} with ElementalNodal location, 6 components and 40 entities.
+  - field 15 {time:  16} with ElementalNodal location, 6 components and 40 entities.
+  - field 16 {time:  17} with ElementalNodal location, 6 components and 40 entities.
+  - field 17 {time:  18} with ElementalNodal location, 6 components and 40 entities.
+  - field 18 {time:  19} with ElementalNodal location, 6 components and 40 entities.
+  - field 19 {time:  20} with ElementalNodal location, 6 components and 40 entities.
+</pre></div>
+</div>
+</section>
+<section id="access-fields-within-a-fields-container">
+<h2>Access fields within a fields container<a class="headerlink" href="#access-fields-within-a-fields-container" title="Permalink to this heading">#</a></h2>
+<p>Many methods are available for accessing a field in a fields
+container. The preceding results contain a transient
+result, which means that the fields container has one field
+by time set.</p>
+<p>Access the field:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>20
+</pre></div>
+</div>
+<p>Access the field based on its index:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field_first_time</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">field_last_time</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">19</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Access the field based on its time set ID:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_field_by_time_id</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To access fields for more complex requests, you can use the
+<code class="docutils literal notranslate"><span class="pre">get_field()</span></code> method with the ID of the requested field:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF elastic_strain_0.01s Field
+Location: ElementalNodal
+Unit:
+40 entities
+Data: 6 components and 320 elementary data
+Elemental
+IDs                   data ()
+------------         ----------
+21                   -5.0964e-07   -5.8226e-07    1.8660e-06    8.3252e-09   -3.3062e-09   -7.7246e-08
+                     -5.7021e-07   -5.7104e-07    1.8996e-06   -9.9354e-10   -3.4486e-08   -7.4886e-08
+                     -6.0495e-07   -6.0408e-07    2.0172e-06    4.9817e-09   -5.5109e-09   -2.1038e-08
+                  ...
+22                   -5.0964e-07   -5.8226e-07    1.8660e-06   -8.3252e-09   -3.3062e-09    7.7246e-08
+                     -5.6697e-07   -6.1112e-07    1.9950e-06    4.0239e-09    1.0457e-09    1.9740e-08
+                     -6.0495e-07   -6.0408e-07    2.0172e-06   -4.9817e-09   -5.5109e-09    2.1038e-08
+                  ...
+23                   -3.7887e-07   -4.8075e-07    1.4980e-06    9.6495e-09   -1.1785e-08   -1.6389e-07
+                     -4.6401e-07   -4.6508e-07    1.5451e-06    1.6581e-09   -7.7990e-08   -1.5638e-07
+                     -5.7202e-07   -5.7104e-07    1.9081e-06    4.9200e-09   -3.3430e-08   -8.2869e-08
+                  ...
+...
+</pre></div>
+</div>
+<p>Here is a more real-word example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">download_all_kinds_of_complexity</span><span class="p">())</span>
+<span class="n">epel</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elastic_strain</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="o">.</span><span class="n">split_by_shape</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="n">epel</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;elshape&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+
+<span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;elshape&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF elastic_strain_1.s_elshape:0 Field
+Location: ElementalNodal
+Unit:
+203 entities
+Data: 6 components and 2436 elementary data
+Elemental
+IDs                   data ()
+------------          ----------
+10791                  9.961283e-05   -1.557876e-05   -6.798322e-05    4.423883e-20    7.823432e-21    4.348549e-06
+                       9.532236e-05   -1.426944e-05   -6.635107e-05    4.234001e-20    1.050099e-20    1.901931e-05
+                       8.607592e-05   -3.046389e-05   -2.422499e-05    3.823384e-20    1.776519e-20    1.917663e-05
+                   ...
+10790                  9.829979e-05   -8.944115e-06   -8.014052e-05   -5.813971e-21    3.947791e-20    2.315096e-05
+                       9.230295e-05   -1.569666e-05   -6.043398e-05   -6.588927e-21    3.371362e-20    2.682668e-05
+                       1.068346e-04   -1.988030e-05   -6.647159e-05   -6.227784e-21    3.825956e-20    2.475124e-05
+                   ...
+10785                  8.480231e-05   -1.470483e-05   -5.494706e-05    2.105046e-21    3.093755e-20   -9.940667e-06
+                       7.555470e-05   -2.958404e-05   -1.549013e-05    2.273083e-21    2.002334e-20   -1.064724e-05
+                       7.552039e-05   -2.970292e-05   -1.521445e-05    4.916594e-21    1.996089e-20   -2.255241e-05
+                   ...
+...
+DPF elastic_strain_1.s_elshape:1 Field
+Location: ElementalNodal
+Unit:
+9052 entities
+Data: 6 components and 37580 elementary data
+Elemental
+IDs                   data ()
+------------          ----------
+1                     -2.365747e-04    8.205943e-04   -2.195325e-04    4.799285e-04    2.372855e-04   -8.473678e-06
+                      -5.085632e-04    1.070203e-03   -2.770476e-04   -2.848311e-04    3.473931e-04    4.251066e-06
+                      -4.331823e-04    9.600782e-04   -4.320994e-04   -3.780877e-04   -3.978023e-04   -2.898742e-06
+                   ...
+8                     -2.388557e-04    8.369775e-04   -2.127467e-04    4.718478e-04    1.823031e-04   -5.630592e-06
+                      -2.600095e-04    7.688167e-04   -1.320574e-04    5.460561e-04    8.167552e-05   -7.558865e-06
+                      -5.470272e-04    9.995268e-04   -1.715976e-04   -3.155533e-04    1.211339e-04   -1.600466e-06
+                   ...
+15                    -2.588085e-04    7.750597e-04   -1.346239e-04    5.428307e-04    6.121315e-05   -6.311711e-06
+                      -2.671824e-04    7.798763e-04   -1.107667e-04    5.587949e-04   -2.850134e-05    1.501269e-06
+                      -5.611221e-04    1.008660e-03   -1.391484e-04   -3.172989e-04   -2.487912e-05    1.011503e-07
+                   ...
+...
+</pre></div>
+</div>
+<p>The following example references the available time frequency support to determine which
+time complex IDs are available in the fields container:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_msup_transient</span><span class="p">())</span>
+<span class="n">epel</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">elastic_strain</span><span class="o">.</span><span class="n">on_all_time_freqs</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="n">epel</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">time_freq_support</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Time/Freq Support:
+  Number of sets: 20
+Cumulative     Time (s)       LoadStep       Substep
+1              0.010000       1              1
+2              0.020000       1              2
+3              0.030000       1              3
+4              0.040000       1              4
+5              0.050000       1              5
+6              0.060000       1              6
+7              0.070000       1              7
+8              0.080000       1              8
+9              0.090000       1              9
+10             0.100000       1              10
+11             0.110000       1              11
+12             0.120000       1              12
+13             0.130000       1              13
+14             0.140000       1              14
+15             0.150000       1              15
+16             0.160000       1              16
+17             0.170000       1              17
+18             0.180000       1              18
+19             0.190000       1              19
+20             0.200000       1              20
+</pre></div>
+</div>
+<p>Note that the time set IDs used are one-based. When indexing from Pythonic
+indexing with <code class="docutils literal notranslate"><span class="pre">fields[0]</span></code>, you can use zero-based indexing. When using
+the <code class="docutils literal notranslate"><span class="pre">get_fields()</span></code> method to access results, you should base the request on
+time-scoping set IDs.</p>
+</section>
+<section id="field-data">
+<h2>Field data<a class="headerlink" href="#field-data" title="Permalink to this heading">#</a></h2>
+<p>The <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> class is the fundamental unit of data within DPF.
+It contains the actual data and its metadata, which is results data defined by values
+associated with entities (scoping). These entities are a subset of a model (support).</p>
+<p>In DPF, field data is always associated with its scoping and support, making the field
+a self-describing piece of data. A field is also defined by other attributes, including
+dimensionality, unit, and location.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/field.png"><img alt="../_images/field.png" src="../_images/field.png" style="width: 480.0px; height: 318.59999999999997px;" /></a>
+</figure>
+<p>You can get an overview of a field’s metadata by printing the field:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF elastic_strain_0.01s Field
+Location: ElementalNodal
+Unit:
+40 entities
+Data: 6 components and 320 elementary data
+Elemental
+IDs                   data ()
+------------          ----------
+21                    -5.096470e-07   -5.822648e-07    1.866023e-06    8.325266e-09   -3.306256e-09   -7.724631e-08
+                      -5.702127e-07   -5.710485e-07    1.899680e-06   -9.935434e-10   -3.448644e-08   -7.488671e-08
+                      -6.049504e-07   -6.040822e-07    2.017216e-06    4.981728e-09   -5.510947e-09   -2.103890e-08
+                   ...
+22                    -5.096470e-07   -5.822648e-07    1.866023e-06   -8.325266e-09   -3.306259e-09    7.724629e-08
+                      -5.669729e-07   -6.111289e-07    1.995080e-06    4.023948e-09    1.045763e-09    1.974096e-08
+                      -6.049504e-07   -6.040822e-07    2.017216e-06   -4.981728e-09   -5.510943e-09    2.103889e-08
+                   ...
+23                    -3.788760e-07   -4.807594e-07    1.498000e-06    9.649583e-09   -1.178512e-08   -1.638991e-07
+                      -4.640120e-07   -4.650817e-07    1.545128e-06    1.658194e-09   -7.799093e-08   -1.563803e-07
+                      -5.720271e-07   -5.710485e-07    1.908120e-06    4.920075e-09   -3.343032e-08   -8.286970e-08
+                   ...
+...
+</pre></div>
+</div>
+<p>The next section provides an overview of the metadata associated with the field itself.</p>
+</section>
+<section id="field-metadata">
+<h2>Field metadata<a class="headerlink" href="#field-metadata" title="Permalink to this heading">#</a></h2>
+<p>A field contains the metadata for the result it is associated with. The metadata
+includes the location (such as <code class="docutils literal notranslate"><span class="pre">Elemental</span></code>, <code class="docutils literal notranslate"><span class="pre">Nodal</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code>) and the IDs associated with the location.</p>
+<p>The field’s scoping defines the order of the data, for example: the first ID in the
+<code class="docutils literal notranslate"><span class="pre">scoping</span></code> identifies to which entity the first <code class="docutils literal notranslate"><span class="pre">entity</span> <span class="pre">data</span></code> in the data vector belongs.</p>
+<p>To access the scoping of the field, use the <code class="docutils literal notranslate"><span class="pre">scoping</span></code> attribute:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;field.scoping.ids:&#39;</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;field.location:&#39;</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span> DPF scoping:
+   with Elemental location and 40 entities
+
+field.scoping.ids: [21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  ...
+  ]
+
+  field.location:&#39;ElementalNodal&#39;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">Elemental</span></code> location denotes one value of data (multiplied by the number
+of components) per element.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">Nodal</span></code> location is one value per node.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code> location is one value per node per element. For example,
+strain is an <code class="docutils literal notranslate"><span class="pre">ElementalNodal</span></code> value because strain is evaluated at each node
+for each element.</p></li>
+</ul>
+<p>The field also contains metadata, including the shape of
+the data stored, location of the field, number of components, and
+units of the data:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stress</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">stress</span>
+<span class="n">field</span> <span class="o">=</span> <span class="n">stress</span><span class="o">.</span><span class="n">eval</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Units of the field describing volume</span>
+<span class="n">field</span><span class="o">.</span><span class="n">unit</span>
+
+<span class="c1">#Location of the field (Elemental, ElementalNodal, or Nodal)</span>
+<span class="n">field</span><span class="o">.</span><span class="n">location</span>
+
+<span class="c1"># Number of components associated with the field. It&#39;s expected to</span>
+<span class="c1"># be a single dimension because there can only be one volume per</span>
+<span class="c1"># element.</span>
+<span class="n">field</span><span class="o">.</span><span class="n">component_count</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&#39;Pa&#39;
+&#39;ElementalNodal&#39;
+6
+</pre></div>
+</div>
+</section>
+<section id="access-field-data">
+<h2>Access field data<a class="headerlink" href="#access-field-data" title="Permalink to this heading">#</a></h2>
+<p>When DPF-Core returns the <a class="reference internal" href="../api/ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.field.Field</span></code></a> class,
+what Python actually has is a client-side representation of the field,
+not the entirety of the field itself. This means that all the data of
+the field is stored within the DPF service. This is important because
+when building your postprocessing workflows, the most efficient way of
+interacting with result data is to minimize the exchange of data between
+Python and DPF, either by using operators or by accessing only the data
+that is needed.</p>
+<p>The field’s <code class="docutils literal notranslate"><span class="pre">data</span></code> is ordered with respect to its <code class="docutils literal notranslate"><span class="pre">scoping</span> <span class="pre">ids</span></code> (see above).
+To access the entire array of data as a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">array</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([[ 4.01372930e+04,  3.85071930e+02, -1.40019130e+07,
+        7.48472351e+02, -2.60259531e+04, -2.62856938e+05],
+      [-1.19228638e+03, -6.18210815e+02, -1.39912700e+07,
+        2.61468994e+03, -1.31871719e+05, -2.59527125e+05],
+      [ 9.02558960e+02,  5.63793152e+02, -1.17102740e+07,
+       -8.99381836e+02, -1.21302727e+05, -2.45666328e+05],
+      ...,
+      [-3.99694531e+04,  1.44622528e+02,  9.62343100e+06,
+       -7.09812073e+02, -2.26106621e+04, -2.23155891e+05],
+      [-4.31104401e+02, -2.67612732e+02,  9.60954800e+06,
+        1.93208755e+02, -1.11580734e+05, -2.24406062e+05],
+      [ 5.56899536e+02,  3.88515320e+02,  1.17119880e+07,
+       -1.68983887e+03, -1.21768023e+05, -2.41346125e+05]])
+</pre></div>
+</div>
+<p>This array has 6 components by elementary data (symmetrical tensor XX,YY,ZZ,XY,YZ,XZ).
+Note that this array is a genuine, local, numpy array (overloaded by the DPFArray).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">array</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;ansys.dpf.gate.dpf_array.DPFArray&#39;&gt;
+</pre></div>
+</div>
+<p>If you need to access an individual node or element, request it
+using either the <code class="docutils literal notranslate"><span class="pre">get_entity_data()</span></code> or <code class="docutils literal notranslate"><span class="pre">get_entity_data_by_id()</span></code> method:</p>
+<p>Get the data from the first element in the field.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([[ 4.01372930e+04,  3.85071930e+02, -1.40019130e+07,
+            7.48472351e+02, -2.60259531e+04, -2.62856938e+05],
+          [-1.19228638e+03, -6.18210815e+02, -1.39912700e+07,
+            2.61468994e+03, -1.31871719e+05, -2.59527125e+05],
+          [ 9.02558960e+02,  5.63793152e+02, -1.17102740e+07,
+           -8.99381836e+02, -1.21302727e+05, -2.45666328e+05],
+          [ 3.97351055e+04, -2.43928162e+02, -1.17250040e+07,
+            6.08324829e+02, -2.46618770e+04, -2.43019891e+05],
+          [-4.01372930e+04, -3.85071625e+02,  1.40019130e+07,
+            7.48472534e+02, -2.60259531e+04,  2.62856938e+05],
+          [ 1.19228601e+03,  6.18211121e+02,  1.39912700e+07,
+            2.61468970e+03, -1.31871719e+05,  2.59527125e+05],
+          [-9.02558777e+02, -5.63793701e+02,  1.17102740e+07,
+           -8.99382568e+02, -1.21302727e+05,  2.45666328e+05],
+          [-3.97351016e+04,  2.43927902e+02,  1.17250040e+07,
+            6.08326172e+02, -2.46618770e+04,  2.43019891e+05]])
+</pre></div>
+</div>
+<p>Get the data for the element with ID 10.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([[ 4.99232031e+04,  1.93570602e+02, -3.08514075e+06,
+       -5.48255615e+02, -1.37476562e+04,  1.34827719e+05],
+      [ 5.23090469e+04, -1.87847885e+02, -1.98004588e+06,
+       -1.12942969e+03, -1.11147285e+04,  1.09223398e+05],
+      [-4.90510511e+00, -1.16425255e+02, -1.96296662e+06,
+       -5.48878540e+02, -5.48524844e+04,  1.09255164e+05],
+      [ 2.63994884e+01,  1.50431015e+02, -3.06906050e+06,
+       -1.17046680e+03, -6.76924219e+04,  1.34773391e+05],
+      [-4.99232031e+04, -1.93571167e+02,  3.08514075e+06,
+       -5.48256836e+02, -1.37476562e+04, -1.34827719e+05],
+      [-5.23090469e+04,  1.87848083e+02,  1.98004588e+06,
+       -1.12943201e+03, -1.11147295e+04, -1.09223398e+05],
+      [ 4.90471840e+00,  1.16423714e+02,  1.96296662e+06,
+       -5.48877380e+02, -5.48524844e+04, -1.09255164e+05],
+      [-2.63994102e+01, -1.50429443e+02,  3.06906050e+06,
+       -1.17046619e+03, -6.76924219e+04, -1.34773391e+05]])
+</pre></div>
+</div>
+<p>Note that this would correspond to an index of 29 within the
+field. Be aware that scoping IDs are not sequential. You would
+get the index of element 29 in the field with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>29
+</pre></div>
+</div>
+<p>Here the data for the element with ID 10 is made of 8 symmetrical tensors.
+The elastic strain has one tensor value by node by element (ElementalNodal location)</p>
+<p>To get the displacement on node 3, you would use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">eval</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([[8.06571808e-14, 4.03580652e-04, 2.61804706e-05]])
+</pre></div>
+</div>
+<p>One 3D vector (X,Y,Z) displacement</p>
+<p>While these methods are acceptable when requesting data for a few elements
+or nodes, they should not be used when looping over the entire array. For efficiency,
+a field’s data can be recovered locally before sending a large number of requests:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">field</span><span class="o">.</span><span class="n">as_local_field</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">get_entity_data_by_id</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="operate-on-field-data">
+<h2>Operate on field data<a class="headerlink" href="#operate-on-field-data" title="Permalink to this heading">#</a></h2>
+<p>Oftentimes, you do not need to directly act on the data of an array within
+Python. For example, if you want to know the maximum of the data, you can
+use the <code class="docutils literal notranslate"><span class="pre">array.max()</span></code> method to compute the maximum of the array with the
+<code class="docutils literal notranslate"><span class="pre">numpy</span></code> package. However, this requires sending the entire array to Python
+and then computing the maximum there. Rather than copying the array over and
+computing the maximum in Python, you can instead compute the maximum directly
+from the field itself.</p>
+<p>This example uses the <code class="docutils literal notranslate"><span class="pre">min_max</span></code> operator to compute the maximum of
+the field while returning the field:</p>
+<p>Compute the maximum of the field within DPF and return the result
+in a numpy array</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">max_field</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">max_field</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([22083762.  , 22406040.  , 52603044.  ,  1623704.25,  2443320.75,
+       5014283.5 ])
+</pre></div>
+</div>
+<p>Get the element or node ID of the maximum value.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">max_field</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">ids</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPFArray([39, 39, 39, 40, 39, 39])
+</pre></div>
+</div>
+<p>This example uses the <code class="docutils literal notranslate"><span class="pre">elemental_mean</span></code> operator to compute the
+average of a field:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">operators</span> <span class="k">as</span> <span class="n">ops</span>
+<span class="n">avg_op</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">averaging</span><span class="o">.</span><span class="n">elemental_mean</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+<span class="n">avg_field</span> <span class="o">=</span> <span class="n">avg_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">avg_field</span><span class="o">.</span><span class="n">get_entity_data</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">avg_field</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[[ 4.65393066e-04 -2.47955322e-05  0.00000000e+00  7.68026390e+02
+  -7.59655688e+04  0.00000000e+00]]
+Elemental
+</pre></div>
+</div>
+<p>For comprehensive information on chaining operators, see <a class="reference internal" href="operators.html#ref-user-guide-operators"><span class="std std-ref">Operators</span></a>.</p>
+</section>
+<section id="api-reference">
+<h2>API reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">#</a></h2>
+<p>For more information, see <a class="reference internal" href="../api/ansys.dpf.core.fields_container.html#ref-fields-container"><span class="std std-ref">FieldsContainer</span></a> and
+<a class="reference internal" href="../api/ansys.dpf.core.field.html#ref-field"><span class="std std-ref">Field</span></a> in the <strong>API reference</strong>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-a-fields-container-or-field">Access a fields container or field</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-fields-within-a-fields-container">Access fields within a fields container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#field-data">Field data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#field-metadata">Field metadata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-field-data">Access field data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operate-on-field-data">Operate on field data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-reference">API reference</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/user_guide/fields_container.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2023 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

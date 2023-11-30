@@ -1,0 +1,1663 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>split_in_for_each_range &#8212; PyDPF-Core</title>
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+ 
+<link href="../_static/css/breadcrumbs.css" rel="stylesheet" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys.dpf.core.operators.utility.split_in_for_each_range';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.14.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="shortcut icon" href="../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="strain_from_voigt" href="ansys.dpf.core.operators.utility.strain_from_voigt.html" />
+    <link rel="prev" title="set_property" href="ansys.dpf.core.operators.utility.set_property.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+   
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <script>document.write(`<img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="PyDPF-Core - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links-2">
+                    More
+                </button>
+                <ul id="pst-nav-more-links-2" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="ansys.dpf.core.html">ansys.dpf.core package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.examples.html">ansys.dpf.core.examples package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.helpers.html">ansys.dpf.core.helpers namespace</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="ansys.dpf.core.operators.html">ansys.dpf.core.operators package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.html">ansys.dpf.core.operators.averaging package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.html">ansys.dpf.core.operators.filter package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.html">ansys.dpf.core.operators.geo package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.html">ansys.dpf.core.operators.invariant package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.html">ansys.dpf.core.operators.logic package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mapping.html">ansys.dpf.core.operators.mapping package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.html">ansys.dpf.core.operators.math package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.html">ansys.dpf.core.operators.mesh package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.html">ansys.dpf.core.operators.metadata package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.html">ansys.dpf.core.operators.min_max package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.html">ansys.dpf.core.operators.result package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.html">ansys.dpf.core.operators.scoping package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.html">ansys.dpf.core.operators.serialization package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.server.html">ansys.dpf.core.operators.server namespace</a></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="ansys.dpf.core.operators.utility.html">ansys.dpf.core.operators.utility package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.assemble_scalars_to_matrices.html">assemble_scalars_to_matrices</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.assemble_scalars_to_matrices_fc.html">assemble_scalars_to_matrices_fc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.assemble_scalars_to_vectors.html">assemble_scalars_to_vectors</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.assemble_scalars_to_vectors_fc.html">assemble_scalars_to_vectors_fc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.bind_support.html">bind_support</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.bind_support_fc.html">bind_support_fc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.change_location.html">change_location</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.change_shell_layers.html">change_shell_layers</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.compute_time_scoping.html">compute_time_scoping</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.default_value.html">default_value</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.delegate_to_operator.html">delegate_to_operator</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.ds_get_attribute.html">ds_get_attribute</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.extract_field.html">extract_field</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.extract_scoping.html">extract_scoping</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.extract_sub_fc.html">extract_sub_fc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.extract_sub_mc.html">extract_sub_mc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.extract_sub_sc.html">extract_sub_sc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.extract_time_freq.html">extract_time_freq</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.fc_get_attribute.html">fc_get_attribute</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.field.html">field</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.field_to_fc.html">field_to_fc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.fields_container.html">fields_container</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.for_each.html">for_each</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.forward.html">forward</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.forward_field.html">forward_field</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.forward_fields_container.html">forward_fields_container</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.forward_meshes_container.html">forward_meshes_container</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.hdf5dpf_workglow_provider.html">hdf5dpf_workglow_provider</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.html_doc.html">html_doc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.incremental_concatenate_as_fc.html">incremental_concatenate_as_fc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.ints_to_scoping.html">ints_to_scoping</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.make_for_each_range.html">make_for_each_range</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.make_label_space.html">make_label_space</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.make_overall.html">make_overall</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.make_producer_consumer_for_each_iterator.html">make_producer_consumer_for_each_iterator</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.make_time_chunk_for_each.html">make_time_chunk_for_each</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.make_time_freq_support_chunk_for_each.html">make_time_freq_support_chunk_for_each</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_any.html">merge_any</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_data_tree.html">merge_data_tree</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_fields.html">merge_fields</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_fields_by_label.html">merge_fields_by_label</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_fields_containers.html">merge_fields_containers</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_generic_data_container.html">merge_generic_data_container</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_materials.html">merge_materials</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_meshes.html">merge_meshes</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_meshes_containers.html">merge_meshes_containers</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_property_fields.html">merge_property_fields</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_result_infos.html">merge_result_infos</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_scopings.html">merge_scopings</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_scopings_containers.html">merge_scopings_containers</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_string_fields.html">merge_string_fields</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_supports.html">merge_supports</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_time_freq_supports.html">merge_time_freq_supports</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_weighted_fields.html">merge_weighted_fields</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_weighted_fields_containers.html">merge_weighted_fields_containers</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.mesh.html">mesh</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.overlap_fields.html">overlap_fields</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.producer_consumer_for_each.html">producer_consumer_for_each</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.property_field.html">property_field</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.python_generator.html">python_generator</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.python_script_exec.html">python_script_exec</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.remote_operator_instantiate.html">remote_operator_instantiate</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.remote_workflow_instantiate.html">remote_workflow_instantiate</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.remove_unnecessary_labels.html">remove_unnecessary_labels</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.scalars_to_field.html">scalars_to_field</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.server_path.html">server_path</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.set_attribute.html">set_attribute</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.set_property.html">set_property</a></li>
+
+
+
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">split_in_for_each_range</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.strain_from_voigt.html">strain_from_voigt</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.strain_from_voigt_fc.html">strain_from_voigt_fc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.txt_file_to_dpf.html">txt_file_to_dpf</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.unitary_field.html">unitary_field</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.utility.weighted_merge_fields_by_label.html">weighted_merge_fields_by_label</a></li>
+
+
+
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.animation.html"><code class="docutils literal notranslate"><span class="pre">animate_mode()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.animator.html">Animator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.any.html">Any</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.available_result.html">AvailableResult</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.collection.html">Collection</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.common.html">Common</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.config.html">Operator Configuration</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.core.html">Core</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_fields_container.html">Custom Fields Containers</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_operator.html">Custom Operator Base</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_type_field.html">CustomTypeField</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.cyclic_support.html">Cyclic Support</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_sources.html">Data Sources</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_tree.html">DataTree</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dimensionality.html">Dimensionality</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_array.html">DPFArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html">Operator</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.element_descriptor.html">Element Descriptor</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.elements.html">Elements</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.errors.html">Errors</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.faces.html">Faces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field.html">Field</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field_definition.html">FieldDefinition</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container.html">FieldsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container_factory.html">fields_container_factory</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_factory.html">fields_factory</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.generic_data_container.html">GenericDataContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.generic_support.html">GenericSupport</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.geometry.html"><code class="docutils literal notranslate"><span class="pre">normalize_vector()</span></code></a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.geometry_factory.html"><code class="docutils literal notranslate"><span class="pre">create_points()</span></code></a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.incremental.html">Incremental</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.inputs.html">Inputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.mesh_info.html">MeshInfo</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.mesh_scoping_factory.html">mesh_scoping_factory</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshed_region.html">MeshedRegion</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshes_container.html">MeshesContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.model.html">Model</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.nodes.html">Nodes</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operator_specification.html">Operator Specification</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.outputs.html">Outputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.path_utilities.html">path_utilities</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.plotter.html">Plotter</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.property_field.html">PropertyField</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.result_info.html">ResultInfo</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.results.html">Results</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.runtime_config.html">RuntimeConfig</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scoping.html">Scoping</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scopings_container.html">ScopingsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server.html">Server</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_context.html">ServerContext</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_factory.html">Server factory, server configuration and communication protocols</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_types.html">Server types</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.session.html">Session</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.settings.html">settings</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.streams_container.html">StreamsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.string_field.html">StringField</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.support.html">Support</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">time_freq_scoping_factory</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_support.html">TimeFreqSupport</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.unit_system.html">UnitSystem</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.workflow.html">Workflow</a></li>
+
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="ansys.dpf.core.operators.utility.html" class="nav-link">ansys.dpf.core.operators.utility package</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">split_in_for...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <span class="target" id="module-ansys.dpf.core.operators.utility.split_in_for_each_range"></span><section id="split-in-for-each-range">
+<h1>split_in_for_each_range<a class="headerlink" href="#split-in-for-each-range" title="Permalink to this heading">#</a></h1>
+<p>Autogenerated DPF operator classes.</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.utility.split_in_for_each_range.</span></span><span class="sig-name descname"><span class="pre">split_in_for_each_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator_to_iterate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scoping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range" title="Permalink to this definition">#</a></dt>
+<dd><p>Split a scoping into several pieces so you can iterate it with a
+for_each loop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iterable</strong> (<em>optional</em>) – Iterable that can be combined with the one
+currently generated.</p></li>
+<li><p><strong>operator_to_iterate</strong> (<a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><em>Operator</em></a>) – Operator that must be reconnected with the
+range values.</p></li>
+<li><p><strong>pin_index</strong> (<em>int</em>) – </p></li>
+<li><p><strong>scoping</strong> (<a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><em>Scoping</em></a>) – </p></li>
+<li><p><strong>chunk_size</strong> (<em>int</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Instantiate operator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">split_in_for_each_range</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Make input connections</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_iterable</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">iterable</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_iterable</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_operator_to_iterate</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">operator_to_iterate</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_operator_to_iterate</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_pin_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">pin_index</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_pin_index</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_scoping</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_chunk_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">chunk_size</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_chunk_size</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Instantiate operator and connect inputs in one line</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">split_in_for_each_range</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">iterable</span><span class="o">=</span><span class="n">my_iterable</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">operator_to_iterate</span><span class="o">=</span><span class="n">my_operator_to_iterate</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">pin_index</span><span class="o">=</span><span class="n">my_pin_index</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">scoping</span><span class="o">=</span><span class="n">my_scoping</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">chunk_size</span><span class="o">=</span><span class="n">my_chunk_size</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get output data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_output</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.default_config">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.default_config" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the default config of the operator.</p>
+<p>This config can then be changed to the user needs and be used to
+instantiate the operator. The Configuration allows to customize
+how the operation will be processed by the operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>server</strong> (<em>server.DPFServer</em><em>, </em><em>optional</em>) – Server with channel connected to the remote or local instance. When
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, attempts to use the global server.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.inputs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.inputs" title="Permalink to this definition">#</a></dt>
+<dd><p>Enables to connect inputs to the operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>inputs</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange" title="ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange">InputsSplitInForEachRange</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.outputs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">outputs</span></span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.outputs" title="Permalink to this definition">#</a></dt>
+<dd><p>Enables to get outputs of the operator by evaluating it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>outputs</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.OutputsSplitInForEachRange" title="ansys.dpf.core.operators.utility.split_in_for_each_range.OutputsSplitInForEachRange">OutputsSplitInForEachRange</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.config">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">config</span></span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.config" title="Permalink to this definition">#</a></dt>
+<dd><p>Copy of the operator’s current configuration.</p>
+<p>You can modify the copy of the configuration and then use <code class="docutils literal notranslate"><span class="pre">operator.config</span> <span class="pre">=</span> <span class="pre">new_config</span></code>
+or instantiate an operator with the new configuration as a parameter.</p>
+<p>For information on an operator’s options, see the documentation for that operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Copy of the operator’s current configuration.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="ansys.dpf.core.config.html#ansys.dpf.core.config.Config" title="ansys.dpf.core.config.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.config.Config</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Modify the copy of an operator’s configuration and set it as current config
+of the operator.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config_add</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">config</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config_add</span><span class="o">.</span><span class="n">set_work_by_index_option</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config_add</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.connect" title="Permalink to this definition">#</a></dt>
+<dd><p>Connect an input on the operator using a pin number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pin</strong> (<em>int</em>) – Number of the input pin.</p></li>
+<li><p><strong>inpt</strong> (<em>str</em><em>, </em><em>int</em><em>, </em><em>double</em><em>, </em><em>bool</em><em>, </em><em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><em>FieldsContainer</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><em>Scoping</em></a><em>,</em>) – </p></li>
+<li><p><strong>ScopingsContainer</strong> – Operator, os.PathLike Object to connect to.</p></li>
+<li><p><strong>MeshedRegion</strong> – Operator, os.PathLike Object to connect to.</p></li>
+<li><p><strong>MeshesContainer</strong> – Operator, os.PathLike Object to connect to.</p></li>
+<li><p><strong>DataSources</strong> – Operator, os.PathLike Object to connect to.</p></li>
+<li><p><strong>CyclicSupport</strong> – Operator, os.PathLike Object to connect to.</p></li>
+<li><p><strong>dict</strong> – Operator, os.PathLike Object to connect to.</p></li>
+<li><p><strong>Outputs</strong> – Operator, os.PathLike Object to connect to.</p></li>
+<li><p><strong>pin_out</strong> (<em>int</em><em>, </em><em>optional</em>) – If the input is an operator, the output pin of the input operator. The default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Compute the minimum of displacement by chaining the <code class="docutils literal notranslate"><span class="pre">&quot;U&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;min_max_fc&quot;</span></code> operators.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data_src</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_multishells_rst</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">(</span><span class="n">data_src</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_fc_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">min_max</span><span class="o">.</span><span class="n">min_max_fc</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_fc_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">disp_op</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_field</span> <span class="o">=</span> <span class="n">max_fc_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_max</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">max_field</span><span class="o">.</span><span class="n">data</span>
+<span class="go">DPFArray([[0.59428386, 0.00201751, 0.0006032 ]]...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.connect_operator_as_input">
+<span class="sig-name descname"><span class="pre">connect_operator_as_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.connect_operator_as_input" title="Permalink to this definition">#</a></dt>
+<dd><p>Connects an operator as an input on a pin.
+:type pin: 
+:param pin: Number of the output pin. The default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.
+:type pin: int
+:type op: 
+:param op: Requested type of the output. The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+:type op: <a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.eval">
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.eval" title="Permalink to this definition">#</a></dt>
+<dd><p>Evaluate this operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pin</strong> (<em>int</em>) – Number of the output pin. The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>output</strong> – Returns the first output of the operator by default and the output of a
+given pin when specified. Or, it only evaluates the operator without output.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer">FieldsContainer</a>, <a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field">Field</a>, <a class="reference internal" href="ansys.dpf.core.meshed_region.html#ansys.dpf.core.meshed_region.MeshedRegion" title="ansys.dpf.core.meshed_region.MeshedRegion">MeshedRegion</a>, <a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping">Scoping</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">eval</span></code> method.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ansys.dpf.core.operators.math</span> <span class="k">as</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data_src</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">DataSources</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_multishells_rst</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">disp_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">(</span><span class="n">data_src</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normfc</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">norm_fc</span><span class="p">(</span><span class="n">disp_op</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.get_output">
+<span class="sig-name descname"><span class="pre">get_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.get_output" title="Permalink to this definition">#</a></dt>
+<dd><p>Retrieve the output of the operator on the pin number.</p>
+<p>To activate the progress bar for server version higher or equal to 3.0,
+use <code class="docutils literal notranslate"><span class="pre">my_op.progress_bar=True</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pin</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of the output pin. The default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>output_type</strong> (<a class="reference internal" href="ansys.dpf.core.common.html#ansys.dpf.core.common.types" title="ansys.dpf.core.common.types"><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.core.common.types</span></code></a>, type,  optional) – Requested type of the output. The default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output of the operator.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.operator_specification">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">operator_specification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.operator_specification" title="Permalink to this definition">#</a></dt>
+<dd><p>Documents an Operator with its description (what the Operator does),
+its inputs and outputs and some properties</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.progress_bar">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">progress_bar</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.progress_bar" title="Permalink to this definition">#</a></dt>
+<dd><p>With this property, the user can choose to print a progress bar when
+the operator’s output is requested, default is False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.run" title="Permalink to this definition">#</a></dt>
+<dd><p>Evaluate this operator.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.specification">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">specification</span></span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.specification" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the Specification (or documentation) of this Operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.operator_specification.html#ansys.dpf.core.operator_specification.Specification" title="ansys.dpf.core.operator_specification.Specification">Specification</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.utility.split_in_for_each_range.</span></span><span class="sig-name descname"><span class="pre">InputsSplitInForEachRange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange" title="Permalink to this definition">#</a></dt>
+<dd><p>Intermediate class used to connect user inputs to
+split_in_for_each_range operator.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">split_in_for_each_range</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_iterable</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">iterable</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_iterable</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_operator_to_iterate</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Operator</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">operator_to_iterate</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_operator_to_iterate</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_pin_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">pin_index</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_pin_index</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_scoping</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Scoping</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_scoping</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_chunk_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">chunk_size</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_chunk_size</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.iterable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iterable</span></span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.iterable" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to connect iterable input to the operator.</p>
+<p>Iterable that can be combined with the one
+currently generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>my_iterable</strong> – </p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">split_in_for_each_range</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">iterable</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_iterable</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">iterable</span><span class="p">(</span><span class="n">my_iterable</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.operator_to_iterate">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">operator_to_iterate</span></span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.operator_to_iterate" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to connect operator_to_iterate input to the operator.</p>
+<p>Operator that must be reconnected with the
+range values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>my_operator_to_iterate</strong> (<a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><em>Operator</em></a>) – </p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">split_in_for_each_range</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">operator_to_iterate</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_operator_to_iterate</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">operator_to_iterate</span><span class="p">(</span><span class="n">my_operator_to_iterate</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.pin_index">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pin_index</span></span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.pin_index" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to connect pin_index input to the operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>my_pin_index</strong> (<em>int</em>) – </p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">split_in_for_each_range</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">pin_index</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_pin_index</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">pin_index</span><span class="p">(</span><span class="n">my_pin_index</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.scoping">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scoping</span></span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.scoping" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to connect scoping input to the operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>my_scoping</strong> (<a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><em>Scoping</em></a>) – </p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">split_in_for_each_range</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">scoping</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_scoping</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">scoping</span><span class="p">(</span><span class="n">my_scoping</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.chunk_size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chunk_size</span></span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.chunk_size" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to connect chunk_size input to the operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>my_chunk_size</strong> (<em>int</em>) – </p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">split_in_for_each_range</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">chunk_size</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">my_chunk_size</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">chunk_size</span><span class="p">(</span><span class="n">my_chunk_size</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.connect" title="Permalink to this definition">#</a></dt>
+<dd><p>Connect any input (an entity or an operator output) to any input pin of this operator.
+Searches for the input type corresponding to the output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inpt</strong> (<em>str</em><em>, </em><em>int</em><em>, </em><em>double</em><em>, </em><em>bool</em><em>, </em><em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><a class="reference internal" href="ansys.dpf.core.field.html#ansys.dpf.core.field.Field" title="ansys.dpf.core.field.Field"><em>Field</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.fields_container.html#ansys.dpf.core.fields_container.FieldsContainer" title="ansys.dpf.core.fields_container.FieldsContainer"><em>FieldsContainer</em></a><em>, </em><a class="reference internal" href="ansys.dpf.core.scoping.html#ansys.dpf.core.scoping.Scoping" title="ansys.dpf.core.scoping.Scoping"><em>Scoping</em></a><em>,</em>) – </p></li>
+<li><p><strong>ScopingsContainer</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>MeshedRegion</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>MeshesContainer</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>DataSources</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>CyclicSupport</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>Outputs</strong> (<em>E501</em>) – Input of the operator.</p></li>
+<li><p><strong>noqa</strong> (<em>os.PathLike  #</em>) – Input of the operator.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.OutputsSplitInForEachRange">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.operators.utility.split_in_for_each_range.</span></span><span class="sig-name descname"><span class="pre">OutputsSplitInForEachRange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html#ansys.dpf.core.dpf_operator.Operator" title="ansys.dpf.core.dpf_operator.Operator"><span class="pre">ansys.dpf.core.dpf_operator.Operator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.OutputsSplitInForEachRange" title="Permalink to this definition">#</a></dt>
+<dd><p>Intermediate class used to get outputs from
+split_in_for_each_range operator.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">split_in_for_each_range</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_output</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.operators.utility.split_in_for_each_range.OutputsSplitInForEachRange.output">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.OutputsSplitInForEachRange.output" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to get output output of the operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>my_output</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">split_in_for_each_range</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Connect inputs : op.inputs. ...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_output</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">split_in_for_each_range</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range"><code class="docutils literal notranslate"><span class="pre">split_in_for_each_range</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.default_config"><code class="docutils literal notranslate"><span class="pre">split_in_for_each_range.default_config()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.inputs"><code class="docutils literal notranslate"><span class="pre">split_in_for_each_range.inputs</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.outputs"><code class="docutils literal notranslate"><span class="pre">split_in_for_each_range.outputs</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.config"><code class="docutils literal notranslate"><span class="pre">split_in_for_each_range.config</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.connect"><code class="docutils literal notranslate"><span class="pre">split_in_for_each_range.connect()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">split_in_for_each_range.connect_operator_as_input()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.eval"><code class="docutils literal notranslate"><span class="pre">split_in_for_each_range.eval()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.get_output"><code class="docutils literal notranslate"><span class="pre">split_in_for_each_range.get_output()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.operator_specification"><code class="docutils literal notranslate"><span class="pre">split_in_for_each_range.operator_specification()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.progress_bar"><code class="docutils literal notranslate"><span class="pre">split_in_for_each_range.progress_bar</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.run"><code class="docutils literal notranslate"><span class="pre">split_in_for_each_range.run()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.split_in_for_each_range.specification"><code class="docutils literal notranslate"><span class="pre">split_in_for_each_range.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange"><code class="docutils literal notranslate"><span class="pre">InputsSplitInForEachRange</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.iterable"><code class="docutils literal notranslate"><span class="pre">InputsSplitInForEachRange.iterable</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.operator_to_iterate"><code class="docutils literal notranslate"><span class="pre">InputsSplitInForEachRange.operator_to_iterate</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.pin_index"><code class="docutils literal notranslate"><span class="pre">InputsSplitInForEachRange.pin_index</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.scoping"><code class="docutils literal notranslate"><span class="pre">InputsSplitInForEachRange.scoping</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.chunk_size"><code class="docutils literal notranslate"><span class="pre">InputsSplitInForEachRange.chunk_size</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.InputsSplitInForEachRange.connect"><code class="docutils literal notranslate"><span class="pre">InputsSplitInForEachRange.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.OutputsSplitInForEachRange"><code class="docutils literal notranslate"><span class="pre">OutputsSplitInForEachRange</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ansys.dpf.core.operators.utility.split_in_for_each_range.OutputsSplitInForEachRange.output"><code class="docutils literal notranslate"><span class="pre">OutputsSplitInForEachRange.output</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/api/ansys.dpf.core.operators.utility.split_in_for_each_range.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2023 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

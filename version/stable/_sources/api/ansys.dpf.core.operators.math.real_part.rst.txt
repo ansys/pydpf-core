@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.math.real_part
+   :inherited-members:

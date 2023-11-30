@@ -1,0 +1,813 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>HDF5 export and import operations &#8212; PyDPF-Core</title>
+    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    
+        <link href="../../_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/05-file-IO/02-hdf5_serialize_and_read';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.9';
+        </script>
+    <link rel="shortcut icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Working with a result file" href="04-basic-load-file.html" />
+    <link rel="prev" title="Get reduced matrices and make export" href="01-reduced_matrices_export.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+    
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.9  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+    
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+    
+
+    
+    <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="../../index.html">PyDPF-Core</a> » </li>
+    
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Examples</a> » </li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">File manipulation and input-output examples</a> » </li>
+        <li class="nav-item nav-item-this"><a href="">HDF5 export and import operations</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.9  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">
+    Section Navigation
+  </p>
+  <div class="bd-toc-item navbar-nav">
+    <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-basic/index.html">Basic DPF examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-transient_analyses/index.html">Transient analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-modal_analyses/index.html">Modal analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-harmonic_analyses/index.html">Harmonic analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-advanced/index.html">Advanced and miscellaneous examples</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">File manipulation and input-output examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="00-hdf5_double_float_comparison.html">HDF5 export and compare precision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-reduced_matrices_export.html">Get reduced matrices and make export</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">HDF5 export and import operations</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="04-basic-load-file.html">Working with a result file</a></li>
+
+
+
+
+
+
+
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../06-plotting/index.html">Plotting examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-distributed-post/index.html">Examples for postprocessing on distributed processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-python-operators/index.html">Examples of creating custom operator plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-averaging/index.html">Averaging examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10-mesh_operations/index.html">Mesh operations examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../11-cyclic-symmetry/index.html">Cyclic symmetry examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../12-fluids/index.html">Fluids examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../13-streamlines/index.html">Streamlines examples</a></li>
+</ul>
+
+  </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-05-file-io-02-hdf5-serialize-and-read-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="hdf5-export-and-import-operations">
+<span id="ref-basic-hdf5"></span><span id="sphx-glr-examples-05-file-io-02-hdf5-serialize-and-read-py"></span><h1>HDF5 export and import operations<a class="headerlink" href="#hdf5-export-and-import-operations" title="Permalink to this heading">#</a></h1>
+<p>This example shows you how to use the HDF5 format to export results
+and meshed regions in an H5 file.
+It also demonstrates how to read results and meshed regions from the
+created H5 file.</p>
+<p>First, it exports all the results for all time frequencies,
+then it exports all the time sets for the results, per time set.
+Finally, it reads the results and compares them.
+For the example to run correctly, ensure you do not have an existing H5 file.</p>
+</section>
+<section id="import-modules-instantiate-model-and-create-temporary-folder">
+<h1>Import modules, instantiate model and create temporary folder<a class="headerlink" href="#import-modules-instantiate-model-and-create-temporary-folder" title="Permalink to this heading">#</a></h1>
+<p>Import the <code class="docutils literal notranslate"><span class="pre">dpf-core</span></code> module and its examples files.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ansys.dpf.core</span> <span class="k">as</span> <span class="nn">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+</pre></div>
+</div>
+<p>Instantiate the model and the provider operators:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">())</span>
+<span class="n">streams_cont</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">streams_provider</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">streams_container</span>
+<span class="n">time_freq_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_provider</span><span class="p">(</span><span class="n">streams_container</span><span class="o">=</span><span class="n">streams_cont</span><span class="p">)</span>
+<span class="n">time_freq_support</span> <span class="o">=</span> <span class="n">time_freq_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">time_freq_support</span><span class="p">()</span>
+<span class="n">time_freqs</span> <span class="o">=</span> <span class="n">time_freq_support</span><span class="o">.</span><span class="n">time_frequencies</span>
+
+<span class="n">result_names_on_all_time_steps</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">result_names_time_per_time</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">num_res</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+<span class="n">num_sets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_freqs</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Define a temporary folder for outputs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tmpdir</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">make_tmp_dir_server</span><span class="p">(</span><span class="n">dpf</span><span class="o">.</span><span class="n">SERVER</span><span class="p">)</span>
+<span class="n">files</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">dpf</span><span class="o">.</span><span class="n">path_utilities</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;file_on_all_time_steps.h5&quot;</span><span class="p">),</span>
+    <span class="n">dpf</span><span class="o">.</span><span class="n">path_utilities</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s2">&quot;file_time_per_time.h5&quot;</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="use-h5-serialization-operator">
+<h1>Use H5 serialization operator<a class="headerlink" href="#use-h5-serialization-operator" title="Permalink to this heading">#</a></h1>
+<p>Export all results on all time frequencies:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">h5_serialization_op_all_times</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">serialization</span><span class="o">.</span><span class="n">hdf5dpf_generate_result_file</span><span class="p">()</span>
+<span class="n">h5_serialization_op_all_times</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">h5_serialization_op_all_times</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_provider_out</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="p">)</span>
+<span class="n">h5_serialization_op_all_times</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_freq_support_out</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">time_freq_support</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="p">):</span>
+    <span class="n">res_name</span> <span class="o">=</span> <span class="s2">&quot;result_&quot;</span> <span class="o">+</span> <span class="n">res</span><span class="p">()</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">result_names_on_all_time_steps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res_name</span><span class="p">)</span>
+    <span class="n">h5_serialization_op_all_times</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">,</span> <span class="n">res_name</span><span class="p">)</span>
+    <span class="n">h5_serialization_op_all_times</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="p">())</span>
+
+<span class="n">h5_all_times_ds</span> <span class="o">=</span> <span class="n">h5_serialization_op_all_times</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Export all the results, time set per time set:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">h5_serialization_op_set_per_set</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">serialization</span><span class="o">.</span><span class="n">hdf5dpf_generate_result_file</span><span class="p">()</span>
+<span class="n">h5_serialization_op_set_per_set</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">h5_serialization_op_set_per_set</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mesh_provider_out</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="p">)</span>
+<span class="n">h5_serialization_op_set_per_set</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">time_freq_support_out</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">time_freq_support</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">time_freqs</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="p">):</span>
+        <span class="n">res_name</span> <span class="o">=</span> <span class="s2">&quot;result_&quot;</span> <span class="o">+</span> <span class="n">res</span><span class="p">()</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_time_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
+        <span class="n">result_names_time_per_time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res_name</span><span class="p">)</span>
+        <span class="n">h5_serialization_op_set_per_set</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="n">num_res</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="p">,</span> <span class="n">res_name</span><span class="p">)</span>
+        <span class="n">h5_serialization_op_set_per_set</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+            <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="n">num_res</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">on_time_scoping</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="p">)</span>
+
+<span class="n">h5_set_per_set_ds</span> <span class="o">=</span> <span class="n">h5_serialization_op_set_per_set</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">data_sources</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="use-h5-reading-operator">
+<h1>Use H5 reading operator<a class="headerlink" href="#use-h5-reading-operator" title="Permalink to this heading">#</a></h1>
+<p>Read the results from all time steps files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">h5_stream_prov_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">streams_provider</span><span class="p">()</span>
+<span class="n">h5_stream_prov_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">h5_all_times_ds</span><span class="p">)</span>
+<span class="n">res_deser_all_times_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">h5_read_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">serialization</span><span class="o">.</span><span class="n">hdf5dpf_custom_read</span><span class="p">()</span>
+<span class="n">h5_read_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">h5_stream_prov_op</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">res_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result_names_on_all_time_steps</span><span class="p">):</span>
+    <span class="n">h5_read_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">result_name</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">res_name</span><span class="p">)</span>
+    <span class="n">res_deser</span> <span class="o">=</span> <span class="n">h5_read_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_or_fields_container_as_fields_container</span><span class="p">()</span>
+    <span class="n">res_deser_all_times_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res_deser</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Read the meshed region from all time steps file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_prov_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">mesh_provider</span><span class="p">()</span>
+<span class="n">mesh_prov_op</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">h5_stream_prov_op</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
+<span class="n">mesh_deser_all_times</span> <span class="o">=</span> <span class="n">mesh_prov_op</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Read the results from the time set per set file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">h5_stream_prov_op_2</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">streams_provider</span><span class="p">()</span>
+<span class="n">h5_stream_prov_op_2</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">data_sources</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">h5_set_per_set_ds</span><span class="p">)</span>
+<span class="n">res_deser_set_per_set_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">h5_read_op_2</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">serialization</span><span class="o">.</span><span class="n">hdf5dpf_custom_read</span><span class="p">()</span>
+<span class="n">h5_read_op_2</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">h5_stream_prov_op_2</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">res_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result_names_time_per_time</span><span class="p">):</span>
+    <span class="n">h5_read_op_2</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">result_name</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">res_name</span><span class="p">)</span>
+    <span class="n">res_deser</span> <span class="o">=</span> <span class="n">h5_read_op_2</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field_or_fields_container_as_fields_container</span><span class="p">()</span>
+    <span class="n">res_deser_set_per_set_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res_deser</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Read the meshed region from all time steps files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_prov_op_2</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">mesh_provider</span><span class="p">()</span>
+<span class="n">mesh_prov_op_2</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">streams_container</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">h5_stream_prov_op_2</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
+<span class="n">mesh_deser_set_per_set</span> <span class="o">=</span> <span class="n">mesh_prov_op_2</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="compare-results">
+<h1>Compare results<a class="headerlink" href="#compare-results" title="Permalink to this heading">#</a></h1>
+<p>Print global data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of results is: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num_res</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of time sets is: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num_sets</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results names for &#39;all time steps&#39; file: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result_names_on_all_time_steps</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results names for &#39;set per set&#39; file: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result_names_time_per_time</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Number of results is: 16
+Number of time sets is: 35
+Results names for &#39;all time steps&#39; file:
+[&#39;result_U&#39;, &#39;result_RF&#39;, &#39;result_ENF&#39;, &#39;result_S&#39;, &#39;result_ENG_VOL&#39;, &#39;result_ENG_SE&#39;, &#39;result_ENG_AHO&#39;, &#39;result_ENG_TH&#39;, &#39;result_ENG_KE&#39;, &#39;result_ENG_CO&#39;, &#39;result_ENG_INC&#39;, &#39;result_EPEL&#39;, &#39;result_ETH&#39;, &#39;result_ETH_EQV&#39;, &#39;result_ETH_SWL&#39;, &#39;result_BFE&#39;]
+Results names for &#39;set per set&#39; file:
+[&#39;result_U_time_0.0&#39;, &#39;result_RF_time_0.0&#39;, &#39;result_ENF_time_0.0&#39;, &#39;result_S_time_0.0&#39;, &#39;result_ENG_VOL_time_0.0&#39;, &#39;result_ENG_SE_time_0.0&#39;, &#39;result_ENG_AHO_time_0.0&#39;, &#39;result_ENG_TH_time_0.0&#39;, &#39;result_ENG_KE_time_0.0&#39;, &#39;result_ENG_CO_time_0.0&#39;, &#39;result_ENG_INC_time_0.0&#39;, &#39;result_EPEL_time_0.0&#39;, &#39;result_ETH_time_0.0&#39;, &#39;result_ETH_EQV_time_0.0&#39;, &#39;result_ETH_SWL_time_0.0&#39;, &#39;result_BFE_time_0.0&#39;, &#39;result_U_time_0.019974999999999035&#39;, &#39;result_RF_time_0.019974999999999035&#39;, &#39;result_ENF_time_0.019974999999999035&#39;, &#39;result_S_time_0.019974999999999035&#39;, &#39;result_ENG_VOL_time_0.019974999999999035&#39;, &#39;result_ENG_SE_time_0.019974999999999035&#39;, &#39;result_ENG_AHO_time_0.019974999999999035&#39;, &#39;result_ENG_TH_time_0.019974999999999035&#39;, &#39;result_ENG_KE_time_0.019974999999999035&#39;, &#39;result_ENG_CO_time_0.019974999999999035&#39;, &#39;result_ENG_INC_time_0.019974999999999035&#39;, &#39;result_EPEL_time_0.019974999999999035&#39;, &#39;result_ETH_time_0.019974999999999035&#39;, &#39;result_ETH_EQV_time_0.019974999999999035&#39;, &#39;result_ETH_SWL_time_0.019974999999999035&#39;, &#39;result_BFE_time_0.019974999999999035&#39;, &#39;result_U_time_0.03997499999999905&#39;, &#39;result_RF_time_0.03997499999999905&#39;, &#39;result_ENF_time_0.03997499999999905&#39;, &#39;result_S_time_0.03997499999999905&#39;, &#39;result_ENG_VOL_time_0.03997499999999905&#39;, &#39;result_ENG_SE_time_0.03997499999999905&#39;, &#39;result_ENG_AHO_time_0.03997499999999905&#39;, &#39;result_ENG_TH_time_0.03997499999999905&#39;, &#39;result_ENG_KE_time_0.03997499999999905&#39;, &#39;result_ENG_CO_time_0.03997499999999905&#39;, &#39;result_ENG_INC_time_0.03997499999999905&#39;, &#39;result_EPEL_time_0.03997499999999905&#39;, &#39;result_ETH_time_0.03997499999999905&#39;, &#39;result_ETH_EQV_time_0.03997499999999905&#39;, &#39;result_ETH_SWL_time_0.03997499999999905&#39;, &#39;result_BFE_time_0.03997499999999905&#39;, &#39;result_U_time_0.05997499999999907&#39;, &#39;result_RF_time_0.05997499999999907&#39;, &#39;result_ENF_time_0.05997499999999907&#39;, &#39;result_S_time_0.05997499999999907&#39;, &#39;result_ENG_VOL_time_0.05997499999999907&#39;, &#39;result_ENG_SE_time_0.05997499999999907&#39;, &#39;result_ENG_AHO_time_0.05997499999999907&#39;, &#39;result_ENG_TH_time_0.05997499999999907&#39;, &#39;result_ENG_KE_time_0.05997499999999907&#39;, &#39;result_ENG_CO_time_0.05997499999999907&#39;, &#39;result_ENG_INC_time_0.05997499999999907&#39;, &#39;result_EPEL_time_0.05997499999999907&#39;, &#39;result_ETH_time_0.05997499999999907&#39;, &#39;result_ETH_EQV_time_0.05997499999999907&#39;, &#39;result_ETH_SWL_time_0.05997499999999907&#39;, &#39;result_BFE_time_0.05997499999999907&#39;, &#39;result_U_time_0.07997499999999909&#39;, &#39;result_RF_time_0.07997499999999909&#39;, &#39;result_ENF_time_0.07997499999999909&#39;, &#39;result_S_time_0.07997499999999909&#39;, &#39;result_ENG_VOL_time_0.07997499999999909&#39;, &#39;result_ENG_SE_time_0.07997499999999909&#39;, &#39;result_ENG_AHO_time_0.07997499999999909&#39;, &#39;result_ENG_TH_time_0.07997499999999909&#39;, &#39;result_ENG_KE_time_0.07997499999999909&#39;, &#39;result_ENG_CO_time_0.07997499999999909&#39;, &#39;result_ENG_INC_time_0.07997499999999909&#39;, &#39;result_EPEL_time_0.07997499999999909&#39;, &#39;result_ETH_time_0.07997499999999909&#39;, &#39;result_ETH_EQV_time_0.07997499999999909&#39;, &#39;result_ETH_SWL_time_0.07997499999999909&#39;, &#39;result_BFE_time_0.07997499999999909&#39;, &#39;result_U_time_0.0999749999999991&#39;, &#39;result_RF_time_0.0999749999999991&#39;, &#39;result_ENF_time_0.0999749999999991&#39;, &#39;result_S_time_0.0999749999999991&#39;, &#39;result_ENG_VOL_time_0.0999749999999991&#39;, &#39;result_ENG_SE_time_0.0999749999999991&#39;, &#39;result_ENG_AHO_time_0.0999749999999991&#39;, &#39;result_ENG_TH_time_0.0999749999999991&#39;, &#39;result_ENG_KE_time_0.0999749999999991&#39;, &#39;result_ENG_CO_time_0.0999749999999991&#39;, &#39;result_ENG_INC_time_0.0999749999999991&#39;, &#39;result_EPEL_time_0.0999749999999991&#39;, &#39;result_ETH_time_0.0999749999999991&#39;, &#39;result_ETH_EQV_time_0.0999749999999991&#39;, &#39;result_ETH_SWL_time_0.0999749999999991&#39;, &#39;result_BFE_time_0.0999749999999991&#39;, &#39;result_U_time_0.11997499999999912&#39;, &#39;result_RF_time_0.11997499999999912&#39;, &#39;result_ENF_time_0.11997499999999912&#39;, &#39;result_S_time_0.11997499999999912&#39;, &#39;result_ENG_VOL_time_0.11997499999999912&#39;, &#39;result_ENG_SE_time_0.11997499999999912&#39;, &#39;result_ENG_AHO_time_0.11997499999999912&#39;, &#39;result_ENG_TH_time_0.11997499999999912&#39;, &#39;result_ENG_KE_time_0.11997499999999912&#39;, &#39;result_ENG_CO_time_0.11997499999999912&#39;, &#39;result_ENG_INC_time_0.11997499999999912&#39;, &#39;result_EPEL_time_0.11997499999999912&#39;, &#39;result_ETH_time_0.11997499999999912&#39;, &#39;result_ETH_EQV_time_0.11997499999999912&#39;, &#39;result_ETH_SWL_time_0.11997499999999912&#39;, &#39;result_BFE_time_0.11997499999999912&#39;, &#39;result_U_time_0.13997499999999913&#39;, &#39;result_RF_time_0.13997499999999913&#39;, &#39;result_ENF_time_0.13997499999999913&#39;, &#39;result_S_time_0.13997499999999913&#39;, &#39;result_ENG_VOL_time_0.13997499999999913&#39;, &#39;result_ENG_SE_time_0.13997499999999913&#39;, &#39;result_ENG_AHO_time_0.13997499999999913&#39;, &#39;result_ENG_TH_time_0.13997499999999913&#39;, &#39;result_ENG_KE_time_0.13997499999999913&#39;, &#39;result_ENG_CO_time_0.13997499999999913&#39;, &#39;result_ENG_INC_time_0.13997499999999913&#39;, &#39;result_EPEL_time_0.13997499999999913&#39;, &#39;result_ETH_time_0.13997499999999913&#39;, &#39;result_ETH_EQV_time_0.13997499999999913&#39;, &#39;result_ETH_SWL_time_0.13997499999999913&#39;, &#39;result_BFE_time_0.13997499999999913&#39;, &#39;result_U_time_0.15997499999999915&#39;, &#39;result_RF_time_0.15997499999999915&#39;, &#39;result_ENF_time_0.15997499999999915&#39;, &#39;result_S_time_0.15997499999999915&#39;, &#39;result_ENG_VOL_time_0.15997499999999915&#39;, &#39;result_ENG_SE_time_0.15997499999999915&#39;, &#39;result_ENG_AHO_time_0.15997499999999915&#39;, &#39;result_ENG_TH_time_0.15997499999999915&#39;, &#39;result_ENG_KE_time_0.15997499999999915&#39;, &#39;result_ENG_CO_time_0.15997499999999915&#39;, &#39;result_ENG_INC_time_0.15997499999999915&#39;, &#39;result_EPEL_time_0.15997499999999915&#39;, &#39;result_ETH_time_0.15997499999999915&#39;, &#39;result_ETH_EQV_time_0.15997499999999915&#39;, &#39;result_ETH_SWL_time_0.15997499999999915&#39;, &#39;result_BFE_time_0.15997499999999915&#39;, &#39;result_U_time_0.17997499999999916&#39;, &#39;result_RF_time_0.17997499999999916&#39;, &#39;result_ENF_time_0.17997499999999916&#39;, &#39;result_S_time_0.17997499999999916&#39;, &#39;result_ENG_VOL_time_0.17997499999999916&#39;, &#39;result_ENG_SE_time_0.17997499999999916&#39;, &#39;result_ENG_AHO_time_0.17997499999999916&#39;, &#39;result_ENG_TH_time_0.17997499999999916&#39;, &#39;result_ENG_KE_time_0.17997499999999916&#39;, &#39;result_ENG_CO_time_0.17997499999999916&#39;, &#39;result_ENG_INC_time_0.17997499999999916&#39;, &#39;result_EPEL_time_0.17997499999999916&#39;, &#39;result_ETH_time_0.17997499999999916&#39;, &#39;result_ETH_EQV_time_0.17997499999999916&#39;, &#39;result_ETH_SWL_time_0.17997499999999916&#39;, &#39;result_BFE_time_0.17997499999999916&#39;, &#39;result_U_time_0.19997499999999918&#39;, &#39;result_RF_time_0.19997499999999918&#39;, &#39;result_ENF_time_0.19997499999999918&#39;, &#39;result_S_time_0.19997499999999918&#39;, &#39;result_ENG_VOL_time_0.19997499999999918&#39;, &#39;result_ENG_SE_time_0.19997499999999918&#39;, &#39;result_ENG_AHO_time_0.19997499999999918&#39;, &#39;result_ENG_TH_time_0.19997499999999918&#39;, &#39;result_ENG_KE_time_0.19997499999999918&#39;, &#39;result_ENG_CO_time_0.19997499999999918&#39;, &#39;result_ENG_INC_time_0.19997499999999918&#39;, &#39;result_EPEL_time_0.19997499999999918&#39;, &#39;result_ETH_time_0.19997499999999918&#39;, &#39;result_ETH_EQV_time_0.19997499999999918&#39;, &#39;result_ETH_SWL_time_0.19997499999999918&#39;, &#39;result_BFE_time_0.19997499999999918&#39;, &#39;result_U_time_0.2189749999999992&#39;, &#39;result_RF_time_0.2189749999999992&#39;, &#39;result_ENF_time_0.2189749999999992&#39;, &#39;result_S_time_0.2189749999999992&#39;, &#39;result_ENG_VOL_time_0.2189749999999992&#39;, &#39;result_ENG_SE_time_0.2189749999999992&#39;, &#39;result_ENG_AHO_time_0.2189749999999992&#39;, &#39;result_ENG_TH_time_0.2189749999999992&#39;, &#39;result_ENG_KE_time_0.2189749999999992&#39;, &#39;result_ENG_CO_time_0.2189749999999992&#39;, &#39;result_ENG_INC_time_0.2189749999999992&#39;, &#39;result_EPEL_time_0.2189749999999992&#39;, &#39;result_ETH_time_0.2189749999999992&#39;, &#39;result_ETH_EQV_time_0.2189749999999992&#39;, &#39;result_ETH_SWL_time_0.2189749999999992&#39;, &#39;result_BFE_time_0.2189749999999992&#39;, &#39;result_U_time_0.23897499999999922&#39;, &#39;result_RF_time_0.23897499999999922&#39;, &#39;result_ENF_time_0.23897499999999922&#39;, &#39;result_S_time_0.23897499999999922&#39;, &#39;result_ENG_VOL_time_0.23897499999999922&#39;, &#39;result_ENG_SE_time_0.23897499999999922&#39;, &#39;result_ENG_AHO_time_0.23897499999999922&#39;, &#39;result_ENG_TH_time_0.23897499999999922&#39;, &#39;result_ENG_KE_time_0.23897499999999922&#39;, &#39;result_ENG_CO_time_0.23897499999999922&#39;, &#39;result_ENG_INC_time_0.23897499999999922&#39;, &#39;result_EPEL_time_0.23897499999999922&#39;, &#39;result_ETH_time_0.23897499999999922&#39;, &#39;result_ETH_EQV_time_0.23897499999999922&#39;, &#39;result_ETH_SWL_time_0.23897499999999922&#39;, &#39;result_BFE_time_0.23897499999999922&#39;, &#39;result_U_time_0.25897499999999923&#39;, &#39;result_RF_time_0.25897499999999923&#39;, &#39;result_ENF_time_0.25897499999999923&#39;, &#39;result_S_time_0.25897499999999923&#39;, &#39;result_ENG_VOL_time_0.25897499999999923&#39;, &#39;result_ENG_SE_time_0.25897499999999923&#39;, &#39;result_ENG_AHO_time_0.25897499999999923&#39;, &#39;result_ENG_TH_time_0.25897499999999923&#39;, &#39;result_ENG_KE_time_0.25897499999999923&#39;, &#39;result_ENG_CO_time_0.25897499999999923&#39;, &#39;result_ENG_INC_time_0.25897499999999923&#39;, &#39;result_EPEL_time_0.25897499999999923&#39;, &#39;result_ETH_time_0.25897499999999923&#39;, &#39;result_ETH_EQV_time_0.25897499999999923&#39;, &#39;result_ETH_SWL_time_0.25897499999999923&#39;, &#39;result_BFE_time_0.25897499999999923&#39;, &#39;result_U_time_0.27897499999999925&#39;, &#39;result_RF_time_0.27897499999999925&#39;, &#39;result_ENF_time_0.27897499999999925&#39;, &#39;result_S_time_0.27897499999999925&#39;, &#39;result_ENG_VOL_time_0.27897499999999925&#39;, &#39;result_ENG_SE_time_0.27897499999999925&#39;, &#39;result_ENG_AHO_time_0.27897499999999925&#39;, &#39;result_ENG_TH_time_0.27897499999999925&#39;, &#39;result_ENG_KE_time_0.27897499999999925&#39;, &#39;result_ENG_CO_time_0.27897499999999925&#39;, &#39;result_ENG_INC_time_0.27897499999999925&#39;, &#39;result_EPEL_time_0.27897499999999925&#39;, &#39;result_ETH_time_0.27897499999999925&#39;, &#39;result_ETH_EQV_time_0.27897499999999925&#39;, &#39;result_ETH_SWL_time_0.27897499999999925&#39;, &#39;result_BFE_time_0.27897499999999925&#39;, &#39;result_U_time_0.29897499999999927&#39;, &#39;result_RF_time_0.29897499999999927&#39;, &#39;result_ENF_time_0.29897499999999927&#39;, &#39;result_S_time_0.29897499999999927&#39;, &#39;result_ENG_VOL_time_0.29897499999999927&#39;, &#39;result_ENG_SE_time_0.29897499999999927&#39;, &#39;result_ENG_AHO_time_0.29897499999999927&#39;, &#39;result_ENG_TH_time_0.29897499999999927&#39;, &#39;result_ENG_KE_time_0.29897499999999927&#39;, &#39;result_ENG_CO_time_0.29897499999999927&#39;, &#39;result_ENG_INC_time_0.29897499999999927&#39;, &#39;result_EPEL_time_0.29897499999999927&#39;, &#39;result_ETH_time_0.29897499999999927&#39;, &#39;result_ETH_EQV_time_0.29897499999999927&#39;, &#39;result_ETH_SWL_time_0.29897499999999927&#39;, &#39;result_BFE_time_0.29897499999999927&#39;, &#39;result_U_time_0.3189749999999993&#39;, &#39;result_RF_time_0.3189749999999993&#39;, &#39;result_ENF_time_0.3189749999999993&#39;, &#39;result_S_time_0.3189749999999993&#39;, &#39;result_ENG_VOL_time_0.3189749999999993&#39;, &#39;result_ENG_SE_time_0.3189749999999993&#39;, &#39;result_ENG_AHO_time_0.3189749999999993&#39;, &#39;result_ENG_TH_time_0.3189749999999993&#39;, &#39;result_ENG_KE_time_0.3189749999999993&#39;, &#39;result_ENG_CO_time_0.3189749999999993&#39;, &#39;result_ENG_INC_time_0.3189749999999993&#39;, &#39;result_EPEL_time_0.3189749999999993&#39;, &#39;result_ETH_time_0.3189749999999993&#39;, &#39;result_ETH_EQV_time_0.3189749999999993&#39;, &#39;result_ETH_SWL_time_0.3189749999999993&#39;, &#39;result_BFE_time_0.3189749999999993&#39;, &#39;result_U_time_0.3389749999999993&#39;, &#39;result_RF_time_0.3389749999999993&#39;, &#39;result_ENF_time_0.3389749999999993&#39;, &#39;result_S_time_0.3389749999999993&#39;, &#39;result_ENG_VOL_time_0.3389749999999993&#39;, &#39;result_ENG_SE_time_0.3389749999999993&#39;, &#39;result_ENG_AHO_time_0.3389749999999993&#39;, &#39;result_ENG_TH_time_0.3389749999999993&#39;, &#39;result_ENG_KE_time_0.3389749999999993&#39;, &#39;result_ENG_CO_time_0.3389749999999993&#39;, &#39;result_ENG_INC_time_0.3389749999999993&#39;, &#39;result_EPEL_time_0.3389749999999993&#39;, &#39;result_ETH_time_0.3389749999999993&#39;, &#39;result_ETH_EQV_time_0.3389749999999993&#39;, &#39;result_ETH_SWL_time_0.3389749999999993&#39;, &#39;result_BFE_time_0.3389749999999993&#39;, &#39;result_U_time_0.3589749999999993&#39;, &#39;result_RF_time_0.3589749999999993&#39;, &#39;result_ENF_time_0.3589749999999993&#39;, &#39;result_S_time_0.3589749999999993&#39;, &#39;result_ENG_VOL_time_0.3589749999999993&#39;, &#39;result_ENG_SE_time_0.3589749999999993&#39;, &#39;result_ENG_AHO_time_0.3589749999999993&#39;, &#39;result_ENG_TH_time_0.3589749999999993&#39;, &#39;result_ENG_KE_time_0.3589749999999993&#39;, &#39;result_ENG_CO_time_0.3589749999999993&#39;, &#39;result_ENG_INC_time_0.3589749999999993&#39;, &#39;result_EPEL_time_0.3589749999999993&#39;, &#39;result_ETH_time_0.3589749999999993&#39;, &#39;result_ETH_EQV_time_0.3589749999999993&#39;, &#39;result_ETH_SWL_time_0.3589749999999993&#39;, &#39;result_BFE_time_0.3589749999999993&#39;, &#39;result_U_time_0.37897499999999934&#39;, &#39;result_RF_time_0.37897499999999934&#39;, &#39;result_ENF_time_0.37897499999999934&#39;, &#39;result_S_time_0.37897499999999934&#39;, &#39;result_ENG_VOL_time_0.37897499999999934&#39;, &#39;result_ENG_SE_time_0.37897499999999934&#39;, &#39;result_ENG_AHO_time_0.37897499999999934&#39;, &#39;result_ENG_TH_time_0.37897499999999934&#39;, &#39;result_ENG_KE_time_0.37897499999999934&#39;, &#39;result_ENG_CO_time_0.37897499999999934&#39;, &#39;result_ENG_INC_time_0.37897499999999934&#39;, &#39;result_EPEL_time_0.37897499999999934&#39;, &#39;result_ETH_time_0.37897499999999934&#39;, &#39;result_ETH_EQV_time_0.37897499999999934&#39;, &#39;result_ETH_SWL_time_0.37897499999999934&#39;, &#39;result_BFE_time_0.37897499999999934&#39;, &#39;result_U_time_0.39897499999999936&#39;, &#39;result_RF_time_0.39897499999999936&#39;, &#39;result_ENF_time_0.39897499999999936&#39;, &#39;result_S_time_0.39897499999999936&#39;, &#39;result_ENG_VOL_time_0.39897499999999936&#39;, &#39;result_ENG_SE_time_0.39897499999999936&#39;, &#39;result_ENG_AHO_time_0.39897499999999936&#39;, &#39;result_ENG_TH_time_0.39897499999999936&#39;, &#39;result_ENG_KE_time_0.39897499999999936&#39;, &#39;result_ENG_CO_time_0.39897499999999936&#39;, &#39;result_ENG_INC_time_0.39897499999999936&#39;, &#39;result_EPEL_time_0.39897499999999936&#39;, &#39;result_ETH_time_0.39897499999999936&#39;, &#39;result_ETH_EQV_time_0.39897499999999936&#39;, &#39;result_ETH_SWL_time_0.39897499999999936&#39;, &#39;result_BFE_time_0.39897499999999936&#39;, &#39;result_U_time_0.4179749999999994&#39;, &#39;result_RF_time_0.4179749999999994&#39;, &#39;result_ENF_time_0.4179749999999994&#39;, &#39;result_S_time_0.4179749999999994&#39;, &#39;result_ENG_VOL_time_0.4179749999999994&#39;, &#39;result_ENG_SE_time_0.4179749999999994&#39;, &#39;result_ENG_AHO_time_0.4179749999999994&#39;, &#39;result_ENG_TH_time_0.4179749999999994&#39;, &#39;result_ENG_KE_time_0.4179749999999994&#39;, &#39;result_ENG_CO_time_0.4179749999999994&#39;, &#39;result_ENG_INC_time_0.4179749999999994&#39;, &#39;result_EPEL_time_0.4179749999999994&#39;, &#39;result_ETH_time_0.4179749999999994&#39;, &#39;result_ETH_EQV_time_0.4179749999999994&#39;, &#39;result_ETH_SWL_time_0.4179749999999994&#39;, &#39;result_BFE_time_0.4179749999999994&#39;, &#39;result_U_time_0.4379749999999994&#39;, &#39;result_RF_time_0.4379749999999994&#39;, &#39;result_ENF_time_0.4379749999999994&#39;, &#39;result_S_time_0.4379749999999994&#39;, &#39;result_ENG_VOL_time_0.4379749999999994&#39;, &#39;result_ENG_SE_time_0.4379749999999994&#39;, &#39;result_ENG_AHO_time_0.4379749999999994&#39;, &#39;result_ENG_TH_time_0.4379749999999994&#39;, &#39;result_ENG_KE_time_0.4379749999999994&#39;, &#39;result_ENG_CO_time_0.4379749999999994&#39;, &#39;result_ENG_INC_time_0.4379749999999994&#39;, &#39;result_EPEL_time_0.4379749999999994&#39;, &#39;result_ETH_time_0.4379749999999994&#39;, &#39;result_ETH_EQV_time_0.4379749999999994&#39;, &#39;result_ETH_SWL_time_0.4379749999999994&#39;, &#39;result_BFE_time_0.4379749999999994&#39;, &#39;result_U_time_0.4579749999999994&#39;, &#39;result_RF_time_0.4579749999999994&#39;, &#39;result_ENF_time_0.4579749999999994&#39;, &#39;result_S_time_0.4579749999999994&#39;, &#39;result_ENG_VOL_time_0.4579749999999994&#39;, &#39;result_ENG_SE_time_0.4579749999999994&#39;, &#39;result_ENG_AHO_time_0.4579749999999994&#39;, &#39;result_ENG_TH_time_0.4579749999999994&#39;, &#39;result_ENG_KE_time_0.4579749999999994&#39;, &#39;result_ENG_CO_time_0.4579749999999994&#39;, &#39;result_ENG_INC_time_0.4579749999999994&#39;, &#39;result_EPEL_time_0.4579749999999994&#39;, &#39;result_ETH_time_0.4579749999999994&#39;, &#39;result_ETH_EQV_time_0.4579749999999994&#39;, &#39;result_ETH_SWL_time_0.4579749999999994&#39;, &#39;result_BFE_time_0.4579749999999994&#39;, &#39;result_U_time_0.47797499999999943&#39;, &#39;result_RF_time_0.47797499999999943&#39;, &#39;result_ENF_time_0.47797499999999943&#39;, &#39;result_S_time_0.47797499999999943&#39;, &#39;result_ENG_VOL_time_0.47797499999999943&#39;, &#39;result_ENG_SE_time_0.47797499999999943&#39;, &#39;result_ENG_AHO_time_0.47797499999999943&#39;, &#39;result_ENG_TH_time_0.47797499999999943&#39;, &#39;result_ENG_KE_time_0.47797499999999943&#39;, &#39;result_ENG_CO_time_0.47797499999999943&#39;, &#39;result_ENG_INC_time_0.47797499999999943&#39;, &#39;result_EPEL_time_0.47797499999999943&#39;, &#39;result_ETH_time_0.47797499999999943&#39;, &#39;result_ETH_EQV_time_0.47797499999999943&#39;, &#39;result_ETH_SWL_time_0.47797499999999943&#39;, &#39;result_BFE_time_0.47797499999999943&#39;, &#39;result_U_time_0.49797499999999945&#39;, &#39;result_RF_time_0.49797499999999945&#39;, &#39;result_ENF_time_0.49797499999999945&#39;, &#39;result_S_time_0.49797499999999945&#39;, &#39;result_ENG_VOL_time_0.49797499999999945&#39;, &#39;result_ENG_SE_time_0.49797499999999945&#39;, &#39;result_ENG_AHO_time_0.49797499999999945&#39;, &#39;result_ENG_TH_time_0.49797499999999945&#39;, &#39;result_ENG_KE_time_0.49797499999999945&#39;, &#39;result_ENG_CO_time_0.49797499999999945&#39;, &#39;result_ENG_INC_time_0.49797499999999945&#39;, &#39;result_EPEL_time_0.49797499999999945&#39;, &#39;result_ETH_time_0.49797499999999945&#39;, &#39;result_ETH_EQV_time_0.49797499999999945&#39;, &#39;result_ETH_SWL_time_0.49797499999999945&#39;, &#39;result_BFE_time_0.49797499999999945&#39;, &#39;result_U_time_0.5179749999999994&#39;, &#39;result_RF_time_0.5179749999999994&#39;, &#39;result_ENF_time_0.5179749999999994&#39;, &#39;result_S_time_0.5179749999999994&#39;, &#39;result_ENG_VOL_time_0.5179749999999994&#39;, &#39;result_ENG_SE_time_0.5179749999999994&#39;, &#39;result_ENG_AHO_time_0.5179749999999994&#39;, &#39;result_ENG_TH_time_0.5179749999999994&#39;, &#39;result_ENG_KE_time_0.5179749999999994&#39;, &#39;result_ENG_CO_time_0.5179749999999994&#39;, &#39;result_ENG_INC_time_0.5179749999999994&#39;, &#39;result_EPEL_time_0.5179749999999994&#39;, &#39;result_ETH_time_0.5179749999999994&#39;, &#39;result_ETH_EQV_time_0.5179749999999994&#39;, &#39;result_ETH_SWL_time_0.5179749999999994&#39;, &#39;result_BFE_time_0.5179749999999994&#39;, &#39;result_U_time_0.5375497170781891&#39;, &#39;result_RF_time_0.5375497170781891&#39;, &#39;result_ENF_time_0.5375497170781891&#39;, &#39;result_S_time_0.5375497170781891&#39;, &#39;result_ENG_VOL_time_0.5375497170781891&#39;, &#39;result_ENG_SE_time_0.5375497170781891&#39;, &#39;result_ENG_AHO_time_0.5375497170781891&#39;, &#39;result_ENG_TH_time_0.5375497170781891&#39;, &#39;result_ENG_KE_time_0.5375497170781891&#39;, &#39;result_ENG_CO_time_0.5375497170781891&#39;, &#39;result_ENG_INC_time_0.5375497170781891&#39;, &#39;result_EPEL_time_0.5375497170781891&#39;, &#39;result_ETH_time_0.5375497170781891&#39;, &#39;result_ETH_EQV_time_0.5375497170781891&#39;, &#39;result_ETH_SWL_time_0.5375497170781891&#39;, &#39;result_BFE_time_0.5375497170781891&#39;, &#39;result_U_time_0.5572527745675683&#39;, &#39;result_RF_time_0.5572527745675683&#39;, &#39;result_ENF_time_0.5572527745675683&#39;, &#39;result_S_time_0.5572527745675683&#39;, &#39;result_ENG_VOL_time_0.5572527745675683&#39;, &#39;result_ENG_SE_time_0.5572527745675683&#39;, &#39;result_ENG_AHO_time_0.5572527745675683&#39;, &#39;result_ENG_TH_time_0.5572527745675683&#39;, &#39;result_ENG_KE_time_0.5572527745675683&#39;, &#39;result_ENG_CO_time_0.5572527745675683&#39;, &#39;result_ENG_INC_time_0.5572527745675683&#39;, &#39;result_EPEL_time_0.5572527745675683&#39;, &#39;result_ETH_time_0.5572527745675683&#39;, &#39;result_ETH_EQV_time_0.5572527745675683&#39;, &#39;result_ETH_SWL_time_0.5572527745675683&#39;, &#39;result_BFE_time_0.5572527745675683&#39;, &#39;result_U_time_0.5771178586948806&#39;, &#39;result_RF_time_0.5771178586948806&#39;, &#39;result_ENF_time_0.5771178586948806&#39;, &#39;result_S_time_0.5771178586948806&#39;, &#39;result_ENG_VOL_time_0.5771178586948806&#39;, &#39;result_ENG_SE_time_0.5771178586948806&#39;, &#39;result_ENG_AHO_time_0.5771178586948806&#39;, &#39;result_ENG_TH_time_0.5771178586948806&#39;, &#39;result_ENG_KE_time_0.5771178586948806&#39;, &#39;result_ENG_CO_time_0.5771178586948806&#39;, &#39;result_ENG_INC_time_0.5771178586948806&#39;, &#39;result_EPEL_time_0.5771178586948806&#39;, &#39;result_ETH_time_0.5771178586948806&#39;, &#39;result_ETH_EQV_time_0.5771178586948806&#39;, &#39;result_ETH_SWL_time_0.5771178586948806&#39;, &#39;result_BFE_time_0.5771178586948806&#39;, &#39;result_U_time_0.5970205401025951&#39;, &#39;result_RF_time_0.5970205401025951&#39;, &#39;result_ENF_time_0.5970205401025951&#39;, &#39;result_S_time_0.5970205401025951&#39;, &#39;result_ENG_VOL_time_0.5970205401025951&#39;, &#39;result_ENG_SE_time_0.5970205401025951&#39;, &#39;result_ENG_AHO_time_0.5970205401025951&#39;, &#39;result_ENG_TH_time_0.5970205401025951&#39;, &#39;result_ENG_KE_time_0.5970205401025951&#39;, &#39;result_ENG_CO_time_0.5970205401025951&#39;, &#39;result_ENG_INC_time_0.5970205401025951&#39;, &#39;result_EPEL_time_0.5970205401025951&#39;, &#39;result_ETH_time_0.5970205401025951&#39;, &#39;result_ETH_EQV_time_0.5970205401025951&#39;, &#39;result_ETH_SWL_time_0.5970205401025951&#39;, &#39;result_BFE_time_0.5970205401025951&#39;, &#39;result_U_time_0.6169463863439129&#39;, &#39;result_RF_time_0.6169463863439129&#39;, &#39;result_ENF_time_0.6169463863439129&#39;, &#39;result_S_time_0.6169463863439129&#39;, &#39;result_ENG_VOL_time_0.6169463863439129&#39;, &#39;result_ENG_SE_time_0.6169463863439129&#39;, &#39;result_ENG_AHO_time_0.6169463863439129&#39;, &#39;result_ENG_TH_time_0.6169463863439129&#39;, &#39;result_ENG_KE_time_0.6169463863439129&#39;, &#39;result_ENG_CO_time_0.6169463863439129&#39;, &#39;result_ENG_INC_time_0.6169463863439129&#39;, &#39;result_EPEL_time_0.6169463863439129&#39;, &#39;result_ETH_time_0.6169463863439129&#39;, &#39;result_ETH_EQV_time_0.6169463863439129&#39;, &#39;result_ETH_SWL_time_0.6169463863439129&#39;, &#39;result_BFE_time_0.6169463863439129&#39;, &#39;result_U_time_0.6368334712400927&#39;, &#39;result_RF_time_0.6368334712400927&#39;, &#39;result_ENF_time_0.6368334712400927&#39;, &#39;result_S_time_0.6368334712400927&#39;, &#39;result_ENG_VOL_time_0.6368334712400927&#39;, &#39;result_ENG_SE_time_0.6368334712400927&#39;, &#39;result_ENG_AHO_time_0.6368334712400927&#39;, &#39;result_ENG_TH_time_0.6368334712400927&#39;, &#39;result_ENG_KE_time_0.6368334712400927&#39;, &#39;result_ENG_CO_time_0.6368334712400927&#39;, &#39;result_ENG_INC_time_0.6368334712400927&#39;, &#39;result_EPEL_time_0.6368334712400927&#39;, &#39;result_ETH_time_0.6368334712400927&#39;, &#39;result_ETH_EQV_time_0.6368334712400927&#39;, &#39;result_ETH_SWL_time_0.6368334712400927&#39;, &#39;result_BFE_time_0.6368334712400927&#39;, &#39;result_U_time_0.6567345247543699&#39;, &#39;result_RF_time_0.6567345247543699&#39;, &#39;result_ENF_time_0.6567345247543699&#39;, &#39;result_S_time_0.6567345247543699&#39;, &#39;result_ENG_VOL_time_0.6567345247543699&#39;, &#39;result_ENG_SE_time_0.6567345247543699&#39;, &#39;result_ENG_AHO_time_0.6567345247543699&#39;, &#39;result_ENG_TH_time_0.6567345247543699&#39;, &#39;result_ENG_KE_time_0.6567345247543699&#39;, &#39;result_ENG_CO_time_0.6567345247543699&#39;, &#39;result_ENG_INC_time_0.6567345247543699&#39;, &#39;result_EPEL_time_0.6567345247543699&#39;, &#39;result_ETH_time_0.6567345247543699&#39;, &#39;result_ETH_EQV_time_0.6567345247543699&#39;, &#39;result_ETH_SWL_time_0.6567345247543699&#39;, &#39;result_BFE_time_0.6567345247543699&#39;, &#39;result_U_time_0.6766278291959333&#39;, &#39;result_RF_time_0.6766278291959333&#39;, &#39;result_ENF_time_0.6766278291959333&#39;, &#39;result_S_time_0.6766278291959333&#39;, &#39;result_ENG_VOL_time_0.6766278291959333&#39;, &#39;result_ENG_SE_time_0.6766278291959333&#39;, &#39;result_ENG_AHO_time_0.6766278291959333&#39;, &#39;result_ENG_TH_time_0.6766278291959333&#39;, &#39;result_ENG_KE_time_0.6766278291959333&#39;, &#39;result_ENG_CO_time_0.6766278291959333&#39;, &#39;result_ENG_INC_time_0.6766278291959333&#39;, &#39;result_EPEL_time_0.6766278291959333&#39;, &#39;result_ETH_time_0.6766278291959333&#39;, &#39;result_ETH_EQV_time_0.6766278291959333&#39;, &#39;result_ETH_SWL_time_0.6766278291959333&#39;, &#39;result_BFE_time_0.6766278291959333&#39;]
+</pre></div>
+</div>
+<p>compare first result at second time set:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fc_all_steps_first_step_first_res</span> <span class="o">=</span> <span class="n">res_deser_all_times_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_field_by_time_id</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># set 1</span>
+<span class="n">mesh_deser_all_times</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc_all_steps_first_step_first_res</span><span class="p">)</span>
+
+<span class="n">mesh_deser_set_per_set</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res_deser_set_per_set_list</span><span class="p">[</span><span class="n">num_res</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../../_images/sphx_glr_02-hdf5_serialize_and_read_001.png" srcset="../../_images/sphx_glr_02-hdf5_serialize_and_read_001.png" alt="02 hdf5 serialize and read" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-hdf5_serialize_and_read_002.png" srcset="../../_images/sphx_glr_02-hdf5_serialize_and_read_002.png" alt="02 hdf5 serialize and read" class = "sphx-glr-multi-img"/></li>
+</ul>
+<p>compare 4th result at 6 time set:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">to_nodal_op</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">averaging</span><span class="o">.</span><span class="n">to_nodal_fc</span><span class="p">()</span>
+
+<span class="n">fc_all_steps_first_step_first_res</span> <span class="o">=</span> <span class="n">res_deser_all_times_list</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">get_field_by_time_id</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>  <span class="c1"># set 6</span>
+<span class="n">mesh_deser_all_times</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">averaging</span><span class="o">.</span><span class="n">to_nodal</span><span class="p">(</span><span class="n">fc_all_steps_first_step_first_res</span><span class="p">)</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">mesh_deser_set_per_set</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">averaging</span><span class="o">.</span><span class="n">to_nodal</span><span class="p">(</span><span class="n">res_deser_set_per_set_list</span><span class="p">[</span><span class="n">num_res</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../../_images/sphx_glr_02-hdf5_serialize_and_read_003.png" srcset="../../_images/sphx_glr_02-hdf5_serialize_and_read_003.png" alt="02 hdf5 serialize and read" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-hdf5_serialize_and_read_004.png" srcset="../../_images/sphx_glr_02-hdf5_serialize_and_read_004.png" alt="02 hdf5 serialize and read" class = "sphx-glr-multi-img"/></li>
+</ul>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  17.262 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-05-file-io-02-hdf5-serialize-and-read-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/2970535563a59239578d15cbd132d774/02-hdf5_serialize_and_read.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-hdf5_serialize_and_read.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/3faa4e88cd1d7e362da860f165b08a46/02-hdf5_serialize_and_read.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">02-hdf5_serialize_and_read.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+            </article>
+            
+            
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   HDF5 export and import operations
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-modules-instantiate-model-and-create-temporary-folder">
+   Import modules, instantiate model and create temporary folder
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-h5-serialization-operator">
+   Use H5 serialization operator
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-h5-reading-operator">
+   Use H5 reading operator
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compare-results">
+   Compare results
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+<div class="tocsection sourcelink">
+    <a href="../../_sources/examples/05-file-IO/02-hdf5_serialize_and_read.rst.txt">
+        <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+</div>
+
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

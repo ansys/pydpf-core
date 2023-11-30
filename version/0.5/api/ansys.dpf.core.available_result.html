@@ -1,0 +1,1789 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>AvailableResult &#8212; PyDPF-Core</title>
+    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    
+        <link href="../_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys.dpf.core.available_result';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.5';
+        </script>
+    <link rel="shortcut icon" href="../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Collection" href="ansys.dpf.core.collection.html" />
+    <link rel="prev" title="unitary_field" href="ansys.dpf.core.operators.utility.unitary_field.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+    
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        APIs
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.5  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+    
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+    
+
+    
+    <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="../index.html">PyDPF-Core</a> » </li>
+    
+
+          <li class="nav-item nav-item-1"><a href="index.html" >APIs</a> » </li>
+          <li class="nav-item nav-item-2"><a href="ansys.dpf.core.html" accesskey="U">ansys.dpf.core package</a> » </li>
+        <li class="nav-item nav-item-this"><a href="">AvailableResult</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        APIs
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.5  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">
+    Section Navigation
+  </p>
+  <div class="bd-toc-item navbar-nav">
+    <p aria-level="2" class="caption" role="heading"><span class="caption-text">APIs</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="ansys.dpf.core.html">ansys.dpf.core package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.examples.html">ansys.dpf.core.examples package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.html">ansys.dpf.core.operators package</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">AvailableResult</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.collection.html">Collection</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.common.html">Common</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.config.html">Operator Configuration</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.core.html">Core</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_fields_container.html">Custom Fields Containers</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_operator.html">Custom Operator Base</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.cyclic_support.html">Cyclic Support</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_sources.html">Data Sources</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_tree.html">DataTree</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dimensionality.html">Dimensionality</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_array.html">DPFArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html">Operator</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.element_descriptor.html">Element Descriptor</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.elements.html">Elements</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.errors.html">Errors</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field.html">Field</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field_definition.html">FieldDefinition</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container.html">FieldsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container_factory.html">fields_container_factory</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_factory.html">fields_factory</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.inputs.html">Inputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.mesh_scoping_factory.html">mesh_scoping_factory</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshed_region.html">MeshedRegion</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshes_container.html">MeshesContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.model.html">Model</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.nodes.html">Nodes</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operator_specification.html">Operator Specification</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.outputs.html">Outputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.path_utilities.html">path_utilities</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.plotter.html">Plotter</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.property_field.html">PropertyField</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.result_info.html">ResultInfo</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.results.html">Results</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.runtime_config.html">RuntimeConfig</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scoping.html">Scoping</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scopings_container.html">ScopingsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server.html">Server</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_factory.html">Server factory, server configuration and communication protocols</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_types.html">Server types</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.session.html">Session</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.settings.html">settings</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">time_freq_scoping_factory</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_support.html">TimeFreqSupport</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.workflow.html">Workflow</a></li>
+
+</ul>
+</li>
+</ul>
+
+  </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <span class="target" id="module-ansys.dpf.core.available_result"></span><section id="availableresult">
+<h1>AvailableResult<a class="headerlink" href="#availableresult" title="Permalink to this heading">#</a></h1>
+</section>
+<dl class="py class enum">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity">
+<em class="property"><span class="pre">enum</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.available_result.</span></span><span class="sig-name descname"><span class="pre">Homogeneity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity" title="Permalink to this definition">#</a></dt>
+<dd><p>An enumeration.</p>
+<p>Valid values are as follows:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.acceleration">
+<span class="sig-name descname"><span class="pre">acceleration</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.acceleration:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.acceleration" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.angle">
+<span class="sig-name descname"><span class="pre">angle</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.angle:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.angle" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.angular_velocity">
+<span class="sig-name descname"><span class="pre">angular_velocity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.angular_velocity:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.angular_velocity" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.surface">
+<span class="sig-name descname"><span class="pre">surface</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.surface:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.surface" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.capacitance">
+<span class="sig-name descname"><span class="pre">capacitance</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.capacitance:</span> <span class="pre">4&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.capacitance" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.electric_charge">
+<span class="sig-name descname"><span class="pre">electric_charge</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.electric_charge:</span> <span class="pre">5&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.electric_charge" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.electric_charge_density">
+<span class="sig-name descname"><span class="pre">electric_charge_density</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.electric_charge_density:</span> <span class="pre">6&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.electric_charge_density" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.conductivity">
+<span class="sig-name descname"><span class="pre">conductivity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.conductivity:</span> <span class="pre">7&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.conductivity" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.current">
+<span class="sig-name descname"><span class="pre">current</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.current:</span> <span class="pre">9&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.current" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.density">
+<span class="sig-name descname"><span class="pre">density</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.density:</span> <span class="pre">10&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.density" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.displacement">
+<span class="sig-name descname"><span class="pre">displacement</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.displacement:</span> <span class="pre">11&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.displacement" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.electric_conductivity">
+<span class="sig-name descname"><span class="pre">electric_conductivity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.electric_conductivity:</span> <span class="pre">12&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.electric_conductivity" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.electric_field">
+<span class="sig-name descname"><span class="pre">electric_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.electric_field:</span> <span class="pre">13&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.electric_field" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.electric_flux_density">
+<span class="sig-name descname"><span class="pre">electric_flux_density</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.electric_flux_density:</span> <span class="pre">14&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.electric_flux_density" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.electric_resistivity">
+<span class="sig-name descname"><span class="pre">electric_resistivity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.electric_resistivity:</span> <span class="pre">15&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.electric_resistivity" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.energy">
+<span class="sig-name descname"><span class="pre">energy</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.energy:</span> <span class="pre">16&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.energy" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.film_coefficient">
+<span class="sig-name descname"><span class="pre">film_coefficient</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.film_coefficient:</span> <span class="pre">17&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.film_coefficient" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.force">
+<span class="sig-name descname"><span class="pre">force</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.force:</span> <span class="pre">18&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.force" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.force_intensity">
+<span class="sig-name descname"><span class="pre">force_intensity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.force_intensity:</span> <span class="pre">19&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.force_intensity" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.frequency">
+<span class="sig-name descname"><span class="pre">frequency</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.frequency:</span> <span class="pre">20&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.frequency" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.heat_flux">
+<span class="sig-name descname"><span class="pre">heat_flux</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.heat_flux:</span> <span class="pre">21&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.heat_flux" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.heat_generation">
+<span class="sig-name descname"><span class="pre">heat_generation</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.heat_generation:</span> <span class="pre">22&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.heat_generation" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.heat_rate">
+<span class="sig-name descname"><span class="pre">heat_rate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.heat_rate:</span> <span class="pre">23&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.heat_rate" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.inductance">
+<span class="sig-name descname"><span class="pre">inductance</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.inductance:</span> <span class="pre">24&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.inductance" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.inverse_stress">
+<span class="sig-name descname"><span class="pre">inverse_stress</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.inverse_stress:</span> <span class="pre">25&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.inverse_stress" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.length">
+<span class="sig-name descname"><span class="pre">length</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.length:</span> <span class="pre">26&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.length" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.magnetic_field_intensity">
+<span class="sig-name descname"><span class="pre">magnetic_field_intensity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.magnetic_field_intensity:</span> <span class="pre">27&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.magnetic_field_intensity" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.magnetic_flux">
+<span class="sig-name descname"><span class="pre">magnetic_flux</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.magnetic_flux:</span> <span class="pre">28&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.magnetic_flux" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.magnetic_flux_density">
+<span class="sig-name descname"><span class="pre">magnetic_flux_density</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.magnetic_flux_density:</span> <span class="pre">29&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.magnetic_flux_density" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.mass">
+<span class="sig-name descname"><span class="pre">mass</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.mass:</span> <span class="pre">30&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.mass" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.moment">
+<span class="sig-name descname"><span class="pre">moment</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.moment:</span> <span class="pre">31&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.moment" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.moment_intertia">
+<span class="sig-name descname"><span class="pre">moment_intertia</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.moment_intertia:</span> <span class="pre">32&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.moment_intertia" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.permeability">
+<span class="sig-name descname"><span class="pre">permeability</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.permeability:</span> <span class="pre">33&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.permeability" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.permittivity">
+<span class="sig-name descname"><span class="pre">permittivity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.permittivity:</span> <span class="pre">34&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.permittivity" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.poisson">
+<span class="sig-name descname"><span class="pre">poisson</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.poisson:</span> <span class="pre">35&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.poisson" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.power">
+<span class="sig-name descname"><span class="pre">power</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.power:</span> <span class="pre">36&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.power" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.pressure">
+<span class="sig-name descname"><span class="pre">pressure</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.pressure:</span> <span class="pre">37&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.pressure" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.relative_permeability">
+<span class="sig-name descname"><span class="pre">relative_permeability</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.relative_permeability:</span> <span class="pre">38&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.relative_permeability" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.relative_permittivity">
+<span class="sig-name descname"><span class="pre">relative_permittivity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.relative_permittivity:</span> <span class="pre">39&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.relative_permittivity" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.section_modulus">
+<span class="sig-name descname"><span class="pre">section_modulus</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.section_modulus:</span> <span class="pre">40&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.section_modulus" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.specific_heat">
+<span class="sig-name descname"><span class="pre">specific_heat</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.specific_heat:</span> <span class="pre">41&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.specific_heat" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.specific_weight">
+<span class="sig-name descname"><span class="pre">specific_weight</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.specific_weight:</span> <span class="pre">42&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.specific_weight" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.shear_strain">
+<span class="sig-name descname"><span class="pre">shear_strain</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.shear_strain:</span> <span class="pre">43&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.shear_strain" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.stiffness">
+<span class="sig-name descname"><span class="pre">stiffness</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.stiffness:</span> <span class="pre">44&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.stiffness" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.strain">
+<span class="sig-name descname"><span class="pre">strain</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.strain:</span> <span class="pre">45&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.strain" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.stress">
+<span class="sig-name descname"><span class="pre">stress</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.stress:</span> <span class="pre">46&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.stress" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.strength">
+<span class="sig-name descname"><span class="pre">strength</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.strength:</span> <span class="pre">47&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.strength" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.thermal_expansion">
+<span class="sig-name descname"><span class="pre">thermal_expansion</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.thermal_expansion:</span> <span class="pre">48&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.thermal_expansion" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.temperature">
+<span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.temperature:</span> <span class="pre">49&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.temperature" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.time">
+<span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.time:</span> <span class="pre">50&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.time" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.velocity">
+<span class="sig-name descname"><span class="pre">velocity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.velocity:</span> <span class="pre">51&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.velocity" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.voltage">
+<span class="sig-name descname"><span class="pre">voltage</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.voltage:</span> <span class="pre">52&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.voltage" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.volume">
+<span class="sig-name descname"><span class="pre">volume</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.volume:</span> <span class="pre">53&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.volume" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.moment_inertia_mass">
+<span class="sig-name descname"><span class="pre">moment_inertia_mass</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.moment_inertia_mass:</span> <span class="pre">55&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.moment_inertia_mass" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.stress_intensity_factor">
+<span class="sig-name descname"><span class="pre">stress_intensity_factor</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.stress_intensity_factor:</span> <span class="pre">92&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.stress_intensity_factor" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.thermal_gradient">
+<span class="sig-name descname"><span class="pre">thermal_gradient</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.thermal_gradient:</span> <span class="pre">95&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.thermal_gradient" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.resistance">
+<span class="sig-name descname"><span class="pre">resistance</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.resistance:</span> <span class="pre">1000&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.resistance" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.unknown">
+<span class="sig-name descname"><span class="pre">unknown</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.unknown:</span> <span class="pre">111&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.unknown" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.Homogeneity.dimensionless">
+<span class="sig-name descname"><span class="pre">dimensionless</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;Homogeneity.dimensionless:</span> <span class="pre">117&gt;</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.Homogeneity.dimensionless" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.AvailableResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.available_result.</span></span><span class="sig-name descname"><span class="pre">AvailableResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">availableresult</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.available_result.AvailableResult" title="Permalink to this definition">#</a></dt>
+<dd><p>Represents a result that can be requested via an operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>availableresult</strong> (<em>available_result_pb2.AvailableResult message.</em>) – </p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Explore an available result from the model.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transient</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">download_transient_result</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">transient</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_info</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">result_info</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">result_info</span><span class="o">.</span><span class="n">available_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;displacement&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">homogeneity</span>
+<span class="go">&#39;length&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">dimensionality</span>
+<span class="go">&#39;vector&#39;</span>
+</pre></div>
+</div>
+<p>Create the operator of the given available result.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">disp</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.AvailableResult.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#ansys.dpf.core.available_result.AvailableResult.name" title="Permalink to this definition">#</a></dt>
+<dd><p>Result operator.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.AvailableResult.n_components">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_components</span></span><a class="headerlink" href="#ansys.dpf.core.available_result.AvailableResult.n_components" title="Permalink to this definition">#</a></dt>
+<dd><p>Number of components of the result.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.AvailableResult.dimensionality">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dimensionality</span></span><a class="headerlink" href="#ansys.dpf.core.available_result.AvailableResult.dimensionality" title="Permalink to this definition">#</a></dt>
+<dd><p>Dimensionality nature of the result, such as a vector, scalar, or tensor.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.AvailableResult.homogeneity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">homogeneity</span></span><a class="headerlink" href="#ansys.dpf.core.available_result.AvailableResult.homogeneity" title="Permalink to this definition">#</a></dt>
+<dd><p>Homogeneity of the result.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.AvailableResult.unit">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unit</span></span><a class="headerlink" href="#ansys.dpf.core.available_result.AvailableResult.unit" title="Permalink to this definition">#</a></dt>
+<dd><p>Unit of the result.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.AvailableResult.operator_name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">operator_name</span></span><a class="headerlink" href="#ansys.dpf.core.available_result.AvailableResult.operator_name" title="Permalink to this definition">#</a></dt>
+<dd><p>Name of the corresponding operator.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.AvailableResult.sub_results">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sub_results</span></span><a class="headerlink" href="#ansys.dpf.core.available_result.AvailableResult.sub_results" title="Permalink to this definition">#</a></dt>
+<dd><p>List of the subresult.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.AvailableResult.native_location">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">native_location</span></span><a class="headerlink" href="#ansys.dpf.core.available_result.AvailableResult.native_location" title="Permalink to this definition">#</a></dt>
+<dd><p>Native location of the result.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.AvailableResult.native_scoping_location">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">native_scoping_location</span></span><a class="headerlink" href="#ansys.dpf.core.available_result.AvailableResult.native_scoping_location" title="Permalink to this definition">#</a></dt>
+<dd><p>Native scoping location of the result.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.available_result.AvailableResult.physical_name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">physical_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#ansys.dpf.core.available_result.AvailableResult.physical_name" title="Permalink to this definition">#</a></dt>
+<dd><p>Name of the result with spaces</p>
+</dd></dl>
+
+</dd></dl>
+
+
+
+            </article>
+            
+            
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   AvailableResult
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     Homogeneity
+    </span>
+   </code>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.acceleration">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.acceleration
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.angle">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.angle
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.angular_velocity">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.angular_velocity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.surface">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.surface
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.capacitance">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.capacitance
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.electric_charge">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.electric_charge
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.electric_charge_density">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.electric_charge_density
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.conductivity">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.conductivity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.current">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.current
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.density">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.density
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.displacement">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.displacement
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.electric_conductivity">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.electric_conductivity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.electric_field">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.electric_field
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.electric_flux_density">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.electric_flux_density
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.electric_resistivity">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.electric_resistivity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.energy">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.energy
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.film_coefficient">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.film_coefficient
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.force">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.force
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.force_intensity">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.force_intensity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.frequency">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.frequency
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.heat_flux">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.heat_flux
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.heat_generation">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.heat_generation
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.heat_rate">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.heat_rate
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.inductance">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.inductance
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.inverse_stress">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.inverse_stress
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.length">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.length
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.magnetic_field_intensity">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.magnetic_field_intensity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.magnetic_flux">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.magnetic_flux
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.magnetic_flux_density">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.magnetic_flux_density
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.mass">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.mass
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.moment">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.moment
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.moment_intertia">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.moment_intertia
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.permeability">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.permeability
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.permittivity">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.permittivity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.poisson">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.poisson
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.power">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.power
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.pressure">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.pressure
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.relative_permeability">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.relative_permeability
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.relative_permittivity">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.relative_permittivity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.section_modulus">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.section_modulus
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.specific_heat">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.specific_heat
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.specific_weight">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.specific_weight
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.shear_strain">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.shear_strain
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.stiffness">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.stiffness
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.strain">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.strain
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.stress">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.stress
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.strength">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.strength
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.thermal_expansion">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.thermal_expansion
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.temperature">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.temperature
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.time">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.time
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.velocity">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.velocity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.voltage">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.voltage
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.volume">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.volume
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.moment_inertia_mass">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.moment_inertia_mass
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.stress_intensity_factor">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.stress_intensity_factor
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.thermal_gradient">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.thermal_gradient
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.resistance">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.resistance
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.unknown">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.unknown
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.Homogeneity.dimensionless">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Homogeneity.dimensionless
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.AvailableResult">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     AvailableResult
+    </span>
+   </code>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.AvailableResult.name">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       AvailableResult.name
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.AvailableResult.n_components">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       AvailableResult.n_components
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.AvailableResult.dimensionality">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       AvailableResult.dimensionality
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.AvailableResult.homogeneity">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       AvailableResult.homogeneity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.AvailableResult.unit">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       AvailableResult.unit
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.AvailableResult.operator_name">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       AvailableResult.operator_name
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.AvailableResult.sub_results">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       AvailableResult.sub_results
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.AvailableResult.native_location">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       AvailableResult.native_location
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.AvailableResult.native_scoping_location">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       AvailableResult.native_scoping_location
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.available_result.AvailableResult.physical_name">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       AvailableResult.physical_name
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+<div class="tocsection sourcelink">
+    <a href="../_sources/api/ansys.dpf.core.available_result.rst.txt">
+        <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+</div>
+
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

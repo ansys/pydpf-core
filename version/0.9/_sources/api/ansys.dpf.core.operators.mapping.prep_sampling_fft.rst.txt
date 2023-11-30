@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.mapping.prep_sampling_fft
+   :inherited-members:

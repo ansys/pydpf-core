@@ -1,0 +1,34 @@
+ansys.dpf.core.operators.geo package
+====================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core.operators.geo.cartesian_to_spherical
+   ansys.dpf.core.operators.geo.cartesian_to_spherical_fc
+   ansys.dpf.core.operators.geo.element_nodal_contribution
+   ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time
+   ansys.dpf.core.operators.geo.elements_volume
+   ansys.dpf.core.operators.geo.elements_volumes_over_time
+   ansys.dpf.core.operators.geo.faces_area
+   ansys.dpf.core.operators.geo.gauss_to_node
+   ansys.dpf.core.operators.geo.integrate_over_elements
+   ansys.dpf.core.operators.geo.normals
+   ansys.dpf.core.operators.geo.normals_provider_nl
+   ansys.dpf.core.operators.geo.rotate
+   ansys.dpf.core.operators.geo.rotate_fc
+   ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs
+   ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc
+   ansys.dpf.core.operators.geo.spherical_to_cartesian
+   ansys.dpf.core.operators.geo.spherical_to_cartesian_fc
+   ansys.dpf.core.operators.geo.to_polar_coordinates
+   ansys.dpf.core.operators.geo.transform_invariant_terms_rbd
+
+Module contents
+---------------
+
+.. automodule:: ansys.dpf.core.operators.geo
+   :inherited-members:

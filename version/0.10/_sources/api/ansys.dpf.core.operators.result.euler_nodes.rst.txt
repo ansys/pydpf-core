@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.operators.result.euler_nodes
+   :inherited-members:

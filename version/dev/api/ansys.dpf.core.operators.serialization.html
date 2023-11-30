@@ -1,0 +1,1616 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>ansys.dpf.core.operators.serialization package &#8212; PyDPF-Core</title>
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+ 
+<link href="../_static/css/breadcrumbs.css" rel="stylesheet" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys.dpf.core.operators.serialization';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.14.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="shortcut icon" href="../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="csv_to_field" href="ansys.dpf.core.operators.serialization.csv_to_field.html" />
+    <link rel="prev" title="transpose" href="ansys.dpf.core.operators.scoping.transpose.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+   
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="PyDPF-Core - Home"/>
+    <script>document.write(`<img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="PyDPF-Core - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links-2">
+                    More
+                </button>
+                <ul id="pst-nav-more-links-2" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="ansys.dpf.core.html">ansys.dpf.core package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.examples.html">ansys.dpf.core.examples package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.helpers.html">ansys.dpf.core.helpers namespace</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="ansys.dpf.core.operators.html">ansys.dpf.core.operators package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.html">ansys.dpf.core.operators.averaging package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.html">ansys.dpf.core.operators.filter package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.html">ansys.dpf.core.operators.geo package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.html">ansys.dpf.core.operators.invariant package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.html">ansys.dpf.core.operators.logic package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mapping.html">ansys.dpf.core.operators.mapping package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.html">ansys.dpf.core.operators.math package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.html">ansys.dpf.core.operators.mesh package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.html">ansys.dpf.core.operators.metadata package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.html">ansys.dpf.core.operators.min_max package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.html">ansys.dpf.core.operators.result package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.html">ansys.dpf.core.operators.scoping package</a></li>
+<li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">ansys.dpf.core.operators.serialization package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html">csv_to_field</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html">data_tree_to_json</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html">data_tree_to_txt</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html">deserializer</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html">export_symbolic_workflow</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html">field_to_csv</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html">hdf5dpf_custom_read</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html">hdf5dpf_generate_result_file</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html">import_symbolic_workflow</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html">json_to_data_tree</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html">mechanical_csv_to_field</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html">migrate_file_to_vtk</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html">migrate_to_vtu</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html">serialize_to_hdf5</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html">serializer</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html">serializer_to_string</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html">string_deserializer</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html">txt_to_data_tree</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html">vtk_export</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html">vtk_to_fields</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html">vtu_export</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html">workflow_export_json</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html">workflow_import_json</a></li>
+
+
+
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.server.html">ansys.dpf.core.operators.server namespace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.html">ansys.dpf.core.operators.utility package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.animation.html"><code class="docutils literal notranslate"><span class="pre">animate_mode()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.animator.html">Animator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.any.html">Any</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.available_result.html">AvailableResult</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.collection.html">Collection</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.common.html">Common</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.config.html">Operator Configuration</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.core.html">Core</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_fields_container.html">Custom Fields Containers</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_operator.html">Custom Operator Base</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_type_field.html">CustomTypeField</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.cyclic_support.html">Cyclic Support</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_sources.html">Data Sources</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_tree.html">DataTree</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dimensionality.html">Dimensionality</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_array.html">DPFArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html">Operator</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.element_descriptor.html">Element Descriptor</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.elements.html">Elements</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.errors.html">Errors</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.faces.html">Faces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field.html">Field</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field_definition.html">FieldDefinition</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container.html">FieldsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container_factory.html">fields_container_factory</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_factory.html">fields_factory</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.generic_data_container.html">GenericDataContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.generic_support.html">GenericSupport</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.geometry.html"><code class="docutils literal notranslate"><span class="pre">normalize_vector()</span></code></a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.geometry_factory.html"><code class="docutils literal notranslate"><span class="pre">create_points()</span></code></a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.incremental.html">Incremental</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.inputs.html">Inputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.mesh_info.html">MeshInfo</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.mesh_scoping_factory.html">mesh_scoping_factory</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshed_region.html">MeshedRegion</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshes_container.html">MeshesContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.model.html">Model</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.nodes.html">Nodes</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operator_specification.html">Operator Specification</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.outputs.html">Outputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.path_utilities.html">path_utilities</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.plotter.html">Plotter</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.property_field.html">PropertyField</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.result_info.html">ResultInfo</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.results.html">Results</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.runtime_config.html">RuntimeConfig</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scoping.html">Scoping</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scopings_container.html">ScopingsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server.html">Server</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_context.html">ServerContext</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_factory.html">Server factory, server configuration and communication protocols</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_types.html">Server types</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.session.html">Session</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.settings.html">settings</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.streams_container.html">StreamsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.string_field.html">StringField</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.support.html">Support</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">time_freq_scoping_factory</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_support.html">TimeFreqSupport</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.unit_system.html">UnitSystem</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.workflow.html">Workflow</a></li>
+
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="ansys.dpf.core.operators.html" class="nav-link">ansys.dpf.core.operators package</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">ansys.dpf.co...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="ansys-dpf-core-operators-serialization-package">
+<h1>ansys.dpf.core.operators.serialization package<a class="headerlink" href="#ansys-dpf-core-operators-serialization-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html">csv_to_field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.csv_to_field"><code class="docutils literal notranslate"><span class="pre">csv_to_field</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.csv_to_field.default_config"><code class="docutils literal notranslate"><span class="pre">csv_to_field.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.csv_to_field.inputs"><code class="docutils literal notranslate"><span class="pre">csv_to_field.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.csv_to_field.outputs"><code class="docutils literal notranslate"><span class="pre">csv_to_field.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.csv_to_field.config"><code class="docutils literal notranslate"><span class="pre">csv_to_field.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.csv_to_field.connect"><code class="docutils literal notranslate"><span class="pre">csv_to_field.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.csv_to_field.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">csv_to_field.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.csv_to_field.eval"><code class="docutils literal notranslate"><span class="pre">csv_to_field.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.csv_to_field.get_output"><code class="docutils literal notranslate"><span class="pre">csv_to_field.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.csv_to_field.operator_specification"><code class="docutils literal notranslate"><span class="pre">csv_to_field.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.csv_to_field.progress_bar"><code class="docutils literal notranslate"><span class="pre">csv_to_field.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.csv_to_field.run"><code class="docutils literal notranslate"><span class="pre">csv_to_field.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.csv_to_field.specification"><code class="docutils literal notranslate"><span class="pre">csv_to_field.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.InputsCsvToField"><code class="docutils literal notranslate"><span class="pre">InputsCsvToField</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.InputsCsvToField.time_scoping"><code class="docutils literal notranslate"><span class="pre">InputsCsvToField.time_scoping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.InputsCsvToField.data_sources"><code class="docutils literal notranslate"><span class="pre">InputsCsvToField.data_sources</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.InputsCsvToField.connect"><code class="docutils literal notranslate"><span class="pre">InputsCsvToField.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.OutputsCsvToField"><code class="docutils literal notranslate"><span class="pre">OutputsCsvToField</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html#ansys.dpf.core.operators.serialization.csv_to_field.OutputsCsvToField.fields_container"><code class="docutils literal notranslate"><span class="pre">OutputsCsvToField.fields_container</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html">data_tree_to_json</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json"><code class="docutils literal notranslate"><span class="pre">data_tree_to_json</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json.default_config"><code class="docutils literal notranslate"><span class="pre">data_tree_to_json.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json.inputs"><code class="docutils literal notranslate"><span class="pre">data_tree_to_json.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json.outputs"><code class="docutils literal notranslate"><span class="pre">data_tree_to_json.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json.config"><code class="docutils literal notranslate"><span class="pre">data_tree_to_json.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json.connect"><code class="docutils literal notranslate"><span class="pre">data_tree_to_json.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">data_tree_to_json.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json.eval"><code class="docutils literal notranslate"><span class="pre">data_tree_to_json.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json.get_output"><code class="docutils literal notranslate"><span class="pre">data_tree_to_json.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json.operator_specification"><code class="docutils literal notranslate"><span class="pre">data_tree_to_json.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json.progress_bar"><code class="docutils literal notranslate"><span class="pre">data_tree_to_json.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json.run"><code class="docutils literal notranslate"><span class="pre">data_tree_to_json.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.data_tree_to_json.specification"><code class="docutils literal notranslate"><span class="pre">data_tree_to_json.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.InputsDataTreeToJson"><code class="docutils literal notranslate"><span class="pre">InputsDataTreeToJson</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.InputsDataTreeToJson.data_tree"><code class="docutils literal notranslate"><span class="pre">InputsDataTreeToJson.data_tree</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.InputsDataTreeToJson.path"><code class="docutils literal notranslate"><span class="pre">InputsDataTreeToJson.path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.InputsDataTreeToJson.connect"><code class="docutils literal notranslate"><span class="pre">InputsDataTreeToJson.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html#ansys.dpf.core.operators.serialization.data_tree_to_json.OutputsDataTreeToJson"><code class="docutils literal notranslate"><span class="pre">OutputsDataTreeToJson</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html">data_tree_to_txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.data_tree_to_txt"><code class="docutils literal notranslate"><span class="pre">data_tree_to_txt</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.data_tree_to_txt.default_config"><code class="docutils literal notranslate"><span class="pre">data_tree_to_txt.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.data_tree_to_txt.inputs"><code class="docutils literal notranslate"><span class="pre">data_tree_to_txt.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.data_tree_to_txt.outputs"><code class="docutils literal notranslate"><span class="pre">data_tree_to_txt.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.data_tree_to_txt.config"><code class="docutils literal notranslate"><span class="pre">data_tree_to_txt.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.data_tree_to_txt.connect"><code class="docutils literal notranslate"><span class="pre">data_tree_to_txt.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.data_tree_to_txt.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">data_tree_to_txt.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.data_tree_to_txt.eval"><code class="docutils literal notranslate"><span class="pre">data_tree_to_txt.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.data_tree_to_txt.get_output"><code class="docutils literal notranslate"><span class="pre">data_tree_to_txt.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.data_tree_to_txt.operator_specification"><code class="docutils literal notranslate"><span class="pre">data_tree_to_txt.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.data_tree_to_txt.progress_bar"><code class="docutils literal notranslate"><span class="pre">data_tree_to_txt.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.data_tree_to_txt.run"><code class="docutils literal notranslate"><span class="pre">data_tree_to_txt.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.data_tree_to_txt.specification"><code class="docutils literal notranslate"><span class="pre">data_tree_to_txt.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.InputsDataTreeToTxt"><code class="docutils literal notranslate"><span class="pre">InputsDataTreeToTxt</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.InputsDataTreeToTxt.data_tree"><code class="docutils literal notranslate"><span class="pre">InputsDataTreeToTxt.data_tree</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.InputsDataTreeToTxt.path"><code class="docutils literal notranslate"><span class="pre">InputsDataTreeToTxt.path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.InputsDataTreeToTxt.connect"><code class="docutils literal notranslate"><span class="pre">InputsDataTreeToTxt.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html#ansys.dpf.core.operators.serialization.data_tree_to_txt.OutputsDataTreeToTxt"><code class="docutils literal notranslate"><span class="pre">OutputsDataTreeToTxt</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html">deserializer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.deserializer"><code class="docutils literal notranslate"><span class="pre">deserializer</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.deserializer.default_config"><code class="docutils literal notranslate"><span class="pre">deserializer.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.deserializer.inputs"><code class="docutils literal notranslate"><span class="pre">deserializer.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.deserializer.outputs"><code class="docutils literal notranslate"><span class="pre">deserializer.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.deserializer.config"><code class="docutils literal notranslate"><span class="pre">deserializer.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.deserializer.connect"><code class="docutils literal notranslate"><span class="pre">deserializer.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.deserializer.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">deserializer.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.deserializer.eval"><code class="docutils literal notranslate"><span class="pre">deserializer.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.deserializer.get_output"><code class="docutils literal notranslate"><span class="pre">deserializer.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.deserializer.operator_specification"><code class="docutils literal notranslate"><span class="pre">deserializer.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.deserializer.progress_bar"><code class="docutils literal notranslate"><span class="pre">deserializer.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.deserializer.run"><code class="docutils literal notranslate"><span class="pre">deserializer.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.deserializer.specification"><code class="docutils literal notranslate"><span class="pre">deserializer.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.InputsDeserializer"><code class="docutils literal notranslate"><span class="pre">InputsDeserializer</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.InputsDeserializer.file_path"><code class="docutils literal notranslate"><span class="pre">InputsDeserializer.file_path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.InputsDeserializer.connect"><code class="docutils literal notranslate"><span class="pre">InputsDeserializer.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.OutputsDeserializer"><code class="docutils literal notranslate"><span class="pre">OutputsDeserializer</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.OutputsDeserializer.any_output1"><code class="docutils literal notranslate"><span class="pre">OutputsDeserializer.any_output1</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html#ansys.dpf.core.operators.serialization.deserializer.OutputsDeserializer.any_output2"><code class="docutils literal notranslate"><span class="pre">OutputsDeserializer.any_output2</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html">export_symbolic_workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.export_symbolic_workflow"><code class="docutils literal notranslate"><span class="pre">export_symbolic_workflow</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.export_symbolic_workflow.default_config"><code class="docutils literal notranslate"><span class="pre">export_symbolic_workflow.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.export_symbolic_workflow.inputs"><code class="docutils literal notranslate"><span class="pre">export_symbolic_workflow.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.export_symbolic_workflow.outputs"><code class="docutils literal notranslate"><span class="pre">export_symbolic_workflow.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.export_symbolic_workflow.config"><code class="docutils literal notranslate"><span class="pre">export_symbolic_workflow.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.export_symbolic_workflow.connect"><code class="docutils literal notranslate"><span class="pre">export_symbolic_workflow.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.export_symbolic_workflow.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">export_symbolic_workflow.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.export_symbolic_workflow.eval"><code class="docutils literal notranslate"><span class="pre">export_symbolic_workflow.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.export_symbolic_workflow.get_output"><code class="docutils literal notranslate"><span class="pre">export_symbolic_workflow.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.export_symbolic_workflow.operator_specification"><code class="docutils literal notranslate"><span class="pre">export_symbolic_workflow.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.export_symbolic_workflow.progress_bar"><code class="docutils literal notranslate"><span class="pre">export_symbolic_workflow.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.export_symbolic_workflow.run"><code class="docutils literal notranslate"><span class="pre">export_symbolic_workflow.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.export_symbolic_workflow.specification"><code class="docutils literal notranslate"><span class="pre">export_symbolic_workflow.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.InputsExportSymbolicWorkflow"><code class="docutils literal notranslate"><span class="pre">InputsExportSymbolicWorkflow</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.InputsExportSymbolicWorkflow.workflow"><code class="docutils literal notranslate"><span class="pre">InputsExportSymbolicWorkflow.workflow</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.InputsExportSymbolicWorkflow.path"><code class="docutils literal notranslate"><span class="pre">InputsExportSymbolicWorkflow.path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.InputsExportSymbolicWorkflow.format"><code class="docutils literal notranslate"><span class="pre">InputsExportSymbolicWorkflow.format</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.InputsExportSymbolicWorkflow.options"><code class="docutils literal notranslate"><span class="pre">InputsExportSymbolicWorkflow.options</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.InputsExportSymbolicWorkflow.connect"><code class="docutils literal notranslate"><span class="pre">InputsExportSymbolicWorkflow.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html#ansys.dpf.core.operators.serialization.export_symbolic_workflow.OutputsExportSymbolicWorkflow"><code class="docutils literal notranslate"><span class="pre">OutputsExportSymbolicWorkflow</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html">field_to_csv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv"><code class="docutils literal notranslate"><span class="pre">field_to_csv</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv.default_config"><code class="docutils literal notranslate"><span class="pre">field_to_csv.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv.inputs"><code class="docutils literal notranslate"><span class="pre">field_to_csv.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv.outputs"><code class="docutils literal notranslate"><span class="pre">field_to_csv.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv.config"><code class="docutils literal notranslate"><span class="pre">field_to_csv.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv.connect"><code class="docutils literal notranslate"><span class="pre">field_to_csv.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">field_to_csv.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv.eval"><code class="docutils literal notranslate"><span class="pre">field_to_csv.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv.get_output"><code class="docutils literal notranslate"><span class="pre">field_to_csv.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv.operator_specification"><code class="docutils literal notranslate"><span class="pre">field_to_csv.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv.progress_bar"><code class="docutils literal notranslate"><span class="pre">field_to_csv.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv.run"><code class="docutils literal notranslate"><span class="pre">field_to_csv.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.field_to_csv.specification"><code class="docutils literal notranslate"><span class="pre">field_to_csv.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.InputsFieldToCsv"><code class="docutils literal notranslate"><span class="pre">InputsFieldToCsv</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.InputsFieldToCsv.field_or_fields_container"><code class="docutils literal notranslate"><span class="pre">InputsFieldToCsv.field_or_fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.InputsFieldToCsv.file_path"><code class="docutils literal notranslate"><span class="pre">InputsFieldToCsv.file_path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.InputsFieldToCsv.storage_type"><code class="docutils literal notranslate"><span class="pre">InputsFieldToCsv.storage_type</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.InputsFieldToCsv.connect"><code class="docutils literal notranslate"><span class="pre">InputsFieldToCsv.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html#ansys.dpf.core.operators.serialization.field_to_csv.OutputsFieldToCsv"><code class="docutils literal notranslate"><span class="pre">OutputsFieldToCsv</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html">hdf5dpf_custom_read</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.hdf5dpf_custom_read"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_custom_read</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.hdf5dpf_custom_read.default_config"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_custom_read.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.hdf5dpf_custom_read.inputs"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_custom_read.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.hdf5dpf_custom_read.outputs"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_custom_read.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.hdf5dpf_custom_read.config"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_custom_read.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.hdf5dpf_custom_read.connect"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_custom_read.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.hdf5dpf_custom_read.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_custom_read.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.hdf5dpf_custom_read.eval"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_custom_read.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.hdf5dpf_custom_read.get_output"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_custom_read.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.hdf5dpf_custom_read.operator_specification"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_custom_read.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.hdf5dpf_custom_read.progress_bar"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_custom_read.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.hdf5dpf_custom_read.run"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_custom_read.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.hdf5dpf_custom_read.specification"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_custom_read.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.InputsHdf5DpfCustomRead"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfCustomRead</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.InputsHdf5DpfCustomRead.time_scoping"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfCustomRead.time_scoping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.InputsHdf5DpfCustomRead.mesh_scoping"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfCustomRead.mesh_scoping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.InputsHdf5DpfCustomRead.streams"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfCustomRead.streams</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.InputsHdf5DpfCustomRead.data_sources"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfCustomRead.data_sources</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.InputsHdf5DpfCustomRead.meta_data"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfCustomRead.meta_data</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.InputsHdf5DpfCustomRead.result_name"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfCustomRead.result_name</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.InputsHdf5DpfCustomRead.connect"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfCustomRead.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.html#ansys.dpf.core.operators.serialization.hdf5dpf_custom_read.OutputsHdf5DpfCustomRead"><code class="docutils literal notranslate"><span class="pre">OutputsHdf5DpfCustomRead</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html">hdf5dpf_generate_result_file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_generate_result_file</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file.default_config"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_generate_result_file.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file.inputs"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_generate_result_file.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file.outputs"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_generate_result_file.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file.config"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_generate_result_file.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file.connect"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_generate_result_file.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_generate_result_file.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file.eval"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_generate_result_file.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file.get_output"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_generate_result_file.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file.operator_specification"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_generate_result_file.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file.progress_bar"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_generate_result_file.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file.run"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_generate_result_file.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.hdf5dpf_generate_result_file.specification"><code class="docutils literal notranslate"><span class="pre">hdf5dpf_generate_result_file.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.InputsHdf5DpfGenerateResultFile"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfGenerateResultFile</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.InputsHdf5DpfGenerateResultFile.h5_native_compression"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfGenerateResultFile.h5_native_compression</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.InputsHdf5DpfGenerateResultFile.export_floats"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfGenerateResultFile.export_floats</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.InputsHdf5DpfGenerateResultFile.filename"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfGenerateResultFile.filename</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.InputsHdf5DpfGenerateResultFile.mesh_provider_out"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfGenerateResultFile.mesh_provider_out</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.InputsHdf5DpfGenerateResultFile.time_freq_support_out"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfGenerateResultFile.time_freq_support_out</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.InputsHdf5DpfGenerateResultFile.ansys_unit_system_id"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfGenerateResultFile.ansys_unit_system_id</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.InputsHdf5DpfGenerateResultFile.input_name1"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfGenerateResultFile.input_name1</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.InputsHdf5DpfGenerateResultFile.input_name2"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfGenerateResultFile.input_name2</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.InputsHdf5DpfGenerateResultFile.connect"><code class="docutils literal notranslate"><span class="pre">InputsHdf5DpfGenerateResultFile.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.OutputsHdf5DpfGenerateResultFile"><code class="docutils literal notranslate"><span class="pre">OutputsHdf5DpfGenerateResultFile</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.html#ansys.dpf.core.operators.serialization.hdf5dpf_generate_result_file.OutputsHdf5DpfGenerateResultFile.data_sources"><code class="docutils literal notranslate"><span class="pre">OutputsHdf5DpfGenerateResultFile.data_sources</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html">import_symbolic_workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow"><code class="docutils literal notranslate"><span class="pre">import_symbolic_workflow</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow.default_config"><code class="docutils literal notranslate"><span class="pre">import_symbolic_workflow.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow.inputs"><code class="docutils literal notranslate"><span class="pre">import_symbolic_workflow.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow.outputs"><code class="docutils literal notranslate"><span class="pre">import_symbolic_workflow.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow.config"><code class="docutils literal notranslate"><span class="pre">import_symbolic_workflow.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow.connect"><code class="docutils literal notranslate"><span class="pre">import_symbolic_workflow.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">import_symbolic_workflow.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow.eval"><code class="docutils literal notranslate"><span class="pre">import_symbolic_workflow.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow.get_output"><code class="docutils literal notranslate"><span class="pre">import_symbolic_workflow.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow.operator_specification"><code class="docutils literal notranslate"><span class="pre">import_symbolic_workflow.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow.progress_bar"><code class="docutils literal notranslate"><span class="pre">import_symbolic_workflow.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow.run"><code class="docutils literal notranslate"><span class="pre">import_symbolic_workflow.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.import_symbolic_workflow.specification"><code class="docutils literal notranslate"><span class="pre">import_symbolic_workflow.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.InputsImportSymbolicWorkflow"><code class="docutils literal notranslate"><span class="pre">InputsImportSymbolicWorkflow</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.InputsImportSymbolicWorkflow.string_or_path"><code class="docutils literal notranslate"><span class="pre">InputsImportSymbolicWorkflow.string_or_path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.InputsImportSymbolicWorkflow.format"><code class="docutils literal notranslate"><span class="pre">InputsImportSymbolicWorkflow.format</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.InputsImportSymbolicWorkflow.connect"><code class="docutils literal notranslate"><span class="pre">InputsImportSymbolicWorkflow.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.OutputsImportSymbolicWorkflow"><code class="docutils literal notranslate"><span class="pre">OutputsImportSymbolicWorkflow</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html#ansys.dpf.core.operators.serialization.import_symbolic_workflow.OutputsImportSymbolicWorkflow.workflow"><code class="docutils literal notranslate"><span class="pre">OutputsImportSymbolicWorkflow.workflow</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html">json_to_data_tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.json_to_data_tree"><code class="docutils literal notranslate"><span class="pre">json_to_data_tree</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.json_to_data_tree.default_config"><code class="docutils literal notranslate"><span class="pre">json_to_data_tree.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.json_to_data_tree.inputs"><code class="docutils literal notranslate"><span class="pre">json_to_data_tree.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.json_to_data_tree.outputs"><code class="docutils literal notranslate"><span class="pre">json_to_data_tree.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.json_to_data_tree.config"><code class="docutils literal notranslate"><span class="pre">json_to_data_tree.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.json_to_data_tree.connect"><code class="docutils literal notranslate"><span class="pre">json_to_data_tree.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.json_to_data_tree.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">json_to_data_tree.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.json_to_data_tree.eval"><code class="docutils literal notranslate"><span class="pre">json_to_data_tree.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.json_to_data_tree.get_output"><code class="docutils literal notranslate"><span class="pre">json_to_data_tree.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.json_to_data_tree.operator_specification"><code class="docutils literal notranslate"><span class="pre">json_to_data_tree.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.json_to_data_tree.progress_bar"><code class="docutils literal notranslate"><span class="pre">json_to_data_tree.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.json_to_data_tree.run"><code class="docutils literal notranslate"><span class="pre">json_to_data_tree.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.json_to_data_tree.specification"><code class="docutils literal notranslate"><span class="pre">json_to_data_tree.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.InputsJsonToDataTree"><code class="docutils literal notranslate"><span class="pre">InputsJsonToDataTree</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.InputsJsonToDataTree.string_or_path"><code class="docutils literal notranslate"><span class="pre">InputsJsonToDataTree.string_or_path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.InputsJsonToDataTree.connect"><code class="docutils literal notranslate"><span class="pre">InputsJsonToDataTree.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.OutputsJsonToDataTree"><code class="docutils literal notranslate"><span class="pre">OutputsJsonToDataTree</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html#ansys.dpf.core.operators.serialization.json_to_data_tree.OutputsJsonToDataTree.data_tree"><code class="docutils literal notranslate"><span class="pre">OutputsJsonToDataTree.data_tree</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html">mechanical_csv_to_field</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.mechanical_csv_to_field"><code class="docutils literal notranslate"><span class="pre">mechanical_csv_to_field</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.mechanical_csv_to_field.default_config"><code class="docutils literal notranslate"><span class="pre">mechanical_csv_to_field.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.mechanical_csv_to_field.inputs"><code class="docutils literal notranslate"><span class="pre">mechanical_csv_to_field.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.mechanical_csv_to_field.outputs"><code class="docutils literal notranslate"><span class="pre">mechanical_csv_to_field.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.mechanical_csv_to_field.config"><code class="docutils literal notranslate"><span class="pre">mechanical_csv_to_field.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.mechanical_csv_to_field.connect"><code class="docutils literal notranslate"><span class="pre">mechanical_csv_to_field.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.mechanical_csv_to_field.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">mechanical_csv_to_field.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.mechanical_csv_to_field.eval"><code class="docutils literal notranslate"><span class="pre">mechanical_csv_to_field.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.mechanical_csv_to_field.get_output"><code class="docutils literal notranslate"><span class="pre">mechanical_csv_to_field.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.mechanical_csv_to_field.operator_specification"><code class="docutils literal notranslate"><span class="pre">mechanical_csv_to_field.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.mechanical_csv_to_field.progress_bar"><code class="docutils literal notranslate"><span class="pre">mechanical_csv_to_field.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.mechanical_csv_to_field.run"><code class="docutils literal notranslate"><span class="pre">mechanical_csv_to_field.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.mechanical_csv_to_field.specification"><code class="docutils literal notranslate"><span class="pre">mechanical_csv_to_field.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.InputsMechanicalCsvToField"><code class="docutils literal notranslate"><span class="pre">InputsMechanicalCsvToField</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.InputsMechanicalCsvToField.unit"><code class="docutils literal notranslate"><span class="pre">InputsMechanicalCsvToField.unit</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.InputsMechanicalCsvToField.mesh"><code class="docutils literal notranslate"><span class="pre">InputsMechanicalCsvToField.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.InputsMechanicalCsvToField.data_sources"><code class="docutils literal notranslate"><span class="pre">InputsMechanicalCsvToField.data_sources</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.InputsMechanicalCsvToField.requested_location"><code class="docutils literal notranslate"><span class="pre">InputsMechanicalCsvToField.requested_location</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.InputsMechanicalCsvToField.connect"><code class="docutils literal notranslate"><span class="pre">InputsMechanicalCsvToField.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.OutputsMechanicalCsvToField"><code class="docutils literal notranslate"><span class="pre">OutputsMechanicalCsvToField</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html#ansys.dpf.core.operators.serialization.mechanical_csv_to_field.OutputsMechanicalCsvToField.field"><code class="docutils literal notranslate"><span class="pre">OutputsMechanicalCsvToField.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html">migrate_file_to_vtk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.migrate_file_to_vtk"><code class="docutils literal notranslate"><span class="pre">migrate_file_to_vtk</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.migrate_file_to_vtk.default_config"><code class="docutils literal notranslate"><span class="pre">migrate_file_to_vtk.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.migrate_file_to_vtk.inputs"><code class="docutils literal notranslate"><span class="pre">migrate_file_to_vtk.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.migrate_file_to_vtk.outputs"><code class="docutils literal notranslate"><span class="pre">migrate_file_to_vtk.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.migrate_file_to_vtk.config"><code class="docutils literal notranslate"><span class="pre">migrate_file_to_vtk.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.migrate_file_to_vtk.connect"><code class="docutils literal notranslate"><span class="pre">migrate_file_to_vtk.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.migrate_file_to_vtk.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">migrate_file_to_vtk.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.migrate_file_to_vtk.eval"><code class="docutils literal notranslate"><span class="pre">migrate_file_to_vtk.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.migrate_file_to_vtk.get_output"><code class="docutils literal notranslate"><span class="pre">migrate_file_to_vtk.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.migrate_file_to_vtk.operator_specification"><code class="docutils literal notranslate"><span class="pre">migrate_file_to_vtk.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.migrate_file_to_vtk.progress_bar"><code class="docutils literal notranslate"><span class="pre">migrate_file_to_vtk.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.migrate_file_to_vtk.run"><code class="docutils literal notranslate"><span class="pre">migrate_file_to_vtk.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.migrate_file_to_vtk.specification"><code class="docutils literal notranslate"><span class="pre">migrate_file_to_vtk.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.InputsMigrateFileToVtk"><code class="docutils literal notranslate"><span class="pre">InputsMigrateFileToVtk</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.InputsMigrateFileToVtk.output_filename"><code class="docutils literal notranslate"><span class="pre">InputsMigrateFileToVtk.output_filename</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.InputsMigrateFileToVtk.streams_container"><code class="docutils literal notranslate"><span class="pre">InputsMigrateFileToVtk.streams_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.InputsMigrateFileToVtk.data_sources"><code class="docutils literal notranslate"><span class="pre">InputsMigrateFileToVtk.data_sources</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.InputsMigrateFileToVtk.connect"><code class="docutils literal notranslate"><span class="pre">InputsMigrateFileToVtk.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.OutputsMigrateFileToVtk"><code class="docutils literal notranslate"><span class="pre">OutputsMigrateFileToVtk</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html#ansys.dpf.core.operators.serialization.migrate_file_to_vtk.OutputsMigrateFileToVtk.data_sources"><code class="docutils literal notranslate"><span class="pre">OutputsMigrateFileToVtk.data_sources</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html">migrate_to_vtu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu"><code class="docutils literal notranslate"><span class="pre">migrate_to_vtu</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu.default_config"><code class="docutils literal notranslate"><span class="pre">migrate_to_vtu.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu.inputs"><code class="docutils literal notranslate"><span class="pre">migrate_to_vtu.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu.outputs"><code class="docutils literal notranslate"><span class="pre">migrate_to_vtu.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu.config"><code class="docutils literal notranslate"><span class="pre">migrate_to_vtu.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu.connect"><code class="docutils literal notranslate"><span class="pre">migrate_to_vtu.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">migrate_to_vtu.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu.eval"><code class="docutils literal notranslate"><span class="pre">migrate_to_vtu.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu.get_output"><code class="docutils literal notranslate"><span class="pre">migrate_to_vtu.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu.operator_specification"><code class="docutils literal notranslate"><span class="pre">migrate_to_vtu.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu.progress_bar"><code class="docutils literal notranslate"><span class="pre">migrate_to_vtu.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu.run"><code class="docutils literal notranslate"><span class="pre">migrate_to_vtu.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.migrate_to_vtu.specification"><code class="docutils literal notranslate"><span class="pre">migrate_to_vtu.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.InputsMigrateToVtu"><code class="docutils literal notranslate"><span class="pre">InputsMigrateToVtu</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.InputsMigrateToVtu.time_scoping"><code class="docutils literal notranslate"><span class="pre">InputsMigrateToVtu.time_scoping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.InputsMigrateToVtu.streams_container"><code class="docutils literal notranslate"><span class="pre">InputsMigrateToVtu.streams_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.InputsMigrateToVtu.data_sources"><code class="docutils literal notranslate"><span class="pre">InputsMigrateToVtu.data_sources</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.InputsMigrateToVtu.directory"><code class="docutils literal notranslate"><span class="pre">InputsMigrateToVtu.directory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.InputsMigrateToVtu.base_name"><code class="docutils literal notranslate"><span class="pre">InputsMigrateToVtu.base_name</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.InputsMigrateToVtu.result1"><code class="docutils literal notranslate"><span class="pre">InputsMigrateToVtu.result1</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.InputsMigrateToVtu.result2"><code class="docutils literal notranslate"><span class="pre">InputsMigrateToVtu.result2</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.InputsMigrateToVtu.write_mode"><code class="docutils literal notranslate"><span class="pre">InputsMigrateToVtu.write_mode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.InputsMigrateToVtu.connect"><code class="docutils literal notranslate"><span class="pre">InputsMigrateToVtu.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.OutputsMigrateToVtu"><code class="docutils literal notranslate"><span class="pre">OutputsMigrateToVtu</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html#ansys.dpf.core.operators.serialization.migrate_to_vtu.OutputsMigrateToVtu.path"><code class="docutils literal notranslate"><span class="pre">OutputsMigrateToVtu.path</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html">serialize_to_hdf5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.serialize_to_hdf5"><code class="docutils literal notranslate"><span class="pre">serialize_to_hdf5</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.serialize_to_hdf5.default_config"><code class="docutils literal notranslate"><span class="pre">serialize_to_hdf5.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.serialize_to_hdf5.inputs"><code class="docutils literal notranslate"><span class="pre">serialize_to_hdf5.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.serialize_to_hdf5.outputs"><code class="docutils literal notranslate"><span class="pre">serialize_to_hdf5.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.serialize_to_hdf5.config"><code class="docutils literal notranslate"><span class="pre">serialize_to_hdf5.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.serialize_to_hdf5.connect"><code class="docutils literal notranslate"><span class="pre">serialize_to_hdf5.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.serialize_to_hdf5.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">serialize_to_hdf5.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.serialize_to_hdf5.eval"><code class="docutils literal notranslate"><span class="pre">serialize_to_hdf5.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.serialize_to_hdf5.get_output"><code class="docutils literal notranslate"><span class="pre">serialize_to_hdf5.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.serialize_to_hdf5.operator_specification"><code class="docutils literal notranslate"><span class="pre">serialize_to_hdf5.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.serialize_to_hdf5.progress_bar"><code class="docutils literal notranslate"><span class="pre">serialize_to_hdf5.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.serialize_to_hdf5.run"><code class="docutils literal notranslate"><span class="pre">serialize_to_hdf5.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.serialize_to_hdf5.specification"><code class="docutils literal notranslate"><span class="pre">serialize_to_hdf5.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.InputsSerializeToHdf5"><code class="docutils literal notranslate"><span class="pre">InputsSerializeToHdf5</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.InputsSerializeToHdf5.file_path"><code class="docutils literal notranslate"><span class="pre">InputsSerializeToHdf5.file_path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.InputsSerializeToHdf5.export_floats"><code class="docutils literal notranslate"><span class="pre">InputsSerializeToHdf5.export_floats</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.InputsSerializeToHdf5.export_flat_vectors"><code class="docutils literal notranslate"><span class="pre">InputsSerializeToHdf5.export_flat_vectors</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.InputsSerializeToHdf5.data1"><code class="docutils literal notranslate"><span class="pre">InputsSerializeToHdf5.data1</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.InputsSerializeToHdf5.data2"><code class="docutils literal notranslate"><span class="pre">InputsSerializeToHdf5.data2</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.InputsSerializeToHdf5.connect"><code class="docutils literal notranslate"><span class="pre">InputsSerializeToHdf5.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html#ansys.dpf.core.operators.serialization.serialize_to_hdf5.OutputsSerializeToHdf5"><code class="docutils literal notranslate"><span class="pre">OutputsSerializeToHdf5</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html">serializer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.serializer"><code class="docutils literal notranslate"><span class="pre">serializer</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.serializer.default_config"><code class="docutils literal notranslate"><span class="pre">serializer.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.serializer.inputs"><code class="docutils literal notranslate"><span class="pre">serializer.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.serializer.outputs"><code class="docutils literal notranslate"><span class="pre">serializer.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.serializer.config"><code class="docutils literal notranslate"><span class="pre">serializer.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.serializer.connect"><code class="docutils literal notranslate"><span class="pre">serializer.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.serializer.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">serializer.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.serializer.eval"><code class="docutils literal notranslate"><span class="pre">serializer.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.serializer.get_output"><code class="docutils literal notranslate"><span class="pre">serializer.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.serializer.operator_specification"><code class="docutils literal notranslate"><span class="pre">serializer.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.serializer.progress_bar"><code class="docutils literal notranslate"><span class="pre">serializer.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.serializer.run"><code class="docutils literal notranslate"><span class="pre">serializer.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.serializer.specification"><code class="docutils literal notranslate"><span class="pre">serializer.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.InputsSerializer"><code class="docutils literal notranslate"><span class="pre">InputsSerializer</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.InputsSerializer.file_path"><code class="docutils literal notranslate"><span class="pre">InputsSerializer.file_path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.InputsSerializer.any_input1"><code class="docutils literal notranslate"><span class="pre">InputsSerializer.any_input1</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.InputsSerializer.any_input2"><code class="docutils literal notranslate"><span class="pre">InputsSerializer.any_input2</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.InputsSerializer.connect"><code class="docutils literal notranslate"><span class="pre">InputsSerializer.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.OutputsSerializer"><code class="docutils literal notranslate"><span class="pre">OutputsSerializer</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html#ansys.dpf.core.operators.serialization.serializer.OutputsSerializer.file_path"><code class="docutils literal notranslate"><span class="pre">OutputsSerializer.file_path</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html">serializer_to_string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.serializer_to_string"><code class="docutils literal notranslate"><span class="pre">serializer_to_string</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.serializer_to_string.default_config"><code class="docutils literal notranslate"><span class="pre">serializer_to_string.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.serializer_to_string.inputs"><code class="docutils literal notranslate"><span class="pre">serializer_to_string.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.serializer_to_string.outputs"><code class="docutils literal notranslate"><span class="pre">serializer_to_string.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.serializer_to_string.config"><code class="docutils literal notranslate"><span class="pre">serializer_to_string.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.serializer_to_string.connect"><code class="docutils literal notranslate"><span class="pre">serializer_to_string.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.serializer_to_string.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">serializer_to_string.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.serializer_to_string.eval"><code class="docutils literal notranslate"><span class="pre">serializer_to_string.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.serializer_to_string.get_output"><code class="docutils literal notranslate"><span class="pre">serializer_to_string.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.serializer_to_string.operator_specification"><code class="docutils literal notranslate"><span class="pre">serializer_to_string.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.serializer_to_string.progress_bar"><code class="docutils literal notranslate"><span class="pre">serializer_to_string.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.serializer_to_string.run"><code class="docutils literal notranslate"><span class="pre">serializer_to_string.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.serializer_to_string.specification"><code class="docutils literal notranslate"><span class="pre">serializer_to_string.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.InputsSerializerToString"><code class="docutils literal notranslate"><span class="pre">InputsSerializerToString</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.InputsSerializerToString.any_input1"><code class="docutils literal notranslate"><span class="pre">InputsSerializerToString.any_input1</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.InputsSerializerToString.any_input2"><code class="docutils literal notranslate"><span class="pre">InputsSerializerToString.any_input2</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.InputsSerializerToString.connect"><code class="docutils literal notranslate"><span class="pre">InputsSerializerToString.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.OutputsSerializerToString"><code class="docutils literal notranslate"><span class="pre">OutputsSerializerToString</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html#ansys.dpf.core.operators.serialization.serializer_to_string.OutputsSerializerToString.serialized_string"><code class="docutils literal notranslate"><span class="pre">OutputsSerializerToString.serialized_string</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html">string_deserializer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.string_deserializer"><code class="docutils literal notranslate"><span class="pre">string_deserializer</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.string_deserializer.default_config"><code class="docutils literal notranslate"><span class="pre">string_deserializer.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.string_deserializer.inputs"><code class="docutils literal notranslate"><span class="pre">string_deserializer.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.string_deserializer.outputs"><code class="docutils literal notranslate"><span class="pre">string_deserializer.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.string_deserializer.config"><code class="docutils literal notranslate"><span class="pre">string_deserializer.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.string_deserializer.connect"><code class="docutils literal notranslate"><span class="pre">string_deserializer.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.string_deserializer.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">string_deserializer.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.string_deserializer.eval"><code class="docutils literal notranslate"><span class="pre">string_deserializer.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.string_deserializer.get_output"><code class="docutils literal notranslate"><span class="pre">string_deserializer.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.string_deserializer.operator_specification"><code class="docutils literal notranslate"><span class="pre">string_deserializer.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.string_deserializer.progress_bar"><code class="docutils literal notranslate"><span class="pre">string_deserializer.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.string_deserializer.run"><code class="docutils literal notranslate"><span class="pre">string_deserializer.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.string_deserializer.specification"><code class="docutils literal notranslate"><span class="pre">string_deserializer.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.InputsStringDeserializer"><code class="docutils literal notranslate"><span class="pre">InputsStringDeserializer</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.InputsStringDeserializer.serialized_string"><code class="docutils literal notranslate"><span class="pre">InputsStringDeserializer.serialized_string</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.InputsStringDeserializer.connect"><code class="docutils literal notranslate"><span class="pre">InputsStringDeserializer.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.OutputsStringDeserializer"><code class="docutils literal notranslate"><span class="pre">OutputsStringDeserializer</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.OutputsStringDeserializer.any_output1"><code class="docutils literal notranslate"><span class="pre">OutputsStringDeserializer.any_output1</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html#ansys.dpf.core.operators.serialization.string_deserializer.OutputsStringDeserializer.any_output2"><code class="docutils literal notranslate"><span class="pre">OutputsStringDeserializer.any_output2</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html">txt_to_data_tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.txt_to_data_tree"><code class="docutils literal notranslate"><span class="pre">txt_to_data_tree</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.txt_to_data_tree.default_config"><code class="docutils literal notranslate"><span class="pre">txt_to_data_tree.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.txt_to_data_tree.inputs"><code class="docutils literal notranslate"><span class="pre">txt_to_data_tree.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.txt_to_data_tree.outputs"><code class="docutils literal notranslate"><span class="pre">txt_to_data_tree.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.txt_to_data_tree.config"><code class="docutils literal notranslate"><span class="pre">txt_to_data_tree.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.txt_to_data_tree.connect"><code class="docutils literal notranslate"><span class="pre">txt_to_data_tree.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.txt_to_data_tree.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">txt_to_data_tree.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.txt_to_data_tree.eval"><code class="docutils literal notranslate"><span class="pre">txt_to_data_tree.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.txt_to_data_tree.get_output"><code class="docutils literal notranslate"><span class="pre">txt_to_data_tree.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.txt_to_data_tree.operator_specification"><code class="docutils literal notranslate"><span class="pre">txt_to_data_tree.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.txt_to_data_tree.progress_bar"><code class="docutils literal notranslate"><span class="pre">txt_to_data_tree.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.txt_to_data_tree.run"><code class="docutils literal notranslate"><span class="pre">txt_to_data_tree.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.txt_to_data_tree.specification"><code class="docutils literal notranslate"><span class="pre">txt_to_data_tree.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.InputsTxtToDataTree"><code class="docutils literal notranslate"><span class="pre">InputsTxtToDataTree</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.InputsTxtToDataTree.string_or_path"><code class="docutils literal notranslate"><span class="pre">InputsTxtToDataTree.string_or_path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.InputsTxtToDataTree.connect"><code class="docutils literal notranslate"><span class="pre">InputsTxtToDataTree.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.OutputsTxtToDataTree"><code class="docutils literal notranslate"><span class="pre">OutputsTxtToDataTree</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html#ansys.dpf.core.operators.serialization.txt_to_data_tree.OutputsTxtToDataTree.data_tree"><code class="docutils literal notranslate"><span class="pre">OutputsTxtToDataTree.data_tree</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html">vtk_export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.vtk_export"><code class="docutils literal notranslate"><span class="pre">vtk_export</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.vtk_export.default_config"><code class="docutils literal notranslate"><span class="pre">vtk_export.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.vtk_export.inputs"><code class="docutils literal notranslate"><span class="pre">vtk_export.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.vtk_export.outputs"><code class="docutils literal notranslate"><span class="pre">vtk_export.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.vtk_export.config"><code class="docutils literal notranslate"><span class="pre">vtk_export.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.vtk_export.connect"><code class="docutils literal notranslate"><span class="pre">vtk_export.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.vtk_export.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">vtk_export.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.vtk_export.eval"><code class="docutils literal notranslate"><span class="pre">vtk_export.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.vtk_export.get_output"><code class="docutils literal notranslate"><span class="pre">vtk_export.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.vtk_export.operator_specification"><code class="docutils literal notranslate"><span class="pre">vtk_export.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.vtk_export.progress_bar"><code class="docutils literal notranslate"><span class="pre">vtk_export.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.vtk_export.run"><code class="docutils literal notranslate"><span class="pre">vtk_export.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.vtk_export.specification"><code class="docutils literal notranslate"><span class="pre">vtk_export.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.InputsVtkExport"><code class="docutils literal notranslate"><span class="pre">InputsVtkExport</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.InputsVtkExport.export_type"><code class="docutils literal notranslate"><span class="pre">InputsVtkExport.export_type</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.InputsVtkExport.file_path"><code class="docutils literal notranslate"><span class="pre">InputsVtkExport.file_path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.InputsVtkExport.mesh"><code class="docutils literal notranslate"><span class="pre">InputsVtkExport.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.InputsVtkExport.fields1"><code class="docutils literal notranslate"><span class="pre">InputsVtkExport.fields1</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.InputsVtkExport.fields2"><code class="docutils literal notranslate"><span class="pre">InputsVtkExport.fields2</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.InputsVtkExport.connect"><code class="docutils literal notranslate"><span class="pre">InputsVtkExport.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html#ansys.dpf.core.operators.serialization.vtk_export.OutputsVtkExport"><code class="docutils literal notranslate"><span class="pre">OutputsVtkExport</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html">vtk_to_fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.vtk_to_fields"><code class="docutils literal notranslate"><span class="pre">vtk_to_fields</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.vtk_to_fields.default_config"><code class="docutils literal notranslate"><span class="pre">vtk_to_fields.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.vtk_to_fields.inputs"><code class="docutils literal notranslate"><span class="pre">vtk_to_fields.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.vtk_to_fields.outputs"><code class="docutils literal notranslate"><span class="pre">vtk_to_fields.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.vtk_to_fields.config"><code class="docutils literal notranslate"><span class="pre">vtk_to_fields.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.vtk_to_fields.connect"><code class="docutils literal notranslate"><span class="pre">vtk_to_fields.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.vtk_to_fields.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">vtk_to_fields.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.vtk_to_fields.eval"><code class="docutils literal notranslate"><span class="pre">vtk_to_fields.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.vtk_to_fields.get_output"><code class="docutils literal notranslate"><span class="pre">vtk_to_fields.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.vtk_to_fields.operator_specification"><code class="docutils literal notranslate"><span class="pre">vtk_to_fields.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.vtk_to_fields.progress_bar"><code class="docutils literal notranslate"><span class="pre">vtk_to_fields.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.vtk_to_fields.run"><code class="docutils literal notranslate"><span class="pre">vtk_to_fields.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.vtk_to_fields.specification"><code class="docutils literal notranslate"><span class="pre">vtk_to_fields.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.InputsVtkToFields"><code class="docutils literal notranslate"><span class="pre">InputsVtkToFields</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.InputsVtkToFields.field_name"><code class="docutils literal notranslate"><span class="pre">InputsVtkToFields.field_name</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.InputsVtkToFields.streams"><code class="docutils literal notranslate"><span class="pre">InputsVtkToFields.streams</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.InputsVtkToFields.data_sources"><code class="docutils literal notranslate"><span class="pre">InputsVtkToFields.data_sources</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.InputsVtkToFields.connect"><code class="docutils literal notranslate"><span class="pre">InputsVtkToFields.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.OutputsVtkToFields"><code class="docutils literal notranslate"><span class="pre">OutputsVtkToFields</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html#ansys.dpf.core.operators.serialization.vtk_to_fields.OutputsVtkToFields.fields_container"><code class="docutils literal notranslate"><span class="pre">OutputsVtkToFields.fields_container</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html">vtu_export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.vtu_export"><code class="docutils literal notranslate"><span class="pre">vtu_export</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.vtu_export.default_config"><code class="docutils literal notranslate"><span class="pre">vtu_export.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.vtu_export.inputs"><code class="docutils literal notranslate"><span class="pre">vtu_export.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.vtu_export.outputs"><code class="docutils literal notranslate"><span class="pre">vtu_export.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.vtu_export.config"><code class="docutils literal notranslate"><span class="pre">vtu_export.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.vtu_export.connect"><code class="docutils literal notranslate"><span class="pre">vtu_export.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.vtu_export.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">vtu_export.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.vtu_export.eval"><code class="docutils literal notranslate"><span class="pre">vtu_export.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.vtu_export.get_output"><code class="docutils literal notranslate"><span class="pre">vtu_export.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.vtu_export.operator_specification"><code class="docutils literal notranslate"><span class="pre">vtu_export.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.vtu_export.progress_bar"><code class="docutils literal notranslate"><span class="pre">vtu_export.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.vtu_export.run"><code class="docutils literal notranslate"><span class="pre">vtu_export.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.vtu_export.specification"><code class="docutils literal notranslate"><span class="pre">vtu_export.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.InputsVtuExport"><code class="docutils literal notranslate"><span class="pre">InputsVtuExport</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.InputsVtuExport.directory"><code class="docutils literal notranslate"><span class="pre">InputsVtuExport.directory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.InputsVtuExport.base_name"><code class="docutils literal notranslate"><span class="pre">InputsVtuExport.base_name</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.InputsVtuExport.mesh"><code class="docutils literal notranslate"><span class="pre">InputsVtuExport.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.InputsVtuExport.fields1"><code class="docutils literal notranslate"><span class="pre">InputsVtuExport.fields1</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.InputsVtuExport.fields2"><code class="docutils literal notranslate"><span class="pre">InputsVtuExport.fields2</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.InputsVtuExport.write_mode"><code class="docutils literal notranslate"><span class="pre">InputsVtuExport.write_mode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.InputsVtuExport.connect"><code class="docutils literal notranslate"><span class="pre">InputsVtuExport.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.OutputsVtuExport"><code class="docutils literal notranslate"><span class="pre">OutputsVtuExport</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html#ansys.dpf.core.operators.serialization.vtu_export.OutputsVtuExport.path"><code class="docutils literal notranslate"><span class="pre">OutputsVtuExport.path</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html">workflow_export_json</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.workflow_export_json"><code class="docutils literal notranslate"><span class="pre">workflow_export_json</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.workflow_export_json.default_config"><code class="docutils literal notranslate"><span class="pre">workflow_export_json.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.workflow_export_json.inputs"><code class="docutils literal notranslate"><span class="pre">workflow_export_json.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.workflow_export_json.outputs"><code class="docutils literal notranslate"><span class="pre">workflow_export_json.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.workflow_export_json.config"><code class="docutils literal notranslate"><span class="pre">workflow_export_json.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.workflow_export_json.connect"><code class="docutils literal notranslate"><span class="pre">workflow_export_json.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.workflow_export_json.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">workflow_export_json.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.workflow_export_json.eval"><code class="docutils literal notranslate"><span class="pre">workflow_export_json.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.workflow_export_json.get_output"><code class="docutils literal notranslate"><span class="pre">workflow_export_json.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.workflow_export_json.operator_specification"><code class="docutils literal notranslate"><span class="pre">workflow_export_json.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.workflow_export_json.progress_bar"><code class="docutils literal notranslate"><span class="pre">workflow_export_json.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.workflow_export_json.run"><code class="docutils literal notranslate"><span class="pre">workflow_export_json.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.workflow_export_json.specification"><code class="docutils literal notranslate"><span class="pre">workflow_export_json.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.InputsWorkflowExportJson"><code class="docutils literal notranslate"><span class="pre">InputsWorkflowExportJson</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.InputsWorkflowExportJson.workflow"><code class="docutils literal notranslate"><span class="pre">InputsWorkflowExportJson.workflow</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.InputsWorkflowExportJson.file_path"><code class="docutils literal notranslate"><span class="pre">InputsWorkflowExportJson.file_path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.InputsWorkflowExportJson.connect"><code class="docutils literal notranslate"><span class="pre">InputsWorkflowExportJson.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html#ansys.dpf.core.operators.serialization.workflow_export_json.OutputsWorkflowExportJson"><code class="docutils literal notranslate"><span class="pre">OutputsWorkflowExportJson</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html">workflow_import_json</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.workflow_import_json"><code class="docutils literal notranslate"><span class="pre">workflow_import_json</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.workflow_import_json.default_config"><code class="docutils literal notranslate"><span class="pre">workflow_import_json.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.workflow_import_json.inputs"><code class="docutils literal notranslate"><span class="pre">workflow_import_json.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.workflow_import_json.outputs"><code class="docutils literal notranslate"><span class="pre">workflow_import_json.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.workflow_import_json.config"><code class="docutils literal notranslate"><span class="pre">workflow_import_json.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.workflow_import_json.connect"><code class="docutils literal notranslate"><span class="pre">workflow_import_json.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.workflow_import_json.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">workflow_import_json.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.workflow_import_json.eval"><code class="docutils literal notranslate"><span class="pre">workflow_import_json.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.workflow_import_json.get_output"><code class="docutils literal notranslate"><span class="pre">workflow_import_json.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.workflow_import_json.operator_specification"><code class="docutils literal notranslate"><span class="pre">workflow_import_json.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.workflow_import_json.progress_bar"><code class="docutils literal notranslate"><span class="pre">workflow_import_json.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.workflow_import_json.run"><code class="docutils literal notranslate"><span class="pre">workflow_import_json.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.workflow_import_json.specification"><code class="docutils literal notranslate"><span class="pre">workflow_import_json.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.InputsWorkflowImportJson"><code class="docutils literal notranslate"><span class="pre">InputsWorkflowImportJson</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.InputsWorkflowImportJson.json_workflow"><code class="docutils literal notranslate"><span class="pre">InputsWorkflowImportJson.json_workflow</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.InputsWorkflowImportJson.connect"><code class="docutils literal notranslate"><span class="pre">InputsWorkflowImportJson.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.OutputsWorkflowImportJson"><code class="docutils literal notranslate"><span class="pre">OutputsWorkflowImportJson</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html#ansys.dpf.core.operators.serialization.workflow_import_json.OutputsWorkflowImportJson.workflow"><code class="docutils literal notranslate"><span class="pre">OutputsWorkflowImportJson.workflow</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="module-ansys.dpf.core.operators.serialization">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ansys.dpf.core.operators.serialization" title="Permalink to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-ansys.dpf.core.operators.serialization">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/api/ansys.dpf.core.operators.serialization.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2023 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

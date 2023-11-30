@@ -1,0 +1,2317 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Server types &#8212; PyDPF-Core</title>
+    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    
+        <link href="../_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys.dpf.core.server_types';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.7';
+        </script>
+    <link rel="shortcut icon" href="../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Session" href="ansys.dpf.core.session.html" />
+    <link rel="prev" title="Server factory, server configuration and communication protocols" href="ansys.dpf.core.server_factory.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+    
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.7  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+    
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+    
+
+    
+    <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="../index.html">PyDPF-Core</a> » </li>
+    
+
+          <li class="nav-item nav-item-1"><a href="index.html" >API reference</a> » </li>
+          <li class="nav-item nav-item-2"><a href="ansys.dpf.core.html" accesskey="U">ansys.dpf.core package</a> » </li>
+        <li class="nav-item nav-item-this"><a href="">Server types</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.7  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">
+    Section Navigation
+  </p>
+  <div class="bd-toc-item navbar-nav">
+    <p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="ansys.dpf.core.html">ansys.dpf.core package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.examples.html">ansys.dpf.core.examples package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.html">ansys.dpf.core.operators package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.animator.html">Animator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.available_result.html">AvailableResult</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.collection.html">Collection</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.common.html">Common</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.config.html">Operator Configuration</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.core.html">Core</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_fields_container.html">Custom Fields Containers</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_operator.html">Custom Operator Base</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_type_field.html">CustomTypeField</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.cyclic_support.html">Cyclic Support</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_sources.html">Data Sources</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_tree.html">DataTree</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dimensionality.html">Dimensionality</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_array.html">DPFArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html">Operator</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.element_descriptor.html">Element Descriptor</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.elements.html">Elements</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.errors.html">Errors</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field.html">Field</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field_definition.html">FieldDefinition</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container.html">FieldsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container_factory.html">fields_container_factory</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_factory.html">fields_factory</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.generic_support.html">GenericSupport</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.geometry.html"><code class="docutils literal notranslate"><span class="pre">normalize_vector()</span></code></a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.geometry_factory.html"><code class="docutils literal notranslate"><span class="pre">create_points()</span></code></a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.inputs.html">Inputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.mesh_scoping_factory.html">mesh_scoping_factory</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshed_region.html">MeshedRegion</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshes_container.html">MeshesContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.model.html">Model</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.nodes.html">Nodes</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operator_specification.html">Operator Specification</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.outputs.html">Outputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.path_utilities.html">path_utilities</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.plotter.html">Plotter</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.property_field.html">PropertyField</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.result_info.html">ResultInfo</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.results.html">Results</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.runtime_config.html">RuntimeConfig</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scoping.html">Scoping</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scopings_container.html">ScopingsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server.html">Server</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_context.html">ServerContext</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_factory.html">Server factory, server configuration and communication protocols</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Server types</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.session.html">Session</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.settings.html">settings</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.streams_container.html">StreamsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.string_field.html">StringField</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.support.html">Support</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">time_freq_scoping_factory</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_support.html">TimeFreqSupport</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.unit_system.html">UnitSystem</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.workflow.html">Workflow</a></li>
+
+</ul>
+</li>
+</ul>
+
+  </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <span class="target" id="module-ansys.dpf.core.server_types"></span><section id="server-types">
+<h1>Server types<a class="headerlink" href="#server-types" title="Permalink to this heading">#</a></h1>
+<p>Contains the different kinds of
+servers available for the factory.</p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.check_valid_ip">
+<span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server_types.</span></span><span class="sig-name descname"><span class="pre">check_valid_ip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.check_valid_ip" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if a valid IP address is entered.</p>
+<p>This method raises an error when an invalid IP address is entered.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.launch_dpf">
+<span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server_types.</span></span><span class="sig-name descname"><span class="pre">launch_dpf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ansys_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50054</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.launch_dpf" title="Permalink to this definition">#</a></dt>
+<dd><p>Launch Ansys DPF.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ansys_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Root path for the Ansys installation directory. For example, <code class="docutils literal notranslate"><span class="pre">&quot;/ansys_inc/v212/&quot;</span></code>.
+The default is the latest Ansys installation.</p></li>
+<li><p><strong>ip</strong> (<em>str</em><em>, </em><em>optional</em>) – IP address of the remote or local instance to connect to. The
+default is <code class="docutils literal notranslate"><span class="pre">&quot;LOCALHOST&quot;</span></code>.</p></li>
+<li><p><strong>port</strong> (<em>int</em>) – Port to connect to the remote instance on. The default is
+<code class="docutils literal notranslate"><span class="pre">&quot;DPF_DEFAULT_PORT&quot;</span></code>, which is 50054.</p></li>
+<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum number of seconds for the initialization attempt.
+The default is <code class="docutils literal notranslate"><span class="pre">10</span></code>. Once the specified number of seconds
+passes, the connection fails.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.launch_dpf_on_docker">
+<span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server_types.</span></span><span class="sig-name descname"><span class="pre">launch_dpf_on_docker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">running_docker_config=&lt;ansys.dpf.core.server_factory.RunningDockerConfig</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ansys_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip='127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port=50054</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout=10.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.launch_dpf_on_docker" title="Permalink to this definition">#</a></dt>
+<dd><p>Launch Ansys DPF.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>running_docker_config</strong> (<a class="reference internal" href="ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.RunningDockerConfig" title="ansys.dpf.core.server_factory.RunningDockerConfig"><em>server_factory.RunningDockerConfig</em></a><em>, </em><em>optional</em>) – To start DPF server as a docker, specify the docker configurations here.</p></li>
+<li><p><strong>ansys_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Root path for the Ansys installation directory. For example, <code class="docutils literal notranslate"><span class="pre">&quot;/ansys_inc/v212/&quot;</span></code>.
+The default is the latest Ansys installation.</p></li>
+<li><p><strong>ip</strong> (<em>str</em><em>, </em><em>optional</em>) – IP address of the remote or local instance to connect to. The
+default is <code class="docutils literal notranslate"><span class="pre">&quot;LOCALHOST&quot;</span></code>.</p></li>
+<li><p><strong>port</strong> (<em>int</em>) – Port to connect to the remote instance on. The default is
+<code class="docutils literal notranslate"><span class="pre">&quot;DPF_DEFAULT_PORT&quot;</span></code>, which is 50054.</p></li>
+<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum number of seconds for the initialization attempt.
+The default is <code class="docutils literal notranslate"><span class="pre">10</span></code>. Once the specified number of seconds
+passes, the connection fails.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.BaseServer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server_types.</span></span><span class="sig-name descname"><span class="pre">BaseServer</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.BaseServer" title="Permalink to this definition">#</a></dt>
+<dd><p>Abstract class for servers</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.BaseServer.set_as_global">
+<span class="sig-name descname"><span class="pre">set_as_global</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">as_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.BaseServer.set_as_global" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the current server as global if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>as_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – Global variable that stores the IP address and port for the DPF
+module. All DPF objects created in this Python session will
+use this IP and port. The default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.BaseServer.info">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.BaseServer.info" title="Permalink to this definition">#</a></dt>
+<dd><p>Server information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>info</strong> – Dictionary with server information, including <code class="docutils literal notranslate"><span class="pre">&quot;server_ip&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;server_port&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;server_process_id&quot;</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">&quot;server_version&quot;</span></code> keys.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.BaseServer.session">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">session</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.BaseServer.session" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to plan events call backs from the server:
+progress bar when workflows are running, logging…</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.session.html#ansys.dpf.core.session.Session" title="ansys.dpf.core.session.Session">ansys.dpf.core.session.Session</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.BaseServer.os">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">os</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.BaseServer.os" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the operating system of the server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>os</strong> – “nt” or “posix”</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.BaseServer.release">
+<span class="sig-name descname"><span class="pre">release</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.BaseServer.release" title="Permalink to this definition">#</a></dt>
+<dd><p>Clears the available Operators and Releases licenses when necessary.</p>
+<p class="rubric">Notes</p>
+<p>Available with server’s version starting at 6.0 (Ansys 2023R2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.BaseServer.apply_context">
+<span class="sig-name descname"><span class="pre">apply_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.BaseServer.apply_context" title="Permalink to this definition">#</a></dt>
+<dd><p>Defines the settings that will be used to load DPF’s plugins.
+A DPF xml file can be used to list the plugins and set up variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> (<a class="reference internal" href="ansys.dpf.core.server_context.html#ansys.dpf.core.server_context.ServerContext" title="ansys.dpf.core.server_context.ServerContext"><em>ServerContext</em></a>) – The context allows to choose which capabilities are available server side.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Available with server’s version starting at 6.0 (Ansys 2023R2).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.BaseServer.context">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">context</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.BaseServer.context" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the settings used to load DPF’s plugins.
+To update the context server side, use
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.BaseServer.server_types.apply_context()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.server_context.html#ansys.dpf.core.server_context.ServerContext" title="ansys.dpf.core.server_context.ServerContext">ServerContext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.BaseServer.check_version">
+<span class="sig-name descname"><span class="pre">check_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.BaseServer.check_version" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if the server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>required_version</strong> (<em>str</em>) – Required version to compare with the server version.</p></li>
+<li><p><strong>msg</strong> (<em>str</em><em>, </em><em>optional</em>) – Message for the raised exception if version requirements do not match.</p></li>
+</ul>
+</dd>
+</dl>
+<p>:raises dpf_errors : errors: errors.DpfVersionNotSupported is raised if failure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the server version meets the requirement.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.BaseServer.meet_version">
+<span class="sig-name descname"><span class="pre">meet_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.BaseServer.meet_version" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if the server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>required_version</strong> (<em>str</em>) – Required version to compare with the server version.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the server version meets the requirement.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.CServer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server_types.</span></span><span class="sig-name descname"><span class="pre">CServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ansys_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_operators</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.CServer" title="Permalink to this definition">#</a></dt>
+<dd><p>Abstract class for servers going through the DPFClientAPI</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.CServer.apply_context">
+<span class="sig-name descname"><span class="pre">apply_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.CServer.apply_context" title="Permalink to this definition">#</a></dt>
+<dd><p>Defines the settings that will be used to load DPF’s plugins.
+A DPF xml file can be used to list the plugins and set up variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> (<a class="reference internal" href="ansys.dpf.core.server_context.html#ansys.dpf.core.server_context.ServerContext" title="ansys.dpf.core.server_context.ServerContext"><em>ServerContext</em></a>) – The context allows to choose which capabilities are available server side.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Available with server’s version starting at 6.0 (Ansys 2023R2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.CServer.check_version">
+<span class="sig-name descname"><span class="pre">check_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.CServer.check_version" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if the server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>required_version</strong> (<em>str</em>) – Required version to compare with the server version.</p></li>
+<li><p><strong>msg</strong> (<em>str</em><em>, </em><em>optional</em>) – Message for the raised exception if version requirements do not match.</p></li>
+</ul>
+</dd>
+</dl>
+<p>:raises dpf_errors : errors: errors.DpfVersionNotSupported is raised if failure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the server version meets the requirement.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.CServer.context">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">context</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.CServer.context" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the settings used to load DPF’s plugins.
+To update the context server side, use
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.BaseServer.server_types.apply_context()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.server_context.html#ansys.dpf.core.server_context.ServerContext" title="ansys.dpf.core.server_context.ServerContext">ServerContext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.CServer.info">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.CServer.info" title="Permalink to this definition">#</a></dt>
+<dd><p>Server information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>info</strong> – Dictionary with server information, including <code class="docutils literal notranslate"><span class="pre">&quot;server_ip&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;server_port&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;server_process_id&quot;</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">&quot;server_version&quot;</span></code> keys.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.CServer.meet_version">
+<span class="sig-name descname"><span class="pre">meet_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.CServer.meet_version" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if the server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>required_version</strong> (<em>str</em>) – Required version to compare with the server version.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the server version meets the requirement.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.CServer.os">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">os</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.CServer.os" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the operating system of the server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>os</strong> – “nt” or “posix”</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.CServer.release">
+<span class="sig-name descname"><span class="pre">release</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.CServer.release" title="Permalink to this definition">#</a></dt>
+<dd><p>Clears the available Operators and Releases licenses when necessary.</p>
+<p class="rubric">Notes</p>
+<p>Available with server’s version starting at 6.0 (Ansys 2023R2).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.CServer.session">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">session</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.CServer.session" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to plan events call backs from the server:
+progress bar when workflows are running, logging…</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.session.html#ansys.dpf.core.session.Session" title="ansys.dpf.core.session.Session">ansys.dpf.core.session.Session</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.CServer.set_as_global">
+<span class="sig-name descname"><span class="pre">set_as_global</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">as_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.CServer.set_as_global" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the current server as global if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>as_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – Global variable that stores the IP address and port for the DPF
+module. All DPF objects created in this Python session will
+use this IP and port. The default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server_types.</span></span><span class="sig-name descname"><span class="pre">GrpcServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ansys_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip='127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port=50054</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_global=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_operators=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">launch_server=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docker_config=&lt;ansys.dpf.core.server_factory.DockerConfig</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_pypim=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_connection_tryouts=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context=&lt;ansys.dpf.core.server_context.ServerContext</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer" title="Permalink to this definition">#</a></dt>
+<dd><p>Server using the gRPC communication protocol</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.os">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">os</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.os" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the operating system of the server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>os</strong> – “nt” or “posix”</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.address">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">address</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.address" title="Permalink to this definition">#</a></dt>
+<dd><p>Address of the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>address</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.ip">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ip</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.ip" title="Permalink to this definition">#</a></dt>
+<dd><p>IP address of the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ip</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.port">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">port</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.port" title="Permalink to this definition">#</a></dt>
+<dd><p>Port of the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>port</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.external_ip">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">external_ip</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.external_ip" title="Permalink to this definition">#</a></dt>
+<dd><p>Public IP address of the server.
+Is the same as  <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.GrpcServer.ip()</span></code> in all cases except
+for servers using a gateway:
+for example, servers running in Docker Images might have an internal
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.GrpcServer.ip()</span></code> different from the public
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.GrpcServer.external_ip()</span></code>, the latter should be used to get
+connected to the server from outside the Docker Image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>external_ip</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.external_port">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">external_port</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.external_port" title="Permalink to this definition">#</a></dt>
+<dd><p>Public Port of the server.
+Is the same as  <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.GrpcServer.port()</span></code> in all cases except
+for servers using a gateway:
+for example, servers running in Docker Images might have an internal
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.GrpcServer.port()</span></code> different from the public
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.GrpcServer.external_port()</span></code>, the latter should be used to get
+connected to the server from outside the Docker Image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>port</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.apply_context">
+<span class="sig-name descname"><span class="pre">apply_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.apply_context" title="Permalink to this definition">#</a></dt>
+<dd><p>Defines the settings that will be used to load DPF’s plugins.
+A DPF xml file can be used to list the plugins and set up variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> (<a class="reference internal" href="ansys.dpf.core.server_context.html#ansys.dpf.core.server_context.ServerContext" title="ansys.dpf.core.server_context.ServerContext"><em>ServerContext</em></a>) – The context allows to choose which capabilities are available server side.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Available with server’s version starting at 6.0 (Ansys 2023R2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.check_version">
+<span class="sig-name descname"><span class="pre">check_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.check_version" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if the server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>required_version</strong> (<em>str</em>) – Required version to compare with the server version.</p></li>
+<li><p><strong>msg</strong> (<em>str</em><em>, </em><em>optional</em>) – Message for the raised exception if version requirements do not match.</p></li>
+</ul>
+</dd>
+</dl>
+<p>:raises dpf_errors : errors: errors.DpfVersionNotSupported is raised if failure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the server version meets the requirement.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.context">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">context</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.context" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the settings used to load DPF’s plugins.
+To update the context server side, use
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.BaseServer.server_types.apply_context()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.server_context.html#ansys.dpf.core.server_context.ServerContext" title="ansys.dpf.core.server_context.ServerContext">ServerContext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.info">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.info" title="Permalink to this definition">#</a></dt>
+<dd><p>Server information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>info</strong> – Dictionary with server information, including <code class="docutils literal notranslate"><span class="pre">&quot;server_ip&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;server_port&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;server_process_id&quot;</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">&quot;server_version&quot;</span></code> keys.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.meet_version">
+<span class="sig-name descname"><span class="pre">meet_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.meet_version" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if the server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>required_version</strong> (<em>str</em>) – Required version to compare with the server version.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the server version meets the requirement.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.release">
+<span class="sig-name descname"><span class="pre">release</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.release" title="Permalink to this definition">#</a></dt>
+<dd><p>Clears the available Operators and Releases licenses when necessary.</p>
+<p class="rubric">Notes</p>
+<p>Available with server’s version starting at 6.0 (Ansys 2023R2).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.session">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">session</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.session" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to plan events call backs from the server:
+progress bar when workflows are running, logging…</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.session.html#ansys.dpf.core.session.Session" title="ansys.dpf.core.session.Session">ansys.dpf.core.session.Session</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.GrpcServer.set_as_global">
+<span class="sig-name descname"><span class="pre">set_as_global</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">as_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.GrpcServer.set_as_global" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the current server as global if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>as_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – Global variable that stores the IP address and port for the DPF
+module. All DPF objects created in this Python session will
+use this IP and port. The default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.InProcessServer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server_types.</span></span><span class="sig-name descname"><span class="pre">InProcessServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ansys_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_global=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_operators=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context=&lt;ansys.dpf.core.server_context.ServerContext</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.InProcessServer" title="Permalink to this definition">#</a></dt>
+<dd><p>Server using the InProcess communication protocol</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.InProcessServer.os">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">os</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.InProcessServer.os" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the operating system of the server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>os</strong> – “nt” or “posix”</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.InProcessServer.apply_context">
+<span class="sig-name descname"><span class="pre">apply_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.InProcessServer.apply_context" title="Permalink to this definition">#</a></dt>
+<dd><p>Defines the settings that will be used to load DPF’s plugins.
+A DPF xml file can be used to list the plugins and set up variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> (<a class="reference internal" href="ansys.dpf.core.server_context.html#ansys.dpf.core.server_context.ServerContext" title="ansys.dpf.core.server_context.ServerContext"><em>ServerContext</em></a>) – The context allows to choose which capabilities are available server side.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Available with server’s version starting at 6.0 (Ansys 2023R2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.InProcessServer.check_version">
+<span class="sig-name descname"><span class="pre">check_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.InProcessServer.check_version" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if the server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>required_version</strong> (<em>str</em>) – Required version to compare with the server version.</p></li>
+<li><p><strong>msg</strong> (<em>str</em><em>, </em><em>optional</em>) – Message for the raised exception if version requirements do not match.</p></li>
+</ul>
+</dd>
+</dl>
+<p>:raises dpf_errors : errors: errors.DpfVersionNotSupported is raised if failure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the server version meets the requirement.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.InProcessServer.context">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">context</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.InProcessServer.context" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the settings used to load DPF’s plugins.
+To update the context server side, use
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.BaseServer.server_types.apply_context()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.server_context.html#ansys.dpf.core.server_context.ServerContext" title="ansys.dpf.core.server_context.ServerContext">ServerContext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.InProcessServer.info">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.InProcessServer.info" title="Permalink to this definition">#</a></dt>
+<dd><p>Server information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>info</strong> – Dictionary with server information, including <code class="docutils literal notranslate"><span class="pre">&quot;server_ip&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;server_port&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;server_process_id&quot;</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">&quot;server_version&quot;</span></code> keys.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.InProcessServer.meet_version">
+<span class="sig-name descname"><span class="pre">meet_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.InProcessServer.meet_version" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if the server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>required_version</strong> (<em>str</em>) – Required version to compare with the server version.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the server version meets the requirement.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.InProcessServer.release">
+<span class="sig-name descname"><span class="pre">release</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.InProcessServer.release" title="Permalink to this definition">#</a></dt>
+<dd><p>Clears the available Operators and Releases licenses when necessary.</p>
+<p class="rubric">Notes</p>
+<p>Available with server’s version starting at 6.0 (Ansys 2023R2).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.InProcessServer.session">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">session</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.InProcessServer.session" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to plan events call backs from the server:
+progress bar when workflows are running, logging…</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.session.html#ansys.dpf.core.session.Session" title="ansys.dpf.core.session.Session">ansys.dpf.core.session.Session</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.InProcessServer.set_as_global">
+<span class="sig-name descname"><span class="pre">set_as_global</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">as_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.InProcessServer.set_as_global" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the current server as global if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>as_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – Global variable that stores the IP address and port for the DPF
+module. All DPF objects created in this Python session will
+use this IP and port. The default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server_types.</span></span><span class="sig-name descname"><span class="pre">LegacyGrpcServer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ansys_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip='127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port=50054</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout=5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_global=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_operators=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">launch_server=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docker_config=&lt;ansys.dpf.core.server_factory.DockerConfig</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_pypim=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context=&lt;ansys.dpf.core.server_context.ServerContext</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer" title="Permalink to this definition">#</a></dt>
+<dd><p>Provides an instance of the DPF server using InProcess gRPC.
+Kept for backward-compatibility with dpf servers &lt;0.5.0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ansys_path</strong> (<em>str</em>) – Path for the DPF executable.</p></li>
+<li><p><strong>ip</strong> (<em>str</em>) – IP address of the remote or local instance to connect to. The
+default is <code class="docutils literal notranslate"><span class="pre">&quot;LOCALHOST&quot;</span></code>.</p></li>
+<li><p><strong>port</strong> (<em>int</em>) – Port to connect to the remote instance on. The default is
+<code class="docutils literal notranslate"><span class="pre">&quot;DPF_DEFAULT_PORT&quot;</span></code>, which is 50054.</p></li>
+<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum number of seconds for the initialization attempt.
+The default is <code class="docutils literal notranslate"><span class="pre">10</span></code>. Once the specified number of seconds
+passes, the connection fails.</p></li>
+<li><p><strong>as_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – Global variable that stores the IP address and port for the DPF
+module. All DPF objects created in this Python session will
+use this IP and port. The default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>load_operators</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to automatically load the math operators. The default
+is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>launch_server</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to launch the server on Windows.</p></li>
+<li><p><strong>docker_config</strong> (<a class="reference internal" href="ansys.dpf.core.server_factory.html#ansys.dpf.core.server_factory.DockerConfig" title="ansys.dpf.core.server_factory.DockerConfig"><em>server_factory.DockerConfig</em></a><em>, </em><em>optional</em>) – To start DPF server as a docker, specify the docker name here.</p></li>
+<li><p><strong>use_pypim</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to use PyPIM functionalities by default when a PyPIM environment is detected.
+Defaults to True.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.ip">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ip</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.ip" title="Permalink to this definition">#</a></dt>
+<dd><p>IP address of the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ip</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.port">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">port</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.port" title="Permalink to this definition">#</a></dt>
+<dd><p>Port of the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>port</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.external_ip">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">external_ip</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.external_ip" title="Permalink to this definition">#</a></dt>
+<dd><p>Public IP address of the server.
+Is the same as  <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.LegacyGrpcServer.ip()</span></code> in all cases except
+for servers using a gateway:
+for example, servers running in Docker Images might have an internal
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.LegacyGrpcServer.ip()</span></code> different from the public
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.LegacyGrpcServer.external_ip()</span></code>, the latter should be used to get
+connected to the server from outside the Docker Image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>external_ip</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.external_port">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">external_port</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.external_port" title="Permalink to this definition">#</a></dt>
+<dd><p>Public Port of the server.
+Is the same as  <code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.LegacyGrpcServer.port()</span></code> in all cases except
+for servers using a gateway:
+for example, servers running in Docker Images might have an internal
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.LegacyGrpcServer.port()</span></code> different from the public
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.LegacyGrpcServer.external_port()</span></code>, the latter should be used to get
+connected to the server from outside the Docker Image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>port</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.apply_context">
+<span class="sig-name descname"><span class="pre">apply_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.apply_context" title="Permalink to this definition">#</a></dt>
+<dd><p>Defines the settings that will be used to load DPF’s plugins.
+A DPF xml file can be used to list the plugins and set up variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> (<a class="reference internal" href="ansys.dpf.core.server_context.html#ansys.dpf.core.server_context.ServerContext" title="ansys.dpf.core.server_context.ServerContext"><em>ServerContext</em></a>) – The context allows to choose which capabilities are available server side.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Available with server’s version starting at 6.0 (Ansys 2023R2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.check_version">
+<span class="sig-name descname"><span class="pre">check_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.check_version" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if the server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>required_version</strong> (<em>str</em>) – Required version to compare with the server version.</p></li>
+<li><p><strong>msg</strong> (<em>str</em><em>, </em><em>optional</em>) – Message for the raised exception if version requirements do not match.</p></li>
+</ul>
+</dd>
+</dl>
+<p>:raises dpf_errors : errors: errors.DpfVersionNotSupported is raised if failure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the server version meets the requirement.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.context">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">context</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.context" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the settings used to load DPF’s plugins.
+To update the context server side, use
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ansys.dpf.core.BaseServer.server_types.apply_context()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.server_context.html#ansys.dpf.core.server_context.ServerContext" title="ansys.dpf.core.server_context.ServerContext">ServerContext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.meet_version">
+<span class="sig-name descname"><span class="pre">meet_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_version</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.meet_version" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if the server version matches with a required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>required_version</strong> (<em>str</em>) – Required version to compare with the server version.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the server version meets the requirement.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.release">
+<span class="sig-name descname"><span class="pre">release</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.release" title="Permalink to this definition">#</a></dt>
+<dd><p>Clears the available Operators and Releases licenses when necessary.</p>
+<p class="rubric">Notes</p>
+<p>Available with server’s version starting at 6.0 (Ansys 2023R2).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.session">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">session</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.session" title="Permalink to this definition">#</a></dt>
+<dd><p>Allows to plan events call backs from the server:
+progress bar when workflows are running, logging…</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ansys.dpf.core.session.html#ansys.dpf.core.session.Session" title="ansys.dpf.core.session.Session">ansys.dpf.core.session.Session</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.set_as_global">
+<span class="sig-name descname"><span class="pre">set_as_global</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">as_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.set_as_global" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the current server as global if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>as_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – Global variable that stores the IP address and port for the DPF
+module. All DPF objects created in this Python session will
+use this IP and port. The default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.version">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.version" title="Permalink to this definition">#</a></dt>
+<dd><p>Version of the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>version</strong></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.os">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">os</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.os" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the operating system of the server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>os</strong> – “nt” or “posix”</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.LegacyGrpcServer.info">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.LegacyGrpcServer.info" title="Permalink to this definition">#</a></dt>
+<dd><p>Server information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>info</strong> – Dictionary with server information, including <code class="docutils literal notranslate"><span class="pre">&quot;server_ip&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;server_port&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;server_process_id&quot;</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">&quot;server_version&quot;</span></code> keys.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ansys.dpf.core.server_types.DpfServer">
+<span class="sig-prename descclassname"><span class="pre">ansys.dpf.core.server_types.</span></span><span class="sig-name descname"><span class="pre">DpfServer</span></span><a class="headerlink" href="#ansys.dpf.core.server_types.DpfServer" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#ansys.dpf.core.server_types.LegacyGrpcServer" title="ansys.dpf.core.server_types.LegacyGrpcServer"><code class="xref py py-class docutils literal notranslate"><span class="pre">LegacyGrpcServer</span></code></a></p>
+</dd></dl>
+
+
+
+            </article>
+            
+            
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Server types
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.check_valid_ip">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     check_valid_ip()
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.launch_dpf">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     launch_dpf()
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.launch_dpf_on_docker">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     launch_dpf_on_docker()
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.BaseServer">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     BaseServer
+    </span>
+   </code>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.BaseServer.set_as_global">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BaseServer.set_as_global()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.BaseServer.info">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BaseServer.info
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.BaseServer.session">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BaseServer.session
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.BaseServer.os">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BaseServer.os
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.BaseServer.release">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BaseServer.release()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.BaseServer.apply_context">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BaseServer.apply_context()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.BaseServer.context">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BaseServer.context
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.BaseServer.check_version">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BaseServer.check_version()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.BaseServer.meet_version">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BaseServer.meet_version()
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.CServer">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     CServer
+    </span>
+   </code>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.CServer.apply_context">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       CServer.apply_context()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.CServer.check_version">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       CServer.check_version()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.CServer.context">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       CServer.context
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.CServer.info">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       CServer.info
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.CServer.meet_version">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       CServer.meet_version()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.CServer.os">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       CServer.os
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.CServer.release">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       CServer.release()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.CServer.session">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       CServer.session
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.CServer.set_as_global">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       CServer.set_as_global()
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     GrpcServer
+    </span>
+   </code>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.os">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.os
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.address">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.address
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.ip">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.ip
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.port">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.port
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.external_ip">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.external_ip
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.external_port">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.external_port
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.apply_context">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.apply_context()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.check_version">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.check_version()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.context">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.context
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.info">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.info
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.meet_version">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.meet_version()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.release">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.release()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.session">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.session
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.GrpcServer.set_as_global">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       GrpcServer.set_as_global()
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.InProcessServer">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     InProcessServer
+    </span>
+   </code>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.InProcessServer.os">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InProcessServer.os
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.InProcessServer.apply_context">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InProcessServer.apply_context()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.InProcessServer.check_version">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InProcessServer.check_version()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.InProcessServer.context">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InProcessServer.context
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.InProcessServer.info">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InProcessServer.info
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.InProcessServer.meet_version">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InProcessServer.meet_version()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.InProcessServer.release">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InProcessServer.release()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.InProcessServer.session">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InProcessServer.session
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.InProcessServer.set_as_global">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       InProcessServer.set_as_global()
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     LegacyGrpcServer
+    </span>
+   </code>
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.ip">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.ip
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.port">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.port
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.external_ip">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.external_ip
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.external_port">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.external_port
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.apply_context">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.apply_context()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.check_version">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.check_version()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.context">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.context
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.meet_version">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.meet_version()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.release">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.release()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.session">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.session
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.set_as_global">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.set_as_global()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.version">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.version
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.os">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.os
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.LegacyGrpcServer.info">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LegacyGrpcServer.info
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ansys.dpf.core.server_types.DpfServer">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     DpfServer
+    </span>
+   </code>
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+<div class="tocsection sourcelink">
+    <a href="../_sources/api/ansys.dpf.core.server_types.rst.txt">
+        <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+</div>
+
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

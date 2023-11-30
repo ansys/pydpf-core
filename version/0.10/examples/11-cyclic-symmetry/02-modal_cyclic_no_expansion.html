@@ -1,0 +1,997 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry &#8212; PyDPF-Core</title>
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+ 
+<link href="../../_static/css/breadcrumbs.css" rel="stylesheet" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/11-cyclic-symmetry/02-modal_cyclic_no_expansion';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.14.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.10';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="shortcut icon" href="../../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Multi-stage cyclic symmetry example" href="03-cyclic_multi_stage.html" />
+    <link rel="prev" title="Expand mesh and results for modal cyclic symmetry" href="01-modal_cyclic.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+   
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-header-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-header-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-header-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-header-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-basic/index.html">Basic DPF examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-transient_analyses/index.html">Transient analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-modal_analyses/index.html">Modal analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-harmonic_analyses/index.html">Harmonic analysis examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-advanced/index.html">Advanced and miscellaneous examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-file-IO/index.html">File manipulation and input-output examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-plotting/index.html">Plotting examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-distributed-post/index.html">Examples for postprocessing on distributed processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-python-operators/index.html">Examples of creating custom operator plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-averaging/index.html">Averaging examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10-mesh_operations/index.html">Mesh operations examples</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Cyclic symmetry examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01-modal_cyclic.html">Expand mesh and results for modal cyclic symmetry</a></li>
+
+
+
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="03-cyclic_multi_stage.html">Multi-stage cyclic symmetry example</a></li>
+
+
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../12-fluids/index.html">Fluids examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../13-streamlines/index.html">Streamlines examples</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Cyclic symmetry examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Get base...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-examples-11-cyclic-symmetry-02-modal-cyclic-no-expansion-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="get-base-and-duplicate-sectors-real-and-imaginary-results-for-modal-cyclic-symmetry">
+<span id="ref-basic-cyclic"></span><span id="sphx-glr-examples-11-cyclic-symmetry-02-modal-cyclic-no-expansion-py"></span><h1>Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry<a class="headerlink" href="#get-base-and-duplicate-sectors-real-and-imaginary-results-for-modal-cyclic-symmetry" title="Permalink to this heading">#</a></h1>
+<p>This example shows how to extract results from a modal cyclic symmetry model.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ansys.dpf</span> <span class="kn">import</span> <span class="n">core</span> <span class="k">as</span> <span class="n">dpf</span>
+<span class="kn">from</span> <span class="nn">ansys.dpf.core</span> <span class="kn">import</span> <span class="n">examples</span>
+</pre></div>
+</div>
+<p>Create the model and display the state of the result.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">examples</span><span class="o">.</span><span class="n">find_simple_cyclic</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF Model
+------------------------------
+Modal analysis
+Unit system: MKS: m, kg, N, s, V, A, degC
+Physics Type: Mechanical
+Available results:
+     -  displacement: Nodal Displacement
+     -  stress: ElementalNodal Stress
+     -  elemental_volume: Elemental Volume
+     -  stiffness_matrix_energy: Elemental Energy-stiffness matrix
+     -  artificial_hourglass_energy: Elemental Hourglass Energy
+     -  thermal_dissipation_energy: Elemental thermal dissipation energy
+     -  kinetic_energy: Elemental Kinetic Energy
+     -  co_energy: Elemental co-energy
+     -  incremental_energy: Elemental incremental energy
+     -  structural_temperature: ElementalNodal Structural temperature
+------------------------------
+DPF  Meshed Region:
+  51 nodes
+  4 elements
+  Unit: m
+  With solid (3D) elements
+------------------------------
+DPF  Time/Freq Support:
+  Number of sets: 30
+Cumulative     Frequency (Hz) LoadStep       Substep        Harmonic index
+1              670386.325235  1              1              0.000000
+2              872361.424038  1              2              0.000000
+3              1142526.525324 1              3              0.000000
+4              1252446.741551 1              4              0.000000
+5              1257379.552140 1              5              0.000000
+6              1347919.358013 1              6              0.000000
+7              679667.393214  2              1              1.000000
+8              679667.393214  2              2              -1.000000
+9              899321.218481  2              3              -1.000000
+10             899321.218481  2              4              1.000000
+11             1128387.049511 2              5              1.000000
+12             1128387.049511 2              6              -1.000000
+13             708505.071361  3              1              -2.000000
+14             708505.071361  3              2              2.000000
+15             966346.820117  3              3              2.000000
+16             966346.820117  3              4              -2.000000
+17             1031249.070606 3              5              -2.000000
+18             1031249.070606 3              6              2.000000
+19             757366.624982  4              1              -3.000000
+20             757366.624982  4              2              3.000000
+21             926631.623058  4              3              -3.000000
+22             926631.623058  4              4              3.000000
+23             1035144.649248 4              5              3.000000
+24             1035144.649248 4              6              -3.000000
+25             807882.379030  5              1              4.000000
+26             856868.410638  5              2              4.000000
+27             1063247.283632 5              3              4.000000
+28             1185511.741334 5              4              4.000000
+29             1278969.844256 5              5              4.000000
+30             1355579.879820 5              6              4.000000
+</pre></div>
+</div>
+</section>
+<section id="get-base-and-duplicate-sectors-displacement-results">
+<h1>Get base and duplicate sectors displacement results<a class="headerlink" href="#get-base-and-duplicate-sectors-displacement-results" title="Permalink to this heading">#</a></h1>
+<p>By default, the result providers (stress, displacement, and so on) will return results for
+base and duplicate sectors for a cyclic symmetry model.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create displacement operator</span>
+<span class="n">u_cyc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">displacement</span><span class="o">.</span><span class="n">on_all_time_freqs</span><span class="p">()</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="n">u_cyc</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The output fields container print displays the organization of the different
+fields in the container. The label “base_sector” gives access to base sectors
+results with base_sector=1 and duplicate sector with base_sector=0 for all
+modes.
+The print also displays that there is no duplicate sectors for the first 6 modes.
+Indeed, modes with harmonic index 0 have 0.0 displacement, stresses… on
+duplicate sectors.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">time_freq_support</span><span class="p">)</span>
+
+<span class="c1"># plot mode 7 base sector (real) result</span>
+<span class="n">mode_7_base</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;base_sector&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">})</span>
+<span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mode_7_base</span><span class="p">)</span>
+
+<span class="c1"># plot mode 7 duplicate sector (imaginary) result</span>
+<span class="n">mode_7_duplicate</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get_field</span><span class="p">({</span><span class="s2">&quot;base_sector&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">})</span>
+<span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">meshed_region</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mode_7_duplicate</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../../_images/sphx_glr_02-modal_cyclic_no_expansion_001.png" srcset="../../_images/sphx_glr_02-modal_cyclic_no_expansion_001.png" alt="02 modal cyclic no expansion" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-modal_cyclic_no_expansion_002.png" srcset="../../_images/sphx_glr_02-modal_cyclic_no_expansion_002.png" alt="02 modal cyclic no expansion" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF displacement(s)Fields Container
+  with 48 field(s)
+  defined on labels: base_sector time
+
+  with:
+  - field 0 {base_sector:  1, time:  1} with Nodal location, 3 components and 51 entities.
+  - field 1 {base_sector:  1, time:  2} with Nodal location, 3 components and 51 entities.
+  - field 2 {base_sector:  1, time:  3} with Nodal location, 3 components and 51 entities.
+  - field 3 {base_sector:  1, time:  4} with Nodal location, 3 components and 51 entities.
+  - field 4 {base_sector:  1, time:  5} with Nodal location, 3 components and 51 entities.
+  - field 5 {base_sector:  1, time:  6} with Nodal location, 3 components and 51 entities.
+  - field 6 {base_sector:  1, time:  7} with Nodal location, 3 components and 51 entities.
+  - field 7 {base_sector:  1, time:  8} with Nodal location, 3 components and 51 entities.
+  - field 8 {base_sector:  1, time:  9} with Nodal location, 3 components and 51 entities.
+  - field 9 {base_sector:  1, time:  10} with Nodal location, 3 components and 51 entities.
+  - field 10 {base_sector:  1, time:  11} with Nodal location, 3 components and 51 entities.
+  - field 11 {base_sector:  1, time:  12} with Nodal location, 3 components and 51 entities.
+  - field 12 {base_sector:  1, time:  13} with Nodal location, 3 components and 51 entities.
+  - field 13 {base_sector:  1, time:  14} with Nodal location, 3 components and 51 entities.
+  - field 14 {base_sector:  1, time:  15} with Nodal location, 3 components and 51 entities.
+  - field 15 {base_sector:  1, time:  16} with Nodal location, 3 components and 51 entities.
+  - field 16 {base_sector:  1, time:  17} with Nodal location, 3 components and 51 entities.
+  - field 17 {base_sector:  1, time:  18} with Nodal location, 3 components and 51 entities.
+  - field 18 {base_sector:  1, time:  19} with Nodal location, 3 components and 51 entities.
+  - field 19 {base_sector:  1, time:  20} with Nodal location, 3 components and 51 entities.
+  - field 20 {base_sector:  1, time:  21} with Nodal location, 3 components and 51 entities.
+  - field 21 {base_sector:  1, time:  22} with Nodal location, 3 components and 51 entities.
+  - field 22 {base_sector:  1, time:  23} with Nodal location, 3 components and 51 entities.
+  - field 23 {base_sector:  1, time:  24} with Nodal location, 3 components and 51 entities.
+  - field 24 {base_sector:  1, time:  25} with Nodal location, 3 components and 51 entities.
+  - field 25 {base_sector:  1, time:  26} with Nodal location, 3 components and 51 entities.
+  - field 26 {base_sector:  1, time:  27} with Nodal location, 3 components and 51 entities.
+  - field 27 {base_sector:  1, time:  28} with Nodal location, 3 components and 51 entities.
+  - field 28 {base_sector:  1, time:  29} with Nodal location, 3 components and 51 entities.
+  - field 29 {base_sector:  1, time:  30} with Nodal location, 3 components and 51 entities.
+  - field 30 {base_sector:  0, time:  7} with Nodal location, 3 components and 51 entities.
+  - field 31 {base_sector:  0, time:  8} with Nodal location, 3 components and 51 entities.
+  - field 32 {base_sector:  0, time:  9} with Nodal location, 3 components and 51 entities.
+  - field 33 {base_sector:  0, time:  10} with Nodal location, 3 components and 51 entities.
+  - field 34 {base_sector:  0, time:  11} with Nodal location, 3 components and 51 entities.
+  - field 35 {base_sector:  0, time:  12} with Nodal location, 3 components and 51 entities.
+  - field 36 {base_sector:  0, time:  13} with Nodal location, 3 components and 51 entities.
+  - field 37 {base_sector:  0, time:  14} with Nodal location, 3 components and 51 entities.
+  - field 38 {base_sector:  0, time:  15} with Nodal location, 3 components and 51 entities.
+  - field 39 {base_sector:  0, time:  16} with Nodal location, 3 components and 51 entities.
+  - field 40 {base_sector:  0, time:  17} with Nodal location, 3 components and 51 entities.
+  - field 41 {base_sector:  0, time:  18} with Nodal location, 3 components and 51 entities.
+  - field 42 {base_sector:  0, time:  19} with Nodal location, 3 components and 51 entities.
+  - field 43 {base_sector:  0, time:  20} with Nodal location, 3 components and 51 entities.
+  - field 44 {base_sector:  0, time:  21} with Nodal location, 3 components and 51 entities.
+  - field 45 {base_sector:  0, time:  22} with Nodal location, 3 components and 51 entities.
+  - field 46 {base_sector:  0, time:  23} with Nodal location, 3 components and 51 entities.
+  - field 47 {base_sector:  0, time:  24} with Nodal location, 3 components and 51 entities.
+
+DPF  Time/Freq Support:
+  Number of sets: 30
+Cumulative     Frequency (Hz) LoadStep       Substep        Harmonic index
+1              670386.325235  1              1              0.000000
+2              872361.424038  1              2              0.000000
+3              1142526.525324 1              3              0.000000
+4              1252446.741551 1              4              0.000000
+5              1257379.552140 1              5              0.000000
+6              1347919.358013 1              6              0.000000
+7              679667.393214  2              1              1.000000
+8              679667.393214  2              2              -1.000000
+9              899321.218481  2              3              -1.000000
+10             899321.218481  2              4              1.000000
+11             1128387.049511 2              5              1.000000
+12             1128387.049511 2              6              -1.000000
+13             708505.071361  3              1              -2.000000
+14             708505.071361  3              2              2.000000
+15             966346.820117  3              3              2.000000
+16             966346.820117  3              4              -2.000000
+17             1031249.070606 3              5              -2.000000
+18             1031249.070606 3              6              2.000000
+19             757366.624982  4              1              -3.000000
+20             757366.624982  4              2              3.000000
+21             926631.623058  4              3              -3.000000
+22             926631.623058  4              4              3.000000
+23             1035144.649248 4              5              3.000000
+24             1035144.649248 4              6              -3.000000
+25             807882.379030  5              1              4.000000
+26             856868.410638  5              2              4.000000
+27             1063247.283632 5              3              4.000000
+28             1185511.741334 5              4              4.000000
+29             1278969.844256 5              5              4.000000
+30             1355579.879820 5              6              4.000000
+</pre></div>
+</div>
+</section>
+<section id="get-displacement-results-on-the-first-sector-with-a-cyclic-phase">
+<h1>Get displacement results on the first sector with a cyclic phase<a class="headerlink" href="#get-displacement-results-on-the-first-sector-with-a-cyclic-phase" title="Permalink to this heading">#</a></h1>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">ansys.dpf.result.cyclic_expanded_displacement</span></code> gives access
+to all cyclic expansion configuration. By default all sectors will be expanded.
+The cyclic phase (in degree) can be changed with the phi argument.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">u_cyc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">cyclic_expanded_displacement</span><span class="p">(</span>
+    <span class="n">streams_container</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">streams_provider</span><span class="p">,</span>
+    <span class="n">sectors_to_expand</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">time_scoping</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span>
+    <span class="n">phi</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># # get the mesh expanded on the first sector for consistency between results and mesh</span>
+<span class="n">mesh_provider</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">mesh_provider</span>
+<span class="n">mesh_provider</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># read_cyclic=2 allows to expand cyclic result</span>
+<span class="n">mesh_provider</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># connect the sectors_to_expand</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh_provider</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">()</span>
+
+<span class="n">mode_7_base</span> <span class="o">=</span> <span class="n">u_cyc</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mode_7_base</span><span class="p">)</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mode_7_base</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># a phase phi=90° is equivalent to returning the duplicate sector results:</span>
+<span class="n">u_cyc</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">phi</span><span class="p">(</span><span class="mf">90.0</span><span class="p">)</span>
+<span class="n">mode_7_duplicate</span> <span class="o">=</span> <span class="n">u_cyc</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mode_7_duplicate</span><span class="p">)</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mode_7_duplicate</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># with phi=45°</span>
+<span class="n">u_cyc</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">phi</span><span class="p">(</span><span class="mf">45.0</span><span class="p">)</span>
+<span class="n">mode_7_45</span> <span class="o">=</span> <span class="n">u_cyc</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mode_7_45</span><span class="p">)</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mode_7_45</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<ul class="sphx-glr-horizontal">
+<li><img src="../../_images/sphx_glr_02-modal_cyclic_no_expansion_003.png" srcset="../../_images/sphx_glr_02-modal_cyclic_no_expansion_003.png" alt="02 modal cyclic no expansion" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-modal_cyclic_no_expansion_004.png" srcset="../../_images/sphx_glr_02-modal_cyclic_no_expansion_004.png" alt="02 modal cyclic no expansion" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_02-modal_cyclic_no_expansion_005.png" srcset="../../_images/sphx_glr_02-modal_cyclic_no_expansion_005.png" alt="02 modal cyclic no expansion" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Fields Container
+  with 1 field(s)
+  defined on labels: time
+
+  with:
+  - field 0 {time:  7} with Nodal location, 3 components and 51 entities.
+
+DPF  Fields Container
+  with 1 field(s)
+  defined on labels: time
+
+  with:
+  - field 0 {time:  7} with Nodal location, 3 components and 51 entities.
+
+DPF  Fields Container
+  with 1 field(s)
+  defined on labels: time
+
+  with:
+  - field 0 {time:  7} with Nodal location, 3 components and 51 entities.
+</pre></div>
+</div>
+</section>
+<section id="get-nodal-stress-results-on-the-first-sector-with-a-cyclic-phase">
+<h1>Get nodal stress results on the first sector with a cyclic phase<a class="headerlink" href="#get-nodal-stress-results-on-the-first-sector-with-a-cyclic-phase" title="Permalink to this heading">#</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s_cyc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">cyclic_expanded_stress</span><span class="p">(</span>
+    <span class="n">streams_container</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">streams_provider</span><span class="p">,</span>
+    <span class="n">sectors_to_expand</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">time_scoping</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span>
+    <span class="n">phi</span><span class="o">=</span><span class="mf">45.0</span><span class="p">,</span>
+    <span class="n">requested_location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">s_7_45</span> <span class="o">=</span> <span class="n">s_cyc</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s_7_45</span><span class="p">)</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s_7_45</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_02-modal_cyclic_no_expansion_006.png" srcset="../../_images/sphx_glr_02-modal_cyclic_no_expansion_006.png" alt="02 modal cyclic no expansion" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Fields Container
+  with 1 field(s)
+  defined on labels: time
+
+  with:
+  - field 0 {time:  7} with Nodal location, 6 components and 51 entities.
+</pre></div>
+</div>
+</section>
+<section id="get-elemental-nodal-stress-results-on-the-first-sector-with-a-cyclic-phase">
+<h1>Get elemental_nodal stress results on the first sector with a cyclic phase<a class="headerlink" href="#get-elemental-nodal-stress-results-on-the-first-sector-with-a-cyclic-phase" title="Permalink to this heading">#</a></h1>
+<p>Elemental nodal is the default result location for stress and strain.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s_cyc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">cyclic_expanded_stress</span><span class="p">(</span>
+    <span class="n">streams_container</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">streams_provider</span><span class="p">,</span>
+    <span class="n">sectors_to_expand</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">time_scoping</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span>
+    <span class="n">phi</span><span class="o">=</span><span class="mf">45.0</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">s_7_45</span> <span class="o">=</span> <span class="n">s_cyc</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s_7_45</span><span class="p">)</span>
+
+<span class="c1"># To average the result for each element</span>
+<span class="n">to_elemental</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">averaging</span><span class="o">.</span><span class="n">to_elemental_fc</span><span class="p">(</span><span class="n">s_cyc</span><span class="p">)</span>
+<span class="n">s_7_45</span> <span class="o">=</span> <span class="n">to_elemental</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s_7_45</span><span class="p">)</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s_7_45</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_02-modal_cyclic_no_expansion_007.png" srcset="../../_images/sphx_glr_02-modal_cyclic_no_expansion_007.png" alt="02 modal cyclic no expansion" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>DPF  Fields Container
+  with 1 field(s)
+  defined on labels: time
+
+  with:
+  - field 0 {time:  7} with ElementalNodal location, 6 components and 4 entities.
+
+DPF  Fields Container
+  with 1 field(s)
+  defined on labels: time
+
+  with:
+  - field 0 {time:  7} with Elemental location, 6 components and 4 entities.
+</pre></div>
+</div>
+</section>
+<section id="get-nodal-stress-results-expanded">
+<h1>Get nodal stress results expanded<a class="headerlink" href="#get-nodal-stress-results-expanded" title="Permalink to this heading">#</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s_cyc</span> <span class="o">=</span> <span class="n">dpf</span><span class="o">.</span><span class="n">operators</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">cyclic_expanded_stress</span><span class="p">(</span>
+    <span class="n">streams_container</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">streams_provider</span><span class="p">,</span>
+    <span class="n">time_scoping</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span>
+    <span class="n">requested_location</span><span class="o">=</span><span class="n">dpf</span><span class="o">.</span><span class="n">locations</span><span class="o">.</span><span class="n">nodal</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">mesh_provider</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">mesh_provider</span>
+<span class="n">mesh_provider</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">read_cyclic</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># read_cyclic=2 allows to expand cyclic result</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh_provider</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">mesh</span><span class="p">()</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">s_cyc</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fields_container</span><span class="p">()</span>
+
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_02-modal_cyclic_no_expansion_008.png" srcset="../../_images/sphx_glr_02-modal_cyclic_no_expansion_008.png" alt="02 modal cyclic no expansion" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  9.711 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-11-cyclic-symmetry-02-modal-cyclic-no-expansion-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/ff3ccf69d4c4992a755b188e493a8b6c/02-modal_cyclic_no_expansion.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">02-modal_cyclic_no_expansion.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/a7e39c029bd16c572a0528425f579a59/02-modal_cyclic_no_expansion.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">02-modal_cyclic_no_expansion.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Get base and duplicate sectors (real and imaginary) results for modal cyclic symmetry</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#get-base-and-duplicate-sectors-displacement-results">Get base and duplicate sectors displacement results</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#get-displacement-results-on-the-first-sector-with-a-cyclic-phase">Get displacement results on the first sector with a cyclic phase</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#get-nodal-stress-results-on-the-first-sector-with-a-cyclic-phase">Get nodal stress results on the first sector with a cyclic phase</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#get-elemental-nodal-stress-results-on-the-first-sector-with-a-cyclic-phase">Get elemental_nodal stress results on the first sector with a cyclic phase</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#get-nodal-stress-results-expanded">Get nodal stress results expanded</a></li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/examples/11-cyclic-symmetry/02-modal_cyclic_no_expansion.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright (c) 2023 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

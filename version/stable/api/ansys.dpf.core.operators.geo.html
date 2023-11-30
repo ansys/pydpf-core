@@ -1,0 +1,1462 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>ansys.dpf.core.operators.geo package &#8212; PyDPF-Core</title>
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+ 
+<link href="../_static/css/breadcrumbs.css" rel="stylesheet" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys.dpf.core.operators.geo';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.14.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.10';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="shortcut icon" href="../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cartesian_to_spherical" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html" />
+    <link rel="prev" title="timescoping_signed_high_pass" href="ansys.dpf.core.operators.filter.timescoping_signed_high_pass.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+   
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-header-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-header-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-header-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-header-nav-more-links" class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../concepts/index.html">
+                        Concepts
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link dropdown-item nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="ansys.dpf.core.html">ansys.dpf.core package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.examples.html">ansys.dpf.core.examples package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.helpers.html">ansys.dpf.core.helpers namespace</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="ansys.dpf.core.operators.html">ansys.dpf.core.operators package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.html">ansys.dpf.core.operators.averaging package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.html">ansys.dpf.core.operators.filter package</a></li>
+<li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">ansys.dpf.core.operators.geo package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html">cartesian_to_spherical</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html">cartesian_to_spherical_fc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html">element_nodal_contribution</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html">elements_facets_surfaces_over_time</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html">elements_volume</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html">elements_volumes_over_time</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html">faces_area</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html">gauss_to_node</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html">integrate_over_elements</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html">normals</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html">normals_provider_nl</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html">rotate</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html">rotate_fc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html">rotate_in_cylindrical_cs</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html">rotate_in_cylindrical_cs_fc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html">spherical_to_cartesian</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html">spherical_to_cartesian_fc</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html">to_polar_coordinates</a></li>
+
+
+
+<li class="toctree-l4"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html">transform_invariant_terms_rbd</a></li>
+
+
+
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.html">ansys.dpf.core.operators.invariant package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.html">ansys.dpf.core.operators.logic package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mapping.html">ansys.dpf.core.operators.mapping package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.html">ansys.dpf.core.operators.math package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.html">ansys.dpf.core.operators.mesh package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.html">ansys.dpf.core.operators.metadata package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.html">ansys.dpf.core.operators.min_max package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.html">ansys.dpf.core.operators.result package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.html">ansys.dpf.core.operators.scoping package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.html">ansys.dpf.core.operators.serialization package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.server.html">ansys.dpf.core.operators.server namespace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.html">ansys.dpf.core.operators.utility package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.animation.html"><code class="docutils literal notranslate"><span class="pre">animate_mode()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.animator.html">Animator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.any.html">Any</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.available_result.html">AvailableResult</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.collection.html">Collection</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.common.html">Common</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.config.html">Operator Configuration</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.core.html">Core</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_fields_container.html">Custom Fields Containers</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_operator.html">Custom Operator Base</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_type_field.html">CustomTypeField</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.cyclic_support.html">Cyclic Support</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_sources.html">Data Sources</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_tree.html">DataTree</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dimensionality.html">Dimensionality</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_array.html">DPFArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html">Operator</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.element_descriptor.html">Element Descriptor</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.elements.html">Elements</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.errors.html">Errors</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.faces.html">Faces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field.html">Field</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field_definition.html">FieldDefinition</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container.html">FieldsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container_factory.html">fields_container_factory</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_factory.html">fields_factory</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.generic_data_container.html">GenericDataContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.generic_support.html">GenericSupport</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.geometry.html"><code class="docutils literal notranslate"><span class="pre">normalize_vector()</span></code></a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.geometry_factory.html"><code class="docutils literal notranslate"><span class="pre">create_points()</span></code></a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.incremental.html">Incremental</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.inputs.html">Inputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.mesh_info.html">MeshInfo</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.mesh_scoping_factory.html">mesh_scoping_factory</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshed_region.html">MeshedRegion</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshes_container.html">MeshesContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.model.html">Model</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.nodes.html">Nodes</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operator_specification.html">Operator Specification</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.outputs.html">Outputs</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.path_utilities.html">path_utilities</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.plotter.html">Plotter</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.property_field.html">PropertyField</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.result_info.html">ResultInfo</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.results.html">Results</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.runtime_config.html">RuntimeConfig</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scoping.html">Scoping</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scopings_container.html">ScopingsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server.html">Server</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_context.html">ServerContext</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_factory.html">Server factory, server configuration and communication protocols</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_types.html">Server types</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.session.html">Session</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.settings.html">settings</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.streams_container.html">StreamsContainer</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.string_field.html">StringField</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.support.html">Support</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">time_freq_scoping_factory</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_support.html">TimeFreqSupport</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.unit_system.html">UnitSystem</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.workflow.html">Workflow</a></li>
+
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="ansys.dpf.core.operators.html" class="nav-link">ansys.dpf.core.operators package</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">ansys.dpf.co...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="ansys-dpf-core-operators-geo-package">
+<h1>ansys.dpf.core.operators.geo package<a class="headerlink" href="#ansys-dpf-core-operators-geo-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html">cartesian_to_spherical</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.cartesian_to_spherical"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.cartesian_to_spherical.default_config"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.cartesian_to_spherical.inputs"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.cartesian_to_spherical.outputs"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.cartesian_to_spherical.config"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.cartesian_to_spherical.connect"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.cartesian_to_spherical.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.cartesian_to_spherical.eval"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.cartesian_to_spherical.get_output"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.cartesian_to_spherical.operator_specification"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.cartesian_to_spherical.progress_bar"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.cartesian_to_spherical.run"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.cartesian_to_spherical.specification"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.InputsCartesianToSpherical"><code class="docutils literal notranslate"><span class="pre">InputsCartesianToSpherical</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.InputsCartesianToSpherical.field"><code class="docutils literal notranslate"><span class="pre">InputsCartesianToSpherical.field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.InputsCartesianToSpherical.connect"><code class="docutils literal notranslate"><span class="pre">InputsCartesianToSpherical.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.OutputsCartesianToSpherical"><code class="docutils literal notranslate"><span class="pre">OutputsCartesianToSpherical</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical.html#ansys.dpf.core.operators.geo.cartesian_to_spherical.OutputsCartesianToSpherical.field"><code class="docutils literal notranslate"><span class="pre">OutputsCartesianToSpherical.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html">cartesian_to_spherical_fc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.cartesian_to_spherical_fc"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical_fc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.cartesian_to_spherical_fc.default_config"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical_fc.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.cartesian_to_spherical_fc.inputs"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical_fc.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.cartesian_to_spherical_fc.outputs"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical_fc.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.cartesian_to_spherical_fc.config"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical_fc.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.cartesian_to_spherical_fc.connect"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical_fc.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.cartesian_to_spherical_fc.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical_fc.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.cartesian_to_spherical_fc.eval"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical_fc.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.cartesian_to_spherical_fc.get_output"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical_fc.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.cartesian_to_spherical_fc.operator_specification"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical_fc.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.cartesian_to_spherical_fc.progress_bar"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical_fc.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.cartesian_to_spherical_fc.run"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical_fc.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.cartesian_to_spherical_fc.specification"><code class="docutils literal notranslate"><span class="pre">cartesian_to_spherical_fc.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.InputsCartesianToSphericalFc"><code class="docutils literal notranslate"><span class="pre">InputsCartesianToSphericalFc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.InputsCartesianToSphericalFc.fields_container"><code class="docutils literal notranslate"><span class="pre">InputsCartesianToSphericalFc.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.InputsCartesianToSphericalFc.connect"><code class="docutils literal notranslate"><span class="pre">InputsCartesianToSphericalFc.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.OutputsCartesianToSphericalFc"><code class="docutils literal notranslate"><span class="pre">OutputsCartesianToSphericalFc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.html#ansys.dpf.core.operators.geo.cartesian_to_spherical_fc.OutputsCartesianToSphericalFc.fields_container"><code class="docutils literal notranslate"><span class="pre">OutputsCartesianToSphericalFc.fields_container</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html">element_nodal_contribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution"><code class="docutils literal notranslate"><span class="pre">element_nodal_contribution</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution.default_config"><code class="docutils literal notranslate"><span class="pre">element_nodal_contribution.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution.inputs"><code class="docutils literal notranslate"><span class="pre">element_nodal_contribution.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution.outputs"><code class="docutils literal notranslate"><span class="pre">element_nodal_contribution.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution.config"><code class="docutils literal notranslate"><span class="pre">element_nodal_contribution.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution.connect"><code class="docutils literal notranslate"><span class="pre">element_nodal_contribution.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">element_nodal_contribution.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution.eval"><code class="docutils literal notranslate"><span class="pre">element_nodal_contribution.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution.get_output"><code class="docutils literal notranslate"><span class="pre">element_nodal_contribution.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution.operator_specification"><code class="docutils literal notranslate"><span class="pre">element_nodal_contribution.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution.progress_bar"><code class="docutils literal notranslate"><span class="pre">element_nodal_contribution.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution.run"><code class="docutils literal notranslate"><span class="pre">element_nodal_contribution.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.element_nodal_contribution.specification"><code class="docutils literal notranslate"><span class="pre">element_nodal_contribution.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.InputsElementNodalContribution"><code class="docutils literal notranslate"><span class="pre">InputsElementNodalContribution</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.InputsElementNodalContribution.mesh"><code class="docutils literal notranslate"><span class="pre">InputsElementNodalContribution.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.InputsElementNodalContribution.scoping"><code class="docutils literal notranslate"><span class="pre">InputsElementNodalContribution.scoping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.InputsElementNodalContribution.volume_fraction"><code class="docutils literal notranslate"><span class="pre">InputsElementNodalContribution.volume_fraction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.InputsElementNodalContribution.connect"><code class="docutils literal notranslate"><span class="pre">InputsElementNodalContribution.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.OutputsElementNodalContribution"><code class="docutils literal notranslate"><span class="pre">OutputsElementNodalContribution</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html#ansys.dpf.core.operators.geo.element_nodal_contribution.OutputsElementNodalContribution.field"><code class="docutils literal notranslate"><span class="pre">OutputsElementNodalContribution.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html">elements_facets_surfaces_over_time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.elements_facets_surfaces_over_time"><code class="docutils literal notranslate"><span class="pre">elements_facets_surfaces_over_time</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.elements_facets_surfaces_over_time.default_config"><code class="docutils literal notranslate"><span class="pre">elements_facets_surfaces_over_time.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.elements_facets_surfaces_over_time.inputs"><code class="docutils literal notranslate"><span class="pre">elements_facets_surfaces_over_time.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.elements_facets_surfaces_over_time.outputs"><code class="docutils literal notranslate"><span class="pre">elements_facets_surfaces_over_time.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.elements_facets_surfaces_over_time.config"><code class="docutils literal notranslate"><span class="pre">elements_facets_surfaces_over_time.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.elements_facets_surfaces_over_time.connect"><code class="docutils literal notranslate"><span class="pre">elements_facets_surfaces_over_time.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.elements_facets_surfaces_over_time.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">elements_facets_surfaces_over_time.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.elements_facets_surfaces_over_time.eval"><code class="docutils literal notranslate"><span class="pre">elements_facets_surfaces_over_time.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.elements_facets_surfaces_over_time.get_output"><code class="docutils literal notranslate"><span class="pre">elements_facets_surfaces_over_time.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.elements_facets_surfaces_over_time.operator_specification"><code class="docutils literal notranslate"><span class="pre">elements_facets_surfaces_over_time.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.elements_facets_surfaces_over_time.progress_bar"><code class="docutils literal notranslate"><span class="pre">elements_facets_surfaces_over_time.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.elements_facets_surfaces_over_time.run"><code class="docutils literal notranslate"><span class="pre">elements_facets_surfaces_over_time.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.elements_facets_surfaces_over_time.specification"><code class="docutils literal notranslate"><span class="pre">elements_facets_surfaces_over_time.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.InputsElementsFacetsSurfacesOverTime"><code class="docutils literal notranslate"><span class="pre">InputsElementsFacetsSurfacesOverTime</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.InputsElementsFacetsSurfacesOverTime.scoping"><code class="docutils literal notranslate"><span class="pre">InputsElementsFacetsSurfacesOverTime.scoping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.InputsElementsFacetsSurfacesOverTime.displacement"><code class="docutils literal notranslate"><span class="pre">InputsElementsFacetsSurfacesOverTime.displacement</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.InputsElementsFacetsSurfacesOverTime.mesh"><code class="docutils literal notranslate"><span class="pre">InputsElementsFacetsSurfacesOverTime.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.InputsElementsFacetsSurfacesOverTime.connect"><code class="docutils literal notranslate"><span class="pre">InputsElementsFacetsSurfacesOverTime.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.OutputsElementsFacetsSurfacesOverTime"><code class="docutils literal notranslate"><span class="pre">OutputsElementsFacetsSurfacesOverTime</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.OutputsElementsFacetsSurfacesOverTime.fields_container"><code class="docutils literal notranslate"><span class="pre">OutputsElementsFacetsSurfacesOverTime.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html#ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.OutputsElementsFacetsSurfacesOverTime.mesh"><code class="docutils literal notranslate"><span class="pre">OutputsElementsFacetsSurfacesOverTime.mesh</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html">elements_volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.elements_volume"><code class="docutils literal notranslate"><span class="pre">elements_volume</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.elements_volume.default_config"><code class="docutils literal notranslate"><span class="pre">elements_volume.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.elements_volume.inputs"><code class="docutils literal notranslate"><span class="pre">elements_volume.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.elements_volume.outputs"><code class="docutils literal notranslate"><span class="pre">elements_volume.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.elements_volume.config"><code class="docutils literal notranslate"><span class="pre">elements_volume.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.elements_volume.connect"><code class="docutils literal notranslate"><span class="pre">elements_volume.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.elements_volume.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">elements_volume.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.elements_volume.eval"><code class="docutils literal notranslate"><span class="pre">elements_volume.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.elements_volume.get_output"><code class="docutils literal notranslate"><span class="pre">elements_volume.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.elements_volume.operator_specification"><code class="docutils literal notranslate"><span class="pre">elements_volume.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.elements_volume.progress_bar"><code class="docutils literal notranslate"><span class="pre">elements_volume.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.elements_volume.run"><code class="docutils literal notranslate"><span class="pre">elements_volume.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.elements_volume.specification"><code class="docutils literal notranslate"><span class="pre">elements_volume.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.InputsElementsVolume"><code class="docutils literal notranslate"><span class="pre">InputsElementsVolume</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.InputsElementsVolume.mesh"><code class="docutils literal notranslate"><span class="pre">InputsElementsVolume.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.InputsElementsVolume.mesh_scoping"><code class="docutils literal notranslate"><span class="pre">InputsElementsVolume.mesh_scoping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.InputsElementsVolume.connect"><code class="docutils literal notranslate"><span class="pre">InputsElementsVolume.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.OutputsElementsVolume"><code class="docutils literal notranslate"><span class="pre">OutputsElementsVolume</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html#ansys.dpf.core.operators.geo.elements_volume.OutputsElementsVolume.field"><code class="docutils literal notranslate"><span class="pre">OutputsElementsVolume.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html">elements_volumes_over_time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.elements_volumes_over_time"><code class="docutils literal notranslate"><span class="pre">elements_volumes_over_time</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.elements_volumes_over_time.default_config"><code class="docutils literal notranslate"><span class="pre">elements_volumes_over_time.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.elements_volumes_over_time.inputs"><code class="docutils literal notranslate"><span class="pre">elements_volumes_over_time.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.elements_volumes_over_time.outputs"><code class="docutils literal notranslate"><span class="pre">elements_volumes_over_time.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.elements_volumes_over_time.config"><code class="docutils literal notranslate"><span class="pre">elements_volumes_over_time.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.elements_volumes_over_time.connect"><code class="docutils literal notranslate"><span class="pre">elements_volumes_over_time.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.elements_volumes_over_time.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">elements_volumes_over_time.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.elements_volumes_over_time.eval"><code class="docutils literal notranslate"><span class="pre">elements_volumes_over_time.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.elements_volumes_over_time.get_output"><code class="docutils literal notranslate"><span class="pre">elements_volumes_over_time.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.elements_volumes_over_time.operator_specification"><code class="docutils literal notranslate"><span class="pre">elements_volumes_over_time.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.elements_volumes_over_time.progress_bar"><code class="docutils literal notranslate"><span class="pre">elements_volumes_over_time.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.elements_volumes_over_time.run"><code class="docutils literal notranslate"><span class="pre">elements_volumes_over_time.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.elements_volumes_over_time.specification"><code class="docutils literal notranslate"><span class="pre">elements_volumes_over_time.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.InputsElementsVolumesOverTime"><code class="docutils literal notranslate"><span class="pre">InputsElementsVolumesOverTime</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.InputsElementsVolumesOverTime.scoping"><code class="docutils literal notranslate"><span class="pre">InputsElementsVolumesOverTime.scoping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.InputsElementsVolumesOverTime.displacement"><code class="docutils literal notranslate"><span class="pre">InputsElementsVolumesOverTime.displacement</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.InputsElementsVolumesOverTime.mesh"><code class="docutils literal notranslate"><span class="pre">InputsElementsVolumesOverTime.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.InputsElementsVolumesOverTime.connect"><code class="docutils literal notranslate"><span class="pre">InputsElementsVolumesOverTime.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.OutputsElementsVolumesOverTime"><code class="docutils literal notranslate"><span class="pre">OutputsElementsVolumesOverTime</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html#ansys.dpf.core.operators.geo.elements_volumes_over_time.OutputsElementsVolumesOverTime.fields_container"><code class="docutils literal notranslate"><span class="pre">OutputsElementsVolumesOverTime.fields_container</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html">faces_area</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.faces_area"><code class="docutils literal notranslate"><span class="pre">faces_area</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.faces_area.default_config"><code class="docutils literal notranslate"><span class="pre">faces_area.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.faces_area.inputs"><code class="docutils literal notranslate"><span class="pre">faces_area.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.faces_area.outputs"><code class="docutils literal notranslate"><span class="pre">faces_area.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.faces_area.config"><code class="docutils literal notranslate"><span class="pre">faces_area.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.faces_area.connect"><code class="docutils literal notranslate"><span class="pre">faces_area.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.faces_area.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">faces_area.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.faces_area.eval"><code class="docutils literal notranslate"><span class="pre">faces_area.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.faces_area.get_output"><code class="docutils literal notranslate"><span class="pre">faces_area.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.faces_area.operator_specification"><code class="docutils literal notranslate"><span class="pre">faces_area.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.faces_area.progress_bar"><code class="docutils literal notranslate"><span class="pre">faces_area.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.faces_area.run"><code class="docutils literal notranslate"><span class="pre">faces_area.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.faces_area.specification"><code class="docutils literal notranslate"><span class="pre">faces_area.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.InputsFacesArea"><code class="docutils literal notranslate"><span class="pre">InputsFacesArea</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.InputsFacesArea.mesh"><code class="docutils literal notranslate"><span class="pre">InputsFacesArea.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.InputsFacesArea.mesh_scoping"><code class="docutils literal notranslate"><span class="pre">InputsFacesArea.mesh_scoping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.InputsFacesArea.connect"><code class="docutils literal notranslate"><span class="pre">InputsFacesArea.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.OutputsFacesArea"><code class="docutils literal notranslate"><span class="pre">OutputsFacesArea</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.faces_area.html#ansys.dpf.core.operators.geo.faces_area.OutputsFacesArea.field"><code class="docutils literal notranslate"><span class="pre">OutputsFacesArea.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html">gauss_to_node</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node"><code class="docutils literal notranslate"><span class="pre">gauss_to_node</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node.default_config"><code class="docutils literal notranslate"><span class="pre">gauss_to_node.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node.inputs"><code class="docutils literal notranslate"><span class="pre">gauss_to_node.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node.outputs"><code class="docutils literal notranslate"><span class="pre">gauss_to_node.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node.config"><code class="docutils literal notranslate"><span class="pre">gauss_to_node.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node.connect"><code class="docutils literal notranslate"><span class="pre">gauss_to_node.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">gauss_to_node.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node.eval"><code class="docutils literal notranslate"><span class="pre">gauss_to_node.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node.get_output"><code class="docutils literal notranslate"><span class="pre">gauss_to_node.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node.operator_specification"><code class="docutils literal notranslate"><span class="pre">gauss_to_node.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node.progress_bar"><code class="docutils literal notranslate"><span class="pre">gauss_to_node.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node.run"><code class="docutils literal notranslate"><span class="pre">gauss_to_node.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.gauss_to_node.specification"><code class="docutils literal notranslate"><span class="pre">gauss_to_node.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.InputsGaussToNode"><code class="docutils literal notranslate"><span class="pre">InputsGaussToNode</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.InputsGaussToNode.field"><code class="docutils literal notranslate"><span class="pre">InputsGaussToNode.field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.InputsGaussToNode.scoping"><code class="docutils literal notranslate"><span class="pre">InputsGaussToNode.scoping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.InputsGaussToNode.mesh"><code class="docutils literal notranslate"><span class="pre">InputsGaussToNode.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.InputsGaussToNode.connect"><code class="docutils literal notranslate"><span class="pre">InputsGaussToNode.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.OutputsGaussToNode"><code class="docutils literal notranslate"><span class="pre">OutputsGaussToNode</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html#ansys.dpf.core.operators.geo.gauss_to_node.OutputsGaussToNode.field"><code class="docutils literal notranslate"><span class="pre">OutputsGaussToNode.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html">integrate_over_elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.integrate_over_elements"><code class="docutils literal notranslate"><span class="pre">integrate_over_elements</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.integrate_over_elements.default_config"><code class="docutils literal notranslate"><span class="pre">integrate_over_elements.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.integrate_over_elements.inputs"><code class="docutils literal notranslate"><span class="pre">integrate_over_elements.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.integrate_over_elements.outputs"><code class="docutils literal notranslate"><span class="pre">integrate_over_elements.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.integrate_over_elements.config"><code class="docutils literal notranslate"><span class="pre">integrate_over_elements.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.integrate_over_elements.connect"><code class="docutils literal notranslate"><span class="pre">integrate_over_elements.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.integrate_over_elements.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">integrate_over_elements.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.integrate_over_elements.eval"><code class="docutils literal notranslate"><span class="pre">integrate_over_elements.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.integrate_over_elements.get_output"><code class="docutils literal notranslate"><span class="pre">integrate_over_elements.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.integrate_over_elements.operator_specification"><code class="docutils literal notranslate"><span class="pre">integrate_over_elements.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.integrate_over_elements.progress_bar"><code class="docutils literal notranslate"><span class="pre">integrate_over_elements.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.integrate_over_elements.run"><code class="docutils literal notranslate"><span class="pre">integrate_over_elements.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.integrate_over_elements.specification"><code class="docutils literal notranslate"><span class="pre">integrate_over_elements.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.InputsIntegrateOverElements"><code class="docutils literal notranslate"><span class="pre">InputsIntegrateOverElements</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.InputsIntegrateOverElements.field"><code class="docutils literal notranslate"><span class="pre">InputsIntegrateOverElements.field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.InputsIntegrateOverElements.scoping"><code class="docutils literal notranslate"><span class="pre">InputsIntegrateOverElements.scoping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.InputsIntegrateOverElements.mesh"><code class="docutils literal notranslate"><span class="pre">InputsIntegrateOverElements.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.InputsIntegrateOverElements.connect"><code class="docutils literal notranslate"><span class="pre">InputsIntegrateOverElements.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.OutputsIntegrateOverElements"><code class="docutils literal notranslate"><span class="pre">OutputsIntegrateOverElements</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html#ansys.dpf.core.operators.geo.integrate_over_elements.OutputsIntegrateOverElements.field"><code class="docutils literal notranslate"><span class="pre">OutputsIntegrateOverElements.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html">normals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals"><code class="docutils literal notranslate"><span class="pre">normals</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals.default_config"><code class="docutils literal notranslate"><span class="pre">normals.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals.inputs"><code class="docutils literal notranslate"><span class="pre">normals.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals.outputs"><code class="docutils literal notranslate"><span class="pre">normals.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals.config"><code class="docutils literal notranslate"><span class="pre">normals.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals.connect"><code class="docutils literal notranslate"><span class="pre">normals.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">normals.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals.eval"><code class="docutils literal notranslate"><span class="pre">normals.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals.get_output"><code class="docutils literal notranslate"><span class="pre">normals.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals.operator_specification"><code class="docutils literal notranslate"><span class="pre">normals.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals.progress_bar"><code class="docutils literal notranslate"><span class="pre">normals.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals.run"><code class="docutils literal notranslate"><span class="pre">normals.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.normals.specification"><code class="docutils literal notranslate"><span class="pre">normals.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.InputsNormals"><code class="docutils literal notranslate"><span class="pre">InputsNormals</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.InputsNormals.mesh"><code class="docutils literal notranslate"><span class="pre">InputsNormals.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.InputsNormals.mesh_scoping"><code class="docutils literal notranslate"><span class="pre">InputsNormals.mesh_scoping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.InputsNormals.field"><code class="docutils literal notranslate"><span class="pre">InputsNormals.field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.InputsNormals.connect"><code class="docutils literal notranslate"><span class="pre">InputsNormals.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.OutputsNormals"><code class="docutils literal notranslate"><span class="pre">OutputsNormals</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html#ansys.dpf.core.operators.geo.normals.OutputsNormals.field"><code class="docutils literal notranslate"><span class="pre">OutputsNormals.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html">normals_provider_nl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl"><code class="docutils literal notranslate"><span class="pre">normals_provider_nl</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl.default_config"><code class="docutils literal notranslate"><span class="pre">normals_provider_nl.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl.inputs"><code class="docutils literal notranslate"><span class="pre">normals_provider_nl.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl.outputs"><code class="docutils literal notranslate"><span class="pre">normals_provider_nl.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl.config"><code class="docutils literal notranslate"><span class="pre">normals_provider_nl.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl.connect"><code class="docutils literal notranslate"><span class="pre">normals_provider_nl.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">normals_provider_nl.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl.eval"><code class="docutils literal notranslate"><span class="pre">normals_provider_nl.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl.get_output"><code class="docutils literal notranslate"><span class="pre">normals_provider_nl.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl.operator_specification"><code class="docutils literal notranslate"><span class="pre">normals_provider_nl.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl.progress_bar"><code class="docutils literal notranslate"><span class="pre">normals_provider_nl.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl.run"><code class="docutils literal notranslate"><span class="pre">normals_provider_nl.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.normals_provider_nl.specification"><code class="docutils literal notranslate"><span class="pre">normals_provider_nl.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.InputsNormalsProviderNl"><code class="docutils literal notranslate"><span class="pre">InputsNormalsProviderNl</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.InputsNormalsProviderNl.mesh"><code class="docutils literal notranslate"><span class="pre">InputsNormalsProviderNl.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.InputsNormalsProviderNl.mesh_scoping"><code class="docutils literal notranslate"><span class="pre">InputsNormalsProviderNl.mesh_scoping</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.InputsNormalsProviderNl.requested_location"><code class="docutils literal notranslate"><span class="pre">InputsNormalsProviderNl.requested_location</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.InputsNormalsProviderNl.connect"><code class="docutils literal notranslate"><span class="pre">InputsNormalsProviderNl.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.OutputsNormalsProviderNl"><code class="docutils literal notranslate"><span class="pre">OutputsNormalsProviderNl</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html#ansys.dpf.core.operators.geo.normals_provider_nl.OutputsNormalsProviderNl.field"><code class="docutils literal notranslate"><span class="pre">OutputsNormalsProviderNl.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html">rotate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate"><code class="docutils literal notranslate"><span class="pre">rotate</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate.default_config"><code class="docutils literal notranslate"><span class="pre">rotate.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate.inputs"><code class="docutils literal notranslate"><span class="pre">rotate.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate.outputs"><code class="docutils literal notranslate"><span class="pre">rotate.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate.config"><code class="docutils literal notranslate"><span class="pre">rotate.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate.connect"><code class="docutils literal notranslate"><span class="pre">rotate.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">rotate.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate.eval"><code class="docutils literal notranslate"><span class="pre">rotate.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate.get_output"><code class="docutils literal notranslate"><span class="pre">rotate.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate.operator_specification"><code class="docutils literal notranslate"><span class="pre">rotate.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate.progress_bar"><code class="docutils literal notranslate"><span class="pre">rotate.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate.run"><code class="docutils literal notranslate"><span class="pre">rotate.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.rotate.specification"><code class="docutils literal notranslate"><span class="pre">rotate.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.InputsRotate"><code class="docutils literal notranslate"><span class="pre">InputsRotate</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.InputsRotate.field"><code class="docutils literal notranslate"><span class="pre">InputsRotate.field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.InputsRotate.field_rotation_matrix"><code class="docutils literal notranslate"><span class="pre">InputsRotate.field_rotation_matrix</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.InputsRotate.connect"><code class="docutils literal notranslate"><span class="pre">InputsRotate.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.OutputsRotate"><code class="docutils literal notranslate"><span class="pre">OutputsRotate</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html#ansys.dpf.core.operators.geo.rotate.OutputsRotate.field"><code class="docutils literal notranslate"><span class="pre">OutputsRotate.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html">rotate_fc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.rotate_fc"><code class="docutils literal notranslate"><span class="pre">rotate_fc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.rotate_fc.default_config"><code class="docutils literal notranslate"><span class="pre">rotate_fc.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.rotate_fc.inputs"><code class="docutils literal notranslate"><span class="pre">rotate_fc.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.rotate_fc.outputs"><code class="docutils literal notranslate"><span class="pre">rotate_fc.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.rotate_fc.config"><code class="docutils literal notranslate"><span class="pre">rotate_fc.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.rotate_fc.connect"><code class="docutils literal notranslate"><span class="pre">rotate_fc.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.rotate_fc.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">rotate_fc.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.rotate_fc.eval"><code class="docutils literal notranslate"><span class="pre">rotate_fc.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.rotate_fc.get_output"><code class="docutils literal notranslate"><span class="pre">rotate_fc.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.rotate_fc.operator_specification"><code class="docutils literal notranslate"><span class="pre">rotate_fc.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.rotate_fc.progress_bar"><code class="docutils literal notranslate"><span class="pre">rotate_fc.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.rotate_fc.run"><code class="docutils literal notranslate"><span class="pre">rotate_fc.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.rotate_fc.specification"><code class="docutils literal notranslate"><span class="pre">rotate_fc.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.InputsRotateFc"><code class="docutils literal notranslate"><span class="pre">InputsRotateFc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.InputsRotateFc.fields_container"><code class="docutils literal notranslate"><span class="pre">InputsRotateFc.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.InputsRotateFc.coordinate_system"><code class="docutils literal notranslate"><span class="pre">InputsRotateFc.coordinate_system</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.InputsRotateFc.connect"><code class="docutils literal notranslate"><span class="pre">InputsRotateFc.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.OutputsRotateFc"><code class="docutils literal notranslate"><span class="pre">OutputsRotateFc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html#ansys.dpf.core.operators.geo.rotate_fc.OutputsRotateFc.fields_container"><code class="docutils literal notranslate"><span class="pre">OutputsRotateFc.fields_container</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html">rotate_in_cylindrical_cs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.rotate_in_cylindrical_cs"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.rotate_in_cylindrical_cs.default_config"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.rotate_in_cylindrical_cs.inputs"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.rotate_in_cylindrical_cs.outputs"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.rotate_in_cylindrical_cs.config"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.rotate_in_cylindrical_cs.connect"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.rotate_in_cylindrical_cs.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.rotate_in_cylindrical_cs.eval"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.rotate_in_cylindrical_cs.get_output"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.rotate_in_cylindrical_cs.operator_specification"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.rotate_in_cylindrical_cs.progress_bar"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.rotate_in_cylindrical_cs.run"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.rotate_in_cylindrical_cs.specification"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.InputsRotateInCylindricalCs"><code class="docutils literal notranslate"><span class="pre">InputsRotateInCylindricalCs</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.InputsRotateInCylindricalCs.field"><code class="docutils literal notranslate"><span class="pre">InputsRotateInCylindricalCs.field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.InputsRotateInCylindricalCs.coordinate_system"><code class="docutils literal notranslate"><span class="pre">InputsRotateInCylindricalCs.coordinate_system</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.InputsRotateInCylindricalCs.mesh"><code class="docutils literal notranslate"><span class="pre">InputsRotateInCylindricalCs.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.InputsRotateInCylindricalCs.connect"><code class="docutils literal notranslate"><span class="pre">InputsRotateInCylindricalCs.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.OutputsRotateInCylindricalCs"><code class="docutils literal notranslate"><span class="pre">OutputsRotateInCylindricalCs</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.OutputsRotateInCylindricalCs.field"><code class="docutils literal notranslate"><span class="pre">OutputsRotateInCylindricalCs.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html">rotate_in_cylindrical_cs_fc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs_fc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc.default_config"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs_fc.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc.inputs"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs_fc.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc.outputs"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs_fc.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc.config"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs_fc.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc.connect"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs_fc.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs_fc.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc.eval"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs_fc.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc.get_output"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs_fc.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc.operator_specification"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs_fc.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc.progress_bar"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs_fc.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc.run"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs_fc.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.rotate_in_cylindrical_cs_fc.specification"><code class="docutils literal notranslate"><span class="pre">rotate_in_cylindrical_cs_fc.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.InputsRotateInCylindricalCsFc"><code class="docutils literal notranslate"><span class="pre">InputsRotateInCylindricalCsFc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.InputsRotateInCylindricalCsFc.field"><code class="docutils literal notranslate"><span class="pre">InputsRotateInCylindricalCsFc.field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.InputsRotateInCylindricalCsFc.coordinate_system"><code class="docutils literal notranslate"><span class="pre">InputsRotateInCylindricalCsFc.coordinate_system</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.InputsRotateInCylindricalCsFc.mesh"><code class="docutils literal notranslate"><span class="pre">InputsRotateInCylindricalCsFc.mesh</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.InputsRotateInCylindricalCsFc.connect"><code class="docutils literal notranslate"><span class="pre">InputsRotateInCylindricalCsFc.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.OutputsRotateInCylindricalCsFc"><code class="docutils literal notranslate"><span class="pre">OutputsRotateInCylindricalCsFc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html#ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.OutputsRotateInCylindricalCsFc.fields_container"><code class="docutils literal notranslate"><span class="pre">OutputsRotateInCylindricalCsFc.fields_container</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html">spherical_to_cartesian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.spherical_to_cartesian"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.spherical_to_cartesian.default_config"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.spherical_to_cartesian.inputs"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.spherical_to_cartesian.outputs"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.spherical_to_cartesian.config"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.spherical_to_cartesian.connect"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.spherical_to_cartesian.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.spherical_to_cartesian.eval"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.spherical_to_cartesian.get_output"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.spherical_to_cartesian.operator_specification"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.spherical_to_cartesian.progress_bar"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.spherical_to_cartesian.run"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.spherical_to_cartesian.specification"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.InputsSphericalToCartesian"><code class="docutils literal notranslate"><span class="pre">InputsSphericalToCartesian</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.InputsSphericalToCartesian.field"><code class="docutils literal notranslate"><span class="pre">InputsSphericalToCartesian.field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.InputsSphericalToCartesian.connect"><code class="docutils literal notranslate"><span class="pre">InputsSphericalToCartesian.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.OutputsSphericalToCartesian"><code class="docutils literal notranslate"><span class="pre">OutputsSphericalToCartesian</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian.html#ansys.dpf.core.operators.geo.spherical_to_cartesian.OutputsSphericalToCartesian.field"><code class="docutils literal notranslate"><span class="pre">OutputsSphericalToCartesian.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html">spherical_to_cartesian_fc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.spherical_to_cartesian_fc"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian_fc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.spherical_to_cartesian_fc.default_config"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian_fc.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.spherical_to_cartesian_fc.inputs"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian_fc.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.spherical_to_cartesian_fc.outputs"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian_fc.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.spherical_to_cartesian_fc.config"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian_fc.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.spherical_to_cartesian_fc.connect"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian_fc.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.spherical_to_cartesian_fc.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian_fc.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.spherical_to_cartesian_fc.eval"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian_fc.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.spherical_to_cartesian_fc.get_output"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian_fc.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.spherical_to_cartesian_fc.operator_specification"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian_fc.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.spherical_to_cartesian_fc.progress_bar"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian_fc.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.spherical_to_cartesian_fc.run"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian_fc.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.spherical_to_cartesian_fc.specification"><code class="docutils literal notranslate"><span class="pre">spherical_to_cartesian_fc.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.InputsSphericalToCartesianFc"><code class="docutils literal notranslate"><span class="pre">InputsSphericalToCartesianFc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.InputsSphericalToCartesianFc.fields_container"><code class="docutils literal notranslate"><span class="pre">InputsSphericalToCartesianFc.fields_container</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.InputsSphericalToCartesianFc.connect"><code class="docutils literal notranslate"><span class="pre">InputsSphericalToCartesianFc.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.OutputsSphericalToCartesianFc"><code class="docutils literal notranslate"><span class="pre">OutputsSphericalToCartesianFc</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.html#ansys.dpf.core.operators.geo.spherical_to_cartesian_fc.OutputsSphericalToCartesianFc.fields_container"><code class="docutils literal notranslate"><span class="pre">OutputsSphericalToCartesianFc.fields_container</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html">to_polar_coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.to_polar_coordinates"><code class="docutils literal notranslate"><span class="pre">to_polar_coordinates</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.to_polar_coordinates.default_config"><code class="docutils literal notranslate"><span class="pre">to_polar_coordinates.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.to_polar_coordinates.inputs"><code class="docutils literal notranslate"><span class="pre">to_polar_coordinates.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.to_polar_coordinates.outputs"><code class="docutils literal notranslate"><span class="pre">to_polar_coordinates.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.to_polar_coordinates.config"><code class="docutils literal notranslate"><span class="pre">to_polar_coordinates.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.to_polar_coordinates.connect"><code class="docutils literal notranslate"><span class="pre">to_polar_coordinates.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.to_polar_coordinates.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">to_polar_coordinates.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.to_polar_coordinates.eval"><code class="docutils literal notranslate"><span class="pre">to_polar_coordinates.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.to_polar_coordinates.get_output"><code class="docutils literal notranslate"><span class="pre">to_polar_coordinates.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.to_polar_coordinates.operator_specification"><code class="docutils literal notranslate"><span class="pre">to_polar_coordinates.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.to_polar_coordinates.progress_bar"><code class="docutils literal notranslate"><span class="pre">to_polar_coordinates.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.to_polar_coordinates.run"><code class="docutils literal notranslate"><span class="pre">to_polar_coordinates.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.to_polar_coordinates.specification"><code class="docutils literal notranslate"><span class="pre">to_polar_coordinates.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.InputsToPolarCoordinates"><code class="docutils literal notranslate"><span class="pre">InputsToPolarCoordinates</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.InputsToPolarCoordinates.field"><code class="docutils literal notranslate"><span class="pre">InputsToPolarCoordinates.field</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.InputsToPolarCoordinates.coordinate_system"><code class="docutils literal notranslate"><span class="pre">InputsToPolarCoordinates.coordinate_system</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.InputsToPolarCoordinates.connect"><code class="docutils literal notranslate"><span class="pre">InputsToPolarCoordinates.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.OutputsToPolarCoordinates"><code class="docutils literal notranslate"><span class="pre">OutputsToPolarCoordinates</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html#ansys.dpf.core.operators.geo.to_polar_coordinates.OutputsToPolarCoordinates.field"><code class="docutils literal notranslate"><span class="pre">OutputsToPolarCoordinates.field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html">transform_invariant_terms_rbd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.transform_invariant_terms_rbd"><code class="docutils literal notranslate"><span class="pre">transform_invariant_terms_rbd</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.transform_invariant_terms_rbd.default_config"><code class="docutils literal notranslate"><span class="pre">transform_invariant_terms_rbd.default_config()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.transform_invariant_terms_rbd.inputs"><code class="docutils literal notranslate"><span class="pre">transform_invariant_terms_rbd.inputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.transform_invariant_terms_rbd.outputs"><code class="docutils literal notranslate"><span class="pre">transform_invariant_terms_rbd.outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.transform_invariant_terms_rbd.config"><code class="docutils literal notranslate"><span class="pre">transform_invariant_terms_rbd.config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.transform_invariant_terms_rbd.connect"><code class="docutils literal notranslate"><span class="pre">transform_invariant_terms_rbd.connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.transform_invariant_terms_rbd.connect_operator_as_input"><code class="docutils literal notranslate"><span class="pre">transform_invariant_terms_rbd.connect_operator_as_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.transform_invariant_terms_rbd.eval"><code class="docutils literal notranslate"><span class="pre">transform_invariant_terms_rbd.eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.transform_invariant_terms_rbd.get_output"><code class="docutils literal notranslate"><span class="pre">transform_invariant_terms_rbd.get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.transform_invariant_terms_rbd.operator_specification"><code class="docutils literal notranslate"><span class="pre">transform_invariant_terms_rbd.operator_specification()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.transform_invariant_terms_rbd.progress_bar"><code class="docutils literal notranslate"><span class="pre">transform_invariant_terms_rbd.progress_bar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.transform_invariant_terms_rbd.run"><code class="docutils literal notranslate"><span class="pre">transform_invariant_terms_rbd.run()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.transform_invariant_terms_rbd.specification"><code class="docutils literal notranslate"><span class="pre">transform_invariant_terms_rbd.specification</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.InputsTransformInvariantTermsRbd"><code class="docutils literal notranslate"><span class="pre">InputsTransformInvariantTermsRbd</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.InputsTransformInvariantTermsRbd.rotation_matrix"><code class="docutils literal notranslate"><span class="pre">InputsTransformInvariantTermsRbd.rotation_matrix</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.InputsTransformInvariantTermsRbd.coordinate_system"><code class="docutils literal notranslate"><span class="pre">InputsTransformInvariantTermsRbd.coordinate_system</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.InputsTransformInvariantTermsRbd.in_cms_rbd_file_path"><code class="docutils literal notranslate"><span class="pre">InputsTransformInvariantTermsRbd.in_cms_rbd_file_path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.InputsTransformInvariantTermsRbd.out_cms_rbd_file_path"><code class="docutils literal notranslate"><span class="pre">InputsTransformInvariantTermsRbd.out_cms_rbd_file_path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.InputsTransformInvariantTermsRbd.connect"><code class="docutils literal notranslate"><span class="pre">InputsTransformInvariantTermsRbd.connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.html#ansys.dpf.core.operators.geo.transform_invariant_terms_rbd.OutputsTransformInvariantTermsRbd"><code class="docutils literal notranslate"><span class="pre">OutputsTransformInvariantTermsRbd</span></code></a></li>
+</ul>
+</div>
+</section>
+<section id="module-ansys.dpf.core.operators.geo">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ansys.dpf.core.operators.geo" title="Permalink to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-ansys.dpf.core.operators.geo">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/api/ansys.dpf.core.operators.geo.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright (c) 2023 ANSYS, Inc. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

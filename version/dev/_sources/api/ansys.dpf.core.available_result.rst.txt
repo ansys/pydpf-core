@@ -1,0 +1,2 @@
+.. automodule:: ansys.dpf.core.available_result
+   :inherited-members:

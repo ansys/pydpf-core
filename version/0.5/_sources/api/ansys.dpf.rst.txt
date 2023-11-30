@@ -1,0 +1,12 @@
+ansys.dpf namespace
+===================
+
+.. py:module:: ansys.dpf
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ansys.dpf.core

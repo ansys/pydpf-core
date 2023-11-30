@@ -1,0 +1,1240 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>ansys.dpf.core.operators package &#8212; PyDPF-Core</title>
+    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css\ansys_sphinx_theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    
+        <link href="../_static/css/breadcrumbs.css" rel="stylesheet">
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js\table.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/ansys.dpf.core.operators';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://dpf.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.6';
+        </script>
+    <link rel="shortcut icon" href="../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ansys.dpf.core.operators.averaging package" href="ansys.dpf.core.operators.averaging.html" />
+    <link rel="prev" title="Downloads" href="ansys.dpf.core.examples.downloads.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+    
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/pyansys-logo-black-cropped.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.6  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+    
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => document.getElementById("announcement_msg").innerHTML = text)
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+    
+
+    
+    <div class="container-xl">
+    <div class="row">
+        <div class="col-12 col-md-3" id="breadcrumbs-spacer"></div>
+        <div class="col-12 col-md-11 col-xl-9" id="breadcrumbs">
+          
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+    
+        <li class="nav-item nav-item-additional-breadcrumb"><a href="https://docs.pyansys.com/">PyAnsys</a> » </li>
+    
+    
+        <li class="nav-item nav-item-0"><a href="../index.html">PyDPF-Core</a> » </li>
+    
+
+          <li class="nav-item nav-item-1"><a href="index.html" >API reference</a> » </li>
+          <li class="nav-item nav-item-2"><a href="ansys.dpf.core.html" accesskey="U">ansys.dpf.core package</a> » </li>
+        <li class="nav-item nav-item-this"><a href="">ansys.dpf.core.operators package</a></li> 
+      </ul>
+    </div>
+        </div>
+  </div>
+</div>
+    
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../getting_started/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../operator_reference.html">
+                        Operators
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contribute
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown">
+        0.6  <!-- this text may get changed later by javascript -->
+        <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+</div>
+      </div>
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/pyansys/pydpf-core" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-toggle="tooltip"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">
+    Section Navigation
+  </p>
+  <div class="bd-toc-item navbar-nav">
+    <p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="ansys.dpf.core.html">ansys.dpf.core package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.examples.html">ansys.dpf.core.examples package</a></li>
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">ansys.dpf.core.operators package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.html">ansys.dpf.core.operators.averaging package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.html">ansys.dpf.core.operators.filter package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.html">ansys.dpf.core.operators.geo package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.html">ansys.dpf.core.operators.invariant package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.html">ansys.dpf.core.operators.logic package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mapping.html">ansys.dpf.core.operators.mapping package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.html">ansys.dpf.core.operators.math package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.html">ansys.dpf.core.operators.mesh package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.html">ansys.dpf.core.operators.metadata package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.html">ansys.dpf.core.operators.min_max package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.html">ansys.dpf.core.operators.result package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.html">ansys.dpf.core.operators.scoping package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.html">ansys.dpf.core.operators.serialization package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.server.html">ansys.dpf.core.operators.server namespace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.html">ansys.dpf.core.operators.utility package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.animator.html">Animator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.available_result.html">AvailableResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.collection.html">Collection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.common.html">Common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.config.html">Operator Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.core.html">Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_fields_container.html">Custom Fields Containers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_operator.html">Custom Operator Base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.custom_type_field.html">CustomTypeField</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.cyclic_support.html">Cyclic Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_sources.html">Data Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.data_tree.html">DataTree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dimensionality.html">Dimensionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_array.html">DPFArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.dpf_operator.html">Operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.element_descriptor.html">Element Descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.elements.html">Elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.errors.html">Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field.html">Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.field_definition.html">FieldDefinition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container.html">FieldsContainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_container_factory.html">fields_container_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.fields_factory.html">fields_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.generic_support.html">GenericSupport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.inputs.html">Inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.mesh_scoping_factory.html">mesh_scoping_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshed_region.html">MeshedRegion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.meshes_container.html">MeshesContainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.model.html">Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.nodes.html">Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operator_specification.html">Operator Specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.outputs.html">Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.path_utilities.html">path_utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.plotter.html">Plotter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.property_field.html">PropertyField</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.result_info.html">ResultInfo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.results.html">Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.runtime_config.html">RuntimeConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scoping.html">Scoping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.scopings_container.html">ScopingsContainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server.html">Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_factory.html">Server factory, server configuration and communication protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.server_types.html">Server types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.session.html">Session</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.settings.html">settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.streams_container.html">StreamsContainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.string_field.html">StringField</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.support.html">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_scoping_factory.html">time_freq_scoping_factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.time_freq_support.html">TimeFreqSupport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.workflow.html">Workflow</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <section id="ansys-dpf-core-operators-package">
+<h1>ansys.dpf.core.operators package<a class="headerlink" href="#ansys-dpf-core-operators-package" title="Permalink to this heading">#</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.averaging.html">ansys.dpf.core.operators.averaging package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.averaging.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_difference.html">elemental_difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_difference_fc.html">elemental_difference_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_fraction_fc.html">elemental_fraction_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_mean.html">elemental_mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_mean_fc.html">elemental_mean_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal.html">elemental_nodal_to_nodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal_elemental.html">elemental_nodal_to_nodal_elemental</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal_elemental_fc.html">elemental_nodal_to_nodal_elemental_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_nodal_to_nodal_fc.html">elemental_nodal_to_nodal_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_to_elemental_nodal.html">elemental_to_elemental_nodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_to_elemental_nodal_fc.html">elemental_to_elemental_nodal_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_to_nodal.html">elemental_to_nodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.elemental_to_nodal_fc.html">elemental_to_nodal_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.extend_to_mid_nodes.html">extend_to_mid_nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.extend_to_mid_nodes_fc.html">extend_to_mid_nodes_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.gauss_to_node_fc.html">gauss_to_node_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.nodal_difference.html">nodal_difference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.nodal_difference_fc.html">nodal_difference_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.nodal_extend_to_mid_nodes.html">nodal_extend_to_mid_nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.nodal_fraction_fc.html">nodal_fraction_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.nodal_to_elemental.html">nodal_to_elemental</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.nodal_to_elemental_fc.html">nodal_to_elemental_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.to_elemental_fc.html">to_elemental_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.to_elemental_nodal_fc.html">to_elemental_nodal_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.to_nodal.html">to_nodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.averaging.to_nodal_fc.html">to_nodal_fc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.averaging.html#module-ansys.dpf.core.operators.averaging">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.filter.html">ansys.dpf.core.operators.filter package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.filter.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.field_band_pass.html">field_band_pass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.field_band_pass_fc.html">field_band_pass_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.field_high_pass.html">field_high_pass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.field_high_pass_fc.html">field_high_pass_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.field_low_pass.html">field_low_pass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.field_low_pass_fc.html">field_low_pass_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.field_signed_high_pass.html">field_signed_high_pass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.scoping_band_pass.html">scoping_band_pass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.scoping_high_pass.html">scoping_high_pass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.scoping_low_pass.html">scoping_low_pass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.filter.signed_scoping_high_pass.html">signed_scoping_high_pass</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.filter.html#module-ansys.dpf.core.operators.filter">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.geo.html">ansys.dpf.core.operators.geo package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.element_nodal_contribution.html">element_nodal_contribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_facets_surfaces_over_time.html">elements_facets_surfaces_over_time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volume.html">elements_volume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.elements_volumes_over_time.html">elements_volumes_over_time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.gauss_to_node.html">gauss_to_node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.integrate_over_elements.html">integrate_over_elements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals.html">normals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.normals_provider_nl.html">normals_provider_nl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate.html">rotate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_fc.html">rotate_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs.html">rotate_in_cylindrical_cs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.rotate_in_cylindrical_cs_fc.html">rotate_in_cylindrical_cs_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.geo.to_polar_coordinates.html">to_polar_coordinates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.geo.html#module-ansys.dpf.core.operators.geo">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.invariant.html">ansys.dpf.core.operators.invariant package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.invariant.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.eigen_values.html">eigen_values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.eigen_values_fc.html">eigen_values_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.eigen_vectors.html">eigen_vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.eigen_vectors_fc.html">eigen_vectors_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.invariants.html">invariants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.invariants_fc.html">invariants_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.principal_invariants.html">principal_invariants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.principal_invariants_fc.html">principal_invariants_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.segalman_von_mises_eqv.html">segalman_von_mises_eqv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.segalman_von_mises_eqv_fc.html">segalman_von_mises_eqv_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.von_mises_eqv.html">von_mises_eqv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.invariant.von_mises_eqv_fc.html">von_mises_eqv_fc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.invariant.html#module-ansys.dpf.core.operators.invariant">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.logic.html">ansys.dpf.core.operators.logic package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.logic.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort.html">ascending_sort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.ascending_sort_fc.html">ascending_sort_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector.html">component_selector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.component_selector_fc.html">component_selector_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort.html">descending_sort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.descending_sort_fc.html">descending_sort_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.enrich_materials.html">enrich_materials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.identical_fc.html">identical_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.identical_fields.html">identical_fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.identical_meshes.html">identical_meshes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.identical_property_fields.html">identical_property_fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.included_fields.html">included_fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.logic.solid_shell_fields.html">solid_shell_fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.logic.html#module-ansys.dpf.core.operators.logic">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.mapping.html">ansys.dpf.core.operators.mapping package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.mapping.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mapping.create_sc_mapping_workflow.html">create_sc_mapping_workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mapping.find_reduced_coordinates.html">find_reduced_coordinates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mapping.on_coordinates.html">on_coordinates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mapping.on_reduced_coordinates.html">on_reduced_coordinates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mapping.prepare_mapping_workflow.html">prepare_mapping_workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mapping.scoping_on_coordinates.html">scoping_on_coordinates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mapping.solid_to_skin.html">solid_to_skin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.mapping.html#module-ansys.dpf.core.operators.mapping">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.math.html">ansys.dpf.core.operators.math package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.math.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.accumulate.html">accumulate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.accumulate_fc.html">accumulate_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.accumulate_level_over_label_fc.html">accumulate_level_over_label_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.accumulate_min_over_label_fc.html">accumulate_min_over_label_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.accumulate_over_label_fc.html">accumulate_over_label_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.add.html">add</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.add_constant.html">add_constant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.add_constant_fc.html">add_constant_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.add_fc.html">add_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.amplitude.html">amplitude</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.amplitude_fc.html">amplitude_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.average_over_label_fc.html">average_over_label_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.centroid.html">centroid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.centroid_fc.html">centroid_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.component_wise_divide.html">component_wise_divide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.component_wise_divide_fc.html">component_wise_divide_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.conjugate.html">conjugate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.correlation.html">correlation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.cos.html">cos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.cos_fc.html">cos_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.cplx_derive.html">cplx_derive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.cplx_divide.html">cplx_divide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.cplx_dot.html">cplx_dot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.cplx_multiply.html">cplx_multiply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.cross_product.html">cross_product</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.cross_product_fc.html">cross_product_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.dot.html">dot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.dot_tensor.html">dot_tensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.entity_extractor.html">entity_extractor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.exponential.html">exponential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.exponential_fc.html">exponential_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.fft_approx.html">fft_approx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.fft_eval.html">fft_eval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.fft_gradient_eval.html">fft_gradient_eval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.fft_multi_harmonic_minmax.html">fft_multi_harmonic_minmax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.generalized_inner_product.html">generalized_inner_product</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.generalized_inner_product_fc.html">generalized_inner_product_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.img_part.html">img_part</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.invert.html">invert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.invert_fc.html">invert_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.kronecker_prod.html">kronecker_prod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.linear_combination.html">linear_combination</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.ln.html">ln</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.ln_fc.html">ln_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.make_one_on_comp.html">make_one_on_comp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.matrix_inverse.html">matrix_inverse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.min_max_over_time.html">min_max_over_time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.minus.html">minus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.minus_fc.html">minus_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.modal_superposition.html">modal_superposition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.modulus.html">modulus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.norm.html">norm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.norm_fc.html">norm_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.outer_product.html">outer_product</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.overall_dot.html">overall_dot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.phase.html">phase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.phase_fc.html">phase_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.polar_to_cplx.html">polar_to_cplx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.pow.html">pow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.pow_fc.html">pow_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.qr_solve.html">qr_solve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.real_part.html">real_part</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.scale.html">scale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.scale_by_field.html">scale_by_field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.scale_by_field_fc.html">scale_by_field_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.scale_fc.html">scale_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.sin.html">sin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.sin_fc.html">sin_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.sqr.html">sqr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.sqr_fc.html">sqr_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.sqrt.html">sqrt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.sqrt_fc.html">sqrt_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.svd.html">svd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.sweeping_phase.html">sweeping_phase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.sweeping_phase_fc.html">sweeping_phase_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.unit_convert.html">unit_convert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.math.unit_convert_fc.html">unit_convert_fc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.math.html#module-ansys.dpf.core.operators.math">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.mesh.html">ansys.dpf.core.operators.mesh package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.mesh.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.acmo_mesh_provider.html">acmo_mesh_provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.beam_properties.html">beam_properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.change_cs.html">change_cs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.combine_levelset.html">combine_levelset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.exclude_levelset.html">exclude_levelset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.external_layer.html">external_layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.from_field.html">from_field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.from_scoping.html">from_scoping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.make_plane_levelset.html">make_plane_levelset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.make_sphere_levelset.html">make_sphere_levelset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_clip.html">mesh_clip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_cut.html">mesh_cut</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_plan_clip.html">mesh_plan_clip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_provider.html">mesh_provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_to_graphics.html">mesh_to_graphics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.mesh_to_graphics_edges.html">mesh_to_graphics_edges</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.meshes_provider.html">meshes_provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.node_coordinates.html">node_coordinates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.point_cloud_search.html">point_cloud_search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.points_from_coordinates.html">points_from_coordinates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.skin.html">skin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.split_fields.html">split_fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.split_mesh.html">split_mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.stl_export.html">stl_export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.mesh.tri_mesh_skin.html">tri_mesh_skin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.mesh.html#module-ansys.dpf.core.operators.mesh">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.metadata.html">ansys.dpf.core.operators.metadata package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.metadata.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.boundary_condition_provider.html">boundary_condition_provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.cyclic_mesh_expansion.html">cyclic_mesh_expansion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.cyclic_support_provider.html">cyclic_support_provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.is_cyclic.html">is_cyclic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.material_provider.html">material_provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.material_support_provider.html">material_support_provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.mesh_selection_manager_provider.html">mesh_selection_manager_provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.mesh_support_provider.html">mesh_support_provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.property_field_provider_by_name.html">property_field_provider_by_name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.result_info_provider.html">result_info_provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.streams_provider.html">streams_provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.metadata.time_freq_provider.html">time_freq_provider</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.metadata.html#module-ansys.dpf.core.operators.metadata">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.min_max.html">ansys.dpf.core.operators.min_max package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_by_component.html">max_by_component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_phase.html">max_over_phase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.max_over_time_by_entity.html">max_over_time_by_entity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_by_component.html">min_by_component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max.html">min_max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_entity.html">min_max_by_entity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_by_time.html">min_max_by_time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc.html">min_max_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_fc_inc.html">min_max_fc_inc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_inc.html">min_max_inc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_label_fc.html">min_max_over_label_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_max_over_time_by_entity.html">min_max_over_time_by_entity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.min_over_time_by_entity.html">min_over_time_by_entity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.phase_of_max.html">phase_of_max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_max_by_entity.html">time_of_max_by_entity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.min_max.time_of_min_by_entity.html">time_of_min_by_entity</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.min_max.html#module-ansys.dpf.core.operators.min_max">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.result.html">ansys.dpf.core.operators.result package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.result.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.acceleration.html">acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.acceleration_X.html">acceleration_X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.acceleration_Y.html">acceleration_Y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.acceleration_Z.html">acceleration_Z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.accu_eqv_creep_strain.html">accu_eqv_creep_strain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.accu_eqv_plastic_strain.html">accu_eqv_plastic_strain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.add_rigid_body_motion.html">add_rigid_body_motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.add_rigid_body_motion_fc.html">add_rigid_body_motion_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.artificial_hourglass_energy.html">artificial_hourglass_energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cms_matrices_provider.html">cms_matrices_provider</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.co_energy.html">co_energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress.html">compute_stress</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_1.html">compute_stress_1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_2.html">compute_stress_2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_3.html">compute_stress_3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_X.html">compute_stress_X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_XY.html">compute_stress_XY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_XZ.html">compute_stress_XZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_Y.html">compute_stress_Y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_YZ.html">compute_stress_YZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_Z.html">compute_stress_Z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_stress_von_mises.html">compute_stress_von_mises</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain.html">compute_total_strain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_1.html">compute_total_strain_1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_2.html">compute_total_strain_2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_3.html">compute_total_strain_3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_X.html">compute_total_strain_X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_XY.html">compute_total_strain_XY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_XZ.html">compute_total_strain_XZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_Y.html">compute_total_strain_Y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_YZ.html">compute_total_strain_YZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.compute_total_strain_Z.html">compute_total_strain_Z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.contact_fluid_penetration_pressure.html">contact_fluid_penetration_pressure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.contact_friction_stress.html">contact_friction_stress</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.contact_gap_distance.html">contact_gap_distance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.contact_penetration.html">contact_penetration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.contact_pressure.html">contact_pressure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.contact_sliding_distance.html">contact_sliding_distance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.contact_status.html">contact_status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.contact_surface_heat_flux.html">contact_surface_heat_flux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.contact_total_stress.html">contact_total_stress</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.coordinate_system.html">coordinate_system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.creep_strain_energy_density.html">creep_strain_energy_density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.current_density.html">current_density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.custom.html">custom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_analytic_seqv_max.html">cyclic_analytic_seqv_max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_analytic_usum_max.html">cyclic_analytic_usum_max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_acceleration.html">cyclic_expanded_acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_displacement.html">cyclic_expanded_displacement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_el_strain.html">cyclic_expanded_el_strain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_enf.html">cyclic_expanded_enf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_heat_flux.html">cyclic_expanded_heat_flux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_stress.html">cyclic_expanded_stress</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_temperature.html">cyclic_expanded_temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expanded_velocity.html">cyclic_expanded_velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_expansion.html">cyclic_expansion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_strain_energy.html">cyclic_strain_energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.cyclic_volume.html">cyclic_volume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.displacement.html">displacement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.displacement_X.html">displacement_X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.displacement_Y.html">displacement_Y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.displacement_Z.html">displacement_Z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain.html">elastic_strain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_X.html">elastic_strain_X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_XY.html">elastic_strain_XY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_XZ.html">elastic_strain_XZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_Y.html">elastic_strain_Y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_YZ.html">elastic_strain_YZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_Z.html">elastic_strain_Z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_energy_density.html">elastic_strain_energy_density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_principal_1.html">elastic_strain_principal_1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_principal_2.html">elastic_strain_principal_2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_principal_3.html">elastic_strain_principal_3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elastic_strain_rotation_by_euler_nodes.html">elastic_strain_rotation_by_euler_nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.electric_field.html">electric_field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.electric_flux_density.html">electric_flux_density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.electric_potential.html">electric_potential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.element_centroids.html">element_centroids</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.element_nodal_forces.html">element_nodal_forces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.element_orientations.html">element_orientations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elemental_heat_generation.html">elemental_heat_generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elemental_mass.html">elemental_mass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.elemental_volume.html">elemental_volume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.enf_rotation_by_euler_nodes.html">enf_rotation_by_euler_nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.equivalent_mass.html">equivalent_mass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.equivalent_radiated_power.html">equivalent_radiated_power</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.eqv_stress_parameter.html">eqv_stress_parameter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.erp_accumulate_results.html">erp_accumulate_results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.erp_radiation_efficiency.html">erp_radiation_efficiency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.euler_load_buckling.html">euler_load_buckling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.euler_nodes.html">euler_nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.global_to_nodal.html">global_to_nodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.heat_flux.html">heat_flux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.heat_flux_X.html">heat_flux_X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.heat_flux_Y.html">heat_flux_Y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.heat_flux_Z.html">heat_flux_Z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.hydrostatic_pressure.html">hydrostatic_pressure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.incremental_energy.html">incremental_energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.joint_force_reaction.html">joint_force_reaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.joint_moment_reaction.html">joint_moment_reaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.joint_relative_acceleration.html">joint_relative_acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.joint_relative_angular_acceleration.html">joint_relative_angular_acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.joint_relative_angular_velocity.html">joint_relative_angular_velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.joint_relative_displacement.html">joint_relative_displacement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.joint_relative_rotation.html">joint_relative_rotation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.joint_relative_velocity.html">joint_relative_velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.kinetic_energy.html">kinetic_energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_material_properties.html">mapdl_material_properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.mapdl_section.html">mapdl_section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.material_property_of_element.html">material_property_of_element</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.members_in_bending_not_certified.html">members_in_bending_not_certified</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.members_in_compression_not_certified.html">members_in_compression_not_certified</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.members_in_linear_compression_bending_not_certified.html">members_in_linear_compression_bending_not_certified</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.migrate_to_h5dpf.html">migrate_to_h5dpf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.modal_basis.html">modal_basis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.nmisc.html">nmisc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.nodal_force.html">nodal_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.nodal_moment.html">nodal_moment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.nodal_rotation_by_euler_nodes.html">nodal_rotation_by_euler_nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.nodal_to_global.html">nodal_to_global</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.normal_contact_force.html">normal_contact_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.normal_contact_moment.html">normal_contact_moment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.num_surface_status_changes.html">num_surface_status_changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.plastic_state_variable.html">plastic_state_variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain.html">plastic_strain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_X.html">plastic_strain_X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_XY.html">plastic_strain_XY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_XZ.html">plastic_strain_XZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_Y.html">plastic_strain_Y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_YZ.html">plastic_strain_YZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_Z.html">plastic_strain_Z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_energy_density.html">plastic_strain_energy_density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_principal_1.html">plastic_strain_principal_1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_principal_2.html">plastic_strain_principal_2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_principal_3.html">plastic_strain_principal_3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.plastic_strain_rotation_by_euler_nodes.html">plastic_strain_rotation_by_euler_nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.poynting_vector.html">poynting_vector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.poynting_vector_surface.html">poynting_vector_surface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.pres_to_field.html">pres_to_field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.prns_to_field.html">prns_to_field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.raw_displacement.html">raw_displacement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.raw_reaction_force.html">raw_reaction_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.reaction_force.html">reaction_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.recombine_harmonic_indeces_cyclic.html">recombine_harmonic_indeces_cyclic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.remove_rigid_body_motion.html">remove_rigid_body_motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.remove_rigid_body_motion_fc.html">remove_rigid_body_motion_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.rigid_transformation.html">rigid_transformation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.run.html">run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.smisc.html">smisc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stiffness_matrix_energy.html">stiffness_matrix_energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stress.html">stress</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stress_X.html">stress_X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stress_XY.html">stress_XY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stress_XZ.html">stress_XZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stress_Y.html">stress_Y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stress_YZ.html">stress_YZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stress_Z.html">stress_Z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stress_principal_1.html">stress_principal_1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stress_principal_2.html">stress_principal_2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stress_principal_3.html">stress_principal_3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stress_ratio.html">stress_ratio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stress_rotation_by_euler_nodes.html">stress_rotation_by_euler_nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.stress_von_mises.html">stress_von_mises</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.structural_temperature.html">structural_temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.swelling_strains.html">swelling_strains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.tangential_contact_force.html">tangential_contact_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.tangential_contact_moment.html">tangential_contact_moment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.temperature.html">temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.temperature_grad.html">temperature_grad</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.thermal_dissipation_energy.html">thermal_dissipation_energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain.html">thermal_strain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_X.html">thermal_strain_X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_XY.html">thermal_strain_XY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_XZ.html">thermal_strain_XZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_Y.html">thermal_strain_Y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_YZ.html">thermal_strain_YZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_Z.html">thermal_strain_Z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_principal_1.html">thermal_strain_principal_1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_principal_2.html">thermal_strain_principal_2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strain_principal_3.html">thermal_strain_principal_3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.thermal_strains_eqv.html">thermal_strains_eqv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.thickness.html">thickness</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.torque.html">torque</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.total_contact_force.html">total_contact_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.total_contact_moment.html">total_contact_moment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.total_mass.html">total_mass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.velocity.html">velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.velocity_X.html">velocity_X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.velocity_Y.html">velocity_Y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.result.velocity_Z.html">velocity_Z</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.result.html#module-ansys.dpf.core.operators.result">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.scoping.html">ansys.dpf.core.operators.scoping package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.scoping.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.change_fc.html">change_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.connectivity_ids.html">connectivity_ids</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.elemental_from_mesh.html">elemental_from_mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.from_mesh.html">from_mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.intersect.html">intersect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.nodal_from_mesh.html">nodal_from_mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.on_mesh_property.html">on_mesh_property</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.on_named_selection.html">on_named_selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.on_property.html">on_property</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.rescope.html">rescope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.rescope_fc.html">rescope_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.split_on_property_type.html">split_on_property_type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.scoping.transpose.html">transpose</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.scoping.html#module-ansys.dpf.core.operators.scoping">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.serialization.html">ansys.dpf.core.operators.serialization package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.csv_to_field.html">csv_to_field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_json.html">data_tree_to_json</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.data_tree_to_txt.html">data_tree_to_txt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.deserializer.html">deserializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.export_symbolic_workflow.html">export_symbolic_workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.field_to_csv.html">field_to_csv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.import_symbolic_workflow.html">import_symbolic_workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.json_to_data_tree.html">json_to_data_tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.mechanical_csv_to_field.html">mechanical_csv_to_field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_file_to_vtk.html">migrate_file_to_vtk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.migrate_to_vtu.html">migrate_to_vtu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serialize_to_hdf5.html">serialize_to_hdf5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer.html">serializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.serializer_to_string.html">serializer_to_string</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.string_deserializer.html">string_deserializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.txt_to_data_tree.html">txt_to_data_tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_export.html">vtk_export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtk_to_fields.html">vtk_to_fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.vtu_export.html">vtu_export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_export_json.html">workflow_export_json</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.serialization.workflow_import_json.html">workflow_import_json</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.serialization.html#module-ansys.dpf.core.operators.serialization">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.server.html">ansys.dpf.core.operators.server namespace</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.server.html#submodules">Submodules</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ansys.dpf.core.operators.utility.html">ansys.dpf.core.operators.utility package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.utility.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.assemble_scalars_to_matrices.html">assemble_scalars_to_matrices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.assemble_scalars_to_vectors.html">assemble_scalars_to_vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.bind_support.html">bind_support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.bind_support_fc.html">bind_support_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.change_location.html">change_location</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.change_shell_layers.html">change_shell_layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.default_value.html">default_value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.extract_field.html">extract_field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.extract_time_freq.html">extract_time_freq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.field_to_fc.html">field_to_fc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.forward.html">forward</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.forward_field.html">forward_field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.forward_fields_container.html">forward_fields_container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.forward_meshes_container.html">forward_meshes_container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.html_doc.html">html_doc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.make_overall.html">make_overall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_fields.html">merge_fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_fields_by_label.html">merge_fields_by_label</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_fields_containers.html">merge_fields_containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_materials.html">merge_materials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_meshes.html">merge_meshes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_meshes_containers.html">merge_meshes_containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_property_fields.html">merge_property_fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_result_infos.html">merge_result_infos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_scopings.html">merge_scopings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_scopings_containers.html">merge_scopings_containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_supports.html">merge_supports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_time_freq_supports.html">merge_time_freq_supports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_weighted_fields.html">merge_weighted_fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.merge_weighted_fields_containers.html">merge_weighted_fields_containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.overlap_fields.html">overlap_fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.python_generator.html">python_generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.python_script_exec.html">python_script_exec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.remote_operator_instantiate.html">remote_operator_instantiate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.remote_workflow_instantiate.html">remote_workflow_instantiate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.scalars_to_field.html">scalars_to_field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.set_property.html">set_property</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.strain_from_voigt.html">strain_from_voigt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.txt_file_to_dpf.html">txt_file_to_dpf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ansys.dpf.core.operators.utility.unitary_field.html">unitary_field</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ansys.dpf.core.operators.utility.html#module-ansys.dpf.core.operators.utility">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="module-ansys.dpf.core.operators">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ansys.dpf.core.operators" title="Permalink to this heading">#</a></h2>
+</section>
+</section>
+
+
+            </article>
+            
+            
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#subpackages">
+   Subpackages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-ansys.dpf.core.operators">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+<div class="tocsection sourcelink">
+    <a href="../_sources/api/ansys.dpf.core.operators.rst.txt">
+        <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+</div>
+
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright (c) 2023 ANSYS, Inc. All rights reserved.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>
