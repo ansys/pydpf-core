@@ -85,10 +85,13 @@ jobs:
         with:
           ref: ${{ github.event.inputs.checkout_ref || '' }}
 
-      - name: "Install the package requirements"
+      - name: "Debug"
         run: |
           ls
           cat pyproject.toml
+
+      - name: "Install the package requirements"
+        run: pip install .
 
       - name: "Get the version to PyMeilisearch"
         run: |
