@@ -86,7 +86,7 @@ jobs:
           ref: ${{ github.event.inputs.checkout_ref || '' }}
 
       - name: "Install the package requirements"
-        run: pip install -e .
+        run: pip install .
 
       - name: "Get the version to PyMeilisearch"
         run: |
