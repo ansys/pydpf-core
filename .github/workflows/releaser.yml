@@ -85,13 +85,10 @@ jobs:
         with:
           ref: ${{ github.event.inputs.checkout_ref || '' }}
 
-      - name: "Debug"
-        run: |
-          ls
-          cat pyproject.toml
-
       - name: "Install the package requirements"
-        run: pip install .
+        run: |
+          python3 -m venv .venv
+          .venv/bin/python -m pip install -e .
 
       - name: "Get the version to PyMeilisearch"
         run: |
