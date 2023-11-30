@@ -124,7 +124,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		return res
 
 	@staticmethod
-	def data_sources_set_domain_result_file_path_with_key_utf8(dataSources, name, sKey, id):  # TODO: Unused
+	def data_sources_set_domain_result_file_path_with_key_utf8(dataSources, name, sKey, id):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_SetDomainResultFilePathWithKeyUtf8(dataSources._internal_obj if dataSources is not None else None, utils.to_char_ptr(name), utils.to_char_ptr(sKey), utils.to_int32(id), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -207,7 +207,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		return newres
 
 	@staticmethod
-	def data_sources_get_result_key_by_index(dataSources, index):  # TODO: Unused
+	def data_sources_get_result_key_by_index(dataSources, index):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_GetResultKeyByIndex(dataSources._internal_obj if dataSources is not None else None, utils.to_int32(index), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -218,7 +218,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		return newres
 
 	@staticmethod
-	def data_sources_get_num_result_keys(dataSources):  # TODO: Unused
+	def data_sources_get_num_result_keys(dataSources):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_GetNumResultKeys(dataSources._internal_obj if dataSources is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -258,7 +258,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		return newres
 
 	@staticmethod
-	def data_sources_get_namespace(dataSources, key):  # TODO: Unused
+	def data_sources_get_namespace(dataSources, key):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_GetNamespace(dataSources._internal_obj if dataSources is not None else None, utils.to_char_ptr(key), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -269,7 +269,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		return newres
 
 	@staticmethod
-	def data_sources_get_new_path_collection_for_key(dataSources, key):  # TODO: Unused
+	def data_sources_get_new_path_collection_for_key(dataSources, key):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_GetNewPathCollectionForKey(dataSources._internal_obj if dataSources is not None else None, utils.to_char_ptr(key), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -278,7 +278,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		return res
 
 	@staticmethod
-	def data_sources_get_new_collection_for_results_path(dataSources):  # TODO: Unused
+	def data_sources_get_new_collection_for_results_path(dataSources):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_GetNewCollectionForResultsPath(dataSources._internal_obj if dataSources is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -287,7 +287,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		return res
 
 	@staticmethod
-	def data_sources_get_size(dataSources):  # TODO: Unused
+	def data_sources_get_size(dataSources):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_GetSize(dataSources._internal_obj if dataSources is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -296,7 +296,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		return res
 
 	@staticmethod
-	def data_sources_get_path_by_path_index(dataSources, index):  # TODO: Unused
+	def data_sources_get_path_by_path_index(dataSources, index):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_GetPathByPathIndex(dataSources._internal_obj if dataSources is not None else None, utils.to_int32(index), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -307,7 +307,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		return newres
 
 	@staticmethod
-	def data_sources_get_key_by_path_index(dataSources, index):  # TODO: Unused
+	def data_sources_get_key_by_path_index(dataSources, index):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_GetKeyByPathIndex(dataSources._internal_obj if dataSources is not None else None, utils.to_int32(index), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -318,7 +318,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		return newres
 
 	@staticmethod
-	def data_sources_get_label_space_by_path_index(dataSources, index):  # TODO: Unused
+	def data_sources_get_label_space_by_path_index(dataSources, index):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_GetLabelSpaceByPathIndex(dataSources._internal_obj if dataSources is not None else None, utils.to_int32(index), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -345,7 +345,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		return res
 
 	@staticmethod
-	def data_sources_get_copy(id, client):  # TODO: Unused
+	def data_sources_get_copy(id, client):  # TODO: Unused for all types
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_getCopy(utils.to_int32(id), client._internal_obj if client is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))

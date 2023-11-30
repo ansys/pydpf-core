@@ -338,10 +338,90 @@ class DataSources:
             warnings.warn(traceback.format_exc())
             pass
 
+    def set_domain_result_file_path_with_key(self, name, key, id):
+        return self._api.data_sources_set_domain_result_file_path_with_key_utf8(self, name, key, id)
+
+    def get_result_key_by_index(self, index) -> str:
+        """Get the result key at the given index in the DataSources.
+
+        Parameters
+        ----------
+        index:
+            Index of the key in the DataSources.
+
+        Returns
+        -------
+
+        """
+        return self._api.data_sources_get_result_key_by_index(self, index)
+
+    def get_num_result_keys(self) -> int:
+        """
+
+        Returns
+        -------
+
+        """
+        return self._api.data_sources_get_num_result_keys(self)
+
+    def get_namespace(self, key):
+        """
+
+        Returns
+        -------
+
+        """
+        return self._api.data_sources_get_namespace(self, key)
+
+    def get_new_path_collection_for_key(self):
+        """
+
+        Returns
+        -------
+
+        """
+        return self._api.data_sources_get_new_path_collection_for_key(self)
+
+    def get_new_collection_for_results_path(self):
+        """
+
+        Returns
+        -------
+
+        """
+        return self._api.data_sources_get_new_collection_for_results_path(self)
+
+    def __len__(self):
+        return self.get_size()
+
+    def get_size(self) -> int:
+        """Get the size of the DataSources.
+
+        Returns
+        -------
+
+        """
+        return self._api.data_sources_get_size(self)
+
+    def __getitem__(self, item):
+        return self.get_path_by_path_index(item)
+
     def get_path_by_path_index(self, index) -> str:
+        """Get the path at the given index in the DataSources.
+
+        Parameters
+        ----------
+        index:
+            Index of the path in the DataSources.
+
+        Returns
+        -------
+
+        """
+        return self._api.data_sources_get_path_by_path_index(self, index)
 
     def get_key_by_path_index(self, index) -> str:
-        """
+        """Get the key for the path at the given index in the DataSources.
 
         Parameters
         ----------
