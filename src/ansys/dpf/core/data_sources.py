@@ -19,6 +19,7 @@ from ansys.dpf.gate import (
 
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core import errors
+from ansys.dpf.core.label_space import LabelSpace
 
 
 class DataSources:
@@ -336,3 +337,37 @@ class DataSources:
         except:
             warnings.warn(traceback.format_exc())
             pass
+
+    def get_path_by_path_index(self, index) -> str:
+
+    def get_key_by_path_index(self, index) -> str:
+        """
+
+        Parameters
+        ----------
+        index:
+            Index of the path in the DataSources.
+
+        Returns
+        -------
+        key:
+            Key of the path at the given index in the DataSources.
+        """
+        return self._api.data_sources_get_key_by_path_index(self, index)
+
+    def get_label_space_by_path_index(self, index) -> LabelSpace:
+        """
+
+        Parameters
+        ----------
+        index:
+            Index of the path in the DataSources
+
+        Returns
+        -------
+        label_space:
+            LabelSpace
+        """
+        return self._api.data_sources_get_label_space_by_path_index(self, index)
+
+
