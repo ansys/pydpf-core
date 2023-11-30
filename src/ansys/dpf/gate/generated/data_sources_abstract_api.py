@@ -8,11 +8,11 @@ class DataSourcesAbstractAPI:
 		pass
 
 	@staticmethod
-	def finish_data_sources_environment(object):
+	def finish_data_sources_environment(object):  # TODO: Unused
 		pass
 
 	@staticmethod
-	def data_sources_new(operatorName):
+	def data_sources_new(operatorName):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
@@ -20,27 +20,27 @@ class DataSourcesAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_set_result_file_path(dataSources, name):
+	def data_sources_set_result_file_path(dataSources, name):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_set_result_file_path_with_key(dataSources, name, sKey):
+	def data_sources_set_result_file_path_with_key(dataSources, name, sKey):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_set_domain_result_file_path_with_key(dataSources, name, sKey, id):
+	def data_sources_set_domain_result_file_path_with_key(dataSources, name, sKey, id):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_add_file_path(dataSources, name):
+	def data_sources_add_file_path(dataSources, name):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_add_file_path_with_key(dataSources, name, sKey):
+	def data_sources_add_file_path_with_key(dataSources, name, sKey):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_add_file_path_for_specified_result(dataSources, name, sKey, sResultKey):
+	def data_sources_add_file_path_for_specified_result(dataSources, name, sKey, sResultKey):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
@@ -56,7 +56,7 @@ class DataSourcesAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_set_domain_result_file_path_with_key_utf8(dataSources, name, sKey, id):
+	def data_sources_set_domain_result_file_path_with_key_utf8(dataSources, name, sKey, id):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
@@ -92,11 +92,11 @@ class DataSourcesAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_get_result_key_by_index(dataSources, index):
+	def data_sources_get_result_key_by_index(dataSources, index):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_get_num_result_keys(dataSources):
+	def data_sources_get_num_result_keys(dataSources):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
@@ -112,31 +112,31 @@ class DataSourcesAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_get_namespace(dataSources, key):
+	def data_sources_get_namespace(dataSources, key):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_get_new_path_collection_for_key(dataSources, key):
+	def data_sources_get_new_path_collection_for_key(dataSources, key):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_get_new_collection_for_results_path(dataSources):
+	def data_sources_get_new_collection_for_results_path(dataSources):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_get_size(dataSources):
+	def data_sources_get_size(dataSources):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_get_path_by_path_index(dataSources, index):
+	def data_sources_get_path_by_path_index(dataSources, index):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_get_key_by_path_index(dataSources, index):
+	def data_sources_get_key_by_path_index(dataSources, index):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_get_label_space_by_path_index(dataSources, index):
+	def data_sources_get_label_space_by_path_index(dataSources, index):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
 	@staticmethod
@@ -148,6 +148,6 @@ class DataSourcesAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def data_sources_get_copy(id, client):
+	def data_sources_get_copy(id, client):  # TODO: No LegacyGrpc
 		raise NotImplementedError
 
