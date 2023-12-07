@@ -4,6 +4,8 @@ on:
 # Can be called manually or remotely
   workflow_dispatch:
     inputs:
+      distinct_id:
+
       ANSYS_VERSION:
         description: "ANSYS version"
         required: false
@@ -27,6 +29,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: echo distinct ID ${{ github.event.inputs.distinct_id }}
+        run: echo ${{ github.event.inputs.distinct_id }}
+
       - uses: actions/checkout@v3
 
       - name: Setup Python
