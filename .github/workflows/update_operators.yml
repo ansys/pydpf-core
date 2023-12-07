@@ -134,7 +134,7 @@ jobs:
           body: An update of generated code has been triggered either manually or by an update in the dpf-standalone repository.
           branch: maint/update_code_for_${{ github.event.inputs.ANSYS_VERSION || '242' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
           labels: maintenance
-          token: secrets.PYANSYS_CI_BOT_TOKEN
+          token: secrets.CI_TOKEN
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
