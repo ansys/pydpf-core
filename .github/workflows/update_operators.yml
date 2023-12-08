@@ -5,6 +5,10 @@ on:
   workflow_dispatch:
     inputs:
       distinct_id:
+        description: "ID to give the job when run via dpf-standalone repo"
+        required: false
+        type: string
+        default: ""
 
       ANSYS_VERSION:
         description: "ANSYS version"
@@ -16,8 +20,6 @@ on:
         required: false
         type: string
         default: ''
-    secrets:
-      token:
 
 env:
   PACKAGE_NAME: ansys-dpf-core
