@@ -119,7 +119,7 @@ jobs:
         run: |
           git status
 
-#      - uses: tibdex/github-app-token@v2
+#      - uses: tibdex/github-app-token@v2  # To use once GH App is set at ansys org level
 #        id: generate-token
 #        with:
 #          app_id: ${{ secrets.CI_APP_ID }}
