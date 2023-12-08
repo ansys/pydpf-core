@@ -144,6 +144,8 @@ jobs:
           token: ${{ secrets.CI_PAT }}
           committer: PProfizi <paul.profizi@ansys.com>
           author: PProfizi <paul.profizi@ansys.com>
+          reviewers: ansys/dpf_integration_proxies
+          assignees: ansys/dpf_integration_proxies
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
