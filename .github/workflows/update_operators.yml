@@ -135,6 +135,8 @@ jobs:
           branch: maint/update_code_for_${{ github.event.inputs.ANSYS_VERSION || '242' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
           labels: maintenance
           token: secrets.CI_TOKEN
+          committer: PProfizi <paul.profizi@ansys.com>
+          author: PProfizi <paul.profizi@ansys.com>
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
