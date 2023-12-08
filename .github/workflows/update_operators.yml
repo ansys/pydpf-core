@@ -119,6 +119,12 @@ jobs:
         run: |
           git status
 
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.CI_APP_ID }}
+          private_key: ${{ secrets.CI_APP_TOKEN }}
+
       - name: "Create Pull Request"
         uses: peter-evans/create-pull-request@v4
         with:
@@ -134,7 +140,7 @@ jobs:
           body: An update of generated code has been triggered either manually or by an update in the dpf-standalone repository.
           branch: maint/update_code_for_${{ github.event.inputs.ANSYS_VERSION || '242' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
           labels: maintenance
-          token: secrets.CI_TOKEN
+          token: ${{ steps.generate-token.outputs.token }}
           committer: PProfizi <paul.profizi@ansys.com>
           author: PProfizi <paul.profizi@ansys.com>
 
