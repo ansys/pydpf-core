@@ -86,6 +86,21 @@ class WorkflowServiceStub(object):
                 request_serializer=workflow__message__pb2.Workflow.SerializeToString,
                 response_deserializer=base__pb2.Empty.FromString,
                 )
+        self.LoadFromBigStream = channel.stream_unary(
+                '/ansys.api.dpf.workflow.v0.WorkflowService/LoadFromBigStream',
+                request_serializer=base__pb2.Array.SerializeToString,
+                response_deserializer=workflow__message__pb2.Workflow.FromString,
+                )
+        self.UpdateConnectionStreamed = channel.stream_unary(
+                '/ansys.api.dpf.workflow.v0.WorkflowService/UpdateConnectionStreamed',
+                request_serializer=workflow__pb2.ArrayUpdateConnectionRequest.SerializeToString,
+                response_deserializer=base__pb2.Empty.FromString,
+                )
+        self.GetStreamed = channel.unary_stream(
+                '/ansys.api.dpf.workflow.v0.WorkflowService/GetStreamed',
+                request_serializer=workflow__pb2.WorkflowEvaluationRequest.SerializeToString,
+                response_deserializer=workflow__pb2.ArrayWorkflowResponse.FromString,
+                )
 
 
 class WorkflowServiceServicer(object):
@@ -128,7 +143,8 @@ class WorkflowServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def Get(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """should always stay the 6th function, see CWorkflowImplWithAsyncGet::InitializeAsyncMethod
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -170,6 +186,24 @@ class WorkflowServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def Delete(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def LoadFromBigStream(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateConnectionStreamed(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetStreamed(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -247,6 +281,21 @@ def add_WorkflowServiceServicer_to_server(servicer, server):
                     servicer.Delete,
                     request_deserializer=workflow__message__pb2.Workflow.FromString,
                     response_serializer=base__pb2.Empty.SerializeToString,
+            ),
+            'LoadFromBigStream': grpc.stream_unary_rpc_method_handler(
+                    servicer.LoadFromBigStream,
+                    request_deserializer=base__pb2.Array.FromString,
+                    response_serializer=workflow__message__pb2.Workflow.SerializeToString,
+            ),
+            'UpdateConnectionStreamed': grpc.stream_unary_rpc_method_handler(
+                    servicer.UpdateConnectionStreamed,
+                    request_deserializer=workflow__pb2.ArrayUpdateConnectionRequest.FromString,
+                    response_serializer=base__pb2.Empty.SerializeToString,
+            ),
+            'GetStreamed': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetStreamed,
+                    request_deserializer=workflow__pb2.WorkflowEvaluationRequest.FromString,
+                    response_serializer=workflow__pb2.ArrayWorkflowResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -493,5 +542,56 @@ class WorkflowService(object):
         return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.workflow.v0.WorkflowService/Delete',
             workflow__message__pb2.Workflow.SerializeToString,
             base__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def LoadFromBigStream(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(request_iterator, target, '/ansys.api.dpf.workflow.v0.WorkflowService/LoadFromBigStream',
+            base__pb2.Array.SerializeToString,
+            workflow__message__pb2.Workflow.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateConnectionStreamed(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(request_iterator, target, '/ansys.api.dpf.workflow.v0.WorkflowService/UpdateConnectionStreamed',
+            workflow__pb2.ArrayUpdateConnectionRequest.SerializeToString,
+            base__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetStreamed(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/ansys.api.dpf.workflow.v0.WorkflowService/GetStreamed',
+            workflow__pb2.WorkflowEvaluationRequest.SerializeToString,
+            workflow__pb2.ArrayWorkflowResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
