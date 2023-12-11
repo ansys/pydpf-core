@@ -4,6 +4,12 @@ on:
 # Can be called manually or remotely
   workflow_dispatch:
     inputs:
+      distinct_id:
+        description: "ID to give the job when run via dpf-standalone repo"
+        required: false
+        type: string
+        default: ""
+
       ANSYS_VERSION:
         description: "ANSYS version"
         required: false
@@ -27,6 +33,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: echo distinct ID ${{ github.event.inputs.distinct_id }}
+        run: echo ${{ github.event.inputs.distinct_id }}
+
       - uses: actions/checkout@v3
 
       - name: Setup Python
@@ -112,6 +121,12 @@ jobs:
         run: |
           git status
 
+#      - uses: tibdex/github-app-token@v2  # To use once GH App is set at ansys org level
+#        id: generate-token
+#        with:
+#          app_id: ${{ secrets.CI_APP_ID }}
+#          private_key: ${{ secrets.CI_APP_TOKEN }}
+
       - name: "Create Pull Request"
         uses: peter-evans/create-pull-request@v4
         with:
@@ -126,7 +141,13 @@ jobs:
           title: Update generated code for DPF ${{ github.event.inputs.ANSYS_VERSION || '242' }}${{ github.event.inputs.standalone_branch_suffix || '' }} on ${{ github.ref_name }}
           body: An update of generated code has been triggered either manually or by an update in the dpf-standalone repository.
           branch: maint/update_code_for_${{ github.event.inputs.ANSYS_VERSION || '242' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
-          labels: maintenance
+          labels: server-sync
+#          token: ${{ steps.generate-token.outputs.token }}
+          token: ${{ secrets.CI_PAT }}
+          committer: PProfizi <paul.profizi@ansys.com>
+          author: PProfizi <paul.profizi@ansys.com>
+          reviewers: ansys/dpf_integration_proxies
+          assignees: ansys/dpf_integration_proxies
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
