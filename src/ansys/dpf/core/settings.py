@@ -126,9 +126,9 @@ def get_runtime_client_config(server=None):
 
     """
     from ansys.dpf.core.runtime_config import RuntimeClientConfig
-    from ansys.dpf import core
+    from ansys.dpf import core as root
     if server is None:
-        server = core.SERVER
+        server = root.SERVER
     if server is not None and server.has_client():
         _api = server.get_api_for_type(
             capi=data_processing_capi.DataProcessingCAPI,

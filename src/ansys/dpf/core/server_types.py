@@ -1100,7 +1100,7 @@ class LegacyGrpcServer(BaseServer):
         return grpcapi
 
     def create_stub_if_necessary(self, stub_name, stub_type):
-        if self.channel and not (stub_name in self._stubs.keys()):
+        if self.channel and not stub_name in self._stubs:
             self._stubs[stub_name] = stub_type(self.channel)
 
     def get_stub(self, stub_name):
