@@ -26,8 +26,8 @@ _CLIENT_CONFIG = LocalClientConfig()
 
 def client_config():
     if len(_CLIENT_CONFIG) == 0:
-        _CLIENT_CONFIG["use_cache"] = False
-        _CLIENT_CONFIG["streaming_buffer_size"] = DEFAULT_FILE_CHUNK_SIZE
-        _CLIENT_CONFIG["stream_floats"] = False
-        _CLIENT_CONFIG["return_arrays"] = True
+        _CLIENT_CONFIG.use_cache = False
+        _CLIENT_CONFIG.streaming_buffer_size = DEFAULT_FILE_CHUNK_SIZE
+        _CLIENT_CONFIG.stream_floats_instead_of_doubles = False
+        _CLIENT_CONFIG.return_arrays = True
     return _CLIENT_CONFIG
