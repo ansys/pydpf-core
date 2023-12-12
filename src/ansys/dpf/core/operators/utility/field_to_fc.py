@@ -17,8 +17,7 @@ class field_to_fc(Operator):
     ----------
     field : Field or FieldsContainer
         If a fields container is set in input, it is
-        passed on as an output with the
-        additional label space (if any).
+        passed on as an output.
     label : dict
         Sets a label space.
 
@@ -68,8 +67,7 @@ class field_to_fc(Operator):
                     type_names=["field", "fields_container"],
                     optional=False,
                     document="""If a fields container is set in input, it is
-        passed on as an output with the
-        additional label space (if any).""",
+        passed on as an output.""",
                 ),
                 1: PinSpecification(
                     name="label",
@@ -152,8 +150,7 @@ class InputsFieldToFc(_Inputs):
         """Allows to connect field input to the operator.
 
         If a fields container is set in input, it is
-        passed on as an output with the
-        additional label space (if any).
+        passed on as an output.
 
         Parameters
         ----------

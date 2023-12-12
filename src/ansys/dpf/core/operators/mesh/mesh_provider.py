@@ -51,9 +51,7 @@ class mesh_provider(Operator):
         read and a workflow will be bounded
         to the properties to be evaluated on
         demand, with 0 they are read (default
-        is 0). - "all_available_properties"
-        option set to 0 will return all
-        possible properties
+        is 0).
 
 
     Examples
@@ -183,9 +181,7 @@ class mesh_provider(Operator):
         read and a workflow will be bounded
         to the properties to be evaluated on
         demand, with 0 they are read (default
-        is 0). - "all_available_properties"
-        option set to 0 will return all
-        possible properties""",
+        is 0).""",
                 ),
             },
             map_output_pin_spec={
@@ -402,9 +398,7 @@ class InputsMeshProvider(_Inputs):
         read and a workflow will be bounded
         to the properties to be evaluated on
         demand, with 0 they are read (default
-        is 0). - "all_available_properties"
-        option set to 0 will return all
-        possible properties
+        is 0).
 
         Parameters
         ----------

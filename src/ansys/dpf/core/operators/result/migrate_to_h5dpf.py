@@ -17,9 +17,6 @@ class migrate_to_h5dpf(Operator):
 
     Parameters
     ----------
-    export_floats : bool, optional
-        Converts double to float to reduce file size
-        (default is true)
     filename : str
         Filename of the migrated file
     comma_separated_list_of_results : str, optional
@@ -33,10 +30,9 @@ class migrate_to_h5dpf(Operator):
     data_sources : DataSources, optional
         If the stream is null then we need to get the
         file path from the data sources
-    bool_rotate_to_global : bool, optional
-        If true, the field is rotated to the global
-        coordinate system before migrating
-        the file (default false)
+    export_floats : bool, optional
+        Converts double to float to reduce file size
+        (default is true)
     compression_workflow : Workflow, optional
         Beta option: applies input compression
         workflow
@@ -67,8 +63,6 @@ class migrate_to_h5dpf(Operator):
     >>> op = dpf.operators.result.migrate_to_h5dpf()
 
     >>> # Make input connections
-    >>> my_export_floats = bool()
-    >>> op.inputs.export_floats.connect(my_export_floats)
     >>> my_filename = str()
     >>> op.inputs.filename.connect(my_filename)
     >>> my_comma_separated_list_of_results = str()
@@ -79,8 +73,8 @@ class migrate_to_h5dpf(Operator):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_bool_rotate_to_global = bool()
-    >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+    >>> my_export_floats = bool()
+    >>> op.inputs.export_floats.connect(my_export_floats)
     >>> my_compression_workflow = dpf.Workflow()
     >>> op.inputs.compression_workflow.connect(my_compression_workflow)
     >>> my_filtering_workflow = dpf.Workflow()
@@ -94,13 +88,12 @@ class migrate_to_h5dpf(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.migrate_to_h5dpf(
-    ...     export_floats=my_export_floats,
     ...     filename=my_filename,
     ...     comma_separated_list_of_results=my_comma_separated_list_of_results,
     ...     all_time_sets=my_all_time_sets,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
-    ...     bool_rotate_to_global=my_bool_rotate_to_global,
+    ...     export_floats=my_export_floats,
     ...     compression_workflow=my_compression_workflow,
     ...     filtering_workflow=my_filtering_workflow,
     ...     h5_native_compression=my_h5_native_compression,
@@ -114,13 +107,12 @@ class migrate_to_h5dpf(Operator):
 
     def __init__(
         self,
-        export_floats=None,
         filename=None,
         comma_separated_list_of_results=None,
         all_time_sets=None,
         streams_container=None,
         data_sources=None,
-        bool_rotate_to_global=None,
+        export_floats=None,
         compression_workflow=None,
         filtering_workflow=None,
         h5_native_compression=None,
@@ -132,8 +124,6 @@ class migrate_to_h5dpf(Operator):
         super().__init__(name="hdf5::h5dpf::migrate_file", config=config, server=server)
         self._inputs = InputsMigrateToH5Dpf(self)
         self._outputs = OutputsMigrateToH5Dpf(self)
-        if export_floats is not None:
-            self.inputs.export_floats.connect(export_floats)
         if filename is not None:
             self.inputs.filename.connect(filename)
         if comma_separated_list_of_results is not None:
@@ -146,8 +136,8 @@ class migrate_to_h5dpf(Operator):
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
-        if bool_rotate_to_global is not None:
-            self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
+        if export_floats is not None:
+            self.inputs.export_floats.connect(export_floats)
         if compression_workflow is not None:
             self.inputs.compression_workflow.connect(compression_workflow)
         if filtering_workflow is not None:
@@ -167,13 +157,6 @@ class migrate_to_h5dpf(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
-                -1: PinSpecification(
-                    name="export_floats",
-                    type_names=["bool"],
-                    optional=True,
-                    document="""Converts double to float to reduce file size
-        (default is true)""",
-                ),
                 0: PinSpecification(
                     name="filename",
                     type_names=["string"],
@@ -208,12 +191,11 @@ class migrate_to_h5dpf(Operator):
         file path from the data sources""",
                 ),
                 5: PinSpecification(
-                    name="bool_rotate_to_global",
+                    name="export_floats",
                     type_names=["bool"],
                     optional=True,
-                    document="""If true, the field is rotated to the global
-        coordinate system before migrating
-        the file (default false)""",
+                    document="""Converts double to float to reduce file size
+        (default is true)""",
                 ),
                 6: PinSpecification(
                     name="compression_workflow",
@@ -312,8 +294,6 @@ class InputsMigrateToH5Dpf(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.result.migrate_to_h5dpf()
-    >>> my_export_floats = bool()
-    >>> op.inputs.export_floats.connect(my_export_floats)
     >>> my_filename = str()
     >>> op.inputs.filename.connect(my_filename)
     >>> my_comma_separated_list_of_results = str()
@@ -324,8 +304,8 @@ class InputsMigrateToH5Dpf(_Inputs):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_bool_rotate_to_global = bool()
-    >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+    >>> my_export_floats = bool()
+    >>> op.inputs.export_floats.connect(my_export_floats)
     >>> my_compression_workflow = dpf.Workflow()
     >>> op.inputs.compression_workflow.connect(my_compression_workflow)
     >>> my_filtering_workflow = dpf.Workflow()
@@ -340,8 +320,6 @@ class InputsMigrateToH5Dpf(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(migrate_to_h5dpf._spec().inputs, op)
-        self._export_floats = Input(migrate_to_h5dpf._spec().input_pin(-1), -1, op, -1)
-        self._inputs.append(self._export_floats)
         self._filename = Input(migrate_to_h5dpf._spec().input_pin(0), 0, op, -1)
         self._inputs.append(self._filename)
         self._comma_separated_list_of_results = Input(
@@ -356,10 +334,8 @@ class InputsMigrateToH5Dpf(_Inputs):
         self._inputs.append(self._streams_container)
         self._data_sources = Input(migrate_to_h5dpf._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
-        self._bool_rotate_to_global = Input(
-            migrate_to_h5dpf._spec().input_pin(5), 5, op, -1
-        )
-        self._inputs.append(self._bool_rotate_to_global)
+        self._export_floats = Input(migrate_to_h5dpf._spec().input_pin(5), 5, op, -1)
+        self._inputs.append(self._export_floats)
         self._compression_workflow = Input(
             migrate_to_h5dpf._spec().input_pin(6), 6, op, -1
         )
@@ -380,27 +356,6 @@ class InputsMigrateToH5Dpf(_Inputs):
             migrate_to_h5dpf._spec().input_pin(200), 200, op, -1
         )
         self._inputs.append(self._separate_dofs)
-
-    @property
-    def export_floats(self):
-        """Allows to connect export_floats input to the operator.
-
-        Converts double to float to reduce file size
-        (default is true)
-
-        Parameters
-        ----------
-        my_export_floats : bool
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.migrate_to_h5dpf()
-        >>> op.inputs.export_floats.connect(my_export_floats)
-        >>> # or
-        >>> op.inputs.export_floats(my_export_floats)
-        """
-        return self._export_floats
 
     @property
     def filename(self):
@@ -506,26 +461,25 @@ class InputsMigrateToH5Dpf(_Inputs):
         return self._data_sources
 
     @property
-    def bool_rotate_to_global(self):
-        """Allows to connect bool_rotate_to_global input to the operator.
+    def export_floats(self):
+        """Allows to connect export_floats input to the operator.
 
-        If true, the field is rotated to the global
-        coordinate system before migrating
-        the file (default false)
+        Converts double to float to reduce file size
+        (default is true)
 
         Parameters
         ----------
-        my_bool_rotate_to_global : bool
+        my_export_floats : bool
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.result.migrate_to_h5dpf()
-        >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+        >>> op.inputs.export_floats.connect(my_export_floats)
         >>> # or
-        >>> op.inputs.bool_rotate_to_global(my_bool_rotate_to_global)
+        >>> op.inputs.export_floats(my_export_floats)
         """
-        return self._bool_rotate_to_global
+        return self._export_floats
 
     @property
     def compression_workflow(self):
