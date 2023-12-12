@@ -43,11 +43,11 @@ jobs:
     - id: step1
       name: Define server branch suffix to use
       run: |
-        if [[  ${{ github.event_name == 'push' }} ]]; then
+        if ${{ github.event_name == 'push' }}; then
           echo "suffix=" >> "$GITHUB_OUTPUT"
-        elif [[  ${{ github.event_name == 'workflow_dispatch' }} ]]; then
+        elif ${{ github.event_name == 'workflow_dispatch' }}; then
           echo "suffix=${{ github.event.inputs.standalone_branch_suffix }}" >> "$GITHUB_OUTPUT"
-        elif [[  ${{ github.event_name == 'pull_request' }} ]]; then
+        elif ${{ github.event_name == 'pull_request' }}; then
           # If the PR is server-sync then extract suffix from branch name
           sub='maint/update_code_for_'
           if [[ "${{ github.head_ref  }}" == *"$sub"* ]]; then
