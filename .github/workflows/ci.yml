@@ -44,7 +44,7 @@ jobs:
       name: Define server branch suffix to use
       run: |
         if [[  ${{ github.event_name == 'push' }} ]]; then
-          echo "suffix=''" >> "$GITHUB_OUTPUT"
+          echo "suffix=" >> "$GITHUB_OUTPUT"
         elif [[  ${{ github.event_name == 'workflow_dispatch' }} ]]; then
           echo "suffix=${{ github.event.inputs.standalone_branch_suffix }}" >> "$GITHUB_OUTPUT"
         elif [[  ${{ github.event_name == 'pull_request' }} ]]; then
@@ -58,7 +58,7 @@ jobs:
           fi
           echo "suffix=$suffix" >> "$GITHUB_OUTPUT"
         fi
-        echo branch suffix is: >$suffix<
+        echo "branch suffix is: >$suffix<"
 
   style:
     name: "Style Check"
