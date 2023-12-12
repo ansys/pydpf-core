@@ -61,6 +61,7 @@ jobs:
           fi
           echo "suffix=$suffix" >> "$GITHUB_OUTPUT"
         fi
+        echo $suffix
 
   style:
     name: "Style Check"
