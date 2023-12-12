@@ -45,11 +45,9 @@ jobs:
       run: |
         if [[  ${{ github.event_name == 'push' }} ]]; then
           echo "suffix=''" >> "$GITHUB_OUTPUT"
-        fi
-        if [[  ${{ github.event_name == 'workflow_dispatch' }} ]]; then
+        elif [[  ${{ github.event_name == 'workflow_dispatch' }} ]]; then
           echo "suffix=${{ github.event.inputs.standalone_branch_suffix }}" >> "$GITHUB_OUTPUT"
-        fi
-        if [[  ${{ github.event_name == 'pull_request' }} ]]; then
+        elif [[  ${{ github.event_name == 'pull_request' }} ]]; then
           suffix=''
           # If the PR is server-sync then extract suffix from branch name
           sub='maint/update_code_for_'
