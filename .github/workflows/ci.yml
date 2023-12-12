@@ -35,6 +35,34 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
 
+  pick_server_suffix:
+    runs-on: ubuntu-latest
+    id: server
+    outputs:
+      suffix: ${{ steps.step1.outputs.suffix }}
+    steps:
+    - name: Define server branch suffix to use
+    - id: step1
+      run: |
+        if [[  ${{ github.event_name == 'push' }} ]]; then
+          echo "suffix=''" >> "$GITHUB_OUTPUT"
+        fi
+        if [[  ${{ github.event_name == 'workflow_dispatch' }} ]]; then
+          echo "suffix=${{ github.event.inputs.standalone_branch_suffix }}" >> "$GITHUB_OUTPUT"
+        fi
+        if [[  ${{ github.event_name == 'pull_request' }} ]]; then
+          suffix=''
+          # If the PR is server-sync then extract suffix from branch name
+          sub='maint/update_code_for_'
+          if [[ "${{ github.ref_name  }}" == *"$sub"* ]]; then
+            ref_name=${{ github.ref_name }}
+            base_ref=${{ github.base_ref }}
+            suffix=${ref_name/$sub[0-9][0-9][0-9]/''}
+            suffix=${suffix/_on_$base_ref/''}
+          fi
+          echo "suffix=$suffix" >> "$GITHUB_OUTPUT"
+        fi
+
   style:
     name: "Style Check"
     runs-on: ubuntu-latest
@@ -80,48 +108,53 @@ jobs:
 
   tests:
     uses: ./.github/workflows/tests.yml
+    needs: pick_server_suffix
     with:
       ANSYS_VERSION: "242"
       python_versions: '["3.9"]'
       wheel: true
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
   tests_any:
     uses: ./.github/workflows/tests.yml
+    needs: pick_server_suffix
     with:
       ANSYS_VERSION: "242"
       python_versions: '["3.9"]'
       wheel: true
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_any: true
     secrets: inherit
 
   docker_tests:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
+    needs: pick_server_suffix
     with:
       ANSYS_VERSION: "242"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
   docker_examples:
     name: "Run examples on Docker"
     uses: ./.github/workflows/examples_docker.yml
+    needs: pick_server_suffix
     with:
       ANSYS_VERSION: "242"
       python_versions: '["3.9"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
   docs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/docs.yml
+    needs: pick_server_suffix
     with:
       ANSYS_VERSION: "242"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       event_name: ${{ github.event_name }}
     secrets: inherit
 
@@ -156,10 +189,11 @@ jobs:
   examples:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/examples.yml
+    needs: pick_server_suffix
     with:
       ANSYS_VERSION: "242"
       python_versions: '["3.9"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
   retro_241:
@@ -208,9 +242,10 @@ jobs:
     name: "PyDPF-Post"
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/pydpf-post.yml
+    needs: pick_server_suffix
     with:
       ANSYS_VERSION: "242"
       post_branch: "master"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_docstrings: "true"
     secrets: inherit
