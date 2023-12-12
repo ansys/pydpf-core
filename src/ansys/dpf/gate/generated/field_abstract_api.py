@@ -224,10 +224,6 @@ class FieldAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
-	def csfield_resize_data_pointer(field, dataSize):
-		raise NotImplementedError
-
-	@staticmethod
 	def csfield_get_number_of_components(field):
 		raise NotImplementedError
 
@@ -245,18 +241,6 @@ class FieldAbstractAPI:
 
 	@staticmethod
 	def csfield_set_name(field, name):
-		raise NotImplementedError
-
-	@staticmethod
-	def csfield_get_string_property(field, key, sProp_ptr):
-		raise NotImplementedError
-
-	@staticmethod
-	def csfield_add_string_property(field, key, sProp):
-		raise NotImplementedError
-
-	@staticmethod
-	def csfield_del_string_property(field, key):
 		raise NotImplementedError
 
 	@staticmethod

@@ -503,15 +503,6 @@ class FieldCAPI(field_abstract_api.FieldAbstractAPI):
 		return res
 
 	@staticmethod
-	def csfield_resize_data_pointer(field, dataSize):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSField_ResizeDataPointer(field._internal_obj if field is not None else None, utils.to_int32(dataSize), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
 	def csfield_get_number_of_components(field):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -554,33 +545,6 @@ class FieldCAPI(field_abstract_api.FieldAbstractAPI):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.CSField_SetName(field._internal_obj if field is not None else None, utils.to_char_ptr(name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def csfield_get_string_property(field, key, sProp_ptr):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSField_GetStringProperty(field._internal_obj if field is not None else None, utils.to_char_ptr(key), utils.to_char_ptr_ptr(sProp_ptr), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def csfield_add_string_property(field, key, sProp):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSField_AddStringProperty(field._internal_obj if field is not None else None, utils.to_char_ptr(key), utils.to_char_ptr(sProp), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
-		if errorSize.value != 0:
-			raise errors.DPFServerException(sError.value)
-		return res
-
-	@staticmethod
-	def csfield_del_string_property(field, key):
-		errorSize = ctypes.c_int(0)
-		sError = ctypes.c_wchar_p()
-		res = capi.dll.CSField_DelStringProperty(field._internal_obj if field is not None else None, utils.to_char_ptr(key), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
