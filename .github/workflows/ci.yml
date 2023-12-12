@@ -58,7 +58,7 @@ jobs:
           fi
           echo "suffix=$suffix" >> "$GITHUB_OUTPUT"
         fi
-        echo $suffix
+        echo branch suffix is: >$suffix<
 
   style:
     name: "Style Check"
