@@ -37,7 +37,6 @@ jobs:
 
   pick_server_suffix:
     runs-on: ubuntu-latest
-    id: server
     outputs:
       suffix: ${{ steps.step1.outputs.suffix }}
     steps:
