@@ -50,8 +50,8 @@ jobs:
         elif [[  ${{ github.event_name == 'pull_request' }} ]]; then
           # If the PR is server-sync then extract suffix from branch name
           sub='maint/update_code_for_'
-          if [[ "${{ github.ref_name  }}" == *"$sub"* ]]; then
-            ref_name=${{ github.ref_name }}
+          if [[ "${{ github.ref  }}" == *"$sub"* ]]; then
+            ref_name=${{ github.ref }}
             base_ref=${{ github.base_ref }}
             suffix=${ref_name/$sub[0-9][0-9][0-9]/''}
             suffix=${suffix/_on_$base_ref/''}
