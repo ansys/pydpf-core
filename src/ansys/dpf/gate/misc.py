@@ -1,7 +1,5 @@
 DEFAULT_FILE_CHUNK_SIZE = None
 COMMON_PROGRESS_BAR = None
-
-
 class LocalClientConfig(dict):
     """Behaves as a RuntimeClientConfig"""
     __delattr__ = dict.__delitem__
@@ -22,7 +20,6 @@ class LocalClientConfig(dict):
 
 
 _CLIENT_CONFIG = LocalClientConfig()
-
 
 def client_config():
     if len(_CLIENT_CONFIG) == 0:

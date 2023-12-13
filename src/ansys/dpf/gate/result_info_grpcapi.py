@@ -1,3 +1,5 @@
+import functools
+
 from ansys.dpf.gate.generated import result_info_abstract_api
 from ansys.dpf.gate.data_processing_grpcapi import DataProcessingGRPCAPI
 from ansys.dpf.gate.object_handler import ObjHandler
@@ -24,6 +26,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
         result_info._deleter_func = (_get_stub(result_info._server).Delete, lambda obj: obj._internal_obj)
 
     @staticmethod
+    @functools.lru_cache(maxsize=50, typed=False)
     def list(result_info):
         from types import SimpleNamespace
         server = result_info._server
@@ -55,6 +58,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
         return response
 
     @staticmethod
+    @functools.lru_cache(maxsize=50, typed=False)
     def list_result(result_info, idx):
         from ansys.grpc.dpf import result_info_pb2
         request = result_info_pb2.AvailableResultRequest()
@@ -219,6 +223,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
         return ResultInfoGRPCAPI.list(result_info).main_title
 
     @staticmethod
+    @functools.lru_cache(maxsize=50, typed=False)
     def result_info_get_string_property(result_info, property_name):
         from ansys.grpc.dpf import result_info_pb2
         request = result_info_pb2.GetStringPropertiesRequest()
@@ -227,6 +232,7 @@ class ResultInfoGRPCAPI(result_info_abstract_api.ResultInfoAbstractAPI):
         return _get_stub(result_info._server).GetStringProperties(request).properties[property_name]
 
     @staticmethod
+    @functools.lru_cache(maxsize=50, typed=False)
     def result_info_get_int_property(result_info, property_name):
         from ansys.grpc.dpf import result_info_pb2
         request = result_info_pb2.GetStringPropertiesRequest()
