@@ -7,7 +7,7 @@ exclude: |
         docs/styles/|
         src/ansys/dpf/gate/|
         src/ansys/dpf/gatebin/|
-        src/ansys/grpc/dpf/|
+        src/ansys/grpc/dpf/
     )
 repos:
 

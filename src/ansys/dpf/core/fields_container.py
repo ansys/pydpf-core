@@ -428,7 +428,7 @@ class FieldsContainer(Collection):
 
     @time_freq_support.setter
     def time_freq_support(self, value):
-        return super()._set_time_freq_support(value)
+        super()._set_time_freq_support(value)
 
     def deep_copy(self, server=None):
         """Create a deep copy of the fields container's data (and its fields) on a given server.

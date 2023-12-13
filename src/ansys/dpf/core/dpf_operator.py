@@ -292,6 +292,7 @@ class Operator:
             property_field,
             string_field,
             custom_type_field,
+            custom_type_fields_container,
             result_info,
             scoping,
             scopings_container,
@@ -324,6 +325,11 @@ class Operator:
                 custom_type_field.CustomTypeField,
                 self._api.operator_getoutput_custom_type_field,
                 "field",
+            ),
+            (
+                custom_type_fields_container.CustomTypeFieldsContainer,
+                self._api.operator_getoutput_custom_type_fields_container,
+                "custom_type_fields_container",
             ),
             (scoping.Scoping, self._api.operator_getoutput_scoping, "scoping"),
             (
