@@ -164,8 +164,11 @@ def build_operator(
     mustache_file = os.path.join(this_path, "operator.mustache")
     with open(mustache_file, "r") as f:
         cls = chevron.render(f, data)
-
-    return black.format_str(cls, mode=black.FileMode())
+    try:
+        return black.format_str(cls, mode=black.FileMode())
+    except Exception as e:
+        print(f"{operator_name=}")
+        raise e
 
 
 def build_operators():

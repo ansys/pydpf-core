@@ -16,12 +16,14 @@ class compute_time_scoping(Operator):
 
     Parameters
     ----------
-    time_freq_values : float or Field
+    time_freq_values : float or Field or TimeFreqSupport
         List of frequencies or times needed. to
         specify load steps, put a field (and
         not a list) in input with a scoping
         located on "timefreq_steps".
     step : int, optional
+    interpolation_type : int, optional
+        1:ramped' or 2:stepped', default is ramped
     time_freq_support : TimeFreqSupport
 
 
@@ -37,6 +39,8 @@ class compute_time_scoping(Operator):
     >>> op.inputs.time_freq_values.connect(my_time_freq_values)
     >>> my_step = int()
     >>> op.inputs.step.connect(my_step)
+    >>> my_interpolation_type = int()
+    >>> op.inputs.interpolation_type.connect(my_interpolation_type)
     >>> my_time_freq_support = dpf.TimeFreqSupport()
     >>> op.inputs.time_freq_support.connect(my_time_freq_support)
 
@@ -44,6 +48,7 @@ class compute_time_scoping(Operator):
     >>> op = dpf.operators.utility.compute_time_scoping(
     ...     time_freq_values=my_time_freq_values,
     ...     step=my_step,
+    ...     interpolation_type=my_interpolation_type,
     ...     time_freq_support=my_time_freq_support,
     ... )
 
@@ -56,6 +61,7 @@ class compute_time_scoping(Operator):
         self,
         time_freq_values=None,
         step=None,
+        interpolation_type=None,
         time_freq_support=None,
         config=None,
         server=None,
@@ -67,6 +73,8 @@ class compute_time_scoping(Operator):
             self.inputs.time_freq_values.connect(time_freq_values)
         if step is not None:
             self.inputs.step.connect(step)
+        if interpolation_type is not None:
+            self.inputs.interpolation_type.connect(interpolation_type)
         if time_freq_support is not None:
             self.inputs.time_freq_support.connect(time_freq_support)
 
@@ -79,7 +87,12 @@ class compute_time_scoping(Operator):
             map_input_pin_spec={
                 0: PinSpecification(
                     name="time_freq_values",
-                    type_names=["double", "vector<double>", "field"],
+                    type_names=[
+                        "double",
+                        "vector<double>",
+                        "field",
+                        "time_freq_support",
+                    ],
                     optional=False,
                     document="""List of frequencies or times needed. to
         specify load steps, put a field (and
@@ -91,6 +104,12 @@ class compute_time_scoping(Operator):
                     type_names=["int32"],
                     optional=True,
                     document="""""",
+                ),
+                4: PinSpecification(
+                    name="interpolation_type",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""1:ramped' or 2:stepped', default is ramped""",
                 ),
                 8: PinSpecification(
                     name="time_freq_support",
@@ -165,6 +184,8 @@ class InputsComputeTimeScoping(_Inputs):
     >>> op.inputs.time_freq_values.connect(my_time_freq_values)
     >>> my_step = int()
     >>> op.inputs.step.connect(my_step)
+    >>> my_interpolation_type = int()
+    >>> op.inputs.interpolation_type.connect(my_interpolation_type)
     >>> my_time_freq_support = dpf.TimeFreqSupport()
     >>> op.inputs.time_freq_support.connect(my_time_freq_support)
     """
@@ -177,6 +198,10 @@ class InputsComputeTimeScoping(_Inputs):
         self._inputs.append(self._time_freq_values)
         self._step = Input(compute_time_scoping._spec().input_pin(2), 2, op, -1)
         self._inputs.append(self._step)
+        self._interpolation_type = Input(
+            compute_time_scoping._spec().input_pin(4), 4, op, -1
+        )
+        self._inputs.append(self._interpolation_type)
         self._time_freq_support = Input(
             compute_time_scoping._spec().input_pin(8), 8, op, -1
         )
@@ -193,7 +218,7 @@ class InputsComputeTimeScoping(_Inputs):
 
         Parameters
         ----------
-        my_time_freq_values : float or Field
+        my_time_freq_values : float or Field or TimeFreqSupport
 
         Examples
         --------
@@ -222,6 +247,26 @@ class InputsComputeTimeScoping(_Inputs):
         >>> op.inputs.step(my_step)
         """
         return self._step
+
+    @property
+    def interpolation_type(self):
+        """Allows to connect interpolation_type input to the operator.
+
+        1:ramped' or 2:stepped', default is ramped
+
+        Parameters
+        ----------
+        my_interpolation_type : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.utility.compute_time_scoping()
+        >>> op.inputs.interpolation_type.connect(my_interpolation_type)
+        >>> # or
+        >>> op.inputs.interpolation_type(my_interpolation_type)
+        """
+        return self._interpolation_type
 
     @property
     def time_freq_support(self):

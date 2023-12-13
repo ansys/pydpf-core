@@ -152,6 +152,7 @@ if os.name == "nt" and not os.path.exists(
     if process.stderr:
         raise RuntimeError(
             "Installing pygltf in a virtual environment failed with error:\n"
+            + f"return code = {process.returncode}\n"
             + process.stderr.decode()
             + "\n\n and log:\n"
             + process.stdout.decode()

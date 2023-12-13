@@ -18,6 +18,7 @@ from ansys.dpf.gate import (
 )
 
 from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core import errors
 
 
 class DataSources:
@@ -77,9 +78,12 @@ class DataSources:
                 self._internal_obj = core_api.data_processing_duplicate_object_reference(
                     data_sources
                 )
-            else:
+            elif hasattr(data_sources, "DESCRIPTOR") or isinstance(data_sources, int):
                 # It should be a message (usually from a call to operator_getoutput_data_sources)
                 self._internal_obj = data_sources
+            else:
+                self._internal_obj = None
+                raise errors.DpfValueError("Data source must be gRPC data sources message type")
         else:
             if self._server.has_client():
                 self._internal_obj = self._api.data_sources_new_on_client(self._server.client)
@@ -112,10 +116,24 @@ class DataSources:
         ['/tmp/file.rst']
 
         """
+        # Handle no key given and no file extension
+        if key == "" and os.path.splitext(filepath)[1] == "":
+            key = self.guess_result_key(str(filepath))
         if key == "":
             self._api.data_sources_set_result_file_path_utf8(self, str(filepath))
         else:
             self._api.data_sources_set_result_file_path_with_key_utf8(self, str(filepath), key)
+
+    @staticmethod
+    def guess_result_key(filepath: str) -> str:
+        """Guess result key for files without a file extension."""
+        result_keys = ["d3plot", "binout"]
+        base_name = os.path.basename(filepath)
+        # Handle files without extension
+        for result_key in result_keys:
+            if result_key in base_name:
+                return result_key
+        return ""
 
     def set_domain_result_file_path(self, path, domain_id):
         """Add a result file path by domain.

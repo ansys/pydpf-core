@@ -295,11 +295,11 @@ The field's scoping defines the order of the data, for example: the first ID in 
 
 To access the scoping of the field, use the ``scoping`` attribute:
 
-.. code::
+.. code-block:: python
 
-    >>> print(field.scoping)
-    >>> print('field.scoping.ids:', field.scoping.ids)
-    >>> print('field.location:', field.location)
+    print(field.scoping)
+    print('field.scoping.ids:', field.scoping.ids)
+    print('field.location:', field.location)
 
 
 .. rst-class:: sphx-glr-script-out
@@ -333,26 +333,21 @@ the data stored, location of the field, number of components, and
 units of the data:
 
     
-.. code::
+.. code-block:: python
 
-    >>> stress = model.results.stress
-    >>> field = stress.eval()[0]
+    stress = model.results.stress
+    field = stress.eval()[0]
 
-    Units of the field describing volume
+    # Units of the field describing volume
+    field.unit
     
-    >>> field.unit
-    
-    
-    Location of the field (Elemental, ElementalNodal, or Nodal)
+    #Location of the field (Elemental, ElementalNodal, or Nodal)
+    field.location
 
-    >>> field.location
-
-    Number of components associated with the field. It's expected to
-    be a single dimension because there can only be one volume per
-    element.
-
-    >>> field.component_count
-
+    # Number of components associated with the field. It's expected to
+    # be a single dimension because there can only be one volume per
+    # element.
+    field.component_count
 
 
 .. rst-class:: sphx-glr-script-out
@@ -378,10 +373,15 @@ that is needed.
 The field's ``data`` is ordered with respect to its ``scoping ids`` (see above).
 To access the entire array of data as a ``numpy`` array:
 
-.. code::
+.. code-block:: python
 
-    >>> array = field.data
-    >>> array
+    array = field.data
+    print(array)
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
     DPFArray([[ 4.01372930e+04,  3.85071930e+02, -1.40019130e+07,
             7.48472351e+02, -2.60259531e+04, -2.62856938e+05],
           [-1.19228638e+03, -6.18210815e+02, -1.39912700e+07,
@@ -396,20 +396,32 @@ To access the entire array of data as a ``numpy`` array:
           [ 5.56899536e+02,  3.88515320e+02,  1.17119880e+07,
            -1.68983887e+03, -1.21768023e+05, -2.41346125e+05]])
 
-    This array has 6 components by elementary data (symmetrical tensor XX,YY,ZZ,XY,YZ,XZ).
-    Note that this array is a genuine, local, numpy array (overloaded by the DPFArray).
+This array has 6 components by elementary data (symmetrical tensor XX,YY,ZZ,XY,YZ,XZ).
+Note that this array is a genuine, local, numpy array (overloaded by the DPFArray).
 
-    >>> type(array)
+.. code-block:: python
+
+    print(type(array))
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
     <class 'ansys.dpf.gate.dpf_array.DPFArray'>
 
 If you need to access an individual node or element, request it
 using either the ``get_entity_data()`` or ``get_entity_data_by_id()`` method:
 
-.. code::
+Get the data from the first element in the field.
 
-    Get the data from the first element in the field.
+.. code-block:: python
 
-    >>> field.get_entity_data(0)
+    field.get_entity_data(0)
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
     DPFArray([[ 4.01372930e+04,  3.85071930e+02, -1.40019130e+07,
                 7.48472351e+02, -2.60259531e+04, -2.62856938e+05],
               [-1.19228638e+03, -6.18210815e+02, -1.39912700e+07,
@@ -427,9 +439,16 @@ using either the ``get_entity_data()`` or ``get_entity_data_by_id()`` method:
               [-3.97351016e+04,  2.43927902e+02,  1.17250040e+07,
                 6.08326172e+02, -2.46618770e+04,  2.43019891e+05]])
 
-    Get the data for the element with ID 10.
+Get the data for the element with ID 10.
 
-    >>> field.get_entity_data_by_id(10)
+.. code-block:: python
+
+    field.get_entity_data_by_id(10)
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
     DPFArray([[ 4.99232031e+04,  1.93570602e+02, -3.08514075e+06,
            -5.48255615e+02, -1.37476562e+04,  1.34827719e+05],
           [ 5.23090469e+04, -1.87847885e+02, -1.98004588e+06,
@@ -447,28 +466,43 @@ using either the ``get_entity_data()`` or ``get_entity_data_by_id()`` method:
           [-2.63994102e+01, -1.50429443e+02,  3.06906050e+06,
            -1.17046619e+03, -6.76924219e+04, -1.34773391e+05]])
 
-    Note that this would correspond to an index of 29 within the
-    field. Be aware that scoping IDs are not sequential. You would
-    get the index of element 29 in the field with:
+Note that this would correspond to an index of 29 within the
+field. Be aware that scoping IDs are not sequential. You would
+get the index of element 29 in the field with:
 
-    >>> field.scoping.ids.index(10)
+.. code-block:: python
+
+    field.scoping.ids.index(10)
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
     29
     
-    Here the data for the element with ID 10 is made of 8 symmetrical tensors.
-    The elastic strain has one tensor value by node by element (ElementalNodal location)
+Here the data for the element with ID 10 is made of 8 symmetrical tensors.
+The elastic strain has one tensor value by node by element (ElementalNodal location)
     
-    To get the displacement on node 3, you would use:
-    >>> disp = model.results.displacement.eval()[0]
-    >>> disp.get_entity_data_by_id(3)
+To get the displacement on node 3, you would use:
+
+.. code-block:: python
+
+    disp = model.results.displacement.eval()[0]
+    disp.get_entity_data_by_id(3)
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
     DPFArray([[8.06571808e-14, 4.03580652e-04, 2.61804706e-05]])
     
-    One 3D vector (X,Y,Z) displacement
+One 3D vector (X,Y,Z) displacement
 
 While these methods are acceptable when requesting data for a few elements
 or nodes, they should not be used when looping over the entire array. For efficiency,
 a field's data can be recovered locally before sending a large number of requests:
 
-.. code-block::
+.. code-block:: python
 
     with field.as_local_field() as f:
         for i in range(1,100):
@@ -488,26 +522,39 @@ from the field itself.
 This example uses the ``min_max`` operator to compute the maximum of
 the field while returning the field:
 
-.. code::
+Compute the maximum of the field within DPF and return the result
+in a numpy array
 
-    Compute the maximum of the field within DPF and return the result
-    in a numpy array
+.. code-block:: python
 
-    >>> max_field = field.max()
-    >>> max_field.data
+    max_field = field.max()
+    max_field.data
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
     DPFArray([22083762.  , 22406040.  , 52603044.  ,  1623704.25,  2443320.75,
            5014283.5 ])
 
-    Get the element or node ID of the maximum value.
+Get the element or node ID of the maximum value.
 
-    >>> max_field.scoping.ids
+
+.. code-block:: python
+
+    max_field.scoping.ids
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
     DPFArray([39, 39, 39, 40, 39, 39])
 
 
 This example uses the ``elemental_mean`` operator to compute the 
 average of a field:
 
-.. code-block::
+.. code-block:: python
 
     from ansys.dpf.core import operators as ops
     avg_op = ops.averaging.elemental_mean(field)

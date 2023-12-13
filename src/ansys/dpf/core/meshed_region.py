@@ -583,6 +583,7 @@ class MeshedRegion:
             show_axes=kwargs.pop("show_axes", True),
             **kwargs,
         )
+        kwargs.pop("notebook", None)
         return pl.show_figure(**kwargs)
 
     def deep_copy(self, server=None):

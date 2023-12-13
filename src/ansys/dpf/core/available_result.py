@@ -186,7 +186,7 @@ class AvailableResult:
     @property
     def unit(self):
         """Unit of the result."""
-        return self._unit.lower()
+        return self._unit
 
     @property
     def operator_name(self):

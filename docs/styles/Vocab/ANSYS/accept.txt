@@ -6,11 +6,13 @@ APIs
 [Cc]ore
 CPython
 DPF [Ss]erver
+DPFArray
 Entry
 Gaussian
 getters
 gltf
 GLTF
+grpcio
 hexa
 IronPython
 matplotlib
@@ -33,6 +35,7 @@ Reusability
 Rz
 scopings
 serializer
+setuptools
 substep
 tqdm
 von

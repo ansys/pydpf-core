@@ -46,6 +46,7 @@ from .merge_property_fields import merge_property_fields
 from .merge_result_infos import merge_result_infos 
 from .merge_scopings import merge_scopings 
 from .merge_scopings_containers import merge_scopings_containers 
+from .merge_string_fields import merge_string_fields 
 from .merge_supports import merge_supports 
 from .merge_time_freq_supports import merge_time_freq_supports 
 from .merge_weighted_fields import merge_weighted_fields 
@@ -65,6 +66,7 @@ from .set_attribute import set_attribute
 from .set_property import set_property 
 from .split_in_for_each_range import split_in_for_each_range 
 from .strain_from_voigt import strain_from_voigt 
+from .strain_from_voigt_fc import strain_from_voigt_fc 
 from .txt_file_to_dpf import txt_file_to_dpf 
 from .unitary_field import unitary_field 
 from .weighted_merge_fields_by_label import weighted_merge_fields_by_label 
