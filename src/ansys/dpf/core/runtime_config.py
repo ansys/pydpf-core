@@ -134,6 +134,9 @@ class RuntimeClientConfig(_RuntimeConfig):
     def return_arrays(self, value):
         self._data_tree.add(return_arrays=int(value))
 
+    def copy_config(self, config):
+        config._data_tree.add(self._data_tree.to_dict())
+
 
 class RuntimeCoreConfig(_RuntimeConfig):
     """Enables to access and set runtime configuration

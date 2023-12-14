@@ -504,21 +504,6 @@ class BaseService:
         else:
             error = self._api.data_processing_release(1)
 
-    def get_runtime_client_config(self):
-        if self._server().has_client():
-            data_tree_tmp = self._api.data_processing_get_client_config_as_data_tree()
-            config_to_return = RuntimeClientConfig(data_tree=data_tree_tmp, server=self._server())
-        else:
-            if misc.RUNTIME_CLIENT_CONFIG is None:
-                from ansys.dpf.core import data_tree
-
-                misc.RUNTIME_CLIENT_CONFIG = RuntimeClientConfig(
-                    data_tree=data_tree.DataTree(server=self._server())
-                )
-                misc.RUNTIME_CLIENT_CONFIG._data_tree._holds_server = False
-            config_to_return = misc.RUNTIME_CLIENT_CONFIG
-        return config_to_return
-
     @version_requires("4.0")
     def get_runtime_core_config(self):
         if self._server().has_client():
