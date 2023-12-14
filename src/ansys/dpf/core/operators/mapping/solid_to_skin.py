@@ -12,7 +12,13 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class solid_to_skin(Operator):
     """Maps a field defined on solid elements to a field defined on skin
-    elements.
+    elements. Three cases are possible, based on the solid field data
+    location; (i) Elemental: The values associated with the solid
+    elements are copied according to those underlying the skin, (ii)
+    Nodal: The solid field is rescoped with respect to the nodes of
+    the skin mesh, (iii) ElementalNodal: The values are copied from
+    the solid mesh to the skin mesh for each element face and the
+    nodes associated with it.
 
     Parameters
     ----------
@@ -67,7 +73,14 @@ class solid_to_skin(Operator):
     @staticmethod
     def _spec():
         description = """Maps a field defined on solid elements to a field defined on skin
-            elements."""
+            elements. Three cases are possible, based on the solid
+            field data location; (i) Elemental: The values associated
+            with the solid elements are copied according to those
+            underlying the skin, (ii) Nodal: The solid field is
+            rescoped with respect to the nodes of the skin mesh, (iii)
+            ElementalNodal: The values are copied from the solid mesh
+            to the skin mesh for each element face and the nodes
+            associated with it."""
         spec = Specification(
             description=description,
             map_input_pin_spec={

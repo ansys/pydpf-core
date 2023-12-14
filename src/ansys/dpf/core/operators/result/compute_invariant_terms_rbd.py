@@ -35,6 +35,9 @@ class compute_invariant_terms_rbd(Operator):
     field_coordinates : Field
         Coordinates of all nodes
     nod :
+    constraint_mode_check : bool, optional
+        If true, the orthogonality of the constraint
+        modes are checked. default is false.
 
 
     Examples
@@ -63,6 +66,8 @@ class compute_invariant_terms_rbd(Operator):
     >>> op.inputs.field_coordinates.connect(my_field_coordinates)
     >>> my_nod = dpf.()
     >>> op.inputs.nod.connect(my_nod)
+    >>> my_constraint_mode_check = bool()
+    >>> op.inputs.constraint_mode_check.connect(my_constraint_mode_check)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.compute_invariant_terms_rbd(
@@ -75,6 +80,7 @@ class compute_invariant_terms_rbd(Operator):
     ...     model_size=my_model_size,
     ...     field_coordinates=my_field_coordinates,
     ...     nod=my_nod,
+    ...     constraint_mode_check=my_constraint_mode_check,
     ... )
 
     >>> # Get output data
@@ -114,6 +120,7 @@ class compute_invariant_terms_rbd(Operator):
         model_size=None,
         field_coordinates=None,
         nod=None,
+        constraint_mode_check=None,
         config=None,
         server=None,
     ):
@@ -140,6 +147,8 @@ class compute_invariant_terms_rbd(Operator):
             self.inputs.field_coordinates.connect(field_coordinates)
         if nod is not None:
             self.inputs.nod.connect(nod)
+        if constraint_mode_check is not None:
+            self.inputs.constraint_mode_check.connect(constraint_mode_check)
 
     @staticmethod
     def _spec():
@@ -199,11 +208,18 @@ class compute_invariant_terms_rbd(Operator):
                     optional=False,
                     document="""Coordinates of all nodes""",
                 ),
-                9: PinSpecification(
+                8: PinSpecification(
                     name="nod",
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""""",
+                ),
+                9: PinSpecification(
+                    name="constraint_mode_check",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If true, the orthogonality of the constraint
+        modes are checked. default is false.""",
                 ),
             },
             map_output_pin_spec={
@@ -414,6 +430,8 @@ class InputsComputeInvariantTermsRbd(_Inputs):
     >>> op.inputs.field_coordinates.connect(my_field_coordinates)
     >>> my_nod = dpf.()
     >>> op.inputs.nod.connect(my_nod)
+    >>> my_constraint_mode_check = bool()
+    >>> op.inputs.constraint_mode_check.connect(my_constraint_mode_check)
     """
 
     def __init__(self, op: Operator):
@@ -450,8 +468,12 @@ class InputsComputeInvariantTermsRbd(_Inputs):
             compute_invariant_terms_rbd._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._field_coordinates)
-        self._nod = Input(compute_invariant_terms_rbd._spec().input_pin(9), 9, op, -1)
+        self._nod = Input(compute_invariant_terms_rbd._spec().input_pin(8), 8, op, -1)
         self._inputs.append(self._nod)
+        self._constraint_mode_check = Input(
+            compute_invariant_terms_rbd._spec().input_pin(9), 9, op, -1
+        )
+        self._inputs.append(self._constraint_mode_check)
 
     @property
     def rom_matrices(self):
@@ -631,6 +653,27 @@ class InputsComputeInvariantTermsRbd(_Inputs):
         >>> op.inputs.nod(my_nod)
         """
         return self._nod
+
+    @property
+    def constraint_mode_check(self):
+        """Allows to connect constraint_mode_check input to the operator.
+
+        If true, the orthogonality of the constraint
+        modes are checked. default is false.
+
+        Parameters
+        ----------
+        my_constraint_mode_check : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.compute_invariant_terms_rbd()
+        >>> op.inputs.constraint_mode_check.connect(my_constraint_mode_check)
+        >>> # or
+        >>> op.inputs.constraint_mode_check(my_constraint_mode_check)
+        """
+        return self._constraint_mode_check
 
 
 class OutputsComputeInvariantTermsRbd(_Outputs):
