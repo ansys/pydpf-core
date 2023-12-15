@@ -152,7 +152,17 @@ def test_register_namespace(allkindofcomplexity, server_type):
         assert op.eval() is not None
 
 
-def test_data_sources_get_paths(allkindofcomplexity, distributed_files, server_type):
+def test_data_sources_get_path(distributed_files, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_domain_result_file_path(path=distributed_files[0], key="rst", domain_id=0)
+    data_sources.set_domain_result_file_path(path=distributed_files[1], key="d3plot", domain_id=1)
+    data_sources.add_file_path(filepath=distributed_files[0])
+    assert data_sources.get_path(0) == distributed_files[0]
+    assert data_sources.get_path(1) == distributed_files[1]
+    assert data_sources.get_path(2) == distributed_files[0]
+
+
+def test_data_sources_get_paths(distributed_files, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_domain_result_file_path(path=distributed_files[0], key="rst", domain_id=0)
     data_sources.set_domain_result_file_path(path=distributed_files[1], key="d3plot", domain_id=1)
