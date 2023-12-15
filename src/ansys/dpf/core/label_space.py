@@ -67,6 +67,8 @@ class LabelSpace:
             return False
 
     def __getitem__(self, item):
+        if isinstance(item, int):
+            return list(self.__dict__().items())[item]
         return self.__dict__()[item]
 
     def __str__(self):
