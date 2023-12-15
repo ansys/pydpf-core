@@ -69,10 +69,21 @@ def test_adddomainpath_data_sources(allkindofcomplexity, server_type):
 
 def test_addfilepathspecifiedresult_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
-    data_sources.add_file_path_for_specified_result(allkindofcomplexity, "d3plot")
+    data_sources.add_file_path_for_specified_result(filepath=allkindofcomplexity)
+    assert data_sources.get_key_by_path_index(0) == "rst"
+    assert data_sources.get_result_key(0) == "rst"
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.add_file_path_for_specified_result(filepath=allkindofcomplexity, key="d3plot")
     assert data_sources.get_key_by_path_index(0) == "d3plot"
-    assert data_sources.get_num_result_keys() == 1
-    assert data_sources.get_result_key_by_index(0) == ""
+    assert data_sources.get_result_key(0) == "d3plot"
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.add_file_path_for_specified_result(filepath=allkindofcomplexity, result_key="d3plot")
+    assert data_sources.get_key_by_path_index(0) == "rst"
+    assert data_sources.get_result_key(0) == "d3plot"
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.add_file_path_for_specified_result(filepath=allkindofcomplexity, key="test", result_key="d3plot")
+    assert data_sources.get_key_by_path_index(0) == "test"
+    assert data_sources.get_result_key(0) == "d3plot"
 
 
 def test_setresultpath_data_sources_no_extension(d3plot_beam, binout_glstat, server_type):
@@ -172,6 +183,20 @@ def test_data_sources_get_paths(distributed_files, server_type):
     assert len(data_sources.get_paths(keys="d3plot")) == 1
     assert len(data_sources.get_paths(keys=["rst", "d3plot"])) == 2
     assert len(data_sources.get_paths(keys="test")) == 0
+
+
+def test_data_sources_get_result_paths(distributed_files, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_result_file_path(filepath=distributed_files[0], key="d3plot")
+    print(data_sources.result_key)
+    print(data_sources.result_keys)
+    print(data_sources.get_key_by_path_index(0))
+    data_sources.add_file_path_for_specified_result(filepath=distributed_files[1])
+    print(data_sources)
+    print(data_sources.result_key)
+    print(data_sources.result_keys)
+    print(data_sources.get_key_by_path_index(0))
+    print(data_sources.get_key_by_path_index(1))
 
 
 def test_data_sources_result_keys(distributed_files, server_type):

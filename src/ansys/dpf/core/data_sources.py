@@ -232,7 +232,12 @@ class DataSources:
         if not os.path.dirname(filepath):
             # append local path
             filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
-
+        if key == "":
+            key = self.guess_result_key(filepath)
+        if key == "":  # TODO: check why the server does not associate a key automatically
+            key = os.path.splitext(filepath)[1].lstrip(".")
+        if result_key == "":  # TODO: check why the server does not associate a result key
+            result_key = key
         self._api.data_sources_add_file_path_for_specified_result_utf8(
             self, str(filepath), key, result_key
         )
