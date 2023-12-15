@@ -207,3 +207,22 @@ def test_data_sources_result_keys(distributed_files, server_type):
     assert ds.get_result_key() == "rst"
     assert ds.get_result_key(0) == "rst"
     assert ds.get_result_key(1) == "d3plot"
+
+
+def test_data_sources_get_label_space_by_path_index(distributed_files, server_type):
+    from ansys.dpf.core.label_space import LabelSpace
+    ds = dpf.core.DataSources(result_path=distributed_files[0], server=server_type)
+    label_space = ds._get_label_space_by_path_index(0)
+    assert isinstance(label_space, LabelSpace)
+    assert label_space == {'group': 1, 'result': 1, 'is_result': 1}
+
+    ds = dpf.core.DataSources(server=server_type)
+    ds.set_domain_result_file_path(path=distributed_files[0], domain_id=0)
+    ds.set_domain_result_file_path(path=distributed_files[1], domain_id=1)
+    print(ds)
+    label_space = ds._get_label_space_by_path_index(0)
+    print(label_space)
+    assert label_space == {'domain': 0, 'group': 1, 'result': 1, 'is_result': 1}
+    label_space = ds._get_label_space_by_path_index(1)
+    print(label_space)
+    assert label_space == {'domain': 1, 'group': 2, 'result': 1, 'is_result': 1}
