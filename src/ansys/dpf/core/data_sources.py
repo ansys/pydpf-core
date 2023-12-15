@@ -138,8 +138,8 @@ class DataSources:
                 return result_key
         return ""
 
-    def set_domain_result_file_path(self, path: Union[str, os.PathLike], domain_id: int):
-        """Add a result file path by domain.
+    def set_domain_result_file_path(self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None):
+        """Associate a result file path to a spatial domain for distributed results.
 
         This method is used to handle files created by a
         distributed solve.
@@ -149,7 +149,9 @@ class DataSources:
         path:
             Path to the file.
         domain_id:
-            Domain ID for the distributed files.
+            Spatial domain ID associated to the file.
+        key:
+            Override key to associate to the file when the detected key is wrong.
 
         Examples
         --------
@@ -159,7 +161,10 @@ class DataSources:
         >>> data_sources.set_domain_result_file_path('/tmp/file1.sub', 1)
 
         """
-        self._api.data_sources_set_domain_result_file_path_utf8(self, str(path), domain_id)
+        if key:
+            self._api.data_sources_set_domain_result_file_path_with_key_utf8(self, str(path), key, domain_id)
+        else:
+            self._api.data_sources_set_domain_result_file_path_utf8(self, str(path), domain_id)
 
     def add_file_path(self, filepath: Union[str, os.PathLike], key: str = "", is_domain: bool = False, domain_id: int = 0):
         """Add a file path to the data sources.
