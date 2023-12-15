@@ -97,6 +97,12 @@ def simple_bar():
 
 
 @pytest.fixture()
+def distributed_files():
+    """Resolve the paths of the distributed example result files."""
+    return examples.download_distributed_files()
+
+
+@pytest.fixture()
 def velocity_acceleration():
     """Resolve the path of the "velocity_acceleration.rst" result file."""
     return resolve_test_file("velocity_acceleration.rst", "rst_operators")
