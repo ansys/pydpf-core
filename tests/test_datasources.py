@@ -46,7 +46,7 @@ def test_setdomainresultpath_data_sources(allkindofcomplexity, server_type):
 
 def test_setdomainresultpath_data_sources_with_key(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
-    data_sources.set_domain_result_file_path(allkindofcomplexity, key='rst', domain_id=0)
+    data_sources.set_domain_result_file_path(allkindofcomplexity, key="rst", domain_id=0)
     ls = data_sources._get_label_space_by_path_index(0)
     assert ls["domain"] == 0
 

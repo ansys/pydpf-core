@@ -138,7 +138,9 @@ class DataSources:
                 return result_key
         return ""
 
-    def set_domain_result_file_path(self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None):
+    def set_domain_result_file_path(
+        self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
+    ):
         """Associate a result file path to a spatial domain for distributed results.
 
         This method is used to handle files created by a
@@ -162,11 +164,19 @@ class DataSources:
 
         """
         if key:
-            self._api.data_sources_set_domain_result_file_path_with_key_utf8(self, str(path), key, domain_id)
+            self._api.data_sources_set_domain_result_file_path_with_key_utf8(
+                self, str(path), key, domain_id
+            )
         else:
             self._api.data_sources_set_domain_result_file_path_utf8(self, str(path), domain_id)
 
-    def add_file_path(self, filepath: Union[str, os.PathLike], key: str = "", is_domain: bool = False, domain_id: int = 0):
+    def add_file_path(
+        self,
+        filepath: Union[str, os.PathLike],
+        key: str = "",
+        is_domain: bool = False,
+        domain_id: int = 0,
+    ):
         """Add a file path to the data sources.
 
         Files not added as result files are accessory files, which contain accessory
@@ -209,7 +219,9 @@ class DataSources:
             else:
                 self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
 
-    def add_file_path_for_specified_result(self, filepath: Union[str, os.PathLike], key: str = "", result_key: str = ""):
+    def add_file_path_for_specified_result(
+        self, filepath: Union[str, os.PathLike], key: str = "", result_key: str = ""
+    ):
         """Add a file path for a specified result file key to the data sources.
 
         This method can be used when results files with different keys (extensions) are
@@ -422,6 +434,7 @@ class DataSources:
 
         """
         from ansys.dpf.core.collection import StringCollection
+
         out = []
         if keys is None:
             # TODO: add API server-side to get all paths at once
@@ -444,6 +457,7 @@ class DataSources:
         List of result paths.
         """
         from ansys.dpf.core.collection import StringCollection
+
         collection = self._api.data_sources_get_new_collection_for_results_path(self)
         return StringCollection(collection=collection).get_integral_entries()
 
@@ -505,6 +519,5 @@ class DataSources:
             LabelSpace associated to the path at the given index.
         """
         from ansys.dpf.core.label_space import LabelSpace
+
         return LabelSpace(self._api.data_sources_get_label_space_by_path_index(self, index))
-
-
