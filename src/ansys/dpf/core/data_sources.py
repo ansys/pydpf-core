@@ -8,7 +8,7 @@ from __future__ import annotations
 import os
 import warnings
 import traceback
-from typing import Union
+from typing import List, Union
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
@@ -352,16 +352,13 @@ class DataSources:
         # TODO: add domain check
         return True
 
-    def set_domain_result_file_path_with_key(self, name: str, key: str, id: int):
-        return self._api.data_sources_set_domain_result_file_path_with_key_utf8(self, name, key, id)
-
-    def get_result_key_by_index(self, index) -> str:
+    def get_result_key(self, index: int = 0) -> str:
         """Get the result key at the given index in the DataSources.
 
         Parameters
         ----------
         index:
-            Index of the key in the DataSources.
+            Index of the result key in the DataSources.
 
         Returns
         -------
@@ -377,6 +374,15 @@ class DataSources:
 
         """
         return self._api.data_sources_get_num_result_keys(self)
+
+    @property
+    def result_keys(self) -> List[str]:
+        """List of result keys in the DataSources"""
+        # TODO: create server query for list of result keys, vectorize this request
+        out = []
+        for i in range(self.get_num_result_keys()):
+            out.append(self.get_result_key(i))
+        return out
 
     def get_namespace(self, key: str) -> str:
         """Retrieves the namespace currently associated to the given key.
