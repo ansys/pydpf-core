@@ -641,3 +641,7 @@ class StringCollection(Collection):
         for i in range(num):
             out.append(self._api.collection_get_string_entry(self, i))
         return out
+
+    # TODO: fix StringCollection description server-side
+    def __str__(self):
+        return f"StringCollection<{self.get_integral_entries()}>"
