@@ -408,20 +408,31 @@ class DataSources:
         """
         return self._api.data_sources_get_namespace(self, key)
 
-    def get_new_path_collection_for_key(self, key: str):
+    def get_paths(self, keys: Union[str, List[str], None] = None) -> List[str]:
         """
 
         Parameters
         ----------
-        key:
-            Key of which to get the associated path collection.
+        keys:
+            Return only paths associated with the key or list of keys, or all keys if None given.
 
         Returns
         -------
 
         """
         from ansys.dpf.core.collection import StringCollection
-        return StringCollection(collection=self._api.data_sources_get_new_path_collection_for_key(self, key))
+        out = []
+        if keys is None:
+            # TODO: add API server-side to get all paths at once
+            for i in range(len(self)):
+                out.append(self.get_path(i))
+            return out
+        if isinstance(keys, str):
+            keys = [keys]
+        for key in keys:
+            collection = self._api.data_sources_get_new_path_collection_for_key(self, key)
+            out.extend(StringCollection(collection=collection).get_integral_entries())
+        return out
 
     def get_new_collection_for_results_path(self):
         """
