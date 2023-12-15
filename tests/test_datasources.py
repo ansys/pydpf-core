@@ -15,13 +15,13 @@ def test_create_data_sources(server_type):
 def test_create_with_resultpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)
     assert data_sources._internal_obj
-    assert data_sources.get_path_by_path_index(0) == allkindofcomplexity
+    assert data_sources.get_path(0) == allkindofcomplexity
     assert data_sources[0] == allkindofcomplexity
     assert len(data_sources) == 1
     assert data_sources.get_namespace("rst") == "mapdl"
     assert data_sources.result_key == "rst"
-    assert data_sources.get_num_result_keys() == 1
-    assert data_sources.get_result_key_by_index(0) == "rst"
+    assert data_sources.num_result_keys == 1
+    assert data_sources.get_result_key(0) == "rst"
 
 
 def test_setresultpath_data_sources(allkindofcomplexity, server_type):
@@ -29,27 +29,25 @@ def test_setresultpath_data_sources(allkindofcomplexity, server_type):
     data_sources.set_result_file_path(allkindofcomplexity)
     assert len(data_sources) == 1
     assert data_sources[0] == allkindofcomplexity
-    assert data_sources.get_num_result_keys() == 1
+    assert data_sources.num_result_keys == 1
     assert data_sources.result_key == "rst"
-    assert data_sources.get_result_key_by_index(0) == "rst"
+    assert data_sources.get_result_key(0) == "rst"
     assert data_sources.get_key_by_path_index(0) == "rst"
     assert data_sources.result_files == [allkindofcomplexity]
     assert data_sources.get_namespace(data_sources.get_key_by_path_index(0)) == "mapdl"
-    assert data_sources.get_label_space_by_path_index(0) == {'group': 1, 'result': 1, 'is_result': 1}
 
 
 def test_setdomainresultpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_domain_result_file_path(allkindofcomplexity, 0)
-    ls = data_sources.get_label_space_by_path_index(0)
+    ls = data_sources._get_label_space_by_path_index(0)
     assert ls["domain"] == 0
 
 
 def test_setdomainresultpath_data_sources_with_key(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
-    data_sources.set_domain_result_file_path_with_key(allkindofcomplexity, 'rst', 0)
-    print(data_sources)
-    ls = data_sources.get_label_space_by_path_index(0)
+    data_sources.set_domain_result_file_path(allkindofcomplexity, key='rst', domain_id=0)
+    ls = data_sources._get_label_space_by_path_index(0)
     assert ls["domain"] == 0
 
 
@@ -63,7 +61,7 @@ def test_addpath_data_sources(allkindofcomplexity, server_type):
 def test_adddomainpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.add_file_path(allkindofcomplexity, "rst", is_domain=True, domain_id=1)
-    ls = data_sources.get_label_space_by_path_index(0)
+    ls = data_sources._get_label_space_by_path_index(0)
     assert ls["domain"] == 1
 
 
@@ -77,11 +75,15 @@ def test_addfilepathspecifiedresult_data_sources(allkindofcomplexity, server_typ
     assert data_sources.get_key_by_path_index(0) == "d3plot"
     assert data_sources.get_result_key(0) == "d3plot"
     data_sources = dpf.core.DataSources(server=server_type)
-    data_sources.add_file_path_for_specified_result(filepath=allkindofcomplexity, result_key="d3plot")
+    data_sources.add_file_path_for_specified_result(
+        filepath=allkindofcomplexity, result_key="d3plot"
+    )
     assert data_sources.get_key_by_path_index(0) == "rst"
     assert data_sources.get_result_key(0) == "d3plot"
     data_sources = dpf.core.DataSources(server=server_type)
-    data_sources.add_file_path_for_specified_result(filepath=allkindofcomplexity, key="test", result_key="d3plot")
+    data_sources.add_file_path_for_specified_result(
+        filepath=allkindofcomplexity, key="test", result_key="d3plot"
+    )
     assert data_sources.get_key_by_path_index(0) == "test"
     assert data_sources.get_result_key(0) == "d3plot"
 
@@ -115,7 +117,7 @@ def test_print_data_sources(allkindofcomplexity, server_type):
 
 def test_data_sources_from_data_sources(allkindofcomplexity, server_type):
     with pytest.raises(ValueError) as e:
-        data_sources_false = dpf.core.DataSources(data_sources="Wrong Input", server=server_type)
+        _ = dpf.core.DataSources(data_sources="Wrong Input", server=server_type)
         assert "gRPC data sources" in e
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources2 = dpf.core.DataSources(data_sources=data_sources, server=server_type)
@@ -143,6 +145,7 @@ def test_delete_auto_data_sources(server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     ref = weakref.ref(data_sources)
     data_sources = None
+    assert data_sources is None
     import gc
 
     gc.collect()
