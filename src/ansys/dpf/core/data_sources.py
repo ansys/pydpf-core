@@ -506,7 +506,7 @@ class DataSources:
         return self._api.data_sources_get_key_by_path_index(self, index)
 
     def _get_label_space_by_path_index(self, index) -> LabelSpace:
-        """
+        """Get the label space associated by the server to a path in the DataSources.
 
         Parameters
         ----------
