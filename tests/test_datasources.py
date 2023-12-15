@@ -152,19 +152,13 @@ def test_register_namespace(allkindofcomplexity, server_type):
         assert op.eval() is not None
 
 
-def test_data_sources_get_new_collection_for_results_path(allkindofcomplexity, server_type):
-    data_sources = dpf.core.DataSources(result_path=allkindofcomplexity, server=server_type)
-    collection = data_sources.get_new_collection_for_results_path()
-    print(collection)
-    print(len(collection))
-    print(collection[0])
-    assert collection == []
-
-
-def test_data_sources_get_new_path_collection_for_key(allkindofcomplexity, server_type):
-    data_sources = dpf.core.DataSources(result_path=allkindofcomplexity, server=server_type)
-    collection = data_sources.get_new_path_collection_for_key('rst')
-    print(collection)
-    print(len(collection))
-    print(collection[0])
-    assert collection == []
+def test_data_sources_get_paths(allkindofcomplexity, distributed_files, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_domain_result_file_path(path=distributed_files[0], key="rst", domain_id=0)
+    data_sources.set_domain_result_file_path(path=distributed_files[1], key="d3plot", domain_id=1)
+    assert len(data_sources) == 2
+    assert len(data_sources.get_paths()) == 2
+    assert len(data_sources.get_paths(keys="rst")) == 1
+    assert len(data_sources.get_paths(keys="d3plot")) == 1
+    assert len(data_sources.get_paths(keys=["rst", "d3plot"])) == 2
+    assert len(data_sources.get_paths(keys="test")) == 0
