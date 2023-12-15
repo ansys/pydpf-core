@@ -60,9 +60,9 @@ class LabelSpace:
 
     def __eq__(self, other):
         if isinstance(other, dict):
-            return self.__dict__() == other
+            return dict(self) == other
         elif isinstance(other, LabelSpace):
-            return self.__dict__() == other.__dict__()
+            return dict(self) == dict(other)
         else:
             return False
 
