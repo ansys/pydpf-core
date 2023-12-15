@@ -505,7 +505,7 @@ class DataSources:
         """
         return self._api.data_sources_get_key_by_path_index(self, index)
 
-    def get_label_space_by_path_index(self, index) -> LabelSpace:
+    def _get_label_space_by_path_index(self, index) -> LabelSpace:
         """
 
         Parameters
