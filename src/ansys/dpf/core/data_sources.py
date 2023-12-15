@@ -459,7 +459,7 @@ class DataSources:
     def __getitem__(self, item) -> str:
         return self.get_path_by_path_index(item)
 
-    def get_path_by_path_index(self, index) -> str:
+    def get_path(self, index) -> str:
         """Get the path at the given index in the DataSources.
 
         Parameters
