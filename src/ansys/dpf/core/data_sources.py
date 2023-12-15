@@ -435,15 +435,17 @@ class DataSources:
             out.extend(StringCollection(collection=collection).get_integral_entries())
         return out
 
-    def get_new_collection_for_results_path(self):
-        """
+    @property
+    def result_paths(self) -> List[str]:
+        """Get the list of result paths in the DataSources.
 
         Returns
         -------
-
+        List of result paths.
         """
         from ansys.dpf.core.collection import StringCollection
-        return StringCollection(collection=self._api.data_sources_get_new_collection_for_results_path(self))
+        collection = self._api.data_sources_get_new_collection_for_results_path(self)
+        return StringCollection(collection=collection).get_integral_entries()
 
     def __len__(self) -> int:
         return self.get_size()
