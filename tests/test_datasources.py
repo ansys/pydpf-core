@@ -226,3 +226,22 @@ def test_data_sources_get_label_space_by_path_index(distributed_files, server_ty
     label_space = ds._get_label_space_by_path_index(1)
     print(label_space)
     assert label_space == {'domain': 1, 'group': 2, 'result': 1, 'is_result': 1}
+
+
+def test_data_sources__getitem__(distributed_files, server_type):
+    # Without domain
+    ds = dpf.core.DataSources()
+    ds.add_file_path(filepath=distributed_files[0])
+    assert ds[0] == {'index': 0, 'result': False, 'result_key': None,
+                     'key': 'rst', 'path': distributed_files[0]}
+    ds.set_result_file_path(filepath=distributed_files[1])
+    assert ds[1] == {'index': 1, 'result': True, 'result_key': 'rst',
+                     'key': 'rst', 'path': distributed_files[1]}
+    # With domain
+    ds = dpf.core.DataSources()
+    ds.set_domain_result_file_path(path=distributed_files[0], domain_id=0)
+    ds.set_domain_result_file_path(path=distributed_files[1], domain_id=1)
+    assert ds[0] == {'index': 0, 'result': True, 'result_key': 'rst',
+                     'key': 'rst', 'domain_id': 0, 'path': distributed_files[0]}
+    assert ds[1] == {'index': 1, 'result': True, 'result_key': 'rst',
+                     'key': 'rst', 'domain_id': 1, 'path': distributed_files[1]}

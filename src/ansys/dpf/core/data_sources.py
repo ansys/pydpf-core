@@ -473,8 +473,20 @@ class DataSources:
         """
         return self._api.data_sources_get_size(self)
 
-    def __getitem__(self, item) -> str:
-        return self.get_path_by_path_index(item)
+    def __getitem__(self, index) -> dict:
+        """Returns a dictionary for the file at position index.
+        It contains its path, its key, its domain ID, and whether it is a result file."""
+        out = dict(self._get_label_space_by_path_index(index))
+        out['index'] = out.pop("group") - 1
+        out['result_key'] = out.pop("result")
+        out['result'] = bool(out.pop("is_result"))
+        out['result_key'] = out.pop("result_key")
+        out['result_key'] = self.get_result_key(out["result_key"] - 1)
+        out["key"] = self.get_key_by_path_index(index)
+        if "domain" in out.keys():
+            out['domain_id'] = out.pop("domain")
+        out["path"] = self.get_path(index)
+        return out
 
     def get_path(self, index) -> str:
         """Get the path at the given index in the DataSources.
