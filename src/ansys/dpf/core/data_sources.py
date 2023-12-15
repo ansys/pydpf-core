@@ -275,11 +275,11 @@ class DataSources:
 
     @property
     def result_key(self) -> str:
-        """Result key used by the data sources.
+        """Main (first) result key used by the data sources.
 
         Returns
         -------
-        Result key.
+        Main result key (first if several exist).
 
         """
         return self._api.data_sources_get_result_key(self)
