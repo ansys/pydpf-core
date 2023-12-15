@@ -55,6 +55,16 @@ class OperatorServiceStub(object):
                 request_serializer=operator__pb2.ListAllOperatorsRequest.SerializeToString,
                 response_deserializer=operator__pb2.ListAllOperatorsResponse.FromString,
                 )
+        self.UpdateStreamed = channel.stream_unary(
+                '/ansys.api.dpf.dpf_operator.v0.OperatorService/UpdateStreamed',
+                request_serializer=operator__pb2.ArrayUpdateRequest.SerializeToString,
+                response_deserializer=base__pb2.Empty.FromString,
+                )
+        self.GetStreamed = channel.unary_stream(
+                '/ansys.api.dpf.dpf_operator.v0.OperatorService/GetStreamed',
+                request_serializer=operator__pb2.OperatorEvaluationRequest.SerializeToString,
+                response_deserializer=operator__pb2.ArrayOperatorResponse.FromString,
+                )
 
 
 class OperatorServiceServicer(object):
@@ -109,6 +119,18 @@ class OperatorServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def UpdateStreamed(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetStreamed(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_OperatorServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -151,6 +173,16 @@ def add_OperatorServiceServicer_to_server(servicer, server):
                     servicer.ListAllOperators,
                     request_deserializer=operator__pb2.ListAllOperatorsRequest.FromString,
                     response_serializer=operator__pb2.ListAllOperatorsResponse.SerializeToString,
+            ),
+            'UpdateStreamed': grpc.stream_unary_rpc_method_handler(
+                    servicer.UpdateStreamed,
+                    request_deserializer=operator__pb2.ArrayUpdateRequest.FromString,
+                    response_serializer=base__pb2.Empty.SerializeToString,
+            ),
+            'GetStreamed': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetStreamed,
+                    request_deserializer=operator__pb2.OperatorEvaluationRequest.FromString,
+                    response_serializer=operator__pb2.ArrayOperatorResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -295,5 +327,39 @@ class OperatorService(object):
         return grpc.experimental.unary_stream(request, target, '/ansys.api.dpf.dpf_operator.v0.OperatorService/ListAllOperators',
             operator__pb2.ListAllOperatorsRequest.SerializeToString,
             operator__pb2.ListAllOperatorsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateStreamed(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(request_iterator, target, '/ansys.api.dpf.dpf_operator.v0.OperatorService/UpdateStreamed',
+            operator__pb2.ArrayUpdateRequest.SerializeToString,
+            base__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetStreamed(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/ansys.api.dpf.dpf_operator.v0.OperatorService/GetStreamed',
+            operator__pb2.OperatorEvaluationRequest.SerializeToString,
+            operator__pb2.ArrayOperatorResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

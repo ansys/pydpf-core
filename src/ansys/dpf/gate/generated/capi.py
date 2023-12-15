@@ -1735,6 +1735,10 @@ def load_api(path):
 		dll.CSField_ResizeData.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSField_ResizeData.restype = None
 
+	if hasattr(dll, "CSField_ResizeDataPointer"):
+		dll.CSField_ResizeDataPointer.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSField_ResizeDataPointer.restype = None
+
 	if hasattr(dll, "CSField_GetNumberOfComponents"):
 		dll.CSField_GetNumberOfComponents.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSField_GetNumberOfComponents.restype = ctypes.c_int32
@@ -1754,6 +1758,18 @@ def load_api(path):
 	if hasattr(dll, "CSField_SetName"):
 		dll.CSField_SetName.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSField_SetName.restype = None
+
+	if hasattr(dll, "CSField_GetStringProperty"):
+		dll.CSField_GetStringProperty.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.POINTER(ctypes.c_char)), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSField_GetStringProperty.restype = ctypes.c_bool
+
+	if hasattr(dll, "CSField_AddStringProperty"):
+		dll.CSField_AddStringProperty.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSField_AddStringProperty.restype = None
+
+	if hasattr(dll, "CSField_DelStringProperty"):
+		dll.CSField_DelStringProperty.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSField_DelStringProperty.restype = None
 
 	if hasattr(dll, "CSField_GetSupportAsMeshedRegion"):
 		dll.CSField_GetSupportAsMeshedRegion.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )

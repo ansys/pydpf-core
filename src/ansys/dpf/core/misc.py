@@ -81,6 +81,8 @@ def get_ansys_path(ansys_path=None):
     # First check the environment variable for a custom path
     if ansys_path is None:
         ansys_path = os.environ.get("ANSYS_DPF_PATH")
+        if ansys_path:
+            ansys_path = ansys_path.replace('"', "")
     # Then check for usual installation folders with AWP_ROOT and installed modules
     if ansys_path is None:
         ansys_path = find_ansys()
@@ -105,35 +107,7 @@ def _pythonize_awp_version(version):
 
 
 def _find_latest_ansys_versions():
-    if hasattr(load_api, "_find_latest_ansys_versions"):
-        return load_api._find_latest_ansys_versions()
-    awp_versions = [key[-3:] for key in os.environ.keys() if "AWP_ROOT" in key]
-    installed_packages_list = {}
-
-    for awp_version in awp_versions:
-        if not awp_version.isnumeric():
-            continue
-        ansys_path = os.environ.get("AWP_ROOT" + awp_version)
-        if ansys_path:
-            installed_packages_list[
-                packaging.version.parse(_pythonize_awp_version(awp_version))
-            ] = ansys_path
-
-    installed_packages = pkg_resources.working_set
-    for i in installed_packages:
-        if "ansys-dpf-server" in i.key:
-            file_name = pkg_resources.to_filename(i.project_name.replace("ansys-dpf-", ""))
-            try:
-                module = importlib.import_module("ansys.dpf." + file_name)
-                installed_packages_list[
-                    packaging.version.parse(module.__version__)
-                ] = module.__path__[0]
-            except ModuleNotFoundError:
-                pass
-            except AttributeError:
-                pass
-    if len(installed_packages_list) > 0:
-        return installed_packages_list[sorted(installed_packages_list)[-1]]
+    return load_api._find_latest_ansys_versions()
 
 
 def find_ansys():

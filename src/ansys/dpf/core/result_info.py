@@ -144,9 +144,12 @@ class ResultInfo:
             return txt
         except Exception as e:
             raise e
-            from ansys.dpf.core.core import _description
 
-            return _description(self._internal_obj, self._server)
+    @property
+    def _description(self):
+        from ansys.dpf.core.core import _description
+
+        return _description(self._internal_obj, self._server)
 
     @property
     def _names(self):
