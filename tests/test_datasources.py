@@ -162,3 +162,15 @@ def test_data_sources_get_paths(allkindofcomplexity, distributed_files, server_t
     assert len(data_sources.get_paths(keys="d3plot")) == 1
     assert len(data_sources.get_paths(keys=["rst", "d3plot"])) == 2
     assert len(data_sources.get_paths(keys="test")) == 0
+
+
+def test_data_sources_result_keys(distributed_files, server_type):
+    ds = dpf.core.DataSources(server=server_type)
+    ds.set_domain_result_file_path(path=distributed_files[0], key="rst", domain_id=0)
+    ds.set_domain_result_file_path(path=distributed_files[1], key="d3plot", domain_id=1)
+    result_keys = ds.result_keys
+    assert len(result_keys) == 2
+    assert "d3plot" in result_keys and "rst" in result_keys
+    assert ds.get_result_key() == "rst"
+    assert ds.get_result_key(0) == "rst"
+    assert ds.get_result_key(1) == "d3plot"
