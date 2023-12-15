@@ -376,13 +376,9 @@ class DataSources:
         """
         return self._api.data_sources_get_result_key_by_index(self, index)
 
-    def get_num_result_keys(self) -> int:
-        """
-
-        Returns
-        -------
-
-        """
+    @property
+    def num_result_keys(self) -> int:
+        """Number of results keys in the DataSources."""
         return self._api.data_sources_get_num_result_keys(self)
 
     @property
