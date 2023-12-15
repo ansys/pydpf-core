@@ -386,7 +386,7 @@ class DataSources:
         """List of result keys in the DataSources"""
         # TODO: create server query for list of result keys, vectorize this request
         out = []
-        for i in range(self.get_num_result_keys()):
+        for i in range(self.num_result_keys):
             out.append(self.get_result_key(i))
         return out
 
