@@ -640,11 +640,19 @@ class CServer(BaseServer, ABC):
 
 
 class GrpcClient:
-    def __init__(self, address=None):
+    def __init__(self):
         from ansys.dpf.gate import client_capi
 
-        self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
         client_capi.ClientCAPI.init_client_environment(self)
+
+    def set_address(self, address, server):
+        from ansys.dpf.core import misc, settings
+        if misc.RUNTIME_CLIENT_CONFIG is not None:
+            self_config = settings.get_runtime_client_config(server=server)
+            misc.RUNTIME_CLIENT_CONFIG.copy_config(self_config)
+        from ansys.dpf.gate import client_capi
+        self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
+
 
     def __del__(self):
         try:
@@ -676,8 +684,12 @@ class GrpcServer(CServer):
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load Ans.Dpf.GrpcClient
         self._grpc_client_path = load_api.load_grpc_client(ansys_path=ansys_path)
+
+        self._client = GrpcClient()
         self._own_process = launch_server
         self._local_server = False
+        self._os = None
+        self._version = None
 
         address = f"{ip}:{port}"
 
@@ -707,8 +719,8 @@ class GrpcServer(CServer):
                 launch_dpf(ansys_path, ip, port, timeout=timeout)
                 self._local_server = True
 
-        self._client = GrpcClient(address)
         # store port and ip for later reference
+        self._client.set_address(address, self)
         self._address = address
         self._input_ip = ip
         self._input_port = port
@@ -735,21 +747,24 @@ class GrpcServer(CServer):
 
     @property
     def version(self):
-        from ansys.dpf.gate import data_processing_capi, integral_types
+        if not self._version:
+            from ansys.dpf.gate import data_processing_capi, integral_types
 
-        api = data_processing_capi.DataProcessingCAPI
-        major = integral_types.MutableInt32()
-        minor = integral_types.MutableInt32()
-        api.data_processing_get_server_version_on_client(self.client, major, minor)
-        out = str(int(major)) + "." + str(int(minor))
-        return out
+            api = data_processing_capi.DataProcessingCAPI
+            major = integral_types.MutableInt32()
+            minor = integral_types.MutableInt32()
+            api.data_processing_get_server_version_on_client(self.client, major, minor)
+            self._version = str(int(major)) + "." + str(int(minor))
+        return self._version
 
     @property
     def os(self):
-        from ansys.dpf.gate import data_processing_capi
+        if not self._os:
+            from ansys.dpf.gate import data_processing_capi
 
-        api = data_processing_capi.DataProcessingCAPI
-        return api.data_processing_get_os_on_client(self.client)
+            api = data_processing_capi.DataProcessingCAPI
+            self._os = api.data_processing_get_os_on_client(self.client)
+        return self._os
 
     def _create_shutdown_funcs(self):
         from ansys.dpf.gate import data_processing_capi
@@ -1006,6 +1021,8 @@ class LegacyGrpcServer(BaseServer):
         self._own_process = launch_server
         self.live = False
         self._local_server = False
+        self._stubs = {}
+        self.channel = None
 
         # Load Ans.Dpf.Grpc?
         import grpc
@@ -1043,7 +1060,10 @@ class LegacyGrpcServer(BaseServer):
                 else:
                     launch_dpf(ansys_path, ip, port, timeout=timeout)
                     self._local_server = True
-
+        from ansys.dpf.core import misc, settings
+        if misc.RUNTIME_CLIENT_CONFIG is not None:
+            self_config = settings.get_runtime_client_config(server=self)
+            misc.RUNTIME_CLIENT_CONFIG.copy_config(self_config)
         self.channel = grpc.insecure_channel(address)
 
         # store the address for later reference
@@ -1052,7 +1072,6 @@ class LegacyGrpcServer(BaseServer):
         self._input_port = port
         self.live = True
         self.ansys_path = ansys_path
-        self._stubs = {}
 
         self._create_shutdown_funcs()
 
@@ -1081,7 +1100,7 @@ class LegacyGrpcServer(BaseServer):
         return grpcapi
 
     def create_stub_if_necessary(self, stub_name, stub_type):
-        if not (stub_name in self._stubs.keys()):
+        if self.channel and not stub_name in self._stubs:
             self._stubs[stub_name] = stub_type(self.channel)
 
     def get_stub(self, stub_name):

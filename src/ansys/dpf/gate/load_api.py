@@ -45,6 +45,16 @@ def _get_path_in_install(is_posix: bool = None, internal_folder="dll"):
     return path_in_install
 
 
+def _get_dpf_path_in_install(is_posix: bool = None):
+    if not is_posix:
+        is_posix = os.name == "posix"
+    if not is_posix:
+        path_in_install = os.path.join("dpf", "bin", "winx64")
+    else:
+        path_in_install = os.path.join("dpf", "bin", "linx64")
+    return path_in_install
+
+
 def _pythonize_awp_version(version):
     if len(version) != 3:
         return version
@@ -52,41 +62,56 @@ def _pythonize_awp_version(version):
 
 
 def _find_latest_ansys_versions():
-    installed_packages_list = {}
-
     # Find the latest version of ansys_dpf_server installed in the current Python environment
+    path_per_version = _paths_to_dpf_server_library_installs()
+    if len(path_per_version) > 0:
+        return path_per_version[sorted(path_per_version)[-1]]
+    # If none was found, find the path to the latest local ANSYS install
+    path_per_version = _paths_to_dpf_in_unified_installs()
+    if len(path_per_version) > 0:
+        return path_per_version[sorted(path_per_version)[-1]]
+
+
+def _paths_to_dpf_server_library_installs() -> dict:
+    path_per_version = {}
     installed_packages = pkg_resources.working_set
     for i in installed_packages:
         if "ansys-dpf-server" in i.key:
             file_name = pkg_resources.to_filename(i.project_name.replace("ansys-dpf-", ""))
             try:
                 module = importlib.import_module("ansys.dpf." + file_name)
-                installed_packages_list[
+                path_per_version[
                     packaging.version.parse(module.__version__)
                 ] = module.__path__[0]
             except ModuleNotFoundError:
                 pass
             except AttributeError:
                 pass
-    if len(installed_packages_list) > 0:
-        return installed_packages_list[sorted(installed_packages_list)[-1]]
+    return path_per_version
 
-    # If none was found, find the path to the latest ANSYS install
+def _paths_to_dpf_in_unified_installs() -> dict:
+    path_per_version = {}
     awp_versions = [key[-3:] for key in os.environ.keys() if "AWP_ROOT" in key]
     for awp_version in awp_versions:
         if not awp_version.isnumeric():
             continue
         ansys_path = os.environ.get("AWP_ROOT" + awp_version)
         if ansys_path:
-            installed_packages_list[
+            # Check that this ansys path exists
+            if not os.path.isdir(ansys_path):
+                continue
+            # Check that it contains a DPF install with an aisol folder
+            if not os.path.exists(os.path.join(ansys_path, _get_path_in_install())):
+                continue
+            # Check that it contains a DPF install with a dpf folder (for 231 and above)
+            if not os.path.exists(os.path.join(ansys_path, _get_dpf_path_in_install()))\
+                    and \
+                    int(awp_version) > 222:
+                continue
+            path_per_version[
                 packaging.version.parse(_pythonize_awp_version(awp_version))
             ] = ansys_path
-    if len(installed_packages_list) > 0:
-        return installed_packages_list[sorted(installed_packages_list)[-1]]
-
-
-def _unified_installer_path_if_exists():
-    return _find_latest_ansys_versions()
+    return path_per_version
 
 
 def _get_api_path_from_installer_or_package(ansys_path: str, is_posix: bool):
@@ -194,7 +219,7 @@ def load_client_api(ansys_path=None):
 
     ANSYS_PATH = ansys_path
     if ANSYS_PATH is None:
-        ANSYS_PATH = _unified_installer_path_if_exists()
+        ANSYS_PATH = _find_latest_ansys_versions()
     path = _get_api_path_from_installer_or_package(ANSYS_PATH, ISPOSIX)
 
     return _try_load_api(path=path, name=name)
@@ -209,7 +234,7 @@ def load_grpc_client(ansys_path=None):
 
     ANSYS_PATH = ansys_path
     if ANSYS_PATH is None:
-        ANSYS_PATH = _unified_installer_path_if_exists()
+        ANSYS_PATH = _find_latest_ansys_versions()
     path = _get_api_path_from_installer_or_package(ANSYS_PATH, ISPOSIX)
 
     # PATH should be set only on Windows and only if working

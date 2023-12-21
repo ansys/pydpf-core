@@ -10,6 +10,10 @@ from ansys.dpf.core.server import set_server_configuration  # noqa: F401
 from ansys.dpf.core.server_context import set_default_server_context  # noqa: F401
 from ansys.dpf.core.server_factory import ServerConfig  # noqa: F401
 from ansys.dpf.core import core
+from ansys.dpf.gate import (
+    data_processing_capi,
+    data_processing_grpcapi,
+)
 
 
 def disable_off_screen_rendering() -> None:
@@ -121,8 +125,24 @@ def get_runtime_client_config(server=None):
         with Ans.Dpf.GrpcClient configuration.
 
     """
-    base = core.BaseService(server, load_operators=False)
-    return base.get_runtime_client_config()
+    from ansys.dpf.core.runtime_config import RuntimeClientConfig
+    from ansys.dpf import core as root
+    if server is None:
+        server = root.SERVER
+    if server is not None and server.has_client():
+        _api = server.get_api_for_type(
+            capi=data_processing_capi.DataProcessingCAPI,
+            grpcapi=data_processing_grpcapi.DataProcessingGRPCAPI,
+        )
+        _api.init_data_processing_environment(server)  # creates stub when gRPC
+        data_tree_tmp = _api.data_processing_get_client_config_as_data_tree()
+        config_to_return = RuntimeClientConfig(data_tree=data_tree_tmp, server=server)
+    else:
+        if misc.RUNTIME_CLIENT_CONFIG is None:
+            from ansys.dpf.gate import misc as gate_misc
+            misc.RUNTIME_CLIENT_CONFIG = gate_misc.client_config()
+        config_to_return = misc.RUNTIME_CLIENT_CONFIG
+    return config_to_return
 
 
 def get_runtime_core_config(server=None):

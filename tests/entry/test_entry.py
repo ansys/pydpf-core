@@ -105,6 +105,30 @@ def test_apply_context_remote(remote_config_server_type):
     assert dpf.SERVER.context == dpf.AvailableServerContexts.premium
 
 
+@pytest.mark.order(5)
+@conftest.raises_for_servers_version_under("4.0")
+def test_runtime_client_no_server(remote_config_server_type):
+    dpf.server.shutdown_all_session_servers()
+    dpf.SERVER_CONFIGURATION = remote_config_server_type
+    client_config = dpf.settings.get_runtime_client_config()
+    initial = client_config.stream_floats_instead_of_doubles
+    client_config.stream_floats_instead_of_doubles = True
+    server = dpf.start_local_server(as_global=False)
+    client_config = dpf.settings.get_runtime_client_config(server)
+    assert client_config.stream_floats_instead_of_doubles is True
+
+
+    server = dpf.connect_to_server(
+        ip=server.ip, port=server.port, as_global=False)
+    client_config = dpf.settings.get_runtime_client_config(server)
+    assert client_config.stream_floats_instead_of_doubles is True
+
+    dpf.server.shutdown_all_session_servers()
+    client_config = dpf.settings.get_runtime_client_config()
+    client_config.stream_floats_instead_of_doubles = initial
+    assert client_config.stream_floats_instead_of_doubles == initial
+
+
 @pytest.mark.order("last")  # Mandatory
 @pytest.mark.skipif(
     running_docker or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,

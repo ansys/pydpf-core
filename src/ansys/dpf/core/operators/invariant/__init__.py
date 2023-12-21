@@ -1,5 +1,6 @@
 from .convertnum_bcs_to_nod import convertnum_bcs_to_nod 
 from .convertnum_nod_to_bcs import convertnum_nod_to_bcs 
+from .convertnum_op import convertnum_op 
 from .eigen_values import eigen_values 
 from .eigen_values_fc import eigen_values_fc 
 from .eigen_vectors import eigen_vectors 

@@ -653,6 +653,9 @@ class _LocalDataTree(DataTree):
         else:
             print(tb)
 
+    def to_dict(self):
+        return self._dict
+
     def __del__(self):
         if not self._is_exited:
             self._is_exited = True

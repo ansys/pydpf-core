@@ -12,15 +12,23 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class solid_to_skin_fc(Operator):
     """Maps a field defined on solid elements to a field defined on skin
-    elements.
+    elements. Three cases are possible, based on the solid field data
+    location; (i) Elemental: The values associated with the solid
+    elements are copied according to those underlying the skin, (ii)
+    Nodal: The solid field is rescoped with respect to the nodes of
+    the skin mesh, (iii) ElementalNodal: The values are copied from
+    the solid mesh to the skin mesh for each element face and the
+    nodes associated with it.
 
     Parameters
     ----------
     fields_container : FieldsContainer
         Field or fields container with only one field
         is expected
-    mesh : MeshedRegion, optional
+    mesh : MeshedRegion
         Skin mesh region expected
+    solid_mesh : MeshedRegion, optional
+        Solid mesh support (optional).
 
 
     Examples
@@ -35,18 +43,28 @@ class solid_to_skin_fc(Operator):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_solid_mesh = dpf.MeshedRegion()
+    >>> op.inputs.solid_mesh.connect(my_solid_mesh)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.mapping.solid_to_skin_fc(
     ...     fields_container=my_fields_container,
     ...     mesh=my_mesh,
+    ...     solid_mesh=my_solid_mesh,
     ... )
 
     >>> # Get output data
     >>> result_fields_container = op.outputs.fields_container()
     """
 
-    def __init__(self, fields_container=None, mesh=None, config=None, server=None):
+    def __init__(
+        self,
+        fields_container=None,
+        mesh=None,
+        solid_mesh=None,
+        config=None,
+        server=None,
+    ):
         super().__init__(name="solid_to_skin_fc", config=config, server=server)
         self._inputs = InputsSolidToSkinFc(self)
         self._outputs = OutputsSolidToSkinFc(self)
@@ -54,11 +72,20 @@ class solid_to_skin_fc(Operator):
             self.inputs.fields_container.connect(fields_container)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
+        if solid_mesh is not None:
+            self.inputs.solid_mesh.connect(solid_mesh)
 
     @staticmethod
     def _spec():
         description = """Maps a field defined on solid elements to a field defined on skin
-            elements."""
+            elements. Three cases are possible, based on the solid
+            field data location; (i) Elemental: The values associated
+            with the solid elements are copied according to those
+            underlying the skin, (ii) Nodal: The solid field is
+            rescoped with respect to the nodes of the skin mesh, (iii)
+            ElementalNodal: The values are copied from the solid mesh
+            to the skin mesh for each element face and the nodes
+            associated with it."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -72,8 +99,14 @@ class solid_to_skin_fc(Operator):
                 1: PinSpecification(
                     name="mesh",
                     type_names=["abstract_meshed_region"],
-                    optional=True,
+                    optional=False,
                     document="""Skin mesh region expected""",
+                ),
+                2: PinSpecification(
+                    name="solid_mesh",
+                    type_names=["abstract_meshed_region"],
+                    optional=True,
+                    document="""Solid mesh support (optional).""",
                 ),
             },
             map_output_pin_spec={
@@ -136,6 +169,8 @@ class InputsSolidToSkinFc(_Inputs):
     >>> op.inputs.fields_container.connect(my_fields_container)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
+    >>> my_solid_mesh = dpf.MeshedRegion()
+    >>> op.inputs.solid_mesh.connect(my_solid_mesh)
     """
 
     def __init__(self, op: Operator):
@@ -144,6 +179,8 @@ class InputsSolidToSkinFc(_Inputs):
         self._inputs.append(self._fields_container)
         self._mesh = Input(solid_to_skin_fc._spec().input_pin(1), 1, op, -1)
         self._inputs.append(self._mesh)
+        self._solid_mesh = Input(solid_to_skin_fc._spec().input_pin(2), 2, op, -1)
+        self._inputs.append(self._solid_mesh)
 
     @property
     def fields_container(self):
@@ -185,6 +222,26 @@ class InputsSolidToSkinFc(_Inputs):
         >>> op.inputs.mesh(my_mesh)
         """
         return self._mesh
+
+    @property
+    def solid_mesh(self):
+        """Allows to connect solid_mesh input to the operator.
+
+        Solid mesh support (optional).
+
+        Parameters
+        ----------
+        my_solid_mesh : MeshedRegion
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.mapping.solid_to_skin_fc()
+        >>> op.inputs.solid_mesh.connect(my_solid_mesh)
+        >>> # or
+        >>> op.inputs.solid_mesh(my_solid_mesh)
+        """
+        return self._solid_mesh
 
 
 class OutputsSolidToSkinFc(_Outputs):
