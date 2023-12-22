@@ -74,6 +74,16 @@ class Collection:
         # step3: init environment
         self._api.init_collection_environment(self)  # creates stub when gRPC
 
+    @property
+    def name(self) -> str:
+        """Name of the Collection."""
+        return self._api.collection_get_name(self)
+
+    @name.setter
+    def name(self, name: str):
+        """Set the name of the Collection."""
+        self._api.collection_set_name(self, name=name)
+
     @abc.abstractmethod
     def create_subtype(self, obj_by_copy):
         pass
