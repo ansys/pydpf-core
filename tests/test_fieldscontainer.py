@@ -29,6 +29,13 @@ def test_create_fields_container(server_type):
     assert fc._internal_obj is not None
 
 
+def test_rename_fields_container(server_type):
+    fc = FieldsContainer(server=server_type)
+    assert fc.name is None
+    fc.name = "test"
+    assert fc.name == "test"
+
+
 def test_empty_index(server_type):
     fc = FieldsContainer(server=server_type)
     with pytest.raises(IndexError):
