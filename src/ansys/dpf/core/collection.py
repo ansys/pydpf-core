@@ -75,19 +75,23 @@ class Collection:
         # step3: init environment
         self._api.init_collection_environment(self)  # creates stub when gRPC
 
-    @version_requires("8.0")
     @property
-    def name(self) -> str:
+    @version_requires("8.0")
+    def name(self):
         """Name of the Collection.
 
         Notes
         -----
         Available starting with DPF 2024 R2 pre0.
+
+        Returns
+        -------
+        str
         """
         return self._api.collection_get_name(self)
 
-    @version_requires("8.0")
     @name.setter
+    @version_requires("8.0")
     def name(self, name: str):
         """Set the name of the Collection.
 
