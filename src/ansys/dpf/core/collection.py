@@ -88,7 +88,8 @@ class Collection:
         -------
         str
         """
-        return self._api.collection_get_name(self)
+        out = self._api.collection_get_name(self)
+        return out if out != '' else None
 
     @name.setter
     @version_requires("8.0")
