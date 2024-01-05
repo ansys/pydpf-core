@@ -240,12 +240,11 @@ class Result:
         elif self._mesh_scoping:
             op.inputs.mesh_scoping(self._mesh_scoping)
 
-        if region_scoping:
-            pass
-        elif self._region_scoping:
-            region_scoping = self._region_scoping
         if hasattr(op.inputs, "region_scoping"):
-            op.inputs.region_scoping(region_scoping)
+            if region_scoping:
+                op.inputs.region_scoping(region_scoping)
+            elif self._region_scoping:
+                op.inputs.region_scoping(self._region_scoping)
 
         if self._location:
             op.inputs.requested_location(self._location)
