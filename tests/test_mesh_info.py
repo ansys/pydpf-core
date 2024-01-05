@@ -465,8 +465,8 @@ def test_output_mesh_info_provider_flprj(fluent_axial_comp, server_clayer):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_mesh_info_zones(fluent_multi_species, server_type):
-    model = dpf.Model(fluent_multi_species(server_type), server=server_type)
+def test_mesh_info_zones(fluent_multi_species, server_clayer):
+    model = dpf.Model(fluent_multi_species(server_clayer), server=server_clayer)
     mesh_info = model.metadata.mesh_info
     ref_zones = {
         '1': 'fluid-1',

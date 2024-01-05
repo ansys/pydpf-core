@@ -232,6 +232,9 @@ class MeshInfo:
         -------
         part_scoping : Scoping
             part Scoping of the mesh (if it can be split by parts)
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
         """
 
         if "part_scoping" in self._generic_data_container.get_property_description():
@@ -274,6 +277,9 @@ class MeshInfo:
         -------
         zone_names : StringField
             zone_names of the mesh (if it can be split by zones)
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
         """
 
         if "zone_names" in self._generic_data_container.get_property_description():
@@ -289,6 +295,9 @@ class MeshInfo:
         -------
         zones:
             Map of zone IDs to zone names.
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
         """
         if self._zone_map:
             return self._zone_map
@@ -309,6 +318,9 @@ class MeshInfo:
         -------
         face_zones:
             Map of face zone IDs to face zone names.
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
         """
         if self._face_zone_map:
             return self._face_zone_map
@@ -332,6 +344,9 @@ class MeshInfo:
         -------
         cell_zones:
             Map of cell zone IDs to face zone names.
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
         """
         if self._cell_zone_map:
             return self._cell_zone_map
@@ -354,6 +369,9 @@ class MeshInfo:
         -------
         zone_scoping : Scoping
             zone Scoping of the mesh (if it can be split by zone)
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
         """
 
         if "zone_scoping" in self._generic_data_container.get_property_description():
