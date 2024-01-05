@@ -460,3 +460,32 @@ def test_output_mesh_info_provider_flprj(fluent_axial_comp, server_clayer):
     assert face_zone_elements_value[15] == 288
     assert face_zone_elements_value[20] == 48
     assert face_zone_elements_value[23] == 64
+
+
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
+def test_mesh_info_zones(fluent_multi_species, server_type):
+    model = dpf.Model(fluent_multi_species(server_type), server=server_type)
+    mesh_info = model.metadata.mesh_info
+    ref_zones = {
+        '1': 'fluid-1',
+        '3': 'interior-3',
+        '4': 'symmetry-4',
+        '5': 'pressure-outlet-5',
+        '6': 'wall-6',
+        '7': 'velocity-inlet-7'
+    }
+    assert mesh_info.zones == ref_zones
+    ref_cell_zones = {
+        '1': 'fluid-1'
+    }
+    assert mesh_info.cell_zones == ref_cell_zones
+    ref_face_zones = {
+        '3': 'interior-3',
+        '4': 'symmetry-4',
+        '5': 'pressure-outlet-5',
+        '6': 'wall-6',
+        '7': 'velocity-inlet-7'
+    }
+    assert mesh_info.face_zones == ref_face_zones
