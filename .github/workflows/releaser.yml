@@ -86,12 +86,14 @@ jobs:
           ref: ${{ github.event.inputs.checkout_ref || '' }}
 
       - name: "Install the package requirements"
-        run: pip install -e .
+        run: |
+          python3 -m venv .venv
+          .venv/bin/python -m pip install -e .
 
       - name: "Get the version to PyMeilisearch"
         run: |
-          VERSION=$(python -c "from ansys.dpf.core import __version__; print('.'.join(__version__.split('.')[:2]))")
-          VERSION_MEILI=$(python -c "from ansys.dpf.core import __version__; print('-'.join(__version__.split('.')[:2]))")
+          VERSION=$(.venv/bin/python -c "from ansys.dpf.core import __version__; print('.'.join(__version__.split('.')[:2]))")
+          VERSION_MEILI=$(.venv/bin/python -c "from ansys.dpf.core import __version__; print('-'.join(__version__.split('.')[:2]))")
           echo "Calculated VERSION: $VERSION"
           echo "Calculated VERSION_MEILI: $VERSION_MEILI"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
