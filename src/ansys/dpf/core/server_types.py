@@ -416,7 +416,7 @@ class BaseServer(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def get_api_for_type(self, c_api, grpc_api):
+    def get_api_for_type(self, capi, grpcapi):
         pass
 
     @property
