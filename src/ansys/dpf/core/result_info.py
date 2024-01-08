@@ -87,7 +87,7 @@ class ResultInfo:
 
     """
 
-    def __init__(self, result_info, server=None):
+    def __init__(self, result_info=None, server=None, analysis_type=None, physics_type=None):
         """Initialize with a ResultInfo message"""
         # ############################
         # step 1: get server
@@ -109,7 +109,10 @@ class ResultInfo:
             else:
                 self._internal_obj = result_info
         elif result_info is None:
-            raise Exception("Result_info given is None")
+            if self._server.has_client():
+                self._internal_obj = self._api.result_info_new(analysis_type=analysis_type, physics_type=physics_type)
+            else:
+                raise Exception("Cannot create a new Result_info via gRPC.")
 
     def __str__(self):
         try:
