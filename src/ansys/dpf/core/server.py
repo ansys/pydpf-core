@@ -11,6 +11,7 @@ import platform
 import inspect
 import warnings
 import traceback
+from typing import Union
 
 from ansys import dpf
 
@@ -22,7 +23,7 @@ from ansys.dpf.core.server_factory import (
     ServerFactory,
     CommunicationProtocols,
 )
-from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER
+from ansys.dpf.core.server_types import DPF_DEFAULT_PORT, LOCALHOST, RUNNING_DOCKER, BaseServer
 from ansys.dpf.core import server_context
 
 
@@ -382,7 +383,7 @@ def connect_to_server(
         raise e
 
 
-def get_or_create_server(server):
+def get_or_create_server(server: BaseServer) -> Union[BaseServer, None]:
     """Returns the given server or if None, creates a new one.
 
     Parameters
