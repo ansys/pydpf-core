@@ -58,6 +58,22 @@ class LabelSpace:
             ] = self._api.label_space_get_labels_value(self, i)
         return out
 
+    def __eq__(self, other):
+        if isinstance(other, dict):
+            return dict(self) == other
+        elif isinstance(other, LabelSpace):
+            return dict(self) == dict(other)
+        else:
+            return False
+
+    def __getitem__(self, item):
+        if isinstance(item, int):
+            return list(self.__dict__().items())[item]
+        return self.__dict__()[item]
+
+    def __str__(self):
+        return "LabelSpace"+str(self.__dict__())
+
     def __del__(self):
         try:
             self._deleter_func[0](self._deleter_func[1](self))

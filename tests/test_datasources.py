@@ -15,31 +15,77 @@ def test_create_data_sources(server_type):
 def test_create_with_resultpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)
     assert data_sources._internal_obj
+    assert data_sources.get_path(0) == allkindofcomplexity
+    assert data_sources[0] == allkindofcomplexity
+    assert len(data_sources) == 1
+    assert data_sources.get_namespace("rst") == "mapdl"
+    assert data_sources.result_key == "rst"
+    assert data_sources.num_result_keys == 1
+    assert data_sources.get_result_key(0) == "rst"
 
 
 def test_setresultpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_result_file_path(allkindofcomplexity)
+    assert len(data_sources) == 1
+    assert data_sources[0] == allkindofcomplexity
+    assert data_sources.num_result_keys == 1
+    assert data_sources.result_key == "rst"
+    assert data_sources.get_result_key(0) == "rst"
+    assert data_sources.get_key_by_path_index(0) == "rst"
+    assert data_sources.result_files == [allkindofcomplexity]
+    assert data_sources.get_namespace(data_sources.get_key_by_path_index(0)) == "mapdl"
 
 
 def test_setdomainresultpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.set_domain_result_file_path(allkindofcomplexity, 0)
+    ls = data_sources._get_label_space_by_path_index(0)
+    assert ls["domain"] == 0
+
+
+def test_setdomainresultpath_data_sources_with_key(allkindofcomplexity, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_domain_result_file_path(allkindofcomplexity, key="rst", domain_id=0)
+    ls = data_sources._get_label_space_by_path_index(0)
+    assert ls["domain"] == 0
 
 
 def test_addpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
+    assert len(data_sources) == 0
     data_sources.add_file_path(allkindofcomplexity)
+    assert len(data_sources) == 1
 
 
 def test_adddomainpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.add_file_path(allkindofcomplexity, "rst", is_domain=True, domain_id=1)
+    ls = data_sources._get_label_space_by_path_index(0)
+    assert ls["domain"] == 1
 
 
 def test_addfilepathspecifiedresult_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
-    data_sources.add_file_path_for_specified_result(allkindofcomplexity, "d3plot")
+    data_sources.add_file_path_for_specified_result(filepath=allkindofcomplexity)
+    assert data_sources.get_key_by_path_index(0) == "rst"
+    assert data_sources.get_result_key(0) == "rst"
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.add_file_path_for_specified_result(filepath=allkindofcomplexity, key="d3plot")
+    assert data_sources.get_key_by_path_index(0) == "d3plot"
+    assert data_sources.get_result_key(0) == "d3plot"
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.add_file_path_for_specified_result(
+        filepath=allkindofcomplexity, result_key="d3plot"
+    )
+    assert data_sources.get_key_by_path_index(0) == "rst"
+    assert data_sources.get_result_key(0) == "d3plot"
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.add_file_path_for_specified_result(
+        filepath=allkindofcomplexity, key="test", result_key="d3plot"
+    )
+    assert data_sources.get_key_by_path_index(0) == "test"
+    assert data_sources.get_result_key(0) == "d3plot"
 
 
 def test_setresultpath_data_sources_no_extension(d3plot_beam, binout_glstat, server_type):
@@ -71,10 +117,11 @@ def test_print_data_sources(allkindofcomplexity, server_type):
 
 def test_data_sources_from_data_sources(allkindofcomplexity, server_type):
     with pytest.raises(ValueError) as e:
-        data_sources_false = dpf.core.DataSources(data_sources="Wrong Input", server=server_type)
+        _ = dpf.core.DataSources(data_sources="Wrong Input", server=server_type)
         assert "gRPC data sources" in e
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources2 = dpf.core.DataSources(data_sources=data_sources, server=server_type)
+    assert data_sources == data_sources2
 
 
 @pytest.mark.skipif(
@@ -87,6 +134,7 @@ def test_several_result_path_data_sources(server_type):
     data_sources.set_result_file_path("file_bye.rst")
     assert data_sources.result_key == "rst"
     assert data_sources.result_files == ["file_hello.rst", "file_bye.rst"]
+    assert len(data_sources) == 2
 
 
 @pytest.mark.skipif(
@@ -97,6 +145,7 @@ def test_delete_auto_data_sources(server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     ref = weakref.ref(data_sources)
     data_sources = None
+    assert data_sources is None
     import gc
 
     gc.collect()
@@ -109,7 +158,90 @@ def test_register_namespace(allkindofcomplexity, server_type):
     data_sources.set_result_file_path(allkindofcomplexity)
     op = dpf.core.operators.result.displacement(data_sources=data_sources, server=server_type)
     assert op.eval() is not None
+    assert data_sources.get_namespace("rst") == "mapdl"
     data_sources.register_namespace("rst", "notmapdl")
+    assert data_sources.get_namespace("rst") == "notmapdl"
     with pytest.raises(Exception):
         op = dpf.core.operators.result.displacement(data_sources=data_sources, server=server_type)
         assert op.eval() is not None
+
+
+def test_data_sources_get_path(distributed_files, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_domain_result_file_path(path=distributed_files[0], key="rst", domain_id=0)
+    data_sources.set_domain_result_file_path(path=distributed_files[1], key="d3plot", domain_id=1)
+    data_sources.add_file_path(filepath=distributed_files[0])
+    assert data_sources.get_path(0) == distributed_files[0]
+    assert data_sources.get_path(1) == distributed_files[1]
+    assert data_sources.get_path(2) == distributed_files[0]
+
+
+def test_data_sources_get_paths(distributed_files, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_domain_result_file_path(path=distributed_files[0], key="rst", domain_id=0)
+    data_sources.set_domain_result_file_path(path=distributed_files[1], key="d3plot", domain_id=1)
+    assert len(data_sources) == 2
+    assert len(data_sources.get_paths()) == 2
+    assert len(data_sources.get_paths(keys="rst")) == 1
+    assert len(data_sources.get_paths(keys="d3plot")) == 1
+    assert len(data_sources.get_paths(keys=["rst", "d3plot"])) == 2
+    assert len(data_sources.get_paths(keys="test")) == 0
+
+
+def test_data_sources_result_paths(distributed_files, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.set_result_file_path(filepath=distributed_files[0], key="d3plot")
+    data_sources.add_file_path_for_specified_result(filepath=distributed_files[1])
+    assert data_sources.result_key == "d3plot"
+    assert data_sources.result_keys == ["d3plot", "rst"]
+    assert data_sources.result_paths == [distributed_files[0], distributed_files[1]]
+
+
+def test_data_sources_result_keys(distributed_files, server_type):
+    ds = dpf.core.DataSources(server=server_type)
+    ds.set_domain_result_file_path(path=distributed_files[0], key="rst", domain_id=0)
+    ds.set_domain_result_file_path(path=distributed_files[1], key="d3plot", domain_id=1)
+    result_keys = ds.result_keys
+    assert len(result_keys) == 2
+    assert "d3plot" in result_keys and "rst" in result_keys
+    assert ds.get_result_key() == "rst"
+    assert ds.get_result_key(0) == "rst"
+    assert ds.get_result_key(1) == "d3plot"
+
+
+def test_data_sources_get_label_space_by_path_index(distributed_files, server_type):
+    from ansys.dpf.core.label_space import LabelSpace
+    ds = dpf.core.DataSources(result_path=distributed_files[0], server=server_type)
+    label_space = ds._get_label_space_by_path_index(0)
+    assert isinstance(label_space, LabelSpace)
+    assert label_space == {'group': 1, 'result': 1, 'is_result': 1}
+
+    ds = dpf.core.DataSources(server=server_type)
+    ds.set_domain_result_file_path(path=distributed_files[0], domain_id=0)
+    ds.set_domain_result_file_path(path=distributed_files[1], domain_id=1)
+    print(ds)
+    label_space = ds._get_label_space_by_path_index(0)
+    print(label_space)
+    assert label_space == {'domain': 0, 'group': 1, 'result': 1, 'is_result': 1}
+    label_space = ds._get_label_space_by_path_index(1)
+    print(label_space)
+    assert label_space == {'domain': 1, 'group': 2, 'result': 1, 'is_result': 1}
+
+
+def test_data_sources__getitem__(distributed_files, server_type):
+    # Without domain
+    ds = dpf.core.DataSources()
+    ds.add_file_path(filepath=distributed_files[0])
+    assert ds[0] == {'index': 0, 'result': False, 'result_key': None,
+                     'key': 'rst', 'path': distributed_files[0]}
+    ds.set_result_file_path(filepath=distributed_files[1])
+    assert ds[1] == {'index': 1, 'result': True, 'result_key': 'rst',
+                     'key': 'rst', 'path': distributed_files[1]}
+    # With domain
+    ds = dpf.core.DataSources()
+    ds.set_domain_result_file_path(path=distributed_files[0], domain_id=0)
+    ds.set_domain_result_file_path(path=distributed_files[1], domain_id=1)
+    assert ds[0] == {'index': 0, 'result': True, 'result_key': 'rst',
+                     'key': 'rst', 'domain_id': 0, 'path': distributed_files[0]}
+    assert ds[1] == {'index': 1, 'result': True, 'result_key': 'rst',
+                     'key': 'rst', 'domain_id': 1, 'path': distributed_files[1]}

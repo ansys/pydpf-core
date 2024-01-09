@@ -28,6 +28,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
 	@staticmethod
 	def data_sources_delete(dataSources):
+		# TODO: Unused, to deprecate? used is data_processing_delete_shared_object
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_delete(dataSources._internal_obj if dataSources is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -37,6 +38,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
 	@staticmethod
 	def data_sources_set_result_file_path(dataSources, name):
+		# TODO: Unused, to deprecate, use data_sources_set_result_file_path_utf8
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_SetResultFilePath(dataSources._internal_obj if dataSources is not None else None, name, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -46,6 +48,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
 	@staticmethod
 	def data_sources_set_result_file_path_with_key(dataSources, name, sKey):
+		# TODO: Unused, to deprecate, use data_sources_set_result_file_path_with_key_utf8
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_SetResultFilePathWithKey(dataSources._internal_obj if dataSources is not None else None, name, utils.to_char_ptr(sKey), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -55,6 +58,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
 	@staticmethod
 	def data_sources_set_domain_result_file_path_with_key(dataSources, name, sKey, id):
+		# TODO: Unused, to deprecate, use data_sources_set_domain_result_file_path_with_key_utf8
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_SetDomainResultFilePathWithKey(dataSources._internal_obj if dataSources is not None else None, name, utils.to_char_ptr(sKey), utils.to_int32(id), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -64,6 +68,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
 	@staticmethod
 	def data_sources_add_file_path(dataSources, name):
+		# TODO: Unused, to deprecate, use data_sources_add_file_path_utf8
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_AddFilePath(dataSources._internal_obj if dataSources is not None else None, name, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -73,6 +78,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
 	@staticmethod
 	def data_sources_add_file_path_with_key(dataSources, name, sKey):
+		# TODO: Unused, to deprecate, use data_sources_add_file_path_with_key_utf8
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_AddFilePathWithKey(dataSources._internal_obj if dataSources is not None else None, name, utils.to_char_ptr(sKey), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -82,6 +88,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 
 	@staticmethod
 	def data_sources_add_file_path_for_specified_result(dataSources, name, sKey, sResultKey):
+		# TODO: Unused, to deprecate, use data_sources_add_file_path_for_specified_result_utf8
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_AddFilePathForSpecifiedResult(dataSources._internal_obj if dataSources is not None else None, name, utils.to_char_ptr(sKey), utils.to_char_ptr(sResultKey), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
@@ -338,7 +345,7 @@ class DataSourcesCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
 		return res
 
 	@staticmethod
-	def data_sources_get_copy(id, client):
+	def data_sources_get_copy(id, client):  # TODO: Unused for all types
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.DataSources_getCopy(utils.to_int32(id), client._internal_obj if client is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))

@@ -4,9 +4,11 @@
 Data Sources
 ============
 """
+from __future__ import annotations
 import os
 import warnings
 import traceback
+from typing import List, Union
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
@@ -19,6 +21,7 @@ from ansys.dpf.gate import (
 
 from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core import errors
+from ansys.dpf.core.label_space import LabelSpace
 
 
 class DataSources:
@@ -51,7 +54,7 @@ class DataSources:
 
     """
 
-    def __init__(self, result_path=None, data_sources=None, server=None):
+    def __init__(self, result_path: Union[str, os.PathLike] = None, data_sources=None, server=None):
         """Initialize a connection with the server."""
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
@@ -93,7 +96,7 @@ class DataSources:
         if result_path is not None:
             self.set_result_file_path(result_path)
 
-    def set_result_file_path(self, filepath, key=""):
+    def set_result_file_path(self, filepath: Union[str, os.PathLike], key: str = ""):
         """Add a result file path to the data sources.
 
         Parameters
@@ -125,7 +128,7 @@ class DataSources:
             self._api.data_sources_set_result_file_path_with_key_utf8(self, str(filepath), key)
 
     @staticmethod
-    def guess_result_key(filepath: str) -> str:
+    def guess_result_key(filepath: Union[str, os.PathLike]) -> str:
         """Guess result key for files without a file extension."""
         result_keys = ["d3plot", "binout"]
         base_name = os.path.basename(filepath)
@@ -135,18 +138,22 @@ class DataSources:
                 return result_key
         return ""
 
-    def set_domain_result_file_path(self, path, domain_id):
-        """Add a result file path by domain.
+    def set_domain_result_file_path(
+        self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
+    ):
+        """Associate a result file path to a spatial domain for distributed results.
 
         This method is used to handle files created by a
         distributed solve.
 
         Parameters
         ----------
-        path: str or os.PathLike object
+        path:
             Path to the file.
-        domain_id: int
-            Domain ID for the distributed files.
+        domain_id:
+            Spatial domain ID associated to the file.
+        key:
+            Override key to associate to the file when the detected key is wrong.
 
         Examples
         --------
@@ -156,9 +163,20 @@ class DataSources:
         >>> data_sources.set_domain_result_file_path('/tmp/file1.sub', 1)
 
         """
-        self._api.data_sources_set_domain_result_file_path_utf8(self, str(path), domain_id)
+        if key:
+            self._api.data_sources_set_domain_result_file_path_with_key_utf8(
+                self, str(path), key, domain_id
+            )
+        else:
+            self._api.data_sources_set_domain_result_file_path_utf8(self, str(path), domain_id)
 
-    def add_file_path(self, filepath, key="", is_domain: bool = False, domain_id=0):
+    def add_file_path(
+        self,
+        filepath: Union[str, os.PathLike],
+        key: str = "",
+        is_domain: bool = False,
+        domain_id: int = 0,
+    ):
         """Add a file path to the data sources.
 
         Files not added as result files are accessory files, which contain accessory
@@ -166,15 +184,15 @@ class DataSources:
 
         Parameters
         ----------
-        filepath : str or os.PathLike object
+        filepath:
             Path of the file.
-        key : str, optional
+        key:
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator. The default is ``""``,
             in which case the key is found directly.
-        is_domain: bool, optional
+        is_domain:
             Whether the file path is the domain path. The default is ``False``.
-        domain_id: int, optional
+        domain_id:
             Domain ID for the distributed files. The default is ``0``. For this
             parameter to be taken into account, ``domain_path=True`` must be set.
         Examples
@@ -201,7 +219,9 @@ class DataSources:
             else:
                 self._api.data_sources_add_file_path_with_key_utf8(self, str(filepath), key)
 
-    def add_file_path_for_specified_result(self, filepath, key="", result_key=""):
+    def add_file_path_for_specified_result(
+        self, filepath: Union[str, os.PathLike], key: str = "", result_key: str = ""
+    ):
         """Add a file path for a specified result file key to the data sources.
 
         This method can be used when results files with different keys (extensions) are
@@ -210,13 +230,13 @@ class DataSources:
 
         Parameters
         ----------
-        filepath : str or os.PathLike object
+        filepath:
             Path of the file.
-        key : str, optional
+        key:
             Extension of the file, which is used as a key for choosing the correct
             plugin when a result is requested by an operator. The default is ``""``,
             in which case the key is found directly.
-        result_key: str, optional
+        result_key:
             Extension of the results file that the specified file path belongs to.
             The default is ``""``, in which case the key is found directly.
         """
@@ -224,12 +244,17 @@ class DataSources:
         if not os.path.dirname(filepath):
             # append local path
             filepath = os.path.join(os.getcwd(), os.path.basename(filepath))
-
+        if key == "":
+            key = self.guess_result_key(filepath)
+        if key == "":  # TODO: check why the server does not associate a key automatically
+            key = os.path.splitext(filepath)[1].lstrip(".")
+        if result_key == "":  # TODO: check why the server does not associate a result key
+            result_key = key
         self._api.data_sources_add_file_path_for_specified_result_utf8(
             self, str(filepath), key, result_key
         )
 
-    def add_upstream(self, upstream_data_sources, result_key=""):
+    def add_upstream(self, upstream_data_sources: DataSources, result_key: str = ""):
         """Add upstream data sources.
 
         This is used to add a set of path creating an upstream for
@@ -237,10 +262,10 @@ class DataSources:
 
         Parameters
         ----------
-        upstream_data_sources : DataSources
+        upstream_data_sources:
             Set of paths creating an upstream for recursive workflows.
 
-        result_key: str, optional
+        result_key:
             Extension of the result file group with which this upstream belongs
 
         """
@@ -251,7 +276,7 @@ class DataSources:
                 self, upstream_data_sources, result_key
             )
 
-    def add_upstream_for_domain(self, upstream_data_sources, domain_id):
+    def add_upstream_for_domain(self, upstream_data_sources: DataSources, domain_id: int):
         """Add an upstream data sources for a given domain.
 
         This is used to add a set of path creating an upstream for
@@ -259,10 +284,10 @@ class DataSources:
 
         Parameters
         ----------
-        upstream_data_sources : DataSources
+        upstream_data_sources:
             Set of paths creating an upstream for recursive workflows.
 
-        domain_id: int
+        domain_id:
             Domain id for distributed files.
 
         """
@@ -271,19 +296,18 @@ class DataSources:
         )
 
     @property
-    def result_key(self):
-        """Result key used by the data sources.
+    def result_key(self) -> str:
+        """Main (first) result key used by the data sources.
 
         Returns
         -------
-        str
-           Result key.
+        Main result key (first if several exist).
 
         """
         return self._api.data_sources_get_result_key(self)
 
     @property
-    def result_files(self):
+    def result_files(self) -> Union[list[str], None]:
         """List of result files contained in the data sources.
 
         Returns
@@ -336,3 +360,176 @@ class DataSources:
         except:
             warnings.warn(traceback.format_exc())
             pass
+
+    def __eq__(self, other: DataSources):
+        if not isinstance(other, DataSources):
+            return False
+        if self.result_key != other.result_key:
+            return False
+        if len(self) != len(other):
+            return False
+        if self.result_files != other.result_files:
+            return False
+        # TODO: add namespace check for each key
+        # TODO: add domain check
+        return True
+
+    def get_result_key(self, index: int = 0) -> str:
+        """Get the result key at the given index in the DataSources.
+
+        Parameters
+        ----------
+        index:
+            Index of the result key in the DataSources.
+
+        Returns
+        -------
+
+        """
+        return self._api.data_sources_get_result_key_by_index(self, index)
+
+    @property
+    def num_result_keys(self) -> int:
+        """Number of results keys in the DataSources."""
+        return self._api.data_sources_get_num_result_keys(self)
+
+    @property
+    def result_keys(self) -> List[str]:
+        """List of result keys in the DataSources"""
+        # TODO: create server query for list of result keys, vectorize this request
+        out = []
+        for i in range(self.num_result_keys):
+            out.append(self.get_result_key(i))
+        return out
+
+    def get_namespace(self, key: str) -> str:
+        """Retrieves the namespace currently associated to the given key.
+
+        The namespace associated to a key defines which version of the operators
+        to use with this file. The "rst" key is for example typically associated
+        with the "mapdl" version of the operators.
+
+        Parameters
+        ----------
+        key:
+            Key of which to get the associated namespace.
+
+        Returns
+        -------
+        namespace:
+            Current namespace associated to the key.
+        """
+        return self._api.data_sources_get_namespace(self, key)
+
+    def get_paths(self, keys: Union[str, List[str], None] = None) -> List[str]:
+        """
+
+        Parameters
+        ----------
+        keys:
+            Return only paths associated with the key or list of keys, or all keys if None given.
+
+        Returns
+        -------
+
+        """
+        from ansys.dpf.core.collection import StringCollection
+
+        out = []
+        if keys is None:
+            # TODO: add API server-side to get all paths at once
+            for i in range(len(self)):
+                out.append(self.get_path(i))
+            return out
+        if isinstance(keys, str):
+            keys = [keys]
+        for key in keys:
+            collection = self._api.data_sources_get_new_path_collection_for_key(self, key)
+            out.extend(StringCollection(collection=collection).get_integral_entries())
+        return out
+
+    @property
+    def result_paths(self) -> List[str]:
+        """Get the list of result paths in the DataSources.
+
+        Returns
+        -------
+        List of result paths.
+        """
+        from ansys.dpf.core.collection import StringCollection
+
+        collection = self._api.data_sources_get_new_collection_for_results_path(self)
+        return StringCollection(collection=collection).get_integral_entries()
+
+    def __len__(self) -> int:
+        return self.get_size()
+
+    def get_size(self) -> int:
+        """Get the number of paths in the DataSources.
+
+        Returns
+        -------
+
+        """
+        return self._api.data_sources_get_size(self)
+
+    def __getitem__(self, index) -> dict:
+        """Returns a dictionary for the file at position index.
+        It contains its path, its key, its domain ID, and whether it is a result file."""
+        out = dict(self._get_label_space_by_path_index(index))
+        out['index'] = out.pop("group") - 1
+        out['result_key'] = out.pop("result")
+        out['result'] = bool(out.pop("is_result"))
+        out['result_key'] = out.pop("result_key")
+        out['result_key'] = self.get_result_key(out["result_key"] - 1)
+        out["key"] = self.get_key_by_path_index(index)
+        if "domain" in out.keys():
+            out['domain_id'] = out.pop("domain")
+        out["path"] = self.get_path(index)
+        return out
+
+    def get_path(self, index) -> str:
+        """Get the path at the given index in the DataSources.
+
+        Parameters
+        ----------
+        index:
+            Index of the path in the DataSources.
+
+        Returns
+        -------
+
+        """
+        return self._api.data_sources_get_path_by_path_index(self, index)
+
+    def get_key_by_path_index(self, index) -> str:
+        """Get the key for the path at the given index in the DataSources.
+
+        Parameters
+        ----------
+        index:
+            Index of the path in the DataSources.
+
+        Returns
+        -------
+        key:
+            Key of the path at the given index in the DataSources.
+        """
+        return self._api.data_sources_get_key_by_path_index(self, index)
+
+    def _get_label_space_by_path_index(self, index) -> LabelSpace:
+        """Get the label space associated by the server to a path in the DataSources.
+
+        Parameters
+        ----------
+        index:
+            Index of the path in the DataSources.
+
+        Returns
+        -------
+        label_space:
+            LabelSpace associated to the path at the given index.
+        """
+        from ansys.dpf.core.label_space import LabelSpace
+
+        return LabelSpace(self._api.data_sources_get_label_space_by_path_index(self, index))
