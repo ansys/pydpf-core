@@ -78,6 +78,12 @@ print(minfo.get_property("face_zone_names"))
 print(minfo.get_property("zone_names"))
 
 ###############################################################################
+# Helpers are provided to quickly get a map of zone ID to zone name.
+print(minfo.zones)
+print(minfo.cell_zones)
+print(minfo.face_zones)
+
+###############################################################################
 # To facilitate the extraction of results, the body, cell and face zone ``Scoping``
 # are extracted. They can be used to scope results.
 
