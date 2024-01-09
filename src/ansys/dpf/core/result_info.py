@@ -5,6 +5,7 @@ ResultInfo
 import traceback
 import warnings
 
+from typing import List, Union
 from enum import Enum, unique
 from types import SimpleNamespace
 from ansys.dpf.gate import (
@@ -24,6 +25,9 @@ from ansys.dpf.core import available_result, support
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.label_space import LabelSpace
 from ansys.dpf.core.check_version import version_requires
+from ansys.dpf.core.dimensionality import natures
+from ansys.dpf.core.common import locations
+from ansys.dpf.core.available_result import Homogeneity
 
 
 @unique
@@ -162,6 +166,53 @@ class ResultInfo:
 
     def __contains__(self, value):
         return value in self._names
+
+    def add_result(
+            self,
+            operator_name: str,
+            scripting_name: str,
+            homogeneity: Homogeneity,
+            location: locations,
+            nature: natures,
+            dimensions: Union[List[int], None] = None,
+            description: str = "",
+    ):
+        """Add an available result to the ResultInfo.
+
+        Parameters
+        ----------
+        operator_name:
+            Name of the DPF operator to use for result extraction.
+        scripting_name:
+            Name to use when requesting the result.
+        homogeneity:
+            Homogeneity of the result.
+        location:
+            Location of the result.
+        nature:
+            Mathematical nature of the result (scalar, vector...).
+        dimensions:
+            List of dimensions of the result when vector or matrix.
+            Enter ``[N]`` for an N-size vector result.
+            Enter ``[N, M]`` for a rank-2, NxM matrix result.
+            For example:
+            * ``[3]``: 3d vector
+            * ``[3, 3]``: ``3 x 3`` matrix
+        description:
+            Description of the result.
+        """
+        if nature == natures.scalar:
+            dimensions = [1]
+        else:
+            if not dimensions:
+                raise ValueError(f"Argument 'dimensions' is required for a {nature.name} result.")
+        # from ansys.dpf.core.dimensionality import Dimensionality
+        size_dim = len(dimensions)
+        # dim = Dimensionality(dim_vec=dimensions, nature=nature)
+        self._api.result_info_add_result(
+            self, operator_name, scripting_name, dimensions,
+            size_dim, nature.value, location, homogeneity, description
+        )
 
     @property
     def analysis_type(self):
