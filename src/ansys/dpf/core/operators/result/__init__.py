@@ -59,6 +59,7 @@ from .coordinates import coordinates
 from .creep_strain_energy_density import creep_strain_energy_density 
 from .current_density import current_density 
 from .custom import custom 
+from .cyclic_NMISC import cyclic_NMISC 
 from .cyclic_analytic_seqv_max import cyclic_analytic_seqv_max 
 from .cyclic_analytic_usum_max import cyclic_analytic_usum_max 
 from .cyclic_expanded_acceleration import cyclic_expanded_acceleration 
@@ -108,7 +109,6 @@ from .epsilon import epsilon
 from .equivalent_mass import equivalent_mass 
 from .equivalent_radiated_power import equivalent_radiated_power 
 from .eqv_stress_parameter import eqv_stress_parameter 
-from .erp_accumulate_results import erp_accumulate_results 
 from .erp_radiation_efficiency import erp_radiation_efficiency 
 from .euler_load_buckling import euler_load_buckling 
 from .euler_nodes import euler_nodes 

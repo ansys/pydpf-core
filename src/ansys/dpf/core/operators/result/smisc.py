@@ -11,24 +11,68 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class smisc(Operator):
-    """Read SMISC results from the rst file.
+    """Read/compute elemental summable miscellaneous data by calling the
+    readers defined by the datasources.Modal Superposition (On Demand
+    Expansion) and Cyclic Expansion procedures are supported, however,
+    users should verify that the linear combination is applicable for
+    the associated element according to MAPDL documentation
+    description of each item.
 
     Parameters
     ----------
-    time_scoping : Scoping, optional
+    time_scoping : Scoping or int or float or Field, optional
+        Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output. to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps". linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.
     mesh_scoping : ScopingsContainer or Scoping, optional
+        Nodes or elements scoping required in output.
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains
     fields_container : FieldsContainer, optional
-        Fieldscontainer already allocated modified
+        Fields container already allocated modified
         inplace
-    streams_container : StreamsContainer or Stream, optional
-        Streams containing the result file.
+    streams_container : StreamsContainer, optional
+        Result file container allowed to be kept open
+        to cache data
     data_sources : DataSources
-        Data sources containing the result file.
-    mesh : MeshedRegion, optional
-    item_index : int
+        Result file path container, used if no
+        streams are set
+    bool_rotate_to_global : bool, optional
+        If true the field is rotated to global
+        coordinate system (default true)
+    mesh : MeshedRegion or MeshesContainer, optional
+        Prevents from reading the mesh in the result
+        files
+    item_index : int, optional
         Index of requested item.
     num_components : int, optional
         Number of components for the requested item.
+    read_cyclic : int, optional
+        If 0 cyclic symmetry is ignored, if 1 cyclic
+        sector is read, if 2 cyclic expansion
+        is done, if 3 cyclic expansion is
+        done and stages are merged (default
+        is 1)
 
 
     Examples
@@ -49,12 +93,16 @@ class smisc(Operator):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_bool_rotate_to_global = bool()
+    >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_item_index = int()
     >>> op.inputs.item_index.connect(my_item_index)
     >>> my_num_components = int()
     >>> op.inputs.num_components.connect(my_num_components)
+    >>> my_read_cyclic = int()
+    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.smisc(
@@ -63,9 +111,11 @@ class smisc(Operator):
     ...     fields_container=my_fields_container,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
+    ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     mesh=my_mesh,
     ...     item_index=my_item_index,
     ...     num_components=my_num_components,
+    ...     read_cyclic=my_read_cyclic,
     ... )
 
     >>> # Get output data
@@ -79,13 +129,15 @@ class smisc(Operator):
         fields_container=None,
         streams_container=None,
         data_sources=None,
+        bool_rotate_to_global=None,
         mesh=None,
         item_index=None,
         num_components=None,
+        read_cyclic=None,
         config=None,
         server=None,
     ):
-        super().__init__(name="mapdl::smisc", config=config, server=server)
+        super().__init__(name="SMISC", config=config, server=server)
         self._inputs = InputsSmisc(self)
         self._outputs = OutputsSmisc(self)
         if time_scoping is not None:
@@ -98,60 +150,110 @@ class smisc(Operator):
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
+        if bool_rotate_to_global is not None:
+            self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
         if mesh is not None:
             self.inputs.mesh.connect(mesh)
         if item_index is not None:
             self.inputs.item_index.connect(item_index)
         if num_components is not None:
             self.inputs.num_components.connect(num_components)
+        if read_cyclic is not None:
+            self.inputs.read_cyclic.connect(read_cyclic)
 
     @staticmethod
     def _spec():
-        description = """Read SMISC results from the rst file."""
+        description = """Read/compute elemental summable miscellaneous data by calling the
+            readers defined by the datasources.Modal Superposition (On
+            Demand Expansion) and Cyclic Expansion procedures are
+            supported, however, users should verify that the linear
+            combination is applicable for the associated element
+            according to MAPDL documentation description of each item."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 0: PinSpecification(
                     name="time_scoping",
-                    type_names=["scoping", "vector<int32>"],
+                    type_names=[
+                        "scoping",
+                        "int32",
+                        "vector<int32>",
+                        "double",
+                        "field",
+                        "vector<double>",
+                    ],
                     optional=True,
-                    document="""""",
+                    document="""Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output. to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps". linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.""",
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
-                    type_names=["scopings_container", "scoping", "vector<int32>"],
+                    type_names=["scopings_container", "scoping"],
                     optional=True,
-                    document="""""",
+                    document="""Nodes or elements scoping required in output.
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains""",
                 ),
                 2: PinSpecification(
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=True,
-                    document="""Fieldscontainer already allocated modified
+                    document="""Fields container already allocated modified
         inplace""",
                 ),
                 3: PinSpecification(
                     name="streams_container",
-                    type_names=["streams_container", "stream"],
+                    type_names=["streams_container"],
                     optional=True,
-                    document="""Streams containing the result file.""",
+                    document="""Result file container allowed to be kept open
+        to cache data""",
                 ),
                 4: PinSpecification(
                     name="data_sources",
                     type_names=["data_sources"],
                     optional=False,
-                    document="""Data sources containing the result file.""",
+                    document="""Result file path container, used if no
+        streams are set""",
+                ),
+                5: PinSpecification(
+                    name="bool_rotate_to_global",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""If true the field is rotated to global
+        coordinate system (default true)""",
                 ),
                 7: PinSpecification(
                     name="mesh",
-                    type_names=["abstract_meshed_region"],
+                    type_names=["abstract_meshed_region", "meshes_container"],
                     optional=True,
-                    document="""""",
+                    document="""Prevents from reading the mesh in the result
+        files""",
                 ),
                 10: PinSpecification(
                     name="item_index",
                     type_names=["int32"],
-                    optional=False,
+                    optional=True,
                     document="""Index of requested item.""",
                 ),
                 11: PinSpecification(
@@ -160,13 +262,23 @@ class smisc(Operator):
                     optional=True,
                     document="""Number of components for the requested item.""",
                 ),
+                14: PinSpecification(
+                    name="read_cyclic",
+                    type_names=["enum dataProcessing::ECyclicReading", "int32"],
+                    optional=True,
+                    document="""If 0 cyclic symmetry is ignored, if 1 cyclic
+        sector is read, if 2 cyclic expansion
+        is done, if 3 cyclic expansion is
+        done and stages are merged (default
+        is 1)""",
+                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
                     name="fields_container",
                     type_names=["fields_container"],
                     optional=False,
-                    document="""Fieldscontainer filled in""",
+                    document="""""",
                 ),
             },
         )
@@ -186,7 +298,7 @@ class smisc(Operator):
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the global server.
         """
-        return Operator.default_config(name="mapdl::smisc", server=server)
+        return Operator.default_config(name="SMISC", server=server)
 
     @property
     def inputs(self):
@@ -227,12 +339,16 @@ class InputsSmisc(_Inputs):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
+    >>> my_bool_rotate_to_global = bool()
+    >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_mesh = dpf.MeshedRegion()
     >>> op.inputs.mesh.connect(my_mesh)
     >>> my_item_index = int()
     >>> op.inputs.item_index.connect(my_item_index)
     >>> my_num_components = int()
     >>> op.inputs.num_components.connect(my_num_components)
+    >>> my_read_cyclic = int()
+    >>> op.inputs.read_cyclic.connect(my_read_cyclic)
     """
 
     def __init__(self, op: Operator):
@@ -247,20 +363,40 @@ class InputsSmisc(_Inputs):
         self._inputs.append(self._streams_container)
         self._data_sources = Input(smisc._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
+        self._bool_rotate_to_global = Input(smisc._spec().input_pin(5), 5, op, -1)
+        self._inputs.append(self._bool_rotate_to_global)
         self._mesh = Input(smisc._spec().input_pin(7), 7, op, -1)
         self._inputs.append(self._mesh)
         self._item_index = Input(smisc._spec().input_pin(10), 10, op, -1)
         self._inputs.append(self._item_index)
         self._num_components = Input(smisc._spec().input_pin(11), 11, op, -1)
         self._inputs.append(self._num_components)
+        self._read_cyclic = Input(smisc._spec().input_pin(14), 14, op, -1)
+        self._inputs.append(self._read_cyclic)
 
     @property
     def time_scoping(self):
         """Allows to connect time_scoping input to the operator.
 
+        Time/freq values (use doubles or field),
+        time/freq set ids (use ints or
+        scoping) or time/freq step ids (use
+        scoping with timefreq_steps location)
+        required in output. to specify
+        time/freq values at specific load
+        steps, put a field (and not a list)
+        in input with a scoping located on
+        "timefreq_steps". linear time freq
+        intrapolation is performed if the
+        values are not in the result files
+        and the data at the max time or freq
+        is taken when time/freqs are higher
+        than available time/freqs in result
+        files.
+
         Parameters
         ----------
-        my_time_scoping : Scoping
+        my_time_scoping : Scoping or int or float or Field
 
         Examples
         --------
@@ -275,6 +411,18 @@ class InputsSmisc(_Inputs):
     @property
     def mesh_scoping(self):
         """Allows to connect mesh_scoping input to the operator.
+
+        Nodes or elements scoping required in output.
+        the output fields will be scoped on
+        these node or element ids. to figure
+        out the ordering of the fields data,
+        look at their scoping ids as they
+        might not be ordered as the input
+        scoping was. the scoping's location
+        indicates whether nodes or elements
+        are asked for. using scopings
+        container allows you to split the
+        result fields container into domains
 
         Parameters
         ----------
@@ -294,7 +442,7 @@ class InputsSmisc(_Inputs):
     def fields_container(self):
         """Allows to connect fields_container input to the operator.
 
-        Fieldscontainer already allocated modified
+        Fields container already allocated modified
         inplace
 
         Parameters
@@ -315,11 +463,12 @@ class InputsSmisc(_Inputs):
     def streams_container(self):
         """Allows to connect streams_container input to the operator.
 
-        Streams containing the result file.
+        Result file container allowed to be kept open
+        to cache data
 
         Parameters
         ----------
-        my_streams_container : StreamsContainer or Stream
+        my_streams_container : StreamsContainer
 
         Examples
         --------
@@ -335,7 +484,8 @@ class InputsSmisc(_Inputs):
     def data_sources(self):
         """Allows to connect data_sources input to the operator.
 
-        Data sources containing the result file.
+        Result file path container, used if no
+        streams are set
 
         Parameters
         ----------
@@ -352,12 +502,36 @@ class InputsSmisc(_Inputs):
         return self._data_sources
 
     @property
-    def mesh(self):
-        """Allows to connect mesh input to the operator.
+    def bool_rotate_to_global(self):
+        """Allows to connect bool_rotate_to_global input to the operator.
+
+        If true the field is rotated to global
+        coordinate system (default true)
 
         Parameters
         ----------
-        my_mesh : MeshedRegion
+        my_bool_rotate_to_global : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.smisc()
+        >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
+        >>> # or
+        >>> op.inputs.bool_rotate_to_global(my_bool_rotate_to_global)
+        """
+        return self._bool_rotate_to_global
+
+    @property
+    def mesh(self):
+        """Allows to connect mesh input to the operator.
+
+        Prevents from reading the mesh in the result
+        files
+
+        Parameters
+        ----------
+        my_mesh : MeshedRegion or MeshesContainer
 
         Examples
         --------
@@ -408,6 +582,30 @@ class InputsSmisc(_Inputs):
         >>> op.inputs.num_components(my_num_components)
         """
         return self._num_components
+
+    @property
+    def read_cyclic(self):
+        """Allows to connect read_cyclic input to the operator.
+
+        If 0 cyclic symmetry is ignored, if 1 cyclic
+        sector is read, if 2 cyclic expansion
+        is done, if 3 cyclic expansion is
+        done and stages are merged (default
+        is 1)
+
+        Parameters
+        ----------
+        my_read_cyclic : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.smisc()
+        >>> op.inputs.read_cyclic.connect(my_read_cyclic)
+        >>> # or
+        >>> op.inputs.read_cyclic(my_read_cyclic)
+        """
+        return self._read_cyclic
 
 
 class OutputsSmisc(_Outputs):
