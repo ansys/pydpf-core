@@ -23,9 +23,11 @@ class migrate_to_h5dpf(Operator):
     filename : str
         Filename of the migrated file
     comma_separated_list_of_results : str, optional
-        List of result (source operator names) that
-        will be stored. if empty, all
-        available results will be converted.
+        List of results (source operator names)
+        separated by semicolons that will be
+        stored. (example: u;s;epel). if
+        empty, all available results will be
+        converted.
     all_time_sets : bool, optional
         Default is false
     streams_container : StreamsContainer, optional
@@ -37,11 +39,19 @@ class migrate_to_h5dpf(Operator):
         If true, the field is rotated to the global
         coordinate system before migrating
         the file (default false)
-    compression_workflow : Workflow, optional
+    compression_workflow : Workflow or GenericDataContainer, optional
         Beta option: applies input compression
-        workflow
-    filtering_workflow : Workflow, optional
-        Applies input filtering workflow
+        workflow. user can input a
+        genericdatacontainer that will map a
+        compression workflow to a result
+        name. example of map: {{ default:
+        wf1}, {eul: wf2}, {eng_se: wf3}}
+    filtering_workflow : Workflow or GenericDataContainer, optional
+        Applies input filtering workflow. user can
+        input a genericdatacontainer of the
+        format described for pin(6) that will
+        map a filtering workflow to a result
+        name.
     h5_native_compression : int, optional
         Integer value that defines the h5 native
         compression used 0: no compression
@@ -184,9 +194,11 @@ class migrate_to_h5dpf(Operator):
                     name="comma_separated_list_of_results",
                     type_names=["string"],
                     optional=True,
-                    document="""List of result (source operator names) that
-        will be stored. if empty, all
-        available results will be converted.""",
+                    document="""List of results (source operator names)
+        separated by semicolons that will be
+        stored. (example: u;s;epel). if
+        empty, all available results will be
+        converted.""",
                 ),
                 2: PinSpecification(
                     name="all_time_sets",
@@ -217,16 +229,24 @@ class migrate_to_h5dpf(Operator):
                 ),
                 6: PinSpecification(
                     name="compression_workflow",
-                    type_names=["workflow"],
+                    type_names=["workflow", "generic_data_container"],
                     optional=True,
                     document="""Beta option: applies input compression
-        workflow""",
+        workflow. user can input a
+        genericdatacontainer that will map a
+        compression workflow to a result
+        name. example of map: {{ default:
+        wf1}, {eul: wf2}, {eng_se: wf3}}""",
                 ),
                 7: PinSpecification(
                     name="filtering_workflow",
-                    type_names=["workflow"],
+                    type_names=["workflow", "generic_data_container"],
                     optional=True,
-                    document="""Applies input filtering workflow""",
+                    document="""Applies input filtering workflow. user can
+        input a genericdatacontainer of the
+        format described for pin(6) that will
+        map a filtering workflow to a result
+        name.""",
                 ),
                 8: PinSpecification(
                     name="h5_native_compression",
@@ -426,9 +446,11 @@ class InputsMigrateToH5Dpf(_Inputs):
     def comma_separated_list_of_results(self):
         """Allows to connect comma_separated_list_of_results input to the operator.
 
-        List of result (source operator names) that
-        will be stored. if empty, all
-        available results will be converted.
+        List of results (source operator names)
+        separated by semicolons that will be
+        stored. (example: u;s;epel). if
+        empty, all available results will be
+        converted.
 
         Parameters
         ----------
@@ -532,11 +554,15 @@ class InputsMigrateToH5Dpf(_Inputs):
         """Allows to connect compression_workflow input to the operator.
 
         Beta option: applies input compression
-        workflow
+        workflow. user can input a
+        genericdatacontainer that will map a
+        compression workflow to a result
+        name. example of map: {{ default:
+        wf1}, {eul: wf2}, {eng_se: wf3}}
 
         Parameters
         ----------
-        my_compression_workflow : Workflow
+        my_compression_workflow : Workflow or GenericDataContainer
 
         Examples
         --------
@@ -552,11 +578,15 @@ class InputsMigrateToH5Dpf(_Inputs):
     def filtering_workflow(self):
         """Allows to connect filtering_workflow input to the operator.
 
-        Applies input filtering workflow
+        Applies input filtering workflow. user can
+        input a genericdatacontainer of the
+        format described for pin(6) that will
+        map a filtering workflow to a result
+        name.
 
         Parameters
         ----------
-        my_filtering_workflow : Workflow
+        my_filtering_workflow : Workflow or GenericDataContainer
 
         Examples
         --------

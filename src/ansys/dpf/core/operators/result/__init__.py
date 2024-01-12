@@ -71,6 +71,7 @@ from .cyclic_expanded_temperature import cyclic_expanded_temperature
 from .cyclic_expanded_velocity import cyclic_expanded_velocity 
 from .cyclic_expansion import cyclic_expansion 
 from .cyclic_kinetic_energy import cyclic_kinetic_energy 
+from .cyclic_nmisc import cyclic_nmisc 
 from .cyclic_strain_energy import cyclic_strain_energy 
 from .cyclic_volume import cyclic_volume 
 from .density import density 
@@ -108,7 +109,6 @@ from .epsilon import epsilon
 from .equivalent_mass import equivalent_mass 
 from .equivalent_radiated_power import equivalent_radiated_power 
 from .eqv_stress_parameter import eqv_stress_parameter 
-from .erp_accumulate_results import erp_accumulate_results 
 from .erp_radiation_efficiency import erp_radiation_efficiency 
 from .euler_load_buckling import euler_load_buckling 
 from .euler_nodes import euler_nodes 
