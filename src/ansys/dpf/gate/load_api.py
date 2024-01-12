@@ -62,17 +62,18 @@ def _pythonize_awp_version(version):
 
 
 def _find_latest_ansys_versions():
-    path_per_version = {}
-
-    path_per_version = _paths_to_dpf_in_unified_installs(path_per_version)
-
-    path_per_version = _paths_to_dpf_server_library_installs(path_per_version)
-
+    # Find the latest version of ansys_dpf_server installed in the current Python environment
+    path_per_version = _paths_to_dpf_server_library_installs()
+    if len(path_per_version) > 0:
+        return path_per_version[sorted(path_per_version)[-1]]
+    # If none was found, find the path to the latest local ANSYS install
+    path_per_version = _paths_to_dpf_in_unified_installs()
     if len(path_per_version) > 0:
         return path_per_version[sorted(path_per_version)[-1]]
 
 
-def _paths_to_dpf_server_library_installs(path_per_version: dict) -> dict:
+def _paths_to_dpf_server_library_installs() -> dict:
+    path_per_version = {}
     installed_packages = pkg_resources.working_set
     for i in installed_packages:
         if "ansys-dpf-server" in i.key:
@@ -89,7 +90,8 @@ def _paths_to_dpf_server_library_installs(path_per_version: dict) -> dict:
     return path_per_version
 
 
-def _paths_to_dpf_in_unified_installs(path_per_version: dict) -> dict:
+def _paths_to_dpf_in_unified_installs() -> dict:
+    path_per_version = {}
     awp_versions = [key[-3:] for key in os.environ.keys() if "AWP_ROOT" in key]
     for awp_version in awp_versions:
         if not awp_version.isnumeric():
