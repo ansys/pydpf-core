@@ -136,7 +136,7 @@ jobs:
             src/ansys/dpf/gatebin/*
             src/ansys/grpc/*
             src/ansys/dpf/core/operators/*
-            docs/source/_static/dpf_operators.html
+            doc/source/_static/dpf_operators.html
           commit-message: update generated code
           title: Update generated code for DPF ${{ github.event.inputs.ANSYS_VERSION || '242' }}${{ github.event.inputs.standalone_branch_suffix || '' }} on ${{ github.ref_name }}
           body: An update of generated code has been triggered either manually or by an update in the dpf-standalone repository.
