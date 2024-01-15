@@ -49,9 +49,12 @@ env:
 jobs:
   doc-style:
     name: "Check doc style"
-    uses: ansys/actions/doc-style@v5.0
-    with:
-      token: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+        - name: "Running documentation style checks"
+          uses: ansys/actions/doc-style@v5.0
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
 
   docs:
     name: "Documentation"
