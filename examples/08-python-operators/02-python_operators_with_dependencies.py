@@ -41,7 +41,7 @@ from ansys.dpf.core import examples
 from ansys.dpf import core as dpf
 
 
-print("\033[1m gltf_plugin")
+# print("\033[1m gltf_plugin")
 file_list = [
     "gltf_plugin/__init__.py",
     "gltf_plugin/operators.py",
@@ -49,7 +49,7 @@ file_list = [
     "gltf_plugin/requirements.txt",
     "gltf_plugin/gltf_export.py",
     "gltf_plugin/texture.png",
-    "gltf_plugin.xml",
+    "gltf_plugin.xml",  # TODO: CANNOT BE FIRST!!! NEEDS A WARNING!
 ]
 import os
 
@@ -62,17 +62,17 @@ plugin_path = None
 for file in file_list:
     operator_file_path = os.path.join(operator_folder, file)
 
-    print(f"\033[1m {file}\n \033[0m")
+    # print(f"\033[1m {file}\n \033[0m")
     if (
         os.path.splitext(file)[1] == ".py" or os.path.splitext(file)[1] == ".xml"
     ) and file != "gltf_plugin/gltf_export.py":
-        with open(operator_file_path, "r") as f:
-            for line in f.readlines():
-                print("\t\t\t" + line)
-        print("\n\n")
+        # with open(operator_file_path, "r") as f:
+        #     for line in f.readlines():
+        #         print("\t\t\t" + line)
+        # print("\n\n")
         if plugin_path is None:
             plugin_path = os.path.dirname(operator_file_path)
-
+print(f"{plugin_path=}")
 # %%
 # To add third-party modules as dependencies to a plug-in package, you must
 # create and reference a folder or ZIP file with the sites of the dependencies
@@ -83,6 +83,8 @@ for file in file_list:
 # DPF-Core uses the ``site`` Python module to add custom to the path
 # for the Python interpreter.
 #
+# TODO explain which Python interpreter version to use, how to build the site_packages.zip,
+# TODO: what are the "unnecessary folders"?
 # To create these custom sites, requirements of the plug-in package should be
 # installed in a Python virtual environment, the site-packages
 # (with unnecessary folders removed) should be compressed to a ZIP file and
@@ -91,10 +93,10 @@ for file in file_list:
 #
 # To simplify this step, you can add a requirements file in the plug-in package:
 #
-print("\033[1m gltf_plugin/requirements.txt: \n \033[0m")
-with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
-    for line in f.readlines():
-        print("\t\t\t" + line)
+# print("\033[1m gltf_plugin/requirements.txt: \n \033[0m")
+# with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
+#     for line in f.readlines():
+#         print("\t\t\t" + line)
 
 
 # %%
@@ -112,7 +114,7 @@ with open(os.path.join(plugin_path, "requirements.txt"), "r") as f:
 #
 # Optional arguments are:
 #
-# - ``-pythonexe``: Path to a Python executable of your choice.
+# - ``-pythonexe``: Path to a Python executable of your choice.  " TODO: no constraint on version? What is chosen by default?
 # - ``-tempfolder``: Path to a temporary folder to work in. The default is the environment variable
 #   ``TEMP`` on Windows and ``/tmp/`` on Linux.
 #
@@ -201,7 +203,8 @@ dpf.start_local_server(config=dpf.AvailableServerConfigs.GrpcServer)
 tmp = dpf.make_tmp_dir_server()
 dpf.upload_files_in_folder(dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"), plugin_path)
 dpf.upload_file(plugin_path + ".xml", dpf.path_utilities.join(tmp, "plugins", "gltf_plugin.xml"))
-
+print(dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"))
+print(dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"))
 dpf.load_library(
     dpf.path_utilities.join(tmp, "plugins", "gltf_plugin"),
     "py_dpf_gltf",
