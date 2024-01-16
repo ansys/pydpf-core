@@ -60,6 +60,7 @@ class MeshInfo:
             raise ValueError(
                 "Arguments generic_data_container and mesh_info are mutually exclusive."
             )
+        self._part_map = None
         self._zone_map = None
         self._cell_zone_map = None
         self._face_zone_map = None
@@ -224,6 +225,29 @@ class MeshInfo:
             return self.generic_data_container.get_property("part_names")
         else:
             return None
+
+    @property
+    def parts(self) -> dict:
+        """Dictionary of available part IDs to part names.
+
+        Returns
+        -------
+        parts:
+            Map of part IDs to part names.
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
+        """
+        if self._part_map:
+            return self._part_map
+        part_names = self.part_names
+        part_map = {}
+        if part_names:
+            names = part_names.data
+            for i, key in enumerate(part_names.scoping.ids):
+                part_map[str(key)] = names[i]
+        self._part_map = part_map
+        return self._part_map
 
     @property
     def part_scoping(self):
