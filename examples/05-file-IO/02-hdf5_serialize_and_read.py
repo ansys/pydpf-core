@@ -95,6 +95,7 @@ h5_stream_prov_op.inputs.data_sources.connect(h5_all_times_ds)
 res_deser_all_times_list = []
 h5_read_op = dpf.operators.serialization.hdf5dpf_custom_read()
 h5_read_op.inputs.streams.connect(h5_stream_prov_op.outputs)
+h5_read_op.inputs.time_scoping.connect(dpf.Scoping(ids = list(range(1,54)), location="time"))
 for i, res_name in enumerate(result_names_on_all_time_steps):
     h5_read_op.inputs.result_name.connect(res_name)
     res_deser = h5_read_op.outputs.field_or_fields_container_as_fields_container()

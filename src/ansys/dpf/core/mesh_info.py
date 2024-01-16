@@ -60,6 +60,9 @@ class MeshInfo:
             raise ValueError(
                 "Arguments generic_data_container and mesh_info are mutually exclusive."
             )
+        self._zone_map = None
+        self._cell_zone_map = None
+        self._face_zone_map = None
 
     def __str__(self):
         txt = "DPF MeshInfo\n"
@@ -229,6 +232,9 @@ class MeshInfo:
         -------
         part_scoping : Scoping
             part Scoping of the mesh (if it can be split by parts)
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
         """
 
         if "part_scoping" in self._generic_data_container.get_property_description():
@@ -271,6 +277,9 @@ class MeshInfo:
         -------
         zone_names : StringField
             zone_names of the mesh (if it can be split by zones)
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
         """
 
         if "zone_names" in self._generic_data_container.get_property_description():
@@ -279,12 +288,90 @@ class MeshInfo:
             return None
 
     @property
+    def zones(self) -> dict:
+        """Dictionary of available zone IDs to zone names.
+
+        Returns
+        -------
+        zones:
+            Map of zone IDs to zone names.
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
+        """
+        if self._zone_map:
+            return self._zone_map
+        zone_names = self.zone_names
+        zone_map = {}
+        if zone_names:
+            names = zone_names.data
+            for i, key in enumerate(zone_names.scoping.ids):
+                zone_map[str(key)] = names[i]
+        self._zone_map = zone_map
+        return self._zone_map
+
+    @property
+    def face_zones(self) -> dict:
+        """Dictionary of available face zone IDs to face zone names.
+
+        Returns
+        -------
+        face_zones:
+            Map of face zone IDs to face zone names.
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
+        """
+        if self._face_zone_map:
+            return self._face_zone_map
+        if "zone_names" in self._generic_data_container.get_property_description():
+            zone_names = self.generic_data_container.get_property("face_zone_names")
+        else:
+            zone_names = None
+        zone_map = {}
+        if zone_names:
+            names = zone_names.data
+            for i, key in enumerate(zone_names.scoping.ids):
+                zone_map[str(key)] = names[i]
+        self._face_zone_map = zone_map
+        return self._face_zone_map
+
+    @property
+    def cell_zones(self) -> dict:
+        """Dictionary of available cell zone IDs to face zone names.
+
+        Returns
+        -------
+        cell_zones:
+            Map of cell zone IDs to face zone names.
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
+        """
+        if self._cell_zone_map:
+            return self._cell_zone_map
+        if "zone_names" in self._generic_data_container.get_property_description():
+            zone_names = self.generic_data_container.get_property("cell_zone_names")
+        else:
+            zone_names = None
+        zone_map = {}
+        if zone_names:
+            names = zone_names.data
+            for i, key in enumerate(zone_names.scoping.ids):
+                zone_map[str(key)] = names[i]
+        self._cell_zone_map = zone_map
+        return self._cell_zone_map
+
+    @property
     def zone_scoping(self):
         """
         Returns
         -------
         zone_scoping : Scoping
             zone Scoping of the mesh (if it can be split by zone)
+
+        .. warning:
+            Currently unavailable for LegacyGrpc servers.
         """
 
         if "zone_scoping" in self._generic_data_container.get_property_description():

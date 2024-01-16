@@ -1,0 +1,1 @@
+from average_filter_plugin.operators_loader import load_operators

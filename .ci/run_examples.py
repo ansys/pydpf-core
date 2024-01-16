@@ -33,9 +33,10 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
                 print(f"Example skipped as it requires DPF {minimum_version_str}.")
                 continue
             try:
-                subprocess.check_call([sys.executable, file])
+                out = subprocess.check_output([sys.executable, file])
             except subprocess.CalledProcessError as e:
                 sys.stderr.write(str(e.args))
                 if e.returncode != 3221225477:
+                    print(out)
                     raise e
             print("PASS")
