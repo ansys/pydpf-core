@@ -282,12 +282,15 @@ def _deep_copy(dpf_entity, server=None):
                                 core.Field, core.FieldsContainer, core.MeshedRegion...
     """
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
-    from ansys.dpf.core.common import types_enum_to_types
+    from ansys.dpf.core.common import types_enum_to_types, types
 
-    serializer = serializer_to_string(server=server)
+    serializer = serializer_to_string(server=dpf_entity._server)
     serializer.connect(1, dpf_entity)
+    serializer.connect(-1, 1)  # binary
+    out = serializer.get_output(0, types.string)
     deserializer = string_deserializer(server=server)
-    deserializer.connect(0, serializer, 0)
+    deserializer.connect(0, out)
+    deserializer.connect(-1, 1)  # binary
     type_map = types_enum_to_types()
     output_type = list(type_map.keys())[list(type_map.values()).index(dpf_entity.__class__)]
     return deserializer.get_output(1, output_type)
