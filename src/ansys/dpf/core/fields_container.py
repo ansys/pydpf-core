@@ -479,6 +479,15 @@ class FieldsContainer(Collection):
         """
         return self.get_label_scoping("time")
 
+    def plot(self, label_space, **kwargs):
+        """Plots all the fields in the fields_container for the given LabelSpace."""
+        from ansys.dpf.core import plotter
+        plt = plotter.DpfPlotter(**kwargs)
+        fields = self.get_fields(label_space=label_space)
+        for f in fields:
+            plt.add_field(field=f, **kwargs)
+        plt.show_figure(**kwargs)
+
     def animate(self, save_as=None, deform_by=None, scale_factor=1.0, **kwargs):
         """Creates an animation based on the Fields contained in the FieldsContainer.
 
