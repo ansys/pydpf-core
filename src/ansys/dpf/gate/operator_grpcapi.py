@@ -1,5 +1,6 @@
 from ansys.dpf.gate.generated import operator_abstract_api
-from ansys.dpf.gate import errors
+from ansys.dpf.gate import errors, grpc_stream_helpers
+import numpy as np
 # -------------------------------------------------------------------------------
 # Operator
 # -------------------------------------------------------------------------------
@@ -10,6 +11,10 @@ def _get_stub(server):
     server.create_stub_if_necessary(OperatorGRPCAPI.STUBNAME,
                                              operator_pb2_grpc.OperatorServiceStub)
     return server.get_stub(OperatorGRPCAPI.STUBNAME)
+
+
+def _set_array_to_request(request, bytes):
+    request.array.array = bytes
 
 
 @errors.protect_grpc_class
@@ -81,6 +86,26 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
         request = OperatorGRPCAPI.update_init(op, pin)
         request.str = value
         OperatorGRPCAPI.update(op, request)
+
+    @staticmethod
+    def operator_connect_string_with_size(op, pin, value, size):
+        if op._server.meet_version("8.0"):
+            from ansys.grpc.dpf import operator_pb2, base_pb2
+            request = operator_pb2.ArrayUpdateRequest()
+            request.op.CopyFrom(op._internal_obj)
+            request.pin = pin
+            request.type = base_pb2.Type.Value("STRING")
+            metadata = [("size_bytes", f"{size.val}")]
+            _get_stub(op._server).UpdateStreamed(
+                grpc_stream_helpers._data_chunk_yielder(
+                    request,
+                    value.encode('utf-8') if value.isascii() else value.encode('latin1'),
+                    set_array=_set_array_to_request
+                ),
+                metadata=metadata)
+        else:
+            OperatorGRPCAPI.operator_connect_string(op, pin, value)
+
 
     @staticmethod
     def operator_connect_scoping(op, pin, scoping):
@@ -308,6 +333,25 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
         stype = "string"
         subtype = ""
         return OperatorGRPCAPI.get_output_finish(op, request, stype, subtype)
+
+    @staticmethod
+    def operator_getoutput_string_with_size(op, iOutput, size):
+        if op._server.meet_version("8.0"):
+            from ansys.grpc.dpf import operator_pb2
+            request = operator_pb2.OperatorEvaluationRequest()
+            request.op.CopyFrom(op._internal_obj)
+            request.pin = iOutput
+            service = _get_stub(op._server).GetStreamed(request)
+            dtype = np.byte
+            out = grpc_stream_helpers._data_get_chunk_(dtype, service, True, get_array=lambda chunk: chunk.array.array)
+            size.val = out.size
+            out = bytes(out)
+            out = out.decode() if out.isascii() else out.decode('latin1')
+            return out
+        else:
+            out = OperatorGRPCAPI.operator_getoutput_string(op, iOutput, size)
+            size.val = out.size
+            return out
 
     @staticmethod
     def operator_getoutput_int(op, iOutput):
