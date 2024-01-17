@@ -1296,3 +1296,39 @@ def test_field_no_inprocess_localfield(server_in_process, allkindofcomplexity):
 
     with field.as_local_field() as local_field:
         assert field == local_field
+
+
+def test_deep_copy_2_field(server_type, server_in_process):
+    data = np.random.random(10)
+    field_a = dpf.core.field_from_array(data, server=server_type)
+    assert np.allclose(field_a.data, data)
+
+    out = dpf.core.core._deep_copy(field_a, server_in_process)
+    assert np.allclose(out.data, data)
+
+
+def test_deep_copy_2_field_remote(server_type, server_type_remote_process):
+    data = np.random.random(10)
+    field_a = dpf.core.field_from_array(data, server=server_type)
+    assert np.allclose(field_a.data, data)
+
+    out = dpf.core.core._deep_copy(field_a, server_type_remote_process)
+    assert np.allclose(out.data, data)
+
+
+def test_deep_copy_big_field(server_type, server_in_process):
+    data = np.random.random(1000000)
+    field_a = dpf.core.field_from_array(data, server=server_type)
+    assert np.allclose(field_a.data, data)
+
+    out = dpf.core.core._deep_copy(field_a, server_in_process)
+    assert np.allclose(out.data, data)
+
+
+def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
+    data = np.random.random(1000000)
+    field_a = dpf.core.field_from_array(data, server=server_type)
+    assert np.allclose(field_a.data, data)
+
+    out = dpf.core.core._deep_copy(field_a, server_type_remote_process)
+    assert np.allclose(out.data, data)
