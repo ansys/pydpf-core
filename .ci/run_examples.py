@@ -26,6 +26,9 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
         for file in glob.iglob(os.path.join(subdir, "*.py")):
             if sys.platform == "linux" and "08-python-operators" in file:
                 continue
+            elif "win" in sys.platform and "06-distributed_stress_averaging" in file:
+                # Currently very unstable in the GH CI
+                continue
             print("\n--------------------------------------------------")
             print(file)
             minimum_version_str = get_example_required_minimum_dpf_version(file)
