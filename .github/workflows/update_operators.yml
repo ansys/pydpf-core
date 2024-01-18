@@ -137,8 +137,6 @@ jobs:
           branch: maint/update_code_for_${{ github.event.inputs.ANSYS_VERSION || '242' }}${{ github.event.inputs.standalone_branch_suffix || '' }}_on_${{ github.ref_name }}
           labels: server-sync
           token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
-          committer: pyansys-ci-bot
-          author: pyansys-ci-bot
           reviewers: ansys/dpf_integration_proxies
           assignees: ansys/dpf_integration_proxies
 
