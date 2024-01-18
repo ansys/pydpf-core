@@ -158,6 +158,7 @@ from .kinetic_energy import kinetic_energy
 from .mach_number import mach_number 
 from .mapdl_material_properties import mapdl_material_properties 
 from .mapdl_section import mapdl_section 
+from .mapdl_split_on_facet_indices import mapdl_split_on_facet_indices 
 from .mass_flow_rate import mass_flow_rate 
 from .mass_fraction import mass_fraction 
 from .material_property_of_element import material_property_of_element 
@@ -172,7 +173,6 @@ from .modal_basis import modal_basis
 from .nmisc import nmisc 
 from .nodal_force import nodal_force 
 from .nodal_moment import nodal_moment 
-from .nodal_rotation_by_euler_nodes import nodal_rotation_by_euler_nodes 
 from .nodal_to_global import nodal_to_global 
 from .normal_contact_force import normal_contact_force 
 from .normal_contact_moment import normal_contact_moment 
@@ -216,6 +216,7 @@ from .recombine_harmonic_indeces_cyclic import recombine_harmonic_indeces_cyclic
 from .remove_rigid_body_motion import remove_rigid_body_motion 
 from .remove_rigid_body_motion_fc import remove_rigid_body_motion_fc 
 from .rigid_transformation import rigid_transformation 
+from .rigid_transformation_provider import rigid_transformation_provider 
 from .rms_static_pressure import rms_static_pressure 
 from .rms_temperature import rms_temperature 
 from .rms_velocity import rms_velocity 

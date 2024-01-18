@@ -16,6 +16,8 @@ class string_deserializer(Operator):
 
     Parameters
     ----------
+    stream_type : int
+        0 for string (default), and 1 for binary
     serialized_string : str
 
 
@@ -27,11 +29,14 @@ class string_deserializer(Operator):
     >>> op = dpf.operators.serialization.string_deserializer()
 
     >>> # Make input connections
+    >>> my_stream_type = int()
+    >>> op.inputs.stream_type.connect(my_stream_type)
     >>> my_serialized_string = str()
     >>> op.inputs.serialized_string.connect(my_serialized_string)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.string_deserializer(
+    ...     stream_type=my_stream_type,
     ...     serialized_string=my_serialized_string,
     ... )
 
@@ -40,10 +45,14 @@ class string_deserializer(Operator):
     >>> result_any_output2 = op.outputs.any_output2()
     """
 
-    def __init__(self, serialized_string=None, config=None, server=None):
+    def __init__(
+        self, stream_type=None, serialized_string=None, config=None, server=None
+    ):
         super().__init__(name="string_deserializer", config=config, server=server)
         self._inputs = InputsStringDeserializer(self)
         self._outputs = OutputsStringDeserializer(self)
+        if stream_type is not None:
+            self.inputs.stream_type.connect(stream_type)
         if serialized_string is not None:
             self.inputs.serialized_string.connect(serialized_string)
 
@@ -54,6 +63,12 @@ class string_deserializer(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -1: PinSpecification(
+                    name="stream_type",
+                    type_names=["int32"],
+                    optional=False,
+                    document="""0 for string (default), and 1 for binary""",
+                ),
                 0: PinSpecification(
                     name="serialized_string",
                     type_names=["string"],
@@ -125,16 +140,40 @@ class InputsStringDeserializer(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.serialization.string_deserializer()
+    >>> my_stream_type = int()
+    >>> op.inputs.stream_type.connect(my_stream_type)
     >>> my_serialized_string = str()
     >>> op.inputs.serialized_string.connect(my_serialized_string)
     """
 
     def __init__(self, op: Operator):
         super().__init__(string_deserializer._spec().inputs, op)
+        self._stream_type = Input(string_deserializer._spec().input_pin(-1), -1, op, -1)
+        self._inputs.append(self._stream_type)
         self._serialized_string = Input(
             string_deserializer._spec().input_pin(0), 0, op, -1
         )
         self._inputs.append(self._serialized_string)
+
+    @property
+    def stream_type(self):
+        """Allows to connect stream_type input to the operator.
+
+        0 for string (default), and 1 for binary
+
+        Parameters
+        ----------
+        my_stream_type : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.string_deserializer()
+        >>> op.inputs.stream_type.connect(my_stream_type)
+        >>> # or
+        >>> op.inputs.stream_type(my_stream_type)
+        """
+        return self._stream_type
 
     @property
     def serialized_string(self):

@@ -689,7 +689,7 @@ def load_api(path):
 
 	if hasattr(dll, "DataProcessing_ProcessId"):
 		dll.DataProcessing_ProcessId.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.DataProcessing_ProcessId.restype = ctypes.c_void_p
+		dll.DataProcessing_ProcessId.restype = ctypes.c_uint64
 
 	if hasattr(dll, "DataProcessing_initialization_on_client"):
 		dll.DataProcessing_initialization_on_client.argtypes = (ctypes.c_void_p, )
@@ -789,7 +789,7 @@ def load_api(path):
 
 	if hasattr(dll, "DataProcessing_ProcessId_on_client"):
 		dll.DataProcessing_ProcessId_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.DataProcessing_ProcessId_on_client.restype = ctypes.c_void_p
+		dll.DataProcessing_ProcessId_on_client.restype = ctypes.c_uint64
 
 	#-------------------------------------------------------------------------------
 	# DataProcessingError
@@ -1387,10 +1387,10 @@ def load_api(path):
 
 	if hasattr(dll, "ExternalOperator_getInLongLong"):
 		dll.ExternalOperator_getInLongLong.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
-		dll.ExternalOperator_getInLongLong.restype = ctypes.c_void_p
+		dll.ExternalOperator_getInLongLong.restype = ctypes.c_uint64
 
 	if hasattr(dll, "ExternalOperator_putOutLongLong"):
-		dll.ExternalOperator_putOutLongLong.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_putOutLongLong.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_uint64, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_putOutLongLong.restype = None
 
 	if hasattr(dll, "ExternalOperator_getInString"):
@@ -2440,6 +2440,10 @@ def load_api(path):
 		dll.Operator_connect_string.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Operator_connect_string.restype = None
 
+	if hasattr(dll, "Operator_connect_string_with_size"):
+		dll.Operator_connect_string_with_size.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.c_uint64, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Operator_connect_string_with_size.restype = None
+
 	if hasattr(dll, "Operator_connect_Scoping"):
 		dll.Operator_connect_Scoping.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Operator_connect_Scoping.restype = None
@@ -2603,6 +2607,10 @@ def load_api(path):
 	if hasattr(dll, "Operator_getoutput_string"):
 		dll.Operator_getoutput_string.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Operator_getoutput_string.restype = ctypes.POINTER(ctypes.c_char)
+
+	if hasattr(dll, "Operator_getoutput_string_with_size"):
+		dll.Operator_getoutput_string_with_size.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Operator_getoutput_string_with_size.restype = ctypes.POINTER(ctypes.c_char)
 
 	if hasattr(dll, "Operator_getoutput_bytearray"):
 		dll.Operator_getoutput_bytearray.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -4310,6 +4318,10 @@ def load_api(path):
 		dll.WorkFlow_connect_string.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.WorkFlow_connect_string.restype = None
 
+	if hasattr(dll, "WorkFlow_connect_string_with_size"):
+		dll.WorkFlow_connect_string_with_size.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_char), ctypes.c_size_t, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.WorkFlow_connect_string_with_size.restype = None
+
 	if hasattr(dll, "WorkFlow_connect_Scoping"):
 		dll.WorkFlow_connect_Scoping.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.WorkFlow_connect_Scoping.restype = None
@@ -4505,6 +4517,10 @@ def load_api(path):
 	if hasattr(dll, "WorkFlow_getoutput_string"):
 		dll.WorkFlow_getoutput_string.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.WorkFlow_getoutput_string.restype = ctypes.POINTER(ctypes.c_char)
+
+	if hasattr(dll, "WorkFlow_getoutput_string_with_size"):
+		dll.WorkFlow_getoutput_string_with_size.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_size_t), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.WorkFlow_getoutput_string_with_size.restype = ctypes.POINTER(ctypes.c_char)
 
 	if hasattr(dll, "WorkFlow_getoutput_int"):
 		dll.WorkFlow_getoutput_int.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )

@@ -17,6 +17,12 @@ class migrate_to_h5dpf(Operator):
 
     Parameters
     ----------
+    h5_native_compression : int, optional
+        Integer value that defines the h5 native
+        compression used 0: no compression
+        (default)1-9: gzip level compression
+        : 9 gives us maximum compression but
+        at the slowest speed.
     export_floats : bool, optional
         Converts double to float to reduce file size
         (default is true)
@@ -52,12 +58,6 @@ class migrate_to_h5dpf(Operator):
         format described for pin(6) that will
         map a filtering workflow to a result
         name.
-    h5_native_compression : int, optional
-        Integer value that defines the h5 native
-        compression used 0: no compression
-        (default)1-9: gzip level compression
-        : 9 gives us maximum compression but
-        at the slowest speed.
     requested_location : str, optional
         If no location is specified, elemental
         results will be stored as they are.
@@ -77,6 +77,8 @@ class migrate_to_h5dpf(Operator):
     >>> op = dpf.operators.result.migrate_to_h5dpf()
 
     >>> # Make input connections
+    >>> my_h5_native_compression = int()
+    >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
     >>> my_export_floats = bool()
     >>> op.inputs.export_floats.connect(my_export_floats)
     >>> my_filename = str()
@@ -95,8 +97,6 @@ class migrate_to_h5dpf(Operator):
     >>> op.inputs.compression_workflow.connect(my_compression_workflow)
     >>> my_filtering_workflow = dpf.Workflow()
     >>> op.inputs.filtering_workflow.connect(my_filtering_workflow)
-    >>> my_h5_native_compression = int()
-    >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
     >>> my_requested_location = str()
     >>> op.inputs.requested_location.connect(my_requested_location)
     >>> my_separate_dofs = bool()
@@ -104,6 +104,7 @@ class migrate_to_h5dpf(Operator):
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.migrate_to_h5dpf(
+    ...     h5_native_compression=my_h5_native_compression,
     ...     export_floats=my_export_floats,
     ...     filename=my_filename,
     ...     comma_separated_list_of_results=my_comma_separated_list_of_results,
@@ -113,7 +114,6 @@ class migrate_to_h5dpf(Operator):
     ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     compression_workflow=my_compression_workflow,
     ...     filtering_workflow=my_filtering_workflow,
-    ...     h5_native_compression=my_h5_native_compression,
     ...     requested_location=my_requested_location,
     ...     separate_dofs=my_separate_dofs,
     ... )
@@ -124,6 +124,7 @@ class migrate_to_h5dpf(Operator):
 
     def __init__(
         self,
+        h5_native_compression=None,
         export_floats=None,
         filename=None,
         comma_separated_list_of_results=None,
@@ -133,7 +134,6 @@ class migrate_to_h5dpf(Operator):
         bool_rotate_to_global=None,
         compression_workflow=None,
         filtering_workflow=None,
-        h5_native_compression=None,
         requested_location=None,
         separate_dofs=None,
         config=None,
@@ -142,6 +142,8 @@ class migrate_to_h5dpf(Operator):
         super().__init__(name="hdf5::h5dpf::migrate_file", config=config, server=server)
         self._inputs = InputsMigrateToH5Dpf(self)
         self._outputs = OutputsMigrateToH5Dpf(self)
+        if h5_native_compression is not None:
+            self.inputs.h5_native_compression.connect(h5_native_compression)
         if export_floats is not None:
             self.inputs.export_floats.connect(export_floats)
         if filename is not None:
@@ -162,8 +164,6 @@ class migrate_to_h5dpf(Operator):
             self.inputs.compression_workflow.connect(compression_workflow)
         if filtering_workflow is not None:
             self.inputs.filtering_workflow.connect(filtering_workflow)
-        if h5_native_compression is not None:
-            self.inputs.h5_native_compression.connect(h5_native_compression)
         if requested_location is not None:
             self.inputs.requested_location.connect(requested_location)
         if separate_dofs is not None:
@@ -177,6 +177,16 @@ class migrate_to_h5dpf(Operator):
         spec = Specification(
             description=description,
             map_input_pin_spec={
+                -2: PinSpecification(
+                    name="h5_native_compression",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""Integer value that defines the h5 native
+        compression used 0: no compression
+        (default)1-9: gzip level compression
+        : 9 gives us maximum compression but
+        at the slowest speed.""",
+                ),
                 -1: PinSpecification(
                     name="export_floats",
                     type_names=["bool"],
@@ -247,16 +257,6 @@ class migrate_to_h5dpf(Operator):
         format described for pin(6) that will
         map a filtering workflow to a result
         name.""",
-                ),
-                8: PinSpecification(
-                    name="h5_native_compression",
-                    type_names=["int32"],
-                    optional=True,
-                    document="""Integer value that defines the h5 native
-        compression used 0: no compression
-        (default)1-9: gzip level compression
-        : 9 gives us maximum compression but
-        at the slowest speed.""",
                 ),
                 9: PinSpecification(
                     name="requested_location",
@@ -332,6 +332,8 @@ class InputsMigrateToH5Dpf(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.result.migrate_to_h5dpf()
+    >>> my_h5_native_compression = int()
+    >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
     >>> my_export_floats = bool()
     >>> op.inputs.export_floats.connect(my_export_floats)
     >>> my_filename = str()
@@ -350,8 +352,6 @@ class InputsMigrateToH5Dpf(_Inputs):
     >>> op.inputs.compression_workflow.connect(my_compression_workflow)
     >>> my_filtering_workflow = dpf.Workflow()
     >>> op.inputs.filtering_workflow.connect(my_filtering_workflow)
-    >>> my_h5_native_compression = int()
-    >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
     >>> my_requested_location = str()
     >>> op.inputs.requested_location.connect(my_requested_location)
     >>> my_separate_dofs = bool()
@@ -360,6 +360,10 @@ class InputsMigrateToH5Dpf(_Inputs):
 
     def __init__(self, op: Operator):
         super().__init__(migrate_to_h5dpf._spec().inputs, op)
+        self._h5_native_compression = Input(
+            migrate_to_h5dpf._spec().input_pin(-2), -2, op, -1
+        )
+        self._inputs.append(self._h5_native_compression)
         self._export_floats = Input(migrate_to_h5dpf._spec().input_pin(-1), -1, op, -1)
         self._inputs.append(self._export_floats)
         self._filename = Input(migrate_to_h5dpf._spec().input_pin(0), 0, op, -1)
@@ -388,10 +392,6 @@ class InputsMigrateToH5Dpf(_Inputs):
             migrate_to_h5dpf._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._filtering_workflow)
-        self._h5_native_compression = Input(
-            migrate_to_h5dpf._spec().input_pin(8), 8, op, -1
-        )
-        self._inputs.append(self._h5_native_compression)
         self._requested_location = Input(
             migrate_to_h5dpf._spec().input_pin(9), 9, op, -1
         )
@@ -400,6 +400,30 @@ class InputsMigrateToH5Dpf(_Inputs):
             migrate_to_h5dpf._spec().input_pin(200), 200, op, -1
         )
         self._inputs.append(self._separate_dofs)
+
+    @property
+    def h5_native_compression(self):
+        """Allows to connect h5_native_compression input to the operator.
+
+        Integer value that defines the h5 native
+        compression used 0: no compression
+        (default)1-9: gzip level compression
+        : 9 gives us maximum compression but
+        at the slowest speed.
+
+        Parameters
+        ----------
+        my_h5_native_compression : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.migrate_to_h5dpf()
+        >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
+        >>> # or
+        >>> op.inputs.h5_native_compression(my_h5_native_compression)
+        """
+        return self._h5_native_compression
 
     @property
     def export_floats(self):
@@ -597,30 +621,6 @@ class InputsMigrateToH5Dpf(_Inputs):
         >>> op.inputs.filtering_workflow(my_filtering_workflow)
         """
         return self._filtering_workflow
-
-    @property
-    def h5_native_compression(self):
-        """Allows to connect h5_native_compression input to the operator.
-
-        Integer value that defines the h5 native
-        compression used 0: no compression
-        (default)1-9: gzip level compression
-        : 9 gives us maximum compression but
-        at the slowest speed.
-
-        Parameters
-        ----------
-        my_h5_native_compression : int
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.migrate_to_h5dpf()
-        >>> op.inputs.h5_native_compression.connect(my_h5_native_compression)
-        >>> # or
-        >>> op.inputs.h5_native_compression(my_h5_native_compression)
-        """
-        return self._h5_native_compression
 
     @property
     def requested_location(self):
