@@ -11,19 +11,18 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 
 class euler_nodes(Operator):
-    """read a field made of 3 coordinates and 3 Euler angles (6 dofs) by node
-    from the rst file.
+    """Reads a field made of 3 coordinates and 3 Euler angles (6 dofs) by
+    node from the result file.
 
     Parameters
     ----------
-    streams_container : StreamsContainer or Stream or Class
-        Dataprocessing::Crstfilewrapper, optional
+    streams_container : StreamsContainer or Stream, optional
     data_sources : DataSources
     coord_and_euler : bool
         If true, then the field has ncomp=6 with 3
-        oords and 3 euler angles, else there
-        is only the euler angles (default is
-        true)
+        coordinates and 3 euler angles, else
+        there is only the euler angles
+        (default is true).
     mesh : MeshedRegion, optional
 
 
@@ -65,9 +64,7 @@ class euler_nodes(Operator):
         config=None,
         server=None,
     ):
-        super().__init__(
-            name="mapdl::rst::coords_and_euler_nodes", config=config, server=server
-        )
+        super().__init__(name="coords_and_euler_nodes", config=config, server=server)
         self._inputs = InputsEulerNodes(self)
         self._outputs = OutputsEulerNodes(self)
         if streams_container is not None:
@@ -81,18 +78,14 @@ class euler_nodes(Operator):
 
     @staticmethod
     def _spec():
-        description = """read a field made of 3 coordinates and 3 Euler angles (6 dofs) by node
-            from the rst file."""
+        description = """Reads a field made of 3 coordinates and 3 Euler angles (6 dofs) by
+            node from the result file."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
                 3: PinSpecification(
                     name="streams_container",
-                    type_names=[
-                        "streams_container",
-                        "stream",
-                        "class dataProcessing::CRstFileWrapper",
-                    ],
+                    type_names=["streams_container", "stream"],
                     optional=True,
                     document="""""",
                 ),
@@ -107,9 +100,9 @@ class euler_nodes(Operator):
                     type_names=["bool"],
                     optional=False,
                     document="""If true, then the field has ncomp=6 with 3
-        oords and 3 euler angles, else there
-        is only the euler angles (default is
-        true)""",
+        coordinates and 3 euler angles, else
+        there is only the euler angles
+        (default is true).""",
                 ),
                 7: PinSpecification(
                     name="mesh",
@@ -143,9 +136,7 @@ class euler_nodes(Operator):
             Server with channel connected to the remote or local instance. When
             ``None``, attempts to use the global server.
         """
-        return Operator.default_config(
-            name="mapdl::rst::coords_and_euler_nodes", server=server
-        )
+        return Operator.default_config(name="coords_and_euler_nodes", server=server)
 
     @property
     def inputs(self):
@@ -203,8 +194,7 @@ class InputsEulerNodes(_Inputs):
 
         Parameters
         ----------
-        my_streams_container : StreamsContainer or Stream or Class
-        Dataprocessing::Crstfilewrapper
+        my_streams_container : StreamsContainer or Stream
 
         Examples
         --------
@@ -239,9 +229,9 @@ class InputsEulerNodes(_Inputs):
         """Allows to connect coord_and_euler input to the operator.
 
         If true, then the field has ncomp=6 with 3
-        oords and 3 euler angles, else there
-        is only the euler angles (default is
-        true)
+        coordinates and 3 euler angles, else
+        there is only the euler angles
+        (default is true).
 
         Parameters
         ----------
