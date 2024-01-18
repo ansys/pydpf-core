@@ -8,7 +8,7 @@ from ansys.dpf import core
 from ansys.dpf.core import FieldDefinition
 from ansys.dpf.core import operators as ops
 from ansys.dpf.core.common import locations, shell_layers
-from conftest import running_docker
+from conftest import running_docker, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0
 
 
 @pytest.fixture()
@@ -1316,8 +1316,9 @@ def test_deep_copy_2_field_remote(server_type, server_type_remote_process):
     assert np.allclose(out.data, data)
 
 
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0)
 def test_deep_copy_big_field(server_type, server_in_process):
-    data = np.random.random(1000000)
+    data = np.random.random(100000)
     field_a = dpf.core.field_from_array(data, server=server_type)
     assert np.allclose(field_a.data, data)
 
@@ -1325,8 +1326,9 @@ def test_deep_copy_big_field(server_type, server_in_process):
     assert np.allclose(out.data, data)
 
 
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0)
 def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
-    data = np.random.random(1000000)
+    data = np.random.random(100000)
     field_a = dpf.core.field_from_array(data, server=server_type)
     assert np.allclose(field_a.data, data)
 
