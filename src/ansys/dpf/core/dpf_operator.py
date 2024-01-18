@@ -31,6 +31,7 @@ from ansys.dpf.gate import (
     collection_grpcapi,
     dpf_vector,
     object_handler,
+    integral_types
 )
 
 LOG = logging.getLogger(__name__)
@@ -280,6 +281,16 @@ class Operator:
         """
         self._api.operator_connect_operator_as_input(self, pin, op)
 
+    @staticmethod
+    def _getoutput_string(self, pin):
+        size = integral_types.MutableUInt64(0)
+        return self._api.operator_getoutput_string_with_size(self, pin, size)
+
+    @staticmethod
+    def _connect_string(self, pin, str):
+        size = integral_types.MutableUInt64(len(str))
+        return self._api.operator_connect_string_with_size(self, pin, str, size)
+
     @property
     def _type_to_output_method(self):
         from ansys.dpf.core import (
@@ -307,7 +318,7 @@ class Operator:
         out = [
             (bool, self._api.operator_getoutput_bool),
             (int, self._api.operator_getoutput_int),
-            (str, self._api.operator_getoutput_string),
+            (str, self._getoutput_string),
             (float, self._api.operator_getoutput_double),
             (field.Field, self._api.operator_getoutput_field, "field"),
             (
@@ -425,7 +436,7 @@ class Operator:
         out = [
             (bool, self._api.operator_connect_bool),
             ((int, Enum), self._api.operator_connect_int),
-            (str, self._api.operator_connect_string),
+            (str, self._connect_string),
             (float, self._api.operator_connect_double),
             (field.Field, self._api.operator_connect_field),
             (property_field.PropertyField, self._api.operator_connect_property_field),
