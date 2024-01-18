@@ -60,6 +60,7 @@ for example in glob(r"../../examples/**/*.py"):
         print(f"Example {example_name} skipped as it requires DPF {minimum_version_str}.")
         ignored_pattern += f"|{example_name}"
 ignored_pattern += "|11-server_types.py"
+ignored_pattern += "|06-distributed_stress_averaging.py"
 ignored_pattern += r")"
 
 # -- General configuration ---------------------------------------------------
