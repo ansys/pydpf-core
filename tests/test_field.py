@@ -1316,7 +1316,7 @@ def test_deep_copy_2_field_remote(server_type, server_type_remote_process):
     assert np.allclose(out.data, data)
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0)
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
 def test_deep_copy_big_field(server_type, server_in_process):
     data = np.random.random(100000)
     field_a = dpf.core.field_from_array(data, server=server_type)
@@ -1326,7 +1326,7 @@ def test_deep_copy_big_field(server_type, server_in_process):
     assert np.allclose(out.data, data)
 
 
-@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0)
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
 def test_deep_copy_big_field_remote(server_type, server_type_remote_process):
     data = np.random.random(100000)
     field_a = dpf.core.field_from_array(data, server=server_type)
