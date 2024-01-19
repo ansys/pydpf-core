@@ -108,6 +108,16 @@ class Workflow:
 
     @staticmethod
     def _getoutput_string(self, pin):
+        out = Workflow._getoutput_string_as_bytes(self, pin)
+        if out is not None:
+            return out.decode()
+
+    @staticmethod
+    def _connect_string(self, pin, str):
+        return Workflow._connect_string_as_bytes(self, pin, str.encode())
+
+    @staticmethod
+    def _getoutput_string_as_bytes(self, pin):
         if server_meet_version("8.0", self._server):
             size = integral_types.MutableUInt64(0)
             return self._api.work_flow_getoutput_string_with_size(self, pin, size)
@@ -115,7 +125,7 @@ class Workflow:
             return self._api.work_flow_getoutput_string(self, pin)
 
     @staticmethod
-    def _connect_string(self, pin, str):
+    def _connect_string_as_bytes(self, pin, str):
         if server_meet_version("8.0", self._server):
             size = integral_types.MutableUInt64(len(str))
             return self._api.work_flow_connect_string_with_size(self, pin, str, size)
@@ -216,6 +226,7 @@ class Workflow:
             (bool, self._api.work_flow_connect_bool),
             ((int, Enum), self._api.work_flow_connect_int),
             (str, self._connect_string),
+            (bytes, self._connect_string_as_bytes),
             (float, self._api.work_flow_connect_double),
             (field.Field, self._api.work_flow_connect_field),
             (property_field.PropertyField, self._api.work_flow_connect_property_field),
@@ -277,6 +288,7 @@ class Workflow:
             (bool, self._api.work_flow_getoutput_bool),
             (int, self._api.work_flow_getoutput_int),
             (str, self._getoutput_string),
+            (bytes, self._getoutput_string_as_bytes),
             (float, self._api.work_flow_getoutput_double),
             (field.Field, self._api.work_flow_getoutput_field, "field"),
             (

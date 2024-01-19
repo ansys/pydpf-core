@@ -75,6 +75,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
         request = WorkflowGRPCAPI._connect_init(wf, pin_name)
         request.str = value
         _get_stub(wf._server).UpdateConnection(request)
+
     @staticmethod
     def work_flow_connect_string_with_size(wf, pin_name, value, size):
         if wf._server.meet_version("8.0"):
@@ -87,7 +88,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
             _get_stub(wf._server).UpdateConnectionStreamed(
                 grpc_stream_helpers._data_chunk_yielder(
                     request,
-                    value.encode('utf-8') if value.isascii() else value.encode('latin1'),
+                    value,
                     set_array=_set_array_to_request
                 ),
                 metadata=metadata)
@@ -355,9 +356,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
             dtype = np.byte
             out = grpc_stream_helpers._data_get_chunk_(dtype, service, True, get_array=lambda chunk: chunk.array.array)
             size.val = out.size
-            out = bytes(out)
-            out = out.decode() if out.isascii() else out.decode('latin1')
-            return out
+            return bytes(out)
         else:
             out = WorkflowGRPCAPI.work_flow_getoutput_string(wf, pin_name)
             size.val = out.size

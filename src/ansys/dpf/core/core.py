@@ -287,7 +287,7 @@ def _deep_copy(dpf_entity, server=None):
     serializer = serializer_to_string(server=dpf_entity._server)
     serializer.connect(1, dpf_entity)
     serializer.connect(-1, 1)  # binary
-    out = serializer.get_output(0, types.string)
+    out = serializer.get_output(0, types.bytes)
     deserializer = string_deserializer(server=server)
     deserializer.connect(0, out)
     deserializer.connect(-1, 1)  # binary

@@ -829,12 +829,13 @@ def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_
 def deep_copy_using_workflow(dpf_entity, server):
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
     from ansys.dpf.core.common import types_enum_to_types, types
-    serializer_wf = dpf.core.Workflow(server=dpf_entity._server)
-    serializer = serializer_to_string(server=dpf_entity._server)
+    entity_server = dpf_entity._server if hasattr(dpf_entity, "_server") else None
+    serializer_wf = dpf.core.Workflow(server=entity_server)
+    serializer = serializer_to_string(server=entity_server)
     serializer.connect(1, dpf_entity)
     serializer.connect(-1, 1)  # binary
     serializer_wf.set_output_name("out", serializer, 0)
-    out = serializer_wf.get_output("out", types.string)
+    out = serializer_wf.get_output("out", types.bytes)
     deserializer_wf = dpf.core.Workflow(server=server)
     deserializer = string_deserializer(server=server)
     deserializer_wf.set_input_name("in", 0, deserializer)
@@ -863,6 +864,12 @@ def test_connect_get_output_big_strings(server_type, server_type_remote_process)
 
     out = deep_copy_using_workflow(field_a, server_type_remote_process)
     assert np.allclose(out.data, data)
+
+
+def test_connect_get_non_ascii_string(server_type):
+    str = "\N{GREEK CAPITAL LETTER DELTA}"
+    str_out = deep_copy_using_workflow(str, server_type)
+    assert str == str_out
 
 
 def main():
