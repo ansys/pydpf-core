@@ -20,7 +20,7 @@ from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
     dpf_vector,
-    object_handler,
+    object_handler, integral_types,
 )
 
 LOG = logging.getLogger(__name__)
@@ -105,6 +105,22 @@ class Workflow:
     @progress_bar.setter
     def progress_bar(self, value: bool) -> None:
         self._progress_bar = value
+
+    @staticmethod
+    def _getoutput_string(self, pin):
+        if server_meet_version("8.0", self._server):
+            size = integral_types.MutableUInt64(0)
+            return self._api.work_flow_getoutput_string_with_size(self, pin, size)
+        else:
+            return self._api.work_flow_getoutput_string(self, pin)
+
+    @staticmethod
+    def _connect_string(self, pin, str):
+        if server_meet_version("8.0", self._server):
+            size = integral_types.MutableUInt64(len(str))
+            return self._api.work_flow_connect_string_with_size(self, pin, str, size)
+        else:
+            return self._api.work_flow__connect_string(self, pin, str)
 
     def connect(self, pin_name, inpt, pin_out=0):
         """Connect an input on the workflow using a pin name.
@@ -199,7 +215,7 @@ class Workflow:
         out = [
             (bool, self._api.work_flow_connect_bool),
             ((int, Enum), self._api.work_flow_connect_int),
-            (str, self._api.work_flow_connect_string),
+            (str, self._connect_string),
             (float, self._api.work_flow_connect_double),
             (field.Field, self._api.work_flow_connect_field),
             (property_field.PropertyField, self._api.work_flow_connect_property_field),
@@ -260,7 +276,7 @@ class Workflow:
         out = [
             (bool, self._api.work_flow_getoutput_bool),
             (int, self._api.work_flow_getoutput_int),
-            (str, self._api.work_flow_getoutput_string),
+            (str, self._getoutput_string),
             (float, self._api.work_flow_getoutput_double),
             (field.Field, self._api.work_flow_getoutput_field, "field"),
             (

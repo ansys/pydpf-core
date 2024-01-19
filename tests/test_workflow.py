@@ -283,8 +283,8 @@ def test_output_mesh_workflow(cyclic_lin_rst, cyclic_ds, server_type):
     coord = meshed_region.nodes.coordinates_field
     assert coord.shape == (meshed_region.nodes.n_nodes, 3)
     assert (
-        meshed_region.elements.connectivities_field.data.size
-        == meshed_region.elements.connectivities_field.size
+            meshed_region.elements.connectivities_field.data.size
+            == meshed_region.elements.connectivities_field.size
     )
 
     fields = wf.get_output("fields", dpf.core.types.fields_container)
@@ -384,7 +384,7 @@ def test_connect_get_output_custom_type_field_workflow(server_type):
 
 
 def test_inputs_outputs_inputs_outputs_scopings_container_workflow(
-    allkindofcomplexity, server_type
+        allkindofcomplexity, server_type
 ):
     data_sources = dpf.core.DataSources(allkindofcomplexity, server=server_type)
     model = dpf.core.Model(data_sources, server=server_type)
@@ -824,6 +824,45 @@ def test_create_on_other_server_and_connect_workflow(allkindofcomplexity, local_
     new_workflow.connect("data_sources", dpf.core.DataSources(allkindofcomplexity))
     max = new_workflow.get_output("max", dpf.core.types.field)
     assert np.allclose(max.data, [[8.50619058e04, 1.04659292e01, 3.73620870e05]])
+
+
+def deep_copy_using_workflow(dpf_entity, server):
+    from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
+    from ansys.dpf.core.common import types_enum_to_types, types
+    serializer_wf = dpf.core.Workflow(server=dpf_entity._server)
+    serializer = serializer_to_string(server=dpf_entity._server)
+    serializer.connect(1, dpf_entity)
+    serializer.connect(-1, 1)  # binary
+    serializer_wf.set_output_name("out", serializer, 0)
+    out = serializer_wf.get_output("out", types.string)
+    deserializer_wf = dpf.core.Workflow(server=server)
+    deserializer = string_deserializer(server=server)
+    deserializer_wf.set_input_name("in", 0, deserializer)
+    deserializer_wf.connect("in", out)
+    deserializer.connect(-1, 1)  # binary
+    type_map = types_enum_to_types()
+    output_type = list(type_map.keys())[list(type_map.values()).index(dpf_entity.__class__)]
+    return deserializer.get_output(1, output_type)
+
+
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
+def test_connect_get_output_big_strings(server_type, server_in_process):
+    data = np.random.random(100000)
+    field_a = dpf.core.field_from_array(data, server=server_type)
+    assert np.allclose(field_a.data, data)
+
+    out = deep_copy_using_workflow(field_a, server_in_process)
+    assert np.allclose(out.data, data)
+
+
+@pytest.mark.skipif(not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
+def test_connect_get_output_big_strings(server_type, server_type_remote_process):
+    data = np.random.random(100000)
+    field_a = dpf.core.field_from_array(data, server=server_type)
+    assert np.allclose(field_a.data, data)
+
+    out = deep_copy_using_workflow(field_a, server_type_remote_process)
+    assert np.allclose(out.data, data)
 
 
 def main():
