@@ -283,13 +283,19 @@ class Operator:
 
     @staticmethod
     def _getoutput_string(self, pin):
-        size = integral_types.MutableUInt64(0)
-        return self._api.operator_getoutput_string_with_size(self, pin, size)
+        if server_meet_version("8.0", self._server):
+            size = integral_types.MutableUInt64(0)
+            return self._api.operator_getoutput_string_with_size(self, pin, size)
+        else:
+            return self._api.operator_getoutput_string(self, pin)
 
     @staticmethod
     def _connect_string(self, pin, str):
-        size = integral_types.MutableUInt64(len(str))
-        return self._api.operator_connect_string_with_size(self, pin, str, size)
+        if server_meet_version("8.0", self._server):
+            size = integral_types.MutableUInt64(len(str))
+            return self._api.operator_connect_string_with_size(self, pin, str, size)
+        else:
+            return self._api.operator_connect_string(self, pin, str)
 
     @property
     def _type_to_output_method(self):
