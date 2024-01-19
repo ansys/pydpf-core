@@ -120,7 +120,7 @@ class Workflow:
             size = integral_types.MutableUInt64(len(str))
             return self._api.work_flow_connect_string_with_size(self, pin, str, size)
         else:
-            return self._api.work_flow__connect_string(self, pin, str)
+            return self._api.work_flow_connect_string(self, pin, str)
 
     def connect(self, pin_name, inpt, pin_out=0):
         """Connect an input on the workflow using a pin name.
