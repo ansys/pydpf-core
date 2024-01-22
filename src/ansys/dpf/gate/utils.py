@@ -97,7 +97,9 @@ def to_char_ptr(to_replace):
         return to_replace.val
     elif isinstance(to_replace, integral_types.MutableListChar):
         return to_replace.val
-    return ctypes.create_string_buffer(to_replace.encode('utf-8') if to_replace.isascii() else to_replace.encode('latin1'))
+    elif isinstance(to_replace, bytes):
+        return ctypes.create_string_buffer(to_replace)
+    return ctypes.create_string_buffer(to_replace.encode())
 
 
 def to_char_ptr_ptr(to_replace):
