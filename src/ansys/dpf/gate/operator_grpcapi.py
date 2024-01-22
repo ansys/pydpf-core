@@ -95,11 +95,11 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
             request.op.CopyFrom(op._internal_obj)
             request.pin = pin
             request.type = base_pb2.Type.Value("STRING")
-            metadata = [("size_bytes", f"{size.val}")]
+            metadata = [("size_bytes", f"{size.val.value}")]
             _get_stub(op._server).UpdateStreamed(
                 grpc_stream_helpers._data_chunk_yielder(
                     request,
-                    value.encode('utf-8') if value.isascii() else value.encode('latin1'),
+                    value,
                     set_array=_set_array_to_request
                 ),
                 metadata=metadata)
@@ -345,9 +345,7 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
             dtype = np.byte
             out = grpc_stream_helpers._data_get_chunk_(dtype, service, True, get_array=lambda chunk: chunk.array.array)
             size.val = out.size
-            out = bytes(out)
-            out = out.decode() if out.isascii() else out.decode('latin1')
-            return out
+            return bytes(out)
         else:
             out = OperatorGRPCAPI.operator_getoutput_string(op, iOutput, size)
             size.val = out.size
