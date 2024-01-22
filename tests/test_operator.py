@@ -1328,21 +1328,34 @@ def test_delete_auto_operator(server_type):
     assert op_ref() is None
 
 
-@pytest.mark.parametrize("stream_type", [0, 1])
-def test_connect_get_non_ascii_string(stream_type, server_type):
-    str = "\N{GREEK CAPITAL LETTER DELTA}"
+def deep_copy_using_operator(dpf_entity, server, stream_type=1):
     from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
-    serializer = serializer_to_string(server=server_type)
+    serializer = serializer_to_string(server=server)
     serializer.connect(-1, stream_type)
-    serializer.connect(1, str)
+    serializer.connect(1, dpf_entity)
     if stream_type == 1:
         s_out = serializer.get_output(0, dpf.core.types.bytes)
     else:
         s_out = serializer.get_output(0, dpf.core.types.string)
-    deserializer = string_deserializer(server=server_type)
+    deserializer = string_deserializer(server=server)
     deserializer.connect(-1, stream_type)
     deserializer.connect(0, s_out)
     str_out = deserializer.get_output(1, dpf.core.types.string)
+    return str_out
+
+
+@conftest.raises_for_servers_version_under("8.0")
+def test_connect_get_non_ascii_string_bytes(server_type):
+    stream_type = 1
+    str = "\N{GREEK CAPITAL LETTER DELTA}"
+    str_out = deep_copy_using_operator(str, server_type, stream_type)
+    assert str == str_out
+
+
+def test_connect_get_non_ascii_string(server_type):
+    stream_type = 0
+    str = "\N{GREEK CAPITAL LETTER DELTA}"
+    str_out = deep_copy_using_operator(str, server_type, stream_type)
     assert str == str_out
 
 
