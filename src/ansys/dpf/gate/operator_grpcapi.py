@@ -95,7 +95,7 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
             request.op.CopyFrom(op._internal_obj)
             request.pin = pin
             request.type = base_pb2.Type.Value("STRING")
-            metadata = [("size_bytes", f"{size.val}")]
+            metadata = [("size_bytes", f"{size.val.value}")]
             _get_stub(op._server).UpdateStreamed(
                 grpc_stream_helpers._data_chunk_yielder(
                     request,
