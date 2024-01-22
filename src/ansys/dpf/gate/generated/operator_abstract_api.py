@@ -72,6 +72,10 @@ class OperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def operator_connect_string_with_size(op, iPin, value, size):
+		raise NotImplementedError
+
+	@staticmethod
 	def operator_connect_scoping(op, iPin, scoping):
 		raise NotImplementedError
 
@@ -233,6 +237,10 @@ class OperatorAbstractAPI:
 
 	@staticmethod
 	def operator_getoutput_string(op, iOutput):
+		raise NotImplementedError
+
+	@staticmethod
+	def operator_getoutput_string_with_size(op, iOutput, size):
 		raise NotImplementedError
 
 	@staticmethod
