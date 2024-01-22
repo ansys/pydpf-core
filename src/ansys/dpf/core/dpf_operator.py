@@ -285,11 +285,11 @@ class Operator:
     def _getoutput_string(self, pin):
         out = Operator._getoutput_string_as_bytes(self, pin)
         if out is not None:
-            return out.decode()
+            return out.decode('utf-8')
 
     @staticmethod
     def _connect_string(self, pin, str):
-        return Operator._connect_string_as_bytes(self, pin, str.encode())
+        return Operator._connect_string_as_bytes(self, pin, str.encode('utf-8'))
 
     @staticmethod
     def _getoutput_string_as_bytes(self, pin):

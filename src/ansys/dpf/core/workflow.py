@@ -110,11 +110,11 @@ class Workflow:
     def _getoutput_string(self, pin):
         out = Workflow._getoutput_string_as_bytes(self, pin)
         if out is not None:
-            return out.decode()
+            return out.decode('utf-8')
 
     @staticmethod
     def _connect_string(self, pin, str):
-        return Workflow._connect_string_as_bytes(self, pin, str.encode())
+        return Workflow._connect_string_as_bytes(self, pin, str.encode('utf-8'))
 
     @staticmethod
     def _getoutput_string_as_bytes(self, pin):
