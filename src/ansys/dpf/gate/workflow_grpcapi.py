@@ -84,7 +84,7 @@ class WorkflowGRPCAPI(workflow_abstract_api.WorkflowAbstractAPI):
             request.wf.CopyFrom(wf._internal_obj)
             request.pin_name = pin_name
             request.type = base_pb2.Type.Value("STRING")
-            metadata = [("size_bytes", f"{size.val}")]
+            metadata = [("size_bytes", f"{size.val.value}")]
             _get_stub(wf._server).UpdateConnectionStreamed(
                 grpc_stream_helpers._data_chunk_yielder(
                     request,
