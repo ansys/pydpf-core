@@ -1344,3 +1344,9 @@ def test_connect_get_non_ascii_string(stream_type, server_type):
     deserializer.connect(0, s_out)
     str_out = deserializer.get_output(1, dpf.core.types.string)
     assert str == str_out
+
+
+def test_deep_copy_non_ascii_string(server_type):
+    str = "\N{GREEK CAPITAL LETTER DELTA}"
+    str_out = dpf.core.core._deep_copy(str, server_type)
+    assert str == str_out

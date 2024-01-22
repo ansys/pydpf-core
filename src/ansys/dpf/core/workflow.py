@@ -11,7 +11,7 @@ import warnings
 from enum import Enum
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
-from ansys.dpf.core.check_version import server_meet_version, version_requires
+from ansys.dpf.core.check_version import server_meet_version, version_requires, server_meet_version_and_raise
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
     workflow_abstract_api,
@@ -109,8 +109,9 @@ class Workflow:
     @staticmethod
     def _getoutput_string(self, pin):
         out = Workflow._getoutput_string_as_bytes(self, pin)
-        if out is not None:
+        if out is not None and not isinstance(out, str):
             return out.decode('utf-8')
+        return out
 
     @staticmethod
     def _connect_string(self, pin, str):
@@ -123,6 +124,15 @@ class Workflow:
             return self._api.work_flow_getoutput_string_with_size(self, pin, size)
         else:
             return self._api.work_flow_getoutput_string(self, pin)
+
+    @staticmethod
+    def _getoutput_bytes(self, pin):
+        server_meet_version_and_raise(
+            "8.0",
+            self._server,
+            "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2)."
+        )
+        return Workflow._getoutput_string_as_bytes(self, pin)
 
     @staticmethod
     def _connect_string_as_bytes(self, pin, str):
@@ -288,7 +298,7 @@ class Workflow:
             (bool, self._api.work_flow_getoutput_bool),
             (int, self._api.work_flow_getoutput_int),
             (str, self._getoutput_string),
-            (bytes, self._getoutput_string_as_bytes),
+            (bytes, self._getoutput_bytes),
             (float, self._api.work_flow_getoutput_double),
             (field.Field, self._api.work_flow_getoutput_field, "field"),
             (
