@@ -99,6 +99,7 @@ class types(Enum):
     scopings_container = -2
     meshes_container = -3
     streams_container = -4
+    bytes = -5
 
 
 def types_enum_to_types():
@@ -131,6 +132,7 @@ def types_enum_to_types():
         types.int: int,
         types.double: float,
         types.bool: bool,
+        types.bytes: bytes,
         types.collection: collection.Collection,
         types.fields_container: fields_container.FieldsContainer,
         types.scopings_container: scopings_container.ScopingsContainer,
