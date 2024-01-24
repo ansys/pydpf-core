@@ -4,7 +4,6 @@ from ansys import dpf
 from ansys.dpf.core import Model
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
@@ -185,7 +184,7 @@ def test_create_result_info(server_type):
             dimensions=None,
             description="description",
         )
-        if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+        if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
             ref = """Static analysis
 Unit system: Undefined
 Physics Type: Mechanical
@@ -194,10 +193,10 @@ Available results:
 """
         else:
             ref = """Static analysis
-            Unit system: 
-            Physics Type: Mecanic
-            Available results:
-                 -  scripting_name: Nodal Scripting Name
+Unit system: 
+Physics Type: Mecanic
+Available results:
+     -  scripting_name: Nodal Scripting Name
             """
         assert str(result_info) == ref
         with pytest.raises(ValueError, match="requires"):
