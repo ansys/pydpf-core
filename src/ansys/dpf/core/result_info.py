@@ -67,12 +67,19 @@ class ResultInfo:
 
     Parameters
     ----------
-    result_info : ctypes.c_void_p, ansys.grpc.dpf.result_info_pb2.ResultInfo message
+    result_info: ctypes.c_void_p, ansys.grpc.dpf.result_info_pb2.ResultInfo
+        Existing ResultInfo internal object
 
-     server : ansys.dpf.core.server, optional
-        Server with the channel connected to the remote or local instance.
-        The default is ``None``, in which case an attempt is made to use the
-        global server.
+    server: ansys.dpf.core.server, optional
+       Server with the channel connected to the remote or local instance.
+       The default is ``None``, in which case an attempt is made to use the
+       global server.
+
+    analysis_type: analysis_types
+        Type of the analysis for a new ResultInfo.
+
+    physics_type: physics_types
+        Type of physics for the new ResultInfo.
 
     Examples
     --------
@@ -115,6 +122,7 @@ class ResultInfo:
         elif result_info is None:
             if not self._server.has_client():
                 if not (analysis_type or physics_type):
+                    self._internal_obj = None
                     raise ValueError("Creating a new ResultInfo requires an analysis_type and a physics_type.")
                 self._internal_obj = self._api.result_info_new(analysis_type=analysis_type.value, physics_type=physics_type.value)
             else:
@@ -206,12 +214,10 @@ class ResultInfo:
         else:
             if not dimensions:
                 raise ValueError(f"Argument 'dimensions' is required for a {nature.name} result.")
-        # from ansys.dpf.core.dimensionality import Dimensionality
         size_dim = len(dimensions)
-        # dim = Dimensionality(dim_vec=dimensions, nature=nature)
         self._api.result_info_add_result(
             self, operator_name, scripting_name, dimensions,
-            size_dim, nature.value, location, homogeneity, description
+            size_dim, nature.value, location, homogeneity.name, description
         )
 
     @property
