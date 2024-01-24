@@ -167,28 +167,66 @@ def test_result_info_memory_leaks(model):
         # t = res.main_title
 
 
-def test_create_result_info(server_in_process):
+def test_create_result_info(server_type):
     from ansys.dpf.core.available_result import Homogeneity
-    result_info = dpf.core.ResultInfo(
-        analysis_type=dpf.core.result_info.analysis_types.static,
-        physics_type=dpf.core.result_info.physics_types.mechanical,
-        server=server_in_process
-    )
-    result_info.add_result(
-        operator_name="operator_name",
-        scripting_name="scripting_name",
-        homogeneity=Homogeneity.temperature,
-        location=dpf.core.locations.nodal,
-        nature=dpf.core.natures.scalar,
-        dimensions=None,
-        description="description",
-    )
-    ref = """Static analysis
+    if not server_type.has_client():
+        result_info = dpf.core.ResultInfo(
+            analysis_type=dpf.core.result_info.analysis_types.static,
+            physics_type=dpf.core.result_info.physics_types.mechanical,
+            server=server_type
+        )
+        result_info.add_result(
+            operator_name="operator_name",
+            scripting_name="scripting_name",
+            homogeneity=Homogeneity.temperature,
+            location=dpf.core.locations.nodal,
+            nature=dpf.core.natures.scalar,
+            dimensions=None,
+            description="description",
+        )
+        ref = """Static analysis
 Unit system: Undefined
 Physics Type: Mechanical
 Available results:
      -  scripting_name: Nodal Scripting Name
 """
-    assert str(result_info) == ref
-    with pytest.raises(ValueError, match="requires"):
-        _ = dpf.core.ResultInfo()
+        assert str(result_info) == ref
+        with pytest.raises(ValueError, match="requires"):
+            _ = dpf.core.ResultInfo()
+    else:
+        with pytest.raises(NotImplementedError, match="Cannot create a new ResultInfo via gRPC."):
+            _ = dpf.core.ResultInfo(
+                analysis_type=dpf.core.result_info.analysis_types.static,
+                physics_type=dpf.core.result_info.physics_types.mechanical,
+                server=server_type
+            )
+
+
+def test_result_info_add_result(model):
+    from ansys.dpf.core.available_result import Homogeneity
+    res = model.metadata.result_info
+    if not model._server.has_client():
+        res.add_result(
+                operator_name="operator_name",
+                scripting_name="scripting_name",
+                homogeneity=Homogeneity.temperature,
+                location=dpf.core.locations.nodal,
+                nature=dpf.core.natures.scalar,
+                dimensions=None,
+                description="description",
+            )
+    else:
+        with pytest.raises(
+                NotImplementedError,
+                match="Cannot add a result to a ResultInfo via gRPC."
+        ):
+            res.add_result(
+                    operator_name="operator_name",
+                    scripting_name="scripting_name",
+                    homogeneity=Homogeneity.temperature,
+                    location=dpf.core.locations.nodal,
+                    nature=dpf.core.natures.scalar,
+                    dimensions=None,
+                    description="description",
+                )
+

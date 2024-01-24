@@ -65,6 +65,10 @@ class ResultInfo:
 
     This class describes the metadata of the analysis and the available results.
 
+    .. note::
+      Creating a new ResultInfo from an analysis type and physics type is currently only available
+      InProcess.
+
     Parameters
     ----------
     result_info: ctypes.c_void_p, ansys.grpc.dpf.result_info_pb2.ResultInfo
@@ -126,7 +130,7 @@ class ResultInfo:
                     raise ValueError("Creating a new ResultInfo requires an analysis_type and a physics_type.")
                 self._internal_obj = self._api.result_info_new(analysis_type=analysis_type.value, physics_type=physics_type.value)
             else:
-                raise Exception("Cannot create a new Result_info via gRPC.")
+                raise NotImplementedError("Cannot create a new ResultInfo via gRPC.")
 
     def __str__(self):
         try:
@@ -187,6 +191,9 @@ class ResultInfo:
     ):
         """Add an available result to the ResultInfo.
 
+        .. note::
+          Adding a new result to a ResultInfo is currently only available InProcess.
+
         Parameters
         ----------
         operator_name:
@@ -209,6 +216,8 @@ class ResultInfo:
         description:
             Description of the result.
         """
+        if self._server.has_client():
+            raise NotImplementedError("Cannot add a result to a ResultInfo via gRPC.")
         if nature == natures.scalar:
             dimensions = [1]
         else:
