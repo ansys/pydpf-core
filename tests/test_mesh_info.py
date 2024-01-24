@@ -491,6 +491,9 @@ def test_mesh_info_zones(fluent_multi_species, server_clayer):
     assert mesh_info.face_zones == ref_face_zones
 
 
+@pytest.mark.skipif(
+    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
+)
 def test_mesh_info_parts(server_type):
     parts = ["part_1", "part_2"]
     part_ids = list(range(1, len(parts)+1))
