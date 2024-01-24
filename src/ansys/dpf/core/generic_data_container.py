@@ -4,9 +4,13 @@
 GenericDataContainer
 ====================
 """
+from __future__ import annotations
 import traceback
 import warnings
 import builtins
+from typing import Union, List, TYPE_CHECKING
+if TYPE_CHECKING:  # pragma: no cover
+    from ansys.dpf.core import Field, Scoping, StringField, GenericDataContainer
 
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
@@ -82,15 +86,19 @@ class GenericDataContainer:
 
         return _description(self._internal_obj, self._server)
 
-    def set_property(self, property_name, prop):
+    def set_property(
+            self,
+            property_name: str,
+            prop: Union[int, float, str, Field, StringField, GenericDataContainer, Scoping]
+    ):
         """Register given property with the given name.
 
         Parameters
         ----------
-        property_name : str
+        property_name:
             Property name.
-        prop : Int, String, Float, Field, StringField, GenericDataContainer, Scoping
-            object instance.
+        prop:
+            Property object.
         """
 
         any_dpf = Any.new_from(prop, self._server)

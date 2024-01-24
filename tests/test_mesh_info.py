@@ -489,3 +489,18 @@ def test_mesh_info_zones(fluent_multi_species, server_clayer):
         '7': 'velocity-inlet-7'
     }
     assert mesh_info.face_zones == ref_face_zones
+
+
+def test_mesh_info_parts(server_type):
+    parts = ["part_1", "part_2"]
+    part_ids = list(range(1, len(parts)+1))
+    part_names = dpf.StringField(nentities=len(part_ids))
+    for part_id in part_ids:
+        part_names.append(data=[parts[part_id-1]], scopingid=part_id)
+    part_scoping = dpf.Scoping(location="part", ids=part_ids)
+    gdc = dpf.GenericDataContainer()
+    gdc.set_property(property_name="part_names", prop=part_names)
+    gdc.set_property(property_name="part_scoping", prop=part_scoping)
+    mesh_info = dpf.MeshInfo(generic_data_container=gdc, server=server_type)
+    ref = """{'1': 'part_1', '2': 'part_2'}"""
+    assert str(mesh_info.parts) == ref
