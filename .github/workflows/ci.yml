@@ -201,7 +201,7 @@ jobs:
       ANSYS_VERSION: "241"
       python_versions: '["3.9"]'
       DOCSTRING: false
-      standalone_suffix: ''
+      standalone_suffix: '.sp01'
     secrets: inherit
 
   retro_232:

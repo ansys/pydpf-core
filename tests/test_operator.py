@@ -1,6 +1,7 @@
 import gc
 import os
 import shutil
+import types
 import weakref
 
 import numpy as np
@@ -324,8 +325,8 @@ def test_inputs_outputs_1_operator(cyclic_lin_rst, cyclic_ds, tmpdir):
     coord = meshed_region.nodes.coordinates_field
     assert coord.shape == (meshed_region.nodes.n_nodes, 3)
     assert (
-        meshed_region.elements.connectivities_field.data.size
-        == meshed_region.elements.connectivities_field.size
+            meshed_region.elements.connectivities_field.data.size
+            == meshed_region.elements.connectivities_field.size
     )
 
 
@@ -1266,8 +1267,8 @@ def test_operator_config_specification_simple(server_type):
     conf_spec = spec.config_specification
     if server_type.os != "posix":
         assert (
-            "enum dataProcessing::EBinaryOperation"
-            or "binary_operation_enum" in conf_spec["binary_operation"].type_names
+                "enum dataProcessing::EBinaryOperation"
+                or "binary_operation_enum" in conf_spec["binary_operation"].type_names
         )
     elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
         assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
@@ -1284,8 +1285,8 @@ def test_generated_operator_config_specification_simple(server_type):
     conf_spec = spec.config_specification
     if server_type.os != "posix":
         assert (
-            "enum dataProcessing::EBinaryOperation"
-            or "binary_operation_enum" in conf_spec["binary_operation"].type_names
+                "enum dataProcessing::EBinaryOperation"
+                or "binary_operation_enum" in conf_spec["binary_operation"].type_names
         )
     elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2:
         assert "binary_operation_enum" in conf_spec["binary_operation"].type_names
@@ -1325,3 +1326,40 @@ def test_delete_auto_operator(server_type):
     op = None
     gc.collect()
     assert op_ref() is None
+
+
+def deep_copy_using_operator(dpf_entity, server, stream_type=1):
+    from ansys.dpf.core.operators.serialization import serializer_to_string, string_deserializer
+    serializer = serializer_to_string(server=server)
+    serializer.connect(-1, stream_type)
+    serializer.connect(1, dpf_entity)
+    if stream_type == 1:
+        s_out = serializer.get_output(0, dpf.core.types.bytes)
+    else:
+        s_out = serializer.get_output(0, dpf.core.types.string)
+    deserializer = string_deserializer(server=server)
+    deserializer.connect(-1, stream_type)
+    deserializer.connect(0, s_out)
+    str_out = deserializer.get_output(1, dpf.core.types.string)
+    return str_out
+
+
+@conftest.raises_for_servers_version_under("8.0")
+def test_connect_get_non_ascii_string_bytes(server_type):
+    stream_type = 1
+    str = "\N{GREEK CAPITAL LETTER DELTA}"
+    str_out = deep_copy_using_operator(str, server_type, stream_type)
+    assert str == str_out
+
+
+def test_connect_get_non_ascii_string(server_type):
+    stream_type = 0
+    str = "\N{GREEK CAPITAL LETTER DELTA}"
+    str_out = deep_copy_using_operator(str, server_type, stream_type)
+    assert str == str_out
+
+
+def test_deep_copy_non_ascii_string(server_type):
+    str = "\N{GREEK CAPITAL LETTER DELTA}"
+    str_out = dpf.core.core._deep_copy(str, server_type)
+    assert str == str_out

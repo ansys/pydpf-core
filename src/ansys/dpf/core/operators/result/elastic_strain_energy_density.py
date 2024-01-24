@@ -74,11 +74,14 @@ class elastic_strain_energy_density(Operator):
         Elemental nodal beam results are read if this
         pin is set to true (default is false)
     split_shells : bool, optional
+        This pin forces elemental nodal shell and
+        solid results to be split if this pin
+        is set to true (default is false)
+    shell_layer : int, optional
         If the requested_location pin is not
-        connected, this pin forces elemental
-        nodal shell and solid results to be
-        split if this pin is set to true
-        (default is false)
+        connected, and if spli_shells pin is
+        set to true, we choose one of the
+        shell layer for shell element.
 
 
     Examples
@@ -111,6 +114,8 @@ class elastic_strain_energy_density(Operator):
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
     >>> op.inputs.split_shells.connect(my_split_shells)
+    >>> my_shell_layer = int()
+    >>> op.inputs.shell_layer.connect(my_shell_layer)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.elastic_strain_energy_density(
@@ -125,6 +130,7 @@ class elastic_strain_energy_density(Operator):
     ...     read_cyclic=my_read_cyclic,
     ...     read_beams=my_read_beams,
     ...     split_shells=my_split_shells,
+    ...     shell_layer=my_shell_layer,
     ... )
 
     >>> # Get output data
@@ -144,6 +150,7 @@ class elastic_strain_energy_density(Operator):
         read_cyclic=None,
         read_beams=None,
         split_shells=None,
+        shell_layer=None,
         config=None,
         server=None,
     ):
@@ -172,6 +179,8 @@ class elastic_strain_energy_density(Operator):
             self.inputs.read_beams.connect(read_beams)
         if split_shells is not None:
             self.inputs.split_shells.connect(split_shells)
+        if shell_layer is not None:
+            self.inputs.shell_layer.connect(shell_layer)
 
     @staticmethod
     def _spec():
@@ -288,11 +297,18 @@ class elastic_strain_energy_density(Operator):
                     name="split_shells",
                     type_names=["bool"],
                     optional=True,
+                    document="""This pin forces elemental nodal shell and
+        solid results to be split if this pin
+        is set to true (default is false)""",
+                ),
+                27: PinSpecification(
+                    name="shell_layer",
+                    type_names=["int32"],
+                    optional=True,
                     document="""If the requested_location pin is not
-        connected, this pin forces elemental
-        nodal shell and solid results to be
-        split if this pin is set to true
-        (default is false)""",
+        connected, and if spli_shells pin is
+        set to true, we choose one of the
+        shell layer for shell element.""",
                 ),
             },
             map_output_pin_spec={
@@ -373,6 +389,8 @@ class InputsElasticStrainEnergyDensity(_Inputs):
     >>> op.inputs.read_beams.connect(my_read_beams)
     >>> my_split_shells = bool()
     >>> op.inputs.split_shells.connect(my_split_shells)
+    >>> my_shell_layer = int()
+    >>> op.inputs.shell_layer.connect(my_shell_layer)
     """
 
     def __init__(self, op: Operator):
@@ -421,6 +439,10 @@ class InputsElasticStrainEnergyDensity(_Inputs):
             elastic_strain_energy_density._spec().input_pin(26), 26, op, -1
         )
         self._inputs.append(self._split_shells)
+        self._shell_layer = Input(
+            elastic_strain_energy_density._spec().input_pin(27), 27, op, -1
+        )
+        self._inputs.append(self._shell_layer)
 
     @property
     def time_scoping(self):
@@ -661,11 +683,9 @@ class InputsElasticStrainEnergyDensity(_Inputs):
     def split_shells(self):
         """Allows to connect split_shells input to the operator.
 
-        If the requested_location pin is not
-        connected, this pin forces elemental
-        nodal shell and solid results to be
-        split if this pin is set to true
-        (default is false)
+        This pin forces elemental nodal shell and
+        solid results to be split if this pin
+        is set to true (default is false)
 
         Parameters
         ----------
@@ -680,6 +700,29 @@ class InputsElasticStrainEnergyDensity(_Inputs):
         >>> op.inputs.split_shells(my_split_shells)
         """
         return self._split_shells
+
+    @property
+    def shell_layer(self):
+        """Allows to connect shell_layer input to the operator.
+
+        If the requested_location pin is not
+        connected, and if spli_shells pin is
+        set to true, we choose one of the
+        shell layer for shell element.
+
+        Parameters
+        ----------
+        my_shell_layer : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.elastic_strain_energy_density()
+        >>> op.inputs.shell_layer.connect(my_shell_layer)
+        >>> # or
+        >>> op.inputs.shell_layer(my_shell_layer)
+        """
+        return self._shell_layer
 
 
 class OutputsElasticStrainEnergyDensity(_Outputs):

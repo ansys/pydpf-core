@@ -1,5 +1,5 @@
 set SPHINX_APIDOC_OPTIONS=inherited-members
-call sphinx-apidoc -o ../docs/source/api ../src/ansys ../src/ansys/dpf/core/log.py ^
+call sphinx-apidoc -o ../doc/source/api ../src/ansys ../src/ansys/dpf/core/log.py ^
 ../src/ansys/dpf/core/help.py ../src/ansys/dpf/core/mapping_types.py ../src/ansys/dpf/core/ipconfig.py ^
 ../src/ansys/dpf/core/field_base.py ../src/ansys/dpf/core/cache.py ../src/ansys/dpf/core/misc.py ^
 ../src/ansys/dpf/core/check_version.py ../src/ansys/dpf/core/operators/build.py ../src/ansys/dpf/core/operators/specification.py ^
@@ -8,7 +8,7 @@ call sphinx-apidoc -o ../docs/source/api ../src/ansys ../src/ansys/dpf/core/log.
  ../src/ansys/dpf/core/property_fields_container.py ^
  -f --implicit-namespaces --separate  --no-headings
 pushd .
-cd ../docs/
+cd ../doc/
 call make clean
 call make html -v -v -v -P
 
@@ -16,14 +16,13 @@ dir
 
 rem Patch pyVista issue with elemental plots
 
-xcopy  source\examples\04-advanced\02-volume_averaged_stress\sphx_glr_02-volume_averaged_stress_001.png   build\html\_images  /y /f /i
-xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_001.png                     build\html\_images  /y /f /i
-xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_002.png                     build\html\_images  /y /f /i
-xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_003.png                     build\html\_images  /y /f /i
-xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_004.png                     build\html\_images  /y /f /i
-xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_005.png                     build\html\_images  /y /f /i
-xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_006.png                     build\html\_images  /y /f /i
-xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_007.png                     build\html\_images  /y /f /i
-xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_thumb.png                   build\html\_images  /y /f /i
-
+xcopy  source\examples\04-advanced\02-volume_averaged_stress\sphx_glr_02-volume_averaged_stress_001.png   build\html\_images\  /y /f
+xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_001.png                     build\html\_images\  /y /f
+xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_002.png                     build\html\_images\  /y /f
+xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_003.png                     build\html\_images\  /y /f
+xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_004.png                     build\html\_images\  /y /f
+xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_005.png                     build\html\_images\  /y /f
+xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_006.png                     build\html\_images\  /y /f
+xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_007.png                     build\html\_images\  /y /f
+xcopy  source\examples\12-fluids\02-fluids_results\sphx_glr_02-fluids_results_thumb.png                   build\html\_images\  /y /f
 popd

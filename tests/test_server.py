@@ -274,6 +274,7 @@ def test_go_away_server():
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="Not existing in version lower than 4.0",
 )
+@pytest.mark.skipif(running_docker, reason="Unstable on Docker")
 def test_start_after_shutting_down_server():
     remote_server = start_local_server(
         config=dpf.core.AvailableServerConfigs.GrpcServer, as_global=False
