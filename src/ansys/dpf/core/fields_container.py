@@ -479,8 +479,24 @@ class FieldsContainer(Collection):
         """
         return self.get_label_scoping("time")
 
-    def plot(self, label_space, **kwargs):
-        """Plots all the fields in the fields_container for the given LabelSpace."""
+    def plot(self, label_space: dict, **kwargs):
+        """Plots the fields in the FieldsContainer for the given LabelSpace.
+        Check the labels available for the FieldsContainer with
+        :func:`~fields_container.FieldsContainer.labels`.
+
+        Parameters
+        ----------
+        label_space:
+            A dictionary (LabelSpace) of labels of the :class:`FieldsContainer` with associated
+            values to select for plotting.
+            This is used to filter the data to plot, for example:
+              - if ``label_space={'time': 10}``: a single time step (mandatory for transient)
+              - if ``label_space={'complex': 0, 'part': 12}``: real part of complex data for a part
+            See :func:`~fields_container.FieldsContainer.get_fields`.
+        **kwargs:
+            For more information on accepted keyword arguments, see :func:`~field.Field.plot` and
+            :class:`~plotter.DpfPlotter`.
+        """
         from ansys.dpf.core import plotter
         plt = plotter.DpfPlotter(**kwargs)
         fields = self.get_fields(label_space=label_space)
