@@ -8,7 +8,7 @@ from __future__ import annotations
 import traceback
 import warnings
 import builtins
-from typing import Union, List, TYPE_CHECKING
+from typing import Union, TYPE_CHECKING
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Field, Scoping, StringField, GenericDataContainer
 
