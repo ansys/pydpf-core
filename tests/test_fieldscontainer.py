@@ -529,5 +529,5 @@ def test_fields_container_empty_tf_support(server_type):
     assert fields_container.time_freq_support == None
 
 
-if __name__ == "__main__":
-    test_add_field_by_time_id()
+def test_fields_container_plot(server_type, disp_fc):
+    disp_fc.plot()

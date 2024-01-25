@@ -5,14 +5,14 @@ on:
   workflow_call:
     inputs:
       version:
-        description: "Release version as 'X.Y.Z'"
+        description: "Release version as 'vX.Y.Z'"
         type: string
         required: true
 # Can be called manually
   workflow_dispatch:
     inputs:
       version:
-        description: "Release version as 'X.Y.Z'"
+        description: "Release version as 'vX.Y.Z'"
         type: string
         required: true
 
@@ -43,7 +43,7 @@ jobs:
         with:
           file: HTML-doc-ansys-dpf-core.zip
           token: ${{ secrets.GITHUB_TOKEN }}
-          version: tags/v${{ inputs.version }}
+          version: tags/${{ inputs.version }}
 
       - name: "Extract ipynb examples"
         shell: python
