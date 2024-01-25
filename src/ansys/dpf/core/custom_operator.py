@@ -42,13 +42,18 @@ def update_virtual_environment_for_custom_operators(restore_original: bool = Fal
     restore_original:
         If ``True``, restores the original dpf-site.zip.
     """
+    # Get the path to the dpf-site.zip in the current DPF server
+    current_dpf_site_zip_path = None
+    # Get the path to where we store the original dpf-site.zip
+    original_dpf_site_zip_path = None
     # Restore the original dpf-site.zip
     if restore_original:
         return
-    # Update the dpf-site.zip based on the current virtual environment
+    # Otherwise get the path to the site_packages of the current virtual environment
     current_site_packages_path = None
-    current_dpf_site_zip_path = None
-    original_dpf_site_zip_path = None
+    # Zip it
+    # Store original dpf-site.zip for this DPF Server
+    # Update with new
 
 
 def record_operator(operator_type, *args) -> None:
