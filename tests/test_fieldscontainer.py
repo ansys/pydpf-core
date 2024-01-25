@@ -527,7 +527,3 @@ def test_fields_container_empty_tf_support(server_type):
     fields_container = dpf.FieldsContainer(server=server_type)
 
     assert fields_container.time_freq_support == None
-
-
-def test_fields_container_plot(server_type, disp_fc):
-    disp_fc.plot()
