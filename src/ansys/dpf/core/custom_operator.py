@@ -42,7 +42,7 @@ def update_virtual_environment_for_custom_operators(restore_original: bool = Fal
     """Updates the dpf-site.zip file used to start a venv for Python custom operators to run in.
 
     It updates the site-packages in dpf-site.zip with the site-packages of the current venv.
-    It stores the original dpf-site.zip in the users files.
+    It stores the original dpf-site.zip for future restoration.
 
     .. note::
         This feature is only available InProcess to ensure compatibility of the current venv
