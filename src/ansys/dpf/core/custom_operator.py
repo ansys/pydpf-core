@@ -8,6 +8,12 @@ Contains utilities allowing you to implement and record custom Python operators.
 
 import abc
 import ctypes
+import os
+import pathlib
+import shutil
+import warnings
+import zipfile
+
 import numpy
 import traceback
 
@@ -29,6 +35,65 @@ from ansys.dpf.core._custom_operators_helpers import (
     _type_to_input_method,
 )
 from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
+
+
+def update_virtual_environment_for_custom_operators(restore_original: bool = False):
+    """Updates the dpf-site.zip file used to start a venv for Python custom operators to run in.
+
+    It updates the site-packages in dpf-site.zip with the site-packages of the current venv.
+    It stores the original dpf-site.zip for future restoration.
+
+    .. note::
+        This feature is only available InProcess to ensure compatibility of the current venv
+        client-side with the machine where the server is run.
+
+    Parameters
+    ----------
+    restore_original:
+        If ``True``, restores the original dpf-site.zip.
+    """
+    # Get the path to the dpf-site.zip in the current DPF server
+    server = dpf.server.get_or_create_server(dpf.SERVER)
+    if server.has_client():
+        raise NotImplementedError(
+            "Updating the dpf-site.zip of a DPF Server is only available when InProcess."
+        )
+    current_dpf_site_zip_path = os.path.join(server.ansys_path, "dpf", "python", "dpf-site.zip")
+    # Get the path to where we store the original dpf-site.zip
+    original_dpf_site_zip_path = os.path.join(
+        server.ansys_path, "dpf", "python", "original", "dpf-site.zip"
+    )
+    # Restore the original dpf-site.zip
+    if restore_original:
+        if os.path.exists(original_dpf_site_zip_path):
+            shutil.move(src=original_dpf_site_zip_path, dst=current_dpf_site_zip_path)
+            os.rmdir(os.path.dirname(original_dpf_site_zip_path))
+        else:
+            warnings.warn("No original dpf-site.zip found. Current is most likely the original.")
+    else:
+        # Get the current paths to site_packages
+        import site
+        paths_to_current_site_packages = site.getsitepackages()
+        current_site_packages_path = None
+        # Get the first one targeting an actual site-packages folder
+        for path_to_site_packages in paths_to_current_site_packages:
+            if path_to_site_packages[-13:] == "site-packages":
+                current_site_packages_path = pathlib.Path(path_to_site_packages)
+                break
+        if current_site_packages_path is None:
+            warnings.warn("Could not find a currently loaded site-packages folder to update from.")
+            return
+        # Store original dpf-site.zip for this DPF Server if no original is stored
+        if not os.path.exists(os.path.dirname(original_dpf_site_zip_path)):
+            os.mkdir(os.path.dirname(original_dpf_site_zip_path))
+            shutil.move(src=current_dpf_site_zip_path, dst=original_dpf_site_zip_path)
+        # Zip the current site-packages at the destination
+        with zipfile.ZipFile(current_dpf_site_zip_path, mode="w") as archive:
+            for file_path in current_site_packages_path.rglob("*"):
+                archive.write(
+                    filename=file_path,
+                    arcname=file_path.relative_to(current_site_packages_path)
+                )
 
 
 def record_operator(operator_type, *args) -> None:
