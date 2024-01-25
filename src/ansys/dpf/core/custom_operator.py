@@ -37,7 +37,10 @@ from ansys.dpf.core._custom_operators_helpers import (
 from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
 
 
-def update_virtual_environment_for_custom_operators(restore_original: bool = False):
+def update_virtual_environment_for_custom_operators(
+        restore_original: bool = False,
+        update_all: bool = False,
+):
     """Updates the dpf-site.zip file used to start a venv for Python custom operators to run in.
 
     It updates the site-packages in dpf-site.zip with the site-packages of the current venv.
@@ -51,6 +54,9 @@ def update_virtual_environment_for_custom_operators(restore_original: bool = Fal
     ----------
     restore_original:
         If ``True``, restores the original dpf-site.zip.
+    update_all:
+        If ``True``, copies the entire current site-packages.
+        If ``False``, only updates ansys-dpf-core.
     """
     # Get the path to the dpf-site.zip in the current DPF server
     server = dpf.server.get_or_create_server(dpf.SERVER)
@@ -87,13 +93,25 @@ def update_virtual_environment_for_custom_operators(restore_original: bool = Fal
         if not os.path.exists(os.path.dirname(original_dpf_site_zip_path)):
             os.mkdir(os.path.dirname(original_dpf_site_zip_path))
             shutil.move(src=current_dpf_site_zip_path, dst=original_dpf_site_zip_path)
-        # Zip the current site-packages at the destination
-        with zipfile.ZipFile(current_dpf_site_zip_path, mode="w") as archive:
-            for file_path in current_site_packages_path.rglob("*"):
-                archive.write(
-                    filename=file_path,
-                    arcname=file_path.relative_to(current_site_packages_path)
-                )
+
+        # If an ansys.dpf.core.path file exists, then the installation is editable
+        path_file = os.path.join(current_site_packages_path, "ansys.dpf.core.pth")
+        if os.path.exists(path_file):
+            # Treat editable install of ansys-dpf-core
+
+        # Treat global update or targeted update
+        if update_all:
+            # Zip the current site-packages at the destination
+            with zipfile.ZipFile(current_dpf_site_zip_path, mode="w") as archive:
+                for file_path in current_site_packages_path.rglob("*"):
+                    archive.write(
+                        filename=file_path,
+                        arcname=file_path.relative_to(current_site_packages_path)
+                    )
+        else:
+            # Only update ansys-dpf-core
+            print()
+
 
 
 def record_operator(operator_type, *args) -> None:
