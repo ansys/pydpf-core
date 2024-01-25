@@ -200,6 +200,17 @@ def test_data_tree(server_type_remote_process, testfiles_dir):
     assert dt.get_as("name") == "Paul"
 
 
+def test_generic_data_container(server_type_remote_process, testfiles_dir):
+    load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
+    gdc = dpf.GenericDataContainer(server=server_type_remote_process)
+    gdc.set_property(property_name="n", prop=1)
+    op = dpf.Operator("custom_forward_generic_data_container", server=server_type_remote_process)
+    op.connect(0, gdc)
+    gdc2: dpf.GenericDataContainer = op.get_output(0, dpf.types.generic_data_container)
+    assert gdc2 is not None
+    assert gdc2.get_property("n") == 1
+
+
 @conftest.raises_for_servers_version_under("4.0")
 def test_syntax_error(server_type_remote_process, testfiles_dir):
     dpf.load_library(
