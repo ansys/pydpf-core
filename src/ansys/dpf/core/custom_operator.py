@@ -31,6 +31,26 @@ from ansys.dpf.core._custom_operators_helpers import (
 from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
 
 
+def update_virtual_environment_for_custom_operators(restore_original: bool = False):
+    """Updates the dpf-site.zip file used to start a venv for Python custom operators to run in.
+
+    It updates the site-packages in dpf-site.zip with the site-packages of the current venv.
+    It stores the original dpf-site.zip in the users files.
+
+    Parameters
+    ----------
+    restore_original:
+        If ``True``, restores the original dpf-site.zip.
+    """
+    # Restore the original dpf-site.zip
+    if restore_original:
+        return
+    # Update the dpf-site.zip based on the current virtual environment
+    current_site_packages_path = None
+    current_dpf_site_zip_path = None
+    original_dpf_site_zip_path = None
+
+
 def record_operator(operator_type, *args) -> None:
     """
     Add an operator (with its name, run callback, and specification) to the DPF core registry.
