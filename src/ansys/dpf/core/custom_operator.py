@@ -39,7 +39,6 @@ from ansys.dpf.gate import object_handler, capi, dpf_vector, integral_types
 
 def update_virtual_environment_for_custom_operators(
         restore_original: bool = False,
-        update_all: bool = False,
 ):
     """Updates the dpf-site.zip file used to start a venv for Python custom operators to run in.
 
@@ -54,12 +53,10 @@ def update_virtual_environment_for_custom_operators(
     ----------
     restore_original:
         If ``True``, restores the original dpf-site.zip.
-    update_all:
-        If ``True``, copies the entire current site-packages.
-        If ``False``, only updates ansys-dpf-core.
     """
     # Get the path to the dpf-site.zip in the current DPF server
     server = dpf.server.get_or_create_server(dpf.SERVER)
+    print(server.ansys_path)
     if server.has_client():
         raise NotImplementedError(
             "Updating the dpf-site.zip of a DPF Server is only available when InProcess."
@@ -77,6 +74,10 @@ def update_virtual_environment_for_custom_operators(
         else:
             warnings.warn("No original dpf-site.zip found. Current is most likely the original.")
     else:
+        # Store original dpf-site.zip for this DPF Server if no original is stored
+        if not os.path.exists(os.path.dirname(original_dpf_site_zip_path)):
+            os.mkdir(os.path.dirname(original_dpf_site_zip_path))
+            shutil.move(src=current_dpf_site_zip_path, dst=original_dpf_site_zip_path)
         # Get the current paths to site_packages
         import site
         paths_to_current_site_packages = site.getsitepackages()
@@ -89,29 +90,36 @@ def update_virtual_environment_for_custom_operators(
         if current_site_packages_path is None:
             warnings.warn("Could not find a currently loaded site-packages folder to update from.")
             return
-        # Store original dpf-site.zip for this DPF Server if no original is stored
-        if not os.path.exists(os.path.dirname(original_dpf_site_zip_path)):
-            os.mkdir(os.path.dirname(original_dpf_site_zip_path))
-            shutil.move(src=current_dpf_site_zip_path, dst=original_dpf_site_zip_path)
-
         # If an ansys.dpf.core.path file exists, then the installation is editable
         path_file = os.path.join(current_site_packages_path, "ansys.dpf.core.pth")
         if os.path.exists(path_file):
-            # Treat editable install of ansys-dpf-core
-
-        # Treat global update or targeted update
-        if update_all:
-            # Zip the current site-packages at the destination
-            with zipfile.ZipFile(current_dpf_site_zip_path, mode="w") as archive:
-                for file_path in current_site_packages_path.rglob("*"):
-                    archive.write(
-                        filename=file_path,
-                        arcname=file_path.relative_to(current_site_packages_path)
-                    )
+            # Treat editable installation of ansys-dpf-core
+            pass
         else:
-            # Only update ansys-dpf-core
-            print()
-
+            # Otherwise copy the installation of ansys.dpf.core in the venv
+            to_update = [
+                os.path.join("ansys", "dpf", "core"),
+                os.path.join("ansys", "dpf", "gate"),
+                os.path.join("ansys", "grpc", "dpf"),
+                os.path.join("ansys_dpf_core"),
+            ]
+            # Create a new dpf-site.zip
+            with zipfile.ZipFile(current_dpf_site_zip_path, mode="w") as archive:
+                # Include files of interest from the active site-packages folder
+                for file_path in current_site_packages_path.rglob("*"):
+                    file_path_str = str(file_path)
+                    if any([u in file_path_str for u in to_update]) \
+                            and "gatebin" not in file_path_str\
+                            and "__pycache__" not in file_path_str:
+                        archive.write(
+                            filename=file_path,
+                            arcname=file_path.relative_to(current_site_packages_path)
+                        )
+                # Include files of interest from the original dpf-site.zip
+                with zipfile.ZipFile(original_dpf_site_zip_path, mode="r") as original:
+                    for item in original.infolist():
+                        if "ansys" not in item.filename:
+                            archive.writestr(item, original.read(item))
 
 
 def record_operator(operator_type, *args) -> None:
