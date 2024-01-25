@@ -22,7 +22,7 @@ def test_license_agr(restore_accept_la_env):
     del os.environ["ANSYS_DPF_ACCEPT_LA"]
     with pytest.raises(errors.DPFServerException):
         dpf.start_local_server(config=config, as_global=True)
-    with pytest.raises(KeyError):
+    with pytest.raises(errors.DPFServerException):
         dpf.Operator("stream_provider")
     os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
     dpf.start_local_server(config=config, as_global=True)
