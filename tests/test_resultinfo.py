@@ -194,16 +194,18 @@ Available results:
 """
         elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
             ref = """Static analysis
-Unit system: Undefined
-Physics Type: Mecanic
+Unit system: 
+Physics Type: Mechanical
 Available results:
-     -  scripting_name: Nodal Scripting Name"""
+     -  scripting_name: Nodal Scripting Name
+"""
         else:
             ref = """Static analysis
 Unit system: 
 Physics Type: Mecanic
 Available results:
-     -  scripting_name: Nodal Scripting Name"""
+     -  scripting_name: Nodal Scripting Name
+"""
         assert str(result_info) == ref
         with pytest.raises(ValueError, match="requires"):
             _ = dpf.core.ResultInfo()
