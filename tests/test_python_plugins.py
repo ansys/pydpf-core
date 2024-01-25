@@ -5,6 +5,7 @@ import numpy as np
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 from ansys.dpf import core as dpf
 import conftest
+from ansys.dpf.core.custom_operator import update_virtual_environment_for_custom_operators
 from ansys.dpf.core.errors import DPFServerException
 from ansys.dpf.core.operator_specification import (
     CustomSpecification,
@@ -25,6 +26,9 @@ if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
 #     )
 if platform.system() == "Linux":
     pytest.skip("Known failures for the Ubuntu-latest GitHub pipelines", allow_module_level=True)
+
+update_virtual_environment_for_custom_operators(restore_original=True)
+update_virtual_environment_for_custom_operators()
 
 
 @pytest.fixture(scope="module")
