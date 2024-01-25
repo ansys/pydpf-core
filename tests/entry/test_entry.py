@@ -8,6 +8,7 @@ from ansys.dpf.core import examples
 from ansys.dpf.core.core import errors
 from conftest import running_docker
 
+import time
 
 @pytest.mark.order(1)
 @pytest.mark.skipif(
@@ -17,11 +18,14 @@ from conftest import running_docker
     reason="Tests ANSYS_DPF_ACCEPT_LA",
 )
 def test_license_agr(restore_accept_la_env):
+    dpf.server.shutdown_global_server()
     config = dpf.AvailableServerConfigs.InProcessServer
     init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
     del os.environ["ANSYS_DPF_ACCEPT_LA"]
     with pytest.raises(errors.DPFServerException):
-        dpf.Operator("stream_provider").run()
+        dpf.start_local_server(config=config, as_global=True)
+    with pytest.raises(errors.DPFServerException):
+        dpf.Operator("stream_provider")
     os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
     dpf.start_local_server(config=config, as_global=True)
     assert "static" in examples.find_static_rst()
