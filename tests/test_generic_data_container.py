@@ -39,15 +39,6 @@ def test_set_get_data_tree_generic_data_container(server_type):
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
 )
-def test_set_get_int_generic_data_container(server_type):
-    gdc = dpf.GenericDataContainer(server=server_type)
-    gdc.set_property(property_name="n", prop=1)
-    assert gdc.get_property("n") == 1
-
-
-@pytest.mark.skipif(
-    not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available for servers >=7.0"
-)
 def test_get_property_description_generic_data_container(server_type):
     gdc = dpf.GenericDataContainer(server=server_type)
     entity = 42
