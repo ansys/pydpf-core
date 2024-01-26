@@ -204,6 +204,7 @@ def test_data_tree(server_type_remote_process, testfiles_dir):
     assert dt.get_as("name") == "Paul"
 
 
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Requires DPF 7.0")
 def test_generic_data_container(server_type_remote_process, testfiles_dir):
     load_all_types_plugin_with_serv(server_type_remote_process, testfiles_dir)
     gdc = dpf.GenericDataContainer(server=server_type_remote_process)
