@@ -96,52 +96,53 @@ def update_virtual_environment_for_custom_operators(
         path_file = os.path.join(current_site_packages_path, "ansys.dpf.core.pth")
         if os.path.exists(path_file):
             # Treat editable installation of ansys-dpf-core
-            pass
-        else:
-            # Otherwise copy the installation of ansys.dpf.core in the venv
-            with tempfile.TemporaryDirectory() as tmpdir:
-                os.mkdir(os.path.join(tmpdir, "ansys_dpf_core"))
-                ansys_dir = os.path.join(tmpdir, "ansys_dpf_core")
-                os.mkdir(os.path.join(ansys_dir, "ansys"))
-                os.mkdir(os.path.join(ansys_dir, "ansys", "dpf"))
-                os.mkdir(os.path.join(ansys_dir, "ansys", "grpc"))
-                shutil.copytree(
-                    src=os.path.join(current_site_packages_path, "ansys", "dpf", "core"),
-                    dst=os.path.join(ansys_dir, "ansys", "dpf", "core"),
-                    ignore=lambda directory, contents: ["__pycache__"],
-                )
-                shutil.copytree(
-                    src=os.path.join(current_site_packages_path, "ansys", "dpf", "gate"),
-                    dst=os.path.join(ansys_dir, "ansys", "dpf", "gate"),
-                    ignore=lambda directory, contents: ["__pycache__"],
-                )
-                shutil.copytree(
-                    src=os.path.join(current_site_packages_path, "ansys", "grpc", "dpf"),
-                    dst=os.path.join(ansys_dir, "ansys", "grpc", "dpf"),
-                    ignore=lambda directory, contents: ["__pycache__"],
-                )
-                # Find the .dist_info folder
-                pattern = re.compile(r'^ansys_dpf_core\S*')
-                for p in pathlib.Path(current_site_packages_path).iterdir():
-                    if p.is_dir():
-                        # print(p.stem)
-                        if re.search(pattern, p.stem):
-                            dist_info_path = p
-                            break
-                shutil.copytree(
-                    src=dist_info_path,
-                    dst=os.path.join(ansys_dir, dist_info_path.name),
-                )
-                # Zip the files as dpf-site.zip
-                new_zip = os.path.join(tmpdir, "ansys_dpf_core")
-                shutil.make_archive(new_zip, root_dir=ansys_dir, base_dir=ansys_dir, format='zip')
+            with open(path_file, "r") as f:
+                current_site_packages_path = f.readline()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            os.mkdir(os.path.join(tmpdir, "ansys_dpf_core"))
+            ansys_dir = os.path.join(tmpdir, "ansys_dpf_core")
+            os.mkdir(os.path.join(ansys_dir, "ansys"))
+            os.mkdir(os.path.join(ansys_dir, "ansys", "dpf"))
+            os.mkdir(os.path.join(ansys_dir, "ansys", "grpc"))
+            shutil.copytree(
+                src=os.path.join(current_site_packages_path, "ansys", "dpf", "core"),
+                dst=os.path.join(ansys_dir, "ansys", "dpf", "core"),
+                ignore=lambda directory, contents: ["__pycache__", "result_files"],
+            )
+            shutil.copytree(
+                src=os.path.join(current_site_packages_path, "ansys", "dpf", "gate"),
+                dst=os.path.join(ansys_dir, "ansys", "dpf", "gate"),
+                ignore=lambda directory, contents: ["__pycache__"],
+            )
+            shutil.copytree(
+                src=os.path.join(current_site_packages_path, "ansys", "grpc", "dpf"),
+                dst=os.path.join(ansys_dir, "ansys", "grpc", "dpf"),
+                ignore=lambda directory, contents: ["__pycache__"],
+            )
+            # Find the .dist_info folder
+            pattern = re.compile(r'^ansys_dpf_core\S*')
+            for p in pathlib.Path(current_site_packages_path).iterdir():
+                if p.is_dir():
+                    # print(p.stem)
+                    if re.search(pattern, p.stem):
+                        dist_info_path = p
+                        break
+            shutil.copytree(
+                src=dist_info_path,
+                dst=os.path.join(ansys_dir, dist_info_path.name),
+            )
+            # Zip the files as dpf-site.zip
+            base_name = os.path.join(tmpdir, "ansys_dpf_core_zip")
+            base_dir = "."
+            root_dir = os.path.join(tmpdir, "ansys_dpf_core")  # OK
+            shutil.make_archive(base_name=base_name, root_dir=root_dir, base_dir=base_dir, format='zip')
             # Include files of interest from the original dpf-site.zip and the ansys_dpf_core.zip
             with zipfile.ZipFile(current_dpf_site_zip_path, "w") as archive:
                 with zipfile.ZipFile(original_dpf_site_zip_path, mode="r") as original:
                     for item in original.infolist():
                         if "ansys" not in item.filename:
                             archive.writestr(item, original.read(item))
-                with zipfile.ZipFile(new_zip+'.zip', mode="r") as original:
+                with zipfile.ZipFile(base_name+'.zip', mode="r") as original:
                     for item in original.infolist():
                         archive.writestr(item, original.read(item))
 
