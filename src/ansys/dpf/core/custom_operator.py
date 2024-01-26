@@ -10,7 +10,9 @@ import abc
 import ctypes
 import os
 import pathlib
+import re
 import shutil
+import tempfile
 import warnings
 import zipfile
 
@@ -97,29 +99,51 @@ def update_virtual_environment_for_custom_operators(
             pass
         else:
             # Otherwise copy the installation of ansys.dpf.core in the venv
-            to_update = [
-                os.path.join("ansys", "dpf", "core"),
-                os.path.join("ansys", "dpf", "gate"),
-                os.path.join("ansys", "grpc", "dpf"),
-                os.path.join("ansys_dpf_core"),
-            ]
-            # Create a new dpf-site.zip
-            with zipfile.ZipFile(current_dpf_site_zip_path, mode="w") as archive:
-                # Include files of interest from the active site-packages folder
-                for file_path in current_site_packages_path.rglob("*"):
-                    file_path_str = str(file_path)
-                    if any([u in file_path_str for u in to_update]) \
-                            and "gatebin" not in file_path_str\
-                            and "__pycache__" not in file_path_str:
-                        archive.write(
-                            filename=file_path,
-                            arcname=file_path.relative_to(current_site_packages_path)
-                        )
-                # Include files of interest from the original dpf-site.zip
+            with tempfile.TemporaryDirectory() as tmpdir:
+                os.mkdir(os.path.join(tmpdir, "ansys_dpf_core"))
+                ansys_dir = os.path.join(tmpdir, "ansys_dpf_core")
+                os.mkdir(os.path.join(ansys_dir, "ansys"))
+                os.mkdir(os.path.join(ansys_dir, "ansys", "dpf"))
+                os.mkdir(os.path.join(ansys_dir, "ansys", "grpc"))
+                shutil.copytree(
+                    src=os.path.join(current_site_packages_path, "ansys", "dpf", "core"),
+                    dst=os.path.join(ansys_dir, "ansys", "dpf", "core"),
+                    ignore=lambda directory, contents: ["__pycache__"],
+                )
+                shutil.copytree(
+                    src=os.path.join(current_site_packages_path, "ansys", "dpf", "gate"),
+                    dst=os.path.join(ansys_dir, "ansys", "dpf", "gate"),
+                    ignore=lambda directory, contents: ["__pycache__"],
+                )
+                shutil.copytree(
+                    src=os.path.join(current_site_packages_path, "ansys", "grpc", "dpf"),
+                    dst=os.path.join(ansys_dir, "ansys", "grpc", "dpf"),
+                    ignore=lambda directory, contents: ["__pycache__"],
+                )
+                # Find the .dist_info folder
+                pattern = re.compile(r'^ansys_dpf_core\S*')
+                for p in pathlib.Path(current_site_packages_path).iterdir():
+                    if p.is_dir():
+                        # print(p.stem)
+                        if re.search(pattern, p.stem):
+                            dist_info_path = p
+                            break
+                shutil.copytree(
+                    src=dist_info_path,
+                    dst=os.path.join(ansys_dir, dist_info_path.name),
+                )
+                # Zip the files as dpf-site.zip
+                new_zip = os.path.join(tmpdir, "ansys_dpf_core")
+                shutil.make_archive(new_zip, root_dir=ansys_dir, base_dir=ansys_dir, format='zip')
+            # Include files of interest from the original dpf-site.zip and the ansys_dpf_core.zip
+            with zipfile.ZipFile(current_dpf_site_zip_path, "w") as archive:
                 with zipfile.ZipFile(original_dpf_site_zip_path, mode="r") as original:
                     for item in original.infolist():
                         if "ansys" not in item.filename:
                             archive.writestr(item, original.read(item))
+                with zipfile.ZipFile(new_zip+'.zip', mode="r") as original:
+                    for item in original.infolist():
+                        archive.writestr(item, original.read(item))
 
 
 def record_operator(operator_type, *args) -> None:
