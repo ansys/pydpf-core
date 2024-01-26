@@ -8,7 +8,6 @@ from ansys.dpf.core import examples
 from ansys.dpf.core.core import errors
 from conftest import running_docker
 
-import time
 
 @pytest.mark.order(1)
 @pytest.mark.skipif(
