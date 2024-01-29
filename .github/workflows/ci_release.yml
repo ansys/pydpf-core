@@ -11,7 +11,7 @@ on:
       standalone_branch_suffix:
         description: 'Suffix of the branch on standalone'
         required: false
-        default: '.sp01'
+        default: ''
 
 #┌───────────── minute (0 - 59)
 #│ ┌───────────── hour (0 - 23)
@@ -87,7 +87,7 @@ jobs:
       python_versions: '["3.9", "3.10", "3.11"]'
       wheel: true
       wheelhouse: true
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   tests_any:
@@ -97,7 +97,7 @@ jobs:
       python_versions: '["3.9", "3.10", "3.11"]'
       wheel: true
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       test_any: true
     secrets: inherit
 
@@ -105,7 +105,7 @@ jobs:
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       event_name: ${{ github.event_name }}
     secrets: inherit
 
@@ -114,7 +114,7 @@ jobs:
     with:
       ANSYS_VERSION: "241"
       python_versions: '["3.9", "3.10", "3.11"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   retro_232:
@@ -149,7 +149,7 @@ jobs:
     uses: ./.github/workflows/pydpf-post.yml
     with:
       ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
       test_docstrings: "true"
     secrets: inherit
 
@@ -179,7 +179,7 @@ jobs:
     uses: ./.github/workflows/test_docker.yml
     with:
       ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   docker_examples:
@@ -188,7 +188,7 @@ jobs:
     with:
       ANSYS_VERSION: "241"
       python_versions: '["3.9", "3.10", "3.11"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
     secrets: inherit
 
   draft_release:
