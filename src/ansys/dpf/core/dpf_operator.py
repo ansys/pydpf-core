@@ -529,17 +529,26 @@ class Operator:
         for type_tuple in self._type_to_output_method:
             if output_type is type_tuple[0]:
                 if len(type_tuple) >= 3:
+                    internal_obj = type_tuple[1](self, pin)
+                    if internal_obj is None:
+                        self._progress_thread = None
+                        return
                     if isinstance(type_tuple[2], str):
-                        parameters = {type_tuple[2]: type_tuple[1](self, pin)}
+                        parameters = {type_tuple[2]: internal_obj}
                         out = output_type(**parameters, server=self._server)
                     else:
-                        out = type_tuple[2](type_tuple[1](self, pin))
+                        out = type_tuple[2](internal_obj)
                 if out is None:
+                    internal_obj = type_tuple[1](self, pin)
+                    if internal_obj is None:
+                        self._progress_thread = None
+                        return
                     try:
-                        return output_type(type_tuple[1](self, pin), server=self._server)
+                        return output_type(internal_obj, server=self._server)
                     except TypeError:
                         self._progress_thread = None
-                        return output_type(type_tuple[1](self, pin))
+                        return output_type(internal_obj)
+
         if out is not None:
             self._progress_thread = None
             return out

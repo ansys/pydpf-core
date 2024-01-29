@@ -92,6 +92,7 @@ from ansys.dpf.core.any import Any
 from ansys.dpf.core.mesh_info import MeshInfo
 from ansys.dpf.core.generic_data_container import GenericDataContainer
 
+from ansys.dpf.core.dpf_operator import available_operator_names
 
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."

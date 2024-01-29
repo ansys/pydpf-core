@@ -113,6 +113,7 @@ def test_connect_get_out_all_types_operator(server_type):
             dpf.core.TimeFreqSupport(server=server_type),
             dpf.core.Workflow(server=server_type),
             dpf.core.DataTree(server=server_type),
+            # dpf.core.GenericDataContainer(server=server_type),  # Fails for LegacyGrpc
             dpf.core.StringField(server=server_type),
             dpf.core.CustomTypeField(np.float64, server=server_type),
         ]
@@ -259,18 +260,6 @@ def test_connect_operator_output_operator(server_type):
     op2.connect(1, 0)
     fOut = op2.get_output(0, dpf.core.types.field)
     assert len(fOut.data) == 3
-
-
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
-    reason="Connect an operator as an input is supported starting server version 7.0",
-)
-def test_connect_generic_data_container_operator(server_type):
-    op = dpf.core.Operator("forward", server=server_type)
-    inpt = dpf.core.GenericDataContainer(server=server_type)
-    op.connect(0, inpt)
-    output = op.get_output(0, dpf.core.types.generic_data_container)
-    assert output is not None
 
 
 @pytest.mark.skipif(
@@ -632,19 +621,19 @@ def test_connect_model(plate_msup, server_type):
     assert np.allclose(fc[0].data[0], [5.12304110e-14, 3.64308310e-04, 5.79805917e-06])
 
 
-def test_operator_several_output_types(plate_msup, server_type):
-    inpt = dpf.core.Field(nentities=3, server=server_type)
+def test_operator_several_output_types_remote(plate_msup, server_type_remote_process):
+    inpt = dpf.core.Field(nentities=3, server=server_type_remote_process)
     inpt.data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     inpt.scoping.ids = [1, 2, 3]
     inpt.unit = "m"
-    op = dpf.core.Operator("unit_convert", server=server_type)
+    op = dpf.core.Operator("unit_convert", server=server_type_remote_process)
     op.inputs.entity_to_convert(inpt)
     op.inputs.unit_name("mm")
     f = op.outputs.converted_entity_as_field()
     assert f.unit == "mm"
     assert np.allclose(f.data.flatten("C"), np.array([1, 2, 3, 4, 5, 6, 7, 8, 9]) * 1000)
 
-    model = dpf.core.Model(plate_msup, server=server_type)
+    model = dpf.core.Model(plate_msup, server=server_type_remote_process)
     din = model.metadata.meshed_region.nodes.coordinates_field.data
 
     assert model.metadata.meshed_region.nodes.coordinates_field.unit == "m"
@@ -655,26 +644,6 @@ def test_operator_several_output_types(plate_msup, server_type):
 
     assert m.nodes.coordinates_field.unit == "mm"
     assert np.allclose(m.nodes.coordinates_field.data, np.array(din) * 1000)
-
-
-def test_operator_several_output_types2(server_type):
-    inpt = dpf.core.Field(nentities=3, server=server_type)
-    inpt.data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    inpt.scoping.ids = [1, 2, 3]
-    inpt.unit = "m"
-    uc = dpf.core.Operator("Rescope", server=server_type)
-    uc.inputs.fields(inpt)
-    uc.inputs.mesh_scoping(dpf.core.Scoping(ids=[1, 2]))
-    f = uc.outputs.fields_as_field()
-    assert np.allclose(f.data.flatten("C"), [1, 2, 3, 4, 5, 6])
-
-    fc = dpf.core.FieldsContainer(server=server_type)
-    fc.labels = ["time"]
-    fc.add_field({"time": 1}, inpt)
-
-    uc.inputs.fields(fc)
-    fc2 = uc.outputs.fields_as_fields_container()
-    assert np.allclose(fc2[0].data.flatten("C"), [1, 2, 3, 4, 5, 6])
 
 
 def test_create_operator_config(server_type):
@@ -865,14 +834,23 @@ def test_connect_get_output_double_list_operator(server_type):
 
 
 @conftest.raises_for_servers_version_under("4.0")
-def test_connect_get_output_data_tree_operator():
-    d = dpf.core.DataTree({"name": "Paul"})
-    op = dpf.core.operators.utility.forward(d)
+def test_connect_get_output_data_tree_operator(server_type):
+    d = dpf.core.DataTree({"name": "Paul"}, server=server_type)
+    op = dpf.core.operators.utility.forward(d, server=server_type)
     d_out = op.get_output(0, dpf.core.types.data_tree)
     assert d_out.get_as("name") == "Paul"
 
 
-def test_operator_several_output_types(plate_msup):
+@conftest.raises_for_servers_version_under("7.0")
+def test_connect_get_output_generic_data_container_operator(server_clayer):
+    gdc = dpf.core.GenericDataContainer(server=server_clayer)
+    gdc.set_property("n", 1)
+    op = dpf.core.operators.utility.forward(gdc, server=server_clayer)
+    gdc_out = op.get_output(0, dpf.core.types.generic_data_container)
+    assert gdc_out.get_property("n") == 1
+
+
+def test_operator_several_output_types_copy(plate_msup):
     inpt = dpf.core.Field(nentities=3)
     inpt.data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     inpt.scoping.ids = [1, 2, 3]

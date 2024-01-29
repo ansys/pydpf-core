@@ -5,6 +5,7 @@ import numpy as np
 from conftest import SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0
 from ansys.dpf import core as dpf
 import conftest
+from ansys.dpf.core.custom_operator import update_virtual_environment_for_custom_operators
 from ansys.dpf.core.errors import DPFServerException
 from ansys.dpf.core.operator_specification import (
     CustomSpecification,
@@ -25,6 +26,9 @@ if not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0:
 #     )
 if platform.system() == "Linux":
     pytest.skip("Known failures for the Ubuntu-latest GitHub pipelines", allow_module_level=True)
+
+update_virtual_environment_for_custom_operators(restore_original=True)
+update_virtual_environment_for_custom_operators()
 
 
 @pytest.fixture(scope="module")
@@ -198,6 +202,18 @@ def test_data_tree(server_type_remote_process, testfiles_dir):
     dt = op.get_output(0, dpf.types.data_tree)
     assert dt is not None
     assert dt.get_as("name") == "Paul"
+
+
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Requires DPF 7.0")
+def test_generic_data_container(server_clayer_remote_process, testfiles_dir):
+    load_all_types_plugin_with_serv(server_clayer_remote_process, testfiles_dir)
+    gdc = dpf.GenericDataContainer(server=server_clayer_remote_process)
+    gdc.set_property(property_name="n", prop=1)
+    op = dpf.Operator("custom_forward_generic_data_container", server=server_clayer_remote_process)
+    op.connect(0, gdc)
+    gdc2: dpf.GenericDataContainer = op.get_output(0, dpf.types.generic_data_container)
+    assert gdc2 is not None
+    assert gdc2.get_property("n") == 1
 
 
 @conftest.raises_for_servers_version_under("4.0")
