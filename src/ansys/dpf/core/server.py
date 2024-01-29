@@ -191,14 +191,18 @@ def start_local_server(
     if not use_docker and not use_pypim:
         ansys_path = get_ansys_path(ansys_path)
         # parse the version to an int and check for supported
-        try:
+        ansys_folder_name = ansys_path.split(os.sep)[-1]
+        if len(ansys_folder_name) == 4:
+            # vXYZ Unified Install folder
             ver = int(str(ansys_path)[-3:])
-            if ver < 211:
-                raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
-            if ver == 211 and is_ubuntu():
-                raise OSError("DPF on v211 does not support Ubuntu")
-        except ValueError:
-            pass
+        else:
+            # a DPF Server folder of form server_20XY_Z_patch
+            name_split = ansys_folder_name.split("_")
+            ver = int(name_split[1][-2:]+name_split[2])
+        if ver < 211:
+            raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
+        if ver == 211 and is_ubuntu():
+            raise OSError("DPF on v211 does not support Ubuntu")
 
     # avoid using any ports in use from existing servers
     used_ports = []
