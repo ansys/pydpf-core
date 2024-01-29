@@ -261,6 +261,21 @@ def fluent_mixing_elbow_transient():
 
 
 @pytest.fixture()
+def fluent_multiphase():
+    """Return a function which creates a data sources
+    with a cas and a dat file of fluent multiphase case."""
+
+    def return_ds(server=None):
+        ds = core.DataSources(server=server)
+        files = examples.download_fluent_multi_phase(server=server)
+        ds.set_result_file_path(files["cas"][0], "cas")
+        ds.add_file_path(files["dat"][0], "dat")
+        return ds
+
+    return return_ds
+
+
+@pytest.fixture()
 def cfx_heating_coil():
     """Return a function which creates a data sources
     with a cas and a dat file of CFX heating coil case."""
