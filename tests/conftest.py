@@ -268,8 +268,8 @@ def fluent_multiphase():
     def return_ds(server=None):
         ds = core.DataSources(server=server)
         files = examples.download_fluent_multi_phase(server=server)
-        ds.set_result_file_path(files["cas"][0], "cas")
-        ds.add_file_path(files["dat"][0], "dat")
+        ds.set_result_file_path(files["cas"], "cas")
+        ds.add_file_path(files["dat"], "dat")
         return ds
 
     return return_ds
