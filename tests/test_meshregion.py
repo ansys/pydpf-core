@@ -575,7 +575,7 @@ def test_mesh_deep_copy(allkindofcomplexity, fluent_multiphase, server_type):
         mesh.elements.connectivities_field.scoping.ids,
     )
     # Bigger mesh
-    model = dpf.core.Model(fluent_multiphase, server=server_type)
+    model = dpf.core.Model(fluent_multiphase(server=server_type), server=server_type)
     mesh = model.metadata.meshed_region
     copy = mesh.deep_copy()
     assert np.allclose(copy.nodes.scoping.ids, mesh.nodes.scoping.ids)
