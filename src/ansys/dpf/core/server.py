@@ -190,15 +190,6 @@ def start_local_server(
     use_pypim = use_pypim_by_default and is_pypim_configured()
     if not use_docker and not use_pypim:
         ansys_path = get_ansys_path(ansys_path)
-        # parse the version to an int and check for supported
-        try:
-            ver = int(str(ansys_path)[-3:])
-            if ver < 211:
-                raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
-            if ver == 211 and is_ubuntu():
-                raise OSError("DPF on v211 does not support Ubuntu")
-        except ValueError:
-            pass
 
     # avoid using any ports in use from existing servers
     used_ports = []
