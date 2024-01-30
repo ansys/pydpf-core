@@ -7,6 +7,12 @@ import platform
 import ansys.dpf.core.operators as op
 import conftest
 from ansys import dpf
+from ansys.dpf.core import misc
+
+if misc.module_exists("graphviz"):
+    HAS_GRAPHVIZ = True
+else:
+    HAS_GRAPHVIZ = False
 
 
 def test_create_workflow(server_type):
@@ -33,6 +39,7 @@ def remove_dot_file(request):
     request.addfinalizer(remove_files)
 
 
+@pytest.mark.skipif(not HAS_GRAPHVIZ, reason="Please install pyvista")
 def test_workflow_view(server_in_process, remove_dot_file):
     pre_wf = dpf.core.Workflow(server=server_in_process)
     pre_op = dpf.core.operators.utility.forward(server=server_in_process)
