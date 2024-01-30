@@ -857,8 +857,11 @@ class Workflow:
     ) -> Union[str, None]:
         """Run a viewer to show a rendering of the workflow.
 
-        The workflow is rendered using GraphViz
-        and requires installation of the ``graphviz`` Python library.
+        .. warning::
+            The workflow is rendered using GraphViz and requires:
+            - installation of GraphViz on your computer (see `<https://graphviz.org/download/>`__)
+            - installation of the ``graphviz`` Python library in your Python environment.
+
 
         Parameters
         ----------
