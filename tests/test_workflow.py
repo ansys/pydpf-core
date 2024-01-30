@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import pytest
 import platform
@@ -10,6 +12,36 @@ from ansys import dpf
 def test_create_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
     assert wf._internal_obj
+
+
+@pytest.fixture()
+def remove_dot_file(request):
+    """Cleanup a testing directory once we are finished."""
+
+    dot_path = os.path.join(os.getcwd(), "test.dot")
+
+    def remove_files():
+        if os.path.exists(dot_path):
+            os.remove(os.path.join(os.getcwd(), dot_path))
+
+    request.addfinalizer(remove_files)
+
+
+def test_workflow_view(server_in_process, remove_dot_file):
+    pre_wf = dpf.core.Workflow(server=server_in_process)
+    pre_op = dpf.core.operators.utility.forward(server=server_in_process)
+    pre_wf.add_operator(pre_op)
+    pre_wf.set_input_name("prewf_input", pre_op.inputs.any)
+    pre_wf.set_output_name("prewf_output", pre_op.outputs.any)
+
+    wf = dpf.core.Workflow(server=server_in_process)
+    forward_op = dpf.core.operators.utility.forward(server=server_in_process)
+    wf.add_operator(forward_op)
+    wf.set_input_name("wf_input", forward_op.inputs.any)
+    wf.set_output_name("wf_output", forward_op.outputs.any)
+
+    wf.connect_with(pre_wf, {"prewf_output": "wf_input"})
+    wf.view(title="test", off_screen=True)
 
 
 def test_connect_field_workflow(server_type):

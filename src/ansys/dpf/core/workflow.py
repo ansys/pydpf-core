@@ -849,25 +849,32 @@ class Workflow:
 
     def view(
             self,
-            viewer: Union[None, str] = None,
-            title: Union[None, str] = None
+            title: Union[None, str] = None,
+            save_as: Union[None, str, os.PathLike] = None,
+            off_screen: bool = False,
     ):
         """Run a viewer to show a rendering of the workflow.
 
+        The workflow is rendered using GraphViz
+        and requires installation of the ``graphviz`` Python library.
+
         Parameters
         ----------
-        viewer:
-            Available viewers are None and "paraview".
-            If None, the system's default image viewer is used.
-
         title:
             Name to use in intermediate files and in the viewer.
+        save_as:
+            Path to a file to save the workflow view as.
+        off_screen:
+            Render the image off_screen.
         """
         if title is None:
             name = f"workflow_{repr(self).split()[-1][:-1]}"
         else:
             name = title
-        file_path = os.path.join(os.getcwd(), f"{name}.dot")
+        if save_as:
+            file_path = os.path.splitext(str(save_as))[0]+".dot"
+        else:
+            file_path = os.path.join(os.getcwd(), f"{name}.dot")
         # Create graphviz file of workflow
         self.to_graphviz(file_path)
         # Render workflow
@@ -875,20 +882,13 @@ class Workflow:
             import graphviz
         except ImportError:
             raise ValueError(f"To render workflows using graphviz, run 'pip install graphviz'.")
-        graphviz.render(engine='dot', format='png', filepath=file_path)
-        file_path = file_path+".png"
+        if save_as:
+            graphviz.render(engine='dot', filepath=file_path, outfile=save_as)
 
+        if off_screen:
+            return
         # View workflow
-        if viewer is None:
-            graphviz.view(filepath=file_path)
-        elif viewer == "paraview":
-            try:
-                import pyvista as pv
-            except ImportError:
-                raise ValueError(f"To view workflows using pyvista, run 'pip install pyvista'.")
-            pv.read(file_path).plot(title=name, rgb=True, cpos="xy")
-        else:
-            raise ValueError(f"Viewer {viewer} is not a valid viewer for workflows.")
+        graphviz.view(filepath=file_path)
 
     def to_graphviz(self, path: Union[os.PathLike, str]):
         """Saves the workflow to a GraphViz file."""
