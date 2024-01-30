@@ -19,10 +19,16 @@ def remove_dot_file(request):
     """Cleanup a testing directory once we are finished."""
 
     dot_path = os.path.join(os.getcwd(), "test.dot")
+    png_path = os.path.join(os.getcwd(), "test.png")
+    png_path1 = os.path.join(os.getcwd(), "test1.png")
 
     def remove_files():
         if os.path.exists(dot_path):
             os.remove(os.path.join(os.getcwd(), dot_path))
+        if os.path.exists(png_path):
+            os.remove(os.path.join(os.getcwd(), png_path))
+        if os.path.exists(png_path1):
+            os.remove(os.path.join(os.getcwd(), png_path1))
 
     request.addfinalizer(remove_files)
 
@@ -41,7 +47,12 @@ def test_workflow_view(server_in_process, remove_dot_file):
     wf.set_output_name("wf_output", forward_op.outputs.any)
 
     wf.connect_with(pre_wf, {"prewf_output": "wf_input"})
-    wf.view(title="test", off_screen=True)
+    wf.view(off_screen=True, title="test1")
+    assert not os.path.exists("test1.dot")
+    assert os.path.exists("test1.png")
+    wf.view(off_screen=True, save_as="test.png", keep_dot_file=True)
+    assert os.path.exists("test.dot")
+    assert os.path.exists("test.png")
 
 
 def test_connect_field_workflow(server_type):

@@ -6,6 +6,7 @@ Workflow
 """
 import logging
 import os
+import tempfile
 import traceback
 import warnings
 
@@ -852,7 +853,8 @@ class Workflow:
             title: Union[None, str] = None,
             save_as: Union[None, str, os.PathLike] = None,
             off_screen: bool = False,
-    ):
+            keep_dot_file: bool = False,
+    ) -> Union[str, None]:
         """Run a viewer to show a rendering of the workflow.
 
         The workflow is rendered using GraphViz
@@ -866,29 +868,40 @@ class Workflow:
             Path to a file to save the workflow view as.
         off_screen:
             Render the image off_screen.
+        keep_dot_file:
+            Whether to keep the intermediate DOT file generated.
+
+        Returns
+        -------
+        Returns the path to the image file rendered is ``save_as``, else None.
         """
-        if title is None:
-            name = f"workflow_{repr(self).split()[-1][:-1]}"
-        else:
-            name = title
-        if save_as:
-            file_path = os.path.splitext(str(save_as))[0]+".dot"
-        else:
-            file_path = os.path.join(os.getcwd(), f"{name}.dot")
-        # Create graphviz file of workflow
-        self.to_graphviz(file_path)
-        # Render workflow
         try:
             import graphviz
         except ImportError:
             raise ValueError(f"To render workflows using graphviz, run 'pip install graphviz'.")
-        if save_as:
-            graphviz.render(engine='dot', filepath=file_path, outfile=save_as)
 
-        if off_screen:
-            return
-        # View workflow
-        graphviz.view(filepath=file_path)
+        if title is None:
+            name = f"workflow_{repr(self).split()[-1][:-1]}"
+        else:
+            name = title
+
+        if save_as:
+            dot_path = os.path.splitext(str(save_as))[0]+".dot"
+            image_path = save_as
+        else:
+            dot_path = os.path.join(os.getcwd(), f"{name}.dot")
+            image_path = os.path.join(os.getcwd(), f"{name}.png")
+
+        # Create graphviz file of workflow
+        self.to_graphviz(dot_path)
+        # Render workflow
+        graphviz.render(engine='dot', filepath=dot_path, outfile=image_path)
+        if not off_screen:
+            # View workflow
+            graphviz.view(filepath=image_path)
+        if not keep_dot_file:
+            os.remove(dot_path)
+        return image_path
 
     def to_graphviz(self, path: Union[os.PathLike, str]):
         """Saves the workflow to a GraphViz file."""
