@@ -427,10 +427,12 @@ class BaseServer(abc.ABC):
         -------
         info : dictionary
             Dictionary with server information, including ``"server_ip"``,
-            ``"server_port"``, ``"server_process_id"``, and
-            ``"server_version"`` keys.
+            ``"server_port"``, ``"server_process_id"``, ``"server_version"`` , ``"os"``
+            and ``"path"`` keys.
         """
-        return self._base_service.server_info
+        server_info = self._base_service.server_info
+        server_info["path"] = self.ansys_path
+        return server_info
 
     def _del_session(self):
         if self._session_instance:
