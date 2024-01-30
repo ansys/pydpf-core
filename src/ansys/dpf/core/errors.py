@@ -37,13 +37,6 @@ class DpfValueError(ValueError):
         ValueError.__init__(self, msg)
 
 
-class DPFServerPathFormatError(ValueError):
-    """Error raised when the path to DPF is of the wrong format."""
-
-    def __init__(self, msg="A DPF path does not follow convention."):
-        ValueError.__init__(self, msg)
-
-
 class InvalidTypeError(ValueError):
     """Error raised when a parameter has the wrong type."""
 
