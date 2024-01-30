@@ -1,12 +1,15 @@
 """Miscellaneous functions for the DPF module."""
 import platform
 import glob
+import fnmatch
 import os
+import re
 
 import packaging.version
 import pkg_resources
 import importlib
 from pkgutil import iter_modules
+from ansys.dpf.core import errors
 from ansys.dpf.gate._version import __ansys_version__
 from ansys.dpf.gate import load_api
 
@@ -97,6 +100,31 @@ def get_ansys_path(ansys_path=None):
             '- when starting the server with "start_local_server(ansys_path=*/vXXX)"\n'
             '- or by setting it by default with the environment variable "ANSYS_DPF_PATH"'
         )
+    # parse the version to an int and check for supported
+    ansys_folder_name = str(ansys_path).split(os.sep)[-1]
+    reobj_vXYZ = re.compile(fnmatch.translate(
+        r"^v[0123456789]{3}$"
+    ))
+    reobj_standalone = re.compile(fnmatch.translate(
+        r"server_[0123456789]{4}_[0123456789](_[[:alnum:]]*)?"
+    ))
+    if reobj_vXYZ.match(ansys_folder_name):
+        # vXYZ Unified Install folder
+        ver = int(str(ansys_path)[-3:])
+    elif reobj_standalone.match(ansys_folder_name):
+        # a DPF Server folder of form server_20XY_Z_patch
+        name_split = ansys_folder_name.split("_")
+        ver = int(name_split[1][-2:]+name_split[2])
+    else:
+        raise errors.DPFServerPathFormatError(
+            "The path to DPF picked does not follow the right format:\nthe folder found is"
+            f" named '{ansys_folder_name}' but should either be of form 'vXYZ'"
+            f" for an ANSYS installation, or 'server_20XY_Z*' for a DPF standalone server."
+        )
+    if ver < 211:
+        raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
+    if ver == 211 and is_ubuntu():
+        raise OSError("DPF on v211 does not support Ubuntu")
     return ansys_path
 
 
