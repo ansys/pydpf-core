@@ -12,7 +12,6 @@ from conftest import (
     config_namesserver_type,
     running_docker,
 )
-from ansys.dpf.core.errors import DPFServerPathFormatError
 
 
 @pytest.mark.skipif(running_docker, reason="Run to fix on internal side")
@@ -128,13 +127,19 @@ class TestServerConfigs:
     @pytest.mark.skipif(running_docker, reason="Not made to work on docker")
     def test_start_local_wrong_ansys_path(self, server_config):
         if server_config != core.AvailableServerConfigs.InProcessServer:
-            with pytest.raises(DPFServerPathFormatError):
+            try:
                 core.start_local_server(
                     ansys_path="test/",
                     use_docker_by_default=False,
                     config=server_config,
                     as_global=False,
                 )
+                raise AssertionError("didn't raise NotADirectoryError nor ModuleNotFoundError")
+            except NotADirectoryError:
+                pass
+            except ModuleNotFoundError:
+                pass
+
         # the test for in process should be done in another process because if dataProcessingCore
         # is already loaded, no error will be raised
         else:
@@ -143,14 +148,13 @@ class TestServerConfigs:
                     sys.executable,
                     "-c",
                     "from ansys.dpf import core\n"
-                    "from ansys.dpf.core.errors import DPFServerPathFormatError\n"
                     "try:\n"
                     "    core.start_local_server(ansys_path='test/', use_docker_by_default=False,"
                     "config=core.server_factory.AvailableServerConfigs.InProcessServer,"
                     " as_global=False)\n"
-                    "except DPFServerPathFormatError:\n"
+                    "except NotADirectoryError:\n"
                     "    exit()\n"
-                    "raise Exception('should have raised DPFServerPathFormatError')\n",
+                    "raise Exception('should have raised NotADirectoryError')\n",
                 ],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
@@ -190,9 +194,8 @@ class TestServerConfigs:
 def test_start_local_failed_executable(remote_config_server_type):
     from ansys.dpf.core.misc import get_ansys_path
     from pathlib import Path
-    from ansys.dpf.core.errors import DPFServerPathFormatError
 
-    with pytest.raises(DPFServerPathFormatError):
+    with pytest.raises(FileNotFoundError):
         path = Path(get_ansys_path()).parent.absolute()
         core.start_local_server(ansys_path=path, config=remote_config_server_type)
 
