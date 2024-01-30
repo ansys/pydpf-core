@@ -6,7 +6,6 @@ Workflow
 """
 import logging
 import os
-import tempfile
 import traceback
 import warnings
 
@@ -881,7 +880,7 @@ class Workflow:
         try:
             import graphviz
         except ImportError:
-            raise ValueError(f"To render workflows using graphviz, run 'pip install graphviz'.")
+            raise ValueError("To render workflows using graphviz, run 'pip install graphviz'.")
 
         if title is None:
             name = f"workflow_{repr(self).split()[-1][:-1]}"
