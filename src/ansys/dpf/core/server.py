@@ -191,7 +191,7 @@ def start_local_server(
     if not use_docker and not use_pypim:
         ansys_path = get_ansys_path(ansys_path)
         # parse the version to an int and check for supported
-        ansys_folder_name = ansys_path.split(os.sep)[-1]
+        ansys_folder_name = str(ansys_path).split(os.sep)[-1]
         if len(ansys_folder_name) == 4:
             # vXYZ Unified Install folder
             ver = int(str(ansys_path)[-3:])
