@@ -859,7 +859,7 @@ class Workflow:
 
         .. warning::
             The workflow is rendered using GraphViz and requires:
-            - installation of GraphViz on your computer (see `<https://graphviz.org/download/>`__)
+            - installation of GraphViz on your computer (see `<https://graphviz.org/download/>`_)
             - installation of the ``graphviz`` Python library in your Python environment.
 
 
