@@ -104,22 +104,11 @@ def get_ansys_path(ansys_path=None):
     reobj_vXYZ = re.compile(
         "^v[0123456789]{3}$"
     )
-    reobj_standalone = re.compile(
-        "^server_[0123456789]{4}_[0123456789](_[[:alnum:]]*)?"
-    )
     if reobj_vXYZ.match(ansys_folder_name):
         # vXYZ Unified Install folder
         ver = int(str(ansys_path)[-3:])
-    elif reobj_standalone.match(ansys_folder_name):
-        # a DPF Server folder of form server_20XY_Z_patch
-        name_split = ansys_folder_name.split("_")
-        ver = int(name_split[1][-2:]+name_split[2])
     else:
-        raise errors.DPFServerPathFormatError(
-            "The path to DPF picked does not follow the right format:\nthe folder found is"
-            f" named '{ansys_folder_name}' but should either be of form 'vXYZ'"
-            f" for an ANSYS installation, or 'server_20XY_Z*' for a DPF standalone server."
-        )
+        ver = 222
     if ver < 211:
         raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
     if ver == 211 and is_ubuntu():
