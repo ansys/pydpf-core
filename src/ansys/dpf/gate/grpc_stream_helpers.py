@@ -1,18 +1,35 @@
 import sys
 import array
 import numpy as np
+from ansys.dpf.gate.dpf_vector import get_size_of_list
 
 
-def _data_chunk_yielder(request, data, chunk_size=None):
+def _to_bytes(array):
+    if isinstance(array, (np.generic, np.ndarray)):
+        return array.tobytes()
+    return array
+
+
+def _set_array_to_request(request, bytes):
+    request.array = bytes
+
+
+def _array_unit(data):
+    if isinstance(array, (np.generic, np.ndarray)):
+        return data.dtype.name
+    return "byte"
+
+
+def _data_chunk_yielder(request, data, chunk_size=None, set_array=_set_array_to_request):
     from ansys.dpf.gate import misc
     if not chunk_size:
         chunk_size = misc.client_config()["streaming_buffer_size"]
 
-    length = data.size
+    length = get_size_of_list(data)
     need_progress_bar = length > 1e6 and misc.COMMON_PROGRESS_BAR
     if need_progress_bar:
         bar = misc.COMMON_PROGRESS_BAR(
-            "Sending data...", unit=data.dtype.name, tot_size=length
+            "Sending data...", unit=_array_unit(data), tot_size=length
         )
         bar.start()
     sent_length = 0
@@ -24,7 +41,7 @@ def _data_chunk_yielder(request, data, chunk_size=None):
         unitary_size = length - sent_length
     while sent_length < length:
         currentcopy = data[sent_length: sent_length + unitary_size]
-        request.array = currentcopy.tobytes()
+        set_array(request, _to_bytes(currentcopy))
         sent_length = sent_length + unitary_size
         if length - sent_length < unitary_size:
             unitary_size = length - sent_length
@@ -40,7 +57,17 @@ def _data_chunk_yielder(request, data, chunk_size=None):
     except:
         pass
 
-def _data_get_chunk_(dtype, service, np_array=True):
+
+def dtype_to_array_type(dtype):
+    if dtype == np.float64:
+        return "d"
+    elif dtype == np.byte:
+        return "b"
+    else:
+        return "i"
+
+
+def _data_get_chunk_(dtype, service, np_array=True, get_array=lambda chunk: chunk.array):
     from ansys.dpf.gate import misc
     tupleMetaData = service.initial_metadata()
 
@@ -62,8 +89,8 @@ def _data_get_chunk_(dtype, service, np_array=True):
         arr = np.empty(size // itemsize, dtype)
         i = 0
         for chunk in service:
-            curr_size = len(chunk.array) // itemsize
-            arr[i : i + curr_size] = np.frombuffer(chunk.array, dtype)
+            curr_size = len(get_array(chunk)) // itemsize
+            arr[i: i + curr_size] = np.frombuffer(get_array(chunk), dtype)
             i += curr_size
             try:
                 if need_progress_bar:
@@ -73,12 +100,9 @@ def _data_get_chunk_(dtype, service, np_array=True):
 
     else:
         arr = []
-        if dtype == np.float64:
-            dtype = "d"
-        else:
-            dtype = "i"
+        atype = dtype_to_array_type(dtype)
         for chunk in service:
-            arr.extend(array.array(dtype, chunk.array))
+            arr.extend(array.array(atype, get_array(chunk)))
             try:
                 if need_progress_bar:
                     bar.update(len(arr))
@@ -104,7 +128,7 @@ def _string_data_chunk_yielder(request, data, chunk_size=None):
     while sent_length < length:
         num_bytes = 0
         currentcopy = bytearray()
-        while num_bytes<= chunk_size and sent_length < length:
+        while num_bytes <= chunk_size and sent_length < length:
             currentcopy.extend(data[sent_length])
             currentcopy.extend(separator)
             sent_length += 1
@@ -112,7 +136,7 @@ def _string_data_chunk_yielder(request, data, chunk_size=None):
 
         request.array = bytes(currentcopy)
         yield request
-    if length==0:
+    if length == 0:
         yield request
 
 

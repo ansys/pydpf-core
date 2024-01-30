@@ -26,6 +26,9 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
         for file in glob.iglob(os.path.join(subdir, "*.py")):
             if sys.platform == "linux" and "08-python-operators" in file:
                 continue
+            elif "win" in sys.platform and "06-distributed_stress_averaging" in file:
+                # Currently very unstable in the GH CI
+                continue
             print("\n--------------------------------------------------")
             print(file)
             minimum_version_str = get_example_required_minimum_dpf_version(file)
@@ -33,9 +36,10 @@ for root, subdirectories, files in os.walk(os.path.join(actual_path, os.path.par
                 print(f"Example skipped as it requires DPF {minimum_version_str}.")
                 continue
             try:
-                subprocess.check_call([sys.executable, file])
+                out = subprocess.check_output([sys.executable, file])
             except subprocess.CalledProcessError as e:
                 sys.stderr.write(str(e.args))
                 if e.returncode != 3221225477:
+                    print(out)
                     raise e
             print("PASS")

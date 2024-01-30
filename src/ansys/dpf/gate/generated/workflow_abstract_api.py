@@ -200,6 +200,10 @@ class WorkflowAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def work_flow_connect_string_with_size(wf, pin_name, value, size):
+		raise NotImplementedError
+
+	@staticmethod
 	def work_flow_connect_scoping(wf, pin_name, scoping):
 		raise NotImplementedError
 
@@ -393,6 +397,10 @@ class WorkflowAbstractAPI:
 
 	@staticmethod
 	def work_flow_getoutput_string(wf, pin_name):
+		raise NotImplementedError
+
+	@staticmethod
+	def work_flow_getoutput_string_with_size(wf, pin_name, size):
 		raise NotImplementedError
 
 	@staticmethod
