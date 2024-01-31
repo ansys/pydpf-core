@@ -10,8 +10,9 @@ import warnings
 import ansys.dpf.core.server_types
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
+from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core.common import type_to_internal_object_keyword
-from ansys.dpf.gate import any_abstract_api
+from ansys.dpf.gate import any_abstract_api, integral_types
 
 
 class Any:
@@ -48,8 +49,42 @@ class Any:
         self._internal_type = None
         self._get_as_method = None
 
+    def _new_from_string(self, str):
+        return self._new_from_string_as_bytes(str.encode('utf-8'))
+
     @staticmethod
-    def _type_to_new_from_get_as_method(any_dpf):
+    def _get_as_string(self):
+        out = Any._get_as_string_as_bytes(self)
+        if out is not None and not isinstance(out, str):
+            return out.decode('utf-8')
+        return out
+
+    @staticmethod
+    def _get_as_string_as_bytes(self):
+        if server_meet_version("8.0", self._server):
+            size = integral_types.MutableUInt64(0)
+            return self._api.any_get_as_string_with_size(self, size)
+        else:
+            return self._api.any_get_as_string(self)
+
+    def _new_from_string_on_client(self, client, str):
+        return self._new_from_string_as_bytes_on_client(client, str.encode('utf-8'))
+
+    def _new_from_string_as_bytes(self, str):
+        if server_meet_version("8.0", self._server):
+            size = integral_types.MutableUInt64(len(str))
+            return self._api.any_new_from_string_with_size(str, size)
+        else:
+            return self._api.any_new_from_string(str)
+
+    def _new_from_string_as_bytes_on_client(self, client, str):
+        if server_meet_version("8.0", self._server):
+            size = integral_types.MutableUInt64(len(str))
+            return self._api.any_new_from_string_with_size_on_client(client, str, size)
+        else:
+            return self._api.any_new_from_string_on_client(client, str)
+
+    def _type_to_new_from_get_as_method(self):
         from ansys.dpf.core import (
             field,
             property_field,
@@ -62,47 +97,53 @@ class Any:
         return [
             (
                 int,
-                any_dpf._api.any_new_from_int,
-                any_dpf._api.any_get_as_int,
-                any_dpf._api.any_new_from_int_on_client,
+                self._api.any_new_from_int,
+                self._api.any_get_as_int,
+                self._api.any_new_from_int_on_client,
             ),
             (
                 str,
-                any_dpf._api.any_new_from_string,
-                any_dpf._api.any_get_as_string,
-                any_dpf._api.any_new_from_string_on_client,
+                self._new_from_string,
+                self._get_as_string,
+                self._new_from_string_on_client,
             ),
             (
                 float,
-                any_dpf._api.any_new_from_double,
-                any_dpf._api.any_get_as_double,
-                any_dpf._api.any_new_from_double_on_client,
+                self._api.any_new_from_double,
+                self._api.any_get_as_double,
+                self._api.any_new_from_double_on_client,
             ),
-            (field.Field, any_dpf._api.any_new_from_field, any_dpf._api.any_get_as_field),
+            (
+                bytes,
+                self._new_from_string_as_bytes,
+                self._get_as_string_as_bytes,
+                self._new_from_string_as_bytes_on_client,
+            ),
+            (field.Field, self._api.any_new_from_field, self._api.any_get_as_field),
             (
                 property_field.PropertyField,
-                any_dpf._api.any_new_from_property_field,
-                any_dpf._api.any_get_as_property_field,
+                self._api.any_new_from_property_field,
+                self._api.any_get_as_property_field,
             ),
             (
                 string_field.StringField,
-                any_dpf._api.any_new_from_string_field,
-                any_dpf._api.any_get_as_string_field,
+                self._api.any_new_from_string_field,
+                self._api.any_get_as_string_field,
             ),
             (
                 generic_data_container.GenericDataContainer,
-                any_dpf._api.any_new_from_generic_data_container,
-                any_dpf._api.any_get_as_generic_data_container,
+                self._api.any_new_from_generic_data_container,
+                self._api.any_get_as_generic_data_container,
             ),
             (
                 scoping.Scoping,
-                any_dpf._api.any_new_from_scoping,
-                any_dpf._api.any_get_as_scoping,
+                self._api.any_new_from_scoping,
+                self._api.any_get_as_scoping,
             ),
             (
                 data_tree.DataTree,
-                any_dpf._api.any_new_from_data_tree,
-                any_dpf._api.any_get_as_data_tree,
+                self._api.any_new_from_data_tree,
+                self._api.any_get_as_data_tree,
             ),
         ]
 
@@ -120,22 +161,22 @@ class Any:
             Wrapped any type.
         """
 
-        innerServer = server if server is not None else obj._server
+        inner_server = server if server is not None else obj._server
 
-        if not innerServer.meet_version("7.0"):
+        if not inner_server.meet_version("7.0"):
             raise errors.DpfVersionNotSupported("7.0")
 
-        any_dpf = Any(server=innerServer)
+        any_dpf = Any(server=inner_server)
 
-        for type_tuple in Any._type_to_new_from_get_as_method(any_dpf):
+        for type_tuple in any_dpf._type_to_new_from_get_as_method():
             if isinstance(obj, type_tuple[0]):
                 # call respective new_from function
                 if isinstance(server, ansys.dpf.core.server_types.InProcessServer) or not (
-                    isinstance(obj, int) or isinstance(obj, str) or isinstance(obj, float)
+                        isinstance(obj, int) or isinstance(obj, str) or isinstance(obj, float) or isinstance(obj, bytes)
                 ):
                     any_dpf._internal_obj = type_tuple[1](obj)
                 else:
-                    any_dpf._internal_obj = type_tuple[3](innerServer.client, obj)
+                    any_dpf._internal_obj = type_tuple[3](inner_server.client, obj)
                 # store get_as & type for casting back to original type
                 any_dpf._internal_type = type_tuple[0]
                 any_dpf._get_as_method = type_tuple[2]
@@ -190,9 +231,11 @@ class Any:
                 # call the get_as function for the appropriate type
                 internal_obj = type_tuple[2](self)
                 if (
-                    self._internal_type is int
-                    or self._internal_type is str
-                    or self._internal_type is float
+                        self._internal_type is int
+                        or self._internal_type is str
+                        or self._internal_type is float
+                        or self._internal_type is bytes
+
                 ):
                     obj = internal_obj
                 else:
