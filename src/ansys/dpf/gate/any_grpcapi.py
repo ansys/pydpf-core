@@ -1,5 +1,6 @@
-from ansys.dpf.gate import errors, data_processing_grpcapi
+from ansys.dpf.gate import errors, data_processing_grpcapi, grpc_stream_helpers
 from ansys.dpf.gate.generated import any_abstract_api, any_capi
+import numpy as np
 
 
 # -------------------------------------------------------------------------------
@@ -9,6 +10,10 @@ from ansys.dpf.gate.generated import any_abstract_api, any_capi
 
 def _get_stub(server):
     return server.get_stub(AnyGRPCAPI.STUBNAME)
+
+
+def _set_array_to_request(request, bytes):
+    request.array.array = bytes
 
 
 @errors.protect_grpc_class
@@ -67,6 +72,23 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         return AnyGRPCAPI._get_as(any).string_val
 
     @staticmethod
+    def any_get_as_string_with_size(any, size):
+        if any._server.meet_version("8.0"):
+            from ansys.grpc.dpf import dpf_any_pb2, base_pb2
+            request = dpf_any_pb2.GetAsRequest()
+            request.any.CopyFrom(any._internal_obj)
+            request.type = base_pb2.Type.STRING
+            service = _get_stub(any._server).GetAsStreamed(request)
+            dtype = np.byte
+            out = grpc_stream_helpers._data_get_chunk_(dtype, service, True, get_array=lambda chunk: chunk.array.array)
+            size.val = out.size
+            return bytes(out)
+        else:
+            out = AnyGRPCAPI.any_get_as_string(any)
+            size.val = out.size
+            return out
+
+    @staticmethod
     def any_get_as_double(any):
         return AnyGRPCAPI._get_as(any).double_val
 
@@ -122,6 +144,23 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         return AnyGRPCAPI._new_from(any, client)
 
     @staticmethod
+    def any_new_from_string_with_size_on_client(client, any, size):
+        if client.meet_version("8.0"):
+            from ansys.grpc.dpf import dpf_any_pb2, base_pb2
+            request = dpf_any_pb2.CreateStreamedRequest()
+            request.type = base_pb2.Type.STRING
+            metadata = [("size_bytes", f"{size.val.value}")]
+            return _get_stub(client).CreateStreamed(
+                grpc_stream_helpers._data_chunk_yielder(
+                    request,
+                    any,
+                    set_array=_set_array_to_request
+                ),
+                metadata=metadata)
+        else:
+            return AnyGRPCAPI.any_new_from_string_on_client(client, any)
+
+    @staticmethod
     def any_new_from_double_on_client(client, any):
         return AnyGRPCAPI._new_from(any, client)
 
@@ -148,4 +187,3 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
     @staticmethod
     def any_new_from_data_tree(any):
         return AnyGRPCAPI._new_from(any, any._server)
-
