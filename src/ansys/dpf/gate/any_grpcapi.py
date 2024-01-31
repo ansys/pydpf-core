@@ -43,6 +43,7 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
         return [(int, base_pb2.Type.INT),
                 (str, base_pb2.Type.STRING),
                 (float, base_pb2.Type.DOUBLE),
+                (bytes, base_pb2.Type.STRING),
                 (field.Field, base_pb2.Type.FIELD),
                 (property_field.PropertyField, base_pb2.Type.PROPERTY_FIELD),
                 (string_field.StringField, base_pb2.Type.STRING_FIELD),
@@ -127,6 +128,8 @@ class AnyGRPCAPI(any_abstract_api.AnyAbstractAPI):
             request.string_val = any
         elif isinstance(any, float):
             request.double_val = any
+        elif isinstance(any, bytes):
+            request.string_val = any.decode()
         else:
             request.id.CopyFrom(any._internal_obj.id)
 
