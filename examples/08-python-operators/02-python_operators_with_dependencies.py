@@ -54,7 +54,7 @@ file_list = [
 import os
 
 folder_root = os.path.join(os.getcwd().rsplit("pydpf-core", 1)[0], "pydpf-core")
-source_path_in_repo = r"docs\source\examples\07-python-operators\plugins"
+source_path_in_repo = r"doc\source\examples\07-python-operators\plugins"
 operator_folder = os.path.join(folder_root, source_path_in_repo)
 print(operator_folder)
 plugin_path = None
@@ -132,7 +132,7 @@ if os.name == "nt" and not os.path.exists(
 ):
     cmd_file = os.path.join(
         folder_root,
-        "docs",
+        "doc",
         "source",
         "user_guide",
         "create_sites_for_python_operators.ps1",
@@ -164,7 +164,7 @@ elif os.name == "posix" and not os.path.exists(
 ):
     cmd_file = os.path.join(
         folder_root,
-        "docs",
+        "doc",
         "source",
         "user_guide",
         "create_sites_for_python_operators.sh",

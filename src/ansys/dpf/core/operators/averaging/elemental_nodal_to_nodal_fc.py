@@ -40,6 +40,16 @@ class elemental_nodal_to_nodal_fc(Operator):
     extend_weights_to_mid_nodes : bool, optional
         Extends weights to mid nodes (when
         available). default is false.
+    merge_solid_shell : bool, optional
+        For shell/solid mixed field, gather in one
+        field all solids and shells (only on
+        one layer, false by default).
+    shell_layer : int, optional
+        If merge_solid_shell pin set to true, user
+        have to choose a shell layer. for
+        shell/solid mixed field, gather in
+        one field all solids and shells (only
+        on one layer).
 
 
     Examples
@@ -62,6 +72,10 @@ class elemental_nodal_to_nodal_fc(Operator):
     >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
     >>> my_extend_weights_to_mid_nodes = bool()
     >>> op.inputs.extend_weights_to_mid_nodes.connect(my_extend_weights_to_mid_nodes)
+    >>> my_merge_solid_shell = bool()
+    >>> op.inputs.merge_solid_shell.connect(my_merge_solid_shell)
+    >>> my_shell_layer = int()
+    >>> op.inputs.shell_layer.connect(my_shell_layer)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_fc(
@@ -71,6 +85,8 @@ class elemental_nodal_to_nodal_fc(Operator):
     ...     scoping=my_scoping,
     ...     extend_to_mid_nodes=my_extend_to_mid_nodes,
     ...     extend_weights_to_mid_nodes=my_extend_weights_to_mid_nodes,
+    ...     merge_solid_shell=my_merge_solid_shell,
+    ...     shell_layer=my_shell_layer,
     ... )
 
     >>> # Get output data
@@ -86,6 +102,8 @@ class elemental_nodal_to_nodal_fc(Operator):
         scoping=None,
         extend_to_mid_nodes=None,
         extend_weights_to_mid_nodes=None,
+        merge_solid_shell=None,
+        shell_layer=None,
         config=None,
         server=None,
     ):
@@ -106,6 +124,10 @@ class elemental_nodal_to_nodal_fc(Operator):
             self.inputs.extend_to_mid_nodes.connect(extend_to_mid_nodes)
         if extend_weights_to_mid_nodes is not None:
             self.inputs.extend_weights_to_mid_nodes.connect(extend_weights_to_mid_nodes)
+        if merge_solid_shell is not None:
+            self.inputs.merge_solid_shell.connect(merge_solid_shell)
+        if shell_layer is not None:
+            self.inputs.shell_layer.connect(shell_layer)
 
     @staticmethod
     def _spec():
@@ -162,6 +184,24 @@ class elemental_nodal_to_nodal_fc(Operator):
                     optional=True,
                     document="""Extends weights to mid nodes (when
         available). default is false.""",
+                ),
+                26: PinSpecification(
+                    name="merge_solid_shell",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""For shell/solid mixed field, gather in one
+        field all solids and shells (only on
+        one layer, false by default).""",
+                ),
+                27: PinSpecification(
+                    name="shell_layer",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""If merge_solid_shell pin set to true, user
+        have to choose a shell layer. for
+        shell/solid mixed field, gather in
+        one field all solids and shells (only
+        on one layer).""",
                 ),
             },
             map_output_pin_spec={
@@ -244,6 +284,10 @@ class InputsElementalNodalToNodalFc(_Inputs):
     >>> op.inputs.extend_to_mid_nodes.connect(my_extend_to_mid_nodes)
     >>> my_extend_weights_to_mid_nodes = bool()
     >>> op.inputs.extend_weights_to_mid_nodes.connect(my_extend_weights_to_mid_nodes)
+    >>> my_merge_solid_shell = bool()
+    >>> op.inputs.merge_solid_shell.connect(my_merge_solid_shell)
+    >>> my_shell_layer = int()
+    >>> op.inputs.shell_layer.connect(my_shell_layer)
     """
 
     def __init__(self, op: Operator):
@@ -270,6 +314,14 @@ class InputsElementalNodalToNodalFc(_Inputs):
             elemental_nodal_to_nodal_fc._spec().input_pin(5), 5, op, -1
         )
         self._inputs.append(self._extend_weights_to_mid_nodes)
+        self._merge_solid_shell = Input(
+            elemental_nodal_to_nodal_fc._spec().input_pin(26), 26, op, -1
+        )
+        self._inputs.append(self._merge_solid_shell)
+        self._shell_layer = Input(
+            elemental_nodal_to_nodal_fc._spec().input_pin(27), 27, op, -1
+        )
+        self._inputs.append(self._shell_layer)
 
     @property
     def fields_container(self):
@@ -398,6 +450,52 @@ class InputsElementalNodalToNodalFc(_Inputs):
         >>> op.inputs.extend_weights_to_mid_nodes(my_extend_weights_to_mid_nodes)
         """
         return self._extend_weights_to_mid_nodes
+
+    @property
+    def merge_solid_shell(self):
+        """Allows to connect merge_solid_shell input to the operator.
+
+        For shell/solid mixed field, gather in one
+        field all solids and shells (only on
+        one layer, false by default).
+
+        Parameters
+        ----------
+        my_merge_solid_shell : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
+        >>> op.inputs.merge_solid_shell.connect(my_merge_solid_shell)
+        >>> # or
+        >>> op.inputs.merge_solid_shell(my_merge_solid_shell)
+        """
+        return self._merge_solid_shell
+
+    @property
+    def shell_layer(self):
+        """Allows to connect shell_layer input to the operator.
+
+        If merge_solid_shell pin set to true, user
+        have to choose a shell layer. for
+        shell/solid mixed field, gather in
+        one field all solids and shells (only
+        on one layer).
+
+        Parameters
+        ----------
+        my_shell_layer : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.elemental_nodal_to_nodal_fc()
+        >>> op.inputs.shell_layer.connect(my_shell_layer)
+        >>> # or
+        >>> op.inputs.shell_layer(my_shell_layer)
+        """
+        return self._shell_layer
 
 
 class OutputsElementalNodalToNodalFc(_Outputs):

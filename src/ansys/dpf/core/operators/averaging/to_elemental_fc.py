@@ -27,6 +27,16 @@ class to_elemental_fc(Operator):
     collapse_shell_layers : bool, optional
         If true shell layers are averaged as well
         (default is false)
+    merge_solid_shell : bool, optional
+        For shell/solid mixed field, gather in one
+        field all solids and shells (only on
+        one layer, false by default).
+    shell_layer : int, optional
+        If merge_solid_shell pin set to true, user
+        have to choose a shell layer. for
+        shell/solid mixed field, gather in
+        one field all solids and shells (only
+        on one layer).
 
 
     Examples
@@ -47,6 +57,10 @@ class to_elemental_fc(Operator):
     >>> op.inputs.smoothen_values.connect(my_smoothen_values)
     >>> my_collapse_shell_layers = bool()
     >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+    >>> my_merge_solid_shell = bool()
+    >>> op.inputs.merge_solid_shell.connect(my_merge_solid_shell)
+    >>> my_shell_layer = int()
+    >>> op.inputs.shell_layer.connect(my_shell_layer)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.averaging.to_elemental_fc(
@@ -55,6 +69,8 @@ class to_elemental_fc(Operator):
     ...     mesh_scoping=my_mesh_scoping,
     ...     smoothen_values=my_smoothen_values,
     ...     collapse_shell_layers=my_collapse_shell_layers,
+    ...     merge_solid_shell=my_merge_solid_shell,
+    ...     shell_layer=my_shell_layer,
     ... )
 
     >>> # Get output data
@@ -68,6 +84,8 @@ class to_elemental_fc(Operator):
         mesh_scoping=None,
         smoothen_values=None,
         collapse_shell_layers=None,
+        merge_solid_shell=None,
+        shell_layer=None,
         config=None,
         server=None,
     ):
@@ -84,6 +102,10 @@ class to_elemental_fc(Operator):
             self.inputs.smoothen_values.connect(smoothen_values)
         if collapse_shell_layers is not None:
             self.inputs.collapse_shell_layers.connect(collapse_shell_layers)
+        if merge_solid_shell is not None:
+            self.inputs.merge_solid_shell.connect(merge_solid_shell)
+        if shell_layer is not None:
+            self.inputs.shell_layer.connect(shell_layer)
 
     @staticmethod
     def _spec():
@@ -126,6 +148,24 @@ class to_elemental_fc(Operator):
                     optional=True,
                     document="""If true shell layers are averaged as well
         (default is false)""",
+                ),
+                26: PinSpecification(
+                    name="merge_solid_shell",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""For shell/solid mixed field, gather in one
+        field all solids and shells (only on
+        one layer, false by default).""",
+                ),
+                27: PinSpecification(
+                    name="shell_layer",
+                    type_names=["int32"],
+                    optional=True,
+                    document="""If merge_solid_shell pin set to true, user
+        have to choose a shell layer. for
+        shell/solid mixed field, gather in
+        one field all solids and shells (only
+        on one layer).""",
                 ),
             },
             map_output_pin_spec={
@@ -194,6 +234,10 @@ class InputsToElementalFc(_Inputs):
     >>> op.inputs.smoothen_values.connect(my_smoothen_values)
     >>> my_collapse_shell_layers = bool()
     >>> op.inputs.collapse_shell_layers.connect(my_collapse_shell_layers)
+    >>> my_merge_solid_shell = bool()
+    >>> op.inputs.merge_solid_shell.connect(my_merge_solid_shell)
+    >>> my_shell_layer = int()
+    >>> op.inputs.shell_layer.connect(my_shell_layer)
     """
 
     def __init__(self, op: Operator):
@@ -210,6 +254,12 @@ class InputsToElementalFc(_Inputs):
             to_elemental_fc._spec().input_pin(10), 10, op, -1
         )
         self._inputs.append(self._collapse_shell_layers)
+        self._merge_solid_shell = Input(
+            to_elemental_fc._spec().input_pin(26), 26, op, -1
+        )
+        self._inputs.append(self._merge_solid_shell)
+        self._shell_layer = Input(to_elemental_fc._spec().input_pin(27), 27, op, -1)
+        self._inputs.append(self._shell_layer)
 
     @property
     def fields_container(self):
@@ -308,6 +358,52 @@ class InputsToElementalFc(_Inputs):
         >>> op.inputs.collapse_shell_layers(my_collapse_shell_layers)
         """
         return self._collapse_shell_layers
+
+    @property
+    def merge_solid_shell(self):
+        """Allows to connect merge_solid_shell input to the operator.
+
+        For shell/solid mixed field, gather in one
+        field all solids and shells (only on
+        one layer, false by default).
+
+        Parameters
+        ----------
+        my_merge_solid_shell : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.to_elemental_fc()
+        >>> op.inputs.merge_solid_shell.connect(my_merge_solid_shell)
+        >>> # or
+        >>> op.inputs.merge_solid_shell(my_merge_solid_shell)
+        """
+        return self._merge_solid_shell
+
+    @property
+    def shell_layer(self):
+        """Allows to connect shell_layer input to the operator.
+
+        If merge_solid_shell pin set to true, user
+        have to choose a shell layer. for
+        shell/solid mixed field, gather in
+        one field all solids and shells (only
+        on one layer).
+
+        Parameters
+        ----------
+        my_shell_layer : int
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.averaging.to_elemental_fc()
+        >>> op.inputs.shell_layer.connect(my_shell_layer)
+        >>> # or
+        >>> op.inputs.shell_layer(my_shell_layer)
+        """
+        return self._shell_layer
 
 
 class OutputsToElementalFc(_Outputs):
