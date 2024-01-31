@@ -23,3 +23,4 @@ def load_operators(*args):
     record_operator(dpf_types_op.ForwardMeshesContainerOperator, *args)
     record_operator(dpf_types_op.ForwardWorkflowOperator, *args)
     record_operator(dpf_types_op.ForwardDataTreeOperator, *args)
+    record_operator(dpf_types_op.ForwardGenericDataContainerOperator, *args)

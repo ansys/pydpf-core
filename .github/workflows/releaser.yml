@@ -22,14 +22,34 @@ env:
 
 jobs:
 
+  get_latest_tag:
+    name: "Get latest release version tag"
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.step1.outputs.version }}
+    steps:
+      - id: step1
+        name: "Get version tag"
+        shell: bash
+        run: |
+          get_latest_release() {
+            curl --silent "https://api.github.com/repos/$1/releases/latest" |
+              grep '"tag_name":' |
+              sed -E 's/.*"([^"]+)".*/\1/'
+          }
+          version=$(get_latest_release "ansys/pydpf-core")
+          echo $version
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
   Publish_to_PyPI:
     name: "Publish Release to PyPI"
     runs-on: ubuntu-latest
+    needs: get_latest_tag
     steps:
       - name: "Download Release Assets"
         uses: robinraju/release-downloader@v1.8
         with:
-          tag: ${{ github.event.inputs.release_tag || 'latest' }}
+          tag: ${{ github.event.inputs.release_tag || needs.get_latest_tag.outputs.version }}
           fileName: "*.whl"
           tarBall: false
           zipBall: false
@@ -55,6 +75,7 @@ jobs:
         with:
           file: HTML-doc-ansys-dpf-core.zip
           token: ${{ secrets.GITHUB_TOKEN }}
+          version: tags/${{ github.event.inputs.release_tag || needs.get_latest_tag.outputs.version }}
 
       - name: "List downloaded assets"
         shell: bash
@@ -111,6 +132,7 @@ jobs:
 
   update_ansys_lab_examples:
     uses: ./.github/workflows/ansys_lab.yml
+    needs: get_latest_tag
     with:
-      version: ${{ github.event.inputs.release_tag || 'latest' }}
+      version: ${{ github.event.inputs.release_tag || needs.get_latest_tag.outputs.version }}
     secrets: inherit
