@@ -1,3 +1,5 @@
+import pytest
+
 import conftest
 from ansys.dpf import core as dpf
 
@@ -26,8 +28,10 @@ def test_cast_string_any(server_type):
     assert "hello world" == new_entity
 
 
-
-@conftest.raises_for_servers_version_under("8.0")
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    reason="for_each not implemented below 8.0",
+)
 def test_cast_bytes_any(server_type):
     entity = b"hello world"
     any_dpf = dpf.Any.new_from(entity, server_type)
