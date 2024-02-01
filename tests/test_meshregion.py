@@ -546,7 +546,7 @@ def test_has_element_shape_meshed_region(server_type):
 
 
 @pytest.mark.slow
-def test_mesh_deep_copy(allkindofcomplexity, fluent_multiphase, server_type):
+def test_mesh_deep_copy(allkindofcomplexity, server_type):
     # Small mesh
     model = dpf.core.Model(allkindofcomplexity, server=server_type)
     mesh = model.metadata.meshed_region
@@ -574,7 +574,12 @@ def test_mesh_deep_copy(allkindofcomplexity, fluent_multiphase, server_type):
         copy.elements.connectivities_field.scoping.ids,
         mesh.elements.connectivities_field.scoping.ids,
     )
-    # Bigger mesh
+
+
+@pytest.mark.skipif(
+    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
+)
+def test_mesh_deep_copy_large(fluent_multiphase, server_type):
     model = dpf.core.Model(fluent_multiphase(server=server_type), server=server_type)
     mesh = model.metadata.meshed_region
     copy = mesh.deep_copy()
