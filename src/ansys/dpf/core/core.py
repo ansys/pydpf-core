@@ -292,7 +292,7 @@ def _deep_copy(dpf_entity, server=None):
     if stream_type == 1:
         out = serializer.get_output(0, types.bytes)
     else:
-        out = serializer.get_output(0, types.string)
+        out = serializer.outputs.serialized_string  # Required for retro with 241
     deserializer.connect(-1, stream_type)
     deserializer.connect(0, out)
     type_map = types_enum_to_types()
