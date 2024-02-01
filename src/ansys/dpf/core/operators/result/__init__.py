@@ -79,6 +79,7 @@ from .displacement import displacement
 from .displacement_X import displacement_X 
 from .displacement_Y import displacement_Y 
 from .displacement_Z import displacement_Z 
+from .div_lighthill_tensor import div_lighthill_tensor 
 from .dynamic_viscosity import dynamic_viscosity 
 from .elastic_strain import elastic_strain 
 from .elastic_strain_X import elastic_strain_X 
@@ -162,6 +163,7 @@ from .mapdl_split_on_facet_indices import mapdl_split_on_facet_indices
 from .mass_flow_rate import mass_flow_rate 
 from .mass_fraction import mass_fraction 
 from .material_property_of_element import material_property_of_element 
+from .mean_div_lighthill_tensor import mean_div_lighthill_tensor 
 from .mean_static_pressure import mean_static_pressure 
 from .mean_temperature import mean_temperature 
 from .mean_velocity import mean_velocity 
