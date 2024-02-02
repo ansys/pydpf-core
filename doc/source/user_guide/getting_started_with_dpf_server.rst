@@ -53,8 +53,8 @@ through the network using gRPC or directly in the same process. PyDPF-Post is a 
 module for postprocessing based on PyDPF-Core. 
 
 Both PyDPF-Core and PyDPF-Post can be used with DPF Server. Installation instructions
-for PyDPF-Core are available in the PyDPF-Core `Getting started <https://dpf.docs.pyansys.com/getting_started/install.html>`_.
-Installation instructions for PyDPF-Post are available in the PyDPF-Post `Getting started <https://post.docs.pyansys.com/getting_started/install.html>`_.
+for PyDPF-Core are available in the PyDPF-Core `Getting started <https://dpf.docs.pyansys.com/version/stable/getting_started/install.html>`_.
+Installation instructions for PyDPF-Post are available in the PyDPF-Post `Getting started <https://post.docs.pyansys.com/version/stable/getting_started/install.html>`_.
 
 With PyDPF-Core and PyDPF-Post, the first creation of most DPF entities starts a DPF Server with the current default configuration and context.
 For example, the following code automatically starts a DPF Server behind the scenes:
