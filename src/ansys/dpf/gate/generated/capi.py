@@ -1413,6 +1413,14 @@ def load_api(path):
 		dll.ExternalOperator_putOutString.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_putOutString.restype = None
 
+	if hasattr(dll, "ExternalOperator_getInString_with_size"):
+		dll.ExternalOperator_getInString_with_size.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_getInString_with_size.restype = ctypes.POINTER(ctypes.c_char)
+
+	if hasattr(dll, "ExternalOperator_putOutString_with_size"):
+		dll.ExternalOperator_putOutString_with_size.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_char), ctypes.c_uint64, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_putOutString_with_size.restype = None
+
 	if hasattr(dll, "ExternalOperator_getInVecInt"):
 		dll.ExternalOperator_getInVecInt.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_getInVecInt.restype = ctypes.POINTER(ctypes.c_int32)
