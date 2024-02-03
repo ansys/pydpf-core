@@ -35,6 +35,16 @@ class DpfAnyServiceStub(object):
                 request_serializer=dpf__any__pb2.GetAsRequest.SerializeToString,
                 response_deserializer=dpf__any__pb2.GetAsResponse.FromString,
                 )
+        self.CreateStreamed = channel.stream_unary(
+                '/ansys.api.dpf.dpf_any.v0.DpfAnyService/CreateStreamed',
+                request_serializer=dpf__any__pb2.CreateStreamedRequest.SerializeToString,
+                response_deserializer=dpf__any__message__pb2.DpfAny.FromString,
+                )
+        self.GetAsStreamed = channel.unary_stream(
+                '/ansys.api.dpf.dpf_any.v0.DpfAnyService/GetAsStreamed',
+                request_serializer=dpf__any__pb2.GetAsRequest.SerializeToString,
+                response_deserializer=dpf__any__pb2.GetAsArrayResponse.FromString,
+                )
 
 
 class DpfAnyServiceServicer(object):
@@ -64,6 +74,18 @@ class DpfAnyServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def CreateStreamed(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetAsStreamed(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_DpfAnyServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -86,6 +108,16 @@ def add_DpfAnyServiceServicer_to_server(servicer, server):
                     servicer.GetAs,
                     request_deserializer=dpf__any__pb2.GetAsRequest.FromString,
                     response_serializer=dpf__any__pb2.GetAsResponse.SerializeToString,
+            ),
+            'CreateStreamed': grpc.stream_unary_rpc_method_handler(
+                    servicer.CreateStreamed,
+                    request_deserializer=dpf__any__pb2.CreateStreamedRequest.FromString,
+                    response_serializer=dpf__any__message__pb2.DpfAny.SerializeToString,
+            ),
+            'GetAsStreamed': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetAsStreamed,
+                    request_deserializer=dpf__any__pb2.GetAsRequest.FromString,
+                    response_serializer=dpf__any__pb2.GetAsArrayResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -162,5 +194,39 @@ class DpfAnyService(object):
         return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.dpf_any.v0.DpfAnyService/GetAs',
             dpf__any__pb2.GetAsRequest.SerializeToString,
             dpf__any__pb2.GetAsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CreateStreamed(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(request_iterator, target, '/ansys.api.dpf.dpf_any.v0.DpfAnyService/CreateStreamed',
+            dpf__any__pb2.CreateStreamedRequest.SerializeToString,
+            dpf__any__message__pb2.DpfAny.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetAsStreamed(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/ansys.api.dpf.dpf_any.v0.DpfAnyService/GetAsStreamed',
+            dpf__any__pb2.GetAsRequest.SerializeToString,
+            dpf__any__pb2.GetAsArrayResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
