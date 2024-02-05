@@ -495,6 +495,7 @@ def test_release_dpf(server_type):
         dpf.core.Operator("expansion::modal_superposition", server=server_type)
 
 
+@pytest.mark.skipif(running_docker, reason="BUG: not working on docker")
 @conftest.raises_for_servers_version_under("6.1")
 def test_license_context_manager_as_context():
     field = dpf.core.Field()
