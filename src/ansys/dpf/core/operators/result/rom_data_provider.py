@@ -88,6 +88,7 @@ class rom_data_provider(Operator):
     >>> result_model_size = op.outputs.model_size()
     >>> result_field_coordinates_and_euler_angles = op.outputs.field_coordinates_and_euler_angles()
     >>> result_nod = op.outputs.nod()
+    >>> result_meshed_region = op.outputs.meshed_region()
     """
 
     def __init__(
@@ -243,6 +244,12 @@ class rom_data_provider(Operator):
                     type_names=["vector<int32>"],
                     optional=False,
                     document="""Ids of master nodes""",
+                ),
+                9: PinSpecification(
+                    name="meshed_region",
+                    type_names=["abstract_meshed_region"],
+                    optional=False,
+                    document="""Expanded meshed region.""",
                 ),
             },
         )
@@ -524,6 +531,7 @@ class OutputsRomDataProvider(_Outputs):
     >>> result_model_size = op.outputs.model_size()
     >>> result_field_coordinates_and_euler_angles = op.outputs.field_coordinates_and_euler_angles()
     >>> result_nod = op.outputs.nod()
+    >>> result_meshed_region = op.outputs.meshed_region()
     """
 
     def __init__(self, op: Operator):
@@ -548,6 +556,8 @@ class OutputsRomDataProvider(_Outputs):
         self._outputs.append(self._field_coordinates_and_euler_angles)
         self._nod = Output(rom_data_provider._spec().output_pin(8), 8, op)
         self._outputs.append(self._nod)
+        self._meshed_region = Output(rom_data_provider._spec().output_pin(9), 9, op)
+        self._outputs.append(self._meshed_region)
 
     @property
     def rom_matrices(self):
@@ -701,3 +711,20 @@ class OutputsRomDataProvider(_Outputs):
         >>> result_nod = op.outputs.nod()
         """  # noqa: E501
         return self._nod
+
+    @property
+    def meshed_region(self):
+        """Allows to get meshed_region output of the operator
+
+        Returns
+        ----------
+        my_meshed_region : MeshedRegion
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.rom_data_provider()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_meshed_region = op.outputs.meshed_region()
+        """  # noqa: E501
+        return self._meshed_region
