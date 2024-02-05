@@ -497,20 +497,20 @@ def test_release_dpf(server_type):
 
 @pytest.mark.skipif(running_docker, reason="BUG: not working on docker")
 @conftest.raises_for_servers_version_under("6.1")
-def test_license_context_manager_as_context():
-    field = dpf.core.Field()
+def test_license_context_manager_as_context(server_type):
+    field = dpf.core.Field(server=server_type)
     field.append([0.0, 0.0, 0.0], 1)
-    op = dpf.core.operators.filter.field_high_pass()
+    op = dpf.core.operators.filter.field_high_pass(server=server_type)
     op.inputs.field(field)
     op.inputs.threshold(0.0)
-    with dpf.core.LicenseContextManager() as lic:
+    with dpf.core.LicenseContextManager(server=server_type) as lic:
         out = op.outputs.field()
         st = lic.status
 
     assert len(st) != 0
     new_st = lic.status
-    assert new_st == "" or new_st is None
-    lic = dpf.core.LicenseContextManager()
+    assert new_st == ""
+    lic = dpf.core.LicenseContextManager(server=server_type)
     op.inputs.field(field)
     op.inputs.threshold(0.0)
     out = op.outputs.field()
@@ -518,11 +518,11 @@ def test_license_context_manager_as_context():
     assert str(new_st) == str(st)
     lic = None
 
-    op = dpf.core.operators.filter.field_high_pass()
+    op = dpf.core.operators.filter.field_high_pass(server=server_type)
     op.inputs.field(field)
     op.inputs.threshold(0.0)
     with dpf.core.LicenseContextManager(
-        increment_name="ansys", license_timeout_in_seconds=1.0
+        increment_name="ansys", license_timeout_in_seconds=1.0, server=server_type
     ) as lic:
         out = op.outputs.field()
         st = lic.status

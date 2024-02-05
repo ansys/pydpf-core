@@ -490,7 +490,7 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		res = capi.dll.ExternalOperator_getInString_with_size(operator_data, utils.to_int32(pin_index), utils.to_uint64_ptr(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
-		newres = ctypes.string_at(res, size.val.value) if res else None
+		newres = ctypes.string_at(res, size.val.value)
 		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
 		return newres
 
