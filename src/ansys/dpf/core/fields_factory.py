@@ -101,12 +101,12 @@ def create_matrix_field(num_entities, num_lines, num_col, location=locations.nod
 
     """
     return _create_field(
-        server,
-        natures.matrix,
-        num_entities,
-        location,
-        num_col,
-        num_lines,
+        server=server,
+        nature=natures.matrix,
+        nentities=num_entities,
+        location=location,
+        ncomp_m=num_col,
+        ncomp_n=num_lines,
     )
 
 
