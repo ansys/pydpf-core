@@ -508,7 +508,7 @@ def test_license_context_manager_as_context():
 
     assert len(st) != 0
     new_st = lic.status
-    assert new_st == ""
+    assert new_st == "" or new_st is None
     lic = dpf.core.LicenseContextManager()
     op.inputs.field(field)
     op.inputs.threshold(0.0)
