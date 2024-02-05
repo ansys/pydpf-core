@@ -21,6 +21,11 @@ class CollectionServiceStub(object):
                 request_serializer=collection__pb2.CollectionRequest.SerializeToString,
                 response_deserializer=collection__pb2.Collection.FromString,
                 )
+        self.Update = channel.unary_unary(
+                '/ansys.api.dpf.collection.v0.CollectionService/Update',
+                request_serializer=collection__pb2.UpdateCollectionRequest.SerializeToString,
+                response_deserializer=base__pb2.Empty.FromString,
+                )
         self.UpdateLabels = channel.unary_unary(
                 '/ansys.api.dpf.collection.v0.CollectionService/UpdateLabels',
                 request_serializer=collection__pb2.UpdateLabelsRequest.SerializeToString,
@@ -82,6 +87,12 @@ class CollectionServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Create(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Update(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -168,6 +179,11 @@ def add_CollectionServiceServicer_to_server(servicer, server):
                     request_deserializer=collection__pb2.CollectionRequest.FromString,
                     response_serializer=collection__pb2.Collection.SerializeToString,
             ),
+            'Update': grpc.unary_unary_rpc_method_handler(
+                    servicer.Update,
+                    request_deserializer=collection__pb2.UpdateCollectionRequest.FromString,
+                    response_serializer=base__pb2.Empty.SerializeToString,
+            ),
             'UpdateLabels': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateLabels,
                     request_deserializer=collection__pb2.UpdateLabelsRequest.FromString,
@@ -247,6 +263,23 @@ class CollectionService(object):
         return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.collection.v0.CollectionService/Create',
             collection__pb2.CollectionRequest.SerializeToString,
             collection__pb2.Collection.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Update(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.collection.v0.CollectionService/Update',
+            collection__pb2.UpdateCollectionRequest.SerializeToString,
+            base__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
