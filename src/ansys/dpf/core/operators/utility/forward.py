@@ -16,9 +16,7 @@ class forward(Operator):
 
     Parameters
     ----------
-    any1 : Any
-        Any type of input
-    any2 : Any
+    any : Any
         Any type of input
 
 
@@ -30,30 +28,24 @@ class forward(Operator):
     >>> op = dpf.operators.utility.forward()
 
     >>> # Make input connections
-    >>> my_any1 = dpf.Any()
-    >>> op.inputs.any1.connect(my_any1)
-    >>> my_any2 = dpf.Any()
-    >>> op.inputs.any2.connect(my_any2)
+    >>> my_any = dpf.Any()
+    >>> op.inputs.any.connect(my_any)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.utility.forward(
-    ...     any1=my_any1,
-    ...     any2=my_any2,
+    ...     any=my_any,
     ... )
 
     >>> # Get output data
-    >>> result_any1 = op.outputs.any1()
-    >>> result_any2 = op.outputs.any2()
+    >>> result_any = op.outputs.any()
     """
 
-    def __init__(self, any1=None, any2=None, config=None, server=None):
+    def __init__(self, any=None, config=None, server=None):
         super().__init__(name="forward", config=config, server=server)
         self._inputs = InputsForward(self)
         self._outputs = OutputsForward(self)
-        if any1 is not None:
-            self.inputs.any1.connect(any1)
-        if any2 is not None:
-            self.inputs.any2.connect(any2)
+        if any is not None:
+            self.inputs.any.connect(any)
 
     @staticmethod
     def _spec():
@@ -67,22 +59,10 @@ class forward(Operator):
                     optional=False,
                     document="""Any type of input""",
                 ),
-                1: PinSpecification(
-                    name="any",
-                    type_names=["any"],
-                    optional=False,
-                    document="""Any type of input""",
-                ),
             },
             map_output_pin_spec={
                 0: PinSpecification(
-                    name="any1",
-                    type_names=["any"],
-                    optional=False,
-                    document="""Same types as inputs""",
-                ),
-                1: PinSpecification(
-                    name="any2",
+                    name="any",
                     type_names=["any"],
                     optional=False,
                     document="""Same types as inputs""",
@@ -136,58 +116,34 @@ class InputsForward(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.forward()
-    >>> my_any1 = dpf.Any()
-    >>> op.inputs.any1.connect(my_any1)
-    >>> my_any2 = dpf.Any()
-    >>> op.inputs.any2.connect(my_any2)
+    >>> my_any = dpf.Any()
+    >>> op.inputs.any.connect(my_any)
     """
 
     def __init__(self, op: Operator):
         super().__init__(forward._spec().inputs, op)
-        self._any1 = Input(forward._spec().input_pin(0), 0, op, 0)
-        self._inputs.append(self._any1)
-        self._any2 = Input(forward._spec().input_pin(1), 1, op, 1)
-        self._inputs.append(self._any2)
+        self._any = Input(forward._spec().input_pin(0), 0, op, -1)
+        self._inputs.append(self._any)
 
     @property
-    def any1(self):
-        """Allows to connect any1 input to the operator.
+    def any(self):
+        """Allows to connect any input to the operator.
 
         Any type of input
 
         Parameters
         ----------
-        my_any1 : Any
+        my_any : Any
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.forward()
-        >>> op.inputs.any1.connect(my_any1)
+        >>> op.inputs.any.connect(my_any)
         >>> # or
-        >>> op.inputs.any1(my_any1)
+        >>> op.inputs.any(my_any)
         """
-        return self._any1
-
-    @property
-    def any2(self):
-        """Allows to connect any2 input to the operator.
-
-        Any type of input
-
-        Parameters
-        ----------
-        my_any2 : Any
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.forward()
-        >>> op.inputs.any2.connect(my_any2)
-        >>> # or
-        >>> op.inputs.any2(my_any2)
-        """
-        return self._any2
+        return self._any
 
 
 class OutputsForward(_Outputs):
@@ -199,47 +155,27 @@ class OutputsForward(_Outputs):
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.utility.forward()
     >>> # Connect inputs : op.inputs. ...
-    >>> result_any1 = op.outputs.any1()
-    >>> result_any2 = op.outputs.any2()
+    >>> result_any = op.outputs.any()
     """
 
     def __init__(self, op: Operator):
         super().__init__(forward._spec().outputs, op)
-        self._any1 = Output(forward._spec().output_pin(0), 0, op)
-        self._outputs.append(self._any1)
-        self._any2 = Output(forward._spec().output_pin(1), 1, op)
-        self._outputs.append(self._any2)
+        self._any = Output(forward._spec().output_pin(0), 0, op)
+        self._outputs.append(self._any)
 
     @property
-    def any1(self):
-        """Allows to get any1 output of the operator
+    def any(self):
+        """Allows to get any output of the operator
 
         Returns
         ----------
-        my_any1 : Any
+        my_any : Any
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.utility.forward()
         >>> # Connect inputs : op.inputs. ...
-        >>> result_any1 = op.outputs.any1()
+        >>> result_any = op.outputs.any()
         """  # noqa: E501
-        return self._any1
-
-    @property
-    def any2(self):
-        """Allows to get any2 output of the operator
-
-        Returns
-        ----------
-        my_any2 : Any
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.utility.forward()
-        >>> # Connect inputs : op.inputs. ...
-        >>> result_any2 = op.outputs.any2()
-        """  # noqa: E501
-        return self._any2
+        return self._any
