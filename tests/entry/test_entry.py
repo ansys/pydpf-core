@@ -17,14 +17,20 @@ from conftest import running_docker
     reason="Tests ANSYS_DPF_ACCEPT_LA",
 )
 def test_license_agr(restore_accept_la_env):
+    # store the server version beforehand
+    server_ge_8 = conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0
     dpf.server.shutdown_global_server()
     config = dpf.AvailableServerConfigs.InProcessServer
     init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
     del os.environ["ANSYS_DPF_ACCEPT_LA"]
-    with pytest.raises(errors.DPFServerException):
+    if server_ge_8:
         dpf.start_local_server(config=config, as_global=True)
-    with pytest.raises(errors.DPFServerException):
         dpf.Operator("stream_provider")
+    else:
+        with pytest.raises(errors.DPFServerException):
+            dpf.start_local_server(config=config, as_global=True)
+        with pytest.raises(errors.DPFServerException):
+            dpf.Operator("stream_provider")
     os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
     dpf.start_local_server(config=config, as_global=True)
     assert "static" in examples.find_static_rst()
@@ -40,8 +46,11 @@ def test_license_agr(restore_accept_la_env):
 def test_license_agr_remote(remote_config_server_type, restore_accept_la_env):
     init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
     del os.environ["ANSYS_DPF_ACCEPT_LA"]
-    with pytest.raises(RuntimeError):  # runtime error raised when server is started
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
         dpf.start_local_server(config=remote_config_server_type, as_global=True)
+    else:
+        with pytest.raises(errors.DPFServerException):
+            dpf.start_local_server(config=remote_config_server_type, as_global=True)
     # with pytest.raises((errors.DPFServerException, RuntimeError)):
     #     dpf.Operator("stream_provider")  # No remote server to instantiate the operator on
     os.environ["ANSYS_DPF_ACCEPT_LA"] = init_val
