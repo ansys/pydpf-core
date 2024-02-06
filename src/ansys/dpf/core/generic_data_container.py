@@ -111,7 +111,7 @@ class GenericDataContainer:
         """Get property with given name.
 
         Parameters
-        ---------- 
+        ----------
         property_name : str
             Property name.
 
