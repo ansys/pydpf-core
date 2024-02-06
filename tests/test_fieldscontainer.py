@@ -527,7 +527,3 @@ def test_fields_container_empty_tf_support(server_type):
     fields_container = dpf.FieldsContainer(server=server_type)
 
     assert fields_container.time_freq_support == None
-
-
-if __name__ == "__main__":
-    test_add_field_by_time_id()

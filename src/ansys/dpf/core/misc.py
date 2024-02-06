@@ -2,11 +2,13 @@
 import platform
 import glob
 import os
+import re
 
 import packaging.version
 import pkg_resources
 import importlib
 from pkgutil import iter_modules
+from ansys.dpf.core import errors
 from ansys.dpf.gate._version import __ansys_version__
 from ansys.dpf.gate import load_api
 
@@ -97,6 +99,20 @@ def get_ansys_path(ansys_path=None):
             '- when starting the server with "start_local_server(ansys_path=*/vXXX)"\n'
             '- or by setting it by default with the environment variable "ANSYS_DPF_PATH"'
         )
+    # parse the version to an int and check for supported
+    ansys_folder_name = str(ansys_path).split(os.sep)[-1]
+    reobj_vXYZ = re.compile(
+        "^v[0123456789]{3}$"
+    )
+    if reobj_vXYZ.match(ansys_folder_name):
+        # vXYZ Unified Install folder
+        ver = int(str(ansys_path)[-3:])
+    else:
+        ver = 222
+    if ver < 211:
+        raise errors.InvalidANSYSVersionError(f"Ansys v{ver} does not support DPF")
+    if ver == 211 and is_ubuntu():
+        raise OSError("DPF on v211 does not support Ubuntu")
     return ansys_path
 
 

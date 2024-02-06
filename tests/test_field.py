@@ -1298,22 +1298,43 @@ def test_field_no_inprocess_localfield(server_in_process, allkindofcomplexity):
         assert field == local_field
 
 
-def test_deep_copy_2_field(server_type, server_in_process):
-    data = np.random.random(10)
-    field_a = dpf.core.field_from_array(data, server=server_type)
-    assert np.allclose(field_a.data, data)
+if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
+    def test_deep_copy_2_field(server_type, server_in_process):
+        data = np.random.random(10)
+        field_a = dpf.core.field_from_array(data, server=server_type)
+        assert np.allclose(field_a.data, data)
 
-    out = dpf.core.core._deep_copy(field_a, server_in_process)
-    assert np.allclose(out.data, data)
+        out = dpf.core.core._deep_copy(field_a, server_in_process)
+        assert np.allclose(out.data, data)
 
 
-def test_deep_copy_2_field_remote(server_type, server_type_remote_process):
-    data = np.random.random(10)
-    field_a = dpf.core.field_from_array(data, server=server_type)
-    assert np.allclose(field_a.data, data)
+    def test_deep_copy_2_field_remote(server_type, server_type_remote_process):
+        data = np.random.random(10)
+        field_a = dpf.core.field_from_array(data, server=server_type)
+        assert np.allclose(field_a.data, data)
 
-    out = dpf.core.core._deep_copy(field_a, server_type_remote_process)
-    assert np.allclose(out.data, data)
+        out = dpf.core.core._deep_copy(field_a, server_type_remote_process)
+        assert np.allclose(out.data, data)
+
+elif conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0:
+    # before server version 8.0 deep copying between a legacy grpc client and another client type
+    # is not supported.
+    def test_deep_copy_2_field(server_clayer, server_in_process):
+        data = np.random.random(10)
+        field_a = dpf.core.field_from_array(data, server=server_clayer)
+        assert np.allclose(field_a.data, data)
+
+        out = dpf.core.core._deep_copy(field_a, server_in_process)
+        assert np.allclose(out.data, data)
+
+
+    def test_deep_copy_2_field_remote(server_type):
+        data = np.random.random(10)
+        field_a = dpf.core.field_from_array(data, server=server_type)
+        assert np.allclose(field_a.data, data)
+
+        out = dpf.core.core._deep_copy(field_a, server_type)
+        assert np.allclose(out.data, data)
 
 
 @pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")

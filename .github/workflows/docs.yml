@@ -44,7 +44,6 @@ on:
 env:
   PACKAGE_NAME: ansys-dpf-core
   MODULE: core
-  MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
 
 jobs:
   doc-style:
@@ -144,6 +143,8 @@ jobs:
         run: |
           build_doc.bat > ..\doc\log.txt && type ..\doc\log.txt 2>&1
         timeout-minutes: 60
+        env:
+          MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
 
       - name: "Check for success"
         shell: bash

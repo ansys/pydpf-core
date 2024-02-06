@@ -10,6 +10,7 @@ from ansys.dpf.core import (
     types,
     workflow,
     data_tree,
+    generic_data_container,
 )
 
 
@@ -192,3 +193,20 @@ class ForwardDataTreeOperator(CustomOperatorBase):
     @property
     def name(self):
         return "custom_forward_data_tree"
+
+
+class ForwardGenericDataContainerOperator(CustomOperatorBase):
+    def run(self):
+        f = self.get_input(0, generic_data_container.GenericDataContainer)
+        assert not f is None
+        f = self.get_input(0, types.generic_data_container)
+        self.set_output(0, f)
+        self.set_succeeded()
+
+    @property
+    def specification(self):
+        return None
+
+    @property
+    def name(self):
+        return "custom_forward_generic_data_container"
