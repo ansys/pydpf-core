@@ -12,8 +12,11 @@ from typing import Union, TYPE_CHECKING
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Field, Scoping, StringField, GenericDataContainer
 
+from ansys.dpf.core.dpf_operator import _write_output_type_to_type
+
+
 from ansys.dpf.core import server as server_module
-from ansys.dpf.core import errors
+from ansys.dpf.core import errors, types
 from ansys.dpf.core.any import Any
 from ansys.dpf.core import collection
 from ansys.dpf.core.mapping_types import map_types_to_python
@@ -104,7 +107,7 @@ class GenericDataContainer:
         any_dpf = Any.new_from(prop, self._server)
         self._api.generic_data_container_set_property_any(self, property_name, any_dpf)
 
-    def get_property(self, property_name):
+    def get_property(self, property_name, output_type: Union[None, type, types] = None):
         """Get property with given name.
 
         Parameters
@@ -112,13 +115,24 @@ class GenericDataContainer:
         property_name : str
             Property name.
 
+        output_type : None, type, types, optional
+            Expected type of the output. By default, type is deduced using
+            `GenericDataContainer.get_property_description`.
+
         Returns
         -------
         Property object instance.
         """
         any_ptr = self._api.generic_data_container_get_property_any(self, property_name)
         any_dpf = Any(any_ptr, self._server)
-        output_type = self.get_property_description()[property_name]
+        if output_type is None:
+            output_type = self.get_property_description()[property_name]
+        else:
+            if not isinstance(output_type, type):
+                output_type = _write_output_type_to_type(output_type)
+
+            output_type = str(output_type.__name__)
+
         class_ = getattr(builtins, output_type, None)
         if class_ is None:
             from ansys.dpf import core
