@@ -1,4 +1,5 @@
 import os
+import sys
 from glob import glob
 from datetime import datetime
 
@@ -313,3 +314,13 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ["search.html"]
+
+
+def verify_meilisearch_is_active(app):
+    MEILISEARCH_PUBLIC_API_KEY = os.getenv("MEILISEARCH_PUBLIC_API_KEY", None)
+    if not MEILISEARCH_PUBLIC_API_KEY:
+        sys.stderr.write("Could not find MEILISEARCH_PUBLIC_API_KEY")
+        sys.exit(1)
+
+def setup(app):
+    app.connect("builder-inited", verify_meilisearch_is_active)
