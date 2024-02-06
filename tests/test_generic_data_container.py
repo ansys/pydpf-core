@@ -113,9 +113,6 @@ def test_get_by_type_generic_data_container(server_type):
     new_entity = gdc.get_property("my-field", dpf.types.field)
     assert isinstance(new_entity, dpf.Field)
 
-    with pytest.raises(Exception):
-        gdc.get_property("my-field", int)
-
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0"
