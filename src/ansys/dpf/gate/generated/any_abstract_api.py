@@ -52,6 +52,10 @@ class AnyAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def any_get_as_string_with_size(any, size):
+		raise NotImplementedError
+
+	@staticmethod
 	def any_get_as_int(any):
 		raise NotImplementedError
 
@@ -129,6 +133,10 @@ class AnyAbstractAPI:
 
 	@staticmethod
 	def any_new_from_string(any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_new_from_string_with_size(any, size):
 		raise NotImplementedError
 
 	@staticmethod
@@ -225,6 +233,10 @@ class AnyAbstractAPI:
 
 	@staticmethod
 	def any_new_from_string_on_client(client, any):
+		raise NotImplementedError
+
+	@staticmethod
+	def any_new_from_string_with_size_on_client(client, any, size):
 		raise NotImplementedError
 
 	@staticmethod

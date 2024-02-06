@@ -911,7 +911,7 @@ class WorkflowCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 		res = capi.dll.WorkFlow_getoutput_string_with_size(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), utils.to_uint64_ptr(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
-		newres = ctypes.string_at(res, size.val.value) if res else None
+		newres = ctypes.string_at(res, size.val.value)
 		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
 		return newres
 
