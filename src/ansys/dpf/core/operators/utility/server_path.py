@@ -21,7 +21,7 @@ class server_path(Operator):
         0 (default): root of the server, 1:
         "dpf/bin/platform", 2:
         "aisol/bin(dll)/platform", 3:
-        "dpf/plugins".
+        "dpf/plugins", 4: "dpf/workflows".
 
 
     Examples
@@ -67,7 +67,7 @@ class server_path(Operator):
         0 (default): root of the server, 1:
         "dpf/bin/platform", 2:
         "aisol/bin(dll)/platform", 3:
-        "dpf/plugins".""",
+        "dpf/plugins", 4: "dpf/workflows".""",
                 ),
             },
             map_output_pin_spec={
@@ -144,7 +144,7 @@ class InputsServerPath(_Inputs):
         0 (default): root of the server, 1:
         "dpf/bin/platform", 2:
         "aisol/bin(dll)/platform", 3:
-        "dpf/plugins".
+        "dpf/plugins", 4: "dpf/workflows".
 
         Parameters
         ----------
