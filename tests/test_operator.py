@@ -19,6 +19,7 @@ from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_2,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
 )
 
 # Check for ANSYS installation env var
@@ -1337,6 +1338,7 @@ def test_connect_get_non_ascii_string(server_type):
     assert str == str_out
 
 
+@pytest.mark.skipif(not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0, reason="Available for servers >=8.0")
 def test_deep_copy_non_ascii_string(server_type):
     str = "\N{GREEK CAPITAL LETTER DELTA}"
     str_out = dpf.core.core._deep_copy(str, server_type)

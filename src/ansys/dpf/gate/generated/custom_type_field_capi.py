@@ -108,6 +108,15 @@ class CustomTypeFieldCAPI(custom_type_field_abstract_api.CustomTypeFieldAbstract
 		return res
 
 	@staticmethod
+	def cscustom_type_field_get_property_data_tree(field):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.CSCustomTypeField_GetPropertyDataTree(field._internal_obj if field is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def cscustom_type_field_set_data(field, size, data):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -148,6 +157,15 @@ class CustomTypeFieldCAPI(custom_type_field_abstract_api.CustomTypeFieldAbstract
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.CSCustomTypeField_Resize(field._internal_obj if field is not None else None, utils.to_int32(dataSize), utils.to_int32(scopingSize), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def cscustom_type_field_resize_data_pointer(field, dataSize):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.CSCustomTypeField_ResizeDataPointer(field._internal_obj if field is not None else None, utils.to_int32(dataSize), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

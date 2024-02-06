@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import pytest
 import platform
@@ -5,11 +7,59 @@ import platform
 import ansys.dpf.core.operators as op
 import conftest
 from ansys import dpf
+from ansys.dpf.core import misc
+
+if misc.module_exists("graphviz"):
+    HAS_GRAPHVIZ = True
+else:
+    HAS_GRAPHVIZ = False
 
 
 def test_create_workflow(server_type):
     wf = dpf.core.Workflow(server=server_type)
     assert wf._internal_obj
+
+
+@pytest.fixture()
+def remove_dot_file(request):
+    """Cleanup a testing directory once we are finished."""
+
+    dot_path = os.path.join(os.getcwd(), "test.dot")
+    png_path = os.path.join(os.getcwd(), "test.png")
+    png_path1 = os.path.join(os.getcwd(), "test1.png")
+
+    def remove_files():
+        if os.path.exists(dot_path):
+            os.remove(os.path.join(os.getcwd(), dot_path))
+        if os.path.exists(png_path):
+            os.remove(os.path.join(os.getcwd(), png_path))
+        if os.path.exists(png_path1):
+            os.remove(os.path.join(os.getcwd(), png_path1))
+
+    request.addfinalizer(remove_files)
+
+
+@pytest.mark.skipif(not HAS_GRAPHVIZ, reason="Please install pyvista")
+def test_workflow_view(server_in_process, remove_dot_file):
+    pre_wf = dpf.core.Workflow(server=server_in_process)
+    pre_op = dpf.core.operators.utility.forward(server=server_in_process)
+    pre_wf.add_operator(pre_op)
+    pre_wf.set_input_name("prewf_input", pre_op.inputs.any)
+    pre_wf.set_output_name("prewf_output", pre_op.outputs.any)
+
+    wf = dpf.core.Workflow(server=server_in_process)
+    forward_op = dpf.core.operators.utility.forward(server=server_in_process)
+    wf.add_operator(forward_op)
+    wf.set_input_name("wf_input", forward_op.inputs.any)
+    wf.set_output_name("wf_output", forward_op.outputs.any)
+
+    wf.connect_with(pre_wf, {"prewf_output": "wf_input"})
+    wf.view(off_screen=True, title="test1")
+    assert not os.path.exists("test1.dot")
+    assert os.path.exists("test1.png")
+    wf.view(off_screen=True, save_as="test.png", keep_dot_file=True)
+    assert os.path.exists("test.dot")
+    assert os.path.exists("test.png")
 
 
 def test_connect_field_workflow(server_type):
