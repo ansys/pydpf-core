@@ -96,18 +96,6 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
         return CollectionGRPCAPI._list(collection).labels.labels[labelIndex]
 
     @staticmethod
-    def collection_get_name(collection):
-        return CollectionGRPCAPI._list(collection).name
-
-    @staticmethod
-    def collection_set_name(collection, name):
-        from ansys.grpc.dpf import collection_pb2
-        request = collection_pb2.UpdateCollectionRequest()
-        request.collection.CopyFrom(collection._internal_obj)
-        request.string_properties.update({"name": name})
-        _get_stub(collection._server).Update(request)
-
-    @staticmethod
     def collection_get_size(collection):
         if isinstance(collection._internal_obj, list):
             return len(collection._internal_obj)
