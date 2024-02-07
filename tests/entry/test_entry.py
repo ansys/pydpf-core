@@ -49,7 +49,7 @@ def test_license_agr_remote(remote_config_server_type, restore_accept_la_env):
     if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
         dpf.start_local_server(config=remote_config_server_type, as_global=True)
     else:
-        with pytest.raises(errors.RuntimeError):
+        with pytest.raises(RuntimeError):
             dpf.start_local_server(config=remote_config_server_type, as_global=True)
     # with pytest.raises((errors.DPFServerException, RuntimeError)):
     #     dpf.Operator("stream_provider")  # No remote server to instantiate the operator on
