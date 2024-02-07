@@ -40,13 +40,14 @@ def test_license_agr(restore_accept_la_env):
 @pytest.mark.order(2)
 @pytest.mark.skipif(
     os.environ.get("ANSYS_DPF_ACCEPT_LA", "") == ""
-    or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
+    or not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0 or
+    conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
     reason="Tests ANSYS_DPF_ACCEPT_LA",
 )
 def test_license_agr_remote(remote_config_server_type, restore_accept_la_env):
     init_val = os.environ["ANSYS_DPF_ACCEPT_LA"]
     del os.environ["ANSYS_DPF_ACCEPT_LA"]
-    with pytest.raises(RuntimeError):
+    with pytest.raises(RuntimeError):  # runtime error raised when server is started
         dpf.start_local_server(config=remote_config_server_type, as_global=True)
     # with pytest.raises((errors.DPFServerException, RuntimeError)):
     #     dpf.Operator("stream_provider")  # No remote server to instantiate the operator on
