@@ -10,6 +10,7 @@ import traceback
 
 import numpy as np
 
+from ansys.dpf.core.check_version import version_requires
 from ansys.dpf.core.server_types import BaseServer
 from ansys.dpf.core.scoping import Scoping
 from ansys.dpf.core.label_space import LabelSpace
@@ -73,6 +74,33 @@ class Collection:
         )
         # step3: init environment
         self._api.init_collection_environment(self)  # creates stub when gRPC
+
+    @property
+    @version_requires("8.0")
+    def name(self):
+        """Name of the Collection.
+
+        Notes
+        -----
+        Available starting with DPF 2024 R2 pre0.
+
+        Returns
+        -------
+        str
+        """
+        out = self._api.collection_get_name(self)
+        return out if out != '' else None
+
+    @name.setter
+    @version_requires("8.0")
+    def name(self, name: str):
+        """Set the name of the Collection.
+
+        Notes
+        -----
+        Available starting with DPF 2024 R2 pre0.
+        """
+        self._api.collection_set_name(self, name=name)
 
     @abc.abstractmethod
     def create_subtype(self, obj_by_copy):
