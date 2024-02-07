@@ -132,5 +132,5 @@ plot.add_node_labels(
 # position, focal point, and view respectively.
 plot.show_figure(
     show_axes=True,
-    cpos=[(0.123, 0.095, 1.069), (-0.121, -0.149, 0.825), (0.0, 0.0, 1.0)],
+    cpos=[(0.123, 0.095, 1.069), (-0.121, -0.149, 0.825), (0.0, 0.0, 1.0)]
 )

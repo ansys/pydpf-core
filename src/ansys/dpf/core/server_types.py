@@ -416,7 +416,7 @@ class BaseServer(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def get_api_for_type(self, c_api, grpc_api):
+    def get_api_for_type(self, capi, grpcapi):
         pass
 
     @property
@@ -427,10 +427,12 @@ class BaseServer(abc.ABC):
         -------
         info : dictionary
             Dictionary with server information, including ``"server_ip"``,
-            ``"server_port"``, ``"server_process_id"``, and
-            ``"server_version"`` keys.
+            ``"server_port"``, ``"server_process_id"``, ``"server_version"`` , ``"os"``
+            and ``"path"`` keys.
         """
-        return self._base_service.server_info
+        server_info = self._base_service.server_info
+        server_info["path"] = self.ansys_path
+        return server_info
 
     def _del_session(self):
         if self._session_instance:
@@ -681,6 +683,7 @@ class GrpcServer(CServer):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
 
+        self.live = False
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load Ans.Dpf.GrpcClient
         self._grpc_client_path = load_api.load_grpc_client(ansys_path=ansys_path)
@@ -1015,11 +1018,11 @@ class LegacyGrpcServer(BaseServer):
         # Use ansys.grpc.dpf
         from ansys.dpf.core.misc import is_pypim_configured
 
+        self.live = False
         super().__init__()
 
         self._info_instance = None
         self._own_process = launch_server
-        self.live = False
         self._local_server = False
         self._stubs = {}
         self.channel = None

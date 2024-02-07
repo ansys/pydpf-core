@@ -5,13 +5,16 @@ Workflow
 ========
 """
 import logging
+import os
 import traceback
 import warnings
 
 from enum import Enum
+from typing import Union
+
 from ansys import dpf
 from ansys.dpf.core import dpf_operator, inputs, outputs
-from ansys.dpf.core.check_version import server_meet_version, version_requires
+from ansys.dpf.core.check_version import server_meet_version, version_requires, server_meet_version_and_raise
 from ansys.dpf.core import server as server_module
 from ansys.dpf.gate import (
     workflow_abstract_api,
@@ -20,7 +23,7 @@ from ansys.dpf.gate import (
     data_processing_capi,
     data_processing_grpcapi,
     dpf_vector,
-    object_handler,
+    object_handler, integral_types,
 )
 
 LOG = logging.getLogger(__name__)
@@ -105,6 +108,42 @@ class Workflow:
     @progress_bar.setter
     def progress_bar(self, value: bool) -> None:
         self._progress_bar = value
+
+    @staticmethod
+    def _getoutput_string(self, pin):
+        out = Workflow._getoutput_string_as_bytes(self, pin)
+        if out is not None and not isinstance(out, str):
+            return out.decode('utf-8')
+        return out
+
+    @staticmethod
+    def _connect_string(self, pin, str):
+        return Workflow._connect_string_as_bytes(self, pin, str.encode('utf-8'))
+
+    @staticmethod
+    def _getoutput_string_as_bytes(self, pin):
+        if server_meet_version("8.0", self._server):
+            size = integral_types.MutableUInt64(0)
+            return self._api.work_flow_getoutput_string_with_size(self, pin, size)
+        else:
+            return self._api.work_flow_getoutput_string(self, pin)
+
+    @staticmethod
+    def _getoutput_bytes(self, pin):
+        server_meet_version_and_raise(
+            "8.0",
+            self._server,
+            "output of type bytes available with server's version starting at 8.0 (Ansys 2024R2)."
+        )
+        return Workflow._getoutput_string_as_bytes(self, pin)
+
+    @staticmethod
+    def _connect_string_as_bytes(self, pin, str):
+        if server_meet_version("8.0", self._server):
+            size = integral_types.MutableUInt64(len(str))
+            return self._api.work_flow_connect_string_with_size(self, pin, str, size)
+        else:
+            return self._api.work_flow_connect_string(self, pin, str)
 
     def connect(self, pin_name, inpt, pin_out=0):
         """Connect an input on the workflow using a pin name.
@@ -199,7 +238,8 @@ class Workflow:
         out = [
             (bool, self._api.work_flow_connect_bool),
             ((int, Enum), self._api.work_flow_connect_int),
-            (str, self._api.work_flow_connect_string),
+            (str, self._connect_string),
+            (bytes, self._connect_string_as_bytes),
             (float, self._api.work_flow_connect_double),
             (field.Field, self._api.work_flow_connect_field),
             (property_field.PropertyField, self._api.work_flow_connect_property_field),
@@ -260,7 +300,8 @@ class Workflow:
         out = [
             (bool, self._api.work_flow_getoutput_bool),
             (int, self._api.work_flow_getoutput_int),
-            (str, self._api.work_flow_getoutput_string),
+            (str, self._getoutput_string),
+            (bytes, self._getoutput_bytes),
             (float, self._api.work_flow_getoutput_double),
             (field.Field, self._api.work_flow_getoutput_field, "field"),
             (
@@ -805,6 +846,68 @@ class Workflow:
                 "a connection address (either with address input"
                 "or both ip and port inputs) or a server is required"
             )
+
+    def view(
+            self,
+            title: Union[None, str] = None,
+            save_as: Union[None, str, os.PathLike] = None,
+            off_screen: bool = False,
+            keep_dot_file: bool = False,
+    ) -> Union[str, None]:
+        """Run a viewer to show a rendering of the workflow.
+
+        .. warning::
+            The workflow is rendered using GraphViz and requires:
+            - installation of GraphViz on your computer (see `<https://graphviz.org/download/>`_)
+            - installation of the ``graphviz`` library in your Python environment.
+
+
+        Parameters
+        ----------
+        title:
+            Name to use in intermediate files and in the viewer.
+        save_as:
+            Path to a file to save the workflow view as.
+        off_screen:
+            Render the image off_screen.
+        keep_dot_file:
+            Whether to keep the intermediate DOT file generated.
+
+        Returns
+        -------
+        Returns the path to the image file rendered is ``save_as``, else None.
+        """
+        try:
+            import graphviz
+        except ImportError:
+            raise ValueError("To render workflows using graphviz, run 'pip install graphviz'.")
+
+        if title is None:
+            name = f"workflow_{repr(self).split()[-1][:-1]}"
+        else:
+            name = title
+
+        if save_as:
+            dot_path = os.path.splitext(str(save_as))[0]+".dot"
+            image_path = save_as
+        else:
+            dot_path = os.path.join(os.getcwd(), f"{name}.dot")
+            image_path = os.path.join(os.getcwd(), f"{name}.png")
+
+        # Create graphviz file of workflow
+        self.to_graphviz(dot_path)
+        # Render workflow
+        graphviz.render(engine='dot', filepath=dot_path, outfile=image_path)
+        if not off_screen:
+            # View workflow
+            graphviz.view(filepath=image_path)
+        if not keep_dot_file:
+            os.remove(dot_path)
+        return image_path
+
+    def to_graphviz(self, path: Union[os.PathLike, str]):
+        """Saves the workflow to a GraphViz file."""
+        return self._api.work_flow_export_graphviz(self, str(path))
 
     def __del__(self):
         try:

@@ -153,6 +153,15 @@ class OperatorCAPI(operator_abstract_api.OperatorAbstractAPI):
 		return res
 
 	@staticmethod
+	def operator_connect_string_with_size(op, iPin, value, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_connect_string_with_size(op._internal_obj if op is not None else None, utils.to_int32(iPin), utils.to_char_ptr(value), utils.to_uint64(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def operator_connect_scoping(op, iPin, scoping):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -520,6 +529,17 @@ class OperatorCAPI(operator_abstract_api.OperatorAbstractAPI):
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		newres = ctypes.cast(res, ctypes.c_char_p).value.decode("utf-8") if res else None
+		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
+		return newres
+
+	@staticmethod
+	def operator_getoutput_string_with_size(op, iOutput, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_getoutput_string_with_size(op._internal_obj if op is not None else None, utils.to_int32(iOutput), utils.to_uint64_ptr(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		newres = ctypes.string_at(res, size.val.value)
 		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
 		return newres
 

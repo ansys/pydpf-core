@@ -17,6 +17,7 @@ from .centroid import centroid
 from .centroid_fc import centroid_fc 
 from .component_wise_divide import component_wise_divide 
 from .component_wise_divide_fc import component_wise_divide_fc 
+from .compute_residual_and_error import compute_residual_and_error 
 from .conjugate import conjugate 
 from .correlation import correlation 
 from .cos import cos 
