@@ -206,6 +206,7 @@ def start_local_server(
         port += 1
 
     if use_docker:
+        ip = docker_config.find_ip_for_docker_container()
         port = docker_config.find_port_available_for_docker_bind(port)
     else:
         docker_config.use_docker = False
