@@ -126,6 +126,7 @@ jobs:
     with:
       ANSYS_VERSION: "241"
       python_versions: '["3.9"]'
+      standalone_suffix: '.sp01'
       DOCSTRING: false
     secrets: inherit
 
