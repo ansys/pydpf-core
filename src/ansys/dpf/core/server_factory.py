@@ -358,7 +358,7 @@ class AvailableServerConfigs:
     >>> in_process_config = dpf.AvailableServerConfigs.InProcessServer
     >>> grpc_config = dpf.AvailableServerConfigs.GrpcServer
     >>> legacy_grpc_config = dpf.AvailableServerConfigs.LegacyGrpcServer
-    >>> in_process_server = dpf.start_local_server(config=in_process_config, as_global=False)
+    # >>> in_process_server = dpf.start_local_server(config=in_process_config, as_global=False)
     >>> grpc_server = dpf.start_local_server(config=grpc_config, as_global=False)
     >>> legacy_grpc_server = dpf.start_local_server(config=legacy_grpc_config, as_global=False)
 
