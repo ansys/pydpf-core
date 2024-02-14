@@ -64,13 +64,9 @@ pl.show_figure(cpos=cpos_mesh_variable, show_axes=True)
 ###############################################################################
 # Evaluate iso-surfaces
 # ~~~~~~~~~~~~~~
-# We can finally use the mesh_cut operator on this specific variable.
-# We choose to cut the whole with 5 iso-surface equally spaced between min and max.
-
-max_pressure = 361.8170  # Pa
-min_pressure = -153.5356  # Pa
-number_of_iso_surface = 5
-step = (max_pressure - min_pressure) / number_of_iso_surface
+# We can finally use the iso_surfaces operator on this specific variable.
+# We choose to cut the whole mesh with 9 iso-surface manually selected between
+# the min and max of the static_pressure variable.
 
 pl = DpfPlotter()
 c_pos_iso = [
@@ -87,18 +83,20 @@ pl.add_mesh(
     opacity=0.3,
 )
 
-for i in range(number_of_iso_surface):
-    iso_surface = dpf.operators.mesh.mesh_cut(
-        field=P_S[0], iso_value=min_pressure, closed_surface=0, mesh=whole_mesh, slice_surfaces=True
-    ).eval()
-    P_S_step = dpf.Field(location=dpf.locations.overall, nature=dpf.common.natures.scalar)
-    P_S_step.append([min_pressure], i)
-    P_S_step.name = "static pressure"
-    P_S_step.unit = "Pa"
+vec_iso_values = [-153.6, -100.0, -50.0, 50.0, 100.0, 150.0, 200.0, 300.0, 361.8]
+
+iso_surfaces_op = dpf.operators.mesh.iso_surfaces(field=P_S[0], mesh=whole_mesh, slice_surfaces=True,
+                                              vector_iso_values=vec_iso_values)
+
+iso_surfaces_meshes = iso_surfaces_op.outputs.meshes()
+
+iso_surfaces_fields = iso_surfaces_op.outputs.fields_container()
+
+for i in range(len(iso_surfaces_fields)):
     pl.add_field(
-        field=P_S_step, meshed_region=iso_surface, style="surface", show_edges=False, show_axes=True
+        field=iso_surfaces_fields[i], meshed_region=iso_surfaces_meshes[i], style="surface", show_edges=False,
+        show_axes=True
     )
-    min_pressure += step
 
 pl.show_figure(show_axes=True, cpos=c_pos_iso)
 
