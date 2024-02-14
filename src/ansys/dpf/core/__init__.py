@@ -1,4 +1,5 @@
 import os
+import pkg_resources
 
 from ansys.dpf.core._version import __version__
 
@@ -19,6 +20,14 @@ try:
         os.makedirs(LOCAL_DOWNLOADED_EXAMPLES_PATH)
 except:  # pragma: no cover
     pass
+
+installed = [d.project_name for d in pkg_resources.working_set]
+check_for = ["ansys-dpf-gatebin", "ansys-dpf-gate", "ansys-grpc-dpf"]
+if any([c in installed for c in check_for]):
+    raise ImportError(f"Error during import of ansys-dpf-core:\n"
+                      f"detected one of {check_for} installed. "
+                      f"The current version of ansys-dpf-core requires uninstalling these previous "
+                      f"dependencies to run correctly.")
 
 from ansys.dpf.core.dpf_operator import Operator, Config
 from ansys.dpf.core.model import Model
