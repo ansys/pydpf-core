@@ -22,7 +22,9 @@ concurrency:
 
 env:
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
-  MAIN_PYTHON_VERSION: '3.8'
+  MAIN_PYTHON_VERSION: '3.9'
+  MEILISEARCH_API_KEY: ${{ secrets.MEILISEARCH_API_KEY }}
+  MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
 
 jobs:
   debug:
@@ -32,6 +34,31 @@ jobs:
       run: echo "$GITHUB_CONTEXT"
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
+
+  pick_server_suffix:
+    runs-on: ubuntu-latest
+    outputs:
+      suffix: ${{ steps.step1.outputs.suffix }}
+    steps:
+    - id: step1
+      name: Define server branch suffix to use
+      run: |
+        if ${{ github.event_name == 'push' }}; then
+          echo "suffix=" >> "$GITHUB_OUTPUT"
+        elif ${{ github.event_name == 'workflow_dispatch' }}; then
+          echo "suffix=${{ github.event.inputs.standalone_branch_suffix }}" >> "$GITHUB_OUTPUT"
+        elif ${{ github.event_name == 'pull_request' }}; then
+          # If the PR is server-sync then extract suffix from branch name
+          sub='maint/update_code_for_'
+          if [[ "${{ github.head_ref  }}" == *"$sub"* ]]; then
+            ref_name=${{ github.head_ref }}
+            base_ref=${{ github.base_ref }}
+            suffix=${ref_name/$sub[0-9][0-9][0-9]/''}
+            suffix=${suffix/_on_$base_ref/''}
+          fi
+          echo "suffix=$suffix" >> "$GITHUB_OUTPUT"
+        fi
+        echo "branch suffix is: >$suffix<"
 
   style:
     name: "Style Check"
@@ -78,54 +105,59 @@ jobs:
 
   tests:
     uses: ./.github/workflows/tests.yml
+    needs: pick_server_suffix
     with:
-      ANSYS_VERSION: "241"
-      python_versions: '["3.8"]'
+      ANSYS_VERSION: "242"
+      python_versions: '["3.9"]'
       wheel: true
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
   tests_any:
     uses: ./.github/workflows/tests.yml
+    needs: pick_server_suffix
     with:
-      ANSYS_VERSION: "241"
-      python_versions: '["3.8"]'
+      ANSYS_VERSION: "242"
+      python_versions: '["3.9"]'
       wheel: true
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_any: true
     secrets: inherit
 
   docker_tests:
     name: "Build and Test on Docker"
     uses: ./.github/workflows/test_docker.yml
+    needs: pick_server_suffix
     with:
-      ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      ANSYS_VERSION: "242"
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
   docker_examples:
     name: "Run examples on Docker"
     uses: ./.github/workflows/examples_docker.yml
+    needs: pick_server_suffix
     with:
-      ANSYS_VERSION: "241"
-      python_versions: '["3.8"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      ANSYS_VERSION: "242"
+      python_versions: '["3.9"]'
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
     secrets: inherit
 
   docs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/docs.yml
+    needs: pick_server_suffix
     with:
-      ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      ANSYS_VERSION: "242"
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       event_name: ${{ github.event_name }}
     secrets: inherit
 
   upload-development-docs:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/master' }}
+    if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
     needs: [docs]
     steps:
       - name: "Upload development documentation"
@@ -136,13 +168,40 @@ jobs:
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
           decompress-artifact: true
 
+  doc-index-dev:
+    name: "Deploy dev index docs"
+    runs-on: ubuntu-latest
+    needs: upload-development-docs
+    steps:
+      - name: "Deploy the latest documentation index"
+        uses: ansys/actions/doc-deploy-index@v4
+        with:
+          cname: ${{ env.DOCUMENTATION_CNAME }}/version/dev
+          index-name: pydpf-core-vdev
+          host-url: ${{ vars.MEILISEARCH_HOST_URL }}
+          api-key: ${{ env.MEILISEARCH_API_KEY }}
+          doc-artifact-name: HTML-doc-ansys-dpf-core.zip
+          decompress-artifact: true
+
   examples:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/examples.yml
+    needs: pick_server_suffix
+    with:
+      ANSYS_VERSION: "242"
+      python_versions: '["3.9"]'
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
+    secrets: inherit
+
+  retro_241:
+    name: "retro 241"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.8"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      python_versions: '["3.9"]'
+      DOCSTRING: false
+      standalone_suffix: '.sp01'
     secrets: inherit
 
   retro_232:
@@ -151,7 +210,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "232"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       DOCSTRING: false
       standalone_suffix: ''
     secrets: inherit
@@ -162,7 +221,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "231"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -172,7 +231,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "222"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -180,9 +239,10 @@ jobs:
     name: "PyDPF-Post"
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
     uses: ./.github/workflows/pydpf-post.yml
+    needs: pick_server_suffix
     with:
-      ANSYS_VERSION: "241"
+      ANSYS_VERSION: "242"
       post_branch: "master"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '' }}
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
       test_docstrings: "true"
     secrets: inherit

@@ -451,6 +451,15 @@ class WorkflowCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 		return res
 
 	@staticmethod
+	def work_flow_connect_string_with_size(wf, pin_name, value, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.WorkFlow_connect_string_with_size(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), utils.to_char_ptr(value), utils.to_uint64(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def work_flow_connect_scoping(wf, pin_name, scoping):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -892,6 +901,17 @@ class WorkflowCAPI(workflow_abstract_api.WorkflowAbstractAPI):
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		newres = ctypes.cast(res, ctypes.c_char_p).value.decode("utf-8") if res else None
+		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
+		return newres
+
+	@staticmethod
+	def work_flow_getoutput_string_with_size(wf, pin_name, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.WorkFlow_getoutput_string_with_size(wf._internal_obj if wf is not None else None, utils.to_char_ptr(pin_name), utils.to_uint64_ptr(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		newres = ctypes.string_at(res, size.val.value)
 		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
 		return newres
 

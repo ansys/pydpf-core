@@ -458,7 +458,7 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 	def external_operator_put_out_long_long(operator_data, pin_index, data):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
-		res = capi.dll.ExternalOperator_putOutLongLong(operator_data, utils.to_int32(pin_index), data, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		res = capi.dll.ExternalOperator_putOutLongLong(operator_data, utils.to_int32(pin_index), utils.to_uint64(data), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res
@@ -479,6 +479,26 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.ExternalOperator_putOutString(operator_data, utils.to_int32(pin_index), utils.to_char_ptr(data), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_get_in_string_with_size(operator_data, pin_index, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_getInString_with_size(operator_data, utils.to_int32(pin_index), utils.to_uint64_ptr(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		newres = ctypes.string_at(res, size.val.value)
+		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
+		return newres
+
+	@staticmethod
+	def external_operator_put_out_string_with_size(operator_data, pin_index, data, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_putOutString_with_size(operator_data, utils.to_int32(pin_index), utils.to_char_ptr(data), utils.to_uint64(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

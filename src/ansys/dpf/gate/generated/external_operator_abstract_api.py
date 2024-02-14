@@ -220,6 +220,14 @@ class ExternalOperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def external_operator_get_in_string_with_size(operator_data, pin_index, size):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_put_out_string_with_size(operator_data, pin_index, data, size):
+		raise NotImplementedError
+
+	@staticmethod
 	def external_operator_get_in_vec_int(operator_data, pin_index, size):
 		raise NotImplementedError
 

@@ -71,13 +71,20 @@ def check_on_property_field_from_simplebar(prop_field):
     assert prop_field.data is not None
     assert len(prop_field.data) != 0
     assert len(prop_field.data) == 1400
-    assert prop_field.data[15] == 29
-    assert np.allclose(prop_field.data[12], 10)
+    if conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1:
+        assert prop_field.data[15] == 1502
+        assert np.allclose(prop_field.data[12], 1603)
+        assert prop_field.data[1201] == 1980
+        assert prop_field.get_entity_data(8) == [1605]
+        assert prop_field.get_entity_data_by_id(23) == [1707]
+    else:
+        assert prop_field.data[15] == 29
+        assert np.allclose(prop_field.data[12], 10)
+        assert prop_field.data[1201] == 2500
+        assert prop_field.get_entity_data(8) == [7]
+        assert prop_field.get_entity_data_by_id(23) == [60]
     assert prop_field.elementary_data_count == 1400
-    assert prop_field.data[1201] == 2500
     assert prop_field.elementary_data_shape == 1
-    assert prop_field.get_entity_data(8) == [7]
-    assert prop_field.get_entity_data_by_id(23) == [60]
     assert prop_field.location == locations.elemental
     assert prop_field.location == prop_field.scoping.location
     assert prop_field.size == 1400

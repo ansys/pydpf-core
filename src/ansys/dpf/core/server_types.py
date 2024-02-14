@@ -20,10 +20,7 @@ import psutil
 import ansys.dpf.core as core
 from ansys.dpf.core.check_version import server_meet_version
 from ansys.dpf.core import errors, server_factory
-from ansys.dpf.core._version import (
-    server_to_ansys_grpc_dpf_version,
-    server_to_ansys_version,
-)
+from ansys.dpf.core._version import min_server_version, server_to_ansys_version, __version__
 from ansys.dpf.core import server_context
 from ansys.dpf.gate import load_api, data_processing_grpcapi
 
@@ -323,8 +320,8 @@ def _compare_ansys_grpc_dpf_version(right_grpc_module_version_str: str, grpc_mod
 
 
 def check_ansys_grpc_dpf_version(server, timeout):
-    import ansys.grpc.dpf
     import grpc
+    from packaging import version
 
     state = grpc.channel_ready_future(server.channel)
     # verify connection has matured
@@ -336,36 +333,13 @@ def check_ansys_grpc_dpf_version(server, timeout):
         raise TimeoutError(
             f"Failed to connect to {server._input_ip}:{server._input_port} in {timeout} seconds"
         )
-    compatibility_link = (
-        f"https://dpf.docs.pyansys.com/getting_started/" f"index.html#client-server-compatibility"
-    )
     LOG.debug("Established connection to DPF gRPC")
-    grpc_module_version = ansys.grpc.dpf.__version__
-    server_version = server.version
-    right_grpc_module_version = server_to_ansys_grpc_dpf_version.get(server_version, None)
-    if right_grpc_module_version is None:  # pragma: no cover
-        # warnings.warn(f"No requirement specified on ansys-grpc-dpf for server version "
-        #               f"{server_version}. Continuing with the ansys-grpc-dpf version "
-        #               f"installed ({grpc_module_version}). In case of unexpected instability, "
-        #               f"please refer to the compatibility guidelines given in "
-        #               f"{compatibility_link}.")
-        return
-    if not _compare_ansys_grpc_dpf_version(right_grpc_module_version, grpc_module_version):
-        ansys_version_to_use = server_to_ansys_version.get(server_version, "Unknown")
-        ansys_versions = core._version.server_to_ansys_version
-        latest_ansys = ansys_versions[max(ansys_versions.keys())]
-        raise ImportWarning(
-            f"An incompatibility has been detected between the DPF server version "
-            f"({server_version} "
-            f"from Ansys {ansys_version_to_use})"
-            f" and the ansys-grpc-dpf version installed ({grpc_module_version})."
-            f" Please consider using the latest DPF server available in the "
-            f"{latest_ansys} Ansys unified install.\n"
-            f"To follow the compatibility guidelines given in "
-            f"{compatibility_link} while still using DPF server {server_version}, "
-            f"please install version {right_grpc_module_version} of ansys-grpc-dpf"
-            f" with the command: \n"
-            f"     pip install ansys-grpc-dpf{right_grpc_module_version}"
+    if version.parse(server.version) < version.parse(min_server_version):
+        raise ValueError(
+            f"Error connecting to DPF LegacyGrpcServer with version {server.version} "
+            f"(ANSYS {server_to_ansys_version[server.version]}): "
+            f"ansys-dpf-core {__version__} does not support DPF servers below "
+            f"{min_server_version} ({server_to_ansys_version[min_server_version]})."
         )
 
 
@@ -442,7 +416,7 @@ class BaseServer(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def get_api_for_type(self, c_api, grpc_api):
+    def get_api_for_type(self, capi, grpcapi):
         pass
 
     @property
@@ -453,10 +427,12 @@ class BaseServer(abc.ABC):
         -------
         info : dictionary
             Dictionary with server information, including ``"server_ip"``,
-            ``"server_port"``, ``"server_process_id"``, and
-            ``"server_version"`` keys.
+            ``"server_port"``, ``"server_process_id"``, ``"server_version"`` , ``"os"``
+            and ``"path"`` keys.
         """
-        return self._base_service.server_info
+        server_info = self._base_service.server_info
+        server_info["path"] = self.ansys_path
+        return server_info
 
     def _del_session(self):
         if self._session_instance:
@@ -666,11 +642,19 @@ class CServer(BaseServer, ABC):
 
 
 class GrpcClient:
-    def __init__(self, address=None):
+    def __init__(self):
         from ansys.dpf.gate import client_capi
 
-        self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
         client_capi.ClientCAPI.init_client_environment(self)
+
+    def set_address(self, address, server):
+        from ansys.dpf.core import misc, settings
+        if misc.RUNTIME_CLIENT_CONFIG is not None:
+            self_config = settings.get_runtime_client_config(server=server)
+            misc.RUNTIME_CLIENT_CONFIG.copy_config(self_config)
+        from ansys.dpf.gate import client_capi
+        self._internal_obj = client_capi.ClientCAPI.client_new_full_address(address)
+
 
     def __del__(self):
         try:
@@ -699,11 +683,16 @@ class GrpcServer(CServer):
         # Load DPFClientAPI
         from ansys.dpf.core.misc import is_pypim_configured
 
+        self.live = False
         super().__init__(ansys_path=ansys_path, load_operators=load_operators)
         # Load Ans.Dpf.GrpcClient
         self._grpc_client_path = load_api.load_grpc_client(ansys_path=ansys_path)
+
+        self._client = GrpcClient()
         self._own_process = launch_server
         self._local_server = False
+        self._os = None
+        self._version = None
 
         address = f"{ip}:{port}"
 
@@ -733,8 +722,8 @@ class GrpcServer(CServer):
                 launch_dpf(ansys_path, ip, port, timeout=timeout)
                 self._local_server = True
 
-        self._client = GrpcClient(address)
         # store port and ip for later reference
+        self._client.set_address(address, self)
         self._address = address
         self._input_ip = ip
         self._input_port = port
@@ -761,21 +750,24 @@ class GrpcServer(CServer):
 
     @property
     def version(self):
-        from ansys.dpf.gate import data_processing_capi, integral_types
+        if not self._version:
+            from ansys.dpf.gate import data_processing_capi, integral_types
 
-        api = data_processing_capi.DataProcessingCAPI
-        major = integral_types.MutableInt32()
-        minor = integral_types.MutableInt32()
-        api.data_processing_get_server_version_on_client(self.client, major, minor)
-        out = str(int(major)) + "." + str(int(minor))
-        return out
+            api = data_processing_capi.DataProcessingCAPI
+            major = integral_types.MutableInt32()
+            minor = integral_types.MutableInt32()
+            api.data_processing_get_server_version_on_client(self.client, major, minor)
+            self._version = str(int(major)) + "." + str(int(minor))
+        return self._version
 
     @property
     def os(self):
-        from ansys.dpf.gate import data_processing_capi
+        if not self._os:
+            from ansys.dpf.gate import data_processing_capi
 
-        api = data_processing_capi.DataProcessingCAPI
-        return api.data_processing_get_os_on_client(self.client)
+            api = data_processing_capi.DataProcessingCAPI
+            self._os = api.data_processing_get_os_on_client(self.client)
+        return self._os
 
     def _create_shutdown_funcs(self):
         from ansys.dpf.gate import data_processing_capi
@@ -1026,12 +1018,14 @@ class LegacyGrpcServer(BaseServer):
         # Use ansys.grpc.dpf
         from ansys.dpf.core.misc import is_pypim_configured
 
+        self.live = False
         super().__init__()
 
         self._info_instance = None
         self._own_process = launch_server
-        self.live = False
         self._local_server = False
+        self._stubs = {}
+        self.channel = None
 
         # Load Ans.Dpf.Grpc?
         import grpc
@@ -1069,7 +1063,10 @@ class LegacyGrpcServer(BaseServer):
                 else:
                     launch_dpf(ansys_path, ip, port, timeout=timeout)
                     self._local_server = True
-
+        from ansys.dpf.core import misc, settings
+        if misc.RUNTIME_CLIENT_CONFIG is not None:
+            self_config = settings.get_runtime_client_config(server=self)
+            misc.RUNTIME_CLIENT_CONFIG.copy_config(self_config)
         self.channel = grpc.insecure_channel(address)
 
         # store the address for later reference
@@ -1078,7 +1075,6 @@ class LegacyGrpcServer(BaseServer):
         self._input_port = port
         self.live = True
         self.ansys_path = ansys_path
-        self._stubs = {}
 
         self._create_shutdown_funcs()
 
@@ -1107,7 +1103,7 @@ class LegacyGrpcServer(BaseServer):
         return grpcapi
 
     def create_stub_if_necessary(self, stub_name, stub_type):
-        if not (stub_name in self._stubs.keys()):
+        if self.channel and not stub_name in self._stubs:
             self._stubs[stub_name] = stub_type(self.channel)
 
     def get_stub(self, stub_name):

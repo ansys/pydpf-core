@@ -4,8 +4,10 @@ from ansys import dpf
 from ansys.dpf.core import Model
 from conftest import (
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
     SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_1,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
 )
 
 if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
@@ -100,18 +102,23 @@ Operator name: "CP"
 Number of components: 1
 Dimensionality: scalar
 Homogeneity: specific_heat
-Units: j/kg*k^-1
+Units: J/kg*K^-1
 Location: Nodal
 Available qualifier labels:"""  # noqa: E501
     ref2 = "'phase': 2"
-    ref3 = "'zone': 5"
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
+        ref3 = "'zone': 11"
+    else:
+        ref3 = "'zone': 5"
     ar = model.metadata.result_info.available_results[0]
     got = str(ar)
     assert ref in got
     assert ref2 in got
     assert ref3 in got
-    assert len(ar.qualifier_combinations) == 20
-
+    if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0:
+        assert len(ar.qualifier_combinations) == 18
+    else:
+        assert len(ar.qualifier_combinations) == 20
 
 @pytest.mark.skipif(
     not SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, reason="Available with CFF starting 7.0"
@@ -159,3 +166,83 @@ def test_result_info_memory_leaks(model):
         # j = res.job_name
         # n = res.product_name
         # t = res.main_title
+
+
+def test_create_result_info(server_type):
+    from ansys.dpf.core.available_result import Homogeneity
+    if not server_type.has_client():
+        result_info = dpf.core.ResultInfo(
+            analysis_type=dpf.core.result_info.analysis_types.static,
+            physics_type=dpf.core.result_info.physics_types.mechanical,
+            server=server_type
+        )
+        result_info.add_result(
+            operator_name="operator_name",
+            scripting_name="scripting_name",
+            homogeneity=Homogeneity.temperature,
+            location=dpf.core.locations.nodal,
+            nature=dpf.core.natures.scalar,
+            dimensions=None,
+            description="description",
+        )
+        if SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_6_0:
+            ref = """Static analysis
+Unit system: Undefined
+Physics Type: Mechanical
+Available results:
+     -  scripting_name: Nodal Scripting Name
+"""
+        elif SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_5_0:
+            ref = """Static analysis
+Unit system: 
+Physics Type: Mechanical
+Available results:
+     -  scripting_name: Nodal Scripting Name
+"""
+        else:
+            ref = """Static analysis
+Unit system: 
+Physics Type: Mecanic
+Available results:
+     -  scripting_name: Nodal Scripting Name
+"""
+        assert str(result_info) == ref
+        with pytest.raises(ValueError, match="requires"):
+            _ = dpf.core.ResultInfo()
+    else:
+        with pytest.raises(NotImplementedError, match="Cannot create a new ResultInfo via gRPC."):
+            _ = dpf.core.ResultInfo(
+                analysis_type=dpf.core.result_info.analysis_types.static,
+                physics_type=dpf.core.result_info.physics_types.mechanical,
+                server=server_type
+            )
+
+
+def test_result_info_add_result(model):
+    from ansys.dpf.core.available_result import Homogeneity
+    res = model.metadata.result_info
+    if not model._server.has_client():
+        res.add_result(
+                operator_name="operator_name",
+                scripting_name="scripting_name",
+                homogeneity=Homogeneity.temperature,
+                location=dpf.core.locations.nodal,
+                nature=dpf.core.natures.scalar,
+                dimensions=None,
+                description="description",
+            )
+    else:
+        with pytest.raises(
+                NotImplementedError,
+                match="Cannot add a result to a ResultInfo via gRPC."
+        ):
+            res.add_result(
+                    operator_name="operator_name",
+                    scripting_name="scripting_name",
+                    homogeneity=Homogeneity.temperature,
+                    location=dpf.core.locations.nodal,
+                    nature=dpf.core.natures.scalar,
+                    dimensions=None,
+                    description="description",
+                )
+

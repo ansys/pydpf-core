@@ -10,7 +10,7 @@ on:
       ANSYS_VERSION:
         required: false
         type: string
-        default: "241"
+        default: "242"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -32,7 +32,7 @@ on:
         description: "ANSYS version"
         required: true
         type: string
-        default: "241"
+        default: "242"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -56,7 +56,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["windows-latest", "ubuntu-latest"]
-        python-version: ["3.8"]
+        python-version: ["3.9"]
 
     steps:
       - uses: actions/checkout@v3
@@ -71,7 +71,7 @@ jobs:
       - name: "Setup Python"
         uses: actions/setup-python@v4.6.0
         with:
-          python-version: "3.8"
+          python-version: ${{ matrix.python-version }}
 
       - name: "Install ansys-dpf-core build requirements"
         run: pip install -r requirements/requirements_build.txt

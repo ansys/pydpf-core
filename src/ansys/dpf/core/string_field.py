@@ -16,6 +16,7 @@ from ansys.dpf.gate import (
     dpf_vector,
     integral_types,
 )
+from typing import List
 
 
 class StringField(_FieldBase):
@@ -198,7 +199,7 @@ class StringField(_FieldBase):
             data = self.get_entity_data(index)
             return data
 
-    def append(self, data, scopingid):
+    def append(self, data: List[str], scopingid: int):
         string_list = integral_types.MutableListString(data)
         self._api.csstring_field_push_back(self, scopingid, _get_size_of_list(data), string_list)
 

@@ -12,7 +12,7 @@ import weakref
 from ansys.dpf.core.mapping_types import types
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import collection
-from ansys.dpf.core import errors
+from ansys.dpf.core import errors, common
 from ansys.dpf.gate import (
     dpf_data_tree_abstract_api,
     dpf_data_tree_capi,
@@ -429,7 +429,7 @@ class DataTree:
         ----------
         name : str
             Name of the attribute to return
-        type_to_return : types
+        type_to_return : types, type (str, int, float...)
             Type of the attribute to return. String is supported for all attributes.
 
         Returns
@@ -450,10 +450,14 @@ class DataTree:
 
         """
         out = None
+        if isinstance(type_to_return, type):
+            type_to_return = list(common.types_enum_to_types().keys())[list( common.types_enum_to_types().values()).index(type_to_return)]
         if type_to_return == types.int:
             out = integral_types.MutableInt32()
             self._api.dpf_data_tree_get_int_attribute(self, name, out)
             out = int(out)
+        elif type_to_return == types.bool:
+            out = bool(self.get_as(name, types.int))
         elif type_to_return == types.double:
             out = integral_types.MutableDouble()
             self._api.dpf_data_tree_get_double_attribute(self, name, out)
@@ -652,6 +656,9 @@ class _LocalDataTree(DataTree):
             self.release_data()
         else:
             print(tb)
+
+    def to_dict(self):
+        return self._dict
 
     def __del__(self):
         if not self._is_exited:

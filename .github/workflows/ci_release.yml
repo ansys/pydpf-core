@@ -11,7 +11,7 @@ on:
       standalone_branch_suffix:
         description: 'Suffix of the branch on standalone'
         required: false
-        default: '.pre0'
+        default: '.sp01'
 
 #┌───────────── minute (0 - 59)
 #│ ┌───────────── hour (0 - 23)
@@ -26,7 +26,7 @@ on:
 env:
   ANSYS_VERSION: 241
   DOCUMENTATION_CNAME: 'dpf.docs.pyansys.com'
-  MAIN_PYTHON_VERSION: '3.8'
+  MAIN_PYTHON_VERSION: '3.9'
 
 jobs:
   debug:
@@ -84,20 +84,20 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.8", "3.9", "3.10"]'
+      python_versions: '["3.9", "3.10", "3.11"]'
       wheel: true
       wheelhouse: true
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
     secrets: inherit
 
   tests_any:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.8", "3.9", "3.10"]'
+      python_versions: '["3.9", "3.10", "3.11"]'
       wheel: true
       wheelhouse: false
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
       test_any: true
     secrets: inherit
 
@@ -105,7 +105,7 @@ jobs:
     uses: ./.github/workflows/docs.yml
     with:
       ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
       event_name: ${{ github.event_name }}
     secrets: inherit
 
@@ -113,8 +113,8 @@ jobs:
     uses: ./.github/workflows/examples.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.8", "3.9", "3.10"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      python_versions: '["3.9", "3.10", "3.11"]'
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
     secrets: inherit
 
   retro_232:
@@ -122,7 +122,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "232"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -131,7 +131,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "231"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -140,7 +140,7 @@ jobs:
     uses: ./.github/workflows/tests.yml
     with:
       ANSYS_VERSION: "222"
-      python_versions: '["3.8"]'
+      python_versions: '["3.9"]'
       DOCSTRING: false
     secrets: inherit
 
@@ -149,7 +149,7 @@ jobs:
     uses: ./.github/workflows/pydpf-post.yml
     with:
       ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
       test_docstrings: "true"
     secrets: inherit
 
@@ -179,7 +179,7 @@ jobs:
     uses: ./.github/workflows/test_docker.yml
     with:
       ANSYS_VERSION: "241"
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
     secrets: inherit
 
   docker_examples:
@@ -187,8 +187,8 @@ jobs:
     uses: ./.github/workflows/examples_docker.yml
     with:
       ANSYS_VERSION: "241"
-      python_versions: '["3.8", "3.9", "3.10"]'
-      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.pre0' }}
+      python_versions: '["3.9", "3.10", "3.11"]'
+      standalone_suffix: ${{ github.event.inputs.standalone_branch_suffix || '.sp01' }}
     secrets: inherit
 
   draft_release:
@@ -208,7 +208,6 @@ jobs:
         with:
           files: |
             ./**/*.whl
-            ./**/*.tar.gz
             ./**/*.zip
           draft: true
           generate_release_notes: true

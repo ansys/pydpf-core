@@ -75,10 +75,10 @@ field1 = fields[0]
 field2 = fields[1]
 
 ###############################################################################
-# Plot the minimum and maximum displacements over time.
+# Plot the maximum displacements over time for Node ID 2 and 18
 
-pyplot.plot(field1.data, "r", label="Field 1")
-pyplot.plot(field2.data, "b", label="Field 2")
+pyplot.plot(field1.data, "r", label="NODE-ID 2")
+pyplot.plot(field2.data, "b", label="NODE-ID 18")
 pyplot.xlabel("Frequency (Hz)")
 pyplot.ylabel("Displacement (m)")
 pyplot.legend()

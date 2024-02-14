@@ -7,11 +7,11 @@ on:
       python_version:
         required: false
         type: string
-        default: "3.8"
+        default: "3.9"
       ANSYS_VERSION:
         required: false
         type: string
-        default: "241"
+        default: "242"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -29,12 +29,12 @@ on:
         description: "Python interpreter"
         required: true
         type: string
-        default: "3.8"
+        default: "3.9"
       ANSYS_VERSION:
         description: "ANSYS version"
         required: true
         type: string
-        default: "241"
+        default: "242"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -48,10 +48,12 @@ env:
 jobs:
   doc-style:
     name: "Check doc style"
-    uses: ./.github/workflows/docs-style.yml
-    with:
-      vale_reporter: ${{ (inputs.event_name == 'pull_request') && 'github-check' || 'local' }}
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+        - name: "Running documentation style checks"
+          uses: ansys/actions/doc-style@v5.0
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
 
   docs:
     name: "Documentation"
@@ -139,12 +141,14 @@ jobs:
         shell: cmd
         working-directory: .ci
         run: |
-          build_doc.bat > ..\docs\log.txt && type ..\docs\log.txt 2>&1
+          build_doc.bat > ..\doc\log.txt && type ..\doc\log.txt 2>&1
         timeout-minutes: 60
+        env:
+          MEILISEARCH_PUBLIC_API_KEY: ${{ secrets.MEILISEARCH_PUBLIC_API_KEY }}
 
       - name: "Check for success"
         shell: bash
-        working-directory: docs
+        working-directory: doc
         run: |
           case `grep -F "build succeeded" log.txt >/dev/null; echo $?` in
           0)
@@ -174,13 +178,13 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: doc-${{env.PACKAGE_NAME}}-log
-          path: docs/*.txt
+          path: doc/*.txt
         if: always()
 
       - name: "Zip HTML Documentation"
         shell: pwsh
         run: |
-          Compress-Archive -Path docs/build/html/* -Destination HTML-doc-${{env.PACKAGE_NAME}}.zip
+          Compress-Archive -Path doc/build/html/* -Destination HTML-doc-${{env.PACKAGE_NAME}}.zip
         if: always()
 
       - name: "Upload HTML Documentation"

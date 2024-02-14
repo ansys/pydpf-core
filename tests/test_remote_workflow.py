@@ -344,9 +344,9 @@ def test_remote_workflow_info(local_server):
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
     reason="Connecting data from different servers is " "supported starting server version 3.0",
 )
+@pytest.mark.skipif(running_docker, reason="Currently hanging on Docker, under investigation.")
 def test_multi_process_local_remote_local_remote_workflow(server_type_remote_process):
-    files = examples.download_distributed_files()
-
+    files = examples.download_distributed_files(server=server_type_remote_process)
     wf = core.Workflow(server=server_type_remote_process)
     wf.progress_bar = False
     average = core.operators.math.norm_fc(server=server_type_remote_process)
@@ -395,7 +395,6 @@ def test_multi_process_local_remote_local_remote_workflow(server_type_remote_pro
     for i, wf in enumerate(workflows):
         local_wf.set_input_name("distrib" + str(i), merge, i)
         local_wf.connect_with(wf, ("distrib", "distrib" + str(i)))
-
     max_field = local_wf.get_output("tot_output", core.types.field)
     assert np.allclose(max_field.data, [10.03242272])
 

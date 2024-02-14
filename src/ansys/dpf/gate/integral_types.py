@@ -14,6 +14,19 @@ class MutableInt32:
     def __int__(self):
         return self.val.value
 
+class MutableUInt64:
+    def __init__(self, val=0):
+        self.set(val)
+
+    def ctypes_pointer(self):
+        return ctypes.pointer(self.val)
+
+    def set(self, val):
+        self.val = ctypes.c_uint64(val)
+
+    def __int__(self):
+        return self.val.value
+
 
 class MutableListInt32:
     def __init__(self, size=0):

@@ -7,11 +7,11 @@ on:
       python_versions:
         required: false
         type: string
-        default: '["3.8"]'
+        default: '["3.9"]'
       ANSYS_VERSION:
         required: false
         type: string
-        default: "241"
+        default: "242"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false
@@ -24,12 +24,12 @@ on:
         description: "Python interpreters to test."
         required: true
         type: string
-        default: '["3.8"]'
+        default: '["3.9"]'
       ANSYS_VERSION:
         description: "ANSYS version to run."
         required: true
         type: string
-        default: "241"
+        default: "242"
       standalone_suffix:
         description: "Suffix of the branch on standalone"
         required: false

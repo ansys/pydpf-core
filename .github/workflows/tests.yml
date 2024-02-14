@@ -7,11 +7,11 @@ on:
       python_versions:
         required: false
         type: string
-        default: '["3.8"]'
+        default: '["3.9"]'
       ANSYS_VERSION:
         required: false
         type: string
-        default: "241"
+        default: "242"
       wheel:
         required: false
         type: string
@@ -41,12 +41,12 @@ on:
         description: "Python interpreters to test."
         required: true
         type: string
-        default: '["3.8", "3.9", "3.10"]'
+        default: '["3.9", "3.10", "3.11"]'
       ANSYS_VERSION:
         description: "ANSYS version"
         required: true
         type: string
-        default: "231"
+        default: "242"
       wheel:
         description: "Generate a wheel"
         required: false
@@ -91,7 +91,7 @@ jobs:
   tests:
     name: "Tests"
     needs: setup
-    timeout-minutes: 30
+    timeout-minutes: 35
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -151,9 +151,12 @@ jobs:
         id: wheelhouse
         run: |
           export wheel_name=${{ steps.wheel.outputs.wheel_name }}
-          export version=${wheel_name:15:5}
-          export name=ansys-dpf-core-v$version-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}.zip
-          echo "name=${name}" >> $GITHUB_OUTPUT
+          export IFS='-'
+          read -a strarr <<< $wheel_name
+          export version="${strarr[1]}"
+          echo $version
+          export name=ansys-dpf-core-v${version}-wheelhouse-${{ runner.os }}-${{ matrix.python-version }}.zip
+          echo "name=${name}" >> "$GITHUB_OUTPUT"
 
       - name: "Zip wheelhouse"
         if: inputs.wheelhouse == 'true'

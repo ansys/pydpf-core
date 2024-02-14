@@ -278,11 +278,12 @@ def get_default_server_config(
     server_lower_than_or_equal_to_0_3: bool = False, docker_config: DockerConfig = None
 ):
     """Returns the default configuration depending on the server version.
-    - if ansys.dpf.core.SERVER_CONFIGURATION is not None, then this variable is taken
-    - if server_lower_than_or_equal_to_0_3 is True, then LegacyGrpcServer is taken
-    - DPF_SERVER_TYPE environment variable is set to ``INPROCESS``, ``GRPC``, ``LEGACYGRPC``,
-      then this variable is taken
-    else DEFAULT_COMMUNICATION_PROTOCOL and DEFAULT_LEGACY is taken.
+
+        - if ansys.dpf.core.SERVER_CONFIGURATION is not None, then this variable is taken
+        - if server_lower_than_or_equal_to_0_3 is True, then LegacyGrpcServer is taken
+        - if DPF_SERVER_TYPE environment variable is set to ``INPROCESS``, ``GRPC``, or
+          ``LEGACYGRPC``, then this variable is taken
+        - else DEFAULT_COMMUNICATION_PROTOCOL and DEFAULT_LEGACY are used.
 
     Raises
     ------
