@@ -100,9 +100,3 @@ class ScopingsContainer(Collection):
             DPF scoping to add.
         """
         return super()._add_entry(label_space, scoping)
-
-    def __str__(self):
-        txt = "DPF Scopings Container with\n"
-        txt += "\t%d scoping(s)\n" % len(self)
-        txt += f"\tdefined on labels {self.labels} \n\n"
-        return txt
