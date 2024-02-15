@@ -1,0 +1,51 @@
+# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.245.0/containers/python-3/.devcontainer/base.Dockerfile
+
+# [Choice] Python version (use -bullseye variants on local arm64/Apple Silicon): 3, 3.10, 3.9, 3.8, 3.7, 3.6, 3-bullseye, 3.10-bullseye, 3.9-bullseye, 3.8-bullseye, 3.7-bullseye, 3.6-bullseye, 3-buster, 3.10-buster, 3.9-buster, 3.8-buster, 3.7-buster, 3.6-buster
+ARG VARIANT="3.10-bullseye"
+
+# Unzip the server in a separate build stage, so that the final image
+# does not contain the 'unzip' package and the '.zip' files.
+FROM centos:7 AS unzipper
+
+    ARG DPF_VERSION
+    ARG PACKAGE_VERSION="24.2.pre0"
+    ARG PACKAGE_VERSION_NO_DOTS="2024_2_pre0"
+
+    RUN mkdir -p /ansys_inc
+    COPY dpf_standalone_lin_v${PACKAGE_VERSION}.zip /ansys_inc/
+    COPY DPF_Dockerfile /ansys_inc/
+
+    # Install unzip.
+    RUN yum -y install unzip
+
+    # Unzipping the server
+    RUN unzip -o "/ansys_inc/dpf_standalone_lin_v${PACKAGE_VERSION}.zip" -d /ansys_inc/
+
+    # # Remove archives
+    # RUN rm /ansys_inc/dpf_standalone_lin_v${PACKAGE_VERSION}.zip
+
+    # Set the executable permissions
+    WORKDIR /ansys_inc/ansys/dpf/server_${PACKAGE_VERSION_NO_DOTS}/aisol/bin/linx64/
+    RUN ["chmod", "+x", "./Ans.Dpf.Grpc.sh"]
+    RUN ["chmod", "+x", "./Ans.Dpf.Grpc.exe"]
+
+
+FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
+
+    # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
+    ARG NODE_VERSION="none"
+    RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
+
+    COPY --from=unzipper /ansys_inc /dpf_standalone
+
+# [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
+# COPY requirements.txt /tmp/pip-tmp/
+# RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
+#    && rm -rf /tmp/pip-tmp
+
+# [Optional] Uncomment this section to install additional OS packages.
+# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+#     && apt-get -y install --no-install-recommends <your-package-list-here>
+
+# [Optional] Uncomment this line to install global node packages.
+# RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1

@@ -1,0 +1,58 @@
+# syntax=docker/dockerfile:1
+
+# VERSION - 2024.2.pre0
+
+# How to:
+#
+# - Copy this Dockerfile to the folder where the Ansys DPF packages are stored
+# - Run docker: `docker build -t dpf2024.2.pre0 --build-arg DPF_VERSION=242 .`
+#   This installs all DPF packages which are named ansys_dpf*{PACKAGE_VERSION}.zip
+#
+
+# Unzip the server in a separate build stage, so that the final image
+# does not contain the 'unzip' package and the '.zip' files.
+FROM centos:7 AS unzipper
+
+    ARG DPF_VERSION
+    ARG PACKAGE_VERSION="24.2.pre0"
+    ARG PACKAGE_VERSION_NO_DOTS="2024_2_pre0"
+
+    RUN mkdir -p /ansys_inc
+    COPY dpf_standalone_lin_v${PACKAGE_VERSION}.zip /ansys_inc/
+
+    # Install unzip.
+    RUN yum -y install unzip
+
+    # Unzipping the server
+    RUN unzip -o "/ansys_inc/dpf_standalone_lin_v${PACKAGE_VERSION}.zip" -d /ansys_inc/
+
+    # Remove archives
+    RUN rm /ansys_inc/dpf_standalone_lin_v${PACKAGE_VERSION}.zip
+
+    # Set the executable permissions
+    WORKDIR /ansys_inc/ansys/dpf/server_${PACKAGE_VERSION_NO_DOTS}/aisol/bin/linx64/
+    RUN ["chmod", "+x", "./Ans.Dpf.Grpc.sh"]
+    RUN ["chmod", "+x", "./Ans.Dpf.Grpc.exe"]
+
+
+FROM centos:7
+
+    ARG DPF_VERSION
+    ARG PACKAGE_VERSION="24.2.pre0"
+    ARG PACKAGE_VERSION_NO_DOTS="2024_2_pre0"
+
+    RUN echo DPF_VERSION: ${DPF_VERSION}
+    RUN echo PACKAGE_VERSION: ${PACKAGE_VERSION}
+    RUN echo PACKAGE_VERSION_NO_DOTS: ${PACKAGE_VERSION_NO_DOTS}
+
+    # Copy the unzipped server to the final image
+    COPY --from=unzipper /ansys_inc /ansys_inc
+
+    ENV TEMP /tmp
+    RUN ["mkdir", "${TEMP}"]
+    ENV AWP_ROOT${DPF_VERSION} /ansys_inc/ansys/dpf/server_${PACKAGE_VERSION_NO_DOTS}
+    WORKDIR /ansys_inc/ansys/dpf/server_${PACKAGE_VERSION_NO_DOTS}/aisol/bin/linx64/
+
+    ENV DOCKER_SERVER_PORT 50052
+    EXPOSE ${DOCKER_SERVER_PORT}/tcp
+    CMD ["sh", "-c", "./Ans.Dpf.Grpc.sh --port ${DOCKER_SERVER_PORT}"]
