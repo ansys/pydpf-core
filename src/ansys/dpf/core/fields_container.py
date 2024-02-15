@@ -490,8 +490,8 @@ class FieldsContainer(Collection):
             A dictionary (LabelSpace) of labels of the :class:`FieldsContainer` with associated
             values to select for plotting.
             This is used to filter the data to plot, for example:
-              - if ``label_space={'time': 10}``: a single time step (mandatory for transient)
-              - if ``label_space={'complex': 0, 'part': 12}``: real part of complex data for a part
+            - if ``label_space={'time': 10}``: a single time step (mandatory for transient)
+            - if ``label_space={'complex': 0, 'part': 12}``: real part of complex data for a part
             See :func:`~fields_container.FieldsContainer.get_fields`.
             If None is given, it renders all fields available, which may not make sense.
         **kwargs:
