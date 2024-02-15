@@ -24,8 +24,8 @@ class FieldsContainer(Collection):
     to be separated from imaginary parts (``id=1``).
 
     For more information, see the `Fields container and fields
-    <https://dpf.docs.pyansys.com/user_guide/fields_container.html#ref-user-guide-fields-container>
-    `_ documentation section.
+    <https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html>`_
+    documentation section.
 
     Parameters
     ----------
