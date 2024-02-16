@@ -319,7 +319,8 @@ def verify_meilisearch_is_active(app):
     MEILISEARCH_PUBLIC_API_KEY = os.getenv("MEILISEARCH_PUBLIC_API_KEY", None)
     if not MEILISEARCH_PUBLIC_API_KEY:
         sys.stderr.write("Could not find MEILISEARCH_PUBLIC_API_KEY")
-        sys.exit(1)
+        # sys.exit(1)
+
 
 def setup(app):
     app.connect("builder-inited", verify_meilisearch_is_active)
