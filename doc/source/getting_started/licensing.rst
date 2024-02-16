@@ -6,7 +6,7 @@ Licensing
 
 This section details what the user should expect in terms of limitations or license usage
 when running PyDPF scripts.
-As explained in "", DPF follows a client-server architecture,
+DPF follows a client-server architecture,
 which means that the PyDPF client library must interact with a DPF server.
 It thus either starts a DPF server via a local installation of DPF,
 or it connects to an already running local or remote DPF server.
