@@ -1,8 +1,8 @@
 .. _ref_licensing:
 
-===============
-About licensing
-===============
+=========
+Licensing
+=========
 
 This section details what the user should expect in terms of limitations or license usage
 when running PyDPF scripts.
@@ -12,7 +12,7 @@ It thus either starts a DPF server via a local installation of DPF,
 or it connects to an already running local or remote DPF server.
 
 DPF is installed along with ANSYS since ANSYS 2021R1 (see :ref:`ref_compatibility`).
-It is also available as a standalone application (see :ref:`_ref_getting_started_with_dpf_server`).
+It is also available as a standalone application (see :ref:`ref_getting_started_with_dpf_server`).
 
 
 License agreement
@@ -22,7 +22,7 @@ When using the DPF Server from an ANSYS installation, the user has already agree
 terms when installing ANSYS, thus there is no required step.
 
 When using a standalone DPF Server, the user needs to accept the ``DPF Preview License Agreement``
-by following indications in :ref:`_target_to_license_terms`.
+by following indications in :ref:`target_to_license_terms`.
 Starting a DPF Server without agreeing to the ``DPF Preview License Agreement`` throws an exception.
 
 
@@ -33,13 +33,13 @@ Some DPF operators require DPF to check for an existing license
 and some require DPF to check-out a compatible license increment.
 
 To check which ANSYS licensing increments provide rights to use DPF Server,
-go to :ref:`_target_to_ansys_license_increments_list`.
+go to :ref:`target_to_ansys_license_increments_list`.
 
 DPF is by default allowed to check-out license increments as needed.
-To change this behavior, see :ref:`_user_guide_server_context`.
+To change this behavior, see :ref:`user_guide_server_context`.
 
 To know if operators require a license increment check-out to run, check their ``license``
-attribute in :ref:`_ref_dpf_operators_reference` or directly in Python by checking the operator's
+attribute in :ref:`ref_dpf_operators_reference` or directly in Python by checking the operator's
 properties for a ``license`` key:
 
 .. code-block:: python
