@@ -78,6 +78,6 @@ The following user actions may fail due to licensing:
   ``DPF Preview License Agreement`` (see **License agreement** above).
 - Creating an operator may fail if the operator performs data transformation and no license server
   or license file is found (see **License checks and usage** above).
-- Running an operator requiring a license checkout may fail if no no license increment is available
+- Running an operator requiring a license checkout may fail if no license increment is available
   or if the DPF Server context is Entry, preventing any license check-out
   (see **License checks and usage** above).
