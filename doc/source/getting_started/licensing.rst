@@ -33,7 +33,7 @@ Some DPF operators require DPF to check for an existing license
 and some require DPF to check-out a compatible license increment.
 
 To check which ANSYS licensing increments provide rights to use DPF Server,
-go to :ref:`target_to_ansys_license_increments_list`.
+see :ref:`here<target_to_ansys_license_increments_list>`.
 
 DPF is by default allowed to check-out license increments as needed.
 To change this behavior, see :ref:`user_guide_server_context`.
@@ -57,7 +57,7 @@ properties for a ``license`` key:
 
 
 Even if an operator does not require a license check-out to run, most DPF operators still require
-DPF to check for an reachable license server or license file.
+DPF to check for a reachable license server or license file.
 
 Operators which do not perform any kind of license check are source operators (data extraction
 operators) which do not perform any data transformation.
