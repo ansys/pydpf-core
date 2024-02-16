@@ -114,6 +114,8 @@ Accessing and enriching DPF capabilities
 Most of the DPF capabilities can be accessed using the operators.
 For more information, see :ref:`_ref_dpf_operators_reference`.
 
+DPF also follows a licensing strategy detailed in :ref:`_ref_licensing`.
+
 The following sections are summaries. For more information, see :ref:`user_guide_waysofusing`.
 
 **Accessing DPF Server files**
@@ -148,9 +150,6 @@ the **Ansys installer** and **DPF Server**.
   
   - `Python Result <https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/wb_sim/ds_python_result.html>`_
     in the *Mechanical User's Guide*.
-
-**Licensing**
-For information about licensing, see :ref:`_ref_licensing`.
 
 **Enriching DPF capabilities**
 
