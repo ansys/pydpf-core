@@ -81,7 +81,6 @@ ignored_pattern += r")"
 extensions = [
     "enum_tools.autoenum",
     "nbsphinx",
-    "pydata_sphinx_theme",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.autodoc",
     "sphinx.ext.graphviz",
