@@ -54,19 +54,15 @@ print(f"DPF version: {server_version}")
 ignored_pattern = r"(ignore"
 header_flag = "\"\"\""
 note_flag = r".. note::"
-ignore = False
 for example in glob(r"../../examples/**/*.py"):
     minimum_version_str = get_example_required_minimum_dpf_version(example)
     if float(server_version) - float(minimum_version_str) < -0.05:
         example_name = example.split(os.path.sep)[-1]
         print(f"Example {example_name} skipped as it requires DPF {minimum_version_str}.")
         ignored_pattern += f"|{example_name}"
-    if ignore:
-        example_name = example.split(os.path.sep)[-1]
-        ignored_pattern += f"|{example_name}"
-    ignore = True
 ignored_pattern += "|11-server_types.py"
 ignored_pattern += "|06-distributed_stress_averaging.py"
+ignored_pattern += "|*.py"
 ignored_pattern += r")"
 
 # -- General configuration ---------------------------------------------------
