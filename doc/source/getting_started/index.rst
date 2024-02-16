@@ -64,6 +64,8 @@ Install DPF Server
 
         ANSYS_DPF_ACCEPT_LA=Y
 
+For more information about DPF licensing, see :ref:`_ref_licensing`.
+
 For more information about the license terms, see :ref:`DPF Preview License Agreement<target_to_license_terms>`.
 
 To use a remote license, set the ``ANSYSLMD_LICENSE_FILE`` environment
@@ -143,5 +145,6 @@ To use PyDPF-Core, in the same Python environment, run this command:
    
    compatibility
    install
+   licensing
    dependencies
 

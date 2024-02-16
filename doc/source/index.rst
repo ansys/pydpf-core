@@ -149,6 +149,9 @@ the **Ansys installer** and **DPF Server**.
   - `Python Result <https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v231/en/wb_sim/ds_python_result.html>`_
     in the *Mechanical User's Guide*.
 
+**Licensing**
+For information about licensing, see :ref:`_ref_licensing`.
+
 **Enriching DPF capabilities**
 
 - `User guide <https://developer.ansys.com/product/DPF-C-Client-Library-2023-R2/modules.xhtml>`_ in the *DPF C++ Client Library*
