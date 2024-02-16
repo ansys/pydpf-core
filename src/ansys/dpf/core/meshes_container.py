@@ -178,9 +178,3 @@ class MeshesContainer(Collection):
             DPF mesh to add or update.
         """
         return super()._add_entry(label_space, mesh)
-
-    def __str__(self):
-        txt = "DPF Meshes Container with\n"
-        txt += "\t%d mesh(es)\n" % len(self)
-        txt += f"\tdefined on labels {self.labels} \n\n"
-        return txt
