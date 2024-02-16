@@ -60,90 +60,90 @@ jobs:
         fi
         echo "branch suffix is: >$suffix<"
 
-#  style:
-#    name: "Style Check"
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#      - name: "Setup Python"
-#        uses: actions/setup-python@v4.6.0
-#        with:
-#          python-version: ${{ env.MAIN_PYTHON_VERSION }}
-#
-#      - name: "Install pre-commit"
-#        run: pip install pre-commit
-#
-#      - name: "Run pre-commit"
-#        run: pre-commit run --all-files --show-diff-on-failure
+  style:
+    name: "Style Check"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
-#  build_linux1:
-#    name: "Build linux1 wheel"
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#      - name: "Install requirements"
-#        run: pip install -r requirements/requirements_build.txt
-#
-#      - name: "Build the manylinux1 wheel"
-#        shell: bash
-#        id: wheel
-#        run: |
-#          python .ci/build_wheel.py -p manylinux1
-#          cd dist
-#          export name=`ls ansys_dpf_core*.whl`
-#          echo ${name}
-#          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
-#          cd ..
-#
-#      - name: "Upload wheel any as artifact"
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: ${{ steps.wheel.outputs.wheel_name }}
-#          path: dist/${{ steps.wheel.outputs.wheel_name }}
+      - name: "Setup Python"
+        uses: actions/setup-python@v4.6.0
+        with:
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}
 
-#  tests:
-#    uses: ./.github/workflows/tests.yml
-#    needs: pick_server_suffix
-#    with:
-#      ANSYS_VERSION: "242"
-#      python_versions: '["3.9"]'
-#      wheel: true
-#      wheelhouse: false
-#      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
-#    secrets: inherit
-#
-#  tests_any:
-#    uses: ./.github/workflows/tests.yml
-#    needs: pick_server_suffix
-#    with:
-#      ANSYS_VERSION: "242"
-#      python_versions: '["3.9"]'
-#      wheel: true
-#      wheelhouse: false
-#      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
-#      test_any: true
-#    secrets: inherit
-#
-#  docker_tests:
-#    name: "Build and Test on Docker"
-#    uses: ./.github/workflows/test_docker.yml
-#    needs: pick_server_suffix
-#    with:
-#      ANSYS_VERSION: "242"
-#      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
-#    secrets: inherit
-#
-#  docker_examples:
-#    name: "Run examples on Docker"
-#    uses: ./.github/workflows/examples_docker.yml
-#    needs: pick_server_suffix
-#    with:
-#      ANSYS_VERSION: "242"
-#      python_versions: '["3.9"]'
-#      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
-#    secrets: inherit
+      - name: "Install pre-commit"
+        run: pip install pre-commit
+
+      - name: "Run pre-commit"
+        run: pre-commit run --all-files --show-diff-on-failure
+
+  build_linux1:
+    name: "Build linux1 wheel"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Install requirements"
+        run: pip install -r requirements/requirements_build.txt
+
+      - name: "Build the manylinux1 wheel"
+        shell: bash
+        id: wheel
+        run: |
+          python .ci/build_wheel.py -p manylinux1
+          cd dist
+          export name=`ls ansys_dpf_core*.whl`
+          echo ${name}
+          echo "wheel_name=${name[0]}" >> $GITHUB_OUTPUT
+          cd ..
+
+      - name: "Upload wheel any as artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.wheel.outputs.wheel_name }}
+          path: dist/${{ steps.wheel.outputs.wheel_name }}
+
+  tests:
+    uses: ./.github/workflows/tests.yml
+    needs: pick_server_suffix
+    with:
+      ANSYS_VERSION: "242"
+      python_versions: '["3.9"]'
+      wheel: true
+      wheelhouse: false
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
+    secrets: inherit
+
+  tests_any:
+    uses: ./.github/workflows/tests.yml
+    needs: pick_server_suffix
+    with:
+      ANSYS_VERSION: "242"
+      python_versions: '["3.9"]'
+      wheel: true
+      wheelhouse: false
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
+      test_any: true
+    secrets: inherit
+
+  docker_tests:
+    name: "Build and Test on Docker"
+    uses: ./.github/workflows/test_docker.yml
+    needs: pick_server_suffix
+    with:
+      ANSYS_VERSION: "242"
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
+    secrets: inherit
+
+  docker_examples:
+    name: "Run examples on Docker"
+    uses: ./.github/workflows/examples_docker.yml
+    needs: pick_server_suffix
+    with:
+      ANSYS_VERSION: "242"
+      python_versions: '["3.9"]'
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
+    secrets: inherit
 
   docs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
@@ -183,66 +183,66 @@ jobs:
           doc-artifact-name: HTML-doc-ansys-dpf-core.zip
           decompress-artifact: true
 
-#  examples:
-#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-#    uses: ./.github/workflows/examples.yml
-#    needs: pick_server_suffix
-#    with:
-#      ANSYS_VERSION: "242"
-#      python_versions: '["3.9"]'
-#      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
-#    secrets: inherit
-#
-#  retro_241:
-#    name: "retro 241"
-#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-#    uses: ./.github/workflows/tests.yml
-#    with:
-#      ANSYS_VERSION: "241"
-#      python_versions: '["3.9"]'
-#      DOCSTRING: false
-#      standalone_suffix: '.sp01'
-#    secrets: inherit
-#
-#  retro_232:
-#    name: "retro 232"
-#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-#    uses: ./.github/workflows/tests.yml
-#    with:
-#      ANSYS_VERSION: "232"
-#      python_versions: '["3.9"]'
-#      DOCSTRING: false
-#      standalone_suffix: ''
-#    secrets: inherit
-#
-#  retro_231:
-#    name: "retro 231"
-#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-#    uses: ./.github/workflows/tests.yml
-#    with:
-#      ANSYS_VERSION: "231"
-#      python_versions: '["3.9"]'
-#      DOCSTRING: false
-#    secrets: inherit
-#
-#  retro_222:
-#    name: "retro 222"
-#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-#    uses: ./.github/workflows/tests.yml
-#    with:
-#      ANSYS_VERSION: "222"
-#      python_versions: '["3.9"]'
-#      DOCSTRING: false
-#    secrets: inherit
-#
-#  pydpf-post:
-#    name: "PyDPF-Post"
-#    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
-#    uses: ./.github/workflows/pydpf-post.yml
-#    needs: pick_server_suffix
-#    with:
-#      ANSYS_VERSION: "242"
-#      post_branch: "master"
-#      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
-#      test_docstrings: "true"
-#    secrets: inherit
+  examples:
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/examples.yml
+    needs: pick_server_suffix
+    with:
+      ANSYS_VERSION: "242"
+      python_versions: '["3.9"]'
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
+    secrets: inherit
+
+  retro_241:
+    name: "retro 241"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "241"
+      python_versions: '["3.9"]'
+      DOCSTRING: false
+      standalone_suffix: '.sp01'
+    secrets: inherit
+
+  retro_232:
+    name: "retro 232"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "232"
+      python_versions: '["3.9"]'
+      DOCSTRING: false
+      standalone_suffix: ''
+    secrets: inherit
+
+  retro_231:
+    name: "retro 231"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "231"
+      python_versions: '["3.9"]'
+      DOCSTRING: false
+    secrets: inherit
+
+  retro_222:
+    name: "retro 222"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/tests.yml
+    with:
+      ANSYS_VERSION: "222"
+      python_versions: '["3.9"]'
+      DOCSTRING: false
+    secrets: inherit
+
+  pydpf-post:
+    name: "PyDPF-Post"
+    if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
+    uses: ./.github/workflows/pydpf-post.yml
+    needs: pick_server_suffix
+    with:
+      ANSYS_VERSION: "242"
+      post_branch: "master"
+      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
+      test_docstrings: "true"
+    secrets: inherit
