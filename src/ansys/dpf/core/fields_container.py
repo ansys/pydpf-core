@@ -24,8 +24,8 @@ class FieldsContainer(Collection):
     to be separated from imaginary parts (``id=1``).
 
     For more information, see the `Fields container and fields
-    <https://dpf.docs.pyansys.com/user_guide/fields_container.html#ref-user-guide-fields-container>
-    `_ documentation section.
+    <https://dpf.docs.pyansys.com/version/stable/user_guide/fields_container.html>`_
+    documentation section.
 
     Parameters
     ----------
@@ -490,8 +490,8 @@ class FieldsContainer(Collection):
             A dictionary (LabelSpace) of labels of the :class:`FieldsContainer` with associated
             values to select for plotting.
             This is used to filter the data to plot, for example:
-              - if ``label_space={'time': 10}``: a single time step (mandatory for transient)
-              - if ``label_space={'complex': 0, 'part': 12}``: real part of complex data for a part
+            - if ``label_space={'time': 10}``: a single time step (mandatory for transient)
+            - if ``label_space={'complex': 0, 'part': 12}``: real part of complex data for a part
             See :func:`~fields_container.FieldsContainer.get_fields`.
             If None is given, it renders all fields available, which may not make sense.
         **kwargs:
