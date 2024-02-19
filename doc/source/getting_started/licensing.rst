@@ -62,11 +62,9 @@ DPF to check for a reachable license server or license file.
 Operators which do not perform any kind of license check are source operators (data extraction
 operators) which do not perform any data transformation.
 
-For example, most ``metadata`` operators do not perform data transformation and are license-free.
-
-When considering ``result`` operators, they only perform data transformation if the requested
-``location`` is not the native result location. In that case, averaging occurs which is considered
-as data transformation.
+For example, when considering result operators, they perform data transformation if the requested
+location is not the native result location. In that case, averaging occurs which is considered
+as data transformation (for example, elemental to nodal, nodal to elemental...).
 
 
 Summary
