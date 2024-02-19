@@ -64,7 +64,7 @@ Install DPF Server
 
         ANSYS_DPF_ACCEPT_LA=Y
 
-For more information about DPF licensing, see :ref:`_ref_licensing`.
+For more information about DPF licensing, see :ref:`ref_licensing`.
 
 For more information about the license terms, see :ref:`DPF Preview License Agreement<target_to_license_terms>`.
 
