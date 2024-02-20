@@ -37,7 +37,7 @@ How-tos
 		  
 
     .. card:: Use DPF Server package
-       :link: ref_getting_started_with_dpf_server
+       :link: ref_dpf_server
        :link-type: ref
        :width: 25%
        :text-align: center

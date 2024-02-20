@@ -128,7 +128,7 @@ the **Ansys installer** and **DPF Server**.
   on getting a licensed copy of Ansys, visit the `Ansys website <https://www.ansys.com/>`_.
 
 - The DPF Server package is independent of the Ansys installer. For more information, see
-  :ref:`ref_getting_started_with_dpf_server`.
+  :ref:`ref_dpf_server`.
 
 **Accessing capabilities with scripting**
 
