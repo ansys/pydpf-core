@@ -145,15 +145,3 @@ To get a specific version of the ``ansys-dpf-core`` package, such as 0.7.0, use 
 .. code::
 
     pip install --force-reinstall ansys-dpf-core==0.7.0
-
-.. _target_environment_variable_with_dpf_section:
-
-Environment variable
---------------------
-
-The ``start_local_server()``  method uses the ``Ans.Dpf.Grpc.bat`` file or
-``Ans.Dpf.Grpc.sh`` file to start the server. Ensure that the ``AWP_ROOT{VER}``
-environment variable is set to your installed Ansys version. For example, if Ansys
-2022 R2 is installed, ensure that the ``AWP_ROOT222`` environment
-variable is set to the path for this Ansys installation.
-  
