@@ -73,7 +73,7 @@ ensure that you replace ``<license_server_to_use>`` to point to the Ansys licens
 
     docker run -e "ANSYS_DPF_ACCEPT_LA=Y" -e ANSYSLMD_LICENSE_FILE=1055@<license_server_to_use> -p 50052:50052 -e DOCKER_SERVER_PORT=50052 --expose=50052 dpf-core:v2024_1_pre0
 
-The next section, :ref:`Ansys licensing<target_to_ansys_license_mechanism>`, provides information on
+The next section provides information on
 the Ansys license mechanism that is used with DPF Server.
 
 
@@ -83,9 +83,6 @@ License checks and usage
 
 Some DPF operators require DPF to check for an existing license
 and some require DPF to check-out a compatible license increment.
-
-To check which ANSYS licensing increments provide rights to use DPF Server,
-see :ref:`here<target_to_ansys_license_increments_list>`.
 
 DPF is by default allowed to check-out license increments as needed.
 To change this behavior, see :ref:`licensing_server_context`.
@@ -107,6 +104,9 @@ properties for a ``license`` key:
 
     {'category': 'averaging', 'exposure': 'public', 'license': 'any_dpf_supported_increments', 'plugin': 'core', 'scripting_name': 'elemental_difference', 'user_name': 'elemental difference (field)'}
 
+
+To check which ANSYS licensing increments correspond to ``any_dpf_supported_increments``,
+see :ref:`here<target_to_ansys_license_increments_list>`.
 
 Even if an operator does not require a license check-out to run, most DPF operators still require
 DPF to check for a reachable license server or license file.
