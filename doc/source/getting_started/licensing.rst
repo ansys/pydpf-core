@@ -85,7 +85,7 @@ Some DPF operators require DPF to check for an existing license
 and some require DPF to check-out a compatible license increment.
 
 DPF is by default allowed to check-out license increments as needed.
-To change this behavior, see :ref:`licensing_server_context`.
+To change this behavior, see :ref:`here <licensing_server_context>`.
 
 To know if operators require a license increment check-out to run, check their ``license``
 attribute in :ref:`ref_dpf_operators_reference` or directly in Python by checking the operator's
@@ -118,9 +118,9 @@ For example, when considering result operators, they perform data transformation
 location is not the native result location. In that case, averaging occurs which is considered
 as data transformation (for example, elemental to nodal, nodal to elemental...).
 
+.. _licensing_server_context:
 Server context
 ~~~~~~~~~~~~~~
-.. _licensing_server_context:
 
 You can allow or prevent licensed operators from running and using a license with a
 :ref:`server context <user_guide_server_context>`:
@@ -136,26 +136,27 @@ To update the context, apply a new server context:
 
     server.apply_context(dpf.AvailableServerContexts.premium)
 
+.. _licensing_errors:
 Licensing errors
 ~~~~~~~~~~~~~~~~
-.. _licensing_errors:
 
 The following user actions may fail due to licensing:
 
-- Starting a standalone DPF Server (a.k.a. not using an ANSYS installation) may fail due to the
-  ``DPF Preview License Agreement`` (see **License agreement** above).
+- Starting a standalone DPF Server may fail due to the
+  ``DPF Preview License Agreement`` (see :ref:`target_to_license_terms`).
 - Creating an operator may fail if the operator performs data transformation and no license server
-  or license file is found (see **License checks and usage** above).
-- Running an operator requiring a license checkout may fail if no license increment is available
-  or if the DPF Server context is Entry, preventing any license check-out
-  (see **License checks and usage** above).
+  or license file is found (see :ref:`target_to_ansys_license_mechanism`).
+- Running an operator requiring a license checkout may fail if no
+  :ref:`compatible license increment <target_to_ansys_license_increments_list>`
+  is available or if the DPF Server context is **Entry**, preventing any license check-out
+  (see :ref:`licensing_server_context`).
 
 
+.. _target_to_ansys_license_increments_list:
 Compatible Ansys license increments
 -----------------------------------
-.. _target_to_ansys_license_increments_list:
 
-The following Ansys licensing increments provide rights to use DPF Server:
+The following Ansys licensing increments provide rights to use the licensed DPF capabilities:
 
 - ``preppost`` available in the ``Ansys Mechanical Enterprise PrepPost`` product
 - ``meba`` available in the ``ANSYS Mechanical Enterprise Solver`` product
