@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  dpf-server:
+    container_name: dpf-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dpf_server
+      args:
+        - DPF_SERVER_BASE_IMAGE=rockylinux:8.9-minimal
+        - DPF_SERVER_VERSION=
+    env_file:
+      - dpf.env
+    networks:
+      - pydpfcore-nw
+
+  pydpf-core:
+    container_name: pydpf-core
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: devcontainer
+      args:
+        - DEVCONTAINER_VARIANT=3.10-bullseye
+        - USERNAME=vscode
+    volumes:
+      - ../:/pydpf-core:cached
+      - pydpfcore-bashhistory:/commandhistory
+      - pydpfcore-pythonsites:/home/vscode/.local/lib
+    networks:
+      - pydpfcore-nw
+
+volumes:
+  pydpfcore-bashhistory:
+  pydpfcore-pythonsites:
+
+networks:
+  pydpfcore-nw:
+    attachable: true

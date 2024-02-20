@@ -20,3 +20,8 @@ updates:
     labels:
       - "maintenance"
       - "CI/CD"
+
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: weekly

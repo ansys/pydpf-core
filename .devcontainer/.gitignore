@@ -1,0 +1,14 @@
+# Ignoring dpf server archives
+*.zip
+
+# Ignoring env files
+*.env
+
+# Ignoring developer's own scripts
+*.own*
+
+# Ignoring compose override file
+*override*
+
+# Reapplying example files
+!*.example.*
