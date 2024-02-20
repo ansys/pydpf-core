@@ -14,9 +14,9 @@ It is also available as a standalone package that contains all the necessary fil
 The standalone DPF Server is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_ of the Ansys Customer Portal.
 The first standalone version of DPF Server available is 6.0 (2023 R2).
 
-The sections on this page describe how to install and use DPF Server.
+The sections on this page describe how to install and use a standalone DPF Server.
 
-* For a quick start on DPF Server, see :ref:`ref_getting_started`. 
+* For a quick start on using PyDPF, see :ref:`ref_getting_started`.
 * For more information on DPF and its use, see :ref:`ref_user_guide`.
 
 
@@ -37,30 +37,20 @@ Install DPF Server
     pip install -e .
 
 
+As detailed in :ref:`licensing`, a standalone DPF Server is protected using the license terms specified in the
+`DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_
+file, which is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
+of the Ansys Customer Portal.
+To accept these terms, you must set this environment variable:
 
-.. card::
+.. code::
 
-    * Download the ``ansys_dpf_server_win_v2023.2.pre1.zip`` or ``ansys_dpf_server_lin_v2023.2.pre1.zip``
-      file as appropriate.
-    * Unzip the package and go to its root folder (``ansys_dpf_server_win_v2023.2.pre1`` or
-       ``ansys_dpf_server_lin_v2023.2.pre1``).
-    * In a Python environment, run this command:
+    ANSYS_DPF_ACCEPT_LA=Y
 
-    .. code::
+To use :ref:`licensed DPF capabilities <target_to_ansys_license_mechanism>` you must set the
+``ANSYSLMD_LICENSE_FILE`` environment variable to point to a valid local or remote license
+following indications in :ref:`configure_licensing`.
 
-        pip install -e .
-
-    * DPF Server is protected using the license terms specified in the
-      `DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_
-      file, which is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
-      of the Ansys Customer Portal. To accept these terms, you must set this
-      environment variable:
-
-    .. code::
-
-        ANSYS_DPF_ACCEPT_LA=Y
-  For installation methods that do not use `pip <https://pypi.org/project/pip/>`_,
-  such as using **Docker containers**, see :ref:`ref_dpf_server`.
 
 Use DPF Server
 --------------
