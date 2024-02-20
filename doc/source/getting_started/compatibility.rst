@@ -13,7 +13,7 @@ more information, see `Ansys Platform Support <https://www.ansys.com/solutions/s
 Client-server
 -------------
 
-The DPF server version depends on your installed Ansys version.
+The DPF server version depends on your installed Ansys version or your installed standalone DPF Server pre-release version.
 The following table shows client-server compatibility for supported
 Ansys versions. With Ansys 2022 R2 and later, you can use PyDPF-Core ``0.10`` and later.
 With Ansys 2021 R2 and 2022 R1, you can use PyDPF-Core

@@ -103,7 +103,7 @@ version of DPF Server to run:
 - it uses the ``ANSYS_DPF_PATH`` environment variable in priority if set and targeting a valid path to a DPF Server installation.
 - it then checks the currently active Python environment for any installed standalone DPF Server, and uses the latest version available.
 - it then checks for ``AWP_ROOTXXX`` environment variables, which are set by the **Ansys installer**, and uses the latest version available.
-- if then raises an error if all of the steps above failed to return a valid path to DPF Server installation.
+- if then raises an error if all of the steps above failed to return a valid path to a DPF Server installation.
 
 Run DPF Server in a Docker container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -31,7 +31,7 @@ To use PyDPF-Core, you need access to a DPF Server.
   and requires accepting the :ref:`DPF Preview License Agreement<target_to_license_terms>`.
   Once you have access to an Ansys license, follow the guidelines to :ref:`install a standalone DPF Server <target_installing_server>`.
 
-For more information regarding installing, managing and running DPF servers, see :ref:`dpf_server`.
+For more information regarding installing, managing and running DPF servers, see :ref:`ref_dpf_server`.
 
 Install PyDPF-Core
 ------------------
