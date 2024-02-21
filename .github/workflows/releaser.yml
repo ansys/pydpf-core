@@ -75,7 +75,7 @@ jobs:
         with:
           file: HTML-doc-ansys-dpf-core.zip
           token: ${{ secrets.GITHUB_TOKEN }}
-          version: tags/${{ github.event.inputs.release_tag || needs.get_latest_tag.outputs.version }}
+          version: ${{ github.event.inputs.release_tag && format('tags/{0}', github.event.inputs.release_tag) || format('tags/{0}', needs.get_latest_tag.outputs.version) }}
 
       - name: "List downloaded assets"
         shell: bash
