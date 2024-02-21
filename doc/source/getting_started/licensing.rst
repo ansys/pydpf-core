@@ -71,7 +71,7 @@ ensure that you replace ``<license_server_to_use>`` to point to the Ansys licens
 
 .. code::
 
-    docker run -e "ANSYS_DPF_ACCEPT_LA=Y" -e ANSYSLMD_LICENSE_FILE=1055@<license_server_to_use> -p 50052:50052 -e DOCKER_SERVER_PORT=50052 --expose=50052 dpf-core:v2024_1_pre0
+    docker run -e "ANSYS_DPF_ACCEPT_LA=Y" -e ANSYSLMD_LICENSE_FILE=1055@<license_server_to_use> -p 50052:50052 -e DOCKER_SERVER_PORT=50052 --expose=50052 dpf-core:v2024_2_pre0
 
 The next section provides information on
 the Ansys license mechanism that is used with DPF Server.
