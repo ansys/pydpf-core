@@ -15,6 +15,24 @@ PyDPF-Core is a Python client API communicating with a **DPF Server**, either
 through the network using gRPC or directly in the same process.
 
 
+Install DPF Server
+------------------
+
+To use PyDPF-Core, you need access to a DPF Server.
+
+* DPF Server is packaged within the **Ansys installer** in Ansys 2021 R1 and later.
+  To use it, download the standard installation using your preferred distribution channel,
+  and install Ansys following the installer instructions.
+  For information on getting a licensed copy of Ansys, visit the `Ansys website <https://www.ansys.com/>`_.
+
+* DPF Server pre-releases are also available as **standalone** packages (independent of the Ansys installer) on the
+  `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_ of the Ansys Customer Portal.
+  As explained in :ref:`ref_licensing`, the standalone DPF Server is still protected by an Ansys license mechanism
+  and requires accepting the :ref:`DPF Preview License Agreement<target_to_license_terms>`.
+  Once you have access to an Ansys license, follow the guidelines to :ref:`install a standalone DPF Server <target_installing_server>`.
+
+For more information regarding installing, managing and running DPF servers, see :ref:`ref_dpf_server`.
+
 Install PyDPF-Core
 ------------------
 
@@ -24,57 +42,11 @@ To install PyDPF-Core, in a Python environment, run this command:
 
    pip install ansys-dpf-core
 
+Be sure to check the :ref:`compatibility guidelines <ref_compatibility>` to know if your
+DPF Server version is compatible with the latest version of PyDPF-Core.
+
 For more installation options, see :ref:`Installation section <installation>`.
 
-
-Install DPF Server
-------------------
-
-* DPF Server is packaged within the **Ansys installer** in Ansys 2021 R1 and later.
-  To use it, download the standard installation using your preferred distribution channel, 
-  and install Ansys following the installer instructions. If you experience problems,
-  see :ref:`Environment variable <target_environment_variable_with_dpf_section>`. For information on getting
-  a licensed copy of Ansys, visit the `Ansys website <https://www.ansys.com/>`_.
-
-* DPF Server is available as a **standalone** package (independent of the Ansys installer) on the 
-  `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_ of the Ansys Customer Portal.
-  As explained in :ref:`Ansys licensing <target_to_ansys_license_mechanism>`,
-  DPF Server is protected by an Ansys license mechanism. Once you have access to an
-  Ansys license, install DPF Server:
-
-.. card::
-
-    * Download the ``ansys_dpf_server_win_v2023.2.pre1.zip`` or ``ansys_dpf_server_lin_v2023.2.pre1.zip``
-      file as appropriate.
-    * Unzip the package and go to its root folder (``ansys_dpf_server_win_v2023.2.pre1`` or
-       ``ansys_dpf_server_lin_v2023.2.pre1``).
-    * In a Python environment, run this command:
-
-    .. code::
-
-        pip install -e .
-
-    * DPF Server is protected using the license terms specified in the
-      `DPFPreviewLicenseAgreement <https://download.ansys.com/-/media/dpf/dpfpreviewlicenseagreement.ashx?la=en&hash=CCFB07AE38C638F0D43E50D877B5BC87356006C9>`_
-      file, which is available on the `DPF Pre-Release page <https://download.ansys.com/Others/DPF%20Pre-Release>`_
-      of the Ansys Customer Portal. To accept these terms, you must set this
-      environment variable:
-
-    .. code::
-
-        ANSYS_DPF_ACCEPT_LA=Y
-
-For more information about the license terms, see :ref:`DPF Preview License Agreement<target_to_license_terms>`.
-
-To use a remote license, set the ``ANSYSLMD_LICENSE_FILE`` environment
-variable to point to the Ansys license server ``<license_server_to_use>``:
-
-.. code::
-
-    ANSYSLMD_LICENSE_FILE=1055@<license_server_to_use>
-
-For installation methods that do not use `pip <https://pypi.org/project/pip/>`_,
-such as using **Docker containers**, see :ref:`ref_getting_started_with_dpf_server`.
 
 Use PyDPF-Core
 --------------
@@ -140,8 +112,10 @@ To use PyDPF-Core, in the same Python environment, run this command:
 
 .. toctree::
    :hidden:
-   
-   compatibility
+
    install
+   dpf_server
+   compatibility
+   licensing
    dependencies
 
