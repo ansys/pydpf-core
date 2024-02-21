@@ -7,8 +7,8 @@
 # Ignoring developer's own scripts
 *.own*
 
-# Ignoring compose override file
-*override*
+# Ignoring compose file as a local configuration file
+compose.yaml
 
 # Reapplying example files
 !*.example.*

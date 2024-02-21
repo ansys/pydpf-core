@@ -1,24 +1,31 @@
 # Devcontainer
 
 This project has a devcontainer ready for you to use.
-Just use devcontainer CLI or your IDE to launch it.
+
+Everything was tested based on Visual Studio Code. Feel free to test with other tools but expect failures if you do so.
 
 ## Requirements
 
 On your machine, you should have:
 - [Docker](https://www.docker.com/) with `docker compose`
-- IDE (Visual Studio Code / Visual Studio / ...)
-- DPF standalone archive
+- IDE (Visual Studio Code or other) supporting DevContainer or have DevContainer CLI
+- DPF standalone archive(s)
 
-## Preparation
+## Prerequisites
 
-The container needs a DPF standalone archive.
+### Standalone archives
 
-Download it from the customer portal, pre-release page or any pipeline and put it into `.devcontainer/standalones`.
+In `.devcontainer/standalones/`, put at least one DPF standalone archive (from customer portal, pre-release page or pipeline).
 
-Copy and rename `compose.override.example/yaml` to `compose.override.yaml`. This will be your local configuration of your current environment.
+### Compose file
+
+Copy and rename `compose.example.yaml` to `compose.yaml`. This will be your local configuration of your current environment.
 
 You can change the arguments to make the configuration change.
+
+### Environment file
+
+Copy and rename `dpf.example.env` to `dpf.env`, then fill it. These are environment variables needed by dpf-server to start and work properly.
 
 ## Running the container
 
@@ -39,33 +46,32 @@ You can execute custom shell scripts thanks to hooks created in the mandatory sc
 
 ### Recommended minimal custom postcreate script
 
-We recommend that you use at least this minimal postcreate script (`postcreate.own.sh`):
+We recommend that you use at least this minimal postcreate script (`.devcontainer/scripts/postcreate.own.sh`):
 ```bash
 git config --global user.name "[FILL_HERE]"
 git config --global user.email "[FILL_HERE]"
 ```
 
-## Using docker compose in the container
-
-Docker compose is launched by default with a specific project name which is the name of the root folder by default.
-
-Environment variable `COMPOSE_PROJECT_NAME` automates `docker compose` talking to the compose project which started your devcontainer.
-
-In case you want to launch another `docker compose` project, specify it with the appropriate flag `-p [PROJECT_NAME]`.
-
 ## Switching standalone version used
 
-You can manage multiple standalone versions easily. Just download them and put them all into `.devcontainer/standalones`.
+You can manage multiple standalone versions easily. Just download them and put them all into `.devcontainer/standalones/`.
 
-Then use the `DPF_SERVER_VERSION` argument in `compose.override.yaml` file to specify the archive you want (`24.2`, `24.2.pre0`...).
+Then use the `DPF_SERVER_VERSION` argument in `compose.yaml` file to specify the archive you want (`24.2`, `24.2.pre0`...).
 
 Nothing is made to differenciate between archive origins. But you can use `DPF_SERVER_VERSION` to do so:
-- Change the name of the archive as you want (e.g: `dpf_standalone_24.2_from_pipeline.zip`)
+- Change the name of the archive as you want (e.g: `dpf_standalone_v24.2_from_pipeline.zip`) but you need to keep `dpf` then `v[VERSION]` and `.zip` extension.
 - Update `DPF_SERVER_VERSION` accordingly (e.g: `24.2_from_pipeline`)
 
-Everything will be managed for you regarding the version.
+Everything will be managed for you regarding the version (you will find `ansys_inc/.env` in `dpf-server` with all deduced variables).
 
 **Then rebuild the container.**
 
-In `.devcontainer` folder, you can run:
-`docker compose up -d --force-recreate --build dpf_server`
+You can run: `docker compose -f $REPO_ROOT/.devcontainer/compose.yaml up -d --force-recreate --build dpf-server`
+
+## Using docker compose in the container
+
+Docker compose is launched by default with the root folder's name (folder containing `.devcontainer/` folder) as project name, which is the prefix you see before the container's name.
+
+Environment variable `COMPOSE_PROJECT_NAME`, which is set for you, automates `docker compose` talking to the compose project which started your devcontainer.
+
+In case you want to launch another `docker compose` project, specify it with the appropriate flag `-p [PROJECT_NAME]`.

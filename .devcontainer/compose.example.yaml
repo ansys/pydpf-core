@@ -7,7 +7,9 @@ services:
       dockerfile: Dockerfile
       target: dpf_server
       args:
+        # The base image of dpf-server container
         - DPF_SERVER_BASE_IMAGE=rockylinux:8.9-minimal
+        # The version indicated in the standalone archive name (e.g: 24.2.pre0)
         - DPF_SERVER_VERSION=
     env_file:
       - dpf.env
@@ -21,11 +23,15 @@ services:
       dockerfile: Dockerfile
       target: devcontainer
       args:
+        # The base image for devcontainer
         - DEVCONTAINER_VARIANT=3.10-bullseye
+        # The user used inside of the container
         - USERNAME=vscode
     volumes:
       - ../:/pydpf-core:cached
+      # Keeps your bash history
       - pydpfcore-bashhistory:/commandhistory
+      # Keeps your python sites
       - pydpfcore-pythonsites:/home/vscode/.local/lib
     networks:
       - pydpfcore-nw

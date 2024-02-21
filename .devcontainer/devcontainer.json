@@ -11,8 +11,7 @@
 	// 	}
 	// },
 	"dockerComposeFile": [
-		"compose.yaml",
-		"compose.override.yaml"
+		"compose.yaml"
 	],
 	"service": "pydpf-core",
 	"runServices": [

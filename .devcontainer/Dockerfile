@@ -12,7 +12,7 @@ FROM ubuntu AS unzipper
 
     ARG DPF_SERVER_VERSION=''
 
-    ENV ENV_FILE=/tmp/dpf_server_container.env
+    ENV ENV_FILE=/ansys_inc/.env
 
     WORKDIR /ansys_inc
 
@@ -24,13 +24,14 @@ FROM ubuntu AS unzipper
     # in alphabetical order
     RUN echo "export SERVER_ZIP_NAME=$(ls /tmp/ansys_inc | grep -E ".*dpf.*v${DPF_SERVER_VERSION:-[0-9]+}.*\.zip" | head -1)" > $ENV_FILE \
         && source $ENV_FILE \
-        # Looks for {CENTURY}{MAJOR}.{MINOR}.{PREVERSION} with optional CENTURY and optional PREVERSION (along with leading dot)
-        && echo $SERVER_ZIP_NAME | sed -r 's/[^0-9]*([0-9]{2,4}\.[12](\.pre[0-9]+)?).*/export FULL_VERSION=\1/g' >> $ENV_FILE \
+        # Looks for {MAJOR}.{MINOR}.{PREVERSION} with  optional PREVERSION (along with leading dot)
+        && echo $SERVER_ZIP_NAME | sed -r 's/.*([0-9]{2}\.[12](\.pre[0-9]+)?).*/export FULL_VERSION=\1/g' >> $ENV_FILE \
         && source $ENV_FILE \
         && echo $FULL_VERSION | sed -r 's/.*([0-9]{2}\.[12])\.?(pre[0-9]+)?.*/export DPF_VERSION=\1\nexport DPF_PRE_VERSION=\2/g' >> $ENV_FILE \
         && source $ENV_FILE \
         && echo $DPF_VERSION | sed -e 's/\.//g' -e 's/^/export DPF_VERSION_NO_DOT=/g' >> $ENV_FILE \
-        && echo $FULL_VERSION | sed -e 's/\./_/g' -e 's/^/export FULL_UNDERSCORE_VERSION=/g' >> $ENV_FILE \
+        # Transforms the DPF version and DPF_PRE_VERSION (if any) to century version with underscore
+        && echo ${DPF_VERSION}${DPF_PRE_VERSION:+.$DPF_PRE_VERSION} | sed -e 's/\./_/g' -e 's/^/export FULL_UNDERSCORE_VERSION=20/g' >> $ENV_FILE \
         && source $ENV_FILE \
         && echo "export WORKDIR=/ansys_inc/ansys/dpf/server_${FULL_UNDERSCORE_VERSION}/aisol/bin/linx64" >> $ENV_FILE
 
@@ -40,9 +41,6 @@ FROM ubuntu AS unzipper
     # Unzipping the server & setting the executable permissions
     RUN source $ENV_FILE && 7z x -y /tmp/ansys_inc/$SERVER_ZIP_NAME -o/ansys_inc \
         && chmod +x $WORKDIR/Ans.Dpf.Grpc.{sh,exe}
-
-    # Set environment variable file for later use
-    RUN tail -n +2 $ENV_FILE > .env
 
 
 FROM ${DPF_SERVER_BASE_IMAGE} AS dpf_server
