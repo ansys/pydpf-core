@@ -153,6 +153,7 @@ jobs:
           PACKAGE_NAME: ansys-dpf-post
           working-directory: pydpf-post/src
         if: inputs.test_docstrings == 'true'
+        timeout-minutes: 10
 
       - name: "Test API"
         shell: bash
@@ -160,6 +161,7 @@ jobs:
         run: |
           pytest $DEBUG --reruns 2 .
         if: always()
+        timeout-minutes: 20
 
       - name: "Kill all servers"
         uses: ansys/pydpf-actions/kill-dpf-servers@v2.3
