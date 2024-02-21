@@ -164,6 +164,7 @@ The following Ansys licensing increments provide rights to use the licensed DPF 
 - ``mech_1`` available in the ``ANSYS Mechanical Pro`` product
 - ``ansys`` available in the ``ANSYS Mechanical Enterprise`` product
 - ``dynapp`` available in the ``ANSYS LS-DYNA PrepPost`` product
+- ``dyna`` available in the ``ANSYS LS-DYNA`` product
 - ``vmotion`` available in the ``Ansys Motion`` product
 - ``acpreppost`` available in the ``Ansys Mechanical Enterprise`` product
 - ``acdi_adprepost`` available in the ``Ansys AUTODYN`` and ``Ansys AUTODYN PrepPost`` products
