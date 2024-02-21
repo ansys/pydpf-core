@@ -44,7 +44,7 @@ jobs:
     name: "Style Check"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: "Setup Python"
         uses: actions/setup-python@v4.6.0
@@ -61,7 +61,7 @@ jobs:
     name: "Build linux1 wheel"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: "Install requirements"
         run: pip install -r requirements/requirements_build.txt
