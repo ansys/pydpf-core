@@ -27,6 +27,8 @@ services:
         - DEVCONTAINER_VARIANT=3.10-bullseye
         # The username used inside the container
         - USERNAME=vscode
+    env_file:
+      - dpf.env # For local (in-process) installation
     volumes:
       - ../:/pydpf-core:cached
       # Keeps your bash history
