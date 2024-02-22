@@ -95,7 +95,7 @@ Manage multiple DPF Server installations
 
 PyDPF automatically starts a local instance of a DPF Server when you run a method requiring a
 connection to a server, or when you use the ``start_local_server()`` method.
-The ``start_local_server()`` method allows to choose, if necessary, which DPF Server installation
+The ``start_local_server()`` method allows you to choose, if necessary, which DPF Server installation
 to use thanks to its ``ansys_path`` argument.
 PyDPF otherwise follows the logic below to automatically detect and choose which locally installed
 version of DPF Server to run:
