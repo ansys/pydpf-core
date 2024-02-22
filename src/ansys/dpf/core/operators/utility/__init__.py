@@ -18,8 +18,10 @@ from .extract_sub_sc import extract_sub_sc
 from .extract_time_freq import extract_time_freq 
 from .fc_get_attribute import fc_get_attribute 
 from .field import field 
+from .field_get_attribute import field_get_attribute 
 from .field_to_fc import field_to_fc 
 from .fields_container import fields_container 
+from .fields_container_matrices_label import fields_container_matrices_label 
 from .for_each import for_each 
 from .forward import forward 
 from .forward_field import forward_field 
@@ -49,6 +51,7 @@ from .merge_scopings_containers import merge_scopings_containers
 from .merge_string_fields import merge_string_fields 
 from .merge_supports import merge_supports 
 from .merge_time_freq_supports import merge_time_freq_supports 
+from .merge_to_field_matrix import merge_to_field_matrix 
 from .merge_weighted_fields import merge_weighted_fields 
 from .merge_weighted_fields_containers import merge_weighted_fields_containers 
 from .mesh import mesh 

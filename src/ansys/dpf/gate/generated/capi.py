@@ -1477,6 +1477,10 @@ def load_api(path):
 		dll.ExternalOperator_delegateRun.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.c_bool, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_delegateRun.restype = None
 
+	if hasattr(dll, "ExternalOperator_instantiateInternalOperator"):
+		dll.ExternalOperator_instantiateInternalOperator.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.ExternalOperator_instantiateInternalOperator.restype = ctypes.c_void_p
+
 	if hasattr(dll, "ExternalOperator_connectAllInputsToOperator"):
 		dll.ExternalOperator_connectAllInputsToOperator.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.ExternalOperator_connectAllInputsToOperator.restype = None

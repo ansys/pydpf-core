@@ -630,6 +630,15 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		return res
 
 	@staticmethod
+	def external_operator_instantiate_internal_operator(operator_data, op_name):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_instantiateInternalOperator(operator_data, utils.to_char_ptr(op_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def external_operator_connect_all_inputs_to_operator(operator_data, other_op):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

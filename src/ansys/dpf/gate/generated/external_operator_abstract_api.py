@@ -284,6 +284,10 @@ class ExternalOperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def external_operator_instantiate_internal_operator(operator_data, op_name):
+		raise NotImplementedError
+
+	@staticmethod
 	def external_operator_connect_all_inputs_to_operator(operator_data, other_op):
 		raise NotImplementedError
 
