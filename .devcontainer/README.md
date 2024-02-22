@@ -58,7 +58,7 @@ You can manage multiple standalone versions easily. Just download them and put t
 
 Then use the `DPF_SERVER_VERSION` argument in `compose.yaml` file to specify the archive you want (`24.2`, `24.2.pre0`...).
 
-Nothing is made to differenciate between archive origins. But you can use `DPF_SERVER_VERSION` to do so:
+Nothing is made to differentiate between archive origins. But you can use `DPF_SERVER_VERSION` to do so:
 - Change the name of the archive as you want (e.g: `dpf_standalone_v24.2_from_pipeline.zip`) but you need to keep `dpf` then `v[VERSION]` and `.zip` extension.
 - Update `DPF_SERVER_VERSION` accordingly (e.g: `24.2_from_pipeline`)
 

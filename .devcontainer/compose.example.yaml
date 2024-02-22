@@ -25,7 +25,7 @@ services:
       args:
         # The base image for devcontainer
         - DEVCONTAINER_VARIANT=3.10-bullseye
-        # The user used inside of the container
+        # The username used inside the container
         - USERNAME=vscode
     volumes:
       - ../:/pydpf-core:cached
