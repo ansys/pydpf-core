@@ -4,11 +4,11 @@
 Licensing
 =========
 
-This section details how to properly set-up licensing, as well as what the user should expect in
+This section details how to properly set up licensing, as well as what the user should expect in
 terms of limitations or license usage when running PyDPF scripts.
 
 DPF follows a client-server architecture, which means that the PyDPF client library must interact with a running DPF Server.
-It thus either starts a DPF Server via a local installation of DPF Server, or it connects to an already running local or remote DPF Server.
+It either starts a DPF Server via a local installation of DPF Server, or it connects to an already running local or remote DPF Server.
 
 DPF Server is packaged within the **Ansys installer** in Ansys 2021 R1 and later.
 It is also available as a standalone application.
@@ -19,10 +19,10 @@ For more information on installing DPF Server, see :ref:`ref_dpf_server`.
 License terms
 -------------
 
-When using the DPF Server from an ANSYS installation, the user has already agreed to the licensing
-terms when installing ANSYS.
+When using the DPF Server from an Ansys installation, the user has already agreed to the licensing
+terms when installing Ansys.
 
-When using a standalone DPF Server, the user needs to accept the ``DPF Preview License Agreement``
+When using a standalone DPF Server, the user must accept the ``DPF Preview License Agreement``
 by following the indications below.
 Starting a DPF Server without agreeing to the ``DPF Preview License Agreement`` throws an exception.
 
@@ -49,7 +49,7 @@ existing license for the edition and version of DPF Server that you intend to us
 Configure licensing
 -------------------
 
-If your machine does not have a local ANSYS installation, you need to define where DPF should look for a valid license.
+If your machine does not have a local Ansys installation, you need to define where DPF should look for a valid license.
 
 To use a local license file, set the ``ANSYSLMD_LICENSE_FILE`` environment
 variable to point to an Ansys license file ``<license_file_to_use>``:
@@ -105,7 +105,7 @@ properties for a ``license`` key:
     {'category': 'averaging', 'exposure': 'public', 'license': 'any_dpf_supported_increments', 'plugin': 'core', 'scripting_name': 'elemental_difference', 'user_name': 'elemental difference (field)'}
 
 
-To check which ANSYS licensing increments correspond to ``any_dpf_supported_increments``,
+To check which Ansys licensing increments correspond to ``any_dpf_supported_increments``,
 see :ref:`here<target_to_ansys_license_increments_list>`.
 
 Even if an operator does not require a license check-out to run, most DPF operators still require
