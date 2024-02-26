@@ -211,6 +211,7 @@ class _PyVistaPlotter:
         scale_factor=1.0,
         scale_factor_legend=None,
         as_linear=True,
+        shell_layer=None,
         **kwargs,
     ):
         # Get the field name
@@ -253,6 +254,27 @@ class _PyVistaPlotter:
             mesh_location = meshed_region.elements
         else:
             raise ValueError("Only elemental, nodal or faces location are supported for plotting.")
+
+        # Check for shell layers
+        shell_layer_check = field.shell_layers
+        if shell_layer_check in [
+            eshell_layers.topbottom,
+            eshell_layers.topbottommid,
+        ]:
+            change_layer_op = core.operators.utility.change_shell_layers()
+            fields_container = core.operators.utility.field_to_fc(field=field)
+            change_layer_op.inputs.fields_container.connect(fields_container)
+            sl = eshell_layers.top
+            if shell_layer is not None:
+                if not isinstance(shell_layer, eshell_layers):
+                    raise TypeError(
+                        "shell_layer attribute must be a core.shell_layers instance."
+                    )
+                sl = shell_layer
+            change_layer_op.inputs.e_shell_layer.connect(sl.value)  # top layers taken
+            field = change_layer_op.eval()[0]
+            # TODO: manage shell layer in deform_by
+
         component_count = field.component_count
         if component_count > 1:
             overall_data = np.full((len(mesh_location), component_count), np.nan)
@@ -580,6 +602,7 @@ class DpfPlotter:
         label_point_size=20,
         deform_by=None,
         scale_factor=1.0,
+        shell_layer=None,
         **kwargs,
     ):
         """Add a field containing data to the plotter.
@@ -604,6 +627,8 @@ class DpfPlotter:
             Defaults to None.
         scale_factor : float, optional
             Scaling factor to apply when warping the mesh. Defaults to 1.0.
+        shell_layer: core.shell_layers, optional
+            Shell-layer to plot if the model contains shell elements.
         **kwargs : optional
             Additional keyword arguments for the plotter. More information
             are available at :func:`pyvista.plot`.
@@ -630,6 +655,7 @@ class DpfPlotter:
             deform_by=deform_by,
             scale_factor=scale_factor,
             as_linear=True,
+            shell_layer=shell_layer,
             **kwargs,
         )
 

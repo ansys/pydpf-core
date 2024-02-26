@@ -5,6 +5,8 @@ FieldsContainer
 ===============
 Contains classes associated with the DPF FieldsContainer.
 """
+from typing import Union, List
+
 from ansys import dpf
 from ansys.dpf.core.collection import Collection
 from ansys.dpf.core import errors as dpf_errors
@@ -479,7 +481,12 @@ class FieldsContainer(Collection):
         """
         return self.get_label_scoping("time")
 
-    def plot(self, label_space: dict = None, **kwargs):
+    def plot(
+            self,
+            label_space: dict = None,
+            shell_layer: Union[None, int] = None,
+            **kwargs
+    ):
         """Plots the fields in the FieldsContainer for the given LabelSpace.
         Check the labels available for the FieldsContainer with
         :func:`~fields_container.FieldsContainer.labels`.
@@ -494,6 +501,8 @@ class FieldsContainer(Collection):
             - if ``label_space={'complex': 0, 'part': 12}``: real part of complex data for a part
             See :func:`~fields_container.FieldsContainer.get_fields`.
             If None is given, it renders all fields available, which may not make sense.
+        shell_layer: core.shell_layers, optional
+            Shell-layer to plot if the model contains shell elements.
         **kwargs:
             For more information on accepted keyword arguments, see :func:`~field.Field.plot` and
             :class:`~plotter.DpfPlotter`.
@@ -504,7 +513,7 @@ class FieldsContainer(Collection):
             label_space = {}
         fields = self.get_fields(label_space=label_space)
         for f in fields:
-            plt.add_field(field=f, **kwargs)
+            plt.add_field(field=f, shell_layer=shell_layer, **kwargs)
         plt.show_figure(**kwargs)
 
     def animate(self, save_as=None, deform_by=None, scale_factor=1.0, **kwargs):
