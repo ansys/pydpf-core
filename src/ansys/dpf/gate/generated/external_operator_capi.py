@@ -36,6 +36,15 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		return res
 
 	@staticmethod
+	def external_operator_record_internal_with_abstract_core(operator_main, func, operator_identifier, spec, core, policy):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_recordInternalWithAbstractCore(utils.to_void_ptr(operator_main), func, utils.to_char_ptr(operator_identifier), spec._internal_obj if spec is not None else None, core, policy, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def external_operator_record_with_abstract_core_and_wrapper(operator_main, func, operator_identifier, spec, core, wrapper):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
@@ -625,6 +634,15 @@ class ExternalOperatorCAPI(external_operator_abstract_api.ExternalOperatorAbstra
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
 		res = capi.dll.ExternalOperator_delegateRun(operator_data, other_op._internal_obj if other_op is not None else None, forwardInputs, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
+	def external_operator_instantiate_internal_operator(operator_data, op_name):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.ExternalOperator_instantiateInternalOperator(operator_data, utils.to_char_ptr(op_name), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
 		if errorSize.value != 0:
 			raise errors.DPFServerException(sError.value)
 		return res

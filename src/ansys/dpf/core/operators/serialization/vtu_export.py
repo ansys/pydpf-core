@@ -32,6 +32,9 @@ class vtu_export(Operator):
         Available are rawbinarycompressed, rawbinary,
         base64appended, base64inline, ascii,
         default is (rawbinarycompressed)
+    as_point_cloud : bool, optional
+        Whether to export the mesh as a point cloud.
+        default is false.
 
 
     Examples
@@ -54,6 +57,8 @@ class vtu_export(Operator):
     >>> op.inputs.fields2.connect(my_fields2)
     >>> my_write_mode = str()
     >>> op.inputs.write_mode.connect(my_write_mode)
+    >>> my_as_point_cloud = bool()
+    >>> op.inputs.as_point_cloud.connect(my_as_point_cloud)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.serialization.vtu_export(
@@ -63,6 +68,7 @@ class vtu_export(Operator):
     ...     fields1=my_fields1,
     ...     fields2=my_fields2,
     ...     write_mode=my_write_mode,
+    ...     as_point_cloud=my_as_point_cloud,
     ... )
 
     >>> # Get output data
@@ -77,6 +83,7 @@ class vtu_export(Operator):
         fields1=None,
         fields2=None,
         write_mode=None,
+        as_point_cloud=None,
         config=None,
         server=None,
     ):
@@ -95,6 +102,8 @@ class vtu_export(Operator):
             self.inputs.fields2.connect(fields2)
         if write_mode is not None:
             self.inputs.write_mode.connect(write_mode)
+        if as_point_cloud is not None:
+            self.inputs.as_point_cloud.connect(as_point_cloud)
 
     @staticmethod
     def _spec():
@@ -141,6 +150,13 @@ class vtu_export(Operator):
                     document="""Available are rawbinarycompressed, rawbinary,
         base64appended, base64inline, ascii,
         default is (rawbinarycompressed)""",
+                ),
+                101: PinSpecification(
+                    name="as_point_cloud",
+                    type_names=["bool"],
+                    optional=True,
+                    document="""Whether to export the mesh as a point cloud.
+        default is false.""",
                 ),
             },
             map_output_pin_spec={
@@ -211,6 +227,8 @@ class InputsVtuExport(_Inputs):
     >>> op.inputs.fields2.connect(my_fields2)
     >>> my_write_mode = str()
     >>> op.inputs.write_mode.connect(my_write_mode)
+    >>> my_as_point_cloud = bool()
+    >>> op.inputs.as_point_cloud.connect(my_as_point_cloud)
     """
 
     def __init__(self, op: Operator):
@@ -227,6 +245,8 @@ class InputsVtuExport(_Inputs):
         self._inputs.append(self._fields2)
         self._write_mode = Input(vtu_export._spec().input_pin(100), 100, op, -1)
         self._inputs.append(self._write_mode)
+        self._as_point_cloud = Input(vtu_export._spec().input_pin(101), 101, op, -1)
+        self._inputs.append(self._as_point_cloud)
 
     @property
     def directory(self):
@@ -351,6 +371,27 @@ class InputsVtuExport(_Inputs):
         >>> op.inputs.write_mode(my_write_mode)
         """
         return self._write_mode
+
+    @property
+    def as_point_cloud(self):
+        """Allows to connect as_point_cloud input to the operator.
+
+        Whether to export the mesh as a point cloud.
+        default is false.
+
+        Parameters
+        ----------
+        my_as_point_cloud : bool
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.serialization.vtu_export()
+        >>> op.inputs.as_point_cloud.connect(my_as_point_cloud)
+        >>> # or
+        >>> op.inputs.as_point_cloud(my_as_point_cloud)
+        """
+        return self._as_point_cloud
 
 
 class OutputsVtuExport(_Outputs):

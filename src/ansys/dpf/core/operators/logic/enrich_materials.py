@@ -19,7 +19,7 @@ class enrich_materials(Operator):
     ----------
     MaterialContainer :
     streams : StreamsContainer or FieldsContainer
-    streams_mapping : Class Dataprocessing::Cpropertyfieldscontainer
+    streams_mapping : PropertyFieldsContainer
 
 
     Examples
@@ -34,7 +34,7 @@ class enrich_materials(Operator):
     >>> op.inputs.MaterialContainer.connect(my_MaterialContainer)
     >>> my_streams = dpf.StreamsContainer()
     >>> op.inputs.streams.connect(my_streams)
-    >>> my_streams_mapping = dpf.Class Dataprocessing::Cpropertyfieldscontainer()
+    >>> my_streams_mapping = dpf.PropertyFieldsContainer()
     >>> op.inputs.streams_mapping.connect(my_streams_mapping)
 
     >>> # Instantiate operator and connect inputs in one line
@@ -87,7 +87,7 @@ class enrich_materials(Operator):
                 ),
                 2: PinSpecification(
                     name="streams_mapping",
-                    type_names=["class dataProcessing::CPropertyFieldsContainer"],
+                    type_names=["property_fields_container"],
                     optional=False,
                     document="""""",
                 ),
@@ -152,7 +152,7 @@ class InputsEnrichMaterials(_Inputs):
     >>> op.inputs.MaterialContainer.connect(my_MaterialContainer)
     >>> my_streams = dpf.StreamsContainer()
     >>> op.inputs.streams.connect(my_streams)
-    >>> my_streams_mapping = dpf.Class Dataprocessing::Cpropertyfieldscontainer()
+    >>> my_streams_mapping = dpf.PropertyFieldsContainer()
     >>> op.inputs.streams_mapping.connect(my_streams_mapping)
     """
 
@@ -209,7 +209,7 @@ class InputsEnrichMaterials(_Inputs):
 
         Parameters
         ----------
-        my_streams_mapping : Class Dataprocessing::Cpropertyfieldscontainer
+        my_streams_mapping : PropertyFieldsContainer
 
         Examples
         --------
