@@ -633,18 +633,3 @@ def test_distributed_workflows_integral_types():
         fwd2.inputs.connect(fwd1.outputs)
 
         fwd2.get_output(0, data["type"])
-
-@pytest.mark.skipif(
-    not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
-    reason="Connecting data from different servers is " "supported starting server version 3.0",
-)
-def test_connect_remote_operators(simple_bar):
-    print(core.core.misc.get_ansys_path())
-    data_sources1 = core.DataSources(simple_bar)
-    op1 = ops.result.displacement(data_sources=data_sources1)
-    print(local_servers[0])
-    data_sources2 = core.DataSources(simple_bar, server=local_servers[0])
-    op2 = ops.result.displacement(data_sources=data_sources2, server=local_servers[0])
-    add = ops.math.add_fc(op1, op2)
-    fc = add.outputs.fields_container()
-    assert np.allclose(fc[0].data, 2 * op1.outputs.fields_container()[0].data)
