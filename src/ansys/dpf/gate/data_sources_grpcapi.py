@@ -61,6 +61,18 @@ class DataSourcesGRPCAPI(data_sources_abstract_api.DataSourcesAbstractAPI):
         _get_stub(dataSources._server).Update(request)
 
     @staticmethod
+    def data_sources_set_domain_result_file_path_with_key_utf8(dataSources, name, key, id):
+        from ansys.grpc.dpf import data_sources_pb2
+        request = data_sources_pb2.UpdateRequest()
+        request.result_path = True
+        request.domain.domain_path = True
+        request.domain.domain_id = id
+        request.path = name
+        request.key = key
+        request.data_sources.CopyFrom(dataSources._internal_obj)
+        _get_stub(dataSources._server).Update(request)
+
+    @staticmethod
     def data_sources_add_file_path_utf8(dataSources, name):
         from ansys.grpc.dpf import data_sources_pb2
         request = data_sources_pb2.UpdateRequest()
