@@ -137,7 +137,7 @@ class DataSources:
         return ""
 
     def set_domain_result_file_path(
-            self, path: Union[str, os.PathLike], domain_id: int, key: str = ""
+            self, path: Union[str, os.PathLike], domain_id: int, key: Union[str, None] = None
     ):
         """Add a result file path by domain.
 
@@ -161,7 +161,7 @@ class DataSources:
         >>> data_sources.set_domain_result_file_path('/tmp/file1.sub', 1)
 
         """
-        if key != "":
+        if key:
             self._api.data_sources_set_domain_result_file_path_with_key_utf8(
                 self, str(path), key, domain_id
             )
