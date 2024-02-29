@@ -12,10 +12,8 @@ import pytest
     reason="Connecting data from different servers is " "supported starting server version 3.0",
 )
 def test_connect_remote_operators(simple_bar):
-    print(core.core.misc.get_ansys_path())
     data_sources1 = core.DataSources(simple_bar)
     op1 = ops.result.displacement(data_sources=data_sources1)
-    print(local_servers[0])
     data_sources2 = core.DataSources(simple_bar, server=local_servers[0])
     op2 = ops.result.displacement(data_sources=data_sources2, server=local_servers[0])
     add = ops.math.add_fc(op1, op2)
@@ -29,10 +27,8 @@ def test_connect_remote_operators(simple_bar):
     reason="Connecting data from different servers is " "supported starting server version 3.0",
 )
 def test_connect_3remote_operators(simple_bar):
-    print(core.core.misc.get_ansys_path())
     data_sources1 = core.DataSources(simple_bar)
     op1 = ops.result.displacement(data_sources=data_sources1)
-    print(local_servers[0])
     data_sources2 = core.DataSources(simple_bar, server=local_servers[0])
     op2 = ops.result.displacement(data_sources=data_sources2, server=local_servers[0])
     add = ops.math.add_fc(op1, op2, server=local_servers[1])
@@ -46,9 +42,7 @@ def test_connect_3remote_operators(simple_bar):
     reason="Connecting data from different servers is " "supported starting server version 4.0",
 )
 def test_connect_remote_data_to_operator(simple_bar):
-    print(core.core.misc.get_ansys_path())
     data_sources1 = core.DataSources(simple_bar)
-    print(local_servers[0])
     op2 = ops.result.displacement(data_sources=data_sources1, server=local_servers[0])
     print(local_servers[1])
     add = ops.math.add_fc(op2, op2, server=local_servers[1])
