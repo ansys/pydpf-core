@@ -1,4 +1,7 @@
 import os
+import subprocess
+import sys
+
 import packaging.version
 import pkg_resources
 import importlib
@@ -243,7 +246,8 @@ def load_grpc_client(ansys_path=None):
     # on libcrypto and libssl
     previous_path = ""
     if not ISPOSIX and ANSYS_PATH is not None:
-        previous_path = os.getenv("PATH", "")
+        # previous_path = os.getenv("PATH", "")
+        previous_path = subprocess.check_output(["echo", "%PATH%"], shell=True).decode(sys.stdout.encoding)
         os.environ["PATH"] = path + ";" + previous_path
 
     grpc_client_api_path = os.path.join(path, name)
