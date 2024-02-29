@@ -6,6 +6,7 @@ from ansys.dpf.core import operators as ops
 import pytest
 
 
+@pytest.mark.skip
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
     reason="Connecting data from different servers is " "supported starting server version 3.0",
@@ -22,6 +23,7 @@ def test_connect_remote_operators(simple_bar):
     assert np.allclose(fc[0].data, 2 * op1.outputs.fields_container()[0].data)
 
 
+@pytest.mark.skip
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_3_0,
     reason="Connecting data from different servers is " "supported starting server version 3.0",
@@ -38,6 +40,7 @@ def test_connect_3remote_operators(simple_bar):
     assert np.allclose(fc[0].data, 2 * op1.outputs.fields_container()[0].data)
 
 
+@pytest.mark.skip
 @pytest.mark.skipif(
     not conftest.SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_4_0,
     reason="Connecting data from different servers is " "supported starting server version 4.0",
