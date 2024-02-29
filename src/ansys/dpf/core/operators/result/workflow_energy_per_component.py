@@ -19,9 +19,13 @@ class workflow_energy_per_component(Operator):
     Parameters
     ----------
     time_scoping : Scoping, optional
-    mesh_scoping : Scoping, optional
-        Master scoping. all named selections will be
-        intersected with this scoping.
+    mesh_scoping : Scoping or ScopingsContainer, optional
+        When the input is a scoping, it is treated as
+        the master scoping. all named
+        selections will intersect with it.
+        when the input is a scopings
+        container, named selections will not
+        be needed.
     energy_type : int, optional
         Type of energy to be processed: (0: strain +
         kinetic energy (default), 1: strain
@@ -118,10 +122,14 @@ class workflow_energy_per_component(Operator):
                 ),
                 1: PinSpecification(
                     name="mesh_scoping",
-                    type_names=["scoping"],
+                    type_names=["scoping", "scopings_container"],
                     optional=True,
-                    document="""Master scoping. all named selections will be
-        intersected with this scoping.""",
+                    document="""When the input is a scoping, it is treated as
+        the master scoping. all named
+        selections will intersect with it.
+        when the input is a scopings
+        container, named selections will not
+        be needed.""",
                 ),
                 2: PinSpecification(
                     name="energy_type",
@@ -281,12 +289,16 @@ class InputsWorkflowEnergyPerComponent(_Inputs):
     def mesh_scoping(self):
         """Allows to connect mesh_scoping input to the operator.
 
-        Master scoping. all named selections will be
-        intersected with this scoping.
+        When the input is a scoping, it is treated as
+        the master scoping. all named
+        selections will intersect with it.
+        when the input is a scopings
+        container, named selections will not
+        be needed.
 
         Parameters
         ----------
-        my_mesh_scoping : Scoping
+        my_mesh_scoping : Scoping or ScopingsContainer
 
         Examples
         --------

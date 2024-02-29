@@ -13,8 +13,7 @@ from ansys.dpf.core.operators.specification import PinSpecification, Specificati
 
 class rescope_fc(Operator):
     """Rescopes a field on the given scoping. If an ID does not exist in the
-    original field, the default value (in 2) is used when defined. If
-    pin 1 is not defined, pin 0 input will be copied to the output.
+    original field, the default value (in 2) is used when defined.
 
     Parameters
     ----------
@@ -22,7 +21,7 @@ class rescope_fc(Operator):
     mesh_scoping : Scoping, optional
     default_value : float, optional
         If pin 2 is used, the ids not found in the
-        fields are added with this default
+        field are added with this default
         value.
 
 
@@ -74,8 +73,7 @@ class rescope_fc(Operator):
     def _spec():
         description = """Rescopes a field on the given scoping. If an ID does not exist in the
             original field, the default value (in 2) is used when
-            defined. If pin 1 is not defined, pin 0 input will be
-            copied to the output."""
+            defined."""
         spec = Specification(
             description=description,
             map_input_pin_spec={
@@ -96,7 +94,7 @@ class rescope_fc(Operator):
                     type_names=["double", "vector<double>"],
                     optional=True,
                     document="""If pin 2 is used, the ids not found in the
-        fields are added with this default
+        field are added with this default
         value.""",
                 ),
             },
@@ -214,7 +212,7 @@ class InputsRescopeFc(_Inputs):
         """Allows to connect default_value input to the operator.
 
         If pin 2 is used, the ids not found in the
-        fields are added with this default
+        field are added with this default
         value.
 
         Parameters

@@ -30,6 +30,7 @@ from .cross_product import cross_product
 from .cross_product_fc import cross_product_fc 
 from .dot import dot 
 from .dot_tensor import dot_tensor 
+from .elemental_density import elemental_density 
 from .entity_extractor import entity_extractor 
 from .exponential import exponential 
 from .exponential_fc import exponential_fc 
@@ -54,6 +55,7 @@ from .modal_damping_ratio import modal_damping_ratio
 from .modal_participation import modal_participation 
 from .modal_superposition import modal_superposition 
 from .modulus import modulus 
+from .nodal_density import nodal_density 
 from .norm import norm 
 from .norm_fc import norm_fc 
 from .outer_product import outer_product 
@@ -66,6 +68,7 @@ from .pow_fc import pow_fc
 from .qr_solve import qr_solve 
 from .real_part import real_part 
 from .relative_error import relative_error 
+from .sampler import sampler 
 from .scale import scale 
 from .scale_by_field import scale_by_field 
 from .scale_by_field_fc import scale_by_field_fc 
@@ -76,6 +79,8 @@ from .sqr import sqr
 from .sqr_fc import sqr_fc 
 from .sqrt import sqrt 
 from .sqrt_fc import sqrt_fc 
+from .stft import stft 
+from .stft_fc import stft_fc 
 from .svd import svd 
 from .sweeping_phase import sweeping_phase 
 from .sweeping_phase_fc import sweeping_phase_fc 
@@ -83,8 +88,14 @@ from .time_freq_interpolation import time_freq_interpolation
 from .unit_convert import unit_convert 
 from .unit_convert_fc import unit_convert_fc 
 from .window_bartlett import window_bartlett 
+from .window_bartlett_fc import window_bartlett_fc 
 from .window_blackman import window_blackman 
+from .window_blackman_fc import window_blackman_fc 
 from .window_hamming import window_hamming 
+from .window_hamming_fc import window_hamming_fc 
 from .window_hanning import window_hanning 
+from .window_hanning_fc import window_hanning_fc 
 from .window_triangular import window_triangular 
+from .window_triangular_fc import window_triangular_fc 
 from .window_welch import window_welch 
+from .window_welch_fc import window_welch_fc 
