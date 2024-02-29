@@ -9,6 +9,7 @@ import io
 import os
 import socket
 import subprocess
+import sys
 import time
 import warnings
 import traceback
@@ -925,6 +926,15 @@ class InProcessServer(CServer):
             self._context = server_context.AvailableServerContexts.premium
             pass
         self.set_as_global(as_global=as_global)
+        # Update the python os.environment
+        if not os.name == "posix":
+            path_str = "%PATH%"
+        else:
+            path_str = "$PATH"
+        new_path = subprocess.check_output(
+            ["echo", path_str], shell=True
+        ).decode(sys.stdout.encoding)
+        os.environ["PATH"] = new_path
 
     @property
     def version(self):

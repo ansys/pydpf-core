@@ -8,7 +8,6 @@ protocols and server configurations available.
 import logging
 import os
 import subprocess
-import sys
 import time
 import io
 
@@ -609,11 +608,7 @@ class ServerFactory:
                 ansys_path = os.environ.get("AWP_ROOT" + str(__ansys_version__), None)
             if ansys_path is not None:
                 sub_folders = os.path.join(ansys_path, _get_path_in_install())
-                if not os.name == "posix":
-                    previous_path = subprocess.check_output(["echo", "%PATH%"], shell=True).decode(sys.stdout.encoding)
-                else:
-                    previous_path = os.environ["PATH"]
-                os.environ["PATH"] = previous_path + sub_folders
+                os.environ["PATH"] += sub_folders
             return GrpcServer
         elif config.protocol == CommunicationProtocols.InProcess and not config.legacy:
             return InProcessServer
