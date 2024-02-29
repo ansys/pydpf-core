@@ -44,7 +44,6 @@ def test_connect_3remote_operators(simple_bar):
 def test_connect_remote_data_to_operator(simple_bar):
     data_sources1 = core.DataSources(simple_bar)
     op2 = ops.result.displacement(data_sources=data_sources1, server=local_servers[0])
-    print(local_servers[1])
     add = ops.math.add_fc(op2, op2, server=local_servers[1])
     fc = add.outputs.fields_container()
     assert np.allclose(fc[0].data, 2 * op2.outputs.fields_container()[0].data)
