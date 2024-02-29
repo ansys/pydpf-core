@@ -931,9 +931,7 @@ class InProcessServer(CServer):
             path_str = "%PATH%"
         else:
             path_str = "$PATH"
-        new_path = subprocess.check_output(
-            ["echo", path_str], shell=True
-        ).decode(sys.stdout.encoding)
+        new_path = subprocess.check_output(["echo", path_str], shell=True, text=True)
         os.environ["PATH"] = new_path
 
     @property
