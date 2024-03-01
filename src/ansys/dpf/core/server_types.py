@@ -928,11 +928,8 @@ class InProcessServer(CServer):
         self.set_as_global(as_global=as_global)
         # Update the python os.environment
         if not os.name == "posix":
-            path_str = "%PATH%"
-        else:
-            path_str = "$PATH"
-        new_path = subprocess.check_output(["echo", path_str], shell=True, text=True)
-        os.environ["PATH"] = new_path
+            new_path = subprocess.check_output(["echo", "%PATH%"], shell=True, text=True)
+            os.environ["PATH"] = new_path
 
     @property
     def version(self):
