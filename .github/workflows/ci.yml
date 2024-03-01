@@ -55,6 +55,10 @@ jobs:
             base_ref=${{ github.base_ref }}
             suffix=${ref_name/$sub[0-9][0-9][0-9]/''}
             suffix=${suffix/_on_$base_ref/''}
+          elif [[ "${{ github.base_ref  }}" == *"$sub"* ]]; then
+            base_ref=${{ github.base_ref }}
+            suffix=${base_ref/$sub[0-9][0-9][0-9]/''}
+            suffix=${suffix/_on_*/''}
           fi
           echo "suffix=$suffix" >> "$GITHUB_OUTPUT"
         fi
