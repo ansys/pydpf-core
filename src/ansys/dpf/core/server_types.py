@@ -925,6 +925,12 @@ class InProcessServer(CServer):
             self._context = server_context.AvailableServerContexts.premium
             pass
         self.set_as_global(as_global=as_global)
+        # Update the python os.environment
+        if not os.name == "posix":
+            new_path = subprocess.check_output(
+                ["python", "-c", r'import os; print(os.environ["PATH"])'], text=True
+            )  # pragma: no cover
+            os.environ["PATH"] = new_path
 
     @property
     def version(self):

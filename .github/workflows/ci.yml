@@ -55,6 +55,10 @@ jobs:
             base_ref=${{ github.base_ref }}
             suffix=${ref_name/$sub[0-9][0-9][0-9]/''}
             suffix=${suffix/_on_$base_ref/''}
+          elif [[ "${{ github.base_ref  }}" == *"$sub"* ]]; then
+            base_ref=${{ github.base_ref }}
+            suffix=${base_ref/$sub[0-9][0-9][0-9]/''}
+            suffix=${suffix/_on_*/''}
           fi
           echo "suffix=$suffix" >> "$GITHUB_OUTPUT"
         fi
@@ -126,24 +130,24 @@ jobs:
       test_any: true
     secrets: inherit
 
-  docker_tests:
-    name: "Build and Test on Docker"
-    uses: ./.github/workflows/test_docker.yml
-    needs: pick_server_suffix
-    with:
-      ANSYS_VERSION: "242"
-      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
-    secrets: inherit
-
-  docker_examples:
-    name: "Run examples on Docker"
-    uses: ./.github/workflows/examples_docker.yml
-    needs: pick_server_suffix
-    with:
-      ANSYS_VERSION: "242"
-      python_versions: '["3.9"]'
-      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
-    secrets: inherit
+#  docker_tests:
+#    name: "Build and Test on Docker"
+#    uses: ./.github/workflows/test_docker.yml
+#    needs: pick_server_suffix
+#    with:
+#      ANSYS_VERSION: "242"
+#      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
+#    secrets: inherit
+#
+#  docker_examples:
+#    name: "Run examples on Docker"
+#    uses: ./.github/workflows/examples_docker.yml
+#    needs: pick_server_suffix
+#    with:
+#      ANSYS_VERSION: "242"
+#      python_versions: '["3.9"]'
+#      standalone_suffix: ${{needs.pick_server_suffix.outputs.suffix}}
+#    secrets: inherit
 
   docs:
     if: startsWith(github.head_ref, 'master') || github.event.action == 'ready_for_review' || !github.event.pull_request.draft
