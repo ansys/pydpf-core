@@ -46,6 +46,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: "Uninstall Docker"
+        shell: bash
+        run: |
+          for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+
       - uses: docker-practice/actions-setup-docker@master
         with:
           docker_version: "24.0.8"
