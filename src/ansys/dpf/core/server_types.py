@@ -931,7 +931,6 @@ class InProcessServer(CServer):
             new_path = subprocess.check_output(
                 ["python", "-c", r'import os; print(os.environ["PATH"])'], text=True
             )
-            print(new_path)
             os.environ["PATH"] = new_path
 
     @property
