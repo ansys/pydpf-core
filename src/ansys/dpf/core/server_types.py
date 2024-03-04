@@ -9,6 +9,7 @@ import io
 import os
 import socket
 import subprocess
+import sys
 import time
 import warnings
 import traceback
@@ -928,7 +929,7 @@ class InProcessServer(CServer):
         # Update the python os.environment
         if not os.name == "posix":
             new_path = subprocess.check_output(
-                ["python", "-c", r'import os; print(os.environ["PATH"])'], text=True
+                [sys.executable, "-c", r'import os; print(os.environ["PATH"])'], text=True
             )  # pragma: no cover
             os.environ["PATH"] = new_path
 
