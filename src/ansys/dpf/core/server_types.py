@@ -928,7 +928,10 @@ class InProcessServer(CServer):
         self.set_as_global(as_global=as_global)
         # Update the python os.environment
         if not os.name == "posix":
-            new_path = subprocess.check_output(["echo", "%PATH%"], shell=True, text=True)
+            new_path = subprocess.check_output(
+                ["python", "-c", r'import os; print(os.environ["PATH"])'], text=True
+            )
+            print(new_path)
             os.environ["PATH"] = new_path
 
     @property
