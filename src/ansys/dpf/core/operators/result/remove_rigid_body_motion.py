@@ -51,6 +51,9 @@ class remove_rigid_body_motion(Operator):
 
     >>> # Get output data
     >>> result_field = op.outputs.field()
+    >>> result_translation_field = op.outputs.translation_field()
+    >>> result_rotation_field = op.outputs.rotation_field()
+    >>> result_center_field = op.outputs.center_field()
     """
 
     def __init__(
@@ -100,6 +103,24 @@ class remove_rigid_body_motion(Operator):
                     type_names=["field"],
                     optional=False,
                     document="""""",
+                ),
+                1: PinSpecification(
+                    name="translation_field",
+                    type_names=["field"],
+                    optional=False,
+                    document="""Global rigid translation vector""",
+                ),
+                2: PinSpecification(
+                    name="rotation_field",
+                    type_names=["field"],
+                    optional=False,
+                    document="""Global rigid rotation angles""",
+                ),
+                3: PinSpecification(
+                    name="center_field",
+                    type_names=["field"],
+                    optional=False,
+                    document="""Center of the rigid rotation""",
                 ),
             },
         )
@@ -241,12 +262,27 @@ class OutputsRemoveRigidBodyMotion(_Outputs):
     >>> op = dpf.operators.result.remove_rigid_body_motion()
     >>> # Connect inputs : op.inputs. ...
     >>> result_field = op.outputs.field()
+    >>> result_translation_field = op.outputs.translation_field()
+    >>> result_rotation_field = op.outputs.rotation_field()
+    >>> result_center_field = op.outputs.center_field()
     """
 
     def __init__(self, op: Operator):
         super().__init__(remove_rigid_body_motion._spec().outputs, op)
         self._field = Output(remove_rigid_body_motion._spec().output_pin(0), 0, op)
         self._outputs.append(self._field)
+        self._translation_field = Output(
+            remove_rigid_body_motion._spec().output_pin(1), 1, op
+        )
+        self._outputs.append(self._translation_field)
+        self._rotation_field = Output(
+            remove_rigid_body_motion._spec().output_pin(2), 2, op
+        )
+        self._outputs.append(self._rotation_field)
+        self._center_field = Output(
+            remove_rigid_body_motion._spec().output_pin(3), 3, op
+        )
+        self._outputs.append(self._center_field)
 
     @property
     def field(self):
@@ -264,3 +300,54 @@ class OutputsRemoveRigidBodyMotion(_Outputs):
         >>> result_field = op.outputs.field()
         """  # noqa: E501
         return self._field
+
+    @property
+    def translation_field(self):
+        """Allows to get translation_field output of the operator
+
+        Returns
+        ----------
+        my_translation_field : Field
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.remove_rigid_body_motion()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_translation_field = op.outputs.translation_field()
+        """  # noqa: E501
+        return self._translation_field
+
+    @property
+    def rotation_field(self):
+        """Allows to get rotation_field output of the operator
+
+        Returns
+        ----------
+        my_rotation_field : Field
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.remove_rigid_body_motion()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_rotation_field = op.outputs.rotation_field()
+        """  # noqa: E501
+        return self._rotation_field
+
+    @property
+    def center_field(self):
+        """Allows to get center_field output of the operator
+
+        Returns
+        ----------
+        my_center_field : Field
+
+        Examples
+        --------
+        >>> from ansys.dpf import core as dpf
+        >>> op = dpf.operators.result.remove_rigid_body_motion()
+        >>> # Connect inputs : op.inputs. ...
+        >>> result_center_field = op.outputs.center_field()
+        """  # noqa: E501
+        return self._center_field

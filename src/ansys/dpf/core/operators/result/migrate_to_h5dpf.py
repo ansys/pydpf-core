@@ -42,10 +42,6 @@ class migrate_to_h5dpf(Operator):
     data_sources : DataSources, optional
         If the stream is null then we need to get the
         file path from the data sources
-    bool_rotate_to_global : bool, optional
-        If true, the field is rotated to the global
-        coordinate system before migrating
-        the file (default false)
     compression_workflow : Workflow or GenericDataContainer, optional
         Beta option: applies input compression
         workflow. user can input a
@@ -59,15 +55,6 @@ class migrate_to_h5dpf(Operator):
         format described for pin(6) that will
         map a filtering workflow to a result
         name.
-    requested_location : str, optional
-        If no location is specified, elemental
-        results will be stored as they are.
-        if a location is set, all elemental
-        results will be converted accordingly
-    separate_dofs : bool, optional
-        If this option is set to true, all available
-        dofs will be exported (e.g.
-        displacements + rotations)
 
 
     Examples
@@ -92,16 +79,10 @@ class migrate_to_h5dpf(Operator):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_bool_rotate_to_global = bool()
-    >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_compression_workflow = dpf.Workflow()
     >>> op.inputs.compression_workflow.connect(my_compression_workflow)
     >>> my_filtering_workflow = dpf.Workflow()
     >>> op.inputs.filtering_workflow.connect(my_filtering_workflow)
-    >>> my_requested_location = str()
-    >>> op.inputs.requested_location.connect(my_requested_location)
-    >>> my_separate_dofs = bool()
-    >>> op.inputs.separate_dofs.connect(my_separate_dofs)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.migrate_to_h5dpf(
@@ -112,11 +93,8 @@ class migrate_to_h5dpf(Operator):
     ...     all_time_sets=my_all_time_sets,
     ...     streams_container=my_streams_container,
     ...     data_sources=my_data_sources,
-    ...     bool_rotate_to_global=my_bool_rotate_to_global,
     ...     compression_workflow=my_compression_workflow,
     ...     filtering_workflow=my_filtering_workflow,
-    ...     requested_location=my_requested_location,
-    ...     separate_dofs=my_separate_dofs,
     ... )
 
     >>> # Get output data
@@ -132,11 +110,8 @@ class migrate_to_h5dpf(Operator):
         all_time_sets=None,
         streams_container=None,
         data_sources=None,
-        bool_rotate_to_global=None,
         compression_workflow=None,
         filtering_workflow=None,
-        requested_location=None,
-        separate_dofs=None,
         config=None,
         server=None,
     ):
@@ -159,16 +134,10 @@ class migrate_to_h5dpf(Operator):
             self.inputs.streams_container.connect(streams_container)
         if data_sources is not None:
             self.inputs.data_sources.connect(data_sources)
-        if bool_rotate_to_global is not None:
-            self.inputs.bool_rotate_to_global.connect(bool_rotate_to_global)
         if compression_workflow is not None:
             self.inputs.compression_workflow.connect(compression_workflow)
         if filtering_workflow is not None:
             self.inputs.filtering_workflow.connect(filtering_workflow)
-        if requested_location is not None:
-            self.inputs.requested_location.connect(requested_location)
-        if separate_dofs is not None:
-            self.inputs.separate_dofs.connect(separate_dofs)
 
     @staticmethod
     def _spec():
@@ -230,14 +199,6 @@ class migrate_to_h5dpf(Operator):
                     document="""If the stream is null then we need to get the
         file path from the data sources""",
                 ),
-                5: PinSpecification(
-                    name="bool_rotate_to_global",
-                    type_names=["bool"],
-                    optional=True,
-                    document="""If true, the field is rotated to the global
-        coordinate system before migrating
-        the file (default false)""",
-                ),
                 6: PinSpecification(
                     name="compression_workflow",
                     type_names=["workflow", "generic_data_container"],
@@ -258,23 +219,6 @@ class migrate_to_h5dpf(Operator):
         format described for pin(6) that will
         map a filtering workflow to a result
         name.""",
-                ),
-                9: PinSpecification(
-                    name="requested_location",
-                    type_names=["string"],
-                    optional=True,
-                    document="""If no location is specified, elemental
-        results will be stored as they are.
-        if a location is set, all elemental
-        results will be converted accordingly""",
-                ),
-                200: PinSpecification(
-                    name="separate_dofs",
-                    type_names=["bool"],
-                    optional=True,
-                    document="""If this option is set to true, all available
-        dofs will be exported (e.g.
-        displacements + rotations)""",
                 ),
             },
             map_output_pin_spec={
@@ -347,16 +291,10 @@ class InputsMigrateToH5Dpf(_Inputs):
     >>> op.inputs.streams_container.connect(my_streams_container)
     >>> my_data_sources = dpf.DataSources()
     >>> op.inputs.data_sources.connect(my_data_sources)
-    >>> my_bool_rotate_to_global = bool()
-    >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
     >>> my_compression_workflow = dpf.Workflow()
     >>> op.inputs.compression_workflow.connect(my_compression_workflow)
     >>> my_filtering_workflow = dpf.Workflow()
     >>> op.inputs.filtering_workflow.connect(my_filtering_workflow)
-    >>> my_requested_location = str()
-    >>> op.inputs.requested_location.connect(my_requested_location)
-    >>> my_separate_dofs = bool()
-    >>> op.inputs.separate_dofs.connect(my_separate_dofs)
     """
 
     def __init__(self, op: Operator):
@@ -381,10 +319,6 @@ class InputsMigrateToH5Dpf(_Inputs):
         self._inputs.append(self._streams_container)
         self._data_sources = Input(migrate_to_h5dpf._spec().input_pin(4), 4, op, -1)
         self._inputs.append(self._data_sources)
-        self._bool_rotate_to_global = Input(
-            migrate_to_h5dpf._spec().input_pin(5), 5, op, -1
-        )
-        self._inputs.append(self._bool_rotate_to_global)
         self._compression_workflow = Input(
             migrate_to_h5dpf._spec().input_pin(6), 6, op, -1
         )
@@ -393,14 +327,6 @@ class InputsMigrateToH5Dpf(_Inputs):
             migrate_to_h5dpf._spec().input_pin(7), 7, op, -1
         )
         self._inputs.append(self._filtering_workflow)
-        self._requested_location = Input(
-            migrate_to_h5dpf._spec().input_pin(9), 9, op, -1
-        )
-        self._inputs.append(self._requested_location)
-        self._separate_dofs = Input(
-            migrate_to_h5dpf._spec().input_pin(200), 200, op, -1
-        )
-        self._inputs.append(self._separate_dofs)
 
     @property
     def h5_native_compression(self):
@@ -553,28 +479,6 @@ class InputsMigrateToH5Dpf(_Inputs):
         return self._data_sources
 
     @property
-    def bool_rotate_to_global(self):
-        """Allows to connect bool_rotate_to_global input to the operator.
-
-        If true, the field is rotated to the global
-        coordinate system before migrating
-        the file (default false)
-
-        Parameters
-        ----------
-        my_bool_rotate_to_global : bool
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.migrate_to_h5dpf()
-        >>> op.inputs.bool_rotate_to_global.connect(my_bool_rotate_to_global)
-        >>> # or
-        >>> op.inputs.bool_rotate_to_global(my_bool_rotate_to_global)
-        """
-        return self._bool_rotate_to_global
-
-    @property
     def compression_workflow(self):
         """Allows to connect compression_workflow input to the operator.
 
@@ -622,51 +526,6 @@ class InputsMigrateToH5Dpf(_Inputs):
         >>> op.inputs.filtering_workflow(my_filtering_workflow)
         """
         return self._filtering_workflow
-
-    @property
-    def requested_location(self):
-        """Allows to connect requested_location input to the operator.
-
-        If no location is specified, elemental
-        results will be stored as they are.
-        if a location is set, all elemental
-        results will be converted accordingly
-
-        Parameters
-        ----------
-        my_requested_location : str
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.migrate_to_h5dpf()
-        >>> op.inputs.requested_location.connect(my_requested_location)
-        >>> # or
-        >>> op.inputs.requested_location(my_requested_location)
-        """
-        return self._requested_location
-
-    @property
-    def separate_dofs(self):
-        """Allows to connect separate_dofs input to the operator.
-
-        If this option is set to true, all available
-        dofs will be exported (e.g.
-        displacements + rotations)
-
-        Parameters
-        ----------
-        my_separate_dofs : bool
-
-        Examples
-        --------
-        >>> from ansys.dpf import core as dpf
-        >>> op = dpf.operators.result.migrate_to_h5dpf()
-        >>> op.inputs.separate_dofs.connect(my_separate_dofs)
-        >>> # or
-        >>> op.inputs.separate_dofs(my_separate_dofs)
-        """
-        return self._separate_dofs
 
 
 class OutputsMigrateToH5Dpf(_Outputs):
