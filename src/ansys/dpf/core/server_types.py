@@ -9,12 +9,12 @@ import io
 import os
 import socket
 import subprocess
-import sys
 import time
 import warnings
 import traceback
 from threading import Thread, Lock
 from abc import ABC
+from ctypes import *
 
 import psutil
 
@@ -928,10 +928,17 @@ class InProcessServer(CServer):
         self.set_as_global(as_global=as_global)
         # Update the python os.environment
         if not os.name == "posix":
-            new_path = subprocess.check_output(
-                [sys.executable, "-c", r'import os; print(os.environ["PATH"])'], text=True
-            )  # pragma: no cover
-            os.environ["PATH"] = new_path
+            # Forced to use ctypes to get the updated PATH due to sys.exec not the Python
+            # interpreter when running Python plugin test VS project
+            # The better solution would be to not need to update the path
+            windll.kernel32.GetEnvironmentVariableA.argtypes = (c_char_p, c_char_p, c_int)
+            windll.kernel32.GetEnvironmentVariableA.restype = c_int
+            name = "PATH"
+            b_name = name.encode("utf-8")
+            size = 32767
+            buffer = create_string_buffer(b"", size)
+            _ = windll.kernel32.GetEnvironmentVariableA(b_name, buffer, size)
+            os.environ["PATH"] = buffer.value.decode("utf-8")
 
     @property
     def version(self):
