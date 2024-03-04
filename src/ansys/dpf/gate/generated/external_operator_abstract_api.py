@@ -20,6 +20,10 @@ class ExternalOperatorAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def external_operator_record_internal_with_abstract_core(operator_main, func, operator_identifier, spec, core, policy):
+		raise NotImplementedError
+
+	@staticmethod
 	def external_operator_record_with_abstract_core_and_wrapper(operator_main, func, operator_identifier, spec, core, wrapper):
 		raise NotImplementedError
 
@@ -281,6 +285,10 @@ class ExternalOperatorAbstractAPI:
 
 	@staticmethod
 	def external_operator_delegate_run(operator_data, other_op, forwardInputs):
+		raise NotImplementedError
+
+	@staticmethod
+	def external_operator_instantiate_internal_operator(operator_data, op_name):
 		raise NotImplementedError
 
 	@staticmethod
