@@ -56,6 +56,10 @@ def load_api(path):
 		dll.Any_getAs_MeshesContainer.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Any_getAs_MeshesContainer.restype = ctypes.c_void_p
 
+	if hasattr(dll, "Any_getAs_AnyCollection"):
+		dll.Any_getAs_AnyCollection.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Any_getAs_AnyCollection.restype = ctypes.c_void_p
+
 	if hasattr(dll, "Any_getAs_String"):
 		dll.Any_getAs_String.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Any_getAs_String.restype = ctypes.POINTER(ctypes.c_char)
@@ -131,6 +135,10 @@ def load_api(path):
 	if hasattr(dll, "Any_getAs_CustomTypeFieldsContainer"):
 		dll.Any_getAs_CustomTypeFieldsContainer.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Any_getAs_CustomTypeFieldsContainer.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Any_getAs_CustomTypeField"):
+		dll.Any_getAs_CustomTypeField.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Any_getAs_CustomTypeField.restype = ctypes.c_void_p
 
 	if hasattr(dll, "Any_makeObj_asAny"):
 		dll.Any_makeObj_asAny.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -235,6 +243,14 @@ def load_api(path):
 	if hasattr(dll, "Any_newFrom_CustomTypeFieldsContainer"):
 		dll.Any_newFrom_CustomTypeFieldsContainer.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Any_newFrom_CustomTypeFieldsContainer.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Any_newFrom_CustomTypeField"):
+		dll.Any_newFrom_CustomTypeField.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Any_newFrom_CustomTypeField.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Any_newFrom_AnyCollection"):
+		dll.Any_newFrom_AnyCollection.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Any_newFrom_AnyCollection.restype = ctypes.c_void_p
 
 	if hasattr(dll, "Any_newFrom_Int_on_client"):
 		dll.Any_newFrom_Int_on_client.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
@@ -362,6 +378,10 @@ def load_api(path):
 		dll.Collection_OfCustomTypeFieldNew.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Collection_OfCustomTypeFieldNew.restype = ctypes.c_void_p
 
+	if hasattr(dll, "Collection_OfAnyNew"):
+		dll.Collection_OfAnyNew.argtypes = (ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Collection_OfAnyNew.restype = ctypes.c_void_p
+
 	if hasattr(dll, "Collection_GetNumLabels"):
 		dll.Collection_GetNumLabels.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Collection_GetNumLabels.restype = ctypes.c_int32
@@ -470,6 +490,10 @@ def load_api(path):
 		dll.Collection_OfMeshNew_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Collection_OfMeshNew_on_client.restype = ctypes.c_void_p
 
+	if hasattr(dll, "Collection_OfAnyNew_on_client"):
+		dll.Collection_OfAnyNew_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Collection_OfAnyNew_on_client.restype = ctypes.c_void_p
+
 	if hasattr(dll, "Collection_OfScoping_getCopy"):
 		dll.Collection_OfScoping_getCopy.argtypes = (ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Collection_OfScoping_getCopy.restype = ctypes.c_void_p
@@ -481,6 +505,10 @@ def load_api(path):
 	if hasattr(dll, "Collection_OfMesh_getCopy"):
 		dll.Collection_OfMesh_getCopy.argtypes = (ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.Collection_OfMesh_getCopy.restype = ctypes.c_void_p
+
+	if hasattr(dll, "Collection_OfAny_getCopy"):
+		dll.Collection_OfAny_getCopy.argtypes = (ctypes.c_int32, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.Collection_OfAny_getCopy.restype = ctypes.c_void_p
 
 	if hasattr(dll, "Collection_OfIntNew_on_client"):
 		dll.Collection_OfIntNew_on_client.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )

@@ -17,7 +17,7 @@ class modal_damping_ratio(Operator):
 
     Parameters
     ----------
-    natural_freq : FieldsContainer
+    natural_freq :
         Input vector expects natural frequencies.
     const_ratio : float, optional
         Constant modal damping ratio
@@ -37,7 +37,7 @@ class modal_damping_ratio(Operator):
     >>> op = dpf.operators.math.modal_damping_ratio()
 
     >>> # Make input connections
-    >>> my_natural_freq = dpf.FieldsContainer()
+    >>> my_natural_freq = dpf.()
     >>> op.inputs.natural_freq.connect(my_natural_freq)
     >>> my_const_ratio = float()
     >>> op.inputs.const_ratio.connect(my_const_ratio)
@@ -94,7 +94,7 @@ class modal_damping_ratio(Operator):
             map_input_pin_spec={
                 0: PinSpecification(
                     name="natural_freq",
-                    type_names=["fields_container"],
+                    type_names=["vector<double>"],
                     optional=False,
                     document="""Input vector expects natural frequencies.""",
                 ),
@@ -179,7 +179,7 @@ class InputsModalDampingRatio(_Inputs):
     --------
     >>> from ansys.dpf import core as dpf
     >>> op = dpf.operators.math.modal_damping_ratio()
-    >>> my_natural_freq = dpf.FieldsContainer()
+    >>> my_natural_freq = dpf.()
     >>> op.inputs.natural_freq.connect(my_natural_freq)
     >>> my_const_ratio = float()
     >>> op.inputs.const_ratio.connect(my_const_ratio)
@@ -214,7 +214,7 @@ class InputsModalDampingRatio(_Inputs):
 
         Parameters
         ----------
-        my_natural_freq : FieldsContainer
+        my_natural_freq :
 
         Examples
         --------
