@@ -1,67 +1,54 @@
 import pytest
 
-from ansys.dpf.core import Model
 from ansys.dpf.core import check_version
 from ansys.dpf.core import errors as dpf_errors
 
 from ansys.dpf.gate.load_api import _find_outdated_ansys_version
 
 
-def test_get_server_version(multishells):
-    model = Model(multishells)
-    server = model._server
+def test_get_server_version(server_type):
     # version without specifying server
     version_blank = check_version.get_server_version()
     assert isinstance(version_blank, str)
-    v_blank = float(version_blank)
+    split = version_blank.split(".")
+    assert len(split) >= 2
+    v_blank = float(split[0]+"."+split[1])
     assert v_blank >= 2.0
     # version specifying sever
-    version = check_version.get_server_version(server)
+    version = check_version.get_server_version(server_type)
     assert isinstance(version, str)
-    v = float(version)
+    split = version.split(".")
+    assert len(split) >= 2
+    v = float(split[0]+"."+split[1])
     assert v >= 2.0
 
 
-def test_check_server_version_dpfserver(multishells):
-    # this test is working because the server version format is "MAJOR.MINOR".
-    # It can be adapted if this is evolving.
-    model = Model(multishells)
-    server = model._server
+def test_check_server_version_dpfserver(server_type):
     v = check_version.get_server_version()
     split = v.split(".")
-    l = 2
-    assert len(split) == l
-    server.check_version(v)
-    v_with_patch = v + ".0"
-    server.check_version(v_with_patch)
+    assert len(split) >= 2
+    server_type.check_version(v)
     with pytest.raises(dpf_errors.DpfVersionNotSupported):
-        n = len(split[l - 1])
-        v_up = v[0:n] + "1"
-        server.check_version(v_up)
+        v_up = split[0] + "1"
+        server_type.check_version(v_up)
     with pytest.raises(dpf_errors.DpfVersionNotSupported):
         v_up_patch = v + ".1"
-        server.check_version(v_up_patch)
+        server_type.check_version(v_up_patch)
 
 
-def test_check_server_version_checkversion(multishells):
-    # this test is working because the server version format is "MAJOR.MINOR".
-    # It can be adapted if this is evolving.
-    model = Model(multishells)
-    server = model._server
+def test_check_server_version_checkversion(server_type):
     v = check_version.get_server_version()
     split = v.split(".")
-    l = 2
-    assert len(split) == l
-    check_version.server_meet_version_and_raise(v, server)
+    assert len(split) >= 2
+    check_version.server_meet_version_and_raise(v, server_type)
     v_with_patch = v + ".0"
-    check_version.server_meet_version_and_raise(v_with_patch, server)
+    check_version.server_meet_version_and_raise(v_with_patch, server_type)
     with pytest.raises(dpf_errors.DpfVersionNotSupported):
-        n = len(split[l - 1])
-        v_up = v[0:n] + "1"
-        check_version.server_meet_version_and_raise(v_up, server)
+        v_up = split[0] + "1"
+        check_version.server_meet_version_and_raise(v_up, server_type)
     with pytest.raises(dpf_errors.DpfVersionNotSupported):
         v_up_patch = v + ".1"
-        check_version.server_meet_version_and_raise(v_up_patch, server)
+        check_version.server_meet_version_and_raise(v_up_patch, server_type)
 
 
 def test_meets_version():
