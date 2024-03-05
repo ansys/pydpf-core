@@ -77,13 +77,13 @@ def test_find_outdated_ansys_version():
     arg5 = "v"
     arg6 = "a"
     arg7 = "blav221hlof"
-    assert _find_outdated_ansys_version(arg1) == False
-    assert _find_outdated_ansys_version(arg2) == True
-    assert _find_outdated_ansys_version(arg3) == False
-    assert _find_outdated_ansys_version(arg4) == False
-    assert _find_outdated_ansys_version(arg5) == False
-    assert _find_outdated_ansys_version(arg6) == False
-    assert _find_outdated_ansys_version(arg7) == True
+    assert _find_outdated_ansys_version(arg1) is False
+    assert _find_outdated_ansys_version(arg2) is True
+    assert _find_outdated_ansys_version(arg3) is False
+    assert _find_outdated_ansys_version(arg4) is False
+    assert _find_outdated_ansys_version(arg5) is False
+    assert _find_outdated_ansys_version(arg6) is False
+    assert _find_outdated_ansys_version(arg7) is True
 
 
 def test_version():
