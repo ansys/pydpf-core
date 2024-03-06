@@ -133,7 +133,7 @@ def types_enum_to_types():
         types.double: float,
         types.bool: bool,
         types.bytes: bytes,
-        types.collection: collection.Collection,
+        types.collection: collection.CollectionBase,
         types.fields_container: fields_container.FieldsContainer,
         types.scopings_container: scopings_container.ScopingsContainer,
         types.meshes_container: meshes_container.MeshesContainer,

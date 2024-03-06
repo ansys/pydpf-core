@@ -254,7 +254,7 @@ class CustomOperatorBase:
             if isinstance(data, type_tuple[0]):
                 return type_tuple[1](self._operator_data, index, data)
         if isinstance(data, (list, numpy.ndarray)):
-            data = collection.Collection.integral_collection(data, dpf.SERVER)
+            data = collection.CollectionBase.integral_collection(data, dpf.SERVER)
             return external_operator_api.external_operator_put_out_collection_as_vector(
                 self._operator_data, index, data
             )

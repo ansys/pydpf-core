@@ -45,7 +45,7 @@ _type_to_output_method = [
         external_operator_api.external_operator_put_out_string_field,
     ),
     (scoping.Scoping, external_operator_api.external_operator_put_out_scoping),
-    (collection.Collection, external_operator_api.external_operator_put_out_collection),
+    (collection.CollectionBase, external_operator_api.external_operator_put_out_collection),
     (
         data_sources.DataSources,
         external_operator_api.external_operator_put_out_data_sources,
