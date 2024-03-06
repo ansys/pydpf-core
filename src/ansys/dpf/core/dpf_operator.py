@@ -239,7 +239,7 @@ class Operator:
             from ansys.dpf.core import collection
 
             if server_meet_version("3.0", self._server):
-                inpt = collection.Collection.integral_collection(inpt, self._server)
+                inpt = collection.CollectionBase.integral_collection(inpt, self._server)
                 self._api.operator_connect_collection_as_vector(self, pin, inpt)
             else:
                 if all(isinstance(x, int) for x in inpt):
@@ -474,7 +474,7 @@ class Operator:
                 self._api.operator_connect_custom_type_field,
             ),
             (scoping.Scoping, self._api.operator_connect_scoping),
-            (collection.Collection, self._api.operator_connect_collection),
+            (collection.CollectionBase, self._api.operator_connect_collection),
             (data_sources.DataSources, self._api.operator_connect_data_sources),
             (
                 model.Model,

@@ -72,7 +72,7 @@ from ansys.dpf.core.generic_support import GenericSupport
 from ansys.dpf.core.meshed_region import MeshedRegion
 from ansys.dpf.core.elements import element_types
 from ansys.dpf.core.result_info import ResultInfo
-from ansys.dpf.core.collection import Collection
+from ansys.dpf.core.collection import CollectionBase
 from ansys.dpf.core.workflow import Workflow
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.element_descriptor import ElementDescriptor

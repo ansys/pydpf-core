@@ -25,7 +25,7 @@ from ansys.dpf.gate import (
 )
 
 
-class Collection:
+class CollectionBase:
     """Represents a collection of entries ordered by labels and IDs.
 
     Parameters
@@ -48,7 +48,7 @@ class Collection:
         # step2: if object exists, take the instance, else create it
         self._internal_obj = None
         if collection is not None:
-            if isinstance(collection, Collection):
+            if isinstance(collection, CollectionBase):
                 self._server = collection._server
                 core_api = self._server.get_api_for_type(
                     capi=data_processing_capi.DataProcessingCAPI,
@@ -478,7 +478,7 @@ class Collection:
             yield self[i]
 
 
-class IntegralCollection(Collection):
+class IntegralCollection(CollectionBase):
     """Creates a collection of integral type with a list.
 
     The collection of integral is the equivalent of an array of
@@ -511,7 +511,7 @@ class IntegralCollection(Collection):
         pass
 
 
-class IntCollection(Collection):
+class IntCollection(CollectionBase):
     """Creates a collection of integers with a list.
 
     The collection of integral is the equivalent of an array of
@@ -564,7 +564,7 @@ class IntCollection(Collection):
             return self._api.collection_get_data_as_int(self, 0)
 
 
-class FloatCollection(Collection):
+class FloatCollection(CollectionBase):
     """Creates a collection of floats (double64) with a list.
 
     The collection of integral is the equivalent of an array of
@@ -620,7 +620,7 @@ class FloatCollection(Collection):
             return self._api.collection_get_data_as_double(self, 0)
 
 
-class StringCollection(Collection):
+class StringCollection(CollectionBase):
     """Creates a collection of strings with a list.
 
     The collection of integral is the equivalent of an array of
