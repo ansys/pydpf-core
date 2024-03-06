@@ -117,6 +117,15 @@ class OperatorCAPI(operator_abstract_api.OperatorAbstractAPI):
 		return res
 
 	@staticmethod
+	def operator_connect_dpf_type(op, iPin, value):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.Operator_connect_DpfType(op._internal_obj if op is not None else None, utils.to_int32(iPin), value._internal_obj if value is not None else None, ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		return res
+
+	@staticmethod
 	def operator_connect_int(op, iPin, value):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()

@@ -24,6 +24,10 @@ class GenericDataContainerAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def generic_data_container_set_property_dpf_type(container, name, any):
+		raise NotImplementedError
+
+	@staticmethod
 	def generic_data_container_get_property_types(container):
 		raise NotImplementedError
 

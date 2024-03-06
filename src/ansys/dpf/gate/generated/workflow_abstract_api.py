@@ -184,6 +184,10 @@ class WorkflowAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def work_flow_connect_dpf_type(wf, pin_name, value):
+		raise NotImplementedError
+
+	@staticmethod
 	def work_flow_connect_int(wf, pin_name, value):
 		raise NotImplementedError
 
