@@ -2,8 +2,10 @@ import copy
 import re
 import weakref
 
+import numpy as np
+
 from ansys.dpf.gate.generated import data_processing_abstract_api
-from ansys.dpf.gate import errors, object_handler, misc
+from ansys.dpf.gate import errors, object_handler, misc, grpc_stream_helpers
 
 
 # -------------------------------------------------------------------------------
@@ -207,31 +209,42 @@ class DataProcessingGRPCAPI(data_processing_abstract_api.DataProcessingAbstractA
 
     @staticmethod
     def data_processing_description_string(data):
-        try:
-            data_obj = data._internal_obj
-            from ansys.grpc.dpf import base_pb2, collection_pb2
-            request = base_pb2.DescribeRequest()
-            if isinstance(data_obj.id, int):
-                request.dpf_type_id = data_obj.id
-            else:
-                request.dpf_type_id = data_obj.id.id
-            serv_to_test = data._server
-            if not serv_to_test:
-                return ""
-            client = None
-            if serv_to_test.has_client():
-                client = serv_to_test.client
-            else:
-                return ""
-            if isinstance(data_obj, collection_pb2.Collection):
-                from ansys.dpf.gate import collection_grpcapi
-                collection_grpcapi.CollectionGRPCAPI.init_collection_environment(data)
-                response = collection_grpcapi._get_stub(data._server.client).Describe(request)
-            else:
-                response = _get_stub(client).Describe(request)
-            return response.description
-        except:
+        data_obj = data._internal_obj
+        from ansys.grpc.dpf import base_pb2, collection_pb2
+        request = base_pb2.DescribeRequest()
+        if isinstance(data_obj.id, int):
+            request.dpf_type_id = data_obj.id
+        else:
+            request.dpf_type_id = data_obj.id.id
+        serv_to_test = data._server
+        if not serv_to_test:
             return ""
+        client = None
+        if serv_to_test.has_client():
+            client = serv_to_test.client
+        else:
+            return ""
+        if isinstance(data_obj, collection_pb2.Collection):
+            from ansys.dpf.gate import collection_grpcapi
+            collection_grpcapi.CollectionGRPCAPI.init_collection_environment(data)
+            response = collection_grpcapi._get_stub(data._server.client).Describe(request)
+        else:
+            response = _get_stub(client).Describe(request)
+        return response.description
+
+    @staticmethod
+    def data_processing_description_string_with_size(data, size):
+        from ansys.grpc.dpf import base_pb2
+        request = base_pb2.DescribeRequest()
+        if isinstance(data._internal_obj.id, int):
+            request.dpf_type_id = data._internal_obj.id
+        else:
+            request.dpf_type_id = data._internal_obj.id.id
+        service = _get_stub(data._server.client).DescribeStreamed(request)
+        dtype = np.byte
+        out = grpc_stream_helpers._data_get_chunk_(dtype, service, True, get_array=lambda chunk: chunk.array.array)
+        size.val = out.size
+        return bytes(out)
 
     @staticmethod
     def data_processing_upload_file(client, file_path, to_server_file_path, use_tmp_dir):
