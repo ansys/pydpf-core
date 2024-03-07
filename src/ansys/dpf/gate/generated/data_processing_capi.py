@@ -146,6 +146,17 @@ class DataProcessingCAPI(data_processing_abstract_api.DataProcessingAbstractAPI)
 		return newres
 
 	@staticmethod
+	def data_processing_description_string_with_size(data, size):
+		errorSize = ctypes.c_int(0)
+		sError = ctypes.c_wchar_p()
+		res = capi.dll.DataProcessing_descriptionString_with_size(data._internal_obj if data is not None else None, utils.to_uint64_ptr(size), ctypes.byref(utils.to_int32(errorSize)), ctypes.byref(sError))
+		if errorSize.value != 0:
+			raise errors.DPFServerException(sError.value)
+		newres = ctypes.string_at(res, size.val.value)
+		capi.dll.DataProcessing_String_post_event(res, ctypes.byref(errorSize), ctypes.byref(sError))
+		return newres
+
+	@staticmethod
 	def data_processing_delete_string(var1):
 		errorSize = ctypes.c_int(0)
 		sError = ctypes.c_wchar_p()
