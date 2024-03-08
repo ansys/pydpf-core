@@ -257,10 +257,8 @@ def _description(dpf_entity_message, server=None):
     -------
        description : str
     """
-    try:
-        return BaseService(server, load_operators=False)._description(dpf_entity_message)
-    except:
-        return ""
+    return BaseService(server, load_operators=False)._description(dpf_entity_message)
+
 
 
 def _deep_copy(dpf_entity, server=None):
