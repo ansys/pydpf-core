@@ -30,7 +30,7 @@ TYPE = TypeVar('TYPE')
 
 
 class CollectionBase(Generic[TYPE]):
-    type: Optional[type[TYPE]] = Scoping
+    type: Optional[type[TYPE]]
     """Represents a collection of entries ordered by labels and IDs.
 
     Parameters
