@@ -259,3 +259,7 @@ class AnyAbstractAPI:
 	def any_new_from_double_on_client(client, any):
 		raise NotImplementedError
 
+	@staticmethod
+	def any_get_copy(id, client):
+		raise NotImplementedError
+

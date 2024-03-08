@@ -72,6 +72,10 @@ class DataProcessingAbstractAPI:
 		raise NotImplementedError
 
 	@staticmethod
+	def data_processing_description_string_with_size(data, size):
+		raise NotImplementedError
+
+	@staticmethod
 	def data_processing_delete_string(var1):
 		raise NotImplementedError
 

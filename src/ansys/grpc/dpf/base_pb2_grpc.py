@@ -39,6 +39,11 @@ class BaseServiceStub(object):
                 request_serializer=base__pb2.DescribeRequest.SerializeToString,
                 response_deserializer=base__pb2.DescribeResponse.FromString,
                 )
+        self.DescribeStreamed = channel.unary_stream(
+                '/ansys.api.dpf.base.v0.BaseService/DescribeStreamed',
+                request_serializer=base__pb2.DescribeRequest.SerializeToString,
+                response_deserializer=base__pb2.DescribeArrayResponse.FromString,
+                )
         self.Delete = channel.unary_unary(
                 '/ansys.api.dpf.base.v0.BaseService/Delete',
                 request_serializer=base__pb2.DeleteRequest.SerializeToString,
@@ -109,6 +114,13 @@ class BaseServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def Describe(self, request, context):
+        """describes any sharedObjectBase
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def DescribeStreamed(self, request, context):
         """describes any sharedObjectBase
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -198,6 +210,11 @@ def add_BaseServiceServicer_to_server(servicer, server):
                     servicer.Describe,
                     request_deserializer=base__pb2.DescribeRequest.FromString,
                     response_serializer=base__pb2.DescribeResponse.SerializeToString,
+            ),
+            'DescribeStreamed': grpc.unary_stream_rpc_method_handler(
+                    servicer.DescribeStreamed,
+                    request_deserializer=base__pb2.DescribeRequest.FromString,
+                    response_serializer=base__pb2.DescribeArrayResponse.SerializeToString,
             ),
             'Delete': grpc.unary_unary_rpc_method_handler(
                     servicer.Delete,
@@ -331,6 +348,23 @@ class BaseService(object):
         return grpc.experimental.unary_unary(request, target, '/ansys.api.dpf.base.v0.BaseService/Describe',
             base__pb2.DescribeRequest.SerializeToString,
             base__pb2.DescribeResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def DescribeStreamed(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/ansys.api.dpf.base.v0.BaseService/DescribeStreamed',
+            base__pb2.DescribeRequest.SerializeToString,
+            base__pb2.DescribeArrayResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
