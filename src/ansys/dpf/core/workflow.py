@@ -296,6 +296,7 @@ class Workflow:
             collection,
             generic_data_container,
             any,
+            collection_base,
         )
 
         out = [
@@ -367,14 +368,14 @@ class Workflow:
             (
                 dpf_vector.DPFVectorInt,
                 self._api.work_flow_getoutput_int_collection,
-                lambda obj, type: collection.IntCollection(
+                lambda obj, type: collection_base.IntCollection(
                     server=self._server, collection=obj
                 ).get_integral_entries(),
             ),
             (
                 dpf_vector.DPFVectorDouble,
                 self._api.work_flow_getoutput_double_collection,
-                lambda obj, type: collection.FloatCollection(
+                lambda obj, type: collection_base.FloatCollection(
                     server=self._server, collection=obj
                 ).get_integral_entries(),
             ),

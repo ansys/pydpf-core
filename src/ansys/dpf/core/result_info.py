@@ -19,7 +19,7 @@ from ansys.dpf.gate import (
     data_processing_capi,
 )
 
-from ansys.dpf.core import collection
+from ansys.dpf.core import collection_base
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import available_result, support
 from ansys.dpf.core.cyclic_support import CyclicSupport
@@ -518,7 +518,7 @@ class ResultInfo:
         -----
         Available with server's version starting at 5.0.
         """
-        coll_obj = collection.StringCollection(
+        coll_obj = collection_base.StringCollection(
             collection=self._api.result_info_get_available_qualifier_labels_as_string_coll(self),
             server=self._server,
         )
