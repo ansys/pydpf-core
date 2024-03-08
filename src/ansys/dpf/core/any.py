@@ -11,7 +11,7 @@ import ansys.dpf.core.server_types
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors
 from ansys.dpf.core.check_version import server_meet_version
-from ansys.dpf.core.common import type_to_internal_object_keyword
+from ansys.dpf.core.common import create_dpf_instance
 from ansys.dpf.gate import any_abstract_api, integral_types
 
 
@@ -92,6 +92,8 @@ class Any:
             string_field,
             scoping,
             data_tree,
+            custom_type_field,
+            collection,
         )
 
         return [
@@ -145,6 +147,16 @@ class Any:
                 self._api.any_new_from_data_tree,
                 self._api.any_get_as_data_tree,
             ),
+            (
+                custom_type_field.CustomTypeField,
+                self._api.any_new_from_custom_type_field,
+                self._api.any_get_as_custom_type_field,
+            ),
+            (
+                collection.Collection,
+                self._api.any_new_from_any_collection,
+                self._api.any_get_as_any_collection,
+            ),
         ]
 
     @staticmethod
@@ -172,7 +184,7 @@ class Any:
             if isinstance(obj, type_tuple[0]):
                 # call respective new_from function
                 if isinstance(server, ansys.dpf.core.server_types.InProcessServer) or not (
-                        isinstance(obj, int) or isinstance(obj, str) or isinstance(obj, float) or isinstance(obj, bytes)
+                        isinstance(obj, (int, str, float, bytes))
                 ):
                     any_dpf._internal_obj = type_tuple[1](obj)
                 else:
@@ -227,7 +239,7 @@ class Any:
         self._internal_type = output_type if output_type is not None else self._internal_type
 
         for type_tuple in Any._type_to_new_from_get_as_method(self):
-            if self._internal_type == type_tuple[0]:
+            if issubclass(self._internal_type, type_tuple[0]):
                 # call the get_as function for the appropriate type
                 internal_obj = type_tuple[2](self)
                 if (
@@ -239,14 +251,7 @@ class Any:
                 ):
                     obj = internal_obj
                 else:
-                    # get current type's constructors' variable keyword for passing the internal_obj
-                    internal_obj_keyword = type_to_internal_object_keyword()[type_tuple[0]]
-
-                    # wrap parameters in a dictionary for parameters expansion when calling
-                    # constructor
-                    keyword_args = {internal_obj_keyword: internal_obj, "server": self._server}
-                    # call constructor
-                    obj = type_tuple[0](**keyword_args)
+                    return create_dpf_instance(self._internal_type, internal_obj, self._server)
 
                 return obj
 
