@@ -691,6 +691,10 @@ def load_api(path):
 		dll.DataProcessing_descriptionString.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_descriptionString.restype = ctypes.POINTER(ctypes.c_char)
 
+	if hasattr(dll, "DataProcessing_descriptionString_with_size"):
+		dll.DataProcessing_descriptionString_with_size.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.DataProcessing_descriptionString_with_size.restype = ctypes.POINTER(ctypes.c_char)
+
 	if hasattr(dll, "DataProcessing_deleteString"):
 		dll.DataProcessing_deleteString.argtypes = (ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.DataProcessing_deleteString.restype = None
