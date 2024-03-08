@@ -339,9 +339,21 @@ def type_to_internal_object_keyword():
         workflow,
         streams_container,
         generic_data_container,
+        any,
+        collection,
     )
 
-    return {
+    class _smart_dict_types(dict):
+        def __getitem__(self, item):
+            if item in self:
+                return super().__getitem__(item)
+            else:
+                for key, value in self.items():
+                    if issubclass(item, key):
+                        return value
+            raise KeyError
+
+    return _smart_dict_types({
         field.Field: "field",
         property_field.PropertyField: "property_field",
         string_field.StringField: "string_field",
@@ -360,4 +372,17 @@ def type_to_internal_object_keyword():
         data_tree.DataTree: "data_tree",
         dpf_operator.Operator: "operator",
         generic_data_container.GenericDataContainer: "generic_data_container",
-    }
+        any.Any: "any_dpf",
+        collection.Collection: "collection",
+    })
+
+
+def create_dpf_instance(type, internal_obj, server):
+    # get current type's constructors' variable keyword for passing the internal_obj
+    internal_obj_keyword = type_to_internal_object_keyword()[type]
+
+    # wrap parameters in a dictionary for parameters expansion when calling
+    # constructor
+    keyword_args = {internal_obj_keyword: internal_obj, "server": server}
+    # call constructor
+    return type(**keyword_args)

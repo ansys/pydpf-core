@@ -7,10 +7,11 @@ Contains classes associated to the DPF ScopingsContainer
 """
 
 from ansys.dpf.core import scoping
-from ansys.dpf.core.collection import Collection
+from ansys.dpf.core.collection_base import CollectionBase
 
 
-class ScopingsContainer(Collection):
+class ScopingsContainer(CollectionBase[scoping.Scoping]):
+    type = scoping.Scoping
     """A class used to represent a ScopingsContainer which contains
     scopings split on a given space
 

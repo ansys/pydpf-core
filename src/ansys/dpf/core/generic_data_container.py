@@ -18,7 +18,7 @@ from ansys.dpf.core.dpf_operator import _write_output_type_to_type
 from ansys.dpf.core import server as server_module
 from ansys.dpf.core import errors, types
 from ansys.dpf.core.any import Any
-from ansys.dpf.core import collection
+from ansys.dpf.core import collection_base
 from ansys.dpf.core.mapping_types import map_types_to_python
 
 
@@ -150,13 +150,13 @@ class GenericDataContainer:
             Description of the GenericDataContainer's contents
         """
 
-        coll_obj = collection.StringCollection(
+        coll_obj = collection_base.StringCollection(
             collection=self._api.generic_data_container_get_property_names(self),
             server=self._server,
         )
         property_names = coll_obj.get_integral_entries()
 
-        coll_obj = collection.StringCollection(
+        coll_obj = collection_base.StringCollection(
             collection=self._api.generic_data_container_get_property_types(self),
             server=self._server,
         )

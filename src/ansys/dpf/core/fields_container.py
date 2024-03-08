@@ -6,12 +6,13 @@ FieldsContainer
 Contains classes associated with the DPF FieldsContainer.
 """
 from ansys import dpf
-from ansys.dpf.core.collection import Collection
+from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core import errors as dpf_errors
 from ansys.dpf.core import field
 
 
-class FieldsContainer(Collection):
+class FieldsContainer(CollectionBase[field.Field]):
+    type = field.Field
     """Represents a fields container, which contains fields belonging to a common result.
 
     A fields container is a set of fields ordered by labels and IDs. Each field
@@ -350,7 +351,7 @@ class FieldsContainer(Collection):
         """
         labels = self.labels
         if not self.has_label("time") and (
-            len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
+                len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
         ):
             self.add_label("time")
         if len(self.labels) == 1:
@@ -373,7 +374,7 @@ class FieldsContainer(Collection):
             Time ID for the requested time set. The default is ``1``.
         """
         if not self.has_label("time") and (
-            len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
+                len(self.labels) == 0 or (len(self.labels) == 1 and self.has_label("complex"))
         ):
             self.add_label("time")
         if not self.has_label("complex") and len(self.labels) == 1 and self.has_label("time"):

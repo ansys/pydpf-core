@@ -4,6 +4,7 @@ Collection
 Contains classes associated with the DPF collection.
 
 """
+from __future__ import annotations
 import abc
 import warnings
 import traceback
@@ -23,9 +24,13 @@ from ansys.dpf.gate import (
     dpf_vector,
     dpf_array,
 )
+from typing import Optional, Generic, TypeVar
+
+TYPE = TypeVar('TYPE')
 
 
-class CollectionBase:
+class CollectionBase(Generic[TYPE]):
+    type: Optional[type[TYPE]] = Scoping
     """Represents a collection of entries ordered by labels and IDs.
 
     Parameters
@@ -186,7 +191,7 @@ class CollectionBase:
         else:
             self._api.collection_add_label(self, label)
 
-    def _get_labels(self):
+    def _get_labels(self) -> list:
         """Retrieve labels scoping the collection.
 
         Returns
@@ -202,7 +207,7 @@ class CollectionBase:
 
     labels = property(_get_labels, set_labels, "labels")
 
-    def has_label(self, label):
+    def has_label(self, label) -> bool:
         """Check if a collection has a specified label.
 
         Parameters
@@ -263,7 +268,7 @@ class CollectionBase:
                 self._api.collection_get_obj_by_index(self, label_space_or_index)
             )
 
-    def _get_entry(self, label_space_or_index):
+    def _get_entry(self, label_space_or_index) -> TYPE:
         """Retrieve the entry at a requested label space or index.
 
         Parameters
@@ -511,7 +516,8 @@ class IntegralCollection(CollectionBase):
         pass
 
 
-class IntCollection(CollectionBase):
+class IntCollection(CollectionBase[int]):
+    type = int
     """Creates a collection of integers with a list.
 
     The collection of integral is the equivalent of an array of
@@ -564,7 +570,8 @@ class IntCollection(CollectionBase):
             return self._api.collection_get_data_as_int(self, 0)
 
 
-class FloatCollection(CollectionBase):
+class FloatCollection(CollectionBase[float]):
+    type = float
     """Creates a collection of floats (double64) with a list.
 
     The collection of integral is the equivalent of an array of
@@ -620,7 +627,8 @@ class FloatCollection(CollectionBase):
             return self._api.collection_get_data_as_double(self, 0)
 
 
-class StringCollection(CollectionBase):
+class StringCollection(CollectionBase[str]):
+    type = str
     """Creates a collection of strings with a list.
 
     The collection of integral is the equivalent of an array of
