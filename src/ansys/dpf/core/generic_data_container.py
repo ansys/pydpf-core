@@ -9,6 +9,9 @@ import traceback
 import warnings
 import builtins
 from typing import Union, TYPE_CHECKING
+
+from ansys.dpf.core.check_version import server_meet_version
+
 if TYPE_CHECKING:  # pragma: no cover
     from ansys.dpf.core import Field, Scoping, StringField, GenericDataContainer
 
@@ -104,8 +107,11 @@ class GenericDataContainer:
             Property object.
         """
 
-        any_dpf = Any.new_from(prop, self._server)
-        self._api.generic_data_container_set_property_any(self, property_name, any_dpf)
+        if not isinstance(prop, (int, float, str)) and server_meet_version("8.1", self._server):
+            self._api.generic_data_container_set_property_dpf_type(self, property_name, prop)
+        else:
+            any_dpf = Any.new_from(prop, self._server)
+            self._api.generic_data_container_set_property_any(self, property_name, any_dpf)
 
     def get_property(self, property_name, output_type: Union[None, type, types] = None):
         """Get property with given name.
