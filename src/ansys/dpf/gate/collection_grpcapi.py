@@ -69,6 +69,11 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
         return _get_stub(client).Create(request)
 
     @staticmethod
+    def collection_of_any_new_on_client(client):
+        from ansys.grpc.dpf import base_pb2
+        return CollectionGRPCAPI.collection_new_on_client(client, base_pb2.Type.Value("ANY"))
+
+    @staticmethod
     def collection_add_label(collection, label):
         from ansys.grpc.dpf import collection_pb2
         request = collection_pb2.UpdateLabelsRequest()
@@ -140,7 +145,7 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
 
     @staticmethod
     def _collection_get_entries(collection, label_space_or_index):
-        from ansys.grpc.dpf import collection_pb2, scoping_pb2, field_pb2, meshed_region_pb2, base_pb2
+        from ansys.grpc.dpf import collection_pb2, scoping_pb2, field_pb2, meshed_region_pb2, base_pb2, dpf_any_message_pb2
         request = collection_pb2.EntryRequest()
         request.collection.CopyFrom(collection._internal_obj)
 
@@ -163,6 +168,10 @@ class CollectionGRPCAPI(collection_abstract_api.CollectionAbstractAPI):
                     entry = object_handler.ObjHandler(data_processing_grpcapi.DataProcessingGRPCAPI, field_pb2.Field())
                 elif collection._internal_obj.type == base_pb2.Type.Value("MESHED_REGION"):
                     entry = object_handler.ObjHandler(data_processing_grpcapi.DataProcessingGRPCAPI, meshed_region_pb2.MeshedRegion())
+                elif collection._internal_obj.type == base_pb2.Type.Value("ANY"):
+                    entry = object_handler.ObjHandler(data_processing_grpcapi.DataProcessingGRPCAPI, dpf_any_message_pb2.DpfAny())
+                else:
+                    raise NotImplementedError(f"collection {base_pb2.Type.Name(collection._internal_obj.type)} type is not implemented")
                 obj.dpf_type.Unpack(entry._internal_obj)
                 entry._server = collection._server
                 list_out.append(_CollectionEntry(label_space, entry))

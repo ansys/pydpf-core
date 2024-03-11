@@ -266,10 +266,16 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
             return response.data_sources
         elif response.HasField("cyc_support"):
             return response.cyc_support
-        elif hasattr(response,"workflow") and response.HasField("workflow"):
+        elif hasattr(response, "workflow") and response.HasField("workflow"):
             return response.workflow
-        elif hasattr(response,"data_tree") and response.HasField("data_tree"):
+        elif hasattr(response, "data_tree") and response.HasField("data_tree"):
             return response.data_tree
+        elif hasattr(response, "any") and response.HasField("any"):
+            return response.any
+        elif hasattr(response, "generic_data_container") and response.HasField("generic_data_container"):
+            return response.generic_data_container
+        else:
+            raise KeyError(response)
 
     @staticmethod
     def operator_getoutput_fields_container(op, iOutput):
@@ -460,6 +466,13 @@ class OperatorGRPCAPI(operator_abstract_api.OperatorAbstractAPI):
     def operator_getoutput_generic_data_container(op, iOutput):
         request = OperatorGRPCAPI.get_output_init(op, iOutput)
         stype = "generic_data_container"
+        subtype = ""
+        return OperatorGRPCAPI.get_output_finish(op, request, stype, subtype)
+
+    @staticmethod
+    def operator_getoutput_as_any(op, iOutput):
+        request = OperatorGRPCAPI.get_output_init(op, iOutput)
+        stype = "any"
         subtype = ""
         return OperatorGRPCAPI.get_output_finish(op, request, stype, subtype)
 

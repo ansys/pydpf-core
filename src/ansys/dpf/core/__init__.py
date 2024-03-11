@@ -72,7 +72,7 @@ from ansys.dpf.core.generic_support import GenericSupport
 from ansys.dpf.core.meshed_region import MeshedRegion
 from ansys.dpf.core.elements import element_types
 from ansys.dpf.core.result_info import ResultInfo
-from ansys.dpf.core.collection import Collection
+from ansys.dpf.core.collection_base import CollectionBase
 from ansys.dpf.core.workflow import Workflow
 from ansys.dpf.core.cyclic_support import CyclicSupport
 from ansys.dpf.core.element_descriptor import ElementDescriptor
@@ -103,6 +103,15 @@ from ansys.dpf.core.generic_data_container import GenericDataContainer
 
 from ansys.dpf.core.dpf_operator import available_operator_names
 
+
+from ansys.dpf.core.collection import CollectionFactory as _CollectionFactory
+
+
+# register classes for collection types:
+CustomTypeFieldsCollection = _CollectionFactory(CustomTypeField)
+GenericDataContainersCollection = _CollectionFactory(GenericDataContainer)
+StringFieldsCollection = _CollectionFactory(StringField)
+
 # for matplotlib
 # solves "QApplication: invalid style override passed, ignoring it."
 os.environ["QT_STYLE_OVERRIDE"] = ""
@@ -115,3 +124,4 @@ _server_instances = []
 
 settings.set_default_pyvista_config()
 settings._forward_to_gate()
+
