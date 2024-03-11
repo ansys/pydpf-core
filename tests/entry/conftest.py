@@ -47,7 +47,9 @@ if running_docker:
         _get_test_files_directory()
     ] = "/tmp/test_files"
 
-
+SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_1 = meets_version(
+    get_server_version(core._global_server()), "8.1"
+)
 SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0 = meets_version(
     get_server_version(core._global_server()), "8.0"
 )
