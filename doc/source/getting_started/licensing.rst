@@ -116,7 +116,7 @@ operators) which do not perform any data transformation.
 
 For example, when considering result operators, they perform data transformation if the requested
 location is not the native result location. In that case, averaging occurs which is considered
-as data transformation (for example, elemental to nodal, nodal to elemental...).
+as data transformation (such as elemental to nodal, nodal to elemental, or any other location change).
 
 .. _licensing_server_context:
 Server context
