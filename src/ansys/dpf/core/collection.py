@@ -98,6 +98,7 @@ class Collection(CollectionBase[TYPE]):
 
 
 def CollectionFactory(subtype, BaseClass=Collection):
+    """Creates classes deriving from Collection at runtime for a given subtype."""
     def __init__(self, **kwargs):
         BaseClass.__init__(self, **kwargs)
 

@@ -107,6 +107,7 @@ from ansys.dpf.core.dpf_operator import available_operator_names
 from ansys.dpf.core.collection import CollectionFactory as _CollectionFactory
 
 
+# register classes for collection types:
 CustomTypeFieldsCollection = _CollectionFactory(CustomTypeField)
 GenericDataContainersCollection = _CollectionFactory(GenericDataContainer)
 StringFieldsCollection = _CollectionFactory(StringField)

@@ -1,6 +1,6 @@
 """
 CollectionBase
-===========
+==============
 Contains classes associated with the DPF collection.
 
 """
@@ -30,13 +30,11 @@ TYPE = TypeVar('TYPE')
 
 
 class CollectionBase(Generic[TYPE]):
-    type: Optional[type[TYPE]]
+    type: Optional[type[TYPE]] # type of the entries in the collection.
     """Represents a collection of entries ordered by labels and IDs.
 
     Parameters
     ----------
-    dpf_type :
-
     collection : ansys.grpc.dpf.collection_pb2.Collection, optional
         Collection to create from the collection message. The default is ``None``.
     server : server.DPFServer, optional

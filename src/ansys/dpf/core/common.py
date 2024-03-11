@@ -345,6 +345,7 @@ def type_to_internal_object_keyword():
 
     class _smart_dict_types(dict):
         def __getitem__(self, item):
+        """If found returns the item of key == ìtem`, else returns item with key matching `issubclass(item, key)`."""
             if item in self:
                 return super().__getitem__(item)
             else:
