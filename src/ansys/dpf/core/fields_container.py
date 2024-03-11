@@ -12,7 +12,7 @@ from ansys.dpf.core import field
 
 
 class FieldsContainer(CollectionBase[field.Field]):
-    type = field.Field
+    entries_type = field.Field
     """Represents a fields container, which contains fields belonging to a common result.
 
     A fields container is a set of fields ordered by labels and IDs. Each field

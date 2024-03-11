@@ -13,13 +13,13 @@ from dataclasses import dataclass, field
 
 @conftest.raises_for_servers_version_under("8.1")
 def test_create_collection(server_type):
-    mc = Collection(server=server_type, type=CustomTypeField)
+    mc = Collection(server=server_type, entries_type=CustomTypeField)
     assert mc._internal_obj is not None
 
 
 @conftest.raises_for_servers_version_under("8.1")
 def test_empty_index():
-    mc = Collection(type=CustomTypeField)
+    mc = Collection(entries_type=CustomTypeField)
     with pytest.raises(IndexError):
         mc[0]
 
@@ -57,7 +57,7 @@ class CollectionTypeHelper:
         return type.__name__
 
 
-collection_helper = CollectionTypeHelper(Collection, create_dummy_custom_type_field, {"type": CustomTypeField})
+collection_helper = CollectionTypeHelper(Collection, create_dummy_custom_type_field, {"entries_type": CustomTypeField})
 cust_type_field_collection_helper = CollectionTypeHelper(CustomTypeFieldsCollection, create_dummy_custom_type_field)
 string_field_collection_helper = CollectionTypeHelper(StringFieldsCollection, create_dummy_string_field)
 gdc_collection_helper = CollectionTypeHelper(GenericDataContainersCollection, create_dummy_gdc)

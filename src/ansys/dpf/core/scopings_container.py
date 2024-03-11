@@ -11,7 +11,7 @@ from ansys.dpf.core.collection_base import CollectionBase
 
 
 class ScopingsContainer(CollectionBase[scoping.Scoping]):
-    type = scoping.Scoping
+    entries_type = scoping.Scoping
     """A class used to represent a ScopingsContainer which contains
     scopings split on a given space
 

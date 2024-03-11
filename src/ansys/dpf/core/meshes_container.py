@@ -11,7 +11,7 @@ from ansys.dpf.core import errors as dpf_errors
 
 
 class MeshesContainer(CollectionBase[meshed_region.MeshedRegion]):
-    type = meshed_region.MeshedRegion
+    entries_type = meshed_region.MeshedRegion
     """Represents a meshes container, which contains meshes split on a given space.
 
     Parameters

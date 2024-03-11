@@ -23,7 +23,7 @@ class Collection(CollectionBase[TYPE]):
         Server with the channel connected to the remote or local instance.
         The default is ``None``, in which case an attempt is made to use the
         global server.
-    type: type
+    entries_type: type
         Type of the entries in the collection.
 
     Notes
@@ -31,15 +31,15 @@ class Collection(CollectionBase[TYPE]):
     Class available with server's version starting at 8.1 (Ansys 2024 R2 pre1).
     """
 
-    def __init__(self, collection=None, server=None, type: type = None):
+    def __init__(self, collection=None, server=None, entries_type: type = None):
         # step 1: get server
         self._server = server_module.get_or_create_server(server)
         if not self._server.meet_version("8.1"):
             raise errors.DpfVersionNotSupported("8.1")
 
         super().__init__(collection=collection, server=server)
-        if type is not None:
-            self.type = type
+        if entries_type is not None:
+            self.entries_type = entries_type
         if self._internal_obj is None:
             if self._server.has_client():
                 self._internal_obj = self._api.collection_of_any_new_on_client(self._server.client)
@@ -47,7 +47,7 @@ class Collection(CollectionBase[TYPE]):
                 self._internal_obj = self._api.collection_of_any_new()
 
     def create_subtype(self, obj_by_copy):
-        return create_dpf_instance(Any, obj_by_copy, self._server).cast(self.type)
+        return create_dpf_instance(Any, obj_by_copy, self._server).cast(self.entries_type)
 
     def get_entries(self, label_space):
         """Retrieve the entries at a label space.
@@ -102,5 +102,5 @@ def CollectionFactory(subtype, BaseClass=Collection):
     def __init__(self, **kwargs):
         BaseClass.__init__(self, **kwargs)
 
-    new_class = type(str(subtype.__name__) + "sCollection", (BaseClass,), {"__init__": __init__, "type": subtype})
+    new_class = type(str(subtype.__name__) + "sCollection", (BaseClass,), {"__init__": __init__, "entries_type": subtype})
     return new_class

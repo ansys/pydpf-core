@@ -30,7 +30,7 @@ TYPE = TypeVar('TYPE')
 
 
 class CollectionBase(Generic[TYPE]):
-    type: Optional[type[TYPE]] # type of the entries in the collection.
+    entries_type: Optional[type[TYPE]]  # type of the entries in the collection.
     """Represents a collection of entries ordered by labels and IDs.
 
     Parameters
@@ -406,8 +406,6 @@ class CollectionBase(Generic[TYPE]):
             support_capi,
             support_grpcapi,
             object_handler,
-            data_processing_capi,
-            data_processing_grpcapi,
         )
 
         data_api = self._server.get_api_for_type(
@@ -515,7 +513,7 @@ class IntegralCollection(CollectionBase):
 
 
 class IntCollection(CollectionBase[int]):
-    type = int
+    entries_type = int
     """Creates a collection of integers with a list.
 
     The collection of integral is the equivalent of an array of
@@ -569,7 +567,7 @@ class IntCollection(CollectionBase[int]):
 
 
 class FloatCollection(CollectionBase[float]):
-    type = float
+    entries_type = float
     """Creates a collection of floats (double64) with a list.
 
     The collection of integral is the equivalent of an array of
@@ -626,7 +624,7 @@ class FloatCollection(CollectionBase[float]):
 
 
 class StringCollection(CollectionBase[str]):
-    type = str
+    entries_type = str
     """Creates a collection of strings with a list.
 
     The collection of integral is the equivalent of an array of
