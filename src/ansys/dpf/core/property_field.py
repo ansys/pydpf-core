@@ -72,7 +72,7 @@ class PropertyField(_FieldBase):
             server=server,
         )
         self._field_definition = None
-        if meets_version(server.version, "8.1"):
+        if meets_version(self._server.version, "8.1"):
             self._field_definition = self._load_field_definition()
 
     @property
