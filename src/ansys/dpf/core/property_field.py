@@ -7,6 +7,7 @@ import numpy as np
 from ansys.dpf.core.common import natures, locations, _get_size_of_list
 from ansys.dpf.core import scoping, dimensionality
 from ansys.dpf.core.field_base import _FieldBase, _LocalFieldBase
+from ansys.dpf.core.check_version import meets_version
 from ansys.dpf.core.field_definition import FieldDefinition
 from ansys.dpf.gate import (
     property_field_abstract_api,
@@ -70,7 +71,9 @@ class PropertyField(_FieldBase):
             field=property_field,
             server=server,
         )
-        self._field_definition = self._load_field_definition()
+        self._field_definition = None
+        if meets_version(server.version, "8.1"):
+            self._field_definition = self._load_field_definition()
 
     @property
     def _api(self) -> property_field_abstract_api.PropertyFieldAbstractAPI:
@@ -309,8 +312,13 @@ class PropertyField(_FieldBase):
 
     @property
     def name(self):
-        """Name of the property field."""
-        return self._field_definition.name
+        """Name of the property field.
+
+        ..note:
+            Available starting with DPF 2024.2.pre1.
+        """
+        if self._field_definition:
+            return self._field_definition.name
 
     @name.setter
     def name(self, value):
@@ -320,8 +328,14 @@ class PropertyField(_FieldBase):
         ----------
         value : str
             Name of the property field.
+
+        ..note:
+            Available starting with DPF 2024.2.pre1.
         """
-        self._field_definition._api.csfield_definition_set_name(self._field_definition, name=value)
+        if self._field_definition:
+            self._field_definition._api.csfield_definition_set_name(
+                self._field_definition, name=value
+            )
 
 
 class _LocalPropertyField(_LocalFieldBase, PropertyField):
