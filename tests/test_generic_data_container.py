@@ -142,7 +142,7 @@ def test_get_bytes_generic_data_container(server_type):
 
 
 @raises_for_servers_version_under("8.1")
-def test_get_bytes_generic_data_container(server_type):
+def test_set_collection_generic_data_container(server_type):
     coll = dpf.GenericDataContainersCollection(server=server_type)
     gdc = dpf.GenericDataContainer(server=server_type)
     coll.labels = ["body", "time"]
