@@ -1,6 +1,8 @@
 from ansys.dpf import core as dpf
 from conftest import (
-    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0, SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_7_0,
+    SERVERS_VERSION_GREATER_THAN_OR_EQUAL_TO_8_0,
+    raises_for_servers_version_under,
 )
 import pytest
 
@@ -122,7 +124,10 @@ def test_get_bytes_generic_data_container(server_type):
 
     entity = "hello world"
     gdc.set_property("my-string", entity)
+    gdc.set_property("my-bytes", entity.encode())
     new_entity = gdc.get_property("my-string")
+    assert "hello world" == new_entity
+    new_entity = gdc.get_property("my-bytes")
     assert "hello world" == new_entity
     new_entity = gdc.get_property("my-string", str)
     assert "hello world" == new_entity
@@ -132,3 +137,14 @@ def test_get_bytes_generic_data_container(server_type):
     assert b"hello world" == new_entity
     new_entity = gdc.get_property("my-string", dpf.types.bytes)
     assert b"hello world" == new_entity
+    new_entity = gdc.get_property("my-bytes", dpf.types.bytes)
+    assert b"hello world" == new_entity
+
+
+@raises_for_servers_version_under("8.1")
+def test_set_collection_generic_data_container(server_type):
+    coll = dpf.GenericDataContainersCollection(server=server_type)
+    gdc = dpf.GenericDataContainer(server=server_type)
+    coll.labels = ["body", "time"]
+    gdc.set_property("coll", coll)
+    assert gdc.get_property("coll", dpf.GenericDataContainersCollection).labels == ["body", "time"]
