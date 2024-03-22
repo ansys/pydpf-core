@@ -14,4 +14,3 @@ from .result_info_provider import result_info_provider
 from .streams_provider import streams_provider 
 from .time_freq_provider import time_freq_provider 
 from .time_freq_support_get_attribute import time_freq_support_get_attribute 
-from .time_slicer import time_slicer 
