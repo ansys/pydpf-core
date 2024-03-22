@@ -33,6 +33,11 @@ def test_addpath_data_sources(allkindofcomplexity, server_type):
     data_sources.add_file_path(allkindofcomplexity)
 
 
+def test_add_domain_file_path_data_sources(allkindofcomplexity, server_type):
+    data_sources = dpf.core.DataSources(server=server_type)
+    data_sources.add_domain_file_path(allkindofcomplexity, "rst", 1)
+
+
 def test_adddomainpath_data_sources(allkindofcomplexity, server_type):
     data_sources = dpf.core.DataSources(server=server_type)
     data_sources.add_file_path(allkindofcomplexity, "rst", is_domain=True, domain_id=1)
