@@ -274,8 +274,8 @@ class Specification(SpecificationBase):
 
     @property
     def properties(self) -> dict:
-        """Returns some additional properties of the Operator, like the category, the exposure,
-        the scripting and user names and the plugin
+        """some additional properties of the Operator, like the category, the exposure,
+        the scripting and user names, and the plugin
 
         Examples
         --------
