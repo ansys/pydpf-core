@@ -39,10 +39,10 @@ class write_motion_dfmf_file(Operator):
     invrt_6 :
     invrt_7 :
     invrt_8 :
-    file_path : str
+    dfmffile_path : str
         Path with motion dfmf extension where the
         export occurs
-    meshed_region : MeshedRegion
+    rstfile_path : str
 
 
     Examples
@@ -87,10 +87,10 @@ class write_motion_dfmf_file(Operator):
     >>> op.inputs.invrt_7.connect(my_invrt_7)
     >>> my_invrt_8 = dpf.()
     >>> op.inputs.invrt_8.connect(my_invrt_8)
-    >>> my_file_path = str()
-    >>> op.inputs.file_path.connect(my_file_path)
-    >>> my_meshed_region = dpf.MeshedRegion()
-    >>> op.inputs.meshed_region.connect(my_meshed_region)
+    >>> my_dfmffile_path = str()
+    >>> op.inputs.dfmffile_path.connect(my_dfmffile_path)
+    >>> my_rstfile_path = str()
+    >>> op.inputs.rstfile_path.connect(my_rstfile_path)
 
     >>> # Instantiate operator and connect inputs in one line
     >>> op = dpf.operators.result.write_motion_dfmf_file(
@@ -111,8 +111,8 @@ class write_motion_dfmf_file(Operator):
     ...     invrt_6=my_invrt_6,
     ...     invrt_7=my_invrt_7,
     ...     invrt_8=my_invrt_8,
-    ...     file_path=my_file_path,
-    ...     meshed_region=my_meshed_region,
+    ...     dfmffile_path=my_dfmffile_path,
+    ...     rstfile_path=my_rstfile_path,
     ... )
 
     >>> # Get output data
@@ -138,8 +138,8 @@ class write_motion_dfmf_file(Operator):
         invrt_6=None,
         invrt_7=None,
         invrt_8=None,
-        file_path=None,
-        meshed_region=None,
+        dfmffile_path=None,
+        rstfile_path=None,
         config=None,
         server=None,
     ):
@@ -180,10 +180,10 @@ class write_motion_dfmf_file(Operator):
             self.inputs.invrt_7.connect(invrt_7)
         if invrt_8 is not None:
             self.inputs.invrt_8.connect(invrt_8)
-        if file_path is not None:
-            self.inputs.file_path.connect(file_path)
-        if meshed_region is not None:
-            self.inputs.meshed_region.connect(meshed_region)
+        if dfmffile_path is not None:
+            self.inputs.dfmffile_path.connect(dfmffile_path)
+        if rstfile_path is not None:
+            self.inputs.rstfile_path.connect(rstfile_path)
 
     @staticmethod
     def _spec():
@@ -298,15 +298,15 @@ class write_motion_dfmf_file(Operator):
                     document="""""",
                 ),
                 17: PinSpecification(
-                    name="file_path",
+                    name="dfmffile_path",
                     type_names=["string"],
                     optional=False,
                     document="""Path with motion dfmf extension where the
         export occurs""",
                 ),
                 18: PinSpecification(
-                    name="meshed_region",
-                    type_names=["abstract_meshed_region"],
+                    name="rstfile_path",
+                    type_names=["string"],
                     optional=False,
                     document="""""",
                 ),
@@ -402,10 +402,10 @@ class InputsWriteMotionDfmfFile(_Inputs):
     >>> op.inputs.invrt_7.connect(my_invrt_7)
     >>> my_invrt_8 = dpf.()
     >>> op.inputs.invrt_8.connect(my_invrt_8)
-    >>> my_file_path = str()
-    >>> op.inputs.file_path.connect(my_file_path)
-    >>> my_meshed_region = dpf.MeshedRegion()
-    >>> op.inputs.meshed_region.connect(my_meshed_region)
+    >>> my_dfmffile_path = str()
+    >>> op.inputs.dfmffile_path.connect(my_dfmffile_path)
+    >>> my_rstfile_path = str()
+    >>> op.inputs.rstfile_path.connect(my_rstfile_path)
     """
 
     def __init__(self, op: Operator):
@@ -456,14 +456,14 @@ class InputsWriteMotionDfmfFile(_Inputs):
         self._inputs.append(self._invrt_7)
         self._invrt_8 = Input(write_motion_dfmf_file._spec().input_pin(16), 16, op, -1)
         self._inputs.append(self._invrt_8)
-        self._file_path = Input(
+        self._dfmffile_path = Input(
             write_motion_dfmf_file._spec().input_pin(17), 17, op, -1
         )
-        self._inputs.append(self._file_path)
-        self._meshed_region = Input(
+        self._inputs.append(self._dfmffile_path)
+        self._rstfile_path = Input(
             write_motion_dfmf_file._spec().input_pin(18), 18, op, -1
         )
-        self._inputs.append(self._meshed_region)
+        self._inputs.append(self._rstfile_path)
 
     @property
     def model_data(self):
@@ -782,43 +782,43 @@ class InputsWriteMotionDfmfFile(_Inputs):
         return self._invrt_8
 
     @property
-    def file_path(self):
-        """Allows to connect file_path input to the operator.
+    def dfmffile_path(self):
+        """Allows to connect dfmffile_path input to the operator.
 
         Path with motion dfmf extension where the
         export occurs
 
         Parameters
         ----------
-        my_file_path : str
+        my_dfmffile_path : str
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.result.write_motion_dfmf_file()
-        >>> op.inputs.file_path.connect(my_file_path)
+        >>> op.inputs.dfmffile_path.connect(my_dfmffile_path)
         >>> # or
-        >>> op.inputs.file_path(my_file_path)
+        >>> op.inputs.dfmffile_path(my_dfmffile_path)
         """
-        return self._file_path
+        return self._dfmffile_path
 
     @property
-    def meshed_region(self):
-        """Allows to connect meshed_region input to the operator.
+    def rstfile_path(self):
+        """Allows to connect rstfile_path input to the operator.
 
         Parameters
         ----------
-        my_meshed_region : MeshedRegion
+        my_rstfile_path : str
 
         Examples
         --------
         >>> from ansys.dpf import core as dpf
         >>> op = dpf.operators.result.write_motion_dfmf_file()
-        >>> op.inputs.meshed_region.connect(my_meshed_region)
+        >>> op.inputs.rstfile_path.connect(my_rstfile_path)
         >>> # or
-        >>> op.inputs.meshed_region(my_meshed_region)
+        >>> op.inputs.rstfile_path(my_rstfile_path)
         """
-        return self._meshed_region
+        return self._rstfile_path
 
 
 class OutputsWriteMotionDfmfFile(_Outputs):

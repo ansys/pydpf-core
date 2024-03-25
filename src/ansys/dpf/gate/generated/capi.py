@@ -3109,6 +3109,22 @@ def load_api(path):
 		dll.CSPropertyField_GetEntityIndex.argtypes = (ctypes.c_void_p, ctypes.c_int32, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_GetEntityIndex.restype = ctypes.c_int32
 
+	if hasattr(dll, "CSPropertyField_GetSharedFieldDefinition"):
+		dll.CSPropertyField_GetSharedFieldDefinition.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_GetSharedFieldDefinition.restype = ctypes.c_void_p
+
+	if hasattr(dll, "CSPropertyField_SetFieldDefinition"):
+		dll.CSPropertyField_SetFieldDefinition.argtypes = (ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_SetFieldDefinition.restype = None
+
+	if hasattr(dll, "CSPropertyField_GetName"):
+		dll.CSPropertyField_GetName.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_GetName.restype = ctypes.POINTER(ctypes.c_char)
+
+	if hasattr(dll, "CSPropertyField_SetName"):
+		dll.CSPropertyField_SetName.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_char), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
+		dll.CSPropertyField_SetName.restype = None
+
 	if hasattr(dll, "CSPropertyField_GetFastAccessPtr"):
 		dll.CSPropertyField_GetFastAccessPtr.argtypes = (ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_wchar_p), )
 		dll.CSPropertyField_GetFastAccessPtr.restype = ctypes.c_void_p
